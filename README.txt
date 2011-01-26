@@ -1,0 +1,1 @@
+This project implements the Trakt api for Mediaportal.
