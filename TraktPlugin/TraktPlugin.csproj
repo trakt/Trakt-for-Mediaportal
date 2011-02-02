@@ -68,6 +68,7 @@
     <Compile Include="TraktPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trakt\TraktAPI.cs" />
+    <Compile Include="Trakt\TraktAuth.cs" />
     <Compile Include="Trakt\TraktExtension.cs" />
     <Compile Include="Trakt\TraktLibraryMovies.cs" />
     <Compile Include="Trakt\TraktMovie.cs" />

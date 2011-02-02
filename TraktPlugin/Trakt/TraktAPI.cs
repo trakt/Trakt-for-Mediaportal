@@ -76,7 +76,11 @@ namespace TraktPlugin.Trakt
 
         public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
         {
-            string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), string.Empty);
+            TraktAuth UserAuth = new TraktAuth();
+            UserAuth.UserName = Username;
+            UserAuth.Password = Password;
+            string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), UserAuth.ToJSON());
+            Log.Debug(moviesForUser);
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 

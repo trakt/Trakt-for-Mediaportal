@@ -29,8 +29,6 @@ namespace TraktPlugin.Trakt
 
             [DataMember(Name = "year")]
             public string Year { get; set; }
-
-
         }
     }
 }
