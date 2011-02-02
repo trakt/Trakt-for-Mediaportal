@@ -19,6 +19,9 @@ namespace TraktPlugin
         private BackgroundWorker bgTrakySync = null;
         private Configuration config = null;
         private ProgressBar pbProgress = null;
+        private Timer traktTimer = null;
+        private DBMovieInfo currentMovie = null;
+        private Timer syncTimer = null;
         #endregion
 
         #region ISetupFrom
@@ -88,6 +91,10 @@ namespace TraktPlugin
             Log.Debug(String.Format("Trakt: Username: {0} Password: {1}", TraktAPI.Username, TraktAPI.Password));
             //Start Auto Sync
             SyncLibrary(null);
+            syncTimer = new Timer();
+            syncTimer.Interval = 43200000;
+            syncTimer.Tick += new EventHandler(syncTimer_Tick);
+            syncTimer.Start();
             //Start Looking for Playback
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
@@ -95,11 +102,25 @@ namespace TraktPlugin
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
         }
 
+        void syncTimer_Tick(object sender, EventArgs e)
+        {
+            SyncLibrary(null);
+        }
+
         
         public void Stop()
         {
             //Remove any event hooks
             Log.Debug("Trakt: Goodbye");
+            g_Player.PlayBackStarted -= new g_Player.StartedHandler(g_Player_PlayBackStarted);
+            g_Player.PlayBackStopped -= new g_Player.StoppedHandler(g_Player_PlayBackStopped);
+            g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
+            g_Player.PlayBackEnded -= new g_Player.EndedHandler(g_Player_PlayBackEnded);
+
+            if (syncTimer != null)
+                syncTimer.Stop();
+            if (traktTimer != null)
+                traktTimer.Stop();
         }
                 
         #endregion
@@ -219,23 +240,79 @@ namespace TraktPlugin
 
         void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
+            checkPlayback(filename);
+        }
+
+        private void checkPlayback(string filename)
+        {
             //Check if it is one of the movies
             //If so watch it on trakt
+            if (traktTimer != null)
+                traktTimer.Stop();
+            List<DBMovieInfo> searchResults = (from m in DBMovieInfo.GetAll() where (from path in m.LocalMedia select path.FullPath).ToList().Contains(filename) select m).ToList();
+            if (searchResults.Count == 1)
+            {
+                //Create timer
+                currentMovie = searchResults[0];
+                Log.Debug(string.Format("Trakt: Found playing movie {0}", currentMovie.Title));
+                playBackHandler(currentMovie, TraktScrobbleStates.watching);
+                traktTimer = new Timer();
+                traktTimer.Interval = 900000;
+                traktTimer.Tick += new EventHandler(traktTimer_Tick);
+                traktTimer.Start();
+            }
+            else if (searchResults.Count == 0)
+                Log.Debug("Trakt: Playback started but Movie not found");
+            else
+                Log.Debug("Trakt: Multiple movies found for filename something is up!");
+        }
+
+        void traktTimer_Tick(object sender, EventArgs e)
+        {
+            playBackHandler(currentMovie, TraktScrobbleStates.watching);
         }
 
         void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            //If we have been watching a movie then lock it in on Trakt otherwise leave it
+            if (currentMovie != null)
+                playBackHandler(currentMovie, TraktScrobbleStates.scrobble);
+            if (traktTimer != null)
+                traktTimer.Stop();
+            traktTimer = null;
+            currentMovie = null;
         }
 
         void g_Player_PlayBackChanged(g_Player.MediaType type, int stoptime, string filename)
         {
-            //Restart just as playbackstated
+            checkPlayback(filename);
         }
 
         void g_Player_PlayBackStopped(g_Player.MediaType type, int stoptime, string filename)
         {
             //Check if we have watched enough of the movie to lock it in or to clear trakt
+            //Clear trakt
+        }
+
+        void playBackHandler(DBMovieInfo movie, TraktScrobbleStates state)
+        {
+            Log.Debug("Trakt: Scrobbling Movie");
+            Double currentPosition = g_Player.CurrentPosition;
+            Double duration = movie.ActualRuntime;
+
+            Double percentageCompleted = currentPosition / duration * 100;
+            Log.Debug(string.Format("Trakt: Percentage of {0} is {1}", movie.Title, percentageCompleted.ToString()));
+
+            //Create Scrobbling Data
+            TraktMovieScrobble scrobbleData = TraktHandler.CreateScrobbleData(movie);
+
+            if (scrobbleData != null)
+            {
+                scrobbleData.Duration = duration.ToString();
+                scrobbleData.Progress = percentageCompleted.ToString();
+                TraktResponse response = TraktAPI.ScrobbleMovieState(scrobbleData, state);
+                Log.Debug(string.Format("Trakt: Response: {0}", response.Message));
+            }
+
         }
     }
 }
