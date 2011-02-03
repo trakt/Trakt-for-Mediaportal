@@ -21,7 +21,6 @@ namespace TraktPlugin
         private ProgressBar pbProgress = null;
         private Timer traktTimer = null;
         private DBMovieInfo currentMovie = null;
-        private Timer syncTimer = null;
         #endregion
 
         #region ISetupFrom
@@ -89,24 +88,63 @@ namespace TraktPlugin
             config.LoadConfig();
             Log.Debug("Trakt: Configuration Loaded");
             Log.Debug(String.Format("Trakt: Username: {0} Password: {1}", TraktAPI.Username, TraktAPI.Password));
-            //Start Auto Sync
-            SyncLibrary(null);
-            syncTimer = new Timer();
-            syncTimer.Interval = 43200000;
-            syncTimer.Tick += new EventHandler(syncTimer_Tick);
-            syncTimer.Start();
+            clearTraktLibrary();
+            //Sync Library do we want to do this every startup? Or just on config?
+            //SyncLibrary(null);
             //Start Looking for Playback
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
+            MovingPicturesCore.DatabaseManager.ObjectInserted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
+            MovingPicturesCore.DatabaseManager.ObjectDeleted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
 
-        void syncTimer_Tick(object sender, EventArgs e)
+        private void clearTraktLibrary()
         {
-            SyncLibrary(null);
+            Log.Debug("Trakt: Clearing Trakt Library");
+            var moviesInTrakt = TraktAPI.GetMoviesForUser(TraktAPI.Username).ToList();
+            Log.Debug("Trakt: Movies Found on Trakt");
+            foreach (var movie in moviesInTrakt)
+                Log.Debug(string.Format("Trakt: Movie {0}", movie.Title));
+            var response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(moviesInTrakt), TraktSyncModes.unseen);
+            Log.Debug(string.Format("Trakt: Response from removing seen flag {0} {1} {2}",response.Error, response.Status, response.Message));
+            response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(moviesInTrakt), TraktSyncModes.unlibrary);
+            Log.Debug(string.Format("Trakt: Response from removing from library {0} {1} {2}", response.Error, response.Status, response.Message));
         }
 
+        void DatabaseManager_ObjectDeleted(Cornerstone.Database.Tables.DatabaseTable obj)
+        {
+            if (obj.GetType() == typeof(DBWatchedHistory))
+            {
+                //Unwatched?
+                DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
+                if(watchedEvent.Movie.ActiveUserSettings.WatchedCount == 0)
+                    TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(watchedEvent.Movie), TraktSyncModes.unseen);
+            }
+            else if (obj.GetType() == typeof(DBMovieInfo))
+            {
+                //A Movie was removed from the database update trakt
+                DBMovieInfo insertedMovie = (DBMovieInfo)obj;
+                TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(insertedMovie), TraktSyncModes.unlibrary);
+            }
+        }
+
+        void DatabaseManager_ObjectInserted(Cornerstone.Database.Tables.DatabaseTable obj)
+        {
+            if (obj.GetType() == typeof(DBWatchedHistory))
+            {
+                //A movie has been watched push that out.
+                DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
+                playBackHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
+            }
+            else if (obj.GetType() == typeof(DBMovieInfo))
+            {
+                //A Movie was inserted into the database update trakt
+                DBMovieInfo insertedMovie = (DBMovieInfo)obj;
+                TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(insertedMovie), TraktSyncModes.library);
+            }
+        }
         
         public void Stop()
         {
@@ -117,8 +155,6 @@ namespace TraktPlugin
             g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded -= new g_Player.EndedHandler(g_Player_PlayBackEnded);
 
-            if (syncTimer != null)
-                syncTimer.Stop();
             if (traktTimer != null)
                 traktTimer.Stop();
         }
@@ -172,7 +208,7 @@ namespace TraktPlugin
 
             foreach(DBMovieInfo m in MovieList)
             {
-                Log.Debug(string.Format("Trakt: Database: Movie: {0} WatchedHistoryCount {1}", m.Title, m.WatchedHistory.Count.ToString()));
+                Log.Debug(string.Format("Trakt: Database: Movie: {0} WatchedCount {1}", m.Title, m.ActiveUserSettings.WatchedCount.ToString()));
             }
 
             foreach (DBMovieInfo m in SeenList)
@@ -222,7 +258,17 @@ namespace TraktPlugin
                     NoLongerInOurLibrary.Add(tlm);
             }
 
+            foreach (var m in NoLongerInOurLibrary)
+            {
+                Log.Debug(String.Format("Trakt: Removing from Trakt {0}", m.Title));
+            }
+            bgTrakySync.ReportProgress(80);
             Log.Debug("Trakt: Removing Additional Movies From Trakt");
+            //First need to unseen them all
+            response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
+            Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
+            bgTrakySync.ReportProgress(95);
+            //Then remove form library
             response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
             Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
 
@@ -274,8 +320,9 @@ namespace TraktPlugin
 
         void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            if (currentMovie != null)
-                playBackHandler(currentMovie, TraktScrobbleStates.scrobble);
+            //Now done via Moving Pictures so just clean up code
+            //if (currentMovie != null)
+            //    playBackHandler(currentMovie, TraktScrobbleStates.scrobble);
             if (traktTimer != null)
                 traktTimer.Stop();
             traktTimer = null;

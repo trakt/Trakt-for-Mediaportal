@@ -86,6 +86,26 @@ namespace TraktPlugin
             return syncData;
         }
 
+        public static TraktSync CreateSyncData(DBMovieInfo Movie)
+        {
+            string username = TraktAPI.Username;
+            string password = TraktAPI.Password;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return null;
+
+            List<TraktSync.Movie> moviesList = new List<TraktSync.Movie>();
+            moviesList.Add(new TraktSync.Movie { IMDBID = Movie.ImdbID, Title = Movie.Title, Year = Movie.Year.ToString() });
+
+            TraktSync syncData = new TraktSync
+            {
+                UserName = username,
+                Password = password,
+                MovieList = moviesList
+            };
+            return syncData;
+        }
+
         #region Helpers
         private static DateTime getLinkerTimeStamp(string filePath)
         {
