@@ -135,7 +135,7 @@ namespace TraktPlugin
             config.LoadConfig();
             Log.Debug("Trakt: Configuration Loaded");
             Log.Debug(String.Format("Trakt: Username: {0} Password: {1}", TraktAPI.Username, TraktAPI.Password));
-            clearTraktLibrary();
+            //clearTraktLibrary();
             //Sync Library do we want to do this every startup? Or just on config?
             SyncLibrary(null);
             //Start Looking for Playback
@@ -244,30 +244,16 @@ namespace TraktPlugin
             Log.Debug("Trakt: Starting Sync");
             //Get the Movies from Moving Pictures
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
-            //Get the User List
-            List<DBUser> UserList = DBUser.GetAll();
-
             //Get the movies that we have watched
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
             //Get the movies that we have yet to watch
             List<DBMovieInfo> UnSeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount == 0).ToList();
-
-            //Send the Unseen
-            Log.Debug("Trakt: Sending UnSeen List");
-            TraktResponse response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(UnSeenList), TraktSyncModes.library);
-            Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
-            bgTrakySync.ReportProgress(50);
-            //Send the Seen
-            Log.Debug("Trakt: Sending Seen List");
-            response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(SeenList), TraktSyncModes.seen);
-            Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
-            bgTrakySync.ReportProgress(75);
-
-
+            Log.Debug("Trakt: SeenList Count {0}", SeenList.Count.ToString());
+            Log.Debug("Trakt: UnSeenList Count {0}", UnSeenList.Count.ToString());
+            bgTrakySync.ReportProgress(20);
             //Get the Movie Library from Trakt
             Log.Debug("Getting Library from Trakt");
             List<TraktLibraryMovies> NoLongerInOurLibrary = new List<TraktLibraryMovies>();
-            
             foreach (TraktLibraryMovies tlm in TraktAPI.GetMoviesForUser(TraktAPI.Username))
             {
                 bool notInLibrary = true;
@@ -279,11 +265,17 @@ namespace TraktPlugin
                         //If it is watched in Trakt but not Moving Pictures update Moving Pictures
                         if (tlm.Watched && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                         {
-                            Log.Debug(String.Format("Movie {0} is watched on Trakt updating Database",libraryMovie.Title));
+                            Log.Debug(String.Format("Movie {0} is watched on Trakt updating Database", libraryMovie.Title));
                             libraryMovie.ActiveUserSettings.WatchedCount = 1;
                             libraryMovie.Commit();
                         }
                         notInLibrary = false;
+
+                        //We want to widdle down the movies in seen and unseen if they are already on Trakt
+                        if (SeenList.Contains(libraryMovie))
+                            SeenList.Remove(libraryMovie);
+                        else if(UnSeenList.Contains(libraryMovie))
+                            UnSeenList.Remove(libraryMovie);
                         break;
                     }
                 }
@@ -293,12 +285,28 @@ namespace TraktPlugin
             }
 
             foreach (var m in NoLongerInOurLibrary)
-            {
                 Log.Debug(String.Format("Trakt: Removing from Trakt {0}", m.Title));
-            }
 
+            foreach (DBMovieInfo m in SeenList)
+                Log.Debug("Trakt: Sending from Seen to Trakt: {0}", m.Title);
+
+            foreach (DBMovieInfo m in UnSeenList)
+                Log.Debug("Trakt: Sending from UnSeen to Trakt: {0}", m.Title);
+
+            bgTrakySync.ReportProgress(60);
+            Log.Debug("Trakt2: SeenList Count {0}", SeenList.Count.ToString());
+            Log.Debug("Trakt2: UnSeenList Count {0}", UnSeenList.Count.ToString());
+
+            //Send Unseen
+            Log.Debug("Trakt: Sending UnSeen List");
+            TraktResponse response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(UnSeenList), TraktSyncModes.library);
+            Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
+            bgTrakySync.ReportProgress(70);
+            //Send the Seen
+            Log.Debug("Trakt: Sending Seen List");
+            response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(SeenList), TraktSyncModes.seen);
+            Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
             bgTrakySync.ReportProgress(80);
-
             //Remove movies we no longer have from Trakt
             Log.Debug("Trakt: Removing Additional Movies From Trakt");
             //First need to unseen them all
@@ -308,7 +316,6 @@ namespace TraktPlugin
             //Then remove form library
             response = TraktAPI.SyncMovieLibrary(TraktHandler.CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
             Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
-
 
             Log.Debug("Trakt: Sync Completed");
         }
