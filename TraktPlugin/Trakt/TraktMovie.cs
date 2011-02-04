@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace TraktPlugin.Trakt
 {
+    /// <summary>
+    /// Data Structure for Movie Items going to Trakt
+    /// </summary>
     [DataContract]
     public class TraktMovieScrobble
     {

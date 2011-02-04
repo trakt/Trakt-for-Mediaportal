@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace TraktPlugin.Trakt
 {
+    /// <summary>
+    /// Data structure for Authorisation for Trakt
+    /// </summary>
     [DataContract]
     public class TraktAuth
     {

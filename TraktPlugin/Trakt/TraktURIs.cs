@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TraktPlugin.Trakt
 {
+    /// <summary>
+    /// List of URIs for the Trakt API
+    /// </summary>
     public static class TraktURIs
     {
         public const string ApiKey = "0edee4275d03fe72117e3f69a28815939b082548";

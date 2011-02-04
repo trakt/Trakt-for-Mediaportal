@@ -9,10 +9,16 @@ using System.Reflection;
 
 namespace TraktPlugin
 {
+    /// <summary>
+    /// Handles the creation of data to send to Trakt
+    /// </summary>
     public static class TraktHandler
     {
-        public static bool SyncInProgress = false;
-
+        /// <summary>
+        /// Creates Scrobble data based on a DBMovieInfo object
+        /// </summary>
+        /// <param name="movie">The movie to base the object on</param>
+        /// <returns>The Trakt scrobble data to send</returns>
         public static TraktMovieScrobble CreateScrobbleData(DBMovieInfo movie)
         {
             string username = TraktAPI.Username;
@@ -36,6 +42,11 @@ namespace TraktPlugin
             return scrobbleData;
         }
 
+        /// <summary>
+        /// Creates Sync Data based on a List of DBMovieInfo objects
+        /// </summary>
+        /// <param name="Movies">The movies to base the object on</param>
+        /// <returns>The Trakt Sync data to send</returns>
         public static TraktSync CreateSyncData(List<DBMovieInfo> Movies)
         {
             string username = TraktAPI.Username;
@@ -61,6 +72,11 @@ namespace TraktPlugin
             return syncData;
         }
 
+        /// <summary>
+        /// Creates Sync Data based on a List of TraktLibraryMovies objects
+        /// </summary>
+        /// <param name="Movies">The movies to base the object on</param>
+        /// <returns>The Trakt Sync data to send</returns>
         public static TraktSync CreateSyncData(List<TraktLibraryMovies> Movies)
         {
             string username = TraktAPI.Username;
@@ -86,6 +102,11 @@ namespace TraktPlugin
             return syncData;
         }
 
+        /// <summary>
+        /// Creates Sync Data based on a single DBMovieInfo object
+        /// </summary>
+        /// <param name="Movie">The movie to base the object on</param>
+        /// <returns>The Trakt Sync data to send</returns>
         public static TraktSync CreateSyncData(DBMovieInfo Movie)
         {
             string username = TraktAPI.Username;
@@ -95,7 +116,12 @@ namespace TraktPlugin
                 return null;
 
             List<TraktSync.Movie> moviesList = new List<TraktSync.Movie>();
-            moviesList.Add(new TraktSync.Movie { IMDBID = Movie.ImdbID, Title = Movie.Title, Year = Movie.Year.ToString() });
+            moviesList.Add(new TraktSync.Movie
+            { 
+                IMDBID = Movie.ImdbID,
+                Title = Movie.Title,
+                Year = Movie.Year.ToString()
+            });
 
             TraktSync syncData = new TraktSync
             {
@@ -107,6 +133,7 @@ namespace TraktPlugin
         }
 
         #region Helpers
+
         private static DateTime getLinkerTimeStamp(string filePath)
         {
             const int PeHeaderOffset = 60;
@@ -122,6 +149,7 @@ namespace TraktPlugin
 
             return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(secondsSince1970);
         }
+
         #endregion
     }
 }

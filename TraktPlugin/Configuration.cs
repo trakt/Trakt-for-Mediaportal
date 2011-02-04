@@ -17,6 +17,9 @@ using MediaPortal.Profile;
 
 namespace TraktPlugin
 {
+    /// <summary>
+    /// Windows form to configure the plugin and complete a full sync
+    /// </summary>
     public partial class Configuration : MPConfigForm
     {
         TraktPlugin _owner;
@@ -98,6 +101,10 @@ namespace TraktPlugin
     }
 
     #region String Extension
+
+    /// <summary>
+    /// Creats a SHA1 Hash of a string
+    /// </summary>
     public static class SHA1StringExtension
     {
         public static string GetSha1(this string value)

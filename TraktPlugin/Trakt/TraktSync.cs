@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace TraktPlugin.Trakt
 {
+    /// <summary>
+    /// Data structure for Syncing to Trakt
+    /// </summary>
     [DataContract]
     public class TraktSync
     {

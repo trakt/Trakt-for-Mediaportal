@@ -7,8 +7,17 @@ using System.Runtime.Serialization.Json;
 
 namespace TraktPlugin.Trakt
 {
+    /// <summary>
+    /// Methods used to transform to and from JSON
+    /// </summary>
     public static class JSONExtensions
     {
+        /// <summary>
+        /// Creates a list based on a JSON Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jsonArray"></param>
+        /// <returns></returns>
         public static IEnumerable<T> FromJSONArray<T>(this string jsonArray)
         {
             if (string.IsNullOrEmpty(jsonArray)) return new List<T>();
@@ -36,6 +45,12 @@ namespace TraktPlugin.Trakt
             }
         }
 
+        /// <summary>
+        /// Creates an object from JSON
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static T FromJSON<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default(T);
@@ -54,6 +69,11 @@ namespace TraktPlugin.Trakt
             }
         }
 
+        /// <summary>
+        /// Turns an object into JSON
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string ToJSON(this object obj)
         {
             using (var ms = new MemoryStream())

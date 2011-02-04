@@ -8,13 +8,18 @@ using MediaPortal.GUI.Library;
 
 namespace TraktPlugin.Trakt
 {
-
+    /// <summary>
+    /// List of Scrobble States
+    /// </summary>
     public enum TraktScrobbleStates
     {
         watching,
         scrobble
     }
 
+    /// <summary>
+    /// List of Sync Modes
+    /// </summary>
     public enum TraktSyncModes
     {
         library,
@@ -23,6 +28,9 @@ namespace TraktPlugin.Trakt
         unseen
     }
 
+    /// <summary>
+    /// Object that communicates with the Trakt API
+    /// </summary>
     class TraktAPI
     {
         public static string Username { get; set; }
@@ -31,6 +39,12 @@ namespace TraktPlugin.Trakt
 
         public static string UserAgent { get; set; }
 
+        /// <summary>
+        /// Sends Scrobble data to Trakt
+        /// </summary>
+        /// <param name="scrobbleData">The Data to send</param>
+        /// <param name="status">The mode to send it as</param>
+        /// <returns>The response from Trakt</returns>
         public static TraktResponse ScrobbleMovieState(TraktMovieScrobble scrobbleData, TraktScrobbleStates status)
         {
             // check that we have everything we need
@@ -53,6 +67,12 @@ namespace TraktPlugin.Trakt
             return response.FromJSON<TraktResponse>();
         }
 
+        /// <summary>
+        /// Sends sync data to Trakt
+        /// </summary>
+        /// <param name="syncData">The sync data to send</param>
+        /// <param name="mode">The sync mode to use</param>
+        /// <returns>The response from trakt</returns>
         public static TraktResponse SyncMovieLibrary(TraktSync syncData, TraktSyncModes mode)
         {
             // check that we have everything we need
@@ -74,17 +94,30 @@ namespace TraktPlugin.Trakt
             return response.FromJSON<TraktResponse>();
         }
 
+        /// <summary>
+        /// Gets the trakt movie library for a user
+        /// </summary>
+        /// <param name="user">The user to get</param>
+        /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
         {
+            //Authorise otherwise we wont get much
             TraktAuth UserAuth = new TraktAuth();
             UserAuth.UserName = Username;
             UserAuth.Password = Password;
+            //Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), UserAuth.ToJSON());
             Log.Debug(moviesForUser);
+            //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
-
-
+        
+        /// <summary>
+        /// Communicates to and from Trakt
+        /// </summary>
+        /// <param name="address">The URI to use</param>
+        /// <param name="data">The Data to send</param>
+        /// <returns>The response from Trakt</returns>
         private static string Transmit(string address, string data)
         {
             if (!string.IsNullOrEmpty(data))
