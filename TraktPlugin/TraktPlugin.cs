@@ -137,7 +137,7 @@ namespace TraktPlugin
             Log.Debug(String.Format("Trakt: Username: {0} Password: {1}", TraktAPI.Username, TraktAPI.Password));
             clearTraktLibrary();
             //Sync Library do we want to do this every startup? Or just on config?
-            //SyncLibrary(null);
+            SyncLibrary(null);
             //Start Looking for Playback
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
