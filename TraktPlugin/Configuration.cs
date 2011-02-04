@@ -41,6 +41,11 @@ namespace TraktPlugin
 
         private void btnSync_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
+            {
+                MessageBox.Show("Please enter your username and password first");
+                return;
+            }
             if (btnSync.Text.CompareTo(cStartSync) == 0)
             {
                 MessageBox.Show("Starting Manual Sync");
@@ -79,6 +84,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue("trakt", cUsername, _username);
                 xmlwriter.SetValue("trakt", cPassword, _password);
             }
+            TraktAPI.Username = _username;
+            TraktAPI.Password = _password;
         }
 
         public void LoadConfig()

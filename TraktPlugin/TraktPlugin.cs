@@ -134,6 +134,13 @@ namespace TraktPlugin
                 config = new Configuration(this);
             config.LoadConfig();
             Log.Debug("Trakt: Configuration Loaded");
+            //If we load the config and the username or password is not set we should stop before we break something.
+            if (string.IsNullOrEmpty(TraktAPI.Username) || string.IsNullOrEmpty(TraktAPI.Password))
+            {
+                Log.Debug("Trakt: Fatal Error: No Username and or password");
+                Log.Debug("Dying gracefully");
+                return;
+            }
             Log.Debug(String.Format("Trakt: Username: {0} Password: {1}", TraktAPI.Username, TraktAPI.Password));
             //clearTraktLibrary();
             //Sync Library do we want to do this every startup? Or just on config?

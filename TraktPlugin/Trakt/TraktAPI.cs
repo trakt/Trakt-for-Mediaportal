@@ -49,7 +49,7 @@ namespace TraktPlugin.Trakt
         {
             // check that we have everything we need
             // server can accept title if movie id is not supplied
-            if (string.IsNullOrEmpty(scrobbleData.Title) || string.IsNullOrEmpty(scrobbleData.Year))
+            if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.Title) || string.IsNullOrEmpty(scrobbleData.Year))
             {
                 TraktResponse error = new TraktResponse
                 {
@@ -77,7 +77,7 @@ namespace TraktPlugin.Trakt
         {
             // check that we have everything we need
             // server can accept title/year if imdb id is not supplied
-            if (syncData.MovieList.Count == 0)
+            if (syncData == null || syncData.MovieList.Count == 0)
             {
                 TraktResponse error = new TraktResponse
                 {
