@@ -39,6 +39,8 @@ namespace TraktPlugin.Trakt
 
         public static string UserAgent { get; set; }
 
+        public static bool CompleteSync { get; set; }
+
         /// <summary>
         /// Sends Scrobble data to Trakt
         /// </summary>

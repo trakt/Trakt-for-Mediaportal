@@ -37,13 +37,16 @@
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.gbSyncronise = new System.Windows.Forms.GroupBox();
             this.pbSync = new System.Windows.Forms.ProgressBar();
+            this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.cbKeepTraktInSync = new System.Windows.Forms.CheckBox();
             this.gbTraktDetails.SuspendLayout();
             this.gbSyncronise.SuspendLayout();
+            this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(197, 209);
+            this.btnOk.Location = new System.Drawing.Point(197, 301);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -127,11 +130,33 @@
             this.pbSync.Size = new System.Drawing.Size(248, 23);
             this.pbSync.TabIndex = 2;
             // 
+            // gbOptions
+            // 
+            this.gbOptions.Controls.Add(this.cbKeepTraktInSync);
+            this.gbOptions.Location = new System.Drawing.Point(12, 209);
+            this.gbOptions.Name = "gbOptions";
+            this.gbOptions.Size = new System.Drawing.Size(260, 73);
+            this.gbOptions.TabIndex = 6;
+            this.gbOptions.TabStop = false;
+            this.gbOptions.Text = "Options";
+            // 
+            // cbKeepTraktInSync
+            // 
+            this.cbKeepTraktInSync.AutoSize = true;
+            this.cbKeepTraktInSync.Location = new System.Drawing.Point(6, 19);
+            this.cbKeepTraktInSync.Name = "cbKeepTraktInSync";
+            this.cbKeepTraktInSync.Size = new System.Drawing.Size(117, 17);
+            this.cbKeepTraktInSync.TabIndex = 0;
+            this.cbKeepTraktInSync.Text = "Keep Trakt in Sync";
+            this.cbKeepTraktInSync.UseVisualStyleBackColor = true;
+            this.cbKeepTraktInSync.CheckedChanged += new System.EventHandler(this.cbKeepTraktInSync_CheckedChanged);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 240);
+            this.ClientSize = new System.Drawing.Size(284, 330);
+            this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.gbSyncronise);
             this.Controls.Add(this.gbTraktDetails);
             this.Controls.Add(this.btnOk);
@@ -140,6 +165,8 @@
             this.gbTraktDetails.ResumeLayout(false);
             this.gbTraktDetails.PerformLayout();
             this.gbSyncronise.ResumeLayout(false);
+            this.gbOptions.ResumeLayout(false);
+            this.gbOptions.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -155,5 +182,7 @@
         private System.Windows.Forms.Label lbPassword;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.ProgressBar pbSync;
+        private System.Windows.Forms.GroupBox gbOptions;
+        private System.Windows.Forms.CheckBox cbKeepTraktInSync;
     }
 }

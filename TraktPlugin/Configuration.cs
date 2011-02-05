@@ -22,13 +22,18 @@ namespace TraktPlugin
     /// </summary>
     public partial class Configuration : MPConfigForm
     {
-        TraktPlugin _owner;
+        #region Variables
+        private TraktPlugin _owner;
         private const string cUsername = "Username";
         private const string cPassword = "Password";
         private const string cStartSync = "Sync Library";
         private const string cStopSync = "Stop";
+        private const string cTrakt = "trakt";
+        private const string cCompleteSync = "completeSync";
         private string _username = String.Empty;
         private string _password = String.Empty;
+        private bool _completeSync = false;
+        #endregion
 
         public Configuration(TraktPlugin owner)
         {
@@ -36,9 +41,13 @@ namespace TraktPlugin
             _owner = owner;
             LoadConfig();
             tbUsername.Text = _username;
+            cbKeepTraktInSync.Checked = _completeSync;
             btnSync.Text = cStartSync;
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(cbKeepTraktInSync, "Will remove items from Trakt that aren't found in or are no longer in your library");
         }
 
+        #region PrivateVoids
         private void btnSync_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
@@ -76,35 +85,50 @@ namespace TraktPlugin
             UpdateConfig();
         }
 
+        private void cbKeepTraktInSync_CheckedChanged(object sender, EventArgs e)
+        {
+            _completeSync = cbKeepTraktInSync.Checked;
+            UpdateConfig();
+        }
+
+        private void LoadToAPI()
+        {
+            TraktAPI.Username = _username;
+            TraktAPI.Password = _password;
+            TraktAPI.CompleteSync = _completeSync;
+        }
+
         private void UpdateConfig()
         {
             Log.Debug("Trakt: Saving Configuration");
             using (Settings xmlwriter = new MPSettings())
             {
-                xmlwriter.SetValue("trakt", cUsername, _username);
-                xmlwriter.SetValue("trakt", cPassword, _password);
+                xmlwriter.SetValue(cTrakt, cUsername, _username);
+                xmlwriter.SetValue(cTrakt, cPassword, _password);
+                xmlwriter.SetValueAsBool(cTrakt, cCompleteSync, _completeSync);
             }
-            TraktAPI.Username = _username;
-            TraktAPI.Password = _password;
+            LoadToAPI();
         }
+        #endregion
 
+        #region PublicVoids
         public void LoadConfig()
         {
             Log.Debug("Trakt: Loading Configuration");
             using (Settings xmlreader = new MPSettings())
             {
-                _username = xmlreader.GetValueAsString("trakt", cUsername, "");
-                _password = xmlreader.GetValueAsString("trakt", cPassword, "");
+                _username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
+                _password = xmlreader.GetValueAsString(cTrakt, cPassword, "");
+                _completeSync = xmlreader.GetValueAsBool(cTrakt, cCompleteSync, false);
             }
-
-            TraktAPI.Username = _username;
-            TraktAPI.Password = _password;
+            LoadToAPI();            
         }
-
+                
         public void SyncCompleted()
         {
             btnSync.Text = cStartSync;
         }
+        #endregion
     }
 
     #region String Extension
