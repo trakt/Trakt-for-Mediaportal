@@ -129,15 +129,33 @@ namespace TraktPlugin
             TraktSettings.loadSettings();
             Log.Debug("Trakt: Loading Handlers");
             if (TraktSettings.MovingPictures != -1)
-                TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
+            {
+                try
+                {
+                    TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
+                }
+                catch (IOException exception)
+                {
+                    Log.Error("Trakt: Tried to load Moving Pictures but failed");
+                }
+            }
+
+
             Log.Debug("Trakt: Sorting by Priority");
             TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
             SyncLibrary();
+                        
             Log.Debug("Trakt: Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
+            
+            if (TraktHandlers.Count == 0)
+            {
+                Log.Info("Trakt: We don't have any Handlers so may as well stop");
+                Stop();
+            }
         }
 
         /// <summary>
@@ -145,6 +163,9 @@ namespace TraktPlugin
         /// </summary>
         public void Stop()
         {
+            Log.Debug("Stopping Sync if running");
+            syncLibraryWorker.CancelAsync();
+
             Log.Debug("Trakt: Removing Mediaportal Hooks");
             g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded -= new g_Player.EndedHandler(g_Player_PlayBackEnded);
@@ -173,7 +194,7 @@ namespace TraktPlugin
             syncLibraryWorker = new BackgroundWorker();
             syncLibraryWorker.DoWork += new DoWorkEventHandler(syncLibraryWorker_DoWork);
             syncLibraryWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(syncLibraryWorker_RunWorkerCompleted);
-
+            syncLibraryWorker.WorkerSupportsCancellation = true;
             syncLibraryWorker.RunWorkerAsync();
         }
 
@@ -198,12 +219,13 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
             {
                 traktHandler.SyncLibrary();
+                if (syncLibraryWorker.CancellationPending)
+                    return;
             }
         }
 
         #endregion
-
-        
+                
         #region MediaPortalHooks
 
         //Various hooks into Mediapotals Video plackback
