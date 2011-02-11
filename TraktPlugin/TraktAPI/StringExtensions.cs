@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace TraktPlugin.Trakt
+namespace TraktPlugin.TraktAPI
 {
     /// <summary>
     /// Methods used to transform to and from JSON

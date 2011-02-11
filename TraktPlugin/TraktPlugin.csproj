@@ -64,23 +64,26 @@
     <Compile Include="Configuration.Designer.cs">
       <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
-    <Compile Include="TraktHandler.cs" />
+    <Compile Include="ITraktHandler.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktAuth.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktLibraryMovie.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieSync.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
+    <Compile Include="TraktAPI\StringExtensions.cs" />
+    <Compile Include="TraktAPI\TraktAPI.cs" />
+    <Compile Include="TraktAPI\TraktURIs.cs" />
+    <Compile Include="TraktHandlers\MovingPictures.cs" />
     <Compile Include="TraktPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trakt\TraktAPI.cs" />
-    <Compile Include="Trakt\TraktAuth.cs" />
-    <Compile Include="Trakt\TraktExtension.cs" />
-    <Compile Include="Trakt\TraktLibraryMovies.cs" />
-    <Compile Include="Trakt\TraktMovie.cs" />
-    <Compile Include="Trakt\TraktResponse.cs" />
-    <Compile Include="Trakt\TraktSync.cs" />
-    <Compile Include="Trakt\TraktURIs.cs" />
+    <Compile Include="TraktSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace TraktPlugin.Trakt
+namespace TraktPlugin.TraktAPI.DataStructures
 {
     /// <summary>
     /// Data structure for Syncing to Trakt
     /// </summary>
     [DataContract]
-    public class TraktSync
+    public class TraktMovieSync
     {
         [DataMember(Name = "username")]
         public string UserName { get; set; }

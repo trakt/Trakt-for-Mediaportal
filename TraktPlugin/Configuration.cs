@@ -7,128 +7,76 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Security.Cryptography;
-using System.Xml;
-using System.IO;
-using TraktPlugin.Trakt;
-using MediaPortal.GUI.Library;
-using MediaPortal.Configuration;
-using MediaPortal.UserInterface.Controls;
-using MediaPortal.Profile;
 
 namespace TraktPlugin
 {
-    /// <summary>
-    /// Windows form to configure the plugin and complete a full sync
-    /// </summary>
-    public partial class Configuration : MPConfigForm
+    public partial class Configuration : Form
     {
-        #region Variables
-        private TraktPlugin _owner;
-        private const string cUsername = "Username";
-        private const string cPassword = "Password";
-        private const string cStartSync = "Sync Library";
-        private const string cStopSync = "Stop";
-        private const string cTrakt = "trakt";
-        private const string cCompleteSync = "completeSync";
-        private string _username = String.Empty;
-        private string _password = String.Empty;
-        private bool _completeSync = false;
-        #endregion
-
-        public Configuration(TraktPlugin owner)
+        public Configuration()
         {
             InitializeComponent();
-            _owner = owner;
-            LoadConfig();
-            tbUsername.Text = _username;
-            cbKeepTraktInSync.Checked = _completeSync;
-            btnSync.Text = cStartSync;
-            ToolTip toolTip = new ToolTip();
-            toolTip.SetToolTip(cbKeepTraktInSync, "Will remove items from Trakt that aren't found in or are no longer in your library");
-        }
+            TraktSettings.loadSettings();
+            tbUsername.Text = TraktSettings.Username;
+            if(TraktSettings.MovingPictures != -1)
+                cbMovingPictures.Checked = true;
+            nudMovingPictures.Value = TraktSettings.MovingPictures;
 
-        #region PrivateVoids
-        private void btnSync_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
-            {
-                MessageBox.Show("Please enter your username and password first");
-                return;
-            }
-            if (btnSync.Text.CompareTo(cStartSync) == 0)
-            {
-                MessageBox.Show("Starting Manual Sync");
-                _owner.SyncLibrary(pbSync);
-                btnSync.Text = cStopSync;
-            }
-            else
-            {
-                _owner.StopSync();
-                btnSync.Text = cStartSync;
-            }
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
         }
 
         private void tbUsername_TextChanged(object sender, EventArgs e)
         {
-            _username = tbUsername.Text;
-            UpdateConfig();
+            TraktSettings.Username = tbUsername.Text;
+            TraktSettings.saveSettings();
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e)
         {
-            _password = tbPassword.Text.GetSha1();
-            UpdateConfig();
+            TraktSettings.Password = tbPassword.Text.GetSha1();
+            TraktSettings.saveSettings();
         }
 
-        private void cbKeepTraktInSync_CheckedChanged(object sender, EventArgs e)
+        private void cbMovingPictures_CheckedChanged(object sender, EventArgs e)
         {
-            _completeSync = cbKeepTraktInSync.Checked;
-            UpdateConfig();
-        }
-
-        private void LoadToAPI()
-        {
-            TraktAPI.Username = _username;
-            TraktAPI.Password = _password;
-            TraktAPI.CompleteSync = _completeSync;
-        }
-
-        private void UpdateConfig()
-        {
-            Log.Debug("Trakt: Saving Configuration");
-            using (Settings xmlwriter = new MPSettings())
+            if (cbMovingPictures.Checked)
             {
-                xmlwriter.SetValue(cTrakt, cUsername, _username);
-                xmlwriter.SetValue(cTrakt, cPassword, _password);
-                xmlwriter.SetValueAsBool(cTrakt, cCompleteSync, _completeSync);
-            }
-            LoadToAPI();
-        }
-        #endregion
+                //Get next highest value for priority
 
-        #region PublicVoids
-        public void LoadConfig()
-        {
-            Log.Debug("Trakt: Loading Configuration");
-            using (Settings xmlreader = new MPSettings())
-            {
-                _username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
-                _password = xmlreader.GetValueAsString(cTrakt, cPassword, "");
-                _completeSync = xmlreader.GetValueAsBool(cTrakt, cCompleteSync, false);
+                //We currently only have one plugin supported so it will always be zero (highest)
+                nudMovingPictures.Value = 0;
+                TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
             }
-            LoadToAPI();            
+            else
+            {
+                //If disabled it is always -1
+                nudMovingPictures.Value = -1;
+                TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
+            }
+            TraktSettings.saveSettings();
         }
-                
-        public void SyncCompleted()
+
+        private void nudMovingPictures_ValueChanged(object sender, EventArgs e)
         {
-            btnSync.Text = cStartSync;
+            if (nudMovingPictures.Value == -1)
+                cbMovingPictures.Checked = false;
+            else
+                cbMovingPictures.Checked = true;
+            TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
+            TraktSettings.saveSettings();
         }
-        #endregion
+
+        private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;
+            TraktSettings.saveSettings();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
     }
 
     #region String Extension

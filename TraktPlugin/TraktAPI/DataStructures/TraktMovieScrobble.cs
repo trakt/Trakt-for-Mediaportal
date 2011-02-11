@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace TraktPlugin.Trakt
+namespace TraktPlugin.TraktAPI.DataStructures
 {
     /// <summary>
     /// Data Structure for Movie Items going to Trakt

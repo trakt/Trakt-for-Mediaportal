@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using MediaPortal.Core;
+using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.GUI.Library;
 
-namespace TraktPlugin.Trakt
+namespace TraktPlugin.TraktAPI
 {
     /// <summary>
     /// List of Scrobble States
@@ -33,13 +33,7 @@ namespace TraktPlugin.Trakt
     /// </summary>
     class TraktAPI
     {
-        public static string Username { get; set; }
-
-        public static string Password { get; set; }
-
         public static string UserAgent { get; set; }
-
-        public static bool CompleteSync { get; set; }
 
         /// <summary>
         /// Sends Scrobble data to Trakt
@@ -75,7 +69,7 @@ namespace TraktPlugin.Trakt
         /// <param name="syncData">The sync data to send</param>
         /// <param name="mode">The sync mode to use</param>
         /// <returns>The response from trakt</returns>
-        public static TraktResponse SyncMovieLibrary(TraktSync syncData, TraktSyncModes mode)
+        public static TraktResponse SyncMovieLibrary(TraktMovieSync syncData, TraktSyncModes mode)
         {
             // check that we have everything we need
             // server can accept title/year if imdb id is not supplied
@@ -105,15 +99,15 @@ namespace TraktPlugin.Trakt
         {
             //Authorise otherwise we wont get much
             TraktAuth UserAuth = new TraktAuth();
-            UserAuth.UserName = Username;
-            UserAuth.Password = Password;
+            UserAuth.UserName = TraktSettings.Username;
+            UserAuth.Password = TraktSettings.Password;
             //Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), UserAuth.ToJSON());
             Log.Debug(moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
-        
+
         /// <summary>
         /// Communicates to and from Trakt
         /// </summary>

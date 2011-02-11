@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TraktPlugin.Trakt
+namespace TraktPlugin.TraktAPI
 {
     /// <summary>
     /// List of URIs for the Trakt API
@@ -14,7 +14,7 @@ namespace TraktPlugin.Trakt
         public const string ScrobbleShow = @"http://api.trakt.tv/show/{0}/" + ApiKey;
         public const string ScrobbleMovie = @"http://api.trakt.tv/movie/{0}/" + ApiKey;
         public const string UserWatchedEpisodes = @"http://api.trakt.tv/user/watched/episodes.json/" + ApiKey + @"/{0}";
-        public const string UserWatchedMovies = @"http://api.trakt.tv/user/watched/movies.json/"+ ApiKey + @"/{0}";
+        public const string UserWatchedMovies = @"http://api.trakt.tv/user/watched/movies.json/" + ApiKey + @"/{0}";
         public const string UserProfile = @"http://api.trakt.tv/user/profile.json/" + ApiKey + @"/{0}";
         public const string SeriesOverview = @"http://api.trakt.tv/show/summary.json/" + ApiKey + @"/{0}";
         public const string UserLibraryShows = @"http://api.trakt.tv/user/library/shows.json/" + ApiKey + @"/{0}";
