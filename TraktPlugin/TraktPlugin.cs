@@ -18,7 +18,9 @@ namespace TraktPlugin
     public class TraktPlugin : ISetupForm, IPlugin
     {
         #region Private variables
+        //List of all our TraktHandlers
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
+        //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
         #endregion
 
@@ -159,6 +161,10 @@ namespace TraktPlugin
         #endregion
 
         #region LibraryFunctions
+
+        /// <summary>
+        /// Sets up and starts Syncing of Libraries
+        /// </summary>
         private void SyncLibrary()
         {
             if (syncLibraryWorker != null && syncLibraryWorker.IsBusy)
@@ -171,11 +177,22 @@ namespace TraktPlugin
             syncLibraryWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// End Point for Syncing of Libraries
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //TODO: Callback to let caller know that we are done
+            //Possibly stop scrobbling while we are syncing?
         }
 
+        /// <summary>
+        /// Logic for the Sync background worker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             foreach (ITraktHandler traktHandler in TraktHandlers)
@@ -184,13 +201,12 @@ namespace TraktPlugin
             }
         }
 
-        private void ClearLibrary()
-        {
-            //TODO Clear Trakt Library as best as possible
-        }
         #endregion
 
+        
         #region MediaPortalHooks
+
+        //Various hooks into Mediapotals Video plackback
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
@@ -227,6 +243,10 @@ namespace TraktPlugin
         #endregion
 
         #region ScrobblingMethods
+        /// <summary>
+        /// Begins searching our supported plugins libraries to scrobble
+        /// </summary>
+        /// <param name="filename">The video to search for</param>
         private void StartScrobble(String filename)
         {
             Log.Debug("Trakt: Making sure that we aren't still scrobbling");
@@ -244,6 +264,9 @@ namespace TraktPlugin
             Log.Info("Trakt: File was not recognised");
         }
 
+        /// <summary>
+        /// Stops all scrobbling
+        /// </summary>
         private void StopScrobble()
         {
             Log.Debug("Trakt: Making sure that we aren't still scrobbling");

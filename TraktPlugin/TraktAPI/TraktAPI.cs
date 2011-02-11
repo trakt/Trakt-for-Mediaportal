@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin.TraktAPI
 {
@@ -26,6 +27,13 @@ namespace TraktPlugin.TraktAPI
         seen,
         unlibrary,
         unseen
+    }
+
+    public enum TraktClearingModes
+    {
+        all,
+        movies,
+        episodes
     }
 
     /// <summary>
@@ -97,6 +105,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
         {
+            Log.Debug("Trakt: Getting user {0}'s movies", user);
             //Authorise otherwise we wont get much
             TraktAuth UserAuth = new TraktAuth();
             UserAuth.UserName = TraktSettings.Username;
@@ -136,6 +145,35 @@ namespace TraktPlugin.TraktAPI
                     Error = e.Message
                 };
                 return error.ToJSON();
+            }
+        }
+
+        /// <summary>
+        /// Clears our library on Trakt as best as the api lets us
+        /// </summary>
+        /// <param name="mode">What to remove from Trakt</param>
+        private static void ClearLibrary(TraktClearingModes mode)
+        {
+            //Movies
+            if (mode == TraktClearingModes.all || mode == TraktClearingModes.movies)
+            {
+                Log.Info("Trakt: Removing Movies from Trakt");
+                Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
+                List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
+
+                var syncData = BasicHandler.CreateSyncData(movies);
+                
+                Log.Debug("Trakt: First removing them from seen");
+                SyncMovieLibrary(syncData, TraktSyncModes.unseen);
+                Log.Debug("Trakt: Now from library");
+                SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
+                Log.Info("Trakt: Removed all movies possible, some manual clean up may be required");
+            }
+
+            //Episodes
+            if (mode == TraktClearingModes.all || mode == TraktClearingModes.episodes)
+            {
+                //TODO: Clean episodes
             }
         }
     }

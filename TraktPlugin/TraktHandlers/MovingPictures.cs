@@ -14,6 +14,9 @@ using System.Reflection;
 
 namespace TraktPlugin.TraktHandlers
 {
+    /// <summary>
+    /// Support for MovingPictures
+    /// </summary>
     class MovingPictures : ITraktHandler
     {
         Timer traktTimer;
@@ -27,7 +30,9 @@ namespace TraktPlugin.TraktHandlers
             MovingPicturesCore.DatabaseManager.ObjectUpdated += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
             MovingPicturesCore.DatabaseManager.ObjectDeleted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
-        
+
+        #region ITraktHandler
+
         public string Name { get { return "Moving Pictures"; } }
         public int Priority { get; set; }
         
@@ -94,10 +99,10 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var m in NoLongerInOurLibrary)
                     Log.Debug(String.Format("Trakt: Removing from Trakt {0}", m.Title));
                 //First need to unseen them all
-                response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
+                response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
                 Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
                 //Then remove form library
-                response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
+                response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
                 Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
             }
 
@@ -128,11 +133,31 @@ namespace TraktPlugin.TraktHandlers
             return false;
         }
 
+        public void StopScrobble()
+        {
+            if (traktTimer != null)
+                traktTimer.Stop();
+        }
+
+        #endregion
+
+        #region Scrobbling
+
+        /// <summary>
+        /// Ticker for Scrobbling
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void traktTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
         }
 
+        /// <summary>
+        /// Scrobbles a given movie
+        /// </summary>
+        /// <param name="movie">Movie to Scrobble</param>
+        /// <param name="state">Scrobbling mode to use</param>
         private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state)
         {
             Log.Debug("Trakt: Scrobbling Movie");
@@ -154,12 +179,14 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
-        public void StopScrobble()
-        {
-            if (traktTimer != null)
-                traktTimer.Stop();
-        }
+        #endregion
 
+        #region MovingPicturesHooks
+
+        /// <summary>
+        /// Fired when an objected is removed from the Moving Pictures Database
+        /// </summary>
+        /// <param name="obj"></param>
         private void DatabaseManager_ObjectDeleted(Cornerstone.Database.Tables.DatabaseTable obj)
         {
             //If DBWatchedHistory is deleted we want to check if it is still watched
@@ -179,6 +206,10 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        /// <summary>
+        /// Fired when an object is updated in the Moving Pictures Database
+        /// </summary>
+        /// <param name="obj"></param>
         private void DatabaseManager_ObjectUpdated(Cornerstone.Database.Tables.DatabaseTable obj)
         {
             //If it is user settings for a movie
@@ -201,6 +232,10 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        /// <summary>
+        /// Fired when an object is inserted in the Moving Pictures Database
+        /// </summary>
+        /// <param name="obj"></param>
         private void DatabaseManager_ObjectInserted(Cornerstone.Database.Tables.DatabaseTable obj)
         {
             if (obj.GetType() == typeof(DBWatchedHistory))
@@ -216,6 +251,10 @@ namespace TraktPlugin.TraktHandlers
                 TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(insertedMovie), TraktSyncModes.library);
             }
         }
+
+        #endregion
+
+        #region DataCreators
 
         /// <summary>
         /// Creates Sync Data based on a List of DBMovieInfo objects
@@ -246,37 +285,7 @@ namespace TraktPlugin.TraktHandlers
             };
             return syncData;
         }
-
-        /// <summary>
-        /// Creates Sync Data based on a List of TraktLibraryMovies objects
-        /// </summary>
-        /// <param name="Movies">The movies to base the object on</param>
-        /// <returns>The Trakt Sync data to send</returns>
-        public static TraktMovieSync CreateSyncData(List<TraktLibraryMovies> Movies)
-        {
-            string username = TraktSettings.Username;
-            string password = TraktSettings.Password;
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return null;
-
-            List<TraktMovieSync.Movie> moviesList = (from m in Movies
-                                                select new TraktMovieSync.Movie
-                                                {
-                                                    IMDBID = m.IMDBID,
-                                                    Title = m.Title,
-                                                    Year = m.Year.ToString()
-                                                }).ToList();
-
-            TraktMovieSync syncData = new TraktMovieSync
-            {
-                UserName = username,
-                Password = password,
-                MovieList = moviesList
-            };
-            return syncData;
-        }
-
+               
         /// <summary>
         /// Creates Sync Data based on a single DBMovieInfo object
         /// </summary>
@@ -334,5 +343,7 @@ namespace TraktPlugin.TraktHandlers
             };
             return scrobbleData;
         }
+
+        #endregion
     }
 }

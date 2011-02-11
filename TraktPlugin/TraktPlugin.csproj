@@ -73,6 +73,7 @@
     <Compile Include="TraktAPI\StringExtensions.cs" />
     <Compile Include="TraktAPI\TraktAPI.cs" />
     <Compile Include="TraktAPI\TraktURIs.cs" />
+    <Compile Include="TraktHandlers\BasicHandler.cs" />
     <Compile Include="TraktHandlers\MovingPictures.cs" />
     <Compile Include="TraktPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

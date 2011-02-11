@@ -12,12 +12,13 @@ namespace TraktPlugin
 {
     public partial class Configuration : Form
     {
+
         public Configuration()
         {
             InitializeComponent();
             TraktSettings.loadSettings();
             tbUsername.Text = TraktSettings.Username;
-            if(TraktSettings.MovingPictures != -1)
+            if (TraktSettings.MovingPictures != -1)
                 cbMovingPictures.Checked = true;
             nudMovingPictures.Value = TraktSettings.MovingPictures;
 
@@ -67,6 +68,7 @@ namespace TraktPlugin
 
         private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
         {
+            //IMPORTANT NOTE on support for more than one library backend for the same video type (i.e movies) we shouldn't keep in sync ever.
             TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;
             TraktSettings.saveSettings();
         }
@@ -75,7 +77,6 @@ namespace TraktPlugin
         {
             this.Close();
         }
-
 
     }
 
