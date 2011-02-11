@@ -115,6 +115,7 @@
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Priority";
+            this.label1.Visible = false;
             // 
             // nudMovingPictures
             // 
@@ -127,6 +128,7 @@
             this.nudMovingPictures.Name = "nudMovingPictures";
             this.nudMovingPictures.Size = new System.Drawing.Size(47, 20);
             this.nudMovingPictures.TabIndex = 1;
+            this.nudMovingPictures.Visible = false;
             this.nudMovingPictures.ValueChanged += new System.EventHandler(this.nudMovingPictures_ValueChanged);
             // 
             // cbMovingPictures
