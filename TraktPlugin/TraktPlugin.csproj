@@ -65,6 +65,8 @@
       <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
     <Compile Include="ITraktHandler.cs" />
+    <Compile Include="TraktAPI\DataStructures\MovieScrobbleAndMode.cs" />
+    <Compile Include="TraktAPI\DataStructures\MovieSyncAndMode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAuth.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLibraryMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />

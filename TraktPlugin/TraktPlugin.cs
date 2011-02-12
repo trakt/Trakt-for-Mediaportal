@@ -125,7 +125,6 @@ namespace TraktPlugin
         public void Start()
         {
             Log.Info("Trakt: Starting");
-            Log.Info("Trakt: Loading Settings");
             TraktSettings.loadSettings();
             Log.Debug("Trakt: Loading Handlers");
             if (TraktSettings.MovingPictures != -1)

@@ -10,6 +10,7 @@ using TraktPlugin.TraktAPI.DataStructures;
 using System.Timers;
 using MediaPortal.Player;
 using System.Reflection;
+using System.ComponentModel;
 
 
 namespace TraktPlugin.TraktHandlers
@@ -43,7 +44,6 @@ namespace TraktPlugin.TraktHandlers
             //Get the movies that we have watched
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
             //Get the movies that we have yet to watch
-            List<DBMovieInfo> UnSeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount == 0).ToList();
             Log.Debug("Getting Library from Trakt");
             List<TraktLibraryMovies> NoLongerInOurLibrary = new List<TraktLibraryMovies>();
             foreach (TraktLibraryMovies tlm in TraktAPI.TraktAPI.GetMoviesForUser(TraktSettings.Username))
@@ -54,7 +54,7 @@ namespace TraktPlugin.TraktHandlers
                     //If it is in both libraries
                     if (libraryMovie.ImdbID == tlm.IMDBID)
                     {
-                        //If it is watched in Trakt but not Moving Pictures update Moving Pictures
+                        //If it is watched in Trakt but not Moving Pictures update Trakt
                         if (tlm.Watched && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                         {
                             Log.Debug(String.Format("Movie {0} is watched on Trakt updating Database", libraryMovie.Title));
@@ -64,10 +64,10 @@ namespace TraktPlugin.TraktHandlers
                         notInLibrary = false;
 
                         //We want to widdle down the movies in seen and unseen if they are already on Trakt
-                        if (SeenList.Contains(libraryMovie))
+                        if (SeenList.Contains(libraryMovie) && tlm.Watched)
                             SeenList.Remove(libraryMovie);
-                        else if (UnSeenList.Contains(libraryMovie))
-                            UnSeenList.Remove(libraryMovie);
+                        if (MovieList.Contains(libraryMovie))
+                            MovieList.Remove(libraryMovie);
                         break;
                     }
                 }
@@ -79,13 +79,13 @@ namespace TraktPlugin.TraktHandlers
             Log.Debug("Trakt: SeenList Count {0}", SeenList.Count.ToString());
             foreach (DBMovieInfo m in SeenList)
                 Log.Debug("Trakt: Sending from Seen to Trakt: {0}", m.Title);
-            Log.Debug("Trakt: UnSeenList Count {0}", UnSeenList.Count.ToString());
-            foreach (DBMovieInfo m in UnSeenList)
+            Log.Debug("Trakt: Library Count {0}", MovieList.Count.ToString());
+            foreach (DBMovieInfo m in MovieList)
                 Log.Debug("Trakt: Sending from UnSeen to Trakt: {0}", m.Title);
 
             //Send Unseen
-            Log.Debug("Trakt: Sending UnSeen List");
-            TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(UnSeenList), TraktSyncModes.library);
+            Log.Debug("Trakt: Sending Library List");
+            TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
             Log.Debug(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
 
             Log.Debug("Trakt: Sending Seen List");
@@ -174,9 +174,33 @@ namespace TraktPlugin.TraktHandlers
             {
                 scrobbleData.Duration = duration.ToString();
                 scrobbleData.Progress = percentageCompleted.ToString();
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
-                Log.Debug(string.Format("Trakt: Response: {0}", response.Message));
+                BackgroundWorker scrobbler = new BackgroundWorker();
+                scrobbler.DoWork += new DoWorkEventHandler(scrobbler_DoWork);
+                scrobbler.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scrobbler_RunWorkerCompleted);
+                scrobbler.RunWorkerAsync(new MovieScrobbleAndMode { MovieScrobble = scrobbleData, ScrobbleState = state });
             }
+        }
+
+        /// <summary>
+        /// BackgroundWorker code to scrobble movie state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void scrobbler_DoWork(object sender, DoWorkEventArgs e)
+        {
+            MovieScrobbleAndMode data = e.Argument as MovieScrobbleAndMode;
+            e.Result = TraktAPI.TraktAPI.ScrobbleMovieState(data.MovieScrobble, data.ScrobbleState);
+        }
+
+        /// <summary>
+        /// End point for BackgroundWorker to send result to log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void scrobbler_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            TraktResponse response = e.Result as TraktResponse;
+            Log.Debug("Trakt: Scrobble Response: {0}", response.Message);
         }
 
         #endregion
@@ -195,14 +219,19 @@ namespace TraktPlugin.TraktHandlers
                 //Unwatched?
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
                 if (watchedEvent.Movie.ActiveUserSettings.WatchedCount == 0)
-                    TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedEvent.Movie), TraktSyncModes.unseen);
+                    SyncMovie(CreateSyncData(watchedEvent.Movie), TraktSyncModes.unseen);
             }
             //If we have removed a movie from Moving Pictures we want to update Trakt library
             else if (obj.GetType() == typeof(DBMovieInfo))
             {
-                //A Movie was removed from the database update trakt
-                DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(insertedMovie), TraktSyncModes.unlibrary);
+                //Only remove if the user wants us to
+                if (TraktSettings.KeepTraktLibraryClean)
+                {
+                    //A Movie was removed from the database update trakt
+                    DBMovieInfo insertedMovie = (DBMovieInfo)obj;
+                    SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.unseen);
+                    SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.unlibrary);
+                }
             }
         }
 
@@ -221,13 +250,11 @@ namespace TraktPlugin.TraktHandlers
                 //We check the watched flag and update Trakt respectfully
                 if (userMovieSettings.WatchedCount == 0)
                 {
-                    Log.Debug("Trakt: Movie {0} is not watched updating Trakt", movie.Title);
-                    Log.Debug("Trakt: {0}", TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(movie), TraktSyncModes.unseen).Message);
+                    SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
                 }
                 else
                 {
-                    Log.Debug("Trakt: Movie {0} is watched updating Trakt", movie.Title);
-                    Log.Debug("Trakt: {0}", TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(movie), TraktSyncModes.seen).Message);
+                    SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
                 }
             }
         }
@@ -248,8 +275,49 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(insertedMovie), TraktSyncModes.library);
+                SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
             }
+        }
+
+        #endregion
+        
+        #region SyncingMovieData
+
+        /// <summary>
+        /// Syncs Movie data in another thread
+        /// </summary>
+        /// <param name="syncData">Data to sync</param>
+        /// <param name="mode">The Syncing mode to use</param>
+        private void SyncMovie(TraktMovieSync syncData, TraktSyncModes mode)
+        {
+            BackgroundWorker moviesync = new BackgroundWorker();
+            moviesync.DoWork += new DoWorkEventHandler(moviesync_DoWork);
+            moviesync.RunWorkerCompleted += new RunWorkerCompletedEventHandler(moviesync_RunWorkerCompleted);
+            moviesync.RunWorkerAsync(new MovieSyncAndMode { SyncData = syncData, Mode = mode });
+        }
+
+        /// <summary>
+        /// Work Handler for Syncing Data in a seperate thread
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void moviesync_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //Get the sync data
+            MovieSyncAndMode data = e.Argument as MovieSyncAndMode;
+            //performt the sync
+            e.Result = TraktAPI.TraktAPI.SyncMovieLibrary(data.SyncData, data.Mode);
+        }
+
+        /// <summary>
+        /// Records the result of the Movie Sync to the Log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void moviesync_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            TraktResponse response = e.Result as TraktResponse;
+            Log.Debug("Trakt: Sync Response: {0}", response.Status);
         }
 
         #endregion
