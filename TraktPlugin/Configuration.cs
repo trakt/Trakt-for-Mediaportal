@@ -78,6 +78,31 @@ namespace TraktPlugin
             this.Close();
         }
 
+        private void btnClearLibrary_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(TraktSettings.Username) || String.IsNullOrEmpty(TraktSettings.Password))
+            {
+                MessageBox.Show("Please enter your Username and Password before attempting this");
+                return;
+            }
+
+            MessageBox.Show("Note this will not clear you library completely, scrobbled items will need to be clear manually");
+            BackgroundWorker libraryClearer = new BackgroundWorker();
+            libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
+            libraryClearer.RunWorkerCompleted += new RunWorkerCompletedEventHandler(libraryClearer_RunWorkerCompleted);
+            libraryClearer.RunWorkerAsync();
+        }
+
+        void libraryClearer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Completed");
+        }
+
+        void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all);
+        }
+
     }
 
     #region String Extension

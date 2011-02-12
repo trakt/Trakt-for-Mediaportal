@@ -152,7 +152,7 @@ namespace TraktPlugin.TraktAPI
         /// Clears our library on Trakt as best as the api lets us
         /// </summary>
         /// <param name="mode">What to remove from Trakt</param>
-        private static void ClearLibrary(TraktClearingModes mode)
+        public static void ClearLibrary(TraktClearingModes mode)
         {
             //Movies
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.movies)
