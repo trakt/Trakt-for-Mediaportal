@@ -38,5 +38,39 @@ namespace TraktPlugin.TraktHandlers
             return syncData;
         }
 
+        /// <summary>
+        /// Creates Sync Data based on a TraktLibraryShows object
+        /// </summary>
+        /// <param name="show">The show to base the object on</param>
+        /// <returns>The Trakt Sync data to send</returns>
+        public static TraktEpisodeSync CreateEpisodeSyncData(TraktLibraryShows show)
+        {
+            TraktEpisodeSync syncData = new TraktEpisodeSync
+            {
+                SeriesID = show.SeriesId,
+                Title = show.Title,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            var episodes = new List<TraktEpisodeSync.Episode>();
+
+            foreach(var season in show.Seasons)
+            {
+                foreach (var episode in season.Episodes)
+                {
+                    episodes.Add(new TraktEpisodeSync.Episode
+                                     {
+                                         EpisodeIndex = episode.ToString(),
+                                         SeasonIndex = season.Season.ToString()
+                                     });
+                }
+            }
+
+            syncData.EpisodeList = episodes;
+
+            return syncData;
+        }
+
     }
 }

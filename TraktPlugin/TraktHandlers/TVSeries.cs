@@ -199,7 +199,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.watching);
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             }), null, 3000, 900000);
             #endregion
 
@@ -327,7 +327,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(CreateEpisodeRateData(episode));
 
                 // check for any error and notify
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -344,7 +344,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(CreateSeriesRateData(series));
 
                 // check for any error and notify
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -377,7 +377,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), mode);
 
                 // check for any error and log result
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
 
                 // wait a short period before uploading another series
                 Thread.Sleep(2000);
@@ -398,27 +398,6 @@ namespace TraktPlugin.TraktHandlers
             return items.Count() == 1;
         }
 
-        private void CheckTraktErrorAndNotify<T>(T response)
-        {
-            var r = response as TraktResponse;
-
-            if (r == null || r.Status == null)
-            {
-                Log.Info("Trakt Error: Response from server was unexpected.");
-                return;
-            }
-
-            // check response error status
-            if (r.Status != "success")
-            {
-                Log.Info("Trakt Error: {0}", r.Error);
-            }
-            else
-            {
-                // success
-                Log.Info("Trakt Response: {0}", r.Message);
-            }
-        }
         #endregion
 
         #region TVSeries Events
@@ -481,7 +460,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Progress = "100";
 
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.scrobble);
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -519,7 +498,7 @@ namespace TraktPlugin.TraktHandlers
             Thread toggleWatched = new Thread(delegate()
             {
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
-                CheckTraktErrorAndNotify(response);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {
                 IsBackground = true,

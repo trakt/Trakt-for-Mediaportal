@@ -272,17 +272,65 @@ namespace TraktPlugin.TraktAPI
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
 
-                Log.Info("Trakt: First removing them from seen");
-                SyncMovieLibrary(syncData, TraktSyncModes.unseen);
-                Log.Info("Trakt: Now from library");
-                SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
+                Log.Info("Trakt: First removing movies from seen");
+                TraktResponse response = SyncMovieLibrary(syncData, TraktSyncModes.unseen);
+                LogTraktResponse(response);
+                
+                Log.Info("Trakt: Now removing movies from library");
+                response = SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
+                LogTraktResponse(response);
+
                 Log.Info("Trakt: Removed all movies possible, some manual clean up may be required");
             }
 
             //Episodes
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.episodes)
             {
-                //TODO: Clean episodes
+                Log.Info("Trakt: Removing Shows from Trakt");
+                Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
+
+                Log.Info("Trakt: First removing shows from seen");
+                foreach (var series in GetWatchedEpisodesForUser(TraktSettings.Username).ToList())
+                {
+                    Log.Info("Trakt: Removing '{0}' from seen", series.ToString());
+                    TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
+                    LogTraktResponse(response);
+                    System.Threading.Thread.Sleep(500);
+                }
+
+                Log.Info("Trakt: Now removing shows from library");
+                foreach(var series in GetLibraryEpisodesForUser(TraktSettings.Username).ToList())
+                {
+                    Log.Info("Trakt: Removing '{0}' from library", series.ToString());
+                    TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
+                    LogTraktResponse(response);
+                    System.Threading.Thread.Sleep(500);
+                }
+
+                Log.Info("Trakt: Removed all shows possible, some manual clean up may be required");
+            }
+        }
+
+
+        public static void LogTraktResponse<T>(T response)
+        {
+            var r = response as TraktResponse;
+
+            if (r == null || r.Status == null)
+            {
+                Log.Info("Trakt Error: Response from server was unexpected.");
+                return;
+            }
+
+            // check response error status
+            if (r.Status != "success")
+            {
+                Log.Info("Trakt Error: {0}", r.Error);
+            }
+            else
+            {
+                // success
+                Log.Info("Trakt Response: {0}", r.Message);
             }
         }
     }
