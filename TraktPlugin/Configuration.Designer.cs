@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
             this.gbTraktAccount = new System.Windows.Forms.GroupBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.tbUsername = new System.Windows.Forms.TextBox();
@@ -38,9 +40,10 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
-            this.btnClearLibrary = new System.Windows.Forms.Button();
+            this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -134,6 +137,7 @@
             this.clbPlugins.Name = "clbPlugins";
             this.clbPlugins.Size = new System.Drawing.Size(233, 64);
             this.clbPlugins.TabIndex = 5;
+            this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
             // gbMisc
             // 
@@ -146,14 +150,25 @@
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
             // 
+            // btnClearLibrary
+            // 
+            this.btnClearLibrary.Location = new System.Drawing.Point(6, 45);
+            this.btnClearLibrary.Name = "btnClearLibrary";
+            this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
+            this.btnClearLibrary.TabIndex = 4;
+            this.btnClearLibrary.Text = "Clear My Library";
+            this.btnClearLibrary.UseVisualStyleBackColor = true;
+            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
+            // 
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 20);
             this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(118, 17);
+            this.cbKeepInSync.Size = new System.Drawing.Size(243, 17);
             this.cbKeepInSync.TabIndex = 3;
-            this.cbKeepInSync.Text = "Keep Trakt In Sync";
+            this.cbKeepInSync.Text = "Remove items no longer in database on Sync.";
+            this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
             // 
@@ -167,15 +182,13 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // btnClearLibrary
+            // ttpConfig
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(6, 45);
-            this.btnClearLibrary.Name = "btnClearLibrary";
-            this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 4;
-            this.btnClearLibrary.Text = "Clear My Library";
-            this.btnClearLibrary.UseVisualStyleBackColor = true;
-            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
+            this.ttpConfig.AutoPopDelay = 18000;
+            this.ttpConfig.InitialDelay = 500;
+            this.ttpConfig.IsBalloon = true;
+            this.ttpConfig.ReshowDelay = 100;
+            this.ttpConfig.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // Configuration
             // 
@@ -215,5 +228,6 @@
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.CheckedListBox clbPlugins;
         private System.Windows.Forms.Button btnClearLibrary;
+        private System.Windows.Forms.ToolTip ttpConfig;
     }
 }

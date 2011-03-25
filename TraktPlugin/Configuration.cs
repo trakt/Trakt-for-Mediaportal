@@ -137,17 +137,23 @@ namespace TraktPlugin
                 MessageBox.Show("Please enter your Username and Password before attempting this");
                 return;
             }
+            
+            string message = "Are sure you want to clear your library from trakt?\n\n";
+            message += "Note: this will not clear your library completely, scrobbled items will need to be cleared manually.";
+            DialogResult result = MessageBox.Show(message, "Clear Library", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            MessageBox.Show("Note this will not clear you library completely, scrobbled items will need to be clear manually");
-            BackgroundWorker libraryClearer = new BackgroundWorker();
-            libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
-            libraryClearer.RunWorkerCompleted += new RunWorkerCompletedEventHandler(libraryClearer_RunWorkerCompleted);
-            libraryClearer.RunWorkerAsync();
+            if (result == DialogResult.Yes)
+            {
+                BackgroundWorker libraryClearer = new BackgroundWorker();
+                libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
+                libraryClearer.RunWorkerCompleted += new RunWorkerCompletedEventHandler(libraryClearer_RunWorkerCompleted);
+                libraryClearer.RunWorkerAsync();
+            }
         }
 
         void libraryClearer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Completed");
+            MessageBox.Show("Library Clean Completed.","Library Clean",MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         void libraryClearer_DoWork(object sender, DoWorkEventArgs e)

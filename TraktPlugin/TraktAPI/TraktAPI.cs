@@ -271,10 +271,10 @@ namespace TraktPlugin.TraktAPI
                 List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
-                
-                Log.Debug("Trakt: First removing them from seen");
+
+                Log.Info("Trakt: First removing them from seen");
                 SyncMovieLibrary(syncData, TraktSyncModes.unseen);
-                Log.Debug("Trakt: Now from library");
+                Log.Info("Trakt: Now from library");
                 SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
                 Log.Info("Trakt: Removed all movies possible, some manual clean up may be required");
             }

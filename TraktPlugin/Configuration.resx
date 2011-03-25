@@ -117,4 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="ttpConfig.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="clbPlugins.ToolTip" xml:space="preserve">
+    <value>Use the Up/Down spin buttons to change the priority of syncing/scrobbling. Highest priority plugin will 
+attempt to sync first, it will also attempt to see if its the current plugin where the source video is played from.
+
+Your most frequently used plugin should be at the top.</value>
+  </data>
+  <data name="cbKeepInSync.ToolTip" xml:space="preserve">
+    <value>Enable this option if you want trakt to remove movies/episodes that are no longer
+in your database. This is not recommended for people that might have different 
+collections on multiple computers being syncronised.
+
+Note: this will not clear items that have been scrobbled, this must be handled manually online.</value>
+  </data>
 </root>
