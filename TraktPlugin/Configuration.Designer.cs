@@ -40,6 +40,7 @@
             this.gbMisc = new System.Windows.Forms.GroupBox();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
+            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -136,10 +137,11 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 207);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(288, 51);
+            this.gbMisc.Size = new System.Drawing.Size(288, 78);
             this.gbMisc.TabIndex = 2;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
@@ -157,7 +159,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 264);
+            this.btnOK.Location = new System.Drawing.Point(227, 291);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -165,11 +167,21 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // btnClearLibrary
+            // 
+            this.btnClearLibrary.Location = new System.Drawing.Point(6, 45);
+            this.btnClearLibrary.Name = "btnClearLibrary";
+            this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
+            this.btnClearLibrary.TabIndex = 4;
+            this.btnClearLibrary.Text = "Clear My Library";
+            this.btnClearLibrary.UseVisualStyleBackColor = true;
+            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 292);
+            this.ClientSize = new System.Drawing.Size(312, 326);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
             this.Controls.Add(this.gbPlugins);
@@ -202,5 +214,6 @@
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.CheckedListBox clbPlugins;
+        private System.Windows.Forms.Button btnClearLibrary;
     }
 }
