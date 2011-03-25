@@ -30,10 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Common.Utils">
-      <HintPath>..\Externals\Common.Utils.dll</HintPath>
-    </Reference>
+  <ItemGroup>    
     <Reference Include="Core">
       <HintPath>..\Externals\Core.dll</HintPath>
     </Reference>
