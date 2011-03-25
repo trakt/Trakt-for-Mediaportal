@@ -217,6 +217,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktRateResponse>();
         }
 
+        public static TraktRateResponse RateMovie(TraktRateMovie movie)
+        {
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.movie.ToString()), movie.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
         /// <summary>
         /// Gets a User Authentication object
         /// </summary>       

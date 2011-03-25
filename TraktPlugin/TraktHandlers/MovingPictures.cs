@@ -264,6 +264,20 @@ namespace TraktPlugin.TraktHandlers
                 {
                     SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
                 }
+
+                //We will update the Trakt rating of the Movie
+                //TODO: Create a user setting for what they want to define as love/hate
+                if (userMovieSettings.UserRating > 0)
+                {
+                    if (userMovieSettings.UserRating >= 4)
+                    {
+                        RateMovie(CreateRateData(movie, TraktRateValue.love.ToString()));
+                    }
+                    else if (userMovieSettings.UserRating <= 2)
+                    {
+                        RateMovie(CreateRateData(movie, TraktRateValue.hate.ToString()));
+                    }
+                }
             }
         }
 
@@ -328,6 +342,28 @@ namespace TraktPlugin.TraktHandlers
             Log.Debug("Trakt: Sync Response: {0}", response.Status);
         }
 
+        #endregion
+
+        #region MovieRating
+        private void RateMovie(TraktRateMovie rateData)
+        {
+            BackgroundWorker rateMovie = new BackgroundWorker();
+            rateMovie.DoWork += new DoWorkEventHandler(rateMovie_DoWork);
+            rateMovie.RunWorkerCompleted += new RunWorkerCompletedEventHandler(rateMovie_RunWorkerCompleted);
+            rateMovie.RunWorkerAsync(rateData);
+        }
+
+        void rateMovie_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TraktRateMovie data = (TraktRateMovie)e.Argument;
+            e.Result = TraktAPI.TraktAPI.RateMovie(data);
+        }
+
+        void rateMovie_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            TraktRateResponse response = (TraktRateResponse)e.Result;
+            Log.Info("Trakt: Movie Rating Response: {0}", response.Status);
+        }
         #endregion
 
         #region DataCreators
@@ -418,6 +454,26 @@ namespace TraktPlugin.TraktHandlers
                 Password = password
             };
             return scrobbleData;
+        }
+
+        public static TraktRateMovie CreateRateData(DBMovieInfo movie, String rating)
+        {
+            string username = TraktSettings.Username;
+            string password = TraktSettings.Password;
+
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+                return null;
+
+            TraktRateMovie rateData = new TraktRateMovie
+            {
+                Title = movie.Title,
+                Year = movie.Year.ToString(),
+                IMDBID = movie.ImdbID,
+                UserName = username,
+                Password = password,
+                Rating = rating
+            };
+            return rateData;
         }
 
         #endregion

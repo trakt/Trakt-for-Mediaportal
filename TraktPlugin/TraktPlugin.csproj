@@ -30,7 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
     <Reference Include="Core">
       <HintPath>..\Externals\Core.dll</HintPath>
     </Reference>
@@ -83,6 +83,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateEpisode.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktRateMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateSeries.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
@@ -118,8 +119,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetDir)TraktPlugin.dll "C:\Program Files\Team MediaPortal\MediaPortal\plugins\process\" /Y
-xcopy $(TargetDir)TraktPlugin.pdb "C:\Program Files\Team MediaPortal\MediaPortal\plugins\process\" /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
