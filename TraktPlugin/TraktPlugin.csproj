@@ -83,6 +83,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateEpisode.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktRateMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateSeries.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
