@@ -61,7 +61,7 @@ namespace TraktPlugin
         /// <returns>The Description</returns>
         public string Description()
         {
-            return "Adds Trakt scrobbling to Mediaportal";
+            return "Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.";
         }
 
         /// <summary>
