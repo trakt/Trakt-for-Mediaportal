@@ -36,6 +36,19 @@ namespace TraktPlugin.TraktAPI
         episodes
     }
 
+    public enum TraktRateType
+    {
+        episode,
+        show,
+        movie
+    }
+
+    public enum TraktRateValue
+    {
+        love,
+        hate
+    }
+
     /// <summary>
     /// Object that communicates with the Trakt API
     /// </summary>
@@ -62,7 +75,7 @@ namespace TraktPlugin.TraktAPI
                 };
                 return error;
             }
-            Log.Debug(string.Format("Trakt: Scrobble: {0}: {1}", status, scrobbleData.Title));
+            Log.Info(string.Format("Trakt: Scrobble: {0}: {1}", status, scrobbleData.Title));
             Log.Debug(scrobbleData.ToJSON());
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleMovie, status.ToString()), scrobbleData.ToJSON());
@@ -72,7 +85,36 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
-        /// Sends sync data to Trakt
+        /// Sends Scrobble data to Trakt
+        /// </summary>
+        /// <param name="scrobbleData">The Data to send</param>
+        /// <param name="status">The mode to send it as</param>
+        /// <returns>The response from Trakt</returns>
+        public static TraktResponse ScrobbleEpisodeState(TraktEpisodeScrobble scrobbleData, TraktScrobbleStates status)
+        {
+            // check that we have everything we need
+            // server can accept title if movie id is not supplied
+            if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.SeriesID))
+            {
+                TraktResponse error = new TraktResponse
+                {
+                    Error = "Not enough information to send to server",
+                    Status = "failure"
+                };
+                return error;
+            }
+            Log.Info(string.Format("Trakt: Scrobble: {0}: {1}", status, scrobbleData.Title));
+            Log.Debug(scrobbleData.ToJSON());
+            
+            // serialize Scrobble object to JSON and send to server
+            string response = Transmit(string.Format(TraktURIs.ScrobbleShow, status.ToString()), scrobbleData.ToJSON());
+
+            // return success or failure
+            return response.FromJSON<TraktResponse>();
+        }
+
+        /// <summary>
+        /// Sends movie sync data to Trakt
         /// </summary>
         /// <param name="syncData">The sync data to send</param>
         /// <param name="mode">The sync mode to use</param>
@@ -99,22 +141,89 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
+        /// Sends episode sync data to Trakt
+        /// </summary>
+        /// <param name="syncData">The sync data to send</param>
+        /// <param name="mode">The sync mode to use</param>
+        public static TraktResponse SyncEpisodeLibrary(TraktEpisodeSync syncData, TraktSyncModes mode)
+        {
+            // check that we have everything we need
+            // server can accept title/year if imdb id is not supplied
+            if (syncData == null || string.IsNullOrEmpty(syncData.SeriesID))
+            {
+                TraktResponse error = new TraktResponse
+                {
+                    Error = "Not enough information to send to server",
+                    Status = "failure"
+                };
+                return error;
+            }
+
+            // serialize Scrobble object to JSON and send to server
+            string response = Transmit(string.Format(TraktURIs.SyncEpisodeLibrary, mode.ToString()), syncData.ToJSON());
+
+            // return success or failure
+            return response.FromJSON<TraktResponse>();
+        }
+
+        /// <summary>
         /// Gets the trakt movie library for a user
         /// </summary>
         /// <param name="user">The user to get</param>
         /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
         {
-            Log.Debug("Trakt: Getting user {0}'s movies", user);
-            //Authorise otherwise we wont get much
-            TraktAuth UserAuth = new TraktAuth();
-            UserAuth.UserName = TraktSettings.Username;
-            UserAuth.Password = TraktSettings.Password;
+            Log.Info("Trakt: Getting user {0}'s movies", user);
             //Get the library
-            string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), UserAuth.ToJSON());
+            string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), GetUserAuthentication());
             Log.Debug(moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
+        }
+
+        /// <summary>
+        /// Gets the trakt episode library for a user
+        /// </summary>
+        /// <param name="user">The user to get</param>
+        /// <returns>The trakt episode library</returns>
+        public static IEnumerable<TraktLibraryShows> GetLibraryEpisodesForUser(string user)
+        {
+            Log.Info("Trakt: Getting user {0}'s 'library' episodes", user);
+            string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
+            return showsForUser.FromJSONArray<TraktLibraryShows>();
+        }
+
+        /// <summary>
+        /// Gets the trakt watched/seen episodes for a user
+        /// </summary>
+        /// <param name="user">The user to get</param>
+        /// <returns>The trakt episode library</returns>
+        public static IEnumerable<TraktLibraryShows> GetWatchedEpisodesForUser(string user)
+        {
+            Log.Info("Trakt: Getting user {0}'s 'watched/seen' episodes", user);
+            string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
+            return showsForUser.FromJSONArray<TraktLibraryShows>();
+        }
+
+        public static TraktRateResponse RateEpisode(TraktRateEpisode episode)
+        {
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.episode.ToString()), episode.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
+        public static TraktRateResponse RateSeries(TraktRateSeries series)
+        {
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.show.ToString()), series.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
+        /// <summary>
+        /// Gets a User Authentication object
+        /// </summary>       
+        /// <returns>The User Authentication json string</returns>
+        private static string GetUserAuthentication()
+        {
+            return new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password }.ToJSON();
         }
 
         /// <summary>
@@ -161,7 +270,7 @@ namespace TraktPlugin.TraktAPI
                 Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
                 List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
 
-                var syncData = BasicHandler.CreateSyncData(movies);
+                var syncData = BasicHandler.CreateMovieSyncData(movies);
                 
                 Log.Debug("Trakt: First removing them from seen");
                 SyncMovieLibrary(syncData, TraktSyncModes.unseen);

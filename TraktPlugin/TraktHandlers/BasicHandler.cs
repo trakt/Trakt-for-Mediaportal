@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="Movies">The movies to base the object on</param>
         /// <returns>The Trakt Sync data to send</returns>
-        public static TraktMovieSync CreateSyncData(List<TraktLibraryMovies> Movies)
+        public static TraktMovieSync CreateMovieSyncData(List<TraktLibraryMovies> Movies)
         {
             string username = TraktSettings.Username;
             string password = TraktSettings.Password;
@@ -37,5 +37,6 @@ namespace TraktPlugin.TraktHandlers
             };
             return syncData;
         }
+
     }
 }

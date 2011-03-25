@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.IO;
 using MediaPortal;
+using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Player;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace TraktPlugin
     /// TraktPlugin for Mediaportal and Moving Pictures. Adds the Trakt scrobbling API to Moving Pictures
     /// Created by Luke Barnett
     /// </summary>
+    [PluginIcons("TraktPlugin.Resources.Images.icon_normal.png", "TraktPlugin.Resources.Images.icon_faded.png")]
     public class TraktPlugin : ISetupForm, IPlugin
     {
         #region Private variables
@@ -50,7 +52,7 @@ namespace TraktPlugin
         /// <returns>The boolean answer</returns>
         public bool DefaultEnabled()
         {
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -126,19 +128,38 @@ namespace TraktPlugin
         {
             Log.Info("Trakt: Starting");
             TraktSettings.loadSettings();
+
+            if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+            {
+                Log.Info("Trakt: Username and/or Password is not set in configuration.");
+                Stop();
+            }
+
             Log.Debug("Trakt: Loading Handlers");
+            #region Load Handlers
             if (TraktSettings.MovingPictures != -1)
             {
                 try
                 {
                     TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
                 }
-                catch (IOException exception)
+                catch (IOException)
                 {
                     Log.Error("Trakt: Tried to load Moving Pictures but failed");
                 }
             }
-
+            if (TraktSettings.TVSeries != -1)
+            {
+                try
+                {
+                    TraktHandlers.Add(new TVSeries(TraktSettings.TVSeries));
+                }
+                catch (IOException)
+                {
+                    Log.Error("Trakt: Tried to load TVSeries but failed");
+                }
+            }
+            #endregion
 
             Log.Debug("Trakt: Sorting by Priority");
             TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
@@ -273,6 +294,7 @@ namespace TraktPlugin
             Log.Debug("Trakt: Making sure that we aren't still scrobbling");
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
+
             Log.Debug("Trakt: Checking out Libraries for the filename");
             foreach (ITraktHandler traktHandler in TraktHandlers)
             {

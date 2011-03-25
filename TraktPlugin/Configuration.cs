@@ -12,70 +12,122 @@ namespace TraktPlugin
 {
     public partial class Configuration : Form
     {
-
         public Configuration()
         {
             InitializeComponent();
             TraktSettings.loadSettings();
-            tbUsername.Text = TraktSettings.Username;
-            if (TraktSettings.MovingPictures != -1)
-                cbMovingPictures.Checked = true;
-            nudMovingPictures.Value = TraktSettings.MovingPictures;
 
+            #region load settings
+            tbUsername.Text = TraktSettings.Username;
+
+            List<KeyValuePair<int, string>> items = new List<KeyValuePair<int, string>>();
+            items.Add(new KeyValuePair<int, string>(TraktSettings.MovingPictures, "Moving Pictures"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.TVSeries, "MP-TVSeries"));
+            items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
+            {
+                // sort disabled at end of list
+                int sortx = x.Key == -1 ? 1000 : x.Key;
+                int sorty = y.Key == -1 ? 1000 : y.Key;
+                return sortx.CompareTo(sorty); 
+            }));
+
+            foreach (var item in items)
+            {
+                clbPlugins.Items.Add(item.Value, item.Key != -1);
+            }
+            
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
+            #endregion
+
+            clbPlugins.ItemCheck += new ItemCheckEventHandler(this.clbPlugins_ItemCheck);
         }
 
         private void tbUsername_TextChanged(object sender, EventArgs e)
         {
             TraktSettings.Username = tbUsername.Text;
-            TraktSettings.saveSettings();
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e)
         {
-            TraktSettings.Password = tbPassword.Text.GetSha1();
-            TraktSettings.saveSettings();
-        }
-
-        private void cbMovingPictures_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbMovingPictures.Checked)
-            {
-                //Get next highest value for priority
-
-                //We currently only have one plugin supported so it will always be zero (highest)
-                nudMovingPictures.Value = 0;
-                TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
-            }
-            else
-            {
-                //If disabled it is always -1
-                nudMovingPictures.Value = -1;
-                TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
-            }
-            TraktSettings.saveSettings();
-        }
-
-        private void nudMovingPictures_ValueChanged(object sender, EventArgs e)
-        {
-            if (nudMovingPictures.Value == -1)
-                cbMovingPictures.Checked = false;
-            else
-                cbMovingPictures.Checked = true;
-            TraktSettings.MovingPictures = (int)nudMovingPictures.Value;
-            TraktSettings.saveSettings();
+            TraktSettings.Password = tbPassword.Text.GetSha1();            
         }
 
         private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
         {
             //IMPORTANT NOTE on support for more than one library backend for the same video type (i.e movies) we shouldn't keep in sync ever.
-            TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;
-            TraktSettings.saveSettings();
+            TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;            
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            TraktSettings.saveSettings();
             this.Close();
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            if (clbPlugins.SelectedIndex > 0)
+            {
+                int ndx = clbPlugins.SelectedIndex;
+                bool enabled = clbPlugins.GetItemChecked(ndx);
+                
+                string item = (string)clbPlugins.SelectedItem;
+                clbPlugins.Items.RemoveAt(ndx);
+                clbPlugins.Items.Insert(ndx - 1, item);
+                clbPlugins.SetItemChecked(ndx - 1, enabled);
+                clbPlugins.SelectedIndex = ndx - 1;
+                SetPriorityOrder();
+            }
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            if (clbPlugins.SelectedIndex < clbPlugins.Items.Count - 1)
+            {
+                int ndx = clbPlugins.SelectedIndex;
+                bool enabled = clbPlugins.GetItemChecked(ndx);
+
+                string item = (string)clbPlugins.SelectedItem;
+                clbPlugins.Items.RemoveAt(ndx);
+                clbPlugins.Items.Insert(ndx + 1, item);
+                clbPlugins.SetItemChecked(ndx + 1, enabled);
+                clbPlugins.SelectedIndex = ndx + 1;
+                SetPriorityOrder();
+            }
+        }
+
+        private void SetPriorityOrder()
+        {
+            int i = 0;
+            foreach (var item in clbPlugins.Items)
+            {
+                switch (item.ToString())
+                {
+                    case "Moving Pictures":
+                        TraktSettings.MovingPictures = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
+                    case "MP-TVSeries":
+                        TraktSettings.TVSeries = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
+                }
+                i++;
+            }
+        }
+
+        private void clbPlugins_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            int ndx = e.Index;
+            string plugin = (string)clbPlugins.Items[ndx];
+
+            switch (plugin)
+            {
+                case "Moving Pictures":
+                    TraktSettings.MovingPictures = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "MP-TVSeries":
+                    TraktSettings.TVSeries = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+            }
         }
 
     }

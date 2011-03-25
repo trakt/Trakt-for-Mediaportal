@@ -34,15 +34,14 @@
             this.lbPassword = new System.Windows.Forms.Label();
             this.lbUsername = new System.Windows.Forms.Label();
             this.gbPlugins = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nudMovingPictures = new System.Windows.Forms.NumericUpDown();
-            this.cbMovingPictures = new System.Windows.Forms.CheckBox();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMovingPictures)).BeginInit();
             this.gbMisc.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +56,7 @@
             this.gbTraktAccount.Size = new System.Drawing.Size(290, 89);
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
-            this.gbTraktAccount.Text = "Trakt Account";
+            this.gbTraktAccount.Text = "Account";
             // 
             // tbPassword
             // 
@@ -97,55 +96,48 @@
             // 
             // gbPlugins
             // 
-            this.gbPlugins.Controls.Add(this.label1);
-            this.gbPlugins.Controls.Add(this.nudMovingPictures);
-            this.gbPlugins.Controls.Add(this.cbMovingPictures);
+            this.gbPlugins.Controls.Add(this.btnDown);
+            this.gbPlugins.Controls.Add(this.btnUp);
+            this.gbPlugins.Controls.Add(this.clbPlugins);
             this.gbPlugins.Location = new System.Drawing.Point(12, 107);
             this.gbPlugins.Name = "gbPlugins";
-            this.gbPlugins.Size = new System.Drawing.Size(290, 67);
+            this.gbPlugins.Size = new System.Drawing.Size(290, 94);
             this.gbPlugins.TabIndex = 1;
             this.gbPlugins.TabStop = false;
             this.gbPlugins.Text = "Plugins";
             // 
-            // label1
+            // btnDown
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(212, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Priority";
-            this.label1.Visible = false;
+            this.btnDown.Image = global::TraktPlugin.Properties.Resources.arrow_down;
+            this.btnDown.Location = new System.Drawing.Point(249, 53);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(29, 30);
+            this.btnDown.TabIndex = 7;
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
-            // nudMovingPictures
+            // btnUp
             // 
-            this.nudMovingPictures.Location = new System.Drawing.Point(209, 31);
-            this.nudMovingPictures.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.nudMovingPictures.Name = "nudMovingPictures";
-            this.nudMovingPictures.Size = new System.Drawing.Size(47, 20);
-            this.nudMovingPictures.TabIndex = 1;
-            this.nudMovingPictures.Visible = false;
-            this.nudMovingPictures.ValueChanged += new System.EventHandler(this.nudMovingPictures_ValueChanged);
+            this.btnUp.Image = global::TraktPlugin.Properties.Resources.arrow_up;
+            this.btnUp.Location = new System.Drawing.Point(249, 19);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(29, 29);
+            this.btnUp.TabIndex = 6;
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
-            // cbMovingPictures
+            // clbPlugins
             // 
-            this.cbMovingPictures.AutoSize = true;
-            this.cbMovingPictures.Location = new System.Drawing.Point(9, 31);
-            this.cbMovingPictures.Name = "cbMovingPictures";
-            this.cbMovingPictures.Size = new System.Drawing.Size(102, 17);
-            this.cbMovingPictures.TabIndex = 0;
-            this.cbMovingPictures.Text = "Moving Pictures";
-            this.cbMovingPictures.UseVisualStyleBackColor = true;
-            this.cbMovingPictures.CheckedChanged += new System.EventHandler(this.cbMovingPictures_CheckedChanged);
+            this.clbPlugins.FormattingEnabled = true;
+            this.clbPlugins.Location = new System.Drawing.Point(9, 19);
+            this.clbPlugins.Name = "clbPlugins";
+            this.clbPlugins.Size = new System.Drawing.Size(233, 64);
+            this.clbPlugins.TabIndex = 5;
             // 
             // gbMisc
             // 
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 180);
+            this.gbMisc.Location = new System.Drawing.Point(12, 207);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(288, 51);
             this.gbMisc.TabIndex = 2;
@@ -165,7 +157,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 237);
+            this.btnOK.Location = new System.Drawing.Point(227, 264);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -177,18 +169,19 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 270);
+            this.ClientSize = new System.Drawing.Size(312, 292);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
             this.Controls.Add(this.gbPlugins);
             this.Controls.Add(this.gbTraktAccount);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Configuration";
-            this.Text = "Configuration";
+            this.Text = "Trakt Configuration";
             this.gbTraktAccount.ResumeLayout(false);
             this.gbTraktAccount.PerformLayout();
             this.gbPlugins.ResumeLayout(false);
-            this.gbPlugins.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMovingPictures)).EndInit();
             this.gbMisc.ResumeLayout(false);
             this.gbMisc.PerformLayout();
             this.ResumeLayout(false);
@@ -203,11 +196,11 @@
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label lbPassword;
         private System.Windows.Forms.GroupBox gbPlugins;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nudMovingPictures;
-        private System.Windows.Forms.CheckBox cbMovingPictures;
         private System.Windows.Forms.GroupBox gbMisc;
         private System.Windows.Forms.CheckBox cbKeepInSync;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.CheckedListBox clbPlugins;
     }
 }

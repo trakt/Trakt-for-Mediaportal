@@ -13,6 +13,7 @@ namespace TraktPlugin
         public static string Username { get; set; }
         public static string Password { get; set; }
         public static int MovingPictures { get; set; }
+        public static int TVSeries { get; set; }
         public static bool KeepTraktLibraryClean { get; set; }
         #endregion
 
@@ -21,6 +22,7 @@ namespace TraktPlugin
         private const string cUsername = "Username";
         private const string cPassword = "Password";
         private const string cMovingPictures = "MovingPictures";
+        private const string cTVSeries = "TVSeries";
         private const string cKeepTraktLibraryClean = "KeepLibraryClean";
         #endregion
 
@@ -35,6 +37,7 @@ namespace TraktPlugin
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
                 Password = xmlreader.GetValueAsString(cTrakt, cPassword, "");
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
+                TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
             }
         }
@@ -50,6 +53,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
                 xmlwriter.SetValue(cTrakt, cPassword, Password);
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
+                xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValueAsBool(cTrakt, cKeepTraktLibraryClean, KeepTraktLibraryClean);
             }
         }
