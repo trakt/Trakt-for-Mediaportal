@@ -177,7 +177,7 @@ namespace TraktPlugin.TraktHandlers
                     if (!MarkedFirstAsWatched)
                     {
                         // send scrobble Watched status of first episode
-                        OnEpisodeWatched(CurrentEpisode);                        
+                        OnEpisodeWatched(episodes[0]);
                         Thread.Sleep(5000);                        
                     }
 
