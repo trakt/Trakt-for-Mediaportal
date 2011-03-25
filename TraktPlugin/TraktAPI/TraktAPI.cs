@@ -75,8 +75,8 @@ namespace TraktPlugin.TraktAPI
                 };
                 return error;
             }
-            Log.Info(string.Format("Trakt: Scrobble: {0}: {1}", status, scrobbleData.Title));
-            Log.Debug(scrobbleData.ToJSON());
+            Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
+
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleMovie, status.ToString()), scrobbleData.ToJSON());
 
@@ -103,8 +103,7 @@ namespace TraktPlugin.TraktAPI
                 };
                 return error;
             }
-            Log.Info(string.Format("Trakt: Scrobble: {0}: {1}", status, scrobbleData.Title));
-            Log.Debug(scrobbleData.ToJSON());
+            Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
             
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleShow, status.ToString()), scrobbleData.ToJSON());
@@ -176,7 +175,7 @@ namespace TraktPlugin.TraktAPI
             Log.Info("Trakt: Getting user {0}'s movies", user);
             //Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), GetUserAuthentication());
-            Log.Debug(moviesForUser);
+            Log.Debug("Trakt: {0}", moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
@@ -190,6 +189,7 @@ namespace TraktPlugin.TraktAPI
         {
             Log.Info("Trakt: Getting user {0}'s 'library' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
+            Log.Debug("Trakt: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
@@ -202,6 +202,7 @@ namespace TraktPlugin.TraktAPI
         {
             Log.Info("Trakt: Getting user {0}'s 'watched/seen' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
+            Log.Debug("Trakt: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 

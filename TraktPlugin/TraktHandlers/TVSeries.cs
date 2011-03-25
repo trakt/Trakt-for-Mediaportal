@@ -177,10 +177,11 @@ namespace TraktPlugin.TraktHandlers
                     if (!MarkedFirstAsWatched)
                     {
                         // send scrobble Watched status of first episode
-                        OnEpisodeWatched(CurrentEpisode);
-                        MarkedFirstAsWatched = true;
-                        Thread.Sleep(5000);
+                        OnEpisodeWatched(CurrentEpisode);                        
+                        Thread.Sleep(5000);                        
                     }
+
+                    MarkedFirstAsWatched = true;
 
                     // we are now watching 2nd part of double episode
                     scrobbleData = CreateScrobbleData(episodes[1]);
