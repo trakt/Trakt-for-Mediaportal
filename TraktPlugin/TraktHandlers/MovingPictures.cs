@@ -54,27 +54,25 @@ namespace TraktPlugin.TraktHandlers
             foreach (TraktLibraryMovies tlm in movies)
             {
                 bool notInLibrary = true;
-                foreach (DBMovieInfo libraryMovie in MovieList)
+                //If it is in both libraries
+                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => m.ImdbID == tlm.IMDBID))
                 {
-                    //If it is in both libraries
-                    if (libraryMovie.ImdbID == tlm.IMDBID)
+                    //If it is watched in Trakt but not Moving Pictures update
+                    if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                     {
-                        //If it is watched in Trakt but not Moving Pictures update
-                        if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
-                        {
-                            Log.Info(String.Format("Trakt: Movie {0} is watched on Trakt updating Database", libraryMovie.Title));
-                            libraryMovie.ActiveUserSettings.WatchedCount = 1;
-                            libraryMovie.Commit();
-                        }
-                        notInLibrary = false;
-
-                        //We want to widdle down the movies in seen and unseen if they are already on Trakt
-                        if (SeenList.Contains(libraryMovie) && tlm.Plays > 0)
-                            SeenList.Remove(libraryMovie);
-                        if (MovieList.Contains(libraryMovie))
-                            MovieList.Remove(libraryMovie);
-                        break;
+                        Log.Info(String.Format("Trakt: Movie {0} is watched on Trakt updating Database", libraryMovie.Title));
+                        libraryMovie.ActiveUserSettings.WatchedCount = 1;
+                        libraryMovie.Commit();
                     }
+                    notInLibrary = false;
+
+                    //We want to widdle down the movies in seen and unseen if they are already on Trakt
+                    //also remove any duplicates we have locally so we dont re-submit every sync
+                    if (tlm.Plays > 0)
+                        SeenList.RemoveAll(m => m.ImdbID == tlm.IMDBID);
+                    MovieList.RemoveAll(m => m.ImdbID == tlm.IMDBID);
+                    break;
+                  
                 }
 
                 if (notInLibrary)
