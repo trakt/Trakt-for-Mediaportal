@@ -21,8 +21,7 @@ namespace TraktPlugin.TraktHandlers
         #region Variables
 
         Timer TraktTimer;
-        bool SyncInProgress;
-        bool EpisodeWatched;
+        bool SyncInProgress;        
         bool EpisodeWatching;
         bool MarkedFirstAsWatched;
         DBEpisode CurrentEpisode;
