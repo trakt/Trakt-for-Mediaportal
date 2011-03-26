@@ -39,7 +39,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            Log.Info("Trakt: Moving Pictures Staring Sync");
+            Log.Info("Trakt: Moving Pictures Starting Sync");
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
 
             //Get the movies that we have watched
@@ -60,7 +60,7 @@ namespace TraktPlugin.TraktHandlers
                     if (libraryMovie.ImdbID == tlm.IMDBID)
                     {
                         //If it is watched in Trakt but not Moving Pictures update
-                        if (tlm.Watched && libraryMovie.ActiveUserSettings.WatchedCount == 0)
+                        if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                         {
                             Log.Info(String.Format("Trakt: Movie {0} is watched on Trakt updating Database", libraryMovie.Title));
                             libraryMovie.ActiveUserSettings.WatchedCount = 1;
@@ -69,7 +69,7 @@ namespace TraktPlugin.TraktHandlers
                         notInLibrary = false;
 
                         //We want to widdle down the movies in seen and unseen if they are already on Trakt
-                        if (SeenList.Contains(libraryMovie) && tlm.Watched)
+                        if (SeenList.Contains(libraryMovie) && tlm.Plays > 0)
                             SeenList.Remove(libraryMovie);
                         if (MovieList.Contains(libraryMovie))
                             MovieList.Remove(libraryMovie);
