@@ -95,16 +95,19 @@ namespace TraktPlugin.TraktAPI
         {
             // check that we have everything we need
             // server can accept title if movie id is not supplied
-            if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.SeriesID))
+            if (status != TraktScrobbleStates.cancelwatching)
             {
-                TraktResponse error = new TraktResponse
+                if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.SeriesID))
                 {
-                    Error = "Not enough information to send to server",
-                    Status = "failure"
-                };
-                return error;
+                    TraktResponse error = new TraktResponse
+                    {
+                        Error = "Not enough information to send to server",
+                        Status = "failure"
+                    };
+                    return error;
+                }
+                Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
             }
-            Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
             
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleShow, status.ToString()), scrobbleData.ToJSON());

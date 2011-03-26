@@ -495,6 +495,20 @@ namespace TraktPlugin.TraktHandlers
             Log.Info("Trakt: Stopped TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = false;
             StopScrobble();
+
+            // send cancelled watching state
+            Thread cancelWatching = new Thread(delegate()
+            {
+                TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
+                TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Trakt Cancel Watching"
+            };
+
+            cancelWatching.Start();      
         }
 
         private void OnRateItem(DBTable item, string value)
