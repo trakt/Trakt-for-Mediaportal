@@ -66,7 +66,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            Log.Debug("Trakt: TVSeries Starting Sync");
+            Log.Info("Trakt: TVSeries Starting Sync");
 
             SyncInProgress = true;
 
@@ -138,6 +138,11 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
             #endregion
+
+            if (TraktSettings.KeepTraktLibraryClean)
+            {                
+                // TODO   
+            }
 
             SyncInProgress = false;
 
@@ -405,6 +410,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportCompleted(bool dataUpdated)
         {
+            Log.Info("Trakt: TVSeries import complete, checking if sync required");
+
             if (dataUpdated)
             {
                 // sync again
@@ -413,7 +420,8 @@ namespace TraktPlugin.TraktHandlers
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
-                        Thread.Sleep(5000);
+                        Log.Info("Trakt: TVSeries sync still in progress");
+                        Thread.Sleep(60000);
                     }
                     SyncLibrary();
                 })
@@ -423,6 +431,10 @@ namespace TraktPlugin.TraktHandlers
                 };
 
                 syncThread.Start();
+            }
+            else
+            {
+                Log.Info("Trakt: TVSeries sync is not required.");
             }
         }
 
@@ -488,6 +500,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(DBTable item, string value)
         {
+            Log.Info("Trakt: Recieved rating event from tvseries");
+
             if (item is DBEpisode)
                 RateEpisode(item as DBEpisode);
             else
@@ -496,6 +510,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(DBSeries series, List<DBEpisode> episodes, bool watched)
         {
+            Log.Info("Trakt: Recieved togglewatched event from tvseries");
+
             Thread toggleWatched = new Thread(delegate()
             {
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);

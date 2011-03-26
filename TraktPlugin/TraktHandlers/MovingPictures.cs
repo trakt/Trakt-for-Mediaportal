@@ -39,7 +39,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            Log.Debug("Trakt: Moving Pictures Staring Sync");
+            Log.Info("Trakt: Moving Pictures Staring Sync");
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
 
             //Get the movies that we have watched
@@ -81,23 +81,27 @@ namespace TraktPlugin.TraktHandlers
                     NoLongerInOurLibrary.Add(tlm);
             }
 
-            Log.Info("Trakt: SeenList Count {0}", SeenList.Count.ToString());
+            Log.Info("Trakt: {0} movies need to be added to SeenList", SeenList.Count.ToString());
             foreach (DBMovieInfo m in SeenList)
                 Log.Debug("Trakt: Sending from Seen to Trakt: {0}", m.Title);
 
-            Log.Debug("Trakt: Library Count {0}", MovieList.Count.ToString());
+            Log.Info("Trakt: {0} movies need to be added to Library", MovieList.Count.ToString());
             foreach (DBMovieInfo m in MovieList)
                 Log.Debug("Trakt: Sending from UnSeen to Trakt: {0}", m.Title);
 
             //Send Unseen
-            Log.Info("Trakt: Sending Library List");
-            TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
-            Log.Info(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
-
-            Log.Info("Trakt: Sending Seen List");
-            response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
-            Log.Info(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
-
+            if (MovieList.Count > 0)
+            {
+                Log.Info("Trakt: Sending Library List");
+                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            }
+            if (SeenList.Count > 0)
+            {
+                Log.Info("Trakt: Sending Seen List");
+                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            }
             if (TraktSettings.KeepTraktLibraryClean)
             {
                 //Remove movies we no longer have from Trakt
@@ -106,12 +110,12 @@ namespace TraktPlugin.TraktHandlers
                     Log.Info(String.Format("Trakt: Removing from Trakt {0}", m.Title));
 
                 //First need to unseen them all
-                response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
-                Log.Info(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
+                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
 
                 //Then remove form library
                 response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
-                Log.Info(String.Format("Trakt: Response from Trakt, {0} {1} {2}", response.Status, response.Message, response.Error));
+                TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
             Log.Info("Trakt: Moving Pictures Sync Completed");
