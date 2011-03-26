@@ -283,15 +283,18 @@ namespace TraktPlugin.TraktAPI
             {
                 Log.Info("Trakt: Removing Movies from Trakt");
                 Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
+                progressDialog.Line2 = "Getting movies for user";
                 List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
 
                 Log.Info("Trakt: First removing movies from seen");
+                progressDialog.Line2 = "Setting seen movies as unseen";
                 TraktResponse response = SyncMovieLibrary(syncData, TraktSyncModes.unseen);
                 LogTraktResponse(response);
                 
                 Log.Info("Trakt: Now removing movies from library");
+                progressDialog.Line2 = "Removing movies from library";
                 response = SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
                 LogTraktResponse(response);
 
@@ -312,9 +315,11 @@ namespace TraktPlugin.TraktAPI
                 Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
 
                 Log.Info("Trakt: First removing shows from seen");
+                progressDialog.Line2 = "Getting Watched Episodes from Trakt";
                 foreach (var series in GetWatchedEpisodesForUser(TraktSettings.Username).ToList())
                 {
                     Log.Info("Trakt: Removing '{0}' from seen", series.ToString());
+                    progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
@@ -327,9 +332,11 @@ namespace TraktPlugin.TraktAPI
                 }
                 progressDialog.Value = 85;
                 Log.Info("Trakt: Now removing shows from library");
+                progressDialog.Line2 = "Getting Library Episodes from Trakt";
                 foreach(var series in GetLibraryEpisodesForUser(TraktSettings.Username).ToList())
                 {
                     Log.Info("Trakt: Removing '{0}' from library", series.ToString());
+                    progressDialog.Line2 = string.Format("Removing {0} from library", series.ToString());
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
