@@ -15,7 +15,8 @@ namespace TraktPlugin.TraktAPI
     public enum TraktScrobbleStates
     {
         watching,
-        scrobble
+        scrobble,
+        cancelwatching
     }
 
     /// <summary>

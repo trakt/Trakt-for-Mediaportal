@@ -149,6 +149,8 @@ namespace TraktPlugin.TraktHandlers
         {
             if (traktTimer != null)
                 traktTimer.Stop();
+            if (currentMovie != null)
+                ScrobbleHandler(currentMovie, TraktScrobbleStates.cancelwatching);
         }
 
         #endregion
