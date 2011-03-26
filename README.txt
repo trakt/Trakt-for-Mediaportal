@@ -1,9 +1,9 @@
-This project implements the Trakt api for Mediaportal and Moving Pictures.
+This project implements the Trakt api for Mediaportal
 
-Some code has been directly taken from the mptvseries implementation of Trakt
-http://code.google.com/p/mptvseries/
+http://trakt.tv
 
-In order to have desired effects please also install Moving Pictures
-http://code.google.com/p/moving-pictures/
+It currently supports the following plugins
+http://code.google.com/p/mptvseries/ - MPTVSeries [Requires svn r1472+]
+http://code.google.com/p/moving-pictures/ - Moving Pictures
 
-If you are a plugin developer for Mediaportal and would like to have your plugin supported for scrobbling of either Movies or TV Series feel free to contact me.
+If you are a plugin developer for Mediaportal and would like to have your plugin supported for scrobbling of either Movies or TV Series feel free to get in contact.
