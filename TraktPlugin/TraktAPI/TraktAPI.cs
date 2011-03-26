@@ -9,6 +9,7 @@ using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin.TraktAPI
 {
+    #region Enumerables
     /// <summary>
     /// List of Scrobble States
     /// </summary>
@@ -30,6 +31,9 @@ namespace TraktPlugin.TraktAPI
         unseen
     }
 
+    /// <summary>
+    /// List of Clearing Modes
+    /// </summary>
     public enum TraktClearingModes
     {
         all,
@@ -37,6 +41,9 @@ namespace TraktPlugin.TraktAPI
         episodes
     }
 
+    /// <summary>
+    /// List of Rate Types
+    /// </summary>
     public enum TraktRateType
     {
         episode,
@@ -44,11 +51,16 @@ namespace TraktPlugin.TraktAPI
         movie
     }
 
+    /// <summary>
+    /// List of Rate Values
+    /// </summary>
     public enum TraktRateValue
     {
         love,
         hate
     }
+
+    #endregion
 
     /// <summary>
     /// Object that communicates with the Trakt API
@@ -56,6 +68,8 @@ namespace TraktPlugin.TraktAPI
     class TraktAPI
     {
         public static string UserAgent { get; set; }
+
+        #region Scrobbling
 
         /// <summary>
         /// Sends Scrobble data to Trakt
@@ -65,16 +79,20 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The response from Trakt</returns>
         public static TraktResponse ScrobbleMovieState(TraktMovieScrobble scrobbleData, TraktScrobbleStates status)
         {
-            // check that we have everything we need
-            // server can accept title if movie id is not supplied
-            if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.Title) || string.IsNullOrEmpty(scrobbleData.Year))
+            //If we are cancelling a scrobble we don't need data
+            if (status != TraktScrobbleStates.cancelwatching)
             {
-                TraktResponse error = new TraktResponse
+                // check that we have everything we need
+                // server can accept title if movie id is not supplied
+                if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.Title) || string.IsNullOrEmpty(scrobbleData.Year))
                 {
-                    Error = "Not enough information to send to server",
-                    Status = "failure"
-                };
-                return error;
+                    TraktResponse error = new TraktResponse
+                    {
+                        Error = "Not enough information to send to server",
+                        Status = "failure"
+                    };
+                    return error;
+                }
             }
             Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
 
@@ -115,6 +133,10 @@ namespace TraktPlugin.TraktAPI
             // return success or failure
             return response.FromJSON<TraktResponse>();
         }
+
+        #endregion
+
+        #region Syncing
 
         /// <summary>
         /// Sends movie sync data to Trakt
@@ -169,6 +191,10 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktResponse>();
         }
 
+        #endregion
+
+        #region Trakt Library Calls
+
         /// <summary>
         /// Gets the trakt movie library for a user
         /// </summary>
@@ -210,23 +236,46 @@ namespace TraktPlugin.TraktAPI
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
+        #endregion
+
+        #region Rating
+
+        /// <summary>
+        /// Sends episode rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateEpisode(TraktRateEpisode episode)
         {
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.episode.ToString()), episode.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
+        /// <summary>
+        /// Sends series rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateSeries(TraktRateSeries series)
         {
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.show.ToString()), series.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
+        /// <summary>
+        /// Sends movie rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateMovie(TraktRateMovie movie)
         {
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.movie.ToString()), movie.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
+
+        #endregion
+
+        #region Helpers
 
         /// <summary>
         /// Gets a User Authentication object
@@ -356,7 +405,11 @@ namespace TraktPlugin.TraktAPI
             progressDialog.CloseDialog();
         }
 
-
+        /// <summary>
+        /// Logs the result of Trakt api call
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
         public static void LogTraktResponse<T>(T response)
         {
             var r = response as TraktResponse;
@@ -378,5 +431,7 @@ namespace TraktPlugin.TraktAPI
                 Log.Info("Trakt Response: {0}", r.Message);
             }
         }
+
+        #endregion
     }
 }
