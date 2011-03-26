@@ -68,6 +68,7 @@
       <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
     <Compile Include="ITraktHandler.cs" />
+    <Compile Include="ProgressDialog.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

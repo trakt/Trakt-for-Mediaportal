@@ -269,8 +269,15 @@ namespace TraktPlugin.TraktAPI
         /// Clears our library on Trakt as best as the api lets us
         /// </summary>
         /// <param name="mode">What to remove from Trakt</param>
-        public static void ClearLibrary(TraktClearingModes mode)
+        public static void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog)
         {
+            progressDialog.Title = "Clearing Library";
+            progressDialog.CancelMessage = "Attempting to Cancel";
+            progressDialog.Maximum = 100;
+            progressDialog.Value = 0;
+            progressDialog.Line1 = "Clearing your Trakt Library";
+            progressDialog.ShowDialog(ProgressDialog.PROGDLG.Modal, ProgressDialog.PROGDLG.NoMinimize, ProgressDialog.PROGDLG.NoTime);
+
             //Movies
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.movies)
             {
@@ -290,7 +297,14 @@ namespace TraktPlugin.TraktAPI
 
                 Log.Info("Trakt: Removed all movies possible, some manual clean up may be required");
             }
-
+            if(mode == TraktClearingModes.all)
+                progressDialog.Value = 15;
+            if (progressDialog.HasUserCancelled)
+            {
+                Log.Info("Trakt: Cancelling Library Clearing");
+                progressDialog.CloseDialog();
+                return;
+            }
             //Episodes
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.episodes)
             {
@@ -304,8 +318,14 @@ namespace TraktPlugin.TraktAPI
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
+                    if (progressDialog.HasUserCancelled)
+                    {
+                        Log.Info("Trakt: Cancelling Library Clearing");
+                        progressDialog.CloseDialog();
+                        return;
+                    }
                 }
-
+                progressDialog.Value = 85;
                 Log.Info("Trakt: Now removing shows from library");
                 foreach(var series in GetLibraryEpisodesForUser(TraktSettings.Username).ToList())
                 {
@@ -313,10 +333,17 @@ namespace TraktPlugin.TraktAPI
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
+                    if (progressDialog.HasUserCancelled)
+                    {
+                        Log.Info("Trakt: Cancelling Library Clearing");
+                        progressDialog.CloseDialog();
+                        return;
+                    }
                 }
-
                 Log.Info("Trakt: Removed all shows possible, some manual clean up may be required");
             }
+            progressDialog.Value = 100;
+            progressDialog.CloseDialog();
         }
 
 

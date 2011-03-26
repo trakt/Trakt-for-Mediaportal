@@ -12,6 +12,7 @@ namespace TraktPlugin
 {
     public partial class Configuration : Form
     {
+
         public Configuration()
         {
             InitializeComponent();
@@ -146,19 +147,14 @@ namespace TraktPlugin
             {
                 BackgroundWorker libraryClearer = new BackgroundWorker();
                 libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
-                libraryClearer.RunWorkerCompleted += new RunWorkerCompletedEventHandler(libraryClearer_RunWorkerCompleted);
                 libraryClearer.RunWorkerAsync();
             }
         }
 
-        void libraryClearer_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show("Library Clean Completed.","Library Clean",MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
         {
-            TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all);
+            ProgressDialog pd = new ProgressDialog(this.Handle);
+            TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all, pd);
         }
 
     }
