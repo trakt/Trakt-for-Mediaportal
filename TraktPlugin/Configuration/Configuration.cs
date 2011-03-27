@@ -22,6 +22,8 @@ namespace TraktPlugin
 
             #region load settings
             tbUsername.Text = TraktSettings.Username;
+            // since password is Sha1, just show a dummy password
+            tbPassword.Text = string.IsNullOrEmpty(TraktSettings.Password) ? string.Empty : TraktSettings.Password.Substring(0, 10);
 
             List<KeyValuePair<int, string>> items = new List<KeyValuePair<int, string>>();
             items.Add(new KeyValuePair<int, string>(TraktSettings.MovingPictures, "Moving Pictures"));
@@ -42,7 +44,9 @@ namespace TraktPlugin
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
             #endregion
 
+            // handle events now that we have populated default settings
             clbPlugins.ItemCheck += new ItemCheckEventHandler(this.clbPlugins_ItemCheck);
+            tbPassword.TextChanged += new EventHandler(this.tbPassword_TextChanged);
         }
 
         private void tbUsername_TextChanged(object sender, EventArgs e)
@@ -52,7 +56,19 @@ namespace TraktPlugin
 
         private void tbPassword_TextChanged(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(tbPassword.Text))
+            {
+                TraktSettings.Password = string.Empty;
+                return;
+            }
             TraktSettings.Password = tbPassword.Text.GetSha1();            
+        }
+
+        private void tbPassword_Enter(object sender, EventArgs e)
+        {
+            // clear password field so can be re-entered easily, when re-entering config
+            // it wont look like original because its hashed, so it's less confusing if cleared
+            tbPassword.Text = string.Empty;
         }
 
         private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
