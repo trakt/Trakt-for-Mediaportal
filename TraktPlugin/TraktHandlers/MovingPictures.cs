@@ -55,8 +55,16 @@ namespace TraktPlugin.TraktHandlers
             {
                 bool notInLibrary = true;
                 //If it is in both libraries
-                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => m.ImdbID == tlm.IMDBID))
+                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => m.ImdbID == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
+                    //If the users IMDB ID is empty and we have matched one then set it
+                    if (String.IsNullOrEmpty(libraryMovie.ImdbID))
+                    {
+                        Log.Info("Trakt: Movie {0} inserted IMDBID {1}", libraryMovie.Title, tlm.IMDBID);
+                        libraryMovie.ImdbID = tlm.IMDBID;
+                        libraryMovie.Commit();
+                    }
+
                     //If it is watched in Trakt but not Moving Pictures update
                     if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                     {
