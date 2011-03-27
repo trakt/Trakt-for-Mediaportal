@@ -15,6 +15,7 @@ namespace TraktPlugin
         public static int MovingPictures { get; set; }
         public static int TVSeries { get; set; }
         public static bool KeepTraktLibraryClean { get; set; }
+        public static List<String> BlockedFilenames { get; set; }
         #endregion
 
         #region Constants
@@ -40,6 +41,8 @@ namespace TraktPlugin
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
             }
+            //TODO Save blockedFileNames somewhere
+            BlockedFilenames = new List<string>();
         }
 
         /// <summary>

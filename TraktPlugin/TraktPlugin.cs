@@ -295,16 +295,22 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
-            Log.Debug("Trakt: Checking out Libraries for the filename");
-            foreach (ITraktHandler traktHandler in TraktHandlers)
+            if (!TraktSettings.BlockedFilenames.Contains(filename))
             {
-                if (traktHandler.Scrobble(filename))
+                Log.Debug("Trakt: Checking out Libraries for the filename");
+                foreach (ITraktHandler traktHandler in TraktHandlers)
                 {
-                    Log.Info("Trakt: File was recognised by {0} and is now scrobbling", traktHandler.Name);
-                    return;
+                    if (traktHandler.Scrobble(filename))
+                    {
+                        Log.Info("Trakt: File was recognised by {0} and is now scrobbling", traktHandler.Name);
+                        return;
+                    }
                 }
+                Log.Info("Trakt: File was not recognised");
             }
-            Log.Info("Trakt: File was not recognised");
+            else
+                Log.Info("Trakt: Filename was recognised as blocked by user");
+            
         }
 
         /// <summary>

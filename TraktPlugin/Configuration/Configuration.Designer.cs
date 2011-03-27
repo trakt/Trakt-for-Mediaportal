@@ -44,8 +44,9 @@
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
-            this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
+            this.gbRestrictions = new System.Windows.Forms.GroupBox();
+            this.btnMovieRestrictions = new System.Windows.Forms.Button();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -193,16 +194,6 @@
             this.ttpConfig.ReshowDelay = 100;
             this.ttpConfig.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // gbRestrictions
-            // 
-            this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(12, 207);
-            this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
-            this.gbRestrictions.TabIndex = 5;
-            this.gbRestrictions.TabStop = false;
-            this.gbRestrictions.Text = "Restrictions";
-            // 
             // btnTVSeriesRestrictions
             // 
             this.btnTVSeriesRestrictions.Location = new System.Drawing.Point(9, 20);
@@ -213,6 +204,27 @@
             this.ttpConfig.SetToolTip(this.btnTVSeriesRestrictions, "Select the series you want to ignore from Syncronization and Scrobbling.");
             this.btnTVSeriesRestrictions.UseVisualStyleBackColor = true;
             this.btnTVSeriesRestrictions.Click += new System.EventHandler(this.btnTVSeriesRestrictions_Click);
+            // 
+            // gbRestrictions
+            // 
+            this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
+            this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 207);
+            this.gbRestrictions.Name = "gbRestrictions";
+            this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
+            this.gbRestrictions.TabIndex = 5;
+            this.gbRestrictions.TabStop = false;
+            this.gbRestrictions.Text = "Restrictions";
+            // 
+            // btnMovieRestrictions
+            // 
+            this.btnMovieRestrictions.Location = new System.Drawing.Point(138, 20);
+            this.btnMovieRestrictions.Name = "btnMovieRestrictions";
+            this.btnMovieRestrictions.Size = new System.Drawing.Size(104, 23);
+            this.btnMovieRestrictions.TabIndex = 0;
+            this.btnMovieRestrictions.Text = "Movies...";
+            this.btnMovieRestrictions.UseVisualStyleBackColor = true;
+            this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
             // Configuration
             // 
@@ -258,5 +270,6 @@
         private System.Windows.Forms.ToolTip ttpConfig;
         private System.Windows.Forms.GroupBox gbRestrictions;
         private System.Windows.Forms.Button btnTVSeriesRestrictions;
+        private System.Windows.Forms.Button btnMovieRestrictions;
     }
 }

@@ -171,6 +171,14 @@ namespace TraktPlugin
             SeriesSelectDlg.ShowDialog(this);
         }
 
+        private void btnMovieRestrictions_Click(object sender, EventArgs e)
+        {
+            MovieSelect MovieSelectDlg = new MovieSelect();
+            MovieSelectDlg.BlockedFilenames = TraktSettings.BlockedFilenames;
+            MovieSelectDlg.ShowDialog(this);
+            TraktSettings.BlockedFilenames = MovieSelectDlg.BlockedFilenames;
+        }
+
     }
 
     #region String Extension

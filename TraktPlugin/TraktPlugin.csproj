@@ -61,12 +61,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\Configuration.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Configuration\Configuration.Designer.cs">
       <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\MovieSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\MovieSelect.Designer.cs">
+      <DependentUpon>MovieSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\ProgressDialog.cs" />
-    <Compile Include="Configuration\SeriesSelect.cs" />
+    <Compile Include="Configuration\SeriesSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
@@ -104,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Configuration\Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\MovieSelect.resx">
+      <DependentUpon>MovieSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\SeriesSelect.resx">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
