@@ -61,14 +61,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Configuration.Designer.cs">
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\Configuration.Designer.cs">
       <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ProgressDialog.cs" />
+    <Compile Include="Configuration\SeriesSelect.cs" />
+    <Compile Include="Configuration\SeriesSelect.Designer.cs">
+      <DependentUpon>SeriesSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="ITraktHandler.cs" />
-    <Compile Include="ProgressDialog.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,8 +102,11 @@
     <Compile Include="TraktSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Configuration.resx">
+    <EmbeddedResource Include="Configuration\Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\SeriesSelect.resx">
+      <DependentUpon>SeriesSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
