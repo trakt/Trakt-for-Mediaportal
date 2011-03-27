@@ -44,9 +44,12 @@
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
+            this.gbRestrictions = new System.Windows.Forms.GroupBox();
+            this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
+            this.gbRestrictions.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -143,7 +146,7 @@
             // 
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 207);
+            this.gbMisc.Location = new System.Drawing.Point(12, 266);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(288, 78);
             this.gbMisc.TabIndex = 2;
@@ -174,7 +177,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 291);
+            this.btnOK.Location = new System.Drawing.Point(227, 350);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -190,11 +193,33 @@
             this.ttpConfig.ReshowDelay = 100;
             this.ttpConfig.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // gbRestrictions
+            // 
+            this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 207);
+            this.gbRestrictions.Name = "gbRestrictions";
+            this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
+            this.gbRestrictions.TabIndex = 5;
+            this.gbRestrictions.TabStop = false;
+            this.gbRestrictions.Text = "Restrictions";
+            // 
+            // btnTVSeriesRestrictions
+            // 
+            this.btnTVSeriesRestrictions.Location = new System.Drawing.Point(9, 20);
+            this.btnTVSeriesRestrictions.Name = "btnTVSeriesRestrictions";
+            this.btnTVSeriesRestrictions.Size = new System.Drawing.Size(104, 23);
+            this.btnTVSeriesRestrictions.TabIndex = 0;
+            this.btnTVSeriesRestrictions.Text = "Series...";
+            this.ttpConfig.SetToolTip(this.btnTVSeriesRestrictions, "Select the series you want to ignore from Syncronization and Scrobbling.");
+            this.btnTVSeriesRestrictions.UseVisualStyleBackColor = true;
+            this.btnTVSeriesRestrictions.Click += new System.EventHandler(this.btnTVSeriesRestrictions_Click);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 326);
+            this.ClientSize = new System.Drawing.Size(312, 382);
+            this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
             this.Controls.Add(this.gbPlugins);
@@ -210,6 +235,7 @@
             this.gbPlugins.ResumeLayout(false);
             this.gbMisc.ResumeLayout(false);
             this.gbMisc.PerformLayout();
+            this.gbRestrictions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -230,5 +256,7 @@
         private System.Windows.Forms.CheckedListBox clbPlugins;
         private System.Windows.Forms.Button btnClearLibrary;
         private System.Windows.Forms.ToolTip ttpConfig;
+        private System.Windows.Forms.GroupBox gbRestrictions;
+        private System.Windows.Forms.Button btnTVSeriesRestrictions;
     }
 }

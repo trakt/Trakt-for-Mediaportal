@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using MediaPortal.Configuration;
 
 namespace TraktPlugin
 {
@@ -155,6 +157,18 @@ namespace TraktPlugin
         {
             ProgressDialog pd = new ProgressDialog(this.Handle);
             TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all, pd);
+        }
+
+        private void btnTVSeriesRestrictions_Click(object sender, EventArgs e)
+        {
+            if (!File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"windows\mp-tvseries.dll")))
+            {
+                MessageBox.Show("Could not load series list, ensure that MP-TVSeries plugin is installed.", "Series Select", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            SeriesSelect SeriesSelectDlg = new SeriesSelect();
+            SeriesSelectDlg.ShowDialog(this);
         }
 
     }
