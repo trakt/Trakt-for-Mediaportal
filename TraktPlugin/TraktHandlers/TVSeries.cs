@@ -185,6 +185,7 @@ namespace TraktPlugin.TraktHandlers
                         Thread.Sleep(5000);                        
                     }
 
+                    EpisodeWatching = true;
                     MarkedFirstAsWatched = true;
 
                     // we are now watching 2nd part of double episode
@@ -440,12 +441,13 @@ namespace TraktPlugin.TraktHandlers
         private void OnEpisodeWatched(DBEpisode episode)
         {
             DBEpisode currentEpisode = null;
+            EpisodeWatching = false;
 
             Thread scrobbleEpisode = new Thread(delegate()
             {
                 // submit watched state to trakt API
                 // could be a double episode so mark last one as watched
-                // 1st episode is it set to watched during playback timer
+                // 1st episode is set to watched during playback timer
                 if (episode[DBEpisode.cEpisodeIndex2] > 0 && MarkedFirstAsWatched)
                 {
                     // only set 2nd episode as watched here
