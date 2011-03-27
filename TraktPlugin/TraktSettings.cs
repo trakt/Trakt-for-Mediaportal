@@ -25,6 +25,7 @@ namespace TraktPlugin
         private const string cMovingPictures = "MovingPictures";
         private const string cTVSeries = "TVSeries";
         private const string cKeepTraktLibraryClean = "KeepLibraryClean";
+        private const string cBlockedFilenames = "BlockedFilenames";
         #endregion
 
         /// <summary>
@@ -40,9 +41,8 @@ namespace TraktPlugin
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
+                BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
             }
-            //TODO Save blockedFileNames somewhere
-            BlockedFilenames = new List<string>();
         }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
                 xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValueAsBool(cTrakt, cKeepTraktLibraryClean, KeepTraktLibraryClean);
+                xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
             }
         }
     }

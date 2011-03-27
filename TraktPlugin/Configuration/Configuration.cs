@@ -176,7 +176,10 @@ namespace TraktPlugin
             MovieSelect MovieSelectDlg = new MovieSelect();
             MovieSelectDlg.BlockedFilenames = TraktSettings.BlockedFilenames;
             MovieSelectDlg.ShowDialog(this);
-            TraktSettings.BlockedFilenames = MovieSelectDlg.BlockedFilenames;
+            if (MovieSelectDlg.DialogResult == DialogResult.OK)
+            {
+                TraktSettings.BlockedFilenames = MovieSelectDlg.BlockedFilenames;
+            }
         }
 
     }

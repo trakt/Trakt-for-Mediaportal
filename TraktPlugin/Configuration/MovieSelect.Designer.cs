@@ -30,20 +30,21 @@
         {
             this.checkedListBoxMovies = new System.Windows.Forms.CheckedListBox();
             this.btnOk = new System.Windows.Forms.Button();
+            this.lbSelectMoviesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkedListBoxMovies
             // 
             this.checkedListBoxMovies.FormattingEnabled = true;
-            this.checkedListBoxMovies.Location = new System.Drawing.Point(12, 12);
+            this.checkedListBoxMovies.Location = new System.Drawing.Point(12, 27);
             this.checkedListBoxMovies.Name = "checkedListBoxMovies";
             this.checkedListBoxMovies.ScrollAlwaysVisible = true;
-            this.checkedListBoxMovies.Size = new System.Drawing.Size(269, 334);
+            this.checkedListBoxMovies.Size = new System.Drawing.Size(269, 304);
             this.checkedListBoxMovies.TabIndex = 0;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(206, 352);
+            this.btnOk.Location = new System.Drawing.Point(206, 337);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -51,18 +52,34 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // lbSelectMoviesLabel
+            // 
+            this.lbSelectMoviesLabel.AutoSize = true;
+            this.lbSelectMoviesLabel.Location = new System.Drawing.Point(12, 9);
+            this.lbSelectMoviesLabel.Name = "lbSelectMoviesLabel";
+            this.lbSelectMoviesLabel.Size = new System.Drawing.Size(173, 13);
+            this.lbSelectMoviesLabel.TabIndex = 2;
+            this.lbSelectMoviesLabel.Text = "Select Movies to Ignore from Trakt:";
+            // 
             // MovieSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 384);
+            this.ClientSize = new System.Drawing.Size(293, 368);
+            this.Controls.Add(this.lbSelectMoviesLabel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.checkedListBoxMovies);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(309, 406);
             this.Name = "MovieSelect";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add/Remove Movies";
             this.Load += new System.EventHandler(this.MovieSelect_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -70,5 +87,6 @@
 
         private System.Windows.Forms.CheckedListBox checkedListBoxMovies;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Label lbSelectMoviesLabel;
     }
 }

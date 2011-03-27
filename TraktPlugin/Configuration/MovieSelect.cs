@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using MediaPortal.GUI.Library;
 
 namespace TraktPlugin
 {
@@ -24,21 +25,26 @@ namespace TraktPlugin
 
         private void MovieSelect_Load(object sender, EventArgs e)
         {
-            try
+            //If MovingPictures is selected
+            if (TraktSettings.MovingPictures > -1)
             {
-                List<MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo> movies = MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo.GetAll();
-                unCheckedMovies = (from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() }).ToList();
-                checkedMovies = (from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() }).ToList();
-                
-                foreach (MovieSelectItem movie in unCheckedMovies)
-                    checkedListBoxMovies.Items.Add(movie, false);
-                foreach (MovieSelectItem movie in checkedMovies)
-                    checkedListBoxMovies.Items.Add(movie, true);
+                //Load the Movies from Moving Pictures
+                try
+                {
+                    List<MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo> movies = MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo.GetAll();
+                    unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
+                    checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
+                }
+                catch (IOException)
+                {
+                    Log.Info("Trakt: Failed to load Moving Pictures! DLL is missing?");
+                }
             }
-            catch (IOException)
-            {
 
-            }
+            foreach (MovieSelectItem movie in unCheckedMovies)
+                checkedListBoxMovies.Items.Add(movie, false);
+            foreach (MovieSelectItem movie in checkedMovies)
+                checkedListBoxMovies.Items.Add(movie, true);
 
             checkedListBoxMovies.ItemCheck += new ItemCheckEventHandler(checkedListBoxMovies_ItemCheck);
         }
@@ -81,12 +87,20 @@ namespace TraktPlugin
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            _blockedFilenames = new List<String>();
+            foreach (MovieSelectItem movie in unCheckedMovies)
+            {
+                foreach (String filename in movie.Filename)
+                {
+                    while(_blockedFilenames.Count(f => f == filename) > 0)
+                        _blockedFilenames.Remove(filename);
+                }
+            }
             foreach (MovieSelectItem movie in checkedMovies)
             {
                 foreach (String filename in movie.Filename)
                 {
-                    _blockedFilenames.Add(filename);
+                    if(!_blockedFilenames.Contains(filename))
+                        _blockedFilenames.Add(filename);
                 }
             }
             DialogResult = DialogResult.OK;
