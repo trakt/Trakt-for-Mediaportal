@@ -37,7 +37,7 @@ namespace TraktPlugin
                 }
                 catch (IOException)
                 {
-                    Log.Info("Trakt: Failed to load Moving Pictures! DLL is missing?");
+                    TraktLogger.Info("Trakt: Failed to load Moving Pictures! DLL is missing?");
                 }
             }
 

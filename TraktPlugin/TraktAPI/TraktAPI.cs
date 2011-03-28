@@ -94,7 +94,7 @@ namespace TraktPlugin.TraktAPI
                     return error;
                 }
             }
-            Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
+            TraktLogger.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
 
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleMovie, status.ToString()), scrobbleData.ToJSON());
@@ -124,7 +124,7 @@ namespace TraktPlugin.TraktAPI
                     };
                     return error;
                 }
-                Log.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
+                TraktLogger.Info(string.Format("Trakt: {0} '{1}'", status, scrobbleData.Title));
             }
             
             // serialize Scrobble object to JSON and send to server
@@ -202,10 +202,10 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
         {
-            Log.Info("Trakt: Getting user {0}'s movies", user);
+            TraktLogger.Info("Trakt: Getting user {0}'s movies", user);
             //Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), GetUserAuthentication());
-            Log.Debug("Trakt: {0}", moviesForUser);
+            TraktLogger.Debug("Trakt: {0}", moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
@@ -217,9 +217,9 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShows> GetLibraryEpisodesForUser(string user)
         {
-            Log.Info("Trakt: Getting user {0}'s 'library' episodes", user);
+            TraktLogger.Info("Trakt: Getting user {0}'s 'library' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
-            Log.Debug("Trakt: {0}", showsForUser);
+            TraktLogger.Debug("Trakt: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
@@ -230,9 +230,9 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShows> GetWatchedEpisodesForUser(string user)
         {
-            Log.Info("Trakt: Getting user {0}'s 'watched/seen' episodes", user);
+            TraktLogger.Info("Trakt: Getting user {0}'s 'watched/seen' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
-            Log.Debug("Trakt: {0}", showsForUser);
+            TraktLogger.Debug("Trakt: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
@@ -296,7 +296,7 @@ namespace TraktPlugin.TraktAPI
         {
             if (!string.IsNullOrEmpty(data))
             {
-                Log.Debug("Trakt Post: " + data);
+                TraktLogger.Debug("Trakt Post: " + data);
             }
 
             try
@@ -333,73 +333,73 @@ namespace TraktPlugin.TraktAPI
             //Movies
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.movies)
             {
-                Log.Info("Trakt: Removing Movies from Trakt");
-                Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
+                TraktLogger.Info("Trakt: Removing Movies from Trakt");
+                TraktLogger.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
                 progressDialog.Line2 = "Getting movies for user";
                 List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
 
-                Log.Info("Trakt: First removing movies from seen");
+                TraktLogger.Info("Trakt: First removing movies from seen");
                 progressDialog.Line2 = "Setting seen movies as unseen";
                 TraktResponse response = SyncMovieLibrary(syncData, TraktSyncModes.unseen);
                 LogTraktResponse(response);
                 
-                Log.Info("Trakt: Now removing movies from library");
+                TraktLogger.Info("Trakt: Now removing movies from library");
                 progressDialog.Line2 = "Removing movies from library";
                 response = SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
                 LogTraktResponse(response);
 
-                Log.Info("Trakt: Removed all movies possible, some manual clean up may be required");
+                TraktLogger.Info("Trakt: Removed all movies possible, some manual clean up may be required");
             }
             if(mode == TraktClearingModes.all)
                 progressDialog.Value = 15;
             if (progressDialog.HasUserCancelled)
             {
-                Log.Info("Trakt: Cancelling Library Clearing");
+                TraktLogger.Info("Trakt: Cancelling Library Clearing");
                 progressDialog.CloseDialog();
                 return;
             }
             //Episodes
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.episodes)
             {
-                Log.Info("Trakt: Removing Shows from Trakt");
-                Log.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
+                TraktLogger.Info("Trakt: Removing Shows from Trakt");
+                TraktLogger.Info("Trakt: NOTE WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
 
-                Log.Info("Trakt: First removing shows from seen");
+                TraktLogger.Info("Trakt: First removing shows from seen");
                 progressDialog.Line2 = "Getting Watched Episodes from Trakt";
                 foreach (var series in GetWatchedEpisodesForUser(TraktSettings.Username).ToList())
                 {
-                    Log.Info("Trakt: Removing '{0}' from seen", series.ToString());
+                    TraktLogger.Info("Trakt: Removing '{0}' from seen", series.ToString());
                     progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
                     if (progressDialog.HasUserCancelled)
                     {
-                        Log.Info("Trakt: Cancelling Library Clearing");
+                        TraktLogger.Info("Trakt: Cancelling Library Clearing");
                         progressDialog.CloseDialog();
                         return;
                     }
                 }
                 progressDialog.Value = 85;
-                Log.Info("Trakt: Now removing shows from library");
+                TraktLogger.Info("Trakt: Now removing shows from library");
                 progressDialog.Line2 = "Getting Library Episodes from Trakt";
                 foreach(var series in GetLibraryEpisodesForUser(TraktSettings.Username).ToList())
                 {
-                    Log.Info("Trakt: Removing '{0}' from library", series.ToString());
+                    TraktLogger.Info("Trakt: Removing '{0}' from library", series.ToString());
                     progressDialog.Line2 = string.Format("Removing {0} from library", series.ToString());
                     TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
                     LogTraktResponse(response);
                     System.Threading.Thread.Sleep(500);
                     if (progressDialog.HasUserCancelled)
                     {
-                        Log.Info("Trakt: Cancelling Library Clearing");
+                        TraktLogger.Info("Trakt: Cancelling Library Clearing");
                         progressDialog.CloseDialog();
                         return;
                     }
                 }
-                Log.Info("Trakt: Removed all shows possible, some manual clean up may be required");
+                TraktLogger.Info("Trakt: Removed all shows possible, some manual clean up may be required");
             }
             progressDialog.Value = 100;
             progressDialog.CloseDialog();
@@ -416,19 +416,19 @@ namespace TraktPlugin.TraktAPI
 
             if (r == null || r.Status == null)
             {
-                Log.Info("Trakt Error: Response from server was unexpected.");
+                TraktLogger.Info("Trakt Error: Response from server was unexpected.");
                 return;
             }
 
             // check response error status
             if (r.Status != "success")
             {
-                Log.Info("Trakt Error: {0}", r.Error);
+                TraktLogger.Info("Trakt Error: {0}", r.Error);
             }
             else
             {
                 // success
-                Log.Info("Trakt Response: {0}", r.Message);
+                TraktLogger.Info("Trakt Response: {0}", r.Message);
             }
         }
 

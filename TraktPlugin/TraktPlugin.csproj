@@ -107,6 +107,7 @@
     <Compile Include="TraktHandlers\BasicHandler.cs" />
     <Compile Include="TraktHandlers\MovingPictures.cs" />
     <Compile Include="TraktHandlers\TVSeries.cs" />
+    <Compile Include="TraktLogger.cs" />
     <Compile Include="TraktPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TraktSettings.cs" />

@@ -34,7 +34,7 @@ namespace TraktPlugin.TraktHandlers
         {
             Priority = priority;
             
-            Log.Debug("Trakt: Adding Hooks to MP-TVSeries");
+            TraktLogger.Debug("Trakt: Adding Hooks to MP-TVSeries");
             
             // player events
             VideoHandler.EpisodeWatched += new VideoHandler.EpisodeWatchedDelegate(OnEpisodeWatched);
@@ -65,7 +65,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            Log.Info("Trakt: TVSeries Starting Sync");
+            TraktLogger.Info("Trakt: TVSeries Starting Sync");
 
             SyncInProgress = true;
 
@@ -131,7 +131,7 @@ namespace TraktPlugin.TraktHandlers
                 if (TraktEpisodeExists(traktWatchedEpisodes, ep))
                 {
                     // mark episode as watched
-                    Log.Info("Trakt: marking episode '{0}' as watched", ep.ToString());
+                    TraktLogger.Info("Trakt: marking episode '{0}' as watched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = true;
                     ep.Commit();
                 }
@@ -145,7 +145,7 @@ namespace TraktPlugin.TraktHandlers
 
             SyncInProgress = false;
 
-            Log.Info("Trakt: TVSeries Sync Completed");
+            TraktLogger.Info("Trakt: TVSeries Sync Completed");
         }
 
         public bool Scrobble(string filename)
@@ -153,7 +153,7 @@ namespace TraktPlugin.TraktHandlers
             if (!EpisodeWatching) return false;
 
             StopScrobble();
-            Log.Info(string.Format("Trakt: Found playing episode {0}", CurrentEpisode.ToString()));
+            TraktLogger.Info(string.Format("Trakt: Found playing episode {0}", CurrentEpisode.ToString()));
 
             MarkedFirstAsWatched = false;
 
@@ -272,7 +272,7 @@ namespace TraktPlugin.TraktHandlers
                 Password = TraktSettings.Password,
             };
 
-            Log.Info("Trakt: Rating '{0}' as '{1}'", series.ToString(), loveorhate.ToString());
+            TraktLogger.Info("Trakt: Rating '{0}' as '{1}'", series.ToString(), loveorhate.ToString());
             return seriesData;
         }
 
@@ -294,7 +294,7 @@ namespace TraktPlugin.TraktHandlers
                 Password = TraktSettings.Password
             };
 
-            Log.Info("Trakt: Rating '{0}' as '{1}'", episode.ToString(), loveorhate.ToString());
+            TraktLogger.Info("Trakt: Rating '{0}' as '{1}'", episode.ToString(), loveorhate.ToString());
             return episodeData;
         }
 
@@ -377,7 +377,7 @@ namespace TraktPlugin.TraktHandlers
                 DBSeries series = Helper.getCorrespondingSeries(int.Parse(seriesid));
                 if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
 
-                Log.Info("Trakt: Synchronizing '{0}' episodes for series '{1}'.", mode.ToString(), series.ToString());
+                TraktLogger.Info("Trakt: Synchronizing '{0}' episodes for series '{1}'.", mode.ToString(), series.ToString());
 
                 // upload to trakt
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), mode);
@@ -410,7 +410,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportCompleted(bool dataUpdated)
         {
-            Log.Info("Trakt: TVSeries import complete, checking if sync required");
+            TraktLogger.Info("Trakt: TVSeries import complete, checking if sync required");
 
             if (dataUpdated)
             {
@@ -420,7 +420,7 @@ namespace TraktPlugin.TraktHandlers
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
-                        Log.Info("Trakt: TVSeries sync still in progress");
+                        TraktLogger.Info("Trakt: TVSeries sync still in progress");
                         Thread.Sleep(60000);
                     }
                     SyncLibrary();
@@ -434,7 +434,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                Log.Info("Trakt: TVSeries sync is not required.");
+                TraktLogger.Info("Trakt: TVSeries sync is not required.");
             }
         }
 
@@ -462,7 +462,7 @@ namespace TraktPlugin.TraktHandlers
                     currentEpisode = episode;
                 }
 
-                Log.Info("Trakt: TVSeries episode considered watched '{0}'", currentEpisode.ToString());
+                TraktLogger.Info("Trakt: TVSeries episode considered watched '{0}'", currentEpisode.ToString());
 
                 // get scrobble data to send to api
                 TraktEpisodeScrobble scrobbleData = CreateScrobbleData(currentEpisode);
@@ -486,7 +486,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeStarted(DBEpisode episode)
         {
-            Log.Info("Trakt: Starting TVSeries episode playback '{0}'", episode.ToString());
+            TraktLogger.Info("Trakt: Starting TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = true;
             CurrentEpisode = episode;
         }
@@ -494,7 +494,7 @@ namespace TraktPlugin.TraktHandlers
         private void OnEpisodeStopped(DBEpisode episode)
         {
             // Episode does not count as watched, we dont need to do anything.
-            Log.Info("Trakt: Stopped TVSeries episode playback '{0}'", episode.ToString());
+            TraktLogger.Info("Trakt: Stopped TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = false;
             StopScrobble();
 
@@ -515,7 +515,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(DBTable item, string value)
         {
-            Log.Info("Trakt: Recieved rating event from tvseries");
+            TraktLogger.Info("Trakt: Recieved rating event from tvseries");
 
             if (item is DBEpisode)
                 RateEpisode(item as DBEpisode);
@@ -525,7 +525,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(DBSeries series, List<DBEpisode> episodes, bool watched)
         {
-            Log.Info("Trakt: Recieved togglewatched event from tvseries");
+            TraktLogger.Info("Trakt: Recieved togglewatched event from tvseries");
 
             Thread toggleWatched = new Thread(delegate()
             {
