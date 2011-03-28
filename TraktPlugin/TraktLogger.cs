@@ -41,7 +41,8 @@ namespace TraktPlugin
 
         public static void Info(String log)
         {
-            writeToFile(String.Format(createPrefix(), "Info", log));
+            if(TraktSettings.LogLevel >= 2)
+                writeToFile(String.Format(createPrefix(), "Info", log));
         }
 
         public static void Info(String format, params String[] args)
@@ -51,7 +52,8 @@ namespace TraktPlugin
 
         public static void Debug(String log)
         {
-            writeToFile(String.Format(createPrefix(), "Debug", log));
+            if(TraktSettings.LogLevel >= 3)
+                writeToFile(String.Format(createPrefix(), "Debug", log));
         }
 
         public static void Debug(String format, params String[] args)
@@ -61,12 +63,24 @@ namespace TraktPlugin
 
         public static void Error(String log)
         {
-            writeToFile(String.Format(createPrefix(), "Error", log));
+            if(TraktSettings.LogLevel >= 0)
+                writeToFile(String.Format(createPrefix(), "Error", log));
         }
 
         public static void Error(String format, params String[] args)
         {
             Error(String.Format(format, args));
+        }
+
+        public static void Warning(String log)
+        {
+            if(TraktSettings.LogLevel >= 1)
+                writeToFile(String.Format(createPrefix(), "Warning", log));
+        }
+
+        public static void Warning(String format, params String[] args)
+        {
+            Warning(String.Format(format, args));
         }
 
         private static String createPrefix()

@@ -15,6 +15,7 @@ namespace TraktPlugin
         public static int TVSeries { get; set; }
         public static bool KeepTraktLibraryClean { get; set; }
         public static List<String> BlockedFilenames { get; set; }
+        public static int LogLevel { get; set; }
         #endregion
 
         #region Constants
@@ -41,6 +42,7 @@ namespace TraktPlugin
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
                 BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
+                LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
             }
         }
 
