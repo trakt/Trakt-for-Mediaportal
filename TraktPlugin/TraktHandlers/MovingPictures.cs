@@ -41,6 +41,9 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("Trakt: Moving Pictures Starting Sync");
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
 
+            //Remove any blocked movies
+            MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath));
+
             //Get the movies that we have watched
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
 
@@ -179,7 +182,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="state">Scrobbling mode to use</param>
         private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state)
         {
-            TraktLogger.Debug("Trakt: Scrobbling Movie");
+            TraktLogger.Debug("Trakt: Scrobbling Movie {0}", movie.Title);
             Double currentPosition = g_Player.CurrentPosition;
             Double duration = movie.ActualRuntime;
 
@@ -267,14 +270,19 @@ namespace TraktPlugin.TraktHandlers
                 DBMovieInfo movie = userMovieSettings.AttachedMovies[0];
 
                 //We check the watched flag and update Trakt respectfully
-                if (userMovieSettings.WatchedCount == 0)
+                if (!TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath))
                 {
-                    SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
+                    if (userMovieSettings.WatchedCount == 0)
+                    {
+                        SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
+                    }
+                    else
+                    {
+                        SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
+                    }
                 }
                 else
-                {
-                    SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
-                }
+                    TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
 
                 //We will update the Trakt rating of the Movie
                 //TODO: Create a user setting for what they want to define as love/hate
@@ -302,13 +310,19 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A movie has been watched push that out.
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
-                ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
+                if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath))
+                    ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
+                else
+                    TraktLogger.Info("Movie {0} was found as blocked so did not scrobble", watchedEvent.Movie.Title);
             }
             else if (obj.GetType() == typeof(DBMovieInfo))
             {
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
+                if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath))
+                    SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
+                else
+                    TraktLogger.Info("Newly inserted movie, {0}, was found on our block list so wasn't added to Trakt", insertedMovie.Title);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 using MediaPortal.Configuration;
 
 namespace TraktPlugin
@@ -10,12 +11,32 @@ namespace TraktPlugin
     public static class TraktLogger
     {
         private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
+        private static string backupFilename = Config.GetFile(Config.Dir.Log, "TraktPlugin.bak");
 
         static TraktLogger()
         {
-            //Delete our old log file
             if (File.Exists(logFilename))
-                File.Delete(logFilename);
+            {
+                if (File.Exists(backupFilename))
+                {
+                    try
+                    {
+                        File.Delete(backupFilename);
+                    }
+                    catch
+                    {
+                        Error("Failed to remove old backup log");
+                    }
+                }
+                try
+                {
+                    File.Move(logFilename, backupFilename);
+                }
+                catch
+                {
+                    Error("Failed to move logfile to backup");
+                }
+            }    
         }
 
         public static void Info(String log)
@@ -50,14 +71,21 @@ namespace TraktPlugin
 
         private static String createPrefix()
         {
-            return DateTime.Now + " [{0}] {1}";
+            return DateTime.Now + String.Format("[{0}][{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId) +  "[{0}] {1}";
         }
 
         private static void writeToFile(String log)
         {
-            StreamWriter sw = File.AppendText(logFilename);
-            sw.WriteLine(log);
-            sw.Close();
+            try
+            {
+                StreamWriter sw = File.AppendText(logFilename);
+                sw.WriteLine(log);
+                sw.Close();
+            }
+            catch
+            {
+                Error("Failed to write out to log");
+            }
         }
     }
 }

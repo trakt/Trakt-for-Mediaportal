@@ -295,7 +295,7 @@ namespace TraktPlugin.TraktAPI
         {
             if (!string.IsNullOrEmpty(data))
             {
-                TraktLogger.Debug("Trakt Post: " + data);
+                TraktLogger.Debug("Trakt Post: {0} Address: {1}", data, address);
             }
 
             try
@@ -415,14 +415,14 @@ namespace TraktPlugin.TraktAPI
 
             if (r == null || r.Status == null)
             {
-                TraktLogger.Info("Trakt Error: Response from server was unexpected.");
+                TraktLogger.Error("Response from server was unexpected.");
                 return;
             }
 
             // check response error status
             if (r.Status != "success")
             {
-                TraktLogger.Info("Trakt Error: {0}", r.Error);
+                TraktLogger.Error(r.Error);
             }
             else
             {
