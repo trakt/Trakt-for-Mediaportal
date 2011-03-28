@@ -138,8 +138,33 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             if (TraktSettings.KeepTraktLibraryClean)
-            {                
-                // TODO   
+            {
+                TraktLogger.Info("Trakt: Removing Shows From Trakt that are no longer in database");
+
+                // get a list of all episodes in database
+                List<DBEpisode> allEpisodes = DBEpisode.Get(new SQLCondition(), false);
+
+                var uniqueSeries = (from s in allEpisodes select s[DBEpisode.cSeriesID].ToString()).Distinct().ToList();
+
+                // if we no longer have a reference in database to a 'seen' episode
+                // then set it to unseen first, then unlibrary
+                foreach (var series in uniqueSeries)
+                {
+                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(traktWatchedEpisodes.ToList(), allEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series).ToList(), series);
+                    if (syncData == null) continue;
+                    TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unseen);
+                    TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
+                    Thread.Sleep(500);
+                }
+
+                foreach (var series in uniqueSeries)
+                {
+                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(traktUnWatchedEpisodes.ToList(), allEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series).ToList(), series);
+                    if (syncData == null) continue;
+                    TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
+                    Thread.Sleep(500);
+                }
+
             }
 
             SyncInProgress = false;
@@ -401,6 +426,57 @@ namespace TraktPlugin.TraktHandlers
                                                                s.Seasons.Where(e => e.Season == episode[DBOnlineEpisode.cSeasonIndex] &&
                                                                                     e.Episodes.Contains(episode[DBOnlineEpisode.cEpisodeIndex])).Count() == 1);
             return items.Count() == 1;
+        }
+
+        /// <summary>
+        /// Removes episodes on trakt that no longer exist in users database
+        /// </summary>
+        /// <param name="traktShows">trakt episode collection</param>
+        /// <param name="episodes">list of local episodes</param>
+        /// <param name="seriesID">tvdb series id of series</param>
+        /// <returns>true if episode exists</returns>
+        private TraktEpisodeSync GetEpisodesForTraktRemoval(IList<TraktLibraryShows> traktShows, List<DBEpisode> episodes, string seriesID)
+        {
+            List<TraktEpisodeSync.Episode> episodeList = new List<TraktEpisodeSync.Episode>();
+
+            foreach (var traktShow in traktShows.Where(t => t.SeriesId == seriesID))
+            {
+                foreach (var season in traktShow.Seasons)
+                {
+                    foreach (var episode in season.Episodes)
+                    {
+                        var query = episodes.Where(e => e[DBOnlineEpisode.cSeriesID] == seriesID &&
+                                                        e[DBOnlineEpisode.cSeasonIndex] == season.Season &&
+                                                        e[DBOnlineEpisode.cEpisodeIndex] == episode).ToList();
+
+                        if (query.Count == 0)
+                        {
+                            // we dont have the episode
+                            TraktLogger.Info("Trakt: {0} - {1}x{2} does not exist in local database, marked for removal from trakt", traktShow.ToString(), season.Season.ToString(), episode.ToString());
+
+                            TraktEpisodeSync.Episode ep = new TraktEpisodeSync.Episode
+                            {
+                                EpisodeIndex = episode.ToString(),
+                                SeasonIndex = season.Season.ToString()
+                            };
+                            episodeList.Add(ep);
+                        }
+                    }
+                }
+            }
+
+            if (episodeList.Count > 0)
+            {
+                TraktEpisodeSync syncData = new TraktEpisodeSync
+                {
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password,
+                    SeriesID = seriesID,
+                    EpisodeList = episodeList
+                };
+                return syncData;
+            }
+            return null;
         }
 
         #endregion
