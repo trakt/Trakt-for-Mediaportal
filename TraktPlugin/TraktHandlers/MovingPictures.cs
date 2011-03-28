@@ -117,13 +117,16 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var m in NoLongerInOurLibrary)
                     TraktLogger.Info("Trakt: Removing from Trakt {0}", m.Title);
 
-                //First need to unseen them all
-                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                if (NoLongerInOurLibrary.Count > 0)
+                {
+                    //First need to unseen them all
+                    TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
 
-                //Then remove form library
-                response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                    //Then remove form library
+                    response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                }
             }
 
             TraktLogger.Info("Trakt: Moving Pictures Sync Completed");
