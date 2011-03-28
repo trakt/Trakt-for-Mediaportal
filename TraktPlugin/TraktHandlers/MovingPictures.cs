@@ -25,7 +25,7 @@ namespace TraktPlugin.TraktHandlers
         public MovingPictures(int priority)
         {
             Priority = priority;
-            TraktLogger.Debug("Trakt: Adding Hooks to Moving Pictures Database");
+            TraktLogger.Debug("Adding Hooks to Moving Pictures Database");
             MovingPicturesCore.DatabaseManager.ObjectInserted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
             MovingPicturesCore.DatabaseManager.ObjectUpdated += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
             MovingPicturesCore.DatabaseManager.ObjectDeleted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
@@ -38,7 +38,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            TraktLogger.Info("Trakt: Moving Pictures Starting Sync");
+            TraktLogger.Info("Moving Pictures Starting Sync");
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
 
             //Remove any blocked movies
@@ -48,10 +48,10 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
 
             //Get the movies that we have yet to watch
-            TraktLogger.Info("Trakt: Getting Library from Trakt");
+            TraktLogger.Info("Getting Library from Trakt");
             List<TraktLibraryMovies> NoLongerInOurLibrary = new List<TraktLibraryMovies>();
             IEnumerable<TraktLibraryMovies> movies = TraktAPI.TraktAPI.GetMoviesForUser(TraktSettings.Username);
-            TraktLogger.Info("Trakt: Library from Trakt Complete");
+            TraktLogger.Info("Library from Trakt Complete");
 
             foreach (TraktLibraryMovies tlm in movies)
             {
@@ -62,7 +62,7 @@ namespace TraktPlugin.TraktHandlers
                     //If the users IMDB ID is empty and we have matched one then set it
                     if (String.IsNullOrEmpty(libraryMovie.ImdbID))
                     {
-                        TraktLogger.Info("Trakt: Movie {0} inserted IMDBID {1}", libraryMovie.Title, tlm.IMDBID);
+                        TraktLogger.Info("Movie {0} inserted IMDBID {1}", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.ImdbID = tlm.IMDBID;
                         libraryMovie.Commit();
                     }
@@ -70,7 +70,7 @@ namespace TraktPlugin.TraktHandlers
                     //If it is watched in Trakt but not Moving Pictures update
                     if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
                     {
-                        TraktLogger.Info("Trakt: Movie {0} is watched on Trakt updating Database", libraryMovie.Title);
+                        TraktLogger.Info("Movie {0} is watched on Trakt updating Database", libraryMovie.Title);
                         libraryMovie.ActiveUserSettings.WatchedCount = 1;
                         libraryMovie.Commit();
                     }
@@ -89,33 +89,33 @@ namespace TraktPlugin.TraktHandlers
                     NoLongerInOurLibrary.Add(tlm);
             }
 
-            TraktLogger.Info("Trakt: {0} movies need to be added to SeenList", SeenList.Count.ToString());
+            TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
             foreach (DBMovieInfo m in SeenList)
-                TraktLogger.Debug("Trakt: Sending from Seen to Trakt: {0}", m.Title);
+                TraktLogger.Debug("Sending from Seen to Trakt: {0}", m.Title);
 
-            TraktLogger.Info("Trakt: {0} movies need to be added to Library", MovieList.Count.ToString());
+            TraktLogger.Info("{0} movies need to be added to Library", MovieList.Count.ToString());
             foreach (DBMovieInfo m in MovieList)
-                TraktLogger.Debug("Trakt: Sending from UnSeen to Trakt: {0}", m.Title);
+                TraktLogger.Debug("Sending from UnSeen to Trakt: {0}", m.Title);
 
             //Send Unseen
             if (MovieList.Count > 0)
             {
-                TraktLogger.Info("Trakt: Sending Library List");
+                TraktLogger.Info("Sending Library List");
                 TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
             if (SeenList.Count > 0)
             {
-                TraktLogger.Info("Trakt: Sending Seen List");
+                TraktLogger.Info("Sending Seen List");
                 TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
             if (TraktSettings.KeepTraktLibraryClean)
             {
                 //Remove movies we no longer have from Trakt
-                TraktLogger.Info("Trakt: Removing Additional Movies From Trakt");
+                TraktLogger.Info("Removing Additional Movies From Trakt");
                 foreach (var m in NoLongerInOurLibrary)
-                    TraktLogger.Info("Trakt: Removing from Trakt {0}", m.Title);
+                    TraktLogger.Info("Removing from Trakt {0}", m.Title);
 
                 if (NoLongerInOurLibrary.Count > 0)
                 {
@@ -129,7 +129,7 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
 
-            TraktLogger.Info("Trakt: Moving Pictures Sync Completed");
+            TraktLogger.Info("Moving Pictures Sync Completed");
 
         }
 
@@ -141,7 +141,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 //Create timer
                 currentMovie = searchResults[0];
-                TraktLogger.Info(string.Format("Trakt: Found playing movie {0}", currentMovie.Title));
+                TraktLogger.Info(string.Format("Found playing movie {0}", currentMovie.Title));
                 ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
                 traktTimer = new Timer();
                 traktTimer.Interval = 900000;
@@ -150,9 +150,9 @@ namespace TraktPlugin.TraktHandlers
                 return true;
             }
             else if (searchResults.Count == 0)
-                TraktLogger.Debug("Trakt: Playback started but Movie not found");
+                TraktLogger.Debug("Playback started but Movie not found");
             else
-                TraktLogger.Debug("Trakt: Multiple movies found for filename something is up!");
+                TraktLogger.Debug("Multiple movies found for filename something is up!");
             return false;
         }
 
@@ -185,12 +185,12 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="state">Scrobbling mode to use</param>
         private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state)
         {
-            TraktLogger.Debug("Trakt: Scrobbling Movie {0}", movie.Title);
+            TraktLogger.Debug("Scrobbling Movie {0}", movie.Title);
             Double currentPosition = g_Player.CurrentPosition;
             Double duration = movie.ActualRuntime;
 
             Double percentageCompleted = currentPosition / duration * 100;
-            TraktLogger.Debug(string.Format("Trakt: Percentage of {0} is {1}", movie.Title, percentageCompleted.ToString()));
+            TraktLogger.Debug(string.Format("Percentage of {0} is {1}", movie.Title, percentageCompleted.ToString()));
 
             //Create Scrobbling Data
             TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);

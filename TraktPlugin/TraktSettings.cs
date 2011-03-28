@@ -32,7 +32,7 @@ namespace TraktPlugin
         /// </summary>
         public static void loadSettings()
         {
-            TraktLogger.Info("Trakt: Loading Settings");
+            TraktLogger.Info("Loading Settings");
             using (Settings xmlreader = new MPSettings())
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
@@ -49,7 +49,7 @@ namespace TraktPlugin
         /// </summary>
         public static void saveSettings()
         {
-            TraktLogger.Info("Trakt: Saving Settings");
+            TraktLogger.Info("Saving Settings");
             using (Settings xmlwriter = new MPSettings())
             {
                 xmlwriter.SetValue(cTrakt, cUsername, Username);

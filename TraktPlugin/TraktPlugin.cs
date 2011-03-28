@@ -126,16 +126,16 @@ namespace TraktPlugin
         /// </summary>
         public void Start()
         {
-            TraktLogger.Info("Trakt: Starting");
+            TraktLogger.Info("Starting");
             TraktSettings.loadSettings();
 
             if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
             {
-                TraktLogger.Info("Trakt: Username and/or Password is not set in configuration.");
+                TraktLogger.Info("Username and/or Password is not set in configuration.");
                 Stop();
             }
 
-            TraktLogger.Debug("Trakt: Loading Handlers");
+            TraktLogger.Debug("Loading Handlers");
             #region Load Handlers
             if (TraktSettings.MovingPictures != -1)
             {
@@ -145,7 +145,7 @@ namespace TraktPlugin
                 }
                 catch (IOException)
                 {
-                    TraktLogger.Error("Trakt: Tried to load Moving Pictures but failed");
+                    TraktLogger.Error("Tried to load Moving Pictures but failed");
                 }
             }
             if (TraktSettings.TVSeries != -1)
@@ -156,16 +156,16 @@ namespace TraktPlugin
                 }
                 catch (IOException)
                 {
-                    TraktLogger.Error("Trakt: Tried to load TVSeries but failed");
+                    TraktLogger.Error("Tried to load TVSeries but failed");
                 }
             }
             #endregion
 
-            TraktLogger.Debug("Trakt: Sorting by Priority");
+            TraktLogger.Debug("Sorting by Priority");
             TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
             SyncLibrary();
                         
-            TraktLogger.Debug("Trakt: Adding Mediaportal Hooks");
+            TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
@@ -173,7 +173,7 @@ namespace TraktPlugin
             
             if (TraktHandlers.Count == 0)
             {
-                TraktLogger.Info("Trakt: We don't have any Handlers so may as well stop");
+                TraktLogger.Info("We don't have any Handlers so may as well stop");
                 Stop();
             }
         }
@@ -186,7 +186,7 @@ namespace TraktPlugin
             TraktLogger.Debug("Stopping Sync if running");
             syncLibraryWorker.CancelAsync();
 
-            TraktLogger.Debug("Trakt: Removing Mediaportal Hooks");
+            TraktLogger.Debug("Removing Mediaportal Hooks");
             g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded -= new g_Player.EndedHandler(g_Player_PlayBackEnded);
             g_Player.PlayBackStarted -= new g_Player.StartedHandler(g_Player_PlayBackStarted);
@@ -196,7 +196,7 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
-            TraktLogger.Info("Trakt: Goodbye");
+            TraktLogger.Info("Goodbye");
         }
                 
         #endregion
@@ -291,25 +291,25 @@ namespace TraktPlugin
         /// <param name="filename">The video to search for</param>
         private void StartScrobble(String filename)
         {
-            TraktLogger.Debug("Trakt: Making sure that we aren't still scrobbling");
+            TraktLogger.Debug("Making sure that we aren't still scrobbling");
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
             if (!TraktSettings.BlockedFilenames.Contains(filename))
             {
-                TraktLogger.Debug("Trakt: Checking out Libraries for the filename");
+                TraktLogger.Debug("Checking out Libraries for the filename");
                 foreach (ITraktHandler traktHandler in TraktHandlers)
                 {
                     if (traktHandler.Scrobble(filename))
                     {
-                        TraktLogger.Info("Trakt: File was recognised by {0} and is now scrobbling", traktHandler.Name);
+                        TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
                         return;
                     }
                 }
-                TraktLogger.Info("Trakt: File was not recognised");
+                TraktLogger.Info("File was not recognised");
             }
             else
-                TraktLogger.Info("Trakt: Filename was recognised as blocked by user");
+                TraktLogger.Info("Filename was recognised as blocked by user");
             
         }
 
@@ -318,7 +318,7 @@ namespace TraktPlugin
         /// </summary>
         private void StopScrobble()
         {
-            TraktLogger.Debug("Trakt: Making sure that we aren't still scrobbling");
+            TraktLogger.Debug("Making sure that we aren't still scrobbling");
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
         }
