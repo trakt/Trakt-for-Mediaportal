@@ -126,7 +126,7 @@ namespace TraktPlugin
         /// </summary>
         public void Start()
         {
-            TraktLogger.Info("Starting");
+            TraktLogger.Info("Starting Trakt v{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             TraktSettings.loadSettings();
 
             if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))

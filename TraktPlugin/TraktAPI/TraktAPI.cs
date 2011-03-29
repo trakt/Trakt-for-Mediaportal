@@ -204,7 +204,7 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Info("Getting user {0}'s movies", user);
             //Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), GetUserAuthentication());
-            TraktLogger.Debug("{0}", moviesForUser);
+            TraktLogger.Debug("Response: {0}", moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
@@ -218,7 +218,7 @@ namespace TraktPlugin.TraktAPI
         {
             TraktLogger.Info("Getting user {0}'s 'library' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
-            TraktLogger.Debug("{0}", showsForUser);
+            TraktLogger.Debug("Response: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
@@ -231,7 +231,7 @@ namespace TraktPlugin.TraktAPI
         {
             TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
-            TraktLogger.Debug("{0}", showsForUser);
+            TraktLogger.Debug("Response: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShows>();
         }
 
@@ -295,7 +295,7 @@ namespace TraktPlugin.TraktAPI
         {
             if (!string.IsNullOrEmpty(data))
             {
-                TraktLogger.Debug("Trakt Post: {0} Address: {1}", data, address);
+                TraktLogger.Debug("Post: {0} Address: {1}", data, address);
             }
 
             try
@@ -427,7 +427,7 @@ namespace TraktPlugin.TraktAPI
             else
             {
                 // success
-                TraktLogger.Info("Trakt Response: {0}", r.Message);
+                TraktLogger.Info("Response: {0}", r.Message);
             }
         }
 

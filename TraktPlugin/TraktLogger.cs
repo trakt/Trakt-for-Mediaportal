@@ -15,6 +15,9 @@ namespace TraktPlugin
 
         static TraktLogger()
         {
+            // default logging before we load settings
+            TraktSettings.LogLevel = 2;
+
             if (File.Exists(logFilename))
             {
                 if (File.Exists(backupFilename))

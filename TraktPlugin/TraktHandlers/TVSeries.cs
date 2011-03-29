@@ -104,7 +104,8 @@ namespace TraktPlugin.TraktHandlers
                     localUnWatchedEpisodesToSync.Remove(ep);
                 }
             }
-            // sync unseen episodes            
+            // sync unseen episodes
+            TraktLogger.Info("{0} episodes need to be added to Library", localUnWatchedEpisodesToSync.Count.ToString());
             SyncLibrary(localUnWatchedEpisodesToSync, TraktSyncModes.library);
             #endregion
 
@@ -120,6 +121,7 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
             // sync seen episodes
+            TraktLogger.Info("{0} episodes need to be added to SeenList", localWatchedEpisodesToSync.Count.ToString());
             SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
             #endregion
 
@@ -361,7 +363,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Trakt Rate Episode"
+                Name = "Rate Episode"
             };
 
             rateThread.Start();
@@ -378,7 +380,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Trakt Rate Series"
+                Name = "Rate Series"
             };
 
             rateThread.Start();
@@ -502,7 +504,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt TVSeries Sync"
+                    Name = "TVSeries Sync"
                 };
 
                 syncThread.Start();
@@ -553,7 +555,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Trakt Scrobble Episode"
+                Name = "Scrobble Episode"
             };
 
             scrobbleEpisode.Start();
@@ -582,7 +584,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Trakt Cancel Watching"
+                Name = "Cancel Watching Episode"
             };
 
             cancelWatching.Start();      
@@ -609,7 +611,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Trakt TVSeries Toggle Watched"
+                Name = "TVSeries Toggle Watched"
             };
 
             toggleWatched.Start();
