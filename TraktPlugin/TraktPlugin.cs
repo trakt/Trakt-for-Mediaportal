@@ -131,8 +131,9 @@ namespace TraktPlugin
 
             if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
             {
-                TraktLogger.Info("Username and/or Password is not set in configuration.");
+                TraktLogger.Info("Username and/or Password is not set in configuration, stopping plugin load.");
                 Stop();
+                return;
             }
 
             TraktLogger.Debug("Loading Handlers");
@@ -183,8 +184,11 @@ namespace TraktPlugin
         /// </summary>
         public void Stop()
         {
-            TraktLogger.Debug("Stopping Sync if running");
-            syncLibraryWorker.CancelAsync();
+            if (syncLibraryWorker != null)
+            {
+                TraktLogger.Debug("Stopping Sync if running");
+                syncLibraryWorker.CancelAsync();
+            }
 
             TraktLogger.Debug("Removing Mediaportal Hooks");
             g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
