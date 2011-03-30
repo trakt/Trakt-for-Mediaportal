@@ -43,7 +43,7 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="show">The show to base the object on</param>
         /// <returns>The Trakt Sync data to send</returns>
-        public static TraktEpisodeSync CreateEpisodeSyncData(TraktLibraryShows show)
+        public static TraktEpisodeSync CreateEpisodeSyncData(TraktLibraryShow show)
         {
             TraktEpisodeSync syncData = new TraktEpisodeSync
             {

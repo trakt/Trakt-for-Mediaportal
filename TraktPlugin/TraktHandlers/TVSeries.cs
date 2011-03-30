@@ -69,10 +69,10 @@ namespace TraktPlugin.TraktHandlers
             SyncInProgress = true;
 
             // get all episodes on trakt that are marked as 'library'
-            IEnumerable<TraktLibraryShows> traktUnWatchedEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+            IEnumerable<TraktLibraryShow> traktUnWatchedEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
 
             // get all episodes on trakt that are marked as 'seen' or 'watched'
-            IEnumerable<TraktLibraryShows> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+            IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
            
             List<DBEpisode> localUnWatchedEpisodes = new List<DBEpisode>();
             List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
@@ -424,7 +424,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="traktEpisodes">trakt episode collection</param>
         /// <param name="episode">tvseries episode object</param>
         /// <returns>true if episode exists</returns>
-        private bool TraktEpisodeExists(IEnumerable<TraktLibraryShows> traktEpisodes, DBEpisode episode)
+        private bool TraktEpisodeExists(IEnumerable<TraktLibraryShow> traktEpisodes, DBEpisode episode)
         {
             var items = traktEpisodes.Where(s => s.SeriesId == episode[DBOnlineEpisode.cSeriesID] &&
                                                                s.Seasons.Where(e => e.Season == episode[DBOnlineEpisode.cSeasonIndex] &&
@@ -439,7 +439,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="episodes">list of local episodes</param>
         /// <param name="seriesID">tvdb series id of series</param>
         /// <returns>true if episode exists</returns>
-        private TraktEpisodeSync GetEpisodesForTraktRemoval(TraktLibraryShows traktShow, List<DBEpisode> episodes)
+        private TraktEpisodeSync GetEpisodesForTraktRemoval(TraktLibraryShow traktShow, List<DBEpisode> episodes)
         {
             List<TraktEpisodeSync.Episode> episodeList = new List<TraktEpisodeSync.Episode>();
       

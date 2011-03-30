@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktLibraryShows : TraktResponse
+    public class TraktLibraryShow : TraktResponse
     {
         [DataMember(Name = "title")]
         public string Title { get; set; }

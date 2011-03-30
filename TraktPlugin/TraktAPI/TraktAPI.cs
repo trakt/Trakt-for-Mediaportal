@@ -214,12 +214,12 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="user">The user to get</param>
         /// <returns>The trakt episode library</returns>
-        public static IEnumerable<TraktLibraryShows> GetLibraryEpisodesForUser(string user)
+        public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user)
         {
             TraktLogger.Info("Getting user {0}'s 'library' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
-            return showsForUser.FromJSONArray<TraktLibraryShows>();
+            return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
         /// <summary>
@@ -227,12 +227,12 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="user">The user to get</param>
         /// <returns>The trakt episode library</returns>
-        public static IEnumerable<TraktLibraryShows> GetWatchedEpisodesForUser(string user)
+        public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user)
         {
             TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
-            return showsForUser.FromJSONArray<TraktLibraryShows>();
+            return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
         #endregion

@@ -93,6 +93,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeScrobble.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLibraryMovie.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktLibraryShow.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateEpisode.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="TraktAPI\DataStructures\TraktRateResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateSeries.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktLibraryShows.cs" />
     <Compile Include="TraktAPI\StringExtensions.cs" />
     <Compile Include="TraktAPI\TraktAPI.cs" />
     <Compile Include="TraktAPI\TraktURIs.cs" />
@@ -115,6 +115,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Configuration\Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\MovieSelect.resx">
       <DependentUpon>MovieSelect.cs</DependentUpon>
