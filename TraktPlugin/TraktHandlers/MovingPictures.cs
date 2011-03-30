@@ -91,11 +91,11 @@ namespace TraktPlugin.TraktHandlers
 
             TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
             foreach (DBMovieInfo m in SeenList)
-                TraktLogger.Debug("Sending from Seen to Trakt: {0}", m.Title);
+                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID.ToString());
 
             TraktLogger.Info("{0} movies need to be added to Library", MovieList.Count.ToString());
             foreach (DBMovieInfo m in MovieList)
-                TraktLogger.Debug("Sending from UnSeen to Trakt: {0}", m.Title);
+                TraktLogger.Debug("Sending from UnSeen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID.ToString());
 
             //Send Unseen
             if (MovieList.Count > 0)
