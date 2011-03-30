@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-//using MediaPortal.Common.Utils;
+#if MP12
+using MediaPortal.Common.Utils;
+#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -37,4 +39,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.9.3.0")]
 
 // MediaPortal Version Compatibility
-//[assembly: CompatibleVersion("1.1.6.27644")]
+#if MP12
+[assembly: CompatibleVersion("1.1.6.27644")]
+#endif
