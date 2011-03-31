@@ -57,10 +57,10 @@ namespace TraktPlugin.TraktHandlers
             {
                 bool notInLibrary = true;
                 //If it is in both libraries
-                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => m.ImdbID == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
-                    if (String.IsNullOrEmpty(libraryMovie.ImdbID))
+                    if (String.IsNullOrEmpty(libraryMovie.ImdbID) || libraryMovie.ImdbID.Length != 9)
                     {
                         TraktLogger.Info("Movie {0} inserted IMDBID {1}", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.ImdbID = tlm.IMDBID;
@@ -91,11 +91,11 @@ namespace TraktPlugin.TraktHandlers
 
             TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
             foreach (DBMovieInfo m in SeenList)
-                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID.ToString());
+                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
             TraktLogger.Info("{0} movies need to be added to Library", MovieList.Count.ToString());
             foreach (DBMovieInfo m in MovieList)
-                TraktLogger.Debug("Sending from UnSeen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID.ToString());
+                TraktLogger.Debug("Sending from UnSeen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
             //Send Unseen
             if (MovieList.Count > 0)
@@ -502,6 +502,30 @@ namespace TraktPlugin.TraktHandlers
                 Rating = rating
             };
             return rateData;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Gets a correctly formatted imdb id string        
+        /// </summary>
+        /// <param name="id">current movie imdb id</param>
+        /// <returns>correctly formatted id</returns>
+        static string GetProperMovieId(string id)
+        {
+            string imdbid = id;
+
+            // handle invalid ids
+            if (id == null || !id.StartsWith("tt")) return string.Empty;
+
+            // correctly format to 9 char string
+            if (id.Length != 9)
+            {
+                imdbid = string.Format("tt{0}", id.Substring(2).PadLeft(7, '0'));
+            }
+            return imdbid;
         }
 
         #endregion
