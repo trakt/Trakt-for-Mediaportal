@@ -89,27 +89,29 @@ namespace TraktPlugin.TraktHandlers
                     NoLongerInOurLibrary.Add(tlm);
             }
 
-            TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
-            foreach (DBMovieInfo m in SeenList)
-                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
-
+            
+            //Send Unseen
             TraktLogger.Info("{0} movies need to be added to Library", MovieList.Count.ToString());
             foreach (DBMovieInfo m in MovieList)
                 TraktLogger.Debug("Sending from UnSeen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
-            //Send Unseen
             if (MovieList.Count > 0)
             {
-                TraktLogger.Info("Sending Library List");
                 TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+
+            //Send Seen
+            TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
+            foreach (DBMovieInfo m in SeenList)
+                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+
             if (SeenList.Count > 0)
             {
-                TraktLogger.Info("Sending Seen List");
                 TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+
             if (TraktSettings.KeepTraktLibraryClean)
             {
                 //Remove movies we no longer have from Trakt
