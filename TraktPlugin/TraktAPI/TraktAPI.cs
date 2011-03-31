@@ -143,13 +143,13 @@ namespace TraktPlugin.TraktAPI
         /// <param name="syncData">The sync data to send</param>
         /// <param name="mode">The sync mode to use</param>
         /// <returns>The response from trakt</returns>
-        public static TraktResponse SyncMovieLibrary(TraktMovieSync syncData, TraktSyncModes mode)
+        public static TraktMovieSyncResponse SyncMovieLibrary(TraktMovieSync syncData, TraktSyncModes mode)
         {
             // check that we have everything we need
             // server can accept title/year if imdb id is not supplied
             if (syncData == null || syncData.MovieList.Count == 0)
             {
-                TraktResponse error = new TraktResponse
+                TraktMovieSyncResponse error = new TraktMovieSyncResponse
                 {
                     Error = "Not enough information to send to server",
                     Status = "failure"
@@ -160,8 +160,11 @@ namespace TraktPlugin.TraktAPI
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.SyncMovieLibrary, mode.ToString()), syncData.ToJSON());
 
+            // Log how many movies were inserted, skipped, already exist and movie list of failures
+            TraktLogger.Debug("Response: {0}", response);
+
             // return success or failure
-            return response.FromJSON<TraktResponse>();
+            return response.FromJSON<TraktMovieSyncResponse>();
         }
 
         /// <summary>
@@ -411,23 +414,40 @@ namespace TraktPlugin.TraktAPI
         /// <param name="response"></param>
         public static void LogTraktResponse<T>(T response)
         {
-            var r = response as TraktResponse;
+            try
+            {
+                if (response == null || (response as TraktResponse).Status == null)
+                {
+                    TraktLogger.Error("Response from server was unexpected.");
+                    return;
+                }
 
-            if (r == null || r.Status == null)
-            {
-                TraktLogger.Error("Response from server was unexpected.");
-                return;
+                // check response error status
+                if ((response as TraktResponse).Status != "success")
+                {
+                    TraktLogger.Error((response as TraktResponse).Error);
+                }
+                else
+                {
+                    // success
+                    if (!string.IsNullOrEmpty((response as TraktResponse).Message))
+                    {
+                        TraktLogger.Info("Response: {0}", (response as TraktResponse).Message);
+                    }
+                    else
+                    {
+                        // no message returned on movie sync success
+                        if ((response is TraktMovieSyncResponse))
+                        {
+                            string message = "Response: Movies Inserted: {0}, Movies Already Exist: {1}, Movies Skipped: {2}";
+                            TraktLogger.Info(message, (response as TraktMovieSyncResponse).Inserted, (response as TraktMovieSyncResponse).AlreadyExist, (response as TraktMovieSyncResponse).Skipped);
+                        }
+                    }
+                }
             }
-
-            // check response error status
-            if (r.Status != "success")
+            catch (Exception)
             {
-                TraktLogger.Error(r.Error);
-            }
-            else
-            {
-                // success
-                TraktLogger.Info("Response: {0}", r.Message);
+                TraktLogger.Info("Response: {0}", "Failed to interpret response from server");
             }
         }
 

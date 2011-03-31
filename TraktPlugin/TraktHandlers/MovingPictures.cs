@@ -101,13 +101,13 @@ namespace TraktPlugin.TraktHandlers
             if (MovieList.Count > 0)
             {
                 TraktLogger.Info("Sending Library List");
-                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
+                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
             if (SeenList.Count > 0)
             {
                 TraktLogger.Info("Sending Seen List");
-                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
+                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
             if (TraktSettings.KeepTraktLibraryClean)
@@ -120,7 +120,7 @@ namespace TraktPlugin.TraktHandlers
                 if (NoLongerInOurLibrary.Count > 0)
                 {
                     //First need to unseen them all
-                    TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
+                    TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
                     TraktAPI.TraktAPI.LogTraktResponse(response);
 
                     //Then remove form library
