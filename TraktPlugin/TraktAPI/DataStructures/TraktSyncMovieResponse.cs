@@ -19,6 +19,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Skipped { get; set; }
 
         [DataMember(Name = "skipped_movies")]
-        public TraktMovieSync.Movie SkippedMovies { get; set; }
+        public List<TraktMovieSync.Movie> SkippedMovies { get; set; }
     }
 }
