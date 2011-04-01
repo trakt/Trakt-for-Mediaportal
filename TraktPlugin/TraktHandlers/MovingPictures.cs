@@ -189,10 +189,11 @@ namespace TraktPlugin.TraktHandlers
         private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state)
         {
             TraktLogger.Debug("Scrobbling Movie {0}", movie.Title);
+            // MovingPictures stores duration in milliseconds, g_Player reports in seconds
             Double currentPosition = g_Player.CurrentPosition;
-            Double duration = movie.ActualRuntime;
+            Double duration = movie.ActualRuntime / 1000;
 
-            Double percentageCompleted = currentPosition / duration * 100;
+            Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100) : 0.0;
             TraktLogger.Debug(string.Format("Percentage of {0} is {1}", movie.Title, percentageCompleted.ToString()));
 
             //Create Scrobbling Data
@@ -200,8 +201,9 @@ namespace TraktPlugin.TraktHandlers
 
             if (scrobbleData != null)
             {
-                scrobbleData.Duration = duration.ToString();
-                scrobbleData.Progress = percentageCompleted.ToString();
+                // duration is reported in minutes
+                scrobbleData.Duration = Convert.ToInt32(duration / 60).ToString();
+                scrobbleData.Progress = Convert.ToInt32(percentageCompleted).ToString();
                 BackgroundWorker scrobbler = new BackgroundWorker();
                 scrobbler.DoWork += new DoWorkEventHandler(scrobbler_DoWork);
                 scrobbler.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scrobbler_RunWorkerCompleted);
