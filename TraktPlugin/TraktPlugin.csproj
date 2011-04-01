@@ -71,6 +71,9 @@
     <Reference Include="Cornerstone">
       <HintPath>..\Externals\Cornerstone.dll</HintPath>
     </Reference>
+    <Reference Include="Databases">
+      <HintPath>..\Externals\Databases.dll</HintPath>
+    </Reference>
     <Reference Include="Dialogs">
       <HintPath>..\Externals\Dialogs.dll</HintPath>
     </Reference>
@@ -141,6 +144,7 @@
     <Compile Include="TraktAPI\TraktURIs.cs" />
     <Compile Include="TraktHandlers\BasicHandler.cs" />
     <Compile Include="TraktHandlers\MovingPictures.cs" />
+    <Compile Include="TraktHandlers\MyVideos.cs" />
     <Compile Include="TraktHandlers\TVSeries.cs" />
     <Compile Include="TraktLogger.cs" />
     <Compile Include="TraktPlugin.cs" />

@@ -160,6 +160,17 @@ namespace TraktPlugin
                     TraktLogger.Error("Tried to load TVSeries but failed");
                 }
             }
+            if (TraktSettings.MyVideos != -1)
+            {
+                try
+                {
+                    TraktHandlers.Add(new MyVideos(TraktSettings.MyVideos));
+                }
+                catch (IOException)
+                {
+                    TraktLogger.Error("Tried to load My Videos but failed");
+                }
+            }
             #endregion
 
             TraktLogger.Debug("Sorting by Priority");

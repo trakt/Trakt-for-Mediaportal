@@ -112,7 +112,8 @@ namespace TraktPlugin.TraktHandlers
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
-            if (TraktSettings.KeepTraktLibraryClean)
+            // dont clean library if more than one movie plugin installed
+            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1)
             {
                 //Remove movies we no longer have from Trakt
                 TraktLogger.Info("Removing Additional Movies From Trakt");
