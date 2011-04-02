@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using SQLite.NET;
 using MediaPortal.Configuration;
+using MediaPortal.Database;
+using MediaPortal.Video.Database;
 
 namespace TraktPlugin
 {
@@ -42,8 +46,26 @@ namespace TraktPlugin
             //If MyVideos is selected, always installed
             if (TraktSettings.MyVideos > -1)
             {
-                //Load the Movies from MyVideos
-               
+                string sql = "SELECT movieinfo.strTitle, files.strFilename " +
+                             "FROM movieInfo " +
+                             "LEFT JOIN files " +
+                             "ON movieInfo.idMovie=files.idMovie " +
+                             "LEFT JOIN path " +
+                             "ON files.idPath=path.idPath " +
+                             "ORDER BY strTitle";
+
+                SQLiteResultSet results = VideoDatabase.GetResults(sql);
+
+                for (int row = 0; row < results.Rows.Count; row++ )
+                {
+                    string title = DatabaseUtility.Get(results, row, 0);
+                    string filename = Path.Combine(DatabaseUtility.Get(results, row, 1), DatabaseUtility.Get(results, row, 2));                    
+
+                    if (!_blockedFilenames.Contains(filename))
+                        unCheckedMovies.Add(new MovieSelectItem { MovieTitle = title, Filename = new List<string>{filename} });
+                    else
+                        checkedMovies.Add(new MovieSelectItem { MovieTitle = title, Filename = new List<string> { filename } });
+                }
             }
 
             foreach (MovieSelectItem movie in unCheckedMovies)

@@ -50,10 +50,24 @@ namespace TraktPlugin.TraktHandlers
 
             List<IMDBMovie> MovieList = (from IMDBMovie movie in myvideos select movie).ToList();
 
+            // Remove any blocked movies
+            List<int> blockedMovieIds = new List<int>();
+            foreach(string file in TraktSettings.BlockedFilenames)
+            {
+                int pathId = 0;
+                int movieId = 0;
+
+                // get a list of ids for blocked filenames
+                // filename seems to always be empty for an IMDBMovie object!
+                if (VideoDatabase.GetFile(file, out pathId, out movieId, false) > 0)
+                {
+                    blockedMovieIds.Add(movieId);
+                }
+            }
+            MovieList.RemoveAll(m => blockedMovieIds.Contains(m.ID));
+
             // get the movies that we have watched
-            List<IMDBMovie> SeenList = (from IMDBMovie movie in myvideos
-                                        where movie.Watched > 0
-                                        select movie).ToList();
+            List<IMDBMovie> SeenList = MovieList.Where(m => m.Watched > 0).ToList();            
 
             // get the movies that we have yet to watch
             TraktLogger.Info("Getting Library from Trakt");
