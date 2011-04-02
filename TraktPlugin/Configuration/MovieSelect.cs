@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using MediaPortal.Configuration;
 
 namespace TraktPlugin
 {
@@ -25,19 +26,24 @@ namespace TraktPlugin
         private void MovieSelect_Load(object sender, EventArgs e)
         {
             //If MovingPictures is selected
-            if (TraktSettings.MovingPictures > -1)
+            if (TraktSettings.MovingPictures > -1 && File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MovingPictures.dll")))
             {
                 //Load the Movies from Moving Pictures
                 try
                 {
-                    List<MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo> movies = MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo.GetAll();
-                    unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
-                    checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
+                    LoadMoviesFromMovingPictures();
                 }
                 catch (IOException)
                 {
                     TraktLogger.Info("Failed to load Moving Pictures! DLL is missing?");
                 }
+            }
+
+            //If MyVideos is selected, always installed
+            if (TraktSettings.MyVideos > -1)
+            {
+                //Load the Movies from MyVideos
+               
             }
 
             foreach (MovieSelectItem movie in unCheckedMovies)
@@ -46,6 +52,13 @@ namespace TraktPlugin
                 checkedListBoxMovies.Items.Add(movie, true);
 
             checkedListBoxMovies.ItemCheck += new ItemCheckEventHandler(checkedListBoxMovies_ItemCheck);
+        }
+
+        void LoadMoviesFromMovingPictures()
+        {
+            List<MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo> movies = MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo.GetAll();
+            unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
+            checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
         }
 
         void checkedListBoxMovies_ItemCheck(object sender, ItemCheckEventArgs e)
