@@ -69,9 +69,11 @@ namespace TraktPlugin
             }
 
             foreach (MovieSelectItem movie in unCheckedMovies)
-                checkedListBoxMovies.Items.Add(movie, false);
+                if(!checkedListBoxMovies.Items.Contains(movie))
+                    checkedListBoxMovies.Items.Add(movie, false);
             foreach (MovieSelectItem movie in checkedMovies)
-                checkedListBoxMovies.Items.Add(movie, true);
+                if (!checkedListBoxMovies.Items.Contains(movie))
+                    checkedListBoxMovies.Items.Add(movie, false);
 
             checkedListBoxMovies.ItemCheck += new ItemCheckEventHandler(checkedListBoxMovies_ItemCheck);
         }
