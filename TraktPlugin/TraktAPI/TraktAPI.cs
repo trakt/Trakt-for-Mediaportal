@@ -202,11 +202,26 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="user">The user to get</param>
         /// <returns>The trakt movie library</returns>
-        public static IEnumerable<TraktLibraryMovies> GetMoviesForUser(string user)
+        public static IEnumerable<TraktLibraryMovies> GetMovieCollectionForUser(string user)
         {
-            TraktLogger.Info("Getting user {0}'s movies", user);
+            TraktLogger.Info("Getting user {0}'s movie collection from trakt", user);
             //Get the library
-            string moviesForUser = Transmit(string.Format(TraktURIs.UserLibraryMovies, user), GetUserAuthentication());
+            string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesCollection, user), GetUserAuthentication());
+            TraktLogger.Debug("Response: {0}", moviesForUser);
+            //hand it on
+            return moviesForUser.FromJSONArray<TraktLibraryMovies>();
+        }
+
+        /// <summary>
+        /// Gets all movies for a user from trakt, including movies not in collection
+        /// </summary>
+        /// <param name="user">The user to get</param>
+        /// <returns>The trakt movie library</returns>
+        public static IEnumerable<TraktLibraryMovies> GetAllMoviesForUser(string user)
+        {
+            TraktLogger.Info("Getting user {0}'s movies from trakt", user);
+            //Get the library
+            string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesAll, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", moviesForUser);
             //hand it on
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
@@ -219,8 +234,8 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user)
         {
-            TraktLogger.Info("Getting user {0}'s 'library' episodes", user);
-            string showsForUser = Transmit(string.Format(TraktURIs.UserLibraryEpisodes, user), GetUserAuthentication());
+            TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", user);
+            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesCollection, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
@@ -232,7 +247,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user)
         {
-            TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes", user);
+            TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
             return showsForUser.FromJSONArray<TraktLibraryShow>();
@@ -336,9 +351,9 @@ namespace TraktPlugin.TraktAPI
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.movies)
             {
                 TraktLogger.Info("Removing Movies from Trakt");
-                TraktLogger.Info("NOTE WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
+                TraktLogger.Info("NOTE: WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
                 progressDialog.Line2 = "Getting movies for user";
-                List<TraktLibraryMovies> movies = GetMoviesForUser(TraktSettings.Username).ToList();
+                List<TraktLibraryMovies> movies = GetAllMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
 
@@ -366,7 +381,7 @@ namespace TraktPlugin.TraktAPI
             if (mode == TraktClearingModes.all || mode == TraktClearingModes.episodes)
             {
                 TraktLogger.Info("Removing Shows from Trakt");
-                TraktLogger.Info("NOTE WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
+                TraktLogger.Info("NOTE: WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
 
                 TraktLogger.Info("First removing shows from seen");
                 progressDialog.Line2 = "Getting Watched Episodes from Trakt";

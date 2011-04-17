@@ -68,45 +68,49 @@ namespace TraktPlugin.TraktHandlers
 
             SyncInProgress = true;
 
-            // get all episodes on trakt that are marked as 'library'
-            IEnumerable<TraktLibraryShow> traktUnWatchedEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+            // get all episodes on trakt that are marked as in 'collection'
+            IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
 
             // get all episodes on trakt that are marked as 'seen' or 'watched'
             IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
-           
-            List<DBEpisode> localUnWatchedEpisodes = new List<DBEpisode>();
+
+            List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
+            List<DBEpisode> localCollectionEpisodes = new List<DBEpisode>();
             List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
 
-            // Get unwatched episodes of files that we have locally
+            // Get all episodes in database
             SQLCondition conditions = new SQLCondition();
             conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cWatched, 0, SQLConditionType.Equal);
-            conditions.Add(new DBEpisode(), DBEpisode.cFilename, string.Empty, SQLConditionType.NotEqual);
-            localUnWatchedEpisodes = DBEpisode.Get(conditions, false);
+            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);            
+            localAllEpisodes = DBEpisode.Get(conditions, false);
+
+            TraktLogger.Info("{0} total episodes in tvseries database", localAllEpisodes.Count.ToString());
+
+            // Get episodes of files that we have locally
+            localCollectionEpisodes = localAllEpisodes.Where(e => !string.IsNullOrEmpty(e[DBEpisode.cFilename].ToString())).ToList();
+
+            TraktLogger.Info("{0} episodes with local files in tvseries database", localCollectionEpisodes.Count.ToString());
 
             // Get watched episodes of files that we have locally or are remote
-            // user could of deleted episode from disk but still have reference to it in database
-            conditions = new SQLCondition();
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cWatched, 1, SQLConditionType.Equal);
-            localWatchedEpisodes = DBEpisode.Get(conditions, false);
+            // user could of deleted episode from disk but still have reference to it in database           
+            localWatchedEpisodes = localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] > 0).ToList();
 
-            #region sync unseen to trakt
+            TraktLogger.Info("{0} episodes watched in tvseries database", localWatchedEpisodes.Count.ToString());
+
+            #region sync collection/library to trakt
             // get list of episodes that we have not already trakt'd
-            List<DBEpisode> localUnWatchedEpisodesToSync = new List<DBEpisode>(localUnWatchedEpisodes);
-            foreach (DBEpisode ep in localUnWatchedEpisodes)
+            List<DBEpisode> localEpisodesToSync = new List<DBEpisode>(localCollectionEpisodes);
+            foreach (DBEpisode ep in localCollectionEpisodes)
             {
-                if (TraktEpisodeExists(traktUnWatchedEpisodes, ep))
+                if (TraktEpisodeExists(traktCollectionEpisodes, ep))
                 {
                     // no interest in syncing, remove
-                    localUnWatchedEpisodesToSync.Remove(ep);
+                    localEpisodesToSync.Remove(ep);
                 }
             }
             // sync unseen episodes
-            TraktLogger.Info("{0} episodes need to be added to Library", localUnWatchedEpisodesToSync.Count.ToString());
-            SyncLibrary(localUnWatchedEpisodesToSync, TraktSyncModes.library);
+            TraktLogger.Info("{0} episodes need to be added to Library", localEpisodesToSync.Count.ToString());
+            SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
             #endregion
 
             #region sync seen to trakt
@@ -127,7 +131,7 @@ namespace TraktPlugin.TraktHandlers
 
             #region sync watched flags from trakt locally
             // Sync watched flags from trakt to local database
-            foreach (DBEpisode ep in localUnWatchedEpisodes)
+            foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 0))
             {
                 if (TraktEpisodeExists(traktWatchedEpisodes, ep))
                 {
@@ -141,28 +145,12 @@ namespace TraktPlugin.TraktHandlers
 
             if (TraktSettings.KeepTraktLibraryClean)
             {
-                TraktLogger.Info("Removing Shows From Trakt that are no longer in database");
+                TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
 
-                // get a list of all episodes in database
-                List<DBEpisode> allEpisodes = DBEpisode.Get(new SQLCondition(), false);
-
-                // if we no longer have a reference in database to a 'seen' episode
-                // then set it to unseen first, then unlibrary
-                foreach (var series in traktWatchedEpisodes)
+                // if we no longer have a file reference in database remove from library
+                foreach (var series in traktCollectionEpisodes)
                 {
-                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, allEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
-                    if (syncData == null) continue;
-                    TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unseen);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-                    Thread.Sleep(500);
-                    response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-                    Thread.Sleep(500);
-                }
-
-                foreach (var series in traktUnWatchedEpisodes)
-                {
-                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, allEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
+                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
                     if (syncData == null) continue;
                     TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
                     TraktAPI.TraktAPI.LogTraktResponse(response);

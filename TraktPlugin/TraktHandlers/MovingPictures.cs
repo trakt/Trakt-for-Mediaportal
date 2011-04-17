@@ -39,95 +39,109 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("Moving Pictures Starting Sync");
-            List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
+
+            //Get all movies in our local database
+            List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();            
 
             //Remove any blocked movies
             MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath));
 
+            TraktLogger.Info("{0} movies available to sync in MovingPictures database", MovieList.Count.ToString());
+
             //Get the movies that we have watched
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
 
-            //Get the movies that we have yet to watch
-            TraktLogger.Info("Getting Library from Trakt");
-            List<TraktLibraryMovies> NoLongerInOurLibrary = new List<TraktLibraryMovies>();
-            IEnumerable<TraktLibraryMovies> movies = TraktAPI.TraktAPI.GetMoviesForUser(TraktSettings.Username);
-            TraktLogger.Info("Library from Trakt Complete");
+            TraktLogger.Info("{0} watched movies available to sync in MovingPictures database", SeenList.Count.ToString());
 
-            foreach (TraktLibraryMovies tlm in movies)
+            //Get all movies we have in our library including movies in users collection            
+            IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
+
+            #region Movies to Sync to Collection
+            //Filter out a list of movies we have already sync'd in our collection
+            List<TraktLibraryMovies> NoLongerInOurCollection = new List<TraktLibraryMovies>();
+            List<DBMovieInfo> moviesToSync = new List<DBMovieInfo>(MovieList);
+            foreach (TraktLibraryMovies tlm in traktMoviesAll)
             {
-                bool notInLibrary = true;
-                //If it is in both libraries
-                foreach (DBMovieInfo libraryMovie in MovieList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                bool notInLocalCollection = true;
+                foreach (DBMovieInfo movie in MovieList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
-                    if (String.IsNullOrEmpty(libraryMovie.ImdbID) || libraryMovie.ImdbID.Length != 9)
+                    if (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9)
                     {
-                        TraktLogger.Info("Movie {0} inserted IMDBID {1}", libraryMovie.Title, tlm.IMDBID);
-                        libraryMovie.ImdbID = tlm.IMDBID;
-                        libraryMovie.Commit();
+                        TraktLogger.Info("Movie {0} inserted IMDBID {1}", movie.Title, tlm.IMDBID);
+                        movie.ImdbID = tlm.IMDBID;
+                        movie.Commit();
                     }
 
                     //If it is watched in Trakt but not Moving Pictures update
-                    if (tlm.Plays > 0 && libraryMovie.ActiveUserSettings.WatchedCount == 0)
+                    if (tlm.Plays > 0 && movie.ActiveUserSettings.WatchedCount == 0)
                     {
-                        TraktLogger.Info("Movie {0} is watched on Trakt updating Database", libraryMovie.Title);
-                        libraryMovie.ActiveUserSettings.WatchedCount = 1;
-                        libraryMovie.Commit();
+                        TraktLogger.Info("Movie {0} is watched on Trakt updating Database", movie.Title);
+                        movie.ActiveUserSettings.WatchedCount = 1;
+                        movie.Commit();
                     }
-                    notInLibrary = false;
 
-                    //We want to widdle down the movies in seen and unseen if they are already on Trakt
-                    //also remove any duplicates we have locally so we dont re-submit every sync
-                    if (tlm.Plays > 0)
-                        SeenList.RemoveAll(m => m.ImdbID == tlm.IMDBID);
-                    MovieList.RemoveAll(m => m.ImdbID == tlm.IMDBID);
+                    notInLocalCollection = false;
+
+                    //filter out if its already in collection
+                    if (tlm.InCollection)
+                        moviesToSync.RemoveAll(m => m.ImdbID == tlm.IMDBID);
                     break;
-                  
                 }
 
-                if (notInLibrary)
-                    NoLongerInOurLibrary.Add(tlm);
+                if (notInLocalCollection && tlm.InCollection)
+                    NoLongerInOurCollection.Add(tlm);
             }
+            #endregion
 
-            
-            //Send Unseen
-            TraktLogger.Info("{0} movies need to be added to Library", MovieList.Count.ToString());
-            foreach (DBMovieInfo m in MovieList)
-                TraktLogger.Debug("Sending from UnSeen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
-
-            if (MovieList.Count > 0)
+            #region Movies to Sync to Seen Collection
+            //Filter out a list of movies already marked as watched on trakt
+            List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
+            foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0))
             {
-                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(MovieList), TraktSyncModes.library);
+                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                {
+                    //filter out
+                    watchedMoviesToSync.Remove(watchedMovie);
+                }
+            }
+            #endregion
+
+            //Send Library/Collection
+            TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
+            foreach (DBMovieInfo m in moviesToSync)
+                TraktLogger.Debug("Sending movie to trakt library, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+
+            if (moviesToSync.Count > 0)
+            {
+                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
             //Send Seen
-            TraktLogger.Info("{0} movies need to be added to SeenList", SeenList.Count.ToString());
-            foreach (DBMovieInfo m in SeenList)
-                TraktLogger.Debug("Sending from Seen to Trakt, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+            TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
+            foreach (DBMovieInfo m in watchedMoviesToSync)
+                TraktLogger.Debug("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
-            if (SeenList.Count > 0)
+            if (watchedMoviesToSync.Count > 0)
             {
-                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(SeenList), TraktSyncModes.seen);
+                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
-            // dont clean library if more than one movie plugin installed
+            //Dont clean library if more than one movie plugin installed
             if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1)
             {
-                //Remove movies we no longer have from Trakt
-                TraktLogger.Info("Removing Additional Movies From Trakt");
-                foreach (var m in NoLongerInOurLibrary)
-                    TraktLogger.Info("Removing from Trakt {0}", m.Title);
+                //Remove movies we no longer have in our local database from Trakt
+                foreach (var m in NoLongerInOurCollection)
+                    TraktLogger.Info("Removing from Trakt Collection {0}", m.Title);
 
-                if (NoLongerInOurLibrary.Count > 0)
+                TraktLogger.Info("{0} movies need to be removed from Trakt Collection", NoLongerInOurCollection.Count.ToString());
+
+                if (NoLongerInOurCollection.Count > 0)
                 {
-                    //First need to unseen them all
-                    TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unseen);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-
-                    //Then remove form library
-                    response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurLibrary), TraktSyncModes.unlibrary);
+                    //Then remove from library
+                    TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
                     TraktAPI.TraktAPI.LogTraktResponse(response);
                 }
             }
