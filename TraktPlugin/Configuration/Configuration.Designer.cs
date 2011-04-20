@@ -193,6 +193,7 @@
             this.ttpConfig.IsBalloon = true;
             this.ttpConfig.ReshowDelay = 100;
             this.ttpConfig.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ttpConfig.ToolTipTitle = "Help";
             // 
             // btnTVSeriesRestrictions
             // 
