@@ -21,6 +21,7 @@ namespace TraktPlugin.TraktHandlers
     {
         Timer traktTimer;
         DBMovieInfo currentMovie;
+        bool SyncInProgress;
 
         public MovingPictures(int priority)
         {
@@ -39,6 +40,7 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("Moving Pictures Starting Sync");
+            SyncInProgress = true;
 
             //Get all movies in our local database
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();            
@@ -146,6 +148,7 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
 
+            SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
 
         }
@@ -298,6 +301,10 @@ namespace TraktPlugin.TraktHandlers
                 //We check the watched flag and update Trakt respectfully
                 if (!TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath))
                 {
+                    // if we are syncing, we maybe manually setting state from trakt
+                    // in this case we dont want to resend to trakt
+                    if (SyncInProgress) return;
+
                     if (userMovieSettings.WatchedCount == 0)
                     {
                         SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
