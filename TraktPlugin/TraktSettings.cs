@@ -17,6 +17,7 @@ namespace TraktPlugin
         public static bool KeepTraktLibraryClean { get; set; }
         public static List<String> BlockedFilenames { get; set; }
         public static int LogLevel { get; set; }
+        public static int SyncTimerLength { get; set; }
         #endregion
 
         #region Constants
@@ -28,6 +29,7 @@ namespace TraktPlugin
         private const string cMyVideos = "MyVideos";
         private const string cKeepTraktLibraryClean = "KeepLibraryClean";
         private const string cBlockedFilenames = "BlockedFilenames";
+        private const string cSyncTimerLength = "SyncTimerLength";
         #endregion
 
         /// <summary>
@@ -61,6 +63,7 @@ namespace TraktPlugin
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
                 BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
+                SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
             }
         }
 
@@ -79,6 +82,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMyVideos, MyVideos);
                 xmlwriter.SetValueAsBool(cTrakt, cKeepTraktLibraryClean, KeepTraktLibraryClean);
                 xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
             }
         }
     }

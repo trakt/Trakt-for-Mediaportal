@@ -196,7 +196,7 @@ namespace TraktPlugin
                     System.Threading.Thread.Sleep(50);
                     SyncLibrary();
                 });
-                syncLibraryTimer.Interval = 86400000;
+                syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
                 syncLibraryTimer.Enabled = true;
             }
         }
