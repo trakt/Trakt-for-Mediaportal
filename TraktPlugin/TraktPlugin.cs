@@ -182,11 +182,22 @@ namespace TraktPlugin
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
-            
+
             if (TraktHandlers.Count == 0)
             {
                 TraktLogger.Info("We don't have any Handlers so may as well stop");
                 Stop();
+            }
+            else
+            {
+                Timer syncLibraryTimer = new Timer();
+                syncLibraryTimer.Tick += new EventHandler(delegate(object o, EventArgs e)
+                {
+                    System.Threading.Thread.Sleep(50);
+                    SyncLibrary();
+                });
+                syncLibraryTimer.Interval = 86400000;
+                syncLibraryTimer.Enabled = true;
             }
         }
 
