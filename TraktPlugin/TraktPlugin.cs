@@ -193,7 +193,7 @@ namespace TraktPlugin
                 Timer syncLibraryTimer = new Timer();
                 syncLibraryTimer.Tick += new EventHandler(delegate(object o, EventArgs e)
                 {
-                    System.Threading.Thread.Sleep(50);
+                    System.Threading.Thread.Sleep(60);
                     SyncLibrary();
                 });
                 syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
