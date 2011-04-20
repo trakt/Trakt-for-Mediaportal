@@ -109,7 +109,12 @@ namespace TraktPlugin.TraktHandlers
 
                     //filter out if its already in collection
                     if (tlm.InCollection)
-                        moviesToSync.RemoveAll(m => m.IMDBNumber == tlm.IMDBID);
+                    {
+                        if (!string.IsNullOrEmpty(tlm.IMDBID))
+                            moviesToSync.RemoveAll(m => m.IMDBNumber == tlm.IMDBID);
+                        else
+                            moviesToSync.RemoveAll(m => m.Title == tlm.Title && m.Year.ToString() == tlm.Year);
+                    }
                     break;
                 }
 
