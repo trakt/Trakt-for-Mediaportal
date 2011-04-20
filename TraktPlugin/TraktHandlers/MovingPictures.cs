@@ -264,23 +264,14 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="obj"></param>
         private void DatabaseManager_ObjectDeleted(Cornerstone.Database.Tables.DatabaseTable obj)
         {
-            //If DBWatchedHistory is deleted we want to check if it is still watched
-            if (obj.GetType() == typeof(DBWatchedHistory))
-            {
-                //Unwatched?
-                DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
-                if (watchedEvent.Movie.ActiveUserSettings.WatchedCount == 0)
-                    SyncMovie(CreateSyncData(watchedEvent.Movie), TraktSyncModes.unseen);
-            }
             //If we have removed a movie from Moving Pictures we want to update Trakt library
-            else if (obj.GetType() == typeof(DBMovieInfo))
+            if (obj.GetType() == typeof(DBMovieInfo))
             {
-                //Only remove if the user wants us to
+                //Only remove from collection if the user wants us to
                 if (TraktSettings.KeepTraktLibraryClean)
                 {
                     //A Movie was removed from the database update trakt
                     DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                    SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.unseen);
                     SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.unlibrary);
                 }
             }
