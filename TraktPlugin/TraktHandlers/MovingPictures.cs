@@ -66,7 +66,7 @@ namespace TraktPlugin.TraktHandlers
                 foreach (DBMovieInfo movie in MovieList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
-                    if (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9)
+                    if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
                     {
                         TraktLogger.Info("Movie {0} inserted IMDBID {1}", movie.Title, tlm.IMDBID);
                         movie.ImdbID = tlm.IMDBID;
