@@ -166,6 +166,7 @@
             this.lbSyncTimerLength.Size = new System.Drawing.Size(143, 13);
             this.lbSyncTimerLength.TabIndex = 3;
             this.lbSyncTimerLength.Text = "Sync with Trakt every [X] hrs";
+            this.ttpConfig.SetToolTip(this.lbSyncTimerLength, "Set this to the value in hours that you want to wait to resync with Trakt");
             // 
             // cbTraktSyncLength
             // 
