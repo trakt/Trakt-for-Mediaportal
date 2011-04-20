@@ -127,10 +127,15 @@ attempt to sync first, it will also attempt to see if its the current plugin whe
 Your most frequently used plugin should be at the top.</value>
   </data>
   <data name="cbKeepInSync.ToolTip" xml:space="preserve">
-    <value>Enable this option if you want trakt to remove movies/episodes that are no longer
-in your database. This is not recommended for people that might have different 
-collections on multiple computers being syncronised.
+    <value>Enable this option if you want the plugin to keep your trakt collection synchronised when
+you delete episodes and movies from your local database. This is not recommended 
+for people that might have different collections on multiple computers being syncronised.
 
-Note: this will not clear items that have been scrobbled, this must be handled manually online.</value>
+When you view your collection online, trakt will show you exactly the same items that exist in
+your local library. Items that you have marked as watched or rated online will still exist in your
+library, this only affects your collection.
+
+Note: this will not clear items that have been watched or rated, the site will always keep a history
+of this unless you manually take that action.</value>
   </data>
 </root>

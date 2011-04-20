@@ -160,7 +160,9 @@
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
             this.btnClearLibrary.TabIndex = 4;
-            this.btnClearLibrary.Text = "Clear My Library";
+            this.btnClearLibrary.Text = "Clear Trakt Library";
+            this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
+                    "arked as watched or rated online.");
             this.btnClearLibrary.UseVisualStyleBackColor = true;
             this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
             // 
@@ -169,9 +171,9 @@
             this.cbKeepInSync.AutoSize = true;
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 20);
             this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(243, 17);
+            this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
             this.cbKeepInSync.TabIndex = 3;
-            this.cbKeepInSync.Text = "Remove items no longer in database on Sync.";
+            this.cbKeepInSync.Text = "Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
