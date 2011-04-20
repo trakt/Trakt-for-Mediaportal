@@ -72,7 +72,7 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
             this.tbPassword.Size = new System.Drawing.Size(211, 20);
-            this.tbPassword.TabIndex = 1;
+            this.tbPassword.TabIndex = 3;
             this.tbPassword.UseSystemPasswordChar = true;
             this.tbPassword.Enter += new System.EventHandler(this.tbPassword_Enter);
             // 
@@ -81,7 +81,7 @@
             this.tbUsername.Location = new System.Drawing.Point(67, 22);
             this.tbUsername.Name = "tbUsername";
             this.tbUsername.Size = new System.Drawing.Size(211, 20);
-            this.tbUsername.TabIndex = 0;
+            this.tbUsername.TabIndex = 1;
             this.tbUsername.TextChanged += new System.EventHandler(this.tbUsername_TextChanged);
             // 
             // lbPassword
@@ -90,8 +90,8 @@
             this.lbPassword.Location = new System.Drawing.Point(6, 51);
             this.lbPassword.Name = "lbPassword";
             this.lbPassword.Size = new System.Drawing.Size(53, 13);
-            this.lbPassword.TabIndex = 0;
-            this.lbPassword.Text = "Password";
+            this.lbPassword.TabIndex = 2;
+            this.lbPassword.Text = "&Password";
             // 
             // lbUsername
             // 
@@ -100,7 +100,7 @@
             this.lbUsername.Name = "lbUsername";
             this.lbUsername.Size = new System.Drawing.Size(55, 13);
             this.lbUsername.TabIndex = 0;
-            this.lbUsername.Text = "Username";
+            this.lbUsername.Text = "&Username";
             // 
             // gbPlugins
             // 
@@ -120,7 +120,7 @@
             this.btnDown.Location = new System.Drawing.Point(249, 53);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(29, 30);
-            this.btnDown.TabIndex = 7;
+            this.btnDown.TabIndex = 2;
             this.btnDown.UseVisualStyleBackColor = true;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
@@ -130,7 +130,7 @@
             this.btnUp.Location = new System.Drawing.Point(249, 19);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(29, 29);
-            this.btnUp.TabIndex = 6;
+            this.btnUp.TabIndex = 1;
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
@@ -140,7 +140,7 @@
             this.clbPlugins.Location = new System.Drawing.Point(9, 19);
             this.clbPlugins.Name = "clbPlugins";
             this.clbPlugins.Size = new System.Drawing.Size(233, 64);
-            this.clbPlugins.TabIndex = 5;
+            this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
             // gbMisc
@@ -150,7 +150,7 @@
             this.gbMisc.Location = new System.Drawing.Point(12, 266);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(288, 78);
-            this.gbMisc.TabIndex = 2;
+            this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
             // 
@@ -159,8 +159,8 @@
             this.btnClearLibrary.Location = new System.Drawing.Point(6, 45);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 4;
-            this.btnClearLibrary.Text = "Clear Trakt Library";
+            this.btnClearLibrary.TabIndex = 1;
+            this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
                     "arked as watched or rated online.");
             this.btnClearLibrary.UseVisualStyleBackColor = true;
@@ -172,8 +172,8 @@
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 20);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
-            this.cbKeepInSync.TabIndex = 3;
-            this.cbKeepInSync.Text = "Keep library/collection clean on trakt.";
+            this.cbKeepInSync.TabIndex = 0;
+            this.cbKeepInSync.Text = "&Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
@@ -183,8 +183,8 @@
             this.btnOK.Location = new System.Drawing.Point(227, 350);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 3;
-            this.btnOK.Text = "OK";
+            this.btnOK.TabIndex = 4;
+            this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -203,7 +203,7 @@
             this.btnTVSeriesRestrictions.Name = "btnTVSeriesRestrictions";
             this.btnTVSeriesRestrictions.Size = new System.Drawing.Size(104, 23);
             this.btnTVSeriesRestrictions.TabIndex = 0;
-            this.btnTVSeriesRestrictions.Text = "Series...";
+            this.btnTVSeriesRestrictions.Text = "&Series...";
             this.ttpConfig.SetToolTip(this.btnTVSeriesRestrictions, "Select the series you want to ignore from Syncronization and Scrobbling.");
             this.btnTVSeriesRestrictions.UseVisualStyleBackColor = true;
             this.btnTVSeriesRestrictions.Click += new System.EventHandler(this.btnTVSeriesRestrictions_Click);
@@ -215,7 +215,7 @@
             this.gbRestrictions.Location = new System.Drawing.Point(12, 207);
             this.gbRestrictions.Name = "gbRestrictions";
             this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
-            this.gbRestrictions.TabIndex = 5;
+            this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
             // 
@@ -224,8 +224,8 @@
             this.btnMovieRestrictions.Location = new System.Drawing.Point(138, 20);
             this.btnMovieRestrictions.Name = "btnMovieRestrictions";
             this.btnMovieRestrictions.Size = new System.Drawing.Size(104, 23);
-            this.btnMovieRestrictions.TabIndex = 0;
-            this.btnMovieRestrictions.Text = "Movies...";
+            this.btnMovieRestrictions.TabIndex = 1;
+            this.btnMovieRestrictions.Text = "&Movies...";
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
