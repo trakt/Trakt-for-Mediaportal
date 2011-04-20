@@ -40,6 +40,8 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.lbSyncTimerLength = new System.Windows.Forms.Label();
+            this.cbTraktSyncLength = new System.Windows.Forms.ComboBox();
             this.btnClearLibrary = new System.Windows.Forms.Button();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -145,21 +147,48 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.lbSyncTimerLength);
+            this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 266);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(288, 78);
+            this.gbMisc.Size = new System.Drawing.Size(288, 97);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
             // 
+            // lbSyncTimerLength
+            // 
+            this.lbSyncTimerLength.AutoSize = true;
+            this.lbSyncTimerLength.Location = new System.Drawing.Point(67, 21);
+            this.lbSyncTimerLength.Name = "lbSyncTimerLength";
+            this.lbSyncTimerLength.Size = new System.Drawing.Size(143, 13);
+            this.lbSyncTimerLength.TabIndex = 3;
+            this.lbSyncTimerLength.Text = "Sync with Trakt every [X] hrs";
+            // 
+            // cbTraktSyncLength
+            // 
+            this.cbTraktSyncLength.FormattingEnabled = true;
+            this.cbTraktSyncLength.Items.AddRange(new object[] {
+            "1",
+            "6",
+            "12",
+            "24"});
+            this.cbTraktSyncLength.Location = new System.Drawing.Point(9, 18);
+            this.cbTraktSyncLength.Name = "cbTraktSyncLength";
+            this.cbTraktSyncLength.Size = new System.Drawing.Size(52, 21);
+            this.cbTraktSyncLength.TabIndex = 0;
+            this.cbTraktSyncLength.Text = "24";
+            this.ttpConfig.SetToolTip(this.cbTraktSyncLength, "Set this to the value in hours that you want to wait to resync with Trakt");
+            this.cbTraktSyncLength.SelectedValueChanged += new System.EventHandler(this.cbTraktSyncLength_SelectedValueChanged);
+            // 
             // btnClearLibrary
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(6, 45);
+            this.btnClearLibrary.Location = new System.Drawing.Point(7, 68);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 1;
+            this.btnClearLibrary.TabIndex = 2;
             this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
                     "arked as watched or rated online.");
@@ -169,10 +198,10 @@
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(9, 20);
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 45);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
-            this.cbKeepInSync.TabIndex = 0;
+            this.cbKeepInSync.TabIndex = 1;
             this.cbKeepInSync.Text = "&Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
@@ -180,7 +209,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 350);
+            this.btnOK.Location = new System.Drawing.Point(227, 369);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -233,7 +262,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 382);
+            this.ClientSize = new System.Drawing.Size(312, 404);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -274,5 +303,7 @@
         private System.Windows.Forms.GroupBox gbRestrictions;
         private System.Windows.Forms.Button btnTVSeriesRestrictions;
         private System.Windows.Forms.Button btnMovieRestrictions;
+        private System.Windows.Forms.ComboBox cbTraktSyncLength;
+        private System.Windows.Forms.Label lbSyncTimerLength;
     }
 }

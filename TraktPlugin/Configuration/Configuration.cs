@@ -43,6 +43,7 @@ namespace TraktPlugin
             }
             
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
+            cbTraktSyncLength.SelectedItem = (TraktSettings.SyncTimerLength / 3600000).ToString();
             #endregion
 
             // handle events now that we have populated default settings
@@ -205,6 +206,11 @@ namespace TraktPlugin
             {
                 TraktSettings.BlockedFilenames = MovieSelectDlg.BlockedFilenames;
             }
+        }
+
+        private void cbTraktSyncLength_SelectedValueChanged(object sender, EventArgs e)
+        {
+            TraktSettings.SyncTimerLength = int.Parse(cbTraktSyncLength.SelectedItem.ToString()) * 3600000;
         }
 
     }
