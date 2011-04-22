@@ -117,7 +117,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (DBMovieInfo m in moviesToSync)
-                TraktLogger.Debug("Sending movie to trakt library, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
             if (moviesToSync.Count > 0)
             {
@@ -128,7 +128,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (DBMovieInfo m in watchedMoviesToSync)
-                TraktLogger.Debug("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
 
             if (watchedMoviesToSync.Count > 0)
             {
