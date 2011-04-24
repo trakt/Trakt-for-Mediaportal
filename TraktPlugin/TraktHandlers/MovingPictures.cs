@@ -294,13 +294,21 @@ namespace TraktPlugin.TraktHandlers
                 DBUserMovieSettings userMovieSettings = (DBUserMovieSettings)obj;
                 DBMovieInfo movie = userMovieSettings.AttachedMovies[0];
 
-                //We check the watched flag and update Trakt respectfully
-                if (!TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath))
+                // don't do anything if movie is blocked
+                if (TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath))
                 {
-                    // if we are syncing, we maybe manually setting state from trakt
-                    // in this case we dont want to resend to trakt
-                    if (SyncInProgress) return;
+                    TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
+                    return;
+                }
 
+                // if we are syncing, we maybe manually setting state from trakt
+                // in this case we dont want to resend to trakt
+                if (SyncInProgress) return;
+
+                //We check the watched flag and update Trakt respectfully
+                //ignore if movie is the current movie being scrobbled, this will be set to watched automatically
+                if (userMovieSettings.WatchCountChanged && movie != currentMovie)
+                {
                     if (userMovieSettings.WatchedCount == 0)
                     {
                         SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
@@ -310,12 +318,10 @@ namespace TraktPlugin.TraktHandlers
                         SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
                     }
                 }
-                else
-                    TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
-
+                
                 //We will update the Trakt rating of the Movie
                 //TODO: Create a user setting for what they want to define as love/hate
-                if (userMovieSettings.UserRating > 0)
+                if (userMovieSettings.RatingChanged && userMovieSettings.UserRating > 0)
                 {
                     if (userMovieSettings.UserRating >= 4)
                     {
@@ -326,6 +332,10 @@ namespace TraktPlugin.TraktHandlers
                         RateMovie(CreateRateData(movie, TraktRateValue.hate.ToString()));
                     }
                 }
+
+                // reset user flags for watched/ratings
+                userMovieSettings.WatchCountChanged = false;
+                userMovieSettings.RatingChanged = false;
             }
         }
 
