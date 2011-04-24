@@ -68,19 +68,21 @@ namespace TraktPlugin
                 }
             }
 
+            foreach (MovieSelectItem movie in checkedMovies)
+                if (!checkedListBoxMovies.Items.Contains(movie))
+                    checkedListBoxMovies.Items.Add(movie, true);
+            
             foreach (MovieSelectItem movie in unCheckedMovies)
                 if(!checkedListBoxMovies.Items.Contains(movie))
                     checkedListBoxMovies.Items.Add(movie, false);
-            foreach (MovieSelectItem movie in checkedMovies)
-                if (!checkedListBoxMovies.Items.Contains(movie))
-                    checkedListBoxMovies.Items.Add(movie, false);
-
+            
             checkedListBoxMovies.ItemCheck += new ItemCheckEventHandler(checkedListBoxMovies_ItemCheck);
         }
 
         void LoadMoviesFromMovingPictures()
         {
             List<MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo> movies = MediaPortal.Plugins.MovingPictures.Database.DBMovieInfo.GetAll();
+            movies.Sort();
             unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
             checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
         }
