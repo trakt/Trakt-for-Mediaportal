@@ -75,7 +75,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get the movies that we have yet to watch                        
             IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
-            TraktLogger.Info("Library from Trakt Complete");
+            TraktLogger.Info("{0} movies in trakt library", traktMoviesAll.Count().ToString());
 
             #region Movies to Sync to Collection
             List<IMDBMovie> moviesToSync = new List<IMDBMovie>(MovieList);
