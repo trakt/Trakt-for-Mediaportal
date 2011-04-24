@@ -213,6 +213,11 @@ namespace TraktPlugin
             TraktSettings.SyncTimerLength = int.Parse(cbTraktSyncLength.SelectedItem.ToString()) * 3600000;
         }
 
+        private void linkTrakt_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"http://trakt.tv/");
+        }
+
     }
 
     #region String Extension

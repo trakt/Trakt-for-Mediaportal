@@ -49,6 +49,7 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
+            this.linkTrakt = new System.Windows.Forms.LinkLabel();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -57,13 +58,14 @@
             // 
             // gbTraktAccount
             // 
+            this.gbTraktAccount.Controls.Add(this.linkTrakt);
             this.gbTraktAccount.Controls.Add(this.tbPassword);
             this.gbTraktAccount.Controls.Add(this.tbUsername);
             this.gbTraktAccount.Controls.Add(this.lbPassword);
             this.gbTraktAccount.Controls.Add(this.lbUsername);
             this.gbTraktAccount.Location = new System.Drawing.Point(12, 12);
             this.gbTraktAccount.Name = "gbTraktAccount";
-            this.gbTraktAccount.Size = new System.Drawing.Size(290, 89);
+            this.gbTraktAccount.Size = new System.Drawing.Size(290, 97);
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
             this.gbTraktAccount.Text = "Account";
@@ -109,7 +111,7 @@
             this.gbPlugins.Controls.Add(this.btnDown);
             this.gbPlugins.Controls.Add(this.btnUp);
             this.gbPlugins.Controls.Add(this.clbPlugins);
-            this.gbPlugins.Location = new System.Drawing.Point(12, 107);
+            this.gbPlugins.Location = new System.Drawing.Point(12, 115);
             this.gbPlugins.Name = "gbPlugins";
             this.gbPlugins.Size = new System.Drawing.Size(290, 94);
             this.gbPlugins.TabIndex = 1;
@@ -151,7 +153,7 @@
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 266);
+            this.gbMisc.Location = new System.Drawing.Point(12, 274);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(288, 97);
             this.gbMisc.TabIndex = 3;
@@ -210,7 +212,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 369);
+            this.btnOK.Location = new System.Drawing.Point(227, 377);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -242,7 +244,7 @@
             // 
             this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(12, 207);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 215);
             this.gbRestrictions.Name = "gbRestrictions";
             this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
             this.gbRestrictions.TabIndex = 2;
@@ -259,11 +261,22 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
+            // linkTrakt
+            // 
+            this.linkTrakt.AutoSize = true;
+            this.linkTrakt.Location = new System.Drawing.Point(207, 73);
+            this.linkTrakt.Name = "linkTrakt";
+            this.linkTrakt.Size = new System.Drawing.Size(71, 13);
+            this.linkTrakt.TabIndex = 4;
+            this.linkTrakt.TabStop = true;
+            this.linkTrakt.Text = "Signup/Login";
+            this.linkTrakt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTrakt_LinkClicked);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 404);
+            this.ClientSize = new System.Drawing.Size(312, 406);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -306,5 +319,6 @@
         private System.Windows.Forms.Button btnMovieRestrictions;
         private System.Windows.Forms.ComboBox cbTraktSyncLength;
         private System.Windows.Forms.Label lbSyncTimerLength;
+        private System.Windows.Forms.LinkLabel linkTrakt;
     }
 }
