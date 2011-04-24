@@ -170,6 +170,7 @@
             // 
             // cbTraktSyncLength
             // 
+            this.cbTraktSyncLength.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTraktSyncLength.FormattingEnabled = true;
             this.cbTraktSyncLength.Items.AddRange(new object[] {
             "1",
@@ -180,7 +181,6 @@
             this.cbTraktSyncLength.Name = "cbTraktSyncLength";
             this.cbTraktSyncLength.Size = new System.Drawing.Size(52, 21);
             this.cbTraktSyncLength.TabIndex = 0;
-            this.cbTraktSyncLength.Text = "24";
             this.ttpConfig.SetToolTip(this.cbTraktSyncLength, "Set this to the value in hours that you want to wait to resync with Trakt");
             this.cbTraktSyncLength.SelectedValueChanged += new System.EventHandler(this.cbTraktSyncLength_SelectedValueChanged);
             // 
