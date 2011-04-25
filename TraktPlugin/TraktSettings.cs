@@ -40,8 +40,8 @@ namespace TraktPlugin
             get
             {
                 int count = 0;
-                if (MovingPictures > 0) count++;
-                if (MyVideos > 0) count++;
+                if (MovingPictures >= 0) count++;
+                if (MyVideos >= 0) count++;
                 return count;
             }
         }

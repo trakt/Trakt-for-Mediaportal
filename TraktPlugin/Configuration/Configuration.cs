@@ -76,11 +76,18 @@ namespace TraktPlugin
         private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
         {
             //IMPORTANT NOTE on support for more than one library backend for the same video type (i.e movies) we shouldn't keep in sync ever.
-            TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;            
+            TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount > 1)
+            {
+                // warn and disable clean library
+                string message = "You can not have 'Clean Library' option enabled with more than one movie plugin enabled. Option will be disabled.";
+                MessageBox.Show(message, "trakt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                TraktSettings.KeepTraktLibraryClean = false;
+            }
             TraktSettings.saveSettings();
             this.Close();
         }
