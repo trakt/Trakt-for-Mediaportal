@@ -34,7 +34,7 @@ namespace TraktPlugin
         /// <returns>The Author of the Plugin</returns>
         public string Author()
         {
-            return "Technicolour & ltfearme";
+            return "Technicolour, ltfearme";
         }
 
         /// <summary>
