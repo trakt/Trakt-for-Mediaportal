@@ -138,15 +138,16 @@ namespace TraktPlugin
 
             TraktLogger.Debug("Loading Handlers");
             #region Load Handlers
+            string errorMessage = "Tried to load {0} but failed, check minimum requirements are met!";
             if (TraktSettings.MovingPictures != -1)
             {
                 try
                 {
                     TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    TraktLogger.Error("Tried to load Moving Pictures but failed");
+                    TraktLogger.Error(errorMessage, "Moving Pictures");
                 }
             }
             if (TraktSettings.TVSeries != -1)
@@ -155,9 +156,9 @@ namespace TraktPlugin
                 {
                     TraktHandlers.Add(new TVSeries(TraktSettings.TVSeries));
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    TraktLogger.Error("Tried to load TVSeries but failed");
+                    TraktLogger.Error(errorMessage, "MP-TVSeries");
                 }
             }
             if (TraktSettings.MyVideos != -1)
@@ -166,9 +167,9 @@ namespace TraktPlugin
                 {
                     TraktHandlers.Add(new MyVideos(TraktSettings.MyVideos));
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    TraktLogger.Error("Tried to load My Videos but failed");
+                    TraktLogger.Error(errorMessage, "My Videos");
                 }
             }
             #endregion
