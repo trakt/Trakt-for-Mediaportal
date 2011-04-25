@@ -84,6 +84,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
             }
+
+            Settings.SaveCache();
         }
     }
 }
