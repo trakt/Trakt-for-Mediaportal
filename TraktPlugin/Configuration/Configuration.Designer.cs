@@ -287,7 +287,7 @@
             this.MinimizeBox = false;
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trakt Configuration";
+            this.Text = "Trakt Configuration v" + System.Reflection.Assembly.GetCallingAssembly().GetName().Version.ToString();
             this.gbTraktAccount.ResumeLayout(false);
             this.gbTraktAccount.PerformLayout();
             this.gbPlugins.ResumeLayout(false);
