@@ -51,6 +51,8 @@ namespace TraktPlugin.TraktHandlers
             List<IMDBMovie> MovieList = (from IMDBMovie movie in myvideos select movie).ToList();
 
             // Remove any blocked movies
+            MovieList.RemoveAll(m => TraktSettings.BlockedFolders.Any(f => m.Path.Contains(f)));
+
             List<int> blockedMovieIds = new List<int>();
             foreach(string file in TraktSettings.BlockedFilenames)
             {

@@ -322,7 +322,7 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
-            if (!TraktSettings.BlockedFilenames.Contains(filename))
+            if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
             {
                 TraktLogger.Debug("Checking out Libraries for the filename");
                 foreach (ITraktHandler traktHandler in TraktHandlers)

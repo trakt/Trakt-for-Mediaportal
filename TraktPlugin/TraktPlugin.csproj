@@ -98,11 +98,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AddPathPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\AddPathPopup.designer.cs">
+      <DependentUpon>AddPathPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Configuration.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Configuration\Configuration.Designer.cs">
       <DependentUpon>Configuration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\FolderList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\FolderList.Designer.cs">
+      <DependentUpon>FolderList.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\MovieSelect.cs">
       <SubType>Form</SubType>
@@ -152,9 +164,15 @@
     <Compile Include="TraktSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Configuration\AddPathPopup.resx">
+      <DependentUpon>AddPathPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\FolderList.resx">
+      <DependentUpon>FolderList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\MovieSelect.resx">
       <DependentUpon>MovieSelect.cs</DependentUpon>
@@ -176,6 +194,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\icon_faded.png" />
     <EmbeddedResource Include="Resources\Images\icon_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\list-add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\list-remove.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

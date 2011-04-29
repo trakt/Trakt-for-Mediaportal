@@ -46,6 +46,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();            
 
             //Remove any blocked movies
+            MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.Contains(f)));
             MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath));
 
             TraktLogger.Info("{0} movies available to sync in MovingPictures database", MovieList.Count.ToString());
@@ -296,7 +297,7 @@ namespace TraktPlugin.TraktHandlers
                 DBMovieInfo movie = userMovieSettings.AttachedMovies[0];
 
                 // don't do anything if movie is blocked
-                if (TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath))
+                if (TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath) || TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.Contains(f)))
                 {
                     TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
                     return;
@@ -350,7 +351,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A movie has been watched push that out.
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
-                if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath))
+                if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.Contains(f)))
                     ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
                 else
                     TraktLogger.Info("Movie {0} was found as blocked so did not scrobble", watchedEvent.Movie.Title);
@@ -359,7 +360,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath))
+                if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => insertedMovie.LocalMedia[0].FullPath.Contains(f)))
                     SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
                 else
                     TraktLogger.Info("Newly inserted movie, {0}, was found on our block list so wasn't added to Trakt", insertedMovie.Title);

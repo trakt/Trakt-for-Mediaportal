@@ -31,6 +31,7 @@
             this.checkedListBoxMovies = new System.Windows.Forms.CheckedListBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.lbSelectMoviesLabel = new System.Windows.Forms.Label();
+            this.btnFolderRestrictions = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checkedListBoxMovies
@@ -65,11 +66,22 @@
             this.lbSelectMoviesLabel.TabIndex = 2;
             this.lbSelectMoviesLabel.Text = "Select Movies to Ignore from Trakt:";
             // 
+            // btnFolderRestrictions
+            // 
+            this.btnFolderRestrictions.Location = new System.Drawing.Point(12, 337);
+            this.btnFolderRestrictions.Name = "btnFolderRestrictions";
+            this.btnFolderRestrictions.Size = new System.Drawing.Size(137, 23);
+            this.btnFolderRestrictions.TabIndex = 3;
+            this.btnFolderRestrictions.Text = "&Folder Restrictions...";
+            this.btnFolderRestrictions.UseVisualStyleBackColor = true;
+            this.btnFolderRestrictions.Click += new System.EventHandler(this.btnFolderRestrictions_Click);
+            // 
             // MovieSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(293, 368);
+            this.Controls.Add(this.btnFolderRestrictions);
             this.Controls.Add(this.lbSelectMoviesLabel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.checkedListBoxMovies);
@@ -92,5 +104,6 @@
         private System.Windows.Forms.CheckedListBox checkedListBoxMovies;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label lbSelectMoviesLabel;
+        private System.Windows.Forms.Button btnFolderRestrictions;
     }
 }

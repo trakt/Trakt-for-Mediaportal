@@ -144,6 +144,19 @@ namespace TraktPlugin
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void btnFolderRestrictions_Click(object sender, EventArgs e)
+        {
+            FolderList FolderListDlg = new FolderList();
+            FolderListDlg.Folders = TraktSettings.BlockedFolders;
+            DialogResult result = FolderListDlg.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                TraktSettings.BlockedFolders = FolderListDlg.Folders;
+            }
+        }
+
     }
 
     public class MovieSelectItem
