@@ -129,6 +129,10 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUIBackgroundTask.cs" />
+    <Compile Include="GUI\GUIExtensions.cs" />
+    <Compile Include="GUI\GUITranslations.cs" />
+    <Compile Include="GUI\GUIUtils.cs" />
     <Compile Include="ITraktHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -200,6 +204,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\list-remove.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="GUI\Languages\en-US.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -8,6 +8,7 @@ using MediaPortal.Player;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin
@@ -17,7 +18,7 @@ namespace TraktPlugin
     /// Created by Luke Barnett
     /// </summary>
     [PluginIcons("TraktPlugin.Resources.Images.icon_normal.png", "TraktPlugin.Resources.Images.icon_faded.png")]
-    public class TraktPlugin : ISetupForm, IPlugin
+    public class TraktPlugin : GUIWindow, ISetupForm
     {
         #region Private variables
         //List of all our TraktHandlers
@@ -74,11 +75,12 @@ namespace TraktPlugin
         /// <returns></returns>
         public bool GetHome(out string strButtonText, out string strButtonImage, out string strButtonImageFocus, out string strPictureImage)
         {
-            strButtonImage = null;
-            strButtonText = null;
-            strButtonImageFocus = null;
-            strPictureImage = null;
-            return false;
+            strButtonText = PluginName();
+            strButtonImage = string.Empty;
+            strButtonImageFocus = string.Empty;
+            strPictureImage = "hover_trakt.png";
+            // dont display on home screen if skin doesn't exist.
+            return File.Exists(GUIGraphicsContext.Skin + @"\Trakt.xml");
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace TraktPlugin
         /// <returns>The window id</returns>
         public int GetWindowId()
         {
-            return -1;
+            return (int)GUIWindows.Main;
         }
 
         /// <summary>
@@ -105,7 +107,7 @@ namespace TraktPlugin
         /// <returns>The Name of the Plugin</returns>
         public string PluginName()
         {
-            return "Trakt";
+            return GUIUtils.PluginName();
         }
 
         /// <summary>
@@ -119,12 +121,67 @@ namespace TraktPlugin
 
         #endregion
 
-        #region IPlugin
+        #region GUI Windows
+
+        enum GUIWindows
+        {
+            Main = 87258,
+            Calendar = 87259,
+            Friends = 87260,
+            Recommendations = 87261,
+            Trending = 87262,
+            WatchedList = 87263,
+            Settings = 87264
+        }
+
+        #endregion
+
+        #region GUI Controls
+
+        enum GUIControls
+        {
+            Calendar = 10,
+            Friends = 11,
+            Recommendations = 12,
+            Trending = 13,
+            WatchedList = 14,
+            Settings = 15,
+        }
+
+        [SkinControl((int)GUIControls.Calendar)]
+        protected GUIButtonControl btnCalendar = null;
+
+        [SkinControl((int)GUIControls.Friends)]
+        protected GUIButtonControl btnFriends = null;
+
+        [SkinControl((int)GUIControls.Recommendations)]
+        protected GUIButtonControl btnRecommendations = null;
+
+        [SkinControl((int)GUIControls.Trending)]
+        protected GUIButtonControl btnTrending = null;
+
+        [SkinControl((int)GUIControls.WatchedList)]
+        protected GUIButtonControl btnWatchedList = null;
+
+        [SkinControl((int)GUIControls.Settings)]
+        protected GUIButtonControl btnSettings = null;
+
+        #endregion
+
+        #region GUIWindow Overrides
+
+        public override int GetID
+        {
+            get
+            {
+                return (int)GUIWindows.Main;
+            }
+        }
 
         /// <summary>
         /// Starting Point
         /// </summary>
-        public void Start()
+        public override bool Init()
         {
             TraktLogger.Info("Starting Trakt v{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             TraktSettings.loadSettings();
@@ -132,8 +189,8 @@ namespace TraktPlugin
             if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
             {
                 TraktLogger.Info("Username and/or Password is not set in configuration, stopping plugin load.");
-                Stop();
-                return;
+                DeInit();
+                return true;
             }
 
             TraktLogger.Debug("Loading Handlers");
@@ -187,7 +244,7 @@ namespace TraktPlugin
             if (TraktHandlers.Count == 0)
             {
                 TraktLogger.Info("We don't have any Handlers so may as well stop");
-                Stop();
+                DeInit();
             }
             else
             {
@@ -200,12 +257,25 @@ namespace TraktPlugin
                 syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
                 syncLibraryTimer.Enabled = true;
             }
+
+            // Load all available translation strings
+            // so skins have access to them
+            foreach (string name in Translation.Strings.Keys)
+            {
+                GUIUtils.SetProperty("#Trakt.Translation." + name + ".Label", Translation.Strings[name]);
+            }
+
+            // Load main skin window
+            // this is a launching pad to all other windows
+            string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
+            TraktLogger.Info("Loading main skin window: " + xmlSkin);
+            return Load(xmlSkin);            
         }
 
         /// <summary>
         /// End Point (Clean up)
         /// </summary>
-        public void Stop()
+        public override void DeInit()
         {
             if (syncLibraryWorker != null)
             {
@@ -224,8 +294,46 @@ namespace TraktPlugin
                 traktHandler.StopScrobble();
 
             TraktLogger.Info("Goodbye");
+            base.DeInit();
         }
-                
+
+        protected override void OnPageLoad()
+        {
+            base.OnPageLoad();
+        }
+
+        protected override void OnClicked(int controlId, GUIControl control, MediaPortal.GUI.Library.Action.ActionType actionType)
+        {
+            base.OnClicked(controlId, control, actionType);
+
+            switch (controlId)
+            {
+                case (int)GUIControls.Calendar:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.Calendar);
+                    break;
+
+                case (int)GUIControls.Friends:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.Friends);
+                    break;
+
+                case (int)GUIControls.Recommendations:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.Recommendations);
+                    break;
+
+                case (int)GUIControls.Settings:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.Settings);
+                    break;
+
+                case (int)GUIControls.Trending:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.Trending);
+                    break;
+
+                case (int)GUIControls.WatchedList:
+                    GUIWindowManager.ActivateWindow((int)GUIWindows.WatchedList);
+                    break;
+            }
+        }
+
         #endregion
 
         #region LibraryFunctions

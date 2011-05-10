@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Trakt translation file -->
+<!-- English (US) -->
+<!-- Note: English is the fallback for any strings not found in other languages -->
+<strings>
+  <!-- A -->  
+  
+  <!-- B -->
+  
+  <!-- C -->
+  <string Field="Calendar">Calendar</string>
+  
+  <!-- D -->
+  
+  <!-- E -->
+  <string Field="Episode">Episode</string>
+  <string Field="Episodes">Episodes</string>
+  <string Field="Error">Error</string>
+  
+  <!-- F -->
+  <string Field="Friend">Friend</string>
+  <string Field="Friends">Friends</string>
+  
+  <!-- G -->
+  
+  <!-- I -->
+  
+  <!-- L -->
+  
+  <!-- M -->
+  <string Field="Movie">Movie</string>
+  <string Field="Movies">Movies</string>
+  
+  <!-- N -->
+  
+  <!-- O -->
+  <string Field="OK">OK</string>
+  
+  <!-- P -->
+  
+  <!-- R -->
+  <string Field="Recommendations">Recommendations</string>
+  
+  <!-- S -->
+  <string Field="Scrobble">Scrobble</string>
+  <string Field="Series">Series</string>
+  <string Field="SeriesPlural">Series</string>
+  <string Field="Settings">Settings</string>
+  
+  <!-- T -->
+  <string Field="Timeout">Timeout</string>
+  <string Field="Trending">Trending</string>
+  <string Field="TVShow">TV Show</string>
+  <string Field="TVShows">TV Shows</string>
+  
+  <!-- U -->
+
+  <!-- V -->
+
+  <!-- W -->
+  <string Field="WatchedList">Watched List</string>
+  <string Field="Watched">Watched</string>
+  <string Field="Watching">Watching</string>
+  
+  <!-- Y -->
+  
+</strings>
