@@ -58,7 +58,7 @@
   <!-- V -->
 
   <!-- W -->
-  <string Field="WatchedList">Watched List</string>
+  <string Field="WatchList">Watch List</string>
   <string Field="Watched">Watched</string>
   <string Field="Watching">Watching</string>
   

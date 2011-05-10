@@ -144,7 +144,7 @@ namespace TraktPlugin
             Friends = 11,
             Recommendations = 12,
             Trending = 13,
-            WatchedList = 14,
+            WatchList = 14,
             Settings = 15,
         }
 
@@ -160,8 +160,8 @@ namespace TraktPlugin
         [SkinControl((int)GUIControls.Trending)]
         protected GUIButtonControl btnTrending = null;
 
-        [SkinControl((int)GUIControls.WatchedList)]
-        protected GUIButtonControl btnWatchedList = null;
+        [SkinControl((int)GUIControls.WatchList)]
+        protected GUIButtonControl btnWatchList = null;
 
         [SkinControl((int)GUIControls.Settings)]
         protected GUIButtonControl btnSettings = null;
@@ -308,28 +308,7 @@ namespace TraktPlugin
 
             switch (controlId)
             {
-                case (int)GUIControls.Calendar:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.Calendar);
-                    break;
-
-                case (int)GUIControls.Friends:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.Friends);
-                    break;
-
-                case (int)GUIControls.Recommendations:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.Recommendations);
-                    break;
-
-                case (int)GUIControls.Settings:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.Settings);
-                    break;
-
-                case (int)GUIControls.Trending:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.Trending);
-                    break;
-
-                case (int)GUIControls.WatchedList:
-                    GUIWindowManager.ActivateWindow((int)GUIWindows.WatchedList);
+                default:
                     break;
             }
         }
