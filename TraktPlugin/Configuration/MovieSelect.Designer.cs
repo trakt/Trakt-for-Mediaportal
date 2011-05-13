@@ -68,6 +68,7 @@
             // 
             // btnFolderRestrictions
             // 
+            this.btnFolderRestrictions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnFolderRestrictions.Location = new System.Drawing.Point(12, 337);
             this.btnFolderRestrictions.Name = "btnFolderRestrictions";
             this.btnFolderRestrictions.Size = new System.Drawing.Size(137, 23);

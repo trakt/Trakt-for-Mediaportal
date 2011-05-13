@@ -156,7 +156,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
                 {
-                    // mark episode as watched
+                    // mark episode as unwatched
                     TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = false;
                     ep.Commit();
