@@ -76,9 +76,13 @@ namespace TraktPlugin.TraktHandlers
             IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
             TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
+            // get all episodes on trakt that are marked as 'unseen'
+            IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
+            TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
+
             List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
             List<DBEpisode> localCollectionEpisodes = new List<DBEpisode>();
-            List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
+            List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();            
 
             // Get all episodes in database
             SQLCondition conditions = new SQLCondition();
@@ -117,10 +121,11 @@ namespace TraktPlugin.TraktHandlers
 
             #region sync seen to trakt
             // get list of episodes that we have not already trakt'd
+            // filter out any marked as UnSeen
             List<DBEpisode> localWatchedEpisodesToSync = new List<DBEpisode>(localWatchedEpisodes);
             foreach (DBEpisode ep in localWatchedEpisodes)
             {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep))
+                if (TraktEpisodeExists(traktWatchedEpisodes, ep) || TraktEpisodeExists(traktUnSeenEpisodes, ep))
                 {
                     // no interest in syncing, remove
                     localWatchedEpisodesToSync.Remove(ep);
@@ -133,13 +138,27 @@ namespace TraktPlugin.TraktHandlers
 
             #region sync watched flags from trakt locally
             // Sync watched flags from trakt to local database
+            // do not mark as watched locally if UnSeen on trakt
             foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 0))
             {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep))
+                if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
                 {
                     // mark episode as watched
                     TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = true;
+                    ep.Commit();
+                }
+            }
+            #endregion
+
+            #region sync unseen flags from trakt locally
+            foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 1))
+            {
+                if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                {
+                    // mark episode as watched
+                    TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
+                    ep[DBOnlineEpisode.cWatched] = false;
                     ep.Commit();
                 }
             }

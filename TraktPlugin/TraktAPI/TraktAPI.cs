@@ -253,6 +253,14 @@ namespace TraktPlugin.TraktAPI
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
+        public static IEnumerable<TraktLibraryShow> GetUnSeenEpisodesForUser(string user)
+        {
+            TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", user);
+            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesUnSeen, user), GetUserAuthentication());
+            TraktLogger.Debug("Response: {0}", showsForUser);
+            return showsForUser.FromJSONArray<TraktLibraryShow>();
+        }
+
         #endregion
 
         #region Rating

@@ -72,17 +72,26 @@ namespace TraktPlugin.TraktHandlers
                     //If the users IMDB ID is empty and we have matched one then set it
                     if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
                     {
-                        TraktLogger.Info("Movie {0} inserted IMDBID {1}", movie.Title, tlm.IMDBID);
+                        TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", movie.Title, tlm.IMDBID);
                         movie.ImdbID = tlm.IMDBID;
                         movie.Commit();
                     }
 
-                    //If it is watched in Trakt but not Moving Pictures update
-                    if (tlm.Plays > 0 && movie.ActiveUserSettings.WatchedCount == 0)
+                    // If it is watched in Trakt but not Moving Pictures update
+                    // skip if movie is watched but user wishes to have synced as unseen locally
+                    if (tlm.Plays > 0 && !tlm.UnSeen && movie.ActiveUserSettings.WatchedCount == 0)
                     {
-                        TraktLogger.Info("Movie {0} is watched on Trakt updating Database", movie.Title);
+                        TraktLogger.Info("Movie '{0}' is watched on Trakt, updating database", movie.Title);
                         movie.ActiveUserSettings.WatchedCount = 1;
                         movie.Commit();
+                    }
+
+                    // mark movies as unseen if watched locally
+                    if (tlm.UnSeen && movie.ActiveUserSettings.WatchedCount > 0)
+                    {
+                        TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", movie.Title);
+                        movie.ActiveUserSettings.WatchedCount = 0;
+                        movie.ActiveUserSettings.Commit();
                     }
 
                     notInLocalCollection = false;
@@ -104,9 +113,10 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Movies to Sync to Seen Collection
-            //Filter out a list of movies already marked as watched on trakt
+            // Filter out a list of movies already marked as watched on trakt
+            // also filter out movie marked as unseen so we dont reset the unseen cache online
             List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
-            foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0))
+            foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
                 foreach (DBMovieInfo watchedMovie in SeenList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {

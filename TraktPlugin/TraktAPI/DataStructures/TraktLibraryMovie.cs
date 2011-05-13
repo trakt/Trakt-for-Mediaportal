@@ -32,5 +32,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "in_collection")]
         public bool InCollection { get; set; }
+
+        [DataMember(Name = "unseen")]
+        public bool UnSeen { get; set; }
     }
 }
