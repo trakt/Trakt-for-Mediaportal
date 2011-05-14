@@ -444,11 +444,16 @@ namespace TraktPlugin.TraktAPI
                     TraktLogger.Error("Response from server was unexpected.");
                     return;
                 }
-
                 // check response error status
                 if ((response as TraktResponse).Status != "success")
                 {
-                    TraktLogger.Error((response as TraktResponse).Error);
+                    if ((response as TraktResponse).Error == "The remote server returned an error: (401) Unauthorized.")
+                    {
+                        // handle unauthorized (GUI notification)
+                        // log it
+                        TraktLogger.Error("401 Unauthorized, Please check your Username and Password");
+                    }else
+                        TraktLogger.Error((response as TraktResponse).Error);
                 }
                 else
                 {
