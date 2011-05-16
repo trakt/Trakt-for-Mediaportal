@@ -81,6 +81,7 @@
   <string Field="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string Field="User">User</string>
   <string Field="Username">Username</string>
+  <string Field="UnAuthorized">Authentication failed, please check username and password in configuration.</string>
   
   <!-- V -->
 

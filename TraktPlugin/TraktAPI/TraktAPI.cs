@@ -471,6 +471,7 @@ namespace TraktPlugin.TraktAPI
                     if ((response as TraktResponse).Error == "The remote server returned an error: (401) Unauthorized.")
                     {
                         // handle unauthorized (GUI notification)
+                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UnAuthorized);
                         // log it
                         TraktLogger.Error("401 Unauthorized, Please check your Username and Password");
                     }else

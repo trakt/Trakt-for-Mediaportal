@@ -241,6 +241,7 @@ namespace TraktPlugin.GUI
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";
         public static string User = "User";
         public static string Username = "Username";
+        public static string UnAuthorized = "Authentication failed, please check username and password in configuration.";
 
         // V
         
