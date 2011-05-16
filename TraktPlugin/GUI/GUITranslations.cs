@@ -168,6 +168,7 @@ namespace TraktPlugin.GUI
 
         // C
         public static string Calendar = "Calendar";
+        public static string Certification = "Certification";
 
         // D
         
@@ -180,31 +181,45 @@ namespace TraktPlugin.GUI
         // F
         public static string Friend = "Friend";
         public static string Friends = "Friends";
+        public static string FullName = "Full Name";
 
         // G
-        
+        public static string Gender = "Gender";
+        public static string GettingFriendsList = "Getting Friends List";
+        public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";        
 
         // I
-        
+
+        // I
+
+        // J
+        public static string JoinDate = "Join Date";
+        public static string Joined = "Joined";
 
         // L
-        
+        public static string Location = "Location";
 
         // M
         public static string Movie = "Movie";
         public static string Movies = "Movies";
 
         // N
-        
+        public static string NoFriends = "No Friends!";
+        public static string NoFriendsTaunt = "You have no Friends!";
+        public static string Name = "Name";
 
         // O
         public static string OK = "OK";
+        public static string Overview = "Overview";
 
         // P
-        
+        public static string Protected = "Protected";
 
         // R
         public static string Recommendations = "Recommendations";
+        public static string Released = "Released";
+        public static string ReleaseDate = "Release Date";
+        public static string Runtime = "Runtime";
 
         // S
         public static string Scrobble = "Scrobble";
@@ -217,9 +232,15 @@ namespace TraktPlugin.GUI
         public static string Trending = "Trending";
         public static string TVShow = "TV Show";
         public static string TVShows = "TV Shows";
+        public static string Tagline = "Tagline";
+        public static string Title = "Title";
+        public static string Trailer = "Trailer";
         
         // U
-        
+        public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";
+        public static string UserHasNotWatchedMovies = "User has not watched any movies!";
+        public static string User = "User";
+        public static string Username = "Username";
 
         // V
         
@@ -230,7 +251,7 @@ namespace TraktPlugin.GUI
         public static string Watching = "Watching";
 
         // Y
-        
+        public static string Year = "Year";
 
         #endregion
 

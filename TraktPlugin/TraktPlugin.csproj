@@ -131,6 +131,8 @@
     </Compile>
     <Compile Include="GUI\GUIBackgroundTask.cs" />
     <Compile Include="GUI\GUIExtensions.cs" />
+    <Compile Include="GUI\GUIImageHandler.cs" />
+    <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUITranslations.cs" />
     <Compile Include="GUI\GUIUtils.cs" />
     <Compile Include="ITraktHandler.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktRateSeries.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncMovieResponse.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserProfile.cs" />
     <Compile Include="TraktAPI\StringExtensions.cs" />
     <Compile Include="TraktAPI\TraktAPI.cs" />
     <Compile Include="TraktAPI\TraktURIs.cs" />
@@ -211,8 +214,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy $(TargetDir)TraktPlugin.* "C:\Program Files\Team MediaPortal\MediaPortal\plugins\windows" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

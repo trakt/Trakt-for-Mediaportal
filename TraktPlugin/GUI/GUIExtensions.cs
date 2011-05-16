@@ -50,5 +50,65 @@ namespace TraktPlugin.GUI
 
             return property;
         }
+
+        /// <summary>
+        /// Acts the same as the ListLayout / ListView property.
+        /// </summary>
+        /// <remarks>this extension method was added to allow backwards compatibility with MediaPortal 1.1</remarks>
+        /// <param name="self"></param>
+        /// <returns>instance of GUIListControl or null</returns>
+        public static GUIListControl ListLayout(this GUIFacadeControl self)
+        {
+            PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("ListLayout", "ListView");
+            return (GUIListControl)property.GetValue(self, null);
+        }
+
+        /// <summary>
+        /// Acts the same as the FilmstripLayout / FilmstripView property.
+        /// </summary>
+        /// <remarks>this extension method was added to allow backwards compatibility with MediaPortal 1.1</remarks>
+        /// <param name="self"></param>
+        /// <returns>instance of GUIListControl or null</returns>
+        public static GUIFilmstripControl FilmstripLayout(this GUIFacadeControl self)
+        {
+            PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("FilmstripLayout", "FilmstripView");
+            return (GUIFilmstripControl)property.GetValue(self, null);
+        }
+
+        /// <summary>
+        /// Acts the same as the ThumbnailLayout / ThumbnailView property.
+        /// </summary>
+        /// <remarks>this extension method was added to allow backwards compatibility with MediaPortal 1.1</remarks>
+        /// <param name="self"></param>
+        /// <returns>instance of GUIListControl or null</returns>
+        public static GUIThumbnailPanel ThumbnailLayout(this GUIFacadeControl self)
+        {
+            PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("ThumbnailLayout", "ThumbnailView");
+            return (GUIThumbnailPanel)property.GetValue(self, null);
+        }
+
+        /// <summary>
+        /// Acts the same as the AlbumListLayout / AlbumListView property.
+        /// </summary>
+        /// <remarks>this extension method was added to allow backwards compatibility with MediaPortal 1.1</remarks>
+        /// <param name="self"></param>
+        /// <returns>instance of GUIListControl or null</returns>
+        public static GUIListControl AlbumListLayout(this GUIFacadeControl self)
+        {
+            PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("AlbumListLayout", "AlbumListView");
+            return (GUIListControl)property.GetValue(self, null);
+        }
+
+        /// <summary>
+        /// Acts the same as the CurrentLayout / View property.
+        /// </summary>
+        /// <remarks>this extension method was added to allow backwards compatibility with MediaPortal 1.1</remarks>
+        /// <param name="self"></param>
+        /// <returns>instance of GUIListControl or null</returns>
+        public static void SetCurrentLayout(this GUIFacadeControl self, string layout)
+        {
+            PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("CurrentLayout", "View");
+            property.SetValue(self, Enum.Parse(property.PropertyType, layout), null);
+        }
     }
 }

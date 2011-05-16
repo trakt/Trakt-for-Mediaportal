@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktHandlers;
+using TraktPlugin.GUI;
 
 namespace TraktPlugin.TraktAPI
 {
@@ -296,6 +297,26 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.movie.ToString()), movie.ToJSON());
             return response.FromJSON<TraktRateResponse>();
+        }
+
+        #endregion
+
+        #region User
+
+        public static TraktUserProfile GetUserProfile(string user)
+        {
+            string response = Transmit(string.Format(TraktURIs.UserProfile, user), GetUserAuthentication());
+            return response.FromJSON<TraktUserProfile>();
+        }
+
+        /// <summary>
+        /// Returns a list of Friends and their user profiles
+        /// </summary>
+        /// <param name="user">username of person to retrieve friend s list</param>
+        public static IEnumerable<TraktFriend> GetUserFriends(string user)
+        {
+            string response = Transmit(string.Format(TraktURIs.UserFriends, user), GetUserAuthentication());
+            return response.FromJSONArray<TraktFriend>();
         }
 
         #endregion

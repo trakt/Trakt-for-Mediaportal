@@ -9,6 +9,7 @@
   
   <!-- C -->
   <string Field="Calendar">Calendar</string>
+  <string Field="Certification">Certification</string>
   
   <!-- D -->
   
@@ -20,26 +21,45 @@
   <!-- F -->
   <string Field="Friend">Friend</string>
   <string Field="Friends">Friends</string>
+  <string Field="FullName">Full Name</string>
   
   <!-- G -->
+  <string Field="Gender">Gender</string>
+  <string Field="GettingFriendsList">Getting Friends List</string>
+  <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   
   <!-- I -->
   
+  <!-- K -->
+  
+  <!-- J -->
+  <string Field="JoinDate">Join Date</string>
+  <string Field="Joined">Joined</string>
+  
   <!-- L -->
+  <string Field="Location">Location</string>
   
   <!-- M -->
   <string Field="Movie">Movie</string>
   <string Field="Movies">Movies</string>
   
   <!-- N -->
+  <string Field="NoFriends">No Friends!</string>
+  <string Field="NoFriendsTaunt">You have no Friends!</string>
+  <string Field="Name">Name</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
+  <string Field="Overview">Overview</string>
   
   <!-- P -->
+  <string Field="Protected">Protected</string>
   
   <!-- R -->
   <string Field="Recommendations">Recommendations</string>
+  <string Field="Released">Released</string>
+  <string Field="ReleaseDate">Release Date</string>
+  <string Field="Runtime">Runtime</string>
   
   <!-- S -->
   <string Field="Scrobble">Scrobble</string>
@@ -52,9 +72,16 @@
   <string Field="Trending">Trending</string>
   <string Field="TVShow">TV Show</string>
   <string Field="TVShows">TV Shows</string>
+  <string Field="Tagline">Tagline</string>
+  <string Field="Title">Title</string>
+  <string Field="Trailer">Trailer</string>
   
   <!-- U -->
-
+  <string Field="UserHasNotWatchedEpisodes">User has not watched any episodes!</string>
+  <string Field="UserHasNotWatchedMovies">User has not watched any movies!</string>
+  <string Field="User">User</string>
+  <string Field="Username">Username</string>
+  
   <!-- V -->
 
   <!-- W -->
@@ -63,5 +90,6 @@
   <string Field="Watching">Watching</string>
   
   <!-- Y -->
+  <string Field="Year">Year</string>
   
 </strings>
