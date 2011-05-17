@@ -161,7 +161,9 @@ namespace TraktPlugin.GUI
         /// </summary>
 
         // A
-        
+        public static string AirDate = "Air Date";
+        public static string AirDay = "Air Day";
+        public static string AirTime = "Air Time";
 
         // B
         
@@ -179,12 +181,14 @@ namespace TraktPlugin.GUI
         public static string Error = "Error";
 
         // F
+        public static string FirstAired = "First Aired";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
         public static string FullName = "Full Name";
 
         // G
         public static string Gender = "Gender";
+        public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";        
 
@@ -204,9 +208,11 @@ namespace TraktPlugin.GUI
         public static string Movies = "Movies";
 
         // N
+        public static string Name = "Name";
+        public static string Network = "Network";
+        public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoFriends = "No Friends!";
         public static string NoFriendsTaunt = "You have no Friends!";
-        public static string Name = "Name";
 
         // O
         public static string OK = "OK";
@@ -222,10 +228,11 @@ namespace TraktPlugin.GUI
         public static string Runtime = "Runtime";
 
         // S
+        public static string Season = "Season";
         public static string Scrobble = "Scrobble";
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
-        public static string Settings = "Settings";
+        public static string Settings = "Settings";        
 
         // T
         public static string Timeout = "Timeout";

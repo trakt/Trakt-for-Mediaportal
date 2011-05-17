@@ -319,6 +319,31 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktFriend>();
         }
 
+        /// <summary>
+        /// Returns list of episodes in Users Calendar
+        /// </summary>
+        /// <param name="user">username of person to get Calendar</param>
+        public static IEnumerable<TraktCalendar> GetCalendarForUser(string user)
+        {
+            // 7-Days from Today
+            // All Dates should be in PST (GMT-8)
+            DateTime dateNow = DateTime.UtcNow.Subtract(new TimeSpan(8, 0, 0));
+            return GetCalendarForUser(user, dateNow.ToString("yyyyMMdd"), "7");
+        }
+
+        /// <summary>
+        /// Returns list of episodes in Users Calendar
+        /// </summary>
+        /// <param name="user">username of person to get Calendar</param>
+        /// <param name="startDate">Start Date of calendar in form yyyyMMdd (GMT-8hrs)</param>
+        /// <param name="days">Number of days to return in calendar</param>
+        public static IEnumerable<TraktCalendar> GetCalendarForUser(string user, string startDate, string days)
+        {
+            string userCalendar = Transmit(string.Format(TraktURIs.UserCalendarShows, user, startDate, days), GetUserAuthentication());
+            return userCalendar.FromJSONArray<TraktCalendar>();
+
+        }
+
         #endregion
 
         #region Helpers

@@ -100,6 +100,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             _Friends = null;
+            StopDownload = true;
             base.OnPageDestroy(new_windowId);
         }
 
@@ -580,7 +581,7 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));
                 }
             }
-        }        
+        }
     }
 
     public static class DateExtensions
