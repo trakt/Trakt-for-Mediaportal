@@ -23,6 +23,16 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Enums
+
+        enum FacadeMovement
+        {
+            Up,
+            Down
+        }
+
+        #endregion
+
         #region Constructor
 
         public GUICalendar() { }
@@ -31,7 +41,8 @@ namespace TraktPlugin.GUI
 
         #region Private Properties
 
-        bool StopDownload { get; set; }        
+        bool StopDownload { get; set; }
+        FacadeMovement LastMoved { get; set; }
 
         IEnumerable<TraktCalendar> TraktCalendar
         {
@@ -105,6 +116,16 @@ namespace TraktPlugin.GUI
             {
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
                     break;
+
+                case Action.ActionType.ACTION_MOVE_UP:
+                case Action.ActionType.ACTION_PAGE_UP:
+                    LastMoved = FacadeMovement.Up;                    
+                    break;
+
+                case Action.ActionType.ACTION_MOVE_DOWN:
+                case Action.ActionType.ACTION_PAGE_DOWN:
+                    LastMoved = FacadeMovement.Down;
+                    break;
             }
             base.OnAction(action);
         }
@@ -135,8 +156,9 @@ namespace TraktPlugin.GUI
             
             if (calendar.Count() == 0)
             {
-            //    GUIWindowManager.ShowPreviousWindow();
-            //    return;
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoEpisodesThisWeek, DateTime.Now.ToLongDateString()));
+                GUIWindowManager.ShowPreviousWindow();
+                return;
             }
 
             int itemCount = 0;
@@ -152,7 +174,7 @@ namespace TraktPlugin.GUI
                 item.IconImage = "defaultTraktCalendar.png";
                 item.IconImageBig = "defaultTraktCalendarBig.png";
                 item.ThumbnailImage = "defaultTraktCalendarBig.png";
-                //item.OnItemSelected += OnCalendarDateSelected;
+                item.OnItemSelected += OnCalendarDateSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
 
@@ -165,7 +187,7 @@ namespace TraktPlugin.GUI
                     episodeItem.IconImage = "defaultTraktEpisode.png";
                     episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
                     episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
-                    episodeItem.OnItemSelected += OnCalendarSelected;
+                    episodeItem.OnItemSelected += OnEpisodeSelected;
                     Utils.SetDefaultIcons(episodeItem);
                     Facade.Add(episodeItem);
                     itemCount++;
@@ -188,7 +210,28 @@ namespace TraktPlugin.GUI
             GetImages(showImages);
         }
 
-        private void OnCalendarSelected(GUIListItem item, GUIControl parent)
+        private void OnCalendarDateSelected(GUIListItem item, GUIControl parent)
+        {
+            // Skip over date to next/prev episode if a header (Date)
+            if (LastMoved == FacadeMovement.Down)
+            {
+                Facade.OnAction(new Action(Action.ActionType.ACTION_MOVE_DOWN, 0, 0));
+            }
+            else
+            {
+                Facade.OnAction(new Action(Action.ActionType.ACTION_MOVE_UP, 0, 0));
+                
+                // if the current item is now the first item which is a header, then skip to end
+                // we need to bypass the scroll delay so we are not stuck on the first item
+                if (Facade.SelectedListItemIndex == 0)
+                {
+                    Facade.SelectedListItemIndex = Facade.Count - 1;
+                }
+
+            }
+        }
+
+        private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
             PublishEpisodeSkinProperties(item.TVTag as TraktCalendar.TraktEpisodes);
         }

@@ -25,11 +25,6 @@ namespace TraktPlugin.GUI
 
         #region Enums
 
-        enum SkinProperty
-        {
-            NoFriends
-        }
-
         enum Views
         {
             Friends,
@@ -311,7 +306,6 @@ namespace TraktPlugin.GUI
 
             if (friends.Count() == 0)
             {
-                SetProperty(SkinProperty.NoFriends, Translation.NoFriends);
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoFriendsTaunt);
                 GUIWindowManager.ShowPreviousWindow();
                 return;
@@ -340,11 +334,6 @@ namespace TraktPlugin.GUI
 
             // Download avatars Async and set to facade
             GetImages(friends.ToList());
-        }
-
-        private void SetProperty(SkinProperty property, string value)
-        {
-            SetProperty(property.ToString(), value);
         }
 
         private void SetProperty(string property, string value)

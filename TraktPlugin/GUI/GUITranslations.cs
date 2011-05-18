@@ -211,6 +211,7 @@ namespace TraktPlugin.GUI
         public static string Name = "Name";
         public static string Network = "Network";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
+        public static string NoEpisodesThisWeek = "No episodes airing week starting {0}";
         public static string NoFriends = "No Friends!";
         public static string NoFriendsTaunt = "You have no Friends!";
 
