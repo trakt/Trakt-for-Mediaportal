@@ -109,11 +109,15 @@ namespace TraktPlugin.GUI
                         GUIListItem item = Facade.SelectedListItem as GUIListItem;
                         if (item !=null && item.IsFolder)
                         {
+                            // previous call may have timedout
+                            if (_Calendar != null)
+                            {
+                                PreviousCalendarDayCount = _Calendar.Count();
+                                PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                                CurrentWeekDays += 7;
+                                _Calendar = null;
+                            }
                             // load next 7 days in calendar
-                            PreviousCalendarDayCount = _Calendar.Count();
-                            PreviousSelectedIndex = Facade.SelectedListItemIndex;
-                            CurrentWeekDays += 7;
-                            _Calendar = null;
                             LoadCalendar();
                         }
                     }
