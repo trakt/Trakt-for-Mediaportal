@@ -43,6 +43,9 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         FacadeMovement LastMoved { get; set; }
+        int CurrentWeekDays = 7;
+        int PreviousSelectedIndex;
+        int PreviousCalendarDayCount;
 
         IEnumerable<TraktCalendar> TraktCalendar
         {
@@ -50,7 +53,7 @@ namespace TraktPlugin.GUI
             {
                 if (_Calendar == null)
                 {
-                    _Calendar = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username);
+                    _Calendar = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
                 }
                 return _Calendar;
             }
@@ -86,6 +89,9 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             _Calendar = null;
+            CurrentWeekDays = 7;
+            PreviousSelectedIndex = 0;
+            PreviousCalendarDayCount = 0;
             StopDownload = true;
             base.OnPageDestroy(new_windowId);
         }
@@ -100,7 +106,16 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        
+                        GUIListItem item = Facade.SelectedListItem as GUIListItem;
+                        if (item !=null && item.IsFolder)
+                        {
+                            // load next 7 days in calendar
+                            PreviousCalendarDayCount = _Calendar.Count();
+                            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                            CurrentWeekDays += 7;
+                            _Calendar = null;
+                            LoadCalendar();
+                        }
                     }
                     break;
 
@@ -154,13 +169,6 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
             
-            if (calendar.Count() == 0)
-            {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoEpisodesThisWeek, DateTime.Now.ToLongDateString()));
-                GUIWindowManager.ShowPreviousWindow();
-                return;
-            }
-
             int itemCount = 0;
             List<TraktEpisode.ShowImages> showImages = new List<TraktEpisode.ShowImages>();
 
@@ -197,7 +205,33 @@ namespace TraktPlugin.GUI
                 }                
             }
 
-            Facade.SelectedListItemIndex = 1;
+            // if nothing airing this week, then indicate to user
+            if (calendar.Count() == PreviousCalendarDayCount)
+            {
+                GUIListItem item = new GUIListItem();
+
+                item.Label3 = Translation.NoEpisodesThisWeek;
+                item.IconImage = "defaultTraktCalendar.png";
+                item.IconImageBig = "defaultTraktCalendarBig.png";
+                item.ThumbnailImage = "defaultTraktCalendarBig.png";
+                item.OnItemSelected += OnCalendarDateSelected;
+                Utils.SetDefaultIcons(item);
+                Facade.Add(item);
+            }
+
+            // Add Next Week Item so user can fetch next weeks calendar
+            GUIListItem nextItem = new GUIListItem(Translation.NextWeek);
+            
+            nextItem.IconImage = "traktNextWeek.png";
+            nextItem.IconImageBig = "traktNextWeek.png";
+            nextItem.ThumbnailImage = "traktNextWeek.png";
+            nextItem.OnItemSelected += OnNextWeekSelected;
+            nextItem.IsFolder = true;            
+            Facade.Add(nextItem);
+
+            // Select the first episode on calendar, 
+            // Set last position if paging to next week
+            Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
 
             // Set Facade Layout
             Facade.SetCurrentLayout("List");
@@ -231,6 +265,11 @@ namespace TraktPlugin.GUI
             }
         }
 
+        private void OnNextWeekSelected(GUIListItem item, GUIControl parent)
+        {
+            ClearProperties();
+        }
+
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
             PublishEpisodeSkinProperties(item.TVTag as TraktCalendar.TraktEpisodes);
@@ -244,28 +283,28 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            SetProperty("#Trakt.Show.Imdb", string.Empty);
-            SetProperty("#Trakt.Show.Tvdb", string.Empty);
-            SetProperty("#Trakt.Show.TvRage", string.Empty);
-            SetProperty("#Trakt.Show.Title", string.Empty);
-            SetProperty("#Trakt.Show.Url", string.Empty);
-            SetProperty("#Trakt.Show.AirDay", string.Empty);
-            SetProperty("#Trakt.Show.AirTime", string.Empty);
-            SetProperty("#Trakt.Show.Certification", string.Empty);
-            SetProperty("#Trakt.Show.Country", string.Empty);
-            SetProperty("#Trakt.Show.FirstAired", string.Empty);
-            SetProperty("#Trakt.Show.Network", string.Empty);
-            SetProperty("#Trakt.Show.Overview", string.Empty);
-            SetProperty("#Trakt.Show.Runtime", string.Empty);
-            SetProperty("#Trakt.Show.Year", string.Empty);
-            SetProperty("#Trakt.Episode.Number", string.Empty);
-            SetProperty("#Trakt.Episode.Season", string.Empty);
-            SetProperty("#Trakt.Episode.FirstAired", string.Empty);
-            SetProperty("#Trakt.Episode.Title", string.Empty);
-            SetProperty("#Trakt.Episode.Url", string.Empty);
-            SetProperty("#Trakt.Episode.Overview", string.Empty);
-            SetProperty("#Trakt.Episode.Runtime", string.Empty);
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
         }
 
         private void PublishEpisodeSkinProperties(TraktCalendar.TraktEpisodes episode)
@@ -287,7 +326,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.Episode.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Episode.Title", episode.Episode.Title);
+            SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Episode.Number.ToString()) : episode.Episode.Title);
             SetProperty("#Trakt.Episode.Url", episode.Episode.Url);
             SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Episode.Overview) ? Translation.NoEpisodeSummary : episode.Episode.Overview);
             SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());

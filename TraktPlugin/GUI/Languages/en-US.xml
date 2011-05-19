@@ -51,8 +51,9 @@
   <!-- N -->
   <string Field="Name">Name</string>
   <string Field="Network">Network</string>
+  <string Field="NextWeek">Next Week</string>
   <string Field="NoEpisodeSummary">Episode summary is currently not available.</string>
-  <string Field="NoEpisodesThisWeek">No episodes airing week starting {0}</string>
+  <string Field="NoEpisodesThisWeek">No episodes on this week</string>
   <string Field="NoFriends">No Friends!</string>
   <string Field="NoFriendsTaunt">You have no Friends!</string>    
   

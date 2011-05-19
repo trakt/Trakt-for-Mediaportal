@@ -26,7 +26,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             public override string ToString()
             {
-                return string.Format("{0} - {1}x{2} - {3}", Show.Title, Episode.Season.ToString(), Episode.Number.ToString(), Episode.Title);
+                return string.Format("{0} - {1}x{2}{3}", Show.Title, Episode.Season.ToString(), Episode.Number.ToString(), string.IsNullOrEmpty(Episode.Title) ? string.Empty : " - " + Episode.Title);
             }
         }
 
