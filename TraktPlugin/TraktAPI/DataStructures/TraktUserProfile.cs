@@ -116,100 +116,25 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "watched")]
         public List<WatchItem> WatchedHistory { get; set; }
 
+        [DataMember(Name = "watched_episodes")]
+        public List<WatchItem> WatchedEpisodes { get; set; }
+
+        [DataMember(Name = "watched_movies")]
+        public List<WatchItem> WatchedMovies { get; set; }
+
         #region Watch Item
 
         [DataContract]
         public class WatchItem
         {
             [DataMember(Name = "episode")]
-            public EpisodeDetails Episode { get; set; }
+            public TraktEpisode Episode { get; set; }
 
             [DataMember(Name = "show")]
-            public ShowDetails Show { get; set; }
+            public TraktShow Show { get; set; }
 
             [DataMember(Name = "movie")]
-            public MovieDetails Movie { get; set; }
-
-            #region episode details
-            [DataContract]
-            public class EpisodeDetails
-            {
-                [DataMember(Name = "first_aired")]
-                public long FirstAired { get; set; }
-
-                [DataMember(Name = "number")]
-                public int Number { get; set; }
-
-                [DataMember(Name = "season")]
-                public int Season { get; set; }
-
-                [DataMember(Name = "title")]
-                public string Title { get; set; }
-
-                [DataMember(Name = "url")]
-                public string Url { get; set; }
-            }
-            #endregion
-
-            #region show details
-            [DataContract]
-            public class ShowDetails
-            {
-                [DataMember(Name = "imdb_id")]
-                public string Imdb { get; set; }
-
-                [DataMember(Name = "title")]
-                public string Title { get; set; }
-
-                [DataMember(Name = "tvdb_id")]
-                public string Tvdb { get; set; }
-
-                [DataMember(Name = "tvrage_id")]
-                public string TvRage { get; set; }
-
-                [DataMember(Name = "url")]
-                public string Url { get; set; }
-            }
-            #endregion
-
-            #region movie details
-            [DataContract]
-            public class MovieDetails
-            {
-                [DataMember(Name = "certification")]
-                public string Certification { get; set; }
-
-                [DataMember(Name = "imdb_id")]
-                public string Imdb { get; set; }
-
-                [DataMember(Name = "overview")]
-                public string Overview { get; set; }
-
-                [DataMember(Name = "released")]
-                public long Released { get; set; }
-
-                [DataMember(Name = "runtime")]
-                public int Runtime { get; set; }
-                
-                [DataMember(Name = "tagline")]
-                public string Tagline { get; set; }
-
-                [DataMember(Name = "title")]
-                public string Title { get; set; }
-
-                [DataMember(Name = "tmdb_id")]
-                public string Tmdb { get; set; }
-
-                [DataMember(Name = "trailer")]
-                public string Trailer { get; set; }
-
-                [DataMember(Name = "url")]
-                public string Url { get; set; }
-
-                [DataMember(Name = "year")]
-                public string Year { get; set; }
-            }
-            #endregion
+            public TraktMovie Movie { get; set; }
 
             [DataMember(Name = "type")]
             public string Type { get; set; }
@@ -221,7 +146,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             {
                 if (Type == "episode")
                 {
-                    return string.Format("{0} - {1}x{2} - {3}", Show.Title, Episode.Season.ToString(), Episode.Number.ToString(), Episode.Title);
+                    return string.Format("{0} - {1}x{2}{3}", Show.Title, Episode.Season.ToString(), Episode.Number.ToString(), string.IsNullOrEmpty(Episode.Title) ? string.Empty : " - " + Episode.Title);
                 }
                 else
                     return Movie.Title;

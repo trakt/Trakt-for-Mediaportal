@@ -152,6 +152,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLibraryMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLibraryShow.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieScrobble.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSync.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateEpisode.cs" />
