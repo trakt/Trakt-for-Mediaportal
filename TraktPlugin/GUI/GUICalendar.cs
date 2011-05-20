@@ -196,6 +196,7 @@ namespace TraktPlugin.GUI
 
                     episodeItem.Item = episode.Episode.Images;
                     episodeItem.TVTag = episode;
+                    episodeItem.ItemId = Int32.MaxValue - itemCount;
                     episodeItem.IconImage = "defaultTraktEpisode.png";
                     episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
                     episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
@@ -205,8 +206,8 @@ namespace TraktPlugin.GUI
                     itemCount++;
 
                     // add image for download
-                    showImages.Add(episode.Episode.Images);                    
-                }                
+                    showImages.Add(episode.Episode.Images);
+                }
             }
 
             // if nothing airing this week, then indicate to user
@@ -221,6 +222,10 @@ namespace TraktPlugin.GUI
                 item.OnItemSelected += OnCalendarDateSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
+
+                // Stay on Next Week Item
+                if (PreviousSelectedIndex > 0)
+                    PreviousSelectedIndex--;
             }
 
             // Add Next Week Item so user can fetch next weeks calendar
@@ -233,13 +238,13 @@ namespace TraktPlugin.GUI
             nextItem.IsFolder = true;            
             Facade.Add(nextItem);
 
-            // Select the first episode on calendar, 
-            // Set last position if paging to next week
-            Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
-
             // Set Facade Layout
             Facade.SetCurrentLayout("List");
             GUIControl.FocusControl(GetID, Facade.GetID);
+
+            // Select the first episode on calendar, 
+            // Set last position if paging to next week
+            Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
@@ -424,7 +429,7 @@ namespace TraktPlugin.GUI
             }
 
             // if selected and TraktFriends is current window force an update of thumbnail
-            GUITraktFriends window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITraktFriends;
+            GUICalendar window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUICalendar;
             if (window != null)
             {
                 GUIListItem selectedItem = GUIControl.GetSelectedListItem(87259, 50);
