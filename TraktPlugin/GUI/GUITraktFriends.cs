@@ -88,6 +88,9 @@ namespace TraktPlugin.GUI
             // clear GUI properties
             ClearProperties();
 
+            // Initialize
+            InitProperties();
+
             // Load Friends
             LoadFriendsList();
         }
@@ -243,6 +246,8 @@ namespace TraktPlugin.GUI
             // store a list of thumbnails to download
             List<TraktEpisode.ShowImages> episodeImages = new List<TraktEpisode.ShowImages>();
 
+            int id = 0;
+
             // add each episode to the list
             foreach (var episode in friend.WatchedEpisodes)
             {
@@ -251,9 +256,10 @@ namespace TraktPlugin.GUI
                 episodeItem.Label2 = episode.WatchedDate.FromEpoch().ToShortDateString();
                 episodeItem.Item = episode.Episode.Images;
                 episodeItem.TVTag = episode;
-                episodeItem.IconImage = "defaultVideo.png";
-                episodeItem.IconImageBig = "defaultVideoBig.png";
-                episodeItem.ThumbnailImage = "defaultVideoBig.png";
+                episodeItem.ItemId = id++;
+                episodeItem.IconImage = "defaultTraktEpisode.png";
+                episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
+                episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
                 episodeItem.Item = episode;
                 episodeItem.OnItemSelected += OnEpisodeSelected;
                 Utils.SetDefaultIcons(episodeItem);
@@ -290,6 +296,8 @@ namespace TraktPlugin.GUI
             // store a list of posters to download
             List<TraktMovie.MovieImages> movieImages = new List<TraktMovie.MovieImages>();
 
+            int id = 0;
+
             // add each episode to the list
             foreach (var movie in friend.WatchedMovies)
             {
@@ -298,6 +306,7 @@ namespace TraktPlugin.GUI
                 movieItem.Label2 = movie.WatchedDate.FromEpoch().ToShortDateString();
                 movieItem.Item = movie.Movie.Images;
                 movieItem.TVTag = movie;
+                movieItem.ItemId = id++;
                 movieItem.IconImage = "defaultVideo.png";
                 movieItem.IconImageBig = "defaultVideoBig.png";
                 movieItem.ThumbnailImage = "defaultVideoBig.png";
@@ -333,6 +342,8 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            int id = 0;
+
             // Add each friend to the list
             foreach (var user in friends)
             {
@@ -340,6 +351,7 @@ namespace TraktPlugin.GUI
 
                 userItem.Label2 = user.JoinDate.FromEpoch().ToShortDateString();
                 userItem.Item = user;
+                userItem.ItemId = id++;
                 userItem.IconImage = "defaultTraktUser.png";
                 userItem.IconImageBig = "defaultTraktUserBig.png";
                 userItem.ThumbnailImage = "defaultTraktUserBig.png";
@@ -363,9 +375,16 @@ namespace TraktPlugin.GUI
             string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
             GUIUtils.SetProperty(property, propertyValue);
         }
+         
+        private void InitProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.View.Level", "Friends");
+            GUIUtils.SetProperty("#Trakt.Selected.Type", string.Empty);
+        }
 
         private void ClearProperties()
         {
+            #region User
             GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Avatar", string.Empty);
@@ -378,6 +397,47 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
+            #endregion
+
+            #region Episodes
+            GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
+            #endregion
+
+            #region Movies
+            GUIUtils.SetProperty("#Trakt.Movie.Imdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Certification", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Released", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Tagline", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Tmdb", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Trailer", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
+            #endregion
         }
 
         private void PublishFriendSkinProperties(TraktFriend user)

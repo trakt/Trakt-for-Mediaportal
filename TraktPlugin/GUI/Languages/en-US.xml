@@ -98,6 +98,8 @@
   <!-- W -->
   <string Field="WatchList">Watch List</string>
   <string Field="Watched">Watched</string>
+  <string Field="WatchedMovies">Watched Movies</string>
+  <string Field="WatchedEpisodes">Watched Episodes</string>
   <string Field="Watching">Watching</string>
   
   <!-- Y -->

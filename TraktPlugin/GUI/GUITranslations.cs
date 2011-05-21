@@ -258,6 +258,8 @@ namespace TraktPlugin.GUI
         // W
         public static string WatchList = "Watch List";
         public static string Watched = "Watched";
+        public static string WatchedMovies = "Watched Movies";
+        public static string WatchedEpisodes = "Watched Episodes";
         public static string Watching = "Watching";
 
         // Y

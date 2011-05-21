@@ -53,7 +53,18 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public string Fanart { get; set; }
 
             [DataMember(Name = "poster")]
-            public string Poster { get; set; }
+            public string Poster
+            { 
+                get
+                {
+                    return _poster.Replace(".jpg","-300.jpg");
+                }
+                set
+                {
+                    _poster = value;
+                }
+            }
+            string _poster = string.Empty;
 
             #region INotifyPropertyChanged
 
