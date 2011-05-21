@@ -344,6 +344,26 @@ namespace TraktPlugin.TraktAPI
 
         }
 
+        public static IEnumerable<TraktCalendar> GetCalendarPremieres()
+        {
+            // 7-Days from Today
+            // All Dates should be in PST (GMT-8)
+            DateTime dateNow = DateTime.UtcNow.Subtract(new TimeSpan(8, 0, 0));
+            return GetCalendarPremieres(dateNow.ToString("yyyyMMdd"), "7");
+
+        }
+
+        /// <summary>
+        /// Returns list of episodes in the Premieres Calendar
+        /// </summary>        
+        /// <param name="startDate">Start Date of calendar in form yyyyMMdd (GMT-8hrs)</param>
+        /// <param name="days">Number of days to return in calendar</param>
+        public static IEnumerable<TraktCalendar> GetCalendarPremieres(string startDate, string days)
+        {
+            string premieres = Transmit(string.Format(TraktURIs.CalendarPremieres, startDate, days), GetUserAuthentication());
+            return premieres.FromJSONArray<TraktCalendar>();
+        }
+
         #endregion
 
         #region Helpers

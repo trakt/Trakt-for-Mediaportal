@@ -170,7 +170,10 @@ namespace TraktPlugin.GUI
 
         // C
         public static string Calendar = "Calendar";
+        public static string CalendarMyShows = "My Shows";
+        public static string CalendarPremieres = "Premieres";
         public static string Certification = "Certification";
+        public static string ChangeView = "Change View...";
 
         // D
         
@@ -179,6 +182,7 @@ namespace TraktPlugin.GUI
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Error";
+        public static string ErrorCalendar = "Error getting calendar.";
 
         // F
         public static string FirstAired = "First Aired";
@@ -253,7 +257,7 @@ namespace TraktPlugin.GUI
         public static string UnAuthorized = "Authentication failed, please check username and password in configuration.";
 
         // V
-        
+        public static string View = "View";
 
         // W
         public static string WatchList = "Watch List";

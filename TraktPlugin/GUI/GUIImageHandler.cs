@@ -29,13 +29,14 @@ namespace TraktPlugin.GUI
                 }
                 return true;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 TraktLogger.Info("Image download failed from '{0}' to '{1}'", url, localFile);
+                try { if (File.Exists(localFile)) File.Delete(localFile); } catch { }
                 return false;
             }
         }
-
+            
         /// <summary>
         /// Gets a MediaPortal texture identifier from filename
         /// </summary>

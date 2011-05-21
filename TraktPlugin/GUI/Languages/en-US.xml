@@ -12,7 +12,10 @@
   
   <!-- C -->
   <string Field="Calendar">Calendar</string>
+  <string Field="CalendarMyShows">My Shows</string>
+  <string Field="CalendarPremieres">Premieres</string>
   <string Field="Certification">Certification</string>
+  <string Field="ChangeView">Change View...</string>
   
   <!-- D -->
   
@@ -20,6 +23,7 @@
   <string Field="Episode">Episode</string>
   <string Field="Episodes">Episodes</string>
   <string Field="Error">Error</string>
+  <string Field="ErrorCalendar">Error getting calendar.</string>
   
   <!-- F -->
   <string Field="FirstAired">First Aired</string>
@@ -94,7 +98,8 @@
   <string Field="UnAuthorized">Authentication failed, please check username and password in configuration.</string>
   
   <!-- V -->
-
+  <string Field="View">View</string>
+  
   <!-- W -->
   <string Field="WatchList">Watch List</string>
   <string Field="Watched">Watched</string>
