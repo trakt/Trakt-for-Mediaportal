@@ -18,7 +18,7 @@ namespace TraktPlugin.GUI
     {
         #region Skin Controls
 
-        [SkinControlAttribute(50)]
+        [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
         #endregion
@@ -144,7 +144,7 @@ namespace TraktPlugin.GUI
 
                         case Views.WatchedTypes:
                             LoadFriendsList();
-                            return;                  
+                            return;
                     }
                     break;
             }

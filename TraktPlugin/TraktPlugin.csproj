@@ -129,13 +129,16 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUIRecommendations.cs" />
     <Compile Include="GUI\GUIBackgroundTask.cs" />
     <Compile Include="GUI\GUICalendar.cs" />
     <Compile Include="GUI\GUIExtensions.cs" />
     <Compile Include="GUI\GUIImageHandler.cs" />
     <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUITranslations.cs" />
+    <Compile Include="GUI\GUITrending.cs" />
     <Compile Include="GUI\GUIUtils.cs" />
+    <Compile Include="GUI\GUIWatchList.cs" />
     <Compile Include="ITraktHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

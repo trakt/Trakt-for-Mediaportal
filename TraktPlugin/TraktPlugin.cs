@@ -129,42 +129,17 @@ namespace TraktPlugin
             Calendar = 87259,
             Friends = 87260,
             Recommendations = 87261,
-            Trending = 87262,
-            WatchedList = 87263,
-            Settings = 87264
+            RecommendationsShows = 87262,
+            RecommendationsMovies = 87263,
+            Trending = 87264,
+            TrendingShows = 87265,
+            TrendingMovies = 87266,
+            WatchedList = 87267,
+            WatchedListShows = 87268,
+            WatchedListEpisodes = 87269,
+            WatchedListMovies = 87270,
+            Settings = 87271
         }
-
-        #endregion
-
-        #region GUI Controls
-
-        enum GUIControls
-        {
-            Calendar = 10,
-            Friends = 11,
-            Recommendations = 12,
-            Trending = 13,
-            WatchList = 14,
-            Settings = 15,
-        }
-
-        [SkinControl((int)GUIControls.Calendar)]
-        protected GUIButtonControl btnCalendar = null;
-
-        [SkinControl((int)GUIControls.Friends)]
-        protected GUIButtonControl btnFriends = null;
-
-        [SkinControl((int)GUIControls.Recommendations)]
-        protected GUIButtonControl btnRecommendations = null;
-
-        [SkinControl((int)GUIControls.Trending)]
-        protected GUIButtonControl btnTrending = null;
-
-        [SkinControl((int)GUIControls.WatchList)]
-        protected GUIButtonControl btnWatchList = null;
-
-        [SkinControl((int)GUIControls.Settings)]
-        protected GUIButtonControl btnSettings = null;
 
         #endregion
 
