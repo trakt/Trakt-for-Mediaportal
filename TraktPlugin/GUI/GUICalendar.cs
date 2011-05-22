@@ -256,10 +256,10 @@ namespace TraktPlugin.GUI
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId <= 0) return;
 
-            // Set new Selection
+            // Set new Selection            
             CurrentCalendar = (CalendarType)Enum.GetValues(typeof(CalendarType)).GetValue(dlg.SelectedLabel);
-            viewButton.Label = Translation.View + ": " + dlg.SelectedLabelText;
-
+            if (viewButton != null) viewButton.Label = Translation.View + ": " + dlg.SelectedLabelText;
+                
             SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
 
             // Reset Views and Apply
@@ -439,7 +439,8 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // Set current view in button label
-            viewButton.Label = Translation.View + ": " + GetCalendarTypeName(CurrentCalendar);
+            if (viewButton != null)
+                viewButton.Label = Translation.View + ": " + GetCalendarTypeName(CurrentCalendar);
 
             SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
         }
