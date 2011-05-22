@@ -268,6 +268,9 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
+            // save settings
+            TraktSettings.saveSettings();
+
             TraktLogger.Info("Goodbye");
             base.DeInit();
         }

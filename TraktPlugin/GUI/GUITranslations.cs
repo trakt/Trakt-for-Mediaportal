@@ -174,6 +174,7 @@ namespace TraktPlugin.GUI
         public static string CalendarPremieres = "Premieres";
         public static string Certification = "Certification";
         public static string ChangeView = "Change View...";
+        public static string ChangeLayout = "Change Layout...";
 
         // D
         
@@ -194,7 +195,8 @@ namespace TraktPlugin.GUI
         public static string Gender = "Gender";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
-        public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";        
+        public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
+        public static string GettingTrendingMovies = "Getting Trending Movies";
 
         // I
 
@@ -206,6 +208,7 @@ namespace TraktPlugin.GUI
 
         // L
         public static string Location = "Location";
+        public static string Layout = "Layout";
 
         // M
         public static string Movie = "Movie";
@@ -226,6 +229,8 @@ namespace TraktPlugin.GUI
 
         // P
         public static string Protected = "Protected";
+        public static string PersonWatching = "1 Person Watching";
+        public static string PeopleWatching = "{0} People Watching";
 
         // R
         public static string Recommendations = "Recommendations";
@@ -243,6 +248,8 @@ namespace TraktPlugin.GUI
         // T
         public static string Timeout = "Timeout";
         public static string Trending = "Trending";
+        public static string TrendingShows = "Trending Shows";
+        public static string TrendingMovies = "Trending Movies";
         public static string TVShow = "TV Show";
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";

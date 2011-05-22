@@ -366,6 +366,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Trending
+
+        public static IEnumerable<TraktTrendingMovie> GetTrendingMovies()
+        {
+            string response = Transmit(TraktURIs.TrendingMovies, GetUserAuthentication());
+            return response.FromJSONArray<TraktTrendingMovie>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>

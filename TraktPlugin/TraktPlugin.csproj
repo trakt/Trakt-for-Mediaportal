@@ -129,6 +129,7 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUITrendingMovies.cs" />
     <Compile Include="GUI\GUIRecommendations.cs" />
     <Compile Include="GUI\GUIBackgroundTask.cs" />
     <Compile Include="GUI\GUICalendar.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktRateMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRateSeries.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktTrendingMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShow.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncMovieResponse.cs" />

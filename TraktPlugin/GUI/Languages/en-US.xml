@@ -16,6 +16,7 @@
   <string Field="CalendarPremieres">Premieres</string>
   <string Field="Certification">Certification</string>
   <string Field="ChangeView">Change View...</string>
+  <string Field="ChangeLayout">Change Layout...</string>
   
   <!-- D -->
   
@@ -36,6 +37,7 @@
   <string Field="GettingCalendar">Getting Calendar</string>
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
+  <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   
   <!-- I -->
   
@@ -47,6 +49,7 @@
   
   <!-- L -->
   <string Field="Location">Location</string>
+  <string Field="Layout">Layout</string>
   
   <!-- M -->
   <string Field="Movie">Movie</string>
@@ -67,6 +70,8 @@
   
   <!-- P -->
   <string Field="Protected">Protected</string>
+  <string Field="PersonWatching">1 Person Watching</string>
+  <string Field="PeopleWatching">{0} People Watching</string>
   
   <!-- R -->
   <string Field="Recommendations">Recommendations</string>
@@ -84,6 +89,8 @@
   <!-- T -->
   <string Field="Timeout">Timeout</string>
   <string Field="Trending">Trending</string>
+  <string Field="TrendingShows">Trending Shows</string>
+  <string Field="TrendingMovies">Trending Movies</string>
   <string Field="TVShow">TV Show</string>
   <string Field="TVShows">TV Shows</string>
   <string Field="Tagline">Tagline</string>
@@ -98,7 +105,7 @@
   <string Field="UnAuthorized">Authentication failed, please check username and password in configuration.</string>
   
   <!-- V -->
-  <string Field="View">View</string>
+  <string Field="View">View</string>  
   
   <!-- W -->
   <string Field="WatchList">Watch List</string>

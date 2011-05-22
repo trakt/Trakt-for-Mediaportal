@@ -27,5 +27,6 @@ namespace TraktPlugin.TraktAPI
         public const string CalendarPremieres = @"http://api.trakt.tv/calendar/premieres.json/" + ApiKey + @"/{0}/{1}";
         public const string UserFriends = @"http://api.trakt.tv/user/friends.json/" + ApiKey + @"/{0}/extended";
         public const string RateItem = @"http://api.trakt.tv/rate/{0}/" + ApiKey;
+        public const string TrendingMovies = @"http://api.trakt.tv/movies/trending.json/" + ApiKey;
     }
 }

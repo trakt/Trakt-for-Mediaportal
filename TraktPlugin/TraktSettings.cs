@@ -19,6 +19,7 @@ namespace TraktPlugin
         public static List<String> BlockedFolders { get; set; }
         public static int LogLevel { get; set; }
         public static int SyncTimerLength { get; set; }
+        public static int TrendingMoviesDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -32,6 +33,7 @@ namespace TraktPlugin
         private const string cBlockedFilenames = "BlockedFilenames";
         private const string cBlockedFolders = "BlockedFolders";
         private const string cSyncTimerLength = "SyncTimerLength";
+        private const string cTrendingMoviesDefaultLayout = "TrendingMoviesDefaultLayout";
         #endregion
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace TraktPlugin
                 BlockedFolders = xmlreader.GetValueAsString(cTrakt, cBlockedFolders, "").FromJSONArray<string>().ToList();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
+                TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
             }
         }
 
@@ -87,6 +90,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
                 xmlwriter.SetValue(cTrakt, cBlockedFolders, BlockedFolders.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
+                xmlwriter.SetValue(cTrakt, cTrendingMoviesDefaultLayout, TrendingMoviesDefaultLayout);
             }
 
             Settings.SaveCache();
