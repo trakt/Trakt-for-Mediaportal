@@ -4,6 +4,7 @@
 <!-- Note: English is the fallback for any strings not found in other languages -->
 <strings>
   <!-- A -->
+  <string Field="AddToLibrary">Add to Library</string>
   <string Field="AirDate">Air Date</string>
   <string Field="AirDay">Air Day</string>
   <string Field="AirTime">Air Time</string>
@@ -52,6 +53,7 @@
   <string Field="Layout">Layout</string>
   
   <!-- M -->
+  <string Field="MarkAsWatched">Mark as Watched</string>
   <string Field="Movie">Movie</string>
   <string Field="Movies">Movies</string>
   
@@ -77,6 +79,7 @@
   <string Field="Recommendations">Recommendations</string>
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>
+  <string Field="RemoveFromLibrary">Remove from Library</string>
   <string Field="Runtime">Runtime</string>
   
   <!-- S -->

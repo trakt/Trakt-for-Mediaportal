@@ -161,6 +161,7 @@ namespace TraktPlugin.GUI
         /// </summary>
 
         // A
+        public static string AddToLibrary = "Add to Library";
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
@@ -211,6 +212,7 @@ namespace TraktPlugin.GUI
         public static string Layout = "Layout";
 
         // M
+        public static string MarkAsWatched = "Mark as Watched";
         public static string Movie = "Movie";
         public static string Movies = "Movies";
 
@@ -237,6 +239,7 @@ namespace TraktPlugin.GUI
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
         public static string Runtime = "Runtime";
+        public static string RemoveFromLibrary = "Remove from Library";
 
         // S
         public static string Season = "Season";

@@ -28,12 +28,20 @@ namespace TraktPlugin.GUI
 
         #region Enums
 
-        public enum Layout
+        enum Layout
         {
             List = 0,
             SmallIcons = 1,
             LargeIcons = 2,
             Filmstrip = 3,
+        }
+
+        enum ContextMenuItem
+        {
+            MarkAsWatched,
+            AddToLibrary,
+            RemoveFromLibrary,
+            ChangeLayout
         }
 
         #endregion
@@ -94,6 +102,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
+            _TrendingMovies = null;
 
             // save current layout
             TraktSettings.TrendingMoviesDefaultLayout = (int)CurrentLayout;            
@@ -129,25 +138,75 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+            
+            TraktTrendingMovie selectedMovie = (TraktTrendingMovie)selectedItem.TVTag;
+
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            // Create Layout Menu Item
-            GUIListItem listItem = new GUIListItem(Translation.ChangeLayout);
+            GUIListItem listItem = null;
 
-            // Add new item to context menu
+            // Mark As Watched
+            if (selectedMovie.Plays == 0)
+            {
+                listItem = new GUIListItem(Translation.MarkAsWatched);                
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+            }
+
+            // Add to Library
+            // Don't allow if it will be removed again on next sync
+            // movie could be part of a DVD collection
+            if (!selectedMovie.InCollection && !TraktSettings.KeepTraktLibraryClean)
+            {
+                listItem = new GUIListItem(Translation.AddToLibrary);                
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
+            }
+
+            if (selectedMovie.InCollection)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromLibrary);                
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
+            }
+
+            // Change Layout
+            listItem = new GUIListItem(Translation.ChangeLayout);            
             dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
-            if (dlg.SelectedId <= 0) return;
+            if (dlg.SelectedId < 0) return;
 
-            switch (dlg.SelectedLabel)
+            switch (dlg.SelectedId)
             {
-                case (0):
+                case ((int)ContextMenuItem.MarkAsWatched):
+                    MarkMovieAsWatched(selectedMovie);
+                    selectedMovie.Plays = 1;
+                    selectedItem.IsPlayed = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    break;
+                
+                case ((int)ContextMenuItem.AddToLibrary):
+                    AddMovieToLibrary(selectedMovie);
+                    selectedMovie.InCollection = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    break;
+
+                case ((int)ContextMenuItem.RemoveFromLibrary):
+                    RemoveMovieFromLibrary(selectedMovie);
+                    selectedMovie.InCollection = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    break;
+
+                case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
 
@@ -161,6 +220,72 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private TraktMovieSync CreateSyncData(TraktTrendingMovie movie)
+        {
+            if (movie == null) return null;
+
+            List<TraktMovieSync.Movie> movies = new List<TraktMovieSync.Movie>();
+
+            TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
+            {
+                IMDBID = movie.Imdb,
+                Title = movie.Title,
+                Year = movie.Year
+            };
+            movies.Add(syncMovie);
+
+            TraktMovieSync syncData = new TraktMovieSync
+            {
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                MovieList = movies
+            };
+
+            return syncData;
+        }
+
+        private void MarkMovieAsWatched(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.seen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as Watched"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void AddMovieToLibrary(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.library);
+            })
+            {
+                IsBackground = true,
+                Name = "Add Movie to Library"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void RemoveMovieFromLibrary(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.unlibrary);
+            })
+            {
+                IsBackground = true,
+                Name = "Remove Movie From Library"
+            };
+
+            syncThread.Start(movie);
+        }
 
         private void ShowLayoutMenu()
         {
@@ -243,7 +368,8 @@ namespace TraktPlugin.GUI
                 item.ItemId = Int32.MaxValue - itemId;
                 // movie in collection doesnt nessararily mean
                 // that the movie is locally available on this computer
-                item.IsRemote = !movie.InCollection;                
+                // as 'keep library clean' might not be enabled
+                //item.IsRemote = !movie.InCollection;
                 item.IconImage = "defaultVideo.png";
                 item.IconImageBig = "defaultVideoBig.png";
                 item.ThumbnailImage = "defaultVideoBig.png";
@@ -333,7 +459,6 @@ namespace TraktPlugin.GUI
         private void GetImages(List<TraktMovie.MovieImages> itemsWithThumbs)
         {
             StopDownload = false;
-            _TrendingMovies = null;
 
             // split the downloads in 5+ groups and do multithreaded downloading
             int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
