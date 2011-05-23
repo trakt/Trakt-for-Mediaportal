@@ -5,6 +5,7 @@
 <strings>
   <!-- A -->
   <string Field="AddToLibrary">Add to Library</string>
+  <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AirDate">Air Date</string>
   <string Field="AirDay">Air Day</string>
   <string Field="AirTime">Air Time</string>
@@ -80,6 +81,7 @@
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>
   <string Field="RemoveFromLibrary">Remove from Library</string>
+  <string Field="RemoveFromWatchList">Remove from Watch List</string>
   <string Field="Runtime">Runtime</string>
   
   <!-- S -->

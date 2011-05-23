@@ -28,7 +28,9 @@ namespace TraktPlugin.TraktAPI
         library,
         seen,
         unlibrary,
-        unseen
+        unseen,
+        watchlist,
+        unwatchlist
     }
 
     /// <summary>

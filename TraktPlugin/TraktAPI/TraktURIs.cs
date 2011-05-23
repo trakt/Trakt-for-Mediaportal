@@ -28,5 +28,6 @@ namespace TraktPlugin.TraktAPI
         public const string UserFriends = @"http://api.trakt.tv/user/friends.json/" + ApiKey + @"/{0}/extended";
         public const string RateItem = @"http://api.trakt.tv/rate/{0}/" + ApiKey;
         public const string TrendingMovies = @"http://api.trakt.tv/movies/trending.json/" + ApiKey;
+        public const string MovieWatchList = @"http://api.trakt.tv/movie/watchlist/" + ApiKey;
     }
 }

@@ -39,8 +39,10 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             MarkAsWatched,
+            AddToWatchList,
+            RemoveFromWatchList,
             AddToLibrary,
-            RemoveFromLibrary,
+            RemoveFromLibrary,            
             ChangeLayout
         }
 
@@ -159,14 +161,33 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
             }
 
+            // Add to Watch List
+            // Not sure if someone would want to add to their watchlist
+            // if they have already seen it?
+            if (selectedMovie.Plays == 0)
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
+            }
+
             // Add to Library
             // Don't allow if it will be removed again on next sync
             // movie could be part of a DVD collection
             if (!selectedMovie.InCollection && !TraktSettings.KeepTraktLibraryClean)
             {
-                listItem = new GUIListItem(Translation.AddToLibrary);                
+                listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
+
+                // Remove Movie From Watch List
+                // Needs API Update
+                //if (selectedMovie.InWatchList)
+                //{
+                //    listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                //    dlg.Add(listItem);
+                //    listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+                //}
             }
 
             if (selectedMovie.InCollection)
@@ -192,6 +213,14 @@ namespace TraktPlugin.GUI
                     selectedMovie.Plays = 1;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
+                    break;
+
+                case ((int)ContextMenuItem.AddToWatchList):
+                    AddMovieToWatchList(selectedMovie);
+                    break;
+
+                case ((int)ContextMenuItem.RemoveFromWatchList):
+                    RemoveMovieFromWatchList(selectedMovie);
                     break;
                 
                 case ((int)ContextMenuItem.AddToLibrary):
@@ -243,6 +272,34 @@ namespace TraktPlugin.GUI
             };
 
             return syncData;
+        }
+
+        private void AddMovieToWatchList(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.watchlist);
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Movie to Watch List"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void RemoveMovieFromWatchList(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.unwatchlist);
+            })
+            {
+                IsBackground = true,
+                Name = "Removing Movie from Watch List"
+            };
+
+            syncThread.Start(movie);
         }
 
         private void MarkMovieAsWatched(TraktTrendingMovie movie)
