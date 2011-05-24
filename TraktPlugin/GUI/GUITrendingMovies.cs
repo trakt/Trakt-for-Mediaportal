@@ -162,14 +162,18 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
             }
 
-            // Add to Watch List
-            // Not sure if someone would want to add to their watchlist
-            // if they have already seen it?
-            if (selectedMovie.Plays == 0)
+            // Add/Remove Watch List            
+            if (!selectedMovie.InWatchList)
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
+            }
+            else
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
             // Add to Library
@@ -180,15 +184,6 @@ namespace TraktPlugin.GUI
                 listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
-
-                // Remove Movie From Watch List
-                // Needs API Update
-                //if (selectedMovie.InWatchList)
-                //{
-                //    listItem = new GUIListItem(Translation.RemoveFromWatchList);
-                //    dlg.Add(listItem);
-                //    listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
-                //}
             }
 
             if (selectedMovie.InCollection)
@@ -219,10 +214,16 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddMovieToWatchList(selectedMovie);
+                    selectedMovie.InWatchList = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     RemoveMovieFromWatchList(selectedMovie);
+                    selectedMovie.InWatchList = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
                 
                 case ((int)ContextMenuItem.AddToLibrary):
@@ -485,6 +486,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers.Extra", string.Empty);
@@ -506,6 +508,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Year", movie.Year);
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
+            SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
             SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
             SetProperty("#Trakt.Movie.Watchers", movie.Watchers.ToString());
             SetProperty("#Trakt.Movie.Watchers.Extra", movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
@@ -595,7 +598,9 @@ namespace TraktPlugin.GUI
             TraktTrendingMovie movie = TVTag as TraktTrendingMovie;
             OverlayImage overlay = OverlayImage.None;
 
-            if (movie.Plays > 0)
+            if (movie.InWatchList)
+                overlay = OverlayImage.Watchlist;
+            else if (movie.Plays > 0)
                 overlay = OverlayImage.Seenit;
             else if (movie.InCollection)
                 overlay = OverlayImage.Library;            

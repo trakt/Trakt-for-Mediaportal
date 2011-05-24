@@ -19,6 +19,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "in_collection")]
         public bool InCollection { get; set; }
 
+        [DataMember(Name = "in_watchlist")]
+        public bool InWatchList { get; set; }
+
         [DataMember(Name = "watchers")]
         public int Watchers { get; set; }
     }
