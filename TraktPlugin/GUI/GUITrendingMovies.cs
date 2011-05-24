@@ -491,6 +491,11 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers.Extra", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Votes", string.Empty);
         }
 
         private void PublishMovieSkinProperties(TraktTrendingMovie movie)
@@ -513,6 +518,11 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Watchers", movie.Watchers.ToString());
             SetProperty("#Trakt.Movie.Watchers.Extra", movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
             SetProperty("#Trakt.Movie.Watched", (movie.Plays > 0).ToString());
+            SetProperty("#Trakt.Movie.Rating", movie.Rating);
+            SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Movie.Ratings.LovedCount", movie.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Movie.Ratings.Votes", movie.Ratings.Votes.ToString());
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)

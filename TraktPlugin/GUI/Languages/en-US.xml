@@ -41,6 +41,10 @@
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   
+  <!-- H -->
+  <string Field="Hate">Hate</string>
+  <string Field="Hated">Hated</string>
+  
   <!-- I -->
   
   <!-- K -->
@@ -52,6 +56,8 @@
   <!-- L -->
   <string Field="Location">Location</string>
   <string Field="Layout">Layout</string>
+  <string Field="Love">Love</string>
+  <string Field="Loved">Loved</string>
   
   <!-- M -->
   <string Field="MarkAsWatched">Mark as Watched</string>
@@ -72,11 +78,14 @@
   <string Field="Overview">Overview</string>
   
   <!-- P -->
+  <string Field="Percentage">Percentage</string>
   <string Field="Protected">Protected</string>
   <string Field="PersonWatching">1 Person Watching</string>
   <string Field="PeopleWatching">{0} People Watching</string>
   
   <!-- R -->
+  <string Field="RateHate">Weak Sauce :(</string>
+  <string Field="RateLove">Totally Ninja!</string>
   <string Field="Recommendations">Recommendations</string>
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>
@@ -85,8 +94,8 @@
   <string Field="Runtime">Runtime</string>
   
   <!-- S -->
-  <string Field="Season">Season</string>
-  <string Field="Scrobble">Scrobble</string>
+  <string Field="Score">Score</string>
+  <string Field="Season">Season</string>  
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>

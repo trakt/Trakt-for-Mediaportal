@@ -43,6 +43,21 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "year")]
         public string Year { get; set; }
 
+        [DataMember(Name = "plays")]
+        public int Plays { get; set; }
+
+        [DataMember(Name = "in_collection")]
+        public bool InCollection { get; set; }
+
+        [DataMember(Name = "in_watchlist")]
+        public bool InWatchList { get; set; }
+
+        [DataMember(Name = "rating")]
+        public string Rating { get; set; }
+
+        [DataMember(Name = "ratings")]
+        public TraktRatings Ratings { get; set; }
+
         [DataMember(Name = "images")]
         public MovieImages Images { get; set; }
 

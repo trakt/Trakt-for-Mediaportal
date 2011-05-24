@@ -32,7 +32,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktRatings
     {
         [DataMember(Name = "percentage")]
-        public double Percentage { get; set; }
+        public int Percentage { get; set; }
 
         [DataMember(Name = "votes")]
         public int Votes { get; set; }

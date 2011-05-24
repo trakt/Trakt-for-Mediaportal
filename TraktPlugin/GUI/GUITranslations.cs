@@ -200,6 +200,10 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingTrendingMovies = "Getting Trending Movies";
 
+        // H
+        public static string Hate = "Hate";
+        public static string Hated = "Hated";
+
         // I
 
         // I
@@ -211,6 +215,8 @@ namespace TraktPlugin.GUI
         // L
         public static string Location = "Location";
         public static string Layout = "Layout";
+        public static string Love = "Love";
+        public static string Loved = "Loved";
 
         // M
         public static string MarkAsWatched = "Mark as Watched";
@@ -231,12 +237,15 @@ namespace TraktPlugin.GUI
         public static string Overview = "Overview";
 
         // P
+        public static string Percentage = "Percentage";
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
 
         // R
-        public static string Recommendations = "Recommendations";
+        public static string RateHate = "Weak Sauce :(";
+        public static string RateLove = "Totally Ninja!";
+        public static string Recommendations = "Recommendations";        
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
         public static string RemoveFromLibrary = "Remove from Library";
@@ -244,8 +253,9 @@ namespace TraktPlugin.GUI
         public static string Runtime = "Runtime";
 
         // S
-        public static string Season = "Season";
+        public static string Score = "Score";
         public static string Scrobble = "Scrobble";
+        public static string Season = "Season";        
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";        

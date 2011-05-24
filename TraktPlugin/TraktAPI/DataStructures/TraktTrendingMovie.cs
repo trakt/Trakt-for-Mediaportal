@@ -13,15 +13,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktTrendingMovie : TraktMovie
     {
-        [DataMember(Name = "plays")]
-        public int Plays { get; set; }
-
-        [DataMember(Name = "in_collection")]
-        public bool InCollection { get; set; }
-
-        [DataMember(Name = "in_watchlist")]
-        public bool InWatchList { get; set; }
-
         [DataMember(Name = "watchers")]
         public int Watchers { get; set; }
     }
