@@ -522,7 +522,7 @@ namespace TraktPlugin.TraktHandlers
                 Title = movie.Title,
                 Year = movie.Year.ToString(),
                 IMDBID = movie.ImdbID,
-                PluginVersion = Assembly.GetCallingAssembly().GetName().Version.ToString(),
+                PluginVersion = TraktSettings.Version,
                 MediaCenter = "Mediaportal",
                 MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
                 MediaCenterBuildDate = String.Empty,

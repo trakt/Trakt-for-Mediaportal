@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using MediaPortal.Profile;
 
@@ -49,7 +50,22 @@ namespace TraktPlugin
                 return count;
             }
         }
-        
+
+        public static string Version
+        {
+            get
+            {
+                return Assembly.GetCallingAssembly().GetName().Version.ToString();
+            }
+        }
+
+        public static string UserAgent
+        {
+            get
+            {
+                return string.Format("TraktForMediaPortal/{0}", Version);
+            }
+        }
 
         /// <summary>
         /// Loads the Settings

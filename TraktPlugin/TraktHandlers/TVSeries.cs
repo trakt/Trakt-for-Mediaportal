@@ -348,7 +348,7 @@ namespace TraktPlugin.TraktHandlers
                 Season = episode[DBOnlineEpisode.cSeasonIndex],
                 Episode = episode[DBOnlineEpisode.cEpisodeIndex],
                 SeriesID = series[DBSeries.cID],
-                PluginVersion = Assembly.GetCallingAssembly().GetName().Version.ToString(),
+                PluginVersion = TraktSettings.Version,
                 MediaCenter = "Mediaportal",
                 MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
                 MediaCenterBuildDate = String.Empty,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -213,6 +214,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.Plays = 1;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
@@ -227,12 +229,14 @@ namespace TraktPlugin.GUI
                     AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -587,11 +591,26 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // Get a reference to a MdiaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
+            // determine the overlay to add to poster, only one will suffice
+            TraktTrendingMovie movie = TVTag as TraktTrendingMovie;
+            OverlayImage overlay = OverlayImage.None;
+
+            if (movie.Plays > 0)
+                overlay = OverlayImage.Seenit;
+            else if (movie.InCollection)
+                overlay = OverlayImage.Library;            
+
+            // get a reference to a MediaPortal Texture Identifier
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, Enum.GetName(typeof(OverlayImage), overlay));
+
+            Image memoryImage = null;
+            if (overlay != OverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, overlay);
+            else
+                memoryImage = ImageFast.FromFile(imageFilePath);
 
             // load texture into facade item
-            if (GUITextureManager.LoadFromMemory(ImageFast.FromFile(imageFilePath), texture, 0, 0, 0) > 0)
+            if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
             {
                 ThumbnailImage = texture;
                 IconImage = texture;

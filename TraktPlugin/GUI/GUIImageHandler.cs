@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Linq;
 using System.Text;
+using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 
 namespace TraktPlugin.GUI
 {
+    public enum OverlayImage
+    {
+        Seenit,
+        Library,
+        Watchlist,
+        None
+    }
+
     public static class GUIImageHandler
     {
         /// <summary>
@@ -19,6 +29,8 @@ namespace TraktPlugin.GUI
         public static bool DownloadImage(string url, string localFile)
         {
             WebClient webClient = new WebClient();
+            webClient.Headers.Add("user-agent", TraktSettings.UserAgent);
+
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(localFile));
@@ -36,7 +48,7 @@ namespace TraktPlugin.GUI
                 return false;
             }
         }
-            
+
         /// <summary>
         /// Gets a MediaPortal texture identifier from filename
         /// </summary>
@@ -44,7 +56,38 @@ namespace TraktPlugin.GUI
         /// <returns>MediaPortal texture identifier</returns>
         public static string GetTextureIdentFromFile(string filename)
         {
-            return "[Trakt:" + filename.GetHashCode() + "]";
+            return GetTextureIdentFromFile(filename, string.Empty);
+        }
+        
+        public static string GetTextureIdentFromFile(string filename, string suffix)
+        {
+            return "[Trakt:" + (filename + suffix).GetHashCode() + "]";
+        }
+
+        /// <summary>
+        /// Draws a trakt overlay, library/seen/watchlist icon on a poster
+        /// This is done in memory and wont touch the existing file
+        /// </summary>
+        /// <param name="origPoster">Filename of the untouched poster</param>
+        /// <param name="type">Overlay type enum</param>
+        /// <returns>An image with overlay added to poster</returns>
+        public static Bitmap DrawOverlayOnPoster(string origPoster, OverlayImage type)
+        {
+            string overlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(OverlayImage), type));
+            Bitmap poster = new Bitmap(ImageFast.FromFile(origPoster));
+            Graphics gph = Graphics.FromImage(poster);
+
+            if (File.Exists(overlayImage))
+            {
+                Bitmap newPoster = new Bitmap(ImageFast.FromFile(overlayImage));
+                
+                // set position to be right aligned
+                // poster is 300px wide, overlays are 55x55px
+                // later allow skinner to define this by skin settings
+                gph.DrawImage(newPoster, 245, 0);           
+            }           
+            gph.Dispose();
+            return poster;
         }
     }
 }
