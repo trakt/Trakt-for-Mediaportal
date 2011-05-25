@@ -4,6 +4,7 @@ using MediaPortal.Configuration;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI.DataStructures;
+using System.Threading;
 
 namespace TraktPlugin.GUI
 {
@@ -14,7 +15,7 @@ namespace TraktPlugin.GUI
         private delegate void ShowNotifyDialogDelegate(string heading, string text, string image, string buttonText);
         private delegate int ShowMenuDialogDelegate(string heading, List<GUIListItem> items);
         private delegate void ShowTextDialogDelegate(string heading, string text);
-        private delegate void ShowRateDialogDelegate<T>(T rateObject);
+        private delegate string ShowRateDialogDelegate<T>(T rateObject);
 
         public static readonly string TraktLogo = GUIGraphicsContext.Skin + "\\Media\\Logos\\trakt.png";
 
@@ -317,71 +318,101 @@ namespace TraktPlugin.GUI
 
         /// <summary>
         /// Shows a Trakt Rate Dialog (Love/Hate)
-        /// </summary>
-        /// <param name="value">Default rate value ie love or hate</param>
-        /// <param name="type">Type of item being rated, show, episode or movie</param>
-        /// <param name="item">Description of item being rated e.g. name of movie</param>
-        public static void ShowRateDialog<T>(T rateObject)
+        /// </summary>        
+        /// <param name="rateObject">Type of object being rated</param>
+        public static string ShowRateDialog<T>(T rateObject)
         {
             if (GUIGraphicsContext.form.InvokeRequired)
             {
                 ShowRateDialogDelegate<T> d = ShowRateDialog<T>;
-                GUIGraphicsContext.form.Invoke(d, rateObject);
-                return;
+                return (string)GUIGraphicsContext.form.Invoke(d, rateObject);
             }
+
+            string currentRating = "false";
 
             GUIRateDialog ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);
             ratingDlg.Reset();
             
             ratingDlg.SetHeading(Translation.RateHeading);
 
+            // if item is not rated, it will default to love
             if (rateObject is TraktRateEpisode)
             {
                 TraktRateEpisode item = rateObject as TraktRateEpisode;
                 ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Season, item.Episode));
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+                currentRating = item.Rating;
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             else if (rateObject is TraktRateSeries)
             {
                 TraktRateSeries item = rateObject as TraktRateSeries;
                 ratingDlg.SetLine(1, item.Title);
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+                currentRating = item.Rating;
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             else
             {
                 TraktRateMovie item = rateObject as TraktRateMovie;
                 ratingDlg.SetLine(1, item.Title);
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+                currentRating = item.Rating;
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             
             ratingDlg.DoModal(ratingDlg.GetID);
             if (ratingDlg.IsSubmitted)
             {
-                TraktRateResponse response = null;
                 if (rateObject is TraktRateEpisode)
                 {
                     TraktRateEpisode item = rateObject as TraktRateEpisode;
-                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    response = TraktAPI.TraktAPI.RateEpisode(item);
-                    
+                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    item.Rating = currentRating;
+                    Thread rateThread = new Thread(delegate(object obj)
+                    {
+                        TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(item);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Rate Episode"
+                    };
+                    rateThread.Start(item);
                 }
                 else if (rateObject is TraktRateSeries)
                 {
                     TraktRateSeries item = rateObject as TraktRateSeries;
-                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    response = TraktAPI.TraktAPI.RateSeries(item);
+                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    item.Rating = currentRating;
+                    Thread rateThread = new Thread(delegate(object obj)
+                    {
+                        TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(item);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Rate Series"
+                    };
+                    rateThread.Start(item);
                 }
                 else
                 {
                     TraktRateMovie item = rateObject as TraktRateMovie;
-                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    response = TraktAPI.TraktAPI.RateMovie(item);
+                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    item.Rating = currentRating;
+                    Thread rateThread = new Thread(delegate(object obj)
+                    {
+                        TraktRateResponse response = TraktAPI.TraktAPI.RateMovie(item);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Rate Movie"
+                    };
+                    rateThread.Start(item);
                 }
-
-                // check for any error and notify
-                TraktAPI.TraktAPI.LogTraktResponse(response);
             }
-          
+
+            // return new rating
+            return currentRating;
         }
     }    
 }

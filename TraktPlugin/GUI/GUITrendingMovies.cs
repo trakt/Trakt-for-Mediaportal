@@ -247,7 +247,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateMovie(selectedMovie);                    
+                    RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
                     break;
 
@@ -368,21 +368,12 @@ namespace TraktPlugin.GUI
                 IMDBID = movie.Imdb,
                 Title = movie.Title,
                 Year = movie.Year,
-                Rating = movie.Rating == "false" ? "love" : movie.Rating,
+                Rating = movie.Rating,
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
 
-            Thread rateThread = new Thread(delegate(object obj)
-            {
-                GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
-            })
-            {
-                IsBackground = true,
-                Name = "Rate Movie"
-            };
-
-            rateThread.Start(movie);
+            movie.Rating = GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
         }
 
         private void ShowLayoutMenu()

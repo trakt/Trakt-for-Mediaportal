@@ -84,7 +84,7 @@ namespace TraktPlugin.GUI
                 // set position to be right aligned
                 // poster is 300px wide, overlays are 55x55px
                 // later allow skinner to define this by skin settings
-                gph.DrawImage(newPoster, 245, 0);           
+                gph.DrawImage(newPoster, 215, 0);           
             }           
             gph.Dispose();
             return poster;
