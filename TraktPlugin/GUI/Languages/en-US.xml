@@ -84,8 +84,16 @@
   <string Field="PeopleWatching">{0} People Watching</string>
   
   <!-- R -->
+  <string Field="Rate">Rate</string>
+  <string Field="Rated">Rated</string>
+  <string Field="Rating">Rating</string>
+  <string Field="RateMovie">Rate Movie...</string>
+  <string Field="RateShow">Rate Show...</string>
+  <string Field="RateEpisode">Rate Episode...</string>
+  <string Field="RateDialog">Trakt Rate Dialog</string>
   <string Field="RateHate">Weak Sauce :(</string>
   <string Field="RateLove">Totally Ninja!</string>
+  <string Field="RateHeading">What do you think?</string>
   <string Field="Recommendations">Recommendations</string>
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>

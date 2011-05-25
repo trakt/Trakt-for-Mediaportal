@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MediaPortal.Configuration;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -13,6 +14,7 @@ namespace TraktPlugin.GUI
         private delegate void ShowNotifyDialogDelegate(string heading, string text, string image, string buttonText);
         private delegate int ShowMenuDialogDelegate(string heading, List<GUIListItem> items);
         private delegate void ShowTextDialogDelegate(string heading, string text);
+        private delegate void ShowRateDialogDelegate<T>(T rateObject);
 
         public static readonly string TraktLogo = GUIGraphicsContext.Skin + "\\Media\\Logos\\trakt.png";
 
@@ -312,5 +314,74 @@ namespace TraktPlugin.GUI
 
             return false;
         }
-    }
+
+        /// <summary>
+        /// Shows a Trakt Rate Dialog (Love/Hate)
+        /// </summary>
+        /// <param name="value">Default rate value ie love or hate</param>
+        /// <param name="type">Type of item being rated, show, episode or movie</param>
+        /// <param name="item">Description of item being rated e.g. name of movie</param>
+        public static void ShowRateDialog<T>(T rateObject)
+        {
+            if (GUIGraphicsContext.form.InvokeRequired)
+            {
+                ShowRateDialogDelegate<T> d = ShowRateDialog<T>;
+                GUIGraphicsContext.form.Invoke(d, rateObject);
+                return;
+            }
+
+            GUIRateDialog ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);
+            ratingDlg.Reset();
+            
+            ratingDlg.SetHeading(Translation.RateHeading);
+
+            if (rateObject is TraktRateEpisode)
+            {
+                TraktRateEpisode item = rateObject as TraktRateEpisode;
+                ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Season, item.Episode));
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+            }
+            else if (rateObject is TraktRateSeries)
+            {
+                TraktRateSeries item = rateObject as TraktRateSeries;
+                ratingDlg.SetLine(1, item.Title);
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+            }
+            else
+            {
+                TraktRateMovie item = rateObject as TraktRateMovie;
+                ratingDlg.SetLine(1, item.Title);
+                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), item.Rating, true);
+            }
+            
+            ratingDlg.DoModal(ratingDlg.GetID);
+            if (ratingDlg.IsSubmitted)
+            {
+                TraktRateResponse response = null;
+                if (rateObject is TraktRateEpisode)
+                {
+                    TraktRateEpisode item = rateObject as TraktRateEpisode;
+                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    response = TraktAPI.TraktAPI.RateEpisode(item);
+                    
+                }
+                else if (rateObject is TraktRateSeries)
+                {
+                    TraktRateSeries item = rateObject as TraktRateSeries;
+                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    response = TraktAPI.TraktAPI.RateSeries(item);
+                }
+                else
+                {
+                    TraktRateMovie item = rateObject as TraktRateMovie;
+                    item.Rating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
+                    response = TraktAPI.TraktAPI.RateMovie(item);
+                }
+
+                // check for any error and notify
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            }
+          
+        }
+    }    
 }

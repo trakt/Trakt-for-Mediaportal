@@ -43,7 +43,8 @@ namespace TraktPlugin.GUI
             AddToWatchList,
             RemoveFromWatchList,
             AddToLibrary,
-            RemoveFromLibrary,            
+            RemoveFromLibrary,
+            Rate,
             ChangeLayout
         }
 
@@ -194,7 +195,12 @@ namespace TraktPlugin.GUI
             }
 
             // Change Layout
-            listItem = new GUIListItem(Translation.ChangeLayout);            
+            listItem = new GUIListItem(Translation.RateMovie);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Rate;
+
+            // Change Layout
+            listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
@@ -238,6 +244,11 @@ namespace TraktPlugin.GUI
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.Rate):
+                    RateMovie(selectedMovie);                    
+                    OnMovieSelected(selectedItem, Facade);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -347,6 +358,31 @@ namespace TraktPlugin.GUI
             };
 
             syncThread.Start(movie);
+        }
+
+        private void RateMovie(TraktTrendingMovie movie)
+        {
+            // default rating to love if not already set
+            TraktRateMovie rateObject = new TraktRateMovie
+            {
+                IMDBID = movie.Imdb,
+                Title = movie.Title,
+                Year = movie.Year,
+                Rating = movie.Rating == "false" ? "love" : movie.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            Thread rateThread = new Thread(delegate(object obj)
+            {
+                GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
+            })
+            {
+                IsBackground = true,
+                Name = "Rate Movie"
+            };
+
+            rateThread.Start(movie);
         }
 
         private void ShowLayoutMenu()

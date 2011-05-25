@@ -243,8 +243,16 @@ namespace TraktPlugin.GUI
         public static string PeopleWatching = "{0} People Watching";
 
         // R
+        public static string Rate = "Rate";
+        public static string Rated = "Rated";
+        public static string Rating = "Rating";
+        public static string RateMovie = "Rate Movie...";
+        public static string RateShow = "Rate Show...";
+        public static string RateEpisode = "Rate Episode...";
+        public static string RateDialog = "Trakt Rate Dialog";
         public static string RateHate = "Weak Sauce :(";
         public static string RateLove = "Totally Ninja!";
+        public static string RateHeading = "What do you think?";
         public static string Recommendations = "Recommendations";        
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
