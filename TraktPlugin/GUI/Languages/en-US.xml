@@ -40,6 +40,7 @@
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
+  <string Field="GettingTrendingShows">Getting Trending Shows</string>
   
   <!-- H -->
   <string Field="Hate">Hate</string>

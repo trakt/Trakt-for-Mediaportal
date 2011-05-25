@@ -171,6 +171,33 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
+        /// Add/Remove show to/from watchlist
+        /// </summary>
+        /// <param name="syncData">The sync data to send</param>
+        /// <param name="mode">The sync mode to use</param>
+        /// <returns>The response from trakt</returns>
+        public static TraktResponse SyncShowWatchList(TraktShowSync syncData, TraktSyncModes mode)
+        {
+            // check that we have everything we need            
+            if (syncData == null || syncData.Shows.Count == 0)
+            {
+                TraktResponse error = new TraktResponse
+                {
+                    Error = "Not enough information to send to server",
+                    Status = "failure"
+                };
+                return error;
+            }
+
+            // serialize Scrobble object to JSON and send to server
+            string response = Transmit(string.Format(TraktURIs.SyncShowWatchList, mode.ToString()), syncData.ToJSON());           
+            TraktLogger.Debug("Response: {0}", response);
+
+            // return success or failure
+            return response.FromJSON<TraktResponse>();
+        }
+
+        /// <summary>
         /// Sends episode sync data to Trakt
         /// </summary>
         /// <param name="syncData">The sync data to send</param>
@@ -374,6 +401,12 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(TraktURIs.TrendingMovies, GetUserAuthentication());
             return response.FromJSONArray<TraktTrendingMovie>();
+        }
+
+        public static IEnumerable<TraktTrendingShow> GetTrendingShows()
+        {
+            string response = Transmit(TraktURIs.TrendingShows, GetUserAuthentication());
+            return response.FromJSONArray<TraktTrendingShow>();
         }
 
         #endregion

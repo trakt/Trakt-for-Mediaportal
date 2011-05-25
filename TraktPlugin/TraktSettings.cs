@@ -21,6 +21,7 @@ namespace TraktPlugin
         public static int LogLevel { get; set; }
         public static int SyncTimerLength { get; set; }
         public static int TrendingMoviesDefaultLayout { get; set; }
+        public static int TrendingShowsDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -35,6 +36,7 @@ namespace TraktPlugin
         private const string cBlockedFolders = "BlockedFolders";
         private const string cSyncTimerLength = "SyncTimerLength";
         private const string cTrendingMoviesDefaultLayout = "TrendingMoviesDefaultLayout";
+        private const string cTrendingShowsDefaultLayout = "TrendingShowsDefaultLayout";
         #endregion
 
         /// <summary>
@@ -86,6 +88,7 @@ namespace TraktPlugin
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
+                TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
             }
         }
 

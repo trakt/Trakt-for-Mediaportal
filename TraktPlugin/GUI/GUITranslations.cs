@@ -199,6 +199,7 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingTrendingMovies = "Getting Trending Movies";
+        public static string GettingTrendingShows = "Getting Trending Shows";
 
         // H
         public static string Hate = "Hate";

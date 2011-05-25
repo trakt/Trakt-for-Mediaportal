@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,17 +52,78 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "tvrage_id")]
         public string TvRage { get; set; }
 
+        [DataMember(Name = "plays")]
+        public int Plays { get; set; }
+
+        [DataMember(Name = "in_watchlist")]
+        public bool InWatchList { get; set; }
+
+        [DataMember(Name = "rating")]
+        public string Rating { get; set; }
+
+        [DataMember(Name = "ratings")]
+        public TraktRatings Ratings { get; set; }
+
         [DataMember(Name = "images")]
         public ShowImages Images { get; set; }
 
         [DataContract]
-        public class ShowImages
+        public class ShowImages : INotifyPropertyChanged
         {
-            [DataMember(Name = "poster")]
-            public string Poster { get; set; }
-
             [DataMember(Name = "fanart")]
             public string Fanart { get; set; }
+
+            [DataMember(Name = "poster")]
+            public string Poster
+            {
+                get
+                {
+                    return _poster.Replace(".jpg", "-300.jpg");
+                }
+                set
+                {
+                    _poster = value;
+                }
+            }
+            string _poster = string.Empty;
+
+            #region INotifyPropertyChanged
+
+            /// <summary>
+            /// Path to local poster image
+            /// </summary>
+            public string PosterImageFilename
+            {
+                get
+                {
+                    string filename = string.Empty;
+                    if (!string.IsNullOrEmpty(Poster))
+                    {
+                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Posters");
+                        Uri uri = new Uri(Poster);
+                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
+                    }
+                    return filename;
+                }
+                set
+                {
+                    _PosterImageFilename = value;
+                }
+            }
+            string _PosterImageFilename = string.Empty;
+
+            /// <summary>
+            /// Notify image property change during async image downloading
+            /// Sends messages to facade to update image
+            /// </summary>
+            public event PropertyChangedEventHandler PropertyChanged;
+            public void NotifyPropertyChanged(string propertyName)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            #endregion
         }
     }
 }
