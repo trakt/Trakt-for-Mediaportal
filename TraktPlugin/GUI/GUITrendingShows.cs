@@ -379,12 +379,19 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (shows.Count() == 0)
+            {
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingShows);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
             
             foreach (var show in shows)
             {
-                GUITraktShowListItem item = new GUITraktShowListItem(show.Title);
+                GUITraktTrendingShowListItem item = new GUITraktTrendingShowListItem(show.Title);
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
@@ -539,9 +546,9 @@ namespace TraktPlugin.GUI
         #endregion
     }
 
-    public class GUITraktShowListItem : GUIListItem
+    public class GUITraktTrendingShowListItem : GUIListItem
     {
-        public GUITraktShowListItem(string strLabel) : base(strLabel) { }
+        public GUITraktTrendingShowListItem(string strLabel) : base(strLabel) { }
 
         public object Item
         {

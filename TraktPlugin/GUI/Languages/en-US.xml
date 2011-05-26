@@ -41,6 +41,8 @@
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   <string Field="GettingTrendingShows">Getting Trending Shows</string>
+  <string Field="GettingRecommendedMovies">Getting Recommended Movies</string>
+  <string Field="GettingRecommendedShows">Getting Recommended Shows</string>
   
   <!-- H -->
   <string Field="Hate">Hate</string>
@@ -72,8 +74,12 @@
   <string Field="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string Field="NoEpisodesThisWeek">No episodes on this week</string>
   <string Field="NoFriends">No Friends!</string>
-  <string Field="NoFriendsTaunt">You have no Friends!</string>    
-  
+  <string Field="NoFriendsTaunt">You have no Friends!</string>
+  <string Field="NoTrendingMovies">No Movies current being watched!</string>
+  <string Field="NoTrendingShows">No Shows current being watched!</string>
+  <string Field="NoMovieRecommendations">No Movie Recommendations Found!</string>
+  <string Field="NoShowRecommendations">No Show Recommendations Found!</string>
+
   <!-- O -->
   <string Field="OK">OK</string>
   <string Field="Overview">Overview</string>
@@ -96,6 +102,8 @@
   <string Field="RateLove">Totally Ninja!</string>
   <string Field="RateHeading">What do you think?</string>
   <string Field="Recommendations">Recommendations</string>
+  <string Field="RecommendedMovies">Recommended Movies</string>
+  <string Field="RecommendedShows">Recommended Shows</string>
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>
   <string Field="RemoveFromLibrary">Remove from Library</string>

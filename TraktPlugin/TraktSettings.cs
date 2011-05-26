@@ -22,6 +22,8 @@ namespace TraktPlugin
         public static int SyncTimerLength { get; set; }
         public static int TrendingMoviesDefaultLayout { get; set; }
         public static int TrendingShowsDefaultLayout { get; set; }
+        public static int RecommendedMoviesDefaultLayout { get; set; }
+        public static int RecommendedShowsDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -37,6 +39,8 @@ namespace TraktPlugin
         private const string cSyncTimerLength = "SyncTimerLength";
         private const string cTrendingMoviesDefaultLayout = "TrendingMoviesDefaultLayout";
         private const string cTrendingShowsDefaultLayout = "TrendingShowsDefaultLayout";
+        private const string cRecommendedMoviesDefaultLayout = "RecommendedMoviesDefaultLayout";
+        private const string cRecommendedShowsDefaultLayout = "RecommendedShowsDefaultLayout";
         #endregion
 
         /// <summary>
@@ -89,6 +93,8 @@ namespace TraktPlugin
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
                 TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
+                RecommendedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecommendedMoviesDefaultLayout, 0);
+                RecommendedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecommendedShowsDefaultLayout, 0);
             }
         }
 
@@ -110,6 +116,9 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cBlockedFolders, BlockedFolders.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
                 xmlwriter.SetValue(cTrakt, cTrendingMoviesDefaultLayout, TrendingMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cTrendingShowsDefaultLayout, TrendingShowsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecommendedMoviesDefaultLayout, RecommendedMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecommendedShowsDefaultLayout, RecommendedShowsDefaultLayout);
             }
 
             Settings.SaveCache();

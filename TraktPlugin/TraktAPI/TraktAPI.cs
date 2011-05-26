@@ -411,6 +411,22 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Recommendations
+
+        public static IEnumerable<TraktMovie> GetRecommendedMovies()
+        {
+            string response = Transmit(TraktURIs.UserMovieRecommendations, GetUserAuthentication());
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        public static IEnumerable<TraktShow> GetRecommendedShows()
+        {
+            string response = Transmit(TraktURIs.UserShowsRecommendations, GetUserAuthentication());
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>

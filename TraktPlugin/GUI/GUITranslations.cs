@@ -200,6 +200,8 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
+        public static string GettingRecommendedMovies = "Getting Recommended Movies";
+        public static string GettingRecommendedShows = "Getting Recommended Shows";
 
         // H
         public static string Hate = "Hate";
@@ -232,6 +234,10 @@ namespace TraktPlugin.GUI
         public static string NoEpisodesThisWeek = "No episodes on this week";
         public static string NoFriends = "No Friends!";
         public static string NoFriendsTaunt = "You have no Friends!";
+        public static string NoTrendingMovies = "No Movies current being watched!";
+        public static string NoTrendingShows = "No Shows current being watched!";
+        public static string NoMovieRecommendations = "No Movie Recommendations Found!";
+        public static string NoShowRecommendations = "No Show Recommendations Found!";
 
         // O
         public static string OK = "OK";
@@ -254,7 +260,9 @@ namespace TraktPlugin.GUI
         public static string RateHate = "Weak Sauce :(";
         public static string RateLove = "Totally Ninja!";
         public static string RateHeading = "What do you think?";
-        public static string Recommendations = "Recommendations";        
+        public static string Recommendations = "Recommendations";
+        public static string RecommendedMovies = "Recommended Movies";
+        public static string RecommendedShows = "Recommended Shows";
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
         public static string RemoveFromLibrary = "Remove from Library";
