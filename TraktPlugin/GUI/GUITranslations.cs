@@ -289,6 +289,7 @@ namespace TraktPlugin.GUI
 
         // V
         public static string View = "View";
+        public static string Votes = "Votes";
 
         // W
         public static string WatchList = "Watch List";

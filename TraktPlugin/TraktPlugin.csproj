@@ -129,7 +129,7 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUITrendingShows.cs" />
+    <Compile Include="GUI\GUITrendingShows.cs" />
     <Compile Include="GUI\GUIRateDialog.cs" />
     <Compile Include="GUI\GUITrendingMovies.cs" />
     <Compile Include="GUI\GUIRecommendations.cs" />

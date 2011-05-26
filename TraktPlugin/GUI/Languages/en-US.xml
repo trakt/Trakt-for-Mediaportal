@@ -128,8 +128,9 @@
   <string Field="UnAuthorized">Authentication failed, please check username and password in configuration.</string>
   
   <!-- V -->
-  <string Field="View">View</string>  
-  
+  <string Field="View">View</string>
+  <string Field="Votes">Votes</string>
+
   <!-- W -->
   <string Field="WatchList">Watch List</string>
   <string Field="Watched">Watched</string>

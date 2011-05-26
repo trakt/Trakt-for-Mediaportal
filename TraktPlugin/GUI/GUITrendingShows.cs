@@ -280,7 +280,37 @@ namespace TraktPlugin.GUI
                 Password = TraktSettings.Password
             };
 
+            string prevRating = show.Rating;
             show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != show.Rating)
+            {
+                if (prevRating == "false")
+                {
+                    show.Ratings.Votes++;
+                    if (show.Rating == "love")
+                        show.Ratings.LovedCount++;
+                    else
+                        show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    show.Ratings.LovedCount--;
+                    show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    show.Ratings.LovedCount++;
+                    show.Ratings.HatedCount--;
+                }
+
+                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
+            }
         }
 
         private void ShowLayoutMenu()
@@ -422,6 +452,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watchers.Extra", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
@@ -449,6 +480,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Watchers.Extra", show.Watchers > 1 ? string.Format(Translation.PeopleWatching, show.Watchers) : Translation.PersonWatching);
             SetProperty("#Trakt.Show.Watched", (show.Plays > 0).ToString());
             SetProperty("#Trakt.Show.Rating", show.Rating);
+            SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
             SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
