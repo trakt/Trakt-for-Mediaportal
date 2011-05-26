@@ -262,24 +262,26 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Rate):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
-                    RateMovie(selectedMovie);
-                    // also mark as watched
-                    MarkMovieAsWatched(selectedMovie);
-                    // remove from recommendations
-                    if (_RecommendedMovies.Count() > 1)
+                    if (RateMovie(selectedMovie))
                     {
-                        var moviesToExcept = new List<TraktMovie>();
-                        moviesToExcept.Add(selectedMovie);
-                        _RecommendedMovies = RecommendedMovies.Except(moviesToExcept);
+                        // also mark as watched
+                        MarkMovieAsWatched(selectedMovie);
+                        // remove from recommendations
+                        if (_RecommendedMovies.Count() > 1)
+                        {
+                            var moviesToExcept = new List<TraktMovie>();
+                            moviesToExcept.Add(selectedMovie);
+                            _RecommendedMovies = RecommendedMovies.Except(moviesToExcept);
+                        }
+                        else
+                        {
+                            // reload, none left
+                            ClearProperties();
+                            GUIControl.ClearControl(GetID, Facade.GetID);
+                            _RecommendedMovies = null;
+                        }
+                        LoadRecommendedMovies();
                     }
-                    else
-                    {
-                        // reload, none left
-                        ClearProperties();
-                        GUIControl.ClearControl(GetID, Facade.GetID);
-                        _RecommendedMovies = null;
-                    }
-                    LoadRecommendedMovies();
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -391,10 +393,11 @@ namespace TraktPlugin.GUI
             syncThread.Start(movie);
         }
 
-        private void RateMovie(TraktMovie movie)
+        private bool RateMovie(TraktMovie movie)
         {
             // init since its not part of the API
             movie.Rating = "false";
+            bool ratingChanged = false;
 
             // default rating to love if not already set
             TraktRateMovie rateObject = new TraktRateMovie
@@ -406,8 +409,16 @@ namespace TraktPlugin.GUI
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
-            
+
+            string prevRating = movie.Rating;
             movie.Rating = GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
+
+            if (prevRating != movie.Rating)
+            {
+                ratingChanged = true;
+            }
+
+            return ratingChanged;
         }
 
         private void ShowLayoutMenu()

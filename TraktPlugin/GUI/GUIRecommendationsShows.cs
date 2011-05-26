@@ -15,7 +15,7 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
-    public class GUITrendingShows : GUIWindow
+    public class GUIRecommendationsShows : GUIWindow
     {
         #region Skin Controls
 
@@ -49,7 +49,7 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUITrendingShows() { }
+        public GUIRecommendationsShows() { }
 
         #endregion
 
@@ -57,19 +57,20 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
+        int PreviousSelectedIndex { get; set; }
 
-        IEnumerable<TraktTrendingShow> TrendingShows
+        IEnumerable<TraktShow> RecommendedShows
         {
             get
             {
-                if (_TrendingShows == null)
+                if (_RecommendedShows == null)
                 {
-                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                    _RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows();
                 }
-                return _TrendingShows;
+                return _RecommendedShows;
             }
         }
-        private IEnumerable<TraktTrendingShow> _TrendingShows = null;
+        private IEnumerable<TraktShow> _RecommendedShows = null;
 
         #endregion
 
@@ -79,13 +80,13 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87265;
+                return 87262;
             }
         }
 
         public override bool Init()
         {
-            return Load(GUIGraphicsContext.Skin + @"\Trakt.Trending.Shows.xml");
+            return Load(GUIGraphicsContext.Skin + @"\Trakt.Recommendations.Shows.xml");
         }
 
         protected override void OnPageLoad()
@@ -96,17 +97,17 @@ namespace TraktPlugin.GUI
             // Init Properties
             InitProperties();
 
-            // Load Trending Shows
-            LoadTrendingShows();
+            // Load Recommended Shows
+            LoadRecommendedShows();
         }
 
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            _TrendingShows = null;
+            _RecommendedShows = null;
 
             // save current layout
-            TraktSettings.TrendingShowsDefaultLayout = (int)CurrentLayout;
+            TraktSettings.RecommendedShowsDefaultLayout = (int)CurrentLayout;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -142,7 +143,7 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
+            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -197,8 +198,25 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateShow(selectedShow);
-                    OnShowSelected(selectedItem, Facade);
+                    PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
+                    if (RateShow(selectedShow))
+                    {
+                        // remove from recommendations
+                        if (_RecommendedShows.Count() > 1)
+                        {
+                            var showsToExcept = new List<TraktShow>();
+                            showsToExcept.Add(selectedShow);
+                            _RecommendedShows = RecommendedShows.Except(showsToExcept);
+                        }
+                        else
+                        {
+                            // reload, none left
+                            ClearProperties();
+                            GUIControl.ClearControl(GetID, Facade.GetID);
+                            _RecommendedShows = null;
+                        }
+                        LoadRecommendedShows();
+                    }
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -216,7 +234,7 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private TraktShowSync CreateSyncData(TraktTrendingShow show)
+        private TraktShowSync CreateSyncData(TraktShow show)
         {
             if (show == null) return null;
 
@@ -240,11 +258,11 @@ namespace TraktPlugin.GUI
             return syncData;
         }
 
-        private void AddShowToWatchList(TraktTrendingShow show)
+        private void AddShowToWatchList(TraktShow show)
         {
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktTrendingShow), TraktSyncModes.watchlist);
+                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.watchlist);
             })
             {
                 IsBackground = true,
@@ -254,11 +272,11 @@ namespace TraktPlugin.GUI
             syncThread.Start(show);
         }
 
-        private void RemoveShowFromWatchList(TraktTrendingShow show)
+        private void RemoveShowFromWatchList(TraktShow show)
         {
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktTrendingShow), TraktSyncModes.unwatchlist);
+                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.unwatchlist);
             })
             {
                 IsBackground = true,
@@ -268,8 +286,12 @@ namespace TraktPlugin.GUI
             syncThread.Start(show);
         }
 
-        private void RateShow(TraktTrendingShow show)
+        private bool RateShow(TraktShow show)
         {
+            // init since its not part of the API
+            show.Rating = "false";
+            bool ratingChanged = false;
+
             TraktRateSeries rateObject = new TraktRateSeries
             {
                 SeriesID = show.Tvdb,
@@ -283,34 +305,12 @@ namespace TraktPlugin.GUI
             string prevRating = show.Rating;
             show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
 
-            // if previous rating not equal to current rating then 
-            // update skin properties to reflect changes so we dont
-            // need to re-request from server
             if (prevRating != show.Rating)
             {
-                if (prevRating == "false")
-                {
-                    show.Ratings.Votes++;
-                    if (show.Rating == "love")
-                        show.Ratings.LovedCount++;
-                    else
-                        show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "love")
-                {
-                    show.Ratings.LovedCount--;
-                    show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "hate")
-                {
-                    show.Ratings.LovedCount++;
-                    show.Ratings.HatedCount--;
-                }
-
-                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
+                ratingChanged = true;
             }
+
+            return ratingChanged;
         }
 
         private void ShowLayoutMenu()
@@ -358,45 +358,45 @@ namespace TraktPlugin.GUI
             return strLine;
         }
 
-        private void LoadTrendingShows()
+        private void LoadRecommendedShows()
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TrendingShows;
+                return RecommendedShows;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    IEnumerable<TraktTrendingShow> shows = result as IEnumerable<TraktTrendingShow>;
-                    SendTrendingShowsToFacade(shows);
+                    IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
+                    SendRecommendedShowsToFacade(shows);
                 }
-            }, Translation.GettingTrendingShows, true);
+            }, Translation.GettingRecommendedShows, true);
         }
 
-        private void SendTrendingShowsToFacade(IEnumerable<TraktTrendingShow> shows)
+        private void SendRecommendedShowsToFacade(IEnumerable<TraktShow> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             if (shows.Count() == 0)
             {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingShows);
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowRecommendations);
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
 
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
-            
+
             foreach (var show in shows)
             {
-                GUITraktTrendingShowListItem item = new GUITraktTrendingShowListItem(show.Title);
+                GUITraktRecommendedShowListItem item = new GUITraktRecommendedShowListItem(show.Title);
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
-                item.Item = show.Images;                
-                item.ItemId = Int32.MaxValue - itemId;                
+                item.Item = show.Images;
+                item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = "defaultVideo.png";
                 item.IconImageBig = "defaultVideoBig.png";
                 item.ThumbnailImage = "defaultVideoBig.png";
@@ -413,7 +413,10 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            Facade.SelectedListItemIndex = 0;
+            if (PreviousSelectedIndex >= shows.Count())
+                Facade.SelectedListItemIndex = PreviousSelectedIndex - 1;
+            else
+                Facade.SelectedListItemIndex = PreviousSelectedIndex;
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());
@@ -431,7 +434,7 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.TrendingShowsDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.RecommendedShowsDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
         }
@@ -453,10 +456,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);            
+            GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Watchers", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Watchers.Extra", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
@@ -465,7 +466,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
         }
 
-        private void PublishShowSkinProperties(TraktTrendingShow show)
+        private void PublishShowSkinProperties(TraktShow show)
         {
             SetProperty("#Trakt.Show.AirDay", show.AirDay);
             SetProperty("#Trakt.Show.AirTime", show.AirTime);
@@ -476,14 +477,12 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Certification", show.Certification);
             SetProperty("#Trakt.Show.Overview", show.Overview);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());            
+            SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Title", show.Title);
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
-            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);            
+            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
-            SetProperty("#Trakt.Show.Watchers", show.Watchers.ToString());
-            SetProperty("#Trakt.Show.Watchers.Extra", show.Watchers > 1 ? string.Format(Translation.PeopleWatching, show.Watchers) : Translation.PersonWatching);
             SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
@@ -494,7 +493,7 @@ namespace TraktPlugin.GUI
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
-            PublishShowSkinProperties(item.TVTag as TraktTrendingShow);
+            PublishShowSkinProperties(item.TVTag as TraktShow);
         }
 
         private void GetImages(List<TraktShow.ShowImages> itemsWithThumbs)
@@ -544,9 +543,9 @@ namespace TraktPlugin.GUI
         #endregion
     }
 
-    public class GUITraktTrendingShowListItem : GUIListItem
+    public class GUITraktRecommendedShowListItem : GUIListItem
     {
-        public GUITraktTrendingShowListItem(string strLabel) : base(strLabel) { }
+        public GUITraktRecommendedShowListItem(string strLabel) : base(strLabel) { }
 
         public object Item
         {
@@ -572,11 +571,11 @@ namespace TraktPlugin.GUI
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
             // determine the overlay to add to poster, only one will suffice
-            TraktTrendingShow show = TVTag as TraktTrendingShow;
+            TraktShow show = TVTag as TraktShow;
             OverlayImage overlay = OverlayImage.None;
 
             if (show.InWatchList)
-                overlay = OverlayImage.Watchlist;        
+                overlay = OverlayImage.Watchlist;
 
             // get a reference to a MediaPortal Texture Identifier
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, Enum.GetName(typeof(OverlayImage), overlay));
@@ -596,10 +595,10 @@ namespace TraktPlugin.GUI
             }
 
             // if selected and TraktFriends is current window force an update of thumbnail
-            GUITrendingShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITrendingShows;
+            GUIRecommendationsShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIRecommendationsShows;
             if (window != null)
             {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87265, 50);
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87262, 50);
                 if (selectedItem == this)
                 {
                     GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));
