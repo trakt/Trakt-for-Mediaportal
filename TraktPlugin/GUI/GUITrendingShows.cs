@@ -199,6 +199,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Rate):
                     RateShow(selectedShow);
                     OnShowSelected(selectedItem, Facade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -571,19 +572,28 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // determine the overlay to add to poster, only one will suffice
+            // determine the overlays to add to poster
             TraktTrendingShow show = TVTag as TraktTrendingShow;
-            OverlayImage overlay = OverlayImage.None;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
 
             if (show.InWatchList)
-                overlay = OverlayImage.Watchlist;        
+                mainOverlay = MainOverlayImage.Watchlist;
+
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (show.Rating == "love")
+                ratingOverlay = RatingOverlayImage.Love;
+            else if (show.Rating == "hate")
+                ratingOverlay = RatingOverlayImage.Hate;
 
             // get a reference to a MediaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, Enum.GetName(typeof(OverlayImage), overlay));
+            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
+            // build memory image
             Image memoryImage = null;
-            if (overlay != OverlayImage.None)
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, overlay);
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
             else
                 memoryImage = ImageFast.FromFile(imageFilePath);
 

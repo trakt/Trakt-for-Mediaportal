@@ -10,11 +10,18 @@ using MediaPortal.Util;
 
 namespace TraktPlugin.GUI
 {
-    public enum OverlayImage
+    public enum MainOverlayImage
     {
         Seenit,
         Library,
         Watchlist,
+        None
+    }
+
+    public enum RatingOverlayImage
+    {
+        Love,
+        Hate,
         None
     }
 
@@ -71,21 +78,29 @@ namespace TraktPlugin.GUI
         /// <param name="origPoster">Filename of the untouched poster</param>
         /// <param name="type">Overlay type enum</param>
         /// <returns>An image with overlay added to poster</returns>
-        public static Bitmap DrawOverlayOnPoster(string origPoster, OverlayImage type)
+        public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType)
         {
-            string overlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(OverlayImage), type));
             Bitmap poster = new Bitmap(ImageFast.FromFile(origPoster));
             Graphics gph = Graphics.FromImage(poster);
 
-            if (File.Exists(overlayImage))
+            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(MainOverlayImage), mainType));
+            if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
-                Bitmap newPoster = new Bitmap(ImageFast.FromFile(overlayImage));
+                Bitmap newPoster = new Bitmap(ImageFast.FromFile(mainOverlayImage));
                 
                 // set position to be right aligned
                 // poster is 300px wide, overlays are 55x55px
                 // later allow skinner to define this by skin settings
                 gph.DrawImage(newPoster, 215, 0);           
-            }           
+            }
+
+            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
+            {
+                Bitmap newPoster = new Bitmap(ImageFast.FromFile(ratingOverlayImage));
+                gph.DrawImage(newPoster, 215, 0);
+            }
+
             gph.Dispose();
             return poster;
         }

@@ -679,21 +679,26 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // determine the overlay to add to poster, only one will suffice
+            // determine the main overlay to add to poster
             TraktMovie movie = TVTag as TraktMovie;
-            OverlayImage overlay = OverlayImage.None;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
 
             if (movie.InWatchList)
-                overlay = OverlayImage.Watchlist;            
+                mainOverlay = MainOverlayImage.Watchlist;            
             else if (movie.InCollection)
-                overlay = OverlayImage.Library;
+                mainOverlay = MainOverlayImage.Library;
+
+            // we never show rating movies in Recommendations
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
 
             // get a reference to a MediaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, Enum.GetName(typeof(OverlayImage), overlay));
+            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
+            // build memory image
             Image memoryImage = null;
-            if (overlay != OverlayImage.None)
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, overlay);
+            if (mainOverlay != MainOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
             else
                 memoryImage = ImageFast.FromFile(imageFilePath);
 
