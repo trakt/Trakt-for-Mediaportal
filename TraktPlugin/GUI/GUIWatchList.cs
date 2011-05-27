@@ -34,7 +34,7 @@ namespace TraktPlugin.GUI
 
         public override bool Init()
         {
-            return Load(GUIGraphicsContext.Skin + @"\Trakt.Recommendations.xml");
+            return Load(GUIGraphicsContext.Skin + @"\Trakt.WatchList.xml");
         }
 
         #endregion

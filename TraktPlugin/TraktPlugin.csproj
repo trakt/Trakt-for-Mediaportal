@@ -129,6 +129,7 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
     <Compile Include="GUI\GUIRecommendationsShows.cs" />
     <Compile Include="GUI\GUITrendingShows.cs" />
@@ -140,6 +141,11 @@
     <Compile Include="GUI\GUIExtensions.cs" />
     <Compile Include="GUI\GUIImageHandler.cs" />
     <Compile Include="GUI\GUITraktFriends.cs" />
+    <Compile Include="GUI\GUIWatchListMovies.cs" />
+    <Compile Include="GUI\GUIWatchListShows.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktSkinSettings.cs" />
     <Compile Include="TraktTranslations.cs" />
     <Compile Include="GUI\GUITrending.cs" />

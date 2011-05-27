@@ -198,6 +198,33 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
+        /// Add/Remove episode to/from watchlist
+        /// </summary>
+        /// <param name="syncData">The sync data to send</param>
+        /// <param name="mode">The sync mode to use</param>
+        /// <returns>The response from trakt</returns>
+        public static TraktResponse SyncEpisodeWatchList(TraktEpisodeSync syncData, TraktSyncModes mode)
+        {
+            // check that we have everything we need            
+            if (syncData == null || syncData.EpisodeList.Count == 0)
+            {
+                TraktResponse error = new TraktResponse
+                {
+                    Error = "Not enough information to send to server",
+                    Status = "failure"
+                };
+                return error;
+            }
+
+            // serialize Scrobble object to JSON and send to server
+            string response = Transmit(string.Format(TraktURIs.SyncEpisodeWatchList, mode.ToString()), syncData.ToJSON());
+            TraktLogger.Debug("Response: {0}", response);
+
+            // return success or failure
+            return response.FromJSON<TraktResponse>();
+        }
+
+        /// <summary>
         /// Sends episode sync data to Trakt
         /// </summary>
         /// <param name="syncData">The sync data to send</param>
@@ -423,6 +450,28 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(TraktURIs.UserShowsRecommendations, GetUserAuthentication());
             return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
+        #region Watch List
+
+        public static IEnumerable<TraktWatchListMovie> GetWatchListMovies(string user)
+        {
+            string response = Transmit(string.Format(TraktURIs.UserMovieWatchList, user), GetUserAuthentication());
+            return response.FromJSONArray<TraktWatchListMovie>();
+        }
+
+        public static IEnumerable<TraktWatchListShow> GetWatchListShows(string user)
+        {
+            string response = Transmit(string.Format(TraktURIs.UserShowsWatchList, user), GetUserAuthentication());
+            return response.FromJSONArray<TraktWatchListShow>();
+        }
+
+        public static IEnumerable<TraktWatchListEpisode> GetWatchListEpisodes(string user)
+        {
+            string response = Transmit(string.Format(TraktURIs.UserEpisodesWatchList, user), GetUserAuthentication());
+            return response.FromJSONArray<TraktWatchListEpisode>();
         }
 
         #endregion

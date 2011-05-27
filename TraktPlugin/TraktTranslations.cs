@@ -223,12 +223,16 @@ namespace TraktPlugin.GUI
         public static string GettingTrendingShows = "Getting Trending Shows";
         public static string GettingRecommendedMovies = "Getting Recommended Movies";
         public static string GettingRecommendedShows = "Getting Recommended Shows";
+        public static string GettingWatchListMovies = "Getting Watch List Movies";
+        public static string GettingWatchListShows = "Getting Watch List Shows";
+        public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
 
         // H
         public static string Hate = "Hate";
         public static string Hated = "Hated";
 
         // I
+        public static string Inserted = "Inserted";
 
         // I
 
@@ -259,6 +263,9 @@ namespace TraktPlugin.GUI
         public static string NoTrendingShows = "No Shows current being watched!";
         public static string NoMovieRecommendations = "No Movie Recommendations Found!";
         public static string NoShowRecommendations = "No Show Recommendations Found!";
+        public static string NoMovieWatchList = "No Movies in Watch List!";
+        public static string NoShowWatchList = "No Shows in Watch List!";
+        public static string NoEpisodeWatchList = "No Episodes in Watch List!";
 
         // O
         public static string OK = "OK";
@@ -326,6 +333,9 @@ namespace TraktPlugin.GUI
         public static string WatchedMovies = "Watched Movies";
         public static string WatchedEpisodes = "Watched Episodes";
         public static string Watching = "Watching";
+        public static string WatchListMovies = "Movie Watch List";
+        public static string WatchListShows = "Show Watch List";
+        public static string WatchListEpisodes = "Episode Watch List";
 
         // Y
         public static string Year = "Year";

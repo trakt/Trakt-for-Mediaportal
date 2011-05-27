@@ -43,12 +43,16 @@
   <string Field="GettingTrendingShows">Getting Trending Shows</string>
   <string Field="GettingRecommendedMovies">Getting Recommended Movies</string>
   <string Field="GettingRecommendedShows">Getting Recommended Shows</string>
+  <string Field="GettingWatchListMovies">Getting Watch List Movies</string>
+  <string Field="GettingWatchListShows">Getting Watch List Shows</string>
+  <string Field="GettingWatchListEpisodes">Getting Watch List Episodes</string>
   
   <!-- H -->
   <string Field="Hate">Hate</string>
   <string Field="Hated">Hated</string>
   
   <!-- I -->
+  <string Field="Inserted">Inserted</string>
   
   <!-- K -->
   
@@ -79,6 +83,9 @@
   <string Field="NoTrendingShows">No Shows current being watched!</string>
   <string Field="NoMovieRecommendations">No Movie Recommendations Found!</string>
   <string Field="NoShowRecommendations">No Show Recommendations Found!</string>
+  <string Field="NoShowWatchList">No Shows in Watch List!</string>
+  <string Field="NoMovieWatchList">No Movies in Watch List!</string>
+  <string Field="NoEpisodeWatchList">No Episodes in Watch List!</string>
 
   <!-- O -->
   <string Field="OK">OK</string>
@@ -143,9 +150,12 @@
   <string Field="WatchList">Watch List</string>
   <string Field="Watched">Watched</string>
   <string Field="WatchedMovies">Watched Movies</string>
-  <string Field="WatchedEpisodes">Watched Episodes</string>
+  <string Field="WatchedShows">Watched Shows</string>  
   <string Field="Watching">Watching</string>
-  
+  <string Field="WatchListMovies">Movie Watch List</string>
+  <string Field="WatchListShows">Show Watch List</string>
+  <string Field="WatchListEpisodes">Episode Watch List</string>  
+
   <!-- Y -->
   <string Field="Year">Year</string>
   
