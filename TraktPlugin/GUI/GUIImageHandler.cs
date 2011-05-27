@@ -87,18 +87,14 @@ namespace TraktPlugin.GUI
             if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
                 Bitmap newPoster = new Bitmap(ImageFast.FromFile(mainOverlayImage));
-                
-                // set position to be right aligned
-                // poster is 300px wide, overlays are 55x55px
-                // later allow skinner to define this by skin settings
-                gph.DrawImage(newPoster, 215, 0);           
+                gph.DrawImage(newPoster, TraktSkinSettings.PosterMainOverlayPosX, TraktSkinSettings.PosterMainOverlayPosY);
             }
 
             string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
             if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
             {
                 Bitmap newPoster = new Bitmap(ImageFast.FromFile(ratingOverlayImage));
-                gph.DrawImage(newPoster, 215, 0);
+                gph.DrawImage(newPoster, TraktSkinSettings.PosterRatingOverlayPosX, TraktSkinSettings.PosterRatingOverlayPosY);
             }
 
             gph.Dispose();

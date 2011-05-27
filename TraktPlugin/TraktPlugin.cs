@@ -240,6 +240,11 @@ namespace TraktPlugin
                 GUIUtils.SetProperty("#Trakt.Translation." + name + ".Label", Translation.Strings[name]);
             }
 
+            // Initialize skin settings
+            TraktSkinSettings.Init();
+            // Listen to this event to detect skin changes in GUI
+            GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
+
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
@@ -338,7 +343,7 @@ namespace TraktPlugin
 
         #endregion
                 
-        #region MediaPortalHooks
+        #region MediaPortal Playback Hooks
 
         //Various hooks into Mediapotals Video plackback
 
@@ -374,6 +379,25 @@ namespace TraktPlugin
             }
         }
         
+        #endregion
+
+        #region MediaPortal Window Hooks
+
+        void GUIWindowManager_OnDeActivateWindow(int windowID)
+        {
+            // Settings/General window
+            // this is where a user can change skins from GUI
+            if (windowID == (int)Window.WINDOW_SETTINGS_SKIN)
+            {
+                // did skin change?
+                if (TraktSkinSettings.CurrentSkin != TraktSkinSettings.PreviousSkin)
+                {
+                    TraktLogger.Info("Skin Change detected in GUI, reloading skin settings");
+                    TraktSkinSettings.Init();
+                }
+            }
+        }
+
         #endregion
 
         #region ScrobblingMethods

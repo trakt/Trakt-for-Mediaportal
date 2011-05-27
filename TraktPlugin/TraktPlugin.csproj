@@ -140,7 +140,8 @@
     <Compile Include="GUI\GUIExtensions.cs" />
     <Compile Include="GUI\GUIImageHandler.cs" />
     <Compile Include="GUI\GUITraktFriends.cs" />
-    <Compile Include="GUI\GUITranslations.cs" />
+    <Compile Include="TraktSkinSettings.cs" />
+    <Compile Include="TraktTranslations.cs" />
     <Compile Include="GUI\GUITrending.cs" />
     <Compile Include="GUI\GUIUtils.cs" />
     <Compile Include="GUI\GUIWatchList.cs" />
