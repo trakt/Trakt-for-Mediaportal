@@ -233,16 +233,13 @@ namespace TraktPlugin
                 syncLibraryTimer.Enabled = true;
             }
 
-            // Load all available translation strings
-            // so skins have access to them
-            foreach (string name in Translation.Strings.Keys)
-            {
-                GUIUtils.SetProperty("#Trakt.Translation." + name + ".Label", Translation.Strings[name]);
-            }
+            // Initialize translations
+            Translation.Init();
 
             // Initialize skin settings
             TraktSkinSettings.Init();
-            // Listen to this event to detect skin changes in GUI
+
+            // Listen to this event to detect skin\language changes in GUI
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
 
             // Load main skin window
@@ -386,7 +383,7 @@ namespace TraktPlugin
         void GUIWindowManager_OnDeActivateWindow(int windowID)
         {
             // Settings/General window
-            // this is where a user can change skins from GUI
+            // this is where a user can change skins\languages from GUI
             if (windowID == (int)Window.WINDOW_SETTINGS_SKIN)
             {
                 // did skin change?
@@ -394,6 +391,13 @@ namespace TraktPlugin
                 {
                     TraktLogger.Info("Skin Change detected in GUI, reloading skin settings");
                     TraktSkinSettings.Init();
+                }
+
+                //did language change?
+                if (Translation.CurrentLanguage != Translation.PreviousLanguage)
+                {
+                    TraktLogger.Info("Language Changed to '{0}' from GUI, initializing translations.", Translation.CurrentLanguage);
+                    Translation.Init();
                 }
             }
         }

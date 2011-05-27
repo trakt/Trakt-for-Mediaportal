@@ -25,25 +25,7 @@ namespace TraktPlugin.GUI
 
         static Translation()
         {
-            string lang;
-
-            try
-            {
-                lang = GUILocalizeStrings.GetCultureName(GUILocalizeStrings.CurrentLanguage());
-            }
-            catch (Exception)
-            {
-                lang = CultureInfo.CurrentUICulture.Name;
-            }
-
-            TraktLogger.Info("Using language " + lang);
-
-            path = Config.GetSubFolder(Config.Dir.Language, "Trakt");
-
-            if (!System.IO.Directory.Exists(path))
-                System.IO.Directory.CreateDirectory(path);
-
-            LoadTranslations(lang);
+            
         }
 
         #endregion
@@ -71,9 +53,48 @@ namespace TraktPlugin.GUI
             }
         }
 
+        public static string CurrentLanguage
+        {
+            get
+            {
+                string language = string.Empty;
+                try
+                {
+                    language = GUILocalizeStrings.GetCultureName(GUILocalizeStrings.CurrentLanguage());
+                }
+                catch (Exception)
+                {
+                    language = CultureInfo.CurrentUICulture.Name;
+                }
+                return language;
+            }
+        }
+        public static string PreviousLanguage { get; set; }
+
         #endregion
 
         #region Public Methods
+
+        public static void Init()
+        {
+            translations = null;
+            TraktLogger.Info("Using language " + CurrentLanguage);
+
+            path = Config.GetSubFolder(Config.Dir.Language, "Trakt");
+
+            if (!System.IO.Directory.Exists(path))
+                System.IO.Directory.CreateDirectory(path);
+
+            string lang = PreviousLanguage = CurrentLanguage;
+            LoadTranslations(lang);
+
+            // publish all available translation strings
+            // so skins have access to them
+            foreach (string name in Strings.Keys)
+            {
+                GUIUtils.SetProperty("#Trakt.Translation." + name + ".Label", Translation.Strings[name]);
+            }
+        }
 
         public static int LoadTranslations(string lang)
         {
