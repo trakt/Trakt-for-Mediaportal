@@ -383,7 +383,7 @@ namespace TraktPlugin.GUI
             RemovingWatchListItem = false;
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.WatchListShowsDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.WatchListEpisodesDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
         }
