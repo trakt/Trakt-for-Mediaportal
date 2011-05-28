@@ -123,6 +123,8 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = 0;
             PreviousCalendarDayCount = 0;
             StopDownload = true;
+            ClearProperties();
+
             base.OnPageDestroy(new_windowId);
         }
 

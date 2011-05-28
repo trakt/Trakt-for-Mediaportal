@@ -107,6 +107,7 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             _TrendingMovies = null;
+            ClearProperties();
 
             // save current layout
             TraktSettings.TrendingMoviesDefaultLayout = (int)CurrentLayout;            

@@ -105,6 +105,7 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             _RecommendedShows = null;
+            ClearProperties();
 
             // save current layout
             TraktSettings.RecommendedShowsDefaultLayout = (int)CurrentLayout;

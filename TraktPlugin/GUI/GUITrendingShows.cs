@@ -104,6 +104,7 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             _TrendingShows = null;
+            ClearProperties();
 
             // save current layout
             TraktSettings.TrendingShowsDefaultLayout = (int)CurrentLayout;

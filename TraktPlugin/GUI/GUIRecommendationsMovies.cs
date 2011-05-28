@@ -109,6 +109,7 @@ namespace TraktPlugin.GUI
             StopDownload = true;
             _RecommendedMovies = null;
             PreviousSelectedIndex = 0;
+            ClearProperties();
 
             // save current layout
             TraktSettings.RecommendedMoviesDefaultLayout = (int)CurrentLayout;

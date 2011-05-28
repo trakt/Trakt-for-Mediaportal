@@ -99,6 +99,8 @@ namespace TraktPlugin.GUI
         {
             _Friends = null;
             StopDownload = true;
+            ClearProperties();
+
             base.OnPageDestroy(new_windowId);
         }
 

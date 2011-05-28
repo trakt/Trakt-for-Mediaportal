@@ -104,6 +104,7 @@ namespace TraktPlugin.GUI
             StopDownload = true;
             _WatchListShows = null;
             PreviousSelectedIndex = 0;
+            ClearProperties();
 
             // save current layout
             TraktSettings.WatchListShowsDefaultLayout = (int)CurrentLayout;
