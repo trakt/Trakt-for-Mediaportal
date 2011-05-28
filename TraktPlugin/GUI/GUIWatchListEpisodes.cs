@@ -326,7 +326,7 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            int itemId = 0;
+            int itemCount = 0;
             List<TraktEpisode.ShowImages> episodeImages = new List<TraktEpisode.ShowImages>();
 
             // Add each show and underlying episodes
@@ -342,14 +342,14 @@ namespace TraktPlugin.GUI
                     item.Label2 = episode.FirstAired.FromEpoch().ToShortDateString();
                     item.TVTag = new KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>(show, episode);
                     item.Item = episode.Images;
-                    item.ItemId = Int32.MaxValue - itemId;
-                    item.IconImage = "defaultVideo.png";
-                    item.IconImageBig = "defaultVideoBig.png";
-                    item.ThumbnailImage = "defaultVideoBig.png";
+                    item.ItemId = Int32.MaxValue - itemCount;
+                    item.IconImage = "defaultTraktEpisode.png";
+                    item.IconImageBig = "defaultTraktEpisodeBig.png";
+                    item.ThumbnailImage = "defaultTraktEpisodeBig.png";
                     item.OnItemSelected += OnEpisodeSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
-                    itemId++;
+                    itemCount++;
 
                     // add image for download
                     episodeImages.Add(episode.Images);
@@ -366,7 +366,7 @@ namespace TraktPlugin.GUI
                 Facade.SelectedListItemIndex = PreviousSelectedIndex;
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", shows.Count().ToString());
+            GUIUtils.SetProperty("#itemcount", itemCount.ToString());
 
             // Download episode images Async and set to facade
             GetImages(episodeImages);
