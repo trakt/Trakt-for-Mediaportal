@@ -407,6 +407,11 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
@@ -437,6 +442,11 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", show.Overview);
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
+            SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
             SetProperty("#Trakt.Episode.Number", episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromEpoch().ToShortDateString());
