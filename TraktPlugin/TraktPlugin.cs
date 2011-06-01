@@ -140,7 +140,8 @@ namespace TraktPlugin
             WatchedListEpisodes = 87269,
             WatchedListMovies = 87270,
             Settings = 87271,
-            SettingsAccount = 87272
+            SettingsAccount = 87272,
+            SettingsPlugins = 87273
         }
 
         #endregion

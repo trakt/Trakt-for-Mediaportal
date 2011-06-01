@@ -290,6 +290,7 @@ namespace TraktPlugin.GUI
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
+        public static string Plugins = "Plugins";
 
         // R
         public static string Rate = "Rate";

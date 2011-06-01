@@ -110,6 +110,7 @@
   <string Field="Protected">Protected</string>
   <string Field="PersonWatching">1 Person Watching</string>
   <string Field="PeopleWatching">{0} People Watching</string>
+  <string Field="Plugins">Plugins</string>
   
   <!-- R -->
   <string Field="Rate">Rate</string>

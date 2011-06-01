@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
+    <Compile Include="GUI\GUISettingsPlugins.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
     <Compile Include="GUI\GUIRecommendationsShows.cs" />
