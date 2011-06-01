@@ -331,11 +331,12 @@ namespace TraktPlugin.GUI
             Email = string.Empty;
 
             GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.Visible", "false");
+            GUIWindowManager.Process();
 
             // Set Disconnect button Label / or Hide it
             if (btnDisconnectAccount != null)
             {
-                if (!string.IsNullOrEmpty(TraktSettings.Username) && !string.IsNullOrEmpty(TraktSettings.Password))
+                if (TraktSettings.AccountStatus == ConnectionState.Connected)
                 {
                     GUIControl.SetControlLabel(GetID, btnDisconnectAccount.GetID, string.Format(Translation.DisconnectAccount, TraktSettings.Username));
                     btnDisconnectAccount.Visible = true;
