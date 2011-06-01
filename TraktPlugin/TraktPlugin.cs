@@ -208,6 +208,17 @@ namespace TraktPlugin
                     TraktLogger.Error(errorMessage, "My Videos");
                 }
             }
+            if (TraktSettings.MyFilms != -1)
+            {
+                try
+                {
+                    TraktHandlers.Add(new MyFilms(TraktSettings.MyFilms));
+                }
+                catch (Exception)
+                {
+                    TraktLogger.Error(errorMessage, "MyFilms");
+                }
+            }
 
             TraktLogger.Debug("Sorting by Priority");
             TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });

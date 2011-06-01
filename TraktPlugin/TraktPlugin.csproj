@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MP11</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MP12</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -82,6 +82,9 @@
     </Reference>
     <Reference Include="MP-TVSeries">
       <HintPath>..\Externals\MP-TVSeries.dll</HintPath>
+    </Reference>
+    <Reference Include="MyFilms">
+      <HintPath>..\Externals\MyFilms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -150,6 +153,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
+    <Compile Include="TraktHandlers\MyFilms.cs" />
     <Compile Include="TraktSkinSettings.cs" />
     <Compile Include="TraktTranslations.cs" />
     <Compile Include="GUI\GUITrending.cs" />

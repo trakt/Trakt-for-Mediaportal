@@ -68,6 +68,22 @@ namespace TraktPlugin
                 }
             }
 
+            //If MyFilms is selected
+            if (TraktSettings.MyFilms > -1 && File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MyFilms.dll")))
+            {
+                //Load the Movies from MyFilms
+                try
+                {
+                    // ToDo: add loadmovies for myfilms
+                    // LoadMoviesFromMovingPictures();
+                }
+                catch (IOException)
+                {
+                    TraktLogger.Info("Failed to load MyFilms! DLL is missing?");
+                }
+            }
+
+
             foreach (MovieSelectItem movie in checkedMovies)
                 if (!checkedListBoxMovies.Items.Contains(movie))
                     checkedListBoxMovies.Items.Add(movie, true);
