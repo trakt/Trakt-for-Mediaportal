@@ -4,6 +4,9 @@
 <!-- Note: English is the fallback for any strings not found in other languages -->
 <strings>
   <!-- A -->
+  <string Field="Account">Account</string>
+  <string Field="AccountSetup">Account Setup</string>
+  <string Field="AccountDialog">Account Dialog</string>
   <string Field="AddToLibrary">Add to Library</string>
   <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AirDate">Air Date</string>
@@ -13,19 +16,26 @@
   <!-- B -->
   
   <!-- C -->
+  <string Field="Cancel">Cancel</string>
   <string Field="Calendar">Calendar</string>
   <string Field="CalendarMyShows">My Shows</string>
   <string Field="CalendarPremieres">Premieres</string>
   <string Field="Certification">Certification</string>
   <string Field="ChangeView">Change View...</string>
   <string Field="ChangeLayout">Change Layout...</string>
+  <string Field="Create">Create</string>
+  <string Field="CreateAccount">Create Account</string>
+  <string Field="CreateNewAccount">Create New Account...</string>
+  <string Field="CreatingAccount">Creating Account...</string>
   
   <!-- D -->
+  <string Field="DisconnectAccount">Disconnect Account: {0}</string>
   
   <!-- E -->
+  <string Field="Email">Email</string>
   <string Field="Episode">Episode</string>
   <string Field="Episodes">Episodes</string>
-  <string Field="Error">Error</string>
+  <string Field="Error">Trakt Error</string>
   <string Field="ErrorCalendar">Error getting calendar.</string>
   
   <!-- F -->
@@ -65,6 +75,9 @@
   <string Field="Layout">Layout</string>
   <string Field="Love">Love</string>
   <string Field="Loved">Loved</string>
+  <string Field="LoginExistingAccount">Login to Existing Account...</string>
+  <string Field="LoggedIn">Logged In</string>
+  <string Field="Login">Login</string>
   
   <!-- M -->
   <string Field="MarkAsWatched">Mark as Watched</string>
@@ -92,6 +105,7 @@
   <string Field="Overview">Overview</string>
   
   <!-- P -->
+  <string Field="Password">Password</string>
   <string Field="Percentage">Percentage</string>
   <string Field="Protected">Protected</string>
   <string Field="PersonWatching">1 Person Watching</string>
@@ -123,6 +137,7 @@
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>
+  <string Field="SigningIntoAccount">Signing Into Account...</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
@@ -140,11 +155,14 @@
   <string Field="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string Field="User">User</string>
   <string Field="Username">Username</string>
-  <string Field="UnAuthorized">Authentication failed, please check username and password in configuration.</string>
+  <string Field="UnAuthorized">Authentication failed, please check username and password in settings.</string>
   
   <!-- V -->
   <string Field="View">View</string>
   <string Field="Votes">Votes</string>
+  <string Field="ValidUsername">You must enter a valid username!</string>
+  <string Field="ValidPassword">You must enter a valid password!</string>
+  <string Field="ValidEmail">You must enter a valid email!</string>
 
   <!-- W -->
   <string Field="WatchList">Watch List</string>

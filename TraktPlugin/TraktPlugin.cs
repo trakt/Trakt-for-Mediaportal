@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TraktPlugin.GUI;
+using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin
@@ -138,7 +139,8 @@ namespace TraktPlugin
             WatchedListShows = 87268,
             WatchedListEpisodes = 87269,
             WatchedListMovies = 87270,
-            Settings = 87271
+            Settings = 87271,
+            SettingsAccount = 87272
         }
 
         #endregion
@@ -161,15 +163,16 @@ namespace TraktPlugin
             TraktLogger.Info("Starting Trakt v{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             TraktSettings.loadSettings();
 
-            if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+            // check connection
+            if (TraktSettings.AccountStatus == ConnectionState.Connected)
             {
-                TraktLogger.Info("Username and/or Password is not set in configuration, stopping plugin load.");
-                DeInit();
-                return true;
+                TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
             }
+            else
+                TraktLogger.Info("Username and/or Password is not set or is Invalid!");
 
+            #region Load Plugin Handlers
             TraktLogger.Debug("Loading Handlers");
-            #region Load Handlers
             string errorMessage = "Tried to load {0} but failed, check minimum requirements are met!";
             if (TraktSettings.MovingPictures != -1)
             {
@@ -204,22 +207,15 @@ namespace TraktPlugin
                     TraktLogger.Error(errorMessage, "My Videos");
                 }
             }
-            #endregion
 
             TraktLogger.Debug("Sorting by Priority");
             TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
-            SyncLibrary();
-                        
-            TraktLogger.Debug("Adding Mediaportal Hooks");
-            g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
-            g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
-            g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
-            g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
+            #endregion
 
+            #region Sync
             if (TraktHandlers.Count == 0)
             {
-                TraktLogger.Info("We don't have any Handlers so may as well stop");
-                DeInit();
+                TraktLogger.Info("No Plugin Handlers configured!");
             }
             else
             {
@@ -227,11 +223,19 @@ namespace TraktPlugin
                 syncLibraryTimer.Tick += new EventHandler(delegate(object o, EventArgs e)
                 {
                     System.Threading.Thread.Sleep(60);
+                    syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
                     SyncLibrary();
                 });
-                syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
                 syncLibraryTimer.Enabled = true;
+                syncLibraryTimer.Start();
             }
+            #endregion
+
+            TraktLogger.Debug("Adding Mediaportal Hooks");
+            g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
+            g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
+            g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
+            g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
 
             // Initialize translations
             Translation.Init();
@@ -241,12 +245,13 @@ namespace TraktPlugin
 
             // Listen to this event to detect skin\language changes in GUI
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
+            GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
 
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
             TraktLogger.Info("Loading main skin window: " + xmlSkin);
-            return Load(xmlSkin);            
+            return Load(xmlSkin);
         }
 
         /// <summary>
@@ -302,6 +307,8 @@ namespace TraktPlugin
         /// </summary>
         private void SyncLibrary()
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             if (syncLibraryWorker != null && syncLibraryWorker.IsBusy)
                 return;
 
@@ -348,7 +355,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                StartScrobble(filename);
+                if (TraktSettings.AccountStatus == ConnectionState.Connected) StartScrobble(filename);
             }
         }
 
@@ -356,7 +363,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                StartScrobble(filename);
+                if (TraktSettings.AccountStatus == ConnectionState.Connected) StartScrobble(filename);
             }
         }
 
@@ -364,7 +371,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                StopScrobble();
+                if (TraktSettings.AccountStatus == ConnectionState.Connected) StopScrobble();
             }
         }
         
@@ -372,7 +379,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                StopScrobble();
+                if (TraktSettings.AccountStatus == ConnectionState.Connected) StopScrobble();
             }
         }
         
@@ -399,6 +406,29 @@ namespace TraktPlugin
                     TraktLogger.Info("Language Changed to '{0}' from GUI, initializing translations.", Translation.CurrentLanguage);
                     Translation.Init();
                 }
+            }
+        }
+
+        bool ConnectionChecked = false;
+        void GUIWindowManager_OnActivateWindow(int windowID)
+        {
+            // We can Notify in GUI now that its initialized
+            // only need this if previous connection attempt was unauthorized on Init()
+            if (TraktSettings.AccountStatus == ConnectionState.Invalid && !ConnectionChecked)
+            {
+                System.Threading.Thread checkStatus = new System.Threading.Thread(delegate()
+                {
+                    TraktSettings.AccountStatus = ConnectionState.Pending;
+                    // Re-Check and Notify
+                    if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                        GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized, 20);
+                    ConnectionChecked = true;
+                })
+                {
+                    IsBackground = true,
+                    Name = "Check Connection"
+                };
+                checkStatus.Start();
             }
         }
 

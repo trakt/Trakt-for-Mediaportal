@@ -129,6 +129,8 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUISettingsAccount.cs" />
+    <Compile Include="GUI\GUISettings.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
     <Compile Include="GUI\GUIRecommendationsShows.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
@@ -159,7 +162,6 @@
     </Compile>
     <Compile Include="TraktAPI\DataStructures\MovieScrobbleAndMode.cs" />
     <Compile Include="TraktAPI\DataStructures\MovieSyncAndMode.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktAuth.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAuthentication.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
@@ -233,7 +235,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="GUI\Languages\en-US.xml" />
+    <Content Include="GUI\Languages\en-US.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -62,6 +62,14 @@ namespace TraktPlugin.TraktAPI
         hate
     }
 
+    public enum ConnectionState
+    {
+        Connected,
+        Disconnected,
+        Invalid,
+        Pending
+    }
+
     #endregion
 
     /// <summary>
@@ -472,6 +480,22 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(string.Format(TraktURIs.UserEpisodesWatchList, user), GetUserAuthentication());
             return response.FromJSONArray<TraktWatchListEpisode>();
+        }
+
+        #endregion
+
+        #region Account
+
+        public static TraktResponse CreateAccount(TraktAccount account)
+        {
+            string response = Transmit(TraktURIs.CreateAccount, account.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse TestAccount(TraktAccount account)
+        {
+            string response = Transmit(TraktURIs.TestAccount, account.ToJSON());
+            return response.FromJSON<TraktResponse>();
         }
 
         #endregion

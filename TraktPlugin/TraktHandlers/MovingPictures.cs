@@ -281,6 +281,8 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="obj"></param>
         private void DatabaseManager_ObjectDeleted(Cornerstone.Database.Tables.DatabaseTable obj)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             //If we have removed a movie from Moving Pictures we want to update Trakt library
             if (obj.GetType() == typeof(DBMovieInfo))
             {
@@ -300,6 +302,8 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="obj"></param>
         private void DatabaseManager_ObjectUpdated(Cornerstone.Database.Tables.DatabaseTable obj)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             //If it is user settings for a movie
             if (obj.GetType() == typeof(DBUserMovieSettings))
             {
@@ -357,6 +361,8 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="obj"></param>
         private void DatabaseManager_ObjectInserted(Cornerstone.Database.Tables.DatabaseTable obj)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             if (obj.GetType() == typeof(DBWatchedHistory))
             {
                 //A movie has been watched push that out.

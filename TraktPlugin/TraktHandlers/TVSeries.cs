@@ -496,6 +496,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportCompleted(bool dataUpdated)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             TraktLogger.Info("TVSeries import complete, checking if sync required");
 
             if (dataUpdated)
@@ -526,6 +528,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeWatched(DBEpisode episode)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             DBEpisode currentEpisode = null;
             EpisodeWatching = false;
 
@@ -572,6 +576,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeStarted(DBEpisode episode)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             TraktLogger.Info("Starting TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = true;
             CurrentEpisode = episode;
@@ -579,6 +585,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeStopped(DBEpisode episode)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             // Episode does not count as watched, we dont need to do anything.
             TraktLogger.Info("Stopped TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = false;
@@ -601,6 +609,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(DBTable item, string value)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             TraktLogger.Info("Recieved rating event from tvseries");
 
             if (item is DBEpisode)
@@ -611,6 +621,8 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(DBSeries series, List<DBEpisode> episodes, bool watched)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             TraktLogger.Info("Recieved togglewatched event from tvseries");
 
             Thread toggleWatched = new Thread(delegate()

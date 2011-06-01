@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using MediaPortal.Profile;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -78,6 +80,37 @@ namespace TraktPlugin
                 return string.Format("TraktForMediaPortal/{0}", Version);
             }
         }
+
+        public static ConnectionState AccountStatus
+        {
+            get 
+            {
+                if (_AccountStatus == ConnectionState.Pending)
+                {
+                    if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+                        return ConnectionState.Disconnected;
+
+                    // test connection
+                    TraktAccount account = new TraktAccount
+                    {
+                        Username = TraktSettings.Username,
+                        Password = TraktSettings.Password
+                    };
+
+                    TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
+                    if (response.Status == "success")
+                        _AccountStatus = ConnectionState.Connected;
+                    else
+                        _AccountStatus = ConnectionState.Invalid;
+                }
+                return _AccountStatus;
+            }
+            set
+            {
+                _AccountStatus = value;
+            }
+        }
+        static ConnectionState _AccountStatus = ConnectionState.Pending;
 
         /// <summary>
         /// Loads the Settings

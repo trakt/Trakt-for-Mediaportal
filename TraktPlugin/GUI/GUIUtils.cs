@@ -12,10 +12,11 @@ namespace TraktPlugin.GUI
     {
         private delegate bool ShowCustomYesNoDialogDelegate(string heading, string lines, string yesLabel, string noLabel, bool defaultYes);
         private delegate void ShowOKDialogDelegate(string heading, string lines);
-        private delegate void ShowNotifyDialogDelegate(string heading, string text, string image, string buttonText);
+        private delegate void ShowNotifyDialogDelegate(string heading, string text, string image, string buttonText, int timeOut);
         private delegate int ShowMenuDialogDelegate(string heading, List<GUIListItem> items);
         private delegate void ShowTextDialogDelegate(string heading, string text);
         private delegate string ShowRateDialogDelegate<T>(T rateObject);
+        private delegate bool GetStringFromKeyboardDelegate(ref string strLine, bool isPassword);
 
         public static readonly string TraktLogo = GUIGraphicsContext.Skin + "\\Media\\Logos\\trakt.png";
 
@@ -166,7 +167,15 @@ namespace TraktPlugin.GUI
         /// </summary>
         public static void ShowNotifyDialog(string heading, string text)
         {
-            ShowNotifyDialog(heading, text, TraktLogo, Translation.OK);
+            ShowNotifyDialog(heading, text, TraktLogo, Translation.OK, -1);
+        }
+
+        /// <summary>
+        /// Displays a notification dialog.
+        /// </summary>
+        public static void ShowNotifyDialog(string heading, string text, int timeOut)
+        {
+            ShowNotifyDialog(heading, text, TraktLogo, Translation.OK, timeOut);
         }
 
         /// <summary>
@@ -174,18 +183,18 @@ namespace TraktPlugin.GUI
         /// </summary>
         public static void ShowNotifyDialog(string heading, string text, string image)
         {
-            ShowNotifyDialog(heading, text, image, Translation.OK);
+            ShowNotifyDialog(heading, text, image, Translation.OK, -1);
         }
 
         /// <summary>
         /// Displays a notification dialog.
         /// </summary>
-        public static void ShowNotifyDialog(string heading, string text, string image, string buttonText)
+        public static void ShowNotifyDialog(string heading, string text, string image, string buttonText, int timeout)
         {
             if (GUIGraphicsContext.form.InvokeRequired)
             {
                 ShowNotifyDialogDelegate d = ShowNotifyDialog;
-                GUIGraphicsContext.form.Invoke(d, heading, text, image, buttonText);
+                GUIGraphicsContext.form.Invoke(d, heading, text, image, buttonText, timeout);
                 return;
             }
 
@@ -198,7 +207,8 @@ namespace TraktPlugin.GUI
                 pDlgNotify.SetHeading(heading);
                 pDlgNotify.SetImage(image);
                 pDlgNotify.SetText(text);
-
+                if (timeout >= 0) pDlgNotify.TimeOut = timeout;
+                    
                 foreach (GUIControl item in pDlgNotify.GetControlList())
                 {
                     if (item is GUIButtonControl)
@@ -295,18 +305,33 @@ namespace TraktPlugin.GUI
             dlgText.DoModal(GUIWindowManager.ActiveWindow);
         }
 
+        public static bool GetStringFromKeyboard(ref string strLine)
+        {
+            return GetStringFromKeyboard(ref strLine, false);
+        }
+
         /// <summary>
         /// Gets the input from the virtual keyboard window.
         /// </summary>
-        public static bool GetStringFromKeyboard(ref string strLine)
+        public static bool GetStringFromKeyboard(ref string strLine, bool isPassword)
         {
-            VirtualKeyboard keyboard = (VirtualKeyboard)GUIWindowManager.GetWindow((int)MediaPortal.GUI.Library.GUIWindow.Window.WINDOW_VIRTUAL_KEYBOARD);
+            if (GUIGraphicsContext.form.InvokeRequired)
+            {
+                GetStringFromKeyboardDelegate d = GetStringFromKeyboard;
+                object[] args = { strLine, isPassword };
+                bool result = (bool)GUIGraphicsContext.form.Invoke(d, args);
+                strLine = (string)args[0];
+                return result;
+            }
+
+            VirtualKeyboard keyboard = (VirtualKeyboard)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_VIRTUAL_KEYBOARD);
             if (keyboard == null) return false;
 
             keyboard.Reset();
             keyboard.Text = strLine;
+            keyboard.Password = isPassword;
             keyboard.DoModal(GUIWindowManager.ActiveWindow);
-
+            
             if (keyboard.IsConfirmed)
             {
                 strLine = keyboard.Text;

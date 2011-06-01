@@ -37,5 +37,7 @@ namespace TraktPlugin.TraktAPI
         public const string UserMovieWatchList = @"http://api.trakt.tv/user/watchlist/movies.json/" + ApiKey + @"/{0}";
         public const string UserShowsWatchList = @"http://api.trakt.tv/user/watchlist/shows.json/" + ApiKey + @"/{0}";
         public const string UserEpisodesWatchList = @"http://api.trakt.tv/user/watchlist/episodes.json/" + ApiKey + @"/{0}";
+        public const string CreateAccount = @"http://api.trakt.tv/account/create/" + ApiKey;
+        public const string TestAccount = @"http://api.trakt.tv/account/test/" + ApiKey;
     }
 }

@@ -182,6 +182,9 @@ namespace TraktPlugin.GUI
         /// </summary>
 
         // A
+        public static string Account = "Account";
+        public static string AccountSetup = "Account Setup";
+        public static string AccountDialog = "Account Dialog";
         public static string AddToLibrary = "Add to Library";
         public static string AddToWatchList = "Add to Watch List";
         public static string AirDate = "Air Date";
@@ -192,20 +195,27 @@ namespace TraktPlugin.GUI
         
 
         // C
+        public static string Cancel = "Cancel";
         public static string Calendar = "Calendar";
         public static string CalendarMyShows = "My Shows";
         public static string CalendarPremieres = "Premieres";
         public static string Certification = "Certification";
         public static string ChangeView = "Change View...";
         public static string ChangeLayout = "Change Layout...";
-
-        // D
+        public static string Create = "Create";
+        public static string CreateAccount = "Create Account";
+        public static string CreateNewAccount = "Create New Account...";
+        public static string CreatingAccount = "Creating Account...";
         
 
+        // D
+        public static string DisconnectAccount = "Disconnect Account: {0}";
+
         // E
+        public static string Email = "Email";
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
-        public static string Error = "Error";
+        public static string Error = "Trakt Error";
         public static string ErrorCalendar = "Error getting calendar.";
 
         // F
@@ -245,6 +255,9 @@ namespace TraktPlugin.GUI
         public static string Layout = "Layout";
         public static string Love = "Love";
         public static string Loved = "Loved";
+        public static string LoginExistingAccount = "Login to Existing Account...";
+        public static string LoggedIn = "Logged In";
+        public static string Login = "Login";
 
         // M
         public static string MarkAsWatched = "Mark as Watched";
@@ -272,6 +285,7 @@ namespace TraktPlugin.GUI
         public static string Overview = "Overview";
 
         // P
+        public static string Password = "Password";
         public static string Percentage = "Percentage";
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
@@ -303,7 +317,8 @@ namespace TraktPlugin.GUI
         public static string Season = "Season";        
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
-        public static string Settings = "Settings";        
+        public static string Settings = "Settings";
+        public static string SigningIntoAccount = "Signing Into Account...";
 
         // T
         public static string Timeout = "Timeout";
@@ -314,18 +329,21 @@ namespace TraktPlugin.GUI
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";
         public static string Title = "Title";
-        public static string Trailer = "Trailer";
+        public static string Trailer = "Trailer";        
         
         // U
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";
         public static string User = "User";
         public static string Username = "Username";
-        public static string UnAuthorized = "Authentication failed, please check username and password in configuration.";
+        public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
 
         // V
         public static string View = "View";
         public static string Votes = "Votes";
+        public static string ValidUsername = "You must enter a valid username!";
+        public static string ValidPassword = "You must enter a valid password!";
+        public static string ValidEmail = "You must enter a valid email!";
 
         // W
         public static string WatchList = "Watch List";
