@@ -170,6 +170,21 @@ namespace TraktPlugin.GUI
             base.OnClicked(controlId, control, actionType);
         }
 
+        public override void OnAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    if (GUIPropertyManager.GetProperty("#Trakt.Settings.Account.Dialog.Visible") == "true")
+                    {
+                        HideAccountControls();
+                        return;
+                    }
+                    break;
+            }
+            base.OnAction(action);
+        }
+
         #endregion
 
         #region Private Methods
