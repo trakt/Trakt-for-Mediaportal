@@ -279,6 +279,7 @@ namespace TraktPlugin.GUI
         public static string NoMovieWatchList = "No Movies in Watch List!";
         public static string NoShowWatchList = "No Shows in Watch List!";
         public static string NoEpisodeWatchList = "No Episodes in Watch List!";
+        public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
 
         // O
         public static string OK = "OK";

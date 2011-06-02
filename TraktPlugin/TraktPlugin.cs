@@ -26,6 +26,7 @@ namespace TraktPlugin
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
+        Object lockThis = new Object();
         #endregion
 
         #region ISetupFrom
@@ -172,57 +173,7 @@ namespace TraktPlugin
             else
                 TraktLogger.Info("Username and/or Password is not set or is Invalid!");
 
-            #region Load Plugin Handlers
-            TraktLogger.Debug("Loading Handlers");
-            string errorMessage = "Tried to load {0} but failed, check minimum requirements are met!";
-            if (TraktSettings.MovingPictures != -1)
-            {
-                try
-                {
-                    TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
-                }
-                catch (Exception)
-                {
-                    TraktLogger.Error(errorMessage, "Moving Pictures");
-                }
-            }
-            if (TraktSettings.TVSeries != -1)
-            {
-                try
-                {
-                    TraktHandlers.Add(new TVSeries(TraktSettings.TVSeries));
-                }
-                catch (Exception)
-                {
-                    TraktLogger.Error(errorMessage, "MP-TVSeries");
-                }
-            }
-            if (TraktSettings.MyVideos != -1)
-            {
-                try
-                {
-                    TraktHandlers.Add(new MyVideos(TraktSettings.MyVideos));
-                }
-                catch (Exception)
-                {
-                    TraktLogger.Error(errorMessage, "My Videos");
-                }
-            }
-            if (TraktSettings.MyFilms != -1)
-            {
-                try
-                {
-                    TraktHandlers.Add(new MyFilms(TraktSettings.MyFilms));
-                }
-                catch (Exception)
-                {
-                    TraktLogger.Error(errorMessage, "My Films");
-                }
-            }
-
-            TraktLogger.Debug("Sorting by Priority");
-            TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
-            #endregion
+            LoadPluginHandlers();         
 
             #region Sync
             if (TraktHandlers.Count == 0)
@@ -312,6 +263,88 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Plugin Handlers
+
+        private void LoadPluginHandlers()
+        {
+            TraktLogger.Debug("Loading Plugin Handlers");
+            string errorMessage = "Tried to load {0} but failed, check minimum requirements are met!";
+            
+            #region MovingPictures
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "Moving Pictures");
+                if (!handlerExists && TraktSettings.MovingPictures != -1)
+                    TraktHandlers.Add(new MovingPictures(TraktSettings.MovingPictures));
+                else if (handlerExists && TraktSettings.MovingPictures == -1)
+                {
+                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "Moving Pictures");
+                    (item as MovingPictures).DisposeEvents();
+                    TraktHandlers.Remove(item);
+                }
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "Moving Pictures");
+            }
+            #endregion
+
+            #region MP-TVSeries
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "MP-TVSeries");
+                if (!handlerExists && TraktSettings.TVSeries != -1)
+                    TraktHandlers.Add(new TVSeries(TraktSettings.TVSeries));
+                else if (handlerExists && TraktSettings.TVSeries == -1)
+                {
+                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "MP-TVSeries");
+                    (item as TVSeries).DisposeEvents();
+                    TraktHandlers.Remove(item);
+
+                }
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "MP-TVSeries");
+            }
+            #endregion
+
+            #region My Videos
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My Videos");
+                if (!handlerExists && TraktSettings.MyVideos != -1)
+                    TraktHandlers.Add(new MyVideos(TraktSettings.MyVideos));
+                else if (handlerExists && TraktSettings.MyVideos == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "My Videos");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "My Videos");
+            }
+            #endregion
+
+            #region My Films
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My Films");
+                if (!handlerExists && TraktSettings.MyFilms != -1)
+                    TraktHandlers.Add(new MyFilms(TraktSettings.MyFilms));
+                else if (handlerExists && TraktSettings.MyFilms == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "My Films");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "My Films");
+            }
+            #endregion
+            
+            TraktLogger.Debug("Sorting Plugin Handlers by Priority");
+            TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
+        }
+
+        #endregion
+
         #region LibraryFunctions
 
         /// <summary>
@@ -349,11 +382,14 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            foreach (ITraktHandler traktHandler in TraktHandlers)
+            lock (lockThis)
             {
-                traktHandler.SyncLibrary();
-                if (syncLibraryWorker.CancellationPending)
-                    return;
+                foreach (ITraktHandler traktHandler in TraktHandlers)
+                {
+                    traktHandler.SyncLibrary();
+                    if (syncLibraryWorker.CancellationPending)
+                        return;
+                }
             }
         }
 
@@ -399,6 +435,7 @@ namespace TraktPlugin
 
         #region MediaPortal Window Hooks
 
+        int PreviousWindow = 0;
         void GUIWindowManager_OnDeActivateWindow(int windowID)
         {
             // Settings/General window
@@ -419,6 +456,8 @@ namespace TraktPlugin
                     Translation.Init();
                 }
             }
+
+            PreviousWindow = windowID;
         }
 
         bool ConnectionChecked = false;
@@ -442,6 +481,25 @@ namespace TraktPlugin
                 };
                 checkStatus.Start();
             }
+
+            // If we exit settings, we may need to reload plugin handlers
+            // Also Prompt to Sync / Warn users if no plugin handlers are defined
+            if ((windowID < (int)GUIWindows.Settings || windowID > (int)GUIWindows.SettingsPlugins) && 
+                (PreviousWindow >= (int)GUIWindows.Settings && PreviousWindow <= (int)GUIWindows.SettingsPlugins))
+            {
+                LoadPluginHandlers();
+
+                // Help user get started if no plugins enabled
+                if (TraktHandlers.Count == 0)
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
+                    {
+                        GUIWindowManager.ActivateWindow((int)GUIWindows.SettingsPlugins);
+                    }
+                    return;
+                }
+
+            }
         }
 
         #endregion
@@ -453,9 +511,7 @@ namespace TraktPlugin
         /// <param name="filename">The video to search for</param>
         private void StartScrobble(String filename)
         {
-            TraktLogger.Debug("Making sure that we aren't still scrobbling");
-            foreach (ITraktHandler traktHandler in TraktHandlers)
-                traktHandler.StopScrobble();
+            StopScrobble();
 
             if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
             {
@@ -480,9 +536,12 @@ namespace TraktPlugin
         /// </summary>
         private void StopScrobble()
         {
-            TraktLogger.Debug("Making sure that we aren't still scrobbling");
-            foreach (ITraktHandler traktHandler in TraktHandlers)
-                traktHandler.StopScrobble();
+            lock (lockThis)
+            {
+                TraktLogger.Debug("Making sure that we aren't still scrobbling");
+                foreach (ITraktHandler traktHandler in TraktHandlers)
+                    traktHandler.StopScrobble();
+            }
         }
         #endregion
     }

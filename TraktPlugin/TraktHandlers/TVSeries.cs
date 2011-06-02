@@ -34,7 +34,7 @@ namespace TraktPlugin.TraktHandlers
             Priority = priority;
             
             TraktLogger.Debug("Adding Hooks to MP-TVSeries");
-            
+
             // player events
             VideoHandler.EpisodeWatched += new VideoHandler.EpisodeWatchedDelegate(OnEpisodeWatched);
             VideoHandler.EpisodeStarted += new VideoHandler.EpisodeStartedDelegate(OnEpisodeStarted);
@@ -253,6 +253,30 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktTimer != null)
                 TraktTimer.Dispose();
+        }
+
+        #endregion
+
+        #region Other Public Methods
+
+        public void DisposeEvents()
+        {
+            TraktLogger.Debug("Removing Hooks from MP-TVSeries");
+
+            // player events
+            VideoHandler.EpisodeWatched -= new VideoHandler.EpisodeWatchedDelegate(OnEpisodeWatched);
+            VideoHandler.EpisodeStarted -= new VideoHandler.EpisodeStartedDelegate(OnEpisodeStarted);
+            VideoHandler.EpisodeStopped -= new VideoHandler.EpisodeStoppedDelegate(OnEpisodeStopped);
+            PlayListPlayer.EpisodeWatched -= new PlayListPlayer.EpisodeWatchedDelegate(OnEpisodeWatched);
+            PlayListPlayer.EpisodeStarted -= new PlayListPlayer.EpisodeStartedDelegate(OnEpisodeStarted);
+            PlayListPlayer.EpisodeStopped -= new PlayListPlayer.EpisodeStoppedDelegate(OnEpisodeStopped);
+
+            // import events
+            OnlineParsing.OnlineParsingCompleted -= new OnlineParsing.OnlineParsingCompletedHandler(OnImportCompleted);
+
+            // gui events
+            TVSeriesPlugin.RateItem -= new TVSeriesPlugin.RatingEventDelegate(OnRateItem);
+            TVSeriesPlugin.ToggleWatched -= new TVSeriesPlugin.ToggleWatchedEventDelegate(OnToggleWatched);
         }
 
         #endregion

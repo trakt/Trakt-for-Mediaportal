@@ -99,6 +99,7 @@
   <string Field="NoShowWatchList">No Shows in Watch List!</string>
   <string Field="NoMovieWatchList">No Movies in Watch List!</string>
   <string Field="NoEpisodeWatchList">No Episodes in Watch List!</string>
+  <string Field="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
 
   <!-- O -->
   <string Field="OK">OK</string>

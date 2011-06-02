@@ -583,5 +583,17 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
+
+        #region Other Public Methods
+
+        public void DisposeEvents()
+        {
+            TraktLogger.Debug("Removing Hooks from Moving Pictures Database");
+            MovingPicturesCore.DatabaseManager.ObjectInserted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
+            MovingPicturesCore.DatabaseManager.ObjectUpdated -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
+            MovingPicturesCore.DatabaseManager.ObjectDeleted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
+        }
+
+        #endregion
     }
 }
