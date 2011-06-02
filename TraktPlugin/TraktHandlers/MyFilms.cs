@@ -8,7 +8,6 @@ using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.Player;
 using System.Reflection;
 using System.ComponentModel;
-// using MediaPortal.Video.Database;
 using MyFilmsPlugin.MyFilms;
 using System.Threading;
 
@@ -36,7 +35,7 @@ namespace TraktPlugin.TraktHandlers
 
         public string Name
         {
-            get { return "MyFilms"; }
+            get { return "My Films"; }
         }
 
         public int Priority { get; set; }
@@ -88,7 +87,7 @@ namespace TraktPlugin.TraktHandlers
                         // VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
                     }
 
-                    // if it is watched in Trakt but not My Videos update
+                    // if it is watched in Trakt but not My Films update
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && libraryMovie.Watched == false)
                     {
@@ -236,7 +235,7 @@ namespace TraktPlugin.TraktHandlers
                 MFMovie movie = o as MFMovie;
                 if (movie == null) return;
 
-                TraktLogger.Info("MyVideos movie considered watched '{0}'", movie.Title);
+                TraktLogger.Info("MyFilms movie considered watched '{0}'", movie.Title);
 
                 // get scrobble data to send to api
                 TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
@@ -254,14 +253,14 @@ namespace TraktPlugin.TraktHandlers
                 Name = "Scrobble Movie"
             };
 
-            // if movie is atleat 90% complete, consider watched
+            // if movie is atleast 90% complete, consider watched
             if ((g_Player.CurrentPosition / g_Player.Duration) >= 0.9)
             {
                 scrobbleMovie.Start(CurrentMovie);
             }
             else
             {
-                TraktLogger.Info("Stopped MyVideos movies playback '{0}'", CurrentMovie.Title);
+                TraktLogger.Info("Stopped MyFilms movie playback '{0}'", CurrentMovie.Title);
 
                 // stop scrobbling
                 Thread cancelWatching = new Thread(delegate()

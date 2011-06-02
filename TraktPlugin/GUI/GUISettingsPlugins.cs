@@ -23,7 +23,8 @@ namespace TraktPlugin.GUI
         {
             TVSeries = 2,
             MovingPictures = 3,
-            MyVideos = 4,            
+            MyVideos = 4,
+            MyFilms = 5
         }
 
         [SkinControl((int)SkinControls.TVSeries)]
@@ -34,6 +35,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.MyVideos)]
         protected GUIToggleButtonControl btnMyVideos = null;
+
+        [SkinControl((int)SkinControls.MyFilms)]
+        protected GUIToggleButtonControl btnMyFilms = null;
 
         #endregion
 
@@ -48,6 +52,7 @@ namespace TraktPlugin.GUI
         int TVSeries { get; set; }
         int MovingPictures { get; set; }
         int MyVideos { get; set; }
+        int MyFilms { get; set; }
 
         #endregion
 
@@ -75,24 +80,27 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             // disable plugins
-            if (!btnTVSeries.Selected && TVSeries >= 0) TVSeries = -1;
-            if (!btnMovingPictures.Selected && MovingPictures >= 0) MovingPictures = -1;
-            if (!btnMyVideos.Selected && MyVideos >= 0) MyVideos = -1;
+            if (!btnTVSeries.Selected) TVSeries = -1;
+            if (!btnMovingPictures.Selected) MovingPictures = -1;
+            if (!btnMyVideos.Selected) MyVideos = -1;
+            if (!btnMyFilms.Selected) MyFilms = -1;
 
             // enable plugins
             int i = 1;
-            int[] intArray = new int[3] { TVSeries, MovingPictures, MyVideos };
+            int[] intArray = new int[4] { TVSeries, MovingPictures, MyVideos, MyFilms };
             Array.Sort(intArray);
 
             // keep existing sort order
             if (btnTVSeries.Selected && TVSeries < 0) { TVSeries = intArray.Max() + i; i++; }
             if (btnMovingPictures.Selected && MovingPictures < 0) { MovingPictures = intArray.Max() + i; i++; }
             if (btnMyVideos.Selected && MyVideos < 0) { MyVideos = intArray.Max() + i; i++; }
+            if (btnMyFilms.Selected && MyFilms < 0) { MyFilms = intArray.Max() + i; i++; }
             
             // save settings
             TraktSettings.TVSeries = TVSeries;
             TraktSettings.MovingPictures = MovingPictures;
             TraktSettings.MyVideos = MyVideos;
+            TraktSettings.MyFilms = MyFilms;
 
             TraktSettings.saveSettings();
 
@@ -108,10 +116,12 @@ namespace TraktPlugin.GUI
             TVSeries = TraktSettings.TVSeries;
             MovingPictures = TraktSettings.MovingPictures;
             MyVideos = TraktSettings.MyVideos;
+            MyFilms = TraktSettings.MyFilms;
 
             if (TVSeries >= 0) btnTVSeries.Selected = true;
             if (MovingPictures >= 0) btnMovingPictures.Selected = true;
             if (MyVideos >= 0) btnMyVideos.Selected = true;
+            if (MyFilms >= 0) btnMyFilms.Selected = true;
         }
 
         #endregion

@@ -29,7 +29,7 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.MovingPictures, "Moving Pictures"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.TVSeries, "MP-TVSeries"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyVideos, "My Videos"));
-            items.Add(new KeyValuePair<int, string>(TraktSettings.MyFilms, "MyFilms"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.MyFilms, "My Films"));
             items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
             {
                 // sort disabled at end of list
@@ -141,7 +141,7 @@ namespace TraktPlugin
                     case "My Videos":
                         TraktSettings.MyVideos = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
-                    case "MyFilms":
+                    case "My Films":
                         TraktSettings.MyFilms = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
                 }
@@ -165,7 +165,7 @@ namespace TraktPlugin
                 case "My Videos":
                     TraktSettings.MyVideos = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
-                case "MyFilms":
+                case "My Films":
                     TraktSettings.MyFilms = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
             }

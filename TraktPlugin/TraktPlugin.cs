@@ -216,7 +216,7 @@ namespace TraktPlugin
                 }
                 catch (Exception)
                 {
-                    TraktLogger.Error(errorMessage, "MyFilms");
+                    TraktLogger.Error(errorMessage, "My Films");
                 }
             }
 
