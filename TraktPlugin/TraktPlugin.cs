@@ -91,7 +91,7 @@ namespace TraktPlugin
         /// <returns>The window id</returns>
         public int GetWindowId()
         {
-            return (int)GUIWindows.Main;
+            return (int)TraktGUIWindows.Main;
         }
 
         /// <summary>
@@ -123,37 +123,13 @@ namespace TraktPlugin
 
         #endregion
 
-        #region GUI Windows
-
-        enum GUIWindows
-        {
-            Main = 87258,
-            Calendar = 87259,
-            Friends = 87260,
-            Recommendations = 87261,
-            RecommendationsShows = 87262,
-            RecommendationsMovies = 87263,
-            Trending = 87264,
-            TrendingShows = 87265,
-            TrendingMovies = 87266,
-            WatchedList = 87267,
-            WatchedListShows = 87268,
-            WatchedListEpisodes = 87269,
-            WatchedListMovies = 87270,
-            Settings = 87271,
-            SettingsAccount = 87272,
-            SettingsPlugins = 87273
-        }
-
-        #endregion
-
         #region GUIWindow Overrides
 
         public override int GetID
         {
             get
             {
-                return (int)GUIWindows.Main;
+                return (int)TraktGUIWindows.Main;
             }
         }
 
@@ -484,8 +460,8 @@ namespace TraktPlugin
 
             // If we exit settings, we may need to reload plugin handlers
             // Also Prompt to Sync / Warn users if no plugin handlers are defined
-            if ((windowID < (int)GUIWindows.Settings || windowID > (int)GUIWindows.SettingsPlugins) && 
-                (PreviousWindow >= (int)GUIWindows.Settings && PreviousWindow <= (int)GUIWindows.SettingsPlugins))
+            if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsPlugins) && 
+                (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsPlugins))
             {
                 LoadPluginHandlers();
 
@@ -494,7 +470,7 @@ namespace TraktPlugin
                 {
                     if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
                     {
-                        GUIWindowManager.ActivateWindow((int)GUIWindows.SettingsPlugins);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
                     }
                     return;
                 }

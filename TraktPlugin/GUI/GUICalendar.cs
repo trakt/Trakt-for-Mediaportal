@@ -106,6 +106,9 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
+            // Requires Login
+            if (!GUICommon.CheckLogin()) return;
+
             // clear GUI properties
             ClearProperties();
 

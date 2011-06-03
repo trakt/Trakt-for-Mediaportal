@@ -132,6 +132,7 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
     <Compile Include="GUI\GUISettingsPlugins.cs" />

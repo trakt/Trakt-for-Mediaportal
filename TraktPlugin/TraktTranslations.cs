@@ -280,6 +280,7 @@ namespace TraktPlugin.GUI
         public static string NoShowWatchList = "No Shows in Watch List!";
         public static string NoEpisodeWatchList = "No Episodes in Watch List!";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
+        public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
 
         // O
         public static string OK = "OK";
