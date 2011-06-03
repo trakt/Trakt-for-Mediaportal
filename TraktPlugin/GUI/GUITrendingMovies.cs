@@ -680,8 +680,10 @@ namespace TraktPlugin.GUI
                 mainOverlay = MainOverlayImage.Watchlist;
             else if (movie.Plays > 0)
                 mainOverlay = MainOverlayImage.Seenit;
-            else if (movie.InCollection)
-                mainOverlay = MainOverlayImage.Library;
+
+            // add additional overlay if applicable
+            if (movie.InCollection)
+                mainOverlay |= MainOverlayImage.Library;
 
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
 
@@ -691,7 +693,7 @@ namespace TraktPlugin.GUI
                 ratingOverlay = RatingOverlayImage.Hate;
 
             // get a reference to a MediaPortal Texture Identifier
-            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image

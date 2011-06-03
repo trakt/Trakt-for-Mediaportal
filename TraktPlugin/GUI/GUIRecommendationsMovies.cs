@@ -689,14 +689,14 @@ namespace TraktPlugin.GUI
 
             if (movie.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;            
-            else if (movie.InCollection)
-                mainOverlay = MainOverlayImage.Library;
+            if (movie.InCollection)
+                mainOverlay |= MainOverlayImage.Library;
 
             // we never show rating movies in Recommendations
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
 
             // get a reference to a MediaPortal Texture Identifier
-            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image

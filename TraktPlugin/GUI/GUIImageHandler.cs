@@ -10,12 +10,13 @@ using MediaPortal.Util;
 
 namespace TraktPlugin.GUI
 {
+    [Flags]
     public enum MainOverlayImage
     {
-        Seenit,
-        Library,
-        Watchlist,
-        None
+        None = 0,
+        Watchlist = 1,
+        Seenit = 2,
+        Library = 4,
     }
 
     public enum RatingOverlayImage
@@ -83,7 +84,7 @@ namespace TraktPlugin.GUI
             Bitmap poster = new Bitmap(ImageFast.FromFile(origPoster));
             Graphics gph = Graphics.FromImage(poster);
 
-            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(MainOverlayImage), mainType));
+            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));
             if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
                 Bitmap newPoster = new Bitmap(ImageFast.FromFile(mainOverlayImage));
