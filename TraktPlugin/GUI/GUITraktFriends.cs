@@ -182,6 +182,7 @@ namespace TraktPlugin.GUI
             // only two types to choose from in this view level            
             // signal that we are now displaying the watched types view
             ViewLevel = Views.WatchedTypes;
+            SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", "2");
             
@@ -242,6 +243,7 @@ namespace TraktPlugin.GUI
 
             // signal that we are now displaying the watched history view
             ViewLevel = Views.WatchedHistory;
+            SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friend.WatchedEpisodes.Count().ToString());
 
@@ -292,6 +294,7 @@ namespace TraktPlugin.GUI
 
             // signal that we are now displaying the watched history view
             ViewLevel = Views.WatchedHistory;
+            SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friend.WatchedMovies.Count().ToString());
 
@@ -337,6 +340,7 @@ namespace TraktPlugin.GUI
 
             // signal that we are now displaying the watched history view
             ViewLevel = Views.Friends;
+            SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friends.Count().ToString());
 
@@ -383,12 +387,26 @@ namespace TraktPlugin.GUI
          
         private void InitProperties()
         {
+            ViewLevel = Views.Friends;
             GUIUtils.SetProperty("#Trakt.View.Level", "Friends");
             GUIUtils.SetProperty("#Trakt.Selected.Type", string.Empty);
+            SetCurrentView();
+        }
+
+        private void SetCurrentView()
+        {
+            if (ViewLevel == Views.Friends)
+                SetProperty("#Trakt.CurrentView", "Trakt " + Translation.Friends);
+            else if (ViewLevel == Views.WatchedTypes)
+                SetProperty("#Trakt.CurrentView", CurrentFriend.Username);
+            else
+                SetProperty("#Trakt.CurrentView", string.Format("{0} | {1}", CurrentFriend.Username, SelectedType == WatchedHistoryType.Episodes ? Translation.WatchedEpisodes : Translation.WatchedMovies));
         }
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.CurrentView", string.Empty);
+
             #region User
             GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);

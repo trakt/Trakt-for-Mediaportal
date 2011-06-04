@@ -109,9 +109,10 @@ namespace TraktPlugin.GUI
             // Requires Login
             if (!GUICommon.CheckLogin()) return;
 
-            // clear GUI properties
+            // Clear GUI properties
             ClearProperties();
 
+            // Init Properties
             InitProperties();
 
             // Load Calendar
@@ -263,9 +264,7 @@ namespace TraktPlugin.GUI
 
             // Set new Selection            
             CurrentCalendar = (CalendarType)Enum.GetValues(typeof(CalendarType)).GetValue(dlg.SelectedLabel);
-            if (viewButton != null) viewButton.Label = Translation.View + ": " + dlg.SelectedLabelText;
-                
-            SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
+            SetCurrentView();
 
             // Reset Views and Apply
             CurrentWeekDays = 7;
@@ -443,11 +442,17 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            SetCurrentView();
+        }
+
+        private void SetCurrentView()
+        {
             // Set current view in button label
             if (viewButton != null)
                 viewButton.Label = Translation.View + ": " + GetCalendarTypeName(CurrentCalendar);
 
             SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
+            SetProperty("#Trakt.CurrentView", CurrentCalendar == CalendarType.MyShows ? Translation.CalendarMyShows : Translation.CalendarPremieres);
         }
 
         private void SetProperty(string property, string value)
@@ -458,6 +463,7 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.CurrentView", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
