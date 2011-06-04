@@ -241,9 +241,54 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="GUI\Languages\en-US.xml">
+    <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\filmstrip_overlay.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\glassoverlay2.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\hate.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\hover_trakt.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\Logos\trakt.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\love.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\mainoverlay.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\rate.hate.off.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\rate.hate.on.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\rate.love.off.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\rate.love.on.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktHate.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktLibrary.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktLoginFieldFocus.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktLoginFieldNoFocus.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktLove.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktNextWeek.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktSeenIt.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktSeenItLibrary.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktWatchList.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktWatchListLibrary.png" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.AccountDialog.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Common.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Friends.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.RateDialog.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.Movies.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.Shows.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.SkinSettings.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Trending.Movies.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Trending.Shows.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Trending.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.Episodes.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.Movies.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.Shows.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

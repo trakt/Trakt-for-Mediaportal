@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87273</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#currentmodule:#Trakt.Translation.Plugins.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9996</define>
+  <controls>
+    <import>common.settings.xml</import>
+    <import>Trakt.Common.xml</import>
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
+      <posX>580</posX>
+      <posY>201</posY>
+      <width>300</width>
+      <height>379</height>
+      <layout>StackLayout</layout>
+      <control>
+        <description>MP-TVSeries</description>
+        <type>togglebutton</type>
+        <id>2</id>
+        <label>MP-TVSeries</label>
+        <width>300</width>
+        <onleft>2</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>17</onup>
+      </control>
+      <control>
+        <description>MovingPictures</description>
+        <type>togglebutton</type>
+        <id>3</id>
+        <width>300</width>
+        <label>Moving Pictures</label>
+        <onleft>3</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>My Videos</description>
+        <type>togglebutton</type>
+        <id>4</id>
+        <width>300</width>
+        <label>My Videos</label>
+        <onleft>4</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>        
+      </control>
+      <control>
+        <description>My Films</description>
+        <type>togglebutton</type>
+        <id>5</id>
+        <width>300</width>
+        <label>My Films</label>
+        <onleft>5</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>        
+      </control>
+    </control>
+  </controls>
+</window>
