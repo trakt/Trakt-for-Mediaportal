@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <!-- #Trakt.Settings.Account.Dialog.Visible is true when account controls are visible -->
+  <controls>    
+    <control>
+      <type>image</type>
+      <id>0</id>
+      <posX>230</posX>
+      <posY>100</posY>
+      <width>100</width>
+			<height>100</height>
+			<keepaspectratio>yes</keepaspectratio>
+      <texture>logos\trakt.png</texture>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
+      <visible>!string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+    </control>
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <animation effect="fade" time="200" delay="300">windowopen</animation>
+      <posX>216</posX>
+      <posY>201</posY>
+      <width>350</width>
+      <height>379</height>
+      <layout>StackLayout(0, Vertical)</layout>
+      <visible>!string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+      <control>
+        <description>Trakt Calendar</description>
+        <type>button</type>
+        <id>9991</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Calendar.Label</label>
+        <hyperlink>87259</hyperlink>
+        <onup>9996</onup>
+        <onright>#defaultcontrol</onright>
+      </control>      
+      <control>
+        <description>Friends</description>
+        <type>button</type>
+        <id>9992</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Friends.Label</label>
+        <hyperlink>87260</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
+        <description>Recommendations</description>
+        <type>button</type>
+        <id>9993</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Recommendations.Label</label>
+        <hyperlink>87261</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
+        <description>Trending</description>
+        <type>button</type>
+        <id>9994</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Trending.Label</label>
+        <hyperlink>87264</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
+        <description>Watch List</description>
+        <type>button</type>
+        <id>9995</id>
+				<width>350</width>
+        <label>#Trakt.Translation.WatchList.Label</label>
+        <hyperlink>87267</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
+        <description>Settings</description>
+        <type>button</type>
+        <id>9996</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Settings.Label</label>
+        <hyperlink>87271</hyperlink>
+        <onright>#defaultcontrol</onright>
+        <ondown>9991</ondown>
+      </control>
+    </control>    
+  </controls>
+</window>
