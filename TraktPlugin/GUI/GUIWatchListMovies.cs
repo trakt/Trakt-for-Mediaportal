@@ -295,6 +295,8 @@ namespace TraktPlugin.GUI
 
         private void LoadWatchListMovies()
         {
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
+
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
                 return WatchListMovies;
@@ -356,6 +358,7 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", movies.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
 
             // Download movie images Async and set to facade
             GetImages(movieImages);

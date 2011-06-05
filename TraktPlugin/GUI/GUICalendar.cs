@@ -292,7 +292,9 @@ namespace TraktPlugin.GUI
         }
 
         private IEnumerable<TraktCalendar> GetCalendar()
-        {            
+        {
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
+
             if (CurrentCalendar == CalendarType.MyShows)            
                 return TraktCalendarMyShows;
             else
@@ -404,6 +406,7 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", itemCount.ToString(), itemCount > 1 ? Translation.Episodes : Translation.Episode));
 
             // Download episode images Async and set to facade
             GetImages(showImages);
@@ -463,7 +466,6 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.CurrentView", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);

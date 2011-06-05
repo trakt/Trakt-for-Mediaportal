@@ -296,6 +296,8 @@ namespace TraktPlugin.GUI
 
         private void LoadWatchListShows()
         {
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
+
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
                 return WatchListShows;
@@ -357,6 +359,7 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
 
             // Download show images Async and set to facade
             GetImages(showImages);

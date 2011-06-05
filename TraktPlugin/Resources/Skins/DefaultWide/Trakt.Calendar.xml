@@ -49,7 +49,7 @@
       <posY>8</posY>
       <width>650</width>
       <font>font12</font>
-      <label>Trakt #Trakt.Translation.Calendar.Label | #(iif(eq(#Trakt.Calendar.Type,'MyShows'),'#Trakt.Translation.CalendarMyShows.Label','#Trakt.Translation.CalendarPremieres.Label'))</label>
+      <label>#Trakt.CurrentView</label>
       <align>left</align>
       <animation effect="fade" time="150">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -72,7 +72,7 @@
     <control>
       <description>Item Count Label</description>
       <type>label</type>
-      <label>#itemcount #Trakt.Translation.Episodes.Label</label>
+      <label>#Trakt.Items</label>
       <id>0</id>
       <width>135</width>
       <posX>1244</posX>

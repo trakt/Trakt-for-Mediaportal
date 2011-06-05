@@ -162,6 +162,7 @@ namespace TraktPlugin.GUI
         private void LoadFriendsList()
         {
             ViewLevel = Views.Friends;
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
@@ -185,6 +186,7 @@ namespace TraktPlugin.GUI
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", "2");
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("2 {0}", GUILocalizeStrings.Get(507)));
             
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -246,6 +248,7 @@ namespace TraktPlugin.GUI
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friend.WatchedEpisodes.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friend.WatchedEpisodes.Count().ToString(), friend.WatchedEpisodes.Count() > 1 ? Translation.Episodes : Translation.Episode));
 
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -297,6 +300,7 @@ namespace TraktPlugin.GUI
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friend.WatchedMovies.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friend.WatchedMovies.Count().ToString(), friend.WatchedMovies.Count() > 1 ? Translation.Movies : Translation.Movie));
 
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -343,6 +347,7 @@ namespace TraktPlugin.GUI
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friends.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friends.Count().ToString(), friends.Count() > 1 ? Translation.Friends : Translation.Friend));
 
             if (friends.Count() == 0)
             {
@@ -390,6 +395,7 @@ namespace TraktPlugin.GUI
             ViewLevel = Views.Friends;
             GUIUtils.SetProperty("#Trakt.View.Level", "Friends");
             GUIUtils.SetProperty("#Trakt.Selected.Type", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
             SetCurrentView();
         }
 
@@ -405,8 +411,6 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.CurrentView", string.Empty);
-
             #region User
             GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);

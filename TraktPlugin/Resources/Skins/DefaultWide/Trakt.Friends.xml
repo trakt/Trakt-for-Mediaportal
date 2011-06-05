@@ -36,7 +36,7 @@
       <posY>8</posY>
       <width>650</width>
       <font>font12</font>
-      <label>#(iif(eq(#Trakt.View.Level,'WatchedHistory'),iif(eq(#Trakt.Selected.Type,'episode'),'#Trakt.User.Username | #Trakt.Translation.WatchedEpisodes.Label','#Trakt.User.Username | #Trakt.Translation.WatchedMovies.Label'),'Trakt #Trakt.Translation.Friends.Label'))</label>
+      <label>#Trakt.CurrentView</label>
       <align>left</align>
       <animation effect="fade" time="150">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -45,7 +45,7 @@
     <control>
       <description>Item Count Label</description>
       <type>label</type>
-      <label>#itemcount #(switch(eq(#Trakt.View.Level,'Friends'),'#Trakt.Translation.Friends.Label',eq(#Trakt.View.Level,'WatchedTypes'),L(507),and(eq(#Trakt.View.Level,'WatchedHistory'),eq(#Trakt.Selected.Type,'episode')),'#Trakt.Translation.Episodes.Label',and(eq(#Trakt.View.Level,'WatchedHistory'),eq(#Trakt.Selected.Type,'movie')),'#Trakt.Translation.Movies.Label'))</label>
+      <label>#Trakt.Items</label>
       <id>0</id>
       <width>135</width>
       <posX>1244</posX>

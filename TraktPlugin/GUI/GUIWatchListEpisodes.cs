@@ -302,6 +302,8 @@ namespace TraktPlugin.GUI
 
         private void LoadWatchListEpisodes()
         {
+            GUIUtils.SetProperty("#Trakt.Items", string.Empty);
+
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
                 // wait until watched item has been removed or timesout (10secs)
@@ -371,6 +373,7 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", itemCount.ToString(), itemCount > 1 ? Translation.Episodes : Translation.Episode));
 
             // Download episode images Async and set to facade
             GetImages(episodeImages);

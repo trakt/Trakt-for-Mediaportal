@@ -58,7 +58,7 @@
     <control>
       <description>Item Count Label</description>
       <type>label</type>
-      <label>#itemcount #Trakt.Translation.Episodes.Label</label>
+      <label>#Trakt.Items</label>
       <id>0</id>
       <width>135</width>
       <posX>1244</posX>
