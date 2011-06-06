@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87261</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#currentmodule:#Trakt.Translation.Recommendations.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9993</define>
+  <controls>
+    <import>common.settings.xml</import> 
+    <import>Trakt.Common.xml</import>    
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
+      <posX>360</posX>
+      <posY>201</posY>
+      <width>280</width>
+      <height>379</height>
+      <layout>StackLayout(Vertical)</layout>
+      <control>
+        <type>button</type>
+        <description>Recommended Movies</description>
+        <id>2</id>
+        <label>#Trakt.Translation.RecommendedMovies.Label</label>
+				<hyperlink>87263</hyperlink>
+        <onup>17</onup>
+        <width>280</width>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>Recommended Shows</description>
+        <type>button</type>
+        <id>3</id>
+        <label>#Trakt.Translation.RecommendedShows.Label</label>
+				<hyperlink>87262</hyperlink>
+        <width>280</width>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
+      </control>      
+    </control>
+  </controls>
+</window>

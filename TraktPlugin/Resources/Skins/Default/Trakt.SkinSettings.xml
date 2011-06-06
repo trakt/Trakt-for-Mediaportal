@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+  <!--
+		The purpose of Trakt.SkinSettings.xml is to allow the skinner to control the presentation of the Trakt plugin to the user		
+	-->
+  
+  <!-- Position of 'library/seen/watchlist' icons in facade thumbs -->
+  <!-- Draws 'traktLibrary.png, traktSeenIt.png, traktWatchList.png' on thumbnail -->
+  <mainoverlayicons>
+    <!-- Posters are fixed at 300px wide and usually 450px height -->
+    <!-- Positions are relative to top left i.e. (0,0) -->
+    <posters>
+      <posx>178</posx>
+      <posy>0</posy>
+    </posters>
+  </mainoverlayicons>
+  
+  <!-- Position of 'love/hate' user rating icon -->
+  <!-- Draws 'traktLove.png, traktHate.png' on thumbnail -->
+  <ratingoverlayicons>
+    <posters>
+      <posx>178</posx>
+      <posy>0</posy>
+    </posters>
+  </ratingoverlayicons>
+  
+</settings>

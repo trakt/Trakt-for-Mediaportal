@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87271</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#currentmodule:#Trakt.Translation.Settings.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9996</define>
+  <controls>
+    <import>common.settings.xml</import>
+    <import>Trakt.Common.xml</import>
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
+      <posX>360</posX>
+      <posY>201</posY>
+      <width>280</width>
+      <height>379</height>
+      <layout>StackLayout</layout>
+      <control>
+        <type>button</type>
+        <description>Account Setup</description>
+        <id>2</id>
+        <onup>17</onup>
+        <width>280</width>
+        <label>#Trakt.Translation.AccountSetup.Label</label>
+				<hyperlink>87272</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <type>button</type>
+        <description>Plugin Setup</description>
+        <id>3</id>
+        <width>280</width>
+        <label>#Trakt.Translation.Plugins.Label</label>
+				<hyperlink>87273</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+    </control>
+  </controls>
+</window>
