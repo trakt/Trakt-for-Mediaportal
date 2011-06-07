@@ -11,8 +11,8 @@
       <description>Love</description>
       <type>button</type>
       <id>100</id>
-      <posX>540</posX>
-      <posY>360</posY>
+      <posX>240</posX>
+      <posY>290</posY>
       <width>50</width>
       <height>36</height>
       <onup>101</onup>
@@ -25,8 +25,8 @@
       <description>Hate</description>
       <type>button</type>
       <id>101</id>
-      <posX>600</posX>
-      <posY>360</posY>
+      <posX>300</posX>
+      <posY>290</posY>
       <width>50</width>
       <height>36</height>
       <onup>102</onup>
@@ -40,10 +40,10 @@
       <description>Rating Description</description>
       <type>label</type>
       <id>10</id>
-      <posX>660</posX>
-      <posY>365</posY>
+      <posX>360</posX>
+      <posY>295</posY>
       <width>250</width>
-			<font>font10</font>
+			<font>font14</font>
       <animation effect="fade" time="200">windowopen</animation>
       <animation effect="fade" time="200">windowclose</animation>
     </control>
