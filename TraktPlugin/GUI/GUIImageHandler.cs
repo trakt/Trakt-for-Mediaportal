@@ -42,7 +42,7 @@ namespace TraktPlugin.GUI
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(localFile));
-                if (!File.Exists(localFile) || ImageFast.FromFile(localFile) == null)
+                if (!File.Exists(localFile))
                 {
                     TraktLogger.Debug("Downloading new image from: {0}", url);
                     webClient.DownloadFile(url, localFile);
@@ -55,6 +55,31 @@ namespace TraktPlugin.GUI
                 try { if (File.Exists(localFile)) File.Delete(localFile); } catch { }
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Loads an image FAST from file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static Image LoadImage(string file)
+        {
+            if (string.IsNullOrEmpty(file) || !File.Exists(file)) return null;
+            
+            Image img = null;
+
+            try
+            {
+                img = ImageFast.FromFile(file);
+            }
+            catch
+            {
+                // Most likely a Zero Byte file but not always
+                TraktLogger.Warning("Fast loading of texture {0} failed - trying safe fallback now", file);
+                try { img = Image.FromFile(file); } catch { }
+            }
+
+            return img;
         }
 
         /// <summary>
@@ -81,20 +106,20 @@ namespace TraktPlugin.GUI
         /// <returns>An image with overlay added to poster</returns>
         public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType)
         {
-            Bitmap poster = new Bitmap(ImageFast.FromFile(origPoster));
+            Bitmap poster = new Bitmap(GUIImageHandler.LoadImage(origPoster));
             Graphics gph = Graphics.FromImage(poster);
 
             string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));
             if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
-                Bitmap newPoster = new Bitmap(ImageFast.FromFile(mainOverlayImage));
+                Bitmap newPoster = new Bitmap(GUIImageHandler.LoadImage(mainOverlayImage));
                 gph.DrawImage(newPoster, TraktSkinSettings.PosterMainOverlayPosX, TraktSkinSettings.PosterMainOverlayPosY);
             }
 
             string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
             if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
             {
-                Bitmap newPoster = new Bitmap(ImageFast.FromFile(ratingOverlayImage));
+                Bitmap newPoster = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));
                 gph.DrawImage(newPoster, TraktSkinSettings.PosterRatingOverlayPosX, TraktSkinSettings.PosterRatingOverlayPosY);
             }
 

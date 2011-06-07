@@ -599,7 +599,7 @@ namespace TraktPlugin.GUI
             if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
                 memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
             else
-                memoryImage = ImageFast.FromFile(imageFilePath);
+                memoryImage = GUIImageHandler.LoadImage(imageFilePath);
 
             // load texture into facade item
             if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)

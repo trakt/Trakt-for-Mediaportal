@@ -709,7 +709,7 @@ namespace TraktPlugin.GUI
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
 
             // load texture into facade item
-            if (GUITextureManager.LoadFromMemory(ImageFast.FromFile(imageFilePath), texture, 0, 0, 0) > 0)
+            if (GUITextureManager.LoadFromMemory(GUIImageHandler.LoadImage(imageFilePath), texture, 0, 0, 0) > 0)
             {
                 ThumbnailImage = texture;
                 IconImage = texture;

@@ -548,7 +548,7 @@ namespace TraktPlugin.GUI
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
 
             // build memory image
-            Image memoryImage = ImageFast.FromFile(imageFilePath);
+            Image memoryImage = GUIImageHandler.LoadImage(imageFilePath);
 
             // load texture into facade item
             if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
