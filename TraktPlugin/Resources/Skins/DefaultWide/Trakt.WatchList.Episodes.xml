@@ -2,7 +2,9 @@
 <window>
   <id>87269</id>
   <defaultcontrol>50</defaultcontrol>
-  <allowoverlay>yes</allowoverlay>  
+  <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.WatchListEpisodes.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.WatchListEpisodes.Fanart.2</define>
   <controls>    
 		
 		<control>
@@ -17,6 +19,9 @@
       <colordiffuse>ffffffff</colordiffuse>
 			<animation effect="fade" time="300">WindowOpen</animation>
     </control>
+		
+		<import>Trakt.Common.Fanart.xml</import>
+		
     <control>
       <id>1</id>
       <description>Overlay Image</description>
@@ -30,7 +35,7 @@
     </control>
 		
     <control>
-      <description>Coverflow Overlay</description>
+      <description>Filmstrip Overlay</description>
       <type>image</type>
       <id>0</id>
       <posX>0</posX>

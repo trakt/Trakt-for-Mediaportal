@@ -65,7 +65,20 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public class MovieImages : INotifyPropertyChanged
         {
             [DataMember(Name = "fanart")]
-            public string Fanart { get; set; }
+            public string Fanart
+            {
+                get
+                {
+                    if (TraktSettings.DownloadFullSizeFanart)
+                        return _fanart;
+                    return _fanart.Replace(".jpg", "-940.jpg");
+                }
+                set
+                {
+                    _fanart = value;
+                }
+            }
+            string _fanart = string.Empty;
 
             [DataMember(Name = "poster")]
             public string Poster
@@ -105,6 +118,26 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 }
             }
             string _PosterImageFilename = string.Empty;
+
+            public string FanartImageFilename
+            {
+                get
+                {
+                    string filename = string.Empty;
+                    if (!string.IsNullOrEmpty(Fanart))
+                    {
+                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Movies\Fanart");
+                        Uri uri = new Uri(Fanart);
+                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
+                    }
+                    return filename;
+                }
+                set
+                {
+                    _FanartImageFilename = value;
+                }
+            }
+            string _FanartImageFilename = string.Empty;
 
             /// <summary>
             /// Notify image property change during async image downloading

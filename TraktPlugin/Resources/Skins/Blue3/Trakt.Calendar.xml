@@ -3,6 +3,8 @@
   <id>87259</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.Calendar.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.Calendar.Fanart.2</define>
   <controls>
     
 		<control>
@@ -18,6 +20,8 @@
       <animation effect="fade" time="300">WindowOpen</animation>
     </control>
     
+		<import>Trakt.Common.Fanart.xml</import>
+		
     <control>
       <description>Current View</description>
       <type>label</type>

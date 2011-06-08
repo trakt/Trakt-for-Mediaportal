@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <controls>
+    <control>
+      <description>Fanart Background #1</description>
+      <type>image</type>
+      <id>60</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1280</width>
+      <height>720</height>
+      <texture>#Fanart.1</texture>
+      <animation effect="fade" time="300">visible</animation>
+      <animation effect="fade" time="300" delay="300">hidden</animation>
+    </control>
+    <control>
+      <description>Fanart Background #2</description>
+      <type>image</type>
+      <id>61</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1280</width>
+      <height>720</height>
+      <texture>#Fanart.2</texture>
+      <animation effect="fade" time="300">visible</animation>
+      <animation effect="fade" time="300" delay="300">hidden</animation>
+    </control>
+  </controls>
+</window>

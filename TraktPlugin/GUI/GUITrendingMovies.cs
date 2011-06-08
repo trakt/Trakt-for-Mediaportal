@@ -19,11 +19,20 @@ namespace TraktPlugin.GUI
     {
         #region Skin Controls
 
+        [SkinControl(2)]
+        protected GUIButtonControl layoutButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
-        [SkinControl(2)]
-        protected GUIButtonControl layoutButton = null;
+        [SkinControlAttribute(60)]
+        protected GUIImage FanartBackground = null;
+
+        [SkinControlAttribute(61)]
+        protected GUIImage FanartBackground2 = null;
+
+        [SkinControlAttribute(62)]
+        protected GUIImage loadingImage = null;
 
         #endregion
 
@@ -52,7 +61,12 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUITrendingMovies() { }
+        public GUITrendingMovies() 
+        {
+            backdrop = new ImageSwapper();
+            backdrop.PropertyOne = "#Trakt.TrendingMovies.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.TrendingMovies.Fanart.2";
+        }
 
         #endregion
 
@@ -60,6 +74,7 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
+        private ImageSwapper backdrop;
 
         IEnumerable<TraktTrendingMovie> TrendingMovies
         {
@@ -534,6 +549,11 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            // Fanart
+            backdrop.GUIImageOne = FanartBackground;
+            backdrop.GUIImageTwo = FanartBackground2;
+            backdrop.LoadingImage = loadingImage;            
+
             // load last layout
             CurrentLayout = (Layout)TraktSettings.TrendingMoviesDefaultLayout;
             // update button label
@@ -554,6 +574,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Plays", string.Empty);
@@ -582,6 +603,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Url", movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Year);
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
+            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.FanartImageFilename);
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
             SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
             SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
@@ -598,7 +620,24 @@ namespace TraktPlugin.GUI
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
-            PublishMovieSkinProperties(item.TVTag as TraktTrendingMovie);
+            TraktTrendingMovie movie = item.TVTag as TraktTrendingMovie;
+            PublishMovieSkinProperties(movie);
+            LoadFanart(movie);
+        }
+
+        private void LoadFanart(TraktTrendingMovie movie)
+        {
+            // Activate Backdrop in Image Swapper
+            if (!backdrop.Active) backdrop.Active = true;
+
+            string filename = movie.Images.FanartImageFilename;
+           
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+                filename = string.Empty;
+
+            // Assign Fanart filename to Image Loader
+            // Will display fanart in backdrop or reset to default background
+            backdrop.Filename = filename;
         }
 
         private void GetImages(List<TraktMovie.MovieImages> itemsWithThumbs)
@@ -622,20 +661,39 @@ namespace TraktPlugin.GUI
                     List<TraktMovie.MovieImages> items = (List<TraktMovie.MovieImages>)o;
                     foreach (TraktMovie.MovieImages item in items)
                     {
+                        #region Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
 
                         string remoteThumb = item.Poster;
-                        if (string.IsNullOrEmpty(remoteThumb)) continue;
-
                         string localThumb = item.PosterImageFilename;
-                        if (string.IsNullOrEmpty(localThumb)) continue;
 
-                        if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
-                            // notify that image has been downloaded
-                            item.NotifyPropertyChanged("PosterImageFilename");
+                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("PosterImageFilename");
+                            }
                         }
+                        #endregion
+
+                        #region Fanart
+                        // stop download if we have exited window
+                        if (StopDownload) break;
+
+                        string remoteFanart = item.Fanart;
+                        string localFanart = item.FanartImageFilename;
+
+                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
+                        {
+                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("FanartImageFilename");
+                            }
+                        }
+                        #endregion
                     }
                 })
                 {
@@ -663,6 +721,8 @@ namespace TraktPlugin.GUI
                 {
                     if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
+                    if (s is TraktMovie.MovieImages && e.PropertyName == "FanartImageFilename")
+                        UpdateCurrentSelection();
                 };
             }
         } protected object _Item;
@@ -714,7 +774,12 @@ namespace TraktPlugin.GUI
                 IconImageBig = texture;
             }
 
-            // if selected and TraktFriends is current window force an update of thumbnail
+            // if selected and is current window force an update of thumbnail
+            UpdateCurrentSelection();
+        }
+
+        protected void UpdateCurrentSelection()
+        {
             GUITrendingMovies window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITrendingMovies;
             if (window != null)
             {

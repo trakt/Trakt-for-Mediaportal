@@ -18,11 +18,20 @@ namespace TraktPlugin.GUI
     {
         #region Skin Controls
 
+        [SkinControl(2)]
+        protected GUIButtonControl viewButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
-        [SkinControl(2)]
-        protected GUIButtonControl viewButton = null;
+        [SkinControlAttribute(60)]
+        protected GUIImage FanartBackground = null;
+
+        [SkinControlAttribute(61)]
+        protected GUIImage FanartBackground2 = null;
+
+        [SkinControlAttribute(62)]
+        protected GUIImage loadingImage = null;
 
         #endregion
 
@@ -44,7 +53,12 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUICalendar() { }
+        public GUICalendar()
+        {
+            backdrop = new ImageSwapper();
+            backdrop.PropertyOne = "#Trakt.Calendar.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.Calendar.Fanart.2";
+        }
 
         #endregion
 
@@ -56,6 +70,7 @@ namespace TraktPlugin.GUI
         int CurrentWeekDays = 7;
         int PreviousSelectedIndex;
         int PreviousCalendarDayCount;
+        ImageSwapper backdrop;
 
         #endregion
 
@@ -128,6 +143,9 @@ namespace TraktPlugin.GUI
             PreviousCalendarDayCount = 0;
             StopDownload = true;
             ClearProperties();
+
+            // save current view
+            TraktSettings.DefaultCalendarView = (int)CurrentCalendar;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -332,7 +350,7 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
             
             int itemCount = 0;
-            List<TraktEpisode.ShowImages> showImages = new List<TraktEpisode.ShowImages>();
+            List<TraktImage> showImages = new List<TraktImage>();
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
@@ -352,7 +370,15 @@ namespace TraktPlugin.GUI
                 {
                     GUITraktCalendarListItem episodeItem = new GUITraktCalendarListItem(episode.ToString());
 
-                    episodeItem.Item = episode.Episode.Images;
+                    // add image for download
+                    TraktImage images = new TraktImage
+                    {
+                        EpisodeImages = episode.Episode.Images,
+                        ShowImages = episode.Show.Images
+                    };
+                    showImages.Add(images);
+
+                    episodeItem.Item = images;
                     episodeItem.TVTag = episode;
                     episodeItem.ItemId = Int32.MaxValue - itemCount;
                     episodeItem.IconImage = "defaultTraktEpisode.png";
@@ -362,9 +388,6 @@ namespace TraktPlugin.GUI
                     Utils.SetDefaultIcons(episodeItem);
                     Facade.Add(episodeItem);
                     itemCount++;
-
-                    // add image for download
-                    showImages.Add(episode.Episode.Images);
                 }
             }
 
@@ -393,7 +416,7 @@ namespace TraktPlugin.GUI
             nextItem.IconImageBig = "traktNextWeek.png";
             nextItem.ThumbnailImage = "traktNextWeek.png";
             nextItem.OnItemSelected += OnNextWeekSelected;
-            nextItem.IsFolder = true;            
+            nextItem.IsFolder = true;
             Facade.Add(nextItem);
 
             // Set Facade Layout
@@ -429,22 +452,45 @@ namespace TraktPlugin.GUI
                 {
                     Facade.SelectedListItemIndex = Facade.Count - 1;
                 }
-
             }
         }
 
         private void OnNextWeekSelected(GUIListItem item, GUIControl parent)
         {
+            backdrop.Filename = string.Empty;
             ClearProperties();
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
-            PublishEpisodeSkinProperties(item.TVTag as TraktCalendar.TraktEpisodes);
+            TraktCalendar.TraktEpisodes episode = item.TVTag as TraktCalendar.TraktEpisodes;
+            PublishEpisodeSkinProperties(episode);
+            LoadFanart(episode);
+        }
+
+        private void LoadFanart(TraktCalendar.TraktEpisodes episode)
+        {
+            // Activate Backdrop in Image Swapper
+            if (!backdrop.Active) backdrop.Active = true;
+
+            string filename = episode.Show.Images.FanartImageFilename;
+            
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+                filename = string.Empty;
+
+            // Assign Fanart filename to Image Loader
+            // Will display fanart in backdrop or reset to default background
+            backdrop.Filename = filename;
         }
 
         private void InitProperties()
         {
+            // Fanart
+            backdrop.GUIImageOne = FanartBackground;
+            backdrop.GUIImageTwo = FanartBackground2;
+            backdrop.LoadingImage = loadingImage;            
+
+            CurrentCalendar = (CalendarType)TraktSettings.DefaultCalendarView;
             SetCurrentView();
         }
 
@@ -480,6 +526,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
@@ -505,7 +552,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Network", episode.Show.Network);
             SetProperty("#Trakt.Show.Overview", episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
-            SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());            
+            SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
+            SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.Episode.FirstAired.FromEpoch().ToShortDateString());
@@ -516,7 +564,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images.EpisodeImageFilename);
         }
 
-        private void GetImages(List<TraktEpisode.ShowImages> itemsWithThumbs)
+        private void GetImages(List<TraktImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -526,7 +574,7 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                List<TraktEpisode.ShowImages> groupList = new List<TraktEpisode.ShowImages>();
+                List<TraktImage> groupList = new List<TraktImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
@@ -534,23 +582,42 @@ namespace TraktPlugin.GUI
 
                 new Thread(delegate(object o)
                 {
-                    List<TraktEpisode.ShowImages> items = (List<TraktEpisode.ShowImages>)o;
-                    foreach (TraktEpisode.ShowImages item in items)
+                    List<TraktImage> items = (List<TraktImage>)o;
+                    foreach (TraktImage item in items)
                     {
+                        #region Episode Image
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.Screen;
-                        if (string.IsNullOrEmpty(remoteThumb)) continue;
+                        string remoteThumb = item.EpisodeImages.Screen;
+                        string localThumb = item.EpisodeImages.EpisodeImageFilename;
 
-                        string localThumb = item.EpisodeImageFilename;
-                        if (string.IsNullOrEmpty(localThumb)) continue;
-
-                        if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
-                            // notify that image has been downloaded
-                            item.NotifyPropertyChanged("EpisodeImageFilename");
+                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("EpisodeImages");
+                            }
                         }
+                        #endregion
+
+                        #region Fanart
+                        // stop download if we have exited window
+                        if (StopDownload) break;
+
+                        string remoteFanart = item.ShowImages.Fanart;
+                        string localFanart = item.ShowImages.FanartImageFilename;
+
+                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
+                        {
+                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("ShowImages");
+                            }
+                        }
+                        #endregion
                     }
                 })
                 {
@@ -562,7 +629,21 @@ namespace TraktPlugin.GUI
 
         #endregion
 
-    }    
+    }
+
+    public class TraktImage : INotifyPropertyChanged
+    {
+        public TraktEpisode.ShowImages EpisodeImages { get; set; }
+        public TraktShow.ShowImages ShowImages { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+    }
 
     public class GUITraktCalendarListItem : GUIListItem
     {
@@ -577,8 +658,10 @@ namespace TraktPlugin.GUI
                 INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is TraktEpisode.ShowImages && e.PropertyName == "EpisodeImageFilename")
-                        SetImageToGui((s as TraktEpisode.ShowImages).EpisodeImageFilename);
+                    if (s is TraktImage && e.PropertyName == "EpisodeImages")
+                        SetImageToGui((s as TraktImage).EpisodeImages.EpisodeImageFilename);
+                    if (s is TraktImage && e.PropertyName == "ShowImages")
+                        UpdateCurrentSelection();
                 };
             }
         } protected object _Item;
@@ -602,7 +685,12 @@ namespace TraktPlugin.GUI
                 IconImageBig = texture;
             }
 
-            // if selected and TraktFriends is current window force an update of thumbnail
+            // if selected and is current window force an update of thumbnail
+            UpdateCurrentSelection();
+        }
+
+        protected void UpdateCurrentSelection()
+        {
             GUICalendar window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUICalendar;
             if (window != null)
             {

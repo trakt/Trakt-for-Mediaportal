@@ -21,6 +21,16 @@ namespace TraktPlugin.GUI
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
+        [SkinControlAttribute(60)]
+        protected GUIImage FanartBackground = null;
+
+        [SkinControlAttribute(61)]
+        protected GUIImage FanartBackground2 = null;
+
+        [SkinControlAttribute(62)]
+        protected GUIImage loadingImage = null;
+
+
         #endregion
 
         #region Enums
@@ -42,7 +52,12 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUITraktFriends() { }
+        public GUITraktFriends()
+        {
+            backdrop = new ImageSwapper();
+            backdrop.PropertyOne = "#Trakt.Friends.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.Friends.Fanart.2";
+        }
 
         #endregion
 
@@ -52,6 +67,7 @@ namespace TraktPlugin.GUI
         Views ViewLevel { get; set; }
         WatchedHistoryType SelectedType { get; set; }
         TraktFriend CurrentFriend { get; set; }
+        ImageSwapper backdrop;
 
         IEnumerable<TraktFriend> TraktFriends
         {
@@ -254,7 +270,7 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             // store a list of thumbnails to download
-            List<TraktEpisode.ShowImages> episodeImages = new List<TraktEpisode.ShowImages>();
+            List<TraktImage> showImages = new List<TraktImage>();
 
             int id = 0;
 
@@ -263,8 +279,16 @@ namespace TraktPlugin.GUI
             {
                 GUITraktUserListItem episodeItem = new GUITraktUserListItem(episode.ToString());
 
+                // add images for download
+                TraktImage images = new TraktImage
+                {
+                    EpisodeImages = episode.Episode.Images,
+                    ShowImages = episode.Show.Images
+                };
+                showImages.Add(images);
+
                 episodeItem.Label2 = episode.WatchedDate.FromEpoch().ToShortDateString();
-                episodeItem.Item = episode.Episode.Images;
+                episodeItem.Item = images;
                 episodeItem.TVTag = episode;
                 episodeItem.ItemId = id++;
                 episodeItem.IconImage = "defaultTraktEpisode.png";
@@ -274,15 +298,12 @@ namespace TraktPlugin.GUI
                 episodeItem.OnItemSelected += OnEpisodeSelected;
                 Utils.SetDefaultIcons(episodeItem);
                 Facade.Add(episodeItem);
-
-                // add image to download
-                episodeImages.Add(episode.Episode.Images);
             }
 
             Facade.SelectedListItemIndex = 0;
 
             // Download Episode Thumbnails Async and set to facade
-            GetImages<TraktEpisode.ShowImages>(episodeImages);
+            GetImages<TraktImage>(showImages);
         }
 
         private void SendWatchedMovieHistoryToFacade(TraktFriend friend)
@@ -392,6 +413,11 @@ namespace TraktPlugin.GUI
          
         private void InitProperties()
         {
+            // Fanart
+            backdrop.GUIImageOne = FanartBackground;
+            backdrop.GUIImageTwo = FanartBackground2;
+            backdrop.LoadingImage = loadingImage;
+
             ViewLevel = Views.Friends;
             GUIUtils.SetProperty("#Trakt.View.Level", "Friends");
             GUIUtils.SetProperty("#Trakt.Selected.Type", string.Empty);
@@ -441,6 +467,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FanartFileName", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
@@ -464,6 +491,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             #endregion
         }
 
@@ -500,6 +528,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
+            SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.Episode.FirstAired.FromEpoch().ToShortDateString());
@@ -526,12 +555,14 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Url", movie.Movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Movie.Year);
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Movie.Images.PosterImageFilename);
+            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Movie.Images.FanartImageFilename);
         }
 
         private void OnFriendSelected(GUIListItem item, GUIControl parent)
         {
             CurrentFriend = (item as GUITraktUserListItem).Item as TraktFriend;
             PublishFriendSkinProperties(CurrentFriend);
+            LoadFanart(string.Empty);
         }
 
         private void OnWatchedTypeSelected(GUIListItem item, GUIControl parent)
@@ -542,16 +573,34 @@ namespace TraktPlugin.GUI
                 SelectedType = WatchedHistoryType.Movies;
             
             PublishFriendSkinProperties(CurrentFriend);
+            LoadFanart(string.Empty);
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
-            PublishEpisodeSkinProperties(item.TVTag as TraktFriend.WatchItem);
+            TraktFriend.WatchItem episode = item.TVTag as TraktFriend.WatchItem;
+            PublishEpisodeSkinProperties(episode);
+            LoadFanart(episode.Show.Images.FanartImageFilename);
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
-            PublishMovieSkinProperties(item.TVTag as TraktFriend.WatchItem);
+            TraktFriend.WatchItem movie = item.TVTag as TraktFriend.WatchItem;
+            PublishMovieSkinProperties(movie);
+            LoadFanart(movie.Movie.Images.FanartImageFilename);
+        }
+
+        private void LoadFanart(string filename)
+        {
+            // Activate Backdrop in Image Swapper
+            if (!backdrop.Active) backdrop.Active = true;
+
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+                filename = string.Empty;
+
+            // Assign Fanart filename to Image Loader
+            // Will display fanart in backdrop or reset to default background
+            backdrop.Filename = filename;
         }
 
         private void GetImages<T>(List<T> itemsWithThumbs)
@@ -575,12 +624,13 @@ namespace TraktPlugin.GUI
                     List<T> items = (List<T>)o;
                     foreach (T item in items)
                     {
+                        #region Facade Items
                         // stop download if we have exited window
                         if (StopDownload) break;
                         
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
-
+                        
                         if (item is TraktFriend)
                         {
                             remoteThumb = (item as TraktFriend).Avatar;
@@ -593,30 +643,68 @@ namespace TraktPlugin.GUI
                         }
                         else
                         {
-                            remoteThumb = (item as TraktEpisode.ShowImages).Screen;
-                            localThumb = (item as TraktEpisode.ShowImages).EpisodeImageFilename;
+                            remoteThumb = (item as TraktImage).EpisodeImages.Screen;
+                            localThumb = (item as TraktImage).EpisodeImages.EpisodeImageFilename;                            
                         }
 
-                        if (string.IsNullOrEmpty(remoteThumb)) continue;
-                        if (string.IsNullOrEmpty(localThumb)) continue;
-
-                        
-                        if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
-                            // notify that image has been downloaded
-                            if (item is TraktFriend)
+                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
-                                (item as TraktFriend).NotifyPropertyChanged("AvatarFilename");
-                            }
-                            else if (item is TraktMovie.MovieImages)
-                            {
-                                (item as TraktMovie.MovieImages).NotifyPropertyChanged("PosterImageFilename");
-                            }
-                            else
-                            {
-                                (item as TraktEpisode.ShowImages).NotifyPropertyChanged("EpisodeImageFilename");
+                                // notify that image has been downloaded
+                                if (item is TraktFriend)
+                                {
+                                    (item as TraktFriend).NotifyPropertyChanged("AvatarFilename");
+                                }
+                                else if (item is TraktMovie.MovieImages)
+                                {
+                                    (item as TraktMovie.MovieImages).NotifyPropertyChanged("PosterImageFilename");
+                                }
+                                else
+                                {
+                                    (item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                                }
                             }
                         }
+                        #endregion
+
+                        #region Fanart
+                        // stop download if we have exited window
+                        if (StopDownload) break;
+
+                        string remoteFanart = string.Empty;
+                        string localFanart = string.Empty;
+
+                        if (item is TraktMovie.MovieImages)
+                        {
+                            remoteThumb = (item as TraktMovie.MovieImages).Poster;
+                            localThumb = (item as TraktMovie.MovieImages).PosterImageFilename;
+
+                            remoteFanart = (item as TraktMovie.MovieImages).Fanart;
+                            localFanart = (item as TraktMovie.MovieImages).FanartImageFilename;
+                        }
+                        else if (item is TraktImage)
+                        {
+                            remoteFanart = (item as TraktImage).ShowImages.Fanart;
+                            localFanart = (item as TraktImage).ShowImages.FanartImageFilename;
+                        }
+
+                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
+                        {
+                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                            {
+                                // notify that image has been downloaded                               
+                                if (item is TraktMovie.MovieImages)
+                                {
+                                    (item as TraktMovie.MovieImages).NotifyPropertyChanged("FanartImageFilename");
+                                }
+                                else if (item is TraktImage)
+                                {
+                                    (item as TraktImage).NotifyPropertyChanged("ShowImages");
+                                }
+                            }
+                        }
+                        #endregion
                     }
                 })
                 {
@@ -689,10 +777,15 @@ namespace TraktPlugin.GUI
                 {
                     if (s is TraktFriend && e.PropertyName == "AvatarFilename")
                         SetImageToGui((s as TraktFriend).AvatarFilename);
-                    else if (s is TraktEpisode.ShowImages && e.PropertyName == "EpisodeImageFilename")
-                        SetImageToGui((s as TraktEpisode.ShowImages).EpisodeImageFilename);
                     else if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
+                    else if (s is TraktImage && e.PropertyName == "EpisodeImages")
+                        SetImageToGui((s as TraktImage).EpisodeImages.EpisodeImageFilename);
+                    else if (s is TraktMovie.MovieImages && e.PropertyName == "FanartImageFilename")
+                        UpdateCurrentSelection();                    
+                    else if (s is TraktImage && e.PropertyName == "ShowImages")
+                        UpdateCurrentSelection();
+
                 };
             }
         } protected object _Item;
@@ -716,7 +809,12 @@ namespace TraktPlugin.GUI
                 IconImageBig = texture;
             }
 
-            // if selected and TraktFriends is current window force an update of thumbnail
+            // if selected and is current window force an update of thumbnail
+            UpdateCurrentSelection();
+        }
+
+        protected void UpdateCurrentSelection()
+        {
             GUITraktFriends window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITraktFriends;
             if (window != null)
             {

@@ -30,6 +30,8 @@ namespace TraktPlugin
         public static int WatchListMoviesDefaultLayout { get; set; }
         public static int WatchListShowsDefaultLayout { get; set; }
         public static int WatchListEpisodesDefaultLayout { get; set; }
+        public static int DefaultCalendarView { get; set; }
+        public static bool DownloadFullSizeFanart { get; set; }
         #endregion
 
         #region Constants
@@ -51,6 +53,8 @@ namespace TraktPlugin
         private const string cWatchListMoviesDefaultLayout = "WatchListMoviesDefaultLayout";
         private const string cWatchListShowsDefaultLayout = "WatchListShowsDefaultLayout";
         private const string cWatchListEpisodesDefaultLayout = "WatchListEpisodesDefaultLayout";
+        private const string cDefaultCalendarView = "DefaultCalendarView";
+        private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
         #endregion
 
         /// <summary>
@@ -141,6 +145,8 @@ namespace TraktPlugin
                 WatchListMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchListMoviesDefaultLayout, 0);
                 WatchListShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchListShowsDefaultLayout, 0);
                 WatchListEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchListEpisodesDefaultLayout, 0);
+                DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
+                DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
             }
         }
 
@@ -169,6 +175,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWatchListMoviesDefaultLayout, WatchListMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cWatchListShowsDefaultLayout, WatchListShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cWatchListEpisodesDefaultLayout, WatchListEpisodesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
+                xmlwriter.SetValue(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
             }
 
             Settings.SaveCache();

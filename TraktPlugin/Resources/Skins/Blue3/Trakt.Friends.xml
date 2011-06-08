@@ -2,7 +2,9 @@
 <window>
   <id>87260</id>
   <defaultcontrol>50</defaultcontrol>
-  <allowoverlay>yes</allowoverlay>  
+  <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.Friends.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.Friends.Fanart.2</define>
   <controls>    
 		
 		<control>
@@ -15,9 +17,11 @@
       <height>576</height>
       <texture>Background.png</texture>
       <colordiffuse>ffffffff</colordiffuse>
-	  <animation effect="fade" time="300">WindowOpen</animation>
+			<animation effect="fade" time="300">WindowOpen</animation>
     </control>    
-		    
+
+		<import>Trakt.Common.Fanart.xml</import>
+		
     <control>
       <description>Current View</description>
       <type>label</type>

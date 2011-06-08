@@ -19,11 +19,20 @@ namespace TraktPlugin.GUI
     {
         #region Skin Controls
 
+        [SkinControl(2)]
+        protected GUIButtonControl layoutButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
-        [SkinControl(2)]
-        protected GUIButtonControl layoutButton = null;
+        [SkinControlAttribute(60)]
+        protected GUIImage FanartBackground = null;
+
+        [SkinControlAttribute(61)]
+        protected GUIImage FanartBackground2 = null;
+
+        [SkinControlAttribute(62)]
+        protected GUIImage loadingImage = null;
 
         #endregion
 
@@ -49,7 +58,12 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUIRecommendationsShows() { }
+        public GUIRecommendationsShows()
+        {
+            backdrop = new ImageSwapper();
+            backdrop.PropertyOne = "#Trakt.RecommendedShows.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.RecommendedShows.Fanart.2";
+        }
 
         #endregion
 
@@ -58,6 +72,7 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
+        private ImageSwapper backdrop;
 
         IEnumerable<TraktShow> RecommendedShows
         {
@@ -440,6 +455,11 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            // Fanart
+            backdrop.GUIImageOne = FanartBackground;
+            backdrop.GUIImageTwo = FanartBackground2;
+            backdrop.LoadingImage = loadingImage;            
+
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RecommendedShowsDefaultLayout;
             // update button label
@@ -464,6 +484,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
@@ -489,6 +510,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
+            SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
             SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
@@ -500,7 +522,24 @@ namespace TraktPlugin.GUI
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
-            PublishShowSkinProperties(item.TVTag as TraktShow);
+            TraktShow show = item.TVTag as TraktShow;
+            PublishShowSkinProperties(show);
+            LoadFanart(show);
+        }
+
+        private void LoadFanart(TraktShow show)
+        {
+            // Activate Backdrop in Image Swapper
+            if (!backdrop.Active) backdrop.Active = true;
+
+            string filename = show.Images.FanartImageFilename;
+
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+                filename = string.Empty;
+
+            // Assign Fanart filename to Image Loader
+            // Will display fanart in backdrop or reset to default background
+            backdrop.Filename = filename;
         }
 
         private void GetImages(List<TraktShow.ShowImages> itemsWithThumbs)
@@ -524,20 +563,39 @@ namespace TraktPlugin.GUI
                     List<TraktShow.ShowImages> items = (List<TraktShow.ShowImages>)o;
                     foreach (TraktShow.ShowImages item in items)
                     {
+                        #region Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
 
                         string remoteThumb = item.Poster;
-                        if (string.IsNullOrEmpty(remoteThumb)) continue;
-
                         string localThumb = item.PosterImageFilename;
-                        if (string.IsNullOrEmpty(localThumb)) continue;
 
-                        if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
-                            // notify that image has been downloaded
-                            item.NotifyPropertyChanged("PosterImageFilename");
+                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("PosterImageFilename");
+                            }
                         }
+                        #endregion
+
+                        #region Fanart
+                        // stop download if we have exited window
+                        if (StopDownload) break;
+
+                        string remoteFanart = item.Fanart;
+                        string localFanart = item.FanartImageFilename;
+
+                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
+                        {
+                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                            {
+                                // notify that image has been downloaded
+                                item.NotifyPropertyChanged("FanartImageFilename");
+                            }
+                        }
+                        #endregion
                     }
                 })
                 {
@@ -565,6 +623,8 @@ namespace TraktPlugin.GUI
                 {
                     if (s is TraktShow.ShowImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
+                    if (s is TraktShow.ShowImages && e.PropertyName == "FanartImageFilename")
+                        UpdateCurrentSelection();
                 };
             }
         } protected object _Item;
@@ -606,7 +666,12 @@ namespace TraktPlugin.GUI
                 IconImageBig = texture;
             }
 
-            // if selected and TraktFriends is current window force an update of thumbnail
+            // if selected and is current window force an update of thumbnail
+            UpdateCurrentSelection();
+        }
+
+        protected void UpdateCurrentSelection()
+        {
             GUIRecommendationsShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIRecommendationsShows;
             if (window != null)
             {

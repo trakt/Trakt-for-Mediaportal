@@ -3,6 +3,8 @@
   <id>87259</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.Calendar.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.Calendar.Fanart.2</define>
   <controls>
     
 		<control>
@@ -15,8 +17,11 @@
       <height>720</height>
       <texture>Background.png</texture>
       <colordiffuse>ffffffff</colordiffuse>
-	  <animation effect="fade" time="300">WindowOpen</animation>
+			<animation effect="fade" time="300">WindowOpen</animation>
     </control>
+		
+		<import>Trakt.Common.Fanart.xml</import>
+		
     <control>
       <id>1</id>
       <description>Overlay Image</description>
@@ -26,19 +31,6 @@
       <width>1281</width>
       <height>720</height>
       <texture>mainoverlay.png</texture>
-    </control>
-		
-		<control>
-      <description>Top Title Extension Background</description>
-      <type>image</type>
-      <id>0</id>
-      <posX>381</posX>
-      <posY>11</posY>
-      <width>386</width>
-      <height>35</height>
-      <texture>tvtitlebgshort.png</texture>
-			<animation effect="fade" time="150">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 		
     <control>

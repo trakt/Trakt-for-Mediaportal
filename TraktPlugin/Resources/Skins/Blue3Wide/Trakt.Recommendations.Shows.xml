@@ -2,7 +2,9 @@
 <window>
   <id>87262</id>
   <defaultcontrol>50</defaultcontrol>
-  <allowoverlay>yes</allowoverlay>  
+  <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.RecommendedShows.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.RecommendedShows.Fanart.2</define>
   <controls>    
 		
 		<control>
@@ -15,8 +17,11 @@
       <height>720</height>
       <texture>Background.png</texture>
       <colordiffuse>ffffffff</colordiffuse>
-	  <animation effect="fade" time="300">WindowOpen</animation>
+			<animation effect="fade" time="300">WindowOpen</animation>
     </control>
+		
+		<import>Trakt.Common.Fanart.xml</import>
+		
     <control>
       <id>1</id>
       <description>Overlay Image</description>

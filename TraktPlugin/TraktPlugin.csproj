@@ -132,6 +132,8 @@
     <Compile Include="Configuration\SeriesSelect.Designer.cs">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cornerstone.MP\AsyncImageResource.cs" />
+    <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
@@ -273,6 +275,7 @@
     <Content Include="Resources\Skins\Blue3Wide\Media\traktWatchListLibrary.png" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.AccountDialog.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\Blue3Wide\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Common.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Friends.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.RateDialog.xml" />
@@ -291,6 +294,7 @@
     <Content Include="Resources\Skins\Blue3Wide\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.xml" />
+    <Content Include="Resources\Skins\Blue3\Media\Backgroundtop2.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktEpisode.png" />
@@ -318,6 +322,7 @@
     <Content Include="Resources\Skins\Blue3\Media\traktWatchListLibrary.png" />
     <Content Include="Resources\Skins\Blue3\Trakt.AccountDialog.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\Blue3\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Common.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Friends.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.RateDialog.xml" />
@@ -363,6 +368,7 @@
     <Content Include="Resources\Skins\DefaultWide\Media\traktWatchListLibrary.png" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.AccountDialog.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Common.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Friends.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.RateDialog.xml" />
@@ -381,6 +387,7 @@
     <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.xml" />
+    <Content Include="Resources\Skins\Default\Media\Backgroundtop2.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktEpisode.png" />
@@ -406,6 +413,7 @@
     <Content Include="Resources\Skins\Default\Media\traktWatchListLibrary.png" />
     <Content Include="Resources\Skins\Default\Trakt.AccountDialog.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Friends.xml" />
     <Content Include="Resources\Skins\Default\Trakt.RateDialog.xml" />

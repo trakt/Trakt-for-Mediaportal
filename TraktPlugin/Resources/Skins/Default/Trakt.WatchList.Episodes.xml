@@ -2,7 +2,9 @@
 <window>
   <id>87269</id>
   <defaultcontrol>50</defaultcontrol>
-  <allowoverlay>yes</allowoverlay>  
+  <allowoverlay>yes</allowoverlay>
+	<define>#Fanart.1:#Trakt.WatchListEpisodes.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.WatchListEpisodes.Fanart.2</define>
   <controls>    
 		
 		<control>
@@ -15,9 +17,11 @@
       <height>576</height>
       <texture>Background.png</texture>
       <colordiffuse>ffffffff</colordiffuse>
-			<animation effect="fade" time="300">WindowOpen</animation>
+      <animation effect="fade" time="300">WindowOpen</animation>
     </control>
-    
+		
+		<import>Trakt.Common.Fanart.xml</import>
+		
 		<control>
       <description>Current View</description>
       <type>label</type>
@@ -112,7 +116,7 @@
 					<id>50</id>
 					<onup>2</onup>
 					<posX>30</posX>
-					<posY>170</posY>
+					<posY>375</posY>
 					<width>700</width>
 					<height>220</height>
 					<scrollOffset>4</scrollOffset>
@@ -142,7 +146,7 @@
 					<spinWidth>35</spinWidth>
 					<spinHeight>35</spinHeight>
 					<spinPosX>300</spinPosX>
-          <spinPosY>485</spinPosY>
+          <spinPosY>540</spinPosY>
 					<spinAlign>center</spinAlign>
 					<spinColor>ffFFFFFF</spinColor>					
 				</control>
