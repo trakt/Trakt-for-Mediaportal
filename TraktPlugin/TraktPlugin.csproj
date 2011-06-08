@@ -250,6 +250,8 @@
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktUser.png" />
+    <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\filmstrip_overlay.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\hate.png" />
@@ -299,6 +301,8 @@
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\Blue3\Media\defaultTraktUser.png" />
+    <Content Include="Resources\Skins\Blue3\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\Blue3\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\Blue3\Media\hate.png" />
     <Content Include="Resources\Skins\Blue3\Media\hover_trakt.png" />
@@ -345,6 +349,8 @@
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktUser.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\filmstrip_overlay.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\hate.png" />
@@ -392,6 +398,8 @@
     <Content Include="Resources\Skins\Default\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\Default\Media\defaultTraktUser.png" />
+    <Content Include="Resources\Skins\Default\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\Default\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\Default\Media\hate.png" />
     <Content Include="Resources\Skins\Default\Media\hover_trakt.png" />
