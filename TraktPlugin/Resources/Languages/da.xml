@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Trakt translation file -->
+<!-- Danish (DA) -->
+<!-- Note: English is the fallback for any strings not found in other languages -->
+<strings>
+  <!-- A -->
+  <string Field="Account">Konto</string>
+  <string Field="AccountSetup">Kontoindstillinger</string>
+  <string Field="AccountDialog">Bruger dialog</string>
+  <string Field="AddToLibrary">Tilføj til bibliotek</string>
+  <string Field="AddToWatchList">Tilføj til setliste</string>
+  <string Field="AirDate">Sendedato</string>
+  <string Field="AirDay">Sendedag</string>
+  <string Field="AirTime">Sendetid</string>
+  
+  <!-- B -->
+  
+  <!-- C -->
+  <string Field="Cancel">Annuller</string>
+  <string Field="Calendar">Kalender</string>
+  <string Field="CalendarMyShows">Mine Tv-udsendelser</string>
+  <string Field="CalendarPremieres">Premiere</string>
+  <string Field="Certification">Censur</string>
+  <string Field="ChangeView">Ændre syn...</string>
+  <string Field="ChangeLayout">Ændre layout...</string>
+  <string Field="Create">Opret</string>
+  <string Field="CreateAccount">Opret konto</string>
+  <string Field="CreateNewAccount">Opret ny konto...</string>
+  <string Field="CreatingAccount">Opretter konto...</string>
+  
+  <!-- D -->
+  <string Field="DisconnectAccount">Log ud fra kontoen: {0}</string>
+  
+  <!-- E -->
+  <string Field="Email">Email</string>
+  <string Field="Episode">Afsnit</string>
+  <string Field="Episodes">Afsnit</string>
+  <string Field="Error">Trakt fejl</string>
+  <string Field="ErrorCalendar">Fejl i indlæs af kalender.</string>
+  
+  <!-- F -->
+  <string Field="FirstAired">Først gang sendt</string>
+  <string Field="Friend">Ven</string>
+  <string Field="Friends">Venner</string>
+  <string Field="FullName">Fuldt navn</string>
+  
+  <!-- G -->
+  <string Field="Gender">Køn</string>
+  <string Field="GettingCalendar">Indlæser kalender</string>
+  <string Field="GettingFriendsList">Indlæser venneliste</string>
+  <string Field="GettingFriendsWatchedHistory">Indlæser venners  set historie</string>
+  <string Field="GettingTrendingMovies">Indlæser populære film</string>
+  <string Field="GettingTrendingShows">Indlæser populære programmer</string>
+  <string Field="GettingRecommendedMovies">Indlæser anbefalede film</string>
+  <string Field="GettingRecommendedShows">Indlæser anbefalede programmer</string>
+  <string Field="GettingWatchListMovies">Indlæser sete film</string>
+  <string Field="GettingWatchListShows">Indlæser sete programmer</string>
+  <string Field="GettingWatchListEpisodes">Indlæser sete afsnit</string>
+  
+  <!-- H -->
+  <string Field="Hate">Had</string>
+  <string Field="Hated">Hadede</string>
+  
+  <!-- I -->
+  <string Field="Inserted">Indsæt</string>
+  
+  <!-- K -->
+  
+  <!-- J -->
+  <string Field="JoinDate">Registreret</string>
+  <string Field="Joined">Registreret</string>
+  
+  <!-- L -->
+  <string Field="Location">Sted</string>
+  <string Field="Layout">Layout</string>
+  <string Field="Love">Elsker</string>
+  <string Field="Loved">Elskede</string>
+  <string Field="LoginExistingAccount">Logger ind i eksisterende konto...</string>
+  <string Field="LoggedIn">Logget ind</string>
+  <string Field="Login">Login</string>
+  
+  <!-- M -->
+  <string Field="MarkAsWatched">Markér som set</string>
+  <string Field="Movie">Film</string>
+  <string Field="Movies">Film</string>
+  
+  <!-- N -->
+  <string Field="Name">Navn</string>
+  <string Field="Network">Station</string>
+  <string Field="NextWeek">Næste uge</string>
+  <string Field="NoEpisodeSummary">Afsnittets sammendrag er ikke tilgængeligt.</string>
+  <string Field="NoEpisodesThisWeek">Ingen afsnit denne uge</string>
+  <string Field="NoFriends">Ingen venner!</string>
+  <string Field="NoFriendsTaunt">Du har ingen venner!</string>
+  <string Field="NoTrendingMovies">Ingen populære film bliver set!</string>
+  <string Field="NoTrendingShows">Ingen populære programmer bliver set!</string>
+  <string Field="NoMovieRecommendations">Ingen film anbefalinger fundet!</string>
+  <string Field="NoShowRecommendations">Ingen program anbefalinger fundet!</string>
+  <string Field="NoShowWatchList">Ingen programmer i setlisten!</string>
+  <string Field="NoMovieWatchList">Ingen film i setlisten!</string>
+  <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
+  <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
+  <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
+
+  <!-- O -->
+  <string Field="OK">OK</string>
+  <string Field="Overview">Overblik</string>
+  
+  <!-- P -->
+  <string Field="Password">Kodeord</string>
+  <string Field="Percentage">Procentdel</string>
+  <string Field="Protected">Beskyttet</string>
+  <string Field="PersonWatching">1 person ser</string>
+  <string Field="PeopleWatching">{0} personer ser</string>
+  <string Field="Plugins">Tilføjelser</string>
+  
+  <!-- R -->
+  <string Field="Rate">Vurdér</string>
+  <string Field="Rated">Vurderet</string>
+  <string Field="Rating">Vurdering</string>
+  <string Field="RateMovie">Vurdér film...</string>
+  <string Field="RateShow">Vurdér program...</string>
+  <string Field="RateEpisode">Vurdér afsnit...</string>
+  <string Field="RateDialog">Trakt vurderings dialog</string>
+  <string Field="RateHate">Total ringe :(</string>
+  <string Field="RateLove">Total fedt!</string>
+  <string Field="RateHeading">Hvad synes du?</string>
+  <string Field="Recommendations">Anbefalinger</string>
+  <string Field="RecommendedMovies">Anbefalede film</string>
+  <string Field="RecommendedShows">Anbefalede programmer</string>
+  <string Field="Released">Sendt</string>
+  <string Field="ReleaseDate">Sendt dato</string>
+  <string Field="RemoveFromLibrary">Fjern fra bibliotek</string>
+  <string Field="RemoveFromWatchList">Fjern fra setliste</string>
+  <string Field="Runtime">Spilletid</string>
+  
+  <!-- S -->
+  <string Field="Score">Score</string>
+  <string Field="Season">Sæson</string>  
+  <string Field="Series">Serie</string>
+  <string Field="SeriesPlural">Serier</string>
+  <string Field="Settings">Indstillinger</string>
+  <string Field="SigningIntoAccount">Logger ind på kontoen...</string>
+  
+  <!-- T -->
+  <string Field="Timeout">Timeout</string>
+  <string Field="Trending">Populære</string>
+  <string Field="TrendingShows">Populære programmer</string>
+  <string Field="TrendingMovies">Populære film</string>
+  <string Field="TVShow">TV-program</string>
+  <string Field="TVShows">TV-programmer</string>
+  <string Field="Tagline">Tagline</string>
+  <string Field="Title">Title</string>
+  <string Field="Trailer">Trailer</string>
+  
+  <!-- U -->
+  <string Field="UserHasNotWatchedEpisodes">Brugeren har ikke set nogen afsnit!</string>
+  <string Field="UserHasNotWatchedMovies">Brugeren har ikke set nogen film!</string>
+  <string Field="User">Bruger</string>
+  <string Field="Username">Brugernavn</string>
+  <string Field="UnAuthorized">Autentificering mislykkedes, kontroller venligst brugernavn og password i indstillingernes.</string>
+  
+  <!-- V -->
+  <string Field="View">Syn</string>
+  <string Field="Votes">Stemmer</string>
+  <string Field="ValidUsername">Du skal skrive et gyldigt brugernavn!</string>
+  <string Field="ValidPassword">Du skal skrive et gyldigt kodeord!</string>
+  <string Field="ValidEmail">Du skal skrive et gyldig emailadresse!</string>
+
+  <!-- W -->
+  <string Field="WatchList">Setliste</string>
+  <string Field="Watched">Set</string>
+  <string Field="WatchedMovies">Sete film</string>
+  <string Field="WatchedShows">Sete programmer</string>  
+  <string Field="Watching">Ser</string>
+  <string Field="WatchListMovies">Sete filmliste</string>
+  <string Field="WatchListShows">Sete programmerliste</string>
+  <string Field="WatchListEpisodes">Sete afsnitliste</string>  
+
+  <!-- Y -->
+  <string Field="Year">År</string>
+  
+</strings>
