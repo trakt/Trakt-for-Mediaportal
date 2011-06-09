@@ -677,6 +677,7 @@ namespace TraktPlugin.GUI
                         #region Fanart
                         // stop download if we have exited window
                         if (StopDownload) break;
+                        if (!TraktSettings.DownloadFanart) continue;
 
                         string remoteFanart = item.Fanart;
                         string localFanart = item.FanartImageFilename;

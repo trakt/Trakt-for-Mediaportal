@@ -32,6 +32,7 @@ namespace TraktPlugin
         public static int WatchListEpisodesDefaultLayout { get; set; }
         public static int DefaultCalendarView { get; set; }
         public static bool DownloadFullSizeFanart { get; set; }
+        public static bool DownloadFanart { get; set; }
         #endregion
 
         #region Constants
@@ -55,6 +56,7 @@ namespace TraktPlugin
         private const string cWatchListEpisodesDefaultLayout = "WatchListEpisodesDefaultLayout";
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
+        private const string cDownloadFanart = "DownloadFanart";
         #endregion
 
         /// <summary>
@@ -147,6 +149,7 @@ namespace TraktPlugin
                 WatchListEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchListEpisodesDefaultLayout, 0);
                 DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
+                DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
             }
         }
 
@@ -176,7 +179,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWatchListShowsDefaultLayout, WatchListShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cWatchListEpisodesDefaultLayout, WatchListEpisodesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
-                xmlwriter.SetValue(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
+                xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
+                xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
             }
 
             Settings.SaveCache();

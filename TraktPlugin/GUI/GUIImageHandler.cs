@@ -59,6 +59,13 @@ namespace TraktPlugin.GUI
 
         public static void LoadFanart(ImageSwapper backdrop, string filename)
         {
+            // Dont activate and load if user does not want to download fanart
+            if (!TraktSettings.DownloadFanart)
+            {
+                if (backdrop.Active) backdrop.Active = false;
+                return;
+            }
+            
             // Activate Backdrop in Image Swapper
             if (!backdrop.Active) backdrop.Active = true;
 
