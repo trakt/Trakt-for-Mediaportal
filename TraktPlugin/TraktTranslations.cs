@@ -210,6 +210,8 @@ namespace TraktPlugin.GUI
 
         // D
         public static string DisconnectAccount = "Disconnect Account: {0}";
+        public static string DownloadFanart = "Download Fanart";
+        public static string DownloadFullSizeFanart = "Download Original Size Fanart";
 
         // E
         public static string Email = "Email";
@@ -226,6 +228,8 @@ namespace TraktPlugin.GUI
 
         // G
         public static string Gender = "Gender";
+        public static string General = "General";
+        public static string GeneralSettings = "General Settings";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
@@ -332,7 +336,7 @@ namespace TraktPlugin.GUI
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";
         public static string Title = "Title";
-        public static string Trailer = "Trailer";        
+        public static string Trailer = "Trailer";
         
         // U
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";

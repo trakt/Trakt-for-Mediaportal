@@ -30,6 +30,8 @@
   
   <!-- D -->
   <string Field="DisconnectAccount">Log ud fra kontoen: {0}</string>
+  <string Field="DownloadFanart">Download Fanart</string>
+  <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
   
   <!-- E -->
   <string Field="Email">Email</string>
@@ -46,6 +48,8 @@
   
   <!-- G -->
   <string Field="Gender">Køn</string>
+  <string Field="General">General</string>
+  <string Field="GeneralSettings">GeneralSettings</string>
   <string Field="GettingCalendar">Indlæser kalender</string>
   <string Field="GettingFriendsList">Indlæser venneliste</string>
   <string Field="GettingFriendsWatchedHistory">Indlæser venners  set historie</string>

@@ -137,6 +137,7 @@
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
+    <Compile Include="GUI\GUISettingsGeneral.cs" />
     <Compile Include="GUI\GUISettingsPlugins.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
@@ -243,6 +244,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\Languages\da.xml" />
     <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -285,6 +287,7 @@
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Recommendations.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\Blue3Wide\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.SkinSettings.xml" />
@@ -334,6 +337,7 @@
     <Content Include="Resources\Skins\Blue3\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Recommendations.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\Blue3\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.SkinSettings.xml" />
@@ -382,6 +386,7 @@
     <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.SkinSettings.xml" />
@@ -429,6 +434,7 @@
     <Content Include="Resources\Skins\Default\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Recommendations.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\Default\Trakt.SkinSettings.xml" />

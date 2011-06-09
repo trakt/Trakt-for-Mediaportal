@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87274</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#currentmodule:#Trakt.Translation.GeneralSettings.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9996</define>
+  <controls>
+    <import>common.settings.xml</import>
+    <import>Trakt.Common.xml</import>
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
+      <posX>580</posX>
+      <posY>201</posY>
+      <width>550</width>
+      <height>379</height>
+      <layout>StackLayout</layout>
+      <control>
+        <description>Download Fanart</description>
+        <type>togglebutton</type>
+        <id>2</id>
+        <width>550</width>
+        <label>#Trakt.Translation.DownloadFanart.Label</label>
+        <onleft>2</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>17</onup>
+      </control>
+      <control>
+        <description>Download FullSize Fanart</description>
+        <type>togglebutton</type>
+        <id>3</id>
+        <width>550</width>
+        <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
+        <onleft>3</onleft>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+    </control>
+  </controls>
+</window>

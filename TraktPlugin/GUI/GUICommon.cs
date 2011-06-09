@@ -23,7 +23,8 @@ namespace TraktPlugin.GUI
         WatchedListMovies = 87270,
         Settings = 87271,
         SettingsAccount = 87272,
-        SettingsPlugins = 87273
+        SettingsPlugins = 87273,
+        SettingsGeneral = 87274
     }
 
     public class GUICommon

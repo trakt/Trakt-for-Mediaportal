@@ -460,8 +460,8 @@ namespace TraktPlugin
 
             // If we exit settings, we may need to reload plugin handlers
             // Also Prompt to Sync / Warn users if no plugin handlers are defined
-            if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsPlugins) && 
-                (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsPlugins))
+            if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
+                (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
             {
                 LoadPluginHandlers();
 

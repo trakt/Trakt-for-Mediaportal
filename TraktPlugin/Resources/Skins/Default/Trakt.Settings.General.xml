@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-  <id>87271</id>
+  <id>87274</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-  <define>#currentmodule:#Trakt.Translation.Settings.Label</define>
+  <define>#currentmodule:#Trakt.Translation.GeneralSettings.Label</define>
   <define>#selecteditem:#highlightedbutton</define>
   <define>#defaultcontrol:2</define>
   <define>#defaultcontrol.onleft:9996</define>
@@ -14,37 +14,28 @@
       <type>group</type>
       <description>group element</description>
       <animation effect="fade" time="200" delay="200">windowopen</animation>
-      <posX>580</posX>
+      <posX>360</posX>
       <posY>201</posY>
       <width>300</width>
       <height>379</height>
       <layout>StackLayout</layout>
       <control>
-        <type>button</type>
-        <description>Account Setup</description>
+        <description>Download Fanart</description>
+        <type>togglebutton</type>
         <id>2</id>
-        <onup>17</onup>
         <width>300</width>
-        <label>#Trakt.Translation.AccountSetup.Label</label>
-				<hyperlink>87272</hyperlink>
+        <label>#Trakt.Translation.DownloadFanart.Label</label>
+        <onleft>2</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
+        <onup>17</onup>
       </control>
       <control>
-        <type>button</type>
-        <description>Plugin Setup</description>
+        <description>Download FullSize Fanart</description>
+        <type>togglebutton</type>
         <id>3</id>
         <width>300</width>
-        <label>#Trakt.Translation.Plugins.Label</label>
-				<hyperlink>87273</hyperlink>
-        <onleft>#defaultcontrol.onleft</onleft>
-      </control>
-      <control>
-        <type>button</type>
-        <description>General Settings</description>
-        <id>4</id>
-        <width>300</width>
-        <label>#Trakt.Translation.General.Label</label>
-				<hyperlink>87274</hyperlink>
+        <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
+        <onleft>3</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
       </control>

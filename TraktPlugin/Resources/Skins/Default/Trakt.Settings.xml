@@ -38,6 +38,16 @@
 				<hyperlink>87273</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
+      <control>
+        <type>button</type>
+        <description>General Settings</description>
+        <id>4</id>
+        <width>280</width>
+        <label>#Trakt.Translation.General.Label</label>
+				<hyperlink>87274</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
+      </control>
     </control>
   </controls>
 </window>

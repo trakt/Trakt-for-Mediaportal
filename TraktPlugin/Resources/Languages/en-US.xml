@@ -30,6 +30,8 @@
   
   <!-- D -->
   <string Field="DisconnectAccount">Disconnect Account: {0}</string>
+  <string Field="DownloadFanart">Download Fanart</string>
+  <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
   
   <!-- E -->
   <string Field="Email">Email</string>
@@ -46,6 +48,8 @@
   
   <!-- G -->
   <string Field="Gender">Gender</string>
+  <string Field="General">General</string>
+  <string Field="GeneralSettings">GeneralSettings</string>
   <string Field="GettingCalendar">Getting Calendar</string>
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
