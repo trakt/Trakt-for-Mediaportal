@@ -622,22 +622,7 @@ namespace TraktPlugin.GUI
         {
             TraktTrendingMovie movie = item.TVTag as TraktTrendingMovie;
             PublishMovieSkinProperties(movie);
-            LoadFanart(movie);
-        }
-
-        private void LoadFanart(TraktTrendingMovie movie)
-        {
-            // Activate Backdrop in Image Swapper
-            if (!backdrop.Active) backdrop.Active = true;
-
-            string filename = movie.Images.FanartImageFilename;
-           
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
-                filename = string.Empty;
-
-            // Assign Fanart filename to Image Loader
-            // Will display fanart in backdrop or reset to default background
-            backdrop.Filename = filename;
+            GUIImageHandler.LoadFanart(backdrop, movie.Images.FanartImageFilename);
         }
 
         private void GetImages(List<TraktMovie.MovieImages> itemsWithThumbs)

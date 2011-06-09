@@ -57,6 +57,19 @@ namespace TraktPlugin.GUI
             }
         }
 
+        public static void LoadFanart(ImageSwapper backdrop, string filename)
+        {
+            // Activate Backdrop in Image Swapper
+            if (!backdrop.Active) backdrop.Active = true;
+
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+                filename = string.Empty;
+
+            // Assign Fanart filename to Image Loader
+            // Will display fanart in backdrop or reset to default background
+            backdrop.Filename = filename;
+        }
+
         /// <summary>
         /// Loads an image FAST from file
         /// </summary>

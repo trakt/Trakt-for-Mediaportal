@@ -454,23 +454,8 @@ namespace TraktPlugin.GUI
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
             TraktWatchListShow show = item.TVTag as TraktWatchListShow;
-            PublishShowSkinProperties(show); 
-            LoadFanart(show);
-        }
-
-        private void LoadFanart(TraktWatchListShow show)
-        {
-            // Activate Backdrop in Image Swapper
-            if (!backdrop.Active) backdrop.Active = true;
-
-            string filename = show.Images.FanartImageFilename;
-
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
-                filename = string.Empty;
-
-            // Assign Fanart filename to Image Loader
-            // Will display fanart in backdrop or reset to default background
-            backdrop.Filename = filename;
+            PublishShowSkinProperties(show);
+            GUIImageHandler.LoadFanart(backdrop, show.Images.FanartImageFilename);
         }
 
         private void GetImages(List<TraktShow.ShowImages> itemsWithThumbs)

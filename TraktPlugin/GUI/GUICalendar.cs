@@ -465,22 +465,7 @@ namespace TraktPlugin.GUI
         {
             TraktCalendar.TraktEpisodes episode = item.TVTag as TraktCalendar.TraktEpisodes;
             PublishEpisodeSkinProperties(episode);
-            LoadFanart(episode);
-        }
-
-        private void LoadFanart(TraktCalendar.TraktEpisodes episode)
-        {
-            // Activate Backdrop in Image Swapper
-            if (!backdrop.Active) backdrop.Active = true;
-
-            string filename = episode.Show.Images.FanartImageFilename;
-            
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
-                filename = string.Empty;
-
-            // Assign Fanart filename to Image Loader
-            // Will display fanart in backdrop or reset to default background
-            backdrop.Filename = filename;
+            GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.FanartImageFilename);
         }
 
         private void InitProperties()

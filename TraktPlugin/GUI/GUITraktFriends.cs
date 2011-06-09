@@ -562,7 +562,7 @@ namespace TraktPlugin.GUI
         {
             CurrentFriend = (item as GUITraktUserListItem).Item as TraktFriend;
             PublishFriendSkinProperties(CurrentFriend);
-            LoadFanart(string.Empty);
+            GUIImageHandler.LoadFanart(backdrop, string.Empty);
         }
 
         private void OnWatchedTypeSelected(GUIListItem item, GUIControl parent)
@@ -573,34 +573,21 @@ namespace TraktPlugin.GUI
                 SelectedType = WatchedHistoryType.Movies;
             
             PublishFriendSkinProperties(CurrentFriend);
-            LoadFanart(string.Empty);
+            GUIImageHandler.LoadFanart(backdrop, string.Empty);
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
             TraktFriend.WatchItem episode = item.TVTag as TraktFriend.WatchItem;
             PublishEpisodeSkinProperties(episode);
-            LoadFanart(episode.Show.Images.FanartImageFilename);
+            GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.FanartImageFilename);
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
             TraktFriend.WatchItem movie = item.TVTag as TraktFriend.WatchItem;
             PublishMovieSkinProperties(movie);
-            LoadFanart(movie.Movie.Images.FanartImageFilename);
-        }
-
-        private void LoadFanart(string filename)
-        {
-            // Activate Backdrop in Image Swapper
-            if (!backdrop.Active) backdrop.Active = true;
-
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
-                filename = string.Empty;
-
-            // Assign Fanart filename to Image Loader
-            // Will display fanart in backdrop or reset to default background
-            backdrop.Filename = filename;
+            GUIImageHandler.LoadFanart(backdrop, movie.Movie.Images.FanartImageFilename);
         }
 
         private void GetImages<T>(List<T> itemsWithThumbs)

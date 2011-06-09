@@ -523,22 +523,7 @@ namespace TraktPlugin.GUI
         {
             TraktTrendingShow show = item.TVTag as TraktTrendingShow;
             PublishShowSkinProperties(show);
-            LoadFanart(show);
-        }
-
-        private void LoadFanart(TraktTrendingShow show)
-        {
-            // Activate Backdrop in Image Swapper
-            if (!backdrop.Active) backdrop.Active = true;
-
-            string filename = show.Images.FanartImageFilename;
-
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
-                filename = string.Empty;
-
-            // Assign Fanart filename to Image Loader
-            // Will display fanart in backdrop or reset to default background
-            backdrop.Filename = filename;
+            GUIImageHandler.LoadFanart(backdrop, show.Images.FanartImageFilename);
         }
 
         private void GetImages(List<TraktShow.ShowImages> itemsWithThumbs)
