@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.Player;
+using MediaPortal.Configuration;
 using System.Reflection;
 using System.ComponentModel;
 using MyFilmsPlugin.MyFilms;
@@ -26,6 +28,10 @@ namespace TraktPlugin.TraktHandlers
 
         public MyFilms(int priority)
         {
+            // check if plugin exists otherwise plugin could accidently get added to list
+            if (!File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll")))
+                throw new FileNotFoundException("Plugin not found!");
+
             Priority = priority;
         }
 
