@@ -27,12 +27,10 @@ namespace TraktPlugin.GUI
             Title = 10,
             Username = 11,
             Password = 12,
-            EmailButton = 13,
-            EmailLabel = 14,
+            EmailButton = 13,            
             Ok = 15,
             Cancel = 16,
-            TestConnect = 17,
-            Animation = 18
+            TestConnect = 17            
         }
 
         [SkinControl((int)SkinControls.Create)]
@@ -58,9 +56,6 @@ namespace TraktPlugin.GUI
 
         [SkinControlAttribute((int)SkinControls.EmailButton)]
         protected GUIButtonControl btnEmail = null;
-
-        [SkinControlAttribute((int)SkinControls.EmailLabel)]
-        protected GUILabelControl lblEmail = null;
 
         [SkinControlAttribute((int)SkinControls.Ok)]
         protected GUIButtonControl btnOk = null;

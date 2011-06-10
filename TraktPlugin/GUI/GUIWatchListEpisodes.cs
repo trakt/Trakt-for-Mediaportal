@@ -436,8 +436,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);            
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);

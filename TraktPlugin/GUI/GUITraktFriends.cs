@@ -448,7 +448,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Location", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
             #endregion
 
