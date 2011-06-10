@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,8 +30,16 @@ namespace TraktPlugin.TraktHandlers
         public MyFilms(int priority)
         {
             // check if plugin exists otherwise plugin could accidently get added to list
-            if (!File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll")))
+            string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll");
+            if (!File.Exists(pluginFilename))
                 throw new FileNotFoundException("Plugin not found!");
+            else
+            {
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
+                string version = fvi.ProductVersion;
+                if (new Version(version) < new Version(5,0,1,899))
+                    throw new FileLoadException("Plugin not meet minimum requirements!");
+            }
 
             Priority = priority;
         }
