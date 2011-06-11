@@ -39,6 +39,10 @@ namespace TraktPlugin.GUI
             WebClient webClient = new WebClient();
             webClient.Headers.Add("user-agent", TraktSettings.UserAgent);
 
+            // Ignore Image placeholders (series/movies with no artwork)
+            // use skins default images instead
+            if (url.Contains("poster-small") || url.Contains("fanart-summary")) return false;
+
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(localFile));
