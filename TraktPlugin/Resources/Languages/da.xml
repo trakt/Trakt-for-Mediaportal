@@ -9,6 +9,7 @@
   <string Field="AccountDialog">Bruger dialog</string>
   <string Field="AddToLibrary">Tilføj til bibliotek</string>
   <string Field="AddToWatchList">Tilføj til setliste</string>
+  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="AirDate">Sendedato</string>
   <string Field="AirDay">Sendedag</string>
   <string Field="AirTime">Sendetid</string>

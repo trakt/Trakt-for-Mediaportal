@@ -9,6 +9,7 @@
   <string Field="AccountDialog">Account Dialog</string>
   <string Field="AddToLibrary">Add to Library</string>
   <string Field="AddToWatchList">Add to Watch List</string>
+  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="AirDate">Air Date</string>
   <string Field="AirDay">Air Day</string>
   <string Field="AirTime">Air Time</string>

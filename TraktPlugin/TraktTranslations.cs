@@ -187,6 +187,7 @@ namespace TraktPlugin.GUI
         public static string AccountDialog = "Account Dialog";
         public static string AddToLibrary = "Add to Library";
         public static string AddToWatchList = "Add to Watch List";
+        public static string AddThisItemToWatchList = "Add this item to your watch list?";
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";

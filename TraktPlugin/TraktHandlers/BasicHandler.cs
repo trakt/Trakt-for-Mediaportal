@@ -39,6 +39,35 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
+        /// Creates Sync Data based on a single movie
+        /// </summary>
+        /// <param name="title">Movie Title</param>
+        /// <param name="year">Movie Year</param>
+        /// <returns>The Trakt Sync data to send</returns>
+        public static TraktMovieSync CreateMovieSyncData(string title, string year)
+        {
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year)) return null;
+
+            List<TraktMovieSync.Movie> movies = new List<TraktMovieSync.Movie>();
+
+            TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
+            {
+                Title = title,
+                Year = year
+            };
+            movies.Add(syncMovie);
+
+            TraktMovieSync syncData = new TraktMovieSync
+            {
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                MovieList = movies
+            };
+
+            return syncData;
+        }
+
+        /// <summary>
         /// Creates Sync Data based on a TraktLibraryShows object
         /// </summary>
         /// <param name="show">The show to base the object on</param>
@@ -72,5 +101,27 @@ namespace TraktPlugin.TraktHandlers
             return syncData;
         }
 
+        public static TraktShowSync CreateShowSyncData(string title, string year)
+        {
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year)) return null;
+
+            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
+
+            TraktShowSync.Show syncShow = new TraktShowSync.Show
+            {
+                Title = title,
+                Year = Convert.ToInt32(year)
+            };
+            shows.Add(syncShow);
+
+            TraktShowSync syncData = new TraktShowSync
+            {
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                Shows = shows
+            };
+
+            return syncData;
+        }
     }
 }

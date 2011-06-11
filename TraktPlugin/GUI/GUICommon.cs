@@ -27,6 +27,16 @@ namespace TraktPlugin.GUI
         SettingsGeneral = 87274
     }
 
+    enum ExternalPluginWindows
+    {
+        OnlineVideos = 4755
+    }
+
+    enum ExternalPluginControls
+    {
+        WatchList = 97258
+    }
+
     public class GUICommon
     {
         /// <summary>

@@ -5,6 +5,7 @@ using MediaPortal;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Player;
+using Action = MediaPortal.GUI.Library.Action;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -185,7 +186,8 @@ namespace TraktPlugin
             // Listen to this event to detect skin\language changes in GUI
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
             GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
-
+            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);            
+            
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
@@ -226,7 +228,7 @@ namespace TraktPlugin
             base.OnPageLoad();
         }
 
-        protected override void OnClicked(int controlId, GUIControl control, MediaPortal.GUI.Library.Action.ActionType actionType)
+        protected override void OnClicked(int controlId, GUIControl control, Action.ActionType actionType)
         {
             base.OnClicked(controlId, control, actionType);
 
@@ -475,6 +477,71 @@ namespace TraktPlugin
                     return;
                 }
 
+            }
+        }
+
+        void GUIWindowManager_OnNewAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_MOUSE_CLICK:
+                case Action.ActionType.ACTION_KEY_PRESSED:
+                    #region Add To WatchList
+                    if (GUIWindowManager.ActiveWindow == (int)ExternalPluginWindows.OnlineVideos)
+                    {
+                        bool validItem = false;
+                        string title = string.Empty;
+                        string year = string.Empty;
+                        string type = "movie";
+
+                        GUIWindow ovWindow = GUIWindowManager.GetWindow((int)ExternalPluginWindows.OnlineVideos);
+                        GUIControl wlButton = ovWindow.GetControl((int)ExternalPluginControls.WatchList);
+                        if (wlButton != null && wlButton.IsFocused)
+                        {
+                            // Confirm we are in IMDB/iTunes Trailer Details view
+                            // This will give us enough information to send to trakt
+                            bool isDetails = GUIPropertyManager.GetProperty("#OnlineVideos.state").ToLowerInvariant() == "details";
+                            string siteUtil = GUIPropertyManager.GetProperty("#OnlineVideos.selectedSiteUtil").ToLowerInvariant();
+                            if (isDetails && (siteUtil == "imdb" || siteUtil == "itmovietrailers"))
+                            {
+                                title = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Title");
+                                year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year");
+                                if (siteUtil == "imdb")
+                                {
+                                    // could be a TV Show
+                                    type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
+                                }
+                                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year))
+                                    validItem = true;
+                            }
+                        }
+
+                        if (validItem)
+                        {
+                            // Return focus to details list now so we dont go in a loop
+                            GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
+
+                            if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
+                            {
+                                TraktLogger.Info("Adding {0} '{1} ({2})' to Watch List", type, title, year);
+
+                                System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
+                                {
+                                    if (type == "movie")
+                                        TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year), TraktSyncModes.watchlist);
+                                    else
+                                        TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year), TraktSyncModes.watchlist);
+                                })
+                                {
+                                    IsBackground = true,
+                                    Name = "Adding to Watch List"
+                                };
+                                syncThread.Start();                                
+                            }
+                        }
+                    }
+                    break;
+                    #endregion
             }
         }
 

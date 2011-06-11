@@ -65,8 +65,11 @@
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="Core">
+    <Reference Include="Core" Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Debug'">      
       <HintPath>..\Externals\Core.dll</HintPath>
+    </Reference>
+		<Reference Include="Core" Condition="'$(Configuration)'=='Release12' or '$(Configuration)'=='Debug12'">      
+      <HintPath>..\Externals\MP12\Core.dll</HintPath>
     </Reference>
     <Reference Include="Cornerstone">
       <HintPath>..\Externals\Cornerstone.dll</HintPath>
