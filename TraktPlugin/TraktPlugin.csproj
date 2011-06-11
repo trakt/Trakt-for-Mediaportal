@@ -65,10 +65,10 @@
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="Core" Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Debug'">      
+    <Reference Include="Core" Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Debug'">
       <HintPath>..\Externals\Core.dll</HintPath>
     </Reference>
-		<Reference Include="Core" Condition="'$(Configuration)'=='Release12' or '$(Configuration)'=='Debug12'">      
+    <Reference Include="Core" Condition="'$(Configuration)'=='Release12' or '$(Configuration)'=='Debug12'">
       <HintPath>..\Externals\MP12\Core.dll</HintPath>
     </Reference>
     <Reference Include="Cornerstone">
@@ -251,6 +251,7 @@
     <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Languages\no.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktEpisode.png" />
