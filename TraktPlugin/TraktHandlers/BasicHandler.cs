@@ -68,6 +68,39 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
+        /// Creates Movie Rate Data object
+        /// </summary>
+        /// <param name="title">Title of Movie</param>
+        /// <param name="year">Year of Movie</param>
+        /// <returns>Rate Data Object</returns>
+        public static TraktRateMovie CreateMovieRateData(string title, string year)
+        {
+            return CreateMovieRateData(title, year, null);
+        }
+
+        /// <summary>
+        /// Creates Movie Rate Data object
+        /// </summary>
+        /// <param name="title">Title of Movie</param>
+        /// <param name="year">Year of Movie</param>
+        /// <param name="imdb">IMDB ID of movie</param>
+        /// <returns>Rate Data Object</returns>
+        public static TraktRateMovie CreateMovieRateData(string title, string year, string imdb)
+        {
+            TraktRateMovie rateObject = new TraktRateMovie
+            {
+                IMDBID = imdb,
+                Title = title,
+                Year = year,
+                Rating = "love",
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            return rateObject;
+        }
+
+        /// <summary>
         /// Creates Sync Data based on a TraktLibraryShows object
         /// </summary>
         /// <param name="show">The show to base the object on</param>

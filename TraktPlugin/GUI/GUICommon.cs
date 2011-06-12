@@ -29,12 +29,14 @@ namespace TraktPlugin.GUI
 
     enum ExternalPluginWindows
     {
-        OnlineVideos = 4755
+        OnlineVideos = 4755,
+        VideoInfo = 2003
     }
 
     enum ExternalPluginControls
     {
-        WatchList = 97258
+        WatchList = 97258,
+        Rate = 97259
     }
 
     public class GUICommon

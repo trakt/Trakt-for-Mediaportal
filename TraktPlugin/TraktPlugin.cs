@@ -12,6 +12,7 @@ using System.Linq;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktHandlers;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -482,67 +483,104 @@ namespace TraktPlugin
 
         void GUIWindowManager_OnNewAction(Action action)
         {
+            bool validWatchListItem = false;
+            bool validRateItem = false;
+            string title = string.Empty;
+            string year = string.Empty;
+            string imdb = string.Empty;
+            string type = "movie";
+
+            GUIWindow currentWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            GUIControl currentButton = null;
+
             switch (action.wID)
             {
                 case Action.ActionType.ACTION_MOUSE_CLICK:
                 case Action.ActionType.ACTION_KEY_PRESSED:
-                    #region Add To WatchList
-                    if (GUIWindowManager.ActiveWindow == (int)ExternalPluginWindows.OnlineVideos)
+                    switch (GUIWindowManager.ActiveWindow)
                     {
-                        bool validItem = false;
-                        string title = string.Empty;
-                        string year = string.Empty;
-                        string type = "movie";
-
-                        GUIWindow ovWindow = GUIWindowManager.GetWindow((int)ExternalPluginWindows.OnlineVideos);
-                        GUIControl wlButton = ovWindow.GetControl((int)ExternalPluginControls.WatchList);
-                        if (wlButton != null && wlButton.IsFocused)
-                        {
-                            // Confirm we are in IMDB/iTunes Trailer Details view
-                            // This will give us enough information to send to trakt
-                            bool isDetails = GUIPropertyManager.GetProperty("#OnlineVideos.state").ToLowerInvariant() == "details";
-                            string siteUtil = GUIPropertyManager.GetProperty("#OnlineVideos.selectedSiteUtil").ToLowerInvariant();
-                            if (isDetails && (siteUtil == "imdb" || siteUtil == "itmovietrailers"))
+                        case (int)ExternalPluginWindows.OnlineVideos:
+                            #region Watch List Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
+                            if (currentButton != null && currentButton.IsFocused)
                             {
-                                title = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Title");
-                                year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year");
-                                if (siteUtil == "imdb")
+                                // Confirm we are in IMDB/iTunes Trailer Details view
+                                // This will give us enough information to send to trakt
+                                bool isDetails = GUIPropertyManager.GetProperty("#OnlineVideos.state").ToLowerInvariant() == "details";
+                                string siteUtil = GUIPropertyManager.GetProperty("#OnlineVideos.selectedSiteUtil").ToLowerInvariant();
+                                if (isDetails && (siteUtil == "imdb" || siteUtil == "itmovietrailers"))
                                 {
-                                    // could be a TV Show
-                                    type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
+                                    title = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Title").Trim();
+                                    year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year").Trim();
+                                    if (siteUtil == "imdb")
+                                    {
+                                        // could be a TV Show
+                                        type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
+                                    }
+                                    if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year))
+                                        validWatchListItem = true;
+
+                                    // Return focus to details list now so we dont go in a loop
+                                    GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
                                 }
-                                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year))
-                                    validItem = true;
                             }
-                        }
+                            #endregion
+                            break;
 
-                        if (validItem)
-                        {
-                            // Return focus to details list now so we dont go in a loop
-                            GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
-
-                            if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
+                        case (int)ExternalPluginWindows.VideoInfo:
+                            #region Rate Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
+                            if (currentButton != null && currentButton.IsFocused)
                             {
-                                TraktLogger.Info("Adding {0} '{1} ({2})' to Watch List", type, title, year);
+                                title = GUIPropertyManager.GetProperty("#title").Trim();
+                                year = GUIPropertyManager.GetProperty("#year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
 
-                                System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
-                                {
-                                    if (type == "movie")
-                                        TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year), TraktSyncModes.watchlist);
-                                    else
-                                        TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year), TraktSyncModes.watchlist);
-                                })
-                                {
-                                    IsBackground = true,
-                                    Name = "Adding to Watch List"
-                                };
-                                syncThread.Start();                                
+                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    validRateItem = true;
+
+                                // Set focus to Play Button now so we dont go in a loop
+                                GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
                             }
-                        }
+                            #endregion
+                            break;
                     }
                     break;
-                    #endregion
+                
+                default:
+                    break;
             }
+
+            #region Add To Watch List
+            if (validWatchListItem)
+            {
+                if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
+                {
+                    TraktLogger.Info("Adding {0} '{1} ({2})' to Watch List", type, title, year);
+
+                    System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
+                    {
+                        if (type == "movie")
+                            TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year), TraktSyncModes.watchlist);
+                        else
+                            TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year), TraktSyncModes.watchlist);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Adding to Watch List"
+                    };
+                    syncThread.Start();
+                }
+            }
+            #endregion
+
+            #region Rate Movie
+            if (validRateItem)
+            {
+                TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
+                GUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+            }
+            #endregion
         }
 
         #endregion
