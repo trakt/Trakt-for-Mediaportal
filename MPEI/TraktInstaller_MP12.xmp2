@@ -1,0 +1,2175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Version>2.0</Version>
+  <Groups>
+    <Items>
+      <GroupItem Name="Default">
+        <ParentGroup />
+        <DisplayName>Main</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Main Program Files for Trakt Plugin.</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\bin\Release12\TraktPlugin.dll</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
+              <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.AccountDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{dda8018c-0925-4428-a630-b6212afee333}-Trakt.AccountDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.AccountDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Calendar.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{630b2f92-56e0-4b14-8eef-01d577ccbae7}-Trakt.Calendar.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Calendar.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.Fanart.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{796bf732-687f-4604-b627-3360c028ee16}-Trakt.Common.Fanart.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Common.Fanart.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{592cb43e-7727-4fd3-97c4-43a0a4576cbc}-Trakt.Common.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Common.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Friends.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{930b5747-d1b2-4a66-8911-e1278f46e8c8}-Trakt.Friends.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Friends.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.RateDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{088f29bf-dec9-42a6-a046-a36bddaea876}-Trakt.RateDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.RateDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{51f4d024-2252-4612-955e-b088b4df4963}-Trakt.Recommendations.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{974f8d20-a029-4468-86d2-36b5762c1dfd}-Trakt.Recommendations.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f972855b-27fa-4526-b1d4-92d322204a7c}-Trakt.Recommendations.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Account.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4c44e255-9bf6-40ce-8e0f-012d8b3431f4}-Trakt.Settings.Account.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.Account.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.General.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e21b7f27-0449-46cb-a183-0c71cf111918}-Trakt.Settings.General.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.General.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Plugins.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1138582b-c6de-4f37-ae2f-9556c287371e}-Trakt.Settings.Plugins.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.Plugins.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{423efbc8-3b17-467a-8045-9de757503ce6}-Trakt.Settings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.SkinSettings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d2eb5e33-3718-4833-b179-7cd31836b13d}-Trakt.SkinSettings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.SkinSettings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cbdcced0-b885-44c2-98ae-e11428f65332}-Trakt.Trending.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{68cfb287-ab45-4827-b490-d46f336500eb}-Trakt.Trending.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{43c60f67-fa24-49a2-bc12-2dad4a356fd8}-Trakt.Trending.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8fa668ef-caad-44ba-8066-2c15a95d3d0d}-Trakt.WatchList.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5d4ded88-8508-432a-b1ab-941a77045d68}-Trakt.WatchList.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cb2e6737-f336-4d23-901b-2d5e517c57bf}-Trakt.WatchList.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ff0be87a-2d41-414b-b0fd-598c0390b2ae}-Trakt.WatchList.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{73275c96-3af9-46e1-916e-f493da744e21}-Trakt.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Backgroundtop2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{87a6fabb-acaa-4bd5-86f6-969a7ac21945}-Backgroundtop2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\Backgroundtop2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendar.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6a906427-2134-47bd-bba6-6194df77517e}-defaultTraktCalendar.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendar.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendarBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1041095f-d6d5-45bd-b088-b6cdaef4351d}-defaultTraktCalendarBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendarBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisode.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{02701e92-a0f0-49f9-b35d-b7adc62d7043}-defaultTraktEpisode.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisode.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisodeBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{65c72b60-351f-4e4f-bc30-d19a86b3444e}-defaultTraktEpisodeBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUser.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7bcd191b-c4f3-484c-8757-c47db6a9b852}-defaultTraktUser.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktUser.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUserBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7820031e-bc06-4d14-993d-614585ef3317}-defaultTraktUserBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktUserBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\glassoverlay2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{167ff052-7a46-484f-bca4-a103e97c5ceb}-glassoverlay2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\glassoverlay2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5b56ee4b-9293-4816-9a40-afed8c9b2aeb}-hate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\hate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hover_trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{11e52784-08ca-404f-9e5b-eb39ebe89b59}-hover_trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\hover_trakt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\love.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{421db1f2-ddec-4ed3-9dfc-f3b0f360fb45}-love.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\love.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d46da18f-a01d-47c4-b03d-4f59bd42caf0}-rate.hate.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.hate.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9a296b72-7339-41fe-b223-83d650a647a5}-rate.hate.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.hate.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{100a2556-c0f4-40c5-a290-5e2149bf15e7}-rate.love.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.love.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{927d06db-6930-4119-aae3-71e89e409f64}-rate.love.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.love.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4b72549b-d148-4e3f-a938-09c94020a7bb}-traktHate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b7ed11f7-fc30-4700-9d04-d0e8ea93845d}-traktLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4774713b-655c-434e-9a4a-d48b028a333c}-traktLoginFieldFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLoginFieldFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldNoFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{dbd45285-6dc3-45d9-8326-826ef090b560}-traktLoginFieldNoFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLoginFieldNoFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLove.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{881f7747-5c63-4ab2-aed2-a8e1e9b03a75}-traktLove.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLove.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktNextWeek.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1e4396b7-059d-44f8-8e6a-ca058b046465}-traktNextWeek.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktNextWeek.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenIt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3f798c5b-c53e-45f7-82c4-1ad71cb4e741}-traktSeenIt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktSeenIt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenItLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fe5f09e8-c1c5-45db-b20f-bd70c2a581f1}-traktSeenItLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktSeenItLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchList.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6f3d691b-8dad-4b50-ae1b-842f13ef06ac}-traktWatchList.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktWatchList.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchListLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{03237857-e3ef-4f7f-9785-e85a71bfebe7}-traktWatchListLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktWatchListLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Logos\trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9d6f365a-cc65-447a-a6f2-75536d5aa306}-trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\Logos\trakt.png</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
+      <GroupItem Name="Languages">
+        <ParentGroup />
+        <DisplayName>Languages</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Translations for Trakt Plugin.</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\da.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ccd9a86c-c14f-4a1b-acd4-e2cd7646a67a}-da.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\da.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\en-US.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{558cca53-eab9-4b7b-8188-dc5d0d3d1426}-en-US.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\en-US.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\no.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c71de8e7-2769-4471-94ec-bbfef7d539c2}-no.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\no.xml</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
+      <GroupItem Name="DefaultSkin">
+        <ParentGroup />
+        <DisplayName>Default Skin</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>DefaultSkin for Trakt Plugin.</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.AccountDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{77241381-fd22-4e7a-b892-547c79d26673}-Trakt.AccountDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.AccountDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Calendar.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a87a7bbc-a68b-45b6-9ab3-7655b6c6f9fa}-Trakt.Calendar.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Calendar.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.Fanart.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0089ef33-225b-428f-aa55-678c98edb736}-Trakt.Common.Fanart.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Common.Fanart.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{019fbe5d-3f8e-499c-a904-9b0ba3a13b83}-Trakt.Common.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Common.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Friends.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fa926377-f66e-43a6-9b14-51045dcfc1ea}-Trakt.Friends.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Friends.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.RateDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9d64f92a-4ea5-43d8-86e0-bcd433a5978c}-Trakt.RateDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.RateDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6cb669ab-dd40-44ee-bcf5-ddc00416def1}-Trakt.Recommendations.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1d89d02f-e0ab-4b06-911a-b2484bf7ab44}-Trakt.Recommendations.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e4a64953-924d-48ac-a897-15baf0303dd4}-Trakt.Recommendations.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Recommendations.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Account.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5d3e4513-162c-4dfd-b5be-f5b7c0c6c479}-Trakt.Settings.Account.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.Account.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.General.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0a18e640-b2e4-4d33-ad63-91be63dfc591}-Trakt.Settings.General.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.General.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Plugins.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b1c6ff07-9f18-449c-aa3a-71e2dd5df961}-Trakt.Settings.Plugins.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.Plugins.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0e185c21-110d-4a06-8c7a-67fd661ac219}-Trakt.Settings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Settings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.SkinSettings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{24da50d8-a2be-4da1-abef-dda020db5dce}-Trakt.SkinSettings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.SkinSettings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{53cf97a8-fe25-4d07-a841-e44db1b301d7}-Trakt.Trending.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3ade4697-c776-4978-b708-4ca207112e9c}-Trakt.Trending.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2613ee1c-cea5-4b67-9a34-7fa6e83f63f1}-Trakt.Trending.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Trending.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6001d180-96df-4e3b-bbe6-9a5b48868d28}-Trakt.WatchList.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5575d28c-41a5-4c84-9db2-648d2d9b30b5}-Trakt.WatchList.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ae6d9dd8-b10a-482c-ba3a-81b9aeffb679}-Trakt.WatchList.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{77502844-36c0-4e79-8cd8-97195b80f8ae}-Trakt.WatchList.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.WatchList.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fc9351f2-e583-491a-9029-5d5a7600348c}-Trakt.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Backgroundtop2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4f7e7603-37f1-41fb-8cf3-90a27e52d506}-Backgroundtop2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\Backgroundtop2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendar.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a1278f82-87ef-4185-b903-61854e9333d2}-defaultTraktCalendar.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendar.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendarBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0b617d75-7f6e-46f5-81ff-b6f30fcec326}-defaultTraktCalendarBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendarBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisode.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ddb5de8f-888e-46f9-82b9-0f77a5a9cc69}-defaultTraktEpisode.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisode.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisodeBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{55f1277d-1500-4db3-9268-ff7ed8416da8}-defaultTraktEpisodeBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUser.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{74be0382-2c20-4845-a8ad-6220b0077799}-defaultTraktUser.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktUser.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUserBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1efa471a-666f-4c9d-b94c-afcfa9492d9f}-defaultTraktUserBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\defaultTraktUserBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\glassoverlay2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cc042123-b8c9-4600-9588-9c7b5be3a132}-glassoverlay2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\glassoverlay2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d1e7ecdb-5fbe-4616-ad84-621b00010e05}-hate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\hate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hover_trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b72ac833-229c-40d1-8474-bfd6733d0323}-hover_trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\hover_trakt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\love.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2163c9a5-f11b-4800-abb6-d66f72a59ec1}-love.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\love.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{38d278a5-4108-4c34-b815-da9f46dd1b6c}-rate.hate.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.hate.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8f8836ac-18d0-4ab9-90cd-9729a84df8fd}-rate.hate.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.hate.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{93d8a2ff-79bf-4564-90e6-2c102e68766c}-rate.love.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.love.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{220a48b5-a9e2-4847-a1fd-26d021f6b71f}-rate.love.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\rate.love.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1da4d41d-bcf0-40dc-bbd7-1759180f7d16}-traktHate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{aa9b28b0-218f-4f54-9067-9cd8b4b6ccfd}-traktLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{db20911e-a3b1-483a-a3ef-538be3e08f05}-traktLoginFieldFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLoginFieldFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldNoFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3ec2ad3d-047e-44cd-9d27-6d07c1e8c807}-traktLoginFieldNoFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLoginFieldNoFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLove.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3d2afd49-b7ea-423b-b3c3-1e0df46dc881}-traktLove.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktLove.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktNextWeek.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{60e9625b-fbd0-475d-b46f-fe6b9daea1e0}-traktNextWeek.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktNextWeek.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenIt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{60050311-4e85-4c7c-9a1e-129682d39131}-traktSeenIt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktSeenIt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenItLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bbe1f042-bb44-4a95-a08b-7a41c7508148}-traktSeenItLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktSeenItLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchList.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{52e06dd2-49ce-456e-9da3-436310735eea}-traktWatchList.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktWatchList.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchListLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{609cdbe0-27c6-4989-884d-45fe49b804c1}-traktWatchListLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktWatchListLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Logos\trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1e521651-786c-4265-aa17-b8c9f7e84eda}-trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\Logos\trakt.png</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
+      <GroupItem Name="DefaultWideSkin">
+        <ParentGroup />
+        <DisplayName>DefaultWide Skin</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>DefaultWide Skin for Trakt Plugin.</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.AccountDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c0fc8685-fb7d-4654-b94f-9e9b3b9a2945}-Trakt.AccountDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.AccountDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Calendar.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c533cbd8-fe10-4bb2-a143-669b17c8bac4}-Trakt.Calendar.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Calendar.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Common.Fanart.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{07738122-28f6-43c3-a46a-74603b32d492}-Trakt.Common.Fanart.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Common.Fanart.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Common.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7d33ee88-4134-4df0-a34a-9eb2bd45bcd2}-Trakt.Common.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Common.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Friends.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9f816f4e-5239-46de-a4bb-ef0c92a8fa83}-Trakt.Friends.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Friends.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.RateDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{57abd202-1254-4154-a7d6-1695ca74bd1d}-Trakt.RateDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.RateDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fe761212-656c-4eb9-8006-95988590b598}-Trakt.Recommendations.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9631fa11-5868-4eb4-a0c6-5fd78e92978f}-Trakt.Recommendations.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7821a8af-478c-4b6d-953b-ebe2bea1fbd8}-Trakt.Recommendations.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.Account.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{85332c31-59f7-471f-ba78-2877b5b5e4ad}-Trakt.Settings.Account.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.Account.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.General.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4ef8ad66-057c-4825-96c4-5bd4b9da3b91}-Trakt.Settings.General.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.General.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b875b0e7-b160-49f0-9721-4375a745acf7}-Trakt.Settings.Plugins.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.Plugins.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1e9e0eec-d715-4ce3-81d0-01c54c4e73bd}-Trakt.Settings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.SkinSettings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8d91932b-e4df-4dca-b289-d1dca03fa001}-Trakt.SkinSettings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.SkinSettings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c943abbd-1b47-469a-9045-e2dc0ad1e9fe}-Trakt.Trending.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7e2d8e16-27ea-4854-b3c2-537e57c6f7b5}-Trakt.Trending.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{39a13cde-0c31-40b7-a94e-282e31710a35}-Trakt.Trending.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c7d095ec-0be4-42d6-b913-273221d48fc9}-Trakt.WatchList.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{400a8db5-8c62-42d4-a2e5-1133b2c35589}-Trakt.WatchList.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fdd3e4ee-48d0-43e7-b935-4e3213092ac6}-Trakt.WatchList.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{433ab42c-aba9-4479-813b-267931697219}-Trakt.WatchList.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7c9609fa-b63a-4dce-8110-c2ba87666187}-Trakt.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0a263d9b-7c8b-4c15-b51f-528d9f370b1e}-defaultTraktCalendar.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktCalendar.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9e10cc9a-1174-4654-a0b0-6a962c9a1085}-defaultTraktCalendarBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktCalendarBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7810eb2c-e463-4dbb-880f-588eef174d6b}-defaultTraktEpisode.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktEpisode.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktEpisodeBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{80e53df6-02bc-4802-bcea-79e2baf2d4ce}-defaultTraktEpisodeBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktUser.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4deb8907-2e87-4eac-a3eb-6a2a45428faf}-defaultTraktUser.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktUser.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktUserBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8399bf2a-0af2-43cf-a8a6-3900864e2226}-defaultTraktUserBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktUserBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\filmstrip_overlay.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d7276c70-484b-4477-9e6e-96a23caba4be}-filmstrip_overlay.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\filmstrip_overlay.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\glassoverlay2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9ea1063a-d38a-4050-b719-837c3af65941}-glassoverlay2.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\glassoverlay2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\hate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cae482e5-dfbc-4983-bca2-4b639b55add2}-hate.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\hate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\hover_trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d784daef-c3e1-4d1f-bb6e-36ec106a13d9}-hover_trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\hover_trakt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\love.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ed0a7774-8592-4764-a5ff-b5bc7594e5da}-love.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\love.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\mainoverlay.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{346042be-5f78-43f3-a7c2-c5d1d7c78a5e}-mainoverlay.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\mainoverlay.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.hate.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bbf6a172-3d15-40cc-a9f2-4d22e3ce66c9}-rate.hate.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\rate.hate.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.hate.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c2f75224-9e5a-412f-a725-bac2be8d06b8}-rate.hate.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\rate.hate.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.love.off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7ffcd148-dcd7-4ae5-8c59-2b162a9f83ee}-rate.love.off.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\rate.love.off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.love.on.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8bd46c2e-17f9-463b-85dd-e3f3d13aee0d}-rate.love.on.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\rate.love.on.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{754ca369-339c-4c29-98ba-c9b14f2f34b7}-traktHate.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6426e989-fe34-4d4a-9b78-d3d1b057ff5e}-traktLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLoginFieldFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5079ee86-5efb-4ef9-ad8b-134b6cd23b57}-traktLoginFieldFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktLoginFieldFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLoginFieldNoFocus.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8e96dbb2-c26f-46e2-9866-a2635094d635}-traktLoginFieldNoFocus.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktLoginFieldNoFocus.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLove.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{883685cb-b304-443a-a63c-a364e3db5613}-traktLove.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktLove.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktNextWeek.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fd9dc852-0a53-4568-9a8b-38e564a25da9}-traktNextWeek.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktNextWeek.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktSeenIt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{eeb4285d-b900-4d1e-bea8-bfd71a90f035}-traktSeenIt.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktSeenIt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktSeenItLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3a41b4d6-06f2-436f-b9a5-90283256936f}-traktSeenItLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktSeenItLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktWatchList.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{16b3c7a2-6341-4c98-a962-f01329561856}-traktWatchList.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktWatchList.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktWatchListLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6fecfc36-ae31-4d86-afc0-7959df6dd2c6}-traktWatchListLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktWatchListLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\Logos\trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{61445017-4514-44bf-be28-f95b66637160}-trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\Logos\trakt.png</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
+    </Items>
+  </Groups>
+  <Sections>
+    <Items>
+      <SectionItem Guid="d97ebd9c-3549-4c06-a060-90c6b0632c6d" Name="Welcome Screen" ConditionGroup="">
+        <Params>
+          <Items>
+            <SectionParam Name="Header text">
+              <Value>Welcome to the Setup Wizard for [Name]</Value>
+              <ValueType>String</ValueType>
+              <Description />
+            </SectionParam>
+            <SectionParam Name="Description">
+              <Value>This will install [Name] v[Version] on your computer. 
+It is recommended that you close all other applications before continuing.
+
+
+Click Next to continue or Cancel to exit Setup.</Value>
+              <ValueType>String</ValueType>
+              <Description />
+            </SectionParam>
+            <SectionParam Name="Left part image">
+              <Value />
+              <ValueType>File</ValueType>
+              <Description />
+            </SectionParam>
+            <SectionParam Name="Header image">
+              <Value />
+              <ValueType>File</ValueType>
+              <Description>Image in upper right part</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+        <Actions>
+          <Items />
+        </Actions>
+        <IncludedGroups />
+        <PanelName>Welcome Screen</PanelName>
+        <WizardButtonsEnum>NextCancel</WizardButtonsEnum>
+      </SectionItem>
+      <SectionItem Guid="47393b93-eb24-407d-b72a-ee0025b915ec" Name="Tree View Selector" ConditionGroup="">
+        <Params>
+          <Items>
+            <SectionParam Name="Header Title">
+              <Value>Select Features</Value>
+              <ValueType>String</ValueType>
+              <Description>Header title</Description>
+            </SectionParam>
+            <SectionParam Name="Header description">
+              <Value>Select the features setup will install</Value>
+              <ValueType>String</ValueType>
+              <Description>Description of section, shown in under section title</Description>
+            </SectionParam>
+            <SectionParam Name="Header image">
+              <Value>..\TraktPlugin\Resources\Images\trakt.png</Value>
+              <ValueType>File</ValueType>
+              <Description>Image in upper right part</Description>
+            </SectionParam>
+            <SectionParam Name="Description ">
+              <Value>Select the features you want to install, and deselect the features you don't want installed.</Value>
+              <ValueType>String</ValueType>
+              <Description>Description of this operation</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+        <Actions>
+          <Items />
+        </Actions>
+        <IncludedGroups>
+          <string>Languages</string>
+          <string>DefaultSkin</string>
+          <string>DefaultWideSkin</string>
+        </IncludedGroups>
+        <PanelName>Tree View Selector</PanelName>
+        <WizardButtonsEnum>BackNextCancel</WizardButtonsEnum>
+      </SectionItem>
+      <SectionItem Guid="333cee58-2959-4ca5-963b-03fa0855b872" Name="Install Section" ConditionGroup="">
+        <Params>
+          <Items>
+            <SectionParam Name="Header Title">
+              <Value>Status</Value>
+              <ValueType>String</ValueType>
+              <Description>Header title</Description>
+            </SectionParam>
+            <SectionParam Name="Header description">
+              <Value>Please wait while installing trakt</Value>
+              <ValueType>String</ValueType>
+              <Description>Description of section, shown in under section title</Description>
+            </SectionParam>
+            <SectionParam Name="Header image">
+              <Value />
+              <ValueType>File</ValueType>
+              <Description>Image in upper right part</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+        <Actions>
+          <Items>
+            <ActionItem Name="InstallFiles" ActionType="InstallFiles" ConditionGroup="">
+              <Params>
+                <Items />
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
+            <ActionItem Name="ClearSkinCache" ActionType="ClearSkinCache" ConditionGroup="DefaultWideSkin">
+              <Params>
+                <Items />
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
+            <ActionItem Name="Script" ActionType="Script" ConditionGroup="Default">
+              <Params>
+                <Items>
+                  <SectionParam Name="Script">
+                    <Value>//css_reference "MpeCore.dll";
+
+using MpeCore.Classes;
+using MpeCore;
+using System.IO;
+
+public class Script
+{
+  public static void Main(PackageClass packageClass, ActionItem actionItem)
+  {
+    // Delete old Process Plugin if installed
+    string oldPlugin = Path.Combine(MpeInstaller.TransformInRealPath("%Plugins%"), @"Process\TraktPlugin.dll");
+    try
+    {
+      if (File.Exists(oldPlugin))
+        File.Delete(oldPlugin);
+    }
+    catch {}
+
+    return;
+  }
+}</Value>
+                    <ValueType>Script</ValueType>
+                    <Description />
+                  </SectionParam>
+                  <SectionParam Name="Uninstall Script">
+                    <Value>//css_reference "MpeCore.dll";
+
+using MpeCore.Classes;
+using MpeCore;
+
+public class Script
+{
+    public static void Main(PackageClass packageClass, UnInstallItem item)
+    {
+        return;
+    }
+}
+</Value>
+                    <ValueType>Script</ValueType>
+                    <Description />
+                  </SectionParam>
+                </Items>
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
+          </Items>
+        </Actions>
+        <IncludedGroups />
+        <PanelName>Install Section</PanelName>
+        <WizardButtonsEnum>Next</WizardButtonsEnum>
+      </SectionItem>
+      <SectionItem Guid="82526a60-4ec1-49d2-a9e3-5c20bb23f470" Name="Setup Complete" ConditionGroup="">
+        <Params>
+          <Items>
+            <SectionParam Name="Header text">
+              <Value>The Setup Wizard has successfully installed [Name].</Value>
+              <ValueType>String</ValueType>
+              <Description />
+            </SectionParam>
+            <SectionParam Name="Left part image">
+              <Value />
+              <ValueType>File</ValueType>
+              <Description />
+            </SectionParam>
+            <SectionParam Name="Show radio buttons">
+              <Value>NO</Value>
+              <ValueType>Bool</ValueType>
+              <Description>Use radiobutton in place of combobox</Description>
+            </SectionParam>
+            <SectionParam Name="Header image">
+              <Value />
+              <ValueType>File</ValueType>
+              <Description>Image in upper right part</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+        <Actions>
+          <Items>
+            <ActionItem Name="Script" ActionType="Script" ConditionGroup="Default">
+              <Params>
+                <Items>
+                  <SectionParam Name="Script">
+                    <Value>//css_reference "MpeCore.dll";
+
+using MpeCore.Classes;
+using MpeCore;
+
+public class Script
+{
+    public static void Main(PackageClass packageClass, ActionItem actionItem)
+    {
+        return;
+    }
+}
+</Value>
+                    <ValueType>Script</ValueType>
+                    <Description />
+                  </SectionParam>
+                  <SectionParam Name="Uninstall Script">
+                    <Value>//css_reference "MpeCore.dll";
+
+using MpeCore.Classes;
+using MpeCore;
+using System.IO;
+
+public class Script
+{
+    public static void Main(PackageClass packageClass, UnInstallItem item)
+    {
+        // Delete if still installed after uninstall (Bug in MPEI)
+        string plugin = Path.Combine(MpeInstaller.TransformInRealPath("%Plugins%"), @"Windows\TraktPlugin.dll");
+        try
+        {
+          if (File.Exists(plugin))
+           File.Delete(plugin);
+        }
+        catch {}
+
+        return;
+    }
+}</Value>
+                    <ValueType>Script</ValueType>
+                    <Description />
+                  </SectionParam>
+                </Items>
+              </Params>
+              <ExecuteLocation>BeforPanelShow</ExecuteLocation>
+            </ActionItem>
+          </Items>
+        </Actions>
+        <IncludedGroups />
+        <PanelName>Setup Complete</PanelName>
+        <WizardButtonsEnum>Finish</WizardButtonsEnum>
+      </SectionItem>
+    </Items>
+  </Sections>
+  <Dependencies>
+    <Items>
+      <DependencyItem>
+        <Type>MediaPortal</Type>
+        <Id />
+        <MinVersion>
+          <Major>1</Major>
+          <Minor>1</Minor>
+          <Build>0</Build>
+          <Revision>6</Revision>
+        </MinVersion>
+        <MaxVersion>
+          <Major>9</Major>
+          <Minor>9</Minor>
+          <Build>9</Build>
+          <Revision>9</Revision>
+        </MaxVersion>
+        <WarnOnly>false</WarnOnly>
+        <Message>This version of Trakt plugin is only supported on MediaPortal 1.2 or above.</Message>
+        <Name>MediaPortal</Name>
+      </DependencyItem>
+    </Items>
+  </Dependencies>
+  <GeneralInfo>
+    <Name>Trakt for MediaPortal</Name>
+    <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
+    <Author>Technicolour, ltfearme</Author>
+    <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
+    <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/0-9-4-0-trakt-mediaportal-94872/</ForumPage>
+    <UpdateUrl />
+    <Version>
+      <Major>0</Major>
+      <Minor>9</Minor>
+      <Build>6</Build>
+      <Revision>0</Revision>
+    </Version>
+    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+
+
+
+Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
+    <VersionDescription>Stable release for MediaPortal 1.2 Beta.</VersionDescription>
+    <DevelopmentStatus>Stable</DevelopmentStatus>
+    <OnlineLocation />
+    <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
+    <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
+    <Location>D:\Development\Trakt-for-Mediaportal\MPEI\Release12\TraktPlugin_MP12.mpe1</Location>
+    <Params>
+      <Items>
+        <SectionParam Name="Icon">
+          <Value>..\TraktPlugin\Resources\Images\trakt.png</Value>
+          <ValueType>File</ValueType>
+          <Description>The icon file of the package (jpg,png,bmp)</Description>
+        </SectionParam>
+        <SectionParam Name="Online Icon">
+          <Value />
+          <ValueType>String</ValueType>
+          <Description>The icon file of the package stored online (jpg,png,bmp)</Description>
+        </SectionParam>
+        <SectionParam Name="Configuration file">
+          <Value>%Plugins%\Windows\TraktPlugin.dll</Value>
+          <ValueType>Template</ValueType>
+          <Description>The file used to configure the extension.
+ If have .exe extension the will be executed
+ If have .dll extension used like MP plugin configuration</Description>
+        </SectionParam>
+        <SectionParam Name="Online Screenshots">
+          <Value />
+          <ValueType>String</ValueType>
+          <Description>Online stored screenshot urls separated by ; </Description>
+        </SectionParam>
+        <SectionParam Name="Force to uninstall on update">
+          <Value>YES</Value>
+          <ValueType>Bool</ValueType>
+          <Description>Show dialog and force to uninstall previous version when updating an extension. Should only be disabled if you are using an NSIS/MSI installer.</Description>
+        </SectionParam>
+      </Items>
+    </Params>
+  </GeneralInfo>
+  <UniqueFileList>
+    <Items>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\bin\Release12\TraktPlugin.dll</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
+        <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.AccountDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{dda8018c-0925-4428-a630-b6212afee333}-Trakt.AccountDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.AccountDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Calendar.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{630b2f92-56e0-4b14-8eef-01d577ccbae7}-Trakt.Calendar.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Calendar.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.Fanart.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{796bf732-687f-4604-b627-3360c028ee16}-Trakt.Common.Fanart.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Common.Fanart.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Common.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{592cb43e-7727-4fd3-97c4-43a0a4576cbc}-Trakt.Common.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Common.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Friends.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{930b5747-d1b2-4a66-8911-e1278f46e8c8}-Trakt.Friends.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Friends.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.RateDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{088f29bf-dec9-42a6-a046-a36bddaea876}-Trakt.RateDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.RateDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{51f4d024-2252-4612-955e-b088b4df4963}-Trakt.Recommendations.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{974f8d20-a029-4468-86d2-36b5762c1dfd}-Trakt.Recommendations.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Recommendations.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Recommendations.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f972855b-27fa-4526-b1d4-92d322204a7c}-Trakt.Recommendations.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Recommendations.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Account.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4c44e255-9bf6-40ce-8e0f-012d8b3431f4}-Trakt.Settings.Account.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Settings.Account.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.General.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e21b7f27-0449-46cb-a183-0c71cf111918}-Trakt.Settings.General.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Settings.General.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.Plugins.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1138582b-c6de-4f37-ae2f-9556c287371e}-Trakt.Settings.Plugins.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Settings.Plugins.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Settings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{423efbc8-3b17-467a-8045-9de757503ce6}-Trakt.Settings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Settings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.SkinSettings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d2eb5e33-3718-4833-b179-7cd31836b13d}-Trakt.SkinSettings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.SkinSettings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cbdcced0-b885-44c2-98ae-e11428f65332}-Trakt.Trending.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Trending.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{68cfb287-ab45-4827-b490-d46f336500eb}-Trakt.Trending.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Trending.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Trending.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{43c60f67-fa24-49a2-bc12-2dad4a356fd8}-Trakt.Trending.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Trending.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8fa668ef-caad-44ba-8066-2c15a95d3d0d}-Trakt.WatchList.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.WatchList.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5d4ded88-8508-432a-b1ab-941a77045d68}-Trakt.WatchList.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.WatchList.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cb2e6737-f336-4d23-901b-2d5e517c57bf}-Trakt.WatchList.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.WatchList.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.WatchList.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ff0be87a-2d41-414b-b0fd-598c0390b2ae}-Trakt.WatchList.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.WatchList.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{73275c96-3af9-46e1-916e-f493da744e21}-Trakt.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Backgroundtop2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{87a6fabb-acaa-4bd5-86f6-969a7ac21945}-Backgroundtop2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\Backgroundtop2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendar.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6a906427-2134-47bd-bba6-6194df77517e}-defaultTraktCalendar.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendar.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktCalendarBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1041095f-d6d5-45bd-b088-b6cdaef4351d}-defaultTraktCalendarBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktCalendarBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisode.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{02701e92-a0f0-49f9-b35d-b7adc62d7043}-defaultTraktEpisode.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisode.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktEpisodeBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{65c72b60-351f-4e4f-bc30-d19a86b3444e}-defaultTraktEpisodeBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUser.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7bcd191b-c4f3-484c-8757-c47db6a9b852}-defaultTraktUser.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktUser.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\defaultTraktUserBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7820031e-bc06-4d14-993d-614585ef3317}-defaultTraktUserBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\defaultTraktUserBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\glassoverlay2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{167ff052-7a46-484f-bca4-a103e97c5ceb}-glassoverlay2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\glassoverlay2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5b56ee4b-9293-4816-9a40-afed8c9b2aeb}-hate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\hate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\hover_trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{11e52784-08ca-404f-9e5b-eb39ebe89b59}-hover_trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\hover_trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\love.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{421db1f2-ddec-4ed3-9dfc-f3b0f360fb45}-love.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\love.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d46da18f-a01d-47c4-b03d-4f59bd42caf0}-rate.hate.off.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\rate.hate.off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.hate.on.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9a296b72-7339-41fe-b223-83d650a647a5}-rate.hate.on.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\rate.hate.on.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{100a2556-c0f4-40c5-a290-5e2149bf15e7}-rate.love.off.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\rate.love.off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\rate.love.on.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{927d06db-6930-4119-aae3-71e89e409f64}-rate.love.on.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\rate.love.on.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4b72549b-d148-4e3f-a938-09c94020a7bb}-traktHate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b7ed11f7-fc30-4700-9d04-d0e8ea93845d}-traktLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldFocus.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4774713b-655c-434e-9a4a-d48b028a333c}-traktLoginFieldFocus.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktLoginFieldFocus.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLoginFieldNoFocus.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{dbd45285-6dc3-45d9-8326-826ef090b560}-traktLoginFieldNoFocus.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktLoginFieldNoFocus.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktLove.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{881f7747-5c63-4ab2-aed2-a8e1e9b03a75}-traktLove.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktLove.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktNextWeek.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1e4396b7-059d-44f8-8e6a-ca058b046465}-traktNextWeek.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktNextWeek.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenIt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3f798c5b-c53e-45f7-82c4-1ad71cb4e741}-traktSeenIt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktSeenIt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktSeenItLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fe5f09e8-c1c5-45db-b20f-bd70c2a581f1}-traktSeenItLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktSeenItLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchList.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6f3d691b-8dad-4b50-ae1b-842f13ef06ac}-traktWatchList.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktWatchList.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktWatchListLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{03237857-e3ef-4f7f-9785-e85a71bfebe7}-traktWatchListLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktWatchListLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\Logos\trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9d6f365a-cc65-447a-a6f2-75536d5aa306}-trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\Logos\trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\da.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ccd9a86c-c14f-4a1b-acd4-e2cd7646a67a}-da.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\da.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\en-US.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{558cca53-eab9-4b7b-8188-dc5d0d3d1426}-en-US.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\en-US.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\no.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c71de8e7-2769-4471-94ec-bbfef7d539c2}-no.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\no.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.AccountDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c0fc8685-fb7d-4654-b94f-9e9b3b9a2945}-Trakt.AccountDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.AccountDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Calendar.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c533cbd8-fe10-4bb2-a143-669b17c8bac4}-Trakt.Calendar.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Calendar.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Common.Fanart.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{07738122-28f6-43c3-a46a-74603b32d492}-Trakt.Common.Fanart.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Common.Fanart.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Common.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7d33ee88-4134-4df0-a34a-9eb2bd45bcd2}-Trakt.Common.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Common.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Friends.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9f816f4e-5239-46de-a4bb-ef0c92a8fa83}-Trakt.Friends.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Friends.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.RateDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{57abd202-1254-4154-a7d6-1695ca74bd1d}-Trakt.RateDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.RateDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fe761212-656c-4eb9-8006-95988590b598}-Trakt.Recommendations.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9631fa11-5868-4eb4-a0c6-5fd78e92978f}-Trakt.Recommendations.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Recommendations.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7821a8af-478c-4b6d-953b-ebe2bea1fbd8}-Trakt.Recommendations.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Recommendations.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.Account.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{85332c31-59f7-471f-ba78-2877b5b5e4ad}-Trakt.Settings.Account.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.Account.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.General.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4ef8ad66-057c-4825-96c4-5bd4b9da3b91}-Trakt.Settings.General.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.General.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b875b0e7-b160-49f0-9721-4375a745acf7}-Trakt.Settings.Plugins.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.Plugins.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Settings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1e9e0eec-d715-4ce3-81d0-01c54c4e73bd}-Trakt.Settings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Settings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.SkinSettings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8d91932b-e4df-4dca-b289-d1dca03fa001}-Trakt.SkinSettings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.SkinSettings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c943abbd-1b47-469a-9045-e2dc0ad1e9fe}-Trakt.Trending.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7e2d8e16-27ea-4854-b3c2-537e57c6f7b5}-Trakt.Trending.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Trending.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{39a13cde-0c31-40b7-a94e-282e31710a35}-Trakt.Trending.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Trending.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c7d095ec-0be4-42d6-b913-273221d48fc9}-Trakt.WatchList.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{400a8db5-8c62-42d4-a2e5-1133b2c35589}-Trakt.WatchList.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fdd3e4ee-48d0-43e7-b935-4e3213092ac6}-Trakt.WatchList.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.WatchList.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{433ab42c-aba9-4479-813b-267931697219}-Trakt.WatchList.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.WatchList.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7c9609fa-b63a-4dce-8110-c2ba87666187}-Trakt.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0a263d9b-7c8b-4c15-b51f-528d9f370b1e}-defaultTraktCalendar.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktCalendar.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9e10cc9a-1174-4654-a0b0-6a962c9a1085}-defaultTraktCalendarBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktCalendarBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7810eb2c-e463-4dbb-880f-588eef174d6b}-defaultTraktEpisode.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktEpisode.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktEpisodeBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{80e53df6-02bc-4802-bcea-79e2baf2d4ce}-defaultTraktEpisodeBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktUser.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4deb8907-2e87-4eac-a3eb-6a2a45428faf}-defaultTraktUser.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktUser.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\defaultTraktUserBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8399bf2a-0af2-43cf-a8a6-3900864e2226}-defaultTraktUserBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\defaultTraktUserBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\filmstrip_overlay.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d7276c70-484b-4477-9e6e-96a23caba4be}-filmstrip_overlay.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\filmstrip_overlay.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\glassoverlay2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9ea1063a-d38a-4050-b719-837c3af65941}-glassoverlay2.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\glassoverlay2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\hate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cae482e5-dfbc-4983-bca2-4b639b55add2}-hate.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\hate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\hover_trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d784daef-c3e1-4d1f-bb6e-36ec106a13d9}-hover_trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\hover_trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\love.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ed0a7774-8592-4764-a5ff-b5bc7594e5da}-love.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\love.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\mainoverlay.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{346042be-5f78-43f3-a7c2-c5d1d7c78a5e}-mainoverlay.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\mainoverlay.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.hate.off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bbf6a172-3d15-40cc-a9f2-4d22e3ce66c9}-rate.hate.off.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\rate.hate.off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.hate.on.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c2f75224-9e5a-412f-a725-bac2be8d06b8}-rate.hate.on.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\rate.hate.on.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.love.off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7ffcd148-dcd7-4ae5-8c59-2b162a9f83ee}-rate.love.off.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\rate.love.off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\rate.love.on.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8bd46c2e-17f9-463b-85dd-e3f3d13aee0d}-rate.love.on.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\rate.love.on.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{754ca369-339c-4c29-98ba-c9b14f2f34b7}-traktHate.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6426e989-fe34-4d4a-9b78-d3d1b057ff5e}-traktLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLoginFieldFocus.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5079ee86-5efb-4ef9-ad8b-134b6cd23b57}-traktLoginFieldFocus.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktLoginFieldFocus.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLoginFieldNoFocus.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8e96dbb2-c26f-46e2-9866-a2635094d635}-traktLoginFieldNoFocus.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktLoginFieldNoFocus.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktLove.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{883685cb-b304-443a-a63c-a364e3db5613}-traktLove.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktLove.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktNextWeek.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fd9dc852-0a53-4568-9a8b-38e564a25da9}-traktNextWeek.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktNextWeek.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktSeenIt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{eeb4285d-b900-4d1e-bea8-bfd71a90f035}-traktSeenIt.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktSeenIt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktSeenItLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3a41b4d6-06f2-436f-b9a5-90283256936f}-traktSeenItLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktSeenItLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktWatchList.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{16b3c7a2-6341-4c98-a962-f01329561856}-traktWatchList.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktWatchList.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktWatchListLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6fecfc36-ae31-4d86-afc0-7959df6dd2c6}-traktWatchListLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktWatchListLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\Logos\trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{61445017-4514-44bf-be28-f95b66637160}-trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\Logos\trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e235b107-cb0a-4da2-b70a-ebe306a0441b}-trakt.png</ZipFileName>
+        <DestinationFilename />
+      </FileItem>
+    </Items>
+  </UniqueFileList>
+  <ProjectSettings>
+    <FolderGroups>
+      <FolderGroup InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName />
+        <ZipFileName>Installer{CopyFile}\{8af9d806-7a37-4deb-b89d-e79379a0387d}-</ZipFileName>
+        <DestinationFilename>%Language%\Trakt</DestinationFilename>
+        <Folder>..\TraktPlugin\Resources\Languages</Folder>
+        <Group>Languages</Group>
+        <Recursive>false</Recursive>
+      </FolderGroup>
+      <FolderGroup InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName />
+        <ZipFileName>Installer{CopyFile}\{1cc23514-835a-4023-a6ca-6b8b6db099f4}-</ZipFileName>
+        <DestinationFilename>%Skin%\Default</DestinationFilename>
+        <Folder>..\TraktPlugin\Resources\Skins\Default</Folder>
+        <Group>DefaultSkin</Group>
+        <Recursive>true</Recursive>
+      </FolderGroup>
+      <FolderGroup InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName />
+        <ZipFileName>Installer{CopyFile}\{b8dbcc9e-a2ac-4cec-9720-7cea67809c36}-</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide</DestinationFilename>
+        <Folder>..\TraktPlugin\Resources\Skins\DefaultWide</Folder>
+        <Group>DefaultWideSkin</Group>
+        <Recursive>true</Recursive>
+      </FolderGroup>
+    </FolderGroups>
+    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller_MP12.xmp2</ProjectFilename>
+    <UpdatePath1>D:\Development\Trakt-for-Mediaportal\MPEI\update.xml</UpdatePath1>
+    <UpdatePath2 />
+    <UpdatePath3 />
+  </ProjectSettings>
+</PackageClass>

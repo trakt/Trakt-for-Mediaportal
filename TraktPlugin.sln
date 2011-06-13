@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktPlugin", "TraktPlugin\TraktPlugin.csproj", "{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MPEI", "MPEI", "{CE1EB7DF-4B75-4BD0-B744-B8898FC75371}"
+	ProjectSection(SolutionItems) = preProject
+		MPEI\TraktInstaller.xmp2 = MPEI\TraktInstaller.xmp2
+		MPEI\TraktInstaller_MP12.xmp2 = MPEI\TraktInstaller_MP12.xmp2
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
