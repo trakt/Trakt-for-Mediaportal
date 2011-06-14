@@ -77,8 +77,14 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            // Set States
             btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
             btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
+
+            // Set Labels
+            // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
+            btnDownloadFanart.Label = Translation.DownloadFanart;
+            btnDownloadFullSizeFanart.Label = Translation.DownloadFullSizeFanart;
         }
 
         #endregion
