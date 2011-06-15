@@ -116,7 +116,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            _Friends = null;
+            //_Friends = null;
             StopDownload = true;
             ClearProperties();
 
@@ -693,6 +693,11 @@ namespace TraktPlugin.GUI
                         }
                         #endregion
                     }
+                    #if !MP12
+                    // refresh the facade so thumbnails get displayed
+                    // this is not needed in MP 1.2 Beta
+                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_REFRESH, GUIWindowManager.ActiveWindow, 0, 50, 0, 0, null));
+                    #endif
                 })
                 {
                     IsBackground = true,
