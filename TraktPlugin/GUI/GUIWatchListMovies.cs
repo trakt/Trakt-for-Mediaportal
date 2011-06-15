@@ -125,7 +125,7 @@ namespace TraktPlugin.GUI
             ClearProperties();
 
             // save current layout
-            TraktSettings.RecommendedMoviesDefaultLayout = (int)CurrentLayout;
+            TraktSettings.WatchListMoviesDefaultLayout = (int)CurrentLayout;
 
             base.OnPageDestroy(new_windowId);
         }
