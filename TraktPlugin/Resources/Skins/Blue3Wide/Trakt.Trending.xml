@@ -3,6 +3,7 @@
   <id>87264</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
+	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
   <define>#currentmodule:#Trakt.Translation.Trending.Label</define>
   <define>#selecteditem:#highlightedbutton</define>
   <define>#defaultcontrol:2</define>

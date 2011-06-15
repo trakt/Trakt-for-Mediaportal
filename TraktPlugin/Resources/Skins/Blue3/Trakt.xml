@@ -3,6 +3,7 @@
   <id>87258</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
+	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
   <define>#currentmodule:Trakt</define>  
   <define>#selecteditem:#highlightedbutton</define>
   <controls>
