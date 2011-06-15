@@ -116,7 +116,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            //_Friends = null;
+            _Friends = null;
             StopDownload = true;
             ClearProperties();
 
