@@ -338,6 +338,7 @@ namespace TraktPlugin.GUI
         public static string Tagline = "Tagline";
         public static string Title = "Title";
         public static string Trailer = "Trailer";
+        public static string Trailers = "Trailers...";
         
         // U
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";

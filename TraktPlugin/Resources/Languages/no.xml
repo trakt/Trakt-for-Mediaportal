@@ -156,6 +156,7 @@
   <string Field="Tagline">Tagline</string>
   <string Field="Title">Title</string>
   <string Field="Trailer">Trailer</string>
+  <string Field="Trailers">Trailers...</string>
   
   <!-- U -->
   <string Field="UserHasNotWatchedEpisodes">Brukeren har ikke sett noen episoder!</string>
