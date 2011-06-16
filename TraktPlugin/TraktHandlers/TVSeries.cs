@@ -82,7 +82,11 @@ namespace TraktPlugin.TraktHandlers
 
             List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
             List<DBEpisode> localCollectionEpisodes = new List<DBEpisode>();
-            List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();            
+            List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
+
+            // store list of series ids so we can update the episode counts
+            // of any series that syncback watched flags
+            List<int> seriesToUpdateEpisodeCounts = new List<int>();
 
             // Get all episodes in database
             SQLCondition conditions = new SQLCondition();
@@ -147,6 +151,9 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = true;
                     ep.Commit();
+
+                    if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
+                        seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
                 }
             }
             #endregion
@@ -160,7 +167,20 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = false;
                     ep.Commit();
+
+                    if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
+                        seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
                 }
+            }
+            #endregion
+
+            #region Update Episode counts in Local Database
+            foreach (int seriesID in seriesToUpdateEpisodeCounts)
+            {
+                DBSeries series = Helper.getCorrespondingSeries(seriesID);
+                if (series == null) continue;
+                TraktLogger.Info("Updating Episode Counts for series '{0}'", series.ToString());
+                DBSeries.UpdateEpisodeCounts(series);
             }
             #endregion
 
