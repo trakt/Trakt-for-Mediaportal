@@ -1097,7 +1097,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
  If have .dll extension used like MP plugin configuration</Description>
         </SectionParam>
         <SectionParam Name="Online Screenshots">
-          <Value />
+          <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingMovies.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktMain.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktCalendar.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktFriends.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedMovies.jpg</Value>
           <ValueType>String</ValueType>
           <Description>Online stored screenshot urls separated by ; </Description>
         </SectionParam>
@@ -1850,7 +1850,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{33d4da8a-2fde-4ce6-a5a7-4eb7e53e4e00}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{0bab1e12-95eb-4dd8-81df-3c0b6f44b1a8}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
