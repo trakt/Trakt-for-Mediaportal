@@ -602,6 +602,20 @@ namespace TraktPlugin.GUI
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("ShowImages");
                             }
+                            else
+                            {
+                                // possibly failed to generate cache image on server
+                                if (!remoteFanart.Contains("fanart-summary"))
+                                {
+                                    TraktLogger.Info("Cached Image download failed, attempting to download full size fanart");
+                                    remoteFanart = item.ShowImages.Fanart.Replace("-940", string.Empty);
+                                    if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                                    {
+                                        // notify that image has been downloaded
+                                        item.NotifyPropertyChanged("ShowImages");
+                                    }
+                                }
+                            }
                         }
                         #endregion
                     }

@@ -493,6 +493,20 @@ namespace TraktPlugin.GUI
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("PosterImageFilename");
                             }
+                            else
+                            {
+                                // possibly failed to generate cache image on server
+                                if (!remoteThumb.Contains("poster-small"))
+                                {
+                                    TraktLogger.Info("Cached Image download failed, attempting to download full size poster");
+                                    remoteThumb = item.Poster.Replace("-300", string.Empty);
+                                    if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                                    {
+                                        // notify that image has been downloaded
+                                        item.NotifyPropertyChanged("PosterImageFilename");
+                                    }
+                                }
+                            }
                         }
                         #endregion
 
@@ -510,6 +524,20 @@ namespace TraktPlugin.GUI
                             {
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("FanartImageFilename");
+                            }
+                            else
+                            {
+                                // possibly failed to generate cache image on server
+                                if (!remoteFanart.Contains("fanart-summary"))
+                                {
+                                    TraktLogger.Info("Cached Image download failed, attempting to download full size fanart");
+                                    remoteFanart = item.Fanart.Replace("-940", string.Empty);
+                                    if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                                    {
+                                        // notify that image has been downloaded
+                                        item.NotifyPropertyChanged("FanartImageFilename");
+                                    }
+                                }
                             }
                         }
                         #endregion
