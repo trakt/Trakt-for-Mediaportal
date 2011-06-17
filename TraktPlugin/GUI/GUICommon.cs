@@ -30,7 +30,8 @@ namespace TraktPlugin.GUI
     enum ExternalPluginWindows
     {
         OnlineVideos = 4755,
-        VideoInfo = 2003
+        VideoInfo = 2003,
+        MovingPictures = 96742
     }
 
     enum ExternalPluginControls

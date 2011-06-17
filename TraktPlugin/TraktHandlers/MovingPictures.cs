@@ -594,6 +594,19 @@ namespace TraktPlugin.TraktHandlers
             MovingPicturesCore.DatabaseManager.ObjectDeleted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
 
+        public static bool FindMovieID(string title, int year, string imdbid, ref int? movieID)
+        {
+            // get all movies in local database
+            List<DBMovieInfo> movies = DBMovieInfo.GetAll();
+
+            // try find a match
+            DBMovieInfo movie = movies.Find(m => m.ImdbID == imdbid || (m.Title == title && m.Year == year));
+            if (movie == null) return false;
+
+            movieID = movie.ID;
+            return true;
+        }
+
         #endregion
     }
 }

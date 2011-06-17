@@ -154,7 +154,31 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
+                        #if MP12
+                        GUIListItem selectedItem = this.Facade.SelectedListItem;
+                        if (selectedItem == null) break;
 
+                        TraktMovie selectedMovie = (TraktMovie)selectedItem.TVTag;
+
+                        string title = selectedMovie.Title;
+                        string imdbid = selectedMovie.Imdb;
+                        int year = Convert.ToInt32(selectedMovie.Year);
+
+                        // check if its in MovingPictures database
+                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                        {
+                            int? movieid = null;
+
+                            // Find Movie ID in MovingPictures
+                            // Movie List is now cached internally in MovingPictures so it will be fast
+                            if (TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid))
+                            {
+                                // Open MovingPictures Details view so user can play movie
+                                string loadingParameter = string.Format("movieid:{0}", movieid);
+                                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
+                            }
+                        }
+                        #endif
                     }
                     break;
 
