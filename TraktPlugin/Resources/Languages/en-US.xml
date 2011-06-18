@@ -95,6 +95,8 @@
   <string Field="NextWeek">Next Week</string>
   <string Field="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string Field="NoEpisodesThisWeek">No episodes on this week</string>
+  <string Field="NoMovieSummary">Movie summary is currently not available.</string>
+  <string Field="NoShowSummary">Show summary is currently not available.</string>
   <string Field="NoFriends">No Friends!</string>
   <string Field="NoFriendsTaunt">You have no Friends!</string>
   <string Field="NoTrendingMovies">No Movies current being watched!</string>

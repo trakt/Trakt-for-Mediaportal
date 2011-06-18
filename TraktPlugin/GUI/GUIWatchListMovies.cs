@@ -523,7 +523,7 @@ namespace TraktPlugin.GUI
         {
             SetProperty("#Trakt.Movie.Imdb", movie.Imdb);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
-            SetProperty("#Trakt.Movie.Overview", movie.Overview);
+            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
             SetProperty("#Trakt.Movie.Released", movie.Released.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.WatchList.Inserted", movie.Inserted.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime.ToString());

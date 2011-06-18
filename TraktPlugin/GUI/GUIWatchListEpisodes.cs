@@ -470,7 +470,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Country", show.Country);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.Network", show.Network);
-            SetProperty("#Trakt.Show.Overview", show.Overview);
+            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);

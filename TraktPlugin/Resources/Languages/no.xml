@@ -94,6 +94,8 @@
   <string Field="NextWeek">Neste uke</string>
   <string Field="NoEpisodeSummary">Episode oppsummering ikke tigjengelig.</string>
   <string Field="NoEpisodesThisWeek">Ingen episode denne uke</string>
+  <string Field="NoMovieSummary">Film oppsummering ikke tigjengelig.</string>
+  <string Field="NoShowSummary">Serie oppsummering ikke tigjengelig.</string>
   <string Field="NoFriends">Ingen venner!</string>
   <string Field="NoFriendsTaunt">Du har ingen venner!</string>
   <string Field="NoTrendingMovies">Ingen filmer blir vises for øyeblikket!</string>

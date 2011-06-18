@@ -275,6 +275,8 @@ namespace TraktPlugin.GUI
         public static string NextWeek = "Next Week";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoEpisodesThisWeek = "No episodes on this week";
+        public static string NoMovieSummary = "Movie summary is currently not available.";
+        public static string NoShowSummary = "Show summary is currently not available.";
         public static string NoFriends = "No Friends!";
         public static string NoFriendsTaunt = "You have no Friends!";
         public static string NoTrendingMovies = "No Movies current being watched!";

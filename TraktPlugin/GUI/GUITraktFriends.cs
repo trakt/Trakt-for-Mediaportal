@@ -633,7 +633,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Country", episode.Show.Country);
             SetProperty("#Trakt.Show.FirstAired", episode.Show.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.Network", episode.Show.Network);
-            SetProperty("#Trakt.Show.Overview", episode.Show.Overview);
+            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(episode.Show.Overview) ? Translation.NoShowSummary : episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
             SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
@@ -653,7 +653,7 @@ namespace TraktPlugin.GUI
 
             SetProperty("#Trakt.Movie.Imdb", movie.Movie.Imdb);
             SetProperty("#Trakt.Movie.Certification", movie.Movie.Certification);
-            SetProperty("#Trakt.Movie.Overview", movie.Movie.Overview);
+            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Movie.Overview) ? Translation.NoMovieSummary : movie.Movie.Overview);
             SetProperty("#Trakt.Movie.Released", movie.Movie.Released.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.Runtime", movie.Movie.Runtime.ToString());
             SetProperty("#Trakt.Movie.Tagline", movie.Movie.Tagline);

@@ -435,7 +435,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.TvRage", show.TvRage);
             SetProperty("#Trakt.Show.Imdb", show.Imdb);
             SetProperty("#Trakt.Show.Certification", show.Certification);
-            SetProperty("#Trakt.Show.Overview", show.Overview);
+            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.WatchList.Inserted", show.Inserted.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
