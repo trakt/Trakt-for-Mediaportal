@@ -67,7 +67,7 @@ namespace TraktPlugin.TraktHandlers
             foreach (TraktLibraryMovies tlm in traktMoviesAll)
             {
                 bool notInLocalCollection = true;
-                foreach (DBMovieInfo movie in MovieList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
                     if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
@@ -118,7 +118,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => GetProperMovieId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);
@@ -556,31 +556,6 @@ namespace TraktPlugin.TraktHandlers
                 Rating = rating
             };
             return rateData;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Gets a correctly formatted imdb id string        
-        /// </summary>
-        /// <param name="id">current movie imdb id</param>
-        /// <returns>correctly formatted id</returns>
-        static string GetProperMovieId(string id)
-        {
-            string imdbid = id;
-
-            // handle invalid ids
-            // return null so we dont match empty result from trakt
-            if (id == null || !id.StartsWith("tt")) return null;
-
-            // correctly format to 9 char string
-            if (id.Length != 9)
-            {
-                imdbid = string.Format("tt{0}", id.Substring(2).PadLeft(7, '0'));
-            }
-            return imdbid;
         }
 
         #endregion

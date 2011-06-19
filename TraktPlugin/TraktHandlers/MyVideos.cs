@@ -87,7 +87,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 bool notInLocalCollection = true;
                 // if it is in both libraries
-                foreach (IMDBMovie libraryMovie in MovieList.Where(m => m.IMDBNumber == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (IMDBMovie libraryMovie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     // if the users IMDB ID is empty and we have matched one then set it
                     if (!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(libraryMovie.IMDBNumber) || libraryMovie.IMDBNumber.Length != 9))
@@ -141,7 +141,7 @@ namespace TraktPlugin.TraktHandlers
             List<IMDBMovie> watchedMoviesToSync = new List<IMDBMovie>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (IMDBMovie watchedMovie in SeenList.Where(m => m.IMDBNumber == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (IMDBMovie watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);

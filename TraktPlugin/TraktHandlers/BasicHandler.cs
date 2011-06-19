@@ -156,5 +156,27 @@ namespace TraktPlugin.TraktHandlers
 
             return syncData;
         }
+
+        /// <summary>
+        /// Gets a correctly formatted imdb id string        
+        /// </summary>
+        /// <param name="id">current movie imdb id</param>
+        /// <returns>correctly formatted id</returns>
+        public static string GetProperMovieImdbId(string id)
+        {
+            string imdbid = id;
+
+            // handle invalid ids
+            // return null so we dont match empty result from trakt
+            if (id == null || !id.StartsWith("tt")) return null;
+
+            // correctly format to 9 char string
+            if (id.Length != 9)
+            {
+                imdbid = string.Format("tt{0}", id.Substring(2).PadLeft(7, '0'));
+            }
+            return imdbid;
+        }
+
     }
 }
