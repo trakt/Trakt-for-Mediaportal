@@ -572,7 +572,8 @@ namespace TraktPlugin.TraktHandlers
             string imdbid = id;
 
             // handle invalid ids
-            if (id == null || !id.StartsWith("tt")) return string.Empty;
+            // return null so we dont match empty result from trakt
+            if (id == null || !id.StartsWith("tt")) return null;
 
             // correctly format to 9 char string
             if (id.Length != 9)
