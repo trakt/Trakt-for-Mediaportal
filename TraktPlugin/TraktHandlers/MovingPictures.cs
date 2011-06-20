@@ -576,7 +576,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> movies = DBMovieInfo.GetAll();
 
             // try find a match
-            DBMovieInfo movie = movies.Find(m => m.ImdbID == imdbid || (m.Title == title && m.Year == year));
+            DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == imdbid || (m.Title == title && m.Year == year));
             if (movie == null) return false;
 
             movieID = movie.ID;

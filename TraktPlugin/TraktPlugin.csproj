@@ -102,6 +102,9 @@
     <Reference Include="Utils">
       <HintPath>..\Externals\Utils.dll</HintPath>
     </Reference>
+    <Reference Include="WindowPlugins">
+      <HintPath>..\Externals\WindowPlugins.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AddPathPopup.cs">

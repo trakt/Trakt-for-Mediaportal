@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
+using MediaPortal.Video.Database;
+using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI;
@@ -149,7 +151,49 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
+                        GUIListItem selectedItem = this.Facade.SelectedListItem;
+                        if (selectedItem == null) break;
 
+                        TraktTrendingMovie selectedMovie = (TraktTrendingMovie)selectedItem.TVTag;
+
+                        string title = selectedMovie.Title;
+                        string imdbid = selectedMovie.Imdb;
+                        int year = Convert.ToInt32(selectedMovie.Year);
+
+                        bool handled = false;
+
+                        #if MP12
+                        // check if its in MovingPictures database
+                        // Loading Parameter only works in MediaPortal 1.2
+                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                        {
+                            int? movieid = null;
+
+                            // Find Movie ID in MovingPictures
+                            // Movie List is now cached internally in MovingPictures so it will be fast
+                            if (TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid))
+                            {
+                                // Open MovingPictures Details view so user can play movie
+                                string loadingParameter = string.Format("movieid:{0}", movieid);
+                                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
+                                handled = true;
+                            }
+                        }
+                        #endif
+
+                        // check if its in My Videos database
+                        if (TraktSettings.MyVideos > 0 && handled == false)
+                        {
+                            IMDBMovie movie = null;
+                            if (TraktHandlers.MyVideos.FindMovieID(title, year, imdbid, ref movie))
+                            {
+                                // Open My Videos Video Info view so user can play movie
+                                GUIVideoInfo videoInfo = (GUIVideoInfo)GUIWindowManager.GetWindow((int)Window.WINDOW_VIDEO_INFO);
+                                videoInfo.Movie = movie;
+                                GUIWindowManager.ActivateWindow((int)Window.WINDOW_VIDEO_INFO);
+                                handled = true;
+                            }
+                        }
                     }
                     break;
 
