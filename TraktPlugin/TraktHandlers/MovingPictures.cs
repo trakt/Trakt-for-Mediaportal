@@ -11,7 +11,6 @@ using MediaPortal.Player;
 using System.Reflection;
 using System.ComponentModel;
 
-
 namespace TraktPlugin.TraktHandlers
 {
     /// <summary>
@@ -22,6 +21,8 @@ namespace TraktPlugin.TraktHandlers
         Timer traktTimer;
         DBMovieInfo currentMovie;
         bool SyncInProgress;
+
+        public static DBSourceInfo tmdbSource;
 
         public MovingPictures(int priority)
         {
@@ -43,7 +44,10 @@ namespace TraktPlugin.TraktHandlers
             SyncInProgress = true;
 
             //Get all movies in our local database
-            List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();            
+            List<DBMovieInfo> MovieList = DBMovieInfo.GetAll();
+
+            // Get TMDb Data Provider
+            tmdbSource = DBSourceInfo.GetAll().Find(s => s.ToString() == "themoviedb.org");
 
             //Remove any blocked movies
             MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.Contains(f)));
@@ -67,7 +71,7 @@ namespace TraktPlugin.TraktHandlers
             foreach (TraktLibraryMovies tlm in traktMoviesAll)
             {
                 bool notInLocalCollection = true;
-                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
                     if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
@@ -76,7 +80,7 @@ namespace TraktPlugin.TraktHandlers
                         movie.ImdbID = tlm.IMDBID;
                         movie.Commit();
                     }
-
+                    
                     // If it is watched in Trakt but not Moving Pictures update
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && movie.ActiveUserSettings.WatchedCount == 0)
@@ -102,7 +106,7 @@ namespace TraktPlugin.TraktHandlers
                         if (!string.IsNullOrEmpty(tlm.IMDBID))
                             moviesToSync.RemoveAll(m => m.ImdbID == tlm.IMDBID);
                         else
-                            moviesToSync.RemoveAll(m => m.Title == tlm.Title && m.Year.ToString() == tlm.Year);
+                            moviesToSync.RemoveAll(m => (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year));
                     }
                     break;
                 }
@@ -118,7 +122,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);
@@ -129,7 +133,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (DBMovieInfo m in moviesToSync)
-                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}, TMDB: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
 
             if (moviesToSync.Count > 0)
             {
@@ -140,7 +144,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (DBMovieInfo m in watchedMoviesToSync)
-                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.ImdbID);
+                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}, TMDB: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
 
             if (watchedMoviesToSync.Count > 0)
             {
@@ -467,6 +471,7 @@ namespace TraktPlugin.TraktHandlers
                                                 select new TraktMovieSync.Movie
                                                 {
                                                     IMDBID = m.ImdbID,
+                                                    TMDBID = GetTmdbID(m),
                                                     Title = m.Title,
                                                     Year = m.Year.ToString()
                                                 }).ToList();
@@ -497,6 +502,7 @@ namespace TraktPlugin.TraktHandlers
             moviesList.Add(new TraktMovieSync.Movie
             {
                 IMDBID = Movie.ImdbID,
+                TMDBID = GetTmdbID(Movie),
                 Title = Movie.Title,
                 Year = Movie.Year.ToString()
             });
@@ -528,6 +534,7 @@ namespace TraktPlugin.TraktHandlers
                 Title = movie.Title,
                 Year = movie.Year.ToString(),
                 IMDBID = movie.ImdbID,
+                TMDBID = GetTmdbID(movie),
                 PluginVersion = TraktSettings.Version,
                 MediaCenter = "Mediaportal",
                 MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
@@ -551,6 +558,7 @@ namespace TraktPlugin.TraktHandlers
                 Title = movie.Title,
                 Year = movie.Year.ToString(),
                 IMDBID = movie.ImdbID,
+                TMDBID = GetTmdbID(movie),
                 UserName = username,
                 Password = password,
                 Rating = rating
@@ -568,6 +576,15 @@ namespace TraktPlugin.TraktHandlers
             MovingPicturesCore.DatabaseManager.ObjectInserted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
             MovingPicturesCore.DatabaseManager.ObjectUpdated -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
             MovingPicturesCore.DatabaseManager.ObjectDeleted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
+        }
+
+        public static string GetTmdbID(DBMovieInfo movie)
+        {
+            if (tmdbSource == null) return null;
+
+            string id = movie.GetSourceMovieInfo(tmdbSource).Identifier;
+            if (id == null || id.Trim() == string.Empty) return null;
+            return id;
         }
 
         public static bool FindMovieID(string title, int year, string imdbid, ref int? movieID)
