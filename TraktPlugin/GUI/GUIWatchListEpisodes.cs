@@ -72,14 +72,16 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
         ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktWatchListEpisode> WatchListEpisodes
         {
             get
             {
-                if (_WatchListEpisodes == null)
+                if (_WatchListEpisodes == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _WatchListEpisodes;
             }
@@ -121,7 +123,6 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            _WatchListEpisodes = null;
             PreviousSelectedIndex = 0;
             ClearProperties();
 

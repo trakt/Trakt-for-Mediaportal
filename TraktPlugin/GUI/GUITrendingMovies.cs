@@ -85,14 +85,16 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktTrendingMovie> TrendingMovies
         {
             get
             {
-                if (_TrendingMovies == null)
+                if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _TrendingMovies;
             }
@@ -131,7 +133,6 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            _TrendingMovies = null;
             ClearProperties();
 
             // save current layout

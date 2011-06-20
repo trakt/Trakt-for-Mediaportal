@@ -81,14 +81,16 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktWatchListMovie> WatchListMovies
         {
             get
             {
-                if (_WatchListMovies == null)
+                if (_WatchListMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _WatchListMovies;
             }
@@ -130,7 +132,6 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            _WatchListMovies = null;
             PreviousSelectedIndex = 0;
             ClearProperties();
 

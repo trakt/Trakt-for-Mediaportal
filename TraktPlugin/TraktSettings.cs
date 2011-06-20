@@ -33,6 +33,7 @@ namespace TraktPlugin
         public static int DefaultCalendarView { get; set; }
         public static bool DownloadFullSizeFanart { get; set; }
         public static bool DownloadFanart { get; set; }
+        public static int WebRequestCacheMinutes { get; set; }
         #endregion
 
         #region Constants
@@ -57,6 +58,7 @@ namespace TraktPlugin
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
         private const string cDownloadFanart = "DownloadFanart";
+        private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
         #endregion
 
         /// <summary>
@@ -150,6 +152,7 @@ namespace TraktPlugin
                 DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
+                WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
             }
         }
 
@@ -181,6 +184,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
+                xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
             }
 
             Settings.SaveCache();

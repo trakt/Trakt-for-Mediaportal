@@ -82,14 +82,16 @@ namespace TraktPlugin.GUI
         WatchedHistoryType SelectedType { get; set; }
         TraktFriend CurrentFriend { get; set; }
         ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktFriend> TraktFriends
         {
             get
             {
-                if (_Friends == null)
+                if (_Friends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _Friends = TraktAPI.TraktAPI.GetUserFriends(TraktSettings.Username);
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _Friends;
             }
@@ -130,7 +132,6 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            _Friends = null;
             StopDownload = true;
             ClearProperties();
 

@@ -71,6 +71,7 @@ namespace TraktPlugin.GUI
         int PreviousSelectedIndex;
         int PreviousCalendarDayCount;
         ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         #endregion
 
@@ -80,9 +81,10 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (_CalendarMyShows == null)
+                if (_CalendarMyShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _CalendarMyShows = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _CalendarMyShows;
             }
@@ -93,9 +95,10 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (_CalendarPremieres == null)
+                if (_CalendarPremieres == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _CalendarPremieres;
             }
@@ -136,8 +139,6 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            _CalendarMyShows = null;
-            _CalendarPremieres = null;
             CurrentWeekDays = 7;
             PreviousSelectedIndex = 0;
             PreviousCalendarDayCount = 0;

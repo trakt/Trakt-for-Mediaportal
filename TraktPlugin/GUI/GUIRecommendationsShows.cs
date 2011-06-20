@@ -73,14 +73,16 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
+        DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktShow> RecommendedShows
         {
             get
             {
-                if (_RecommendedShows == null)
+                if (_RecommendedShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows();
+                    LastRequest = DateTime.UtcNow;
                 }
                 return _RecommendedShows;
             }
@@ -122,7 +124,6 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            _RecommendedShows = null;
             ClearProperties();
 
             // save current layout
