@@ -561,9 +561,15 @@ namespace TraktPlugin
                     System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
                     {
                         if (type == "movie")
+                        {
                             TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year), TraktSyncModes.watchlist);
+                            GUIWatchListMovies.ClearCache();
+                        }
                         else
+                        {
                             TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year), TraktSyncModes.watchlist);
+                            GUIWatchListShows.ClearCache();
+                        }
                     })
                     {
                         IsBackground = true,

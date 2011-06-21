@@ -71,9 +71,9 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
-        DateTime LastRequest = new DateTime();
+        static DateTime LastRequest = new DateTime();
 
-        IEnumerable<TraktWatchListShow> WatchListShows
+        static IEnumerable<TraktWatchListShow> WatchListShows
         {
             get
             {
@@ -85,7 +85,7 @@ namespace TraktPlugin.GUI
                 return _WatchListShows;
             }
         }
-        private IEnumerable<TraktWatchListShow> _WatchListShows = null;
+        static IEnumerable<TraktWatchListShow> _WatchListShows = null;
 
         #endregion
 
@@ -554,6 +554,15 @@ namespace TraktPlugin.GUI
                     Name = "Trakt Show Image Downloader " + i.ToString()
                 }.Start(groupList);
             }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static void ClearCache()
+        {
+            _WatchListShows = null;
         }
 
         #endregion
