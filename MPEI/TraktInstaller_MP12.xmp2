@@ -1019,7 +1019,7 @@ public class Script
           <Revision>9</Revision>
         </MaxVersion>
         <WarnOnly>false</WarnOnly>
-        <Message>This version of Trakt plugin is only supported on MediaPortal 1.2 or above.</Message>
+        <Message>This version of Trakt plugin is only supported on MediaPortal 1.2 or above. Please download version that is supported by your version of MediaPortal.</Message>
         <Name>MediaPortal</Name>
       </DependencyItem>
     </Items>
@@ -1793,7 +1793,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{690322fb-dfd6-48a7-8304-cd7530b674d3}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{ae377750-6838-403e-981c-c7ceff257750}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
