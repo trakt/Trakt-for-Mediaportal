@@ -1047,7 +1047,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
     <OnlineLocation />
     <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
-    <Location>D:\Development\Trakt-for-Mediaportal\MPEI\Release12\TraktPlugin_MP12.mpe1</Location>
+    <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
     <Params>
       <Items>
         <SectionParam Name="Icon">
@@ -1793,7 +1793,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{5b18675d-2237-4384-9463-9b59ccb2fc0a}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{7779c68a-a086-4143-892e-1fc096fd3a7f}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -1831,8 +1831,8 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller_MP12.xmp2</ProjectFilename>
-    <UpdatePath1>D:\Development\Trakt-for-Mediaportal\MPEI\update.xml</UpdatePath1>
+    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller_MP12.xmp2</ProjectFilename>
+    <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />
   </ProjectSettings>
