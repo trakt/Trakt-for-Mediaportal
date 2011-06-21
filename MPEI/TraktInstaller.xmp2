@@ -1092,7 +1092,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
 * Fixed episode counts for series/season did not update after synchronization of watched flags.
 * Improved Movie Syncing, will now also send theMovieDb.org ID when syncing movies with MovingPictures.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
-    <OnlineLocation>http://www.team-mediaportal.com/extensions/movies-videos/trakt</OnlineLocation>
+    <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
     <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
@@ -1869,7 +1869,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{c4c60c8e-6174-46e6-9b37-62f0dc7d986e}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{8cb138f0-f8f1-4b83-8001-ce4b20a5f191}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
