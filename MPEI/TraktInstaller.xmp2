@@ -1061,9 +1061,9 @@ public class Script
     <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/0-9-4-0-trakt-mediaportal-94872/</ForumPage>
     <UpdateUrl />
     <Version>
-      <Major>0</Major>
-      <Minor>9</Minor>
-      <Build>6</Build>
+      <Major>1</Major>
+      <Minor>0</Minor>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
