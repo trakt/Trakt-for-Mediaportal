@@ -1030,7 +1030,7 @@ public class Script
     <Author>Technicolour, ltfearme</Author>
     <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
     <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/0-9-4-0-trakt-mediaportal-94872/</ForumPage>
-    <UpdateUrl />
+    <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
       <Minor>0</Minor>
@@ -1044,7 +1044,7 @@ public class Script
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.2 Beta.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
-    <OnlineLocation />
+    <OnlineLocation>http://www.team-mediaportal.com/extensions/movies-videos/trakt</OnlineLocation>
     <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
@@ -1793,7 +1793,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{7779c68a-a086-4143-892e-1fc096fd3a7f}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{690322fb-dfd6-48a7-8304-cd7530b674d3}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
