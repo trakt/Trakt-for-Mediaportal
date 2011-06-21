@@ -1068,10 +1068,29 @@ public class Script
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
-
-
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>Stable release for MediaPortal 1.1.</VersionDescription>
+    <VersionDescription>Stable release for MediaPortal 1.1
+
+* Converted Trakt to a window's plugin, with full skinable interface and translations.
+* View your personal TV Show Calendar.
+* View TV Show premieres Calendar (useful to know when the next season of a show starts or checkout a new show).
+* View what TV Shows/Movies are currently Trending.
+* View your personal TVShow/Movie recommendations.
+* View your personal Movie/TV Show/Episode Watch List.
+* Open Moving Pictures details and play selected movie from Watch List, Recommendations, Trending and Friends Watch History. This feature is only supported on MediaPortal 1.2 Beta.
+* Open My Videos Video Info window and play selected movie from Watch List, Recommendations, Trending and Friends Watch History.
+* Ability to Rate/Add to Library/Mark as Watched on various trakt screens.
+* Ability to Rate or Add movie/show to watch list from OnlineVideos Trailers and My Videos/My TV Video Info dialog.
+* Ability to do Trailer search from IMDb, iTunes or YouTube on any selected Movie (MediaPortal 1.2 Beta plus OnlineVideos must be installed).
+* Customize settings like Login/Signup...all from the GUI!
+* Skinners have full flexibility to create custom icons on posters in thumb views and an abundance of skin properties to choose from.
+* Support for MediaPortal default skins Blue3/Blue3Wide and Default/DefaultWide.
+* Created a new MPEI Installer Package for both MediaPortal 1.1.x and MediaPortal 1.2 Beta.
+* Added support for My Films v5.0, thanks Guzzi!
+* Added unseen (unwatched) synchronization to plugin handlers.
+* Added folder restrictions for movies.
+* Fixed episode counts for series/season did not update after synchronization of watched flags.
+* Improved Movie Syncing, will now also send theMovieDb.org ID when syncing movies with MovingPictures.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/extensions/movies-videos/trakt</OnlineLocation>
     <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
@@ -1850,7 +1869,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{00c592e2-2823-41c5-8e1e-74f7a5de8eb9}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{c4c60c8e-6174-46e6-9b37-62f0dc7d986e}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
