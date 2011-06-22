@@ -70,7 +70,7 @@
         <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
         <Author>Technicolour, ltfearme</Author>
         <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
-        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/0-9-4-0-trakt-mediaportal-94872/</ForumPage>
+        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
         <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
         <Version>
           <Major>1</Major>
@@ -216,7 +216,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
         <Author>Technicolour, ltfearme</Author>
         <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
-        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/0-9-4-0-trakt-mediaportal-94872/</ForumPage>
+        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
         <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
         <Version>
           <Major>1</Major>
