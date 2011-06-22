@@ -1093,7 +1093,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
 * Improved Movie Syncing, will now also send theMovieDb.org ID when syncing movies with MovingPictures.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-04-25T12:06:18.681194+10:00</ReleaseDate>
+    <ReleaseDate>2011-06-22T10:00:00+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -1104,7 +1104,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
           <Description>The icon file of the package (jpg,png,bmp)</Description>
         </SectionParam>
         <SectionParam Name="Online Icon">
-          <Value />
+          <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/raw/master/TraktPlugin/Resources/Images/trakt.png</Value>
           <ValueType>String</ValueType>
           <Description>The icon file of the package stored online (jpg,png,bmp)</Description>
         </SectionParam>
@@ -1869,7 +1869,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{8cb138f0-f8f1-4b83-8001-ce4b20a5f191}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{077c4df2-329a-4673-87cd-d6a1580963a3}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -1907,7 +1907,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller.xmp2</ProjectFilename>
+    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller.xmp2</ProjectFilename>
     <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />
