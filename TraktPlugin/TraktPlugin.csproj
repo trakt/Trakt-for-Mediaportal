@@ -254,6 +254,7 @@
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
     <Content Include="Resources\Languages\da.xml" />
+    <Content Include="Resources\Languages\de.xml" />
     <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
