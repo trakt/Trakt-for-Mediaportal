@@ -624,7 +624,7 @@ namespace TraktPlugin
             // User could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
             TraktLogger.Debug("Making sure that we aren't still scrobbling");
-            foreach (ITraktHandler traktHandler in TraktHandlers)
+            foreach (ITraktHandler traktHandler in traktHandlers)
                 traktHandler.StopScrobble();
         }
         #endregion
