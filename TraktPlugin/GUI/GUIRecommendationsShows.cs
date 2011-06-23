@@ -83,6 +83,7 @@ namespace TraktPlugin.GUI
                 {
                     _RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows();
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _RecommendedShows;
             }
@@ -124,6 +125,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout

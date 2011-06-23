@@ -82,6 +82,7 @@ namespace TraktPlugin.GUI
                 {
                     _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _WatchListEpisodes;
             }
@@ -123,7 +124,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            PreviousSelectedIndex = 0;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout
@@ -387,7 +388,7 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            if (PreviousSelectedIndex >= shows.Count())
+            if (PreviousSelectedIndex >= itemCount)
                 Facade.SelectedListItemIndex = PreviousSelectedIndex - 1;
             else
                 Facade.SelectedListItemIndex = PreviousSelectedIndex;

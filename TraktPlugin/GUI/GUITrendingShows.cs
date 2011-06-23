@@ -73,6 +73,7 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
+        int PreviousSelectedIndex = 0;
 
         IEnumerable<TraktTrendingShow> TrendingShows
         {
@@ -82,6 +83,7 @@ namespace TraktPlugin.GUI
                 {
                     _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows();
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _TrendingShows;
             }
@@ -120,6 +122,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout
@@ -435,7 +438,7 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            Facade.SelectedListItemIndex = 0;
+            Facade.SelectedListItemIndex = PreviousSelectedIndex;
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());

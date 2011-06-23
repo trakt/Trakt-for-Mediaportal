@@ -86,6 +86,7 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
+        int PreviousSelectedIndex = 0;
 
         IEnumerable<TraktTrendingMovie> TrendingMovies
         {
@@ -95,6 +96,7 @@ namespace TraktPlugin.GUI
                 {
                     _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _TrendingMovies;
             }
@@ -133,6 +135,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout
@@ -652,7 +655,7 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            Facade.SelectedListItemIndex = 0;
+            Facade.SelectedListItemIndex = PreviousSelectedIndex;
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", movies.Count().ToString());

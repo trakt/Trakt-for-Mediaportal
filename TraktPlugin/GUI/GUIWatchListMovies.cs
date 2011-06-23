@@ -79,7 +79,7 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
-        int PreviousSelectedIndex { get; set; }
+        static int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
 
@@ -91,6 +91,7 @@ namespace TraktPlugin.GUI
                 {
                     _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _WatchListMovies;
             }
@@ -132,7 +133,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            PreviousSelectedIndex = 0;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout

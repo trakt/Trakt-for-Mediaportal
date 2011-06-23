@@ -70,6 +70,7 @@ namespace TraktPlugin.GUI
         int CurrentWeekDays = 7;
         int PreviousSelectedIndex;
         int PreviousCalendarDayCount;
+        bool IsCached = false;
         ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
 
@@ -85,6 +86,7 @@ namespace TraktPlugin.GUI
                 {
                     _CalendarMyShows = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
                     LastRequest = DateTime.UtcNow;
+                    IsCached = false;
                 }
                 return _CalendarMyShows;
             }
@@ -99,6 +101,7 @@ namespace TraktPlugin.GUI
                 {
                     _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
                     LastRequest = DateTime.UtcNow;
+                    IsCached = false;
                 }
                 return _CalendarPremieres;
             }
@@ -139,9 +142,16 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            CurrentWeekDays = 7;
-            PreviousSelectedIndex = 0;
-            PreviousCalendarDayCount = 0;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+            if (CurrentCalendar == CalendarType.MyShows && _CalendarMyShows != null)
+            {
+                PreviousCalendarDayCount = _CalendarMyShows.Count();
+            }
+            if (CurrentCalendar == CalendarType.Premieres && _CalendarPremieres != null)
+            {
+                PreviousCalendarDayCount = _CalendarPremieres.Count();
+            }
+            
             StopDownload = true;
             ClearProperties();
 
@@ -342,8 +352,10 @@ namespace TraktPlugin.GUI
             if (calendar.Count() < PreviousCalendarDayCount)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.ErrorCalendar);
-                _CalendarPremieres = null;
+                // set defaults
                 _CalendarMyShows = null;
+                _CalendarPremieres = null;
+                LastRequest = new DateTime();
                 return;
             }
 
@@ -393,7 +405,7 @@ namespace TraktPlugin.GUI
             }
 
             // if nothing airing this week, then indicate to user
-            if (calendar.Count() == PreviousCalendarDayCount)
+            if (!IsCached && (calendar.Count() == PreviousCalendarDayCount))
             {
                 GUIListItem item = new GUIListItem();
 
@@ -424,9 +436,12 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout("List");
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            // Select the first episode on calendar, 
+            // Set the first episode on calendar on initial request (Index 0 is a day header), 
             // Set last position if paging to next week
-            Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
+            if (!IsCached)
+                Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
+            else // If cached just set to last position
+                Facade.SelectedListItemIndex = PreviousSelectedIndex;
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
@@ -474,10 +489,21 @@ namespace TraktPlugin.GUI
             // Fanart
             backdrop.GUIImageOne = FanartBackground;
             backdrop.GUIImageTwo = FanartBackground2;
-            backdrop.LoadingImage = loadingImage;            
+            backdrop.LoadingImage = loadingImage;
 
             CurrentCalendar = (CalendarType)TraktSettings.DefaultCalendarView;
             SetCurrentView();
+
+            // clear properties only if we need to
+            if (LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            {
+                CurrentWeekDays = 7;
+                PreviousSelectedIndex = 0;
+                PreviousCalendarDayCount = 0;
+                IsCached = false;
+            }
+            else // restore previous position on load
+                IsCached = true;
         }
 
         private void SetCurrentView()

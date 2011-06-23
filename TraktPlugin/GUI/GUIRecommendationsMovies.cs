@@ -96,6 +96,7 @@ namespace TraktPlugin.GUI
                 {
                     _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return _RecommendedMovies;
             }
@@ -137,7 +138,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            PreviousSelectedIndex = 0;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
             // save current layout
