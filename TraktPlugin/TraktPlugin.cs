@@ -28,7 +28,6 @@ namespace TraktPlugin
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
-        Object lockThis = new Object();
         #endregion
 
         #region ISetupFrom
@@ -361,15 +360,14 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            lock (lockThis)
+            // User could change handlers during sync from Settings so assign new list
+            List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
+            foreach (ITraktHandler traktHandler in traktHandlers)
             {
-                foreach (ITraktHandler traktHandler in TraktHandlers)
-                {
-                    traktHandler.SyncLibrary();
-                    if (syncLibraryWorker.CancellationPending)
-                        return;
-                }
-            }
+                traktHandler.SyncLibrary();
+                if (syncLibraryWorker.CancellationPending)
+                    return;
+            }    
         }
 
         #endregion
@@ -623,12 +621,11 @@ namespace TraktPlugin
         /// </summary>
         private void StopScrobble()
         {
-            lock (lockThis)
-            {
-                TraktLogger.Debug("Making sure that we aren't still scrobbling");
-                foreach (ITraktHandler traktHandler in TraktHandlers)
-                    traktHandler.StopScrobble();
-            }
+            // User could change handlers during sync from Settings so assign new list
+            List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
+            TraktLogger.Debug("Making sure that we aren't still scrobbling");
+            foreach (ITraktHandler traktHandler in TraktHandlers)
+                traktHandler.StopScrobble();
         }
         #endregion
     }
