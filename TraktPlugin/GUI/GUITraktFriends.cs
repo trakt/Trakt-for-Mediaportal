@@ -83,6 +83,40 @@ namespace TraktPlugin.GUI
         TraktFriend CurrentFriend { get; set; }
         ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
+        Dictionary<string, IEnumerable<TraktWatchedEpisode>> friendEpisodeHistory = new Dictionary<string, IEnumerable<TraktWatchedEpisode>>();
+        Dictionary<string, IEnumerable<TraktWatchedMovie>> friendMovieHistory = new Dictionary<string, IEnumerable<TraktWatchedMovie>>();
+
+        IEnumerable<TraktWatchedEpisode> WatchedEpisodes
+        {
+            get
+            {
+                if (!friendEpisodeHistory.Keys.Contains(CurrentFriend.Username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                {
+                    _WatchedEpisodes = TraktAPI.TraktAPI.GetUserEpisodeWatchedHistory(CurrentFriend.Username);
+                    if (friendEpisodeHistory.Keys.Contains(CurrentFriend.Username)) friendEpisodeHistory.Remove(CurrentFriend.Username);
+                    friendEpisodeHistory.Add(CurrentFriend.Username, _WatchedEpisodes);
+                    LastRequest = DateTime.UtcNow;
+                }
+                return friendEpisodeHistory[CurrentFriend.Username];
+            }
+        }
+        private IEnumerable<TraktWatchedEpisode> _WatchedEpisodes = null;
+
+        IEnumerable<TraktWatchedMovie> WatchedMovies
+        {
+            get
+            {
+                if (!friendMovieHistory.Keys.Contains(CurrentFriend.Username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                {
+                    _WatchedMovies = TraktAPI.TraktAPI.GetUserMovieWatchedHistory(CurrentFriend.Username);
+                    if (friendMovieHistory.Keys.Contains(CurrentFriend.Username)) friendMovieHistory.Remove(CurrentFriend.Username);
+                    friendMovieHistory.Add(CurrentFriend.Username, _WatchedMovies);
+                    LastRequest = DateTime.UtcNow;
+                }
+                return friendMovieHistory[CurrentFriend.Username];
+            }
+        }
+        private IEnumerable<TraktWatchedMovie> _WatchedMovies = null;
 
         IEnumerable<TraktFriend> TraktFriends
         {
@@ -155,7 +189,7 @@ namespace TraktPlugin.GUI
                                 break;
 
                             case Views.WatchedTypes:
-                                LoadWatchedHistory(CurrentFriend);
+                                LoadWatchedHistory();
                                 break;
 
                             case Views.WatchedHistory:
@@ -248,7 +282,7 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktFriend.WatchItem selectedMovie = (TraktFriend.WatchItem)selectedItem.TVTag;
+            TraktWatchedMovie selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -287,7 +321,7 @@ namespace TraktPlugin.GUI
         #region Private Methods
 
         #if MP12
-        private void ShowTrailersMenu(TraktFriend.WatchItem movie)
+        private void ShowTrailersMenu(TraktWatchedMovie movie)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -390,31 +424,32 @@ namespace TraktPlugin.GUI
             Facade.SelectedListItemIndex = 0;
         }
 
-        private void LoadWatchedHistory(TraktFriend friend)
+        private void LoadWatchedHistory()
         {
-            if (friend == null) return;
+            if (CurrentFriend == null) return;
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return friend;
+                if (SelectedType == WatchedHistoryType.Episodes)
+                    return WatchedEpisodes;
+                else
+                    return WatchedMovies;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
                     if (SelectedType == WatchedHistoryType.Episodes)   
-                        SendWatchedEpisodeHistoryToFacade(result as TraktFriend);
+                        SendWatchedEpisodeHistoryToFacade(result as IEnumerable<TraktWatchedEpisode>);
                     else
-                        SendWatchedMovieHistoryToFacade(result as TraktFriend);
+                        SendWatchedMovieHistoryToFacade(result as IEnumerable<TraktWatchedMovie>);
                 }
             }, Translation.GettingFriendsWatchedHistory, true);
         }
 
-        private void SendWatchedEpisodeHistoryToFacade(TraktFriend friend)
+        private void SendWatchedEpisodeHistoryToFacade(IEnumerable<TraktWatchedEpisode> episodes)
         {
-            if (friend == null) return;
-
-            if (friend.WatchedEpisodes == null || friend.WatchedEpisodes.Count() == 0)
+            if (episodes.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNotWatchedEpisodes);
                 return;
@@ -424,8 +459,8 @@ namespace TraktPlugin.GUI
             ViewLevel = Views.WatchedHistory;
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
-            GUIUtils.SetProperty("#itemcount", friend.WatchedEpisodes.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friend.WatchedEpisodes.Count().ToString(), friend.WatchedEpisodes.Count() > 1 ? Translation.Episodes : Translation.Episode));
+            GUIUtils.SetProperty("#itemcount", episodes.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", episodes.Count().ToString(), episodes.Count() > 1 ? Translation.Episodes : Translation.Episode));
 
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -436,7 +471,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // add each episode to the list
-            foreach (var episode in friend.WatchedEpisodes)
+            foreach (var episode in episodes)
             {
                 GUITraktUserListItem episodeItem = new GUITraktUserListItem(episode.ToString());
 
@@ -467,11 +502,9 @@ namespace TraktPlugin.GUI
             GetImages<TraktImage>(showImages);
         }
 
-        private void SendWatchedMovieHistoryToFacade(TraktFriend friend)
+        private void SendWatchedMovieHistoryToFacade(IEnumerable<TraktWatchedMovie> movies)
         {
-            if (friend == null) return;
-
-            if (friend.WatchedMovies == null || friend.WatchedMovies.Count() == 0)
+            if (movies.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNotWatchedMovies);
                 return;
@@ -481,8 +514,8 @@ namespace TraktPlugin.GUI
             ViewLevel = Views.WatchedHistory;
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
-            GUIUtils.SetProperty("#itemcount", friend.WatchedMovies.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friend.WatchedMovies.Count().ToString(), friend.WatchedMovies.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#itemcount", movies.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
 
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -493,7 +526,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // add each episode to the list
-            foreach (var movie in friend.WatchedMovies)
+            foreach (var movie in movies)
             {
                 GUITraktUserListItem movieItem = new GUITraktUserListItem(movie.ToString());
 
@@ -670,7 +703,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Username", user.Username);
         }
 
-        private void PublishEpisodeSkinProperties(TraktFriend.WatchItem episode)
+        private void PublishEpisodeSkinProperties(TraktWatchedEpisode episode)
         {
             SetProperty("#Trakt.Selected.Type", "episode");
 
@@ -696,10 +729,10 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Url", episode.Episode.Url);
             SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Episode.Overview) ? Translation.NoEpisodeSummary : episode.Episode.Overview);
             SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images.EpisodeImageFilename);
+            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images == null ? string.Empty : episode.Episode.Images.EpisodeImageFilename);
         }
 
-        private void PublishMovieSkinProperties(TraktFriend.WatchItem movie)
+        private void PublishMovieSkinProperties(TraktWatchedMovie movie)
         {
             SetProperty("#Trakt.Selected.Type", "movie");
 
@@ -714,8 +747,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Trailer", movie.Movie.Trailer);
             SetProperty("#Trakt.Movie.Url", movie.Movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Movie.Year);
-            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Movie.Images.PosterImageFilename);
-            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Movie.Images.FanartImageFilename);
+            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.PosterImageFilename);
+            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.FanartImageFilename);
         }
 
         private void OnFriendSelected(GUIListItem item, GUIControl parent)
@@ -738,14 +771,14 @@ namespace TraktPlugin.GUI
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
-            TraktFriend.WatchItem episode = item.TVTag as TraktFriend.WatchItem;
+            TraktWatchedEpisode episode = item.TVTag as TraktWatchedEpisode;
             PublishEpisodeSkinProperties(episode);
             GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.FanartImageFilename);
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
-            TraktFriend.WatchItem movie = item.TVTag as TraktFriend.WatchItem;
+            TraktWatchedMovie movie = item.TVTag as TraktWatchedMovie;
             PublishMovieSkinProperties(movie);
             GUIImageHandler.LoadFanart(backdrop, movie.Movie.Images.FanartImageFilename);
         }
@@ -785,13 +818,19 @@ namespace TraktPlugin.GUI
                         }
                         else if (item is TraktMovie.MovieImages)
                         {
-                            remoteThumb = (item as TraktMovie.MovieImages).Poster;
-                            localThumb = (item as TraktMovie.MovieImages).PosterImageFilename;
+                            if ((item as TraktMovie.MovieImages) != null)
+                            {
+                                remoteThumb = (item as TraktMovie.MovieImages).Poster;
+                                localThumb = (item as TraktMovie.MovieImages).PosterImageFilename;
+                            }
                         }
                         else
                         {
-                            remoteThumb = (item as TraktImage).EpisodeImages.Screen;
-                            localThumb = (item as TraktImage).EpisodeImages.EpisodeImageFilename;                            
+                            if ((item as TraktImage).EpisodeImages != null)
+                            {
+                                remoteThumb = (item as TraktImage).EpisodeImages.Screen;
+                                localThumb = (item as TraktImage).EpisodeImages.EpisodeImageFilename;
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -825,16 +864,19 @@ namespace TraktPlugin.GUI
 
                         if (item is TraktMovie.MovieImages)
                         {
-                            remoteThumb = (item as TraktMovie.MovieImages).Poster;
-                            localThumb = (item as TraktMovie.MovieImages).PosterImageFilename;
-
-                            remoteFanart = (item as TraktMovie.MovieImages).Fanart;
-                            localFanart = (item as TraktMovie.MovieImages).FanartImageFilename;
+                            if ((item as TraktMovie.MovieImages) != null)
+                            {
+                                remoteFanart = (item as TraktMovie.MovieImages).Fanart;
+                                localFanart = (item as TraktMovie.MovieImages).FanartImageFilename;
+                            }
                         }
                         else if (item is TraktImage)
                         {
-                            remoteFanart = (item as TraktImage).ShowImages.Fanart;
-                            localFanart = (item as TraktImage).ShowImages.FanartImageFilename;
+                            if ((item as TraktImage).ShowImages != null)
+                            {
+                                remoteFanart = (item as TraktImage).ShowImages.Fanart;
+                                localFanart = (item as TraktImage).ShowImages.FanartImageFilename;
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))

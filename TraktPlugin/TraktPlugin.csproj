@@ -160,6 +160,7 @@
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchedHistoryItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />

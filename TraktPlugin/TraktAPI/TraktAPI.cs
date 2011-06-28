@@ -428,6 +428,26 @@ namespace TraktPlugin.TraktAPI
             return premieres.FromJSONArray<TraktCalendar>();
         }
 
+        /// <summary>
+        /// Returns list of the 100 last watched episodes by a user
+        /// </summary>
+        /// <param name="user">username of person to get watched history</param>        
+        public static IEnumerable<TraktWatchedEpisode> GetUserEpisodeWatchedHistory(string user)
+        {
+            string watchedEpisodes = Transmit(string.Format(TraktURIs.UserEpisodeWatchedHistory, user), GetUserAuthentication());
+            return watchedEpisodes.FromJSONArray<TraktWatchedEpisode>();
+        }
+
+        /// <summary>
+        /// Returns list of the 100 last watched movies by a user
+        /// </summary>
+        /// <param name="user">username of person to get watched history</param>        
+        public static IEnumerable<TraktWatchedMovie> GetUserMovieWatchedHistory(string user)
+        {
+            string watchedMovies = Transmit(string.Format(TraktURIs.UserMovieWatchedHistory, user), GetUserAuthentication());
+            return watchedMovies.FromJSONArray<TraktWatchedMovie>();
+        }
+
         #endregion
 
         #region Trending
