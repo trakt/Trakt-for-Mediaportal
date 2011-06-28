@@ -403,7 +403,7 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             // add each type to the list           
-            GUITraktUserListItem item = new GUITraktUserListItem(Translation.Episodes);
+            GUITraktUserListItem item = new GUITraktUserListItem(Translation.WatchedEpisodes);
             item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
@@ -412,7 +412,7 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.Movies);
+            item = new GUITraktUserListItem(Translation.WatchedMovies);
             item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
@@ -760,7 +760,7 @@ namespace TraktPlugin.GUI
 
         private void OnWatchedTypeSelected(GUIListItem item, GUIControl parent)
         {
-            if (item.Label == Translation.Episodes)
+            if (item.Label == Translation.WatchedEpisodes)
                 SelectedType = WatchedHistoryType.Episodes;
             else
                 SelectedType = WatchedHistoryType.Movies;
