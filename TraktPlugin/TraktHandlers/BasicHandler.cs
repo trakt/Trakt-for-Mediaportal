@@ -38,22 +38,29 @@ namespace TraktPlugin.TraktHandlers
             return syncData;
         }
 
+        public static TraktMovieSync CreateMovieSyncData(string title, string year)
+        {
+            return CreateMovieSyncData(title, year, null);
+        }
+
         /// <summary>
         /// Creates Sync Data based on a single movie
         /// </summary>
         /// <param name="title">Movie Title</param>
         /// <param name="year">Movie Year</param>
+        /// <param name="imdb">IMDb Id of movie</param>
         /// <returns>The Trakt Sync data to send</returns>
-        public static TraktMovieSync CreateMovieSyncData(string title, string year)
+        public static TraktMovieSync CreateMovieSyncData(string title, string year, string imdb)
         {
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year)) return null;
+            if (string.IsNullOrEmpty(imdb) && (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))) return null;
 
             List<TraktMovieSync.Movie> movies = new List<TraktMovieSync.Movie>();
 
             TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
             {
                 Title = title,
-                Year = year
+                Year = year,
+                IMDBID = imdb
             };
             movies.Add(syncMovie);
 
@@ -136,7 +143,12 @@ namespace TraktPlugin.TraktHandlers
 
         public static TraktShowSync CreateShowSyncData(string title, string year)
         {
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year)) return null;
+            return CreateShowSyncData(title, year, null);
+        }
+
+        public static TraktShowSync CreateShowSyncData(string title, string year, string imdb)
+        {
+            if (string.IsNullOrEmpty(imdb) && (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))) return null;
 
             List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
 

@@ -512,10 +512,15 @@ namespace TraktPlugin
                                     year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year").Trim();
                                     if (siteUtil == "imdb")
                                     {
+                                        // IMDb site exposes IMDb ID, use this to get a better match on trakt
+                                        // this property is new, check for null in case user hasn't updated site
+                                        imdb = GUIPropertyManager.GetProperty("#OnlineVideos.Details.IMDbId");
+                                        if (imdb == null) imdb = string.Empty;
+
                                         // could be a TV Show
                                         type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
                                     }
-                                    if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year))
+                                    if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
                                         validWatchListItem = true;
 
                                     // Return focus to details list now so we dont go in a loop
@@ -554,18 +559,18 @@ namespace TraktPlugin
             {
                 if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
                 {
-                    TraktLogger.Info("Adding {0} '{1} ({2})' to Watch List", type, title, year);
+                    TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Watch List", type, title, year, imdb);
 
                     System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
                     {
                         if (type == "movie")
                         {
-                            TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year), TraktSyncModes.watchlist);
+                            TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year, imdb), TraktSyncModes.watchlist);
                             GUIWatchListMovies.ClearCache();
                         }
                         else
                         {
-                            TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year), TraktSyncModes.watchlist);
+                            TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year, imdb), TraktSyncModes.watchlist);
                             GUIWatchListShows.ClearCache();
                         }
                     })
