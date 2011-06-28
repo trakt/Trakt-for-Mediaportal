@@ -147,6 +147,9 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
                 {
+                    DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
+                    if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
+
                     // mark episode as watched
                     TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = true;
@@ -163,6 +166,9 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
                 {
+                    DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
+                    if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
+
                     // mark episode as unwatched
                     TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
                     ep[DBOnlineEpisode.cWatched] = false;
@@ -311,7 +317,7 @@ namespace TraktPlugin.TraktHandlers
         /// <returns>The Trakt Sync data to send</returns>
         private TraktEpisodeSync CreateSyncData(DBSeries series, List<DBEpisode> episodes)
         {
-            if (series == null) return null;
+            if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
 
             // set series properties for episodes
             TraktEpisodeSync traktSync = new TraktEpisodeSync
@@ -341,6 +347,8 @@ namespace TraktPlugin.TraktHandlers
 
         private TraktRateSeries CreateSeriesRateData(DBSeries series)
         {
+            if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
+
             TraktRateValue loveorhate = series[DBOnlineSeries.cMyRating] >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
 
             TraktRateSeries seriesData = new TraktRateSeries()
@@ -360,6 +368,8 @@ namespace TraktPlugin.TraktHandlers
         private TraktRateEpisode CreateEpisodeRateData(DBEpisode episode)
         {
             DBSeries series = Helper.getCorrespondingSeries(episode[DBOnlineEpisode.cSeriesID]);
+
+            if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
 
             TraktRateValue loveorhate = episode[DBOnlineEpisode.cMyRating] >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
 
@@ -411,7 +421,9 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
-                TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(CreateEpisodeRateData(episode));
+                TraktRateEpisode episodeRateData = CreateEpisodeRateData(episode);
+                if (episodeRateData == null) return;
+                TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(episodeRateData);
 
                 // check for any error and notify
                 TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -428,7 +440,9 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
-                TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(CreateSeriesRateData(series));
+                TraktRateSeries seriesRateData = CreateSeriesRateData(series);
+                if (seriesRateData == null) return;
+                TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
 
                 // check for any error and notify
                 TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -671,7 +685,9 @@ namespace TraktPlugin.TraktHandlers
 
             Thread toggleWatched = new Thread(delegate()
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
+                TraktEpisodeSync episodeSyncData = CreateSyncData(series, episodes);
+                if (episodeSyncData == null) return;
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {

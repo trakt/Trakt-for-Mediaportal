@@ -337,6 +337,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateEpisode(TraktRateEpisode episode)
         {
+            if (episode == null) return null;
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.episode.ToString()), episode.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
@@ -348,6 +349,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateSeries(TraktRateSeries series)
         {
+            if (series == null) return null;
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.show.ToString()), series.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
