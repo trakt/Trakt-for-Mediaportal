@@ -33,6 +33,8 @@
   
   <!-- D -->
   <string Field="Deny">Deny</string>
+  <string Field="DeleteFriend">Delete Friend</string>
+  <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
   <string Field="DisconnectAccount">Disconnect Account: {0}</string>
   <string Field="DownloadFanart">Download Fanart</string>
   <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>

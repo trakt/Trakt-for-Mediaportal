@@ -53,7 +53,8 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
-            Trailers
+            Trailers,
+            DeleteFriend
         }
 
         enum WatchedHistoryType
@@ -310,20 +311,16 @@ namespace TraktPlugin.GUI
             }
             base.OnAction(action);
         }
-
-        #if MP12
+        
         protected override void OnShowContextMenu()
-        {
-            if (!TraktHelper.IsOnlineVideosAvailableAndEnabled || !(ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies))
-            {
-                base.OnShowContextMenu();
-                return;
-            }
+        {            
+            TraktWatchedMovie selectedMovie = null;            
 
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            GUITraktUserListItem selectedItem = this.Facade.SelectedListItem as GUITraktUserListItem;
             if (selectedItem == null) return;
 
-            TraktWatchedMovie selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
+            if (ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies)
+                selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;         
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -332,11 +329,29 @@ namespace TraktPlugin.GUI
             dlg.SetHeading(GUIUtils.PluginName());
 
             GUIListItem listItem = null;
+            int itemCount = 0;
 
             // Trailers
-            listItem = new GUIListItem(Translation.Trailers);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Trailers;
+            #if MP12
+            if ((ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Trailers;
+                itemCount++;
+            }
+            #endif
+
+            // Delete a Friend
+            if ((ViewLevel == Views.Friends) && !selectedItem.IsRemote)
+            {
+                listItem = new GUIListItem(Translation.DeleteFriend);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.DeleteFriend;
+                itemCount++;
+            }
+
+            if (itemCount == 0) return;
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -349,6 +364,18 @@ namespace TraktPlugin.GUI
                     ShowTrailersMenu(selectedMovie);
                     break;
                 #endif
+                
+                case ((int)ContextMenuItem.DeleteFriend):
+                    if (GUIUtils.ShowYesNoDialog(Translation.DeleteFriend, string.Format(Translation.DeleteFriendMessage, selectedItem.Label)))
+                    {
+                        // Delete friend
+                        DeleteFriend(selectedItem.Item as GUIFriendItem);
+                        // Clear Cache
+                        _Friends = _Friends.Except(_Friends.Where(f => f.Username == selectedItem.Label));
+                        // Re-Load list
+                        SendFriendsToFacade(_Friends, _FriendRequests);
+                    }
+                    break;
 
                 default:
                     break;
@@ -356,7 +383,7 @@ namespace TraktPlugin.GUI
 
             base.OnShowContextMenu();
         }
-        #endif
+       
         #endregion
 
         #region Private Methods
@@ -389,7 +416,7 @@ namespace TraktPlugin.GUI
 
         private void DenyFriend(GUIFriendItem user)
         {
-            Thread removeFriendThread = new Thread(delegate(object obj)
+            Thread denyFriendThread = new Thread(delegate(object obj)
             {
                 TraktResponse response = TraktAPI.TraktAPI.FriendDeny(CreateFriendData(user));
                 TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
@@ -399,7 +426,22 @@ namespace TraktPlugin.GUI
                 Name = "Denying Friend Request"
             };
 
-            removeFriendThread.Start(user);
+            denyFriendThread.Start(user);
+        }
+
+        private void DeleteFriend(GUIFriendItem user)
+        {
+            Thread deleteFriendThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.FriendDelete(CreateFriendData(user));
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Deleting Friend Request"
+            };
+
+            deleteFriendThread.Start(user);
         }
 
         #if MP12
