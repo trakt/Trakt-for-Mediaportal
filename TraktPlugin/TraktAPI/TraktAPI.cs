@@ -379,12 +379,12 @@ namespace TraktPlugin.TraktAPI
         /// Returns a list of Friends and their user profiles
         /// </summary>
         /// <param name="user">username of person to retrieve friend s list</param>
-        public static IEnumerable<TraktFriend> GetUserFriends(string user)
+        public static IEnumerable<GUIFriendItem> GetUserFriends(string user)
         {
             string response = Transmit(string.Format(TraktURIs.UserFriends, user), GetUserAuthentication());
-            return response.FromJSONArray<TraktFriend>();
+            return response.FromJSONArray<GUIFriendItem>();
         }
-
+        
         /// <summary>
         /// Returns list of episodes in Users Calendar
         /// </summary>
@@ -448,6 +448,40 @@ namespace TraktPlugin.TraktAPI
         {
             string watchedMovies = Transmit(string.Format(TraktURIs.UserMovieWatchedHistory, user), GetUserAuthentication());
             return watchedMovies.FromJSONArray<TraktWatchedMovie>();
+        }
+
+        #endregion
+
+        #region Friends
+
+        /// <summary>
+        /// Returns a list of Friends for current user
+        /// </summary>        
+        public static IEnumerable<GUIFriendItem> GetFriends()
+        {
+            string response = Transmit(TraktURIs.Friends, GetUserAuthentication());
+            return response.FromJSONArray<GUIFriendItem>();
+        }
+
+        /// <summary>
+        /// Returns a list of Friend requests for current user
+        /// </summary>        
+        public static IEnumerable<GUIFriendItem> GetFriendRequests()
+        {
+            string response = Transmit(TraktURIs.FriendRequests, GetUserAuthentication());
+            return response.FromJSONArray<GUIFriendItem>();
+        }
+
+        public static TraktResponse FriendAdd(TraktFriend friend)
+        {
+            string response = Transmit(TraktURIs.FriendAdd, friend.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse FriendDeny(TraktFriend friend)
+        {
+            string response = Transmit(TraktURIs.FriendDeny, friend.ToJSON());
+            return response.FromJSON<TraktResponse>();
         }
 
         #endregion

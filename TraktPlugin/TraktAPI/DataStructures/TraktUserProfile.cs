@@ -33,6 +33,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "joined")]
         public long JoinDate { get; set; }
 
+        [DataMember(Name = "approved")]
+        public long ApprovedDate { get; set; }
+
         [DataMember(Name = "avatar")]
         public string Avatar { get; set; }
 

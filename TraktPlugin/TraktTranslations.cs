@@ -191,6 +191,8 @@ namespace TraktPlugin.GUI
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
+        public static string Approve = "Approve";
+        public static string ApproveFriendMessage = "Would you like to add user {0}\n as a friend?";
 
         // B
         
@@ -210,6 +212,7 @@ namespace TraktPlugin.GUI
         
 
         // D
+        public static string Deny = "Deny";
         public static string DisconnectAccount = "Disconnect Account: {0}";
         public static string DownloadFanart = "Download Fanart";
         public static string DownloadFullSizeFanart = "Download Original Size Fanart";
@@ -225,6 +228,7 @@ namespace TraktPlugin.GUI
         public static string FirstAired = "First Aired";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
+        public static string FriendRequest = "Friend Request";
         public static string FullName = "Full Name";
 
         // G
@@ -233,6 +237,7 @@ namespace TraktPlugin.GUI
         public static string GeneralSettings = "General Settings";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
+        public static string GettingFriendRequests = "Getting Friends Requests";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";

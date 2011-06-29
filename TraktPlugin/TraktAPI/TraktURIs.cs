@@ -42,5 +42,10 @@ namespace TraktPlugin.TraktAPI
         public const string TestAccount = @"http://api.trakt.tv/account/test/" + ApiKey;
         public const string UserEpisodeWatchedHistory = @"http://api.trakt.tv/user/watched/episodes.json/" + ApiKey + @"/{0}";
         public const string UserMovieWatchedHistory = @"http://api.trakt.tv/user/watched/movies.json/" + ApiKey + @"/{0}";
+        public const string Friends = @"http://api.trakt.tv/friends/all/" + ApiKey;
+        public const string FriendRequests = @"http://api.trakt.tv/friends/requests/" + ApiKey;
+        public const string FriendAdd = @"http://api.trakt.tv/friends/add/" + ApiKey;
+        public const string FriendDeny = @"http://api.trakt.tv/friends/deny/" + ApiKey;
+
     }
 }

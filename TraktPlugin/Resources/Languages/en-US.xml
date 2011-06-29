@@ -13,6 +13,8 @@
   <string Field="AirDate">Air Date</string>
   <string Field="AirDay">Air Day</string>
   <string Field="AirTime">Air Time</string>
+  <string Field="Approve">Approve</string>
+  <string Field="ApproveFriendMessage">Would you like to add user {0}\n as a friend?</string>
   
   <!-- B -->
   
@@ -30,6 +32,7 @@
   <string Field="CreatingAccount">Creating Account...</string>
   
   <!-- D -->
+  <string Field="Deny">Deny</string>
   <string Field="DisconnectAccount">Disconnect Account: {0}</string>
   <string Field="DownloadFanart">Download Fanart</string>
   <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
@@ -45,6 +48,7 @@
   <string Field="FirstAired">First Aired</string>
   <string Field="Friend">Friend</string>
   <string Field="Friends">Friends</string>
+  <string Field="FriendRequest">Friend Request</string>
   <string Field="FullName">Full Name</string>
   
   <!-- G -->
@@ -53,6 +57,7 @@
   <string Field="GeneralSettings">GeneralSettings</string>
   <string Field="GettingCalendar">Getting Calendar</string>
   <string Field="GettingFriendsList">Getting Friends List</string>
+  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   <string Field="GettingTrendingShows">Getting Trending Shows</string>

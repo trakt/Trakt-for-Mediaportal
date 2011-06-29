@@ -12,6 +12,8 @@
   <string Field="AirDate">Dato</string>
   <string Field="AirDay">Dag</string>
   <string Field="AirTime">Klokkeslett</string>
+  <string Field="Approve">Approve</string>
+  <string Field="ApproveFriendMessage">Would you like to add user {0}\n as a friend?</string>
   
   <!-- B -->
   
@@ -29,6 +31,7 @@
   <string Field="CreatingAccount">Lager konto...</string>
   
   <!-- D -->
+  <string Field="Deny">Deny</string>
   <string Field="DisconnectAccount">Koble fra konto: {0}</string>
   <string Field="DownloadFanart">Last ned Fanart</string>
   <string Field="DownloadFullSizeFanart">Bruk original størrelse på Fanart</string>
@@ -44,6 +47,7 @@
   <string Field="FirstAired">Først sendt</string>
   <string Field="Friend">Venn</string>
   <string Field="Friends">Venner</string>
+  <string Field="FriendRequest">Friend Request</string>
   <string Field="FullName">Fult Navn</string>
   
   <!-- G -->
@@ -52,6 +56,7 @@
   <string Field="GeneralSettings">Generelle innstillinger</string>
   <string Field="GettingCalendar">Henter kalender</string>
   <string Field="GettingFriendsList">Henter liste med venner</string>
+  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Henter hva venner har sett</string>
   <string Field="GettingTrendingMovies">Henter populære filmer</string>
   <string Field="GettingTrendingShows">Henter populære serier</string>

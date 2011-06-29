@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         Views ViewLevel { get; set; }
         WatchedHistoryType SelectedType { get; set; }
-        TraktFriend CurrentFriend { get; set; }
+        GUIFriendItem CurrentFriend { get; set; }
         ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
         Dictionary<string, IEnumerable<TraktWatchedEpisode>> friendEpisodeHistory = new Dictionary<string, IEnumerable<TraktWatchedEpisode>>();
@@ -118,19 +118,33 @@ namespace TraktPlugin.GUI
         }
         private IEnumerable<TraktWatchedMovie> _WatchedMovies = null;
 
-        IEnumerable<TraktFriend> TraktFriends
+        IEnumerable<GUIFriendItem> TraktFriends
         {
             get
             {
                 if (_Friends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _Friends = TraktAPI.TraktAPI.GetUserFriends(TraktSettings.Username);
+                    _Friends = TraktAPI.TraktAPI.GetFriends();
                     LastRequest = DateTime.UtcNow;
                 }
                 return _Friends;
             }
         }
-        private IEnumerable<TraktFriend> _Friends = null;
+        private IEnumerable<GUIFriendItem> _Friends = null;
+
+        IEnumerable<GUIFriendItem> FriendRequests
+        {
+            get
+            {
+                if (_FriendRequests == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                {
+                    _FriendRequests = TraktAPI.TraktAPI.GetFriendRequests();
+                    LastRequest = DateTime.UtcNow;
+                }
+                return _FriendRequests;
+            }
+        }
+        private IEnumerable<GUIFriendItem> _FriendRequests = null;
 
         #endregion
 
@@ -185,7 +199,34 @@ namespace TraktPlugin.GUI
                         switch (ViewLevel)
                         {
                             case Views.Friends:
-                                LoadWatchedTypes(Facade.SelectedListItem as GUITraktUserListItem);
+                                GUITraktUserListItem friend = Facade.SelectedListItem as GUITraktUserListItem;
+                                if (friend.IsRemote)
+                                {
+                                    // Pending Friend Request, Get Approval from user
+                                    if (GUIUtils.ShowYesNoDialog(Translation.FriendRequest, string.Format(Translation.ApproveFriendMessage, friend.Label), true))
+                                    {
+                                        // Friend Approved, add Friend
+                                        AddFriend(friend.Item as GUIFriendItem);
+
+                                        // update cache
+                                        (friend.Item as GUIFriendItem).ApprovedDate = DateTime.UtcNow.ToEpoch();
+                                        _Friends = _Friends.Concat(_FriendRequests.Where(f => f.Username == friend.Label));
+                                        _FriendRequests = _FriendRequests.Except(_FriendRequests.Where(f => f.Username == friend.Label));
+                                    }
+                                    else
+                                    {
+                                        // Friend Denied, remove Friend from Pending Requests
+                                        DenyFriend(friend.Item as GUIFriendItem);
+
+                                        // update cache
+                                        _FriendRequests = _FriendRequests.Except(_FriendRequests.Where(f => f.Username == friend.Label));
+                                    }
+
+                                    // reload
+                                    SendFriendsToFacade(_Friends, _FriendRequests);
+                                }
+                                else
+                                    LoadWatchedTypes(friend);
                                 break;
 
                             case Views.WatchedTypes:
@@ -198,7 +239,7 @@ namespace TraktPlugin.GUI
                                     GUIListItem selectedItem = this.Facade.SelectedListItem;
                                     if (selectedItem == null) break;
 
-                                    TraktFriend.WatchItem selectedMovie = (TraktFriend.WatchItem)selectedItem.TVTag;
+                                    GUIFriendItem.WatchItem selectedMovie = (GUIFriendItem.WatchItem)selectedItem.TVTag;
 
                                     string title = selectedMovie.Movie.Title;
                                     string imdbid = selectedMovie.Movie.Imdb;
@@ -320,6 +361,47 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
+        private TraktFriend CreateFriendData(GUIFriendItem user)
+        {
+            TraktFriend friend = new TraktFriend
+            {
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                Friend = user.Username
+            };
+            return friend;
+        }
+
+        private void AddFriend(GUIFriendItem user)
+        {
+            Thread addFriendThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.FriendAdd(CreateFriendData(user));
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Friend"
+            };
+
+            addFriendThread.Start(user);
+        }
+
+        private void DenyFriend(GUIFriendItem user)
+        {
+            Thread removeFriendThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.FriendDeny(CreateFriendData(user));
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Removing Friend"
+            };
+
+            removeFriendThread.Start(user);
+        }
+
         #if MP12
         private void ShowTrailersMenu(TraktWatchedMovie movie)
         {
@@ -383,15 +465,33 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktFriend> friends = result as IEnumerable<TraktFriend>;
-                    SendFriendsToFacade(friends);
+                    // Get Friend List from Result Handler
+                    IEnumerable<GUIFriendItem> friends = result as IEnumerable<GUIFriendItem>;
+
+                    #region Get Friend Requests for user as well
+                    GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+                    {
+                        return FriendRequests;
+                    },
+                    delegate(bool frSuccess, object frResult)
+                    {
+                        IEnumerable<GUIFriendItem> friendRequests = null;
+                        if (frSuccess)
+                        {
+                            // Get Friend Requests from Result Handler
+                            friendRequests = result as IEnumerable<GUIFriendItem>;
+                        }
+                    }, Translation.GettingFriendRequests, true);
+                    #endregion
+
+                    SendFriendsToFacade(friends, FriendRequests);
                 }
             }, Translation.GettingFriendsList, true);
         }
 
         private void LoadWatchedTypes(GUITraktUserListItem friend)
         {
-            // only two types to choose from in this view level            
+            // only two types to choose from in this view level
             // signal that we are now displaying the watched types view
             ViewLevel = Views.WatchedTypes;
             SetCurrentView();
@@ -439,7 +539,7 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    if (SelectedType == WatchedHistoryType.Episodes)   
+                    if (SelectedType == WatchedHistoryType.Episodes)
                         SendWatchedEpisodeHistoryToFacade(result as IEnumerable<TraktWatchedEpisode>);
                     else
                         SendWatchedMovieHistoryToFacade(result as IEnumerable<TraktWatchedMovie>);
@@ -552,7 +652,7 @@ namespace TraktPlugin.GUI
             GetImages<TraktMovie.MovieImages>(movieImages);
         }
 
-        private void SendFriendsToFacade(IEnumerable<TraktFriend> friends)
+        private void SendFriendsToFacade(IEnumerable<GUIFriendItem> friends, IEnumerable<GUIFriendItem> friendRequests)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -560,11 +660,12 @@ namespace TraktPlugin.GUI
             // signal that we are now displaying the watched history view
             ViewLevel = Views.Friends;
             SetCurrentView();
+            int friendCount = friends.Count() + (friendRequests == null ? 0 : friendRequests.Count());
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
-            GUIUtils.SetProperty("#itemcount", friends.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friends.Count().ToString(), friends.Count() > 1 ? Translation.Friends : Translation.Friend));
+            GUIUtils.SetProperty("#itemcount", friendCount.ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friendCount.ToString(), friendCount > 1 ? Translation.Friends : Translation.Friend));
 
-            if (friends.Count() == 0)
+            if (friendCount == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoFriendsTaunt);
                 GUIWindowManager.ShowPreviousWindow();
@@ -572,6 +673,26 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
+
+            // Add friend requests at top of list
+            if (friendRequests != null)
+            {
+                foreach (var user in friendRequests)
+                {
+                    GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
+
+                    userItem.Label2 = user.JoinDate.FromEpoch().ToShortDateString();
+                    userItem.Item = user;
+                    userItem.ItemId = id++;
+                    userItem.IsRemote = true;
+                    userItem.IconImage = "defaultTraktUser.png";
+                    userItem.IconImageBig = "defaultTraktUserBig.png";
+                    userItem.ThumbnailImage = "defaultTraktUserBig.png";
+                    userItem.OnItemSelected += OnFriendSelected;
+                    Utils.SetDefaultIcons(userItem);
+                    Facade.Add(userItem);
+                }
+            }
 
             // Add each friend to the list
             foreach (var user in friends)
@@ -596,7 +717,9 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            GetImages<TraktFriend>(friends.ToList());
+            List<GUIFriendItem> friendImages = new List<GUIFriendItem>(friends.ToList());
+            if (friendRequests != null) friendImages.AddRange(friendRequests);
+            GetImages<GUIFriendItem>(friendImages);
         }
 
         private void SetProperty(string property, string value)
@@ -639,6 +762,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.FullName", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Gender", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.JoinDate", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.ApprovedDate", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Location", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
@@ -688,7 +812,7 @@ namespace TraktPlugin.GUI
             #endregion
         }
 
-        private void PublishFriendSkinProperties(TraktFriend user)
+        private void PublishFriendSkinProperties(GUIFriendItem user)
         {
             SetProperty("#Trakt.User.About", user.About);
             SetProperty("#Trakt.User.Age", user.Age);
@@ -697,6 +821,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.FullName", user.FullName);
             SetProperty("#Trakt.User.Gender", user.Gender);
             SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
+            SetProperty("#Trakt.User.ApprovedDate", user.ApprovedDate == 0 ? "N/A" : user.ApprovedDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);
             SetProperty("#Trakt.User.Protected", user.Protected);
             SetProperty("#Trakt.User.Url", user.Url);
@@ -753,7 +878,7 @@ namespace TraktPlugin.GUI
 
         private void OnFriendSelected(GUIListItem item, GUIControl parent)
         {
-            CurrentFriend = (item as GUITraktUserListItem).Item as TraktFriend;
+            CurrentFriend = (item as GUITraktUserListItem).Item as GUIFriendItem;
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);
         }
@@ -811,10 +936,10 @@ namespace TraktPlugin.GUI
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
                         
-                        if (item is TraktFriend)
+                        if (item is GUIFriendItem)
                         {
-                            remoteThumb = (item as TraktFriend).Avatar;
-                            localThumb = (item as TraktFriend).AvatarFilename;
+                            remoteThumb = (item as GUIFriendItem).Avatar;
+                            localThumb = (item as GUIFriendItem).AvatarFilename;
                         }
                         else if (item is TraktMovie.MovieImages)
                         {
@@ -838,9 +963,9 @@ namespace TraktPlugin.GUI
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
                                 // notify that image has been downloaded
-                                if (item is TraktFriend)
+                                if (item is GUIFriendItem)
                                 {
-                                    (item as TraktFriend).NotifyPropertyChanged("AvatarFilename");
+                                    (item as GUIFriendItem).NotifyPropertyChanged("AvatarFilename");
                                 }
                                 else if (item is TraktMovie.MovieImages)
                                 {
@@ -917,7 +1042,7 @@ namespace TraktPlugin.GUI
     /// Extends TraktUserProfile with properties we can
     /// use to notify the facade for loading
     /// </summary>
-    public class TraktFriend : TraktUserProfile, INotifyPropertyChanged
+    public class GUIFriendItem : TraktUserProfile, INotifyPropertyChanged
     {
         #region INotifyPropertyChanged
 
@@ -970,8 +1095,8 @@ namespace TraktPlugin.GUI
                 INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is TraktFriend && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktFriend).AvatarFilename);
+                    if (s is GUIFriendItem && e.PropertyName == "AvatarFilename")
+                        SetImageToGui((s as GUIFriendItem).AvatarFilename);
                     else if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
                     else if (s is TraktImage && e.PropertyName == "EpisodeImages")

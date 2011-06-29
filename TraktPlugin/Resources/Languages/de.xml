@@ -13,6 +13,8 @@
   <string Field="AirDate">Sendedatum</string>
   <string Field="AirDay">Sendetag</string>
   <string Field="AirTime">Sendezeit</string>
+  <string Field="Approve">Approve</string>
+  <string Field="ApproveFriendMessage">Would you like to add user {0}\n as a friend?</string>
   
   <!-- B -->
   
@@ -30,6 +32,7 @@
   <string Field="CreatingAccount">Account wird erstellt...</string>
   
   <!-- D -->
+  <string Field="Deny">Deny</string>
   <string Field="DisconnectAccount">Account Trennen: {0}</string>
   <string Field="DownloadFanart">Download Fanart</string>
   <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
@@ -45,6 +48,7 @@
   <string Field="FirstAired">Zuerst gesendet</string>
   <string Field="Friend">Freund</string>
   <string Field="Friends">Freunde</string>
+  <string Field="FriendRequest">Friend Request</string>
   <string Field="FullName">Vollständiger Name</string>
   
   <!-- G -->
@@ -53,6 +57,7 @@
   <string Field="GeneralSettings">GeneralSettings</string>
   <string Field="GettingCalendar">Kalender abrufen</string>
   <string Field="GettingFriendsList">Freundesliste abrufen</string>
+  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Gesehene Filme von Freunden werden abgerufen</string>
   <string Field="GettingTrendingMovies">Rufe Liste der populären Filme ab</string>
   <string Field="GettingTrendingShows">Rufe Liste der populären Serien ab</string>
