@@ -206,7 +206,7 @@ namespace TraktPlugin.GUI
                                     if (GUIUtils.ShowYesNoDialog(Translation.FriendRequest, string.Format(Translation.ApproveFriendMessage, friend.Label), true))
                                     {
                                         // Friend Approved, add Friend
-                                        AddFriend(friend.Item as GUIFriendItem);
+                                        ApproveFriend(friend.Item as GUIFriendItem);
 
                                         // update cache
                                         (friend.Item as GUIFriendItem).ApprovedDate = DateTime.UtcNow.ToEpoch();
@@ -372,19 +372,19 @@ namespace TraktPlugin.GUI
             return friend;
         }
 
-        private void AddFriend(GUIFriendItem user)
+        private void ApproveFriend(GUIFriendItem user)
         {
-            Thread addFriendThread = new Thread(delegate(object obj)
+            Thread approveFriendThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.FriendAdd(CreateFriendData(user));
+                TraktResponse response = TraktAPI.TraktAPI.FriendApprove(CreateFriendData(user));
                 TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
             })
             {
                 IsBackground = true,
-                Name = "Adding Friend"
+                Name = "Approving Friend Request"
             };
 
-            addFriendThread.Start(user);
+            approveFriendThread.Start(user);
         }
 
         private void DenyFriend(GUIFriendItem user)
@@ -396,7 +396,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Friend"
+                Name = "Denying Friend Request"
             };
 
             removeFriendThread.Start(user);

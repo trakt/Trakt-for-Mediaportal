@@ -14,7 +14,7 @@
   <string Field="AirDay">Sendedag</string>
   <string Field="AirTime">Sendetid</string>
   <string Field="Approve">Approve</string>
-  <string Field="ApproveFriendMessage">Would you like to add user {0}\n as a friend?</string>
+  <string Field="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
   
   <!-- B -->
   

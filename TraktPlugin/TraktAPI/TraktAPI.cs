@@ -472,6 +472,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<GUIFriendItem>();
         }
 
+        public static TraktResponse FriendApprove(TraktFriend friend)
+        {
+            string response = Transmit(TraktURIs.FriendApprove, friend.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
         public static TraktResponse FriendAdd(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendAdd, friend.ToJSON());
@@ -481,6 +487,12 @@ namespace TraktPlugin.TraktAPI
         public static TraktResponse FriendDeny(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendDeny, friend.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse FriendDelete(TraktFriend friend)
+        {
+            string response = Transmit(TraktURIs.FriendDelete, friend.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
 

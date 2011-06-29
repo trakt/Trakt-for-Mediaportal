@@ -192,7 +192,7 @@ namespace TraktPlugin.GUI
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
         public static string Approve = "Approve";
-        public static string ApproveFriendMessage = "Would you like to add user {0}\n as a friend?";
+        public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";
 
         // B
         
