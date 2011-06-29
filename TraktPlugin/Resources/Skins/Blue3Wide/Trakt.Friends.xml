@@ -130,7 +130,7 @@
       <width>138</width>
       <keepaspectratio>yes</keepaspectratio>
       <zoom>yes</zoom>
-      <texture flipY="true" diffuse="diffusemirrorwide.png">#Trakt.User.AvatarFileName</texture>
+      <texture flipY="true" diffuse="diffusemirrorwide.png">#selectedthumb</texture>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <visible>!string.equals(#Trakt.View.Level,WatchedHistory)</visible>
     </control>
