@@ -231,12 +231,14 @@ namespace TraktPlugin.GUI
         public static string Friend = "Friend";
         public static string Friends = "Friends";
         public static string FriendRequest = "Friend Request";
+        public static string FriendRequestMessage = "You have {0} friend requests, approve or deny from friends window";
         public static string FullName = "Full Name";
 
         // G
         public static string Gender = "Gender";
         public static string General = "General";
         public static string GeneralSettings = "General Settings";
+        public static string GetFriendRequestsOnStartup = "Get Friend Requests on Startup";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendRequests = "Getting Friends Requests";

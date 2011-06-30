@@ -54,9 +54,9 @@
         <id>2</id>
         <width>300</width>
         <label>#Trakt.Translation.DownloadFanart.Label</label>
-        <onleft>2</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>3</onup>
+        <ondown>3</ondown>
+        <onup>4</onup>
       </control>
       <control>
         <description>Download FullSize Fanart</description>
@@ -64,8 +64,18 @@
         <id>3</id>
         <width>300</width>
         <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
-        <onleft>3</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
+        <onup>2</onup>
+        <ondown>4</ondown>
+      </control>
+      <control>
+        <description>Get Friend Requests on startup</description>
+        <type>togglebutton</type>
+        <id>4</id>
+        <width>300</width>
+        <label>#Trakt.Translation.GetFriendRequestsOnStartup.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>3</onup>
         <ondown>2</ondown>
       </control>
     </control>

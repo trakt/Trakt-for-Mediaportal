@@ -34,6 +34,7 @@ namespace TraktPlugin
         public static bool DownloadFullSizeFanart { get; set; }
         public static bool DownloadFanart { get; set; }
         public static int WebRequestCacheMinutes { get; set; }
+        public static bool GetFriendRequestsOnStartup { get; set; }
         #endregion
 
         #region Constants
@@ -59,6 +60,7 @@ namespace TraktPlugin
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
         private const string cDownloadFanart = "DownloadFanart";
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
+        private const string cGetFriendRequestsOnStartup = "GetFriendRequestsOnStartup";
         #endregion
 
         /// <summary>
@@ -153,6 +155,7 @@ namespace TraktPlugin
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
+                GetFriendRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, true);
             }
         }
 
@@ -185,6 +188,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
+                xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
             }
 
             Settings.SaveCache();

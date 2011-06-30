@@ -150,7 +150,7 @@ namespace TraktPlugin
             else
                 TraktLogger.Info("Username and/or Password is not set or is Invalid!");
 
-            LoadPluginHandlers();         
+            LoadPluginHandlers();
 
             #region Sync
             if (TraktHandlers.Count == 0)
@@ -438,8 +438,10 @@ namespace TraktPlugin
         }
 
         bool ConnectionChecked = false;
+        bool FriendRequestsChecked = false;
         void GUIWindowManager_OnActivateWindow(int windowID)
         {
+            #region Connection Check
             // We can Notify in GUI now that its initialized
             // only need this if previous connection attempt was unauthorized on Init()
             if (TraktSettings.AccountStatus == ConnectionState.Invalid && !ConnectionChecked)
@@ -458,7 +460,9 @@ namespace TraktPlugin
                 };
                 checkStatus.Start();
             }
+            #endregion
 
+            #region Plugin Handler Check
             // If we exit settings, we may need to reload plugin handlers
             // Also Prompt to Sync / Warn users if no plugin handlers are defined
             if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
@@ -475,8 +479,31 @@ namespace TraktPlugin
                     }
                     return;
                 }
-
             }
+            #endregion
+
+            #region Friend Requests Check
+            if (TraktSettings.AccountStatus == ConnectionState.Connected && TraktSettings.GetFriendRequestsOnStartup && !FriendRequestsChecked)
+            {
+                FriendRequestsChecked = true;
+                System.Threading.Thread friendsThread = new System.Threading.Thread(delegate(object obj)
+                {
+                    var friendRequests = GUITraktFriends.FriendRequests;
+                    TraktLogger.Info("Friend requests: {0}", friendRequests.Count().ToString());
+                    if (friendRequests.Count() > 0)
+                    {
+                        GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()), 20);
+                    }
+                })
+                {
+                    IsBackground = true,
+                    Name = "Getting Friend Requests"
+                };
+
+                friendsThread.Start();
+            }
+            #endregion
+
         }
 
         void GUIWindowManager_OnNewAction(Action action)

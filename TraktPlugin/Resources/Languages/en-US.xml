@@ -51,12 +51,14 @@
   <string Field="Friend">Friend</string>
   <string Field="Friends">Friends</string>
   <string Field="FriendRequest">Friend Request</string>
+  <string Field="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
   <string Field="FullName">Full Name</string>
   
   <!-- G -->
   <string Field="Gender">Gender</string>
   <string Field="General">General</string>
   <string Field="GeneralSettings">GeneralSettings</string>
+  <string Field="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
   <string Field="GettingCalendar">Getting Calendar</string>
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>

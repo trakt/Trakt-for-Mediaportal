@@ -22,7 +22,8 @@ namespace TraktPlugin.GUI
         enum SkinControls
         {
             DownloadFanart = 2,
-            DownloadFullSizeFanart = 3
+            DownloadFullSizeFanart = 3,
+            GetFriendRequests = 4
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
@@ -30,6 +31,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.DownloadFullSizeFanart)]
         protected GUIToggleButtonControl btnDownloadFullSizeFanart = null;
+
+        [SkinControl((int)SkinControls.GetFriendRequests)]
+        protected GUIToggleButtonControl btnGetFriendRequests = null;
 
         #endregion
 
@@ -63,9 +67,10 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             // save settings
-            TraktSettings.DownloadFanart = btnDownloadFanart.Selected;
-            TraktSettings.DownloadFullSizeFanart = btnDownloadFullSizeFanart.Selected;
-            
+            if (btnDownloadFanart != null) TraktSettings.DownloadFanart = btnDownloadFanart.Selected;
+            if (btnDownloadFullSizeFanart != null) TraktSettings.DownloadFullSizeFanart = btnDownloadFullSizeFanart.Selected;
+            if (btnGetFriendRequests != null) TraktSettings.GetFriendRequestsOnStartup = btnGetFriendRequests.Selected;
+
             TraktSettings.saveSettings();
 
             base.OnPageDestroy(new_windowId);
@@ -78,13 +83,15 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // Set States
-            btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
-            btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
+            if (btnDownloadFanart !=null) btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
+            if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
+            if (btnGetFriendRequests != null) btnGetFriendRequests.Selected = TraktSettings.GetFriendRequestsOnStartup;
 
             // Set Labels
             // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
-            btnDownloadFanart.Label = Translation.DownloadFanart;
-            btnDownloadFullSizeFanart.Label = Translation.DownloadFullSizeFanart;
+            if (btnDownloadFanart != null) btnDownloadFanart.Label = Translation.DownloadFanart;
+            if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Label = Translation.DownloadFullSizeFanart;
+            if (btnGetFriendRequests != null) btnGetFriendRequests.Label = Translation.GetFriendRequestsOnStartup;
         }
 
         #endregion

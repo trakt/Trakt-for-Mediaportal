@@ -83,7 +83,7 @@ namespace TraktPlugin.GUI
         WatchedHistoryType SelectedType { get; set; }
         GUIFriendItem CurrentFriend { get; set; }
         ImageSwapper backdrop;
-        DateTime LastRequest = new DateTime();
+        static DateTime LastRequest = new DateTime();
         Dictionary<string, IEnumerable<TraktWatchedEpisode>> friendEpisodeHistory = new Dictionary<string, IEnumerable<TraktWatchedEpisode>>();
         Dictionary<string, IEnumerable<TraktWatchedMovie>> friendMovieHistory = new Dictionary<string, IEnumerable<TraktWatchedMovie>>();
 
@@ -133,7 +133,11 @@ namespace TraktPlugin.GUI
         }
         private IEnumerable<GUIFriendItem> _Friends = null;
 
-        IEnumerable<GUIFriendItem> FriendRequests
+        #endregion
+
+        #region Public Properties
+
+        public static IEnumerable<GUIFriendItem> FriendRequests
         {
             get
             {
@@ -145,7 +149,7 @@ namespace TraktPlugin.GUI
                 return _FriendRequests;
             }
         }
-        private IEnumerable<GUIFriendItem> _FriendRequests = null;
+        static IEnumerable<GUIFriendItem> _FriendRequests = null;
 
         #endregion
 
