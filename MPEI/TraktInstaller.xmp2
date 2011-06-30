@@ -48,6 +48,13 @@
               <ZipFileName>Installer{CopyFile}\{c71de8e7-2769-4471-94ec-bbfef7d539c2}-no.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\no.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\de.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a720480f-1db8-4e1d-a0b5-fc2908d9f8cb}-de.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\de.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -865,12 +872,12 @@
               <Description>Header title</Description>
             </SectionParam>
             <SectionParam Name="Header description">
-              <Value>Please wait while installing trakt</Value>
+              <Value>Please wait while trakt is being installed</Value>
               <ValueType>String</ValueType>
               <Description>Description of section, shown in under section title</Description>
             </SectionParam>
             <SectionParam Name="Header image">
-              <Value />
+              <Value>..\TraktPlugin\Resources\Images\trakt.png</Value>
               <ValueType>File</ValueType>
               <Description>Image in upper right part</Description>
             </SectionParam>
@@ -1073,18 +1080,14 @@
       <Build>1</Build>
       <Revision>0</Revision>
     </Version>
-    <ExtensionDescription>
-      Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
-      Trakt will also synchronize your watched flags across multiple installations.
-    </ExtensionDescription>
-    <VersionDescription>
-      Stable release for MediaPortal 1.1
+Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
+    <VersionDescription>Stable release for MediaPortal 1.1
 
-      * Fixed a delay in start of video playback when trakt was still syncing library in background. This typically occurred on start of MediaPortal.
-      * Last selected item is now remembered when you exit and enter a window, e.g. Open Trailer from Trending Movies and then return will now re-select last selected movie. Note: this is not yet implemented in the Friends window.
-      * Added German translations, thanks Manini.
-    </VersionDescription>
+* Fixed a delay in start of video playback when trakt was still syncing library in background. This typically occurred on start of MediaPortal.
+* Last selected item is now remembered when you exit and enter a window, e.g. Open Trailer from Trending Movies and then return will now re-select last selected movie. Note: this is not yet implemented in the Friends window.
+* Added German translations, thanks Manini.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
     <ReleaseDate>2011-06-23T10:00:00+10:00</ReleaseDate>
@@ -1153,6 +1156,13 @@
         <LocalFileName>..\TraktPlugin\Resources\Languages\no.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c71de8e7-2769-4471-94ec-bbfef7d539c2}-no.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\no.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\de.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a720480f-1db8-4e1d-a0b5-fc2908d9f8cb}-de.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\de.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -1865,7 +1875,7 @@
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{077c4df2-329a-4673-87cd-d6a1580963a3}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{31a18015-cc98-4453-b4da-bf53a2646d61}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -1903,7 +1913,7 @@
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller.xmp2</ProjectFilename>
+    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller.xmp2</ProjectFilename>
     <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />
