@@ -49,7 +49,14 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             RemoveFromWatchList,
+            Trailers,
             ChangeLayout
+        }
+
+        enum TrailerSite
+        {
+            IMDb,
+            YouTube
         }
 
         #endregion
@@ -180,6 +187,15 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
 
+            #if MP12
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Trailers;
+            }
+            #endif
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -214,6 +230,12 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                #if MP12
+                case ((int)ContextMenuItem.Trailers):
+                    ShowTrailersMenu(selectedSeries);
+                    break;
+                #endif
+
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
@@ -228,6 +250,51 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        #if MP12
+        private void ShowTrailersMenu(TraktShow show)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.Trailer);
+
+            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
+            {
+                string menuItem = Enum.GetName(typeof(TrailerSite), site);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                dlg.Add(pItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                string siteUtil = string.Empty;
+                string searchParam = string.Empty;
+
+                switch (dlg.SelectedLabelText)
+                {
+                    case ("IMDb"):
+                        siteUtil = "IMDb Movie Trailers";
+                        if (!string.IsNullOrEmpty(show.Imdb))
+                            // Exact search
+                            searchParam = show.Imdb;
+                        else
+                            searchParam = show.Title;
+                        break;
+
+                    case ("YouTube"):
+                        siteUtil = "YouTube";
+                        searchParam = show.Title;
+                        break;
+                }
+
+                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
+                // Launch OnlineVideos Trailer search
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
+            }
+        }
+        #endif
 
         private TraktEpisodeSync CreateSyncData(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> item)
         {
@@ -270,7 +337,6 @@ namespace TraktPlugin.GUI
 
             syncThread.Start(item);
         }
-
 
         private void ShowLayoutMenu()
         {

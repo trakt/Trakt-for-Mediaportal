@@ -319,12 +319,16 @@ namespace TraktPlugin.GUI
         protected override void OnShowContextMenu()
         {            
             TraktWatchedMovie selectedMovie = null;            
+            TraktWatchedEpisode selectedEpisode = null;
 
             GUITraktUserListItem selectedItem = this.Facade.SelectedListItem as GUITraktUserListItem;
             if (selectedItem == null) return;
 
             if (ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies)
-                selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;         
+                selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
+
+            if (ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Episodes)
+                selectedEpisode = (TraktWatchedEpisode)selectedItem.TVTag;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -337,7 +341,14 @@ namespace TraktPlugin.GUI
 
             // Trailers
             #if MP12
-            if ((ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if ((selectedMovie != null) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Trailers;
+                itemCount++;
+            }
+            if ((selectedEpisode != null) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
@@ -365,7 +376,10 @@ namespace TraktPlugin.GUI
             {
                 #if MP12
                 case ((int)ContextMenuItem.Trailers):
-                    ShowTrailersMenu(selectedMovie);
+                    if (selectedMovie != null)
+                        ShowTrailersMenu<TraktWatchedMovie>(selectedMovie);
+                    else
+                        ShowTrailersMenu<TraktWatchedEpisode>(selectedEpisode);
                     break;
                 #endif
                 
@@ -449,7 +463,7 @@ namespace TraktPlugin.GUI
         }
 
         #if MP12
-        private void ShowTrailersMenu(TraktWatchedMovie movie)
+        private void ShowTrailersMenu<T>(T item)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -458,6 +472,8 @@ namespace TraktPlugin.GUI
             foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
             {
                 string menuItem = Enum.GetName(typeof(TrailerSite), site);
+                // iTunes site only supports movie trailers
+                if (item is TraktWatchedEpisode && menuItem == "iTunes") continue;
                 GUIListItem pItem = new GUIListItem(menuItem);
                 dlg.Add(pItem);
             }
@@ -473,21 +489,35 @@ namespace TraktPlugin.GUI
                 {
                     case ("IMDb"):
                         siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(movie.Movie.Imdb))
-                            // Exact search
-                            searchParam = movie.Movie.Imdb;
+                        if (item is TraktWatchedMovie)
+                        {
+                            if (!string.IsNullOrEmpty((item as TraktWatchedMovie).Movie.Imdb))
+                                // Exact search
+                                searchParam = (item as TraktWatchedMovie).Movie.Imdb;
+                            else
+                                searchParam = (item as TraktWatchedMovie).Movie.Title;
+                        }
                         else
-                            searchParam = movie.Movie.Title;
+                        {
+                            if (!string.IsNullOrEmpty((item as TraktWatchedEpisode).Show.Imdb))
+                                // Exact search
+                                searchParam = (item as TraktWatchedEpisode).Show.Imdb;
+                            else
+                                searchParam = (item as TraktWatchedEpisode).Show.Title;
+                        }
                         break;
 
                     case ("iTunes"):
                         siteUtil = "iTunes Movie Trailers";
-                        searchParam = movie.Movie.Title;
+                        searchParam = (item as TraktWatchedMovie).Movie.Title;
                         break;
 
                     case ("YouTube"):
                         siteUtil = "YouTube";
-                        searchParam = movie.Movie.Title;
+                        if (item is TraktWatchedMovie)
+                            searchParam = (item as TraktWatchedMovie).Movie.Title;
+                        else
+                            searchParam = (item as TraktWatchedEpisode).Show.Title;
                         break;
                 }
 

@@ -50,6 +50,18 @@ namespace TraktPlugin.GUI
             AllShows
         }
 
+        enum ContextMenuItem
+        {
+            View,
+            Trailers
+        }
+
+        enum TrailerSite
+        {
+            IMDb,
+            YouTube
+        }
+
         #endregion
 
         #region Constructor
@@ -277,20 +289,35 @@ namespace TraktPlugin.GUI
             dlg.SetHeading(GUIUtils.PluginName());
             
             // Create Views Menu Item
-            GUIListItem listItem = new GUIListItem(Translation.ChangeView);   
-
-            // Add new item to context menu
+            GUIListItem listItem = new GUIListItem(Translation.ChangeView);
             dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.View;
+
+            #if MP12
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Trailers;
+            }
+            #endif
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
-            if (dlg.SelectedId <= 0) return;
+            if (dlg.SelectedId < 0) return;
 
-            switch (dlg.SelectedLabel)
+            switch (dlg.SelectedId)
             {
-                case (0):
+                case ((int)ContextMenuItem.View):
                     ShowViewMenu();
                     break;
+                
+                #if MP12
+                case ((int)ContextMenuItem.Trailers):
+                    TraktCalendar.TraktEpisodes episodeItem = Facade.SelectedListItem.TVTag as TraktCalendar.TraktEpisodes;
+                    if (episodeItem != null) ShowTrailersMenu(episodeItem);
+                    break;
+                #endif
 
                 default:
                     break;
@@ -302,6 +329,51 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        #if MP12
+        private void ShowTrailersMenu(TraktCalendar.TraktEpisodes episodeItem)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.Trailer);
+
+            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
+            {
+                string menuItem = Enum.GetName(typeof(TrailerSite), site);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                dlg.Add(pItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                string siteUtil = string.Empty;
+                string searchParam = string.Empty;
+
+                switch (dlg.SelectedLabelText)
+                {
+                    case ("IMDb"):
+                        siteUtil = "IMDb Movie Trailers";
+                        if (!string.IsNullOrEmpty(episodeItem.Show.Imdb))
+                            // Exact search
+                            searchParam = episodeItem.Show.Imdb;
+                        else
+                            searchParam = episodeItem.Show.Title;
+                        break;
+
+                    case ("YouTube"):
+                        siteUtil = "YouTube";
+                        searchParam = episodeItem.Show.Title;
+                        break;
+                }
+
+                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
+                // Launch OnlineVideos Trailer search
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
+            }
+        }
+        #endif
 
         private void ShowViewMenu()
         {
