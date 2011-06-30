@@ -741,7 +741,7 @@ namespace TraktPlugin.GUI
             {
                 GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
 
-                userItem.Label2 = user.JoinDate.FromEpoch().ToShortDateString();
+                userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
                 userItem.Item = user;
                 userItem.ItemId = id++;
                 userItem.IconImage = "defaultTraktUser.png";
