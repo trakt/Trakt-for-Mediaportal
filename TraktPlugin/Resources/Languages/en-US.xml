@@ -24,6 +24,7 @@
   <string Field="Calendar">Calendar</string>
   <string Field="CalendarMyShows">My Shows</string>
   <string Field="CalendarPremieres">Premieres</string>
+  <string Field="CalendarAllShows">All Shows</string>
   <string Field="Certification">Certification</string>
   <string Field="ChangeView">Change View...</string>
   <string Field="ChangeLayout">Change Layout...</string>

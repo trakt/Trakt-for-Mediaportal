@@ -46,7 +46,8 @@ namespace TraktPlugin.GUI
         enum CalendarType
         {
             MyShows,
-            Premieres
+            Premieres,
+            AllShows
         }
 
         #endregion
@@ -108,6 +109,21 @@ namespace TraktPlugin.GUI
         }
         private IEnumerable<TraktCalendar> _CalendarPremieres = null;
 
+        IEnumerable<TraktCalendar> TraktCalendarAllShows
+        {
+            get
+            {
+                if (_CalendarAllShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                {
+                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    LastRequest = DateTime.UtcNow;
+                    IsCached = false;
+                }
+                return _CalendarAllShows;
+            }
+        }
+        private IEnumerable<TraktCalendar> _CalendarAllShows = null;
+
         #endregion
 
         #region Base Overrides
@@ -143,15 +159,21 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
-            if (CurrentCalendar == CalendarType.MyShows && _CalendarMyShows != null)
+            switch (CurrentCalendar)
             {
-                PreviousCalendarDayCount = _CalendarMyShows.Count();
+                case CalendarType.MyShows:
+                    if (_CalendarMyShows != null) PreviousCalendarDayCount = _CalendarMyShows.Count();
+                    break;
+
+                case CalendarType.Premieres:
+                    if (_CalendarPremieres != null) PreviousCalendarDayCount = _CalendarPremieres.Count();
+                    break;
+
+                case CalendarType.AllShows:
+                    if (_CalendarAllShows != null) PreviousCalendarDayCount = _CalendarAllShows.Count();
+                    break;
             }
-            if (CurrentCalendar == CalendarType.Premieres && _CalendarPremieres != null)
-            {
-                PreviousCalendarDayCount = _CalendarPremieres.Count();
-            }
-            
+
             StopDownload = true;
             ClearProperties();
 
@@ -175,21 +197,38 @@ namespace TraktPlugin.GUI
                         GUIListItem item = Facade.SelectedListItem as GUIListItem;
                         if (item !=null && item.IsFolder)
                         {
-                            // previous call may have timedout
-                            if (CurrentCalendar == CalendarType.MyShows && _CalendarMyShows != null)
+                            switch (CurrentCalendar)
                             {
-                                PreviousCalendarDayCount = _CalendarMyShows.Count();
-                                PreviousSelectedIndex = Facade.SelectedListItemIndex;
-                                CurrentWeekDays += 7;
-                                _CalendarMyShows = null;
-                            }
+                                case CalendarType.MyShows:
+                                    // previous call may have timedout
+                                    if (_CalendarMyShows != null)
+                                    {
+                                        PreviousCalendarDayCount = _CalendarMyShows.Count();
+                                        PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                                        CurrentWeekDays += 7;
+                                        _CalendarMyShows = null;
+                                    }
+                                    break;
 
-                            if (CurrentCalendar == CalendarType.Premieres && _CalendarPremieres != null)
-                            {
-                                PreviousCalendarDayCount = _CalendarPremieres.Count();
-                                PreviousSelectedIndex = Facade.SelectedListItemIndex;
-                                CurrentWeekDays += 7;
-                                _CalendarPremieres = null;
+                                case CalendarType.Premieres:
+                                    if (_CalendarPremieres != null)
+                                    {
+                                        PreviousCalendarDayCount = _CalendarPremieres.Count();
+                                        PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                                        CurrentWeekDays += 7;
+                                        _CalendarPremieres = null;
+                                    }
+                                    break;
+
+                                case CalendarType.AllShows:
+                                    if (_CalendarAllShows != null)
+                                    {
+                                        PreviousCalendarDayCount = _CalendarAllShows.Count();
+                                        PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                                        CurrentWeekDays += 7;
+                                        _CalendarAllShows = null;
+                                    }
+                                    break;
                             }
 
                             // load next 7 days in calendar
@@ -301,6 +340,7 @@ namespace TraktPlugin.GUI
             PreviousCalendarDayCount = 0;
             _CalendarMyShows = null;
             _CalendarPremieres = null;
+            _CalendarAllShows = null;
 
             LoadCalendar();
         }
@@ -315,6 +355,9 @@ namespace TraktPlugin.GUI
                 case CalendarType.Premieres:
                     return Translation.CalendarPremieres;
 
+                case CalendarType.AllShows:
+                    return Translation.CalendarAllShows;
+
                 default:
                     return Translation.CalendarMyShows;
             }
@@ -324,10 +367,20 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
-            if (CurrentCalendar == CalendarType.MyShows)            
-                return TraktCalendarMyShows;
-            else
-                return TraktCalendarPremieres;
+            switch (CurrentCalendar)
+            {
+                case CalendarType.MyShows:
+                    return TraktCalendarMyShows;
+
+                case CalendarType.Premieres:
+                    return TraktCalendarPremieres;
+     
+                case CalendarType.AllShows:
+                    return TraktCalendarAllShows;
+
+                default:
+                    return TraktCalendarMyShows;
+            }
         }
 
         private void LoadCalendar()
@@ -355,6 +408,7 @@ namespace TraktPlugin.GUI
                 // set defaults
                 _CalendarMyShows = null;
                 _CalendarPremieres = null;
+                _CalendarAllShows = null;
                 LastRequest = new DateTime();
                 return;
             }
@@ -513,7 +567,18 @@ namespace TraktPlugin.GUI
                 viewButton.Label = Translation.View + ": " + GetCalendarTypeName(CurrentCalendar);
 
             SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
-            SetProperty("#Trakt.CurrentView", CurrentCalendar == CalendarType.MyShows ? Translation.CalendarMyShows : Translation.CalendarPremieres);
+            switch (CurrentCalendar)
+            {
+                case CalendarType.MyShows:
+                    SetProperty("#Trakt.CurrentView", Translation.CalendarMyShows);
+                    break;
+                case CalendarType.Premieres:
+                    SetProperty("#Trakt.CurrentView", Translation.CalendarPremieres);
+                    break;
+                case CalendarType.AllShows:
+                    SetProperty("#Trakt.CurrentView", Translation.CalendarAllShows);
+                    break;
+            }            
         }
 
         private void SetProperty(string property, string value)

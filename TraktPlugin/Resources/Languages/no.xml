@@ -23,6 +23,7 @@
   <string Field="Calendar">Kalender</string>
   <string Field="CalendarMyShows">Mine Serier</string>
   <string Field="CalendarPremieres">Premiere</string>
+  <string Field="CalendarAllShows">All Shows</string>
   <string Field="Certification">Sertifisering</string>
   <string Field="ChangeView">Bytt visning...</string>
   <string Field="ChangeLayout">Bytt utseende...</string>

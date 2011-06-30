@@ -203,6 +203,7 @@ namespace TraktPlugin.GUI
         public static string Calendar = "Calendar";
         public static string CalendarMyShows = "My Shows";
         public static string CalendarPremieres = "Premieres";
+        public static string CalendarAllShows = "All Shows";
         public static string Certification = "Certification";
         public static string ChangeView = "Change View...";
         public static string ChangeLayout = "Change Layout...";

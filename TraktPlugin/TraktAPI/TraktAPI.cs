@@ -430,6 +430,18 @@ namespace TraktPlugin.TraktAPI
             return premieres.FromJSONArray<TraktCalendar>();
         }
 
+        public static IEnumerable<TraktCalendar> GetCalendarShows()
+        {
+            DateTime dateNow = DateTime.UtcNow.Subtract(new TimeSpan(8, 0, 0));
+            return GetCalendarShows(dateNow.ToString("yyyyMMdd"), "7");
+        }
+
+        public static IEnumerable<TraktCalendar> GetCalendarShows(string startDate, string days)
+        {
+            string premieres = Transmit(string.Format(TraktURIs.CalendarAllShows, startDate, days), GetUserAuthentication());
+            return premieres.FromJSONArray<TraktCalendar>();
+        }
+
         /// <summary>
         /// Returns list of the 100 last watched episodes by a user
         /// </summary>

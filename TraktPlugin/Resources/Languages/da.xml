@@ -24,6 +24,7 @@
   <string Field="Calendar">Kalender</string>
   <string Field="CalendarMyShows">Mine Tv-udsendelser</string>
   <string Field="CalendarPremieres">Premiere</string>
+  <string Field="CalendarAllShows">All Shows</string>
   <string Field="Certification">Censur</string>
   <string Field="ChangeView">Ændre syn...</string>
   <string Field="ChangeLayout">Ændre layout...</string>

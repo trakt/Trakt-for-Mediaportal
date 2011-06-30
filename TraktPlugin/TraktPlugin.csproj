@@ -255,12 +255,18 @@
   <ItemGroup>
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
-    <Content Include="Resources\Languages\da.xml" />
-    <Content Include="Resources\Languages\de.xml" />
+    <Content Include="Resources\Languages\da.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\Languages\de.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Resources\Languages\no.xml" />
+    <Content Include="Resources\Languages\no.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktEpisode.png" />

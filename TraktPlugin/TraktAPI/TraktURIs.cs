@@ -28,6 +28,7 @@ namespace TraktPlugin.TraktAPI
         public const string SyncMovieWatchList = @"http://api.trakt.tv/movie/watchlist/" + ApiKey;
         public const string UserCalendarShows = @"http://api.trakt.tv/user/calendar/shows.json/" + ApiKey + @"/{0}/{1}/{2}";
         public const string CalendarPremieres = @"http://api.trakt.tv/calendar/premieres.json/" + ApiKey + @"/{0}/{1}";
+        public const string CalendarAllShows = @"http://api.trakt.tv/calendar/shows.json/" + ApiKey + @"/{0}/{1}";
         public const string UserFriends = @"http://api.trakt.tv/user/friends.json/" + ApiKey + @"/{0}";
         public const string UserFriendsExtended = @"http://api.trakt.tv/user/friends.json/" + ApiKey + @"/{0}/extended";
         public const string RateItem = @"http://api.trakt.tv/rate/{0}/" + ApiKey;
