@@ -310,15 +310,15 @@ namespace TraktPlugin.TraktHandlers
         /// Playback an episode using TVSeries internal Video Handler
         /// </summary>
         /// <param name="seriesid">series id of episode</param>
-        /// <param name="episodeid">episode index</param>
-        /// <param name="seasonid">season index</param>        
-        public static bool PlayEpisode(int seriesid, int episodeid, int seasonid)
+        /// <param name="seasonid">season index</param>
+        /// <param name="episodeid">episode index</param>        
+        public static bool PlayEpisode(int seriesid, int seasonid, int episodeid)
         {
             var episodes = DBEpisode.Get(seriesid, seasonid);
-            var episode = episodes.FirstOrDefault(e => e[DBEpisode.cEpisodeIndex] == episodeid || e[DBEpisode.cEpisodeIndex2] == episodeid);
+            var episode = episodes.FirstOrDefault(e => (e[DBEpisode.cEpisodeIndex] == episodeid || e[DBEpisode.cEpisodeIndex2] == episodeid) && !string.IsNullOrEmpty(e[DBEpisode.cFilename]));
             if (episode == null) return false;
 
-            return PlayEpisode(episodes[0]);
+            return PlayEpisode(episode);
         }
 
         public static bool PlayEpisode(DBEpisode episode)

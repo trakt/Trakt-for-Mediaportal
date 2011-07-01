@@ -168,7 +168,7 @@ namespace TraktPlugin.GUI
                                 int seasonid = selectedEpisode.Season;
 
                                 // Play episode if it exists
-                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), episodeid, seasonid);
+                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), seasonid, episodeid);
                             }
                         }
                     }
