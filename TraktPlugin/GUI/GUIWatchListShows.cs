@@ -665,11 +665,25 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
+            // determine the overlays to add to poster
+            TraktWatchListShow show = TVTag as TraktWatchListShow;            
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (show.Rating == "love")
+                ratingOverlay = RatingOverlayImage.Love;
+            else if (show.Rating == "hate")
+                ratingOverlay = RatingOverlayImage.Hate;
+
             // get a reference to a MediaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
+            string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image
-            Image memoryImage = GUIImageHandler.LoadImage(imageFilePath);
+            Image memoryImage = null;
+            if (ratingOverlay != RatingOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, MainOverlayImage.None, ratingOverlay);
+            else
+                memoryImage = GUIImageHandler.LoadImage(imageFilePath);
 
             // load texture into facade item
             if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)

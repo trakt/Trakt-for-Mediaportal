@@ -470,6 +470,7 @@ namespace TraktPlugin.GUI
                 item.TVTag = movie;
                 item.Item = movie.Images;
                 item.ItemId = Int32.MaxValue - itemId;
+                item.IsPlayed = movie.Plays > 0;
                 item.IconImage = "defaultVideo.png";
                 item.IconImageBig = "defaultVideoBig.png";
                 item.ThumbnailImage = "defaultVideoBig.png";
@@ -709,11 +710,34 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
+            // determine the overlay to add to poster
+            TraktWatchListMovie movie = TVTag as TraktWatchListMovie;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
+            
+            if (movie.Plays > 0)
+                mainOverlay = MainOverlayImage.Seenit;
+
+            // add additional overlay if applicable
+            if (movie.InCollection)
+                mainOverlay |= MainOverlayImage.Library;
+
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (movie.Rating == "love")
+                ratingOverlay = RatingOverlayImage.Love;
+            else if (movie.Rating == "hate")
+                ratingOverlay = RatingOverlayImage.Hate;
+
             // get a reference to a MediaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
+            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image
-            Image memoryImage = GUIImageHandler.LoadImage(imageFilePath);
+            Image memoryImage = null;
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
+            else
+                memoryImage = GUIImageHandler.LoadImage(imageFilePath);
 
             // load texture into facade item
             if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
