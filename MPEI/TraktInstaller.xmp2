@@ -798,18 +798,16 @@
               <Description />
             </SectionParam>
             <SectionParam Name="Description">
-              <Value>
-                This will install [Name] v[Version] on your computer.
-                It is recommended that you close all other applications before continuing.
+              <Value>This will install [Name] v[Version] on your computer.
+It is recommended that you close all other applications before continuing.
 
-
-                Click Next to continue or Cancel to exit Setup.
+Click Next to continue or Cancel to exit Setup.
               </Value>
               <ValueType>String</ValueType>
               <Description />
             </SectionParam>
             <SectionParam Name="Left part image">
-              <Value />
+              <Value>..\TraktPlugin\Resources\Images\InstallSideImage.png</Value>
               <ValueType>File</ValueType>
               <Description />
             </SectionParam>
@@ -965,7 +963,7 @@
               <Description />
             </SectionParam>
             <SectionParam Name="Left part image">
-              <Value />
+              <Value>..\TraktPlugin\Resources\Images\InstallSideImage.png</Value>
               <ValueType>File</ValueType>
               <Description />
             </SectionParam>
@@ -1874,8 +1872,15 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3a3cd6b2-88ce-466c-9770-1139714e6623}-InstallSideImage.png</ZipFileName>
+        <DestinationFilename />
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{31a18015-cc98-4453-b4da-bf53a2646d61}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{22fe3a82-d004-4687-8973-361783f0a49b}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
