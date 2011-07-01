@@ -33,6 +33,11 @@
   <string Field="CreatingAccount">Lager konto...</string>
   
   <!-- D -->
+  <string Field="DateToday">Today</string>
+  <string Field="DateYesterday">Yesterday</string>
+  <string Field="DateOneWeekAgo">1 Week Ago</string>
+  <string Field="DateTwoWeeksAgo">2 Weeks Ago</string>
+  <string Field="DateOneMonthAgo">1 Month Ago</string>
   <string Field="Deny">Deny</string>
   <string Field="DeleteFriend">Delete Friend</string>
   <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
@@ -158,6 +163,7 @@
   <string Field="SeriesPlural">Serier</string>
   <string Field="Settings">Innstillinger</string>
   <string Field="SigningIntoAccount">Logger inn på konto...</string>
+  <string Field="StartDate">Start Date</string>
   
   <!-- T -->
   <string Field="Timeout">Tiden gikk ut</string>

@@ -21,6 +21,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl viewButton = null;
 
+        [SkinControl(3)]
+        protected GUIButtonControl startDateButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -53,6 +56,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             View,
+            StartDate,
             Trailers
         }
 
@@ -60,6 +64,15 @@ namespace TraktPlugin.GUI
         {
             IMDb,
             YouTube
+        }
+
+        enum StartDates
+        {
+            Today,
+            Yesterday,
+            OneWeekAgo,
+            TwoWeeksAgo,
+            OneMonthAgo
         }
 
         #endregion
@@ -80,12 +93,13 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         FacadeMovement LastMoved { get; set; }
         CalendarType CurrentCalendar { get; set; }
+        StartDates CurrentStartDate { get; set; }
         int CurrentWeekDays = 7;
         int PreviousSelectedIndex;
         int PreviousCalendarDayCount;
         bool IsCached = false;
         ImageSwapper backdrop;
-        DateTime LastRequest = new DateTime();
+        DateTime LastRequest = new DateTime();        
 
         #endregion
 
@@ -97,7 +111,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarMyShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarMyShows = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    _CalendarMyShows = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -112,7 +126,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarPremieres == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -127,7 +141,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarAllShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(DateTime.Now.ToString("yyyyMMdd"), CurrentWeekDays.ToString());
+                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -191,6 +205,7 @@ namespace TraktPlugin.GUI
 
             // save current view
             TraktSettings.DefaultCalendarView = (int)CurrentCalendar;
+            TraktSettings.DefaultCalendarStartDate = (int)CurrentStartDate;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -251,7 +266,12 @@ namespace TraktPlugin.GUI
 
                 // View Button
                 case (2):
-                    ShowViewMenu();                    
+                    ShowViewMenu();
+                    break;
+
+                // Start Date Button
+                case (3):
+                    ShowStartDateMenu();
                     break;
 
                 default:
@@ -293,6 +313,10 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.View;
 
+            listItem = new GUIListItem(Translation.StartDate + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.StartDate;
+
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
@@ -311,7 +335,11 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.View):
                     ShowViewMenu();
                     break;
-                
+
+                case ((int)ContextMenuItem.StartDate):
+                    ShowStartDateMenu();
+                    break;
+
                 #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     TraktCalendar.TraktEpisodes episodeItem = Facade.SelectedListItem.TVTag as TraktCalendar.TraktEpisodes;
@@ -375,6 +403,48 @@ namespace TraktPlugin.GUI
         }
         #endif
 
+        private void ShowStartDateMenu()
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return;
+
+            dlg.Reset();
+            dlg.SetHeading(Translation.StartDate);
+
+            foreach (int value in Enum.GetValues(typeof(StartDates)))
+            {
+                StartDates type = (StartDates)Enum.Parse(typeof(StartDates), value.ToString());
+                string label = GetStartDateName(type);
+
+                // Create new item
+                GUIListItem listItem = new GUIListItem(label);
+                listItem.ItemId = value;
+
+                // Set selected if current
+                if (type == CurrentStartDate) listItem.Selected = true;
+
+                // Add new item to context menu
+                dlg.Add(listItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId <= 0) return;
+
+            // Set new Selection            
+            CurrentStartDate = (StartDates)Enum.GetValues(typeof(StartDates)).GetValue(dlg.SelectedLabel);
+            SetCurrentStartDate();
+
+            // Reset Views and Apply
+            CurrentWeekDays = 7;
+            PreviousSelectedIndex = 0;
+            PreviousCalendarDayCount = 0;
+            _CalendarMyShows = null;
+            _CalendarPremieres = null;
+            _CalendarAllShows = null;
+
+            LoadCalendar();
+        }
+
         private void ShowViewMenu()
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -415,6 +485,30 @@ namespace TraktPlugin.GUI
             _CalendarAllShows = null;
 
             LoadCalendar();
+        }
+
+        private string GetStartDateName(StartDates date)
+        {
+            switch (date)
+            {
+                case StartDates.Today:
+                    return Translation.DateToday;
+
+                case StartDates.Yesterday:
+                    return Translation.DateYesterday;
+
+                case StartDates.OneWeekAgo:
+                    return Translation.DateOneWeekAgo;
+
+                case StartDates.TwoWeeksAgo:
+                    return Translation.DateTwoWeeksAgo;
+
+                case StartDates.OneMonthAgo:
+                    return Translation.DateOneMonthAgo;
+
+                default:
+                    return Translation.DateToday;
+            }
         }
 
         private string GetCalendarTypeName(CalendarType type)
@@ -620,6 +714,9 @@ namespace TraktPlugin.GUI
             CurrentCalendar = (CalendarType)TraktSettings.DefaultCalendarView;
             SetCurrentView();
 
+            CurrentStartDate = (StartDates)TraktSettings.DefaultCalendarStartDate;
+            SetCurrentStartDate();
+
             // clear properties only if we need to
             if (LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
@@ -630,6 +727,58 @@ namespace TraktPlugin.GUI
             }
             else // restore previous position on load
                 IsCached = true;
+        }
+
+        /// <summary>
+        /// Get number of days forward to request in calendar,
+        /// takes into consideration the current anchor point
+        /// </summary>
+        private string GetDaysForward()
+        {
+            switch (CurrentStartDate)
+            {
+                case StartDates.Today:
+                    return CurrentWeekDays.ToString();
+                case StartDates.Yesterday:
+                    return (CurrentWeekDays + 1).ToString();
+                case StartDates.OneWeekAgo:
+                    return (CurrentWeekDays + 7).ToString();
+                case StartDates.TwoWeeksAgo:
+                    return (CurrentWeekDays + 14).ToString();
+                case StartDates.OneMonthAgo:
+                    return (CurrentWeekDays + 31).ToString();
+                default:
+                    return CurrentWeekDays.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Get Date Time for Calendar Anchor Point
+        /// </summary>
+        private DateTime GetStartDate()
+        {
+            switch (CurrentStartDate)
+            {
+                case StartDates.Today:
+                    return DateTime.Now.Subtract(new TimeSpan(0, 0, 0, 0));
+                case StartDates.Yesterday:
+                    return DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+                case StartDates.OneWeekAgo:
+                    return DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0));
+                case StartDates.TwoWeeksAgo:
+                    return DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0));
+                case StartDates.OneMonthAgo:
+                    return DateTime.Now.Subtract(new TimeSpan(31, 0, 0, 0));
+                default:
+                    return DateTime.Now.Subtract(new TimeSpan(0, 0, 0, 0));
+            }
+        }
+
+        private void SetCurrentStartDate()
+        {
+            // Set current start date in button label
+            if (startDateButton != null)
+                startDateButton.Label = Translation.StartDate + ": " + GetStartDateName(CurrentStartDate);
         }
 
         private void SetCurrentView()

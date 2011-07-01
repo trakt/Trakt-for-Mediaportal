@@ -168,12 +168,22 @@
 						<description>Switch View</description>
 						<type>button</type>
 						<id>2</id>
-						<label>Switch View</label>
+						<label>-</label>
 						<onleft>50</onleft>
 						<onright>50</onright>
 						<onup>21</onup>
-						<ondown>2</ondown>
-					</control>					
+						<ondown>3</ondown>
+					</control>
+          <control>
+            <description>Start Date</description>
+            <type>button</type>
+            <id>3</id>
+            <label>-</label>
+            <onleft>50</onleft>
+            <onright>50</onright>
+            <onup>2</onup>
+            <ondown>2</ondown>
+          </control>
 				</control>
       </control>
 		</control>

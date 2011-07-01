@@ -193,7 +193,7 @@ namespace TraktPlugin.GUI
         public static string AirTime = "Air Time";
         public static string Approve = "Approve";
         public static string ApprovedDate = "Approved Date";
-        public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";
+        public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";        
 
         // B
         
@@ -214,6 +214,11 @@ namespace TraktPlugin.GUI
         
 
         // D
+        public static string DateToday = "Today";
+        public static string DateYesterday = "Yesterday";
+        public static string DateOneWeekAgo = "1 Week Ago";
+        public static string DateTwoWeeksAgo = "2 Weeks Ago";
+        public static string DateOneMonthAgo = "1 Month Ago";
         public static string Deny = "Deny";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
@@ -340,6 +345,7 @@ namespace TraktPlugin.GUI
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";
         public static string SigningIntoAccount = "Signing Into Account...";
+        public static string StartDate = "Start Date";        
 
         // T
         public static string Timeout = "Timeout";
