@@ -222,6 +222,8 @@ namespace TraktPlugin.GUI
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
                         GUIListItem item = Facade.SelectedListItem as GUIListItem;
+
+                        // Is a group header
                         if (item !=null && item.IsFolder)
                         {
                             switch (CurrentCalendar)
@@ -260,6 +262,24 @@ namespace TraktPlugin.GUI
 
                             // load next 7 days in calendar
                             LoadCalendar();
+                        }
+
+                        // Is an episode
+                        if (item != null && !item.IsFolder)
+                        {
+                            // check if plugin is installed and enabled
+                            if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+                            {
+                                var episode = item.TVTag as TraktCalendar.TraktEpisodes;
+                                if (episode == null) break;
+
+                                string seriesid = episode.Show.Tvdb;
+                                int episodeid = episode.Episode.Number;
+                                int seasonid = episode.Episode.Season;
+
+                                // Play episode if it exists
+                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), episodeid, seasonid);
+                            }
                         }
                     }
                     break;

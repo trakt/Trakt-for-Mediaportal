@@ -244,7 +244,7 @@ namespace TraktPlugin.GUI
                                     GUIListItem selectedItem = this.Facade.SelectedListItem;
                                     if (selectedItem == null) break;
 
-                                    GUIFriendItem.WatchItem selectedMovie = (GUIFriendItem.WatchItem)selectedItem.TVTag;
+                                    TraktWatchedMovie selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
 
                                     string title = selectedMovie.Movie.Title;
                                     string imdbid = selectedMovie.Movie.Imdb;
@@ -283,6 +283,26 @@ namespace TraktPlugin.GUI
                                             GUIWindowManager.ActivateWindow((int)Window.WINDOW_VIDEO_INFO);
                                             handled = true;
                                         }
+                                    }
+                                }
+
+                                if (SelectedType == WatchedHistoryType.Episodes)
+                                {
+                                    // check if plugin is installed and enabled
+                                    if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+                                    {
+                                        GUIListItem selectedItem = this.Facade.SelectedListItem;
+                                        if (selectedItem == null) break;
+
+                                        TraktWatchedEpisode episode = (TraktWatchedEpisode)selectedItem.TVTag;
+                                        if (episode == null) break;
+
+                                        string seriesid = episode.Show.Tvdb;
+                                        int episodeid = episode.Episode.Number;
+                                        int seasonid = episode.Episode.Season;
+
+                                        // Play episode if it exists
+                                        TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), episodeid, seasonid);
                                     }
                                 }
                                 break;

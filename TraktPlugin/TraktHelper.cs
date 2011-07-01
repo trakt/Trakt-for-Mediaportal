@@ -10,6 +10,7 @@ namespace TraktPlugin.GUI
 {
     public class TraktHelper
     {
+        #region Plugin Helpers
         public static bool IsPluginEnabled(string name)
         {
             using (Settings xmlreader = new MPSettings())
@@ -33,5 +34,14 @@ namespace TraktPlugin.GUI
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MovingPictures.dll")) && IsPluginEnabled("Moving Pictures");
             }
         }
+
+        public static bool IsMPTVSeriesAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MP-TVSeries.dll")) && IsPluginEnabled("MP-TV Series");
+            }
+        }
+        #endregion
     }
 }

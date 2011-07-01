@@ -24,6 +24,7 @@ namespace TraktPlugin.TraktHandlers
         bool EpisodeWatching;
         bool MarkedFirstAsWatched;
         DBEpisode CurrentEpisode;
+        static VideoHandler player = null;
 
         #endregion
 
@@ -303,6 +304,27 @@ namespace TraktPlugin.TraktHandlers
             // gui events
             TVSeriesPlugin.RateItem -= new TVSeriesPlugin.RatingEventDelegate(OnRateItem);
             TVSeriesPlugin.ToggleWatched -= new TVSeriesPlugin.ToggleWatchedEventDelegate(OnToggleWatched);
+        }
+
+        /// <summary>
+        /// Playback an episode using TVSeries internal Video Handler
+        /// </summary>
+        /// <param name="seriesid">series id of episode</param>
+        /// <param name="episodeid">episode index</param>
+        /// <param name="seasonid">season index</param>        
+        public static bool PlayEpisode(int seriesid, int episodeid, int seasonid)
+        {
+            var episodes = DBEpisode.Get(seriesid, seasonid);
+            var episode = episodes.FirstOrDefault(e => e[DBEpisode.cEpisodeIndex] == episodeid || e[DBEpisode.cEpisodeIndex2] == episodeid);
+            if (episode == null) return false;
+
+            return PlayEpisode(episodes[0]);
+        }
+
+        public static bool PlayEpisode(DBEpisode episode)
+        {
+            if (player == null) player = new VideoHandler();
+            return player.ResumeOrPlay(episode);
         }
 
         #endregion

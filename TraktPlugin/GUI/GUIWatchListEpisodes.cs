@@ -151,7 +151,26 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
+                        GUIListItem selectedItem = this.Facade.SelectedListItem;
+                        if (selectedItem == null) return;
 
+                        if (selectedItem != null)
+                        {
+                            // check if plugin is installed and enabled
+                            if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+                            {
+                                var item = (KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>)selectedItem.TVTag;
+                                var selectedSeries = item.Key;
+                                var selectedEpisode = item.Value;
+
+                                string seriesid = selectedSeries.Tvdb;
+                                int episodeid = selectedEpisode.Number;
+                                int seasonid = selectedEpisode.Season;
+
+                                // Play episode if it exists
+                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), episodeid, seasonid);
+                            }
+                        }
                     }
                     break;
 
