@@ -488,6 +488,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
@@ -513,6 +514,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
+            SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
             SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
