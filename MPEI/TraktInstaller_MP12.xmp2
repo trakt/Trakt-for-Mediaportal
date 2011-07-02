@@ -1047,7 +1047,7 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>1</Major>
       <Minor>0</Minor>
-      <Build>1</Build>
+      <Build>2</Build>
       <Revision>1</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
@@ -1055,12 +1055,21 @@ Click Next to continue or Cancel to exit Setup.
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.2 Beta
 
-* Fixed a delay in start of video playback when trakt was still syncing library in background. This typically occurred on start of MediaPortal.
-* Last selected item is now remembered when you exit and enter a window, e.g. Open Trailer from Trending Movies and then return will now re-select last selected movie. Note: this is not yet implemented in the Friends window.
-* Added German translations, thanks Manini.</VersionDescription>
+* Added Library and Rating icons to posters in Movie/Show Watch List windows.
+* Added episode playback support from all episode windows such as: Calendar, Episode Watch List and Friends Episode Watch History.
+* Added a new button/menu option to Calendar which allows you to set a Start Date. User can pick from Today (Default), Yesterday, 1 Week Ago, 2 Weeks Ago or 1 Month Ago.
+* Added a new view to the Calendar window, 'All Shows' allows you to see all shows airing in the week.
+* Added Trailer support from show and episode windows. Can now look for trailers on IMDb and YouTube.
+* Show Notify dialog on startup if there is any outstanding friend requests, this can be disabled from general settings.
+* Added menu item to friends window so you can 'Delete' a friend.
+* Added Pending Friend Requests to friends window so you can easily 'Approve' or 'Deny' new friends.
+* Improve 'Add to Watch List' from Online Videos trailers, will now also send IMDb id for better match on trakt.
+* Friends episode/movie watched history will now show the last 100 items.
+* Remember last selected index when navigating Friends window.
+* Series restriction are now respected if toggling watched or rating episodes from MP-TVSeries GUI. Will also not sync back watched flags when series is restricted.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=40</OnlineLocation>
-    <ReleaseDate>2011-06-23T10:00:00+10:00</ReleaseDate>
+    <ReleaseDate>2011-07-02T10:00:00+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
     <Params>
@@ -1817,14 +1826,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{d1c2c98d-9796-4df8-85df-63340f2ec2d8}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{72afb0bb-6e14-449f-b52a-9f250bb0ff69}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{9b541731-c6df-4861-bc30-d4cc5e62476e}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{074cf741-8819-406f-a574-e8dd321cd2d5}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -1862,7 +1871,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller_MP12.xmp2</ProjectFilename>
+    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller_MP12.xmp2</ProjectFilename>
     <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />
