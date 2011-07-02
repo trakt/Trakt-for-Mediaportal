@@ -86,6 +86,10 @@ namespace TraktPlugin.GUI
         static DateTime LastRequest = new DateTime();
         Dictionary<string, IEnumerable<TraktWatchedEpisode>> friendEpisodeHistory = new Dictionary<string, IEnumerable<TraktWatchedEpisode>>();
         Dictionary<string, IEnumerable<TraktWatchedMovie>> friendMovieHistory = new Dictionary<string, IEnumerable<TraktWatchedMovie>>();
+        int PreviousFriendSelectedIndex = 0;
+        int PreviousTypeSelectedIndex = 0;
+        int PreviousEpisodeSelectedIndex = 0;
+        int PreviousMovieSelelectedIndex = 0;
 
         IEnumerable<TraktWatchedEpisode> WatchedEpisodes
         {
@@ -127,6 +131,7 @@ namespace TraktPlugin.GUI
                 {
                     _Friends = TraktAPI.TraktAPI.GetFriends();
                     LastRequest = DateTime.UtcNow;
+                    PreviousFriendSelectedIndex = 0;
                 }
                 return _Friends;
             }
@@ -617,7 +622,7 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            Facade.SelectedListItemIndex = 0;
+            Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;
         }
 
         private void LoadWatchedHistory()
@@ -692,7 +697,7 @@ namespace TraktPlugin.GUI
                 Facade.Add(episodeItem);
             }
 
-            Facade.SelectedListItemIndex = 0;
+            Facade.SelectedListItemIndex = PreviousEpisodeSelectedIndex;
 
             // Download Episode Thumbnails Async and set to facade
             GetImages<TraktImage>(showImages);
@@ -742,7 +747,7 @@ namespace TraktPlugin.GUI
                 movieImages.Add(movie.Movie.Images);
             }
 
-            Facade.SelectedListItemIndex = 0;
+            Facade.SelectedListItemIndex = PreviousMovieSelelectedIndex;
 
             // Download Movie Posters Async and set to facade
             GetImages<TraktMovie.MovieImages>(movieImages);
@@ -806,7 +811,10 @@ namespace TraktPlugin.GUI
                 Facade.Add(userItem);
             }
 
-            Facade.SelectedListItemIndex = 0;
+            if (Facade.Count <= PreviousFriendSelectedIndex)
+                Facade.SelectedListItemIndex = 0;
+            else
+                Facade.SelectedListItemIndex = PreviousFriendSelectedIndex;
 
             // Set Facade Layout
             Facade.SetCurrentLayout("List");
@@ -977,6 +985,11 @@ namespace TraktPlugin.GUI
             CurrentFriend = (item as GUITraktUserListItem).Item as GUIFriendItem;
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);
+            // reset selected indexes
+            PreviousFriendSelectedIndex = Facade.SelectedListItemIndex;
+            PreviousTypeSelectedIndex = 0;
+            PreviousMovieSelelectedIndex = 0;
+            PreviousEpisodeSelectedIndex = 0;
         }
 
         private void OnWatchedTypeSelected(GUIListItem item, GUIControl parent)
@@ -988,6 +1001,7 @@ namespace TraktPlugin.GUI
             
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);
+            PreviousTypeSelectedIndex = Facade.SelectedListItemIndex;
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
@@ -995,6 +1009,7 @@ namespace TraktPlugin.GUI
             TraktWatchedEpisode episode = item.TVTag as TraktWatchedEpisode;
             PublishEpisodeSkinProperties(episode);
             GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.FanartImageFilename);
+            PreviousEpisodeSelectedIndex = Facade.SelectedListItemIndex;
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
@@ -1002,6 +1017,7 @@ namespace TraktPlugin.GUI
             TraktWatchedMovie movie = item.TVTag as TraktWatchedMovie;
             PublishMovieSkinProperties(movie);
             GUIImageHandler.LoadFanart(backdrop, movie.Movie.Images.FanartImageFilename);
+            PreviousMovieSelelectedIndex = Facade.SelectedListItemIndex;
         }
 
         private void GetImages<T>(List<T> itemsWithThumbs)
