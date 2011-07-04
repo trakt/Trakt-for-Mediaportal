@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MediaPortal.Plugins.MovingPictures;
 using MediaPortal.Plugins.MovingPictures.Database;
+using MediaPortal.Plugins.MovingPictures.MainUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using System.Timers;
@@ -21,6 +22,7 @@ namespace TraktPlugin.TraktHandlers
         Timer traktTimer;
         DBMovieInfo currentMovie;
         bool SyncInProgress;
+        public static MoviePlayer player = null;
 
         public static DBSourceInfo tmdbSource;
 
@@ -595,6 +597,26 @@ namespace TraktPlugin.TraktHandlers
 
             movieID = movie.ID;
             return true;
+        }
+
+        public static void PlayMovie(int? movieID)
+        {
+            if (movieID == null) return;
+
+            // get all movies in local database
+            List<DBMovieInfo> movies = DBMovieInfo.GetAll();
+
+            // try find a match
+            DBMovieInfo movie = movies.Find(m => m.ID == movieID);
+
+            if (movie == null) return;
+            PlayMovie(movie);
+        }
+
+        public static void PlayMovie(DBMovieInfo movie)
+        {
+            if (player == null) player = new MoviePlayer(new MovingPicturesGUI());
+            player.Play(movie);
         }
 
         #endregion

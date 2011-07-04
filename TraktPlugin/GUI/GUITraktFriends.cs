@@ -257,24 +257,28 @@ namespace TraktPlugin.GUI
 
                                     bool handled = false;
 
-                                    #if MP12
-                                    // check if its in MovingPictures database
-                                    // Loading Parameter only works in MediaPortal 1.2
                                     if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
                                     {
                                         int? movieid = null;
 
                                         // Find Movie ID in MovingPictures
                                         // Movie List is now cached internally in MovingPictures so it will be fast
-                                        if (TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid))
+                                        bool movieExists = TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid);
+
+                                        if (movieExists)
                                         {
-                                            // Open MovingPictures Details view so user can play movie
+                                            // Loading Parameter only works in MediaPortal 1.2
+                                            // Load MovingPictures Details view else, directly play movie if using MP 1.1
+                                            #if MP12
                                             string loadingParameter = string.Format("movieid:{0}", movieid);
+                                            // Open MovingPictures Details view so user can play movie
                                             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
+                                            #else
+                                            TraktHandlers.MovingPictures.PlayMovie(movieid);
+                                            #endif
                                             handled = true;
                                         }
                                     }
-                                    #endif
 
                                     // check if its in My Videos database
                                     if (TraktSettings.MyVideos > 0 && handled == false)
