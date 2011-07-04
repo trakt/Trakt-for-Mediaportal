@@ -765,6 +765,14 @@ namespace TraktPlugin.GUI
                     groupList.Add(itemsWithThumbs[j]);
                 }
 
+                // sort images so that images that already exist are displayed first
+                groupList.Sort((m1, m2) =>
+                {
+                    int x = Convert.ToInt32(File.Exists(m1.PosterImageFilename)) + Convert.ToInt32(File.Exists(m1.FanartImageFilename));
+                    int y = Convert.ToInt32(File.Exists(m2.PosterImageFilename)) + Convert.ToInt32(File.Exists(m2.FanartImageFilename));
+                    return y.CompareTo(x);
+                });
+
                 new Thread(delegate(object o)
                 {
                     List<TraktMovie.MovieImages> items = (List<TraktMovie.MovieImages>)o;
