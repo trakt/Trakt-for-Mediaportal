@@ -181,14 +181,32 @@ namespace TraktPlugin.GUI
             // Requires Login
             if (!GUICommon.CheckLogin()) return;
 
-            // clear GUI properties
+            // Clear GUI properties
             ClearProperties();
 
             // Initialize
-            InitProperties();
+            InitProperties();            
 
-            // Load Friends
-            LoadFriendsList();
+            // Load Last View
+            switch (ViewLevel)
+            {
+                case Views.Friends:
+                    LoadFriendsList();
+                    break;
+
+                case Views.WatchedTypes:
+                    LoadWatchedTypes();
+                    break;
+
+                case Views.WatchedHistory:
+                    PublishFriendSkinProperties(CurrentFriend);
+                    LoadWatchedHistory();
+                    break;
+
+                default:
+                    LoadFriendsList();
+                    break;
+            }
         }
 
         protected override void OnPageDestroy(int new_windowId)
@@ -239,7 +257,7 @@ namespace TraktPlugin.GUI
                                     SendFriendsToFacade(_Friends, _FriendRequests);
                                 }
                                 else
-                                    LoadWatchedTypes(friend);
+                                    LoadWatchedTypes();
                                 break;
 
                             case Views.WatchedTypes:
@@ -360,7 +378,7 @@ namespace TraktPlugin.GUI
                     switch (ViewLevel)
                     {
                         case Views.WatchedHistory:
-                            LoadWatchedTypes(Facade.SelectedListItem as GUITraktUserListItem);
+                            LoadWatchedTypes();
                             return;
 
                         case Views.WatchedTypes:
@@ -621,13 +639,14 @@ namespace TraktPlugin.GUI
             }, Translation.GettingFriendsList, true);
         }
 
-        private void LoadWatchedTypes(GUITraktUserListItem friend)
+        private void LoadWatchedTypes()
         {
+            if (CurrentFriend == null) return;
+
             // only two types to choose from in this view level
             // signal that we are now displaying the watched types view
             ViewLevel = Views.WatchedTypes;
             SetCurrentView();
-            GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", "5");
             GUIUtils.SetProperty("#Trakt.Items", string.Format("2 {0}", GUILocalizeStrings.Get(507)));
             
@@ -636,7 +655,6 @@ namespace TraktPlugin.GUI
 
             // add each type to the list           
             GUITraktUserListItem item = new GUITraktUserListItem(Translation.WatchedEpisodes);
-            item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
             item.ThumbnailImage = CurrentFriend.AvatarFilename;
@@ -645,7 +663,6 @@ namespace TraktPlugin.GUI
             Facade.Add(item);
 
             item = new GUITraktUserListItem(Translation.WatchedMovies);
-            item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
             item.ThumbnailImage = CurrentFriend.AvatarFilename;
@@ -654,7 +671,6 @@ namespace TraktPlugin.GUI
             Facade.Add(item);
 
             item = new GUITraktUserListItem(Translation.WatchListShows);
-            item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
             item.ThumbnailImage = CurrentFriend.AvatarFilename;
@@ -663,7 +679,6 @@ namespace TraktPlugin.GUI
             Facade.Add(item);
 
             item = new GUITraktUserListItem(Translation.WatchListMovies);
-            item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
             item.ThumbnailImage = CurrentFriend.AvatarFilename;
@@ -672,7 +687,6 @@ namespace TraktPlugin.GUI
             Facade.Add(item);
 
             item = new GUITraktUserListItem(Translation.WatchListEpisodes);
-            item.Item = friend.Item;
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
             item.ThumbnailImage = CurrentFriend.AvatarFilename;
@@ -717,7 +731,6 @@ namespace TraktPlugin.GUI
             // signal that we are now displaying the watched history view
             ViewLevel = Views.WatchedHistory;
             SetCurrentView();
-            GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", episodes.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", episodes.Count().ToString(), episodes.Count() > 1 ? Translation.Episodes : Translation.Episode));
 
@@ -755,7 +768,7 @@ namespace TraktPlugin.GUI
                 Facade.Add(episodeItem);
             }
 
-            Facade.SelectIndex(PreviousEpisodeSelectedIndex);
+            Facade.SelectedListItemIndex = PreviousEpisodeSelectedIndex;
 
             // Download Episode Thumbnails Async and set to facade
             GetImages<TraktImage>(showImages);
@@ -772,7 +785,6 @@ namespace TraktPlugin.GUI
             // signal that we are now displaying the watched history view
             ViewLevel = Views.WatchedHistory;
             SetCurrentView();
-            GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", movies.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
 
@@ -820,7 +832,6 @@ namespace TraktPlugin.GUI
             ViewLevel = Views.Friends;
             SetCurrentView();
             int friendCount = friends.Count() + (friendRequests == null ? 0 : friendRequests.Count());
-            GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
             GUIUtils.SetProperty("#itemcount", friendCount.ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", friendCount.ToString(), friendCount > 1 ? Translation.Friends : Translation.Friend));
 
@@ -897,8 +908,10 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
 
-            ViewLevel = Views.Friends;
-            GUIUtils.SetProperty("#Trakt.View.Level", "Friends");
+            // Set Friends view as default if cache has expired
+            if (CurrentFriend == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                ViewLevel = Views.Friends;
+            
             GUIUtils.SetProperty("#Trakt.Selected.Type", string.Empty);
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
             SetCurrentView();
@@ -906,6 +919,8 @@ namespace TraktPlugin.GUI
 
         private void SetCurrentView()
         {
+            GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
+
             if (ViewLevel == Views.Friends)
                 SetProperty("#Trakt.CurrentView", "Trakt " + Translation.Friends);
             else if (ViewLevel == Views.WatchedTypes)
