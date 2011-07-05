@@ -659,7 +659,7 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            Facade.SelectedListItemIndex = PreviousSelectedIndex;
+            Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", movies.Count().ToString());

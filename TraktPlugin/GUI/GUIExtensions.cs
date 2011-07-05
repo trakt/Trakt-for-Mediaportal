@@ -110,5 +110,16 @@ namespace TraktPlugin.GUI
             PropertyInfo property = GetPropertyInfo<GUIFacadeControl>("CurrentLayout", "View");
             property.SetValue(self, Enum.Parse(property.PropertyType, layout), null);
         }
+
+        /// <summary>
+        /// Selects the specified item in the facade
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="index">index of the item</param>
+        public static void SelectIndex(this GUIFacadeControl self, int index)
+        {
+            GUIMessage msg = new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, self.WindowId, 0, self.GetID, index, 0, null);
+            GUIGraphicsContext.SendMessage(msg);
+        }
     }
 }

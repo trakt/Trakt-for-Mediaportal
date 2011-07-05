@@ -507,9 +507,9 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= shows.Count())
-                Facade.SelectedListItemIndex = PreviousSelectedIndex - 1;
+                Facade.SelectIndex(PreviousSelectedIndex - 1);
             else
-                Facade.SelectedListItemIndex = PreviousSelectedIndex;
+                Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());

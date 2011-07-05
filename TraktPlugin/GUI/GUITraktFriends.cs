@@ -680,7 +680,7 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;
+            Facade.SelectIndex(PreviousTypeSelectedIndex);
         }
 
         private void LoadWatchedHistory()
@@ -755,7 +755,7 @@ namespace TraktPlugin.GUI
                 Facade.Add(episodeItem);
             }
 
-            Facade.SelectedListItemIndex = PreviousEpisodeSelectedIndex;
+            Facade.SelectIndex(PreviousEpisodeSelectedIndex);
 
             // Download Episode Thumbnails Async and set to facade
             GetImages<TraktImage>(showImages);
@@ -870,9 +870,9 @@ namespace TraktPlugin.GUI
             }
 
             if (Facade.Count <= PreviousFriendSelectedIndex)
-                Facade.SelectedListItemIndex = 0;
+                Facade.SelectIndex(0);
             else
-                Facade.SelectedListItemIndex = PreviousFriendSelectedIndex;
+                Facade.SelectIndex(PreviousFriendSelectedIndex);
 
             // Set Facade Layout
             Facade.SetCurrentLayout("List");

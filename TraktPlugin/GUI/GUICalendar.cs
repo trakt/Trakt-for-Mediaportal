@@ -679,9 +679,9 @@ namespace TraktPlugin.GUI
             // Set the first episode on calendar on initial request (Index 0 is a day header), 
             // Set last position if paging to next week
             if (!IsCached)
-                Facade.SelectedListItemIndex = PreviousSelectedIndex + 1;
+                Facade.SelectIndex(PreviousSelectedIndex + 1);
             else // If cached just set to last position
-                Facade.SelectedListItemIndex = PreviousSelectedIndex;
+                Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
