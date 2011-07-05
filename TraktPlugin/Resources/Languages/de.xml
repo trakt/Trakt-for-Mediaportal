@@ -117,9 +117,9 @@
   <string Field="NoFriendsTaunt">Du hast keine Freunde!</string>
   <string Field="NoTrendingMovies">Zur Zeit werden keine Filme angeschaut!</string>
   <string Field="NoTrendingShows">Zur Zeit werden keine Serien angeschaut!</string>
-  <string Field="NoMovieRecommendations">Keine Filmvorschläge gefunden!</string>
-  <string Field="NoShowRecommendations">Keine Serienvorschläge gefunden!</string>
-  <string Field="NoShowWatchList">Keine Serien in der Beobachtungsliste!</string>
+  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
+  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
+  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string Field="NoMovieWatchList">Keine Filme in der Beobachtungsliste!</string>
   <string Field="NoEpisodeWatchList">Keine Folgen Beobachtungsliste!</string>
   <string Field="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>

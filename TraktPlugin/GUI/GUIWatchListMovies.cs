@@ -82,21 +82,30 @@ namespace TraktPlugin.GUI
         static int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
+        static Dictionary<string, IEnumerable<TraktWatchListMovie>> userWatchList = new Dictionary<string, IEnumerable<TraktWatchListMovie>>();
 
         static IEnumerable<TraktWatchListMovie> WatchListMovies
         {
             get
             {
-                if (_WatchListMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                    _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(CurrentUser);
+                    if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
+                    userWatchList.Add(CurrentUser, _WatchListMovies);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return _WatchListMovies;
+                return userWatchList[CurrentUser];
             }
         }
         static IEnumerable<TraktWatchListMovie> _WatchListMovies = null;
+
+        #endregion
+
+        #region Public Properties
+
+        public static string CurrentUser { get; set; }
 
         #endregion
 
@@ -134,7 +143,10 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
-            ClearProperties();
+            ClearProperties();            
+
+            // restore current user
+            CurrentUser = TraktSettings.Username;
 
             // save current layout
             TraktSettings.WatchListMoviesDefaultLayout = (int)CurrentLayout;
@@ -457,7 +469,7 @@ namespace TraktPlugin.GUI
 
             if (movies.Count() == 0)
             {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoMovieWatchList);
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoMovieWatchList, CurrentUser));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
@@ -515,7 +527,11 @@ namespace TraktPlugin.GUI
             // Fanart
             backdrop.GUIImageOne = FanartBackground;
             backdrop.GUIImageTwo = FanartBackground2;
-            backdrop.LoadingImage = loadingImage;            
+            backdrop.LoadingImage = loadingImage;
+
+            // load Watch list for user
+            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
+            SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.WatchListMoviesDefaultLayout;
@@ -681,9 +697,9 @@ namespace TraktPlugin.GUI
 
         #region Public Methods
 
-        public static void ClearCache()
+        public static void ClearCache(string username)
         {
-            _WatchListMovies = null;
+            if (userWatchList.Keys.Contains(username)) userWatchList.Remove(username);
         }
 
         #endregion

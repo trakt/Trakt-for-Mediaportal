@@ -57,10 +57,13 @@ namespace TraktPlugin.GUI
             DeleteFriend
         }
 
-        enum WatchedHistoryType
+        enum ViewType
         {
-            Episodes,
-            Movies
+            EpisodeWatchHistory,
+            MovieWatchHistory,
+            EpisodeWatchList,
+            ShowWatchList,
+            MovieWatchList
         }
 
         #endregion
@@ -80,7 +83,7 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         Views ViewLevel { get; set; }
-        WatchedHistoryType SelectedType { get; set; }
+        ViewType SelectedType { get; set; }
         GUIFriendItem CurrentFriend { get; set; }
         ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
@@ -240,11 +243,35 @@ namespace TraktPlugin.GUI
                                 break;
 
                             case Views.WatchedTypes:
-                                LoadWatchedHistory();
+                                if (SelectedType == ViewType.EpisodeWatchHistory || SelectedType == ViewType.MovieWatchHistory)
+                                {
+                                    LoadWatchedHistory();
+                                }
+                                else
+                                {
+                                    // Launch Corresponding Watch List window
+                                    switch (SelectedType)
+                                    {
+                                        case (ViewType.MovieWatchList):
+                                            GUIWatchListMovies.CurrentUser = CurrentFriend.Username;
+                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
+                                            break;
+
+                                        case (ViewType.ShowWatchList):
+                                            GUIWatchListShows.CurrentUser = CurrentFriend.Username;
+                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
+                                            break;
+
+                                        case (ViewType.EpisodeWatchList):
+                                            GUIWatchListEpisodes.CurrentUser = CurrentFriend.Username;
+                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
+                                            break;
+                                    }
+                                }
                                 break;
 
                             case Views.WatchedHistory:
-                                if (SelectedType == WatchedHistoryType.Movies)
+                                if (SelectedType == ViewType.MovieWatchHistory)
                                 {
                                     GUIListItem selectedItem = this.Facade.SelectedListItem;
                                     if (selectedItem == null) break;
@@ -295,7 +322,7 @@ namespace TraktPlugin.GUI
                                     }
                                 }
 
-                                if (SelectedType == WatchedHistoryType.Episodes)
+                                if (SelectedType == ViewType.EpisodeWatchHistory)
                                 {
                                     // check if plugin is installed and enabled
                                     if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
@@ -353,10 +380,10 @@ namespace TraktPlugin.GUI
             GUITraktUserListItem selectedItem = this.Facade.SelectedListItem as GUITraktUserListItem;
             if (selectedItem == null) return;
 
-            if (ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Movies)
+            if (ViewLevel == Views.WatchedHistory && SelectedType == ViewType.MovieWatchHistory)
                 selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
 
-            if (ViewLevel == Views.WatchedHistory && SelectedType == WatchedHistoryType.Episodes)
+            if (ViewLevel == Views.WatchedHistory && SelectedType == ViewType.EpisodeWatchHistory)
                 selectedEpisode = (TraktWatchedEpisode)selectedItem.TVTag;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -601,7 +628,7 @@ namespace TraktPlugin.GUI
             ViewLevel = Views.WatchedTypes;
             SetCurrentView();
             GUIUtils.SetProperty("#Trakt.View.Level", ViewLevel.ToString());
-            GUIUtils.SetProperty("#itemcount", "2");
+            GUIUtils.SetProperty("#itemcount", "5");
             GUIUtils.SetProperty("#Trakt.Items", string.Format("2 {0}", GUILocalizeStrings.Get(507)));
             
             // clear facade
@@ -626,6 +653,33 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
+            item = new GUITraktUserListItem(Translation.WatchListShows);
+            item.Item = friend.Item;
+            item.IconImage = CurrentFriend.AvatarFilename;
+            item.IconImageBig = CurrentFriend.AvatarFilename;
+            item.ThumbnailImage = CurrentFriend.AvatarFilename;
+            item.OnItemSelected += OnWatchedTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
+            item = new GUITraktUserListItem(Translation.WatchListMovies);
+            item.Item = friend.Item;
+            item.IconImage = CurrentFriend.AvatarFilename;
+            item.IconImageBig = CurrentFriend.AvatarFilename;
+            item.ThumbnailImage = CurrentFriend.AvatarFilename;
+            item.OnItemSelected += OnWatchedTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
+            item = new GUITraktUserListItem(Translation.WatchListEpisodes);
+            item.Item = friend.Item;
+            item.IconImage = CurrentFriend.AvatarFilename;
+            item.IconImageBig = CurrentFriend.AvatarFilename;
+            item.ThumbnailImage = CurrentFriend.AvatarFilename;
+            item.OnItemSelected += OnWatchedTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
             Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;
         }
 
@@ -635,7 +689,7 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                if (SelectedType == WatchedHistoryType.Episodes)
+                if (SelectedType == ViewType.EpisodeWatchHistory)
                     return WatchedEpisodes;
                 else
                     return WatchedMovies;
@@ -644,7 +698,7 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    if (SelectedType == WatchedHistoryType.Episodes)
+                    if (SelectedType == ViewType.EpisodeWatchHistory)
                         SendWatchedEpisodeHistoryToFacade(result as IEnumerable<TraktWatchedEpisode>);
                     else
                         SendWatchedMovieHistoryToFacade(result as IEnumerable<TraktWatchedMovie>);
@@ -857,7 +911,7 @@ namespace TraktPlugin.GUI
             else if (ViewLevel == Views.WatchedTypes)
                 SetProperty("#Trakt.CurrentView", CurrentFriend.Username);
             else
-                SetProperty("#Trakt.CurrentView", string.Format("{0} | {1}", CurrentFriend.Username, SelectedType == WatchedHistoryType.Episodes ? Translation.WatchedEpisodes : Translation.WatchedMovies));
+                SetProperty("#Trakt.CurrentView", string.Format("{0} | {1}", CurrentFriend.Username, SelectedType == ViewType.EpisodeWatchHistory ? Translation.WatchedEpisodes : Translation.WatchedMovies));
         }
 
         private void ClearProperties()
@@ -999,9 +1053,15 @@ namespace TraktPlugin.GUI
         private void OnWatchedTypeSelected(GUIListItem item, GUIControl parent)
         {
             if (item.Label == Translation.WatchedEpisodes)
-                SelectedType = WatchedHistoryType.Episodes;
+                SelectedType = ViewType.EpisodeWatchHistory;
+            else if (item.Label == Translation.WatchedMovies)
+                SelectedType = ViewType.MovieWatchHistory;
+            else if (item.Label == Translation.WatchListMovies)
+                SelectedType = ViewType.MovieWatchList;
+            else if (item.Label == Translation.WatchListShows)
+                SelectedType = ViewType.ShowWatchList;
             else
-                SelectedType = WatchedHistoryType.Movies;
+                SelectedType = ViewType.EpisodeWatchList;
             
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);

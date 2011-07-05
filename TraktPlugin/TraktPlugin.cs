@@ -593,12 +593,12 @@ namespace TraktPlugin
                         if (type == "movie")
                         {
                             TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year, imdb), TraktSyncModes.watchlist);
-                            GUIWatchListMovies.ClearCache();
+                            GUIWatchListMovies.ClearCache(TraktSettings.Username);
                         }
                         else
                         {
                             TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year, imdb), TraktSyncModes.watchlist);
-                            GUIWatchListShows.ClearCache();
+                            GUIWatchListShows.ClearCache(TraktSettings.Username);
                         }
                     })
                     {

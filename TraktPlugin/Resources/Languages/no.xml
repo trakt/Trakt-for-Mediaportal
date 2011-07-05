@@ -116,9 +116,9 @@
   <string Field="NoFriendsTaunt">Du har ingen venner!</string>
   <string Field="NoTrendingMovies">Ingen filmer blir vises for øyeblikket!</string>
   <string Field="NoTrendingShows">Ingen serier vises for øyeblikket!</string>
-  <string Field="NoMovieRecommendations">Ingen anbefalinger for filmer funnet!</string>
-  <string Field="NoShowRecommendations">Ingen anbefalinger for serier funnet!</string>
-  <string Field="NoShowWatchList">Ingen serier i sett listen!</string>
+  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
+  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
+  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string Field="NoMovieWatchList">Ingen filmer i sett listen!</string>
   <string Field="NoEpisodeWatchList">Ingen episoder i sett listen!</string>
   <string Field="NoPluginsEnabled">Du har ikke konfigurert tillegget i innstillinger.\nVil du konfigurere tillegget nå?</string>

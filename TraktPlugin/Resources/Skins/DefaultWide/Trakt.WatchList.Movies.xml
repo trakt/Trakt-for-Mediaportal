@@ -41,7 +41,7 @@
       <posY>8</posY>
       <width>650</width>
       <font>font12</font>
-      <label>#Trakt.Translation.WatchListMovies.Label</label>
+      <label>#Trakt.Translation.WatchListMovies.Label | #Trakt.WatchList.CurrentUser</label>
       <align>left</align>
       <animation effect="fade" time="150">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>

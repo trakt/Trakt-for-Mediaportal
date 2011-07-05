@@ -80,21 +80,30 @@ namespace TraktPlugin.GUI
         int PreviousSelectedIndex { get; set; }
         ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
+        Dictionary<string, IEnumerable<TraktWatchListEpisode>> userWatchList = new Dictionary<string, IEnumerable<TraktWatchListEpisode>>();
 
         IEnumerable<TraktWatchListEpisode> WatchListEpisodes
         {
             get
             {
-                if (_WatchListEpisodes == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
+                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(CurrentUser);
+                    if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
+                    userWatchList.Add(CurrentUser, _WatchListEpisodes);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return _WatchListEpisodes;
+                return userWatchList[CurrentUser];
             }
         }
-        private IEnumerable<TraktWatchListEpisode> _WatchListEpisodes = null;
+        IEnumerable<TraktWatchListEpisode> _WatchListEpisodes = null;
+
+        #endregion
+
+        #region Public Properties
+
+        public static string CurrentUser { get; set; }
 
         #endregion
 
@@ -133,6 +142,9 @@ namespace TraktPlugin.GUI
             StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
+
+            // restore current user
+            CurrentUser = TraktSettings.Username;
 
             // save current layout
             TraktSettings.WatchListEpisodesDefaultLayout = (int)CurrentLayout;
@@ -429,7 +441,7 @@ namespace TraktPlugin.GUI
 
             if (shows.Count() == 0)
             {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoEpisodeWatchList);
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoEpisodeWatchList, CurrentUser));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
@@ -500,6 +512,10 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;
 
             RemovingWatchListItem = false;
+
+            // load Watch list for user
+            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
+            SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.WatchListEpisodesDefaultLayout;

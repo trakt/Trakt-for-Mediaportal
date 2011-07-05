@@ -118,9 +118,9 @@
   <string Field="NoTrendingMovies">Ingen populære film bliver set!</string>
   <string Field="NoTrendingShows">Ingen populære programmer bliver set!</string>
   <string Field="NoMovieRecommendations">Ingen film anbefalinger fundet!</string>
-  <string Field="NoShowRecommendations">Ingen program anbefalinger fundet!</string>
-  <string Field="NoShowWatchList">Ingen programmer i setlisten!</string>
-  <string Field="NoMovieWatchList">Ingen film i setlisten!</string>
+  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
+  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
+  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
   <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>

@@ -309,7 +309,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListMovies.ClearCache();
+                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
@@ -317,7 +317,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListMovies.ClearCache();
+                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
                 
                 case ((int)ContextMenuItem.AddToLibrary):

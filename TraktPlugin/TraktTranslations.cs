@@ -299,9 +299,9 @@ namespace TraktPlugin.GUI
         public static string NoTrendingShows = "No Shows current being watched!";
         public static string NoMovieRecommendations = "No Movie Recommendations Found!";
         public static string NoShowRecommendations = "No Show Recommendations Found!";
-        public static string NoMovieWatchList = "No Movies in Watch List!";
-        public static string NoShowWatchList = "No Shows in Watch List!";
-        public static string NoEpisodeWatchList = "No Episodes in Watch List!";
+        public static string NoMovieWatchList = "{0} has no movies in Watch List!";
+        public static string NoShowWatchList = "{0} has no shows in Watch List!";
+        public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
 

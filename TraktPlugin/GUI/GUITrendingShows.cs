@@ -223,7 +223,7 @@ namespace TraktPlugin.GUI
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache();
+                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
@@ -231,7 +231,7 @@ namespace TraktPlugin.GUI
                     selectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache();
+                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 #if MP12
