@@ -49,6 +49,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             RemoveFromWatchList,
+            AddToWatchList,
             Trailers,
             ChangeLayout
         }
@@ -192,9 +193,19 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            listItem = new GUIListItem(Translation.RemoveFromWatchList);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            if (CurrentUser == TraktSettings.Username)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            }
+            else if (!selectedShow.InWatchList)
+            {
+                // viewing someone else's watch list and not in yours
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
+            }
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
@@ -216,6 +227,14 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.AddToWatchList):
+                    AddShowToWatchList(selectedShow);
+                    selectedShow.InWatchList = true;
+                    OnShowSelected(selectedItem, Facade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    GUIWatchListShows.ClearCache(TraktSettings.Username);
+                    break;
+
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
                     RemoveShowFromWatchList(selectedShow);
@@ -328,6 +347,20 @@ namespace TraktPlugin.GUI
             };
 
             return syncData;
+        }
+
+        private void AddShowToWatchList(TraktWatchListShow show)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktWatchListShow), TraktSyncModes.watchlist);
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Show to Watch List"
+            };
+
+            syncThread.Start(show);
         }
 
         private void RemoveShowFromWatchList(TraktWatchListShow show)
@@ -496,6 +529,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.WatchList.Inserted", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
@@ -524,6 +558,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.WatchList.Inserted", show.Inserted.FromEpoch().ToShortDateString());
+            SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Title", show.Title);
             SetProperty("#Trakt.Show.Url", show.Url);
@@ -685,7 +720,13 @@ namespace TraktPlugin.GUI
 
             // determine the overlays to add to poster
             TraktWatchListShow show = TVTag as TraktWatchListShow;            
+            
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
+
+            // only show watch list icon if viewing someone elses watch list
+            if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && show.InWatchList)
+                mainOverlay = MainOverlayImage.Watchlist;
 
             if (show.Rating == "love")
                 ratingOverlay = RatingOverlayImage.Love;
@@ -693,13 +734,13 @@ namespace TraktPlugin.GUI
                 ratingOverlay = RatingOverlayImage.Hate;
 
             // get a reference to a MediaPortal Texture Identifier
-            string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image
             Image memoryImage = null;
-            if (ratingOverlay != RatingOverlayImage.None)
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, MainOverlayImage.None, ratingOverlay);
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
             else
                 memoryImage = GUIImageHandler.LoadImage(imageFilePath);
 

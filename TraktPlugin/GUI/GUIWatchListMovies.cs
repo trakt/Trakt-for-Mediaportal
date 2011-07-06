@@ -58,6 +58,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             RemoveFromWatchList,
+            AddToWatchList,
             ChangeLayout,
             Trailers
         }
@@ -241,9 +242,20 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            listItem = new GUIListItem(Translation.RemoveFromWatchList);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            // only allow removal if viewing your own watch list
+            if (CurrentUser == TraktSettings.Username)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            }
+            else if (!selectedMovie.InWatchList)
+            {
+                // viewing someone else's watch list and not in yours
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
+            }
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
@@ -266,6 +278,14 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.AddToWatchList):
+                    AddMovieToWatchList(selectedMovie);
+                    selectedMovie.InWatchList = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
                     RemoveMovieFromWatchList(selectedMovie);
@@ -333,6 +353,20 @@ namespace TraktPlugin.GUI
             };
 
             return syncData;
+        }
+
+        private void AddMovieToWatchList(TraktWatchListMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktWatchListMovie), TraktSyncModes.watchlist);
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Movie to Watch List"
+            };
+
+            syncThread.Start(movie);
         }
 
         private void RemoveMovieFromWatchList(TraktWatchListMovie movie)
@@ -556,6 +590,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
@@ -581,6 +616,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.FanartImageFilename);
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
+            SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
             SetProperty("#Trakt.Movie.Rating", movie.Rating);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
@@ -737,8 +773,11 @@ namespace TraktPlugin.GUI
             // determine the overlay to add to poster
             TraktWatchListMovie movie = TVTag as TraktWatchListMovie;
             MainOverlayImage mainOverlay = MainOverlayImage.None;
-            
-            if (movie.Plays > 0)
+
+            // only show watch list icon if viewing someone elses watch list
+            if ((GUIWatchListMovies.CurrentUser != TraktSettings.Username) && movie.InWatchList)
+                mainOverlay = MainOverlayImage.Watchlist;
+            else if (movie.Plays > 0)
                 mainOverlay = MainOverlayImage.Seenit;
 
             // add additional overlay if applicable

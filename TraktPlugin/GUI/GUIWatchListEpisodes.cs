@@ -214,9 +214,12 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            listItem = new GUIListItem(Translation.RemoveFromWatchList);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            if (CurrentUser == TraktSettings.Username)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
+            }
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
