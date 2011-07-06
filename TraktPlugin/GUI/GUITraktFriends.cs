@@ -291,73 +291,12 @@ namespace TraktPlugin.GUI
                             case Views.WatchedHistory:
                                 if (SelectedType == ViewType.MovieWatchHistory)
                                 {
-                                    GUIListItem selectedItem = this.Facade.SelectedListItem;
-                                    if (selectedItem == null) break;
-
-                                    TraktWatchedMovie selectedMovie = (TraktWatchedMovie)selectedItem.TVTag;
-
-                                    string title = selectedMovie.Movie.Title;
-                                    string imdbid = selectedMovie.Movie.Imdb;
-                                    int year = Convert.ToInt32(selectedMovie.Movie.Year);
-
-                                    bool handled = false;
-
-                                    if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
-                                    {
-                                        int? movieid = null;
-
-                                        // Find Movie ID in MovingPictures
-                                        // Movie List is now cached internally in MovingPictures so it will be fast
-                                        bool movieExists = TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid);
-
-                                        if (movieExists)
-                                        {
-                                            // Loading Parameter only works in MediaPortal 1.2
-                                            // Load MovingPictures Details view else, directly play movie if using MP 1.1
-                                            #if MP12
-                                            string loadingParameter = string.Format("movieid:{0}", movieid);
-                                            // Open MovingPictures Details view so user can play movie
-                                            GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
-                                            #else
-                                            TraktHandlers.MovingPictures.PlayMovie(movieid);
-                                            #endif
-                                            handled = true;
-                                        }
-                                    }
-
-                                    // check if its in My Videos database
-                                    if (TraktSettings.MyVideos > 0 && handled == false)
-                                    {
-                                        IMDBMovie movie = null;
-                                        if (TraktHandlers.MyVideos.FindMovieID(title, year, imdbid, ref movie))
-                                        {
-                                            // Open My Videos Video Info view so user can play movie
-                                            GUIVideoInfo videoInfo = (GUIVideoInfo)GUIWindowManager.GetWindow((int)Window.WINDOW_VIDEO_INFO);
-                                            videoInfo.Movie = movie;
-                                            GUIWindowManager.ActivateWindow((int)Window.WINDOW_VIDEO_INFO);
-                                            handled = true;
-                                        }
-                                    }
+                                    CheckAndPlayMovie(true);
                                 }
 
                                 if (SelectedType == ViewType.EpisodeWatchHistory)
                                 {
-                                    // check if plugin is installed and enabled
-                                    if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
-                                    {
-                                        GUIListItem selectedItem = this.Facade.SelectedListItem;
-                                        if (selectedItem == null) break;
-
-                                        TraktWatchedEpisode episode = (TraktWatchedEpisode)selectedItem.TVTag;
-                                        if (episode == null) break;
-
-                                        string seriesid = episode.Show.Tvdb;
-                                        int episodeid = episode.Episode.Number;
-                                        int seasonid = episode.Episode.Season;
-
-                                        // Play episode if it exists
-                                        TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), seasonid, episodeid);
-                                    }
+                                    CheckAndPlayEpisode();
                                 }
                                 break;
                         }
@@ -384,6 +323,19 @@ namespace TraktPlugin.GUI
                         case Views.WatchedTypes:
                             LoadFriendsList();
                             return;
+                    }
+                    break;
+
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    if (SelectedType == ViewType.MovieWatchHistory)
+                    {
+                        CheckAndPlayMovie(false);
+                    }
+
+                    if (SelectedType == ViewType.EpisodeWatchHistory)
+                    {
+                        CheckAndPlayEpisode();
                     }
                     break;
             }
@@ -477,6 +429,36 @@ namespace TraktPlugin.GUI
         }
        
         #endregion
+
+        private void CheckAndPlayMovie(bool jumpTo)
+        {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            TraktWatchedMovie selectedMovie = selectedItem.TVTag as TraktWatchedMovie;
+            if (selectedItem == null) return;
+
+            string title = selectedMovie.Movie.Title;
+            string imdbid = selectedMovie.Movie.Imdb;
+            int year = Convert.ToInt32(selectedMovie.Movie.Year);
+
+            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+        }
+
+        private void CheckAndPlayEpisode()
+        {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            TraktWatchedEpisode episode = selectedItem.TVTag as TraktWatchedEpisode;
+            if (episode == null) return;
+
+            int seriesid = Convert.ToInt32(episode.Show.Tvdb);
+            int seasonidx = episode.Episode.Season;
+            int episodeidx = episode.Episode.Number;
+
+            GUICommon.CheckAndPlayEpisode(seriesid, seasonidx, episodeidx);
+        }
 
         #region Private Methods
 

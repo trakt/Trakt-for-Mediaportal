@@ -267,19 +267,7 @@ namespace TraktPlugin.GUI
                         // Is an episode
                         if (item != null && !item.IsFolder)
                         {
-                            // check if plugin is installed and enabled
-                            if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
-                            {
-                                var episode = item.TVTag as TraktCalendar.TraktEpisodes;
-                                if (episode == null) break;
-
-                                string seriesid = episode.Show.Tvdb;
-                                int episodeid = episode.Episode.Number;
-                                int seasonid = episode.Episode.Season;
-
-                                // Play episode if it exists
-                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), seasonid, episodeid);
-                            }
+                            CheckAndPlayEpisode();
                         }
                     }
                     break;
@@ -304,6 +292,11 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    CheckAndPlayEpisode();
+                    break;
+
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
                     break;
 
@@ -377,6 +370,21 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void CheckAndPlayEpisode()
+        {
+            GUIListItem selectedItem = Facade.SelectedListItem as GUIListItem;
+            if (selectedItem == null) return;
+
+            var episode = selectedItem.TVTag as TraktCalendar.TraktEpisodes;
+            if (episode == null) return;
+
+            int seriesid = Convert.ToInt32(episode.Show.Tvdb);
+            int seasonidx = episode.Episode.Season;
+            int episodeidx = episode.Episode.Number;
+
+            GUICommon.CheckAndPlayEpisode(seriesid, seasonidx, episodeidx);
+        }
 
         #if MP12
         private void ShowTrailersMenu(TraktCalendar.TraktEpisodes episodeItem)

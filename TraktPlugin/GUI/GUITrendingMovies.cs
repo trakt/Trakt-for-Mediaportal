@@ -155,53 +155,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        GUIListItem selectedItem = this.Facade.SelectedListItem;
-                        if (selectedItem == null) break;
-
-                        TraktTrendingMovie selectedMovie = (TraktTrendingMovie)selectedItem.TVTag;
-
-                        string title = selectedMovie.Title;
-                        string imdbid = selectedMovie.Imdb;
-                        int year = Convert.ToInt32(selectedMovie.Year);
-
-                        bool handled = false;
-
-                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
-                        {
-                            int? movieid = null;
-                            
-                            // Find Movie ID in MovingPictures
-                            // Movie List is now cached internally in MovingPictures so it will be fast
-                            bool movieExists = TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid);
-
-                            if (movieExists)
-                            {
-                                // Loading Parameter only works in MediaPortal 1.2
-                                // Load MovingPictures Details view else, directly play movie if using MP 1.1
-                                #if MP12
-                                string loadingParameter = string.Format("movieid:{0}", movieid);
-                                // Open MovingPictures Details view so user can play movie
-                                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
-                                #else
-                                TraktHandlers.MovingPictures.PlayMovie(movieid);
-                                #endif
-                                handled = true;
-                            }
-                        }
-
-                        // check if its in My Videos database
-                        if (TraktSettings.MyVideos > 0 && handled == false)
-                        {
-                            IMDBMovie movie = null;
-                            if (TraktHandlers.MyVideos.FindMovieID(title, year, imdbid, ref movie))
-                            {
-                                // Open My Videos Video Info view so user can play movie
-                                GUIVideoInfo videoInfo = (GUIVideoInfo)GUIWindowManager.GetWindow((int)Window.WINDOW_VIDEO_INFO);
-                                videoInfo.Movie = movie;
-                                GUIWindowManager.ActivateWindow((int)Window.WINDOW_VIDEO_INFO);
-                                handled = true;
-                            }
-                        }
+                        CheckAndPlayMovie(true);
                     }
                     break;
 
@@ -214,6 +168,20 @@ namespace TraktPlugin.GUI
                     break;
             }
             base.OnClicked(controlId, control, actionType);
+        }
+
+        public override void OnAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    CheckAndPlayMovie(false);
+                    break;
+                default:
+                    base.OnAction(action);
+                    break;
+            }
         }
 
         protected override void OnShowContextMenu()
@@ -360,6 +328,21 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void CheckAndPlayMovie(bool jumpTo)
+        {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            TraktTrendingMovie selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
+            if (selectedMovie == null) return;
+
+            string title = selectedMovie.Title;
+            string imdbid = selectedMovie.Imdb;
+            int year = Convert.ToInt32(selectedMovie.Year);
+
+            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+        }
 
         private TraktMovieSync CreateSyncData(TraktTrendingMovie movie)
         {

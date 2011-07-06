@@ -163,26 +163,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        GUIListItem selectedItem = this.Facade.SelectedListItem;
-                        if (selectedItem == null) return;
-
-                        if (selectedItem != null)
-                        {
-                            // check if plugin is installed and enabled
-                            if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
-                            {
-                                var item = (KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>)selectedItem.TVTag;
-                                var selectedSeries = item.Key;
-                                var selectedEpisode = item.Value;
-
-                                string seriesid = selectedSeries.Tvdb;
-                                int episodeid = selectedEpisode.Number;
-                                int seasonid = selectedEpisode.Season;
-
-                                // Play episode if it exists
-                                TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(seriesid), seasonid, episodeid);
-                            }
-                        }
+                        CheckAndPlayEpisode();
                     }
                     break;
 
@@ -195,6 +176,20 @@ namespace TraktPlugin.GUI
                     break;
             }
             base.OnClicked(controlId, control, actionType);
+        }
+
+        public override void OnAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    CheckAndPlayEpisode();
+                    break;
+                default:
+                    base.OnAction(action);
+                    break;
+            }
         }
 
         protected override void OnShowContextMenu()
@@ -286,6 +281,22 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void CheckAndPlayEpisode()
+        {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            var item = (KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>)selectedItem.TVTag;
+            var selectedSeries = item.Key;
+            var selectedEpisode = item.Value;
+
+            int seriesid = Convert.ToInt32(selectedSeries.Tvdb);
+            int seasonidx = selectedEpisode.Season;
+            int episodeidx = selectedEpisode.Number;
+
+            GUICommon.CheckAndPlayEpisode(seriesid, seasonidx, episodeidx);
+        }
 
         #if MP12
         private void ShowTrailersMenu(TraktShow show)
