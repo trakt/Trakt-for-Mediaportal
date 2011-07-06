@@ -294,7 +294,8 @@ namespace TraktPlugin.GUI
                         // remove from list
                         var moviesToExcept = new List<TraktWatchListMovie>();
                         moviesToExcept.Add(selectedMovie);
-                        _WatchListMovies = WatchListMovies.Except(moviesToExcept);
+                        _WatchListMovies = WatchListMovies.Except(moviesToExcept);                        
+                        userWatchList[CurrentUser] = _WatchListMovies;
                         LoadWatchListMovies();
                     }
                     else
@@ -303,6 +304,7 @@ namespace TraktPlugin.GUI
                         ClearProperties();
                         GUIControl.ClearControl(GetID, Facade.GetID);
                         _WatchListMovies = null;
+                        userWatchList.Remove(CurrentUser);
                         // notify and exit
                         GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoMovieWatchList);
                         GUIWindowManager.ShowPreviousWindow();

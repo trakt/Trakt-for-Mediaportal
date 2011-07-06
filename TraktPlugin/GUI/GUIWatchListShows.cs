@@ -244,6 +244,7 @@ namespace TraktPlugin.GUI
                         var showsToExcept = new List<TraktWatchListShow>();
                         showsToExcept.Add(selectedShow);
                         _WatchListShows = WatchListShows.Except(showsToExcept);
+                        userWatchList[CurrentUser] = _WatchListShows;
                         LoadWatchListShows();
                     }
                     else
@@ -252,6 +253,7 @@ namespace TraktPlugin.GUI
                         ClearProperties();
                         GUIControl.ClearControl(GetID, Facade.GetID);
                         _WatchListShows = null;
+                        userWatchList.Remove(CurrentUser);
                         // notify and exit
                         GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowWatchList);
                         GUIWindowManager.ShowPreviousWindow();

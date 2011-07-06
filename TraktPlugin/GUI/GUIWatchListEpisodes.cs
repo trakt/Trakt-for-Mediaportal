@@ -249,6 +249,7 @@ namespace TraktPlugin.GUI
                     {
                         // remove from list
                         _WatchListEpisodes = null;
+                        userWatchList.Remove(CurrentUser);
                         LoadWatchListEpisodes();
                     }
                     else
@@ -257,6 +258,7 @@ namespace TraktPlugin.GUI
                         ClearProperties();
                         GUIControl.ClearControl(GetID, Facade.GetID);
                         _WatchListEpisodes = null;
+                        userWatchList.Remove(CurrentUser);
                         // notify and exit
                         GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowWatchList);
                         GUIWindowManager.ShowPreviousWindow();
