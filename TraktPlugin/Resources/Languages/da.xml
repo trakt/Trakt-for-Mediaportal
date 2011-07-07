@@ -163,7 +163,7 @@
   <!-- S -->
   <string Field="Score">Score</string>
   <string Field="Season">Sæson</string>
-  <string Field="SearchForFriend">SearchForFriend</string>
+  <string Field="SearchForFriend">Search For Friend...</string>
   <string Field="SendFriendRequest">Send friend request to {0}?</string>
   <string Field="Series">Serie</string>
   <string Field="SeriesPlural">Serier</string>
