@@ -7,6 +7,7 @@
   <string Field="Account">Account</string>
   <string Field="AccountSetup">Account Setup</string>
   <string Field="AccountDialog">Account Dialog</string>
+  <string Field="AddFriend">Add Friend...</string>
   <string Field="AddToLibrary">Add to Library</string>
   <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
@@ -70,6 +71,7 @@
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
+  <string Field="GettingSearchResults">Getting Search Results</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   <string Field="GettingTrendingShows">Getting Trending Shows</string>
   <string Field="GettingRecommendedMovies">Getting Recommended Movies</string>
@@ -124,7 +126,8 @@
   <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string Field="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string Field="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
-
+  <string Field="NoSearchResultsFound">No Search Results Found</string>
+  
   <!-- O -->
   <string Field="OK">OK</string>
   <string Field="Overview">Overview</string>
@@ -159,7 +162,9 @@
   
   <!-- S -->
   <string Field="Score">Score</string>
-  <string Field="Season">Season</string>  
+  <string Field="Season">Season</string>
+  <string Field="SearchForFriend">SearchForFriend</string>
+  <string Field="SendFriendRequest">Send friend request to {0}?</string>
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>
@@ -182,6 +187,7 @@
   <string Field="UserHasNotWatchedEpisodes">User has not watched any episodes!</string>
   <string Field="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string Field="User">User</string>
+  <string Field="Users">Users</string>
   <string Field="Username">Username</string>
   <string Field="UnAuthorized">Authentication failed, please check username and password in settings.</string>
   

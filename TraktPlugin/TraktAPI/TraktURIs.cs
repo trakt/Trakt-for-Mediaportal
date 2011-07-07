@@ -49,6 +49,7 @@ namespace TraktPlugin.TraktAPI
         public const string FriendApprove = @"http://api.trakt.tv/friends/approve/" + ApiKey;
         public const string FriendDeny = @"http://api.trakt.tv/friends/deny/" + ApiKey;
         public const string FriendDelete = @"http://api.trakt.tv/friends/delete/" + ApiKey;
+        public const string SearchUsers = @"http://api.trakt.tv/search/users.json/" + ApiKey + @"/{0}";
 
     }
 }

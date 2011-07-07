@@ -7,6 +7,7 @@
   <string Field="Account">Konto</string>
   <string Field="AccountSetup">Kontoindstillinger</string>
   <string Field="AccountDialog">Bruger dialog</string>
+  <string Field="AddFriend">Add Friend...</string>
   <string Field="AddToLibrary">Tilføj til bibliotek</string>
   <string Field="AddToWatchList">Tilføj til setliste</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
@@ -70,6 +71,7 @@
   <string Field="GettingFriendsList">Indlæser venneliste</string>
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Indlæser venners  set historie</string>
+  <string Field="GettingSearchResults">Getting Search Results</string>
   <string Field="GettingTrendingMovies">Indlæser populære film</string>
   <string Field="GettingTrendingShows">Indlæser populære programmer</string>
   <string Field="GettingRecommendedMovies">Indlæser anbefalede film</string>
@@ -124,6 +126,7 @@
   <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
   <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
+  <string Field="NoSearchResultsFound">No Search Results Found</string>
 
   <!-- O -->
   <string Field="OK">OK</string>
@@ -159,7 +162,9 @@
   
   <!-- S -->
   <string Field="Score">Score</string>
-  <string Field="Season">Sæson</string>  
+  <string Field="Season">Sæson</string>
+  <string Field="SearchForFriend">SearchForFriend</string>
+  <string Field="SendFriendRequest">Send friend request to {0}?</string>
   <string Field="Series">Serie</string>
   <string Field="SeriesPlural">Serier</string>
   <string Field="Settings">Indstillinger</string>
@@ -182,6 +187,7 @@
   <string Field="UserHasNotWatchedEpisodes">Brugeren har ikke set nogen afsnit!</string>
   <string Field="UserHasNotWatchedMovies">Brugeren har ikke set nogen film!</string>
   <string Field="User">Bruger</string>
+  <string Field="Users">Users</string>
   <string Field="Username">Brugernavn</string>
   <string Field="UnAuthorized">Autentificering mislykkedes, kontroller venligst brugernavn og password i indstillingernes.</string>
   

@@ -185,6 +185,7 @@ namespace TraktPlugin.GUI
         public static string Account = "Account";
         public static string AccountSetup = "Account Setup";
         public static string AccountDialog = "Account Dialog";
+        public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
         public static string AddToWatchList = "Add to Watch List";
         public static string AddThisItemToWatchList = "Add this item to your watch list?";
@@ -250,6 +251,7 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendRequests = "Getting Friends Requests";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
+        public static string GettingSearchResults = "Getting Search Results";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
         public static string GettingRecommendedMovies = "Getting Recommended Movies";
@@ -304,6 +306,7 @@ namespace TraktPlugin.GUI
         public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
+        public static string NoSearchResultsFound = "No Search Results Found";
 
         // O
         public static string OK = "OK";
@@ -340,7 +343,9 @@ namespace TraktPlugin.GUI
         // S
         public static string Score = "Score";
         public static string Scrobble = "Scrobble";
-        public static string Season = "Season";        
+        public static string Season = "Season";
+        public static string SearchForFriend = "Search for Friend...";
+        public static string SendFriendRequest = "Send friend request to {0}?";
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";
@@ -363,6 +368,7 @@ namespace TraktPlugin.GUI
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";
         public static string User = "User";
+        public static string Users = "Users";
         public static string Username = "Username";
         public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
 

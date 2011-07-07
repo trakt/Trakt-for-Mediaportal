@@ -580,6 +580,19 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Search
+
+        /// <summary>
+        /// Returns a list of users found using search term
+        /// </summary>        
+        public static IEnumerable<GUIFriendItem> SearchForFriends(string searchTerm)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchUsers, searchTerm), GetUserAuthentication());
+            return response.FromJSONArray<GUIFriendItem>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>
