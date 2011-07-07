@@ -60,6 +60,10 @@ namespace TraktPlugin.GUI
             RemoveFromWatchList,
             AddToWatchList,
             ChangeLayout,
+            MarkAsWatched,
+            AddToLibrary,
+            RemoveFromLibrary,
+            Rate,
             Trailers
         }
 
@@ -225,6 +229,36 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
             }
 
+            // Mark As Watched
+            if (selectedMovie.Plays == 0)
+            {
+                listItem = new GUIListItem(Translation.MarkAsWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+            }
+
+            // Add to Library
+            // Don't allow if it will be removed again on next sync
+            // movie could be part of a DVD collection
+            if (!selectedMovie.InCollection && !TraktSettings.KeepTraktLibraryClean)
+            {
+                listItem = new GUIListItem(Translation.AddToLibrary);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
+            }
+
+            if (selectedMovie.InCollection)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
+            }
+
+            // Rate Movie
+            listItem = new GUIListItem(Translation.RateMovie);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Rate;
+
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
@@ -246,6 +280,45 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.MarkAsWatched):
+                    MarkMovieAsWatched(selectedMovie);
+                    if (CurrentUser != TraktSettings.Username)
+                    {
+                        selectedMovie.Plays = 1;
+                        selectedItem.IsPlayed = true;
+                        OnMovieSelected(selectedItem, Facade);
+                        selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                        GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    }
+                    else
+                    {
+                        // when marking a movie as seen via API, it will remove from watch list
+                        // we should do the same in GUI
+                        PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
+                        if (_WatchListMovies.Count() >= 1)
+                        {
+                            // remove from list
+                            var moviesToExcept = new List<TraktWatchListMovie>();
+                            moviesToExcept.Add(selectedMovie);
+                            _WatchListMovies = WatchListMovies.Except(moviesToExcept);
+                            userWatchList[CurrentUser] = _WatchListMovies;
+                            LoadWatchListMovies();
+                        }
+                        else
+                        {
+                            // no more movies left
+                            ClearProperties();
+                            GUIControl.ClearControl(GetID, Facade.GetID);
+                            _WatchListMovies = null;
+                            userWatchList.Remove(CurrentUser);
+                            // notify and exit
+                            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoMovieWatchList);
+                            GUIWindowManager.ShowPreviousWindow();
+                            return;
+                        }
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddMovieToWatchList(selectedMovie);
                     selectedMovie.InWatchList = true;
@@ -262,7 +335,7 @@ namespace TraktPlugin.GUI
                         // remove from list
                         var moviesToExcept = new List<TraktWatchListMovie>();
                         moviesToExcept.Add(selectedMovie);
-                        _WatchListMovies = WatchListMovies.Except(moviesToExcept);                        
+                        _WatchListMovies = WatchListMovies.Except(moviesToExcept);
                         userWatchList[CurrentUser] = _WatchListMovies;
                         LoadWatchListMovies();
                     }
@@ -286,6 +359,29 @@ namespace TraktPlugin.GUI
                     break;
                 #endif
 
+                case ((int)ContextMenuItem.AddToLibrary):
+                    AddMovieToLibrary(selectedMovie);
+                    selectedMovie.InCollection = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.RemoveFromLibrary):
+                    RemoveMovieFromLibrary(selectedMovie);
+                    selectedMovie.InCollection = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.Rate):
+                    RateMovie(selectedMovie);
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
@@ -300,6 +396,94 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void MarkMovieAsWatched(TraktWatchListMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktWatchListMovie), TraktSyncModes.seen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as Watched"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void AddMovieToLibrary(TraktWatchListMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktWatchListMovie), TraktSyncModes.library);
+            })
+            {
+                IsBackground = true,
+                Name = "Add Movie to Library"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void RemoveMovieFromLibrary(TraktWatchListMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktWatchListMovie), TraktSyncModes.unlibrary);
+            })
+            {
+                IsBackground = true,
+                Name = "Remove Movie From Library"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void RateMovie(TraktWatchListMovie movie)
+        {
+            // default rating to love if not already set
+            TraktRateMovie rateObject = new TraktRateMovie
+            {
+                IMDBID = movie.Imdb,
+                Title = movie.Title,
+                Year = movie.Year,
+                Rating = movie.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            string prevRating = movie.Rating;
+            movie.Rating = GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != movie.Rating)
+            {
+                if (prevRating == "false")
+                {
+                    movie.Ratings.Votes++;
+                    if (movie.Rating == "love")
+                        movie.Ratings.LovedCount++;
+                    else
+                        movie.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    movie.Ratings.LovedCount--;
+                    movie.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    movie.Ratings.LovedCount++;
+                    movie.Ratings.HatedCount--;
+                }
+
+                movie.Ratings.Percentage = (int)Math.Round(100 * (movie.Ratings.LovedCount / (float)movie.Ratings.Votes));
+            }
+        }
 
         private void CheckAndPlayMovie(bool jumpTo)
         {
@@ -576,6 +760,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Plays", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
@@ -602,6 +788,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.FanartImageFilename);
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
             SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
+            SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
+            SetProperty("#Trakt.Movie.Watched", (movie.Plays > 0).ToString());
             SetProperty("#Trakt.Movie.Rating", movie.Rating);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());

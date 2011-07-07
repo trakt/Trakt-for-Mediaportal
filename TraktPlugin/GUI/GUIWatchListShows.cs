@@ -51,6 +51,7 @@ namespace TraktPlugin.GUI
             RemoveFromWatchList,
             AddToWatchList,
             Trailers,
+            Rate,
             ChangeLayout
         }
 
@@ -216,6 +217,11 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Rate Show
+            listItem = new GUIListItem(Translation.RateShow);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Rate;
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -261,6 +267,13 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                case ((int)ContextMenuItem.Rate):
+                    RateShow(selectedShow);
+                    OnShowSelected(selectedItem, Facade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (CurrentUser != TraktSettings.Username) GUIWatchListShows.ClearCache(TraktSettings.Username);
+                    break;
+
                 #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     ShowTrailersMenu(selectedShow);
@@ -281,6 +294,51 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void RateShow(TraktWatchListShow show)
+        {
+            TraktRateSeries rateObject = new TraktRateSeries
+            {
+                SeriesID = show.Tvdb,
+                Title = show.Title,
+                Year = show.Year.ToString(),
+                Rating = show.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            string prevRating = show.Rating;
+            show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != show.Rating)
+            {
+                if (prevRating == "false")
+                {
+                    show.Ratings.Votes++;
+                    if (show.Rating == "love")
+                        show.Ratings.LovedCount++;
+                    else
+                        show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    show.Ratings.LovedCount--;
+                    show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    show.Ratings.LovedCount++;
+                    show.Ratings.HatedCount--;
+                }
+
+                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
+            }
+        }
 
         #if MP12
         private void ShowTrailersMenu(TraktWatchListShow show)
