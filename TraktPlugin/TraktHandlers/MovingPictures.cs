@@ -73,7 +73,7 @@ namespace TraktPlugin.TraktHandlers
             foreach (TraktLibraryMovies tlm in traktMoviesAll)
             {
                 bool notInLocalCollection = true;
-                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
                 {
                     //If the users IMDB ID is empty and we have matched one then set it
                     if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
@@ -105,7 +105,7 @@ namespace TraktPlugin.TraktHandlers
                     //filter out if its already in collection
                     if (tlm.InCollection)
                     {
-                        moviesToSync.RemoveAll(m => (BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID) || (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year));
+                        moviesToSync.RemoveAll(m => (BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID) || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year));
                     }
                     break;
                 }
@@ -121,7 +121,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (m.Title == tlm.Title && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);
@@ -132,7 +132,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (DBMovieInfo m in moviesToSync)
-                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}, TMDB: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
+                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
 
             if (moviesToSync.Count > 0)
             {
@@ -143,7 +143,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (DBMovieInfo m in watchedMoviesToSync)
-                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}, TMDB: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
+                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
 
             if (watchedMoviesToSync.Count > 0)
             {
@@ -592,7 +592,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> movies = DBMovieInfo.GetAll();
 
             // try find a match
-            DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == imdbid || (m.Title == title && m.Year == year));
+            DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
             if (movie == null) return false;
 
             movieID = movie.ID;
