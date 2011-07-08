@@ -909,9 +909,9 @@ namespace TraktPlugin.GUI
             GUITraktUserListItem userItem = new GUITraktUserListItem("..");
             userItem.ItemId = id++;
             userItem.IsFolder = true;
-            userItem.IconImage = "defaultFolder.png";
-            userItem.IconImageBig = "defaultFolderBig.png";
-            userItem.ThumbnailImage = "defaultFolderBig.png";
+            userItem.IconImage = "defaultFolderBack.png";
+            userItem.IconImageBig = "defaultFolderBackBig.png";
+            userItem.ThumbnailImage = "defaultFolderBackBig.png";
             userItem.OnItemSelected += OnFriendSelected;
             Facade.Add(userItem);
 
