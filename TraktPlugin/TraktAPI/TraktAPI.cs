@@ -619,6 +619,7 @@ namespace TraktPlugin.TraktAPI
 
             try
             {
+                ServicePointManager.Expect100Continue = false;
                 WebClient client = new WebClient();
                 client.Headers.Add("user-agent", UserAgent);
                 return client.UploadString(address, data);
