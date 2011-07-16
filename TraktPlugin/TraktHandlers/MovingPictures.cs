@@ -169,10 +169,8 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
 
-            if (true)
-            {
-                createMovingPictureCategories();
-            }
+            //Moving Pictures Categories
+            updateMovingPicturesCategories();
 
             SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
@@ -627,6 +625,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void createMovingPictureCategories()
         {
+            if (!TraktSettings.MovingPicturesCategories)
+                return;
+
             TraktLogger.Debug("Checking if Category has already been created");
             if (TraktSettings.MovingPicturesCategoryId == -1)
             {
@@ -661,6 +662,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void updateMovingPicturesCategories()
         {
+            if (!TraktSettings.MovingPicturesCategories)
+                return;
+            
             TraktLogger.Info("Updating Moving Pictures Categories");
 
             DBNode<DBMovieInfo> traktNode = null;

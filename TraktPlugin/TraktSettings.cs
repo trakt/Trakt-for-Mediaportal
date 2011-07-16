@@ -37,6 +37,7 @@ namespace TraktPlugin
         public static int WebRequestCacheMinutes { get; set; }
         public static bool GetFriendRequestsOnStartup { get; set; }
         public static int MovingPicturesCategoryId { get; set; }
+        public static bool MovingPicturesCategories { get; set; }
         #endregion
 
         #region Constants
@@ -65,6 +66,7 @@ namespace TraktPlugin
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
         private const string cGetFriendRequestsOnStartup = "GetFriendRequestsOnStartup";
         private const string cMovingPicturesCategoryId = "MovingPicturesCategoryId";
+        private const string cMovingPicturesCategories = "MovingPicturesCategories";
         #endregion
 
         /// <summary>
@@ -162,6 +164,7 @@ namespace TraktPlugin
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
                 GetFriendRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, true);
                 MovingPicturesCategoryId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesCategoryId, -1);
+                MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
             }
         }
 
@@ -197,6 +200,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
                 xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
                 xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
+                xmlwriter.SetValue(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
             }
 
             Settings.SaveCache();
