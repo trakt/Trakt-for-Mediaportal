@@ -171,6 +171,8 @@ namespace TraktPlugin.TraktHandlers
 
             //Moving Pictures Categories
             updateMovingPicturesCategories();
+            if (!TraktSettings.MovingPicturesCategories)
+                removeMovingPicturesCategories();
 
             SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
@@ -756,6 +758,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void removeMovingPicturesCategories()
         {
+            if (TraktSettings.MovingPicturesCategories)
+                return;
+
             TraktLogger.Info("Removing Moving Pictures Categories");
 
             if (TraktSettings.MovingPicturesCategoryId != -1)
