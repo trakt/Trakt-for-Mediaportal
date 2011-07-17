@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87280</id>
+  <defaultcontrol>50</defaultcontrol>
+  <allowoverlay>yes</allowoverlay>
+  <controls>    
+		
+		<control>
+      <id>1</id>
+      <description>Background Image</description>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1280</width>
+      <height>720</height>
+      <texture>Background.png</texture>
+      <colordiffuse>ffffffff</colordiffuse>
+			<animation effect="fade" time="300">WindowOpen</animation>
+    </control>
+		
+		<control>
+      <id>1</id>
+      <description>Background Image</description>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1280</width>
+      <height>720</height>
+      <texture>#Trakt.Shout.Fanart</texture>
+      <animation effect="fade" time="300">WindowOpen</animation>
+    </control>
+		
+    <control>
+      <id>1</id>
+      <description>Overlay Image</description>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1281</width>
+      <height>720</height>
+      <texture>mainoverlay.png</texture>
+    </control>
+		    
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <id>0</id>
+      <posX>20</posX>
+      <posY>8</posY>
+      <width>650</width>
+      <font>font12</font>
+      <label>Trakt #Trakt.Translation.Shouts.Label | #Trakt.Shout.CurrentItem</label>
+      <align>left</align>
+      <animation effect="fade" time="150">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>    
+
+    <control>
+      <description>Item Count Label</description>
+      <type>label</type>
+      <label>#Trakt.Items</label>
+      <id>0</id>
+      <width>135</width>
+      <posX>1244</posX>
+      <posY>1</posY>
+      <align>right</align>
+      <font>font10</font>
+      <textcolor>ffFFFFFF</textcolor>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control>
+      <description>Date Time</description>
+      <type>label</type>
+      <id>0</id>
+      <posX>1244</posX>
+      <posY>21</posY>
+      <label>#date | #time</label>
+      <align>right</align>
+      <font>font10</font>
+      <textcolor>ffa9d0f7</textcolor>  
+      <animation effect="fade" time="150">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+   
+    <control>
+      <description>group element</description>
+      <type>group</type>
+      <animation effect="fade" time="150">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="slide" time="150" start="1200,0">WindowOpen</animation>
+      <animation effect="slide" time="250" end="1200,0">WindowClose</animation>
+      <control>
+        <type>facadeview</type>
+        <id>50</id>
+        <control>
+          <description>listcontrol</description>
+          <type>listcontrol</type>
+          <id>50</id>
+          <posX>660</posX>
+          <posY>240</posY>
+          <height>480</height>
+          <width>620</width>
+          <onleft>50</onleft>
+          <onright>50</onright>
+          <scrollOffset>5</scrollOffset>
+          <itemWidth>89</itemWidth>
+          <itemHeight>50</itemHeight>
+          <textureHeight>60</textureHeight>
+          <IconXOff>25</IconXOff>
+          <IconYOff>4</IconYOff>
+          <textXOff>25</textXOff>
+          <textYOff>5</textYOff>
+          <textXOff2>0</textXOff2>
+          <textYOff2>5</textYOff2>
+          <textXOff3>75</textXOff3>
+          <textYOff3>10</textYOff3>
+          <font>font11</font>
+          <font2>font10</font2>
+          <font3>font11</font3>
+          <keepaspectratio>yes</keepaspectratio>
+          <spinPosX>1175</spinPosX>
+          <spinPosY>681</spinPosY>
+          <spinCanFocus>no</spinCanFocus>
+          <suffix>|</suffix>
+        </control>
+      </control>
+    </control>
+    
+		<control>
+      <description>Avatar</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>18</posX>
+      <posY>240</posY>
+      <height>138</height>
+      <width>138</width>
+      <keepaspectratio>yes</keepaspectratio>
+      <zoom>yes</zoom>
+      <texture flipY="true" diffuse="diffusemirrorwide.png">#selectedthumb</texture>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+    </control>
+		
+		<control>
+      <type>label</type>
+      <label>#Trakt.User.Username</label>
+      <id>0</id>
+      <posX>165</posX>
+      <posY>240</posY>
+      <font>font12</font>
+      <textcolor>ffa9d0f7</textcolor>			
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+    </control>    
+    <control>
+      <type>textboxscrollup</type>
+      <label>#Trakt.User.FullName</label>
+      <id>0</id>
+      <posX>165</posX>
+      <posY>263</posY>
+      <width>460</width>
+      <height>60</height>
+      <font>font11</font>
+      <textcolor>ffffffff</textcolor>			
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.FullName,N/A)</visible>
+    </control>    
+		
+		<control>
+      <description>Age</description>
+      <id>0</id>
+      <label>#Trakt.Translation.Age.Label</label>
+      <type>label</type>
+      <posX>165</posX>
+      <posY>318</posY>
+      <width>150</width>
+      <textcolor>ffa9d0f7</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Age,)+!string.equals(#Trakt.User.Age,N/A)</visible>
+    </control>    
+    <control>
+      <description>Age Value</description>
+      <id>0</id>
+      <label>#Trakt.User.Age</label>
+      <type>label</type>
+      <posX>320</posX>
+      <posY>319</posY>
+      <width>400</width>
+      <textcolor>ffFFFFFF</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Age,N/A)</visible>
+    </control>
+		
+		<control>
+      <description>Gender</description>
+      <id>0</id>
+      <label>#Trakt.Translation.Gender.Label</label>
+      <type>label</type>
+      <posX>165</posX>
+      <posY>338</posY>
+      <width>150</width>
+      <textcolor>ffa9d0f7</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Gender,)+!string.equals(#Trakt.User.Gender,N/A)</visible>
+    </control>    
+    <control>
+      <description>Gender Value</description>
+      <id>0</id>
+      <label>#Trakt.User.Gender</label>
+      <type>label</type>
+      <posX>320</posX>
+      <posY>339</posY>
+      <width>400</width>
+      <textcolor>ffFFFFFF</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Gender,N/A)</visible>
+    </control> 
+		
+		<control>
+      <description>Location</description>
+      <id>0</id>
+      <label>#Trakt.Translation.Location.Label</label>
+      <type>label</type>
+      <posX>165</posX>
+      <posY>358</posY>
+      <width>150</width>
+      <textcolor>ffa9d0f7</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Location,)+!string.equals(#Trakt.User.Location,N/A)</visible>
+    </control>    
+    <control>
+      <description>Location Value</description>
+      <id>0</id>
+      <label>#Trakt.User.Location</label>
+      <type>label</type>
+      <posX>320</posX>
+      <posY>359</posY>
+      <width>400</width>
+      <textcolor>ffFFFFFF</textcolor>
+      <font>font10</font>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Location,N/A)</visible>
+    </control>		
+		
+    <control>
+      <description>Shout</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>18</posX>
+      <posY>440</posY>
+      <width>620</width>
+      <height>220</height>
+      <seperator>----------------------------------------------------------------------------------------------------</seperator>
+      <font>font11</font>
+      <label>#Trakt.Shout.Text</label>
+      <scrollStartDelaySec>12</scrollStartDelaySec>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250" delay="0">WindowOpen</animation>
+    </control>
+    
+  </controls>
+</window>

@@ -11,6 +11,7 @@
   <string Field="AddToLibrary">Add to Library</string>
   <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
+  <string Field="Age">Age</string>
   <string Field="AirDate">Air Date</string>
   <string Field="AirDay">Air Day</string>
   <string Field="AirTime">Air Time</string>
@@ -72,6 +73,7 @@
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
+  <string Field="GettingShouts">Getting Shouts</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   <string Field="GettingTrendingShows">Getting Trending Shows</string>
   <string Field="GettingRecommendedMovies">Getting Recommended Movies</string>
@@ -124,6 +126,7 @@
   <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
   <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string Field="NoShoutsForItem">No Shouts for {0}!</string>
   <string Field="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string Field="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string Field="NoSearchResultsFound">No Search Results Found</string>
@@ -168,6 +171,8 @@
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>
+  <string Field="Shout">Shout</string>
+  <string Field="Shouts">Shouts</string>
   <string Field="SigningIntoAccount">Signing Into Account...</string>
   <string Field="StartDate">Start Date</string>
   

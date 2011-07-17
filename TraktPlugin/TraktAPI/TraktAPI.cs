@@ -593,6 +593,42 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Shouts
+
+        /// <summary>
+        /// Return a list of shouts for a movie
+        /// </summary>
+        /// <param name="title">The movie search term, either (title-year seperate spaces with '-'), imdbid, tmdbid</param>    
+        public static IEnumerable<TraktShout> GetMovieShouts(string title)
+        {
+            string response = Transmit(string.Format(TraktURIs.MovieShouts, title), GetUserAuthentication());
+            return response.FromJSONArray<TraktShout>();
+        }
+
+        /// <summary>
+        /// Return a list of shouts for a show
+        /// </summary>
+        /// <param name="title">The show search term, either (title seperate spaces with '-'), imdbid, tvdbid</param>    
+        public static IEnumerable<TraktShout> GetShowShouts(string title)
+        {
+            string response = Transmit(string.Format(TraktURIs.ShowShouts, title), GetUserAuthentication());
+            return response.FromJSONArray<TraktShout>();
+        }
+
+        /// <summary>
+        /// Return a list of shouts for a episode
+        /// </summary>
+        /// <param name="title">The episode search term, either (title seperate spaces with '-'), imdbid, tmdbid</param>
+        /// <param name="season">The episode index</param>
+        /// <param name="indexc">The season index</param>
+        public static IEnumerable<TraktShout> GetEpisodeShouts(string title, string season, string episode)
+        {
+            string response = Transmit(string.Format(TraktURIs.EpisodeShouts, title, season, episode), GetUserAuthentication());
+            return response.FromJSONArray<TraktShout>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>

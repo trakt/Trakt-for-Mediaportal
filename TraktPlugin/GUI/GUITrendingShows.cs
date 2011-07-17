@@ -51,6 +51,7 @@ namespace TraktPlugin.GUI
             AddToWatchList,
             RemoveFromWatchList,
             Trailers,
+            Shouts,
             Rate,
             ChangeLayout
         }
@@ -207,6 +208,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Shouts;
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -239,6 +245,13 @@ namespace TraktPlugin.GUI
                     ShowTrailersMenu(selectedShow);
                     break;
                 #endif
+
+                case ((int)ContextMenuItem.Shouts):
+                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
+                    GUIShouts.ShowInfo = new ShowShout { IMDbId = selectedShow.Imdb, TVDbId = selectedShow.Tvdb, Title = selectedShow.Title };
+                    GUIShouts.Fanart = selectedShow.Images.FanartImageFilename;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    break;
 
                 case ((int)ContextMenuItem.Rate):
                     RateShow(selectedShow);

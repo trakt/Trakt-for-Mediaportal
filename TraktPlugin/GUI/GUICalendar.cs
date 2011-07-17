@@ -57,6 +57,7 @@ namespace TraktPlugin.GUI
         {
             View,
             StartDate,
+            Shouts,
             Trailers
         }
 
@@ -320,15 +321,23 @@ namespace TraktPlugin.GUI
 
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
-            
+
+            TraktCalendar.TraktEpisodes episodeItem = Facade.SelectedListItem.TVTag as TraktCalendar.TraktEpisodes;
+
             // Create Views Menu Item
             GUIListItem listItem = new GUIListItem(Translation.ChangeView);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.View;
 
+            // Start Date
             listItem = new GUIListItem(Translation.StartDate + "...");
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.StartDate;
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Shouts;
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
@@ -353,9 +362,25 @@ namespace TraktPlugin.GUI
                     ShowStartDateMenu();
                     break;
 
+                case ((int)ContextMenuItem.Shouts):
+                    if (episodeItem != null)
+                    {
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
+                        GUIShouts.EpisodeInfo = new EpisodeShout
+                        {
+                            TVDbId = episodeItem.Show.Tvdb,
+                            IMDbId = episodeItem.Show.Imdb,
+                            Title = episodeItem.Show.Title,
+                            SeasonIdx = episodeItem.Episode.Season.ToString(),
+                            EpisodeIdx = episodeItem.Episode.Number.ToString()
+                        };
+                        GUIShouts.Fanart = episodeItem.Show.Images.FanartImageFilename;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    }
+                    break;
+
                 #if MP12
                 case ((int)ContextMenuItem.Trailers):
-                    TraktCalendar.TraktEpisodes episodeItem = Facade.SelectedListItem.TVTag as TraktCalendar.TraktEpisodes;
                     if (episodeItem != null) ShowTrailersMenu(episodeItem);
                     break;
                 #endif

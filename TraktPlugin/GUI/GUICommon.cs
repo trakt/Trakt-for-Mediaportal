@@ -26,20 +26,23 @@ namespace TraktPlugin.GUI
         Settings = 87271,
         SettingsAccount = 87272,
         SettingsPlugins = 87273,
-        SettingsGeneral = 87274
+        SettingsGeneral = 87274,
+        Shouts = 87280
     }
 
     enum ExternalPluginWindows
     {
         OnlineVideos = 4755,
         VideoInfo = 2003,
-        MovingPictures = 96742
+        MovingPictures = 96742,
+        TVSeries = 9811
     }
 
     enum ExternalPluginControls
     {
         WatchList = 97258,
-        Rate = 97259
+        Rate = 97259,
+        Shouts = 97260
     }
 
     public class GUICommon

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MediaPortal.Player;
+using MediaPortal.GUI.Library;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
@@ -17,6 +18,18 @@ namespace TraktPlugin.TraktHandlers
     /// </summary>
     class TVSeries : ITraktHandler
     {
+        #region Enums
+
+        public enum SelectedType
+        {
+            Series,
+            Season,
+            Episode,
+            Unknown
+        }
+
+        #endregion
+
         #region Variables
 
         Timer TraktTimer;
@@ -284,7 +297,7 @@ namespace TraktPlugin.TraktHandlers
 
         #endregion
 
-        #region Other Public Methods
+        #region Public Methods
 
         public void DisposeEvents()
         {
@@ -322,9 +335,95 @@ namespace TraktPlugin.TraktHandlers
         }
 
         public static bool PlayEpisode(DBEpisode episode)
-        {
+        {              
             if (player == null) player = new VideoHandler();
             return player.ResumeOrPlay(episode);
+        }
+
+        /// <summary>
+        /// Get the current selected facade item in TVSeries
+        /// </summary>
+        /// <param name="obj">TVTag object</param>
+        /// <returns>Returns the selected type</returns>
+        public static SelectedType GetSelectedType(Object obj)
+        {
+            if ((obj as DBEpisode) != null) return SelectedType.Episode;
+            if ((obj as DBSeries) != null) return SelectedType.Series;
+            if ((obj as DBSeason) != null) return SelectedType.Season;
+            return SelectedType.Unknown;
+        }
+
+        /// <summary>
+        /// Get Episode Info for selected object
+        /// </summary>        
+        public static bool GetEpisodeInfo(Object obj, out string title, out string tvdb, out string seasonidx, out string episodeidx)
+        {
+            title = string.Empty;
+            tvdb = string.Empty;
+            seasonidx = string.Empty;
+            episodeidx = string.Empty;
+
+            if (obj == null) return false;
+
+            DBEpisode episode = obj as DBEpisode;
+            if (episode == null) return false;
+
+            DBSeries series = Helper.getCorrespondingSeries(episode[DBOnlineEpisode.cSeriesID]);
+            if (series == null) return false;
+
+            title = series[DBOnlineSeries.cOriginalName];
+            tvdb = series[DBSeries.cID];
+            seasonidx = episode[DBOnlineEpisode.cSeasonIndex];
+            episodeidx = episode[DBOnlineEpisode.cEpisodeIndex];
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get Series Info for selected object
+        /// </summary>
+        public static bool GetSeriesInfo(Object obj, out string title, out string tvdb)
+        {
+            title = string.Empty;
+            tvdb = string.Empty;
+       
+            if (obj == null) return false;
+
+            DBSeries series = obj as DBSeries;
+            if (series == null) return false;
+
+            title = series[DBOnlineSeries.cOriginalName];
+            tvdb = series[DBSeries.cID];
+           
+            return true;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Get the TVTag of the selected facade item in TVseries window
+        /// </summary>
+        public static Object SelectedObject
+        {
+            get
+            {
+                // Ensure we are in TVSeries window
+                GUIWindow window = GUIWindowManager.GetWindow(9811);
+                if (window == null) return null;
+
+                // Get the Facade control
+                GUIFacadeControl facade = window.GetControl(50) as GUIFacadeControl;
+                if (facade == null) return null;
+
+                // Get the Selected Item
+                GUIListItem currentitem = facade.SelectedListItem;
+                if (currentitem == null) return null;
+
+                // Get the series/episode object
+                return currentitem.TVTag;
+            }
         }
 
         #endregion

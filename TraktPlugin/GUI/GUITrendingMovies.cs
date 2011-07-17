@@ -63,6 +63,7 @@ namespace TraktPlugin.GUI
             AddToLibrary,
             RemoveFromLibrary,
             Rate,
+            Shouts,
             ChangeLayout,
             Trailers
         }
@@ -243,6 +244,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Shouts;
+
             #if MP12
             // Trailers
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
@@ -306,6 +312,13 @@ namespace TraktPlugin.GUI
                     RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.Shouts):
+                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
+                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.Imdb, TMDbId = selectedMovie.Tmdb, Title = selectedMovie.Title, Year = selectedMovie.Year };
+                    GUIShouts.Fanart = selectedMovie.Images.FanartImageFilename;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
                     break;
 
                 #if MP12
