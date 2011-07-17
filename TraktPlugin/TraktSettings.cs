@@ -36,6 +36,8 @@ namespace TraktPlugin
         public static bool DownloadFanart { get; set; }
         public static int WebRequestCacheMinutes { get; set; }
         public static bool GetFriendRequestsOnStartup { get; set; }
+        public static int MovingPicturesCategoryId { get; set; }
+        public static bool MovingPicturesCategories { get; set; }
         #endregion
 
         #region Constants
@@ -63,6 +65,8 @@ namespace TraktPlugin
         private const string cDownloadFanart = "DownloadFanart";
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
         private const string cGetFriendRequestsOnStartup = "GetFriendRequestsOnStartup";
+        private const string cMovingPicturesCategoryId = "MovingPicturesCategoryId";
+        private const string cMovingPicturesCategories = "MovingPicturesCategories";
         #endregion
 
         /// <summary>
@@ -159,6 +163,8 @@ namespace TraktPlugin
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
                 GetFriendRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, true);
+                MovingPicturesCategoryId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesCategoryId, -1);
+                MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
             }
         }
 
@@ -193,6 +199,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
                 xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
+                xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
+                xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
             }
 
             Settings.SaveCache();
