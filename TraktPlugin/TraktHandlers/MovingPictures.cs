@@ -636,13 +636,14 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktLogger.Debug("Category not created so let's create it");
                 DBNode<DBMovieInfo> traktNode = new DBNode<DBMovieInfo>();
-                traktNode.Name = "Trakt";
+                traktNode.Name = "${Trakt}";
 
                 DBMovieNodeSettings nodeSettings = new DBMovieNodeSettings();
                 traktNode.AdditionalSettings = nodeSettings;
 
+                TraktLogger.Debug("Setting the sort position to {0}", (MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Count + 1).ToString());
                 //Add it at the end
-                traktNode.SortPosition = MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Count;
+                traktNode.SortPosition = MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Count + 1;
 
                 TraktLogger.Debug("Adding to Root Node");
                 MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Add(traktNode);
