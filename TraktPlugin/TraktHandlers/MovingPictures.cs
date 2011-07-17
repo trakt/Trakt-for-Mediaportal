@@ -170,7 +170,8 @@ namespace TraktPlugin.TraktHandlers
             }
 
             //Moving Pictures Categories
-            updateMovingPicturesCategories();
+            TraktLogger.Debug("Moving Pictures Categories {0} ", TraktSettings.MovingPicturesCategories.ToString());
+            createMovingPictureCategories();
             if (!TraktSettings.MovingPicturesCategories)
                 removeMovingPicturesCategories();
 
@@ -643,11 +644,11 @@ namespace TraktPlugin.TraktHandlers
                 //Add it at the end
                 traktNode.SortPosition = MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Count;
 
-                TraktLogger.Debug("Adding to Root Nodes");
+                TraktLogger.Debug("Adding to Root Node");
                 MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Add(traktNode);
 
                 TraktLogger.Debug("Committing");
-                MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Commit();
+                MovingPicturesCore.Settings.CategoriesMenu.Commit();
 
                 TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
                 TraktSettings.MovingPicturesCategoryId = (int)traktNode.ID;
@@ -769,8 +770,9 @@ namespace TraktPlugin.TraktHandlers
 
                 if (traktNode != null)
                 {
-                    TraktLogger.Debug("Removing from Moving Pictures");
+                    TraktLogger.Debug("Removing Categories from Moving Pictures");
                     MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Remove(traktNode);
+                    MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Commit();
                 }
                 else
                 {
@@ -783,7 +785,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                TraktLogger.Error("We don't have a record of the id!");
+                TraktLogger.Debug("We don't have a record of the id!");
             }
         }
 
