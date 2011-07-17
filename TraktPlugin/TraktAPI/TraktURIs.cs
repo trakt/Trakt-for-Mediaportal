@@ -50,6 +50,8 @@ namespace TraktPlugin.TraktAPI
         public const string FriendDeny = @"http://api.trakt.tv/friends/deny/" + ApiKey;
         public const string FriendDelete = @"http://api.trakt.tv/friends/delete/" + ApiKey;
         public const string SearchUsers = @"http://api.trakt.tv/search/users.json/" + ApiKey + @"/{0}";
-
+        public const string MovieShouts = @"http://api.trakt.tv/movie/shouts.json/" + ApiKey + @"/{0}";
+        public const string ShowShouts = @"http://api.trakt.tv/show/shouts.json/" + ApiKey + @"/{0}";
+        public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/shouts.json/" + ApiKey + @"/{0}/{1}/{2}";
     }
 }

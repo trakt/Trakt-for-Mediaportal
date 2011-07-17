@@ -189,6 +189,7 @@ namespace TraktPlugin.GUI
         public static string AddToLibrary = "Add to Library";
         public static string AddToWatchList = "Add to Watch List";
         public static string AddThisItemToWatchList = "Add this item to your watch list?";
+        public static string Age = "Age";
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
@@ -256,6 +257,7 @@ namespace TraktPlugin.GUI
         public static string GettingTrendingShows = "Getting Trending Shows";
         public static string GettingRecommendedMovies = "Getting Recommended Movies";
         public static string GettingRecommendedShows = "Getting Recommended Shows";
+        public static string GettingShouts = "Getting Shouts";
         public static string GettingWatchListMovies = "Getting Watch List Movies";
         public static string GettingWatchListShows = "Getting Watch List Shows";
         public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
@@ -304,6 +306,7 @@ namespace TraktPlugin.GUI
         public static string NoMovieWatchList = "{0} has no movies in Watch List!";
         public static string NoShowWatchList = "{0} has no shows in Watch List!";
         public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
+        public static string NoShoutsForItem = "No Shouts for {0}!";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
         public static string NoSearchResultsFound = "No Search Results Found";
@@ -349,6 +352,8 @@ namespace TraktPlugin.GUI
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";
+        public static string Shout = "Shout";
+        public static string Shouts = "Shouts";
         public static string SigningIntoAccount = "Signing Into Account...";
         public static string StartDate = "Start Date";        
 

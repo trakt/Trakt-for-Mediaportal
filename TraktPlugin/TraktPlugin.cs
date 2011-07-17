@@ -510,9 +510,14 @@ namespace TraktPlugin
         {
             bool validWatchListItem = false;
             bool validRateItem = false;
+            bool validShoutItem = false;
             string title = string.Empty;
             string year = string.Empty;
             string imdb = string.Empty;
+            string tvdb = string.Empty;
+            string season = string.Empty;
+            string episode = string.Empty;
+            string fanart = string.Empty;
             string type = "movie";
 
             GUIWindow currentWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
@@ -573,6 +578,72 @@ namespace TraktPlugin
                                 GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
                             }
                             #endregion
+                            #region Shouts Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                type = "movie";
+                                title = GUIPropertyManager.GetProperty("#title").Trim();
+                                year = GUIPropertyManager.GetProperty("#year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                #if !MP12
+                                _mediaDetail.FanArt = string.Empty;
+                                #else
+                                fanart = string.Empty;
+                                MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
+                                #endif
+
+                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    validShoutItem = true;
+                            }
+                            #endregion
+                            break;
+
+                        case (int)ExternalPluginWindows.MovingPictures:
+                            #region Shouts Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                type = "movie";
+                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
+                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+                                fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
+
+                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    validShoutItem = true;
+                            }
+                            #endregion
+                            break;
+
+                        case (int)ExternalPluginWindows.TVSeries:
+                            #region Shouts Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                Object obj = TVSeries.SelectedObject;
+                                if (obj != null)
+                                {
+                                    switch (TVSeries.GetSelectedType(obj))
+                                    {
+                                        case TVSeries.SelectedType.Episode:
+                                            type = "episode";
+                                            validShoutItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                            break;
+
+                                        case TVSeries.SelectedType.Series:
+                                            type = "series";
+                                            validShoutItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                            validShoutItem = true;
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    fanart = GUIPropertyManager.GetProperty("#TVSeries.Current.Fanart").Trim();
+                                }
+                            }
+                            #endregion
                             break;
                     }
                     break;
@@ -615,6 +686,60 @@ namespace TraktPlugin
             {
                 TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
                 GUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+            }
+            #endregion
+
+            #region Shouts
+            if (validShoutItem)
+            {
+                // Initialize Shout window
+                switch (type)
+                {
+                    #region movie
+                    case "movie":
+                        TraktLogger.Info("Searching Shouts for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
+                        MovieShout movieInfo = new MovieShout
+                        {
+                            IMDbId = imdb,
+                            Title = title,
+                            Year = year
+                        };
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
+                        GUIShouts.MovieInfo = movieInfo;
+                        GUIShouts.Fanart = fanart;
+                        break;
+                    #endregion
+                    #region episode
+                    case "episode":
+                        TraktLogger.Info("Searching Shouts for {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
+                        EpisodeShout episodeInfo = new EpisodeShout
+                        {
+                            TVDbId = tvdb,
+                            Title = title,
+                            SeasonIdx = season,
+                            EpisodeIdx = episode
+                        };
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
+                        GUIShouts.EpisodeInfo = episodeInfo;
+                        GUIShouts.Fanart = fanart;
+                        break;
+                    #endregion
+                    #region series
+                    case "series":
+                        TraktLogger.Info("Searching Shouts for {0} '{1} [{2}]'", type, title, tvdb);
+                        ShowShout seriesInfo = new ShowShout
+                        {
+                            TVDbId = tvdb,
+                            Title = title,
+                        };
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
+                        GUIShouts.ShowInfo = seriesInfo;
+                        GUIShouts.Fanart = fanart;
+                        break;
+                    #endregion
+                }
+                // Launch Shout window
+                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
             }
             #endregion
         }

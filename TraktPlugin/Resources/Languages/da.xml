@@ -11,6 +11,7 @@
   <string Field="AddToLibrary">Tilføj til bibliotek</string>
   <string Field="AddToWatchList">Tilføj til setliste</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
+  <string Field="Age">Age</string>
   <string Field="AirDate">Sendedato</string>
   <string Field="AirDay">Sendedag</string>
   <string Field="AirTime">Sendetid</string>
@@ -72,6 +73,7 @@
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Indlæser venners  set historie</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
+  <string Field="GettingShouts">Getting Shouts</string>
   <string Field="GettingTrendingMovies">Indlæser populære film</string>
   <string Field="GettingTrendingShows">Indlæser populære programmer</string>
   <string Field="GettingRecommendedMovies">Indlæser anbefalede film</string>
@@ -124,6 +126,7 @@
   <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
+  <string Field="NoShoutsForItem">No Shouts for {0}!</string>
   <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
   <string Field="NoSearchResultsFound">No Search Results Found</string>
@@ -168,6 +171,8 @@
   <string Field="Series">Serie</string>
   <string Field="SeriesPlural">Serier</string>
   <string Field="Settings">Indstillinger</string>
+  <string Field="Shout">Shout</string>
+  <string Field="Shouts">Shouts</string>
   <string Field="SigningIntoAccount">Logger ind på kontoen...</string>
   <string Field="StartDate">Start Date</string>
   

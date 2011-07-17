@@ -50,6 +50,7 @@ namespace TraktPlugin.GUI
         {
             RemoveFromWatchList,
             Trailers,
+            Shouts,
             ChangeLayout
         }
 
@@ -225,6 +226,11 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Shouts;
+            
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -266,6 +272,20 @@ namespace TraktPlugin.GUI
                     ShowTrailersMenu(selectedSeries);
                     break;
                 #endif
+
+                case ((int)ContextMenuItem.Shouts):
+                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
+                    GUIShouts.EpisodeInfo = new EpisodeShout
+                    { 
+                        TVDbId = selectedSeries.Tvdb, 
+                        IMDbId = selectedSeries.Imdb, 
+                        Title = selectedSeries.Title, 
+                        SeasonIdx = selectedEpisode.Season.ToString(), 
+                        EpisodeIdx = selectedEpisode.Number.ToString()
+                    };
+                    GUIShouts.Fanart = selectedSeries.Images.FanartImageFilename;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();

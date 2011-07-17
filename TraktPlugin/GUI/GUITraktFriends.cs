@@ -56,7 +56,8 @@ namespace TraktPlugin.GUI
             Trailers,
             DeleteFriend,
             SearchFriend,
-            AddFriend
+            AddFriend,
+            Shouts
         }
 
         enum ViewType
@@ -417,6 +418,15 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Shouts
+            if (ViewLevel == Views.WatchedHistory)
+            {
+                listItem = new GUIListItem(Translation.Shouts + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Shouts;
+                itemCount++;
+            }
+
             // Delete a Friend
             if ((ViewLevel == Views.Friends) && selectedItem.IsFriend)
             {
@@ -459,7 +469,37 @@ namespace TraktPlugin.GUI
                         ShowTrailersMenu<TraktWatchedEpisode>(selectedEpisode);
                     break;
                 #endif
-                
+
+                case ((int)ContextMenuItem.Shouts):
+                    if (SelectedType == ViewType.EpisodeWatchHistory && selectedEpisode != null)
+                    {
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
+                        GUIShouts.EpisodeInfo = new EpisodeShout
+                        {
+                            TVDbId = selectedEpisode.Show.Tvdb,
+                            IMDbId = selectedEpisode.Show.Imdb,
+                            Title = selectedEpisode.Show.Title,
+                            SeasonIdx = selectedEpisode.Episode.Season.ToString(),
+                            EpisodeIdx = selectedEpisode.Episode.Number.ToString()
+                        };
+                        GUIShouts.Fanart = selectedEpisode.Show.Images.FanartImageFilename;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    }
+                    else if (SelectedType == ViewType.MovieWatchHistory && selectedMovie != null)
+                    {
+                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
+                        GUIShouts.MovieInfo = new MovieShout 
+                        { 
+                            IMDbId = selectedMovie.Movie.Imdb, 
+                            TMDbId = selectedMovie.Movie.Tmdb, 
+                            Title = selectedMovie.Movie.Title, 
+                            Year = selectedMovie.Movie.Year 
+                        };
+                        GUIShouts.Fanart = selectedMovie.Movie.Images.FanartImageFilename;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.DeleteFriend):
                     if (GUIUtils.ShowYesNoDialog(Translation.DeleteFriend, string.Format(Translation.DeleteFriendMessage, selectedItem.Label)))
                     {
