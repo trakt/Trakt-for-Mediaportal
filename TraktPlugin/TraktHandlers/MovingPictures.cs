@@ -686,14 +686,14 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Creating the watchlist node");
                 DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
-                watchlistNode.Name = "Watchlist";
+                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
 
                 DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
                 watchlistNode.AdditionalSettings = watchlistSettings;
 
                 TraktLogger.Debug("Creating the recommendations node");
                 DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
-                recommendationsNode.Name = "Recommendations";
+                watchlistNode.Name = "${" + GUI.Translation.Recommendations + "}";
 
                 DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
                 recommendationsNode.AdditionalSettings = recommendationsSettings;
