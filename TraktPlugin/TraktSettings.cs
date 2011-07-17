@@ -200,7 +200,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
                 xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
                 xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
-                xmlwriter.SetValue(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
+                xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
             }
 
             Settings.SaveCache();
