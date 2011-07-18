@@ -66,8 +66,6 @@ namespace TraktPlugin.TraktHandlers
 
             List<MFMovie> MovieList = (from MFMovie movie in myvideos select movie).ToList();
 
-            TraktLogger.Info("Transforming to Movielist: '" + MovieList.Count + "' entries");
-
             // Remove any blocked movies
             MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.Path.Contains(f)));
             MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.File));
@@ -96,29 +94,29 @@ namespace TraktPlugin.TraktHandlers
                     // if the users IMDB ID is empty and we have matched one then set it
                     if (!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(libraryMovie.IMDBNumber) || libraryMovie.IMDBNumber.Length != 9))
                     {
-                        TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", libraryMovie.Title, tlm.IMDBID);
+                        //TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
                         MFMovie details = libraryMovie;
-                        // VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
+                        // TODO
                     }
 
                     // if it is watched in Trakt but not My Films update
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && libraryMovie.Watched == false)
                     {
-                        TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
+                        //TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
                         libraryMovie.Watched = true;
                         MFMovie details = libraryMovie;
-                        // VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
+                        // TODO
                     }
 
                     // mark movies as unseen if watched locally
                     if (tlm.UnSeen && libraryMovie.Watched == true)
                     {
-                        TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", libraryMovie.Title);
+                        //TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", libraryMovie.Title);
                         libraryMovie.Watched = false;
                         MFMovie details = libraryMovie;
-                        // VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
+                        // TODO
                     }
 
                     notInLocalCollection = false;
@@ -153,7 +151,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (MFMovie m in moviesToSync)
-                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
+                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
 
             if (moviesToSync.Count > 0)
             {
@@ -164,7 +162,7 @@ namespace TraktPlugin.TraktHandlers
             //Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (MFMovie m in watchedMoviesToSync)
-                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDB: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
+                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
 
             if (watchedMoviesToSync.Count > 0)
             {
@@ -205,7 +203,7 @@ namespace TraktPlugin.TraktHandlers
 
             CurrentMovie = movie;
 
-            // create timer 15 minute timer to send watching status
+            // create 15 minute timer to send watching status
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {

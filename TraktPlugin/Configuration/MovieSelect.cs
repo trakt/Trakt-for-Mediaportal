@@ -37,9 +37,9 @@ namespace TraktPlugin
                 {
                     LoadMoviesFromMovingPictures();
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    TraktLogger.Info("Failed to load Moving Pictures! DLL is missing?");
+                    TraktLogger.Info("Tried to load MovingPictures but failed, check minimum requirements are met!");
                 }
             }
 
@@ -74,15 +74,13 @@ namespace TraktPlugin
                 //Load the Movies from MyFilms
                 try
                 {
-                    // ToDo: add loadmovies for myfilms
-                    // LoadMoviesFromMovingPictures();
+                    LoadMoviesFromMyFilms();
                 }
-                catch (IOException)
+                catch (Exception)
                 {
-                    TraktLogger.Info("Failed to load MyFilms! DLL is missing?");
+                    TraktLogger.Info("Tried to load My Films but failed, check minimum requirements are met!");
                 }
             }
-
 
             foreach (MovieSelectItem movie in checkedMovies)
                 if (!checkedListBoxMovies.Items.Contains(movie))
@@ -101,6 +99,16 @@ namespace TraktPlugin
             movies.Sort();
             unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
             checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.LocalMedia[0].FullPath) select new MovieSelectItem { MovieTitle = movie.Title, Filename = movie.LocalMedia.Select(media => media.FullPath).ToList() });
+        }
+
+        void LoadMoviesFromMyFilms()
+        {
+            // Get Movies from My Films Configurations (that are trakt enabled)
+            ArrayList moviesArray = new ArrayList();
+            MyFilmsPlugin.MyFilms.BaseMesFilms.GetMovies(ref moviesArray);
+            List<MyFilmsPlugin.MyFilms.MFMovie> movies = (from MyFilmsPlugin.MyFilms.MFMovie movie in moviesArray select movie).ToList();
+            unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.File) select new MovieSelectItem { MovieTitle = movie.Title, Filename = new List<string> { movie.File } });
+            checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.File) select new MovieSelectItem { MovieTitle = movie.Title, Filename = new List<string> { movie.File } });
         }
 
         void checkedListBoxMovies_ItemCheck(object sender, ItemCheckEventArgs e)
