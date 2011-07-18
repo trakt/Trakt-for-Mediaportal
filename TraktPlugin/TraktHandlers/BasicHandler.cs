@@ -107,6 +107,36 @@ namespace TraktPlugin.TraktHandlers
             return rateObject;
         }
 
+        public static TraktRateSeries CreateShowRateData(string title, string tvdb)
+        {
+            TraktRateSeries rateObject = new TraktRateSeries
+            {
+                Title = title,
+                SeriesID = tvdb,
+                Rating = "love",
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            return rateObject;
+        }
+
+        public static TraktRateEpisode CreateEpisodeRateData(string title, string tvdb, string seasonidx, string episodeidx)
+        {
+            TraktRateEpisode rateObject = new TraktRateEpisode
+            {
+                Title = title,
+                SeriesID = tvdb,
+                Episode = episodeidx,
+                Season = seasonidx,
+                Rating = "love",
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            return rateObject;
+        }
+
         /// <summary>
         /// Creates Sync Data based on a TraktLibraryShows object
         /// </summary>

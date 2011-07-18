@@ -567,6 +567,7 @@ namespace TraktPlugin
                             currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
                             if (currentButton != null && currentButton.IsFocused)
                             {
+                                type = "movie";
                                 title = GUIPropertyManager.GetProperty("#title").Trim();
                                 year = GUIPropertyManager.GetProperty("#year").Trim();
                                 imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
@@ -600,6 +601,22 @@ namespace TraktPlugin
                             break;
 
                         case (int)ExternalPluginWindows.MovingPictures:
+                            #region Rate Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                type = "movie";
+                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
+                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+
+                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    validRateItem = true;
+
+                                // Set focus to Play Button now so we dont go in a loop
+                                GUIControl.FocusControl((int)ExternalPluginWindows.MovingPictures, 6);
+                            }
+                            #endregion
                             #region Shouts Button
                             currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
                             if (currentButton != null && currentButton.IsFocused)
@@ -617,6 +634,33 @@ namespace TraktPlugin
                             break;
 
                         case (int)ExternalPluginWindows.TVSeries:
+                            #region Rate Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                Object obj = TVSeries.SelectedObject;
+                                if (obj != null)
+                                {
+                                    switch (TVSeries.GetSelectedType(obj))
+                                    {
+                                        case TVSeries.SelectedType.Episode:
+                                            type = "episode";
+                                            validRateItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                            break;
+
+                                        case TVSeries.SelectedType.Series:
+                                            type = "series";
+                                            validRateItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                    // Set focus to Facade now so we dont go in a loop
+                                    GUIControl.FocusControl((int)ExternalPluginWindows.TVSeries, 50);
+                                }
+                            }
+                            #endregion
                             #region Shouts Button
                             currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
                             if (currentButton != null && currentButton.IsFocused)
@@ -634,7 +678,6 @@ namespace TraktPlugin
                                         case TVSeries.SelectedType.Series:
                                             type = "series";
                                             validShoutItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
-                                            validShoutItem = true;
                                             break;
 
                                         default:
@@ -681,11 +724,26 @@ namespace TraktPlugin
             }
             #endregion
 
-            #region Rate Movie
+            #region Rate
             if (validRateItem)
             {
-                TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                GUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+                switch (type)
+                {
+                    case "movie":
+                        TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
+                        GUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+                        break;
+
+                    case "series":
+                        TraktLogger.Info("Rating {0} '{1} [{2}]'", type, title, tvdb);
+                        GUIUtils.ShowRateDialog<TraktRateSeries>(BasicHandler.CreateShowRateData(title, tvdb));
+                        break;
+
+                    case "episode":
+                        TraktLogger.Info("Rating {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
+                        GUIUtils.ShowRateDialog<TraktRateEpisode>(BasicHandler.CreateEpisodeRateData(title, tvdb, season, episode));
+                        break;
+                }
             }
             #endregion
 
