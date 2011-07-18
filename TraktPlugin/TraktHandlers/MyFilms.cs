@@ -37,9 +37,13 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(5,0,1,899))
-                    throw new FileLoadException("Plugin not meet minimum requirements!");
+                if (new Version(version) < new Version(5,0,1,1173))
+                    throw new FileLoadException("Plugin does not meet minimum requirements!");
             }
+            
+            // Subscribe to GUI Events
+            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RateItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RatingEventDelegate(OnRateItem);
+            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
 
             Priority = priority;
         }
@@ -384,7 +388,107 @@ namespace TraktPlugin.TraktHandlers
             return scrobbleData;
         }
 
+        public static TraktRateMovie CreateRateData(MFMovie movie, String rating)
+        {
+            string username = TraktSettings.Username;
+            string password = TraktSettings.Password;
+
+            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+                return null;
+
+            TraktRateMovie rateData = new TraktRateMovie
+            {
+                Title = movie.Title,
+                Year = movie.Year.ToString(),
+                IMDBID = movie.IMDBNumber,
+                TMDBID = null,
+                UserName = username,
+                Password = password,
+                Rating = rating
+            };
+            return rateData;
+        }
+
         #endregion
 
+        #region Public Methods
+        
+        public void DisposeEvents()
+        {
+            TraktLogger.Debug("Removing Hooks from My Films");
+            
+            // gui events
+            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RateItem -= new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RatingEventDelegate(OnRateItem);
+            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedItem -= new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
+        }
+
+        #endregion
+
+        #region GUI Events
+
+        private void OnRateItem(MFMovie movie, string value)
+        {
+            TraktLogger.Info("Recieved rating event from MyFilms");
+
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            // don't do anything if movie is blocked
+            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.Contains(f)))
+            {
+                TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
+                return;
+            }
+
+            // Add setting for this later to control love/hate value
+            double rating = Convert.ToDouble(value);
+            TraktRateResponse response = null;
+
+            Thread rateThread = new Thread((o) =>
+            {
+                MFMovie tMovie = o as MFMovie;
+
+                if (rating >= 7.0)
+                    response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktRateValue.love.ToString()));
+                else
+                    response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktRateValue.hate.ToString()));
+
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "My Films Rate"
+            };
+
+            rateThread.Start(movie);
+        }
+
+        private void OnToggleWatched(MFMovie movie, bool watched, int count)
+        {
+            TraktLogger.Info("Recieved togglewatched event from MyFilms");
+
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            // don't do anything if movie is blocked
+            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.Contains(f)))
+            {
+                TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
+                return;
+            }
+
+            Thread toggleWatchedThread = new Thread((o) =>
+            {
+                MFMovie tMovie = o as MFMovie;
+                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(tMovie), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "My Films Toggle Watched"
+            };
+
+            toggleWatchedThread.Start(movie);
+        }
+
+        #endregion
     }
 }

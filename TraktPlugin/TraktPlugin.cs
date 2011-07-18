@@ -309,7 +309,11 @@ namespace TraktPlugin
                 if (!handlerExists && TraktSettings.MyFilms != -1)
                     TraktHandlers.Add(new MyFilms(TraktSettings.MyFilms));
                 else if (handlerExists && TraktSettings.MyFilms == -1)
-                    TraktHandlers.RemoveAll(p => p.Name == "My Films");
+                {
+                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Films");
+                    (item as MyFilms).DisposeEvents();
+                    TraktHandlers.Remove(item);
+                }
             }
             catch (Exception)
             {
