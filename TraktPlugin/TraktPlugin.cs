@@ -815,7 +815,7 @@ namespace TraktPlugin
 
             if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
             {
-                TraktLogger.Debug("Checking out Libraries for the filename");
+                TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
                 foreach (ITraktHandler traktHandler in TraktHandlers)
                 {
                     if (traktHandler.Scrobble(filename))

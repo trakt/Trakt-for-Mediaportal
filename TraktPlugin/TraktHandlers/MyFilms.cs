@@ -197,9 +197,11 @@ namespace TraktPlugin.TraktHandlers
             StopScrobble();
 
             // lookup movie by filename
-            MFMovie movie = new MFMovie();
-            int result = -1; // int result = VideoDatabase.GetMovieInfo(filename, ref movie);
-            if (result == -1) return false;
+            ArrayList myvideos = new ArrayList();
+            BaseMesFilms.GetMovies(ref myvideos);
+
+            MFMovie movie = (from MFMovie m in myvideos select m).ToList().Find(m => m.File == filename);
+            if (movie == null) return false;
 
             CurrentMovie = movie;
 
