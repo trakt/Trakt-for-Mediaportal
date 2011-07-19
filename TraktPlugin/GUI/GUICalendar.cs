@@ -350,7 +350,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Mark As Watched
-            if (episodeItem.Episode.Plays > 0)
+            if (episodeItem.Episode.Plays == 0)
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
