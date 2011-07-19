@@ -10,6 +10,9 @@
   <string Field="AddFriend">Add Friend...</string>
   <string Field="AddToLibrary">Legg til i biblioteket</string>
   <string Field="AddToWatchList">Legg til i ønsker å se</string>
+  <string Field="AddShowToWatchList">Add Show to Watch List</string>
+  <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
+  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="Age">Age</string>
   <string Field="AirDate">Dato</string>
   <string Field="AirDay">Dag</string>
@@ -160,6 +163,8 @@
   <string Field="ReleaseDate">Utgitt dato</string>
   <string Field="RemoveFromLibrary">Fjern fra biblioteket</string>
   <string Field="RemoveFromWatchList">Fjern fra sett listen</string>
+  <string Field="RemoveShowFromWatchList">Remove Show from Watch List</string>
+  <string Field="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string Field="Runtime">Lengde</string>
   
   <!-- S -->

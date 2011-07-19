@@ -10,6 +10,8 @@
   <string Field="AddFriend">Add Friend...</string>
   <string Field="AddToLibrary">Zur Bibliothek hinzufügen</string>
   <string Field="AddToWatchList">Zur Beobachtungsliste hinzufügen</string>
+  <string Field="AddShowToWatchList">Add Show to Watch List</string>
+  <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="Age">Age</string>
   <string Field="AirDate">Sendedatum</string>
@@ -161,6 +163,8 @@
   <string Field="ReleaseDate">Erscheinungstermin</string>
   <string Field="RemoveFromLibrary">Aus der Bibliothek entfernen</string>
   <string Field="RemoveFromWatchList">Von der Beobachtungsliste entfernen</string>
+  <string Field="RemoveShowFromWatchList">Remove Show from Watch List</string>
+  <string Field="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string Field="Runtime">Laufzeit</string>
   
   <!-- S -->

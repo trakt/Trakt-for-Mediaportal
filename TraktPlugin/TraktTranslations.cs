@@ -188,6 +188,8 @@ namespace TraktPlugin.GUI
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
         public static string AddToWatchList = "Add to Watch List";
+        public static string AddShowToWatchList = "Add Show to Watch List";
+        public static string AddEpisodeToWatchList = "Add Episode to Watch List";
         public static string AddThisItemToWatchList = "Add this item to your watch list?";
         public static string Age = "Age";
         public static string AirDate = "Air Date";
@@ -341,6 +343,8 @@ namespace TraktPlugin.GUI
         public static string ReleaseDate = "Release Date";
         public static string RemoveFromLibrary = "Remove from Library";
         public static string RemoveFromWatchList = "Remove from Watch List";
+        public static string RemoveShowFromWatchList = "Remove Show from Watch List";
+        public static string RemoveEpisodeFromWatchList = "Remove Episode from Watch List";
         public static string Runtime = "Runtime";
 
         // S
