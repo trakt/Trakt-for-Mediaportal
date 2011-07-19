@@ -13,6 +13,11 @@
       <posx>178</posx>
       <posy>0</posy>
     </posters>
+    <!-- Episode thumbnails are 400x225px -->
+    <episodethumbs>
+      <posx>278</posx>
+      <posy>0</posy>
+    </episodethumbs>
   </mainoverlayicons>
   
   <!-- Position of 'love/hate' user rating icon -->
@@ -22,6 +27,9 @@
       <posx>178</posx>
       <posy>0</posy>
     </posters>
-  </ratingoverlayicons>
-  
+    <episodethumbs>
+      <posx>278</posx>
+      <posy>0</posy>
+    </episodethumbs>
+  </ratingoverlayicons> 
 </settings>

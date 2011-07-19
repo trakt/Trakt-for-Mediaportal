@@ -150,5 +150,39 @@ namespace TraktPlugin.GUI
             gph.Dispose();
             return poster;
         }
+
+        /// <summary>
+        /// Draws a trakt overlay, library/seen/watchlist icon on a episode thumb
+        /// This is done in memory and wont touch the existing file
+        /// </summary>
+        /// <param name="origThumb">Filename of the untouched episode thumb</param>
+        /// <param name="type">Overlay type enum</param>
+        /// <param name="size">Size of returned image</param>
+        /// <returns>An image with overlay added to episode thumb</returns>
+        public static Bitmap DrawOverlayOnEpisodeThumb(string origThumb, MainOverlayImage mainType, RatingOverlayImage ratingType, Size size)
+        {
+            Image image = GUIImageHandler.LoadImage(origThumb);
+            if (image == null) return null;
+
+            Bitmap thumb = new Bitmap(image, size);
+            Graphics gph = Graphics.FromImage(thumb);
+
+            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));
+            if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
+            {
+                Bitmap newThumb = new Bitmap(GUIImageHandler.LoadImage(mainOverlayImage));
+                gph.DrawImage(newThumb, TraktSkinSettings.EpisodeThumbMainOverlayPosX, TraktSkinSettings.EpisodeThumbMainOverlayPosY);
+            }
+
+            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
+            {
+                Bitmap newThumb = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));
+                gph.DrawImage(newThumb, TraktSkinSettings.EpisodeThumbRatingOverlayPosX, TraktSkinSettings.EpisodeThumbRatingOverlayPosY);
+            }
+
+            gph.Dispose();
+            return thumb;
+        }
     }
 }

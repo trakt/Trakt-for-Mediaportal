@@ -168,22 +168,22 @@
 						<description>Switch View</description>
 						<type>button</type>
 						<id>2</id>
-						<label>-</label>
+						<label>Switch View</label>
 						<onleft>50</onleft>
 						<onright>50</onright>
 						<onup>21</onup>
 						<ondown>3</ondown>
 					</control>
           <control>
-            <description>Start Date</description>
-            <type>button</type>
-            <id>3</id>
-            <label>-</label>
-            <onleft>50</onleft>
-            <onright>50</onright>
-            <onup>2</onup>
-            <ondown>2</ondown>
-          </control>
+						<description>Start Date</description>
+						<type>button</type>
+						<id>3</id>
+						<label>Start Date</label>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<onup>2</onup>
+						<ondown>2</ondown>
+					</control>
 				</control>
       </control>
 		</control>
@@ -196,9 +196,58 @@
       <posY>254</posY>
       <height>200</height>
       <width>354</width>
-      <keepaspectratio>yes</keepaspectratio>
+      <keepaspectratio>no</keepaspectratio>
       <zoom>no</zoom>
       <texture flipY="true" diffuse="diffusemirrorwide.png">#selectedthumb</texture>      
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250" delay="0">WindowOpen</animation>
+    </control>
+    
+    <control>
+      <description>Rating Percent</description>
+      <type>label</type>
+      <id>0</id>
+      <posX>159</posX>
+      <posY>460</posY>
+      <width>80</width>
+      <align>right</align>
+      <font>font12</font>
+      <label>#Trakt.Episode.Ratings.Percentage%</label>
+      <textcolor>ffFFFFFF</textcolor>
+			<shadowAngle>45</shadowAngle>
+      <shadowDistance>4</shadowDistance>
+      <shadowColor>#shadow.light</shadowColor>
+      <visible>!string.equals(#Trakt.Episode.Ratings.Percentage,)</visible>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+      <description>Rating Icon</description>
+      <type>image</type>
+      <id>1</id>
+      <width>35</width>
+      <height>32</height>
+      <posX>171</posX>
+      <posY>458</posY>
+      <texture>#Trakt.Episode.Ratings.Icon.png</texture>
+      <visible>!string.equals(#Trakt.Episode.Ratings.Icon,)</visible>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+      <description>Rating Votes</description>
+      <type>label</type>
+      <id>0</id>
+      <posX>216</posX>
+      <posY>464</posY>
+      <width>390</width>
+      <font>font10</font>
+      <label>#Trakt.Episode.Ratings.Votes #Trakt.Translation.Votes.Label</label>
+      <textcolor>ffFFFFFF</textcolor>
+			<shadowAngle>45</shadowAngle>
+      <shadowDistance>2</shadowDistance>
+      <shadowColor>#shadow.light</shadowColor>
+      <visible>!string.equals(#Trakt.Episode.Ratings.Votes,)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -877,6 +878,13 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
@@ -885,6 +893,14 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
         }
 
@@ -904,6 +920,13 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(episode.Show.Overview) ? Translation.NoShowSummary : episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
+            SetProperty("#Trakt.Show.InWatchList", episode.Show.InWatchList.ToString());
+            SetProperty("#Trakt.Show.Rating", episode.Show.Rating);
+            SetProperty("#Trakt.Show.Ratings.Icon", (episode.Show.Ratings.LovedCount > episode.Show.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Show.Ratings.HatedCount", episode.Show.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.LovedCount", episode.Show.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.Percentage", episode.Show.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Show.Ratings.Votes", episode.Show.Ratings.Votes.ToString());
             SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
@@ -912,6 +935,14 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Url", episode.Episode.Url);
             SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Episode.Overview) ? Translation.NoEpisodeSummary : episode.Episode.Overview);
             SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());
+            SetProperty("#Trakt.Episode.InWatchList", episode.Episode.InWatchList.ToString());
+            SetProperty("#Trakt.Episode.InCollection", episode.Episode.InCollection.ToString());
+            SetProperty("#Trakt.Episode.Rating", episode.Episode.Rating);
+            SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Episode.Ratings.LovedCount > episode.Episode.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Episode.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Episode.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Episode.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Episode.Ratings.Votes.ToString());
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images.EpisodeImageFilename);
         }
 
@@ -1045,11 +1076,41 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // Get a reference to a MdiaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
+            // determine the overlay to add to poster
+            TraktCalendar.TraktEpisodes episode = TVTag as TraktCalendar.TraktEpisodes;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
 
-            // load texture into facade item
-            if (GUITextureManager.LoadFromMemory(GUIImageHandler.LoadImage(imageFilePath), texture, 0, 0, 0) > 0)
+            if (episode.Episode.InWatchList)
+                mainOverlay = MainOverlayImage.Watchlist;
+            else if (episode.Episode.Plays > 0)
+                mainOverlay = MainOverlayImage.Seenit;
+
+            // add additional overlay if applicable
+            if (episode.Episode.InCollection)
+                mainOverlay |= MainOverlayImage.Library;
+
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (episode.Episode.Rating == "love")
+                ratingOverlay = RatingOverlayImage.Love;
+            else if (episode.Episode.Rating == "hate")
+                ratingOverlay = RatingOverlayImage.Hate;
+
+            // get a reference to a MediaPortal Texture Identifier
+            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+
+            // build memory image, resize thumbnail incase its a fanart
+            Image memoryImage = null;
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+                memoryImage = GUIImageHandler.DrawOverlayOnEpisodeThumb(imageFilePath, mainOverlay, ratingOverlay, new Size(400, 225));
+            else
+                memoryImage = GUIImageHandler.LoadImage(imageFilePath);
+
+            if (memoryImage == null) return;
+
+            // load texture into facade item            
+            if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
             {
                 ThumbnailImage = texture;
                 IconImage = texture;

@@ -17,6 +17,11 @@ namespace TraktPlugin.GUI
         public static int PosterRatingOverlayPosX { get; set; }
         public static int PosterRatingOverlayPosY { get; set; }
 
+        public static int EpisodeThumbMainOverlayPosX { get; set; }
+        public static int EpisodeThumbMainOverlayPosY { get; set; }
+        public static int EpisodeThumbRatingOverlayPosX { get; set; }
+        public static int EpisodeThumbRatingOverlayPosY { get; set; }
+
         public static void Init()
         {
             // Import Skin Settings
@@ -68,12 +73,14 @@ namespace TraktPlugin.GUI
 
             // Load Main Overlay Positions
             XmlNode node = null;
+            PosterMainOverlayPosX = 178;
             node = doc.DocumentElement.SelectSingleNode("/settings/mainoverlayicons/posters/posx");
             if (node != null)
             {
                 int.TryParse(node.InnerText, out posx);
                 PosterMainOverlayPosX = posx;
             }
+            PosterMainOverlayPosY = 0;
             node = doc.DocumentElement.SelectSingleNode("/settings/mainoverlayicons/posters/posy");
             if (node != null)
             {
@@ -81,18 +88,51 @@ namespace TraktPlugin.GUI
                 PosterMainOverlayPosY = posy;
             }
 
+            node = null;
+            EpisodeThumbMainOverlayPosX = 278;
+            node = doc.DocumentElement.SelectSingleNode("/settings/mainoverlayicons/episodethumbs/posx");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posx);
+                EpisodeThumbMainOverlayPosX = posx;
+            }
+            EpisodeThumbMainOverlayPosY = 0;
+            node = doc.DocumentElement.SelectSingleNode("/settings/mainoverlayicons/episodethumbs/posy");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posy);
+                EpisodeThumbMainOverlayPosY = posy;
+            }
+
             // Load Rating Overlay Positions
+            PosterRatingOverlayPosX = 178;
             node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/posters/posx");
             if (node != null)
             {
                 int.TryParse(node.InnerText, out posx);
                 PosterRatingOverlayPosX = posx;
             }
+            PosterRatingOverlayPosY = 0;
             node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/posters/posy");
             if (node != null)
             {
                 int.TryParse(node.InnerText, out posy);
                 PosterRatingOverlayPosY = posy;
+            }
+
+            EpisodeThumbRatingOverlayPosX = 278;
+            node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/episodethumbs/posx");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posx);
+                EpisodeThumbRatingOverlayPosX = posx;
+            }
+            EpisodeThumbRatingOverlayPosY = 0;
+            node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/episodethumbs/posy");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posy);
+                EpisodeThumbRatingOverlayPosY = posy;
             }
         }
 
