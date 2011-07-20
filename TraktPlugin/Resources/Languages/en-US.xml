@@ -87,6 +87,7 @@
   <!-- H -->
   <string Field="Hate">Hate</string>
   <string Field="Hated">Hated</string>
+  <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   
   <!-- I -->
   <string Field="Inserted">Inserted</string>
@@ -177,6 +178,7 @@
   <string Field="Settings">Settings</string>
   <string Field="Shout">Shout</string>
   <string Field="Shouts">Shouts</string>
+  <string Field="ShowTVShowsInWatchlist">Show TV Shows in Watch List</string>
   <string Field="SigningIntoAccount">Signing Into Account...</string>
   <string Field="StartDate">Start Date</string>
   

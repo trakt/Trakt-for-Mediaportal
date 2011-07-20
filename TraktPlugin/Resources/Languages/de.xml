@@ -87,6 +87,7 @@
   <!-- H -->
   <string Field="Hate">Hass</string>
   <string Field="Hated">Verhasst</string>
+  <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   
   <!-- I -->
   <string Field="Inserted">Eingefügt</string>

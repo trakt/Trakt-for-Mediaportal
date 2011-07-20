@@ -67,7 +67,8 @@ namespace TraktPlugin.GUI
             RemoveFromLibrary,
             Rate,
             Shouts,
-            Trailers
+            Trailers,
+            WatchlistFilter
         }
 
         enum TrailerSite
@@ -413,6 +414,18 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Watch List Filter
+            if (CurrentCalendar == CalendarType.MyShows)
+            {
+                if (TraktSettings.CalendarHideTVShowsInWatchList)
+                    listItem = new GUIListItem(Translation.ShowTVShowsInWatchlist);
+                else
+                    listItem = new GUIListItem(Translation.HideTVShowsInWatchlist);
+                
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.WatchlistFilter;
+            }
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -503,6 +516,11 @@ namespace TraktPlugin.GUI
                     if (episodeItem != null) ShowTrailersMenu(episodeItem);
                     break;
                 #endif
+
+                case ((int)ContextMenuItem.WatchlistFilter):
+                    TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
+                    LoadCalendar();
+                    break;
 
                 default:
                     break;
@@ -940,14 +958,24 @@ namespace TraktPlugin.GUI
 
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
-            
+           
             int itemCount = 0;
             List<TraktImage> showImages = new List<TraktImage>();
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
             foreach (var day in calendar)
-            {
+            {                 
+                // apply watch list filter
+                var episodes = day.Episodes;
+                if (CurrentCalendar == CalendarType.MyShows)
+                {
+                    if (TraktSettings.CalendarHideTVShowsInWatchList)
+                    {
+                        episodes = day.Episodes.Where(e => !e.Show.InWatchList).ToList();
+                    }
+                }
+
                 GUIListItem item = new GUIListItem();
                 
                 item.Label3 = DateTime.Parse(day.ToString()).ToLongDateString();
@@ -958,7 +986,7 @@ namespace TraktPlugin.GUI
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
 
-                foreach (var episode in day.Episodes)
+                foreach (var episode in episodes)
                 {
                     GUITraktCalendarListItem episodeItem = new GUITraktCalendarListItem(episode.ToString());
 

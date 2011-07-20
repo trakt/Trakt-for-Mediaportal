@@ -267,6 +267,7 @@ namespace TraktPlugin.GUI
         // H
         public static string Hate = "Hate";
         public static string Hated = "Hated";
+        public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
 
         // I
         public static string Inserted = "Inserted";
@@ -358,6 +359,7 @@ namespace TraktPlugin.GUI
         public static string Settings = "Settings";
         public static string Shout = "Shout";
         public static string Shouts = "Shouts";
+        public static string ShowTVShowsInWatchlist = "Show TV Shows in Watch List";
         public static string SigningIntoAccount = "Signing Into Account...";
         public static string StartDate = "Start Date";        
 
