@@ -95,10 +95,10 @@ namespace TraktPlugin.TraktHandlers
                 // if it is in both libraries
                 foreach (MFMovie libraryMovie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
                 {
-                    // if the users IMDB ID is empty and we have matched one then set it
+                    // if the users IMDb ID is empty and we have matched one then set it
                     if (!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(libraryMovie.IMDBNumber) || libraryMovie.IMDBNumber.Length != 9))
                     {
-                        //TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", libraryMovie.Title, tlm.IMDBID);
+                        TraktLogger.Info("Movie '{0}' inserted IMDb ID '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
                         libraryMovie.Username = TraktSettings.Username;
                         libraryMovie.Commit();
@@ -108,7 +108,7 @@ namespace TraktPlugin.TraktHandlers
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && libraryMovie.Watched == false)
                     {
-                        //TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
+                        TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
                         libraryMovie.Watched = true;
                         libraryMovie.WatchedCount = tlm.Plays;
                         libraryMovie.Username = TraktSettings.Username; 
@@ -118,7 +118,7 @@ namespace TraktPlugin.TraktHandlers
                     // mark movies as unseen if watched locally
                     if (tlm.UnSeen && libraryMovie.Watched == true)
                     {
-                        //TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", libraryMovie.Title);
+                        TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", libraryMovie.Title);
                         libraryMovie.Watched = false;
                         libraryMovie.WatchedCount = tlm.Plays;
                         libraryMovie.Username = TraktSettings.Username; 
