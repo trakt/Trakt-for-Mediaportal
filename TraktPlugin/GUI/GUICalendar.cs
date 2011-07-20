@@ -1200,6 +1200,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Plays", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Ratings.HatedCount", string.Empty);
@@ -1242,6 +1244,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());
             SetProperty("#Trakt.Episode.InWatchList", episode.Episode.InWatchList.ToString());
             SetProperty("#Trakt.Episode.InCollection", episode.Episode.InCollection.ToString());
+            SetProperty("#Trakt.Episode.Plays", episode.Episode.Plays.ToString());
+            SetProperty("#Trakt.Episode.Watched", (episode.Episode.Plays > 0).ToString());
             SetProperty("#Trakt.Episode.Rating", episode.Episode.Rating);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Episode.Ratings.LovedCount > episode.Episode.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Episode.Ratings.HatedCount.ToString());
