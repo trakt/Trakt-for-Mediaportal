@@ -494,7 +494,7 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Other Public Methods
-        public static bool FindMovieID(string title, int year, string imdbid, ref MFMovie mfMovie)
+        public static bool FindMovieID(string title, int year, string imdbid, ref int? movieid)
         {
             // get all movies
             ArrayList myvideos = new ArrayList();
@@ -507,7 +507,7 @@ namespace TraktPlugin.TraktHandlers
             MFMovie movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
             if (movie == null) return false;
 
-            mfMovie = movie;
+            movieid = movie.ID;
             return true;
         }
         #endregion

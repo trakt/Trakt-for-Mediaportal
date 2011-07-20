@@ -42,6 +42,14 @@ namespace TraktPlugin.GUI
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MP-TVSeries.dll")) && IsPluginEnabled("MP-TV Series");
             }
         }
+
+        public static bool IsMyFilmsAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll")) && IsPluginEnabled("MyFilms");
+            }
+        }
         #endregion
     }
 }

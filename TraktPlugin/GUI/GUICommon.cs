@@ -8,8 +8,6 @@ using MediaPortal.Video.Database;
 
 namespace TraktPlugin.GUI
 {
-    using MyFilmsPlugin.MyFilms;
-
     enum TraktGUIWindows
     {
         Main = 87258,
@@ -128,16 +126,17 @@ namespace TraktPlugin.GUI
             }
 
             // check if its in My Films database
-            if (TraktSettings.MyFilms >= 0 && handled == false)
+            // uncomment when available in My Films
+            /*if (TraktHelper.IsMyFilmsAvailableAndEnabled && handled == false)
             {
-                MFMovie movie = null;
-                if (TraktHandlers.MyFilms.FindMovieID(title, year, imdbid, ref movie))
+                int? movieid = null;
+                if (TraktHandlers.MyFilms.FindMovieID(title, year, imdbid, ref movieid))
                 {
-                    // Open My Videos Video Info view so user can play movie
+                    // Open My Films Details view so user can play movie
                     if (jumpTo)
                     {
                         // ToDo: add load param support in MF and add proper string here
-                        string loadingParameter = string.Format("movieid:{0}", movie.ID);
+                        string loadingParameter = string.Format("movieid:{0}", movieid);
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyFilms, loadingParameter);
                     }
                     else
@@ -145,7 +144,7 @@ namespace TraktPlugin.GUI
                         // TraktHandlers.MyFilms.PlayMovie(movieid);
                     handled = true;
                 }
-            }
+            }*/
 
         }
 
