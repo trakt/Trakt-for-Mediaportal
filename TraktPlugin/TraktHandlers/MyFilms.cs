@@ -100,8 +100,8 @@ namespace TraktPlugin.TraktHandlers
                     {
                         //TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
-                        MFMovie details = libraryMovie;
-                        // TODO
+                        libraryMovie.Username = TraktSettings.Username;
+                        libraryMovie.Commit();
                     }
 
                     // if it is watched in Trakt but not My Films update
@@ -110,8 +110,9 @@ namespace TraktPlugin.TraktHandlers
                     {
                         //TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
                         libraryMovie.Watched = true;
-                        MFMovie details = libraryMovie;
-                        // TODO
+                        libraryMovie.WatchedCount = tlm.Plays;
+                        libraryMovie.Username = TraktSettings.Username; 
+                        libraryMovie.Commit();
                     }
 
                     // mark movies as unseen if watched locally
@@ -119,8 +120,9 @@ namespace TraktPlugin.TraktHandlers
                     {
                         //TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", libraryMovie.Title);
                         libraryMovie.Watched = false;
-                        MFMovie details = libraryMovie;
-                        // TODO
+                        libraryMovie.WatchedCount = tlm.Plays;
+                        libraryMovie.Username = TraktSettings.Username; 
+                        libraryMovie.Commit();
                     }
 
                     notInLocalCollection = false;
@@ -464,7 +466,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(MFMovie movie, bool watched, int count)
         {
-            TraktLogger.Info("Recieved togglewatched event from MyFilms");
+            TraktLogger.Info("Received togglewatched event from MyFilms");
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -490,5 +492,26 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
+
+        #region Other Public Methods
+        public static bool FindMovieID(string title, int year, string imdbid, ref MFMovie mfMovie)
+        {
+            // get all movies
+            ArrayList myvideos = new ArrayList();
+            BaseMesFilms.GetMovies(ref myvideos);
+
+            // get all movies in local database
+            List<MFMovie> movies = (from MFMovie m in myvideos select m).ToList();
+
+            // try find a match
+            MFMovie movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
+            if (movie == null) return false;
+
+            mfMovie = movie;
+            return true;
+        }
+        #endregion
+
+
     }
 }

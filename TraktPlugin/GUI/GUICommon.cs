@@ -8,6 +8,8 @@ using MediaPortal.Video.Database;
 
 namespace TraktPlugin.GUI
 {
+    using MyFilmsPlugin.MyFilms;
+
     enum TraktGUIWindows
     {
         Main = 87258,
@@ -35,7 +37,8 @@ namespace TraktPlugin.GUI
         OnlineVideos = 4755,
         VideoInfo = 2003,
         MovingPictures = 96742,
-        TVSeries = 9811
+        TVSeries = 9811,
+        MyFilms = 7986
     }
 
     enum ExternalPluginControls
@@ -123,6 +126,27 @@ namespace TraktPlugin.GUI
                     handled = true;
                 }
             }
+
+            // check if its in My Films database
+            if (TraktSettings.MyFilms >= 0 && handled == false)
+            {
+                MFMovie movie = null;
+                if (TraktHandlers.MyFilms.FindMovieID(title, year, imdbid, ref movie))
+                {
+                    // Open My Videos Video Info view so user can play movie
+                    if (jumpTo)
+                    {
+                        // ToDo: add load param support in MF and add proper string here
+                        string loadingParameter = string.Format("movieid:{0}", movie.ID);
+                        GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyFilms, loadingParameter);
+                    }
+                    else
+                        // ToDo: Add player to MyFilms handler
+                        // TraktHandlers.MyFilms.PlayMovie(movieid);
+                    handled = true;
+                }
+            }
+
         }
 
         /// <summary>
