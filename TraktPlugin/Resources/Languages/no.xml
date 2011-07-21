@@ -140,6 +140,7 @@
   
   <!-- P -->
   <string Field="Password">Passord</string>
+  <string Field="People">People</string>
   <string Field="Percentage">Prosent</string>
   <string Field="Protected">Beskyttet</string>
   <string Field="PersonWatching">1 Person ser på</string>
@@ -186,6 +187,8 @@
   <string Field="Trending">Hva er populært</string>
   <string Field="TrendingShows">Populære serier</string>
   <string Field="TrendingMovies">Populære filmer</string>
+  <string Field="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
+  <string Field="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>
   <string Field="TVShow">TV serie</string>
   <string Field="TVShows">TV serier</string>
   <string Field="Tagline">Tagline</string>

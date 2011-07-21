@@ -50,14 +50,15 @@
     <control>
       <description>Item Count Label</description>
       <type>label</type>
-      <label>#Trakt.Items</label>
+      <label>#Trakt.Trending.PeopleCount #Trakt.Translation.People.Label | #Trakt.Items</label>
       <id>0</id>
-      <width>135</width>
+      <width>300</width>
       <posX>1244</posX>
       <posY>1</posY>
       <align>right</align>
       <font>font10</font>
       <textcolor>ffFFFFFF</textcolor>
+      <visible>!string.equals(#Trakt.Trending.PeopleCount,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
       <animation effect="slide" time="150" start="800,0">WindowOpen</animation>

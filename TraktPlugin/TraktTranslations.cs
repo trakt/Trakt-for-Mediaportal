@@ -320,6 +320,7 @@ namespace TraktPlugin.GUI
 
         // P
         public static string Password = "Password";
+        public static string People = "People";
         public static string Percentage = "Percentage";
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
@@ -368,6 +369,8 @@ namespace TraktPlugin.GUI
         public static string Trending = "Trending";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";
+        public static string TrendingMoviePeople = "There are {0} people watching {1} movies right now!";
+        public static string TrendingTVShowsPeople = "There are {0} people watching {1} tv shows right now!";
         public static string TVShow = "TV Show";
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";

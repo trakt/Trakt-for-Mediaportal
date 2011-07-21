@@ -660,6 +660,8 @@ namespace TraktPlugin.GUI
             // set facade properties
             GUIUtils.SetProperty("#itemcount", movies.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", movies.Sum(m => m.Watchers).ToString());
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, movies.Sum(m => m.Watchers).ToString(), movies.Count().ToString()));
 
             // Download movie images Async and set to facade
             GetImages(movieImages);
@@ -686,6 +688,9 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Empty);
+
             GUIUtils.SetProperty("#Trakt.Movie.Imdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Certification", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Overview", string.Empty);

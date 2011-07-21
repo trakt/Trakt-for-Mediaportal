@@ -523,6 +523,8 @@ namespace TraktPlugin.GUI
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", shows.Sum(s => s.Watchers).ToString());
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingTVShowsPeople, shows.Sum(s => s.Watchers).ToString(), shows.Count().ToString()));
 
             // Download show images Async and set to facade
             GetImages(showImages);
@@ -549,6 +551,9 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Empty);
+
             GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
