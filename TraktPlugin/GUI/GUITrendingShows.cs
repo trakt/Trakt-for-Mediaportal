@@ -771,16 +771,23 @@ namespace TraktPlugin.GUI
             // build memory image
             Image memoryImage = null;
             if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
-            else
-                memoryImage = GUIImageHandler.LoadImage(imageFilePath);
-
-            // load texture into facade item
-            if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
             {
-                ThumbnailImage = texture;
-                IconImage = texture;
-                IconImageBig = texture;
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
+                if (memoryImage == null) return;
+
+                // load texture into facade item
+                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                {
+                    ThumbnailImage = texture;
+                    IconImage = texture;
+                    IconImageBig = texture;
+                }
+            }
+            else
+            {
+                ThumbnailImage = imageFilePath;
+                IconImage = imageFilePath;
+                IconImageBig = imageFilePath;
             }
 
             // if selected and is current window force an update of thumbnail

@@ -130,7 +130,10 @@ namespace TraktPlugin.GUI
         /// <returns>An image with overlay added to poster</returns>
         public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType)
         {
-            Bitmap poster = new Bitmap(GUIImageHandler.LoadImage(origPoster));
+            Image image = GUIImageHandler.LoadImage(origPoster);
+            if (image == null) return null;
+
+            Bitmap poster = new Bitmap(image);
             Graphics gph = Graphics.FromImage(poster);
 
             string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));

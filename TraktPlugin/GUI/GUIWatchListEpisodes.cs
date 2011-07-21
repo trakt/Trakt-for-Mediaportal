@@ -480,6 +480,7 @@ namespace TraktPlugin.GUI
             if (shows.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoEpisodeWatchList, CurrentUser));
+                CurrentUser = TraktSettings.Username;
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
@@ -753,22 +754,12 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // get a reference to a MediaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
-
-            // build memory image
-            Image memoryImage = GUIImageHandler.LoadImage(imageFilePath);
-
-            // load texture into facade item
-            if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-            {
-                ThumbnailImage = texture;
-                IconImage = texture;
-                IconImageBig = texture;
-            }
+            ThumbnailImage = imageFilePath;
+            IconImage = imageFilePath;
+            IconImageBig = imageFilePath;
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();            
+            UpdateCurrentSelection();
         }
 
         protected void UpdateCurrentSelection()
