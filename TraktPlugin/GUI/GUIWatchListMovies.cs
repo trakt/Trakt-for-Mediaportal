@@ -149,10 +149,7 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
-            ClearProperties();            
-
-            // restore current user
-            CurrentUser = TraktSettings.Username;
+            ClearProperties();
 
             // save current layout
             TraktSettings.WatchListMoviesDefaultLayout = (int)CurrentLayout;
@@ -190,6 +187,11 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // restore current user
+                    CurrentUser = TraktSettings.Username;
+                    base.OnAction(action);
+                    break;
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
                     CheckAndPlayMovie(false);

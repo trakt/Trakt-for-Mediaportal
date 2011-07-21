@@ -144,9 +144,6 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
-            // restore current user
-            CurrentUser = TraktSettings.Username;
-
             // save current layout
             TraktSettings.WatchListEpisodesDefaultLayout = (int)CurrentLayout;
 
@@ -183,6 +180,11 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // restore current user
+                    CurrentUser = TraktSettings.Username;
+                    base.OnAction(action);
+                    break;
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
                     CheckAndPlayEpisode();

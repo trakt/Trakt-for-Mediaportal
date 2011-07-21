@@ -145,9 +145,6 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
-            // restore current user
-            CurrentUser = TraktSettings.Username;
-
             // save current layout
             TraktSettings.WatchListShowsDefaultLayout = (int)CurrentLayout;
 
@@ -178,6 +175,21 @@ namespace TraktPlugin.GUI
                     break;
             }
             base.OnClicked(controlId, control, actionType);
+        }
+
+        public override void OnAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // restore current user
+                    CurrentUser = TraktSettings.Username;
+                    base.OnAction(action);
+                    break;
+                default:
+                    base.OnAction(action);
+                    break;
+            }
         }
 
         protected override void OnShowContextMenu()
