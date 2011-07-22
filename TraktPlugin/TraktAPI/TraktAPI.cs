@@ -274,6 +274,9 @@ namespace TraktPlugin.TraktAPI
             string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesCollection, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", moviesForUser);
             //hand it on
+            // if we timeout we will return an error response
+            TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
+            if (response.Error != null) return null;
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -289,6 +292,9 @@ namespace TraktPlugin.TraktAPI
             string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesAll, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", moviesForUser);
             //hand it on
+            // if we timeout we will return an error response
+            TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
+            if (response.Error != null) return null;
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -301,7 +307,10 @@ namespace TraktPlugin.TraktAPI
         {
             TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesCollection, user), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", showsForUser);
+            TraktLogger.Debug("Response: {0}", showsForUser);            
+            // if we timeout we will return an error response
+            TraktResponse response = showsForUser.FromJSON<TraktResponse>();
+            if (response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -315,6 +324,9 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
+            // if we timeout we will return an error response
+            TraktResponse response = showsForUser.FromJSON<TraktResponse>();
+            if (response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -323,6 +335,9 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesUnSeen, user), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
+            // if we timeout we will return an error response
+            TraktResponse response = showsForUser.FromJSON<TraktResponse>();
+            if (response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -723,35 +738,43 @@ namespace TraktPlugin.TraktAPI
 
                 TraktLogger.Info("First removing shows from seen");
                 progressDialog.Line2 = "Getting Watched Episodes from Trakt";
-                foreach (var series in GetWatchedEpisodesForUser(TraktSettings.Username).ToList())
+                var watchedEpisodes = GetWatchedEpisodesForUser(TraktSettings.Username);
+                if (watchedEpisodes != null)
                 {
-                    TraktLogger.Info("Removing '{0}' from seen", series.ToString());
-                    progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
-                    TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
-                    LogTraktResponse(response);
-                    System.Threading.Thread.Sleep(500);
-                    if (progressDialog.HasUserCancelled)
+                    foreach (var series in watchedEpisodes.ToList())
                     {
-                        TraktLogger.Info("Cancelling Library Clearing");
-                        progressDialog.CloseDialog();
-                        return;
+                        TraktLogger.Info("Removing '{0}' from seen", series.ToString());
+                        progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
+                        TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
+                        LogTraktResponse(response);
+                        System.Threading.Thread.Sleep(500);
+                        if (progressDialog.HasUserCancelled)
+                        {
+                            TraktLogger.Info("Cancelling Library Clearing");
+                            progressDialog.CloseDialog();
+                            return;
+                        }
                     }
                 }
                 progressDialog.Value = 85;
                 TraktLogger.Info("Now removing shows from library");
                 progressDialog.Line2 = "Getting Library Episodes from Trakt";
-                foreach(var series in GetLibraryEpisodesForUser(TraktSettings.Username).ToList())
+                var libraryEpisodes = GetLibraryEpisodesForUser(TraktSettings.Username);
+                if (libraryEpisodes != null)
                 {
-                    TraktLogger.Info("Removing '{0}' from library", series.ToString());
-                    progressDialog.Line2 = string.Format("Removing {0} from library", series.ToString());
-                    TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
-                    LogTraktResponse(response);
-                    System.Threading.Thread.Sleep(500);
-                    if (progressDialog.HasUserCancelled)
+                    foreach (var series in libraryEpisodes.ToList())
                     {
-                        TraktLogger.Info("Cancelling Library Clearing");
-                        progressDialog.CloseDialog();
-                        return;
+                        TraktLogger.Info("Removing '{0}' from library", series.ToString());
+                        progressDialog.Line2 = string.Format("Removing {0} from library", series.ToString());
+                        TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
+                        LogTraktResponse(response);
+                        System.Threading.Thread.Sleep(500);
+                        if (progressDialog.HasUserCancelled)
+                        {
+                            TraktLogger.Info("Cancelling Library Clearing");
+                            progressDialog.CloseDialog();
+                            return;
+                        }
                     }
                 }
                 TraktLogger.Info("Removed all shows possible, some manual clean up may be required");

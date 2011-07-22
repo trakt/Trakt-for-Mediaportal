@@ -382,9 +382,6 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            // Get a reference to a MdiaPortal Texture Identifier
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath);
-
             ThumbnailImage = imageFilePath;
             IconImage = imageFilePath;
             IconImageBig = imageFilePath;

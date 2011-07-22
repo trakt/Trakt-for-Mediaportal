@@ -65,6 +65,11 @@ namespace TraktPlugin.TraktHandlers
 
             //Get all movies we have in our library including movies in users collection            
             IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
+            if (traktMoviesAll == null)
+            {
+                TraktLogger.Error("Error getting movies from trakt server, cancelling sync.");
+                return;
+            }
             TraktLogger.Info("{0} movies in trakt library", traktMoviesAll.Count().ToString());
 
             #region Movies to Sync to Collection

@@ -84,14 +84,17 @@ namespace TraktPlugin.TraktHandlers
 
             // get all episodes on trakt that are marked as in 'collection'
             IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+            if (traktCollectionEpisodes == null) return;
             TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
 
             // get all episodes on trakt that are marked as 'seen' or 'watched'
             IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+            if (traktWatchedEpisodes == null) return;
             TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
             // get all episodes on trakt that are marked as 'unseen'
             IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
+            if (traktUnSeenEpisodes == null) return;
             TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
 
             List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
