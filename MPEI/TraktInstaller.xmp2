@@ -415,6 +415,13 @@
               <ZipFileName>Installer{CopyFile}\{f0b2f0a0-eead-46c1-96cf-a5ed4af051af}-trakt.png</ZipFileName>
               <DestinationFilename>%Skin%\Blue3\Media\Logos\trakt.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Blue3\Trakt.Shouts.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{29c69394-7aae-4204-a5ed-5270b986d023}-Trakt.Shouts.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Blue3\Trakt.Shouts.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -782,6 +789,13 @@
               <ZipFileName>Installer{CopyFile}\{76d7a83a-a97a-49f8-895b-546518a445ea}-trakt.png</ZipFileName>
               <DestinationFilename>%Skin%\Blue3wide\Media\Logos\trakt.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Blue3Wide\Trakt.Shouts.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ace03c55-0732-4d36-bd79-f2afd3b91767}-Trakt.Shouts.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Blue3wide\Trakt.Shouts.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1075,7 +1089,7 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>1</Major>
       <Minor>0</Minor>
-      <Build>3</Build>
+      <Build>4</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
@@ -1083,17 +1097,17 @@ Click Next to continue or Cancel to exit Setup.
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.1
 
-* Added ability to search for new friends and send friend requests to them. This can all be done from the Friends window.
-* Added support to Play movie directly using 'Play' button on remote control. This will skip the 'Jump To' details view of corresponding plugin that has movie.
-* Fixed a bug where it was not possible to play movie from trakt windows when 'My Videos' was the only plugin handler enabled.
-* Fixed previous selected item not being remembered when using Filmstrip layout.
-* Added support to load a friends Movie/Show/Episode Watch List. When you select a friend from the Friends window and drill down to the next view, there are 3 additional items to choose from to load your friends watch lists. When viewing a friends watch list, you can also add item to your personal watch list.
-* Added Rate/Library/Watched/WatchList menu items in Watch List window. Typically used when viewing a friends watch list.
-* Support for movie playback from MovingPictures when using MediaPortal 1.1. Movie will play directly rather than jump to MovingPictures details view first which is only possible in MediaPortal 1.2 Beta.
-* Improved image loading in Trending windows so that local artwork is displayed immediately followed by remote download queue.</VersionDescription>
+* Added new Trakt Shouts Window, can view any shouts made by users from any Trakt Window or Compatible External Plugins: MovingPictures, MP-TVSeries, My Videos VideoInfo. Requires updated skin suppport.
+* Added Skin support for Shouts button from external plugin windows: TV-Series, MovingPictures and My Videos Video Info
+* Added Skin support for Rate Movie, TV Show or Episode from MovingPictures and TV-Series.
+* Added filter to My Shows Calendar menu to Hide TV Shows that are in your Watch List.
+* Added library/rating icons to Calendar episode images. Also updated Context Menu with new Library/Rate functions.
+* Updated My Films plugin handler to support full 2-way sync of watched flags, Watching/Scrobble to trakt.tv, Movie restrictions, Toggle Watched and Rating from My Films GUI.
+* Fixed previous user not being remembered in Watch List windows when loading a Trailer or jump to Movie Details for selected item.
+* Fixed '(417) Expectation Failed' error that can occur for some users.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-07-08T10:00:00+10:00</ReleaseDate>
+    <ReleaseDate>2011-07-22T10:00:00+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -1520,6 +1534,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Blue3\Trakt.Shouts.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{29c69394-7aae-4204-a5ed-5270b986d023}-Trakt.Shouts.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Blue3\Trakt.Shouts.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Skins\Blue3Wide\Trakt.AccountDialog.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{e4e7fe48-f0c7-46d9-bb84-9268e0731dd0}-Trakt.AccountDialog.xml</ZipFileName>
         <DestinationFilename>%Skin%\Blue3wide\Trakt.AccountDialog.xml</DestinationFilename>
@@ -1874,18 +1895,25 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{76d7a83a-a97a-49f8-895b-546518a445ea}-trakt.png</ZipFileName>
         <DestinationFilename>%Skin%\Blue3wide\Media\Logos\trakt.png</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Blue3Wide\Trakt.Shouts.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ace03c55-0732-4d36-bd79-f2afd3b91767}-Trakt.Shouts.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Blue3wide\Trakt.Shouts.xml</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{b3f47f65-3aa1-4731-b172-847887cb1ee7}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{9e902f47-c54a-43f9-9295-892744714dac}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{3938cb5a-58e2-44d2-ba5f-91f1d1630df9}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{052e0001-b310-4521-a3a5-e133cd948287}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -1923,7 +1951,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Trakt-for-Mediaportal\MPEI\TraktInstaller.xmp2</ProjectFilename>
+    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller.xmp2</ProjectFilename>
     <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />

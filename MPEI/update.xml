@@ -1103,5 +1103,277 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <FolderGroups />
       </ProjectSettings>
     </PackageClass>
+    <PackageClass>
+      <Version>2.0</Version>
+      <Groups>
+        <Items>
+          <GroupItem Name="Default">
+            <DisplayName>Default</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Default</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="Languages">
+            <DisplayName>Languages</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Languages</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="Blue3Skin">
+            <DisplayName>Blue3Skin</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Blue3Skin</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="Blue3WideSkin">
+            <DisplayName>Blue3WideSkin</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Blue3WideSkin</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+        </Items>
+      </Groups>
+      <Sections>
+        <Items />
+      </Sections>
+      <Dependencies>
+        <Items>
+          <DependencyItem>
+            <Type>MediaPortal</Type>
+            <Id />
+            <MinVersion>
+              <Major>1</Major>
+              <Minor>1</Minor>
+              <Build>0</Build>
+              <Revision>0</Revision>
+            </MinVersion>
+            <MaxVersion>
+              <Major>1</Major>
+              <Minor>1</Minor>
+              <Build>0</Build>
+              <Revision>5</Revision>
+            </MaxVersion>
+            <WarnOnly>false</WarnOnly>
+            <Message>This version of Trakt plugin is only supported on MediaPortal 1.1. Please download version that is supported by your version of MediaPortal.</Message>
+            <Name>MediaPortal</Name>
+          </DependencyItem>
+        </Items>
+      </Dependencies>
+      <GeneralInfo>
+        <Name>Trakt for MediaPortal</Name>
+        <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
+        <Author>Technicolour, ltfearme</Author>
+        <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
+        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
+        <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
+        <Version>
+          <Major>1</Major>
+          <Minor>0</Minor>
+          <Build>4</Build>
+          <Revision>0</Revision>
+        </Version>
+        <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+
+Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
+        <VersionDescription>Stable release for MediaPortal 1.1
+
+* Added new Trakt Shouts Window, can view any shouts made by users from any Trakt Window or Compatible External Plugins: MovingPictures, MP-TVSeries, My Videos VideoInfo. Requires updated skin suppport.
+* Added Skin support for Shouts button from external plugin windows: TV-Series, MovingPictures and My Videos Video Info
+* Added Skin support for Rate Movie, TV Show or Episode from MovingPictures and TV-Series.
+* Added filter to My Shows Calendar menu to Hide TV Shows that are in your Watch List.
+* Added library/rating icons to Calendar episode images. Also updated Context Menu with new Library/Rate functions.
+* Updated My Films plugin handler to support full 2-way sync of watched flags, Watching/Scrobble to trakt.tv, Movie restrictions, Toggle Watched and Rating from My Films GUI.
+* Fixed previous user not being remembered in Watch List windows when loading a Trailer or jump to Movie Details for selected item.
+* Fixed '(417) Expectation Failed' error that can occur for some users.</VersionDescription>
+        <DevelopmentStatus>Stable</DevelopmentStatus>
+        <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
+        <ReleaseDate>2011-07-22T10:00:00+10:00</ReleaseDate>
+        <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
+        <Location>.\Release\TraktPlugin.mpe1</Location>
+        <Params>
+          <Items>
+            <SectionParam Name="Icon">
+              <Value>D:\Development\Personal\Trakt-For-MediaPortal\TraktPlugin\Resources\Images\trakt.png</Value>
+              <ValueType>File</ValueType>
+              <Description>The icon file of the package (jpg,png,bmp)</Description>
+            </SectionParam>
+            <SectionParam Name="Online Icon">
+              <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/raw/master/TraktPlugin/Resources/Images/trakt.png</Value>
+              <ValueType>String</ValueType>
+              <Description>The icon file of the package stored online (jpg,png,bmp)</Description>
+            </SectionParam>
+            <SectionParam Name="Configuration file">
+              <Value>%Plugins%\Windows\TraktPlugin.dll</Value>
+              <ValueType>Template</ValueType>
+              <Description>
+            The file used to configure the extension.
+            If have .exe extension the will be executed
+            If have .dll extension used like MP plugin configuration
+          </Description>
+            </SectionParam>
+            <SectionParam Name="Online Screenshots">
+              <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingMovies.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktMain.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktCalendar.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktFriends.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedMovies.jpg</Value>
+              <ValueType>String</ValueType>
+              <Description>Online stored screenshot urls separated by ; </Description>
+            </SectionParam>
+            <SectionParam Name="Force to uninstall on update">
+              <Value>YES</Value>
+              <ValueType>Bool</ValueType>
+              <Description>Show dialog and force to uninstall previous version when updating an extension. Should only be disabled if you are using an NSIS/MSI installer.</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+      </GeneralInfo>
+      <UniqueFileList>
+        <Items />
+      </UniqueFileList>
+      <ProjectSettings>
+        <FolderGroups />
+      </ProjectSettings>
+    </PackageClass>
+    <PackageClass>
+      <Version>2.0</Version>
+      <Groups>
+        <Items>
+          <GroupItem Name="Default">
+            <DisplayName>Default</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Default</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="Languages">
+            <DisplayName>Languages</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>Languages</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="DefaultSkin">
+            <DisplayName>DefaultSkin</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>DefaultSkin</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+          <GroupItem Name="DefaultWideSkin">
+            <DisplayName>DefaultWideSkin</DisplayName>
+            <DefaulChecked>true</DefaulChecked>
+            <Description>DefaultWideSkin</Description>
+            <Files>
+              <Items />
+            </Files>
+          </GroupItem>
+        </Items>
+      </Groups>
+      <Sections>
+        <Items />
+      </Sections>
+      <Dependencies>
+        <Items>
+          <DependencyItem>
+            <Type>MediaPortal</Type>
+            <Id />
+            <MinVersion>
+              <Major>1</Major>
+              <Minor>1</Minor>
+              <Build>0</Build>
+              <Revision>6</Revision>
+            </MinVersion>
+            <MaxVersion>
+              <Major>9</Major>
+              <Minor>9</Minor>
+              <Build>9</Build>
+              <Revision>9</Revision>
+            </MaxVersion>
+            <WarnOnly>false</WarnOnly>
+            <Message>This version of Trakt plugin is only supported on MediaPortal 1.2 or above. Please download version that is supported by your version of MediaPortal.</Message>
+            <Name>MediaPortal</Name>
+          </DependencyItem>
+        </Items>
+      </Dependencies>
+      <GeneralInfo>
+        <Name>Trakt for MediaPortal</Name>
+        <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
+        <Author>Technicolour, ltfearme</Author>
+        <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
+        <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
+        <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
+        <Version>
+          <Major>1</Major>
+          <Minor>0</Minor>
+          <Build>4</Build>
+          <Revision>1</Revision>
+        </Version>
+        <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+
+Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
+        <VersionDescription>Stable release for MediaPortal 1.2 Beta
+
+* Added new Trakt Shouts Window, can view any shouts made by users from any Trakt Window or Compatible External Plugins: MovingPictures, MP-TVSeries, My Videos VideoInfo. Requires updated skin suppport.
+* Added Skin support for Shouts button from external plugin windows: TV-Series, MovingPictures and My Videos Video Info
+* Added Skin support for Rate Movie, TV Show or Episode from MovingPictures and TV-Series.
+* Added filter to My Shows Calendar menu to Hide TV Shows that are in your Watch List.
+* Added library/rating icons to Calendar episode images. Also updated Context Menu with new Library/Rate functions.
+* Updated My Films plugin handler to support full 2-way sync of watched flags, Watching/Scrobble to trakt.tv, Movie restrictions, Toggle Watched and Rating from My Films GUI.
+* Fixed previous user not being remembered in Watch List windows when loading a Trailer or jump to Movie Details for selected item.
+* Fixed '(417) Expectation Failed' error that can occur for some users.</VersionDescription>
+        <DevelopmentStatus>Stable</DevelopmentStatus>
+        <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=40</OnlineLocation>
+        <ReleaseDate>2011-07-22T10:00:00+10:00</ReleaseDate>
+        <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
+        <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
+        <Params>
+          <Items>
+            <SectionParam Name="Icon">
+              <Value>D:\Development\Personal\Trakt-For-MediaPortal\TraktPlugin\Resources\Images\trakt.png</Value>
+              <ValueType>File</ValueType>
+              <Description>The icon file of the package (jpg,png,bmp)</Description>
+            </SectionParam>
+            <SectionParam Name="Online Icon">
+              <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/raw/master/TraktPlugin/Resources/Images/trakt.png</Value>
+              <ValueType>String</ValueType>
+              <Description>The icon file of the package stored online (jpg,png,bmp)</Description>
+            </SectionParam>
+            <SectionParam Name="Configuration file">
+              <Value>%Plugins%\Windows\TraktPlugin.dll</Value>
+              <ValueType>Template</ValueType>
+              <Description>
+            The file used to configure the extension.
+            If have .exe extension the will be executed
+            If have .dll extension used like MP plugin configuration
+          </Description>
+            </SectionParam>
+            <SectionParam Name="Online Screenshots">
+              <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingMovies.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktMain.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktCalendar.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktFriends.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedMovies.jpg</Value>
+              <ValueType>String</ValueType>
+              <Description>Online stored screenshot urls separated by ; </Description>
+            </SectionParam>
+            <SectionParam Name="Force to uninstall on update">
+              <Value>YES</Value>
+              <ValueType>Bool</ValueType>
+              <Description>Show dialog and force to uninstall previous version when updating an extension. Should only be disabled if you are using an NSIS/MSI installer.</Description>
+            </SectionParam>
+          </Items>
+        </Params>
+      </GeneralInfo>
+      <UniqueFileList>
+        <Items />
+      </UniqueFileList>
+      <ProjectSettings>
+        <FolderGroups />
+      </ProjectSettings>
+    </PackageClass>
   </Items>
 </ExtensionCollection>
