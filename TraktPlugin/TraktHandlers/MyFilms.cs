@@ -499,7 +499,7 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Other Public Methods
-        public static bool FindMovieID(string title, int year, string imdbid, ref int? movieid)
+        public static bool FindMovie(string title, int year, string imdbid, ref int? movieid, ref string config)
         {
             // get all movies
             ArrayList myvideos = new ArrayList();
@@ -513,10 +513,10 @@ namespace TraktPlugin.TraktHandlers
             if (movie == null) return false;
 
             movieid = movie.ID;
+            config = movie.Config;
             return true;
         }
         #endregion
-
 
     }
 }

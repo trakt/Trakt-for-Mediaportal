@@ -126,25 +126,29 @@ namespace TraktPlugin.GUI
             }
 
             // check if its in My Films database
-            // uncomment when available in My Films
-            /*if (TraktHelper.IsMyFilmsAvailableAndEnabled && handled == false)
+            #if MP12
+            if (TraktHelper.IsMyFilmsAvailableAndEnabled && handled == false)
             {
                 int? movieid = null;
-                if (TraktHandlers.MyFilms.FindMovieID(title, year, imdbid, ref movieid))
+                string config = null;
+                if (TraktHandlers.MyFilms.FindMovie(title, year, imdbid, ref movieid, ref config))
                 {
                     // Open My Films Details view so user can play movie
                     if (jumpTo)
                     {
-                        // ToDo: add load param support in MF and add proper string here
-                        string loadingParameter = string.Format("movieid:{0}", movieid);
+                        string loadingParameter = string.Format("config:{0}|movieid:{1}", config, movieid);
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyFilms, loadingParameter);
                     }
                     else
-                        // ToDo: Add player to MyFilms handler
-                        // TraktHandlers.MyFilms.PlayMovie(movieid);
+                    {
+                        // TraktHandlers.MyFilms.PlayMovie(config, movieid); // ToDo: Add Player Class to MyFilms
+                        string loadingParameter = string.Format("config:{0}|movieid:{1}|play:{2}", config, movieid, "true");
+                        GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyFilms, loadingParameter);
+                    }
                     handled = true;
                 }
-            }*/
+            }
+            #endif
 
         }
 
