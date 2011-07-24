@@ -111,7 +111,7 @@ namespace TraktPlugin
 
         private void btnDown_Click(object sender, EventArgs e)
         {
-            if (clbPlugins.SelectedIndex < clbPlugins.Items.Count - 1)
+            if (clbPlugins.SelectedIndex != -1 && clbPlugins.SelectedIndex < clbPlugins.Items.Count - 1)
             {
                 int ndx = clbPlugins.SelectedIndex;
                 bool enabled = clbPlugins.GetItemChecked(ndx);
