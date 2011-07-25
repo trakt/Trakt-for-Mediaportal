@@ -150,6 +150,15 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            #if MP12
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
+            {
+                string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
+                handled = true;
+            }
+            #endif
+
         }
 
         /// <summary>
