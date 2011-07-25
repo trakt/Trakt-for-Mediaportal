@@ -40,8 +40,8 @@ using MediaPortal.Common.Utils;
 [assembly: AssemblyVersion("1.0.4.0")]
 [assembly: AssemblyFileVersion("1.0.4.0")]
 #else
-[assembly: AssemblyVersion("1.0.4.1")]
-[assembly: AssemblyFileVersion("1.0.4.1")]
+[assembly: AssemblyVersion("1.0.5.0")]
+[assembly: AssemblyFileVersion("1.0.5.0")]
 #endif
 
 // MediaPortal Version Compatibility
