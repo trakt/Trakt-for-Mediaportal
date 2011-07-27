@@ -37,11 +37,11 @@ using MediaPortal.Common.Utils;
 // [assembly: AssemblyVersion("1.0.*")]
 // Increment revision for MediaPortal 1.2 plugin so we dont have any issues with upgrading from MP1.1.
 #if !MP12
-[assembly: AssemblyVersion("1.0.5.1")]
-[assembly: AssemblyFileVersion("1.0.5.1")]
-#else
 [assembly: AssemblyVersion("1.0.5.0")]
 [assembly: AssemblyFileVersion("1.0.5.0")]
+#else
+[assembly: AssemblyVersion("1.0.5.1")]
+[assembly: AssemblyFileVersion("1.0.5.1")]
 #endif
 
 // MediaPortal Version Compatibility
