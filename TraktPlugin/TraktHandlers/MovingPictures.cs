@@ -174,15 +174,28 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
 
+            IEnumerable<TraktWatchListMovie> traktWatchListMovies = null;
+            IEnumerable<TraktMovie> traktRecommendationMovies = null;
+
+            //Get it once to speed things up
+            if (TraktSettings.MovingPicturesCategories || TraktSettings.MovingPicturesFilters)
+            {
+                TraktLogger.Debug("Retrieving watchlist from trakt");
+                traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+
+                TraktLogger.Debug("Retrieving recommendations from trakt");
+                traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+            }
+
             //Moving Pictures Categories
-            if (TraktSettings.MovingPicturesCategories)
-                UpdateMovingPicturesCategories();
+            if (TraktSettings.MovingPicturesCategories && traktWatchListMovies != null && traktRecommendationMovies != null)
+                updateMovingPicturesCategories(traktRecommendationMovies, traktWatchListMovies);
             else
                 RemoveMovingPicturesCategories();
 
             //Moving Pictures Filters
-            if (TraktSettings.MovingPicturesFilters)
-                UpdateMovingPicturesFilters();
+            if (TraktSettings.MovingPicturesFilters && traktWatchListMovies != null && traktRecommendationMovies != null)
+                updateMovingPicturesFilters(traktRecommendationMovies, traktWatchListMovies);
             else
                 RemoveMovingPicturesFilters();
 
