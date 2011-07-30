@@ -180,6 +180,12 @@ namespace TraktPlugin.TraktHandlers
             else
                 RemoveMovingPicturesCategories();
 
+            //Moving Pictures Filters
+            if (TraktSettings.MovingPicturesFilters)
+                UpdateMovingPicturesFilters();
+            else
+                RemoveMovingPicturesFilters();
+
             SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
 
@@ -579,6 +585,198 @@ namespace TraktPlugin.TraktHandlers
 
         #endregion
 
+        #region Other Private Methods
+
+        private static void updateMovingPicturesCategories(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
+        {
+            if (!TraktSettings.MovingPicturesCategories)
+                return;
+
+            TraktLogger.Info("Updating Moving Pictures Categories");
+
+            DBNode<DBMovieInfo> traktNode = null;
+
+            if (TraktSettings.MovingPicturesCategoryId == -1)
+            {
+                CreateMovingPictureCategories();
+            }
+
+            if (TraktSettings.MovingPicturesCategoryId != -1)
+            {
+                TraktLogger.Debug("Retrieving node from Moving Pictures Database");
+                traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
+            }
+
+            if (traktNode != null)
+            {
+                TraktLogger.Debug("Removing all children nodes");
+                traktNode.Children.Clear();
+
+                TraktLogger.Debug("Creating the watchlist node");
+                DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
+                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
+
+                DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
+                watchlistNode.AdditionalSettings = watchlistSettings;
+
+                TraktLogger.Debug("Creating the recommendations node");
+                DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
+                recommendationsNode.Name = "${" + GUI.Translation.Recommendations + "}";
+
+                DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
+                recommendationsNode.AdditionalSettings = recommendationsSettings;
+
+                TraktLogger.Debug("Getting the Movie's from Moving Pictures");
+                List<DBMovieInfo> movieList = DBMovieInfo.GetAll();
+
+                TraktLogger.Debug("Creating the watchlist filter");
+                DBFilter<DBMovieInfo> watchlistFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktWatchListMovie traktmovie in traktWatchListMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
+                        watchlistFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (watchlistFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (watchlistfilter)");
+                    watchlistFilter.BlackList.AddRange(movieList);
+                }
+
+                watchlistNode.Filter = watchlistFilter;
+                traktNode.Children.Add(watchlistNode);
+
+                TraktLogger.Debug("Creating the recommendations filter");
+                DBFilter<DBMovieInfo> recommendationsFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktMovie traktMovie in traktRecommendationMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
+                        recommendationsFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (recommendationsFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (recommendationsfilter)");
+                    recommendationsFilter.BlackList.AddRange(movieList);
+                }
+
+                recommendationsNode.Filter = recommendationsFilter;
+                traktNode.Children.Add(recommendationsNode);
+
+                MovingPicturesCore.Settings.CategoriesMenu.Commit();
+
+            }
+            else
+            {
+                TraktLogger.Error("Trakt Node is null, can't continue making categories");
+            }
+        }
+
+        private static void updateMovingPicturesFilters(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
+        {
+            if (!TraktSettings.MovingPicturesFilters)
+                return;
+
+            TraktLogger.Info("Updating Moving Pictures Filters");
+
+            DBNode<DBMovieInfo> traktNode = null;
+
+            if (TraktSettings.MovingPicturesFiltersId == -1)
+            {
+                CreateMovingPictureFilters();
+            }
+
+            if (TraktSettings.MovingPicturesFiltersId != -1)
+            {
+                TraktLogger.Debug("Retrieving node from Moving Pictures Database");
+                traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
+            }
+
+            if (traktNode != null)
+            {
+                TraktLogger.Debug("Removing all children nodes");
+                traktNode.Children.Clear();
+
+                TraktLogger.Debug("Creating the watchlist node");
+                DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
+                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
+
+                DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
+                watchlistNode.AdditionalSettings = watchlistSettings;
+
+                TraktLogger.Debug("Creating the recommendations node");
+                DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
+                recommendationsNode.Name = "${" + GUI.Translation.Recommendations + "}";
+
+                DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
+                recommendationsNode.AdditionalSettings = recommendationsSettings;
+
+                TraktLogger.Debug("Getting the Movie's from Moving Pictures");
+                List<DBMovieInfo> movieList = DBMovieInfo.GetAll();
+
+
+                TraktLogger.Debug("Creating the watchlist filter");
+                DBFilter<DBMovieInfo> watchlistFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktWatchListMovie traktmovie in traktWatchListMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
+                        watchlistFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (watchlistFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (watchlistfilter)");
+                    watchlistFilter.BlackList.AddRange(movieList);
+                }
+
+                watchlistNode.Filter = watchlistFilter;
+                traktNode.Children.Add(watchlistNode);
+
+
+                TraktLogger.Debug("Creating the recommendations filter");
+                DBFilter<DBMovieInfo> recommendationsFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktMovie traktMovie in traktRecommendationMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
+                        recommendationsFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (recommendationsFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (recommendationsfilter)");
+                    recommendationsFilter.BlackList.AddRange(movieList);
+                }
+
+                recommendationsNode.Filter = recommendationsFilter;
+                traktNode.Children.Add(recommendationsNode);
+
+                MovingPicturesCore.Settings.FilterMenu.Commit();
+
+            }
+            else
+            {
+                TraktLogger.Error("Trakt Node is null, can't continue making filters");
+            }
+        }
+
+        #endregion
+
         #region Other Public Methods
 
         public void DisposeEvents()
@@ -671,99 +869,14 @@ namespace TraktPlugin.TraktHandlers
         {
             if (!TraktSettings.MovingPicturesCategories)
                 return;
-            
-            TraktLogger.Info("Updating Moving Pictures Categories");
 
-            DBNode<DBMovieInfo> traktNode = null;
+            TraktLogger.Debug("Retrieving watchlist from trakt");
+            IEnumerable<TraktWatchListMovie> traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
 
-            if (TraktSettings.MovingPicturesCategoryId == -1)
-            {
-                CreateMovingPictureCategories();
-            }
+            TraktLogger.Debug("Retrieving recommendations from trakt");
+            IEnumerable<TraktMovie> traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
 
-            if (TraktSettings.MovingPicturesCategoryId != -1)
-            {
-                TraktLogger.Debug("Retrieving node from Moving Pictures Database");
-                traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
-            }
-
-            if (traktNode != null)
-            {
-                TraktLogger.Debug("Removing all children nodes");
-                traktNode.Children.Clear();
-
-                TraktLogger.Debug("Creating the watchlist node");
-                DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
-                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
-
-                DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
-                watchlistNode.AdditionalSettings = watchlistSettings;
-
-                TraktLogger.Debug("Creating the recommendations node");
-                DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
-                recommendationsNode.Name = "${" + GUI.Translation.Recommendations + "}";
-
-                DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
-                recommendationsNode.AdditionalSettings = recommendationsSettings;
-
-                TraktLogger.Debug("Getting the Movie's from Moving Pictures");
-                List<DBMovieInfo> movieList = DBMovieInfo.GetAll();
-
-                TraktLogger.Debug("Retrieving watchlist from trakt");
-                IEnumerable<TraktWatchListMovie> traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-
-                TraktLogger.Debug("Creating the watchlist filter");
-                DBFilter<DBMovieInfo> watchlistFilter = new DBFilter<DBMovieInfo>();
-                foreach (TraktWatchListMovie traktmovie in traktWatchListMovies)
-                {
-                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0);
-                    if (movie != null)
-                    {
-                        TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
-                        watchlistFilter.WhiteList.Add(movie);
-                    }
-                }
-
-                if (watchlistFilter.WhiteList.Count == 0)
-                {
-                    TraktLogger.Debug("No movies are matched so add everything to blacklist (watchlistfilter)");
-                    watchlistFilter.BlackList.AddRange(movieList);
-                }
-                
-                watchlistNode.Filter = watchlistFilter;
-                traktNode.Children.Add(watchlistNode);
-
-                TraktLogger.Debug("Retrieving recommendations from trakt");
-                IEnumerable<TraktMovie> traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
-
-                TraktLogger.Debug("Creating the recommendations filter");
-                DBFilter<DBMovieInfo> recommendationsFilter = new DBFilter<DBMovieInfo>();
-                foreach (TraktMovie traktMovie in traktRecommendationMovies)
-                {
-                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0);
-                    if (movie != null)
-                    {
-                        TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
-                        recommendationsFilter.WhiteList.Add(movie);
-                    }
-                }
-
-                if (recommendationsFilter.WhiteList.Count == 0)
-                {
-                    TraktLogger.Debug("No movies are matched so add everything to blacklist (recommendationsfilter)");
-                    recommendationsFilter.BlackList.AddRange(movieList);
-                }
-
-                recommendationsNode.Filter = recommendationsFilter;
-                traktNode.Children.Add(recommendationsNode);
-
-                MovingPicturesCore.Settings.CategoriesMenu.Commit();
-
-            }
-            else
-            {
-                TraktLogger.Error("Trakt Node is null, can't continue making categories");
-            }
+            updateMovingPicturesCategories(traktRecommendationMovies, traktWatchListMovies);
         }
 
         public static void RemoveMovingPicturesCategories()
@@ -839,98 +952,13 @@ namespace TraktPlugin.TraktHandlers
             if (!TraktSettings.MovingPicturesFilters)
                 return;
 
-            TraktLogger.Info("Updating Moving Pictures Filters");
+            TraktLogger.Debug("Retrieving watchlist from trakt");
+            IEnumerable<TraktWatchListMovie> traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
 
-            DBNode<DBMovieInfo> traktNode = null;
+            TraktLogger.Debug("Retrieving recommendations from trakt");
+            IEnumerable<TraktMovie> traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
 
-            if (TraktSettings.MovingPicturesFiltersId == -1)
-            {
-                CreateMovingPictureFilters();
-            }
-
-            if (TraktSettings.MovingPicturesFiltersId != -1)
-            {
-                TraktLogger.Debug("Retrieving node from Moving Pictures Database");
-                traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
-            }
-
-            if (traktNode != null)
-            {
-                TraktLogger.Debug("Removing all children nodes");
-                traktNode.Children.Clear();
-
-                TraktLogger.Debug("Creating the watchlist node");
-                DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
-                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
-
-                DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
-                watchlistNode.AdditionalSettings = watchlistSettings;
-
-                TraktLogger.Debug("Creating the recommendations node");
-                DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
-                recommendationsNode.Name = "${" + GUI.Translation.Recommendations + "}";
-
-                DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
-                recommendationsNode.AdditionalSettings = recommendationsSettings;
-
-                TraktLogger.Debug("Getting the Movie's from Moving Pictures");
-                List<DBMovieInfo> movieList = DBMovieInfo.GetAll();
-
-                TraktLogger.Debug("Retrieving watchlist from trakt");
-                IEnumerable<TraktWatchListMovie> traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-
-                TraktLogger.Debug("Creating the watchlist filter");
-                DBFilter<DBMovieInfo> watchlistFilter = new DBFilter<DBMovieInfo>();
-                foreach (TraktWatchListMovie traktmovie in traktWatchListMovies)
-                {
-                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0);
-                    if (movie != null)
-                    {
-                        TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
-                        watchlistFilter.WhiteList.Add(movie);
-                    }
-                }
-
-                if (watchlistFilter.WhiteList.Count == 0)
-                {
-                    TraktLogger.Debug("No movies are matched so add everything to blacklist (watchlistfilter)");
-                    watchlistFilter.BlackList.AddRange(movieList);
-                }
-
-                watchlistNode.Filter = watchlistFilter;
-                traktNode.Children.Add(watchlistNode);
-
-                TraktLogger.Debug("Retrieving recommendations from trakt");
-                IEnumerable<TraktMovie> traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
-
-                TraktLogger.Debug("Creating the recommendations filter");
-                DBFilter<DBMovieInfo> recommendationsFilter = new DBFilter<DBMovieInfo>();
-                foreach (TraktMovie traktMovie in traktRecommendationMovies)
-                {
-                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0);
-                    if (movie != null)
-                    {
-                        TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
-                        recommendationsFilter.WhiteList.Add(movie);
-                    }
-                }
-
-                if (recommendationsFilter.WhiteList.Count == 0)
-                {
-                    TraktLogger.Debug("No movies are matched so add everything to blacklist (recommendationsfilter)");
-                    recommendationsFilter.BlackList.AddRange(movieList);
-                }
-
-                recommendationsNode.Filter = recommendationsFilter;
-                traktNode.Children.Add(recommendationsNode);
-
-                MovingPicturesCore.Settings.FilterMenu.Commit();
-
-            }
-            else
-            {
-                TraktLogger.Error("Trakt Node is null, can't continue making filters");
-            }
+            updateMovingPicturesFilters(traktRecommendationMovies, traktWatchListMovies);
         }
 
         public static void RemoveMovingPicturesFilters()
