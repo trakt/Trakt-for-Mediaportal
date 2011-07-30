@@ -49,6 +49,26 @@
         <onup>3</onup>
         <ondown>2</ondown>
       </control>
+	  <control>
+        <description>Create Moving Pictures Categories</description>
+        <type>togglebutton</type>
+        <id>5</id>
+        <width>300</width>
+        <label>#Trakt.Translation.CreateMovingPicturesCategories.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>3</onup>
+        <ondown>2</ondown>
+      </control>
+	  <control>
+        <description>Create Moving Pictures Filters</description>
+        <type>togglebutton</type>
+        <id>6</id>
+        <width>300</width>
+        <label>#Trakt.Translation.CreateMovingPicturesFilters.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>3</onup>
+        <ondown>2</ondown>
+      </control>
     </control>
   </controls>
 </window>
