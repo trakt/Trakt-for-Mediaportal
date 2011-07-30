@@ -798,6 +798,173 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        public static void CreateMovingPictureFilters()
+        {
+            if (!TraktSettings.MovingPicturesFilters)
+                return;
+
+            TraktLogger.Debug("Checking if Filter has already been created");
+            if (TraktSettings.MovingPicturesFiltersId == -1)
+            {
+                TraktLogger.Debug("Filter not created so let's create it");
+                DBNode<DBMovieInfo> traktNode = new DBNode<DBMovieInfo>();
+                traktNode.Name = "${Trakt}";
+
+                DBMovieNodeSettings nodeSettings = new DBMovieNodeSettings();
+                traktNode.AdditionalSettings = nodeSettings;
+
+                TraktLogger.Debug("Setting the sort position to {0}", (MovingPicturesCore.Settings.FilterMenu.RootNodes.Count + 1).ToString());
+                //Add it at the end
+                traktNode.SortPosition = MovingPicturesCore.Settings.FilterMenu.RootNodes.Count + 1;
+
+                TraktLogger.Debug("Adding to Root Node");
+                MovingPicturesCore.Settings.FilterMenu.RootNodes.Add(traktNode);
+
+                TraktLogger.Debug("Committing");
+                MovingPicturesCore.Settings.FilterMenu.Commit();
+
+                TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
+                TraktSettings.MovingPicturesFiltersId = (int)traktNode.ID;
+                TraktSettings.saveSettings();
+
+            }
+            else
+            {
+                TraktLogger.Debug("Category has already been created");
+            }
+        }
+
+        public static void UpdateMovingPicturesFilters()
+        {
+            if (!TraktSettings.MovingPicturesFilters)
+                return;
+
+            TraktLogger.Info("Updating Moving Pictures Filters");
+
+            DBNode<DBMovieInfo> traktNode = null;
+
+            if (TraktSettings.MovingPicturesFiltersId == -1)
+            {
+                CreateMovingPictureFilters();
+            }
+
+            if (TraktSettings.MovingPicturesFiltersId != -1)
+            {
+                TraktLogger.Debug("Retrieving node from Moving Pictures Database");
+                traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
+            }
+
+            if (traktNode != null)
+            {
+                TraktLogger.Debug("Removing all children nodes");
+                traktNode.Children.Clear();
+
+                TraktLogger.Debug("Creating the watchlist node");
+                DBNode<DBMovieInfo> watchlistNode = new DBNode<DBMovieInfo>();
+                watchlistNode.Name = "${" + GUI.Translation.WatchList + "}";
+
+                DBMovieNodeSettings watchlistSettings = new DBMovieNodeSettings();
+                watchlistNode.AdditionalSettings = watchlistSettings;
+
+                TraktLogger.Debug("Creating the recommendations node");
+                DBNode<DBMovieInfo> recommendationsNode = new DBNode<DBMovieInfo>();
+                recommendationsNode.Name = "${" + GUI.Translation.Recommendations + "}";
+
+                DBMovieNodeSettings recommendationsSettings = new DBMovieNodeSettings();
+                recommendationsNode.AdditionalSettings = recommendationsSettings;
+
+                TraktLogger.Debug("Getting the Movie's from Moving Pictures");
+                List<DBMovieInfo> movieList = DBMovieInfo.GetAll();
+
+                TraktLogger.Debug("Retrieving watchlist from trakt");
+                IEnumerable<TraktWatchListMovie> traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+
+                TraktLogger.Debug("Creating the watchlist filter");
+                DBFilter<DBMovieInfo> watchlistFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktWatchListMovie traktmovie in traktWatchListMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
+                        watchlistFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (watchlistFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (watchlistfilter)");
+                    watchlistFilter.BlackList.AddRange(movieList);
+                }
+
+                watchlistNode.Filter = watchlistFilter;
+                traktNode.Children.Add(watchlistNode);
+
+                TraktLogger.Debug("Retrieving recommendations from trakt");
+                IEnumerable<TraktMovie> traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+
+                TraktLogger.Debug("Creating the recommendations filter");
+                DBFilter<DBMovieInfo> recommendationsFilter = new DBFilter<DBMovieInfo>();
+                foreach (TraktMovie traktMovie in traktRecommendationMovies)
+                {
+                    DBMovieInfo movie = movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0);
+                    if (movie != null)
+                    {
+                        TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
+                        recommendationsFilter.WhiteList.Add(movie);
+                    }
+                }
+
+                if (recommendationsFilter.WhiteList.Count == 0)
+                {
+                    TraktLogger.Debug("No movies are matched so add everything to blacklist (recommendationsfilter)");
+                    recommendationsFilter.BlackList.AddRange(movieList);
+                }
+
+                recommendationsNode.Filter = recommendationsFilter;
+                traktNode.Children.Add(recommendationsNode);
+
+                MovingPicturesCore.Settings.FilterMenu.Commit();
+
+            }
+            else
+            {
+                TraktLogger.Error("Trakt Node is null, can't continue making filters");
+            }
+        }
+
+        public static void RemoveMovingPicturesFilters()
+        {
+            if (TraktSettings.MovingPicturesFilters)
+                return;
+
+            TraktLogger.Info("Removing Moving Pictures Filters");
+
+            if (TraktSettings.MovingPicturesFiltersId != -1)
+            {
+                DBNode<DBMovieInfo> traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
+
+                if (traktNode != null)
+                {
+                    TraktLogger.Debug("Removing Filters from Moving Pictures");
+                    MovingPicturesCore.Settings.FilterMenu.RootNodes.Remove(traktNode);
+                    MovingPicturesCore.Settings.FilterMenu.RootNodes.Commit();
+                }
+                else
+                {
+                    TraktLogger.Error("Trakt Node is null!, it's already been removed");
+                }
+
+                TraktLogger.Debug("Removing setting");
+                TraktSettings.MovingPicturesFiltersId = -1;
+                TraktSettings.saveSettings();
+            }
+            else
+            {
+                TraktLogger.Debug("We don't have a record of the id!");
+            }
+        }
+
         #endregion
     }
 }
