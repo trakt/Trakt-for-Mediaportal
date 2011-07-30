@@ -51,6 +51,7 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
+            this.cbMovingPicturesFilters = new System.Windows.Forms.CheckBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -161,6 +162,7 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.cbMovingPicturesFilters);
             this.gbMisc.Controls.Add(this.cbMovingPicturesCategories);
             this.gbMisc.Controls.Add(this.lbSyncTimerLength);
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
@@ -168,7 +170,7 @@
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 274);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(288, 116);
+            this.gbMisc.Size = new System.Drawing.Size(288, 133);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
@@ -176,11 +178,11 @@
             // cbMovingPicturesCategories
             // 
             this.cbMovingPicturesCategories.AutoSize = true;
-            this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 43);
+            this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 45);
             this.cbMovingPicturesCategories.Name = "cbMovingPicturesCategories";
             this.cbMovingPicturesCategories.Size = new System.Drawing.Size(189, 17);
             this.cbMovingPicturesCategories.TabIndex = 1;
-            this.cbMovingPicturesCategories.Text = "&Create Moving Pictures Categories";
+            this.cbMovingPicturesCategories.Text = "Create Moving Pictures &Categories";
             this.cbMovingPicturesCategories.UseVisualStyleBackColor = true;
             this.cbMovingPicturesCategories.Click += new System.EventHandler(this.cbMovingPicturesCategories_Click);
             // 
@@ -212,7 +214,7 @@
             // 
             // btnClearLibrary
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(7, 83);
+            this.btnClearLibrary.Location = new System.Drawing.Point(7, 103);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
             this.btnClearLibrary.TabIndex = 3;
@@ -225,7 +227,7 @@
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(9, 64);
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 81);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
             this.cbKeepInSync.TabIndex = 2;
@@ -236,7 +238,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 396);
+            this.btnOK.Location = new System.Drawing.Point(227, 413);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -285,11 +287,22 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
+            // cbMovingPicturesFilters
+            // 
+            this.cbMovingPicturesFilters.AutoSize = true;
+            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 62);
+            this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
+            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(166, 17);
+            this.cbMovingPicturesFilters.TabIndex = 1;
+            this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters";
+            this.cbMovingPicturesFilters.UseVisualStyleBackColor = true;
+            this.cbMovingPicturesFilters.Click += new System.EventHandler(this.cbMovingPicturesFilters_Click);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 431);
+            this.ClientSize = new System.Drawing.Size(312, 442);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -334,5 +347,6 @@
         private System.Windows.Forms.Label lbSyncTimerLength;
         private System.Windows.Forms.LinkLabel linkTrakt;
         private System.Windows.Forms.CheckBox cbMovingPicturesCategories;
+        private System.Windows.Forms.CheckBox cbMovingPicturesFilters;
     }
 }

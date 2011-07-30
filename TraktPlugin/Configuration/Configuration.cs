@@ -47,6 +47,7 @@ namespace TraktPlugin
             cbTraktSyncLength.SelectedItem = (TraktSettings.SyncTimerLength / 3600000).ToString();
 
             cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
+            cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
             #endregion
 
             // handle events now that we have populated default settings
@@ -262,6 +263,39 @@ namespace TraktPlugin
             //Update
             pd.Line1 = "Updating Categories";
             TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
+            pd.CloseDialog();
+        }
+
+        private void cbMovingPicturesFilters_Click(object sender, EventArgs e)
+        {
+            if (TraktSettings.MovingPicturesFilters)
+            {
+                //Remove
+                TraktSettings.MovingPicturesFilters = false;
+                TraktHandlers.MovingPictures.RemoveMovingPicturesFilters();
+            }
+            else
+            {
+                //Add
+                TraktSettings.MovingPicturesFilters = true;
+                BackgroundWorker filtersCreator = new BackgroundWorker();
+                filtersCreator.DoWork += new DoWorkEventHandler(filtersCreator_DoWork);
+                filtersCreator.RunWorkerAsync();
+            }
+
+            cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
+        }
+
+        void filtersCreator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProgressDialog pd = new ProgressDialog(this.Handle);
+            pd.ShowDialog();
+            pd.Line1 = "Creating Filters";
+
+            TraktHandlers.MovingPictures.CreateMovingPictureFilters();
+            //Update
+            pd.Line1 = "Updating Filters";
+            TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();
             pd.CloseDialog();
         }
 
