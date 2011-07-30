@@ -215,6 +215,10 @@ namespace TraktPlugin.GUI
         public static string CreateAccount = "Create Account";
         public static string CreateNewAccount = "Create New Account...";
         public static string CreatingAccount = "Creating Account...";
+        public static string CreateMovingPicturesCategories = "Create Moving Pictures Categories";
+        public static string CreateMovingPicturesFilters = "Create Moving Pictures Filters";
+        public static string CreatingCategories = "Creating Categories";
+        public static string CreatingFilters = "Creating Filters";
         
 
         // D
@@ -313,6 +317,7 @@ namespace TraktPlugin.GUI
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
         public static string NoSearchResultsFound = "No Search Results Found";
+        public static string NoMovingPictures = "Moving Pictures is Not Installed or Enabled";
 
         // O
         public static string OK = "OK";
@@ -385,6 +390,8 @@ namespace TraktPlugin.GUI
         public static string Users = "Users";
         public static string Username = "Username";
         public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
+        public static string UpdatingCategories = "Updating Categories";
+        public static string UpdatingFilters = "Updating Filters";
 
         // V
         public static string View = "View";

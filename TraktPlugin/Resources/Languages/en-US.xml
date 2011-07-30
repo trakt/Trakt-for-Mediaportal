@@ -36,6 +36,10 @@
   <string Field="CreateAccount">Create Account</string>
   <string Field="CreateNewAccount">Create New Account...</string>
   <string Field="CreatingAccount">Creating Account...</string>
+  <string Field="CreateMovingPicturesCategories">Create Moving Pictures Categories</string>
+  <string Field="CreateMovingPicturesFilters">Create Moving Pictures Filters</string>
+  <string Field="CreatingCategories">Creating Categories</string>
+  <string Field="CreatingFilters">Creating Filters</string>
   
   <!-- D -->
   <string Field="DateToday">Today</string>
@@ -133,6 +137,7 @@
   <string Field="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string Field="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string Field="NoSearchResultsFound">No Search Results Found</string>
+  <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -204,6 +209,8 @@
   <string Field="Users">Users</string>
   <string Field="Username">Username</string>
   <string Field="UnAuthorized">Authentication failed, please check username and password in settings.</string>
+  <string Field="UpdatingCategories">Updating Categories</string>
+  <string Field="UpdatingFilters">Updating Filters</string>
   
   <!-- V -->
   <string Field="View">View</string>
