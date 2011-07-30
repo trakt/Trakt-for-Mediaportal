@@ -235,6 +235,14 @@ namespace TraktPlugin
 
         private void cbMovingPicturesCategories_Click(object sender, EventArgs e)
         {
+            //Check that Moving Pictures is installed
+            if (!File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MovingPictures.dll")))
+            {
+                MessageBox.Show("Moving Pictures isn't installed! Disabling...");
+                cbMovingPicturesCategories.Checked = false;
+                return;
+            }
+
             if (TraktSettings.MovingPicturesCategories)
             {
                 //Remove
@@ -268,6 +276,14 @@ namespace TraktPlugin
 
         private void cbMovingPicturesFilters_Click(object sender, EventArgs e)
         {
+            //Check that Moving Pictures is installed
+            if (!File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MovingPictures.dll")))
+            {
+                MessageBox.Show("Moving Pictures isn't installed! Disabling...");
+                cbMovingPicturesFilters.Checked = false;
+                return;
+            }
+
             if (TraktSettings.MovingPicturesFilters)
             {
                 //Remove
