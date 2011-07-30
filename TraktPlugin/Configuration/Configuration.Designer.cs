@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
             this.gbTraktAccount = new System.Windows.Forms.GroupBox();
+            this.linkTrakt = new System.Windows.Forms.LinkLabel();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.lbPassword = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.cbMovingPicturesCategories = new System.Windows.Forms.CheckBox();
             this.lbSyncTimerLength = new System.Windows.Forms.Label();
             this.cbTraktSyncLength = new System.Windows.Forms.ComboBox();
             this.btnClearLibrary = new System.Windows.Forms.Button();
@@ -49,7 +51,6 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
-            this.linkTrakt = new System.Windows.Forms.LinkLabel();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -69,6 +70,17 @@
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
             this.gbTraktAccount.Text = "Account";
+            // 
+            // linkTrakt
+            // 
+            this.linkTrakt.AutoSize = true;
+            this.linkTrakt.Location = new System.Drawing.Point(207, 73);
+            this.linkTrakt.Name = "linkTrakt";
+            this.linkTrakt.Size = new System.Drawing.Size(71, 13);
+            this.linkTrakt.TabIndex = 4;
+            this.linkTrakt.TabStop = true;
+            this.linkTrakt.Text = "Signup/Login";
+            this.linkTrakt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTrakt_LinkClicked);
             // 
             // tbPassword
             // 
@@ -149,16 +161,28 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.cbMovingPicturesCategories);
             this.gbMisc.Controls.Add(this.lbSyncTimerLength);
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 274);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(288, 97);
+            this.gbMisc.Size = new System.Drawing.Size(288, 116);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
+            // 
+            // cbMovingPicturesCategories
+            // 
+            this.cbMovingPicturesCategories.AutoSize = true;
+            this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 43);
+            this.cbMovingPicturesCategories.Name = "cbMovingPicturesCategories";
+            this.cbMovingPicturesCategories.Size = new System.Drawing.Size(189, 17);
+            this.cbMovingPicturesCategories.TabIndex = 1;
+            this.cbMovingPicturesCategories.Text = "&Create Moving Pictures Categories";
+            this.cbMovingPicturesCategories.UseVisualStyleBackColor = true;
+            this.cbMovingPicturesCategories.Click += new System.EventHandler(this.cbMovingPicturesCategories_Click);
             // 
             // lbSyncTimerLength
             // 
@@ -188,10 +212,10 @@
             // 
             // btnClearLibrary
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(7, 68);
+            this.btnClearLibrary.Location = new System.Drawing.Point(7, 83);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 2;
+            this.btnClearLibrary.TabIndex = 3;
             this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
                     "arked as watched or rated online.");
@@ -201,10 +225,10 @@
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(9, 45);
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 64);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
-            this.cbKeepInSync.TabIndex = 1;
+            this.cbKeepInSync.TabIndex = 2;
             this.cbKeepInSync.Text = "&Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
@@ -212,7 +236,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 377);
+            this.btnOK.Location = new System.Drawing.Point(227, 396);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -261,22 +285,11 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
-            // linkTrakt
-            // 
-            this.linkTrakt.AutoSize = true;
-            this.linkTrakt.Location = new System.Drawing.Point(207, 73);
-            this.linkTrakt.Name = "linkTrakt";
-            this.linkTrakt.Size = new System.Drawing.Size(71, 13);
-            this.linkTrakt.TabIndex = 4;
-            this.linkTrakt.TabStop = true;
-            this.linkTrakt.Text = "Signup/Login";
-            this.linkTrakt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTrakt_LinkClicked);
-            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 406);
+            this.ClientSize = new System.Drawing.Size(312, 431);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -287,7 +300,7 @@
             this.MinimizeBox = false;
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trakt Configuration v" + TraktSettings.Version;
+            this.Text = "Trakt Configuration v10.0.0.0";
             this.gbTraktAccount.ResumeLayout(false);
             this.gbTraktAccount.PerformLayout();
             this.gbPlugins.ResumeLayout(false);
@@ -320,5 +333,6 @@
         private System.Windows.Forms.ComboBox cbTraktSyncLength;
         private System.Windows.Forms.Label lbSyncTimerLength;
         private System.Windows.Forms.LinkLabel linkTrakt;
+        private System.Windows.Forms.CheckBox cbMovingPicturesCategories;
     }
 }

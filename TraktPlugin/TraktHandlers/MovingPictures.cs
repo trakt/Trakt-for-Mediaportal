@@ -175,10 +175,10 @@ namespace TraktPlugin.TraktHandlers
             }
 
             //Moving Pictures Categories
-            TraktLogger.Debug("Moving Pictures Categories {0} ", TraktSettings.MovingPicturesCategories.ToString());
-            createMovingPictureCategories();
-            if (!TraktSettings.MovingPicturesCategories)
-                removeMovingPicturesCategories();
+            if (TraktSettings.MovingPicturesCategories)
+                UpdateMovingPicturesCategories();
+            else
+                RemoveMovingPicturesCategories();
 
             SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
@@ -631,7 +631,7 @@ namespace TraktPlugin.TraktHandlers
             player.Play(movie);
         }
 
-        public void createMovingPictureCategories()
+        public static void CreateMovingPictureCategories()
         {
             if (!TraktSettings.MovingPicturesCategories)
                 return;
@@ -665,11 +665,9 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktLogger.Debug("Category has already been created");
             }
-            
-            updateMovingPicturesCategories();
         }
 
-        public void updateMovingPicturesCategories()
+        public static void UpdateMovingPicturesCategories()
         {
             if (!TraktSettings.MovingPicturesCategories)
                 return;
@@ -677,6 +675,11 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("Updating Moving Pictures Categories");
 
             DBNode<DBMovieInfo> traktNode = null;
+
+            if (TraktSettings.MovingPicturesCategoryId == -1)
+            {
+                CreateMovingPictureCategories();
+            }
 
             if (TraktSettings.MovingPicturesCategoryId != -1)
             {
@@ -763,7 +766,7 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
-        public void removeMovingPicturesCategories()
+        public static void RemoveMovingPicturesCategories()
         {
             if (TraktSettings.MovingPicturesCategories)
                 return;

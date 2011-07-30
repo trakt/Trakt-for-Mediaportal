@@ -45,6 +45,8 @@ namespace TraktPlugin
             
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
             cbTraktSyncLength.SelectedItem = (TraktSettings.SyncTimerLength / 3600000).ToString();
+
+            cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
             #endregion
 
             // handle events now that we have populated default settings
@@ -228,6 +230,39 @@ namespace TraktPlugin
         private void linkTrakt_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(@"http://trakt.tv/");
+        }
+
+        private void cbMovingPicturesCategories_Click(object sender, EventArgs e)
+        {
+            if (TraktSettings.MovingPicturesCategories)
+            {
+                //Remove
+                TraktSettings.MovingPicturesCategories = false;
+                TraktHandlers.MovingPictures.RemoveMovingPicturesCategories();
+            }
+            else
+            {
+                //Add
+                TraktSettings.MovingPicturesCategories = true;
+                BackgroundWorker categoriesCreator = new BackgroundWorker();
+                categoriesCreator.DoWork += new DoWorkEventHandler(categoriesCreator_DoWork);
+                categoriesCreator.RunWorkerAsync();
+            }
+
+            cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
+        }
+
+        void categoriesCreator_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ProgressDialog pd = new ProgressDialog(this.Handle);
+            pd.ShowDialog();
+            pd.Line1 = "Creating Categories";
+            
+            TraktHandlers.MovingPictures.CreateMovingPictureCategories();
+            //Update
+            pd.Line1 = "Updating Categories";
+            TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
+            pd.CloseDialog();
         }
 
     }
