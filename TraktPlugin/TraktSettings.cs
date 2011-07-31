@@ -112,8 +112,16 @@ namespace TraktPlugin
             {
                 if (_AccountStatus == ConnectionState.Pending)
                 {
+                    // update state, to inform we are connecting now
+                    _AccountStatus = ConnectionState.Connecting;
+                    
+                    TraktLogger.Info("Signing into trakt.tv");
+                    
                     if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+                    {
+                        TraktLogger.Info("Username and/or Password is empty in settings!");
                         return ConnectionState.Disconnected;
+                    }
 
                     // test connection
                     TraktAccount account = new TraktAccount
@@ -124,9 +132,15 @@ namespace TraktPlugin
 
                     TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
                     if (response.Status == "success")
+                    {
+                        TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
                         _AccountStatus = ConnectionState.Connected;
+                    }
                     else
+                    {
+                        TraktLogger.Info("Username and/or Password is Invalid!");
                         _AccountStatus = ConnectionState.Invalid;
+                    }
                 }
                 return _AccountStatus;
             }

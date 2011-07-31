@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.IO;
 using MediaPortal;
 using MediaPortal.Configuration;
@@ -9,6 +8,7 @@ using Action = MediaPortal.GUI.Library.Action;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktHandlers;
@@ -142,34 +142,11 @@ namespace TraktPlugin
             TraktLogger.Info("Starting Trakt v{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             TraktSettings.loadSettings();
 
-            // check connection
-            if (TraktSettings.AccountStatus == ConnectionState.Connected)
-            {
-                TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
-            }
-            else
-                TraktLogger.Info("Username and/or Password is not set or is Invalid!");
-
+            // Load plugins we want to sync
             LoadPluginHandlers();
 
-            #region Sync
-            if (TraktHandlers.Count == 0)
-            {
-                TraktLogger.Info("No Plugin Handlers configured!");
-            }
-            else
-            {
-                Timer syncLibraryTimer = new Timer();
-                syncLibraryTimer.Tick += new EventHandler(delegate(object o, EventArgs e)
-                {
-                    System.Threading.Thread.Sleep(60);
-                    syncLibraryTimer.Interval = TraktSettings.SyncTimerLength;
-                    SyncLibrary();
-                });
-                syncLibraryTimer.Enabled = true;
-                syncLibraryTimer.Start();
-            }
-            #endregion
+            // Sync Libaries now and periodically
+            Timer syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
 
             TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
@@ -177,17 +154,17 @@ namespace TraktPlugin
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
             g_Player.PlayBackStopped += new g_Player.StoppedHandler(g_Player_PlayBackStopped);
 
+            // Listen to this event to detect skin\language changes in GUI
+            GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
+            GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
+            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);            
+            
             // Initialize translations
             Translation.Init();
 
             // Initialize skin settings
             TraktSkinSettings.Init();
 
-            // Listen to this event to detect skin\language changes in GUI
-            GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
-            GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
-            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);            
-            
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
@@ -320,9 +297,16 @@ namespace TraktPlugin
                 TraktLogger.Error(errorMessage, "My Films");
             }
             #endregion
-            
-            TraktLogger.Debug("Sorting Plugin Handlers by Priority");
-            TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
+
+            if (TraktHandlers.Count == 0)
+            {
+                TraktLogger.Info("No Plugin Handlers configured!");
+            }
+            else
+            {
+                TraktLogger.Debug("Sorting Plugin Handlers by Priority");
+                TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
+            }
         }
 
         #endregion
@@ -334,7 +318,8 @@ namespace TraktPlugin
         /// </summary>
         private void SyncLibrary()
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            // no plugins to sync, abort
+            if (TraktHandlers.Count == 0) return;
 
             if (syncLibraryWorker != null && syncLibraryWorker.IsBusy)
                 return;
@@ -364,6 +349,8 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             // User could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
             foreach (ITraktHandler traktHandler in traktHandlers)
@@ -378,13 +365,13 @@ namespace TraktPlugin
                 
         #region MediaPortal Playback Hooks
 
-        //Various hooks into Mediapotals Video plackback
+        //Various hooks into Mediaportals Video plackback
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
             if (type == g_Player.MediaType.Video)
             {
-                if (TraktSettings.AccountStatus == ConnectionState.Connected) StartScrobble(filename);
+                StartScrobble(filename);
             }
         }
 
@@ -392,7 +379,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                if (TraktSettings.AccountStatus == ConnectionState.Connected) StartScrobble(filename);
+                StartScrobble(filename);
             }
         }
 
@@ -400,7 +387,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                if (TraktSettings.AccountStatus == ConnectionState.Connected) StopScrobble();
+                StopScrobble();
             }
         }
         
@@ -408,7 +395,7 @@ namespace TraktPlugin
         {
             if (type == g_Player.MediaType.Video)
             {
-                if (TraktSettings.AccountStatus == ConnectionState.Connected) StopScrobble();
+                StopScrobble();
             }
         }
         
@@ -448,15 +435,19 @@ namespace TraktPlugin
             #region Connection Check
             // We can Notify in GUI now that its initialized
             // only need this if previous connection attempt was unauthorized on Init()
-            if (TraktSettings.AccountStatus == ConnectionState.Invalid && !ConnectionChecked)
+            if (!ConnectionChecked)
             {
-                System.Threading.Thread checkStatus = new System.Threading.Thread(delegate()
+                Thread checkStatus = new Thread(delegate()
                 {
-                    TraktSettings.AccountStatus = ConnectionState.Pending;
-                    // Re-Check and Notify
                     if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                        GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized, 20);
-                    ConnectionChecked = true;
+                    {
+                        TraktSettings.AccountStatus = ConnectionState.Pending;
+                        // Re-Check and Notify
+                        if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized, 20);
+                        ConnectionChecked = true;
+                    }
+                    ConnectionChecked = TraktSettings.AccountStatus != ConnectionState.Connecting;
                 })
                 {
                     IsBackground = true,
@@ -487,17 +478,20 @@ namespace TraktPlugin
             #endregion
 
             #region Friend Requests Check
-            if (TraktSettings.AccountStatus == ConnectionState.Connected && TraktSettings.GetFriendRequestsOnStartup && !FriendRequestsChecked)
+            if (TraktSettings.GetFriendRequestsOnStartup && !FriendRequestsChecked)
             {
-                FriendRequestsChecked = true;
-                System.Threading.Thread friendsThread = new System.Threading.Thread(delegate(object obj)
+                Thread friendsThread = new Thread(delegate(object obj)
                 {
-                    var friendRequests = GUITraktFriends.FriendRequests;
-                    TraktLogger.Info("Friend requests: {0}", friendRequests.Count().ToString());
-                    if (friendRequests.Count() > 0)
+                    if (TraktSettings.AccountStatus == ConnectionState.Connected)
                     {
-                        GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()), 20);
+                        var friendRequests = GUITraktFriends.FriendRequests;
+                        TraktLogger.Info("Friend requests: {0}", friendRequests.Count().ToString());
+                        if (friendRequests.Count() > 0)
+                        {
+                            GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()), 20);
+                        }
                     }
+                    FriendRequestsChecked = TraktSettings.AccountStatus != ConnectionState.Connecting;
                 })
                 {
                     IsBackground = true,
@@ -507,7 +501,6 @@ namespace TraktPlugin
                 friendsThread.Start();
             }
             #endregion
-
         }
 
         void GUIWindowManager_OnNewAction(Action action)
@@ -706,7 +699,7 @@ namespace TraktPlugin
                 {
                     TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Watch List", type, title, year, imdb);
 
-                    System.Threading.Thread syncThread = new System.Threading.Thread(delegate(object obj)
+                    Thread syncThread = new Thread(delegate(object obj)
                     {
                         if (type == "movie")
                         {
@@ -815,24 +808,33 @@ namespace TraktPlugin
         /// <param name="filename">The video to search for</param>
         private void StartScrobble(String filename)
         {
-            StopScrobble();
-
-            if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
+            Thread scrobbleThread = new Thread(delegate()
             {
-                TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
-                foreach (ITraktHandler traktHandler in TraktHandlers)
+                if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+                StopScrobble();
+
+                if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
                 {
-                    if (traktHandler.Scrobble(filename))
+                    TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
+                    foreach (ITraktHandler traktHandler in TraktHandlers)
                     {
-                        TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
-                        return;
+                        if (traktHandler.Scrobble(filename))
+                        {
+                            TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
+                            return;
+                        }
                     }
+                    TraktLogger.Info("File was not recognised in your enabled plugin libraries");
                 }
-                TraktLogger.Info("File was not recognised");
-            }
-            else
-                TraktLogger.Info("Filename was recognised as blocked by user");
-            
+                else
+                    TraktLogger.Info("Filename was recognised as blocked by user");
+            })
+            {
+                IsBackground = true,
+                Name = "Scrobble"
+            };
+            scrobbleThread.Start();
         }
 
         /// <summary>

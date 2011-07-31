@@ -65,6 +65,7 @@ namespace TraktPlugin.TraktAPI
     public enum ConnectionState
     {
         Connected,
+        Connecting,
         Disconnected,
         Invalid,
         Pending

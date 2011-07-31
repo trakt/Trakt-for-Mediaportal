@@ -880,7 +880,7 @@ namespace TraktPlugin.TraktHandlers
 
         public static void UpdateMovingPicturesCategories()
         {
-            if (!TraktSettings.MovingPicturesCategories)
+            if (!TraktSettings.MovingPicturesCategories || TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
 
             TraktLogger.Debug("Retrieving watchlist from trakt");
@@ -962,7 +962,7 @@ namespace TraktPlugin.TraktHandlers
 
         public static void UpdateMovingPicturesFilters()
         {
-            if (!TraktSettings.MovingPicturesFilters)
+            if (!TraktSettings.MovingPicturesFilters || TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
 
             TraktLogger.Debug("Retrieving watchlist from trakt");
