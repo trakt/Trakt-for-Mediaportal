@@ -842,6 +842,8 @@ namespace TraktPlugin
         /// </summary>
         private void StopScrobble()
         {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
             // User could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
             TraktLogger.Debug("Making sure that we aren't still scrobbling");
