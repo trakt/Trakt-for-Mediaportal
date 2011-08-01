@@ -976,38 +976,41 @@ namespace TraktPlugin.GUI
                     }
                 }
 
-                GUIListItem item = new GUIListItem();
-                
-                item.Label3 = DateTime.Parse(day.ToString()).ToLongDateString();
-                item.IconImage = "defaultTraktCalendar.png";
-                item.IconImageBig = "defaultTraktCalendarBig.png";
-                item.ThumbnailImage = "defaultTraktCalendarBig.png";
-                item.OnItemSelected += OnCalendarDateSelected;
-                Utils.SetDefaultIcons(item);
-                Facade.Add(item);
-
-                foreach (var episode in episodes)
+                if (episodes.Count > 0)
                 {
-                    GUITraktCalendarListItem episodeItem = new GUITraktCalendarListItem(episode.ToString());
-
-                    // add image for download
-                    TraktImage images = new TraktImage
+                    // add day header
+                    GUIListItem item = new GUIListItem();
+                    item.Label3 = DateTime.Parse(day.ToString()).ToLongDateString();
+                    item.IconImage = "defaultTraktCalendar.png";
+                    item.IconImageBig = "defaultTraktCalendarBig.png";
+                    item.ThumbnailImage = "defaultTraktCalendarBig.png";
+                    item.OnItemSelected += OnCalendarDateSelected;
+                    Utils.SetDefaultIcons(item);
+                    Facade.Add(item);
+                 
+                    foreach (var episode in episodes)
                     {
-                        EpisodeImages = episode.Episode.Images,
-                        ShowImages = episode.Show.Images
-                    };
-                    showImages.Add(images);
+                        GUITraktCalendarListItem episodeItem = new GUITraktCalendarListItem(episode.ToString());
 
-                    episodeItem.Item = images;
-                    episodeItem.TVTag = episode;
-                    episodeItem.ItemId = Int32.MaxValue - itemCount;
-                    episodeItem.IconImage = "defaultTraktEpisode.png";
-                    episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
-                    episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
-                    episodeItem.OnItemSelected += OnEpisodeSelected;
-                    Utils.SetDefaultIcons(episodeItem);
-                    Facade.Add(episodeItem);
-                    itemCount++;
+                        // add image for download
+                        TraktImage images = new TraktImage
+                        {
+                            EpisodeImages = episode.Episode.Images,
+                            ShowImages = episode.Show.Images
+                        };
+                        showImages.Add(images);
+
+                        episodeItem.Item = images;
+                        episodeItem.TVTag = episode;
+                        episodeItem.ItemId = Int32.MaxValue - itemCount;
+                        episodeItem.IconImage = "defaultTraktEpisode.png";
+                        episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
+                        episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
+                        episodeItem.OnItemSelected += OnEpisodeSelected;
+                        Utils.SetDefaultIcons(episodeItem);
+                        Facade.Add(episodeItem);
+                        itemCount++;
+                    }
                 }
             }
 
