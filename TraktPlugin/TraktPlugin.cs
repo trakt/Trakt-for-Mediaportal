@@ -467,16 +467,16 @@ namespace TraktPlugin
                 if (GUISettingsPlugins.PluginHandlersChanged)
                 {
                     LoadPluginHandlers();
+                }
 
-                    // Help user get started if no plugins enabled
-                    if (TraktHandlers.Count == 0)
+                // Help user get started if no plugins enabled
+                if (TraktHandlers.Count == 0)
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
                     {
-                        if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
-                        {
-                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
-                        }
-                        return;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
                     }
+                    return;
                 }
 
                 if (GUISettingsPlugins.PluginHandlersAdded)

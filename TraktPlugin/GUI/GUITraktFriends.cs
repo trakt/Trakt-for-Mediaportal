@@ -1039,9 +1039,9 @@ namespace TraktPlugin.GUI
             }
 
             if (Facade.Count <= PreviousFriendSelectedIndex)
-                Facade.SelectIndex(0);
+                Facade.SelectedListItemIndex = 0;
             else
-                Facade.SelectIndex(PreviousFriendSelectedIndex);
+                Facade.SelectedListItemIndex = PreviousFriendSelectedIndex;
 
             // Set Facade Layout
             Facade.SetCurrentLayout("List");
