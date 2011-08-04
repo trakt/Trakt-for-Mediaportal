@@ -464,17 +464,29 @@ namespace TraktPlugin
             if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
                 (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
             {
-                LoadPluginHandlers();
-
-                // Help user get started if no plugins enabled
-                if (TraktHandlers.Count == 0)
+                if (GUISettingsPlugins.PluginHandlersChanged)
                 {
-                    if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
+                    LoadPluginHandlers();
+
+                    // Help user get started if no plugins enabled
+                    if (TraktHandlers.Count == 0)
                     {
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
+                        if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
+                        {
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
+                        }
+                        return;
                     }
-                    return;
                 }
+
+                if (GUISettingsPlugins.PluginHandlersAdded)
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
+                        syncLibraryTimer.Change(0, TraktSettings.SyncTimerLength);
+                }
+
+                GUISettingsPlugins.PluginHandlersAdded = false;
+                GUISettingsPlugins.PluginHandlersChanged = false;
             }
             #endregion
 

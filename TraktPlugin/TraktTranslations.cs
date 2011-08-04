@@ -367,7 +367,9 @@ namespace TraktPlugin.GUI
         public static string Shouts = "Shouts";
         public static string ShowTVShowsInWatchlist = "Show TV Shows in Watch List";
         public static string SigningIntoAccount = "Signing Into Account...";
-        public static string StartDate = "Start Date";        
+        public static string StartDate = "Start Date";
+        public static string Synchronize = "Synchronize";
+        public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
 
         // T
         public static string Timeout = "Timeout";

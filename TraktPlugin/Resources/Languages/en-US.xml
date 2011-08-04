@@ -187,6 +187,8 @@
   <string Field="ShowTVShowsInWatchlist">Show TV Shows in Watch List</string>
   <string Field="SigningIntoAccount">Signing Into Account...</string>
   <string Field="StartDate">Start Date</string>
+  <string Field="Synchronize">Synchronize</string>
+  <string Field="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
