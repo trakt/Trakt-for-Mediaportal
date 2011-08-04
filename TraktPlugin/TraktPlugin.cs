@@ -28,6 +28,7 @@ namespace TraktPlugin
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
+        Timer syncLibraryTimer;
         #endregion
 
         #region ISetupFrom
@@ -146,7 +147,7 @@ namespace TraktPlugin
             LoadPluginHandlers();
 
             // Sync Libaries now and periodically
-            Timer syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
 
             TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
