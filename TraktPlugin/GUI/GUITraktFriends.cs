@@ -85,7 +85,7 @@ namespace TraktPlugin.GUI
         #region Private Properties
 
         bool StopDownload { get; set; }
-        Views ViewLevel { get; set; }
+        static Views ViewLevel { get; set; }
         ViewType SelectedType { get; set; }
         GUIFriendItem CurrentFriend { get; set; }
         ImageSwapper backdrop;
@@ -142,7 +142,7 @@ namespace TraktPlugin.GUI
                 return _Friends;
             }
         }
-        private IEnumerable<GUIFriendItem> _Friends = null;        
+        static IEnumerable<GUIFriendItem> _Friends = null;
 
         #endregion
 
@@ -1387,6 +1387,17 @@ namespace TraktPlugin.GUI
                     Name = "Trakt Friends Image Downloader " + i.ToString()
                 }.Start(groupList);
             }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static void ClearCache()
+        {
+            _Friends = null;
+            _FriendRequests = null;
+            ViewLevel = Views.Friends;
         }
 
         #endregion
