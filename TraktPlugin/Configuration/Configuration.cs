@@ -18,6 +18,7 @@ namespace TraktPlugin
         public Configuration()
         {
             InitializeComponent();
+            this.Text = "Trakt Configuration v" + TraktSettings.Version;
             TraktSettings.loadSettings();
 
             #region load settings
