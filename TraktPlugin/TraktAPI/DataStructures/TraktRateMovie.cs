@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    class TraktRateMovie
+    public class TraktRateMovie
     {
         [DataMember(Name = "username")]
         public string UserName { get; set; }
