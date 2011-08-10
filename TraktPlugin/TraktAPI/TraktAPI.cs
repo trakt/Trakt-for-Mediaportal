@@ -76,10 +76,8 @@ namespace TraktPlugin.TraktAPI
     /// <summary>
     /// Object that communicates with the Trakt API
     /// </summary>
-    class TraktAPI
+    public class TraktAPI
     {
-        public static string UserAgent { get; set; }
-
         #region Scrobbling
 
         /// <summary>
@@ -673,7 +671,7 @@ namespace TraktPlugin.TraktAPI
             {
                 ServicePointManager.Expect100Continue = false;
                 WebClient client = new WebClient();
-                client.Headers.Add("user-agent", UserAgent);
+                client.Headers.Add("user-agent", TraktSettings.UserAgent);
                 return client.UploadString(address, data);
             }
             catch (WebException e)
@@ -692,7 +690,7 @@ namespace TraktPlugin.TraktAPI
         /// Clears our library on Trakt as best as the api lets us
         /// </summary>
         /// <param name="mode">What to remove from Trakt</param>
-        public static void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog)
+        internal static void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog)
         {
             progressDialog.Title = "Clearing Library";
             progressDialog.CancelMessage = "Attempting to Cancel";
