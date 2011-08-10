@@ -6,20 +6,20 @@
   <!-- A -->
   <string Field="Account">Konto</string>
   <string Field="AccountSetup">Kontoindstillinger</string>
-  <string Field="AccountDialog">Bruger dialog</string>
-  <string Field="AddFriend">Add Friend...</string>
+  <string Field="AccountDialog">Brugerdialog</string>
+  <string Field="AddFriend">Tilføj ven...</string>
   <string Field="AddToLibrary">Tilføj til bibliotek</string>
-  <string Field="AddToWatchList">Tilføj til setliste</string>
-  <string Field="AddShowToWatchList">Add Show to Watch List</string>
-  <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
-  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
-  <string Field="Age">Age</string>
+  <string Field="AddToWatchList">Tilføj til set-liste</string>
+  <string Field="AddShowToWatchList">Tilføj program til set-liste</string>
+  <string Field="AddEpisodeToWatchList">Tilføj afsnit til set-liste</string>
+  <string Field="AddThisItemToWatchList">Tilføj til set-liste?</string>
+  <string Field="Age">Alder</string>
   <string Field="AirDate">Sendedato</string>
   <string Field="AirDay">Sendedag</string>
   <string Field="AirTime">Sendetid</string>
-  <string Field="Approve">Approve</string>
-  <string Field="ApprovedDate">Approved Date</string>
-  <string Field="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string Field="Approve">Godkendt</string>
+  <string Field="ApprovedDate">Godkendelses dato</string>
+  <string Field="ApproveFriendMessage">Ønsker du at tilføje {0}\nsom ven?</string>
   
   <!-- B -->
   
@@ -36,46 +36,50 @@
   <string Field="CreateAccount">Opret konto</string>
   <string Field="CreateNewAccount">Opret ny konto...</string>
   <string Field="CreatingAccount">Opretter konto...</string>
+  <string Field="CreateMovingPicturesCategories">Opret Moving Pictures kategorier</string>
+  <string Field="CreateMovingPicturesFilters">Opret Moving Pictures filtre</string>
+  <string Field="CreatingCategories">Opretter kategorier</string>
+  <string Field="CreatingFilters">Opretter filtre</string>  
   
   <!-- D -->
-  <string Field="DateToday">Today</string>
-  <string Field="DateYesterday">Yesterday</string>
-  <string Field="DateOneWeekAgo">1 Week Ago</string>
-  <string Field="DateTwoWeeksAgo">2 Weeks Ago</string>
-  <string Field="DateOneMonthAgo">1 Month Ago</string>
-  <string Field="Deny">Deny</string>
-  <string Field="DeleteFriend">Delete Friend</string>
-  <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string Field="DateToday">Idag</string>
+  <string Field="DateYesterday">Igår</string>
+  <string Field="DateOneWeekAgo">1 uge siden</string>
+  <string Field="DateTwoWeeksAgo">2 uge siden</string>
+  <string Field="DateOneMonthAgo">1 måned siden</string>
+  <string Field="Deny">Forbyd</string>
+  <string Field="DeleteFriend">Fjern ven</string>
+  <string Field="DeleteFriendMessage">Ønsker du at fjerne\n{0} som ven?</string>
   <string Field="DisconnectAccount">Log ud fra kontoen: {0}</string>
-  <string Field="DownloadFanart">Download Fanart</string>
-  <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
+  <string Field="DownloadFanart">Hent Fanart</string>
+  <string Field="DownloadFullSizeFanart">Hent original størrelse Fanart</string>
   
   <!-- E -->
   <string Field="Email">Email</string>
   <string Field="Episode">Afsnit</string>
   <string Field="Episodes">Afsnit</string>
   <string Field="Error">Trakt fejl</string>
-  <string Field="ErrorCalendar">Fejl i indlæs af kalender.</string>
+  <string Field="ErrorCalendar">Fejl i indlæsning af kalender.</string>
   
   <!-- F -->
-  <string Field="FirstAired">Først gang sendt</string>
+  <string Field="FirstAired">Premiere</string>
   <string Field="Friend">Ven</string>
   <string Field="Friends">Venner</string>
-  <string Field="FriendRequest">Friend Request</string>
-  <string Field="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
+  <string Field="FriendRequest">Venneanmodning</string>
+  <string Field="FriendRequestMessage">Du har {0} venneanmodninger. Godkend eller afslå i venne-vinduet.</string>
   <string Field="FullName">Fuldt navn</string>
   
   <!-- G -->
   <string Field="Gender">Køn</string>
-  <string Field="General">General</string>
-  <string Field="GeneralSettings">GeneralSettings</string>
-  <string Field="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
+  <string Field="General">All-round</string>
+  <string Field="GeneralSettings">Indstillinger</string>
+  <string Field="GetFriendRequestsOnStartup">Vis venneanmodning ved startup</string>
   <string Field="GettingCalendar">Indlæser kalender</string>
   <string Field="GettingFriendsList">Indlæser venneliste</string>
-  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
+  <string Field="GettingFriendsRequests">Indlæser venneanmodninger</string>
   <string Field="GettingFriendsWatchedHistory">Indlæser venners  set historie</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
-  <string Field="GettingShouts">Getting Shouts</string>
+  <string Field="GettingShouts">Henter kommentarer</string>
   <string Field="GettingTrendingMovies">Indlæser populære film</string>
   <string Field="GettingTrendingShows">Indlæser populære programmer</string>
   <string Field="GettingRecommendedMovies">Indlæser anbefalede film</string>
@@ -87,7 +91,7 @@
   <!-- H -->
   <string Field="Hate">Had</string>
   <string Field="Hated">Hadede</string>
-  <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string Field="HideTVShowsInWatchlist">Gem TV-programmer i set-listen</string>
   
   <!-- I -->
   <string Field="Inserted">Indsæt</string>
@@ -125,14 +129,15 @@
   <string Field="NoTrendingMovies">Ingen populære film bliver set!</string>
   <string Field="NoTrendingShows">Ingen populære programmer bliver set!</string>
   <string Field="NoMovieRecommendations">Ingen film anbefalinger fundet!</string>
-  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
-  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
-  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string Field="NoShowWatchList">{0} har ingen programmer i set-listen!</string>
+  <string Field="NoMovieWatchList">{0} har ingen film i set-listen!</string>
+  <string Field="NoEpisodeWatchList">{0} har ingen afsnit i set-listen!</string>
   <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
-  <string Field="NoShoutsForItem">No Shouts for {0}!</string>
+  <string Field="NoShoutsForItem">Ingen kommmentarer til {0}!</string>
   <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
-  <string Field="NoSearchResultsFound">No Search Results Found</string>
+  <string Field="NoSearchResultsFound">Ingen søgeresultater fundet</string>
+  <string Field="NoMovingPictures">Moving Pictures er ikke installeret eller slået til</string>
 
   <!-- O -->
   <string Field="OK">OK</string>
@@ -172,15 +177,18 @@
   <!-- S -->
   <string Field="Score">Score</string>
   <string Field="Season">Sæson</string>
-  <string Field="SearchForFriend">Search For Friend...</string>
-  <string Field="SendFriendRequest">Send friend request to {0}?</string>
+  <string Field="SearchForFriend">Søg efter venner...</string>
+  <string Field="SendFriendRequest">Spørg efter venneanmodning til {0}?</string>
   <string Field="Series">Serie</string>
   <string Field="SeriesPlural">Serier</string>
   <string Field="Settings">Indstillinger</string>
-  <string Field="Shout">Shout</string>
-  <string Field="Shouts">Shouts</string>
+  <string Field="Shout">Kommentar</string>
+  <string Field="Shouts">Kommentarer</string>
+  <string Field="ShowTVShowsInWatchlist">Vis TV-programmer i set-listen</string>
   <string Field="SigningIntoAccount">Logger ind på kontoen...</string>
-  <string Field="StartDate">Start Date</string>
+  <string Field="StartDate">Start dato</string>
+  <string Field="Synchronize">Synkronisér</string>
+  <string Field="SynchronizeNow">Ny tilføjelsers metoder er blevet tilføjet.\nØnsker du at synkronisere dine \nbiblioteker nu?</string>  
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
@@ -203,6 +211,8 @@
   <string Field="Users">Users</string>
   <string Field="Username">Brugernavn</string>
   <string Field="UnAuthorized">Autentificering mislykkedes, kontroller venligst brugernavn og password i indstillingernes.</string>
+  <string Field="UpdatingCategories">Opdaterer kategorier</string>
+  <string Field="UpdatingFilters">Opdaterer filtre</string>  
   
   <!-- V -->
   <string Field="View">Syn</string>
