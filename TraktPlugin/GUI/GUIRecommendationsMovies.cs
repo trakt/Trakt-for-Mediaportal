@@ -102,7 +102,7 @@ namespace TraktPlugin.GUI
                 return _RecommendedMovies;
             }
         }
-        private IEnumerable<TraktMovie> _RecommendedMovies = null;
+        static IEnumerable<TraktMovie> _RecommendedMovies = null;
 
         #endregion
 
@@ -853,6 +853,15 @@ namespace TraktPlugin.GUI
                     Name = "Trakt Movie Image Downloader " + i.ToString()
                 }.Start(groupList);
             }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static void ClearCache()
+        {
+            _RecommendedMovies = null;
         }
 
         #endregion

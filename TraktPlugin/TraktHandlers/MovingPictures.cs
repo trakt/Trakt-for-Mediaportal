@@ -661,6 +661,7 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 watchlistNode.Filter = watchlistFilter;
+                watchlistNode.Parent = traktNode;
                 traktNode.Children.Add(watchlistNode);
 
                 TraktLogger.Debug("Creating the recommendations filter");
@@ -682,6 +683,7 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 recommendationsNode.Filter = recommendationsFilter;
+                recommendationsNode.Parent = traktNode;
                 traktNode.Children.Add(recommendationsNode);
 
                 MovingPicturesCore.Settings.CategoriesMenu.Commit();

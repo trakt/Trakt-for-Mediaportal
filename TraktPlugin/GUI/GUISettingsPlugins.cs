@@ -61,6 +61,13 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Public Variables
+
+        public static bool PluginHandlersChanged { get; set; }
+        public static bool PluginHandlersAdded { get; set; }
+
+        #endregion
+
         #region Base Overrides
 
         public override int GetID
@@ -115,6 +122,38 @@ namespace TraktPlugin.GUI
             base.OnPageDestroy(new_windowId);
         }
 
+        protected override void OnClicked(int controlId, GUIControl control, Action.ActionType actionType)
+        {
+            // If plugin handlers change or are added, re-load when we exit.
+            if (control == btnTVSeries)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.TVSeries == -1;
+            }
+            if (control == btnMovingPictures)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.MovingPictures == -1;
+            }
+            if (control == btnMyFilms)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.MyFilms == -1;
+            }
+            if (control == btnMyVideos)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.MyVideos == -1;
+            }
+            if (control == btnOnlineVideos)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.OnlineVideos == -1;
+            }
+            
+            base.OnClicked(controlId, control, actionType);
+        }
+
         #endregion
 
         #region Private Methods
@@ -132,6 +171,9 @@ namespace TraktPlugin.GUI
             if (MyVideos >= 0) btnMyVideos.Selected = true;
             if (MyFilms >= 0) btnMyFilms.Selected = true;
             if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
+
+            PluginHandlersChanged = false;
+            PluginHandlersAdded = false;
         }
 
         #endregion

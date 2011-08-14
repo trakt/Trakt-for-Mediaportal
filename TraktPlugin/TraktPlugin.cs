@@ -28,6 +28,7 @@ namespace TraktPlugin
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
+        Timer syncLibraryTimer;
         #endregion
 
         #region ISetupFrom
@@ -146,7 +147,7 @@ namespace TraktPlugin
             LoadPluginHandlers();
 
             // Sync Libaries now and periodically
-            Timer syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
 
             TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
@@ -482,7 +483,10 @@ namespace TraktPlugin
             if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
                 (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
             {
-                LoadPluginHandlers();
+                if (GUISettingsPlugins.PluginHandlersChanged)
+                {
+                    LoadPluginHandlers();
+                }
 
                 // Help user get started if no plugins enabled
                 if (TraktHandlers.Count == 0)
@@ -493,6 +497,15 @@ namespace TraktPlugin
                     }
                     return;
                 }
+
+                if (GUISettingsPlugins.PluginHandlersAdded)
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
+                        syncLibraryTimer.Change(0, TraktSettings.SyncTimerLength);
+                }
+
+                GUISettingsPlugins.PluginHandlersAdded = false;
+                GUISettingsPlugins.PluginHandlersChanged = false;
             }
             #endregion
 
@@ -614,6 +627,21 @@ namespace TraktPlugin
                                     validShoutItem = true;
                             }
                             #endregion
+                            #region Watch List Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                title = GUIPropertyManager.GetProperty("#title").Trim();
+                                year = GUIPropertyManager.GetProperty("#year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                
+                                if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
+                                    validWatchListItem = true;
+
+                                // Set focus to Play Button now so we dont go in a loop
+                                GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
+                            }
+                            #endregion
                             break;
 
                         case (int)ExternalPluginWindows.MovingPictures:
@@ -645,6 +673,21 @@ namespace TraktPlugin
 
                                 if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     validShoutItem = true;
+                            }
+                            #endregion
+                            #region Watch List Button
+                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
+                            if (currentButton != null && currentButton.IsFocused)
+                            {
+                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
+                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
+                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+                                
+                                if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
+                                    validWatchListItem = true;
+
+                                // Set focus to Play Button now so we dont go in a loop
+                                GUIControl.FocusControl((int)ExternalPluginWindows.MovingPictures, 6);
                             }
                             #endregion
                             break;

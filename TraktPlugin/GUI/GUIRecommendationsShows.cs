@@ -96,7 +96,7 @@ namespace TraktPlugin.GUI
                 return _RecommendedShows;
             }
         }
-        private IEnumerable<TraktShow> _RecommendedShows = null;
+        static IEnumerable<TraktShow> _RecommendedShows = null;
 
         #endregion
 
@@ -707,6 +707,15 @@ namespace TraktPlugin.GUI
                     Name = "Trakt Show Image Downloader " + i.ToString()
                 }.Start(groupList);
             }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static void ClearCache()
+        {
+            _RecommendedShows = null;
         }
 
         #endregion

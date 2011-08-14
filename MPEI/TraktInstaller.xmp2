@@ -1089,7 +1089,7 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>1</Major>
       <Minor>0</Minor>
-      <Build>4</Build>
+      <Build>5</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
@@ -1097,17 +1097,16 @@ Click Next to continue or Cancel to exit Setup.
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.1
 
-* Added new Trakt Shouts Window, can view any shouts made by users from any Trakt Window or Compatible External Plugins: MovingPictures, MP-TVSeries, My Videos VideoInfo. Requires updated skin suppport.
-* Added Skin support for Shouts button from external plugin windows: TV-Series, MovingPictures and My Videos Video Info
-* Added Skin support for Rate Movie, TV Show or Episode from MovingPictures and TV-Series.
-* Added filter to My Shows Calendar menu to Hide TV Shows that are in your Watch List.
-* Added library/rating icons to Calendar episode images. Also updated Context Menu with new Library/Rate functions.
-* Updated My Films plugin handler to support full 2-way sync of watched flags, Watching/Scrobble to trakt.tv, Movie restrictions, Toggle Watched and Rating from My Films GUI.
-* Fixed previous user not being remembered in Watch List windows when loading a Trailer or jump to Movie Details for selected item.
-* Fixed '(417) Expectation Failed' error that can occur for some users.</VersionDescription>
+* Added trakt integration into MovingPictures Categories and Filters menus. This is disabled by default, and can be enabled from configuration or from with-in GUI in General Settings. The trakt plugin will create a trakt root category with two sub-nodes, one for your Recommendations and one for your Watch List. Categories/Filters are updated on startup and every sync interval (by default every 24hrs).
+* Added support to jump to OnlineVideos IMDB trailers when a non-local movie is attempted to be played from trakt windows.
+* Added a prompt for user to Synchronize Libraries to trakt if new plugins are enabled in GUI Settings. No longer need to restart or wait for next Sync interval.
+* Fixed a bug in Calendar window where day header was shown with no underlying episodes if watch-list filter was enabled.
+* Fixed cached data not being cleared when signing in as a different user in GUI.
+* Fixed current friend item not being remembered when re-entering friends list.
+* Improved startup speed of plugin, ensure that we test connection in background so we dont block initialization of MediaPortal.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-07-22T10:00:00+10:00</ReleaseDate>
+    <ReleaseDate>2011-08-05T10:00:00+10:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>

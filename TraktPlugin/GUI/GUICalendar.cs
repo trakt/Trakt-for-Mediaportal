@@ -129,7 +129,7 @@ namespace TraktPlugin.GUI
                 return _CalendarMyShows;
             }
         }
-        private IEnumerable<TraktCalendar> _CalendarMyShows = null;
+        static IEnumerable<TraktCalendar> _CalendarMyShows = null;
 
         IEnumerable<TraktCalendar> TraktCalendarPremieres
         {
@@ -1371,6 +1371,14 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Public Methods
+
+        public static void ClearCache()
+        {
+            _CalendarMyShows = null;
+        }
+
+        #endregion
     }
 
     public class TraktImage : INotifyPropertyChanged

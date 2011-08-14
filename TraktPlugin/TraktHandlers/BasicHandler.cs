@@ -6,7 +6,7 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.TraktHandlers
 {
-    class BasicHandler
+    public class BasicHandler
     {
         /// <summary>
         /// Creates Sync Data based on a List of TraktLibraryMovies objects
