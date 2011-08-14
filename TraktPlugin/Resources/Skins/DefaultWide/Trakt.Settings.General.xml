@@ -26,8 +26,7 @@
         <width>550</width>
         <label>#Trakt.Translation.DownloadFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>4</onup>
-        <ondown>3</ondown>
+        <onup>6</onup>
       </control>
       <control>
         <description>Download FullSize Fanart</description>
@@ -36,8 +35,6 @@
         <width>550</width>
         <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>2</onup>
-        <ondown>4</ondown>
       </control>
       <control>
         <description>Get Friend Requests on startup</description>
@@ -46,8 +43,6 @@
         <width>550</width>
         <label>#Trakt.Translation.GetFriendRequestsOnStartup.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>3</onup>
-        <ondown>5</ondown>
       </control>
 	    <control>
         <description>Create Moving Pictures Categories</description>
@@ -56,8 +51,6 @@
         <width>550</width>
         <label>#Trakt.Translation.CreateMovingPicturesCategories.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>4</onup>
-        <ondown>6</ondown>
       </control>
 	    <control>
         <description>Create Moving Pictures Filters</description>
@@ -66,7 +59,6 @@
         <width>550</width>
         <label>#Trakt.Translation.CreateMovingPicturesFilters.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>5</onup>
         <ondown>2</ondown>
       </control>
     </control>
