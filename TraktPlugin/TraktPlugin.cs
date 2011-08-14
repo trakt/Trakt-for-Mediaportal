@@ -298,6 +298,25 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region OnlineVideos
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "OnlineVideos");
+                if (!handlerExists && TraktSettings.OnlineVideos != -1)
+                    TraktHandlers.Add(new TraktHandlers.OnlineVideos(TraktSettings.OnlineVideos));
+                else if (handlerExists && TraktSettings.OnlineVideos == -1)
+                {
+                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "OnlineVideos");
+                    (item as MyFilms).DisposeEvents();
+                    TraktHandlers.Remove(item);
+                }
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "OnlineVideos");
+            }
+            #endregion
+
             if (TraktHandlers.Count == 0)
             {
                 TraktLogger.Info("No Plugin Handlers configured!");
@@ -813,6 +832,10 @@ namespace TraktPlugin
                 if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
                 StopScrobble();
+
+                // Workaround for any Race Conditions from custom event handled plugin handlers
+                // Sleep to ensure that custom event gets fired first e.g. OnlineVideos VideoTracking Info.
+                Thread.Sleep(500);
 
                 if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
                 {

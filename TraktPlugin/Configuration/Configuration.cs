@@ -14,7 +14,6 @@ namespace TraktPlugin
 {
     public partial class Configuration : Form
     {
-
         public Configuration()
         {
             InitializeComponent();
@@ -30,6 +29,7 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.TVSeries, "MP-TVSeries"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyVideos, "My Videos"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyFilms, "My Films"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.OnlineVideos, "OnlineVideos"));
             items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
             {
                 // sort disabled at end of list
@@ -147,6 +147,9 @@ namespace TraktPlugin
                     case "My Films":
                         TraktSettings.MyFilms = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
+                    case "OnlineVideos":
+                        TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
                 }
                 i++;
             }
@@ -170,6 +173,9 @@ namespace TraktPlugin
                     break;
                 case "My Films":
                     TraktSettings.MyFilms = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "OnlineVideos":
+                    TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
             }
         }

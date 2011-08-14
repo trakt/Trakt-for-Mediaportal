@@ -95,7 +95,7 @@ namespace TraktPlugin.TraktAPI
             {
                 // check that we have everything we need
                 // server can accept title if movie id is not supplied
-                if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.Title) || string.IsNullOrEmpty(scrobbleData.Year))
+                if (scrobbleData == null)
                 {
                     TraktResponse error = new TraktResponse
                     {
@@ -126,7 +126,7 @@ namespace TraktPlugin.TraktAPI
             // server can accept title if movie id is not supplied
             if (status != TraktScrobbleStates.cancelwatching)
             {
-                if (scrobbleData == null || string.IsNullOrEmpty(scrobbleData.SeriesID))
+                if (scrobbleData == null)
                 {
                     TraktResponse error = new TraktResponse
                     {

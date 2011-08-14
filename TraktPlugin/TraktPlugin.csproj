@@ -89,6 +89,12 @@
     <Reference Include="MyFilms">
       <HintPath>..\Externals\MyFilms.dll</HintPath>
     </Reference>
+    <Reference Include="OnlineVideos">
+      <HintPath>..\Externals\OnlineVideos.dll</HintPath>
+    </Reference>
+    <Reference Include="OnlineVideos.MediaPortal1">
+      <HintPath>..\Externals\OnlineVideos.MediaPortal1.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -168,6 +174,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
+    <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />
     <Compile Include="TraktSkinSettings.cs" />
     <Compile Include="TraktTranslations.cs" />

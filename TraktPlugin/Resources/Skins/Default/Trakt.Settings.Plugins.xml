@@ -25,7 +25,6 @@
         <id>2</id>
         <label>MP-TVSeries</label>
         <width>280</width>
-        <onleft>2</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
         <onup>17</onup>
       </control>
@@ -35,7 +34,6 @@
         <id>3</id>
         <width>280</width>
         <label>Moving Pictures</label>
-        <onleft>3</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
@@ -44,7 +42,6 @@
         <id>4</id>
         <width>280</width>
         <label>My Videos</label>
-        <onleft>4</onleft>
         <onleft>#defaultcontrol.onleft</onleft>        
       </control>
       <control>
@@ -53,9 +50,16 @@
         <id>5</id>
         <width>280</width>
         <label>My Films</label>
-        <onleft>5</onleft>
         <onleft>#defaultcontrol.onleft</onleft>
-        <ondown>2</ondown>        
+      </control>
+			<control>
+        <description>Online Videos</description>
+        <type>togglebutton</type>
+        <id>6</id>
+        <width>280</width>
+        <label>Online Videos</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
       </control>
     </control>
   </controls>

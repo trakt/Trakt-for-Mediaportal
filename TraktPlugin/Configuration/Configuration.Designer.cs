@@ -41,6 +41,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.cbMovingPicturesFilters = new System.Windows.Forms.CheckBox();
             this.cbMovingPicturesCategories = new System.Windows.Forms.CheckBox();
             this.lbSyncTimerLength = new System.Windows.Forms.Label();
             this.cbTraktSyncLength = new System.Windows.Forms.ComboBox();
@@ -51,7 +52,6 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
-            this.cbMovingPicturesFilters = new System.Windows.Forms.CheckBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -67,7 +67,7 @@
             this.gbTraktAccount.Controls.Add(this.lbUsername);
             this.gbTraktAccount.Location = new System.Drawing.Point(12, 12);
             this.gbTraktAccount.Name = "gbTraktAccount";
-            this.gbTraktAccount.Size = new System.Drawing.Size(290, 97);
+            this.gbTraktAccount.Size = new System.Drawing.Size(304, 97);
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
             this.gbTraktAccount.Text = "Account";
@@ -75,7 +75,7 @@
             // linkTrakt
             // 
             this.linkTrakt.AutoSize = true;
-            this.linkTrakt.Location = new System.Drawing.Point(207, 73);
+            this.linkTrakt.Location = new System.Drawing.Point(220, 71);
             this.linkTrakt.Name = "linkTrakt";
             this.linkTrakt.Size = new System.Drawing.Size(71, 13);
             this.linkTrakt.TabIndex = 4;
@@ -88,7 +88,7 @@
             this.tbPassword.Location = new System.Drawing.Point(67, 48);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(211, 20);
+            this.tbPassword.Size = new System.Drawing.Size(224, 20);
             this.tbPassword.TabIndex = 3;
             this.tbPassword.UseSystemPasswordChar = true;
             this.tbPassword.Enter += new System.EventHandler(this.tbPassword_Enter);
@@ -97,7 +97,7 @@
             // 
             this.tbUsername.Location = new System.Drawing.Point(67, 22);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(211, 20);
+            this.tbUsername.Size = new System.Drawing.Size(224, 20);
             this.tbUsername.TabIndex = 1;
             this.tbUsername.TextChanged += new System.EventHandler(this.tbUsername_TextChanged);
             // 
@@ -126,7 +126,7 @@
             this.gbPlugins.Controls.Add(this.clbPlugins);
             this.gbPlugins.Location = new System.Drawing.Point(12, 115);
             this.gbPlugins.Name = "gbPlugins";
-            this.gbPlugins.Size = new System.Drawing.Size(290, 94);
+            this.gbPlugins.Size = new System.Drawing.Size(304, 96);
             this.gbPlugins.TabIndex = 1;
             this.gbPlugins.TabStop = false;
             this.gbPlugins.Text = "Plugins";
@@ -134,7 +134,7 @@
             // btnDown
             // 
             this.btnDown.Image = global::TraktPlugin.Properties.Resources.arrow_down;
-            this.btnDown.Location = new System.Drawing.Point(249, 53);
+            this.btnDown.Location = new System.Drawing.Point(262, 53);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(29, 30);
             this.btnDown.TabIndex = 2;
@@ -144,7 +144,7 @@
             // btnUp
             // 
             this.btnUp.Image = global::TraktPlugin.Properties.Resources.arrow_up;
-            this.btnUp.Location = new System.Drawing.Point(249, 19);
+            this.btnUp.Location = new System.Drawing.Point(262, 19);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(29, 29);
             this.btnUp.TabIndex = 1;
@@ -155,8 +155,9 @@
             // 
             this.clbPlugins.FormattingEnabled = true;
             this.clbPlugins.Location = new System.Drawing.Point(9, 19);
+            this.clbPlugins.MultiColumn = true;
             this.clbPlugins.Name = "clbPlugins";
-            this.clbPlugins.Size = new System.Drawing.Size(233, 64);
+            this.clbPlugins.Size = new System.Drawing.Size(244, 64);
             this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
@@ -168,12 +169,23 @@
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 274);
+            this.gbMisc.Location = new System.Drawing.Point(12, 276);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(288, 133);
+            this.gbMisc.Size = new System.Drawing.Size(304, 133);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
+            // 
+            // cbMovingPicturesFilters
+            // 
+            this.cbMovingPicturesFilters.AutoSize = true;
+            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 63);
+            this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
+            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(166, 17);
+            this.cbMovingPicturesFilters.TabIndex = 3;
+            this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters";
+            this.cbMovingPicturesFilters.UseVisualStyleBackColor = true;
+            this.cbMovingPicturesFilters.Click += new System.EventHandler(this.cbMovingPicturesFilters_Click);
             // 
             // cbMovingPicturesCategories
             // 
@@ -181,7 +193,7 @@
             this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 45);
             this.cbMovingPicturesCategories.Name = "cbMovingPicturesCategories";
             this.cbMovingPicturesCategories.Size = new System.Drawing.Size(189, 17);
-            this.cbMovingPicturesCategories.TabIndex = 1;
+            this.cbMovingPicturesCategories.TabIndex = 2;
             this.cbMovingPicturesCategories.Text = "Create Moving Pictures &Categories";
             this.cbMovingPicturesCategories.UseVisualStyleBackColor = true;
             this.cbMovingPicturesCategories.Click += new System.EventHandler(this.cbMovingPicturesCategories_Click);
@@ -192,7 +204,7 @@
             this.lbSyncTimerLength.Location = new System.Drawing.Point(67, 21);
             this.lbSyncTimerLength.Name = "lbSyncTimerLength";
             this.lbSyncTimerLength.Size = new System.Drawing.Size(143, 13);
-            this.lbSyncTimerLength.TabIndex = 3;
+            this.lbSyncTimerLength.TabIndex = 1;
             this.lbSyncTimerLength.Text = "Sync with Trakt every [X] hrs";
             this.ttpConfig.SetToolTip(this.lbSyncTimerLength, "Set this to the value in hours that you want to wait to resync with Trakt");
             // 
@@ -217,7 +229,7 @@
             this.btnClearLibrary.Location = new System.Drawing.Point(7, 103);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 3;
+            this.btnClearLibrary.TabIndex = 5;
             this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
                     "arked as watched or rated online.");
@@ -230,7 +242,7 @@
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 81);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
-            this.cbKeepInSync.TabIndex = 2;
+            this.cbKeepInSync.TabIndex = 4;
             this.cbKeepInSync.Text = "&Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
@@ -238,7 +250,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(227, 413);
+            this.btnOK.Location = new System.Drawing.Point(241, 415);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -270,16 +282,16 @@
             // 
             this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(12, 215);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 217);
             this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Size = new System.Drawing.Size(288, 53);
+            this.gbRestrictions.Size = new System.Drawing.Size(304, 53);
             this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
             // 
             // btnMovieRestrictions
             // 
-            this.btnMovieRestrictions.Location = new System.Drawing.Point(138, 20);
+            this.btnMovieRestrictions.Location = new System.Drawing.Point(149, 20);
             this.btnMovieRestrictions.Name = "btnMovieRestrictions";
             this.btnMovieRestrictions.Size = new System.Drawing.Size(104, 23);
             this.btnMovieRestrictions.TabIndex = 1;
@@ -287,22 +299,11 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
-            // cbMovingPicturesFilters
-            // 
-            this.cbMovingPicturesFilters.AutoSize = true;
-            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 62);
-            this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
-            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(166, 17);
-            this.cbMovingPicturesFilters.TabIndex = 1;
-            this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters";
-            this.cbMovingPicturesFilters.UseVisualStyleBackColor = true;
-            this.cbMovingPicturesFilters.Click += new System.EventHandler(this.cbMovingPicturesFilters_Click);
-            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 442);
+            this.ClientSize = new System.Drawing.Size(328, 444);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);

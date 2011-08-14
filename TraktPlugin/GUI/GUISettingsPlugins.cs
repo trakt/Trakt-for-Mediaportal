@@ -24,7 +24,8 @@ namespace TraktPlugin.GUI
             TVSeries = 2,
             MovingPictures = 3,
             MyVideos = 4,
-            MyFilms = 5
+            MyFilms = 5,
+            OnlineVideos = 6
         }
 
         [SkinControl((int)SkinControls.TVSeries)]
@@ -38,6 +39,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.MyFilms)]
         protected GUIToggleButtonControl btnMyFilms = null;
+
+        [SkinControl((int)SkinControls.OnlineVideos)]
+        protected GUIToggleButtonControl btnOnlineVideos = null;
 
         #endregion
 
@@ -53,6 +57,7 @@ namespace TraktPlugin.GUI
         int MovingPictures { get; set; }
         int MyVideos { get; set; }
         int MyFilms { get; set; }
+        int OnlineVideos { get; set; }
 
         #endregion
 
@@ -84,10 +89,11 @@ namespace TraktPlugin.GUI
             if (!btnMovingPictures.Selected) MovingPictures = -1;
             if (!btnMyVideos.Selected) MyVideos = -1;
             if (!btnMyFilms.Selected) MyFilms = -1;
+            if (!btnOnlineVideos.Selected) OnlineVideos = -1;
 
             // enable plugins
             int i = 1;
-            int[] intArray = new int[4] { TVSeries, MovingPictures, MyVideos, MyFilms };
+            int[] intArray = new int[5] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos };
             Array.Sort(intArray);
 
             // keep existing sort order
@@ -95,12 +101,14 @@ namespace TraktPlugin.GUI
             if (btnMovingPictures.Selected && MovingPictures < 0) { MovingPictures = intArray.Max() + i; i++; }
             if (btnMyVideos.Selected && MyVideos < 0) { MyVideos = intArray.Max() + i; i++; }
             if (btnMyFilms.Selected && MyFilms < 0) { MyFilms = intArray.Max() + i; i++; }
+            if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }
             
             // save settings
             TraktSettings.TVSeries = TVSeries;
             TraktSettings.MovingPictures = MovingPictures;
             TraktSettings.MyVideos = MyVideos;
             TraktSettings.MyFilms = MyFilms;
+            TraktSettings.OnlineVideos = OnlineVideos;
 
             TraktSettings.saveSettings();
 
@@ -117,11 +125,13 @@ namespace TraktPlugin.GUI
             MovingPictures = TraktSettings.MovingPictures;
             MyVideos = TraktSettings.MyVideos;
             MyFilms = TraktSettings.MyFilms;
+            OnlineVideos = TraktSettings.OnlineVideos;
 
             if (TVSeries >= 0) btnTVSeries.Selected = true;
             if (MovingPictures >= 0) btnMovingPictures.Selected = true;
             if (MyVideos >= 0) btnMyVideos.Selected = true;
             if (MyFilms >= 0) btnMyFilms.Selected = true;
+            if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
         }
 
         #endregion
