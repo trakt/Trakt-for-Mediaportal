@@ -16,50 +16,70 @@
       <animation effect="fade" time="200" delay="200">windowopen</animation>
       <posX>580</posX>
       <posY>201</posY>
-      <width>550</width>
+      <width>680</width>
       <height>379</height>
       <layout>StackLayout</layout>
       <control>
         <description>Download Fanart</description>
         <type>togglebutton</type>
         <id>2</id>
-        <width>550</width>
+        <width>680</width>
         <label>#Trakt.Translation.DownloadFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
         <onup>6</onup>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
       <control>
         <description>Download FullSize Fanart</description>
         <type>togglebutton</type>
         <id>3</id>
-        <width>550</width>
+        <width>680</width>
         <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
       <control>
         <description>Get Friend Requests on startup</description>
         <type>togglebutton</type>
         <id>4</id>
-        <width>550</width>
+        <width>680</width>
         <label>#Trakt.Translation.GetFriendRequestsOnStartup.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
 	    <control>
         <description>Create Moving Pictures Categories</description>
         <type>togglebutton</type>
         <id>5</id>
-        <width>550</width>
+        <width>680</width>
         <label>#Trakt.Translation.CreateMovingPicturesCategories.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
 	    <control>
         <description>Create Moving Pictures Filters</description>
         <type>togglebutton</type>
         <id>6</id>
-        <width>550</width>
+        <width>680</width>
         <label>#Trakt.Translation.CreateMovingPicturesFilters.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
     </control>
   </controls>
