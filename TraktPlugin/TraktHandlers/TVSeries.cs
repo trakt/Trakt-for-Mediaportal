@@ -79,24 +79,41 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("TVSeries Starting Sync");
-
             SyncInProgress = true;
 
+            #region Get online data
             // get all episodes on trakt that are marked as in 'collection'
             IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
-            if (traktCollectionEpisodes == null) return;
+            if (traktCollectionEpisodes == null) 
+            {
+                TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
+                SyncInProgress = false; 
+                return; 
+            }
             TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
 
             // get all episodes on trakt that are marked as 'seen' or 'watched'
             IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
-            if (traktWatchedEpisodes == null) return;
+            if (traktWatchedEpisodes == null)
+            {
+                TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
+                SyncInProgress = false; 
+                return;
+            }
             TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
             // get all episodes on trakt that are marked as 'unseen'
             IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
-            if (traktUnSeenEpisodes == null) return;
+            if (traktUnSeenEpisodes == null) 
+            {
+                TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
+                SyncInProgress = false;
+                return;
+            }
             TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
+            #endregion
 
+            #region Get local data
             List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
             List<DBEpisode> localCollectionEpisodes = new List<DBEpisode>();
             List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
@@ -123,8 +140,9 @@ namespace TraktPlugin.TraktHandlers
             localWatchedEpisodes = localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] > 0).ToList();
 
             TraktLogger.Info("{0} episodes watched in tvseries database", localWatchedEpisodes.Count.ToString());
+            #endregion
 
-            #region sync collection/library to trakt
+            #region Sync collection/library to trakt
             // get list of episodes that we have not already trakt'd
             List<DBEpisode> localEpisodesToSync = new List<DBEpisode>(localCollectionEpisodes);
             foreach (DBEpisode ep in localCollectionEpisodes)
@@ -140,7 +158,7 @@ namespace TraktPlugin.TraktHandlers
             SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
             #endregion
 
-            #region sync seen to trakt
+            #region Sync seen to trakt
             // get list of episodes that we have not already trakt'd
             // filter out any marked as UnSeen
             List<DBEpisode> localWatchedEpisodesToSync = new List<DBEpisode>(localWatchedEpisodes);
@@ -157,7 +175,7 @@ namespace TraktPlugin.TraktHandlers
             SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
             #endregion
 
-            #region sync watched flags from trakt locally
+            #region Sync watched flags from trakt locally
             // Sync watched flags from trakt to local database
             // do not mark as watched locally if UnSeen on trakt
             foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 0))
@@ -178,7 +196,7 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
-            #region sync unseen flags from trakt locally
+            #region Sync unseen flags from trakt locally
             foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 1))
             {
                 if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
@@ -207,6 +225,7 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
+            #region Clean Library
             if (TraktSettings.KeepTraktLibraryClean)
             {
                 TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
@@ -220,11 +239,10 @@ namespace TraktPlugin.TraktHandlers
                     TraktAPI.TraktAPI.LogTraktResponse(response);
                     Thread.Sleep(500);
                 }
-
             }
+            #endregion
 
             SyncInProgress = false;
-
             TraktLogger.Info("TVSeries Sync Completed");
         }
 

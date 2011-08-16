@@ -67,6 +67,7 @@ namespace TraktPlugin.TraktHandlers
             IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
             if (traktMoviesAll == null)
             {
+                SyncInProgress = false;
                 TraktLogger.Error("Error getting movies from trakt server, cancelling sync.");
                 return;
             }
