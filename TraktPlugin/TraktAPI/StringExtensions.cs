@@ -24,7 +24,7 @@ namespace TraktPlugin
 
             try
             {
-                using (var ms = new MemoryStream(Encoding.Default.GetBytes(jsonArray)))
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonArray)))
                 {
                     var ser = new DataContractJsonSerializer(typeof(IEnumerable<T>));
                     var result = (IEnumerable<T>)ser.ReadObject(ms);
@@ -57,7 +57,7 @@ namespace TraktPlugin
 
             try
             {
-                using (var ms = new MemoryStream(Encoding.Default.GetBytes(json.ToCharArray())))
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(json.ToCharArray())))
                 {
                     var ser = new DataContractJsonSerializer(typeof(T));
                     return (T)ser.ReadObject(ms);
@@ -80,7 +80,7 @@ namespace TraktPlugin
             {
                 var ser = new DataContractJsonSerializer(obj.GetType());
                 ser.WriteObject(ms, obj);
-                return Encoding.Default.GetString(ms.ToArray());
+                return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
     }
