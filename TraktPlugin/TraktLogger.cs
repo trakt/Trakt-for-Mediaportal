@@ -48,6 +48,11 @@ namespace TraktPlugin
                 writeToFile(String.Format(createPrefix(), "Info", log));
         }
 
+        public static void Info(String format, params Object[] args)
+        {
+            Info(String.Format(format, args));
+        }
+
         public static void Info(String format, params String[] args)
         {
             Info(String.Format(format, args));

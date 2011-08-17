@@ -22,6 +22,8 @@ namespace TraktPlugin
         public static bool KeepTraktLibraryClean { get; set; }
         public static List<String> BlockedFilenames { get; set; }
         public static List<String> BlockedFolders { get; set; }
+        public static SyncMovieCheck SkippedMovies { get; set; }
+        public static SyncMovieCheck AlreadyExistMovies { get; set; }
         public static int LogLevel { get; set; }
         public static int SyncTimerLength { get; set; }
         public static int TrendingMoviesDefaultLayout { get; set; }
@@ -56,6 +58,8 @@ namespace TraktPlugin
         private const string cKeepTraktLibraryClean = "KeepLibraryClean";
         private const string cBlockedFilenames = "BlockedFilenames";
         private const string cBlockedFolders = "BlockedFolders";
+        private const string cSkippedMovies = "SkippedMovies";
+        private const string cAlreadyExistMovies = "AlreadyExistMovies";
         private const string cSyncTimerLength = "SyncTimerLength";
         private const string cTrendingMoviesDefaultLayout = "TrendingMoviesDefaultLayout";
         private const string cTrendingShowsDefaultLayout = "TrendingShowsDefaultLayout";
@@ -171,6 +175,8 @@ namespace TraktPlugin
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
                 BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
                 BlockedFolders = xmlreader.GetValueAsString(cTrakt, cBlockedFolders, "").FromJSONArray<string>().ToList();
+                SkippedMovies = xmlreader.GetValueAsString(cTrakt, cSkippedMovies, "{}").FromJSON<SyncMovieCheck>();
+                AlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
@@ -212,6 +218,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cKeepTraktLibraryClean, KeepTraktLibraryClean);
                 xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
                 xmlwriter.SetValue(cTrakt, cBlockedFolders, BlockedFolders.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSkippedMovies, SkippedMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cAlreadyExistMovies, AlreadyExistMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
                 xmlwriter.SetValue(cTrakt, cTrendingMoviesDefaultLayout, TrendingMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cTrendingShowsDefaultLayout, TrendingShowsDefaultLayout);

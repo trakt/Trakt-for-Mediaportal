@@ -68,6 +68,31 @@ namespace TraktPlugin.TraktHandlers
             }
             MovieList.RemoveAll(m => blockedMovieIds.Contains(m.ID));
 
+            #region Skipped Movies Check
+            // Remove Skipped Movies from previous Sync
+            if (TraktSettings.SkippedMovies != null)
+            {
+                // allow movies to re-sync again after 7-days in the case user has addressed issue ie. edited movie or added to themoviedb.org
+                if (TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch() > DateTime.UtcNow.Subtract(new TimeSpan(7, 0, 0, 0)))
+                {
+                    if (TraktSettings.SkippedMovies.Movies != null)
+                    {
+                        TraktLogger.Info("Skipping {0} movies due to invalid data or movies don't exist on http://themoviedb.org. Next check will be {1}.", TraktSettings.SkippedMovies.Movies.Count, TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch().Add(new TimeSpan(7, 0, 0, 0)));
+                        foreach (var movie in TraktSettings.SkippedMovies.Movies)
+                        {
+                            TraktLogger.Debug("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                            MovieList.RemoveAll(m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID));
+                        }
+                    }
+                }
+                else
+                {
+                    if (TraktSettings.SkippedMovies.Movies != null) TraktSettings.SkippedMovies.Movies.Clear();
+                    TraktSettings.SkippedMovies.LastSkippedSync = DateTime.UtcNow.ToEpoch();
+                }
+            }
+            #endregion
+
             TraktLogger.Info("{0} movies available to sync in My Videos database", MovieList.Count.ToString());
 
             // get the movies that we have watched
@@ -159,6 +184,7 @@ namespace TraktPlugin.TraktHandlers
             if (moviesToSync.Count > 0)
             {
                 TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
+                BasicHandler.InsertSkippedMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
@@ -170,6 +196,7 @@ namespace TraktPlugin.TraktHandlers
             if (watchedMoviesToSync.Count > 0)
             {
                 TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
+                BasicHandler.InsertSkippedMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 

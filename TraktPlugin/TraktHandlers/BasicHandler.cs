@@ -220,5 +220,32 @@ namespace TraktPlugin.TraktHandlers
             return imdbid;
         }
 
+        /// <summary>
+        /// Saves any movies that return as 'skipped' from library sync calls
+        /// </summary>
+        /// <param name="response">Trakt Sync Movie Response</param>
+        public static void InsertSkippedMovies(TraktMovieSyncResponse response)
+        {
+            if (response == null) return;
+
+            foreach (var movie in response.SkippedMovies)
+            {
+                if (TraktSettings.SkippedMovies == null)
+                    TraktSettings.SkippedMovies = new SyncMovieCheck();
+
+                TraktLogger.Info("Inserting movie into skipped movie list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+
+                if (TraktSettings.SkippedMovies.Movies != null)
+                {
+                    if (!TraktSettings.SkippedMovies.Movies.Contains(movie))
+                        TraktSettings.SkippedMovies.Movies.Add(movie);
+                }
+                else
+                {
+                    TraktSettings.SkippedMovies.Movies = new List<TraktMovieSync.Movie>();
+                    TraktSettings.SkippedMovies.Movies.Add(movie);
+                }
+            }
+        }
     }
 }

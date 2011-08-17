@@ -76,6 +76,7 @@ namespace TraktPlugin
         /// <returns></returns>
         public static string ToJSON(this object obj)
         {
+            if (obj == null) return string.Empty;
             using (var ms = new MemoryStream())
             {
                 var ser = new DataContractJsonSerializer(obj.GetType());

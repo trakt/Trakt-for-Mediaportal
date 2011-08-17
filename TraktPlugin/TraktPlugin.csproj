@@ -166,6 +166,7 @@
     <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
+    <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFriend.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShout.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
+    <Compile Include="TraktAPI\DateTimeExtensions.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
     <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />

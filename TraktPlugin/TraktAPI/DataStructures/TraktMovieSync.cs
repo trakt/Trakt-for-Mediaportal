@@ -22,7 +22,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public List<Movie> MovieList { get; set; }
 
         [DataContract]
-        public class Movie
+        public class Movie : IEquatable<Movie>
         {
             [DataMember(Name = "imdb_id")]
             public string IMDBID { get; set; }
@@ -35,6 +35,21 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "year")]
             public string Year { get; set; }
+
+            #region IEquatable
+            public bool Equals(Movie other)
+            {
+                bool result = false;
+                if (other != null)
+                {
+                    if (this.Title.Equals(other.Title) && this.Year.Equals(other.Year) && this.IMDBID.Equals(other.IMDBID))
+                    {
+                        result = true;
+                    }
+                }
+                return result;
+            }
+            #endregion
         }
     }
 }
