@@ -694,21 +694,23 @@ namespace TraktPlugin.TraktHandlers
 
         #region TVSeries Events
 
-        private void OnImportCompleted(bool dataUpdated)
+        private void OnImportCompleted(bool newEpisodeAdded)
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("TVSeries import complete, checking if sync required");
+            TraktLogger.Debug("TVSeries import complete, checking if sync required.");
 
-            if (dataUpdated)
+            if (newEpisodeAdded)
             {
+                TraktLogger.Info("New Episodes added in TVSeries, starting sync.");
+
                 // sync again
                 Thread syncThread = new Thread(delegate()
                 {
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
-                        TraktLogger.Info("TVSeries sync still in progress");
+                        TraktLogger.Debug("TVSeries sync still in progress.");
                         Thread.Sleep(60000);
                     }
                     SyncLibrary();
@@ -722,7 +724,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                TraktLogger.Info("TVSeries sync is not required.");
+                TraktLogger.Debug("TVSeries sync is not required.");
             }
         }
 
