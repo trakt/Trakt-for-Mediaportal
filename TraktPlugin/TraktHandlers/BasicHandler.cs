@@ -226,7 +226,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="response">Trakt Sync Movie Response</param>
         public static void InsertSkippedMovies(TraktMovieSyncResponse response)
         {
-            if (response == null) return;
+            if (response == null || response.SkippedMovies == null) return;
 
             foreach (var movie in response.SkippedMovies)
             {
