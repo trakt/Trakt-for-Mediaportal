@@ -96,7 +96,7 @@ namespace TraktPlugin.TraktHandlers
             List<FileLocal> localWatchedEpisodes = new List<FileLocal>();
 
             // Get all local episodes in database
-            localCollectionEpisodes = FileLocal.GetAll().Where(f => f.AniDB_File != null && f.AniDB_File.AniDB_Episodes.Count > 0).ToList();
+            localCollectionEpisodes = FileLocal.GetAll().Where(f => !string.IsNullOrEmpty(f.FileNameFull) && f.AnimeEpisodes.Count > 0).ToList();
 
             TraktLogger.Info("{0} episodes with local files in my anime database", localCollectionEpisodes.Count.ToString());
 
