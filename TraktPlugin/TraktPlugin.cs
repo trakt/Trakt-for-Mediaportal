@@ -318,6 +318,25 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region My Anime
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My Anime");
+                if (!handlerExists && TraktSettings.MyAnime != -1)
+                    TraktHandlers.Add(new TraktHandlers.MyAnime(TraktSettings.MyAnime));
+                else if (handlerExists && TraktSettings.MyAnime == -1)
+                {
+                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Anime");
+                    (item as MyAnime).DisposeEvents();
+                    TraktHandlers.Remove(item);
+                }
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "My Anime");
+            }
+            #endregion
+
             if (TraktHandlers.Count == 0)
             {
                 TraktLogger.Info("No Plugin Handlers configured!");

@@ -226,7 +226,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Clean Library
-            if (TraktSettings.KeepTraktLibraryClean)
+            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount > 1)
             {
                 TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
 

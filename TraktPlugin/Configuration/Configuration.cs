@@ -31,6 +31,7 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyVideos, "My Videos"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyFilms, "My Films"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.OnlineVideos, "OnlineVideos"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.MyAnime, "My Anime"));
             items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
             {
                 // sort disabled at end of list
@@ -151,6 +152,9 @@ namespace TraktPlugin
                     case "OnlineVideos":
                         TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
+                    case "My Anime":
+                        TraktSettings.MyAnime = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
                 }
                 i++;
             }
@@ -177,6 +181,9 @@ namespace TraktPlugin
                     break;
                 case "OnlineVideos":
                     TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "My Anime":
+                    TraktSettings.MyAnime = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
             }
         }

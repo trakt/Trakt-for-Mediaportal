@@ -62,6 +62,15 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AniDBAPI">
+      <HintPath>..\Externals\AniDBAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Anime2">
+      <HintPath>..\Externals\Anime2.dll</HintPath>
+    </Reference>
+    <Reference Include="Anime2Schema">
+      <HintPath>..\Externals\Anime2Schema.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
     </Reference>
@@ -175,6 +184,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
+    <Compile Include="TraktHandlers\MyAnime.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
     <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />
