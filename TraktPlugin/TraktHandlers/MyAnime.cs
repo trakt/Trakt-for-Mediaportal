@@ -541,8 +541,15 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="mode">trakt sync mode</param>
         private void SyncLibrary(List<FileLocal> episodes, TraktSyncModes mode)
         {
+            if (episodes.Count == 0) return;
+
             // get unique series ids
-            var uniqueSeries = (from s in episodes select s.AniDB_File.AnimeSeries.TvDB_ID).Distinct().ToList();
+            var uniqueSeries = (from s in episodes where s.AniDB_File.AnimeSeries.TvDB_ID > 0 select s.AniDB_File.AnimeSeries.TvDB_ID).Distinct().ToList();
+
+            if (uniqueSeries.Count == 0)
+            {
+                TraktLogger.Info("TVDb info not available for series, can not sync '{0}' with trakt.", mode.ToString());
+            }
 
             // go over each series, can only send one series at a time
             foreach (int seriesid in uniqueSeries)
