@@ -178,6 +178,15 @@ namespace TraktPlugin.GUI
                 // Play episode if it exists
                 handled = TraktHandlers.TVSeries.PlayEpisode(seriesid, seasonidx, episodeidx);
             }
+
+            seriesid = 74796;
+            seasonidx = 15;
+            episodeidx = 18;
+
+            if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
+            {
+                handled = TraktHandlers.MyAnime.PlayEpisode(seriesid, seasonidx, episodeidx);
+            }
         }
     }
 }

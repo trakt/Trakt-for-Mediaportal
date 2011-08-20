@@ -314,7 +314,7 @@ namespace TraktPlugin.TraktHandlers
             var episodes = FileLocal.GetAll();
             var episode = episodes.FirstOrDefault(e => e.AnimeEpisodes.Where(ae => ae.Series.TvDB_Episodes.Where(te => te.SeriesID == seriesid && te.SeasonNumber == seasonid && te.EpisodeNumber == episodeid).Count() == 1).Count() == 1);
 
-            if (episode == null || string.IsNullOrEmpty(episode.AniDB_File.FileName)) return false;
+            if (episode == null || string.IsNullOrEmpty(episode.FileNameFull)) return false;
             return PlayEpisode(episode);
         }
 

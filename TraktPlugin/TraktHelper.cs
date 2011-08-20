@@ -50,6 +50,14 @@ namespace TraktPlugin.GUI
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll")) && IsPluginEnabled("MyFilms");
             }
         }
+
+        public static bool IsMyAnimeAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Anime2.dll")) && IsPluginEnabled("My Anime");
+            }
+        }
         #endregion
     }
 }
