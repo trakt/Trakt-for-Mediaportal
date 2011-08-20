@@ -36,7 +36,8 @@ namespace TraktPlugin.GUI
         VideoInfo = 2003,
         MovingPictures = 96742,
         TVSeries = 9811,
-        MyFilms = 7986
+        MyFilms = 7986,
+        MyAnime = 6001
     }
 
     enum ExternalPluginControls

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using MediaPortal.Player;
 using MediaPortal.GUI.Library;
+using MediaPortal.Configuration;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
+using System.IO;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using MyAnimePlugin2;
@@ -44,6 +46,10 @@ namespace TraktPlugin.TraktHandlers
 
         public MyAnime(int priority)
         {
+            // check if plugin exists otherwise plugin could accidently get added to list
+            string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Anime2.dll");
+            if (!File.Exists(pluginFilename)) throw new FileNotFoundException("Plugin not found!");
+           
             Priority = priority;
         }
 
@@ -430,7 +436,7 @@ namespace TraktPlugin.TraktHandlers
             get
             {
                 // Ensure we are in My Anime window
-                GUIWindow window = GUIWindowManager.GetWindow(6001);
+                GUIWindow window = GUIWindowManager.GetWindow((int)GUI.ExternalPluginWindows.MyAnime);
                 if (window == null) return null;
 
                 // Get the Facade control
