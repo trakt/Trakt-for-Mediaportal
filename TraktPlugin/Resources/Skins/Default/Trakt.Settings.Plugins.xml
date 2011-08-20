@@ -59,6 +59,14 @@
         <width>280</width>
         <label>Online Videos</label>
         <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+			<control>
+        <description>My Anime</description>
+        <type>togglebutton</type>
+        <id>7</id>
+        <width>280</width>
+        <label>My Anime</label>
+        <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
       </control>
     </control>
