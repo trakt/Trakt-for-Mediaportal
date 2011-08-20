@@ -90,7 +90,13 @@ namespace TraktPlugin.GUI
         protected override void OnPageLoad()
         {
             // Init Properties
-            InitProperties();
+            if (!InitProperties())
+            {
+                // skin has missing features
+                GUIUtils.ShowOKDialog(Translation.Error, Translation.SkinPluginsOutOfDate);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
         }
 
         protected override void OnPageDestroy(int new_windowId)
@@ -170,7 +176,7 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void InitProperties()
+        private bool InitProperties()
         {
             TVSeries = TraktSettings.TVSeries;
             MovingPictures = TraktSettings.MovingPictures;
@@ -179,15 +185,25 @@ namespace TraktPlugin.GUI
             OnlineVideos = TraktSettings.OnlineVideos;
             MyAnime = TraktSettings.MyAnime;
 
-            if (TVSeries >= 0) btnTVSeries.Selected = true;
-            if (MovingPictures >= 0) btnMovingPictures.Selected = true;
-            if (MyVideos >= 0) btnMyVideos.Selected = true;
-            if (MyFilms >= 0) btnMyFilms.Selected = true;
-            if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
-            if (MyAnime >= 0) btnMyAnime.Selected = true;
+            try
+            {
+                if (TVSeries >= 0) btnTVSeries.Selected = true;
+                if (MovingPictures >= 0) btnMovingPictures.Selected = true;
+                if (MyVideos >= 0) btnMyVideos.Selected = true;
+                if (MyFilms >= 0) btnMyFilms.Selected = true;
+                if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
+                if (MyAnime >= 0) btnMyAnime.Selected = true;
+            }
+            catch
+            {
+                // Skin out of date!
+                return false;
+            }
 
             PluginHandlersChanged = false;
             PluginHandlersAdded = false;
+
+            return true;
         }
 
         #endregion
