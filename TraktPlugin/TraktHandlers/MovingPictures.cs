@@ -395,6 +395,7 @@ namespace TraktPlugin.TraktHandlers
                     else
                     {
                         SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
+                        RemoveMovieFromFiltersAndCategories(movie);
                     }
                 }
                 
@@ -431,7 +432,10 @@ namespace TraktPlugin.TraktHandlers
                 //A movie has been watched push that out.
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
                 if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.Contains(f)))
+                {
                     ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
+                    RemoveMovieFromFiltersAndCategories(watchedEvent.Movie);
+                }
                 else
                     TraktLogger.Info("Movie {0} was found as blocked so did not scrobble", watchedEvent.Movie.Title);
             }
@@ -656,7 +660,6 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Adding nodes");
                 traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
-                TraktLogger.Debug(traktNode.Children.Count.ToString());
                 MovingPicturesCore.Settings.CategoriesMenu.Commit();
 
             }
@@ -761,6 +764,54 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             return new DBNode<DBMovieInfo>[] { watchlistNode, recommendationsNode };
+        }
+
+        private static void RemoveMovieFromFiltersAndCategories(DBMovieInfo movie)
+        {
+            TraktLogger.Info("Removing {0} from filters and categories", movie.Title);
+
+            #region Categories
+            if (TraktSettings.MovingPicturesCategoryId != -1)
+            {
+                var rootNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
+                if(rootNode != null)
+                {
+                    RemoveMovieFromNode(movie, rootNode);
+                }
+                else
+                    TraktLogger.Error("Couldn't find the categories node");
+            }
+            else
+                TraktLogger.Debug("Categories not created, skipping");
+            #endregion
+
+            #region Filters
+            if (TraktSettings.MovingPicturesFiltersId != -1)
+            {
+                var rootNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
+                if (rootNode != null)
+                {
+                    RemoveMovieFromNode(movie, rootNode);
+                }
+                else
+                    TraktLogger.Error("Couldn't find the filters node");
+            }
+            else
+                TraktLogger.Debug("Filters not created, skipping");
+            #endregion
+
+            TraktLogger.Info("Finished removing from filters and categories");
+        }
+
+        private static void RemoveMovieFromNode(DBMovieInfo movie, DBNode<DBMovieInfo> rootNode)
+        {
+            foreach (var node in rootNode.Children)
+            {
+                node.Filter.WhiteList.Remove(movie);
+                if (node.Filter.WhiteList.Count == 0)
+                    node.Filter.BlackList.AddRange(DBMovieInfo.GetAll());
+                node.Commit();
+            }
         }
 
         #endregion
