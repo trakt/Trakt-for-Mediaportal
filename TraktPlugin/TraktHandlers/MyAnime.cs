@@ -107,7 +107,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("{0} episodes with local files in my anime database", localCollectionEpisodes.Count.ToString());
 
             // Get watched episodes
-            localWatchedEpisodes = localCollectionEpisodes.Where(f => f.AniDB_File.IsWatched > 0 || f.AnimeEpisodes[0].IsWatched > 0).ToList();
+            localWatchedEpisodes = localCollectionEpisodes.Where(f => (f.AniDB_File != null && f.AniDB_File.IsWatched > 0) || (f.AnimeEpisodes != null && f.AnimeEpisodes[0].IsWatched > 0)).ToList();
 
             TraktLogger.Info("{0} episodes watched in my anime database", localWatchedEpisodes.Count.ToString());
             #endregion
@@ -405,7 +405,13 @@ namespace TraktPlugin.TraktHandlers
             if (seriesid == null) return false;
 
             int absoluteEpisodeId = episode.EpisodeNumber;
-            TvDB_Episode tvdbEpisode = episode.Series.TvDB_Episodes.FirstOrDefault(e => e.Absolute_number == absoluteEpisodeId);
+            string episodeName = episode.EpisodeName;
+            string episodeAirDate = null;
+            try { episodeAirDate = episode.AniDB_Episode.AirDateAsDate.ToString("yyyy-MM-dd"); } catch {}
+
+            // sometimes absolute episode order is rarily filled in @ theTVDb.com so MyAnime database might not get a match.
+            // in this case try episode name and episode airdate matching.
+            TvDB_Episode tvdbEpisode = episode.Series.TvDB_Episodes.FirstOrDefault(e => e.Absolute_number == absoluteEpisodeId || e.EpisodeName == episodeName || e.FirstAired == episodeAirDate);
             if (tvdbEpisode == null) return false;
 
             seasonidx = tvdbEpisode.SeasonNumber;
@@ -479,7 +485,7 @@ namespace TraktPlugin.TraktHandlers
             // get list of episodes for series
             List<TraktEpisodeSync.Episode> epList = new List<TraktEpisodeSync.Episode>();
 
-            foreach (FileLocal file in episodes.Where(e => e.AniDB_File.AnimeSeries.TvDB_ID == series.TvDB_ID))
+            foreach (FileLocal file in episodes.Where(e => (e.AniDB_File != null && e.AniDB_File.AnimeSeries.TvDB_ID == series.TvDB_ID)))
             {
                 TraktEpisodeSync.Episode episode = new TraktEpisodeSync.Episode();
 
@@ -496,7 +502,17 @@ namespace TraktPlugin.TraktHandlers
                         episode.EpisodeIndex = episodeidx.ToString();
                         epList.Add(episode);
                     }
+                    else
+                    {
+                        TraktLogger.Debug("Unable to find match for episode: '{0}'", ep.ToString());
+                    }
                 }
+            }
+
+            if (epList.Count == 0)
+            {
+                TraktLogger.Warning("Unable to find any matching TVDb episodes for series '{0}', confirm Absolute Order and/or Episode Names and/or AirDates for episodes are correct on http://theTVDb.com and your database.", series.SeriesName);
+                return null;
             }
 
             traktSync.EpisodeList = epList;
@@ -512,22 +528,30 @@ namespace TraktPlugin.TraktHandlers
             if (!GetTVDBEpisodeInfo(episode.AnimeEpisodes[0], out seriesid, out seasonidx, out episodeidx)) return null;
 
             // create scrobble data
-            TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble
+            try
             {
-                Title = episode.AniDB_File.AnimeSeries.SeriesName,
-                Year = GetStartYear(episode.AniDB_File.AnimeSeries),
-                Season = seasonidx.ToString(),
-                Episode = episodeidx.ToString(),
-                SeriesID = seriesid,
-                PluginVersion = TraktSettings.Version,
-                MediaCenter = "Mediaportal",
-                MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
-                MediaCenterBuildDate = String.Empty,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
+                TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble
+                {
+                    Title = episode.AniDB_File.AnimeSeries.SeriesName,
+                    Year = GetStartYear(episode.AniDB_File.AnimeSeries),
+                    Season = seasonidx.ToString(),
+                    Episode = episodeidx.ToString(),
+                    SeriesID = seriesid,
+                    PluginVersion = TraktSettings.Version,
+                    MediaCenter = "Mediaportal",
+                    MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
+                    MediaCenterBuildDate = String.Empty,
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
 
-            return scrobbleData;
+                return scrobbleData;
+            }
+            catch
+            {
+                TraktLogger.Error("Failed to create scrobble data for '{0}'", episode.ToString());
+                return null;
+            }
         }
 
         #endregion
@@ -544,7 +568,7 @@ namespace TraktPlugin.TraktHandlers
             if (episodes.Count == 0) return;
 
             // get unique series ids
-            var uniqueSeries = (from s in episodes where s.AniDB_File.AnimeSeries.TvDB_ID > 0 select s.AniDB_File.AnimeSeries.TvDB_ID).Distinct().ToList();
+            var uniqueSeries = (from s in episodes where (s.AniDB_File != null && s.AniDB_File.AnimeSeries.TvDB_ID > 0) select s.AniDB_File.AnimeSeries.TvDB_ID).Distinct().ToList();
 
             if (uniqueSeries.Count == 0)
             {
@@ -561,13 +585,17 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("Synchronizing '{0}' episodes for series '{1}'.", mode.ToString(), series[0].ToString());
 
                 // upload to trakt
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series[0], episodes), mode);
+                TraktEpisodeSync episodeSync = CreateSyncData(series[0], episodes);
+                if (episodeSync != null)
+                {
+                    TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSync, mode);
 
-                // check for any error and log result
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                    // check for any error and log result
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
 
-                // wait a short period before uploading another series
-                Thread.Sleep(2000);
+                    // wait a short period before uploading another series
+                    Thread.Sleep(2000);
+                }
             }
         }
 
@@ -610,7 +638,7 @@ namespace TraktPlugin.TraktHandlers
                 {
 
 
-                    var query = episodes.Where(e => e.AniDB_File.AnimeSeries.TvDB_ID.ToString() == traktShow.SeriesId &&
+                    var query = episodes.Where(e => e.AniDB_File != null && e.AniDB_File.AnimeSeries.TvDB_ID.ToString() == traktShow.SeriesId &&
                                                     e.AniDB_File.AnimeSeries.TvDB_Episodes.Where(t => !string.IsNullOrEmpty(t.Filename) && t.SeasonNumber == season.Season && t.EpisodeNumber == episode).Count() == 1).ToList();
 
                     if (query.Count == 0)
