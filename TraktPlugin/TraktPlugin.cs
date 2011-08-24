@@ -394,7 +394,15 @@ namespace TraktPlugin
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
             foreach (ITraktHandler traktHandler in traktHandlers)
             {
-                traktHandler.SyncLibrary();
+                try
+                {
+                    traktHandler.SyncLibrary();
+                }
+                catch
+                {
+                    TraktLogger.Error("Error Synchronising library from '{0}'", traktHandler.Name);
+                }
+
                 if (syncLibraryWorker.CancellationPending)
                     return;
             }    
@@ -904,10 +912,17 @@ namespace TraktPlugin
                     TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
                     foreach (ITraktHandler traktHandler in TraktHandlers)
                     {
-                        if (traktHandler.Scrobble(filename))
+                        try
                         {
-                            TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
-                            return;
+                            if (traktHandler.Scrobble(filename))
+                            {
+                                TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
+                                return;
+                            }
+                        }
+                        catch
+                        {
+                            TraktLogger.Error("Error getting scrobble state from '{0}'", traktHandler.Name);
                         }
                     }
                     TraktLogger.Info("File was not recognised in your enabled plugin libraries");
