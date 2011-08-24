@@ -444,7 +444,10 @@ namespace TraktPlugin.TraktHandlers
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
                 if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => insertedMovie.LocalMedia[0].FullPath.Contains(f)))
+                {
                     SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
+                    UpdateCategoriesAndFilters();
+                }
                 else
                     TraktLogger.Info("Newly inserted movie, {0}, was found on our block list so wasn't added to Trakt", insertedMovie.Title);
             }
@@ -695,7 +698,7 @@ namespace TraktPlugin.TraktHandlers
                 traktNode.Children.Clear();
 
                 TraktLogger.Debug("Adding nodes");
-                traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies,traktWatchListMovies));
+                traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
 
                 MovingPicturesCore.Settings.FilterMenu.Commit();
 
@@ -1030,6 +1033,25 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktLogger.Debug("We don't have a record of the id!");
             }
+        }
+
+        public static void UpdateCategoriesAndFilters()
+        {
+            var bw = new BackgroundWorker();
+            bw.DoWork += delegate(object sender, DoWorkEventArgs args)
+                             {
+                                 if(TraktSettings.MovingPicturesCategories || TraktSettings.MovingPicturesFilters)
+                                 {
+                                     TraktLogger.Info("Updating Categories and/or Filters");
+                                     var recommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
+                                     var watchlist = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+
+                                     UpdateMovingPicturesCategories(recommendations, watchlist);
+                                     UpdateMovingPicturesFilters(recommendations, watchlist);
+                                     TraktLogger.Info("Finished updating filters");
+                                 }
+                             };
+            bw.RunWorkerAsync();
         }
 
         #endregion
