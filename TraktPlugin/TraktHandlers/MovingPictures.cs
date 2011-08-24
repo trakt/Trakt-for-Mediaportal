@@ -703,7 +703,7 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
-        private static DBNode<DBMovieInfo>[] CreateNodes(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
+        private static IEnumerable<DBNode<DBMovieInfo>> CreateNodes(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
         {
             #region WatchList
             TraktLogger.Debug("Creating the watchlist node");
