@@ -11,6 +11,7 @@ using System.Threading;
 using System.IO;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using AniDBAPI;
 using MyAnimePlugin2;
 using MyAnimePlugin2.Persistence;
 
@@ -105,6 +106,11 @@ namespace TraktPlugin.TraktHandlers
             localCollectionEpisodes = FileLocal.GetAll().Where(f => !string.IsNullOrEmpty(f.FileNameFull) && f.AnimeEpisodes.Count > 0).ToList();
 
             TraktLogger.Info("{0} episodes with local files in my anime database", localCollectionEpisodes.Count.ToString());
+
+            // Get only Valid Episodes types
+            localCollectionEpisodes.RemoveAll(lc => lc.AnimeEpisodes.Where(e => (e.EpisodeTypeEnum != enEpisodeType.Normal && e.EpisodeTypeEnum != enEpisodeType.Special)).Count() > 0);
+
+            TraktLogger.Info("{0} episodes with valid episode types in my anime database", localCollectionEpisodes.Count.ToString());
 
             // Get watched episodes
             localWatchedEpisodes = localCollectionEpisodes.Where(f => (f.AniDB_File != null && f.AniDB_File.IsWatched > 0) || (f.AnimeEpisodes != null && f.AnimeEpisodes[0].IsWatched > 0)).ToList();
@@ -504,7 +510,7 @@ namespace TraktPlugin.TraktHandlers
                     }
                     else
                     {
-                        TraktLogger.Debug("Unable to find match for episode: '{0}'", ep.ToString());
+                        TraktLogger.Info("Unable to find match for episode: '{0} | airDate: {1}'", ep.ToString(), ep.AniDB_Episode.AirDateAsDate.ToString("yyyy-MM-dd"));
                     }
                 }
             }
