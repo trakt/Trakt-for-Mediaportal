@@ -407,22 +407,37 @@ namespace TraktPlugin.TraktHandlers
             seasonidx = 0;
             episodeidx = 0;
 
+            if (episode.Series == null) return false;
+
             seriesid = episode.Series.TvDB_ID.HasValue ? episode.Series.TvDB_ID.ToString() : null;
             if (seriesid == null) return false;
+            
+            // get air date in valid tvdb form
+            string episodeAirDate = episode.AniDB_Episode.AirDateAsDate.ToString("yyyy-MM-dd");
 
-            int absoluteEpisodeId = episode.EpisodeNumber;
-            string episodeName = episode.EpisodeName;
-            string episodeAirDate = null;
-            try { episodeAirDate = episode.AniDB_Episode.AirDateAsDate.ToString("yyyy-MM-dd"); } catch {}
+            TvDB_Episode tvdbEpisode = null;
+            List<TvDB_Episode> tvdbEpisodes = episode.Series.TvDB_Episodes;
 
-            // sometimes absolute episode order is rarily filled in @ theTVDb.com so MyAnime database might not get a match.
-            // in this case try episode name and episode airdate matching.
-            TvDB_Episode tvdbEpisode = episode.Series.TvDB_Episodes.FirstOrDefault(e => e.Absolute_number == absoluteEpisodeId || e.EpisodeName == episodeName || e.FirstAired == episodeAirDate);
+            // episode Number is not absolute in some case e.g. multiple animeseries mapped to the same tvdb series
+            if (episode.Series.TvDB_SeasonNumber == null || episode.Series.TvDB_SeasonNumber == 1)
+            {
+                // first try absolute episode order
+                tvdbEpisode = tvdbEpisodes.FirstOrDefault(e => e.Absolute_number == episode.EpisodeNumber);
+            }
+
+            // try title / airdate matching, this should support specials
+            if (tvdbEpisode == null)
+            {
+                tvdbEpisode = tvdbEpisodes.FirstOrDefault(e => e.EpisodeName == episode.EpisodeName || e.FirstAired == episodeAirDate);
+
+                // try My Anime's helper, doesn't support specials
+                if (tvdbEpisode == null) tvdbEpisode = episode.GetTvDBEpisode();
+            }
+
             if (tvdbEpisode == null) return false;
 
             seasonidx = tvdbEpisode.SeasonNumber;
             episodeidx = tvdbEpisode.EpisodeNumber;
-
             return true;
         }
 
