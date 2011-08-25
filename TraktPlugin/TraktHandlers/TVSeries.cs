@@ -355,6 +355,32 @@ namespace TraktPlugin.TraktHandlers
             return PlayEpisode(episode);
         }
 
+        /// <summary>
+        /// Playback the first unwatched episode for a series using TVSeries internal Video Handler
+        /// If no Unwatched episodes exists, play the Most Recently Aired
+        /// </summary>
+        /// <param name="seriesid">series id of episode</param>
+        public static bool PlayFirstUnwatchedEpisode(int seriesid)
+        {
+            var episodes = DBEpisode.Get(seriesid);
+            if (episodes == null || episodes.Count == 0) return false;
+
+            // filter out anything we can't play
+            episodes.RemoveAll(e => string.IsNullOrEmpty(e[DBEpisode.cFilename]));
+            if (episodes.Count == 0) return false;
+
+            // sort episodes using DBEpisode sort comparer
+            // this takes into consideration Aired/DVD order and Specials in-line sorting
+            episodes.Sort();
+
+            // get first episode unwatched, otherwise get most recently aired
+            var episode = episodes.Where(e => e[DBOnlineEpisode.cWatched] == 0).FirstOrDefault();
+            if (episode == null) episode = episodes.LastOrDefault();
+            if (episode == null) return false;
+
+            return PlayEpisode(episode);
+        }
+
         public static bool PlayEpisode(DBEpisode episode)
         {              
             if (player == null) player = new VideoHandler();

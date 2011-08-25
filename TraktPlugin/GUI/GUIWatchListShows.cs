@@ -162,7 +162,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-
+                        CheckAndPlayEpisode();
                     }
                     break;
 
@@ -185,6 +185,10 @@ namespace TraktPlugin.GUI
                     // restore current user
                     CurrentUser = TraktSettings.Username;
                     base.OnAction(action);
+                    break;
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    CheckAndPlayEpisode();
                     break;
                 default:
                     base.OnAction(action);
@@ -319,6 +323,15 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void CheckAndPlayEpisode()
+        {
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            TraktWatchListShow selectedShow = (TraktWatchListShow)selectedItem.TVTag;
+            GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb);
+        }
 
         private void RateShow(TraktWatchListShow show)
         {

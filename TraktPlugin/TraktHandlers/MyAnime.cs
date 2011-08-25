@@ -324,6 +324,34 @@ namespace TraktPlugin.TraktHandlers
             return PlayEpisode(episode);
         }
 
+        /// <summary>
+        /// Playback the first unwatched episode for a series using TVSeries internal Video Handler
+        /// If no Unwatched episodes exists, play the Most Recently Aired
+        /// </summary>
+        /// <param name="seriesid">series id of episode</param>
+        public static bool PlayFirstUnwatchedEpisode(int seriesid)
+        {
+            var episodes = FileLocal.GetAll();
+            if (episodes == null || episodes.Count == 0) return false;
+
+            // filter out anything we can't play
+            episodes.RemoveAll(e => string.IsNullOrEmpty(e.FileNameFull));
+            if (episodes.Count == 0) return false;
+
+            // filter by tvdb series id
+            episodes.RemoveAll(e => e.AniDB_File != null && e.AniDB_File.AnimeSeries.TvDB_ID != seriesid);
+
+            // sort by air date
+            episodes.Sort(new Comparison<FileLocal>((x, y) => { return x.AnimeEpisodes.First().AniDB_Episode.AirDate.CompareTo(y.AnimeEpisodes.First().AniDB_Episode.AirDate); }));
+
+            // filter out watched
+            var episode = episodes.Where(e => e.AnimeEpisodes.First().IsWatched == 0).FirstOrDefault();
+            if (episode == null) episode = episodes.LastOrDefault();
+            if (episode == null) return false;
+
+            return PlayEpisode(episode);
+        }
+
         public static bool PlayEpisode(FileLocal episode)
         {
             if (player == null) player = new VideoHandler();

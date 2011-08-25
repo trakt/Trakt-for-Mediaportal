@@ -165,7 +165,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Checks if a selected episode exists locally and plays episode
         /// </summary>
-        /// <param name="seriesidx">the series tvdb id of episode</param>
+        /// <param name="seriesid">the series tvdb id of episode</param>
         /// <param name="seasonidx">the season index of episode</param>
         /// <param name="episodeidx">the episode index of episode</param>
         public static void CheckAndPlayEpisode(int seriesid, int seasonidx, int episodeidx)
@@ -183,6 +183,37 @@ namespace TraktPlugin.GUI
             {
                 handled = TraktHandlers.MyAnime.PlayEpisode(seriesid, seasonidx, episodeidx);
             }
+        }
+
+        /// <summary>
+        /// Checks if a selected show exists locally and plays first unwatched episode
+        /// </summary>
+        /// <param name="seriesid">the series tvdb id of show</param>
+        /// <param name="imdbid">the series imdb id of show</param>
+        public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid)
+        {
+            bool handled = false;
+
+            // check if plugin is installed and enabled
+            if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+            {
+                // Play episode if it exists
+                handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(seriesid);
+            }
+
+            if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
+            {
+                handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(seriesid);
+            }
+
+            #if MP12
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
+            {
+                string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
+                handled = true;
+            }
+            #endif
         }
     }
 }
