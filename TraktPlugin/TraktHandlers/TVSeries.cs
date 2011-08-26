@@ -369,13 +369,19 @@ namespace TraktPlugin.TraktHandlers
             episodes.RemoveAll(e => string.IsNullOrEmpty(e[DBEpisode.cFilename]));
             if (episodes.Count == 0) return false;
 
+            TraktLogger.Info("Found {0} local episodes for TVDb {1}", episodes.Count, seriesid.ToString());
+
             // sort episodes using DBEpisode sort comparer
             // this takes into consideration Aired/DVD order and Specials in-line sorting
             episodes.Sort();
 
             // get first episode unwatched, otherwise get most recently aired
             var episode = episodes.Where(e => e[DBOnlineEpisode.cWatched] == 0).FirstOrDefault();
-            if (episode == null) episode = episodes.LastOrDefault();
+            if (episode == null)
+            {
+                TraktLogger.Info("No Unwatched episodes found, Playing most recent episode");
+                episode = episodes.LastOrDefault();
+            }
             if (episode == null) return false;
 
             return PlayEpisode(episode);

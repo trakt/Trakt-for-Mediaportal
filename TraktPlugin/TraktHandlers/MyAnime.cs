@@ -339,14 +339,21 @@ namespace TraktPlugin.TraktHandlers
             if (episodes.Count == 0) return false;
 
             // filter by tvdb series id
-            episodes.RemoveAll(e => e.AniDB_File != null && e.AniDB_File.AnimeSeries.TvDB_ID != seriesid);
+            episodes.RemoveAll(e => e.AniDB_File == null || e.AniDB_File.AnimeSeries.TvDB_ID != seriesid);
+
+            TraktLogger.Info("Found {0} local episodes for TVDb {1}", episodes.Count, seriesid.ToString());
+            if (episodes.Count == 0) return false;
 
             // sort by air date
             episodes.Sort(new Comparison<FileLocal>((x, y) => { return x.AnimeEpisodes.First().AniDB_Episode.AirDate.CompareTo(y.AnimeEpisodes.First().AniDB_Episode.AirDate); }));
 
             // filter out watched
             var episode = episodes.Where(e => e.AnimeEpisodes.First().IsWatched == 0).FirstOrDefault();
-            if (episode == null) episode = episodes.LastOrDefault();
+            if (episode == null)
+            {
+                TraktLogger.Info("No Unwatched episodes found, Playing most recent episode");
+                episode = episodes.LastOrDefault();
+            }
             if (episode == null) return false;
 
             return PlayEpisode(episode);

@@ -192,23 +192,27 @@ namespace TraktPlugin.GUI
         /// <param name="imdbid">the series imdb id of show</param>
         public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid)
         {
+            TraktLogger.Info("Attempting to play TVDb: {0}, IMDb: {1}", seriesid.ToString(), imdbid);
             bool handled = false;
 
             // check if plugin is installed and enabled
             if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
             {
                 // Play episode if it exists
+                TraktLogger.Info("Checking if any episodes to watch in MP-TVSeries");
                 handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(seriesid);
             }
 
             if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
             {
+                TraktLogger.Info("Checking if any episodes to watch in My Anime");
                 handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(seriesid);
             }
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
+                TraktLogger.Info("No episodes found! Attempting Trailer lookup in IMDb Trailers.");
                 string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
