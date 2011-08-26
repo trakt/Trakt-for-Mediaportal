@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.IO;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using AniDBAPI;
@@ -40,6 +41,7 @@ namespace TraktPlugin.TraktHandlers
         Timer TraktTimer;
         static VideoHandler player = null;
         FileLocal CurrentEpisode = null;
+        MainWindow animeWindow = null;
 
         #endregion
 
@@ -50,7 +52,12 @@ namespace TraktPlugin.TraktHandlers
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Anime2.dll");
             if (!File.Exists(pluginFilename)) throw new FileNotFoundException("Plugin not found!");
-           
+
+            TraktLogger.Debug("Adding Hooks to My Anime");
+            animeWindow = (MainWindow)GUIWindowManager.GetWindow((int)ExternalPluginWindows.MyAnime);
+            animeWindow.OnToggleWatched += new MainWindow.OnToggleWatchedHandler(OnToggleWatched);
+            animeWindow.OnRateSeries += new MainWindow.OnRateSeriesHandler(OnRateSeries);
+
             Priority = priority;
         }
 
@@ -306,7 +313,10 @@ namespace TraktPlugin.TraktHandlers
 
         public void DisposeEvents()
         {
-
+            TraktLogger.Debug("Removing Hooks from My Anime");
+            animeWindow.OnToggleWatched -= new MainWindow.OnToggleWatchedHandler(OnToggleWatched);
+            animeWindow.OnRateSeries -= new MainWindow.OnRateSeriesHandler(OnRateSeries);
+            animeWindow = null;
         }
 
         /// <summary>
@@ -575,6 +585,53 @@ namespace TraktPlugin.TraktHandlers
             return traktSync;
         }
 
+        private TraktEpisodeSync CreateSyncData(AnimeSeries series, List<AnimeEpisode> episodes)
+        {
+            if (series == null || series.TvDB_ID == null) return null;
+
+            // set series properties for episodes
+            TraktEpisodeSync traktSync = new TraktEpisodeSync
+            {
+                Password = TraktSettings.Password,
+                UserName = TraktSettings.Username,
+                SeriesID = series.TvDB_ID.ToString(),
+                Year = GetStartYear(series),
+                Title = series.SeriesName
+            };
+
+            // get list of episodes for series
+            List<TraktEpisodeSync.Episode> epList = new List<TraktEpisodeSync.Episode>();
+
+            foreach (AnimeEpisode episode in episodes.Where(e => e.Series.TvDB_ID == series.TvDB_ID))
+            {
+                TraktEpisodeSync.Episode ep = new TraktEpisodeSync.Episode();
+
+                string seriesid = series.TvDB_ID.ToString();
+                int seasonidx = 0;
+                int episodeidx = 0;
+
+                if (GetTVDBEpisodeInfo(episode, out seriesid, out seasonidx, out episodeidx))
+                {
+                    ep.SeasonIndex = seasonidx.ToString();
+                    ep.EpisodeIndex = episodeidx.ToString();
+                    epList.Add(ep);
+                }
+                else
+                {
+                    TraktLogger.Info("Unable to find match for episode: '{0} | airDate: {1}'", episode.ToString(), episode.AniDB_Episode.AirDateAsDate.ToString("yyyy-MM-dd"));
+                }                
+            }
+
+            if (epList.Count == 0)
+            {
+                TraktLogger.Warning("Unable to find any matching TVDb episodes for series '{0}', confirm Absolute Order and/or Episode Names and/or AirDates for episodes are correct on http://theTVDb.com and your database.", series.SeriesName);
+                return null;
+            }
+
+            traktSync.EpisodeList = epList;
+            return traktSync;
+        }
+
         private TraktEpisodeScrobble CreateScrobbleData(FileLocal episode)
         {
             string seriesid = null;
@@ -608,6 +665,26 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Error("Failed to create scrobble data for '{0}'", episode.ToString());
                 return null;
             }
+        }
+
+        private TraktRateSeries CreateSeriesRateData(AnimeSeries series, string rateValue)
+        {
+            if (series == null || series.TvDB_ID == null) return null;
+
+            TraktRateValue loveorhate = Convert.ToDouble(rateValue) >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
+
+            TraktRateSeries seriesData = new TraktRateSeries()
+            {
+                Rating = loveorhate.ToString(),
+                SeriesID = series.TvDB_ID.ToString(),
+                Year = GetStartYear(series),
+                Title = series.TvDB_Name,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+            };
+
+            TraktLogger.Info("Rating '{0}' as '{1}'", series.TvDB_Name, loveorhate.ToString());
+            return seriesData;
         }
 
         #endregion
@@ -729,6 +806,54 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region My Anime Events
+
+        private void OnRateSeries(AnimeSeries series, string rateValue)
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            TraktLogger.Info("Recieved rating event for series from my anime");
+
+            Thread rateThread = new Thread(delegate()
+            {
+                TraktRateSeries seriesRateData = CreateSeriesRateData(series, rateValue);
+                if (seriesRateData == null) return;
+                TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
+
+                // check for any error and notify
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Rate Series"
+            };
+
+            rateThread.Start();
+        }
+
+        private void OnToggleWatched(List<AnimeEpisode> episodes, bool state)
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            TraktLogger.Info("Recieved togglewatched event from my anime");
+
+            Thread toggleWatched = new Thread(delegate()
+            {
+                foreach (var series in episodes.Select(e => e.Series.TvDB_ID).Distinct().ToList())
+                {
+                    if (series == null) continue;
+                    TraktEpisodeSync episodeSyncData = CreateSyncData(AnimeSeries.GetSeriesWithSpecificTvDB((int)series).First(), episodes);
+                    if (episodeSyncData == null) return;
+                    TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, state ? TraktSyncModes.seen : TraktSyncModes.unseen);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                }                
+            })
+            {
+                IsBackground = true,
+                Name = "My Anime Toggle Watched"
+            };
+
+            toggleWatched.Start();
+        }
 
         #endregion
 
