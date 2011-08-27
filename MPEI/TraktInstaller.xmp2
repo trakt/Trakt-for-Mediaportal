@@ -1079,6 +1079,18 @@ Click Next to continue or Cancel to exit Setup.
       </DependencyItem>
     </Items>
   </Dependencies>
+  <PluginDependencies>
+    <Items>
+      <PluginDependencyItem AssemblyName="TraktPlugin.dll">
+        <CompatibleVersion>
+          <Items />
+        </CompatibleVersion>
+        <SubSystemsUsed>
+          <Items />
+        </SubSystemsUsed>
+      </PluginDependencyItem>
+    </Items>
+  </PluginDependencies>
   <GeneralInfo>
     <Name>Trakt for MediaPortal</Name>
     <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
@@ -1088,8 +1100,8 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
-      <Minor>0</Minor>
-      <Build>5</Build>
+      <Minor>1</Minor>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
@@ -1097,16 +1109,23 @@ Click Next to continue or Cancel to exit Setup.
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.1
 
-* Added trakt integration into MovingPictures Categories and Filters menus. This is disabled by default, and can be enabled from configuration or from with-in GUI in General Settings. The trakt plugin will create a trakt root category with two sub-nodes, one for your Recommendations and one for your Watch List. Categories/Filters are updated on startup and every sync interval (by default every 24hrs).
-* Added support to jump to OnlineVideos IMDB trailers when a non-local movie is attempted to be played from trakt windows.
-* Added a prompt for user to Synchronize Libraries to trakt if new plugins are enabled in GUI Settings. No longer need to restart or wait for next Sync interval.
-* Fixed a bug in Calendar window where day header was shown with no underlying episodes if watch-list filter was enabled.
-* Fixed cached data not being cleared when signing in as a different user in GUI.
-* Fixed current friend item not being remembered when re-entering friends list.
-* Improved startup speed of plugin, ensure that we test connection in background so we dont block initialization of MediaPortal.</VersionDescription>
+* Added support for My Anime plugin, requires latest version v2.6.2. Support all major features like Library Syncing and Scrobbling.
+* Added support for OnlineVideos plugin, only supports scrobbling. Not all sites are supported, currently there is support for WatchSeries, WatchMovies and South Park sites.
+* Added Play First Unwatched support from trakt tv show windows e.g. Trending Shows. If you have the corresponding show locally then pressing Play will search for the first unwatched episode in your local collection, if no unwatched episodes exist it will play the most recent. If the show does not exist locally then a trailer lookup is done on IMDb trailers.
+* When a new movie is added or watched with-in MovingPictures the Recommendations/WatchList categories will be updated. 
+* Added Better error checking in plugin handlers.
+* Added warning message to Trakt Settings Plugin window, if skin is out of date warning will be given to user to select plugin handlers from configuration.
+* If some movies fails to sync, we now log these movies on startup and only attempt to sync them again after 7 days. These are usually because of invalid information in local library, not valid movies or movies do not exist on themoviedb.org.
+* We now use UTF-8 encoding for all web posts/responses, should also make logs clear to read debug posts.
+* Fixed a bug with Movie restrictions in My Videos. Did not work correctly for individual movies.
+* Fixed a bug with TVSeries Import Complete event not triggering a sync in some conditions.
+* Fixed Aspect Ratio of Toggle Buttons and skin navigation in DefaultWide skin.
+* Added better accessibility to trakt plugin API from external plugins.
+* Added skin support for Add To Watchlist from MovingPictures details view.
+* Update Danish translations, thanks 1stdead.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-08-05T10:00:00+10:00</ReleaseDate>
+    <ReleaseDate>2011-08-27T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -1950,9 +1969,10 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>
-    <ProjectFilename>D:\Development\Personal\Trakt-For-MediaPortal\MPEI\TraktInstaller.xmp2</ProjectFilename>
+    <ProjectFilename>TraktInstaller.xmp2</ProjectFilename>
     <UpdatePath1>.\update.xml</UpdatePath1>
     <UpdatePath2 />
     <UpdatePath3 />
   </ProjectSettings>
+  <IsSkin>false</IsSkin>
 </PackageClass>
