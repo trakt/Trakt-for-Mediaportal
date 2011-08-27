@@ -794,6 +794,10 @@ namespace TraktPlugin
                         {
                             TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year, imdb), TraktSyncModes.watchlist);
                             GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                            if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                            {
+                                MovingPictures.UpdateCategoriesAndFilters();
+                            }
                         }
                         else
                         {
