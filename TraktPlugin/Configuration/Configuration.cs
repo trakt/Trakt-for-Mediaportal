@@ -196,22 +196,24 @@ namespace TraktPlugin
                 return;
             }
             
-            string message = "Are sure you want to clear your library from trakt?\n\n";
-            message += "Note: this will not clear your library completely, scrobbled items will need to be cleared manually.";
+            string message = "Are you sure you want to clear your library from trakt? All items marked as 'In Collection' will be removed.";
             DialogResult result = MessageBox.Show(message, "Clear Library", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
 
-            if (result == DialogResult.Yes)
-            {
-                BackgroundWorker libraryClearer = new BackgroundWorker();
-                libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
-                libraryClearer.RunWorkerAsync();
-            }
+            message = "Would you also like to mark all items as unwatched?\n\n";
+            message += "Note: this will not clear your watched library completely, scrobbled items will need to be cleared manually from website.";
+            result = MessageBox.Show(message, "Clear Library", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+            BackgroundWorker libraryClearer = new BackgroundWorker();
+            libraryClearer.DoWork += new DoWorkEventHandler(libraryClearer_DoWork);
+            libraryClearer.RunWorkerAsync(result == DialogResult.Yes ? true : false);
+            
         }
 
         void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
         {
             ProgressDialog pd = new ProgressDialog(this.Handle);
-            TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all, pd);
+            TraktAPI.TraktAPI.ClearLibrary(TraktAPI.TraktClearingModes.all, pd, (bool)e.Argument);
         }
 
         private void btnTVSeriesRestrictions_Click(object sender, EventArgs e)

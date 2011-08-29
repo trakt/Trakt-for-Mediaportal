@@ -691,7 +691,7 @@ namespace TraktPlugin.TraktAPI
         /// Clears our library on Trakt as best as the api lets us
         /// </summary>
         /// <param name="mode">What to remove from Trakt</param>
-        internal static void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog)
+        internal static void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog, bool clearSeen)
         {
             progressDialog.Title = "Clearing Library";
             progressDialog.CancelMessage = "Attempting to Cancel";
@@ -709,12 +709,16 @@ namespace TraktPlugin.TraktAPI
                 List<TraktLibraryMovies> movies = GetAllMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = BasicHandler.CreateMovieSyncData(movies);
+                TraktResponse response = null;
 
-                TraktLogger.Info("First removing movies from seen");
-                progressDialog.Line2 = "Setting seen movies as unseen";
-                TraktResponse response = SyncMovieLibrary(syncData, TraktSyncModes.unseen);
-                LogTraktResponse(response);
-                
+                if (clearSeen)
+                {
+                    TraktLogger.Info("First removing movies from seen");
+                    progressDialog.Line2 = "Setting seen movies as unseen";
+                    response = SyncMovieLibrary(syncData, TraktSyncModes.unseen);
+                    LogTraktResponse(response);
+                }
+
                 TraktLogger.Info("Now removing movies from library");
                 progressDialog.Line2 = "Removing movies from library";
                 response = SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
@@ -736,23 +740,26 @@ namespace TraktPlugin.TraktAPI
                 TraktLogger.Info("Removing Shows from Trakt");
                 TraktLogger.Info("NOTE: WILL NOT REMOVE SCROBBLED SHOWS DUE TO API LIMITATION");
 
-                TraktLogger.Info("First removing shows from seen");
-                progressDialog.Line2 = "Getting Watched Episodes from Trakt";
-                var watchedEpisodes = GetWatchedEpisodesForUser(TraktSettings.Username);
-                if (watchedEpisodes != null)
+                if (clearSeen)
                 {
-                    foreach (var series in watchedEpisodes.ToList())
+                    TraktLogger.Info("First removing shows from seen");
+                    progressDialog.Line2 = "Getting Watched Episodes from Trakt";
+                    var watchedEpisodes = GetWatchedEpisodesForUser(TraktSettings.Username);
+                    if (watchedEpisodes != null)
                     {
-                        TraktLogger.Info("Removing '{0}' from seen", series.ToString());
-                        progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
-                        TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
-                        LogTraktResponse(response);
-                        System.Threading.Thread.Sleep(500);
-                        if (progressDialog.HasUserCancelled)
+                        foreach (var series in watchedEpisodes.ToList())
                         {
-                            TraktLogger.Info("Cancelling Library Clearing");
-                            progressDialog.CloseDialog();
-                            return;
+                            TraktLogger.Info("Removing '{0}' from seen", series.ToString());
+                            progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
+                            TraktResponse response = SyncEpisodeLibrary(BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
+                            LogTraktResponse(response);
+                            System.Threading.Thread.Sleep(500);
+                            if (progressDialog.HasUserCancelled)
+                            {
+                                TraktLogger.Info("Cancelling Library Clearing");
+                                progressDialog.CloseDialog();
+                                return;
+                            }
                         }
                     }
                 }
