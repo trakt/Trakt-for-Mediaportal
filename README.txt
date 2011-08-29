@@ -5,9 +5,11 @@ http://trakt.tv
 
 It currently supports the following plugins
 * MediaPortal's Internal plugin for Movies - My Videos
-* http://code.google.com/p/mptvseries/ - MP-TVSeries [Requires v2.8.1+]
+* http://code.google.com/p/mptvseries/ - MP-TVSeries
 * http://code.google.com/p/moving-pictures/ - Moving Pictures
 * http://code.google.com/p/my-films/ - My Films
+* http://code.google.com/p/mp-onlinevideos2/ - OnlineVideos
+* http://code.google.com/p/animeplugin2/ - MyAnime2
 
 If you are a plugin developer for Mediaportal and would like to have your plugin supported for scrobbling of either Movies or TV Series feel free to get in contact.
 
