@@ -87,10 +87,10 @@ namespace TraktPlugin
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount > 1)
+            if (TraktSettings.KeepTraktLibraryClean && (TraktSettings.MoviePluginCount > 1 || TraktSettings.TvShowPluginCount > 1))
             {
                 // warn and disable clean library
-                string message = "You can not have 'Clean Library' option enabled with more than one movie plugin enabled. Option will be disabled.";
+                string message = "You can not have 'Clean Library' option enabled with more than one movie or show plugin enabled. Option will be disabled.";
                 MessageBox.Show(message, "trakt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TraktSettings.KeepTraktLibraryClean = false;
             }
