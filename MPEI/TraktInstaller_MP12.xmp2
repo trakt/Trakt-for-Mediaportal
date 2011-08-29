@@ -1112,7 +1112,7 @@ Click Next to continue or Cancel to exit Setup.
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>Stable release for MediaPortal 1.2 Beta
+    <VersionDescription>Stable release for MediaPortal 1.2
 
 * Added support for My Anime plugin, requires latest version v2.6.2. Support all major features like Library Syncing and Scrobbling.
 * Added support for OnlineVideos plugin, only supports scrobbling. Not all sites are supported, currently there is support for WatchSeries, WatchMovies and South Park sites.
