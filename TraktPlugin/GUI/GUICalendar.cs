@@ -1000,6 +1000,10 @@ namespace TraktPlugin.GUI
                         };
                         showImages.Add(images);
 
+                        // extended skin properties
+                        episode.Date = DateTime.Parse(day.ToString()).ToLongDateString();
+                        episode.SelectedIndex = (itemCount + 1).ToString();
+
                         episodeItem.Item = images;
                         episodeItem.TVTag = episode;
                         episodeItem.ItemId = Int32.MaxValue - itemCount;
@@ -1200,6 +1204,9 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Calendar.Selected.Date", string.Empty);
+            GUIUtils.SetProperty("#selectedindex", string.Empty);
+
             GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
@@ -1244,6 +1251,9 @@ namespace TraktPlugin.GUI
 
         private void PublishEpisodeSkinProperties(TraktCalendar.TraktEpisodes episode)
         {
+            SetProperty("#Trakt.Calendar.Selected.Date", episode.Date);
+            SetProperty("#selectedindex", episode.SelectedIndex);
+
             SetProperty("#Trakt.Show.Imdb", episode.Show.Imdb);
             SetProperty("#Trakt.Show.Tvdb", episode.Show.Tvdb);
             SetProperty("#Trakt.Show.TvRage", episode.Show.TvRage);
