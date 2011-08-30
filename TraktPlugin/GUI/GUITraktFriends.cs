@@ -749,9 +749,7 @@ namespace TraktPlugin.GUI
             // only two types to choose from in this view level
             // signal that we are now displaying the watched types view
             ViewLevel = Views.WatchedTypes;
-            SetCurrentView();
-            GUIUtils.SetProperty("#itemcount", "5");
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("2 {0}", GUILocalizeStrings.Get(507)));
+            SetCurrentView();            
             
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -798,6 +796,9 @@ namespace TraktPlugin.GUI
             Facade.Add(item);
 
             Facade.SelectIndex(PreviousTypeSelectedIndex);
+
+            GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
         }
 
         private void LoadWatchedHistory()
