@@ -42,6 +42,7 @@ namespace TraktPlugin.TraktHandlers
             }
             
             // Subscribe to GUI Events
+            TraktLogger.Debug("Adding Hooks to My Films");
             MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RateItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RatingEventDelegate(OnRateItem);
             MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
 
