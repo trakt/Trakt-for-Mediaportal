@@ -663,8 +663,8 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Adding nodes");
                 traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
+                traktNode.Children.ForEach(new Action<DBNode<DBMovieInfo>>(n => n.Parent = traktNode));
                 MovingPicturesCore.Settings.CategoriesMenu.Commit();
-
             }
             else
             {
@@ -699,9 +699,8 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Adding nodes");
                 traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
-
+                traktNode.Children.ForEach(new Action<DBNode<DBMovieInfo>>(n => n.Parent = traktNode));
                 MovingPicturesCore.Settings.FilterMenu.Commit();
-
             }
             else
             {
@@ -737,7 +736,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             watchlistNode.Filter = watchlistFilter;
-            
+
 
             #endregion
 
