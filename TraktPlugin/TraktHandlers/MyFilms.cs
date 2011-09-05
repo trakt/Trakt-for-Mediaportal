@@ -72,7 +72,7 @@ namespace TraktPlugin.TraktHandlers
             List<MFMovie> MovieList = (from MFMovie movie in myvideos select movie).ToList();
 
             // Remove any blocked movies
-            MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.Path.Contains(f)));
+            MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())));
             MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.File));
 
             #region Skipped Movies Check
@@ -468,7 +468,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // don't do anything if movie is blocked
-            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.Contains(f)))
+            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
                 TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
                 return;
@@ -504,7 +504,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // don't do anything if movie is blocked
-            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.Contains(f)))
+            if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
                 TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
                 return;

@@ -911,7 +911,7 @@ namespace TraktPlugin
                 // Sleep to ensure that custom event gets fired first e.g. OnlineVideos VideoTracking Info.
                 Thread.Sleep(500);
 
-                if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.Contains(f)))
+                if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
                     TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
                     foreach (ITraktHandler traktHandler in TraktHandlers)

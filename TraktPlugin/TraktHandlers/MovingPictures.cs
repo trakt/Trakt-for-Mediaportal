@@ -54,7 +54,7 @@ namespace TraktPlugin.TraktHandlers
             tmdbSource = DBSourceInfo.GetAll().Find(s => s.ToString() == "themoviedb.org");
 
             //Remove any blocked movies
-            MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.Contains(f)));
+            MovieList.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())));
             MovieList.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath));
 
             #region Skipped Movies Check
@@ -374,7 +374,7 @@ namespace TraktPlugin.TraktHandlers
                 DBMovieInfo movie = userMovieSettings.AttachedMovies[0];
 
                 // don't do anything if movie is blocked
-                if (TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath) || TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.Contains(f)))
+                if (TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath) || TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
                     TraktLogger.Info("Movie {0} is on the blocked list so we didn't update Trakt", movie.Title);
                     return;
@@ -431,7 +431,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A movie has been watched push that out.
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
-                if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.Contains(f)))
+                if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
                     ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
                     RemoveMovieFromFiltersAndCategories(watchedEvent.Movie);
@@ -443,7 +443,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => insertedMovie.LocalMedia[0].FullPath.Contains(f)))
+                if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => insertedMovie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
                     SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
                     UpdateCategoriesAndFilters();
