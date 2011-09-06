@@ -12,6 +12,7 @@ using MediaPortal.Configuration;
 using System.Reflection;
 using System.ComponentModel;
 using MyFilmsPlugin.MyFilms;
+using MyFilmsPlugin.MyFilms.MyFilmsGUI;
 using System.Threading;
 
 namespace TraktPlugin.TraktHandlers
@@ -20,7 +21,7 @@ namespace TraktPlugin.TraktHandlers
     {
         #region Variables
 
-        Timer TraktTimer;        
+        Timer TraktTimer;
         MFMovie CurrentMovie = null;
 
         #endregion
@@ -37,14 +38,17 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(5,0,1,1173))
+                if (new Version(version) < new Version(5,0,2,1422))
                     throw new FileLoadException("Plugin does not meet minimum requirements!");
             }
-            
-            // Subscribe to GUI Events
+
+            // Subscribe to Events
             TraktLogger.Debug("Adding Hooks to My Films");
-            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RateItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RatingEventDelegate(OnRateItem);
-            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedItem += new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
+            MyFilmsDetail.RateItem += new MyFilmsDetail.RatingEventDelegate(OnRateItem);
+            MyFilmsDetail.WatchedItem += new MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
+            MyFilmsDetail.MovieStarted += new MyFilmsDetail.MovieStartedEventDelegate(OnStartedMovie);
+            MyFilmsDetail.MovieStopped += new MyFilmsDetail.MovieStoppedEventDelegate(OnStoppedMovie);
+            MyFilmsDetail.MovieWatched += new MyFilmsDetail.MovieWatchedEventDelegate(OnWatchedMovie);
 
             Priority = priority;
         }
@@ -62,7 +66,7 @@ namespace TraktPlugin.TraktHandlers
        
         public void SyncLibrary()
         {
-            TraktLogger.Info("MyFilms Starting Sync");
+            TraktLogger.Info("My Films Starting Sync");
 
             // get all movies
             ArrayList myvideos = new ArrayList();
@@ -226,21 +230,15 @@ namespace TraktPlugin.TraktHandlers
                 }                
             }
 
-            TraktLogger.Info("MyFilms Sync Completed");
+            TraktLogger.Info("My Films Sync Completed");
         }
 
         public bool Scrobble(string filename)
         {
+            // check movie is from my films
+            if (CurrentMovie == null) return false;
+
             StopScrobble();
-
-            // lookup movie by filename
-            ArrayList myvideos = new ArrayList();
-            BaseMesFilms.GetMovies(ref myvideos);
-
-            MFMovie movie = (from MFMovie m in myvideos select m).ToList().Find(m => m.File == filename);
-            if (movie == null) return false;
-
-            CurrentMovie = movie;
 
             // create 15 minute timer to send watching status
             #region scrobble timer
@@ -248,7 +246,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 MFMovie currentMovie = stateInfo as MFMovie;
 
-                TraktLogger.Info("Scrobbling Movie {0}", movie.Title);
+                TraktLogger.Info("Scrobbling Movie {0}", currentMovie.Title);
                 
                 double duration = g_Player.Duration;
                 double progress = 0.0;
@@ -268,7 +266,7 @@ namespace TraktPlugin.TraktHandlers
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.watching);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
-            }), movie, 3000, 900000);
+            }), CurrentMovie, 3000, 900000);
             #endregion
 
             return true;
@@ -278,57 +276,6 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktTimer != null)
                 TraktTimer.Dispose();
-
-            if (CurrentMovie == null) return;
-
-            Thread scrobbleMovie = new Thread(delegate(object o)
-            {
-                MFMovie movie = o as MFMovie;
-                if (movie == null) return;
-
-                TraktLogger.Info("MyFilms movie considered watched '{0}'", movie.Title);
-
-                // get scrobble data to send to api
-                TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
-                if (scrobbleData == null) return;
-
-                // set duration/progress in scrobble data                
-                scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60).ToString();
-                scrobbleData.Progress = "100";
-
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
-            })
-            {
-                IsBackground = true,
-                Name = "Scrobble Movie"
-            };
-
-            // if movie is atleast 90% complete, consider watched
-            if ((g_Player.CurrentPosition / g_Player.Duration) >= 0.9)
-            {
-                scrobbleMovie.Start(CurrentMovie);
-            }
-            else
-            {
-                TraktLogger.Info("Stopped MyFilms movie playback '{0}'", CurrentMovie.Title);
-
-                // stop scrobbling
-                Thread cancelWatching = new Thread(delegate()
-                {
-                    TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-                })
-                {
-                    IsBackground = true,
-                    Name = "Cancel Watching Movie"
-                };
-
-                cancelWatching.Start();
-            }
-
-            CurrentMovie = null;            
         }
 
         #endregion
@@ -452,9 +399,89 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Debug("Removing Hooks from My Films");
             
-            // gui events
-            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RateItem -= new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.RatingEventDelegate(OnRateItem);
-            MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedItem -= new MyFilmsPlugin.MyFilms.MyFilmsGUI.MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
+            // unsubscribe from events
+            MyFilmsDetail.RateItem -= new MyFilmsDetail.RatingEventDelegate(OnRateItem);
+            MyFilmsDetail.WatchedItem -= new MyFilmsDetail.WatchedEventDelegate(OnToggleWatched);
+            MyFilmsDetail.MovieStarted -= new MyFilmsDetail.MovieStartedEventDelegate(OnStartedMovie);
+            MyFilmsDetail.MovieStopped -= new MyFilmsDetail.MovieStoppedEventDelegate(OnStoppedMovie);
+            MyFilmsDetail.MovieWatched -= new MyFilmsDetail.MovieWatchedEventDelegate(OnWatchedMovie);
+        }
+
+        #endregion
+
+        #region Player Events
+
+        private void OnStartedMovie(MFMovie movie)
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
+            {
+                TraktLogger.Info("Starting My Films movie playback: '{0}'", movie.Title);
+                CurrentMovie = movie;
+            }
+        }
+
+        private void OnStoppedMovie(MFMovie movie)
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
+            {
+                TraktLogger.Info("Stopped My Films movie playback: '{0}'", movie.Title);
+
+                CurrentMovie = null;
+                StopScrobble();
+
+                // send cancelled watching state
+                Thread cancelWatching = new Thread(delegate()
+                {
+                    TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
+                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Cancel Watching Movie"
+                };
+
+                cancelWatching.Start();
+            }
+        }
+
+        private void OnWatchedMovie(MFMovie movie)
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            
+            CurrentMovie = null;
+
+            if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
+            {
+                Thread scrobbleMovie = new Thread(delegate(object obj)
+                {
+                    MFMovie watchedMovie = obj as MFMovie;
+                    if (watchedMovie == null) return;
+
+                    TraktLogger.Info("My Films movie considered watched: '{0}'", watchedMovie.Title);
+
+                    // get scrobble data to send to api
+                    TraktMovieScrobble scrobbleData = CreateScrobbleData(watchedMovie);
+                    if (scrobbleData == null) return;
+
+                    // set duration/progress in scrobble data                
+                    scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60).ToString();
+                    scrobbleData.Progress = "100";
+
+                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Scrobble Movie"
+                };
+
+                scrobbleMovie.Start(movie);
+            }
         }
 
         #endregion
