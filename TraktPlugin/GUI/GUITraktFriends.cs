@@ -138,6 +138,8 @@ namespace TraktPlugin.GUI
                     _Friends = TraktAPI.TraktAPI.GetFriends();
                     LastRequest = DateTime.UtcNow;
                     PreviousFriendSelectedIndex = 0;
+                    friendMovieHistory.Clear();
+                    friendEpisodeHistory.Clear();
                 }
                 return _Friends;
             }
