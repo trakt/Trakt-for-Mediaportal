@@ -25,6 +25,9 @@ namespace TraktPlugin.TraktHandlers
         DBMovieInfo currentMovie;
         bool SyncInProgress;
         public static MoviePlayer player = null;
+        private static IEnumerable<TraktMovie> recommendations;
+        private static IEnumerable<TraktWatchListMovie> watchList;
+        private static DateTime recommendationsAndWatchListAge;
 
         public static DBSourceInfo tmdbSource;
 
@@ -1039,16 +1042,24 @@ namespace TraktPlugin.TraktHandlers
             var bw = new BackgroundWorker();
             bw.DoWork += delegate(object sender, DoWorkEventArgs args)
                              {
-                                 if(TraktSettings.MovingPicturesCategories || TraktSettings.MovingPicturesFilters)
-                                 {
-                                     TraktLogger.Info("Updating Categories and/or Filters");
-                                     var recommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
-                                     var watchlist = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                                 if (!TraktSettings.MovingPicturesCategories && !TraktSettings.MovingPicturesFilters)
+                                     return;
 
-                                     UpdateMovingPicturesCategories(recommendations, watchlist);
-                                     UpdateMovingPicturesFilters(recommendations, watchlist);
-                                     TraktLogger.Info("Finished updating filters");
+                                 TraktLogger.Info("Updating Categories and/or Filters");
+                                 if (recommendations == null || watchList == null || (DateTime.Now - recommendationsAndWatchListAge) > TimeSpan.FromMinutes(5))
+                                 {
+                                     recommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
+                                     watchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                                     recommendationsAndWatchListAge = DateTime.Now;
                                  }
+                                 if(recommendations == null || watchList == null)
+                                 {
+                                     TraktLogger.Error("Recommendations or Watchlist were null so updating filters failed");
+                                     return;
+                                 }
+                                 UpdateMovingPicturesCategories(recommendations, watchList);
+                                 UpdateMovingPicturesFilters(recommendations, watchList);
+                                 TraktLogger.Info("Finished updating filters");
                              };
             bw.RunWorkerAsync();
         }
