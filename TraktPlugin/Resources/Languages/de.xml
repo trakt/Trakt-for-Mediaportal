@@ -5,21 +5,21 @@
 <strings>
   <!-- A -->
   <string Field="Account">Account</string>
-  <string Field="AccountSetup">Account Einstellungen</string>
-  <string Field="AccountDialog">Account Dialog</string>
-  <string Field="AddFriend">Add Friend...</string>
+  <string Field="AccountSetup">Account-Einstellungen</string>
+  <string Field="AccountDialog">Account-Dialog</string>
+  <string Field="AddFriend">Freund hinzufügen...</string>
   <string Field="AddToLibrary">Zur Bibliothek hinzufügen</string>
   <string Field="AddToWatchList">Zur Beobachtungsliste hinzufügen</string>
-  <string Field="AddShowToWatchList">Add Show to Watch List</string>
-  <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
-  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
-  <string Field="Age">Age</string>
+  <string Field="AddShowToWatchList">Serie zu Beaobachtungsliste hinzufügen</string>
+  <string Field="AddEpisodeToWatchList">Episode zu Beaobachtungsliste hinzufügen</string>
+  <string Field="AddThisItemToWatchList">Dieses Element zur Beobachtungsliste hinzufügen?</string>
+  <string Field="Age">Alter</string>
   <string Field="AirDate">Sendedatum</string>
   <string Field="AirDay">Sendetag</string>
   <string Field="AirTime">Sendezeit</string>
-  <string Field="Approve">Approve</string>
-  <string Field="ApprovedDate">Approved Date</string>
-  <string Field="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string Field="Approve">Bestätigung</string>
+  <string Field="ApprovedDate">Bestätigtes Datum</string>
+  <string Field="ApproveFriendMessage">Möchten Sie {0}\nals Freund hinzufügen?</string>
   
   <!-- B -->
   
@@ -28,7 +28,7 @@
   <string Field="Calendar">Kalender</string>
   <string Field="CalendarMyShows">Meine Serien</string>
   <string Field="CalendarPremieres">Premieren</string>
-  <string Field="CalendarAllShows">All Shows</string>
+  <string Field="CalendarAllShows">Alle Serien</string>
   <string Field="Certification">Zertifizierung</string>
   <string Field="ChangeView">Ansicht ändern...</string>
   <string Field="ChangeLayout">Layout ändern...</string>
@@ -38,56 +38,56 @@
   <string Field="CreatingAccount">Account wird erstellt...</string>
   
   <!-- D -->
-  <string Field="DateToday">Today</string>
-  <string Field="DateYesterday">Yesterday</string>
-  <string Field="DateOneWeekAgo">1 Week Ago</string>
-  <string Field="DateTwoWeeksAgo">2 Weeks Ago</string>
-  <string Field="DateOneMonthAgo">1 Month Ago</string>
-  <string Field="Deny">Deny</string>
-  <string Field="DeleteFriend">Delete Friend</string>
-  <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string Field="DateToday">Heute</string>
+  <string Field="DateYesterday">Gestern</string>
+  <string Field="DateOneWeekAgo">Vor 1 Woche</string>
+  <string Field="DateTwoWeeksAgo">Vor 2 Wochen</string>
+  <string Field="DateOneMonthAgo">Vor 1 Monat</string>
+  <string Field="Deny">Ablehnen</string>
+  <string Field="DeleteFriend">Freund löschen</string>
+  <string Field="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
   <string Field="DisconnectAccount">Account Trennen: {0}</string>
   <string Field="DownloadFanart">Download Fanart</string>
-  <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
+  <string Field="DownloadFullSizeFanart">Download Fanart in Originalgröße</string>
   
   <!-- E -->
   <string Field="Email">Email</string>
-  <string Field="Episode">Folge</string>
-  <string Field="Episodes">Folgen</string>
+  <string Field="Episode">Episode</string>
+  <string Field="Episodes">Episode</string>
   <string Field="Error">Trakt Fehler</string>
-  <string Field="ErrorCalendar">Fehler beim Abrufen des Kalenders.</string>
+  <string Field="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
   
   <!-- F -->
-  <string Field="FirstAired">Zuerst gesendet</string>
+  <string Field="FirstAired">Erstausstrahlung</string>
   <string Field="Friend">Freund</string>
   <string Field="Friends">Freunde</string>
-  <string Field="FriendRequest">Friend Request</string>
-  <string Field="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
+  <string Field="FriendRequest">Freund-Anfrage</string>
+  <string Field="FriendRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Freund-Fenster</string>
   <string Field="FullName">Vollständiger Name</string>
   
   <!-- G -->
   <string Field="Gender">Geschlecht</string>
-  <string Field="General">General</string>
-  <string Field="GeneralSettings">GeneralSettings</string>
-  <string Field="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
+  <string Field="General">Allgemein</string>
+  <string Field="GeneralSettings">Allgemeine Einstellungen</string>
+  <string Field="GetFriendRequestsOnStartup">Freund-Anfragen bei Programmstart abrufen</string>
   <string Field="GettingCalendar">Kalender abrufen</string>
-  <string Field="GettingFriendsList">Freundesliste abrufen</string>
-  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
+  <string Field="GettingFriendsList">Freund-Liste abrufen</string>
+  <string Field="GettingFriendsRequests">Freund-Anfragen abrufen</string>
   <string Field="GettingFriendsWatchedHistory">Gesehene Filme von Freunden werden abgerufen</string>
-  <string Field="GettingSearchResults">Getting Search Results</string>
-  <string Field="GettingShouts">Getting Shouts</string>
+  <string Field="GettingSearchResults">Suchergebnisse abrufen</string>
+  <string Field="GettingShouts">Shouts abrufen</string>
   <string Field="GettingTrendingMovies">Rufe Liste der populären Filme ab</string>
   <string Field="GettingTrendingShows">Rufe Liste der populären Serien ab</string>
   <string Field="GettingRecommendedMovies">Vorgeschlagene Filme werden abgerufen</string>
   <string Field="GettingRecommendedShows">Vorgeschlagene Serien werden abgerufen</string>
   <string Field="GettingWatchListMovies">Beobachtungsliste Filme wird abgerufen</string>
   <string Field="GettingWatchListShows">Beobachtungsliste Serien wird abgerufen</string>
-  <string Field="GettingWatchListEpisodes">Beobachtungsliste Folgen wird abgerufen</string>
+  <string Field="GettingWatchListEpisodes">Beobachtungsliste Episoden wird abgerufen</string>
   
   <!-- H -->
   <string Field="Hate">Hass</string>
   <string Field="Hated">Verhasst</string>
-  <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string Field="HideTVShowsInWatchlist">Keine TV-Serien in Beobachtungsliste anzeigen</string>
   
   <!-- I -->
   <string Field="Inserted">Eingefügt</string>
@@ -116,23 +116,23 @@
   <string Field="Name">Name</string>
   <string Field="Network">Netzwerk</string>
   <string Field="NextWeek">Nächste Woche</string>
-  <string Field="NoEpisodeSummary">Folgenübersicht ist leider nicht verfügbar.</string>
-  <string Field="NoEpisodesThisWeek">Keine Folgen diese Woche</string>
-  <string Field="NoMovieSummary">Film sammendrag er ikke tilgængeligt.</string>
-  <string Field="NoShowSummary">Serie sammendrag er ikke tilgængeligt.</string>
+  <string Field="NoEpisodeSummary">Keine Episodenbeschreibung verfügbar</string>
+  <string Field="NoEpisodesThisWeek">Keine Episoden diese Woche</string>
+  <string Field="NoMovieSummary">Keine Filmbeschreibung verfügbar</string>
+  <string Field="NoShowSummary">Keine Serienbeschreibung verfügbar</string>
   <string Field="NoFriends">Keine Freunde!</string>
   <string Field="NoFriendsTaunt">Du hast keine Freunde!</string>
   <string Field="NoTrendingMovies">Zur Zeit werden keine Filme angeschaut!</string>
   <string Field="NoTrendingShows">Zur Zeit werden keine Serien angeschaut!</string>
-  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
-  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
-  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string Field="NoShowWatchList">{0} hat keine Serien in seiner Beobachtungsliste!</string>
+  <string Field="NoMovieWatchList">{0} hat keine Filme in seiner Beobachtungsliste!</string>
+  <string Field="NoEpisodeWatchList">{0} hat keine Episoden in seiner Beobachtungsliste!</string>
   <string Field="NoMovieWatchList">Keine Filme in der Beobachtungsliste!</string>
-  <string Field="NoEpisodeWatchList">Keine Folgen Beobachtungsliste!</string>
-  <string Field="NoShoutsForItem">No Shouts for {0}!</string>
+  <string Field="NoEpisodeWatchList">Keine Episoden in der Beobachtungsliste!</string>
+  <string Field="NoShoutsForItem">Keine Shouts für {0}!</string>
   <string Field="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>
   <string Field="NotLoggedIn">Du kannst auf diese Funktion nicht zugreifen ohne\neingeloggt zu sein. Möchtest du nun einen Account erstellen oder dich \nin trakt.tv einloggen ?</string>
-  <string Field="NoSearchResultsFound">No Search Results Found</string>
+  <string Field="NoSearchResultsFound">Keine Suchergebnisse gefunden</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -140,11 +140,11 @@
   
   <!-- P -->
   <string Field="Password">Passwort</string>
-  <string Field="People">People</string>
+  <string Field="People">Personen</string>
   <string Field="Percentage">Prozent</string>
   <string Field="Protected">Geschützt</string>
   <string Field="PersonWatching">1 Person schaut gerade</string>
-  <string Field="PeopleWatching">{0} People schauen</string>
+  <string Field="PeopleWatching">{0} Personen schauen</string>
   <string Field="Plugins">Plugins</string>
   
   <!-- R -->
@@ -154,7 +154,7 @@
   <string Field="RateMovie">Film bewerten...</string>
   <string Field="RateShow">Serie bewerten...</string>
   <string Field="RateEpisode">Folge bewerten...</string>
-  <string Field="RateDialog">Trakt Bewertungs Dialog</string>
+  <string Field="RateDialog">Trakt Bewertungs-Dialog</string>
   <string Field="RateHate">Billiger Mist :(</string>
   <string Field="RateLove">Totally Ninja!</string>
   <string Field="RateHeading">Was denkst du?</string>
@@ -163,10 +163,10 @@
   <string Field="RecommendedShows">Vorgeschlagene Serien</string>
   <string Field="Released">Erschienen</string>
   <string Field="ReleaseDate">Erscheinungstermin</string>
-  <string Field="RemoveFromLibrary">Aus der Bibliothek entfernen</string>
-  <string Field="RemoveFromWatchList">Von der Beobachtungsliste entfernen</string>
-  <string Field="RemoveShowFromWatchList">Remove Show from Watch List</string>
-  <string Field="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
+  <string Field="RemoveFromLibrary">Aus Bibliothek löschn</string>
+  <string Field="RemoveFromWatchList">Aus Beobachtungsliste löschen</string>
+  <string Field="RemoveShowFromWatchList">Serie aus Beobachtungsliste löschen</string>
+  <string Field="RemoveEpisodeFromWatchList">Episode aus Beobachtungsliste löschen</string>
   <string Field="Runtime">Laufzeit</string>
   
   <!-- S -->
@@ -187,29 +187,29 @@
   <string Field="Trending">Populär</string>
   <string Field="TrendingShows">Populäre Serien</string>
   <string Field="TrendingMovies">Populäre Filme</string>
-  <string Field="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
-  <string Field="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>
-  <string Field="TVShow">TV Serie</string>
-  <string Field="TVShows">TV Serien</string>
+  <string Field="TrendingMoviePeople">Momentan schauen {0} Personen {1} Filme!</string>
+  <string Field="TrendingTVShowsPeople">Momentan schauen {0} Personn {1} TV-Serien!</string>
+  <string Field="TVShow">TV-Serie</string>
+  <string Field="TVShows">TV-Serien</string>
   <string Field="Tagline">Inhaltsangabe</string>
   <string Field="Title">Titel</string>
   <string Field="Trailer">Trailer</string>
-  <string Field="Trailers">Trailers...</string>
+  <string Field="Trailers">Trailer...</string>
   
   <!-- U -->
   <string Field="UserHasNotWatchedEpisodes">Benutzer hat noch keine Folgen angeschaut!</string>
   <string Field="UserHasNotWatchedMovies">Benutzer hat noch keine Filme angeschaut!</string>
   <string Field="User">Benutzer</string>
-  <string Field="Users">Users</string>
+  <string Field="Users">Benutzer</string>
   <string Field="Username">Benutzername</string>
-  <string Field="UnAuthorized">Authentifizierung fehlgeschlagen, bitte überprüfe den Benutzernamen und das Passwort in den Einstellungen.</string>
+  <string Field="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
   
   <!-- V -->
   <string Field="View">Ansehen</string>
   <string Field="Votes">Stimmen</string>
-  <string Field="ValidUsername">Du musst einen gültigen Benutzernamen eingeben!</string>
-  <string Field="ValidPassword">Du musst ein gültiges Passwort eingeben!</string>
-  <string Field="ValidEmail">Du musst eine gültige Email eingeben!</string>
+  <string Field="ValidUsername">Bitte einen gültigen Benutzernamen eingeben!</string>
+  <string Field="ValidPassword">Bitte ein gültiges Passwort eingeben!</string>
+  <string Field="ValidEmail">Bitte eine gültige Email eingeben!</string>
 
   <!-- W -->
   <string Field="WatchList">Beobachtungsliste</string>
@@ -218,7 +218,7 @@
   <string Field="WatchedShows">Gesehene Serien</string>  
   <string Field="Watching">Schaut gerade</string>
   <string Field="WatchListMovies">Beobachtungsliste Filme</string>
-  <string Field="WatchListShows">Zeige Beobachtungsliste</string>
+  <string Field="WatchListShows">Beobachtungsliste Serien</string>
   <string Field="WatchListEpisodes">Beobachtungsliste Folgen</string>  
 
   <!-- Y -->
