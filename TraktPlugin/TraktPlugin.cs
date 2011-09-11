@@ -285,11 +285,11 @@ namespace TraktPlugin
             {
                 bool handlerExists = TraktHandlers.Exists(p => p.Name == "My Films");
                 if (!handlerExists && TraktSettings.MyFilms != -1)
-                    TraktHandlers.Add(new MyFilms(TraktSettings.MyFilms));
+                    TraktHandlers.Add(new MyFilmsHandler(TraktSettings.MyFilms));
                 else if (handlerExists && TraktSettings.MyFilms == -1)
                 {
                     ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Films");
-                    (item as MyFilms).DisposeEvents();
+                    (item as MyFilmsHandler).DisposeEvents();
                     TraktHandlers.Remove(item);
                 }
             }
@@ -308,7 +308,7 @@ namespace TraktPlugin
                 else if (handlerExists && TraktSettings.OnlineVideos == -1)
                 {
                     ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "OnlineVideos");
-                    (item as MyFilms).DisposeEvents();
+                    (item as MyFilmsHandler).DisposeEvents();
                     TraktHandlers.Remove(item);
                 }
             }

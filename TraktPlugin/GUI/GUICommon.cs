@@ -132,7 +132,7 @@ namespace TraktPlugin.GUI
             {
                 int? movieid = null;
                 string config = null;
-                if (TraktHandlers.MyFilms.FindMovie(title, year, imdbid, ref movieid, ref config))
+                if (TraktHandlers.MyFilmsHandler.FindMovie(title, year, imdbid, ref movieid, ref config))
                 {
                     // Open My Films Details view so user can play movie
                     if (jumpTo)

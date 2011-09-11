@@ -17,18 +17,19 @@ using System.Threading;
 
 namespace TraktPlugin.TraktHandlers
 {
-    class MyFilms : ITraktHandler
+    class MyFilmsHandler : ITraktHandler
     {
         #region Variables
 
         Timer TraktTimer;
         MFMovie CurrentMovie = null;
+        bool SyncInProgress = false;
 
         #endregion
 
         #region Constructor
 
-        public MyFilms(int priority)
+        public MyFilmsHandler(int priority)
         {
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll");
@@ -38,7 +39,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(5,0,2,1422))
+                if (new Version(version) < new Version(5,0,3,1488))
                     throw new FileLoadException("Plugin does not meet minimum requirements!");
             }
 
@@ -49,6 +50,7 @@ namespace TraktPlugin.TraktHandlers
             MyFilmsDetail.MovieStarted += new MyFilmsDetail.MovieStartedEventDelegate(OnStartedMovie);
             MyFilmsDetail.MovieStopped += new MyFilmsDetail.MovieStoppedEventDelegate(OnStoppedMovie);
             MyFilmsDetail.MovieWatched += new MyFilmsDetail.MovieWatchedEventDelegate(OnWatchedMovie);
+            MyFilms.ImportComplete += new MyFilms.ImportCompleteEventDelegate(OnImportComplete);
 
             Priority = priority;
         }
@@ -67,6 +69,7 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("My Films Starting Sync");
+            SyncInProgress = true;
 
             // get all movies
             ArrayList myvideos = new ArrayList();
@@ -115,6 +118,7 @@ namespace TraktPlugin.TraktHandlers
             IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
             if (traktMoviesAll == null)
             {
+                SyncInProgress = false;
                 TraktLogger.Error("Error getting movies from trakt server, cancelling sync.");
                 return;
             }
@@ -230,6 +234,7 @@ namespace TraktPlugin.TraktHandlers
                 }                
             }
 
+            SyncInProgress = false;
             TraktLogger.Info("My Films Sync Completed");
         }
 
@@ -405,6 +410,7 @@ namespace TraktPlugin.TraktHandlers
             MyFilmsDetail.MovieStarted -= new MyFilmsDetail.MovieStartedEventDelegate(OnStartedMovie);
             MyFilmsDetail.MovieStopped -= new MyFilmsDetail.MovieStoppedEventDelegate(OnStoppedMovie);
             MyFilmsDetail.MovieWatched -= new MyFilmsDetail.MovieWatchedEventDelegate(OnWatchedMovie);
+            MyFilms.ImportComplete -= new MyFilms.ImportCompleteEventDelegate(OnImportComplete);
         }
 
         #endregion
@@ -551,6 +557,35 @@ namespace TraktPlugin.TraktHandlers
             toggleWatchedThread.Start(movie);
         }
 
+        #endregion
+
+        #region Import Events
+
+        private void OnImportComplete()
+        {
+            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+
+            TraktLogger.Debug("My Films import complete, initiating online sync");
+
+            // sync again
+            Thread syncThread = new Thread(delegate()
+            {
+                while (SyncInProgress)
+                {
+                    // only do one sync at a time
+                    TraktLogger.Debug("My Films sync still in progress, waiting to complete...");
+                    Thread.Sleep(60000);
+                }
+                SyncLibrary();
+            })
+            {
+                IsBackground = true,
+                Name = "My Films Sync"
+            };
+
+            syncThread.Start();
+        }       
+      
         #endregion
 
         #region Other Public Methods
