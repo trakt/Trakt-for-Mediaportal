@@ -127,6 +127,15 @@ namespace TraktPlugin
 
         #region GUIWindow Overrides
 
+        /// <summary>
+        /// will set #currentmodule property on pageload
+        /// </summary>
+        /// <returns></returns>
+        public override string GetModuleName()
+        {
+            return GUIUtils.PluginName();
+        }
+
         public override int GetID
         {
             get
