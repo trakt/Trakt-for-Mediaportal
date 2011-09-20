@@ -542,6 +542,19 @@ namespace TraktPlugin.TraktAPI
 
         #region Recommendations
 
+        public static TraktResponse DismissMovieRecommendation(TraktMovieSlug movie)
+        {
+            string response = Transmit(TraktURIs.DismissMovieRecommendation, movie.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse DismissShowRecommendation(TraktShowSlug show)
+        {
+            string response = Transmit(TraktURIs.DismissShowRecommendation, show.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+
         public static IEnumerable<TraktMovie> GetRecommendedMovies()
         {
             string response = Transmit(TraktURIs.UserMovieRecommendations, GetUserAuthentication());

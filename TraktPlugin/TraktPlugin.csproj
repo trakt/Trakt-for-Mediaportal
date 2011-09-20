@@ -178,7 +178,9 @@
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFriend.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieSlug.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShout.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktShowSlug.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchedHistoryItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />

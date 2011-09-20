@@ -58,6 +58,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             MarkAsWatched,
+            DismissRecommendation,
             AddToWatchList,
             RemoveFromWatchList,
             AddToLibrary,
@@ -203,6 +204,11 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            // Dismiss Recommendation
+            listItem = new GUIListItem(Translation.DismissRecommendation);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.DismissRecommendation;
+
             // Mark As Watched
             // This should remove item from recommendations if executed
             if (selectedMovie.Plays == 0)
@@ -274,6 +280,25 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.DismissRecommendation):
+                    PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
+                    DismissRecommendation(selectedMovie);
+                    if (_RecommendedMovies.Count() > 1)
+                    {
+                        var moviesToExcept = new List<TraktMovie>();
+                        moviesToExcept.Add(selectedMovie);
+                        _RecommendedMovies = RecommendedMovies.Except(moviesToExcept);
+                    }
+                    else
+                    {
+                        // reload, none left
+                        ClearProperties();
+                        GUIControl.ClearControl(GetID, Facade.GetID);
+                        _RecommendedMovies = null;
+                    }
+                    LoadRecommendedMovies();
+                    break;
+
                 case ((int)ContextMenuItem.MarkAsWatched):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
                     MarkMovieAsWatched(selectedMovie);
@@ -437,6 +462,37 @@ namespace TraktPlugin.GUI
             {
                 IsBackground = true,
                 Name = "Removing Movie from Watch List"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void DismissRecommendation(TraktMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktMovie dismissMovie = obj as TraktMovie;
+
+                TraktMovieSlug syncMovie = new TraktMovieSlug
+                {
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password,
+                    IMDbId = dismissMovie.Imdb,
+                    TMDbId = dismissMovie.Tmdb,
+                    Title = dismissMovie.Title,
+                    Year = dismissMovie.Year
+                };
+
+                TraktResponse response = TraktAPI.TraktAPI.DismissMovieRecommendation(syncMovie);
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                if (response != null && response.Status == "success")
+                {
+                    TraktHandlers.MovingPictures.UpdateCategoriesAndFilters();
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "Dismiss Recommendation"
             };
 
             syncThread.Start(movie);

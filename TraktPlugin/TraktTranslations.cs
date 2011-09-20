@@ -231,6 +231,7 @@ namespace TraktPlugin.GUI
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
         public static string DisconnectAccount = "Disconnect Account: {0}";
+        public static string DismissRecommendation = "Dismiss this Recommendation";
         public static string DownloadFanart = "Download Fanart";
         public static string DownloadFullSizeFanart = "Download Original Size Fanart";
 

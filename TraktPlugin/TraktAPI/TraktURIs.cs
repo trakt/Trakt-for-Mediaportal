@@ -53,5 +53,7 @@ namespace TraktPlugin.TraktAPI
         public const string MovieShouts = @"http://api.trakt.tv/movie/shouts.json/" + ApiKey + @"/{0}";
         public const string ShowShouts = @"http://api.trakt.tv/show/shouts.json/" + ApiKey + @"/{0}";
         public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/shouts.json/" + ApiKey + @"/{0}/{1}/{2}";
+        public const string DismissMovieRecommendation = @"http://api.trakt.tv/recommendations/movies/dismiss/" + ApiKey;
+        public const string DismissShowRecommendation = @"http://api.trakt.tv/recommendations/shows/dismiss/" + ApiKey;
     }
 }

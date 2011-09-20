@@ -49,6 +49,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             AddToWatchList,
+            DismissRecommendation,
             RemoveFromWatchList,
             Trailers,
             Rate,
@@ -197,6 +198,10 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            listItem = new GUIListItem(Translation.DismissRecommendation);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.DismissRecommendation;
+
             // Add/Remove Watch List            
             if (!selectedShow.InWatchList)
             {
@@ -241,6 +246,25 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.DismissRecommendation):
+                    PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
+                    DismissRecommendation(selectedShow);
+                    if (_RecommendedShows.Count() > 1)
+                    {
+                        var showsToExcept = new List<TraktShow>();
+                        showsToExcept.Add(selectedShow);
+                        _RecommendedShows = RecommendedShows.Except(showsToExcept);
+                    }
+                    else
+                    {
+                        // reload, none left
+                        ClearProperties();
+                        GUIControl.ClearControl(GetID, Facade.GetID);
+                        _RecommendedShows = null;
+                    }
+                    LoadRecommendedShows();
+                    break;
+
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
@@ -383,6 +407,33 @@ namespace TraktPlugin.GUI
             };
 
             return syncData;
+        }
+
+        private void DismissRecommendation(TraktShow show)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktShow dismissShow = obj as TraktShow;
+
+                TraktShowSlug syncShow = new TraktShowSlug
+                {
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password,
+                    IMDbId = dismissShow.Imdb,
+                    TVDbId = dismissShow.Tvdb,
+                    Title = dismissShow.Title,
+                    Year = dismissShow.Year.ToString()
+                };
+
+                TraktResponse response = TraktAPI.TraktAPI.DismissShowRecommendation(syncShow);
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Dismiss Recommendation"
+            };
+
+            syncThread.Start(show);
         }
 
         private void AddShowToWatchList(TraktShow show)
