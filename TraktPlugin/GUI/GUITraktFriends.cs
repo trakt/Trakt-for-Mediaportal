@@ -797,7 +797,7 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            Facade.SelectIndex(PreviousTypeSelectedIndex);
+            Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;            
 
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
@@ -973,6 +973,9 @@ namespace TraktPlugin.GUI
                 userItem.OnItemSelected += OnFriendSelected;
                 Facade.Add(userItem);
             }
+
+            // select first item
+            Facade.SelectedListItemIndex = 1;
 
             // Set Facade Layout
             Facade.SetCurrentLayout("List");
