@@ -167,7 +167,7 @@ namespace TraktPlugin
             // Listen to this event to detect skin\language changes in GUI
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
             GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
-            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);            
+            GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
             
             // Initialize translations
             Translation.Init();
@@ -213,17 +213,6 @@ namespace TraktPlugin
         protected override void OnPageLoad()
         {
             base.OnPageLoad();
-        }
-
-        protected override void OnClicked(int controlId, GUIControl control, Action.ActionType actionType)
-        {
-            base.OnClicked(controlId, control, actionType);
-
-            switch (controlId)
-            {
-                default:
-                    break;
-            }
         }
 
         #endregion
@@ -571,7 +560,7 @@ namespace TraktPlugin
             #endregion
         }
 
-        void GUIWindowManager_OnNewAction(Action action)
+        void GUIWindowManager_Receivers(GUIMessage message)
         {
             bool validWatchListItem = false;
             bool validRateItem = false;
@@ -585,19 +574,14 @@ namespace TraktPlugin
             string fanart = string.Empty;
             string type = "movie";
 
-            GUIWindow currentWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
-            GUIControl currentButton = null;
-
-            switch (action.wID)
+            switch (message.Message)
             {
-                case Action.ActionType.ACTION_MOUSE_CLICK:
-                case Action.ActionType.ACTION_KEY_PRESSED:
+                case GUIMessage.MessageType.GUI_MSG_CLICKED:                    
                     switch (GUIWindowManager.ActiveWindow)
                     {
                         case (int)ExternalPluginWindows.OnlineVideos:
                             #region Watch List Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
                             {
                                 // Confirm we are in IMDB/iTunes Trailer Details view
                                 // This will give us enough information to send to trakt
@@ -629,8 +613,7 @@ namespace TraktPlugin
 
                         case (int)ExternalPluginWindows.VideoInfo:
                             #region Rate Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
                             {
                                 type = "movie";
                                 title = GUIPropertyManager.GetProperty("#title").Trim();
@@ -645,8 +628,7 @@ namespace TraktPlugin
                             }
                             #endregion
                             #region Shouts Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
                             {
                                 type = "movie";
                                 title = GUIPropertyManager.GetProperty("#title").Trim();
@@ -664,8 +646,7 @@ namespace TraktPlugin
                             }
                             #endregion
                             #region Watch List Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
                             {
                                 title = GUIPropertyManager.GetProperty("#title").Trim();
                                 year = GUIPropertyManager.GetProperty("#year").Trim();
@@ -682,8 +663,7 @@ namespace TraktPlugin
 
                         case (int)ExternalPluginWindows.MovingPictures:
                             #region Rate Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
                             {
                                 type = "movie";
                                 title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
@@ -698,8 +678,7 @@ namespace TraktPlugin
                             }
                             #endregion
                             #region Shouts Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
                             {
                                 type = "movie";
                                 title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
@@ -712,8 +691,7 @@ namespace TraktPlugin
                             }
                             #endregion
                             #region Watch List Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.WatchList);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
                             {
                                 title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
                                 year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
@@ -730,8 +708,7 @@ namespace TraktPlugin
 
                         case (int)ExternalPluginWindows.TVSeries:
                             #region Rate Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Rate);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
                             {
                                 Object obj = TVSeries.SelectedObject;
                                 if (obj != null)
@@ -757,8 +734,7 @@ namespace TraktPlugin
                             }
                             #endregion
                             #region Shouts Button
-                            currentButton = currentWindow.GetControl((int)ExternalPluginControls.Shouts);
-                            if (currentButton != null && currentButton.IsFocused)
+                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
                             {
                                 Object obj = TVSeries.SelectedObject;
                                 if (obj != null)
