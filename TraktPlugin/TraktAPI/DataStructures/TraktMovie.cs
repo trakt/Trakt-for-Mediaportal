@@ -46,6 +46,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "plays")]
         public int Plays { get; set; }
 
+        [DataMember(Name = "watched")]
+        public bool Watched { get; set; }
+
         [DataMember(Name = "in_collection")]
         public bool InCollection { get; set; }
 

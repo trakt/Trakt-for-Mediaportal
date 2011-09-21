@@ -61,6 +61,7 @@ namespace TraktPlugin.GUI
             AddToWatchList,
             ChangeLayout,
             MarkAsWatched,
+            MarkAsUnWatched,
             AddToLibrary,
             RemoveFromLibrary,
             Rate,
@@ -233,11 +234,19 @@ namespace TraktPlugin.GUI
             }
 
             // Mark As Watched
-            if (selectedMovie.Plays == 0)
+            if (!selectedMovie.Watched)
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+            }
+
+            // Mark As UnWatched
+            if (selectedMovie.Watched)
+            {
+                listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
             // Add to Library
@@ -292,7 +301,8 @@ namespace TraktPlugin.GUI
                     MarkMovieAsWatched(selectedMovie);
                     if (CurrentUser != TraktSettings.Username)
                     {
-                        selectedMovie.Plays = 1;
+                        if (selectedMovie.Plays == 0) selectedMovie.Plays = 1;
+                        selectedMovie.Watched = true;
                         selectedItem.IsPlayed = true;
                         OnMovieSelected(selectedItem, Facade);
                         selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
@@ -325,6 +335,14 @@ namespace TraktPlugin.GUI
                             return;
                         }
                     }
+                    break;
+
+                case ((int)ContextMenuItem.MarkAsUnWatched):
+                    MarkMovieAsUnWatched(selectedMovie);
+                    selectedMovie.Watched = false;
+                    selectedItem.IsPlayed = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
@@ -421,6 +439,20 @@ namespace TraktPlugin.GUI
             {
                 IsBackground = true,
                 Name = "Mark Movie as Watched"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void MarkMovieAsUnWatched(TraktWatchListMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktWatchListMovie), TraktSyncModes.unseen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as UnWatched"
             };
 
             syncThread.Start(movie);
@@ -705,7 +737,7 @@ namespace TraktPlugin.GUI
                 item.TVTag = movie;
                 item.Item = movie.Images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IsPlayed = movie.Plays > 0;
+                item.IsPlayed = movie.Watched;
                 item.IconImage = "defaultVideo.png";
                 item.IconImageBig = "defaultVideoBig.png";
                 item.ThumbnailImage = "defaultVideoBig.png";
@@ -805,7 +837,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
             SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
             SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
-            SetProperty("#Trakt.Movie.Watched", (movie.Plays > 0).ToString());
+            SetProperty("#Trakt.Movie.Watched", movie.Watched.ToString());
             SetProperty("#Trakt.Movie.Rating", movie.Rating);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
@@ -938,7 +970,7 @@ namespace TraktPlugin.GUI
             // only show watch list icon if viewing someone elses watch list
             if ((GUIWatchListMovies.CurrentUser != TraktSettings.Username) && movie.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
-            else if (movie.Plays > 0)
+            else if (movie.Watched)
                 mainOverlay = MainOverlayImage.Seenit;
 
             // add additional overlay if applicable

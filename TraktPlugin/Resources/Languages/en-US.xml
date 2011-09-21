@@ -114,6 +114,7 @@
   
   <!-- M -->
   <string Field="MarkAsWatched">Mark as Watched</string>
+  <string Field="MarkAsUnWatched">Mark as UnWatched</string>
   <string Field="Movie">Movie</string>
   <string Field="Movies">Movies</string>
   

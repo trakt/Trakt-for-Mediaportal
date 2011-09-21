@@ -58,6 +58,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             MarkAsWatched,
+            MarkAsUnWatched,
             AddToWatchList,
             RemoveFromWatchList,
             AddToLibrary,
@@ -201,11 +202,19 @@ namespace TraktPlugin.GUI
             GUIListItem listItem = null;
 
             // Mark As Watched
-            if (selectedMovie.Plays == 0)
+            if (!selectedMovie.Watched)
             {
-                listItem = new GUIListItem(Translation.MarkAsWatched);                
+                listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+            }
+
+            // Mark As UnWatched
+            if (selectedMovie.Watched)
+            {
+                listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
             // Add/Remove Watch List            
@@ -272,8 +281,17 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.MarkAsWatched):
                     MarkMovieAsWatched(selectedMovie);
-                    selectedMovie.Plays = 1;
+                    if (selectedMovie.Plays == 0) selectedMovie.Plays = 1;
+                    selectedMovie.Watched = true;
                     selectedItem.IsPlayed = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.MarkAsUnWatched):
+                    MarkMovieAsUnWatched(selectedMovie);
+                    selectedMovie.Watched = false;
+                    selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
@@ -418,6 +436,20 @@ namespace TraktPlugin.GUI
             {
                 IsBackground = true,
                 Name = "Mark Movie as Watched"
+            };
+
+            syncThread.Start(movie);
+        }
+
+        private void MarkMovieAsUnWatched(TraktTrendingMovie movie)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktTrendingMovie), TraktSyncModes.unseen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as UnWatched"
             };
 
             syncThread.Start(movie);
@@ -633,7 +665,7 @@ namespace TraktPlugin.GUI
                 item.Label2 = movie.Year;
                 item.TVTag = movie;
                 item.Item = movie.Images;
-                item.IsPlayed = movie.Plays > 0;
+                item.IsPlayed = movie.Watched;
                 item.ItemId = Int32.MaxValue - itemId;
                 // movie in collection doesnt nessararily mean
                 // that the movie is locally available on this computer
@@ -707,9 +739,9 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Plays", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers.Extra", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
@@ -738,7 +770,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
             SetProperty("#Trakt.Movie.Watchers", movie.Watchers.ToString());
             SetProperty("#Trakt.Movie.Watchers.Extra", movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
-            SetProperty("#Trakt.Movie.Watched", (movie.Plays > 0).ToString());
+            SetProperty("#Trakt.Movie.Watched", movie.Watched.ToString());
             SetProperty("#Trakt.Movie.Rating", movie.Rating);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate" );
             SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
@@ -869,7 +901,7 @@ namespace TraktPlugin.GUI
 
             if (movie.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
-            else if (movie.Plays > 0)
+            else if (movie.Watched)
                 mainOverlay = MainOverlayImage.Seenit;
 
             // add additional overlay if applicable

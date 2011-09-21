@@ -211,7 +211,7 @@ namespace TraktPlugin.GUI
 
             // Mark As Watched
             // This should remove item from recommendations if executed
-            if (selectedMovie.Plays == 0)
+            if (!selectedMovie.Watched)
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
