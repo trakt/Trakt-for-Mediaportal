@@ -77,8 +77,29 @@
         <id>7</id>
         <label>#Trakt.Translation.Settings.Label</label>
 				<hyperlink>87271</hyperlink>
-				<ondown>2</ondown>
+				<ondown>99</ondown>
+      </control>
+      <control>
+        <description>MPEIUPDATE:a9c3845a_8718_4712_85cc_26f56520bb9a</description>
+        <type>button</type>
+				<width>250</width>
+        <id>99</id>
+        <label>#MPEI.Translation.Update.Label</label>
+				<ondown>7</ondown>
+        <onup>2</onup>
+        <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
       </control>
 		</control>
+    <control>
+      <description>Update Indicator</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>290</posX>
+      <posY>377</posY>
+      <width>28</width>
+      <height>28</height>
+      <texture>isupdate.png</texture>
+      <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
+    </control>
   </controls>
 </window>
