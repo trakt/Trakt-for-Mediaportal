@@ -19,3 +19,6 @@ Installation
 3. Either create a new account or sign in using your existing trakt account.
 4. Back in the Settings menu, go to Plugins and enable the plugins you want to scrobble and sync.
 5. Start watching shows and movies in MediaPortal, then use the trakt website to view your watched history, library collection, manage friends, and get social!
+
+Forum: http://forum.team-mediaportal.com/trakt-548/
+Download: http://www.team-mediaportal.com/extensions/trakt
