@@ -781,6 +781,7 @@ namespace TraktPlugin
                             GUIWatchListMovies.ClearCache(TraktSettings.Username);
                             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
                             {
+                                MovingPictures.ClearWatchListCache();
                                 MovingPictures.UpdateCategoriesAndFilters();
                             }
                         }

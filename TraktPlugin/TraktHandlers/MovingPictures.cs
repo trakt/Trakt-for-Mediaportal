@@ -27,7 +27,8 @@ namespace TraktPlugin.TraktHandlers
         public static MoviePlayer player = null;
         private static IEnumerable<TraktMovie> recommendations;
         private static IEnumerable<TraktWatchListMovie> watchList;
-        private static DateTime recommendationsAndWatchListAge;
+        private static DateTime recommendationsAge;
+        private static DateTime watchListAge;
 
         public static DBSourceInfo tmdbSource;
 
@@ -1046,11 +1047,15 @@ namespace TraktPlugin.TraktHandlers
                                      return;
 
                                  TraktLogger.Info("Updating Categories and/or Filters");
-                                 if (recommendations == null || watchList == null || (DateTime.Now - recommendationsAndWatchListAge) > TimeSpan.FromMinutes(5))
+                                 if (watchList == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(5))
+                                 {
+                                     watchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                                     watchListAge = DateTime.Now;
+                                 }
+                                 if (recommendations == null || (DateTime.Now - recommendationsAge) > TimeSpan.FromMinutes(5))
                                  {
                                      recommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
-                                     watchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-                                     recommendationsAndWatchListAge = DateTime.Now;
+                                     recommendationsAge = DateTime.Now;
                                  }
                                  if(recommendations == null || watchList == null)
                                  {
@@ -1062,6 +1067,11 @@ namespace TraktPlugin.TraktHandlers
                                  TraktLogger.Info("Finished updating filters");
                              };
             bw.RunWorkerAsync();
+        }
+
+        public static void ClearWatchListCache()
+        {
+            watchList = null;
         }
 
         #endregion

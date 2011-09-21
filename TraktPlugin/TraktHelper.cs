@@ -102,8 +102,10 @@ namespace TraktPlugin
                 if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
                 {
                     // Update Categories & Filters
+                    MovingPictures.ClearWatchListCache();
                     MovingPictures.UpdateCategoriesAndFilters();
                 }
+                GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
             {
                 IsBackground = true,
