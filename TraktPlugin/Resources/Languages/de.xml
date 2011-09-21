@@ -46,7 +46,8 @@
   <string Field="Deny">Ablehnen</string>
   <string Field="DeleteFriend">Freund löschen</string>
   <string Field="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
-  <string Field="DisconnectAccount">Account Trennen: {0}</string>
+  <string Field="DisconnectAccount">Account trennen: {0}</string>
+  <string Field="DismissRecommendation">Diesen Vorschlag abweisen</string>
   <string Field="DownloadFanart">Download Fanart</string>
   <string Field="DownloadFullSizeFanart">Download Fanart in Originalgröße</string>
   
@@ -111,6 +112,7 @@
   <string Field="MarkAsWatched">Als gesehen markieren</string>
   <string Field="Movie">Film</string>
   <string Field="Movies">Filme</string>
+  <string Field="NoMovingPictures">Moving Pictures ist nicht installiert oder aktiviert</string>
   
   <!-- N -->
   <string Field="Name">Name</string>
