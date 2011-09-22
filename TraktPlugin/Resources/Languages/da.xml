@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Trakt translation file -->
-<!-- Danish (DA) -->
+<!-- Danish (DA) 21-09-2011 -->
 <!-- Note: English is the fallback for any strings not found in other languages -->
 <strings>
   <!-- A -->
@@ -51,6 +51,7 @@
   <string Field="DeleteFriend">Fjern ven</string>
   <string Field="DeleteFriendMessage">Ønsker du at fjerne\n{0} som ven?</string>
   <string Field="DisconnectAccount">Log ud fra kontoen: {0}</string>
+  <string Field="DismissRecommendation">Fjern anbefaling</string>
   <string Field="DownloadFanart">Hent Fanart</string>
   <string Field="DownloadFullSizeFanart">Hent original størrelse Fanart</string>
   
@@ -129,10 +130,10 @@
   <string Field="NoTrendingMovies">Ingen populære film bliver set!</string>
   <string Field="NoTrendingShows">Ingen populære programmer bliver set!</string>
   <string Field="NoMovieRecommendations">Ingen film anbefalinger fundet!</string>
+  <string Field="NoShowRecommendations">Ingen program anbefalinger fundet!</string>
   <string Field="NoShowWatchList">{0} har ingen programmer i set-listen!</string>
   <string Field="NoMovieWatchList">{0} har ingen film i set-listen!</string>
   <string Field="NoEpisodeWatchList">{0} har ingen afsnit i set-listen!</string>
-  <string Field="NoEpisodeWatchList">Ingen afsnit i setlisten!</string>
   <string Field="NoShoutsForItem">Ingen kommmentarer til {0}!</string>
   <string Field="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string Field="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
@@ -186,6 +187,7 @@
   <string Field="Shouts">Kommentarer</string>
   <string Field="ShowTVShowsInWatchlist">Vis TV-programmer i set-listen</string>
   <string Field="SigningIntoAccount">Logger ind på kontoen...</string>
+  <string Field="SkinPluginsOutOfDate">Fejl ved åbning af vinduet. Skinnet er forældes!\nLuk MediaPortal, åbn konfigurationen for\nat slå plugins håndteringer til.</string>
   <string Field="StartDate">Start dato</string>
   <string Field="Synchronize">Synkronisér</string>
   <string Field="SynchronizeNow">Ny tilføjelsers metoder er blevet tilføjet.\nØnsker du at synkronisere dine \nbiblioteker nu?</string>  
