@@ -59,6 +59,7 @@ namespace TraktPlugin.GUI
             View,
             StartDate,
             MarkAsWatched,
+            MarkAsUnWatched,
             AddShowToWatchList,
             AddEpisodeToWatchList,
             RemoveShowFromWatchList,
@@ -351,11 +352,19 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Mark As Watched
-            if (episodeItem.Episode.Plays == 0)
+            if (!episodeItem.Episode.Watched)
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+            }
+
+            // Mark As UnWatched
+            if (episodeItem.Episode.Watched)
+            {
+                listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
             // Add/Remove Show Watch List
@@ -462,7 +471,17 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     MarkEpisodeAsWatched(episodeItem);
-                    episodeItem.Episode.Plays = 1;
+                    episodeItem.Episode.Watched = true;
+                    Facade.SelectedListItem.IsPlayed = true;
+                    if (episodeItem.Episode.Plays == 0) episodeItem.Episode.Plays = 1;
+                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
+                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+
+                case ((int)ContextMenuItem.MarkAsUnWatched):
+                    MarkEpisodeAsUnWatched(episodeItem);
+                    episodeItem.Episode.Watched = false;
+                    Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     break;
@@ -667,6 +686,20 @@ namespace TraktPlugin.GUI
             {
                 IsBackground = true,
                 Name = "Mark Episode as Watched"
+            };
+
+            syncThread.Start(episode);
+        }
+
+        private void MarkEpisodeAsUnWatched(TraktCalendar.TraktEpisodes episode)
+        {
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.unseen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Episode as UnWatched"
             };
 
             syncThread.Start(episode);
@@ -1007,6 +1040,7 @@ namespace TraktPlugin.GUI
                         episodeItem.Item = images;
                         episodeItem.TVTag = episode;
                         episodeItem.ItemId = Int32.MaxValue - itemCount;
+                        episodeItem.IsPlayed = episode.Episode.Watched;
                         episodeItem.IconImage = "defaultTraktEpisode.png";
                         episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
                         episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
@@ -1286,7 +1320,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.InWatchList", episode.Episode.InWatchList.ToString());
             SetProperty("#Trakt.Episode.InCollection", episode.Episode.InCollection.ToString());
             SetProperty("#Trakt.Episode.Plays", episode.Episode.Plays.ToString());
-            SetProperty("#Trakt.Episode.Watched", (episode.Episode.Plays > 0).ToString());
+            SetProperty("#Trakt.Episode.Watched", episode.Episode.Watched.ToString());
             SetProperty("#Trakt.Episode.Rating", episode.Episode.Rating);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Episode.Ratings.LovedCount > episode.Episode.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Episode.Ratings.HatedCount.ToString());
@@ -1426,7 +1460,7 @@ namespace TraktPlugin.GUI
 
             if (episode.Episode.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
-            else if (episode.Episode.Plays > 0)
+            else if (episode.Episode.Watched)
                 mainOverlay = MainOverlayImage.Seenit;
 
             // add additional overlay if applicable
