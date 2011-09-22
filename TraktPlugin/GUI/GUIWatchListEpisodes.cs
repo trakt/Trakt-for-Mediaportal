@@ -316,8 +316,9 @@ namespace TraktPlugin.GUI
             int seriesid = Convert.ToInt32(selectedSeries.Tvdb);
             int seasonidx = selectedEpisode.Season;
             int episodeidx = selectedEpisode.Number;
+            string searchterm = string.IsNullOrEmpty(selectedSeries.Imdb) ? selectedSeries.Title : selectedSeries.Imdb;
 
-            GUICommon.CheckAndPlayEpisode(seriesid, seasonidx, episodeidx);
+            GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
         }
 
         #if MP12

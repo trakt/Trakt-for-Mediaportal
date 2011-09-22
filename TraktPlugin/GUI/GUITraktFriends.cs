@@ -551,8 +551,9 @@ namespace TraktPlugin.GUI
             int seriesid = Convert.ToInt32(episode.Show.Tvdb);
             int seasonidx = episode.Episode.Season;
             int episodeidx = episode.Episode.Number;
+            string searchterm = string.IsNullOrEmpty(episode.Show.Imdb) ? episode.Show.Title : episode.Show.Imdb;
 
-            GUICommon.CheckAndPlayEpisode(seriesid, seasonidx, episodeidx);
+            GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
         }
 
         private TraktFriend CreateFriendData(GUIFriendItem user)

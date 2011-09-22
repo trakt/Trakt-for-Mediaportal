@@ -166,9 +166,10 @@ namespace TraktPlugin.GUI
         /// Checks if a selected episode exists locally and plays episode
         /// </summary>
         /// <param name="seriesid">the series tvdb id of episode</param>
+        /// <param name="imdbid">the series imdb id of episode</param>
         /// <param name="seasonidx">the season index of episode</param>
         /// <param name="episodeidx">the episode index of episode</param>
-        public static void CheckAndPlayEpisode(int seriesid, int seasonidx, int episodeidx)
+        public static void CheckAndPlayEpisode(int seriesid, string imdbid, int seasonidx, int episodeidx)
         {
             bool handled = false;
 
@@ -183,6 +184,16 @@ namespace TraktPlugin.GUI
             {
                 handled = TraktHandlers.MyAnime.PlayEpisode(seriesid, seasonidx, episodeidx);
             }
+
+            #if MP12
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
+            {
+                TraktLogger.Info("No episodes found! Attempting Trailer lookup in IMDb Trailers.");
+                string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
+                handled = true;
+            }
+            #endif
         }
 
         /// <summary>
