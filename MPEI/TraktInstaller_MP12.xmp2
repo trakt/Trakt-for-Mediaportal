@@ -408,6 +408,13 @@
               <ZipFileName>Installer{CopyFile}\{4cbd418d-da03-44ba-b4cf-67a82e710a1d}-Trakt.Shouts.xml</ZipFileName>
               <DestinationFilename>%Skin%\Default\Trakt.Shouts.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\isupdate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4a5bc0da-79fb-452f-9fbb-92e8e3327c28}-isupdate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\isupdate.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -796,6 +803,13 @@
               <ZipFileName>Installer{CopyFile}\{ffcf982d-d2ca-4016-996a-239dfa0786c3}-trakt-togglebutton-on-nofocus.png</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Media\trakt-togglebutton-on-nofocus.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\isupdate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a26a2735-ea08-4485-80a4-25c306418770}-isupdate.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\isupdate.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1106,7 +1120,7 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>1</Major>
       <Minor>1</Minor>
-      <Build>2</Build>
+      <Build>3</Build>
       <Revision>1</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
@@ -1114,18 +1128,20 @@ Click Next to continue or Cancel to exit Setup.
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
     <VersionDescription>Stable release for MediaPortal 1.2
 
-* Added caching of Recommendation/Watchlist API calls when refreshing MovingPictures categories and filters menu.
+* Fixed skin buttons used for Add to Watchlist/Rate/Shouts not working on all Remote Controls.
 
-* Added new event hook into My Films to detect when a new movie has been added/removed. This allows for more real time syncing rather than wait for next sync interval. This requires latest release of My Films v5.1.0.
+* Fix Movies not appearing immediately in MovingPictures trakt WatchList category if more than one was added in a short period.
 
-* Fixed TV Shows not being removed from online collection if removed from local collection.
+* Fixed avatar not being displayed always in Friends window.
 
-* Fixed currentmodule skin property not being set.
+* Added Mark as Unwatched to context menu in relavent windows. This will only mark as unseen and will not remove watched history from online.
 
-* Added 'Dismiss Recommendation' option to context menu of recommendation windows. No longer need to go to website to dismiss recommendation.</VersionDescription>
+* Added IMDb trailer lookup when attempting to play an episode and not found locally. This is only applicable in episode windows such as Calendar, Friends Watched History and Episode Watchlist.
+
+* Updated German translations, thanks catavolt.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-09-20T10:00:00</ReleaseDate>
+    <ReleaseDate>2011-09-22T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
     <Params>
@@ -1545,6 +1561,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\isupdate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4a5bc0da-79fb-452f-9fbb-92e8e3327c28}-isupdate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\isupdate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.AccountDialog.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c0fc8685-fb7d-4654-b94f-9e9b3b9a2945}-Trakt.AccountDialog.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.AccountDialog.xml</DestinationFilename>
@@ -1919,6 +1942,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\trakt-togglebutton-on-nofocus.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{ffcf982d-d2ca-4016-996a-239dfa0786c3}-trakt-togglebutton-on-nofocus.png</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Media\trakt-togglebutton-on-nofocus.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\isupdate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a26a2735-ea08-4485-80a4-25c306418770}-isupdate.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\isupdate.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
