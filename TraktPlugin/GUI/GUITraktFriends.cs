@@ -722,7 +722,7 @@ namespace TraktPlugin.GUI
                             // Get Friend Requests from Result Handler
                             friendRequests = result as IEnumerable<GUIFriendItem>;
                         }
-                    }, Translation.GettingFriendRequests, true);
+                    }, Translation.GettingFriendsRequests, true);
                     #endregion
 
                     SendFriendsToFacade(friends, FriendRequests);
