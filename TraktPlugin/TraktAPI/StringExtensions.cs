@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Text.RegularExpressions;
 
 namespace TraktPlugin
 {
@@ -84,5 +85,13 @@ namespace TraktPlugin
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
+
+        public static string ToSlug(this string item)
+        {
+            string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
+            string invalidReStr = string.Format(@"[{0}]+", invalidChars);
+            return Regex.Replace(item, invalidReStr, "-").ToLower().Replace(" ", "-");
+        }
+
     }
 }

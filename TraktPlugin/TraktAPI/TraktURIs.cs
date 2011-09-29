@@ -55,5 +55,12 @@ namespace TraktPlugin.TraktAPI
         public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/shouts.json/" + ApiKey + @"/{0}/{1}/{2}";
         public const string DismissMovieRecommendation = @"http://api.trakt.tv/recommendations/movies/dismiss/" + ApiKey;
         public const string DismissShowRecommendation = @"http://api.trakt.tv/recommendations/shows/dismiss/" + ApiKey;
+        public const string ListAdd = @"http://api.trakt.tv/lists/add/" + ApiKey;
+        public const string ListDelete = @"http://api.trakt.tv/lists/delete/" + ApiKey;
+        public const string ListItemsAdd = @"http://api.trakt.tv/lists/items/add/" + ApiKey;
+        public const string ListItemsDelete = @"http://api.trakt.tv/lists/items/delete/" + ApiKey;
+        public const string ListUpdate = @"http://api.trakt.tv/lists/update/" + ApiKey;
+        public const string UserList = @"http://api.trakt.tv/user/list.json/" + ApiKey + @"/{0}/{1}";
+        public const string UserLists = @"http://api.trakt.tv/user/lists.json/" + ApiKey + @"/{0}";
     }
 }

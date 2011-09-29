@@ -44,11 +44,12 @@ namespace TraktPlugin.TraktAPI
     }
 
     /// <summary>
-    /// List of Rate Types
+    /// List of Item Types
     /// </summary>
-    public enum TraktRateType
+    public enum TraktItemType
     {
         episode,
+        season,
         show,
         movie
     }
@@ -62,6 +63,9 @@ namespace TraktPlugin.TraktAPI
         hate
     }
 
+    /// <summary>
+    /// Trakt Connection States
+    /// </summary>
     public enum ConnectionState
     {
         Connected,
@@ -69,6 +73,16 @@ namespace TraktPlugin.TraktAPI
         Disconnected,
         Invalid,
         Pending
+    }
+
+    /// <summary>
+    /// Privacy Level for Lists
+    /// </summary>
+    public enum ListPrivacyLevel
+    {
+        Public,
+        Private,
+        Friends
     }
 
     #endregion
@@ -352,7 +366,7 @@ namespace TraktPlugin.TraktAPI
         public static TraktRateResponse RateEpisode(TraktRateEpisode episode)
         {
             if (episode == null) return null;
-            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.episode.ToString()), episode.ToJSON());
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktItemType.episode.ToString()), episode.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
@@ -364,7 +378,7 @@ namespace TraktPlugin.TraktAPI
         public static TraktRateResponse RateSeries(TraktRateSeries series)
         {
             if (series == null) return null;
-            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.show.ToString()), series.ToJSON());
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktItemType.show.ToString()), series.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
@@ -375,7 +389,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateMovie(TraktRateMovie movie)
         {
-            string response = Transmit(string.Format(TraktURIs.RateItem, TraktRateType.movie.ToString()), movie.ToJSON());
+            string response = Transmit(string.Format(TraktURIs.RateItem, TraktItemType.movie.ToString()), movie.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
@@ -421,7 +435,6 @@ namespace TraktPlugin.TraktAPI
         {
             string userCalendar = Transmit(string.Format(TraktURIs.UserCalendarShows, user, startDate, days), GetUserAuthentication());
             return userCalendar.FromJSONArray<TraktCalendar>();
-
         }
 
         public static IEnumerable<TraktCalendar> GetCalendarPremieres()
@@ -430,7 +443,6 @@ namespace TraktPlugin.TraktAPI
             // All Dates should be in PST (GMT-8)
             DateTime dateNow = DateTime.UtcNow.Subtract(new TimeSpan(8, 0, 0));
             return GetCalendarPremieres(dateNow.ToString("yyyyMMdd"), "7");
-
         }
 
         /// <summary>
@@ -474,6 +486,27 @@ namespace TraktPlugin.TraktAPI
         {
             string watchedMovies = Transmit(string.Format(TraktURIs.UserMovieWatchedHistory, user), GetUserAuthentication());
             return watchedMovies.FromJSONArray<TraktWatchedMovie>();
+        }
+
+        /// <summary>
+        /// Returns a list of lists created by user
+        /// </summary>
+        /// <param name="user">username of person to get lists</param>
+        public static IEnumerable<TraktUserList> GetUserLists(string user)
+        {
+            string userLists = Transmit(string.Format(TraktURIs.UserLists, user), GetUserAuthentication());
+            return userLists.FromJSONArray<TraktUserList>();
+        }
+
+        /// <summary>
+        /// Returns the contents of a lists for a user
+        /// </summary>
+        /// <param name="user">username of person</param>
+        /// <param name="slug">slug (id) of list item e.g. "star-wars-collection"</param>
+        public static TraktUserList GetUserList(string user, string slug)
+        {
+            string userList = Transmit(string.Format(TraktURIs.UserList, user, slug), GetUserAuthentication());
+            return userList.FromJSON<TraktUserList>();
         }
 
         #endregion
@@ -587,6 +620,40 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(string.Format(TraktURIs.UserEpisodesWatchList, user), GetUserAuthentication());
             return response.FromJSONArray<TraktWatchListEpisode>();
+        }
+
+        #endregion
+
+        #region Lists
+
+        public static TraktResponse ListAdd(TraktList list)
+        {
+            string response = Transmit(TraktURIs.ListAdd, list.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse ListDelete(TraktList list)
+        {
+            string response = Transmit(TraktURIs.ListDelete, list.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse ListUpdate(TraktList list)
+        {
+            string response = Transmit(TraktURIs.ListUpdate, list.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse ListAddItems(TraktList list)
+        {
+            string response = Transmit(TraktURIs.ListItemsAdd, list.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse ListDeleteItems(TraktList list)
+        {
+            string response = Transmit(TraktURIs.ListItemsDelete, list.ToJSON());
+            return response.FromJSON<TraktResponse>();
         }
 
         #endregion
