@@ -14,6 +14,7 @@ namespace TraktPlugin.GUI
         private delegate void ShowOKDialogDelegate(string heading, string lines);
         private delegate void ShowNotifyDialogDelegate(string heading, string text, string image, string buttonText, int timeOut);
         private delegate int ShowMenuDialogDelegate(string heading, List<GUIListItem> items);
+        private delegate List<MultiSelectionItem> ShowMultiSelectionDialogDelegate(string heading, List<MultiSelectionItem> items);
         private delegate void ShowTextDialogDelegate(string heading, string text);
         private delegate string ShowRateDialogDelegate<T>(T rateObject);
         private delegate bool GetStringFromKeyboardDelegate(ref string strLine, bool isPassword);
@@ -252,7 +253,7 @@ namespace TraktPlugin.GUI
                 return (int)GUIGraphicsContext.form.Invoke(d, heading, items);
             }
 
-            GUIDialogMenu dlgMenu = (GUIDialogMenu)GUIWindowManager.GetWindow((int)MediaPortal.GUI.Library.GUIWindow.Window.WINDOW_DIALOG_MENU);            
+            GUIDialogMenu dlgMenu = (GUIDialogMenu)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);            
 
             dlgMenu.Reset();
             dlgMenu.SetHeading(heading);           
@@ -273,6 +274,76 @@ namespace TraktPlugin.GUI
             }
 
             return dlgMenu.SelectedLabel;
+        }
+
+        /// <summary>
+        /// Displays a menu dialog from list of items
+        /// </summary>
+        public static List<MultiSelectionItem> ShowMultiSelectionDialog(string heading, List<MultiSelectionItem> items)
+        {
+            List<MultiSelectionItem> result = new List<MultiSelectionItem>();
+            if (items == null) return result;
+
+            if (GUIGraphicsContext.form.InvokeRequired)
+            {
+                ShowMultiSelectionDialogDelegate d = ShowMultiSelectionDialog;
+                return (List<MultiSelectionItem>)GUIGraphicsContext.form.Invoke(d, heading, items);
+            }
+
+            GUIWindow dlgMultiSelectOld = (GUIWindow)GUIWindowManager.GetWindow(2100);
+            GUIDialogMultiSelect dlgMultiSelect = new GUIDialogMultiSelect();
+            dlgMultiSelect.Init();
+            GUIWindowManager.Replace(2100, dlgMultiSelect);
+
+            try
+            {
+                dlgMultiSelect.Reset();
+                dlgMultiSelect.SetHeading(heading);
+
+                foreach (MultiSelectionItem multiSelectionItem in items)
+                {
+                    GUIListItem item = new GUIListItem();
+                    item.Label = multiSelectionItem.ItemTitle;
+                    item.Label2 = multiSelectionItem.ItemTitle2;
+                    item.MusicTag = multiSelectionItem.Tag;
+                    item.Selected = multiSelectionItem.Selected;
+
+                    dlgMultiSelect.Add(item);
+                }
+
+                dlgMultiSelect.DoModal(GUIWindowManager.ActiveWindow);
+
+                if (dlgMultiSelect.DialogModalResult == ModalResult.OK)
+                {
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        MultiSelectionItem item = items[i];
+                        MultiSelectionItem newMultiSelectionItem = new MultiSelectionItem();
+                        newMultiSelectionItem.ItemTitle = item.ItemTitle;
+                        newMultiSelectionItem.ItemTitle2 = item.ItemTitle2;
+                        newMultiSelectionItem.ItemID = item.ItemID;
+                        newMultiSelectionItem.Tag = item.Tag;
+                        try
+                        {
+                            newMultiSelectionItem.Selected = dlgMultiSelect.ListItems[i].Selected;
+                        }
+                        catch
+                        {
+                            newMultiSelectionItem.Selected = item.Selected;
+                        }
+
+                        result.Add(newMultiSelectionItem);
+                    }
+                }
+                else
+                    return null;
+
+                return result;
+            }
+            finally
+            {
+                GUIWindowManager.Replace(2100, dlgMultiSelectOld);
+            }
         }
 
         /// <summary>

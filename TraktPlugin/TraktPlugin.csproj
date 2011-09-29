@@ -156,6 +156,7 @@
     <Compile Include="Cornerstone.MP\AsyncImageResource.cs" />
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="GUI\GUICommon.cs" />
+    <Compile Include="GUI\GUIDialogMultiSelect.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
     <Compile Include="GUI\GUISettingsGeneral.cs" />
@@ -295,6 +296,7 @@
     <Content Include="Resources\Languages\no.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Skins\Blue3Wide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktEpisode.png" />
@@ -347,6 +349,7 @@
     <Content Include="Resources\Skins\Blue3Wide\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Trakt.xml" />
+    <Content Include="Resources\Skins\Blue3\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\Blue3\Media\Backgroundtop2.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3\Media\defaultTraktCalendarBig.png" />
@@ -398,6 +401,7 @@
     <Content Include="Resources\Skins\Blue3\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\Blue3\Trakt.xml" />
+    <Content Include="Resources\Skins\DefaultWide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png" />
@@ -448,6 +452,7 @@
     <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.xml" />
+    <Content Include="Resources\Skins\Default\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\Default\Media\Backgroundtop2.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktCalendarBig.png" />
