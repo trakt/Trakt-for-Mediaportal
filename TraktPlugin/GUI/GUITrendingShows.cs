@@ -50,6 +50,7 @@ namespace TraktPlugin.GUI
         {
             AddToWatchList,
             RemoveFromWatchList,
+            AddToList,
             Trailers,
             Shouts,
             Rate,
@@ -208,6 +209,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
+            // Add to Custom List
+            listItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToList;
+
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
@@ -252,6 +258,10 @@ namespace TraktPlugin.GUI
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
                     break;
 
                 #if MP12

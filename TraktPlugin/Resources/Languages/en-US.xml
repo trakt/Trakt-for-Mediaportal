@@ -9,9 +9,12 @@
   <string Field="AccountDialog">Account Dialog</string>
   <string Field="AddFriend">Add Friend...</string>
   <string Field="AddToLibrary">Add to Library</string>
+  <string Field="AddToList">Add to List...</string>
   <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AddShowToWatchList">Add Show to Watch List</string>
   <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
+  <string Field="AddShowToList">Add Show to List...</string>
+  <string Field="AddEpisodeToList">Add Episode to List...</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="Age">Age</string>
   <string Field="AirDate">Air Date</string>
@@ -79,6 +82,7 @@
   <string Field="GettingFriendsList">Getting Friends List</string>
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
+  <string Field="GettingLists">Getting Lists</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
   <string Field="GettingShouts">Getting Shouts</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
@@ -106,6 +110,7 @@
   <!-- L -->
   <string Field="Location">Location</string>
   <string Field="Layout">Layout</string>
+  <string Field="Lists">Lists</string>
   <string Field="Love">Love</string>
   <string Field="Loved">Loved</string>
   <string Field="LoginExistingAccount">Login to Existing Account...</string>
@@ -140,6 +145,7 @@
   <string Field="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string Field="NoSearchResultsFound">No Search Results Found</string>
   <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
+  <string Field="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -182,6 +188,7 @@
   <string Field="Season">Season</string>
   <string Field="SearchForFriend">Search for Friend...</string>
   <string Field="SendFriendRequest">Send friend request to {0}?</string>
+  <string Field="SelectLists">Select Lists</string>
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>

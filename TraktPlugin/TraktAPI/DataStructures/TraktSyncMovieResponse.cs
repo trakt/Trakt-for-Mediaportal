@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktMovieSyncResponse : TraktResponse
+    public class TraktSyncResponse : TraktResponse
     {
         [DataMember(Name = "inserted")]
         public string Inserted { get; set; }

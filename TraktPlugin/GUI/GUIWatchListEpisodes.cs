@@ -49,6 +49,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             RemoveFromWatchList,
+            AddToList,
             Trailers,
             Shouts,
             ChangeLayout
@@ -228,6 +229,11 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Add to Custom List
+            listItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToList;
+
             // Shouts
             listItem = new GUIListItem(Translation.Shouts + "...");
             dlg.Add(listItem);
@@ -267,6 +273,10 @@ namespace TraktPlugin.GUI
                         GUIWindowManager.ShowPreviousWindow();
                         return;
                     }
+                    break;
+
+                case ((int)ContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveEpisodeInUserList(selectedSeries.Title, selectedSeries.Year.ToString(), selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString(), selectedSeries.Tvdb, false);
                     break;
 
                 #if MP12

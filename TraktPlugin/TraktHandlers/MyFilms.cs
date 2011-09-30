@@ -200,7 +200,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (moviesToSync.Count > 0)
             {
-                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
+                TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                 BasicHandler.InsertSkippedMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
@@ -212,7 +212,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (watchedMoviesToSync.Count > 0)
             {
-                TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
+                TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                 BasicHandler.InsertSkippedMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
@@ -229,7 +229,7 @@ namespace TraktPlugin.TraktHandlers
                 if (NoLongerInOurCollection.Count > 0)
                 {
                     //Then remove from library
-                    TraktMovieSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
+                    TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
                     TraktAPI.TraktAPI.LogTraktResponse(response);
                 }                
             }

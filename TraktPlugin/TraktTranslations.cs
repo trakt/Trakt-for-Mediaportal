@@ -187,9 +187,12 @@ namespace TraktPlugin.GUI
         public static string AccountDialog = "Account Dialog";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
+        public static string AddToList = "Add to List...";
         public static string AddToWatchList = "Add to Watch List";
         public static string AddShowToWatchList = "Add Show to Watch List";
         public static string AddEpisodeToWatchList = "Add Episode to Watch List";
+        public static string AddShowToList = "Add Show to List...";
+        public static string AddEpisodeToList = "Add Episode to List...";
         public static string AddThisItemToWatchList = "Add this item to your watch list?";
         public static string Age = "Age";
         public static string AirDate = "Air Date";
@@ -259,6 +262,7 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsRequests = "Getting Friends Requests";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
+        public static string GettingLists = "Getting Lists";
         public static string GettingSearchResults = "Getting Search Results";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
@@ -286,6 +290,7 @@ namespace TraktPlugin.GUI
         // L
         public static string Location = "Location";
         public static string Layout = "Layout";
+        public static string Lists = "Lists";
         public static string Love = "Love";
         public static string Loved = "Loved";
         public static string LoginExistingAccount = "Login to Existing Account...";
@@ -320,6 +325,7 @@ namespace TraktPlugin.GUI
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
         public static string NoSearchResultsFound = "No Search Results Found";
         public static string NoMovingPictures = "Moving Pictures is Not Installed or Enabled";
+        public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
 
         // O
         public static string OK = "OK";
@@ -362,6 +368,7 @@ namespace TraktPlugin.GUI
         public static string Season = "Season";
         public static string SearchForFriend = "Search for Friend...";
         public static string SendFriendRequest = "Send friend request to {0}?";
+        public static string SelectLists = "Select Lists";
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";

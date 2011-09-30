@@ -61,6 +61,7 @@ namespace TraktPlugin.GUI
             MarkAsUnWatched,
             AddToWatchList,
             RemoveFromWatchList,
+            AddToList,
             AddToLibrary,
             RemoveFromLibrary,
             Rate,
@@ -231,6 +232,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
+            // Add to Custom list
+            listItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToList;
+
             // Add to Library
             // Don't allow if it will be removed again on next sync
             // movie could be part of a DVD collection
@@ -311,7 +317,11 @@ namespace TraktPlugin.GUI
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
-                
+
+                case ((int)ContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);                    
+                    break;
+
                 case ((int)ContextMenuItem.AddToLibrary):
                     AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;

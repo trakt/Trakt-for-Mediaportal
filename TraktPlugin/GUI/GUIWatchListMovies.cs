@@ -59,6 +59,7 @@ namespace TraktPlugin.GUI
         {
             RemoveFromWatchList,
             AddToWatchList,
+            AddToList,
             ChangeLayout,
             MarkAsWatched,
             MarkAsUnWatched,
@@ -233,6 +234,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
             }
 
+            // Add to Custom List
+            listItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToList;
+
             // Mark As Watched
             if (!selectedMovie.Watched)
             {
@@ -377,6 +383,10 @@ namespace TraktPlugin.GUI
                         GUIWindowManager.ShowPreviousWindow();
                         return;                    
                     }
+                    break;
+
+                case ((int)ContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
                     break;
 
                 #if MP12

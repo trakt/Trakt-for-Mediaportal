@@ -224,7 +224,7 @@ namespace TraktPlugin.TraktHandlers
         /// Saves any movies that return as 'skipped' from library sync calls
         /// </summary>
         /// <param name="response">Trakt Sync Movie Response</param>
-        public static void InsertSkippedMovies(TraktMovieSyncResponse response)
+        public static void InsertSkippedMovies(TraktSyncResponse response)
         {
             if (response == null || response.SkippedMovies == null) return;
 

@@ -167,13 +167,13 @@ namespace TraktPlugin.TraktAPI
         /// <param name="syncData">The sync data to send</param>
         /// <param name="mode">The sync mode to use</param>
         /// <returns>The response from trakt</returns>
-        public static TraktMovieSyncResponse SyncMovieLibrary(TraktMovieSync syncData, TraktSyncModes mode)
+        public static TraktSyncResponse SyncMovieLibrary(TraktMovieSync syncData, TraktSyncModes mode)
         {
             // check that we have everything we need
             // server can accept title/year if imdb id is not supplied
             if (syncData == null || syncData.MovieList.Count == 0)
             {
-                TraktMovieSyncResponse error = new TraktMovieSyncResponse
+                TraktSyncResponse error = new TraktSyncResponse
                 {
                     Error = "Not enough information to send to server",
                     Status = "failure"
@@ -188,7 +188,7 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Debug("Response: {0}", response);
 
             // return success or failure
-            return response.FromJSON<TraktMovieSyncResponse>();
+            return response.FromJSON<TraktSyncResponse>();
         }
 
         /// <summary>
@@ -644,16 +644,16 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktResponse>();
         }
 
-        public static TraktResponse ListAddItems(TraktList list)
+        public static TraktSyncResponse ListAddItems(TraktList list)
         {
             string response = Transmit(TraktURIs.ListItemsAdd, list.ToJSON());
-            return response.FromJSON<TraktResponse>();
+            return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktResponse ListDeleteItems(TraktList list)
+        public static TraktSyncResponse ListDeleteItems(TraktList list)
         {
             string response = Transmit(TraktURIs.ListItemsDelete, list.ToJSON());
-            return response.FromJSON<TraktResponse>();
+            return response.FromJSON<TraktSyncResponse>();
         }
 
         #endregion
@@ -906,10 +906,10 @@ namespace TraktPlugin.TraktAPI
                     else
                     {
                         // no message returned on movie sync success
-                        if ((response is TraktMovieSyncResponse))
+                        if ((response is TraktSyncResponse))
                         {
-                            string message = "Response: Movies Inserted: {0}, Movies Already Exist: {1}, Movies Skipped: {2}";
-                            TraktLogger.Info(message, (response as TraktMovieSyncResponse).Inserted, (response as TraktMovieSyncResponse).AlreadyExist, (response as TraktMovieSyncResponse).Skipped);
+                            string message = "Response: Items Inserted: {0}, Items Already Exist: {1}, Items Skipped: {2}";
+                            TraktLogger.Info(message, (response as TraktSyncResponse).Inserted, (response as TraktSyncResponse).AlreadyExist, (response as TraktSyncResponse).Skipped);
                         }
                     }
                 }

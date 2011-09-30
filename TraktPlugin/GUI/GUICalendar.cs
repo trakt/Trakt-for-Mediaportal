@@ -60,6 +60,8 @@ namespace TraktPlugin.GUI
             StartDate,
             MarkAsWatched,
             MarkAsUnWatched,
+            AddShowToList,
+            AddEpisodeToList,
             AddShowToWatchList,
             AddEpisodeToWatchList,
             RemoveShowFromWatchList,
@@ -395,6 +397,21 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveEpisodeFromWatchList;
             }
 
+            // Add Show to Custom List
+            listItem = new GUIListItem(Translation.AddShowToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddShowToList;
+
+            // Add Episode to Custom List
+            listItem = new GUIListItem(Translation.AddEpisodeToList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddEpisodeToList;
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Shouts;
+
             // Add/Remove Libary
             if (!episodeItem.Episode.InCollection)
             {
@@ -408,11 +425,6 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
             }
-
-            // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Shouts;
 
             #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
@@ -514,6 +526,14 @@ namespace TraktPlugin.GUI
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.AddEpisodeToList):
+                    TraktHelper.AddRemoveEpisodeInUserList(episodeItem.Show.Title, episodeItem.Show.Year.ToString(), episodeItem.Episode.Season.ToString(), episodeItem.Episode.Number.ToString(), episodeItem.Show.Tvdb, false);                    
+                    break;
+
+                case ((int)ContextMenuItem.AddShowToList):
+                    TraktHelper.AddRemoveShowInUserList(episodeItem.Show.Title, episodeItem.Show.Year.ToString(), episodeItem.Show.Tvdb, false);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):

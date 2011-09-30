@@ -195,6 +195,7 @@
     <Compile Include="TraktHandlers\MyFilms.cs" />
     <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />
+    <Compile Include="TraktLists.cs" />
     <Compile Include="TraktSkinSettings.cs" />
     <Compile Include="TraktTranslations.cs" />
     <Compile Include="GUI\GUITrending.cs" />

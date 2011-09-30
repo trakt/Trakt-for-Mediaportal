@@ -57,6 +57,7 @@ namespace TraktPlugin.GUI
             DeleteFriend,
             SearchFriend,
             AddFriend,
+            AddToList,
             Shouts
         }
 
@@ -420,6 +421,15 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Add to Custom List
+            if (selectedMovie != null || selectedEpisode != null)
+            {
+                listItem = new GUIListItem(Translation.AddToList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToList;
+                itemCount++;
+            }
+
             // Shouts
             if (ViewLevel == Views.WatchedHistory)
             {
@@ -471,6 +481,17 @@ namespace TraktPlugin.GUI
                         ShowTrailersMenu<TraktWatchedEpisode>(selectedEpisode);
                     break;
                 #endif
+
+                case ((int)ContextMenuItem.AddToList):
+                    if (selectedMovie != null)
+                    {
+                        TraktHelper.AddRemoveMovieInUserList(selectedMovie.Movie.Title, selectedMovie.Movie.Year, selectedMovie.Movie.Imdb, false);
+                    }
+                    else
+                    {
+                        TraktHelper.AddRemoveEpisodeInUserList(selectedEpisode.Show.Title, selectedEpisode.Show.Year.ToString(), selectedEpisode.Episode.Season.ToString(), selectedEpisode.Episode.Number.ToString(), selectedEpisode.Show.Tvdb, false);
+                    }
+                    break;
 
                 case ((int)ContextMenuItem.Shouts):
                     if (SelectedType == ViewType.EpisodeWatchHistory && selectedEpisode != null)
