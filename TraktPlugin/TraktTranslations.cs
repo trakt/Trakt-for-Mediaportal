@@ -290,6 +290,7 @@ namespace TraktPlugin.GUI
         // L
         public static string Location = "Location";
         public static string Layout = "Layout";
+        public static string List = "List";
         public static string Lists = "Lists";
         public static string Love = "Love";
         public static string Loved = "Loved";
@@ -326,6 +327,7 @@ namespace TraktPlugin.GUI
         public static string NoSearchResultsFound = "No Search Results Found";
         public static string NoMovingPictures = "Moving Pictures is Not Installed or Enabled";
         public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
+        public static string NoUserLists = "{0} has not created any lists!";
 
         // O
         public static string OK = "OK";

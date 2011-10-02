@@ -27,6 +27,8 @@ namespace TraktPlugin.GUI
         SettingsAccount = 87272,
         SettingsPlugins = 87273,
         SettingsGeneral = 87274,
+        Lists = 87275,
+        ListItems = 87276,
         Shouts = 87280
     }
 

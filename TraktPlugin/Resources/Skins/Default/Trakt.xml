@@ -68,13 +68,21 @@
 				<width>250</width>
         <id>6</id>
 				<hyperlink>87267</hyperlink>
-        <label>#Trakt.Translation.WatchList.Label</label>        
+        <label>#Trakt.Translation.WatchList.Label</label>
+      </control>
+			<control>
+        <description>Lists</description>
+        <type>button</type>
+				<width>250</width>
+        <id>7</id>
+				<hyperlink>87275</hyperlink>
+        <label>#Trakt.Translation.Lists.Label</label>
       </control>
       <control>
         <description>Settings</description>
         <type>button</type>
 				<width>250</width>
-        <id>7</id>
+        <id>8</id>
         <label>#Trakt.Translation.Settings.Label</label>
 				<hyperlink>87271</hyperlink>
 				<ondown>99</ondown>
@@ -85,8 +93,8 @@
 				<width>250</width>
         <id>99</id>
         <label>#MPEI.Translation.Update.Label</label>
-				<ondown>7</ondown>
-        <onup>2</onup>
+				<ondown>2</ondown>
+        <onup>8</onup>
         <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
       </control>
 		</control>
@@ -95,7 +103,7 @@
       <type>image</type>
       <id>0</id>
       <posX>290</posX>
-      <posY>377</posY>
+      <posY>405</posY>
       <width>28</width>
       <height>28</height>
       <texture>isupdate.png</texture>

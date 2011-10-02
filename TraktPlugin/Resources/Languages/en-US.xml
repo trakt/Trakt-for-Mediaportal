@@ -110,6 +110,7 @@
   <!-- L -->
   <string Field="Location">Location</string>
   <string Field="Layout">Layout</string>
+  <string Field="List">List</string>
   <string Field="Lists">Lists</string>
   <string Field="Love">Love</string>
   <string Field="Loved">Loved</string>
@@ -146,6 +147,7 @@
   <string Field="NoSearchResultsFound">No Search Results Found</string>
   <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
   <string Field="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
+  <string Field="NoUserLists">{0} has not created any lists!</string>
   
   <!-- O -->
   <string Field="OK">OK</string>

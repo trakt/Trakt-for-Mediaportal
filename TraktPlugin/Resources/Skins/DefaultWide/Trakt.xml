@@ -68,13 +68,21 @@
 				<width>350</width>
         <id>6</id>
 				<hyperlink>87267</hyperlink>
-        <label>#Trakt.Translation.WatchList.Label</label>        
+        <label>#Trakt.Translation.WatchList.Label</label>
+      </control>
+			<control>
+        <description>Lists</description>
+        <type>button</type>
+				<width>350</width>
+        <id>7</id>
+				<hyperlink>87275</hyperlink>
+        <label>#Trakt.Translation.Lists.Label</label>
       </control>
       <control>
         <description>Settings</description>
         <type>button</type>
 				<width>350</width>
-        <id>7</id>
+        <id>8</id>
         <label>#Trakt.Translation.Settings.Label</label>
 				<hyperlink>87271</hyperlink>
 				<ondown>99</ondown>
@@ -95,7 +103,7 @@
       <type>image</type>
       <id>0</id>
       <posX>500</posX>
-      <posY>482</posY>
+      <posY>527</posY>
       <width>36</width>
       <height>36</height>
       <texture>isupdate.png</texture>

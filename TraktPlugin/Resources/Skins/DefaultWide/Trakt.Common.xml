@@ -70,10 +70,19 @@
         <hyperlink>87267</hyperlink>
         <onright>#defaultcontrol</onright>
       </control>
+			<control>
+        <description>Lists</description>
+        <type>button</type>
+        <id>9996</id>
+				<width>350</width>
+        <label>#Trakt.Translation.Lists.Label</label>
+        <hyperlink>87275</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
       <control>
         <description>Settings</description>
         <type>button</type>
-        <id>9996</id>
+        <id>9997</id>
 				<width>350</width>
         <label>#Trakt.Translation.Settings.Label</label>
         <hyperlink>87271</hyperlink>
