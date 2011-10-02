@@ -225,6 +225,7 @@ namespace TraktPlugin.GUI
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
         public static string ConfirmDeleteList = "Are you sure you want to\ndelete this list?";
+        public static string CopyList = "Copy List...";        
 
         // D
         public static string DateToday = "Today";

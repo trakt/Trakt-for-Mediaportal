@@ -165,16 +165,25 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Delete;
             }
-           
-            //listItem = new GUIListItem(Translation.CopyList);
-            //dlg.Add(listItem);
-            //listItem.ItemId = (int)ContextMenuItem.Copy;
-           
+            else
+            {
+                // copy a friends list
+                listItem = new GUIListItem(Translation.CopyList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Copy;
+            }
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
 
-            TraktList currentList = new TraktList();
+            TraktList currentList = new TraktList
+            {
+                Name = selectedList.Name,
+                Description = selectedList.Description,
+                Privacy = selectedList.Privacy,
+                Slug = selectedList.Slug
+            };
 
             switch (dlg.SelectedId)
             {
@@ -197,15 +206,7 @@ namespace TraktPlugin.GUI
                     DeleteList(selectedList);
                     break;
 
-                case ((int)ContextMenuItem.Edit):
-                    currentList = new TraktList
-                    {
-                        Name = selectedList.Name,
-                        Description = selectedList.Description,
-                        Privacy = selectedList.Privacy,
-                        Slug = selectedList.Slug
-                    };
-
+                case ((int)ContextMenuItem.Edit):                    
                     if (TraktLists.GetListDetailsFromUser(ref currentList))
                     {
                         TraktLogger.Info("Editing list '{0}'", currentList.Slug);
@@ -214,6 +215,10 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Copy):
+                    if (TraktLists.GetListDetailsFromUser(ref currentList))
+                    {
+                        CopyList(selectedList, currentList);
+                    }
                     break;
 
                 default:
@@ -226,6 +231,69 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void CopyList(TraktUserList sourceList, TraktList newList)
+        {
+            KeyValuePair<TraktUserList, TraktList> copyPair = new KeyValuePair<TraktUserList, TraktList>(sourceList, newList);
+
+            Thread copyThread = new Thread(delegate(object obj)
+            {
+                KeyValuePair<TraktUserList, TraktList> threadObj = (KeyValuePair<TraktUserList, TraktList>)obj;
+
+                // first create new list
+                TraktLogger.Info("Creating new '{0}' list '{1}'", threadObj.Value.Privacy, threadObj.Value.Name);
+                TraktResponse response = TraktAPI.TraktAPI.ListAdd(threadObj.Value);
+                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                if (response.Status == "success")
+                {
+                    // get items from other list
+                    TraktUserList userList = TraktAPI.TraktAPI.GetUserList(CurrentUser, threadObj.Key.Slug);
+                    // copy items to new list
+                    List<TraktListItem> items = new List<TraktListItem>();
+                    foreach (var item in userList.Items)
+                    {
+                        TraktListItem listItem = new TraktListItem();
+                        listItem.Type = item.Type;                        
+
+                        switch (item.Type)
+                        {
+                            case "movie":
+                                listItem.Title = item.Movie.Title;
+                                listItem.Year = Convert.ToInt32(item.Movie.Year);
+                                listItem.ImdbId = item.Movie.Imdb;
+                                break;
+                            case "show":
+                                listItem.Title = item.Show.Title;
+                                listItem.Year = item.Show.Year;
+                                listItem.TvdbId = item.Show.Tvdb;
+                                break;
+                            case "season":
+                                listItem.Title = item.Show.Title;
+                                listItem.Year = item.Show.Year;
+                                listItem.TvdbId = item.Show.Tvdb;
+                                listItem.Season = Convert.ToInt32(item.SeasonNumber);
+                                break;
+                            case "episode":
+                                listItem.Title = item.Show.Title;
+                                listItem.Year = item.Show.Year;
+                                listItem.TvdbId = item.Show.Tvdb;
+                                listItem.Season = item.Episode.Season;
+                                listItem.Episode = item.Episode.Number;
+                                break;
+                        }
+                        items.Add(listItem);
+                    }
+                    threadObj.Value.Items = items;
+                    // add items to the list
+                    TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(threadObj.Value));
+                }
+            })
+            {
+                Name = "Copy List",
+                IsBackground = true
+            };
+            copyThread.Start(copyPair);
+        }
 
         private void DeleteList(TraktUserList list)
         {

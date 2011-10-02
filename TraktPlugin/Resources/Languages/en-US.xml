@@ -46,6 +46,7 @@
   <string Field="CreatingList">Creating List</string>
   <string Field="CreateList">Create a new List...</string>
   <string Field="ConfirmDeleteList">Are you sure you want to\ndelete this list?</string>
+  <string Field="CopyList">Copy List...</string>
   
   <!-- D -->
   <string Field="DateToday">Today</string>
