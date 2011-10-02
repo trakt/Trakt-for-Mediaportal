@@ -43,6 +43,9 @@
   <string Field="CreateMovingPicturesFilters">Create Moving Pictures Filters</string>
   <string Field="CreatingCategories">Creating Categories</string>
   <string Field="CreatingFilters">Creating Filters</string>
+  <string Field="CreatingList">Creating List</string>
+  <string Field="CreateList">Create a new List...</string>
+  <string Field="ConfirmDeleteList">Are you sure you want to\ndelete this list?</string>
   
   <!-- D -->
   <string Field="DateToday">Today</string>
@@ -51,6 +54,8 @@
   <string Field="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string Field="DateOneMonthAgo">1 Month Ago</string>
   <string Field="Deny">Deny</string>
+  <string Field="DeleteList">Delete List</string>
+  <string Field="DeletingList">Deleting List</string>
   <string Field="DeleteFriend">Delete Friend</string>
   <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
   <string Field="DisconnectAccount">Disconnect Account: {0}</string>
@@ -59,6 +64,8 @@
   <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
   
   <!-- E -->
+  <string Field="EditList">Edit List...</string>
+  <string Field="EditingList">Editing List</string>
   <string Field="Email">Email</string>
   <string Field="Episode">Episode</string>
   <string Field="Episodes">Episodes</string>
@@ -117,6 +124,7 @@
   <string Field="LoginExistingAccount">Login to Existing Account...</string>
   <string Field="LoggedIn">Logged In</string>
   <string Field="Login">Login</string>
+  <string Field="ListNameAlreadyExists">List with this name already exists!</string>
   
   <!-- M -->
   <string Field="MarkAsWatched">Mark as Watched</string>
@@ -161,6 +169,12 @@
   <string Field="PersonWatching">1 Person Watching</string>
   <string Field="PeopleWatching">{0} People Watching</string>
   <string Field="Plugins">Plugins</string>
+  <string Field="Public">Public</string>
+  <string Field="Private">Private</string>
+  <string Field="Privacy">Privacy</string>
+  <string Field="PrivacyPublic">Anyone can view this list</string>
+  <string Field="PrivacyFriends">Only friends can view this list</string>
+  <string Field="PrivacyPrivate">Only you can view this list</string>
   
   <!-- R -->
   <string Field="Rate">Rate</string>

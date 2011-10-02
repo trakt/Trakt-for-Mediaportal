@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
 
@@ -49,10 +50,22 @@ namespace TraktPlugin
             {
                 if (!GUIUtils.ShowYesNoDialog(Translation.Lists, Translation.NoListsFound, true))
                 {
+                    // nothing to do, return
                     return null;
                 }
-                // TODO: Create a dialog to create a new list or edit an existing one
-                GUIUtils.ShowOKDialog(Translation.Lists, "Oops, not yet implemented!");
+                TraktList list = new TraktList();
+                if (TraktLists.GetListDetailsFromUser(ref list))
+                {
+                    TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
+                    TraktResponse response = TraktAPI.TraktAPI.ListAdd(list);
+                    TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                    if (response.Status == "success")
+                    {
+                        ClearCache(TraktSettings.Username);
+                        return new List<string> { list.Name.ToSlug() };
+                    }
+                }
+                  return null;
             }
 
             List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.SelectLists, GetMultiSelectItems(lists));
@@ -66,9 +79,58 @@ namespace TraktPlugin
             return slugs;
         }
 
+        /// <summary>
+        /// Get all details needed to create a new list or edit existing list
+        /// </summary>
+        /// <param name="list">returns list details</param>
+        /// <returns>true if list details completed</returns>
+        public static bool GetListDetailsFromUser(ref TraktList list)
+        {
+            list.UserName = TraktSettings.Username;
+            list.Password = TraktSettings.Password;
+
+            bool editing = !string.IsNullOrEmpty(list.Slug);
+
+            // Show Keyboard for Name of list
+            string name = editing ? list.Name : string.Empty;
+            if (!GUIUtils.GetStringFromKeyboard(ref name)) return false;
+            if ((list.Name = name) == string.Empty) return false;            
+
+            // Skip Description and get Privacy...this requires a custom dialog as
+            // virtual keyboard does not allow very much text for longer descriptions.
+            // We may create a custom dialog for this in future
+            List<GUIListItem> items = new List<GUIListItem>();
+            GUIListItem item = new GUIListItem();
+            int selectedItem = 0;
+
+            // Public
+            item = new GUIListItem { Label = Translation.PrivacyPublic, Label2 = Translation.Public };
+            if (list.Privacy == "public") { selectedItem = 0; item.Selected = true; }
+            items.Add(item);
+            // Private
+            item = new GUIListItem { Label = Translation.PrivacyPrivate, Label2 = Translation.Private };
+            if (list.Privacy == "private") { selectedItem = 1; item.Selected = true; }
+            items.Add(item);
+            // Friends
+            item = new GUIListItem { Label = Translation.PrivacyFriends, Label2 = Translation.Friends };
+            if (list.Privacy == "friends") { selectedItem = 2; item.Selected = true; }
+            items.Add(item);
+
+            selectedItem = GUIUtils.ShowMenuDialog(Translation.Privacy, items, selectedItem);
+            if (selectedItem == -1) return false;
+
+            list.Privacy = GetPrivacyLevelFromTranslation(items[selectedItem].Label2);
+            return true;
+        }
+
+        public static void ClearCache(string username)
+        {
+            if (userLists.ContainsKey(username)) userLists.Remove(username);
+        }
+
         #endregion
 
-        #region Private Methods
+        #region Private\Internal Methods
 
         static List<MultiSelectionItem> GetMultiSelectItems(List<TraktUserList> lists)
         {
@@ -80,7 +142,7 @@ namespace TraktPlugin
                 {
                     ItemID = list.Slug,
                     ItemTitle = list.Name,
-                    ItemTitle2 = list.Privacy,
+                    ItemTitle2 = GetPrivacyLevelTranslation(list.Privacy),
                     Selected = false,
                     Tag = list
                 };
@@ -88,6 +150,20 @@ namespace TraktPlugin
             }
 
             return result;
+        }
+
+        internal static string GetPrivacyLevelFromTranslation(string translatedString)
+        {
+            if (translatedString == Translation.Private) return "private";
+            if (translatedString == Translation.Friends) return "friends";
+            return "public";
+        }
+
+        internal static string GetPrivacyLevelTranslation(string privacyLevel)
+        {
+            if (privacyLevel == "private") return Translation.Private;
+            if (privacyLevel == "friends") return Translation.Friends;
+            return Translation.Private;
         }
 
         #endregion

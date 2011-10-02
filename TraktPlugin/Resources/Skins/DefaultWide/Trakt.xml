@@ -108,6 +108,7 @@
       <height>36</height>
       <texture>isupdate.png</texture>
       <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
+      <animation effect="fade" time="200" delay="200">windowopen</animation>
     </control>
   </controls>
 </window>

@@ -3,7 +3,7 @@
   <id>87275</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
-  <define>#currentmodule:#Trakt.Translation.Lists.Label</define>
+  <define>#currentmodule:#Trakt.Translation.Lists.Label | #Trakt.Lists.CurrentUser</define>
   <controls>
 	<import>common.settings.xml</import>
 	<control>

@@ -222,7 +222,9 @@ namespace TraktPlugin.GUI
         public static string CreateMovingPicturesFilters = "Create Moving Pictures Filters";
         public static string CreatingCategories = "Creating Categories";
         public static string CreatingFilters = "Creating Filters";
-        
+        public static string CreatingList = "Creating List";
+        public static string CreateList = "Create a new List...";
+        public static string ConfirmDeleteList = "Are you sure you want to\ndelete this list?";
 
         // D
         public static string DateToday = "Today";
@@ -230,6 +232,8 @@ namespace TraktPlugin.GUI
         public static string DateOneWeekAgo = "1 Week Ago";
         public static string DateTwoWeeksAgo = "2 Weeks Ago";
         public static string DateOneMonthAgo = "1 Month Ago";
+        public static string DeleteList = "Delete List";
+        public static string DeletingList = "Deleting List";
         public static string Deny = "Deny";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
@@ -239,11 +243,13 @@ namespace TraktPlugin.GUI
         public static string DownloadFullSizeFanart = "Download Original Size Fanart";
 
         // E
+        public static string EditList = "Edit List...";
+        public static string EditingList = "Editing List";
         public static string Email = "Email";
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
-        public static string ErrorCalendar = "Error getting calendar.";
+        public static string ErrorCalendar = "Error getting calendar.";        
 
         // F
         public static string FirstAired = "First Aired";
@@ -297,6 +303,7 @@ namespace TraktPlugin.GUI
         public static string LoginExistingAccount = "Login to Existing Account...";
         public static string LoggedIn = "Logged In";
         public static string Login = "Login";
+        public static string ListNameAlreadyExists = "List with this name already exists!";
 
         // M
         public static string MarkAsWatched = "Mark as Watched";
@@ -341,6 +348,12 @@ namespace TraktPlugin.GUI
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
         public static string Plugins = "Plugins";
+        public static string Public = "Public";
+        public static string Private = "Private";
+        public static string Privacy = "Privacy";
+        public static string PrivacyPublic = "Anyone can view this list";
+        public static string PrivacyFriends = "Only friends can view this list";
+        public static string PrivacyPrivate = "Only you can view this list";
 
         // R
         public static string Rate = "Rate";
