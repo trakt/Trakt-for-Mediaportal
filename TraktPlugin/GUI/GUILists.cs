@@ -64,7 +64,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87275;
+                return (int)TraktGUIWindows.Lists;
             }
         }
 
@@ -75,11 +75,11 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
-            // Requires Login
-            if (!GUICommon.CheckLogin()) return;
-
             // Clear GUI Properties
             ClearProperties();
+
+            // Requires Login
+            if (!GUICommon.CheckLogin()) return;
 
             // Init Properties
             InitProperties();
@@ -108,7 +108,13 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
+                        GUIListItem selectedItem = this.Facade.SelectedListItem;
+                        if (selectedItem == null) return;                                                
+
                         // Load current selected list
+                        GUIListItems.CurrentList = (TraktUserList)selectedItem.TVTag;
+                        GUIListItems.CurrentUser = CurrentUser;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ListItems);
                     }
                     break;
 

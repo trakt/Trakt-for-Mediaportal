@@ -270,6 +270,7 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsRequests = "Getting Friends Requests";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingLists = "Getting Lists";
+        public static string GettingListItems = "Getting List Items";
         public static string GettingSearchResults = "Getting Search Results";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
@@ -287,6 +288,8 @@ namespace TraktPlugin.GUI
 
         // I
         public static string Inserted = "Inserted";
+        public static string Item = "Item";
+        public static string Items = "Items";
 
         // I
 
@@ -336,6 +339,7 @@ namespace TraktPlugin.GUI
         public static string NoMovingPictures = "Moving Pictures is Not Installed or Enabled";
         public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
         public static string NoUserLists = "{0} has not created any lists!";
+        public static string NoListItemsFound = "No items found in this list!";
 
         // O
         public static string OK = "OK";
@@ -376,6 +380,7 @@ namespace TraktPlugin.GUI
         public static string RemoveFromWatchList = "Remove from Watch List";
         public static string RemoveShowFromWatchList = "Remove Show from Watch List";
         public static string RemoveEpisodeFromWatchList = "Remove Episode from Watch List";
+        public static string RemoveFromList = "Remove from List...";
         public static string Runtime = "Runtime";
 
         // S

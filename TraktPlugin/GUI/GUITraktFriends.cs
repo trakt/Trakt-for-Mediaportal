@@ -184,14 +184,14 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
-            // Requires Login
-            if (!GUICommon.CheckLogin()) return;
-
             // Clear GUI properties
             ClearProperties();
 
+            // Requires Login
+            if (!GUICommon.CheckLogin()) return;
+
             // Initialize
-            InitProperties();            
+            InitProperties();
 
             // Load Last View
             switch (ViewLevel)

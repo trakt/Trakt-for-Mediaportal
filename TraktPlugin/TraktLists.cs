@@ -13,8 +13,8 @@ namespace TraktPlugin
         #region Variables
 
         static DateTime LastRequest = new DateTime();
-        static Dictionary<string, IEnumerable<TraktUserList>> userLists = new Dictionary<string, IEnumerable<TraktUserList>>();
-        static IEnumerable<TraktUserList> userList = null;
+        static Dictionary<string, IEnumerable<TraktUserList>> usersLists = new Dictionary<string, IEnumerable<TraktUserList>>();        
+        static IEnumerable<TraktUserList> userLists = null;        
 
         #endregion
 
@@ -29,14 +29,48 @@ namespace TraktPlugin
         /// </summary>
         public static IEnumerable<TraktUserList> GetListsForUser(string username)
         {
-            if (!userLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            if (!usersLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
-                userList = TraktAPI.TraktAPI.GetUserLists(username);
-                if (userLists.Keys.Contains(username)) userLists.Remove(username);
-                userLists.Add(username, userList);
+                userLists = TraktAPI.TraktAPI.GetUserLists(username);
+                if (usersLists.Keys.Contains(username)) usersLists.Remove(username);
+                int i = 0; // retain online sort order if we update listitems later
+                foreach (var list in userLists) { list.SortOrder = i++; }
+                usersLists.Add(username, userLists);
                 LastRequest = DateTime.UtcNow;
             }
-            return userLists[username];
+            return usersLists[username].OrderBy(s => s.SortOrder);
+        }
+
+        /// <summary> 
+        /// Get list for user
+        /// </summary>
+        public static TraktUserList GetListForUser(string username, string slug)
+        {
+            bool getUpdates = LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0));
+
+            IEnumerable<TraktUserList> lists = GetListsForUser(username);
+            TraktUserList list = lists.FirstOrDefault(l => l.Slug == slug);
+
+            // lists api doesn't return items so check if have them yet
+            if (list.Items == null || getUpdates)
+            {
+                // remove old list from cache
+                lists = lists.Where(l => l.Slug != slug);
+                
+                // remember sort order
+                int sortOrder = list.SortOrder;
+
+                // get list with list items               
+                list = TraktAPI.TraktAPI.GetUserList(username, slug);
+                list.SortOrder = sortOrder;
+
+                // update cached result
+                lists = lists.Concat(new[] { list });
+                usersLists[username] = lists;
+                LastRequest = DateTime.UtcNow;
+            }
+
+            return list;
         }
 
         /// <summary>
@@ -125,7 +159,7 @@ namespace TraktPlugin
 
         public static void ClearCache(string username)
         {
-            if (userLists.ContainsKey(username)) userLists.Remove(username);
+            if (usersLists.ContainsKey(username)) usersLists.Remove(username);
         }
 
         #endregion

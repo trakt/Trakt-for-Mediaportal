@@ -91,6 +91,7 @@
   <string Field="GettingFriendsRequests">Getting Friend Requests</string>
   <string Field="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string Field="GettingLists">Getting Lists</string>
+  <string Field="GettingListItems">Getting List Items</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
   <string Field="GettingShouts">Getting Shouts</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
@@ -108,6 +109,8 @@
   
   <!-- I -->
   <string Field="Inserted">Inserted</string>
+  <string Field="Item">Item</string>
+  <string Field="Items">Items</string>
   
   <!-- K -->
   
@@ -157,6 +160,7 @@
   <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
   <string Field="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
   <string Field="NoUserLists">{0} has not created any lists!</string>
+  <string Field="NoListItemsFound">No items found in this list!</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -197,6 +201,7 @@
   <string Field="RemoveFromWatchList">Remove from Watch List</string>
   <string Field="RemoveShowFromWatchList">Remove Show from Watch List</string>
   <string Field="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
+  <string Field="RemoveFromList">Remove from List...</string>
   <string Field="Runtime">Runtime</string>
   
   <!-- S -->

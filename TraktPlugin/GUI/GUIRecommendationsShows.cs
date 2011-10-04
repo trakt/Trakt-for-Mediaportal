@@ -119,11 +119,11 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
-            // Requires Login
-            if (!GUICommon.CheckLogin()) return;
-
             // Clear GUI Properties
             ClearProperties();
+
+            // Requires Login
+            if (!GUICommon.CheckLogin()) return;
 
             // Init Properties
             InitProperties();
