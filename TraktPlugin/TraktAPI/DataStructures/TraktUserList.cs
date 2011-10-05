@@ -36,6 +36,24 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "type")]
         public string Type { get; set; }
 
+        [DataMember(Name = "ratings")]
+        public TraktRatings Ratings { get; set; }
+
+        [DataMember(Name = "rating")]
+        public string Rating { get; set; }
+
+        [DataMember(Name = "plays")]
+        public int Plays { get; set; }
+
+        [DataMember(Name = "watched")]
+        public bool Watched { get; set; }
+
+        [DataMember(Name = "in_collection")]
+        public bool InCollection { get; set; }
+
+        [DataMember(Name = "in_watchlist")]
+        public bool InWatchList { get; set; }
+
         [DataMember(Name = "movie")]
         public TraktMovie Movie { get; set; }
 
@@ -72,228 +90,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
                 }
                 return retValue;
-            }
-        }
-
-        public TraktRatings Ratings
-        {
-            get
-            {
-                TraktRatings retValue = null;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.Ratings;
-                        break;
-
-                    case "show":
-                        retValue = Show.Ratings;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.Ratings;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.Ratings = value;
-                        break;
-
-                    case "show":
-                        Show.Ratings = value;
-                        break;
-
-                    case "episode":
-                        Episode.Ratings = value;
-                        break;
-                }
-            }
-        }
-
-        public string Rating
-        {
-            get
-            {
-                string retValue = string.Empty;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.Rating;
-                        break;
-                    
-                    case "show":
-                        retValue = Show.Rating;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.Rating;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.Rating = value;
-                        break;
-
-                    case "show":
-                        Show.Rating = value;
-                        break;
-
-                    case "episode":
-                        Episode.Rating = value;
-                        break;
-                }
-            }
-        }
-
-        public bool InWatchList
-        {
-            get
-            {
-                bool retValue = false;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.InWatchList;
-                        break;
-
-                    case "show":
-                        retValue = Show.InWatchList;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.InWatchList;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.InWatchList = value;
-                        break;
-
-                    case "show":
-                        Show.InWatchList = value;
-                        break;
-
-                    case "episode":
-                        Episode.InWatchList = value;
-                        break;
-                }
-            }
-        }
-
-        public bool InCollection
-        {
-            get
-            {
-                bool retValue = false;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.InCollection;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.InCollection;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.InCollection = value;
-                        break;
-
-                    case "episode":
-                        Episode.InCollection = value;
-                        break;
-                }
-            }
-        }
-
-        public int Plays
-        {
-            get
-            {
-                int retValue = 0;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.Plays;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.Plays;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.Plays = value;
-                        break;
-
-                    case "episode":
-                        Episode.Plays = value;
-                        break;
-                }
-            }
-        }
-
-        public bool Watched
-        {
-            get
-            {
-                bool retValue = false;
-
-                switch (Type)
-                {
-                    case "movie":
-                        retValue = Movie.Watched;
-                        break;
-
-                    case "episode":
-                        retValue = Episode.Watched;
-                        break;
-                }
-                return retValue;
-            }
-            set
-            {
-                switch (Type)
-                {
-                    case "movie":
-                        Movie.Watched = value;
-                        break;
-
-                    case "episode":
-                        Episode.Watched = value;
-                        break;
-                }
             }
         }
 
