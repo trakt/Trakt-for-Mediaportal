@@ -67,7 +67,8 @@ namespace TraktPlugin.GUI
             MovieWatchHistory,
             EpisodeWatchList,
             ShowWatchList,
-            MovieWatchList
+            MovieWatchList,
+            Lists
         }
 
         #endregion
@@ -303,6 +304,11 @@ namespace TraktPlugin.GUI
                                         case (ViewType.EpisodeWatchList):
                                             GUIWatchListEpisodes.CurrentUser = CurrentFriend.Username;
                                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
+                                            break;
+
+                                        case (ViewType.Lists):
+                                            GUILists.CurrentUser = CurrentFriend.Username;
+                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                                             break;
                                     }
                                 }
@@ -795,6 +801,14 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
+            item = new GUITraktUserListItem(Translation.Lists);
+            item.IconImage = CurrentFriend.AvatarFilename;
+            item.IconImageBig = CurrentFriend.AvatarFilename;
+            item.ThumbnailImage = CurrentFriend.AvatarFilename;
+            item.OnItemSelected += OnWatchedTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
             item = new GUITraktUserListItem(Translation.WatchListShows);
             item.IconImage = CurrentFriend.AvatarFilename;
             item.IconImageBig = CurrentFriend.AvatarFilename;
@@ -1267,8 +1281,10 @@ namespace TraktPlugin.GUI
                 SelectedType = ViewType.MovieWatchList;
             else if (item.Label == Translation.WatchListShows)
                 SelectedType = ViewType.ShowWatchList;
-            else
+            else if (item.Label == Translation.WatchListEpisodes)
                 SelectedType = ViewType.EpisodeWatchList;
+            else if (item.Label == Translation.Lists)
+                SelectedType = ViewType.Lists;
             
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);
