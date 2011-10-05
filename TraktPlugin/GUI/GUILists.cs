@@ -283,8 +283,8 @@ namespace TraktPlugin.GUI
                                 listItem.Title = item.Show.Title;
                                 listItem.Year = item.Show.Year;
                                 listItem.TvdbId = item.Show.Tvdb;
-                                listItem.Season = item.Episode.Season;
-                                listItem.Episode = item.Episode.Number;
+                                listItem.Season = Convert.ToInt32(item.SeasonNumber);
+                                listItem.Episode = Convert.ToInt32(item.EpisodeNumber);
                                 break;
                         }
                         items.Add(listItem);
@@ -292,6 +292,7 @@ namespace TraktPlugin.GUI
                     threadObj.Value.Items = items;
                     // add items to the list
                     TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(threadObj.Value));
+                    if (response.Status == "success") TraktLists.ClearCache(TraktSettings.Username);
                 }
             })
             {
