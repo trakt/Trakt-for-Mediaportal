@@ -197,7 +197,7 @@ namespace TraktPlugin
         {
             if (privacyLevel == "private") return Translation.Private;
             if (privacyLevel == "friends") return Translation.Friends;
-            return Translation.Private;
+            return Translation.Public;
         }
 
         #endregion
