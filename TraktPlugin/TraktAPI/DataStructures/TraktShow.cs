@@ -97,6 +97,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
             }
             string _poster = string.Empty;
 
+            [DataMember(Name = "season")]
+            public string Season { get; set; }
+
             #region INotifyPropertyChanged
 
             /// <summary>
@@ -121,6 +124,26 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 }
             }
             string _PosterImageFilename = string.Empty;
+
+            public string SeasonImageFilename
+            {
+                get
+                {
+                    string filename = string.Empty;
+                    if (!string.IsNullOrEmpty(Season) && Season.Contains("seasons"))
+                    {
+                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Season\Posters");
+                        Uri uri = new Uri(Season);
+                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
+                    }
+                    return filename;
+                }
+                set
+                {
+                    _SeasonImageFilename = value;
+                }
+            }
+            string _SeasonImageFilename = string.Empty;
 
             public string FanartImageFilename
             {

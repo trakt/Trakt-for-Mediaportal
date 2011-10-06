@@ -121,19 +121,25 @@ namespace TraktPlugin.GUI
             return "[Trakt:" + (filename + suffix).GetHashCode() + "]";
         }
 
+        public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType)
+        {
+            return DrawOverlayOnPoster(origPoster, mainType, ratingType, new Size());
+        }
+
         /// <summary>
         /// Draws a trakt overlay, library/seen/watchlist icon on a poster
         /// This is done in memory and wont touch the existing file
         /// </summary>
         /// <param name="origPoster">Filename of the untouched poster</param>
         /// <param name="type">Overlay type enum</param>
+        /// <param name="size">Size of returned image</param>
         /// <returns>An image with overlay added to poster</returns>
-        public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType)
+        public static Bitmap DrawOverlayOnPoster(string origPoster, MainOverlayImage mainType, RatingOverlayImage ratingType, Size size)
         {
             Image image = GUIImageHandler.LoadImage(origPoster);
             if (image == null) return null;
 
-            Bitmap poster = new Bitmap(image);
+            Bitmap poster = size.IsEmpty ? new Bitmap(image) : new Bitmap(image, size);
             Graphics gph = Graphics.FromImage(poster);
 
             string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));

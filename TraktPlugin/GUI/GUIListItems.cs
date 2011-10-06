@@ -1133,9 +1133,29 @@ namespace TraktPlugin.GUI
 
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
+                        bool seasonPoster = false;
 
-                        remoteThumb = item is TraktMovie.MovieImages ? ((TraktMovie.MovieImages)item).Poster : ((TraktShow.ShowImages)item).Poster;
-                        localThumb = item is TraktMovie.MovieImages ? ((TraktMovie.MovieImages)item).PosterImageFilename : ((TraktShow.ShowImages)item).PosterImageFilename;
+                        if (item is TraktMovie.MovieImages)
+                        {
+                            remoteThumb = ((TraktMovie.MovieImages)item).Poster;
+                            localThumb = ((TraktMovie.MovieImages)item).PosterImageFilename;
+                        }
+                        else
+                        {
+                            // check if season poster should be downloaded instead of series poster
+                            if (string.IsNullOrEmpty(((TraktShow.ShowImages)item).SeasonImageFilename))
+                            {
+                                seasonPoster = false;
+                                remoteThumb = ((TraktShow.ShowImages)item).Poster;
+                                localThumb = ((TraktShow.ShowImages)item).PosterImageFilename;
+                            }
+                            else
+                            {
+                                seasonPoster = true;
+                                remoteThumb = ((TraktShow.ShowImages)item).Season;
+                                localThumb = ((TraktShow.ShowImages)item).SeasonImageFilename;
+                            }
+                        }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
@@ -1145,7 +1165,7 @@ namespace TraktPlugin.GUI
                                 if (item is TraktMovie.MovieImages)
                                     ((TraktMovie.MovieImages)item).NotifyPropertyChanged("PosterImageFilename");
                                 else
-                                    ((TraktShow.ShowImages)item).NotifyPropertyChanged("PosterImageFilename");
+                                    ((TraktShow.ShowImages)item).NotifyPropertyChanged(seasonPoster ? "SeasonImageFilename" : "PosterImageFilename");
                             }
                         }
                         #endregion
@@ -1216,6 +1236,9 @@ namespace TraktPlugin.GUI
                         UpdateCurrentSelection();
                     if (s is TraktShow.ShowImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
+                    // re-size season posters to same as series/movie posters
+                    if (s is TraktShow.ShowImages && e.PropertyName == "SeasonImageFilename")
+                        SetImageToGui((s as TraktShow.ShowImages).SeasonImageFilename, new Size(300, 434));
                     if (s is TraktShow.ShowImages && e.PropertyName == "FanartImageFilename")
                         UpdateCurrentSelection();
                 };
@@ -1227,6 +1250,11 @@ namespace TraktPlugin.GUI
         /// </summary>
         /// <param name="imageFilePath">Filename of image</param>
         protected void SetImageToGui(string imageFilePath)
+        {
+            SetImageToGui(imageFilePath, new Size());
+        }
+
+        protected void SetImageToGui(string imageFilePath, Size size)
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
@@ -1258,7 +1286,7 @@ namespace TraktPlugin.GUI
             Image memoryImage = null;
             if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
             {
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay, size);
                 if (memoryImage == null) return;
 
                 // load texture into facade item
