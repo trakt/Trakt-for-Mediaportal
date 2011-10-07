@@ -125,6 +125,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
+            CurrentUser = null;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -381,7 +382,7 @@ namespace TraktPlugin.GUI
                     }
 
                     // Remove from view
-                    if (Facade.Count >= 1)
+                    if (Facade.Count > 1)
                     {
                         PreviousSelectedIndex = Facade.SelectedListItemIndex;
                         CurrentList.Items.Remove(userListItem);

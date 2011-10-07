@@ -118,6 +118,8 @@ namespace TraktPlugin.GUI
         /// <param name="index">index of the item</param>
         public static void SelectIndex(this GUIFacadeControl self, int index)
         {
+            if (index > self.Count) index = 0;
+            if (index == self.Count) index--;
             GUIMessage msg = new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, self.WindowId, 0, self.GetID, index, 0, null);
             GUIGraphicsContext.SendMessage(msg);
         }

@@ -74,6 +74,35 @@ namespace TraktPlugin
         }
 
         /// <summary>
+        /// Temporarily clears all items in a list
+        /// Next time list contents will be refereshed online
+        /// </summary>
+        public static void ClearItemsInList(string username, string slug)
+        {
+            // if we are adding to the current active list, then this is invalid and we dont care
+            // if we are removing from the current list, we already take care of this ourselves
+            // in all other cases we should clear
+            if (GUIListItems.CurrentList != null && GUIListItems.CurrentList.Slug == slug && GUIListItems.CurrentUser == username)
+                return;
+
+            IEnumerable<TraktUserList> lists = GetListsForUser(username);
+            TraktUserList list = lists.FirstOrDefault(l => l.Slug == slug);
+            
+            // nothing to do
+            if (list.Items == null) return;
+
+            // remove old list from cache
+            lists = lists.Where(l => l.Slug != slug);
+
+            // remove items from current list
+            list.Items = null;
+
+            // update cached result
+            lists = lists.Concat(new[] { list });
+            usersLists[username] = lists;
+        }
+
+        /// <summary>
         /// Get the slugs for each list selected by a user in the Multi-Select dialog
         /// </summary>
         /// <param name="username">username of user</param>

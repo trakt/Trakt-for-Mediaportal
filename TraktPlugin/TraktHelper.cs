@@ -317,6 +317,12 @@ namespace TraktPlugin
                         response = TraktAPI.TraktAPI.ListDeleteItems(list);
 
                     TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(response);
+                    if (response.Status == "success")
+                    {
+                        // clear current items in any lists
+                        // list items will be refreshed online if we try to request them
+                       TraktLists.ClearItemsInList(TraktSettings.Username, slug);
+                    }
                 }
             })
             {
