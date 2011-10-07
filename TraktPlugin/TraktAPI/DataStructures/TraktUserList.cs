@@ -36,9 +36,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "type")]
         public string Type { get; set; }
 
-        [DataMember(Name = "ratings")]
-        public TraktRatings Ratings { get; set; }
-
         [DataMember(Name = "rating")]
         public string Rating { get; set; }
 
@@ -90,6 +87,47 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
                 }
                 return retValue;
+            }
+        }
+
+        public TraktRatings Ratings
+        {
+            get
+            {
+                TraktRatings retValue = null;
+
+                switch (Type)
+                {
+                    case "movie":
+                        retValue = Movie.Ratings;
+                        break;
+
+                    case "show":
+                    case "season":
+                        retValue = Show.Ratings;
+                        break;
+                    case "episode":
+                        retValue = Episode.Ratings;
+                        break;
+                }
+                return retValue;
+            }
+            set
+            {
+                switch (Type)
+                {
+                    case "movie":
+                        Movie.Ratings = value;
+                        break;
+
+                    case "show":
+                    case "season":
+                        Show.Ratings = value;
+                        break;
+                    case "episode":
+                        Episode.Ratings = value;
+                        break;
+                }
             }
         }
 
