@@ -563,6 +563,7 @@ namespace TraktPlugin
         void GUIWindowManager_Receivers(GUIMessage message)
         {
             bool validWatchListItem = false;
+            bool validCustomListItem = false;
             bool validRateItem = false;
             bool validShoutItem = false;
             string title = string.Empty;
@@ -580,132 +581,100 @@ namespace TraktPlugin
                     switch (GUIWindowManager.ActiveWindow)
                     {
                         case (int)ExternalPluginWindows.OnlineVideos:
-                            #region Watch List Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
+                            #region WatchList/CustomList Button
+                            switch (message.SenderControlId)
                             {
-                                // Confirm we are in IMDB/iTunes Trailer Details view
-                                // This will give us enough information to send to trakt
-                                bool isDetails = GUIPropertyManager.GetProperty("#OnlineVideos.state").ToLowerInvariant() == "details";
-                                string siteUtil = GUIPropertyManager.GetProperty("#OnlineVideos.selectedSiteUtil").ToLowerInvariant();
-                                if (isDetails && (siteUtil == "imdb" || siteUtil == "itmovietrailers"))
-                                {
-                                    title = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Title").Trim();
-                                    year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year").Trim();
-                                    if (siteUtil == "imdb")
+                                case ((int)ExternalPluginControls.WatchList):
+                                case ((int)ExternalPluginControls.CustomList):
+                                    // Confirm we are in IMDB/iTunes Trailer Details view
+                                    // This will give us enough information to send to trakt
+                                    bool isDetails = GUIPropertyManager.GetProperty("#OnlineVideos.state").ToLowerInvariant() == "details";
+                                    string siteUtil = GUIPropertyManager.GetProperty("#OnlineVideos.selectedSiteUtil").ToLowerInvariant();
+                                    if (isDetails && (siteUtil == "imdb" || siteUtil == "itmovietrailers"))
                                     {
-                                        // IMDb site exposes IMDb ID, use this to get a better match on trakt
-                                        // this property is new, check for null in case user hasn't updated site
-                                        imdb = GUIPropertyManager.GetProperty("#OnlineVideos.Details.IMDbId");
-                                        if (imdb == null) imdb = string.Empty;
+                                        title = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Title").Trim();
+                                        year = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Year").Trim();
+                                        if (siteUtil == "imdb")
+                                        {
+                                            // IMDb site exposes IMDb ID, use this to get a better match on trakt
+                                            // this property is new, check for null in case user hasn't updated site
+                                            imdb = GUIPropertyManager.GetProperty("#OnlineVideos.Details.IMDbId");
+                                            if (imdb == null) imdb = string.Empty;
 
-                                        // could be a TV Show
-                                        type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
+                                            // could be a TV Show
+                                            type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
+                                        }
+                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
+                                        {
+                                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
+                                        }
+                                        // Return focus to details list now so we dont go in a loop
+                                        GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
                                     }
-                                    if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
-                                        validWatchListItem = true;
-
-                                    // Return focus to details list now so we dont go in a loop
-                                    GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
-                                }
+                                    break;
                             }
                             #endregion
                             break;
-
                         case (int)ExternalPluginWindows.VideoInfo:
-                            #region Rate Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
+                            #region Watchlist/CustomList/Rate/Shouts
+                            switch (message.SenderControlId)
                             {
-                                type = "movie";
-                                title = GUIPropertyManager.GetProperty("#title").Trim();
-                                year = GUIPropertyManager.GetProperty("#year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                case ((int)ExternalPluginControls.WatchList):
+                                case ((int)ExternalPluginControls.CustomList):
+                                case ((int)ExternalPluginControls.Rate):
+                                case ((int)ExternalPluginControls.Shouts):
+                                    type = "movie";
+                                    title = GUIPropertyManager.GetProperty("#title").Trim();
+                                    year = GUIPropertyManager.GetProperty("#year").Trim();
+                                    imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                    #if MP12
+                                    fanart = string.Empty;
+                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
+                                    #endif
 
-                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
-                                    validRateItem = true;
+                                    if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    {
+                                        if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
+                                    }
 
-                                // Set focus to Play Button now so we dont go in a loop
-                                GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
-                            }
-                            #endregion
-                            #region Shouts Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
-                            {
-                                type = "movie";
-                                title = GUIPropertyManager.GetProperty("#title").Trim();
-                                year = GUIPropertyManager.GetProperty("#year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
-                                #if !MP12
-                                fanart = string.Empty;
-                                #else
-                                fanart = string.Empty;
-                                MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
-                                #endif
-
-                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
-                                    validShoutItem = true;
-                            }
-                            #endregion
-                            #region Watch List Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
-                            {
-                                title = GUIPropertyManager.GetProperty("#title").Trim();
-                                year = GUIPropertyManager.GetProperty("#year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
-                                
-                                if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
-                                    validWatchListItem = true;
-
-                                // Set focus to Play Button now so we dont go in a loop
-                                GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
+                                    // Set focus to Play Button now so we dont go in a loop
+                                    GUIControl.FocusControl((int)ExternalPluginWindows.VideoInfo, 2);
+                                    break;
                             }
                             #endregion
                             break;
-
                         case (int)ExternalPluginWindows.MovingPictures:
-                            #region Rate Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
+                            #region WatchList/CustomList/Rate/Shouts
+                            switch (message.SenderControlId)
                             {
-                                type = "movie";
-                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
-                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+                                case ((int)ExternalPluginControls.WatchList):
+                                case ((int)ExternalPluginControls.CustomList):
+                                case ((int)ExternalPluginControls.Rate):
+                                case ((int)ExternalPluginControls.Shouts):
+                                    type = "movie";
+                                    title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
+                                    year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
+                                    imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+                                    fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
 
-                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
-                                    validRateItem = true;
+                                    if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    {
+                                        if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
+                                    }
 
-                                // Set focus to Play Button now so we dont go in a loop
-                                GUIControl.FocusControl((int)ExternalPluginWindows.MovingPictures, 6);
-                            }
-                            #endregion
-                            #region Shouts Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
-                            {
-                                type = "movie";
-                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
-                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
-                                fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
-
-                                if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
-                                    validShoutItem = true;
-                            }
-                            #endregion
-                            #region Watch List Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList)
-                            {
-                                title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
-                                year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
-                                imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
-                                
-                                if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
-                                    validWatchListItem = true;
-
-                                // Set focus to Play Button now so we dont go in a loop
-                                GUIControl.FocusControl((int)ExternalPluginWindows.MovingPictures, 6);
+                                    // Set focus to Play Button now so we dont go in a loop
+                                    GUIControl.FocusControl((int)ExternalPluginWindows.MovingPictures, 6);
+                                    break;
                             }
                             #endregion
                             break;
-
                         case (int)ExternalPluginWindows.TVSeries:
                             #region Rate Button
                             if (message.SenderControlId == (int)ExternalPluginControls.Rate)
@@ -796,6 +765,18 @@ namespace TraktPlugin
                         Name = "Adding to Watch List"
                     };
                     syncThread.Start();
+                }
+            }
+            #endregion
+
+            #region Add To Custom List
+            if (validCustomListItem)
+            {
+                TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Custom List", type, title, year, imdb);
+
+                if (type == "movie")
+                {
+                    TraktHelper.AddRemoveMovieInUserList(title, year, imdb, false);
                 }
             }
             #endregion
