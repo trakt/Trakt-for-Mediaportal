@@ -13,8 +13,8 @@
   <string Field="AddToWatchList">Add to Watch List</string>
   <string Field="AddShowToWatchList">Add Show to Watch List</string>
   <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
-  <string Field="AddShowToList">Add Show to List...</string>
-  <string Field="AddEpisodeToList">Add Episode to List...</string>
+  <string Field="AddShowToList">Add Show to List</string>
+  <string Field="AddEpisodeToList">Add Episode to List</string>
   <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string Field="Age">Age</string>
   <string Field="AirDate">Air Date</string>

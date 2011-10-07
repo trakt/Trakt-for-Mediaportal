@@ -217,7 +217,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
-            listItem = new GUIListItem(Translation.AddToList);
+            listItem = new GUIListItem(Translation.AddToList + "...");
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 

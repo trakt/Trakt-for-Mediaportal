@@ -187,12 +187,12 @@ namespace TraktPlugin.GUI
         public static string AccountDialog = "Account Dialog";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
-        public static string AddToList = "Add to List...";
+        public static string AddToList = "Add to List";
         public static string AddToWatchList = "Add to Watch List";
         public static string AddShowToWatchList = "Add Show to Watch List";
         public static string AddEpisodeToWatchList = "Add Episode to Watch List";
-        public static string AddShowToList = "Add Show to List...";
-        public static string AddEpisodeToList = "Add Episode to List...";
+        public static string AddShowToList = "Add Show to List";
+        public static string AddEpisodeToList = "Add Episode to List";
         public static string AddThisItemToWatchList = "Add this item to your watch list?";
         public static string Age = "Age";
         public static string AirDate = "Air Date";

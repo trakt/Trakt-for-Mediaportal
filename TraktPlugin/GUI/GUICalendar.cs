@@ -398,12 +398,12 @@ namespace TraktPlugin.GUI
             }
 
             // Add Show to Custom List
-            listItem = new GUIListItem(Translation.AddShowToList);
+            listItem = new GUIListItem(Translation.AddShowToList + "...");
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddShowToList;
 
             // Add Episode to Custom List
-            listItem = new GUIListItem(Translation.AddEpisodeToList);
+            listItem = new GUIListItem(Translation.AddEpisodeToList + "...");
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddEpisodeToList;
 
