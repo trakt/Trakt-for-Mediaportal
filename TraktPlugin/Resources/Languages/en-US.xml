@@ -45,7 +45,8 @@
   <string Field="CreatingFilters">Creating Filters</string>
   <string Field="CreatingList">Creating List</string>
   <string Field="CreateList">Create a new List...</string>
-  <string Field="ConfirmDeleteList">Are you sure you want to\ndelete this list?</string>
+  <string Field="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
+  <string Field="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
   <string Field="CopyList">Copy List...</string>
   
   <!-- D -->
@@ -56,6 +57,7 @@
   <string Field="DateOneMonthAgo">1 Month Ago</string>
   <string Field="Deny">Deny</string>
   <string Field="DeleteList">Delete List</string>
+  <string Field="DeleteListItem">Delete List Item</string>
   <string Field="DeletingList">Deleting List</string>
   <string Field="DeleteFriend">Delete Friend</string>
   <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>

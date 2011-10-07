@@ -287,6 +287,11 @@ namespace TraktPlugin
 
         #region Internal Helpers
 
+        internal static void AddRemoveItemInList(string slug, TraktListItem item, bool remove)
+        {
+            AddRemoveItemInList(new List<string> { slug }, new List<TraktListItem>() { item }, remove);
+        }
+
         internal static void AddRemoveItemInList(List<string> slugs, TraktListItem item, bool remove)
         {
             AddRemoveItemInList(slugs, new List<TraktListItem>() { item }, remove);

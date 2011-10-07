@@ -344,16 +344,62 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                case ((int)ContextMenuItem.RemoveFromList):
-                    bool remove = dlg.SelectedId == (int)ContextMenuItem.RemoveFromList;
                     if (SelectedType == TraktItemType.movie)
-                        TraktHelper.AddRemoveMovieInUserList(userListItem.Title, userListItem.Year, userListItem.ImdbId, remove);
+                        TraktHelper.AddRemoveMovieInUserList(userListItem.Title, userListItem.Year, userListItem.ImdbId, false);
                     else if (SelectedType == TraktItemType.show)
-                        TraktHelper.AddRemoveShowInUserList(userListItem.Title, userListItem.Year, userListItem.Show.Tvdb, remove);
+                        TraktHelper.AddRemoveShowInUserList(userListItem.Title, userListItem.Year, userListItem.Show.Tvdb, false);
                     else if (SelectedType == TraktItemType.season)
-                        TraktHelper.AddRemoveSeasonInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.Show.Tvdb, remove);
+                        TraktHelper.AddRemoveSeasonInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.Show.Tvdb, false);
                     else if (SelectedType == TraktItemType.episode)
-                        TraktHelper.AddRemoveEpisodeInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.EpisodeNumber, userListItem.Show.Tvdb, remove);
+                        TraktHelper.AddRemoveEpisodeInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.EpisodeNumber, userListItem.Show.Tvdb, false);
+                    break;
+
+                case ((int)ContextMenuItem.RemoveFromList):
+                    if (!GUIUtils.ShowYesNoDialog(Translation.DeleteListItem, Translation.ConfirmDeleteListItem)) break;
+
+                    // Only do remove from current list
+                    // We could do same as Add (ie remove from multile lists) but typically you only remove from the current list
+                    if (SelectedType == TraktItemType.movie)
+                    {
+                        TraktListItem item = new TraktListItem { Type = "movie", ImdbId = userListItem.ImdbId, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year) };
+                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
+                    }
+                    else if (SelectedType == TraktItemType.show)
+                    {
+                        TraktListItem item = new TraktListItem { Type = "show", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year) };
+                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
+                    }
+                    else if (SelectedType == TraktItemType.season)
+                    {
+                        TraktListItem item = new TraktListItem { Type = "season", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year), Season = Convert.ToInt32(userListItem.SeasonNumber) };
+                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
+                    }
+                    else if (SelectedType == TraktItemType.episode)
+                    {
+                        TraktListItem item = new TraktListItem { Type = "episode", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year), Season = Convert.ToInt32(userListItem.SeasonNumber), Episode = Convert.ToInt32(userListItem.EpisodeNumber) };
+                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
+                    }
+
+                    // Remove from view
+                    if (Facade.Count >= 1)
+                    {
+                        PreviousSelectedIndex = Facade.SelectedListItemIndex;
+                        CurrentList.Items.Remove(userListItem);
+                        SendListItemsToFacade(CurrentList);
+                    }
+                    else
+                    {
+                        CurrentList.Items.Remove(userListItem);
+
+                        // no more items left
+                        GUIControl.ClearControl(GetID, Facade.GetID);
+                        ClearProperties();
+                        GUIWindowManager.Process();
+
+                        // nothing left, exit
+                        GUIWindowManager.ShowPreviousWindow();
+                        return;
+                    }
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
@@ -810,8 +856,8 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    TraktUserList list = result as TraktUserList;
-                    SendListItemsToFacade(list);
+                    CurrentList = result as TraktUserList;
+                    SendListItemsToFacade(CurrentList);
                 }
             }, Translation.GettingListItems, true);
         }

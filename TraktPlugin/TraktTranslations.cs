@@ -224,7 +224,8 @@ namespace TraktPlugin.GUI
         public static string CreatingFilters = "Creating Filters";
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
-        public static string ConfirmDeleteList = "Are you sure you want to\ndelete this list?";
+        public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
+        public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
         public static string CopyList = "Copy List...";        
 
         // D
@@ -234,6 +235,7 @@ namespace TraktPlugin.GUI
         public static string DateTwoWeeksAgo = "2 Weeks Ago";
         public static string DateOneMonthAgo = "1 Month Ago";
         public static string DeleteList = "Delete List";
+        public static string DeleteListItem = "Delete List Item";
         public static string DeletingList = "Deleting List";
         public static string Deny = "Deny";
         public static string DeleteFriend = "Delete Friend";
