@@ -314,6 +314,7 @@ namespace TraktPlugin.GUI
         public static string MarkAsUnWatched = "Mark as UnWatched";
         public static string Movie = "Movie";
         public static string Movies = "Movies";
+        public static string MultiSelectDialog = "Multi-Select Dialog";
 
         // N
         public static string Name = "Name";

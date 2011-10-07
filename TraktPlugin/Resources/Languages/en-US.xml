@@ -106,6 +106,7 @@
   <string Field="Hate">Hate</string>
   <string Field="Hated">Hated</string>
   <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string Field="MultiSelectDialog">Multi-Select Dialog</string>
   
   <!-- I -->
   <string Field="Inserted">Inserted</string>

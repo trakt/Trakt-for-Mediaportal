@@ -53,6 +53,11 @@ namespace TraktPlugin.GUI
             }
         }
 
+        public override string GetModuleName()
+        {
+            return Translation.MultiSelectDialog;
+        }
+
         protected override void OnClicked(int controlId, GUIControl control, MediaPortal.GUI.Library.Action.ActionType actionType)
         {
             if (control == btnOK)
