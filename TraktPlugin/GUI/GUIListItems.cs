@@ -125,7 +125,6 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            CurrentUser = null;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -168,6 +167,10 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    CurrentUser = null;
+                    base.OnAction(action);
+                    break;
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
                     if (SelectedType == TraktItemType.movie)
