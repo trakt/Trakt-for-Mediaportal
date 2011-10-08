@@ -245,13 +245,16 @@ namespace TraktPlugin.GUI
             Thread copyThread = new Thread(delegate(object obj)
             {
                 KeyValuePair<TraktUserList, TraktList> threadObj = (KeyValuePair<TraktUserList, TraktList>)obj;
-
+                
                 // first create new list
-                TraktLogger.Info("Creating new '{0}' list '{1}'", threadObj.Value.Privacy, threadObj.Value.Name);
-                TraktResponse response = TraktAPI.TraktAPI.ListAdd(threadObj.Value);
+                TraktLogger.Info("Creating new '{0}' list '{1}'", threadObj.Value.Privacy, threadObj.Value.Name);                
+                TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(threadObj.Value);
                 TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
                 if (response.Status == "success")
                 {
+                    // update with offical slug
+                    threadObj.Value.Slug = response.Slug;
+
                     // get items from other list
                     TraktUserList userList = TraktAPI.TraktAPI.GetUserList(CurrentUser, threadObj.Key.Slug);
                     // copy items to new list
@@ -259,7 +262,7 @@ namespace TraktPlugin.GUI
                     foreach (var item in userList.Items)
                     {
                         TraktListItem listItem = new TraktListItem();
-                        listItem.Type = item.Type;                        
+                        listItem.Type = item.Type;
 
                         switch (item.Type)
                         {
@@ -290,6 +293,7 @@ namespace TraktPlugin.GUI
                         items.Add(listItem);
                     }
                     threadObj.Value.Items = items;
+                    
                     // add items to the list
                     TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(threadObj.Value));
                     if (response.Status == "success") TraktLists.ClearCache(TraktSettings.Username);

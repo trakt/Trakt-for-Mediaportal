@@ -120,12 +120,12 @@ namespace TraktPlugin
                 if (TraktLists.GetListDetailsFromUser(ref list))
                 {
                     TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
-                    TraktResponse response = TraktAPI.TraktAPI.ListAdd(list);
+                    TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(list);
                     TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
                         ClearCache(TraktSettings.Username);
-                        return new List<string> { list.Name.ToSlug() };
+                        return new List<string> { response.Slug };
                     }
                 }
                   return null;

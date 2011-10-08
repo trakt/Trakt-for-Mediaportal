@@ -180,6 +180,7 @@
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktAddListResponse.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFriend.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktList.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktListItem.cs" />

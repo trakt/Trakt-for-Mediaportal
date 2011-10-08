@@ -626,10 +626,10 @@ namespace TraktPlugin.TraktAPI
 
         #region Lists
 
-        public static TraktResponse ListAdd(TraktList list)
+        public static TraktAddListResponse ListAdd(TraktList list)
         {
             string response = Transmit(TraktURIs.ListAdd, list.ToJSON());
-            return response.FromJSON<TraktResponse>();
+            return response.FromJSON<TraktAddListResponse>();
         }
 
         public static TraktResponse ListDelete(TraktList list)
