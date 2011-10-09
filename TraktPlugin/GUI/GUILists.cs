@@ -240,23 +240,23 @@ namespace TraktPlugin.GUI
 
         private void CopyList(TraktUserList sourceList, TraktList newList)
         {
-            KeyValuePair<TraktUserList, TraktList> copyPair = new KeyValuePair<TraktUserList, TraktList>(sourceList, newList);
-
+            CopyList copyList = new CopyList { Username = CurrentUser, Source = sourceList, Destination = newList };
+            
             Thread copyThread = new Thread(delegate(object obj)
             {
-                KeyValuePair<TraktUserList, TraktList> threadObj = (KeyValuePair<TraktUserList, TraktList>)obj;
-                
+                CopyList copyParams = obj as CopyList;
+
                 // first create new list
-                TraktLogger.Info("Creating new '{0}' list '{1}'", threadObj.Value.Privacy, threadObj.Value.Name);                
-                TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(threadObj.Value);
+                TraktLogger.Info("Creating new '{0}' list '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
+                TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(copyParams.Destination);
                 TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
                 if (response.Status == "success")
                 {
                     // update with offical slug
-                    threadObj.Value.Slug = response.Slug;
+                    copyParams.Destination.Slug = response.Slug;
 
                     // get items from other list
-                    TraktUserList userList = TraktAPI.TraktAPI.GetUserList(CurrentUser, threadObj.Key.Slug);
+                    TraktUserList userList = TraktAPI.TraktAPI.GetUserList(copyParams.Username, copyParams.Source.Slug);
                     // copy items to new list
                     List<TraktListItem> items = new List<TraktListItem>();
                     foreach (var item in userList.Items)
@@ -292,10 +292,10 @@ namespace TraktPlugin.GUI
                         }
                         items.Add(listItem);
                     }
-                    threadObj.Value.Items = items;
+                    copyParams.Destination.Items = items;
                     
                     // add items to the list
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(threadObj.Value));
+                    TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(copyParams.Destination));
                     if (response.Status == "success") TraktLists.ClearCache(TraktSettings.Username);
                 }
             })
@@ -303,7 +303,7 @@ namespace TraktPlugin.GUI
                 Name = "Copy List",
                 IsBackground = true
             };
-            copyThread.Start(copyPair);
+            copyThread.Start(copyList);
         }
 
         private void DeleteList(TraktUserList list)
@@ -510,5 +510,12 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
+    }
+
+    internal class CopyList
+    {
+        public string Username { get; set; }
+        public TraktUserList Source { get; set; }
+        public TraktList Destination { get; set; }
     }
 }
