@@ -833,7 +833,11 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;            
+            Facade.SelectedListItemIndex = PreviousTypeSelectedIndex;
+
+            // Set Facade Layout
+            Facade.SetCurrentLayout("List");
+            GUIControl.FocusControl(GetID, Facade.GetID);
 
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
@@ -912,6 +916,10 @@ namespace TraktPlugin.GUI
 
             Facade.SelectedListItemIndex = PreviousEpisodeSelectedIndex;
 
+            // Set Facade Layout
+            Facade.SetCurrentLayout("List");
+            GUIControl.FocusControl(GetID, Facade.GetID);
+
             // Download Episode Thumbnails Async and set to facade
             GetImages<TraktImage>(showImages);
         }
@@ -960,6 +968,10 @@ namespace TraktPlugin.GUI
             }
 
             Facade.SelectedListItemIndex = PreviousMovieSelelectedIndex;
+
+            // Set Facade Layout
+            Facade.SetCurrentLayout("List");
+            GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download Movie Posters Async and set to facade
             GetImages<TraktMovie.MovieImages>(movieImages);

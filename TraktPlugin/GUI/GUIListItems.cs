@@ -930,6 +930,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.List.Name", CurrentList.Name);
             GUIUtils.SetProperty("#Trakt.List.Description", CurrentList.Description);
             GUIUtils.SetProperty("#Trakt.List.Privacy", CurrentList.Privacy);
+            GUIUtils.SetProperty("#Trakt.List.Url", CurrentList.Url);
 
             if (PreviousSlug != CurrentList.Slug)
                 PreviousSelectedIndex = 0;
