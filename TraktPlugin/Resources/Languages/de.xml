@@ -9,9 +9,12 @@
   <string Field="AccountDialog">Account-Dialog</string>
   <string Field="AddFriend">Freund hinzufügen...</string>
   <string Field="AddToLibrary">Zur Bibliothek hinzufügen</string>
+  <string Field="AddToList">Zu Trakt-Liste hinzufügen</string>
   <string Field="AddToWatchList">Zur Beobachtungsliste hinzufügen</string>
   <string Field="AddShowToWatchList">Serie zu Beaobachtungsliste hinzufügen</string>
   <string Field="AddEpisodeToWatchList">Episode zu Beaobachtungsliste hinzufügen</string>
+  <string Field="AddShowToList">Serie zu Trakt-Liste hinzufügen</string>
+  <string Field="AddEpisodeToList">Episode zu Trakt-Liste hinzufügen</string>
   <string Field="AddThisItemToWatchList">Dieses Element zur Beobachtungsliste hinzufügen?</string>
   <string Field="Age">Alter</string>
   <string Field="AirDate">Sendedatum</string>
@@ -30,12 +33,21 @@
   <string Field="CalendarPremieres">Premieren</string>
   <string Field="CalendarAllShows">Alle Serien</string>
   <string Field="Certification">Zertifizierung</string>
-  <string Field="ChangeView">Ansicht ändern...</string>
-  <string Field="ChangeLayout">Layout ändern...</string>
+  <string Field="ChangeView">Ansicht ändern</string>
+  <string Field="ChangeLayout">Layout ändern</string>
   <string Field="Create">Erstellen</string>
   <string Field="CreateAccount">Account erstellen</string>
-  <string Field="CreateNewAccount">Neuen Account erstellen...</string>
-  <string Field="CreatingAccount">Account wird erstellt...</string>
+  <string Field="CreateNewAccount">Neuen Account erstellen</string>
+  <string Field="CreatingAccount">Account wird erstellt</string>
+  <string Field="CreateMovingPicturesCategories">MovingPictures-Kategorien erstellen</string>
+  <string Field="CreateMovingPicturesFilters">MovingPictures-Filter erstellen</string>
+  <string Field="CreatingCategories">Erstelle Kategorien</string>
+  <string Field="CreatingFilters">Erstelle Filter</string>
+  <string Field="CreatingList">Erstelle Liste</string>
+  <string Field="CreateList">Neue Liste erstellen</string>
+  <string Field="ConfirmDeleteList">Soll diese Liste wirklich\ngelöscht werden?</string>
+  <string Field="ConfirmDeleteListItem">Soll dieses Element wirklich\naus der Liste gelöscht werden?</string>
+  <string Field="CopyList">Liste kopieren</string>
   
   <!-- D -->
   <string Field="DateToday">Heute</string>
@@ -44,6 +56,9 @@
   <string Field="DateTwoWeeksAgo">Vor 2 Wochen</string>
   <string Field="DateOneMonthAgo">Vor 1 Monat</string>
   <string Field="Deny">Ablehnen</string>
+  <string Field="DeleteList">Liste löschen</string>
+  <string Field="DeleteListItem">Listen-Element löschen</string>
+  <string Field="DeletingList">Liste wird gelöscht</string>
   <string Field="DeleteFriend">Freund löschen</string>
   <string Field="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
   <string Field="DisconnectAccount">Account trennen: {0}</string>
@@ -52,9 +67,11 @@
   <string Field="DownloadFullSizeFanart">Download Fanart in Originalgröße</string>
   
   <!-- E -->
+  <string Field="EditList">Liste bearbeiten</string>
+  <string Field="EditingList">Liste wird bearbeitet</string>
   <string Field="Email">Email</string>
   <string Field="Episode">Episode</string>
-  <string Field="Episodes">Episode</string>
+  <string Field="Episodes">Episoden</string>
   <string Field="Error">Trakt Fehler</string>
   <string Field="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
   
@@ -75,10 +92,12 @@
   <string Field="GettingFriendsList">Freund-Liste abrufen</string>
   <string Field="GettingFriendsRequests">Freund-Anfragen abrufen</string>
   <string Field="GettingFriendsWatchedHistory">Gesehene Filme von Freunden werden abgerufen</string>
+  <string Field="GettingLists">Listen werden abgerufen</string>
+  <string Field="GettingListItems">Listen-Elemente werden abgerufen</string>
   <string Field="GettingSearchResults">Suchergebnisse abrufen</string>
   <string Field="GettingShouts">Shouts abrufen</string>
-  <string Field="GettingTrendingMovies">Rufe Liste der populären Filme ab</string>
-  <string Field="GettingTrendingShows">Rufe Liste der populären Serien ab</string>
+  <string Field="GettingTrendingMovies">Liste der populären Filme wird abgerufen</string>
+  <string Field="GettingTrendingShows">Liste der populären Serien wird abgerufen</string>
   <string Field="GettingRecommendedMovies">Vorgeschlagene Filme werden abgerufen</string>
   <string Field="GettingRecommendedShows">Vorgeschlagene Serien werden abgerufen</string>
   <string Field="GettingWatchListMovies">Beobachtungsliste Filme wird abgerufen</string>
@@ -89,9 +108,12 @@
   <string Field="Hate">Hass</string>
   <string Field="Hated">Verhasst</string>
   <string Field="HideTVShowsInWatchlist">Keine TV-Serien in Beobachtungsliste anzeigen</string>
+  <string Field="MultiSelectDialog">Multi-Select Dialog</string>
   
   <!-- I -->
   <string Field="Inserted">Eingefügt</string>
+  <string Field="Item">Element</string>
+  <string Field="Items">Elemente</string>
   
   <!-- K -->
   
@@ -102,17 +124,20 @@
   <!-- L -->
   <string Field="Location">Ort</string>
   <string Field="Layout">Layout</string>
-  <string Field="Love">Liebe</string>
+  <string Field="List">Liste</string>
+  <string Field="Lists">Listen</string>
+  <string Field="Love">Lieben</string>
   <string Field="Loved">Geliebt</string>
   <string Field="LoginExistingAccount">Einloggen in bestehenden Account...</string>
   <string Field="LoggedIn">Eingeloggt</string>
   <string Field="Login">Einloggen</string>
+  <string Field="ListNameAlreadyExists">Es existiert bereits eine Liste mit diesem Namen!</string>
   
   <!-- M -->
   <string Field="MarkAsWatched">Als gesehen markieren</string>
   <string Field="Movie">Film</string>
   <string Field="Movies">Filme</string>
-  <string Field="NoMovingPictures">Moving Pictures ist nicht installiert oder aktiviert</string>
+  <string Field="NoMovingPictures">MovingPictures ist nicht installiert oder aktiviert</string>
   
   <!-- N -->
   <string Field="Name">Name</string>
@@ -135,6 +160,10 @@
   <string Field="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>
   <string Field="NotLoggedIn">Du kannst auf diese Funktion nicht zugreifen ohne\neingeloggt zu sein. Möchtest du nun einen Account erstellen oder dich \nin trakt.tv einloggen ?</string>
   <string Field="NoSearchResultsFound">Keine Suchergebnisse gefunden</string>
+  <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
+  <string Field="NoListsFound">Keine Listen gefunden.\nMöchten Sie jetzt eine Liste erstellen?</string>
+  <string Field="NoUserLists">{0} hat noch keine Listen erstellt!</string>
+  <string Field="NoListItemsFound">Diese Liste enthält keine Elemente!</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -148,41 +177,55 @@
   <string Field="PersonWatching">1 Person schaut gerade</string>
   <string Field="PeopleWatching">{0} Personen schauen</string>
   <string Field="Plugins">Plugins</string>
+  <string Field="Public">Öffentlich</string>
+  <string Field="Private">Privat</string>
+  <string Field="Privacy">Privatsphäre</string>
+  <string Field="PrivacyPublic">Jeder kann diese Liste ansehen</string>
+  <string Field="PrivacyFriends">Nur Freunde können diese Liste ansehen</string>
+  <string Field="PrivacyPrivate">Nur Sie können diese Liste ansehen</string>
   
   <!-- R -->
   <string Field="Rate">Bewerten</string>
   <string Field="Rated">Bewertet</string>
   <string Field="Rating">Bewertung</string>
-  <string Field="RateMovie">Film bewerten...</string>
-  <string Field="RateShow">Serie bewerten...</string>
-  <string Field="RateEpisode">Folge bewerten...</string>
+  <string Field="RateMovie">Film bewerten</string>
+  <string Field="RateShow">Serie bewerten</string>
+  <string Field="RateEpisode">Episode bewerten</string>
   <string Field="RateDialog">Trakt Bewertungs-Dialog</string>
   <string Field="RateHate">Billiger Mist :(</string>
   <string Field="RateLove">Totally Ninja!</string>
-  <string Field="RateHeading">Was denkst du?</string>
+  <string Field="RateHeading">Was denken Sie?</string>
   <string Field="Recommendations">Vorschläge</string>
   <string Field="RecommendedMovies">Vorgeschlagene Filme</string>
   <string Field="RecommendedShows">Vorgeschlagene Serien</string>
   <string Field="Released">Erschienen</string>
   <string Field="ReleaseDate">Erscheinungstermin</string>
-  <string Field="RemoveFromLibrary">Aus Bibliothek löschn</string>
+  <string Field="RemoveFromLibrary">Aus Bibliothek löschen</string>
   <string Field="RemoveFromWatchList">Aus Beobachtungsliste löschen</string>
   <string Field="RemoveShowFromWatchList">Serie aus Beobachtungsliste löschen</string>
   <string Field="RemoveEpisodeFromWatchList">Episode aus Beobachtungsliste löschen</string>
+  <string Field="RemoveFromList">Aus Liste löschen</string>
   <string Field="Runtime">Laufzeit</string>
   
   <!-- S -->
   <string Field="Score">Punktestand</string>
+  <string Field="Scrobble">Scrobble</string>
   <string Field="Season">Staffel</string>
-  <string Field="SearchForFriend">Search for Friend...</string>
-  <string Field="SendFriendRequest">Send friend request to {0}?</string>
+  <string Field="SearchForFriend">Nach Freund suchen</string>
+  <string Field="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
+  <string Field="SelectLists">Listen auswählen</string>
   <string Field="Series">Serie</string>
   <string Field="SeriesPlural">Serien</string>
   <string Field="Settings">Einstellungen</string>
   <string Field="Shout">Shout</string>
   <string Field="Shouts">Shouts</string>
-  <string Field="SigningIntoAccount">In Account einloggen...</string>
+  <string Field="ShowTVShowsInWatchlist">TV-Serien in Beobachtungsliste anzeigen</string>
+  <string Field="SkinPluginsOutOfDate">Fehler beim Laden des Fensters - \nIhr Skin ist veraltet!\nBeenden Sie MediaPortal und \nrufen Sie die Konfiguration auf,\num die Plugins Handler zu aktivieren.</string>
+  <string Field="SkinOutOfDate">Diese Funktion wird von Ihrem Skin nicht\nunterstützt. Bitte suchen Sie ein Update.</string>
+  <string Field="SigningIntoAccount">In Account einloggen</string>
   <string Field="StartDate">Start Date</string>
+  <string Field="Synchronize">Synchronisieren</string>
+  <string Field="SynchronizeNow">Neue Plugin Handler wurden hinzugefügt.\nMöchten Sie jetzt Ihre\nBibliotheken synchronisieren?</string>
   
   <!-- T -->
   <string Field="Timeout">Zeitüberschreitung</string>
@@ -205,6 +248,8 @@
   <string Field="Users">Benutzer</string>
   <string Field="Username">Benutzername</string>
   <string Field="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
+  <string Field="UpdatingCategories">Kategorien werden aktualisiert</string>
+  <string Field="UpdatingFilters">Filter werden aktualisiert</string>
   
   <!-- V -->
   <string Field="View">Ansehen</string>
@@ -217,11 +262,12 @@
   <string Field="WatchList">Beobachtungsliste</string>
   <string Field="Watched">Gesehen</string>
   <string Field="WatchedMovies">Gesehene Filme</string>
-  <string Field="WatchedShows">Gesehene Serien</string>  
+  <string Field="WatchedShows">Gesehene Serien</string>
+  <string Field="WatchedEpisodes">Gesehene Episoden</string>  
   <string Field="Watching">Schaut gerade</string>
   <string Field="WatchListMovies">Beobachtungsliste Filme</string>
   <string Field="WatchListShows">Beobachtungsliste Serien</string>
-  <string Field="WatchListEpisodes">Beobachtungsliste Folgen</string>  
+  <string Field="WatchListEpisodes">Beobachtungsliste Episoden</string>  
 
   <!-- Y -->
   <string Field="Year">Jahr</string>
