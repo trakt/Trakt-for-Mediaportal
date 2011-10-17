@@ -307,8 +307,16 @@ namespace TraktPlugin.GUI
                                             break;
 
                                         case (ViewType.Lists):
-                                            GUILists.CurrentUser = CurrentFriend.Username;
-                                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                                            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Lists.xml"))
+                                            {
+                                                // let user know they need to update skin or harass skin author
+                                                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                                            }
+                                            else
+                                            {
+                                                GUILists.CurrentUser = CurrentFriend.Username;
+                                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                                            }
                                             break;
                                     }
                                 }
