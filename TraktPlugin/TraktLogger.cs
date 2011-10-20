@@ -12,6 +12,7 @@ namespace TraktPlugin
     {
         private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
         private static string backupFilename = Config.GetFile(Config.Dir.Log, "TraktPlugin.bak");
+        private static Object lockObject = new object();
 
         static TraktLogger()
         {
@@ -100,9 +101,12 @@ namespace TraktPlugin
         {
             try
             {
-                StreamWriter sw = File.AppendText(logFilename);
-                sw.WriteLine(log);
-                sw.Close();
+                lock (lockObject)
+                {
+                    StreamWriter sw = File.AppendText(logFilename);
+                    sw.WriteLine(log);
+                    sw.Close();
+                }
             }
             catch
             {
