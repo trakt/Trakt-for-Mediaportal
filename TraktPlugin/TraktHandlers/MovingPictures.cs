@@ -387,19 +387,24 @@ namespace TraktPlugin.TraktHandlers
                 // if we are syncing, we maybe manually setting state from trakt
                 // in this case we dont want to resend to trakt
                 if (SyncInProgress) return;
-
+                
                 //We check the watched flag and update Trakt respectfully
                 //ignore if movie is the current movie being scrobbled, this will be set to watched automatically
                 if (userMovieSettings.WatchCountChanged && movie != currentMovie)
                 {
                     if (userMovieSettings.WatchedCount == 0)
                     {
+                        TraktLogger.Info("Received Un-Watched event in MovingPictures for movie '{0}'", movie.Title);
                         SyncMovie(CreateSyncData(movie), TraktSyncModes.unseen);
                     }
                     else
                     {
-                        SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
-                        RemoveMovieFromFiltersAndCategories(movie);
+                        TraktLogger.Info("Received Watched event in MovingPictures for movie '{0}'", movie.Title);
+                        if (!g_Player.IsVideo)
+                        {
+                            SyncMovie(CreateSyncData(movie), TraktSyncModes.seen);
+                            RemoveMovieFromFiltersAndCategories(movie);
+                        }
                     }
                 }
                 
@@ -407,6 +412,7 @@ namespace TraktPlugin.TraktHandlers
                 //TODO: Create a user setting for what they want to define as love/hate
                 if (userMovieSettings.RatingChanged && userMovieSettings.UserRating > 0)
                 {
+                    TraktLogger.Info("Received Rate event in MovingPictures for movie '{0}' with rating '{1}/5'", movie.Title, userMovieSettings.UserRating);
                     if (userMovieSettings.UserRating >= 4)
                     {
                         RateMovie(CreateRateData(movie, TraktRateValue.love.ToString()));
@@ -437,6 +443,7 @@ namespace TraktPlugin.TraktHandlers
                 DBWatchedHistory watchedEvent = (DBWatchedHistory)obj;
                 if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
+                    TraktLogger.Info("Watched History updated in MovingPictures for movie '{0}'", watchedEvent.Movie.Title);
                     ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
                     RemoveMovieFromFiltersAndCategories(watchedEvent.Movie);
                 }
@@ -449,6 +456,7 @@ namespace TraktPlugin.TraktHandlers
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
                 if (!TraktSettings.BlockedFilenames.Contains(insertedMovie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => insertedMovie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
+                    TraktLogger.Info("New movie added into MovingPictures: '{0}'", insertedMovie.Title);
                     SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.library);
                     UpdateCategoriesAndFilters();
                 }
