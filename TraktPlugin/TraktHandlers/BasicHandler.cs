@@ -247,5 +247,33 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
         }
+
+        /// <summary>
+        /// Saves any movies that return as 'already_exists' from library sync calls
+        /// </summary>
+        /// <param name="response">Trakt Sync Movie Response</param>
+        public static void InsertAlreadyExistMovies(TraktSyncResponse response)
+        {
+            if (response == null || response.AlreadyExistMovies == null) return;
+
+            foreach (var movie in response.AlreadyExistMovies)
+            {
+                if (TraktSettings.AlreadyExistMovies == null)
+                    TraktSettings.AlreadyExistMovies = new SyncMovieCheck();
+
+                TraktLogger.Info("Inserting movie into already-exist list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+
+                if (TraktSettings.AlreadyExistMovies.Movies != null)
+                {
+                    if (!TraktSettings.AlreadyExistMovies.Movies.Contains(movie))
+                        TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+                }
+                else
+                {
+                    TraktSettings.AlreadyExistMovies.Movies = new List<TraktMovieSync.Movie>();
+                    TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+                }
+            }
+        }
     }
 }

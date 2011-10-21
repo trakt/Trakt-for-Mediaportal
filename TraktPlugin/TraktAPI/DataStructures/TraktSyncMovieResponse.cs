@@ -20,5 +20,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "skipped_movies")]
         public List<TraktMovieSync.Movie> SkippedMovies { get; set; }
+
+        [DataMember(Name = "already_exist_movies")]
+        public List<TraktMovieSync.Movie> AlreadyExistMovies { get; set; }
     }
 }

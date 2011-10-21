@@ -107,6 +107,36 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
+            #region Already Exists Movie Check
+            // Remove Already-Exists Movies, these are typically movies that are using aka names and no IMDb/TMDb set
+            // When we compare our local collection with trakt collection we have english only titles, so if no imdb/tmdb exists
+            // we need to fallback to title matching. When we sync aka names are sometimes accepted if defined on themoviedb.org so we need to 
+            // do this to revent syncing these movies every sync interval.
+            if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
+            {
+                TraktLogger.Debug("Skipping {0} movies as they already exist in trakt library but failed local match previously.", TraktSettings.AlreadyExistMovies.Movies.Count.ToString());
+                var movies = new List<TraktMovieSync.Movie>(TraktSettings.AlreadyExistMovies.Movies);
+                foreach (var movie in movies)
+                {
+                    Predicate<MFMovie> criteria = m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID);
+                    if (MovieList.Exists(criteria))
+                    {
+                        TraktLogger.Debug("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                        MovieList.RemoveAll(criteria);
+                    }
+                    else
+                    {
+                        // remove as we have now removed from our local collection or updated movie signature
+                        if (TraktSettings.MoviePluginCount == 1)
+                        {
+                            TraktLogger.Debug("Removing 'AlreadyExists' movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                            TraktSettings.AlreadyExistMovies.Movies.Remove(movie);
+                        }
+                    }
+                }
+            }
+            #endregion
+
             TraktLogger.Info("{0} movies available to sync in MyFilms database(s)", MovieList.Count.ToString());
 
             // get the movies that we have watched
@@ -202,6 +232,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                 BasicHandler.InsertSkippedMovies(response);
+                BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
@@ -214,6 +245,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                 BasicHandler.InsertSkippedMovies(response);
+                BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
 
@@ -228,9 +260,17 @@ namespace TraktPlugin.TraktHandlers
 
                 if (NoLongerInOurCollection.Count > 0)
                 {
-                    //Then remove from library
-                    TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
+                    {
+                        TraktLogger.Warning("DISABLING CLEAN LIBRARY!!!, there are trakt library movies that can't be determined to be local in collection.");
+                        TraktLogger.Warning("To fix this, check the 'already exist' entries in log, then check movies in local collection against this list and ensure IMDb id is set then run sync again.");
+                    }
+                    else
+                    {
+                        //Then remove from library
+                        TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    }
                 }                
             }
 
