@@ -306,7 +306,7 @@ namespace TraktPlugin
                 else if (handlerExists && TraktSettings.OnlineVideos == -1)
                 {
                     ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "OnlineVideos");
-                    (item as MyFilmsHandler).DisposeEvents();
+                    (item as TraktHandlers.OnlineVideos).DisposeEvents();
                     TraktHandlers.Remove(item);
                 }
             }
