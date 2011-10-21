@@ -508,29 +508,37 @@ namespace TraktPlugin
             if ((windowID < (int)TraktGUIWindows.Settings || windowID > (int)TraktGUIWindows.SettingsGeneral) &&
                 (PreviousWindow >= (int)TraktGUIWindows.Settings && PreviousWindow <= (int)TraktGUIWindows.SettingsGeneral))
             {
+              Thread pluginHandlerCheckThread = new Thread(delegate(object obj)
+              {
                 if (GUISettingsPlugins.PluginHandlersChanged)
                 {
-                    LoadPluginHandlers();
+                  LoadPluginHandlers();
                 }
 
                 // Help user get started if no plugins enabled
                 if (TraktHandlers.Count == 0)
                 {
-                    if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
-                    {
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
-                    }
-                    return;
+                  if (GUIUtils.ShowYesNoDialog(Translation.Plugins, Translation.NoPluginsEnabled, true))
+                  {
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsPlugins);
+                  }
+                  return;
                 }
 
                 if (GUISettingsPlugins.PluginHandlersAdded)
                 {
-                    if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
-                        syncLibraryTimer.Change(0, TraktSettings.SyncTimerLength);
+                  if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
+                    syncLibraryTimer.Change(0, TraktSettings.SyncTimerLength);
                 }
 
                 GUISettingsPlugins.PluginHandlersAdded = false;
                 GUISettingsPlugins.PluginHandlersChanged = false;
+              })
+              {
+                IsBackground = true,
+                Name = "Plugin Handler Check"
+              };
+              pluginHandlerCheckThread.Start();
             }
             #endregion
 
