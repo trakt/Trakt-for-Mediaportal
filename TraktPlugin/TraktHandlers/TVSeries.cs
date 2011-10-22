@@ -597,6 +597,8 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
+                TraktLogger.Info("Recieved rate episode event from tvseries");
+
                 TraktRateEpisode episodeRateData = CreateEpisodeRateData(episode);
                 if (episodeRateData == null) return;
                 TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(episodeRateData);
@@ -616,6 +618,8 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
+                TraktLogger.Info("Recieved rate series event from tvseries");
+
                 TraktRateSeries seriesRateData = CreateSeriesRateData(series);
                 if (seriesRateData == null) return;
                 TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
@@ -736,11 +740,11 @@ namespace TraktPlugin.TraktHandlers
 
             if (newEpisodeAdded)
             {
-                TraktLogger.Info("New Episodes added in TVSeries, starting sync.");
-
                 // sync again
                 Thread syncThread = new Thread(delegate()
                 {
+                    TraktLogger.Info("New Episodes added in TVSeries, starting sync.");
+
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
@@ -847,8 +851,6 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Recieved rating event from tvseries");
-
             if (item is DBEpisode)
                 RateEpisode(item as DBEpisode);
             else
@@ -859,10 +861,10 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Recieved togglewatched event from tvseries");
-
             Thread toggleWatched = new Thread(delegate()
             {
+                TraktLogger.Info("Recieved togglewatched event from tvseries");
+
                 TraktEpisodeSync episodeSyncData = CreateSyncData(series, episodes);
                 if (episodeSyncData == null) return;
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, watched ? TraktSyncModes.seen : TraktSyncModes.unseen);

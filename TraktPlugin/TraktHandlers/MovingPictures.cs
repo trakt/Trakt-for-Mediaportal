@@ -548,6 +548,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="e"></param>
         void moviesync_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (System.Threading.Thread.CurrentThread.Name == null)
+                System.Threading.Thread.CurrentThread.Name = "Library Sync";
+
             TraktResponse response = e.Result as TraktResponse;
             TraktAPI.TraktAPI.LogTraktResponse(response);
         }
@@ -572,6 +575,9 @@ namespace TraktPlugin.TraktHandlers
 
         void rateMovie_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (System.Threading.Thread.CurrentThread.Name == null)
+                System.Threading.Thread.CurrentThread.Name = "Rate Movie";
+
             TraktRateResponse response = (TraktRateResponse)e.Result;
             TraktAPI.TraktAPI.LogTraktResponse(response);
         }
