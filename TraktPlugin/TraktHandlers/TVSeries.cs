@@ -259,6 +259,8 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
+                Thread.CurrentThread.Name = "Scrobble Episode";
+
                 // duration in minutes
                 double duration = CurrentEpisode[DBEpisode.cLocalPlaytime] / 60000;
                 double progress = 0.0;

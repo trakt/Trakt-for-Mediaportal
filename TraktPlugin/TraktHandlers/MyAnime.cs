@@ -222,6 +222,8 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
+                Thread.CurrentThread.Name = "Scrobble Episode";
+
                 FileLocal episode = stateInfo as FileLocal;
                 if (episode == null) return;
 

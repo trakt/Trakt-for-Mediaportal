@@ -386,6 +386,8 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            Thread.CurrentThread.Name = "Library Sync";
+
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // User could change handlers during sync from Settings so assign new list

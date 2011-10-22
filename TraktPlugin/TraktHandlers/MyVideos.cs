@@ -276,6 +276,8 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
+                Thread.CurrentThread.Name = "Scrobble Movie";
+
                 IMDBMovie currentMovie = stateInfo as IMDBMovie;
 
                 TraktLogger.Info("Scrobbling Movie {0}", movie.Title);
