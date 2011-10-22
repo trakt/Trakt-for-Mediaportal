@@ -340,7 +340,7 @@ namespace TraktPlugin.TraktHandlers
             Double duration = movie.ActualRuntime / 1000;
 
             Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100) : 0.0;
-            TraktLogger.Debug(string.Format("Percentage of {0} is {1}", movie.Title, percentageCompleted.ToString()));
+            TraktLogger.Debug(string.Format("Percentage of {0} is {1}%", movie.Title, percentageCompleted.ToString("N2")));
 
             //Create Scrobbling Data
             TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
@@ -376,6 +376,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="e"></param>
         void scrobbler_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (System.Threading.Thread.CurrentThread.Name == null)
+                System.Threading.Thread.CurrentThread.Name = "Scrobble Movie";
+
             TraktResponse response = e.Result as TraktResponse;
             TraktAPI.TraktAPI.LogTraktResponse(response);
         }
