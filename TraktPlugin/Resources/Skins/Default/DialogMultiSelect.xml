@@ -17,7 +17,7 @@
 			<posX>116</posX>
 			<posY>64</posY>
 			<width>546</width>
-			<height>366</height>
+			<height>400</height>
 			<texture>context_background.png</texture>
 			<animation effect="fade" time="250">WindowOpen</animation>
 			<animation effect="fade" time="250">WindowClose</animation>
@@ -53,7 +53,7 @@
 			<type>button</type>
 			<id>2</id>
 			<posX>590</posX>
-			<posY>79</posY>
+			<posY>84</posY>
 			<width>41</width>
 			<height>41</height>
 			<textureFocus>dialogue_shutdown_focus.png</textureFocus>
@@ -71,7 +71,7 @@
 			<type>listcontrol</type>
 			<id>3</id>
 			<posX>160</posX>
-			<posY>150</posY>
+			<posY>140</posY>
 			<width>450</width>
 			<height>260</height>
 			<onup>2</onup>
@@ -90,6 +90,7 @@
 			<itemWidth>30</itemWidth>
 			<IconXOff>10</IconXOff>
 			<IconYOff>0</IconYOff>
+      <scrollOffset>3</scrollOffset>
 			<keepaspectratio>yes</keepaspectratio>
 			<spinCanFocus>no</spinCanFocus>
 			<animation effect="fade" time="250">WindowOpen</animation>
@@ -103,7 +104,7 @@
 			<textalign>center</textalign>
 			<textYOff>0</textYOff>
 			<posX>220</posX>
-			<posY>370</posY>
+			<posY>405</posY>
 			<onleft>3</onleft>
 			<onright>11</onright>
 			<onup>3</onup>
@@ -120,7 +121,7 @@
 			<textalign>center</textalign>
 			<textYOff>0</textYOff>
 			<posX>410</posX>
-			<posY>370</posY>
+			<posY>405</posY>
 			<onleft>10</onleft>
 			<onright>3</onright>
 			<onup>3</onup>
