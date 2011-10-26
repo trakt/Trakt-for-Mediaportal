@@ -63,6 +63,14 @@ namespace TraktPlugin
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Anime2.dll")) && IsPluginEnabled("My Anime");
             }
         }
+
+        public static bool IsMpNZBAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "mpNZB.dll")) && IsPluginEnabled("mpNZB");
+            }
+        }
         #endregion
 
         #region API Helpers

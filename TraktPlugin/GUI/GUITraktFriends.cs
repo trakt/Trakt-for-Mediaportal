@@ -58,7 +58,8 @@ namespace TraktPlugin.GUI
             SearchFriend,
             AddFriend,
             AddToList,
-            Shouts
+            Shouts,
+            SearchWithMpNZB
         }
 
         enum ViewType
@@ -462,6 +463,20 @@ namespace TraktPlugin.GUI
                 itemCount++;
             }
 
+            // Search with mpNZB
+            #if MP12
+            if (TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                if ((selectedMovie != null && !selectedMovie.Movie.InCollection) || selectedEpisode != null)
+                {
+                    listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
+                    itemCount++;
+                }
+            }
+            #endif
+
             if (itemCount == 0) return;
 
             // Show Context Menu
@@ -548,6 +563,21 @@ namespace TraktPlugin.GUI
                         SendFriendsToFacade(_Friends, _FriendRequests);
                     }
                     break;
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = String.Empty;
+                    if (selectedMovie != null)
+                    {
+                        loadingParam = string.Format("search:{0}", selectedMovie.Movie.Title);
+                    }
+                    else if (selectedEpisode != null)
+                    {
+                        loadingParam = string.Format("search:{0} S{1}E{2}", selectedEpisode.Show.Title, selectedEpisode.Episode.Season.ToString("D2"), selectedEpisode.Episode.Number.ToString("D2"));
+                    }
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
 
                 default:
                     break;

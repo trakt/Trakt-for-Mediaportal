@@ -67,7 +67,8 @@ namespace TraktPlugin.GUI
             Rate,
             Shouts,
             ChangeLayout,
-            Trailers
+            Trailers,
+            SearchWithMpNZB
         }
 
         #endregion
@@ -280,6 +281,17 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
+            
+            #if MP12
+            if (!selectedMovie.InCollection && TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                // Search for movie with mpNZB
+                listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
+            }
+            #endif
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -394,10 +406,17 @@ namespace TraktPlugin.GUI
                     ShowTrailersMenu(selectedMovie);
                     break;
                 #endif
-
+              
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = string.Format("search:{0}", selectedMovie.Title);
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
 
                 default:
                     break;
