@@ -640,7 +640,7 @@ namespace TraktPlugin
                                     imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
                                     #if MP12
                                     fanart = string.Empty;
-                                    //MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
+                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
                                     #endif
 
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
