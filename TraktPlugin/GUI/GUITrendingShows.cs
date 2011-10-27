@@ -54,7 +54,8 @@ namespace TraktPlugin.GUI
             Trailers,
             Shouts,
             Rate,
-            ChangeLayout
+            ChangeLayout,
+            SearchWithMpNZB
         }
 
         enum TrailerSite
@@ -238,6 +239,16 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
+            #if MP12
+            if (TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                // Search for show with mpNZB
+                listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
+            }
+            #endif
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -286,6 +297,13 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = string.Format("search:{0}", selectedShow.Title);
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
 
                 default:
                     break;

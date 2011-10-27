@@ -210,6 +210,7 @@
   <!-- S -->
   <string Field="Score">Punktestand</string>
   <string Field="Scrobble">Scrobble</string>
+  <string Field="SearchWithMpNZB">Mit mpNZB suchen</string>
   <string Field="Season">Staffel</string>
   <string Field="SearchForFriend">Nach Freund suchen</string>
   <string Field="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
