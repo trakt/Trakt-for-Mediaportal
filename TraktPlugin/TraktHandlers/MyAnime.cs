@@ -644,7 +644,11 @@ namespace TraktPlugin.TraktHandlers
             int seasonidx = 0;
             int episodeidx = 0;
 
-            if (!GetTVDBEpisodeInfo(episode.AnimeEpisodes[0], out seriesid, out seasonidx, out episodeidx)) return null;
+            if (episode.AnimeEpisodes == null || !GetTVDBEpisodeInfo(episode.AnimeEpisodes[0], out seriesid, out seasonidx, out episodeidx))
+            {
+                TraktLogger.Warning("Unable to scrobble episodes, no AniDb/TVDb reference in database yet. Episode will be manually marked as seen on sync when available.");
+                return null;
+            }
 
             // create scrobble data
             try
