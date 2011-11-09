@@ -50,7 +50,8 @@ namespace TraktPlugin.GUI
         WatchList = 97258,
         Rate = 97259,
         Shouts = 97260,
-        CustomList = 97261
+        CustomList = 97261,
+        RelatedItems = 97262
     }
 
     public class GUICommon
