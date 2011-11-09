@@ -42,6 +42,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(3)]
+        protected GUICheckButton hideWatchedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -198,6 +201,14 @@ namespace TraktPlugin.GUI
                 case (2):
                     ShowLayoutMenu();
                     break;
+                
+                // Hide Watched Button
+                case (3):
+                    HideWatched = hideWatchedButton.Selected;
+                    dictRelatedMovies.Remove(relatedMovie.Slug);
+                    LoadRelatedMovies();
+                    GUIControl.FocusControl((int)TraktGUIWindows.RelatedMovies, Facade.GetID);
+                    break;
 
                 default:
                     break;
@@ -339,6 +350,7 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.HideShowWatched):
                     HideWatched = !HideWatched;
+                    if (hideWatchedButton != null) hideWatchedButton.Selected = HideWatched;
                     dictRelatedMovies.Remove(relatedMovie.Slug);
                     LoadRelatedMovies();
                     break;
@@ -715,6 +727,11 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
+                if (hideWatchedButton != null)
+                {
+                    GUIControl.DisableControl((int)TraktGUIWindows.RelatedMovies, hideWatchedButton.GetID);
+                }
+
                 if (HideWatched)
                 {
                     // wait until watched item has been sent to trakt or timesout (10secs)
@@ -724,6 +741,11 @@ namespace TraktPlugin.GUI
             },
             delegate(bool success, object result)
             {
+                if (hideWatchedButton != null)
+                {
+                    GUIControl.EnableControl((int)TraktGUIWindows.RelatedMovies, hideWatchedButton.GetID);
+                }
+
                 if (success)
                 {
                     IEnumerable<TraktMovie> movies = result as IEnumerable<TraktMovie>;
@@ -808,6 +830,11 @@ namespace TraktPlugin.GUI
             // hide watched
             HideWatched = TraktSettings.HideWatchedRelatedMovies;
             SendingWatchedToTrakt = false;
+            if (hideWatchedButton != null)
+            {
+                GUIControl.SetControlLabel((int)TraktGUIWindows.RelatedMovies, hideWatchedButton.GetID, Translation.HideWatched);
+                hideWatchedButton.Selected = HideWatched;
+            }
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RelatedMoviesDefaultLayout;

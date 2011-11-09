@@ -39,6 +39,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(3)]
+        protected GUICheckButton hideWatchedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -190,6 +193,14 @@ namespace TraktPlugin.GUI
                     ShowLayoutMenu();
                     break;
 
+                // Hide Watched Button
+                case (3):
+                    HideWatched = hideWatchedButton.Selected;
+                    dictRelatedShows.Remove(relatedShow.Slug);
+                    LoadRelatedShows();
+                    GUIControl.FocusControl((int)TraktGUIWindows.RelatedShows, Facade.GetID);
+                    break;
+
                 default:
                     break;
             }
@@ -296,6 +307,7 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.HideShowWatched):
                     HideWatched = !HideWatched;
+                    if (hideWatchedButton != null) hideWatchedButton.Selected = HideWatched;
                     dictRelatedShows.Remove(relatedShow.Slug);
                     LoadRelatedShows();
                     break;
@@ -563,10 +575,19 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
+                if (hideWatchedButton != null)
+                {
+                    GUIControl.DisableControl((int)TraktGUIWindows.RelatedShows, hideWatchedButton.GetID);
+                }
                 return RelatedShows;
             },
             delegate(bool success, object result)
             {
+                if (hideWatchedButton != null)
+                {
+                    GUIControl.EnableControl((int)TraktGUIWindows.RelatedShows, hideWatchedButton.GetID);
+                }
+
                 if (success)
                 {
                     IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
@@ -644,6 +665,12 @@ namespace TraktPlugin.GUI
 
             // hide watched
             HideWatched = TraktSettings.HideWatchedRelatedShows;
+            // hide watched            
+            if (hideWatchedButton != null)
+            {
+                GUIControl.SetControlLabel((int)TraktGUIWindows.RelatedShows, hideWatchedButton.GetID, Translation.HideWatched);
+                hideWatchedButton.Selected = HideWatched;
+            }
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RelatedShowsDefaultLayout;
