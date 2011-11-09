@@ -90,7 +90,7 @@ namespace TraktPlugin
         {
             string invalidChars = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
             string invalidReStr = string.Format(@"[{0}]+", invalidChars);
-            return Regex.Replace(item, invalidReStr, "-").ToLower().Replace(" ", "-");
+            return Regex.Replace(item, invalidReStr, string.Empty).ToLower().Replace(" ", "-");
         }
 
     }

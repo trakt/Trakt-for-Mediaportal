@@ -65,6 +65,7 @@ namespace TraktPlugin.GUI
             MarkAsUnWatched,
             AddToLibrary,
             RemoveFromLibrary,
+            Related,
             Rate,
             Shouts,
             Trailers,
@@ -273,6 +274,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
             }
 
+            // Related Movies
+            listItem = new GUIListItem(Translation.RelatedMovies + "...");
+            dlg.Add(listItem);
+
+            listItem.ItemId = (int)ContextMenuItem.Related;
             // Rate Movie
             listItem = new GUIListItem(Translation.RateMovie);
             dlg.Add(listItem);
@@ -420,6 +426,14 @@ namespace TraktPlugin.GUI
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    RelatedMovie relatedMovie = new RelatedMovie();
+                    relatedMovie.IMDbId = selectedMovie.Imdb;
+                    relatedMovie.Title = selectedMovie.Title;
+                    GUIRelatedMovies.relatedMovie = relatedMovie;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
                     break;
 
                 case ((int)ContextMenuItem.Rate):

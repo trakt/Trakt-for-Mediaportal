@@ -159,6 +159,8 @@
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
     <Compile Include="GUI\GUIListItems.cs" />
     <Compile Include="GUI\GUILists.cs" />
+    <Compile Include="GUI\GUIRelatedMovies.cs" />
+    <Compile Include="GUI\GUIRelatedShows.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
     <Compile Include="GUI\GUISettingsGeneral.cs" />

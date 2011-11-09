@@ -58,6 +58,7 @@ namespace TraktPlugin.GUI
             SearchFriend,
             AddFriend,
             AddToList,
+            Related,
             Shouts,
             SearchWithMpNZB
         }
@@ -445,6 +446,18 @@ namespace TraktPlugin.GUI
                 itemCount++;
             }
 
+            // Related Shows/Movies
+            if (ViewLevel == Views.WatchedHistory)
+            {
+                if (SelectedType == ViewType.MovieWatchHistory)
+                    listItem = new GUIListItem(Translation.RelatedMovies + "...");
+                else
+                    listItem = new GUIListItem(Translation.RelatedShows + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Related;
+                itemCount++;
+            }
+
             // Shouts
             if (ViewLevel == Views.WatchedHistory)
             {
@@ -499,6 +512,25 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.GetStringFromKeyboard(ref userSearchTerm))
                     {
                         LoadSearchResults(userSearchTerm);
+                    }
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    if (selectedMovie != null)
+                    {
+                        RelatedShow relatedShow = new RelatedShow();
+                        relatedShow.Title = selectedEpisode.Show.Title;
+                        relatedShow.TVDbId = selectedEpisode.Show.Tvdb;
+                        GUIRelatedShows.relatedShow = relatedShow;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                    }
+                    else
+                    {
+                        RelatedMovie relatedMovie = new RelatedMovie();
+                        relatedMovie.IMDbId = selectedMovie.Movie.Imdb;
+                        relatedMovie.Title = selectedMovie.Movie.Title;
+                        GUIRelatedMovies.relatedMovie = relatedMovie;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);                        
                     }
                     break;
 

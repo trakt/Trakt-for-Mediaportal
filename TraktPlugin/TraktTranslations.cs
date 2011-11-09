@@ -282,11 +282,14 @@ namespace TraktPlugin.GUI
         public static string GettingWatchListMovies = "Getting Watch List Movies";
         public static string GettingWatchListShows = "Getting Watch List Shows";
         public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
+        public static string GettingRelatedMovies = "Getting Related Movies";
+        public static string GettingRelatedShows = "Getting Related Shows";
 
         // H
         public static string Hate = "Hate";
         public static string Hated = "Hated";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
+        public static string HideWatched = "Hide Watched";
 
         // I
         public static string Inserted = "Inserted";
@@ -343,6 +346,8 @@ namespace TraktPlugin.GUI
         public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
         public static string NoUserLists = "{0} has not created any lists!";
         public static string NoListItemsFound = "No items found in this list!";
+        public static string NoRelatedMovies = "No Related movies found for {0}!";
+        public static string NoRelatedShows = "No Related shows found for {0}!";
 
         // O
         public static string OK = "OK";
@@ -377,6 +382,8 @@ namespace TraktPlugin.GUI
         public static string Recommendations = "Recommendations";
         public static string RecommendedMovies = "Recommended Movies";
         public static string RecommendedShows = "Recommended Shows";
+        public static string RelatedMovies = "Related Movies";
+        public static string RelatedShows = "Related Shows";
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
         public static string RemoveFromLibrary = "Remove from Library";
@@ -406,6 +413,7 @@ namespace TraktPlugin.GUI
         public static string StartDate = "Start Date";
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
+        public static string ShowWatched = "Show Watched";
 
         // T
         public static string Timeout = "Timeout";

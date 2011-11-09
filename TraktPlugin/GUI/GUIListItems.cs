@@ -65,6 +65,7 @@ namespace TraktPlugin.GUI
             RemoveFromList,
             AddToLibrary,
             RemoveFromLibrary,
+            Related,
             Rate,
             Shouts,
             ChangeLayout,
@@ -268,6 +269,11 @@ namespace TraktPlugin.GUI
                 }
             }
 
+            // Related Movies/Shows
+            listItem = new GUIListItem(SelectedType == TraktItemType.movie ? Translation.RelatedMovies : Translation.RelatedShows + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Related;
+
             if (SelectedType != TraktItemType.season)
             {
                 // Rate
@@ -424,6 +430,26 @@ namespace TraktPlugin.GUI
                         userListItem.Movie.Images.NotifyPropertyChanged("PosterImageFilename");
                     else
                         userListItem.Show.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    if (SelectedType == TraktItemType.movie)
+                    {
+                        RelatedMovie relatedMovie = new RelatedMovie();
+                        relatedMovie.IMDbId = userListItem.Movie.Imdb;
+                        relatedMovie.Title = userListItem.Movie.Title;
+                        GUIRelatedMovies.relatedMovie = relatedMovie;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
+                    }
+                    else
+                    {
+                        //series, season & episode
+                        RelatedShow relatedShow = new RelatedShow();
+                        relatedShow.Title = userListItem.Show.Title;
+                        relatedShow.TVDbId = userListItem.Show.Tvdb;
+                        GUIRelatedShows.relatedShow = relatedShow;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                    }
                     break;
 
                 case ((int)ContextMenuItem.Rate):

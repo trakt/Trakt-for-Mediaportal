@@ -15,7 +15,24 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
-    public class GUIWatchListShows : GUIWindow
+    public class RelatedShow
+    {
+        public string Title { get; set; }
+        public string TVDbId { get; set; }
+
+        public string Slug
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(TVDbId)) return TVDbId;
+                if (string.IsNullOrEmpty(Title)) return string.Empty;
+                return Title.ToSlug();
+            }
+        }
+
+    }
+
+    public class GUIRelatedShows : GUIWindow
     {
         #region Skin Controls
 
@@ -48,13 +65,13 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
-            RemoveFromWatchList,
+            HideShowWatched,
             AddToWatchList,
+            RemoveFromWatchList,
             AddToList,
             Trailers,
-            Related,
-            Rate,
             Shouts,
+            Rate,
             ChangeLayout,
             SearchWithMpNZB
         }
@@ -69,12 +86,18 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUIWatchListShows()
+        public GUIRelatedShows()
         {
             backdrop = new ImageSwapper();
-            backdrop.PropertyOne = "#Trakt.WatchListShows.Fanart.1";
-            backdrop.PropertyTwo = "#Trakt.WatchListShows.Fanart.2";
+            backdrop.PropertyOne = "#Trakt.RelatedShows.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.RelatedShows.Fanart.2";
         }
+
+        #endregion
+
+        #region Public Variables
+
+        public static RelatedShow relatedShow { get; set; }
 
         #endregion
 
@@ -82,33 +105,28 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
-        static int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
-        static DateTime LastRequest = new DateTime();
-        static Dictionary<string, IEnumerable<TraktWatchListShow>> userWatchList = new Dictionary<string, IEnumerable<TraktWatchListShow>>();
+        DateTime LastRequest = new DateTime();
+        int PreviousSelectedIndex = 0;
+        Dictionary<string, IEnumerable<TraktShow>> dictRelatedShows = new Dictionary<string, IEnumerable<TraktShow>>();
+        bool HideWatched = false;
 
-        static IEnumerable<TraktWatchListShow> WatchListShows
+        IEnumerable<TraktShow> RelatedShows
         {
             get
             {
-                if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!dictRelatedShows.Keys.Contains(relatedShow.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListShows = TraktAPI.TraktAPI.GetWatchListShows(CurrentUser);
-                    if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
-                    userWatchList.Add(CurrentUser, _WatchListShows);
+                    _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
+                    if (dictRelatedShows.Keys.Contains(relatedShow.Slug)) dictRelatedShows.Remove(relatedShow.Slug);
+                    dictRelatedShows.Add(relatedShow.Slug, _RelatedShows);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return userWatchList[CurrentUser];
+                return _RelatedShows;
             }
         }
-        static IEnumerable<TraktWatchListShow> _WatchListShows = null;        
-
-        #endregion
-
-        #region Public Properties
-
-        public static string CurrentUser { get; set; }
+        private IEnumerable<TraktShow> _RelatedShows = null;
 
         #endregion
 
@@ -118,13 +136,13 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87268;
+                return (int)TraktGUIWindows.RelatedShows;
             }
         }
 
         public override bool Init()
         {
-            return Load(GUIGraphicsContext.Skin + @"\Trakt.WatchList.Shows.xml");
+            return Load(GUIGraphicsContext.Skin + @"\Trakt.Related.Shows.xml");
         }
 
         protected override void OnPageLoad()
@@ -132,14 +150,11 @@ namespace TraktPlugin.GUI
             // Clear GUI Properties
             ClearProperties();
 
-            // Requires Login
-            if (!GUICommon.CheckLogin()) return;
-
             // Init Properties
             InitProperties();
 
-            // Load WatchList Shows
-            LoadWatchListShows();
+            // Load Related Shows
+            LoadRelatedShows();
         }
 
         protected override void OnPageDestroy(int new_windowId)
@@ -148,8 +163,9 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
-            // save current layout
-            TraktSettings.WatchListShowsDefaultLayout = (int)CurrentLayout;
+            // save settings
+            TraktSettings.RelatedShowsDefaultLayout = (int)CurrentLayout;
+            TraktSettings.HideWatchedRelatedShows = HideWatched;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -184,14 +200,12 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
-                case Action.ActionType.ACTION_PREVIOUS_MENU:
-                    // restore current user
-                    CurrentUser = TraktSettings.Username;
-                    base.OnAction(action);
-                    break;
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
-                    CheckAndPlayEpisode();
+                    if (!GUIBackgroundTask.Instance.IsBusy)
+                    {
+                        CheckAndPlayEpisode();
+                    }
                     break;
                 default:
                     base.OnAction(action);
@@ -201,10 +215,12 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
+            if (GUIBackgroundTask.Instance.IsBusy) return;
+
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktWatchListShow selectedShow = (TraktWatchListShow)selectedItem.TVTag;
+            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -214,18 +230,23 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            if (CurrentUser == TraktSettings.Username)
+            // Hide/Show Watched items
+            listItem = new GUIListItem(HideWatched ? Translation.ShowWatched : Translation.HideWatched);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.HideShowWatched;
+
+            // Add/Remove Watch List            
+            if (!selectedShow.InWatchList)
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
+            }
+            else
             {
                 listItem = new GUIListItem(Translation.RemoveFromWatchList);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
-            }
-            else if (!selectedShow.InWatchList)
-            {
-                // viewing someone else's watch list and not in yours
-                listItem = new GUIListItem(Translation.AddToWatchList);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
             }
 
             // Add to Custom List
@@ -241,11 +262,6 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
             #endif
-
-            // Related Shows
-            listItem = new GUIListItem(Translation.RelatedShows + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Related;
 
             // Rate Show
             listItem = new GUIListItem(Translation.RateShow);
@@ -278,6 +294,12 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.HideShowWatched):
+                    HideWatched = !HideWatched;
+                    dictRelatedShows.Remove(relatedShow.Slug);
+                    LoadRelatedShows();
+                    break;
+
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
@@ -287,49 +309,22 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
                     RemoveShowFromWatchList(selectedShow);
-                    if (_WatchListShows.Count() >= 1)
-                    {
-                        // remove from list
-                        var showsToExcept = new List<TraktWatchListShow>();
-                        showsToExcept.Add(selectedShow);
-                        _WatchListShows = WatchListShows.Except(showsToExcept);
-                        userWatchList[CurrentUser] = _WatchListShows;
-                        LoadWatchListShows();
-                    }
-                    else
-                    {
-                        // no more shows left
-                        ClearProperties();
-                        GUIControl.ClearControl(GetID, Facade.GetID);
-                        _WatchListShows = null;
-                        userWatchList.Remove(CurrentUser);
-                        // notify and exit
-                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowWatchList);
-                        GUIWindowManager.ShowPreviousWindow();
-                        return;
-                    }
+                    selectedShow.InWatchList = false;
+                    OnShowSelected(selectedItem, Facade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
                     TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
                     break;
 
-                case ((int)ContextMenuItem.Related):
-                    RelatedShow relatedShow = new RelatedShow();
-                    relatedShow.Title = selectedShow.Title;
-                    relatedShow.TVDbId = selectedShow.Tvdb;
-                    GUIRelatedShows.relatedShow = relatedShow;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                #if MP12
+                case ((int)ContextMenuItem.Trailers):
+                    ShowTrailersMenu(selectedShow);
                     break;
-
-                case ((int)ContextMenuItem.Rate):
-                    RateShow(selectedShow);
-                    OnShowSelected(selectedItem, Facade);
-                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    if (CurrentUser != TraktSettings.Username) GUIWatchListShows.ClearCache(TraktSettings.Username);
-                    break;
+                #endif
 
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
@@ -338,11 +333,11 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
                     break;
 
-                #if MP12
-                case ((int)ContextMenuItem.Trailers):
-                    ShowTrailersMenu(selectedShow);
+                case ((int)ContextMenuItem.Rate):
+                    RateShow(selectedShow);
+                    OnShowSelected(selectedItem, Facade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
-                #endif
 
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
@@ -371,57 +366,12 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktWatchListShow selectedShow = (TraktWatchListShow)selectedItem.TVTag;
+            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
             GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb);
         }
 
-        private void RateShow(TraktWatchListShow show)
-        {
-            TraktRateSeries rateObject = new TraktRateSeries
-            {
-                SeriesID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year.ToString(),
-                Rating = show.Rating,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            string prevRating = show.Rating;
-            show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
-
-            // if previous rating not equal to current rating then 
-            // update skin properties to reflect changes so we dont
-            // need to re-request from server
-            if (prevRating != show.Rating)
-            {
-                if (prevRating == "false")
-                {
-                    show.Ratings.Votes++;
-                    if (show.Rating == "love")
-                        show.Ratings.LovedCount++;
-                    else
-                        show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "love")
-                {
-                    show.Ratings.LovedCount--;
-                    show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "hate")
-                {
-                    show.Ratings.LovedCount++;
-                    show.Ratings.HatedCount--;
-                }
-
-                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
-            }
-        }
-
         #if MP12
-        private void ShowTrailersMenu(TraktWatchListShow show)
+        private void ShowTrailersMenu(TraktShow show)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -465,7 +415,7 @@ namespace TraktPlugin.GUI
         }
         #endif
 
-        private TraktShowSync CreateSyncData(TraktWatchListShow show)
+        private TraktShowSync CreateSyncData(TraktShow show)
         {
             if (show == null) return null;
 
@@ -489,11 +439,11 @@ namespace TraktPlugin.GUI
             return syncData;
         }
 
-        private void AddShowToWatchList(TraktWatchListShow show)
+        private void AddShowToWatchList(TraktShow show)
         {
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktWatchListShow), TraktSyncModes.watchlist);
+                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.watchlist);
             })
             {
                 IsBackground = true,
@@ -503,11 +453,11 @@ namespace TraktPlugin.GUI
             syncThread.Start(show);
         }
 
-        private void RemoveShowFromWatchList(TraktWatchListShow show)
+        private void RemoveShowFromWatchList(TraktShow show)
         {
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktWatchListShow), TraktSyncModes.unwatchlist);
+                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.unwatchlist);
             })
             {
                 IsBackground = true,
@@ -517,6 +467,50 @@ namespace TraktPlugin.GUI
             syncThread.Start(show);
         }
 
+        private void RateShow(TraktShow show)
+        {
+            TraktRateSeries rateObject = new TraktRateSeries
+            {
+                SeriesID = show.Tvdb,
+                Title = show.Title,
+                Year = show.Year.ToString(),
+                Rating = show.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            string prevRating = show.Rating;
+            show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != show.Rating)
+            {
+                if (prevRating == "false")
+                {
+                    show.Ratings.Votes++;
+                    if (show.Rating == "love")
+                        show.Ratings.LovedCount++;
+                    else
+                        show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    show.Ratings.LovedCount--;
+                    show.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    show.Ratings.LovedCount++;
+                    show.Ratings.HatedCount--;
+                }
+
+                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
+            }
+        }
 
         private void ShowLayoutMenu()
         {
@@ -563,33 +557,33 @@ namespace TraktPlugin.GUI
             return strLine;
         }
 
-        private void LoadWatchListShows()
+        private void LoadRelatedShows()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return WatchListShows;
+                return RelatedShows;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    IEnumerable<TraktWatchListShow> shows = result as IEnumerable<TraktWatchListShow>;
-                    SendWatchListShowsToFacade(shows);
+                    IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
+                    SendRelatedShowsToFacade(shows);
                 }
-            }, Translation.GettingWatchListMovies, true);
+            }, Translation.GettingTrendingShows, true);
         }
 
-        private void SendWatchListShowsToFacade(IEnumerable<TraktWatchListShow> shows)
+        private void SendRelatedShowsToFacade(IEnumerable<TraktShow> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             if (shows.Count() == 0)
             {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoShowWatchList, CurrentUser));
-                CurrentUser = TraktSettings.Username;
+                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TVDbId : relatedShow.Title;
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedShows, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
@@ -597,10 +591,9 @@ namespace TraktPlugin.GUI
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
 
-            // Add each show
             foreach (var show in shows)
             {
-                GUITraktWatchListShowListItem item = new GUITraktWatchListShowListItem(show.Title);
+                GUITraktRelatedShowListItem item = new GUITraktRelatedShowListItem(show.Title);
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
@@ -622,15 +615,12 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            if (PreviousSelectedIndex >= shows.Count())
-                Facade.SelectIndex(PreviousSelectedIndex - 1);
-            else
-                Facade.SelectIndex(PreviousSelectedIndex);
+            Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", shows.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
-
+            
             // Download show images Async and set to facade
             GetImages(showImages);
         }
@@ -648,18 +638,23 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
 
-            // load Watch list for user
-            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
-            SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
+            // set context property
+            string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TVDbId : relatedShow.Title;
+            GUIUtils.SetProperty("#Trakt.Related.Show", title);
+
+            // hide watched
+            HideWatched = TraktSettings.HideWatchedRelatedShows;
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.WatchListShowsDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.RelatedShowsDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
         }
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Related.Show", string.Empty);           
+
             GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
@@ -669,8 +664,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.WatchList.Inserted", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
@@ -679,6 +672,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
@@ -687,7 +681,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
         }
 
-        private void PublishShowSkinProperties(TraktWatchListShow show)
+        private void PublishShowSkinProperties(TraktShow show)
         {
             SetProperty("#Trakt.Show.AirDay", show.AirDay);
             SetProperty("#Trakt.Show.AirTime", show.AirTime);
@@ -698,14 +692,13 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Certification", show.Certification);
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.WatchList.Inserted", show.Inserted.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Title", show.Title);
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
+            SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
             SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
@@ -716,7 +709,7 @@ namespace TraktPlugin.GUI
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
-            TraktWatchListShow show = item.TVTag as TraktWatchListShow;
+            TraktShow show = item.TVTag as TraktShow;
             PublishShowSkinProperties(show);
             GUIImageHandler.LoadFanart(backdrop, show.Images.FanartImageFilename);
         }
@@ -736,6 +729,14 @@ namespace TraktPlugin.GUI
                 {
                     groupList.Add(itemsWithThumbs[j]);
                 }
+
+                // sort images so that images that already exist are displayed first
+                groupList.Sort((s1, s2) =>
+                {
+                    int x = Convert.ToInt32(File.Exists(s1.PosterImageFilename)) + Convert.ToInt32(File.Exists(s1.FanartImageFilename));
+                    int y = Convert.ToInt32(File.Exists(s2.PosterImageFilename)) + Convert.ToInt32(File.Exists(s2.FanartImageFilename));
+                    return y.CompareTo(x);
+                });
 
                 new Thread(delegate(object o)
                 {
@@ -791,20 +792,11 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
-
-        #region Public Methods
-
-        public static void ClearCache(string username)
-        {
-            if (userWatchList.Keys.Contains(username)) userWatchList.Remove(username);
-        }
-
-        #endregion
     }
 
-    public class GUITraktWatchListShowListItem : GUIListItem
+    public class GUITraktRelatedShowListItem : GUIListItem
     {
-        public GUITraktWatchListShowListItem(string strLabel) : base(strLabel) { }
+        public GUITraktRelatedShowListItem(string strLabel) : base(strLabel) { }
 
         public object Item
         {
@@ -819,6 +811,7 @@ namespace TraktPlugin.GUI
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
                     if (s is TraktShow.ShowImages && e.PropertyName == "FanartImageFilename")
                         UpdateCurrentSelection();
+
                 };
             }
         } protected object _Item;
@@ -832,14 +825,13 @@ namespace TraktPlugin.GUI
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
             // determine the overlays to add to poster
-            TraktWatchListShow show = TVTag as TraktWatchListShow;            
-            
-            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+            TraktShow show = TVTag as TraktShow;
             MainOverlayImage mainOverlay = MainOverlayImage.None;
 
-            // only show watch list icon if viewing someone elses watch list
-            if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && show.InWatchList)
+            if (show.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
+
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
 
             if (show.Rating == "love")
                 ratingOverlay = RatingOverlayImage.Love;
@@ -847,7 +839,7 @@ namespace TraktPlugin.GUI
                 ratingOverlay = RatingOverlayImage.Hate;
 
             // get a reference to a MediaPortal Texture Identifier
-            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
             // build memory image
@@ -878,10 +870,10 @@ namespace TraktPlugin.GUI
 
         protected void UpdateCurrentSelection()
         {
-            GUIWatchListShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIWatchListShows;
+            GUIRelatedShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIRelatedShows;
             if (window != null)
             {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87268, 50);
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.RelatedShows, 50);
                 if (selectedItem == this)
                 {
                     GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));

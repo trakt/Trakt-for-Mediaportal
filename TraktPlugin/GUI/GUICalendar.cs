@@ -66,6 +66,7 @@ namespace TraktPlugin.GUI
             AddEpisodeToWatchList,
             RemoveShowFromWatchList,
             RemoveEpisodeFromWatchList,
+            Related,
             AddToLibrary,
             RemoveFromLibrary,
             Rate,
@@ -348,6 +349,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.StartDate;
 
+            // Related Shows
+            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Related;
+
             // Rate
             listItem = new GUIListItem(Translation.Rate + "...");
             dlg.Add(listItem);
@@ -459,6 +465,14 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.StartDate):
                     ShowStartDateMenu();
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    RelatedShow relatedShow = new RelatedShow();
+                    relatedShow.Title = episodeItem.Show.Title;
+                    relatedShow.TVDbId = episodeItem.Show.Tvdb;
+                    GUIRelatedShows.relatedShow = relatedShow;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):

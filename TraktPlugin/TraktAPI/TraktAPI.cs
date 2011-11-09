@@ -723,6 +723,42 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Related
+
+        public static IEnumerable<TraktMovie> GetRelatedMovies(string title)
+        {
+            return GetRelatedMovies(title, false);
+        }
+
+        /// <summary>
+        /// Return a list of related movies for a movie
+        /// </summary>
+        /// <param name="title">The movie search term, either (title-year seperate spaces with '-'), imdbid, tmdbid</param>
+        /// <param name="hidewatched">Hide watched movies</param>
+        public static IEnumerable<TraktMovie> GetRelatedMovies(string title, bool hidewatched)
+        {
+            string response = Transmit(string.Format(TraktURIs.RelatedMovies, title, hidewatched ? "/hidewatched" : string.Empty), GetUserAuthentication());
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        public static IEnumerable<TraktShow> GetRelatedShows(string title)
+        {
+            return GetRelatedShows(title, false);
+        }
+
+        /// <summary>
+        /// Return a list of related shows for a show
+        /// </summary>
+        /// <param name="title">The show search term, either (title-year seperate spaces with '-'), imdbid, tvdbid</param>
+        /// <param name="hidewatched">Hide watched movies</param>
+        public static IEnumerable<TraktShow> GetRelatedShows(string title, bool hidewatched)
+        {
+            string response = Transmit(string.Format(TraktURIs.RelatedShows, title, hidewatched ? "/hidewatched" : string.Empty), GetUserAuthentication());
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>

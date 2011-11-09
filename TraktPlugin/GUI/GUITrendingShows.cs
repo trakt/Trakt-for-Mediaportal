@@ -51,6 +51,7 @@ namespace TraktPlugin.GUI
             AddToWatchList,
             RemoveFromWatchList,
             AddToList,
+            Related,
             Trailers,
             Shouts,
             Rate,
@@ -224,6 +225,11 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Related Shows
+            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Related;
+
             // Rate Show
             listItem = new GUIListItem(Translation.RateShow);
             dlg.Add(listItem);
@@ -273,6 +279,14 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToList):
                     TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    break;
+                
+                case ((int)ContextMenuItem.Related):
+                    RelatedShow relatedShow = new RelatedShow();
+                    relatedShow.Title = selectedShow.Title;
+                    relatedShow.TVDbId = selectedShow.Tvdb;
+                    GUIRelatedShows.relatedShow = relatedShow;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
                     break;
 
                 #if MP12

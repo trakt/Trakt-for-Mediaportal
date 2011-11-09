@@ -36,6 +36,8 @@ namespace TraktPlugin
         public static int WatchListEpisodesDefaultLayout { get; set; }
         public static int ListsDefaultLayout { get; set; }
         public static int ListItemsDefaultLayout { get; set; }
+        public static int RelatedMoviesDefaultLayout { get; set; }
+        public static int RelatedShowsDefaultLayout { get; set; }
         public static int DefaultCalendarView { get; set; }
         public static int DefaultCalendarStartDate { get; set; }
         public static bool DownloadFullSizeFanart { get; set; }
@@ -47,6 +49,8 @@ namespace TraktPlugin
         public static int MovingPicturesFiltersId { get; set; }
         public static bool MovingPicturesFilters { get; set; }
         public static bool CalendarHideTVShowsInWatchList { get; set; }
+        public static bool HideWatchedRelatedMovies { get; set; }
+        public static bool HideWatchedRelatedShows { get; set; }
         #endregion
 
         #region Constants
@@ -74,6 +78,8 @@ namespace TraktPlugin
         private const string cWatchListEpisodesDefaultLayout = "WatchListEpisodesDefaultLayout";
         private const string cListsDefaultLayout = "ListsDefaultLayout";
         private const string cListItemsDefaultLayout = "ListItemsDefaultLayout";
+        private const string cRelatedMoviesDefaultLayout = "RelatedMoviesDefaultLayout";
+        private const string cRelatedShowsDefaultLayout = "RelatedShowsDefaultLayout";
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDefaultCalendarStartDate = "DefaultCalendarStartDate";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
@@ -85,6 +91,8 @@ namespace TraktPlugin
         private const string cMovingPicturesFilterId = "MovingPicturesFilterId";
         private const string cMovingPicturesFilters = "MovingPicturesFilters";
         private const string cCalendarHideTVShowsInWatchList = "CalendarHideTVShowsInWatchList";
+        private const string cHideWatchedRelatedMovies = "HideWatchedRelatedMovies";
+        private const string cHideWatchedRelatedShows = "HideWatchedRelatedShows";
         #endregion
 
         /// <summary>
@@ -209,6 +217,8 @@ namespace TraktPlugin
                 WatchListEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchListEpisodesDefaultLayout, 0);
                 ListsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cListsDefaultLayout, 0);
                 ListItemsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cListItemsDefaultLayout, 0);
+                RelatedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedMoviesDefaultLayout, 0);
+                RelatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedShowsDefaultLayout, 0);
                 DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
                 DefaultCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarStartDate, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
@@ -220,6 +230,8 @@ namespace TraktPlugin
                 MovingPicturesFiltersId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesFilterId, -1);
                 MovingPicturesFilters = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesFilters, false);
                 CalendarHideTVShowsInWatchList = xmlreader.GetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, false);
+                HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
+                HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
             }
         }
 
@@ -252,6 +264,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWatchListMoviesDefaultLayout, WatchListMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cWatchListShowsDefaultLayout, WatchListShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cWatchListEpisodesDefaultLayout, WatchListEpisodesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRelatedMoviesDefaultLayout, RelatedMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRelatedShowsDefaultLayout, RelatedShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cListsDefaultLayout, ListsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cListItemsDefaultLayout, ListItemsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
@@ -265,6 +279,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMovingPicturesFilterId, MovingPicturesFiltersId);
                 xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesFilters, MovingPicturesFilters);
                 xmlwriter.SetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, CalendarHideTVShowsInWatchList);
+                xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedMovies, HideWatchedRelatedMovies);
+                xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedShows, HideWatchedRelatedShows);
             }
 
             Settings.SaveCache();

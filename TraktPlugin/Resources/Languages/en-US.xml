@@ -103,12 +103,14 @@
   <string Field="GettingWatchListMovies">Getting Watch List Movies</string>
   <string Field="GettingWatchListShows">Getting Watch List Shows</string>
   <string Field="GettingWatchListEpisodes">Getting Watch List Episodes</string>
+  <string Field="GettingRelatedMovies">Getting Related Movies</string>
+  <string Field="GettingRelatedShows">Getting Related Shows</string>
   
   <!-- H -->
   <string Field="Hate">Hate</string>
   <string Field="Hated">Hated</string>
   <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
-  <string Field="MultiSelectDialog">Multi-Select Dialog</string>
+  <string Field="HideWatched">Hide Watched</string>
   
   <!-- I -->
   <string Field="Inserted">Inserted</string>
@@ -138,6 +140,7 @@
   <string Field="MarkAsUnWatched">Mark as UnWatched</string>
   <string Field="Movie">Movie</string>
   <string Field="Movies">Movies</string>
+  <string Field="MultiSelectDialog">Multi-Select Dialog</string>
   
   <!-- N -->
   <string Field="Name">Name</string>
@@ -164,6 +167,8 @@
   <string Field="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
   <string Field="NoUserLists">{0} has not created any lists!</string>
   <string Field="NoListItemsFound">No items found in this list!</string>
+  <string Field="NoRelatedMovies">No Related movies found for {0}!</string>
+  <string Field="NoRelatedShows">No Related shows found for {0}!</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -198,6 +203,8 @@
   <string Field="Recommendations">Recommendations</string>
   <string Field="RecommendedMovies">Recommended Movies</string>
   <string Field="RecommendedShows">Recommended Shows</string>
+  <string Field="RelatedMovies">Related Movies</string>
+  <string Field="RelatedShows">Related Shows</string>
   <string Field="Released">Released</string>
   <string Field="ReleaseDate">Release Date</string>
   <string Field="RemoveFromLibrary">Remove from Library</string>
@@ -227,6 +234,7 @@
   <string Field="StartDate">Start Date</string>
   <string Field="Synchronize">Synchronize</string>
   <string Field="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
+  <string Field="ShowWatched">Show Watched</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

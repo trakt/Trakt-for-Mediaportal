@@ -29,6 +29,8 @@ namespace TraktPlugin.GUI
         SettingsGeneral = 87274,
         Lists = 87275,
         ListItems = 87276,
+        RelatedMovies = 87277,
+        RelatedShows = 87278,
         Shouts = 87280
     }
 
