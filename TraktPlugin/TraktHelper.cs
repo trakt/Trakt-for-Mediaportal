@@ -301,6 +301,7 @@ namespace TraktPlugin
                 Title = title,
                 Year = Convert.ToInt32(string.IsNullOrEmpty(year) ? "0" : year)
             };
+            GUIRelatedMovies.relatedMovie = relatedMovie;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
         }
         #endregion
@@ -313,6 +314,7 @@ namespace TraktPlugin
                 TVDbId = tvdbid,
                 Title = title                
             };
+            GUIRelatedShows.relatedShow = relatedShow;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
         }
         #endregion
