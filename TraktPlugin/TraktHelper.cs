@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.Profile;
+using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktHandlers;
 using TraktPlugin.TraktAPI;
@@ -289,6 +290,31 @@ namespace TraktPlugin
             }, Translation.GettingLists, true);
         }
 
+        #endregion
+
+        #region Related Movies
+        public static void ShowRelatedMovies(string imdbid, string title, string year)
+        {
+            RelatedMovie relatedMovie = new RelatedMovie
+            {
+                IMDbId = imdbid,
+                Title = title,
+                Year = Convert.ToInt32(string.IsNullOrEmpty(year) ? "0" : year)
+            };
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
+        }
+        #endregion
+
+        #region Related Shows
+        public static void ShowRelatedShows(string tvdbid, string title)
+        {
+            RelatedShow relatedShow = new RelatedShow
+            {
+                TVDbId = tvdbid,
+                Title = title                
+            };
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+        }
         #endregion
 
         #endregion
