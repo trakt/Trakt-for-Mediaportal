@@ -69,7 +69,8 @@ namespace TraktPlugin.GUI
             Rate,
             Shouts,
             ChangeLayout,
-            Trailers
+            Trailers,
+            SearchWithMpNZB
         }
 
         #endregion
@@ -297,6 +298,19 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Search with mpNZB
+            #if MP12
+            if (TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                if ((userListItem.Movie != null && !userListItem.Movie.InCollection) || userListItem.Episode != null)
+                {
+                    listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
+                }
+            }
+            #endif
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -476,6 +490,21 @@ namespace TraktPlugin.GUI
                 #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     ShowTrailersMenu(userListItem);
+                    break;
+                #endif
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = String.Empty;
+                    if (userListItem.Movie != null)
+                    {
+                        loadingParam = string.Format("search:{0}", userListItem.Movie.Title);
+                    }
+                    else if (userListItem.Episode != null)
+                    {
+                        loadingParam = string.Format("search:{0} S{1}E{2}", userListItem.Show.Title, userListItem.Episode.Season.ToString("D2"), userListItem.Episode.Number.ToString("D2"));
+                    }
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
                 #endif
 
