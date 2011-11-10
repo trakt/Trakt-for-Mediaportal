@@ -772,6 +772,8 @@ namespace TraktPlugin
             #region Add To Watch List
             if (validWatchListItem)
             {
+                if (!GUICommon.CheckLogin(false)) return;
+
                 if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
                 {
                     TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Watch List", type, title, year, imdb);
@@ -806,6 +808,8 @@ namespace TraktPlugin
             #region Add To Custom List
             if (validCustomListItem)
             {
+                if (!GUICommon.CheckLogin(false)) return;
+
                 TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Custom List", type, title, year, imdb);
 
                 if (type == "movie")
@@ -818,6 +822,8 @@ namespace TraktPlugin
             #region Rate
             if (validRateItem)
             {
+                if (!GUICommon.CheckLogin(false)) return;
+
                 switch (type)
                 {
                     case "movie":
@@ -841,6 +847,8 @@ namespace TraktPlugin
             #region Shouts
             if (validShoutItem)
             {
+                if (!GUICommon.CheckLogin(false)) return;
+
                 // Initialize Shout window
                 switch (type)
                 {

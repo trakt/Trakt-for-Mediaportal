@@ -56,20 +56,25 @@ namespace TraktPlugin.GUI
 
     public class GUICommon
     {
+        public static bool CheckLogin()
+        {
+            return CheckLogin(true);
+        }
+
         /// <summary>
         /// Checks if user is logged in, if not the user is presented with
         /// a choice to jump to Account settings and signup/login.
         /// </summary>
-        public static bool CheckLogin()
+        public static bool CheckLogin(bool showPreviousWindow)
         {
             if (TraktSettings.AccountStatus != TraktAPI.ConnectionState.Connected)
             {
                 if (GUIUtils.ShowYesNoDialog(Translation.Login, Translation.NotLoggedIn, true))
                 {
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);                    
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
                     return false;
                 }
-                GUIWindowManager.ShowPreviousWindow();
+                if (showPreviousWindow) GUIWindowManager.ShowPreviousWindow();
                 return false;
             }
             return true;
