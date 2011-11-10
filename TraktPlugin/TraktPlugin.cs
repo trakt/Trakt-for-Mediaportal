@@ -855,48 +855,22 @@ namespace TraktPlugin
                     #region movie
                     case "movie":
                         TraktLogger.Info("Searching Shouts for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        MovieShout movieInfo = new MovieShout
-                        {
-                            IMDbId = imdb,
-                            Title = title,
-                            Year = year
-                        };
-                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
-                        GUIShouts.MovieInfo = movieInfo;
-                        GUIShouts.Fanart = fanart;
+                        TraktHelper.ShowMovieShouts(imdb, title, year, fanart);
                         break;
                     #endregion
                     #region episode
                     case "episode":
                         TraktLogger.Info("Searching Shouts for {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
-                        EpisodeShout episodeInfo = new EpisodeShout
-                        {
-                            TVDbId = tvdb,
-                            Title = title,
-                            SeasonIdx = season,
-                            EpisodeIdx = episode
-                        };
-                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
-                        GUIShouts.EpisodeInfo = episodeInfo;
-                        GUIShouts.Fanart = fanart;
+                        TraktHelper.ShowEpisodeShouts(tvdb, title, season, episode, fanart);
                         break;
                     #endregion
                     #region series
                     case "series":
                         TraktLogger.Info("Searching Shouts for {0} '{1} [{2}]'", type, title, tvdb);
-                        ShowShout seriesInfo = new ShowShout
-                        {
-                            TVDbId = tvdb,
-                            Title = title,
-                        };
-                        GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
-                        GUIShouts.ShowInfo = seriesInfo;
-                        GUIShouts.Fanart = fanart;
+                        TraktHelper.ShowTVShowShouts(tvdb, title, fanart);
                         break;
                     #endregion
                 }
-                // Launch Shout window
-                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
             }
             #endregion
 

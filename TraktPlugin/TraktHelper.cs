@@ -319,6 +319,54 @@ namespace TraktPlugin
         }
         #endregion
 
+        #region Movie Shouts
+        public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
+        {
+            MovieShout movieInfo = new MovieShout
+            {
+                IMDbId = imdb,
+                Title = title,
+                Year = year
+            };
+            GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
+            GUIShouts.MovieInfo = movieInfo;
+            GUIShouts.Fanart = fanart;
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+        #endregion
+
+        #region Show Shouts
+        public static void ShowTVShowShouts(string tvdb, string title, string fanart)
+        {
+            ShowShout seriesInfo = new ShowShout
+            {
+                TVDbId = tvdb,
+                Title = title,
+            };
+            GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
+            GUIShouts.ShowInfo = seriesInfo;
+            GUIShouts.Fanart = fanart;
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+        #endregion
+
+        #region Episode Shouts
+        public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart)
+        {
+            EpisodeShout episodeInfo = new EpisodeShout
+            {
+                TVDbId = tvdb,
+                Title = title,
+                SeasonIdx = season,
+                EpisodeIdx = episode
+            };
+            GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
+            GUIShouts.EpisodeInfo = episodeInfo;
+            GUIShouts.Fanart = fanart;
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+        #endregion
+
         #endregion
 
         #region Internal Helpers
