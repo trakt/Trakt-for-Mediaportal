@@ -102,7 +102,7 @@ namespace TraktPlugin
         /// <param name="updateMovingPicturesFilters">set to true if movingpictures categories/filters should also be updated</param>
         public static void AddMovieToWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
             TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
             if (syncObject == null) return;
@@ -138,7 +138,7 @@ namespace TraktPlugin
 
         public static void AddRemoveMovieInUserList(string username, string title, string year, string imdbid, bool remove)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
@@ -178,7 +178,7 @@ namespace TraktPlugin
 
         public static void AddRemoveShowInUserList(string username, string title, string year, string tvdbid, bool remove)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
@@ -218,7 +218,7 @@ namespace TraktPlugin
 
         public static void AddRemoveSeasonInUserList(string username, string title, string year, string season, string tvdbid, bool remove)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
@@ -259,7 +259,7 @@ namespace TraktPlugin
 
         public static void AddRemoveEpisodeInUserList(string username, string title, string year, string season, string episode, string tvdbid, bool remove)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
