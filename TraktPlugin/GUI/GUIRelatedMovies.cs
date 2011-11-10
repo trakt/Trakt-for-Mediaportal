@@ -484,7 +484,7 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktTrendingMovie selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
+            TraktMovie selectedMovie = selectedItem.TVTag as TraktMovie;
             if (selectedMovie == null) return;
 
             string title = selectedMovie.Title;
