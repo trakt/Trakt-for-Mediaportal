@@ -80,11 +80,11 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
-            // Requires Login
-            if (!GUICommon.CheckLogin()) return;
-
             // Clear GUI properties
             ClearProperties();
+
+            // Requires Login
+            if (!GUICommon.CheckLogin()) return;
 
             // Initialize
             InitProperties();
@@ -261,6 +261,8 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Shouts.CurrentItem", string.Empty);
+
             GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Avatar", string.Empty);
