@@ -86,6 +86,7 @@ namespace TraktPlugin.GUI
             AddToList,
             AddToLibrary,
             RemoveFromLibrary,
+            Related,
             Rate,
             Shouts,
             ChangeLayout,
@@ -121,7 +122,8 @@ namespace TraktPlugin.GUI
         int PreviousSelectedIndex = 0;
         Dictionary<string, IEnumerable<TraktMovie>> dictRelatedMovies = new Dictionary<string, IEnumerable<TraktMovie>>();
         bool HideWatched = false;
-        bool SendingWatchedToTrakt { get; set; }
+        bool SendingWatchedToTrakt = false;
+        bool RelationChanged = false;
 
         IEnumerable<TraktMovie> RelatedMovies
         {
@@ -171,9 +173,13 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
-            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+            StopDownload = true;            
             ClearProperties();
+
+            if (RelationChanged)
+                PreviousSelectedIndex = 0;
+            else 
+                PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             // save settings
             TraktSettings.RelatedMoviesDefaultLayout = (int)CurrentLayout;
@@ -307,6 +313,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
             }
 
+            // Related Movies
+            listItem = new GUIListItem(Translation.RelatedMovies + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Related;
+
             // Rate Movie
             listItem = new GUIListItem(Translation.RateMovie);
             dlg.Add(listItem);
@@ -412,6 +423,19 @@ namespace TraktPlugin.GUI
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    RelatedMovie relMovie = new RelatedMovie
+                    {
+                        Title = selectedMovie.Title,
+                        IMDbId = selectedMovie.Imdb,
+                        Year = Convert.ToInt32(selectedMovie.Year)
+                    };
+                    relatedMovie = relMovie;
+                    GUIUtils.SetProperty("#Trakt.Related.Movie", relMovie.Title);
+                    LoadRelatedMovies();
+                    RelationChanged = true;
                     break;
 
                 case ((int)ContextMenuItem.Rate):
@@ -828,13 +852,16 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Related.Movie", title);
 
             // hide watched
-            HideWatched = TraktSettings.HideWatchedRelatedMovies;
+            HideWatched = TraktSettings.HideWatchedRelatedMovies;            
             SendingWatchedToTrakt = false;
             if (hideWatchedButton != null)
             {
                 GUIControl.SetControlLabel((int)TraktGUIWindows.RelatedMovies, hideWatchedButton.GetID, Translation.HideWatched);
                 hideWatchedButton.Selected = HideWatched;
             }
+
+            // no changes yet
+            RelationChanged = false;
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RelatedMoviesDefaultLayout;

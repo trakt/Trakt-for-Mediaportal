@@ -74,6 +74,7 @@ namespace TraktPlugin.GUI
             AddToList,
             Trailers,
             Shouts,
+            Related,
             Rate,
             ChangeLayout,
             SearchWithMpNZB
@@ -113,6 +114,7 @@ namespace TraktPlugin.GUI
         int PreviousSelectedIndex = 0;
         Dictionary<string, IEnumerable<TraktShow>> dictRelatedShows = new Dictionary<string, IEnumerable<TraktShow>>();
         bool HideWatched = false;
+        bool RelationChanged = false;
 
         IEnumerable<TraktShow> RelatedShows
         {
@@ -163,8 +165,12 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             StopDownload = true;
-            PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
+
+            if (RelationChanged)
+                PreviousSelectedIndex = 0;
+            else
+                PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             // save settings
             TraktSettings.RelatedShowsDefaultLayout = (int)CurrentLayout;
@@ -274,6 +280,11 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Related Shows
+            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Related;
+
             // Rate Show
             listItem = new GUIListItem(Translation.RateShow);
             dlg.Add(listItem);
@@ -343,6 +354,18 @@ namespace TraktPlugin.GUI
                     GUIShouts.ShowInfo = new ShowShout { IMDbId = selectedShow.Imdb, TVDbId = selectedShow.Tvdb, Title = selectedShow.Title };
                     GUIShouts.Fanart = selectedShow.Images.FanartImageFilename;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    break;
+
+                case ((int)ContextMenuItem.Related):
+                    RelatedShow relShow = new RelatedShow
+                    {
+                        Title = selectedShow.Title,
+                        TVDbId = selectedShow.Tvdb
+                    };
+                    relatedShow = relShow;
+                    LoadRelatedShows();
+                    GUIUtils.SetProperty("#Trakt.Related.Show", relatedShow.Title);
+                    RelationChanged = true;
                     break;
 
                 case ((int)ContextMenuItem.Rate):
@@ -671,6 +694,9 @@ namespace TraktPlugin.GUI
                 GUIControl.SetControlLabel((int)TraktGUIWindows.RelatedShows, hideWatchedButton.GetID, Translation.HideWatched);
                 hideWatchedButton.Selected = HideWatched;
             }
+
+            // no changes yet
+            RelationChanged = false;
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RelatedShowsDefaultLayout;
