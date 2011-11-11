@@ -882,14 +882,30 @@ namespace TraktPlugin
                 {
                     #region movie
                     case "movie":
-                        TraktLogger.Info("Show Related Movies for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        TraktHelper.ShowRelatedMovies(imdb, title, year);
+                        if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Movies.xml"))
+                        {
+                            // let user know they need to update skin or harass skin author
+                            GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                        }
+                        else
+                        {
+                            TraktLogger.Info("Show Related Movies for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
+                            TraktHelper.ShowRelatedMovies(imdb, title, year);
+                        }
                         break;
                     #endregion
                     #region series
                     case "series":
-                        TraktLogger.Info("Showing Related Shows for {0} '{1} [{2}]'", type, title, tvdb);
-                        TraktHelper.ShowRelatedShows(tvdb, title);
+                        if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Shows.xml"))
+                        {
+                            // let user know they need to update skin or harass skin author
+                            GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                        }
+                        else
+                        {
+                            TraktLogger.Info("Showing Related Shows for {0} '{1} [{2}]'", type, title, tvdb);
+                            TraktHelper.ShowRelatedShows(tvdb, title);
+                        }
                         break;
                     #endregion
                 }
