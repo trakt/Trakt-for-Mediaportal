@@ -165,6 +165,7 @@ namespace TraktPlugin
                     };
 
                     TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
+                    TraktLogger.Debug("Response: " + response.ToJSON());
                     if (response != null && response.Status == "success")
                     {
                         TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
