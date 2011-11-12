@@ -295,6 +295,13 @@ namespace TraktPlugin
         #region Related Movies
         public static void ShowRelatedMovies(string imdbid, string title, string year)
         {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Movies.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+           
             RelatedMovie relatedMovie = new RelatedMovie
             {
                 IMDbId = imdbid,
@@ -309,6 +316,13 @@ namespace TraktPlugin
         #region Related Shows
         public static void ShowRelatedShows(string tvdbid, string title)
         {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Shows.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+
             RelatedShow relatedShow = new RelatedShow
             {
                 TVDbId = tvdbid,
@@ -322,6 +336,13 @@ namespace TraktPlugin
         #region Movie Shouts
         public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
         {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+
             MovieShout movieInfo = new MovieShout
             {
                 IMDbId = imdb,
@@ -338,6 +359,13 @@ namespace TraktPlugin
         #region Show Shouts
         public static void ShowTVShowShouts(string tvdb, string title, string fanart)
         {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+
             ShowShout seriesInfo = new ShowShout
             {
                 TVDbId = tvdb,
@@ -353,6 +381,13 @@ namespace TraktPlugin
         #region Episode Shouts
         public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart)
         {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+
             EpisodeShout episodeInfo = new EpisodeShout
             {
                 TVDbId = tvdb,
