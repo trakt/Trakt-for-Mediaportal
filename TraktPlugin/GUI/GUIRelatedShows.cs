@@ -616,7 +616,7 @@ namespace TraktPlugin.GUI
                     IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
                     SendRelatedShowsToFacade(shows);
                 }
-            }, Translation.GettingTrendingShows, true);
+            }, Translation.GettingRelatedShows, true);
         }
 
         private void SendRelatedShowsToFacade(IEnumerable<TraktShow> shows)
