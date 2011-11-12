@@ -419,6 +419,7 @@
     <Content Include="Resources\Skins\DefaultWide\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\hate.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\hover_trakt.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\isupdate.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\Logos\trakt.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\love.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\mainoverlay.png" />
@@ -426,6 +427,10 @@
     <Content Include="Resources\Skins\DefaultWide\Media\rate.hate.on.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\rate.love.off.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\rate.love.on.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\trakt-togglebutton-off-focus.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\trakt-togglebutton-off-nofocus.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\trakt-togglebutton-on-focus.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\trakt-togglebutton-on-nofocus.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktHate.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktLibrary.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktLoginFieldFocus.png" />
@@ -441,11 +446,14 @@
     <Content Include="Resources\Skins\DefaultWide\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Common.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Friends.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.List.Items.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Lists.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.RateDialog.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.Movies.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Recommendations.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Related.Movies.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Related.Shows.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Account.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml" />
@@ -471,6 +479,7 @@
     <Content Include="Resources\Skins\Default\Media\glassoverlay2.png" />
     <Content Include="Resources\Skins\Default\Media\hate.png" />
     <Content Include="Resources\Skins\Default\Media\hover_trakt.png" />
+    <Content Include="Resources\Skins\Default\Media\isupdate.png" />
     <Content Include="Resources\Skins\Default\Media\Logos\trakt.png" />
     <Content Include="Resources\Skins\Default\Media\love.png" />
     <Content Include="Resources\Skins\Default\Media\rate.hate.off.png" />
@@ -492,11 +501,14 @@
     <Content Include="Resources\Skins\Default\Trakt.Common.Fanart.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Friends.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.List.Items.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Lists.xml" />
     <Content Include="Resources\Skins\Default\Trakt.RateDialog.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Recommendations.Movies.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Recommendations.Shows.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Recommendations.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.Related.Movies.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.Related.Shows.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.Account.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.General.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.Plugins.xml" />
