@@ -375,6 +375,11 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
+                Thread.CurrentThread.Name = "Library Sync";
+
+            TraktLogger.Info("Library Sync Complete for all enabled plugins.");
+
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?
         }
@@ -388,7 +393,10 @@ namespace TraktPlugin
         {
             Thread.CurrentThread.Name = "Library Sync";
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected)
+                return;
+
+            TraktLogger.Info("Library Sync Started for all enabled plugins.");
 
             // User could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
@@ -484,6 +492,7 @@ namespace TraktPlugin
             // only need this if previous connection attempt was unauthorized on Init()
             if (!ConnectionChecked)
             {
+                ConnectionChecked = true;
                 Thread checkStatus = new Thread(delegate()
                 {
                     if (TraktSettings.AccountStatus == ConnectionState.Invalid)
@@ -491,10 +500,11 @@ namespace TraktPlugin
                         TraktSettings.AccountStatus = ConnectionState.Pending;
                         // Re-Check and Notify
                         if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized, 20);
-                        ConnectionChecked = true;
+                        {
+                            Thread.Sleep(10000);
+                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
+                        }
                     }
-                    ConnectionChecked = TraktSettings.AccountStatus != ConnectionState.Connecting;
                 })
                 {
                     IsBackground = true,
@@ -547,6 +557,7 @@ namespace TraktPlugin
             #region Friend Requests Check
             if (TraktSettings.GetFriendRequestsOnStartup && !FriendRequestsChecked)
             {
+                FriendRequestsChecked = true;
                 Thread friendsThread = new Thread(delegate(object obj)
                 {
                     if (TraktSettings.AccountStatus == ConnectionState.Connected)
@@ -555,10 +566,10 @@ namespace TraktPlugin
                         TraktLogger.Info("Friend requests: {0}", friendRequests.Count().ToString());
                         if (friendRequests.Count() > 0)
                         {
-                            GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()), 20);
+                            Thread.Sleep(10000);
+                            GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()));
                         }
                     }
-                    FriendRequestsChecked = TraktSettings.AccountStatus != ConnectionState.Connecting;
                 })
                 {
                     IsBackground = true,

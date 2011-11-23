@@ -11,6 +11,8 @@ namespace TraktPlugin
 {
     public static class TraktSettings
     {
+        private static Object lockObject = new object();
+
         #region Settings
         public static string Username { get; set; }
         public static string Password { get; set; }
@@ -144,44 +146,50 @@ namespace TraktPlugin
         {
             get 
             {
-                if (_AccountStatus == ConnectionState.Pending)
+                lock (lockObject)
                 {
-                    // update state, to inform we are connecting now
-                    _AccountStatus = ConnectionState.Connecting;
-                    
-                    TraktLogger.Info("Signing into trakt.tv");
-                    
-                    if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+                    if (_AccountStatus == ConnectionState.Pending)
                     {
-                        TraktLogger.Info("Username and/or Password is empty in settings!");
-                        return ConnectionState.Disconnected;
-                    }
+                        // update state, to inform we are connecting now
+                        _AccountStatus = ConnectionState.Connecting;
 
-                    // test connection
-                    TraktAccount account = new TraktAccount
-                    {
-                        Username = TraktSettings.Username,
-                        Password = TraktSettings.Password
-                    };
+                        TraktLogger.Info("Signing into trakt.tv");
 
-                    TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
-                    TraktLogger.Debug("Response: " + response.ToJSON());
-                    if (response != null && response.Status == "success")
-                    {
-                        TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
-                        _AccountStatus = ConnectionState.Connected;
-                    }
-                    else
-                    {
-                        TraktLogger.Info("Username and/or Password is Invalid!");
-                        _AccountStatus = ConnectionState.Invalid;
+                        if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+                        {
+                            TraktLogger.Info("Username and/or Password is empty in settings!");
+                            return ConnectionState.Disconnected;
+                        }
+
+                        // test connection
+                        TraktAccount account = new TraktAccount
+                        {
+                            Username = TraktSettings.Username,
+                            Password = TraktSettings.Password
+                        };
+
+                        TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
+                        TraktLogger.Debug("Response: " + response.ToJSON());
+                        if (response != null && response.Status == "success")
+                        {
+                            TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
+                            _AccountStatus = ConnectionState.Connected;
+                        }
+                        else
+                        {
+                            TraktLogger.Info("Username and/or Password is Invalid!");
+                            _AccountStatus = ConnectionState.Invalid;
+                        }
                     }
                 }
                 return _AccountStatus;
             }
             set
             {
-                _AccountStatus = value;
+                lock (lockObject)
+                {
+                    _AccountStatus = value;
+                }
             }
         }
         static ConnectionState _AccountStatus = ConnectionState.Pending;
