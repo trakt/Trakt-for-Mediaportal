@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cornerstone.Database.CustomTypes;
 using MediaPortal.Plugins.MovingPictures;
+using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
 using MediaPortal.Plugins.MovingPictures.Database;
 using MediaPortal.Plugins.MovingPictures.MainUI;
 using TraktPlugin.TraktAPI;
@@ -280,12 +281,49 @@ namespace TraktPlugin.TraktHandlers
         public bool Scrobble(String filename)
         {
             StopScrobble();
+
+            bool matchFound = false;
             List<DBMovieInfo> searchResults = (from m in DBMovieInfo.GetAll() where (from path in m.LocalMedia select path.FullPath).ToList().Contains(filename) select m).ToList();
+
             if (searchResults.Count == 1)
             {
-                //Create timer
+                matchFound = true;
                 currentMovie = searchResults[0];
-                TraktLogger.Info(string.Format("Found playing movie {0}", currentMovie.Title));
+            }
+            else if (searchResults.Count == 0)
+            {
+                // check if filename is DVD/Bluray format
+                if (VideoUtility.GetVideoFormat(filename) != VideoFormat.File)
+                {
+                    // use the player skin properties to determine movie playing
+                    // note: movingpictures sets this 2secs after playback
+                    TraktLogger.Debug("Getting movie info from player skin properties");
+                    System.Threading.Thread.Sleep(2000);
+                    string title = GUI.GUIUtils.GetProperty("#Play.Current.Title");
+                    string year = GUI.GUIUtils.GetProperty("#Play.Current.Year");
+
+                    if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))
+                    {
+                        TraktLogger.Debug("Not enough information from play properties to get a movie match!");
+                        return false;
+                    }
+
+                    currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.Title == title && m.Year == Convert.ToInt32(year));
+                    if (currentMovie != null) matchFound = true;
+                }
+                else
+                {
+                    TraktLogger.Debug("Filename could not be matched to a movie in MovingPictures.");
+                }
+            }
+            else
+            {
+                TraktLogger.Debug("Multiple movies found for filename something is up!");
+            }
+
+            if (matchFound)
+            {
+                TraktLogger.Info(string.Format("Found playing movie '{0}' in MovingPictures.", currentMovie.Title));
                 ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
                 traktTimer = new Timer();
                 traktTimer.Interval = 900000;
@@ -293,10 +331,7 @@ namespace TraktPlugin.TraktHandlers
                 traktTimer.Start();
                 return true;
             }
-            else if (searchResults.Count == 0)
-                TraktLogger.Debug("Playback started but Movie not found");
-            else
-                TraktLogger.Debug("Multiple movies found for filename something is up!");
+
             return false;
         }
 
@@ -402,8 +437,8 @@ namespace TraktPlugin.TraktHandlers
                 if (TraktSettings.KeepTraktLibraryClean)
                 {
                     //A Movie was removed from the database update trakt
-                    DBMovieInfo insertedMovie = (DBMovieInfo)obj;
-                    SyncMovie(CreateSyncData(insertedMovie), TraktSyncModes.unlibrary);
+                    DBMovieInfo deletedMovie = (DBMovieInfo)obj;
+                    SyncMovie(CreateSyncData(deletedMovie), TraktSyncModes.unlibrary);
                 }
             }
         }

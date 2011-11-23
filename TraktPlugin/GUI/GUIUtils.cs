@@ -26,6 +26,12 @@ namespace TraktPlugin.GUI
             return "Trakt";
         }
 
+        public static string GetProperty(string property)
+        {
+            string propertyVal = GUIPropertyManager.GetProperty(property);
+            return propertyVal ?? string.Empty;
+        }
+
         public static void SetProperty(string property, string value)
         {
             SetProperty(property, value, false);
