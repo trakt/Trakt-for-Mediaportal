@@ -118,7 +118,19 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)SkinControls.Login):
+                    bool autoLogin = ShowLoginMenu();                    
                     ShowAccountControls(false);
+                    if (autoLogin)
+                    {
+                        GUIControl.SetControlLabel(GetID, btnUsername.GetID, this.Username);
+                        GUIControl.SetControlLabel(GetID, btnPassword.GetID, GetMaskedPassword(this.Password));
+                        TraktAccount account = new TraktAccount
+                        {
+                            Username = this.Username,
+                            Password = this.Password
+                        };
+                        TestAccount(account);
+                    }
                     break;
 
                 case ((int)SkinControls.Username):
@@ -151,7 +163,13 @@ namespace TraktPlugin.GUI
                 case ((int)SkinControls.Ok):
                     if (ValidateFields())
                     {
-                        TestAccount();
+                        TraktAccount account = new TraktAccount
+                        {
+                            Username = this.Username,
+                            Password = this.Password.GetSha1(),
+                            Email = this.Email
+                        };
+                        TestAccount(account);
                     }
                     break;
 
@@ -184,6 +202,30 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
+        private bool ShowLoginMenu()
+        {
+            if (TraktSettings.UserLogins.Count == 0) return false;
+
+            // Show List of users to login as
+            List<GUIListItem> items = new List<GUIListItem>();
+
+            foreach (var userlogin in TraktSettings.UserLogins)
+            {
+                items.Add(new GUIListItem { Label = userlogin.Username, Selected = TraktSettings.Username == userlogin.Username });
+            }
+
+            // Login new user manually
+            items.Add(new GUIListItem { Label = Translation.LoginExistingAccount });            
+
+            int selectedItem = GUIUtils.ShowMenuDialog(Translation.SelectUser, items);
+            if (selectedItem == -1 || selectedItem == TraktSettings.UserLogins.Count) return false;
+
+            this.Username = TraktSettings.UserLogins[selectedItem].Username;
+            this.Password = TraktSettings.UserLogins[selectedItem].Password;
+
+            return true;
+        }
+
         private string GetMaskedPassword(string password)
         {
             int i = 0;
@@ -197,15 +239,8 @@ namespace TraktPlugin.GUI
             return maskedPassword;
         }
 
-        private void TestAccount()
+        private void TestAccount(TraktAccount account)
         {
-            TraktAccount account = new TraktAccount
-            {
-                Username = this.Username,
-                Password = this.Password.GetSha1(),
-                Email = this.Email
-            };
-            
             TraktResponse response = null;
             if (NewAccount)
             {
@@ -236,6 +271,10 @@ namespace TraktPlugin.GUI
                 // Save New Account Settings
                 TraktSettings.Username = account.Username;
                 TraktSettings.Password = account.Password;
+                if (!TraktSettings.UserLogins.Exists(u => u.Username == TraktSettings.Username))
+                {
+                    TraktSettings.UserLogins.Add(new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password });
+                }
                 TraktSettings.AccountStatus = ConnectionState.Connected;
                 HideAccountControls();
                 InitProperties();

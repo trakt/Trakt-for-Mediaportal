@@ -222,6 +222,7 @@
   <string Field="SearchForFriend">Search for Friend...</string>
   <string Field="SendFriendRequest">Send friend request to {0}?</string>
   <string Field="SelectLists">Select Lists</string>
+  <string Field="SelectUser">Select User</string>
   <string Field="Series">Series</string>
   <string Field="SeriesPlural">Series</string>
   <string Field="Settings">Settings</string>

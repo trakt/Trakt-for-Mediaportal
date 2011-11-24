@@ -16,6 +16,7 @@ namespace TraktPlugin
         #region Settings
         public static string Username { get; set; }
         public static string Password { get; set; }
+        public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
         public static int TVSeries { get; set; }
         public static int MyVideos { get; set; }
@@ -95,8 +96,10 @@ namespace TraktPlugin
         private const string cCalendarHideTVShowsInWatchList = "CalendarHideTVShowsInWatchList";
         private const string cHideWatchedRelatedMovies = "HideWatchedRelatedMovies";
         private const string cHideWatchedRelatedShows = "HideWatchedRelatedShows";
+        private const string cUserLogins = "UserLogins";
         #endregion
 
+        #region Properties
         /// <summary>
         /// Get Movie Plugin Count
         /// </summary>
@@ -174,6 +177,11 @@ namespace TraktPlugin
                         {
                             TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);
                             _AccountStatus = ConnectionState.Connected;
+
+                            if (!UserLogins.Exists(u => u.Username == Username))
+                            {
+                                UserLogins.Add(new TraktAuthentication { Username = Username, Password = Password });
+                            }
                         }
                         else
                         {
@@ -194,6 +202,9 @@ namespace TraktPlugin
         }
         static ConnectionState _AccountStatus = ConnectionState.Pending;
 
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Loads the Settings
         /// </summary>
@@ -204,6 +215,7 @@ namespace TraktPlugin
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
                 Password = xmlreader.GetValueAsString(cTrakt, cPassword, "");
+                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList();
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 MyVideos = xmlreader.GetValueAsInt(cTrakt, cMyVideos, -1);
@@ -254,6 +266,7 @@ namespace TraktPlugin
             {
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
                 xmlwriter.SetValue(cTrakt, cPassword, Password);
+                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.ToJSON());
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
                 xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValue(cTrakt, cMyVideos, MyVideos);
@@ -294,5 +307,7 @@ namespace TraktPlugin
 
             Settings.SaveCache();
         }
+
+        #endregion
     }
 }

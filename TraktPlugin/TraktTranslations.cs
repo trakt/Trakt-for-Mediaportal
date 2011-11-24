@@ -401,6 +401,7 @@ namespace TraktPlugin.GUI
         public static string SearchForFriend = "Search for Friend...";
         public static string SendFriendRequest = "Send friend request to {0}?";
         public static string SelectLists = "Select Lists";
+        public static string SelectUser = "Select User";
         public static string Series = "Series";
         public static string SeriesPlural = "Series";        
         public static string Settings = "Settings";
