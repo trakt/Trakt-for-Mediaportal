@@ -518,19 +518,19 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Related):
                     if (selectedMovie != null)
                     {
+                        RelatedMovie relatedMovie = new RelatedMovie();
+                        relatedMovie.IMDbId = selectedMovie.Movie.Imdb;
+                        relatedMovie.Title = selectedMovie.Movie.Title;
+                        GUIRelatedMovies.relatedMovie = relatedMovie;
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
+                    }
+                    else
+                    {
                         RelatedShow relatedShow = new RelatedShow();
                         relatedShow.Title = selectedEpisode.Show.Title;
                         relatedShow.TVDbId = selectedEpisode.Show.Tvdb;
                         GUIRelatedShows.relatedShow = relatedShow;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
-                    }
-                    else
-                    {
-                        RelatedMovie relatedMovie = new RelatedMovie();
-                        relatedMovie.IMDbId = selectedMovie.Movie.Imdb;
-                        relatedMovie.Title = selectedMovie.Movie.Title;
-                        GUIRelatedMovies.relatedMovie = relatedMovie;
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);                        
                     }
                     break;
 
