@@ -372,9 +372,9 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Debug("Scrobbling Movie {0}", movie.Title);
             // MovingPictures stores duration in milliseconds, g_Player reports in seconds
             Double currentPosition = g_Player.CurrentPosition;
-            Double duration = movie.ActualRuntime / 1000;
+            Double duration = movie.ActualRuntime == 0 ? g_Player.Duration : movie.ActualRuntime / 1000.0;
 
-            Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100) : 0.0;
+            Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100.0) : 0.0;
             TraktLogger.Debug(string.Format("Percentage of {0} is {1}%", movie.Title, percentageCompleted.ToString("N2")));
 
             //Create Scrobbling Data
