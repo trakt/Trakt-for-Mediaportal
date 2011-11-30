@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Net;
@@ -793,7 +794,23 @@ namespace TraktPlugin.TraktAPI
             }
             catch (WebException e)
             {
-                // something bad happened e.g. invalid login
+                // something bad happened
+                if(e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    var response = ((HttpWebResponse)e.Response);
+                    try
+                    {
+                        using (var stream = response.GetResponseStream())
+                        {
+                            using (var reader = new StreamReader(stream))
+                            {
+                                return reader.ReadToEnd();
+                            }
+                        }
+                    }
+                    catch { } 
+                }
+
                 TraktResponse error = new TraktResponse
                 {
                     Status = "failure",
