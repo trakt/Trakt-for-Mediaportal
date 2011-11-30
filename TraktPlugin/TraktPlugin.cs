@@ -194,10 +194,13 @@ namespace TraktPlugin
             }
 
             TraktLogger.Debug("Removing Mediaportal Hooks");
-            g_Player.PlayBackChanged -= new g_Player.ChangedHandler(g_Player_PlayBackChanged);
-            g_Player.PlayBackEnded -= new g_Player.EndedHandler(g_Player_PlayBackEnded);
-            g_Player.PlayBackStarted -= new g_Player.StartedHandler(g_Player_PlayBackStarted);
-            g_Player.PlayBackStopped -= new g_Player.StoppedHandler(g_Player_PlayBackStopped);
+            g_Player.PlayBackChanged -= g_Player_PlayBackChanged;
+            g_Player.PlayBackEnded -= g_Player_PlayBackEnded;
+            g_Player.PlayBackStarted -= g_Player_PlayBackStarted;
+            g_Player.PlayBackStopped -= g_Player_PlayBackStopped;
+            GUIWindowManager.OnDeActivateWindow -= GUIWindowManager_OnDeActivateWindow;
+            GUIWindowManager.OnActivateWindow -= GUIWindowManager_OnActivateWindow;
+            GUIWindowManager.Receivers -= GUIWindowManager_Receivers;
 
             TraktLogger.Debug("Stopping all possible Scrobblings");
             foreach (ITraktHandler traktHandler in TraktHandlers)
