@@ -206,6 +206,9 @@ namespace TraktPlugin
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
+            // Unload Plugin Handlers
+            UnLoadPluginHandlers();
+
             // save settings
             TraktSettings.saveSettings();
 
@@ -221,6 +224,64 @@ namespace TraktPlugin
         #endregion
 
         #region Plugin Handlers
+
+        private void UnLoadPluginHandlers()
+        {
+            TraktLogger.Debug("Un-Loading Plugin Handlers");
+
+            #region MovingPictures
+            if (TraktHandlers.Exists(p => p.Name == "Moving Pictures"))
+            {
+                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "Moving Pictures");
+                (item as MovingPictures).DisposeEvents();
+                TraktHandlers.Remove(item);
+            }
+            #endregion
+
+            #region MP-TVSeries
+            if (TraktHandlers.Exists(p => p.Name == "MP-TVSeries"))
+            {
+                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "MP-TVSeries");
+                (item as TVSeries).DisposeEvents();
+                TraktHandlers.Remove(item);
+
+            }
+            #endregion
+
+            #region My Videos
+            if (TraktHandlers.Exists(p => p.Name == "My Videos"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "My Videos");
+            }
+            #endregion
+
+            #region My Films
+            if (TraktHandlers.Exists(p => p.Name == "My Films"))
+            {
+                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Films");
+                (item as MyFilmsHandler).DisposeEvents();
+                TraktHandlers.Remove(item);
+            }
+            #endregion
+
+            #region OnlineVideos
+            if (TraktHandlers.Exists(p => p.Name == "OnlineVideos"))
+            {
+                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "OnlineVideos");
+                (item as TraktHandlers.OnlineVideos).DisposeEvents();
+                TraktHandlers.Remove(item);
+            }
+            #endregion
+
+            #region My Anime
+            if (TraktHandlers.Exists(p => p.Name == "My Anime"))
+            {
+                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Anime");
+                (item as MyAnime).DisposeEvents();
+                TraktHandlers.Remove(item);
+            }
+            #endregion
+        }
 
         private void LoadPluginHandlers()
         {
