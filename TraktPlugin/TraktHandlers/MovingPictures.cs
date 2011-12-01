@@ -374,6 +374,10 @@ namespace TraktPlugin.TraktHandlers
             Double currentPosition = g_Player.CurrentPosition;
             Double duration = movie.ActualRuntime == 0 ? g_Player.Duration : movie.ActualRuntime / 1000.0;
 
+            // extra checks for runtime in case both movpics and g_player reports incorrect
+            // runtime for online field (if available) is in minutes
+            if (duration == 0.0) duration = movie.Runtime * 60.0;
+
             Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100.0) : 0.0;
             TraktLogger.Debug(string.Format("Percentage of {0} is {1}%", movie.Title, percentageCompleted.ToString("N2")));
 

@@ -795,6 +795,8 @@ namespace TraktPlugin.TraktAPI
             catch (WebException e)
             {
                 // something bad happened
+                TraktLogger.Debug("WebException: {0}", e.Message);
+
                 if(e.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ((HttpWebResponse)e.Response);

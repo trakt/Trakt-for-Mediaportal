@@ -280,14 +280,17 @@ namespace TraktPlugin.TraktHandlers
 
                 IMDBMovie currentMovie = stateInfo as IMDBMovie;
 
-                TraktLogger.Info("Scrobbling Movie {0}", movie.Title);
-                
-                double duration = g_Player.Duration;
+                TraktLogger.Info("Scrobbling Movie {0}", currentMovie.Title);
+
+                // get online runtime if local one unavailable to be retrieved
+                double duration = g_Player.Duration == 0.0 ? currentMovie.RunTime * 60.0 : g_Player.Duration;
                 double progress = 0.0;
 
                 // get current progress of player (in seconds) to work out percent complete
                 if (duration > 0.0)
                     progress = (g_Player.CurrentPosition / duration) * 100.0;
+
+                TraktLogger.Debug(string.Format("Percentage of {0} is {1}%", currentMovie.Title, progress.ToString("N2")));
 
                 // create Scrobbling Data
                 TraktMovieScrobble scrobbleData = CreateScrobbleData(currentMovie);
@@ -325,7 +328,8 @@ namespace TraktPlugin.TraktHandlers
                 if (scrobbleData == null) return;
 
                 // set duration/progress in scrobble data                
-                scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60).ToString();
+                Double duration = g_Player.Duration == 0.0 ? movie.RunTime * 60.0 : g_Player.Duration;
+                scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60.0).ToString();
                 scrobbleData.Progress = "100";
 
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
@@ -337,7 +341,7 @@ namespace TraktPlugin.TraktHandlers
             };
 
             // if movie is atleat 90% complete, consider watched
-            if ((g_Player.CurrentPosition / g_Player.Duration) >= 0.9)
+            if ((g_Player.CurrentPosition / (g_Player.Duration == 0.0 ? CurrentMovie.RunTime * 60.0 : g_Player.Duration)) >= 0.9)
             {
                 scrobbleMovie.Start(CurrentMovie);
             }
