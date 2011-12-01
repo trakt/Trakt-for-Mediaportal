@@ -342,6 +342,16 @@ namespace TraktPlugin.TraktHandlers
             
             if (currentMovie != null)
             {
+                if (g_Player.Duration != 0)
+                {
+                    // no point cancelling if we will scrobble
+                    Double watchPercent = MovingPicturesCore.Settings.MinimumWatchPercentage / 100.0;
+                    if ((g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
+                    {
+                        currentMovie = null;
+                        return;
+                    }
+                }
                 ScrobbleHandler(currentMovie, TraktScrobbleStates.cancelwatching);
                 currentMovie = null;
             }

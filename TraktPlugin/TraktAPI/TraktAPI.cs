@@ -118,7 +118,6 @@ namespace TraktPlugin.TraktAPI
                     return error;
                 }
             }
-            TraktLogger.Info(string.Format("{0} '{1}'", status, scrobbleData.Title));
 
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.ScrobbleMovie, status.ToString()), scrobbleData.ToJSON());
@@ -148,7 +147,6 @@ namespace TraktPlugin.TraktAPI
                     };
                     return error;
                 }
-                TraktLogger.Info(string.Format("{0} '{1}'", status, scrobbleData.Title));
             }
             
             // serialize Scrobble object to JSON and send to server
