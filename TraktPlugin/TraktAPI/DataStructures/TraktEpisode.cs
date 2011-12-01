@@ -28,6 +28,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "first_aired")]
         public long FirstAired { get; set; }
 
+        [DataMember(Name = "first_aired_localized")]
+        public long FirstAiredLocalized { get; set; }
+
         [DataMember(Name = "runtime")]
         public int Runtime { get; set; }
 
