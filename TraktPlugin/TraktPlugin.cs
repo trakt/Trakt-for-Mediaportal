@@ -29,6 +29,8 @@ namespace TraktPlugin
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
         Timer syncLibraryTimer;
+        //Settings Management from MPEI
+        ExtensionSettings extensionSettings = new ExtensionSettings();
         #endregion
 
         #region ISetupFrom
@@ -174,6 +176,9 @@ namespace TraktPlugin
 
             // Initialize skin settings
             TraktSkinSettings.Init();
+
+            // Initialize Extension Settings
+            extensionSettings.Init();
 
             // Load main skin window
             // this is a launching pad to all other windows
@@ -643,6 +648,14 @@ namespace TraktPlugin
                 friendsThread.Start();
             }
             #endregion
+
+            if (windowID == (int)ExternalPluginWindows.MPEISettings)
+            {
+                // save our settings now so we dont get out of sync
+                // with extension settings
+                TraktLogger.Debug("Entering Extension Settings window");
+                TraktSettings.saveSettings();
+            }
         }
 
         void GUIWindowManager_Receivers(GUIMessage message)

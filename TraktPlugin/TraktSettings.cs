@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -57,6 +59,8 @@ namespace TraktPlugin
         #endregion
 
         #region Constants
+        public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
+
         private const string cTrakt = "Trakt";
         private const string cUsername = "Username";
         private const string cPassword = "Password";
@@ -308,6 +312,59 @@ namespace TraktPlugin
             Settings.SaveCache();
         }
 
+        #endregion
+    }
+
+    public class ExtensionSettings
+    {
+        #region Init
+        public void Init()
+        {
+            Thread hookThread = new Thread(delegate()
+            {
+                try
+                {
+                    TraktLogger.Info("Adding hooks to MPEI Settings");
+                    AddHooksIntoMPEISettings();
+                }
+                catch
+                {
+                    TraktLogger.Warning("Unable to add hooks into MPEI Settings, Extensions plugin not installed or out of date!");
+                }
+            })
+            {
+                Name = "Extension Settings",
+                IsBackground = true
+            };
+
+            hookThread.Start();
+        }
+        #endregion
+
+        #region Hooks
+        private void AddHooksIntoMPEISettings()
+        {
+            // sleep until we know that there has been enough time
+            // for window manager to have loaded extension settings window
+            // todo: find a better way...
+            Thread.Sleep(10000);
+
+            // get a reference to the extension settings window
+            MPEIPlugin.GUISettings extensionSettings = (MPEIPlugin.GUISettings)GUIWindowManager.GetWindow((int)GUI.ExternalPluginWindows.MPEISettings);
+            extensionSettings.OnSettingsChanged += new MPEIPlugin.GUISettings.SettingsChangedHandler(Extensions_OnSettingsChanged);
+        }
+
+        private void Extensions_OnSettingsChanged(string guid)
+        {
+            // settings change occured
+            if (guid == TraktSettings.cGuid)
+            {
+                TraktLogger.Info("Settings updated externally");
+
+                // re-load settings
+                TraktSettings.loadSettings();
+            }
+        }
         #endregion
     }
 }

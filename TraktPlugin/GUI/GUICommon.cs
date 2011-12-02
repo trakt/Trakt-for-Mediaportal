@@ -42,7 +42,8 @@ namespace TraktPlugin.GUI
         TVSeries = 9811,
         MyFilms = 7986,
         MyAnime = 6001,
-        MpNZB = 3847
+        MpNZB = 3847,
+        MPEISettings = 803
     }
 
     enum ExternalPluginControls

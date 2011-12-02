@@ -95,6 +95,9 @@
     <Reference Include="MP-TVSeries">
       <HintPath>..\Externals\MP-TVSeries.dll</HintPath>
     </Reference>
+    <Reference Include="MPEIPlugin">
+      <HintPath>..\Externals\MPEIPlugin.dll</HintPath>
+    </Reference>
     <Reference Include="MyFilms">
       <HintPath>..\Externals\MyFilms.dll</HintPath>
     </Reference>
