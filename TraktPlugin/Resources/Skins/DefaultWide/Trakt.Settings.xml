@@ -47,7 +47,17 @@
         <label>#Trakt.Translation.General.Label</label>
 				<hyperlink>87274</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>1000</ondown>
+      </control>
+      <control>
+        <type>button</type>
+        <description>MPEICONFIGURE:a9c3845a_8718_4712_85cc_26f56520bb9a</description>
+        <id>1000</id>
+        <width>300</width>
+        <label>#Trakt.Translation.AdvancedSettings.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
+        <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.isinstalled, true)</visible>
       </control>
     </control>
   </controls>

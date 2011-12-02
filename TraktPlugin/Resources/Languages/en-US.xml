@@ -23,6 +23,7 @@
   <string Field="Approve">Approve</string>
   <string Field="ApprovedDate">Approved Date</string>
   <string Field="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string Field="AdvancedSettings">Advanced Settings</string>
   
   <!-- B -->
   
@@ -169,6 +170,7 @@
   <string Field="NoListItemsFound">No items found in this list!</string>
   <string Field="NoRelatedMovies">No Related movies found for {0}!</string>
   <string Field="NoRelatedShows">No Related shows found for {0}!</string>
+  <string Field="No">No</string>
   
   <!-- O -->
   <string Field="OK">OK</string>
@@ -181,6 +183,7 @@
   <string Field="Protected">Protected</string>
   <string Field="PersonWatching">1 Person Watching</string>
   <string Field="PeopleWatching">{0} People Watching</string>
+  <string Field="Plugin">Plugin</string>
   <string Field="Plugins">Plugins</string>
   <string Field="Public">Public</string>
   <string Field="Private">Private</string>
@@ -236,6 +239,12 @@
   <string Field="Synchronize">Synchronize</string>
   <string Field="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
   <string Field="ShowWatched">Show Watched</string>
+  <string Field="SettingPluginEnabledName">Plugin Enabled</string>
+  <string Field="SettingPluginEnabledDescription">Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.</string>
+  <string Field="SettingListedHomeName">Listed in Home</string>
+  <string Field="SettingListedHomeDescription">Enable this setting for the Trakt plugin to appear in the main Home screen menu items.</string>
+  <string Field="SettingListedPluginsName">Listed in My Plugins</string>
+  <string Field="SettingListedPluginsDescription">Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
@@ -281,5 +290,6 @@
 
   <!-- Y -->
   <string Field="Year">Year</string>
+  <string Field="Yes">Yes</string>
   
 </strings>

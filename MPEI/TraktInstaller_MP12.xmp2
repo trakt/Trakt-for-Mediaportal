@@ -890,6 +890,23 @@
           </Items>
         </Files>
       </GroupItem>
+      <GroupItem Name="Settings">
+        <ParentGroup />
+        <DisplayName>Extension Settings</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Settings</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>Settings\extension_settings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c6b63df1-cc77-48fe-9df3-b88e3fd5eaa6}-extension_settings.xml</ZipFileName>
+              <DestinationFilename>%Config%\Trakt\extension_settings.xml</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
     </Items>
   </Groups>
   <Sections>
@@ -1197,21 +1214,16 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>1</Major>
       <Minor>3</Minor>
-      <Build>0</Build>
+      <Build>1</Build>
       <Revision>1</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added ability to view Related Movies/Shows on any selected item. You can view the top 10 related items and even filter out ones you have watched.
-* Added ability to Search for NZBs from mpNZB plugin, you can access this feature from the Trakt context menus. Thanks goes to Shukuyen for providing patch.
-* Added Helpers for Shouts API, makes it a little easier for external plugins to view shouts.
-* Improved API and External Access to prompt warning if user is not Logged In when accessing area which requires authentication.
-* Fixed a bug where properties were not being cleared in Shouts window if user was not Logged In.
-* Fixed Scrobble/Watching errors when playing an episode from My Anime that is not yet available in the AnimeDB.</VersionDescription>
+    <VersionDescription>TBA</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2011-11-11T10:00:00</ReleaseDate>
+    <ReleaseDate>2011-12-02T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
     <Params>
@@ -2096,6 +2108,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Related.Shows.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{390d43fc-6ca1-4908-a0a1-0d38f70c35dc}-Trakt.Related.Shows.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.Related.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>Settings\extension_settings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c6b63df1-cc77-48fe-9df3-b88e3fd5eaa6}-extension_settings.xml</ZipFileName>
+        <DestinationFilename>%Config%\Trakt\extension_settings.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />

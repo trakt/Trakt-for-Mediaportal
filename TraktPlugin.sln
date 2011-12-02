@@ -10,6 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MPEI", "MPEI", "{CE1EB7DF-4
 		MPEI\update.xml = MPEI\update.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{A5187FF9-35B1-4CDC-91A3-A6FAE372FD3C}"
+	ProjectSection(SolutionItems) = preProject
+		MPEI\Settings\extension_settings.xml = MPEI\Settings\extension_settings.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5187FF9-35B1-4CDC-91A3-A6FAE372FD3C} = {CE1EB7DF-4B75-4BD0-B744-B8898FC75371}
 	EndGlobalSection
 EndGlobal

@@ -200,7 +200,8 @@ namespace TraktPlugin.GUI
         public static string AirTime = "Air Time";
         public static string Approve = "Approve";
         public static string ApprovedDate = "Approved Date";
-        public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";        
+        public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";
+        public static string AdvancedSettings = "Advanced Settings";
 
         // B
         
@@ -348,6 +349,7 @@ namespace TraktPlugin.GUI
         public static string NoListItemsFound = "No items found in this list!";
         public static string NoRelatedMovies = "No Related movies found for {0}!";
         public static string NoRelatedShows = "No Related shows found for {0}!";
+        public static string No = "No";
 
         // O
         public static string OK = "OK";
@@ -361,13 +363,14 @@ namespace TraktPlugin.GUI
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
         public static string Plugins = "Plugins";
+        public static string Plugin = "Plugin";
         public static string Public = "Public";
         public static string Private = "Private";
         public static string Privacy = "Privacy";
         public static string PrivacyPublic = "Anyone can view this list";
         public static string PrivacyFriends = "Only friends can view this list";
         public static string PrivacyPrivate = "Only you can view this list";
-
+        
         // R
         public static string Rate = "Rate";
         public static string Rated = "Rated";
@@ -415,6 +418,12 @@ namespace TraktPlugin.GUI
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
         public static string ShowWatched = "Show Watched";
+        public static string SettingPluginEnabledName = "Plugin Enabled";
+        public static string SettingPluginEnabledDescription = "Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.";
+        public static string SettingListedHomeName = "Listed in Home";
+        public static string SettingListedHomeDescription = "Enable this setting for the Trakt plugin to appear in the main Home screen menu items.";
+        public static string SettingListedPluginsName = "Listed in My Plugins";
+        public static string SettingListedPluginsDescription = "Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.";
 
         // T
         public static string Timeout = "Timeout";
@@ -459,6 +468,7 @@ namespace TraktPlugin.GUI
 
         // Y
         public static string Year = "Year";
+        public static string Yes = "Yes";
 
         #endregion
 

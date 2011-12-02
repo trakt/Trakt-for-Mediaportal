@@ -1,0 +1,10 @@
+<extension_settings>
+	<disable_entry>
+		<setting entryname="plugins" name="Extensions" displayname="Plugin Enabled" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="Yes|No"/> 
+	</disable_entry>
+	<settings section="#Trakt.Translation.Plugin.Label">
+    <setting entryname="plugins" name="Trakt" displayname="#Trakt.Translation.SettingPluginEnabledName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingPluginEnabledDescription.Label" configfile="MediaPortal.xml" /> 
+    <setting entryname="home" name="Trakt" displayname="#Trakt.Translation.SettingListedHomeName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingListedHomeDescription.Label" configfile="MediaPortal.xml" /> 
+    <setting entryname="myplugins" name="Trakt" displayname="#Trakt.Translation.SettingListedPluginsName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingListedPluginsDescription.Label" configfile="MediaPortal.xml" /> 
+	</settings>
+</extension_settings>
