@@ -426,6 +426,8 @@ namespace TraktPlugin.GUI
         public static string SettingListedPluginsDescription = "Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.";
         public static string SettingSyncTimerName = "Library Synchronization Period";
         public static string SettingSyncTimerDescription = "Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.";
+        public static string SettingSyncStartDelayName = "Library Synchronization Start Delay";
+        public static string SettingSyncStartDelayDescription = "Delay (in seconds) before Library Synchronization starts on MediaPortal Startup. Default is every 0 seconds.";
         public static string SettingWebRequestCacheName = "Web Request Cache Time";
         public static string SettingWebRequestCacheDescription = "Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.";
         public static string SettingWebRequestTimeoutName = "Web Request Timeout";

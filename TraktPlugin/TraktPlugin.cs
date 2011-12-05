@@ -151,14 +151,14 @@ namespace TraktPlugin
         /// </summary>
         public override bool Init()
         {
-            TraktLogger.Info("Starting Trakt v{0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            TraktLogger.Info("Starting Trakt v{0}", TraktSettings.Version);
             TraktSettings.loadSettings();
 
             // Load plugins we want to sync
             LoadPluginHandlers();
 
             // Sync Libaries now and periodically
-            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength);
             
             TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);

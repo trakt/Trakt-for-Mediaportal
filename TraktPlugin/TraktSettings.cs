@@ -32,6 +32,7 @@ namespace TraktPlugin
         public static SyncMovieCheck AlreadyExistMovies { get; set; }
         public static int LogLevel { get; set; }
         public static int SyncTimerLength { get; set; }
+        public static int SyncStartDelay { get; set; }
         public static int TrendingMoviesDefaultLayout { get; set; }
         public static int TrendingShowsDefaultLayout { get; set; }
         public static int RecommendedMoviesDefaultLayout { get; set; }
@@ -77,6 +78,7 @@ namespace TraktPlugin
         private const string cSkippedMovies = "SkippedMovies";
         private const string cAlreadyExistMovies = "AlreadyExistMovies";
         private const string cSyncTimerLength = "SyncTimerLength";
+        private const string cSyncStartDelay = "SyncStartDelay";
         private const string cTrendingMoviesDefaultLayout = "TrendingMoviesDefaultLayout";
         private const string cTrendingShowsDefaultLayout = "TrendingShowsDefaultLayout";
         private const string cRecommendedMoviesDefaultLayout = "RecommendedMoviesDefaultLayout";
@@ -235,6 +237,7 @@ namespace TraktPlugin
                 AlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
+                SyncStartDelay = xmlreader.GetValueAsInt(cTrakt, cSyncStartDelay, 0);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
                 TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
                 RecommendedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecommendedMoviesDefaultLayout, 0);
@@ -286,6 +289,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSkippedMovies, SkippedMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cAlreadyExistMovies, AlreadyExistMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncTimerLength, SyncTimerLength);
+                xmlwriter.SetValue(cTrakt, cSyncStartDelay, SyncStartDelay);
                 xmlwriter.SetValue(cTrakt, cTrendingMoviesDefaultLayout, TrendingMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cTrendingShowsDefaultLayout, TrendingShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecommendedMoviesDefaultLayout, RecommendedMoviesDefaultLayout);
