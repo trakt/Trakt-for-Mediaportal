@@ -363,6 +363,9 @@ namespace TraktPlugin
 
                 // re-load settings
                 TraktSettings.loadSettings();
+
+                // re-initialize sync Interval
+                TraktPlugin.ChangeSyncTimer(TraktSettings.SyncTimerLength, TraktSettings.SyncTimerLength);
             }
         }
         #endregion

@@ -112,6 +112,10 @@
   <string Field="Hated">Hated</string>
   <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   <string Field="HideWatched">Hide Watched</string>
+  <string Field="Hour1">1 Hour</string>
+  <string Field="Hour6">6 Hours</string>
+  <string Field="Hour12">12 Hours</string>
+  <string Field="Hour24">Daily</string>
   
   <!-- I -->
   <string Field="Inserted">Inserted</string>
@@ -245,6 +249,8 @@
   <string Field="SettingListedHomeDescription">Enable this setting for the Trakt plugin to appear in the main Home screen menu items.</string>
   <string Field="SettingListedPluginsName">Listed in My Plugins</string>
   <string Field="SettingListedPluginsDescription">Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.</string>
+  <string Field="SettingSyncTimerName">Library Synchronization Period</string>
+  <string Field="SettingSyncTimerDescription">Set the period of time between each Library Synchronization. Default is every 24 hours.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

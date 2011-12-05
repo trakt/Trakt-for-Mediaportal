@@ -28,7 +28,7 @@ namespace TraktPlugin
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
-        Timer syncLibraryTimer;
+        static Timer syncLibraryTimer;
         //Settings Management from MPEI
         ExtensionSettings extensionSettings = new ExtensionSettings();
         #endregion
@@ -159,7 +159,7 @@ namespace TraktPlugin
 
             // Sync Libaries now and periodically
             syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, 0, TraktSettings.SyncTimerLength);
-
+            
             TraktLogger.Debug("Adding Mediaportal Hooks");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
@@ -420,6 +420,16 @@ namespace TraktPlugin
         #region LibraryFunctions
 
         /// <summary>
+        /// Changes the period and start time of the Library Sync
+        /// </summary>
+        /// <param name="dueTime">initial time in milliseconds to wait before starting sync</param>
+        /// <param name="period">period of time to wait inbetween sync's</param>
+        public static void ChangeSyncTimer(int dueTime, int period)
+        {
+            syncLibraryTimer.Change(dueTime, period);
+        }
+
+        /// <summary>
         /// Sets up and starts Syncing of Libraries
         /// </summary>
         private void SyncLibrary()
@@ -609,7 +619,7 @@ namespace TraktPlugin
                 if (GUISettingsPlugins.PluginHandlersAdded)
                 {
                   if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
-                    syncLibraryTimer.Change(0, TraktSettings.SyncTimerLength);
+                      ChangeSyncTimer(0, TraktSettings.SyncTimerLength);
                 }
 
                 GUISettingsPlugins.PluginHandlersAdded = false;
