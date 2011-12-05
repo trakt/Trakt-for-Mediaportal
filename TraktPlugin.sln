@@ -6,7 +6,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MPEI", "MPEI", "{CE1EB7DF-4B75-4BD0-B744-B8898FC75371}"
 	ProjectSection(SolutionItems) = preProject
 		MPEI\TraktInstaller.xmp2 = MPEI\TraktInstaller.xmp2
-		MPEI\TraktInstaller_MP12.xmp2 = MPEI\TraktInstaller_MP12.xmp2
 		MPEI\update.xml = MPEI\update.xml
 	EndProjectSection
 EndProject

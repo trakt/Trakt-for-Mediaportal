@@ -290,11 +290,7 @@ namespace TraktPlugin.GUI
         public static string Hate = "Hate";
         public static string Hated = "Hated";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
-        public static string HideWatched = "Hide Watched";
-        public static string Hour1 = "1 Hour";
-        public static string Hour6 = "6 Hours";
-        public static string Hour12 = "12 Hours";
-        public static string Hour24 = "Daily";
+        public static string HideWatched = "Hide Watched";        
 
         // I
         public static string Inserted = "Inserted";
@@ -429,7 +425,9 @@ namespace TraktPlugin.GUI
         public static string SettingListedPluginsName = "Listed in My Plugins";
         public static string SettingListedPluginsDescription = "Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.";
         public static string SettingSyncTimerName = "Library Synchronization Period";
-        public static string SettingSyncTimerDescription = "Set the period of time between each Library Synchronization. Default is every 24 hours.";
+        public static string SettingSyncTimerDescription = "Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.";
+        public static string SettingWebRequestCacheName = "Web Request Cache Time";
+        public static string SettingWebRequestCacheDescription = "Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.";
 
         // T
         public static string Timeout = "Timeout";
