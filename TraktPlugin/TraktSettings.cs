@@ -56,6 +56,7 @@ namespace TraktPlugin
         public static bool CalendarHideTVShowsInWatchList { get; set; }
         public static bool HideWatchedRelatedMovies { get; set; }
         public static bool HideWatchedRelatedShows { get; set; }
+        public static int WebRequestTimeout { get; set; }
         #endregion
 
         #region Constants
@@ -101,6 +102,7 @@ namespace TraktPlugin
         private const string cHideWatchedRelatedMovies = "HideWatchedRelatedMovies";
         private const string cHideWatchedRelatedShows = "HideWatchedRelatedShows";
         private const string cUserLogins = "UserLogins";
+        private const string cWebRequestTimeout = "WebRequestTimeout";
         #endregion
 
         #region Properties
@@ -249,6 +251,7 @@ namespace TraktPlugin
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
+                WebRequestTimeout = xmlreader.GetValueAsInt(cTrakt, cWebRequestTimeout, 30000);
                 GetFriendRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, true);
                 MovingPicturesCategoryId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesCategoryId, -1);
                 MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
@@ -299,6 +302,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
+                xmlwriter.SetValue(cTrakt, cWebRequestTimeout, WebRequestTimeout);
                 xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
                 xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
                 xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);

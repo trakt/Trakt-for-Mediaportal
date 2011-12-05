@@ -249,6 +249,8 @@
   <string Field="SettingSyncTimerDescription">Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.</string>
   <string Field="SettingWebRequestCacheName">Web Request Cache Time</string>
   <string Field="SettingWebRequestCacheDescription">Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.</string>
+  <string Field="SettingWebRequestTimeoutName">Web Request Timeout</string>
+  <string Field="SettingWebRequestTimeoutDescription">Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

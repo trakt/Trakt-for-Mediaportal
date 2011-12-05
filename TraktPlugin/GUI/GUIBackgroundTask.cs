@@ -35,7 +35,7 @@ namespace TraktPlugin.GUI
         string _CurrentTaskDescription = null;
         Thread backgroundThread = null;
         bool abortedByUser = false;
-        System.Timers.Timer timeoutTimer = new System.Timers.Timer(15000) { AutoReset = false };
+        System.Timers.Timer timeoutTimer = new System.Timers.Timer(TraktSettings.WebRequestTimeout) { AutoReset = false };
 
         public void StopBackgroundTask()
         {

@@ -428,6 +428,8 @@ namespace TraktPlugin.GUI
         public static string SettingSyncTimerDescription = "Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.";
         public static string SettingWebRequestCacheName = "Web Request Cache Time";
         public static string SettingWebRequestCacheDescription = "Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.";
+        public static string SettingWebRequestTimeoutName = "Web Request Timeout";
+        public static string SettingWebRequestTimeoutDescription = "Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.";
 
         // T
         public static string Timeout = "Timeout";
