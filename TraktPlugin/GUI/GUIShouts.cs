@@ -141,14 +141,17 @@ namespace TraktPlugin.GUI
                 switch (ShoutType)
                 {
                     case ShoutTypeEnum.movie:
+                        if (MovieInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", MovieInfo.Title);
                         return GetMovieShouts();
 
                     case ShoutTypeEnum.show:
+                        if (ShowInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", ShowInfo.Title);
                         return GetShowShouts();
 
                     case ShoutTypeEnum.episode:
+                        if (EpisodeInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", EpisodeInfo.ToString());
                         return GetEpisodeShouts();
 
