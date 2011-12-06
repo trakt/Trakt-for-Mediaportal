@@ -283,7 +283,7 @@ namespace TraktPlugin.GUI
             if (hideSpoilersButton != null)
             {
                 hideSpoilersButton.Label = Translation.HideSpoilers;
-                hideSpoilersButton.Selected = hideSpoilersButton.Selected;
+                hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
             }
         }
 
