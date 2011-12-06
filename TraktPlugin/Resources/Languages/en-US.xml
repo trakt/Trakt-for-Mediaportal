@@ -112,6 +112,7 @@
   <string Field="Hated">Hated</string>
   <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   <string Field="HideWatched">Hide Watched</string>
+  <string Field="HideSpoilers">Hide Spoilers</string>
   <string Field="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from menu.</string>
 
   <!-- I -->
