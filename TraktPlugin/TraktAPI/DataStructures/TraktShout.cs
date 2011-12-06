@@ -16,6 +16,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "shout")]
         public string Shout { get; set; }
 
+        [DataMember(Name = "spoiler")]
+        public bool Spoiler { get; set; }
+
         [DataMember(Name = "user")]
         public TraktUser User { get; set; }
 

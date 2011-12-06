@@ -290,7 +290,9 @@ namespace TraktPlugin.GUI
         public static string Hate = "Hate";
         public static string Hated = "Hated";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
-        public static string HideWatched = "Hide Watched";        
+        public static string HideWatched = "Hide Watched";
+        public static string HideSpoilers = "Hide Spoilers";
+        public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";
 
         // I
         public static string Inserted = "Inserted";

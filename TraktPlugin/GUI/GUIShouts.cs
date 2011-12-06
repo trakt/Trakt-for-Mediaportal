@@ -23,6 +23,9 @@ namespace TraktPlugin.GUI
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
+        [SkinControl(2)]
+        protected GUICheckButton hideSpoilersButton = null;
+
         #endregion
 
         #region Enums
@@ -98,6 +101,11 @@ namespace TraktPlugin.GUI
             StopDownload = true;
             ClearProperties();
 
+            if (hideSpoilersButton != null)
+            {
+                TraktSettings.HideSpoilersOnShouts = hideSpoilersButton.Selected;
+            }
+
             base.OnPageDestroy(new_windowId);
         }
 
@@ -106,6 +114,17 @@ namespace TraktPlugin.GUI
             // wait for any background action to finish
             if (GUIBackgroundTask.Instance.IsBusy) return;
 
+            switch (controlId)
+            {
+                // Hide Spoilers Button
+                case (2):
+                    TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
+                    PublishShoutSkinProperties(Facade.SelectedListItem.TVTag as TraktShout);
+                    break;
+
+                default:
+                    break;
+            }
             base.OnClicked(controlId, control, actionType);
         }
 
@@ -257,6 +276,12 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
+
+            if (hideSpoilersButton != null)
+            {
+                hideSpoilersButton.Label = Translation.HideSpoilers;
+                hideSpoilersButton.Selected = hideSpoilersButton.Selected;
+            }
         }
 
         private void ClearProperties()
@@ -276,6 +301,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
 
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
             GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
         }
 
@@ -296,7 +322,15 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Username", shout.User.Username);
 
             SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
-            SetProperty("#Trakt.Shout.Text", shout.Shout);
+            SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
+            if (TraktSettings.HideSpoilersOnShouts && shout.Spoiler)
+            {
+                SetProperty("#Trakt.Shout.Text", Translation.HiddenToPreventSpoilers);
+            }
+            else
+            {
+                SetProperty("#Trakt.Shout.Text", shout.Shout);
+            }
         }
 
         private void OnShoutSelected(GUIListItem item, GUIControl parent)

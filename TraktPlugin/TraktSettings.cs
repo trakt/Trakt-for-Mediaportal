@@ -58,6 +58,7 @@ namespace TraktPlugin
         public static bool HideWatchedRelatedMovies { get; set; }
         public static bool HideWatchedRelatedShows { get; set; }
         public static int WebRequestTimeout { get; set; }
+        public static bool HideSpoilersOnShouts { get; set; }
         #endregion
 
         #region Constants
@@ -105,6 +106,7 @@ namespace TraktPlugin
         private const string cHideWatchedRelatedShows = "HideWatchedRelatedShows";
         private const string cUserLogins = "UserLogins";
         private const string cWebRequestTimeout = "WebRequestTimeout";
+        private const string cHideSpoilersOnShouts = "HideSpoilersOnShouts";
         #endregion
 
         #region Properties
@@ -263,6 +265,7 @@ namespace TraktPlugin
                 CalendarHideTVShowsInWatchList = xmlreader.GetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, false);
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
+                HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
             }
         }
 
@@ -315,6 +318,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, CalendarHideTVShowsInWatchList);
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedMovies, HideWatchedRelatedMovies);
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedShows, HideWatchedRelatedShows);
+                xmlwriter.SetValueAsBool(cTrakt, cHideSpoilersOnShouts, HideSpoilersOnShouts);
             }
 
             Settings.SaveCache();

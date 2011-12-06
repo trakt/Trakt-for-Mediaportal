@@ -102,8 +102,8 @@
           <posY>240</posY>
           <height>480</height>
           <width>620</width>
-          <onleft>50</onleft>
-          <onright>50</onright>
+          <onleft>2</onleft>
+          <onright>2</onright>
           <scrollOffset>5</scrollOffset>
           <itemWidth>89</itemWidth>
           <itemHeight>50</itemHeight>
@@ -127,6 +127,86 @@
         </control>
       </control>
     </control>
+    
+    <!-- Hidden Menu -->
+		<control>
+			<type>actiongroup</type>
+			<description>action menu</description>
+			<defaultcontrol>2</defaultcontrol>
+			<onexit>50</onexit>
+			<buttonX>0</buttonX>
+			<buttonY>-130</buttonY>
+			<buttonwidth>106</buttonwidth>
+			<buttonheight>720</buttonheight>
+			<textureFocus>-</textureFocus>
+			<textureNoFocus>Action_nofocus.png</textureNoFocus>		
+			<width>568</width>
+			<height>900</height>
+			<dimColor>00ffffff</dimColor>
+			<control>
+				<type>image</type>
+				<posX>26</posX>
+				<posY>49</posY>
+				<width>367</width>
+				<height>591</height>
+				<texture>Backslide.png</texture>
+				<colorDiffuse>fffffffff</colorDiffuse>
+				<visible>!Control.HasFocus(50)</visible>
+				<animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
+				<animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
+			</control>
+			<control>
+				<description>group element</description>
+				<type>group</type>
+				<animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
+				<animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
+				<visible>!Control.HasFocus(50)</visible>
+				<control>
+					<description>button group</description>
+					<type>group</type>
+					<posX>71</posX>
+					<posY>121</posY>
+					<layout>StackLayout</layout>          
+					<visible>!Control.HasFocus(50)</visible>
+					<animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
+					<animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
+					<control>
+						<description>Toggle Hide Spoilers</description>
+						<type>checkbutton</type>
+						<id>2</id>
+						<width>260</width>
+						<height>45</height>
+						<textXOff>17</textXOff>
+						<textYOff>6</textYOff>
+						<label>-</label>
+						<font>font12</font>
+						<markWidth>25</markWidth>
+						<markHeight>25</markHeight>
+						<markXOff>15</markXOff>
+						<markalign>right</markalign>
+						<markvalign>middle</markvalign>
+						<textureFocus>button_focus.png</textureFocus>
+						<textureNoFocus>button_nofocus.png</textureNoFocus>
+						<textureCheckmark>check-box.png</textureCheckmark>
+						<textureCheckmarkNoFocus>check-boxNF.png</textureCheckmarkNoFocus>
+						<shadowAngle>45</shadowAngle>
+						<shadowDistance>1</shadowDistance>
+						<shadowColor>ff000000</shadowColor>
+						<font>font12</font>
+						<textcolor>ffffffff</textcolor>
+						<colordiffuse>ffffffff</colordiffuse>
+						<textcolorNoFocus>ffa9d0f7</textcolorNoFocus>
+						<disabledcolor>ff808080</disabledcolor>
+						<dimColor>ff000000</dimColor>
+						<textalign>left</textalign>
+						<textvalign>middle</textvalign>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<ondown>2</ondown>
+					</control>
+				</control>
+			</control>
+		</control>
     
 		<control>
       <description>Avatar</description>
