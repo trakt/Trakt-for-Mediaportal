@@ -68,7 +68,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Avatar))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Avatars");
-                        filename = System.IO.Path.Combine(folder, string.Concat(Username, ".jpg"));
+                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(new Uri(Avatar).LocalPath));
                     }
                     return filename;
                 }
