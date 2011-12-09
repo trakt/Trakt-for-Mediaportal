@@ -77,7 +77,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             ChangeLayout,
-            SearchWithMpNZB
+            SearchWithMpNZB,
+            SearchTorrent
         }
 
         enum TrailerSite
@@ -310,6 +311,16 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            #if MP12
+            if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                // Search for show with MyTorrents
+                listItem = new GUIListItem(Translation.SearchTorrent);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
+            }
+            #endif
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -382,6 +393,13 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedShow.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchTorrent):
+                    string loadPar = selectedShow.Title;
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
                 #endif
 

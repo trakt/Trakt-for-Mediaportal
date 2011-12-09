@@ -70,7 +70,8 @@ namespace TraktPlugin.GUI
             Shouts,
             ChangeLayout,
             Trailers,
-            SearchWithMpNZB
+            SearchWithMpNZB,
+            SearchTorrent
         }
 
         #endregion
@@ -311,6 +312,19 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Search with MyTorrents
+            #if MP12
+            if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                if ((userListItem.Movie != null && !userListItem.Movie.InCollection) || userListItem.Episode != null)
+                {
+                    listItem = new GUIListItem(Translation.SearchTorrent);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
+                }
+            }
+            #endif
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -505,6 +519,21 @@ namespace TraktPlugin.GUI
                         loadingParam = string.Format("search:{0} S{1}E{2}", userListItem.Show.Title, userListItem.Episode.Season.ToString("D2"), userListItem.Episode.Number.ToString("D2"));
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchTorrent):
+                    string loadPar = String.Empty;
+                    if (userListItem.Movie != null)
+                    {
+                        loadPar = userListItem.Movie.Title;
+                    }
+                    else if (userListItem.Episode != null)
+                    {
+                        loadPar = string.Format("{0} S{1}E{2}", userListItem.Show.Title, userListItem.Episode.Season.ToString("D2"), userListItem.Episode.Number.ToString("D2"));
+                    }
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
                 #endif
 
