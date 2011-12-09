@@ -1579,7 +1579,7 @@ namespace TraktPlugin.GUI
                 if (!string.IsNullOrEmpty(Avatar))
                 {
                     string folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
-                    filename = Path.Combine(folder, string.Concat(Username, ".jpg"));
+                    filename = Path.Combine(folder, Path.GetFileName(new Uri(Avatar).LocalPath));
                 }
                 return filename;
             }
@@ -1656,7 +1656,7 @@ namespace TraktPlugin.GUI
             GUITraktFriends window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITraktFriends;
             if (window != null)
             {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87260, 50);
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.Friends, 50);
                 if (selectedItem == this)
                 {
                     GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));
