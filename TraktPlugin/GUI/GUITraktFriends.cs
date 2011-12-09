@@ -60,7 +60,8 @@ namespace TraktPlugin.GUI
             AddToList,
             Related,
             Shouts,
-            SearchWithMpNZB
+            SearchWithMpNZB,
+            SearchTorrent
         }
 
         enum ViewType
@@ -490,6 +491,20 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            // Search with MyTorrents
+            #if MP12
+            if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                if ((selectedMovie != null && !selectedMovie.Movie.InCollection) || selectedEpisode != null)
+                {
+                    listItem = new GUIListItem(Translation.SearchTorrent);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
+                    itemCount++;
+                }
+            }
+            #endif
+
             if (itemCount == 0) return;
 
             // Show Context Menu
@@ -608,6 +623,21 @@ namespace TraktPlugin.GUI
                         loadingParam = string.Format("search:{0} S{1}E{2}", selectedEpisode.Show.Title, selectedEpisode.Episode.Season.ToString("D2"), selectedEpisode.Episode.Number.ToString("D2"));
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchTorrent):
+                    string loadPar = String.Empty;
+                    if (selectedMovie != null)
+                    {
+                        loadPar = selectedMovie.Movie.Title;
+                    }
+                    else if (selectedEpisode != null)
+                    {
+                        loadPar = string.Format("{0} S{1}E{2}", selectedEpisode.Show.Title, selectedEpisode.Episode.Season.ToString("D2"), selectedEpisode.Episode.Number.ToString("D2"));
+                    }
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
                 #endif
 
@@ -1549,7 +1579,7 @@ namespace TraktPlugin.GUI
                 if (!string.IsNullOrEmpty(Avatar))
                 {
                     string folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
-                    filename = Path.Combine(folder, Path.GetFileName(new Uri(Avatar).LocalPath));
+                    filename = Path.Combine(folder, string.Concat(Username, ".jpg"));
                 }
                 return filename;
             }
@@ -1626,7 +1656,7 @@ namespace TraktPlugin.GUI
             GUITraktFriends window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITraktFriends;
             if (window != null)
             {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.Friends, 50);
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87260, 50);
                 if (selectedItem == this)
                 {
                     GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));

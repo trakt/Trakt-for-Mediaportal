@@ -91,7 +91,8 @@ namespace TraktPlugin.GUI
             Shouts,
             ChangeLayout,
             Trailers,
-            SearchWithMpNZB
+            SearchWithMpNZB,
+            SearchTorrent
         }
 
         #endregion
@@ -353,6 +354,16 @@ namespace TraktPlugin.GUI
             }
             #endif
 
+            #if MP12
+            if (!selectedMovie.InCollection && TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                // Search for movie with MyTorrents
+                listItem = new GUIListItem(Translation.SearchTorrent);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
+            }
+            #endif
+
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -465,6 +476,13 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedMovie.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+                #endif
+
+                #if MP12
+                case ((int)ContextMenuItem.SearchTorrent):
+                    string loadPar = selectedMovie.Title;
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
                 #endif
 
