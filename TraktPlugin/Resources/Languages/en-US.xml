@@ -222,7 +222,8 @@
   <!-- S -->
   <string Field="Score">Score</string>
   <string Field="Scrobble">Scrobble</string>
-  <string Field="SearchWithMpNZB">Search with mpNZB</string>
+  <string Field="SearchWithMpNZB">Search NZB</string>
+  <string Field="SearchTorrent">Search Torrent</string>
   <string Field="Season">Season</string>
   <string Field="SearchForFriend">Search for Friend...</string>
   <string Field="SendFriendRequest">Send friend request to {0}?</string>
