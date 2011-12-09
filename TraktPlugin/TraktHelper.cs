@@ -72,6 +72,13 @@ namespace TraktPlugin
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "mpNZB.dll")) && IsPluginEnabled("mpNZB");
             }
         }
+        public static bool IsMyTorrentsAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyTorrents.dll")) && IsPluginEnabled("MyTorrents");
+            }
+        }
         #endregion
 
         #region API Helpers

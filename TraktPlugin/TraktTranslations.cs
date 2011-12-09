@@ -402,6 +402,7 @@ namespace TraktPlugin.GUI
         public static string Score = "Score";
         public static string Scrobble = "Scrobble";
         public static string SearchWithMpNZB = "Search with mpNZB";
+        public static string SearchTorrent = "Search Torrent";
         public static string Season = "Season";
         public static string SearchForFriend = "Search for Friend...";
         public static string SendFriendRequest = "Send friend request to {0}?";
