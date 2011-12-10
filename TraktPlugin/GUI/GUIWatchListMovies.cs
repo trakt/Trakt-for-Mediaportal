@@ -137,6 +137,8 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
+            base.OnPageLoad();
+
             // Clear GUI Properties
             ClearProperties();
 

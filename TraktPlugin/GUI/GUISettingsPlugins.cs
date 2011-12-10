@@ -89,6 +89,8 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageLoad()
         {
+            base.OnPageLoad();
+
             // Init Properties
             if (!InitProperties())
             {
