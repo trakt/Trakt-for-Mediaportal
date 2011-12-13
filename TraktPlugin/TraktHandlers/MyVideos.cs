@@ -150,10 +150,10 @@ namespace TraktPlugin.TraktHandlers
                 // if it is in both libraries
                 foreach (IMDBMovie libraryMovie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
                 {
-                    // if the users IMDB ID is empty and we have matched one then set it
-                    if (!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(libraryMovie.IMDBNumber) || libraryMovie.IMDBNumber.Length != 9))
+                    // If the users IMDb Id is empty/invalid and we have matched one then set it
+                    if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
                     {
-                        TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", libraryMovie.Title, tlm.IMDBID);
+                        TraktLogger.Info("Movie '{0}' inserted IMDb Id '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
                         IMDBMovie details = libraryMovie;
                         VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);

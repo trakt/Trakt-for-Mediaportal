@@ -199,6 +199,13 @@ namespace TraktPlugin.TraktHandlers
             return syncData;
         }
 
+        public static bool IsValidImdb(string id)
+        {
+            if (id == null || !id.StartsWith("tt")) return false;
+            if (id.Length != 9) return false;
+            return true;
+        }
+
         /// <summary>
         /// Gets a correctly formatted imdb id string        
         /// </summary>

@@ -143,10 +143,10 @@ namespace TraktPlugin.TraktHandlers
                 bool notInLocalCollection = true;
                 foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
                 {
-                    //If the users IMDB ID is empty and we have matched one then set it
-                    if(!String.IsNullOrEmpty(tlm.IMDBID) && (String.IsNullOrEmpty(movie.ImdbID) || movie.ImdbID.Length != 9))
+                    // If the users IMDb Id is empty/invalid and we have matched one then set it
+                    if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(movie.ImdbID))
                     {
-                        TraktLogger.Info("Movie '{0}' inserted IMDBID '{1}'", movie.Title, tlm.IMDBID);
+                        TraktLogger.Info("Movie '{0}' inserted IMDb Id '{1}'", movie.Title, tlm.IMDBID);
                         movie.ImdbID = tlm.IMDBID;
                         movie.Commit();
                     }
