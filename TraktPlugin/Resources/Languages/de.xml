@@ -137,7 +137,6 @@
   <string Field="MarkAsWatched">Als gesehen markieren</string>
   <string Field="Movie">Film</string>
   <string Field="Movies">Filme</string>
-  <string Field="NoMovingPictures">MovingPictures ist nicht installiert oder aktiviert</string>
   
   <!-- N -->
   <string Field="Name">Name</string>
@@ -154,13 +153,11 @@
   <string Field="NoShowWatchList">{0} hat keine Serien in seiner Beobachtungsliste!</string>
   <string Field="NoMovieWatchList">{0} hat keine Filme in seiner Beobachtungsliste!</string>
   <string Field="NoEpisodeWatchList">{0} hat keine Episoden in seiner Beobachtungsliste!</string>
-  <string Field="NoMovieWatchList">Keine Filme in der Beobachtungsliste!</string>
-  <string Field="NoEpisodeWatchList">Keine Episoden in der Beobachtungsliste!</string>
   <string Field="NoShoutsForItem">Keine Shouts für {0}!</string>
   <string Field="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>
   <string Field="NotLoggedIn">Du kannst auf diese Funktion nicht zugreifen ohne\neingeloggt zu sein. Möchtest du nun einen Account erstellen oder dich \nin trakt.tv einloggen ?</string>
   <string Field="NoSearchResultsFound">Keine Suchergebnisse gefunden</string>
-  <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
+  <string Field="NoMovingPictures">MovingPictures ist nicht installiert oder aktiviert</string>
   <string Field="NoListsFound">Keine Listen gefunden.\nMöchten Sie jetzt eine Liste erstellen?</string>
   <string Field="NoUserLists">{0} hat noch keine Listen erstellt!</string>
   <string Field="NoListItemsFound">Diese Liste enthält keine Elemente!</string>
