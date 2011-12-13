@@ -32,7 +32,8 @@ namespace TraktPlugin.GUI
          
         enum ContextMenuItem
         {
-            Shout
+            Shout,
+            Spoilers
         }
 
         public enum ShoutTypeEnum
@@ -128,6 +129,45 @@ namespace TraktPlugin.GUI
                     break;
             }
             base.OnClicked(controlId, control, actionType);
+        }
+
+        protected override void OnShowContextMenu()
+        {
+            if (GUIBackgroundTask.Instance.IsBusy) return;
+
+            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            if (selectedItem == null) return;
+
+            TraktShout selectedShout = (TraktShout)selectedItem.TVTag;
+
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return;
+
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem listItem = null;            
+            listItem = new GUIListItem(TraktSettings.HideSpoilersOnShouts ? Translation.ShowSpoilers : Translation.HideSpoilers);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Spoilers;
+  
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)ContextMenuItem.Spoilers):
+                    TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
+                    if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
+                    PublishShoutSkinProperties(selectedShout);
+                    break;
+
+                default:
+                    break;
+            }
+
+            base.OnShowContextMenu();
         }
 
         #endregion

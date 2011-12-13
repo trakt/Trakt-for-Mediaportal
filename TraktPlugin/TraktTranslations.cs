@@ -414,6 +414,7 @@ namespace TraktPlugin.GUI
         public static string Shout = "Shout";
         public static string Shouts = "Shouts";
         public static string ShowTVShowsInWatchlist = "Show TV Shows in Watch List";
+        public static string ShowSpoilers = "Show Spoilers";
         public static string SkinPluginsOutOfDate = "Error loading window, skin is out of date!\nExit MediaPortal and enter Configuration to\nenable plugins handlers.";
         public static string SkinOutOfDate = "This feature is not available for your\nskin. See if update is Available.";
         public static string SigningIntoAccount = "Signing Into Account...";
