@@ -288,7 +288,7 @@ namespace TraktPlugin.TraktAPI
             //hand it on
             // if we timeout we will return an error response
             TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
-            if (response.Error != null) return null;
+            if (response == null || response.Error != null) return null;
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -306,7 +306,7 @@ namespace TraktPlugin.TraktAPI
             //hand it on
             // if we timeout we will return an error response
             TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
-            if (response.Error != null) return null;
+            if (response == null || response.Error != null) return null;
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -322,7 +322,7 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Debug("Response: {0}", showsForUser);            
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
-            if (response.Error != null) return null;
+            if (response == null || response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -338,7 +338,7 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Debug("Response: {0}", showsForUser);
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
-            if (response.Error != null) return null;
+            if (response == null || response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -349,7 +349,7 @@ namespace TraktPlugin.TraktAPI
             TraktLogger.Debug("Response: {0}", showsForUser);
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
-            if (response.Error != null) return null;
+            if (response == null || response.Error != null) return null;
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
