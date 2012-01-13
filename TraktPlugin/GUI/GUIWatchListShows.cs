@@ -697,6 +697,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
@@ -724,6 +725,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Title", show.Title);
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
+            SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
             SetProperty("#Trakt.Show.Rating", show.Rating);

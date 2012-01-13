@@ -1292,6 +1292,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
@@ -1339,6 +1340,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(episode.Show.Overview) ? Translation.NoShowSummary : episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
+            SetProperty("#Trakt.Show.Genres", string.Join(", ", episode.Show.Genres.ToArray()));
             SetProperty("#Trakt.Show.InWatchList", episode.Show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Rating", episode.Show.Rating);
             SetProperty("#Trakt.Show.Ratings.Icon", (episode.Show.Ratings.LovedCount > episode.Show.Ratings.HatedCount) ? "love" : "hate");

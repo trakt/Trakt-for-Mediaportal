@@ -1047,6 +1047,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
@@ -1077,6 +1078,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
@@ -1170,6 +1172,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Title", show.Title);
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
+            SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
             SetProperty("#Trakt.Show.InWatchList", item.InWatchList.ToString());
@@ -1196,6 +1199,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Trailer", item.Movie.Trailer);
             SetProperty("#Trakt.Movie.Url", item.Movie.Url);
             SetProperty("#Trakt.Movie.Year", item.Movie.Year);
+            SetProperty("#Trakt.Movie.Genres", string.Join(", ", item.Movie.Genres.ToArray()));
             SetProperty("#Trakt.Movie.PosterImageFilename", item.Movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.FanartImageFilename", item.Movie.Images.FanartImageFilename);
             SetProperty("#Trakt.Movie.InCollection", item.InCollection.ToString());

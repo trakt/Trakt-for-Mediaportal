@@ -1275,6 +1275,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartFileName", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
@@ -1298,6 +1299,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             #endregion
@@ -1337,6 +1339,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(episode.Show.Overview) ? Translation.NoShowSummary : episode.Show.Overview);
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
+            //SetProperty("#Trakt.Show.Genres", string.Join(", ", episode.Show.Genres.ToArray()));
             SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
@@ -1363,6 +1366,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Trailer", movie.Movie.Trailer);
             SetProperty("#Trakt.Movie.Url", movie.Movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Movie.Year);
+            //SetProperty("#Trakt.Movie.Genres", string.Join(", ", movie.Movie.Genres.ToArray()));
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.FanartImageFilename);
         }

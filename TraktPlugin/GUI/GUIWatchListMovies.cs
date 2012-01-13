@@ -867,6 +867,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Trailer", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
@@ -895,6 +896,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Trailer", movie.Trailer);
             SetProperty("#Trakt.Movie.Url", movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Year);
+            SetProperty("#Trakt.Movie.Genres", string.Join(", ", movie.Genres.ToArray()));
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.FanartImageFilename);
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());

@@ -61,6 +61,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "ratings")]
         public TraktRatings Ratings { get; set; }
 
+        [DataMember(Name = "genres")]
+        public List<string> Genres { get; set; }
+
         [DataMember(Name = "images")]
         public ShowImages Images { get; set; }
 
