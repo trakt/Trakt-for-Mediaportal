@@ -417,7 +417,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region LibraryFunctions
+        #region Library Functions
 
         /// <summary>
         /// Changes the period and start time of the Library Sync
@@ -485,9 +485,9 @@ namespace TraktPlugin
                 {
                     traktHandler.SyncLibrary();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    TraktLogger.Error("Error Synchronising library from '{0}'", traktHandler.Name);
+                    TraktLogger.Error("Error Synchronising library from '{0}' with error: '{1}'", traktHandler.Name, ex.Message);
                 }
 
                 if (syncLibraryWorker.CancellationPending)

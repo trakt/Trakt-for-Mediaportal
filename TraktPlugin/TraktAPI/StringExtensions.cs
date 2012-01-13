@@ -40,8 +40,9 @@ namespace TraktPlugin
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                TraktLogger.Error("Error deserializing json: {0}", e.Message);
                 return new List<T>();
             }
         }
@@ -64,8 +65,9 @@ namespace TraktPlugin
                     return (T)ser.ReadObject(ms);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                TraktLogger.Error("Error deserializing json: {0}", e.Message);
                 return default(T);
             }
         }
