@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cornerstone.Database;
 using Cornerstone.Database.CustomTypes;
 using MediaPortal.Plugins.MovingPictures;
 using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
@@ -37,9 +38,9 @@ namespace TraktPlugin.TraktHandlers
         {
             Priority = priority;
             TraktLogger.Debug("Adding Hooks to Moving Pictures Database");
-            MovingPicturesCore.DatabaseManager.ObjectInserted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
-            MovingPicturesCore.DatabaseManager.ObjectUpdated += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
-            MovingPicturesCore.DatabaseManager.ObjectDeleted += new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
+            MovingPicturesCore.DatabaseManager.ObjectInserted += new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
+            MovingPicturesCore.DatabaseManager.ObjectUpdatedEx +=new DatabaseManager.ObjectUpdatedDelegate(DatabaseManager_ObjectUpdatedEx);
+            MovingPicturesCore.DatabaseManager.ObjectDeleted += new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
 
         #region ITraktHandler
@@ -461,14 +462,14 @@ namespace TraktPlugin.TraktHandlers
         /// Fired when an object is updated in the Moving Pictures Database
         /// </summary>
         /// <param name="obj"></param>
-        private void DatabaseManager_ObjectUpdated(Cornerstone.Database.Tables.DatabaseTable obj)
+        private void DatabaseManager_ObjectUpdatedEx(DatabaseTable dbObject, TableUpdateInfo ui)
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             //If it is user settings for a movie
-            if (obj.GetType() == typeof(DBUserMovieSettings))
+            if (dbObject.GetType() == typeof(DBUserMovieSettings))
             {
-                DBUserMovieSettings userMovieSettings = (DBUserMovieSettings)obj;
+                DBUserMovieSettings userMovieSettings = (DBUserMovieSettings)dbObject;
                 DBMovieInfo movie = userMovieSettings.AttachedMovies[0];
 
                 // don't do anything if movie is blocked
@@ -482,9 +483,9 @@ namespace TraktPlugin.TraktHandlers
                 // in this case we dont want to resend to trakt
                 if (SyncInProgress) return;
                 
-                //We check the watched flag and update Trakt respectfully
-                //ignore if movie is the current movie being scrobbled, this will be set to watched automatically
-                if (userMovieSettings.WatchCountChanged && movie != currentMovie)
+                // we check the watched flag and update Trakt respectfully
+                // ignore if movie is the current movie being scrobbled, this will be set to watched automatically
+                if (ui.WatchedCountChanged() && movie != currentMovie)
                 {
                     if (userMovieSettings.WatchedCount == 0)
                     {
@@ -502,9 +503,9 @@ namespace TraktPlugin.TraktHandlers
                     }
                 }
                 
-                //We will update the Trakt rating of the Movie
-                //TODO: Create a user setting for what they want to define as love/hate
-                if (userMovieSettings.RatingChanged && userMovieSettings.UserRating > 0)
+                // we will update the Trakt rating of the Movie
+                // TODO: Create a user setting for what they want to define as love/hate
+                if (ui.RatingChanged() && userMovieSettings.UserRating > 0)
                 {
                     TraktLogger.Info("Received Rate event in MovingPictures for movie '{0}' with rating '{1}/5'", movie.Title, userMovieSettings.UserRating);
                     if (userMovieSettings.UserRating >= 4)
@@ -516,10 +517,6 @@ namespace TraktPlugin.TraktHandlers
                         RateMovie(CreateRateData(movie, TraktRateValue.hate.ToString()));
                     }
                 }
-
-                // reset user flags for watched/ratings
-                userMovieSettings.WatchCountChanged = false;
-                userMovieSettings.RatingChanged = false;
             }
         }
 
@@ -937,9 +934,9 @@ namespace TraktPlugin.TraktHandlers
         public void DisposeEvents()
         {
             TraktLogger.Debug("Removing Hooks from Moving Pictures Database");
-            MovingPicturesCore.DatabaseManager.ObjectInserted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
-            MovingPicturesCore.DatabaseManager.ObjectUpdated -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectUpdated);
-            MovingPicturesCore.DatabaseManager.ObjectDeleted -= new Cornerstone.Database.DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
+            MovingPicturesCore.DatabaseManager.ObjectInserted -= new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
+            MovingPicturesCore.DatabaseManager.ObjectUpdatedEx -= new DatabaseManager.ObjectUpdatedDelegate(DatabaseManager_ObjectUpdatedEx);
+            MovingPicturesCore.DatabaseManager.ObjectDeleted -= new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
 
         public static string GetTmdbID(DBMovieInfo movie)
