@@ -317,30 +317,30 @@
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
     <control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Movie.Year</label>
+      <label>#Trakt.Movie.Genres</label>
       <id>0</id>
       <posX>309</posX>
       <posY>278</posY>
-      <width>900</width>
+      <width>400</width>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>      
-      <visible>!string.equals(#Trakt.Movie.Year,)+string.equals(#Trakt.List.ItemType,movie)+facadeview.list</visible>
+      <visible>!string.equals(#Trakt.Movie.Genres,)+string.equals(#Trakt.List.ItemType,movie)+facadeview.list</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
 		<control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Show.Year</label>
+      <label>#Trakt.Show.Genres</label>
       <id>0</id>
       <posX>309</posX>
       <posY>278</posY>
-      <width>900</width>
+      <width>400</width>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>      
-      <visible>!string.equals(#Trakt.Show.Year,)+string.equals(#Trakt.List.ItemType,show)+facadeview.list</visible>
+      <visible>!string.equals(#Trakt.Show.Genres,)+string.equals(#Trakt.List.ItemType,show)+facadeview.list</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
@@ -750,30 +750,30 @@
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
     <control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Movie.Year</label>
+      <label>#Trakt.Movie.Genres</label>
       <id>0</id>
       <posX>20</posX>
       <posY>270</posY>
       <width>500</width>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>
-      <visible>[facadeview.smallicons|facadeview.largeicons]+control.isvisible(50)+!string.equals(#Trakt.Movie.Year,)+string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>[facadeview.smallicons|facadeview.largeicons]+control.isvisible(50)+!string.equals(#Trakt.Movie.Genres,)+string.equals(#Trakt.List.ItemType,movie)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
 		<control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Show.Year</label>
+      <label>#Trakt.Show.Genres</label>
       <id>0</id>
       <posX>20</posX>
       <posY>270</posY>
       <width>500</width>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>
-      <visible>[facadeview.smallicons|facadeview.largeicons]+control.isvisible(50)+!string.equals(#Trakt.Show.Year,)+string.equals(#Trakt.List.ItemType,show)</visible>
+      <visible>[facadeview.smallicons|facadeview.largeicons]+control.isvisible(50)+!string.equals(#Trakt.Show.Genres,)+string.equals(#Trakt.List.ItemType,show)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
@@ -1183,9 +1183,9 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Movie.Year</label>
+      <label>#Trakt.Movie.Genres</label>
       <id>0</id>
       <posX>20</posX>
       <posY>680</posY>
@@ -1193,14 +1193,14 @@
       <align>center</align>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>
-      <visible>facadeview.filmstrip+control.isvisible(50)+!string.equals(#Trakt.Movie.Year,)+string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.filmstrip+control.isvisible(50)+!string.equals(#Trakt.Movie.Genres,)+string.equals(#Trakt.List.ItemType,movie)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
 		<control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Show.Year</label>
+      <label>#Trakt.Show.Genres</label>
       <id>0</id>
       <posX>20</posX>
       <posY>680</posY>
@@ -1208,7 +1208,7 @@
       <align>center</align>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>
-      <visible>facadeview.filmstrip+control.isvisible(50)+!string.equals(#Trakt.Show.Year,)+string.equals(#Trakt.List.ItemType,show)</visible>
+      <visible>facadeview.filmstrip+control.isvisible(50)+!string.equals(#Trakt.Show.Genres,)+string.equals(#Trakt.List.ItemType,show)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
