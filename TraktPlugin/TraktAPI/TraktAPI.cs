@@ -86,6 +86,38 @@ namespace TraktPlugin.TraktAPI
         Friends
     }
 
+    /// <summary>
+    /// Defaults to all, but you can instead send a comma delimited list of actions. 
+    /// For example, /all or /watching,scrobble,seen or /rating.
+    /// </summary>
+    public enum ActivityAction
+    {
+        all,
+        watching,
+        scrobble,
+        checkin,
+        seen,
+        collection,
+        rating,
+        watchlist,
+        shout,
+        created,
+        item_added
+    }
+
+    /// <summary>
+    /// Defaults to all, but you can instead send a comma delimited list of types.
+    /// For example, /all or /movie,show or /list.
+    /// </summary>
+    public enum ActivityType
+    {
+        all,
+        episode,
+        show,
+        movie,
+        list
+    }
+
     #endregion
 
     /// <summary>
@@ -470,7 +502,8 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns list of the 100 last watched episodes by a user
         /// </summary>
-        /// <param name="user">username of person to get watched history</param>        
+        /// <param name="user">username of person to get watched history</param>
+        [Obsolete("This method is deprecated and has been replaced by GetUserActivity", false)]
         public static IEnumerable<TraktWatchedEpisode> GetUserEpisodeWatchedHistory(string user)
         {
             string watchedEpisodes = Transmit(string.Format(TraktURIs.UserEpisodeWatchedHistory, user), GetUserAuthentication());
@@ -480,7 +513,8 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns list of the 100 last watched movies by a user
         /// </summary>
-        /// <param name="user">username of person to get watched history</param>        
+        /// <param name="user">username of person to get watched history</param>
+        [Obsolete("This method is deprecated and has been replaced by GetUserActivity", false)]
         public static IEnumerable<TraktWatchedMovie> GetUserMovieWatchedHistory(string user)
         {
             string watchedMovies = Transmit(string.Format(TraktURIs.UserMovieWatchedHistory, user), GetUserAuthentication());
@@ -506,6 +540,20 @@ namespace TraktPlugin.TraktAPI
         {
             string userList = Transmit(string.Format(TraktURIs.UserList, user, slug), GetUserAuthentication());
             return userList.FromJSON<TraktUserList>();
+        }
+
+        #endregion
+
+        #region Activity
+
+        public static TraktActivity GetUserActivity(string username, List<ActivityType> types, List<ActivityAction> actions)
+        {
+            // get comma seperated list of types and actions (if more than one)
+            string activityTypes = string.Join(",", types.Select(t => t.ToString()).ToArray());
+            string activityActions = string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            string activity = Transmit(string.Format(TraktURIs.ActivityUser, username, activityTypes, activityActions), GetUserAuthentication());
+            return activity.FromJSON<TraktActivity>();
         }
 
         #endregion

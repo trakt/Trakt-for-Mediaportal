@@ -493,16 +493,16 @@
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
     <control>
-      <description>Year</description>
+      <description>Genres</description>
       <type>label</type>
-      <label>#Trakt.Movie.Year</label>
+      <label>#Trakt.Movie.Genres</label>
       <id>0</id>
       <posX>309</posX>
       <posY>282</posY>
-      <width>900</width>
+      <width>360</width>
       <font>font12</font>
       <textcolor>ffa9d0f7</textcolor>      
-      <visible>!string.equals(#Trakt.Movie.Year,)+string.equals(#Trakt.View.Level,WatchedHistory)+string.equals(#Trakt.Selected.Type,movie)</visible>
+      <visible>!string.equals(#Trakt.Movie.Genres,)+string.equals(#Trakt.View.Level,WatchedHistory)+string.equals(#Trakt.Selected.Type,movie)</visible>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
     </control>
