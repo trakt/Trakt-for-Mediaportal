@@ -134,6 +134,110 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void RemoveMovieFromWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unwatchlist);
+                if (response == null || response.Status != "success") return;
+                if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
+                {
+                    // Update Categories & Filters
+                    MovingPictures.ClearWatchListCache();
+                    MovingPictures.UpdateCategoriesAndFilters();
+                }
+                GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
+            })
+            {
+                IsBackground = true,
+                Name = "Removing Movie From Watch List"
+            };
+
+            syncThread.Start(syncObject);
+        }
+        #endregion
+
+        #region Show WatchList
+        public static void AddShowToWatchList(string title, string year, string tvdbid)
+        {
+            TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.watchlist);
+                if (response == null || response.Status != "success") return;
+                GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Show to Watch List"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void RemoveShowFromWatchList(string title, string year, string tvdbid)
+        {
+            TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.unwatchlist);
+                if (response == null || response.Status != "success") return;
+                GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
+            })
+            {
+                IsBackground = true,
+                Name = "Removing Show From Watch List"
+            };
+
+            syncThread.Start(syncObject);
+        }
+        #endregion
+
+        #region Episode WatchList
+        public static void AddEpisodeToWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.watchlist);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Adding Episode to Watch List"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void RemoveEpisodeFromWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unwatchlist);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Removing Episode From Watch List"
+            };
+
+            syncThread.Start(syncObject);
+        }
         #endregion
 
         #region Add/Remove Movie in List
@@ -406,6 +510,154 @@ namespace TraktPlugin
             GUIShouts.EpisodeInfo = episodeInfo;
             GUIShouts.Fanart = fanart;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+        #endregion
+
+        #region Movie Watched/UnWatched
+        public static void MarkMovieAsWatched(string imdbid, string title, string year)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.seen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as Watched"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void MarkMovieAsUnWatched(string imdbid, string title, string year)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unseen);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Movie as UnWatched"
+            };
+
+            syncThread.Start(syncObject);
+        }
+        #endregion
+
+        #region Episode Watched/UnWatched
+        public static void MarkEpisodeAsWatched(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.seen);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Episode as Watched"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void MarkEpisodeAsUnWatched(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unseen);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Episode as UnWatched"
+            };
+
+            syncThread.Start(syncObject);
+        }
+        #endregion
+
+        #region Movie Library/UnLibrary
+        public static void AddMovieToLibrary(string imdbid, string title, string year)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.library);
+            })
+            {
+                IsBackground = true,
+                Name = "Add Movie to Library"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void RemoveMovieFromLibrary(string imdbid, string title, string year)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unlibrary);
+            })
+            {
+                IsBackground = true,
+                Name = "Remove Movie from Library"
+            };
+
+            syncThread.Start(syncObject);
+        }
+        #endregion
+
+        #region Episode Library/UnLibrary
+        public static void AddEpisodeToLibrary(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.library);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Add Episode to Library"
+            };
+
+            syncThread.Start(syncObject);
+        }
+
+        public static void RemoveEpisodeFromLibrary(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
+            if (syncObject == null) return;
+
+            Thread syncThread = new Thread(delegate(object obj)
+            {
+                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unlibrary);
+                if (response == null || response.Status != "success") return;
+            })
+            {
+                IsBackground = true,
+                Name = "Remove Episode From Library"
+            };
+
+            syncThread.Start(syncObject);
         }
         #endregion
 

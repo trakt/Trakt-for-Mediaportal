@@ -442,21 +442,21 @@ namespace TraktPlugin.GUI
             {
                 TraktRateEpisode item = rateObject as TraktRateEpisode;
                 ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Season, item.Episode));
-                currentRating = item.Rating;
+                currentRating = item.Rating ?? "false";
                 ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             else if (rateObject is TraktRateSeries)
             {
                 TraktRateSeries item = rateObject as TraktRateSeries;
                 ratingDlg.SetLine(1, item.Title);
-                currentRating = item.Rating;
+                currentRating = item.Rating ?? "false";
                 ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             else
             {
                 TraktRateMovie item = rateObject as TraktRateMovie;
                 ratingDlg.SetLine(1, item.Title);
-                currentRating = item.Rating;
+                currentRating = item.Rating ?? "false";
                 ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
             }
             

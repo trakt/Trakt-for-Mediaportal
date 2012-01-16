@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,10 +57,28 @@ namespace TraktPlugin.GUI
             Trailers,
             DeleteFriend,
             SearchFriend,
-            AddFriend,
-            AddToList,
+            AddFriend,            
             Related,
+            RateEpisode,
+            RateMovie,
             Shouts,
+            MarkEpisodeAsWatched,
+            MarkEpisodeAsUnWatched,
+            MarkMovieAsWatched,
+            MarkMovieAsUnWatched,
+            AddMovieToLibrary,
+            RemoveMovieFromLibrary,
+            AddEpisodeToLibrary,
+            RemoveEpisodeFromLibrary,
+            AddMovieToList,
+            AddShowToList,
+            AddEpisodeToList,
+            AddMovieToWatchList,
+            AddShowToWatchList,
+            AddEpisodeToWatchList,
+            RemoveMovieFromWatchList,
+            RemoveShowFromWatchList,
+            RemoveEpisodeFromWatchList,
             SearchWithMpNZB,
             SearchTorrent
         }
@@ -456,7 +475,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
                 itemCount++;
             }
-            if ((selectedEpisode != null) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if ((selectedShow != null) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
@@ -466,14 +485,162 @@ namespace TraktPlugin.GUI
             #endif
 
             // Add to Custom List
-            if (selectedMovie != null || selectedEpisode != null)
+            if (selectedMovie != null)
             {
                 listItem = new GUIListItem(Translation.AddToList + "...");
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.AddToList;
+                listItem.ItemId = (int)ContextMenuItem.AddMovieToList;
+                itemCount++;
+            }
+            if (selectedShow != null)
+            {
+                listItem = new GUIListItem(Translation.AddShowToList + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddShowToList;
+                itemCount++;
+            }
+            if (selectedEpisode != null)
+            {
+                listItem = new GUIListItem(Translation.AddEpisodeToList + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.AddEpisodeToList;
                 itemCount++;
             }
 
+            // Add/Remove WatchList
+            if (selectedMovie != null)
+            {
+                if (!selectedMovie.InWatchList)
+                {
+                    listItem = new GUIListItem(Translation.AddToWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.AddMovieToWatchList;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.RemoveMovieFromWatchList;
+                }
+                itemCount++;
+            }
+            if (selectedShow != null)
+            {
+                if (!selectedShow.InWatchList)
+                {
+                    listItem = new GUIListItem(Translation.AddShowToWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.AddShowToWatchList;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveShowFromWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.RemoveShowFromWatchList;
+                }
+                itemCount++;
+            }
+            if (selectedEpisode != null)
+            {
+                if (!selectedEpisode.InWatchList)
+                {
+                    listItem = new GUIListItem(Translation.AddEpisodeToWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.AddEpisodeToWatchList;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveEpisodeFromWatchList);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.RemoveEpisodeFromWatchList;
+                }
+                itemCount++;
+            }
+
+            // Add/Remove Library
+            if (selectedMovie != null)
+            {
+                if (!selectedMovie.InCollection)
+                {
+                    listItem = new GUIListItem(Translation.AddToLibrary);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.AddMovieToLibrary;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.RemoveMovieFromLibrary;
+                }
+                itemCount++;
+            }
+            if (selectedEpisode != null)
+            {
+                if (!selectedEpisode.InCollection)
+                {
+                    listItem = new GUIListItem(Translation.AddToLibrary);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.AddEpisodeToLibrary;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.RemoveEpisodeFromLibrary;
+                }
+                itemCount++;
+            }
+
+            // Watched/UnWatched
+            if (selectedMovie != null)
+            {
+                if (!selectedMovie.Watched)
+                {
+                    listItem = new GUIListItem(Translation.MarkAsWatched);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.MarkMovieAsWatched;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.MarkMovieAsUnWatched;
+                }
+                itemCount++;
+            }
+            if (selectedEpisode != null)
+            {
+                if (!selectedEpisode.Watched)
+                {
+                    listItem = new GUIListItem(Translation.MarkAsWatched);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.MarkEpisodeAsWatched;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.MarkEpisodeAsUnWatched;
+                }
+                itemCount++;
+            }
+
+            // Rate            
+            if (selectedMovie != null)
+            {
+                listItem = new GUIListItem(Translation.RateMovie + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RateMovie;
+                itemCount++;
+            }
+            if (selectedEpisode != null)
+            {
+                listItem = new GUIListItem(Translation.RateEpisode + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.RateEpisode;
+                itemCount++;
+            }
+        
             // Related Shows/Movies
             if (ViewLevel == Views.WatchedHistory)
             {
@@ -585,15 +752,114 @@ namespace TraktPlugin.GUI
                     break;
                 #endif
 
-                case ((int)ContextMenuItem.AddToList):
-                    if (selectedMovie != null)
-                    {
-                        TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
-                    }
-                    else
-                    {
-                        TraktHelper.AddRemoveEpisodeInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString(), selectedShow.Tvdb, false);
-                    }
+                case ((int)ContextMenuItem.AddMovieToList):
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
+                    break;
+                case ((int)ContextMenuItem.AddShowToList):
+                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    break;
+                case ((int)ContextMenuItem.AddEpisodeToList):
+                    TraktHelper.AddRemoveEpisodeInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString(), selectedShow.Tvdb, false);
+                    break;
+
+                case ((int)ContextMenuItem.AddMovieToWatchList):
+                    TraktHelper.AddMovieToWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, true);
+                    selectedMovie.InWatchList = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+                case ((int)ContextMenuItem.RemoveMovieFromWatchList):
+                    TraktHelper.RemoveMovieFromWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, true);
+                    selectedMovie.InWatchList = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.AddShowToWatchList):
+                    TraktHelper.AddShowToWatchList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb);
+                    selectedShow.InWatchList = true;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    break;
+                case ((int)ContextMenuItem.RemoveShowFromWatchList):
+                    TraktHelper.RemoveShowFromWatchList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb);
+                    selectedShow.InWatchList = false;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    break;
+
+                case ((int)ContextMenuItem.AddEpisodeToWatchList):
+                    TraktHelper.AddEpisodeToWatchList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.InWatchList = true;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+                case ((int)ContextMenuItem.RemoveEpisodeFromWatchList):
+                    TraktHelper.RemoveEpisodeFromWatchList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.InWatchList = false;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+
+                case ((int)ContextMenuItem.RateEpisode):
+                    RateEpisode(selectedShow, selectedEpisode);
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+                case ((int)ContextMenuItem.RateMovie):
+                    RateMovie(selectedMovie);
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.MarkMovieAsWatched):
+                    TraktHelper.MarkMovieAsWatched(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    selectedMovie.Watched = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+                case ((int)ContextMenuItem.MarkMovieAsUnWatched):
+                    TraktHelper.MarkMovieAsUnWatched(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    selectedMovie.Watched = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.MarkEpisodeAsWatched):
+                    TraktHelper.MarkEpisodeAsWatched(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.Watched = true;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+                case ((int)ContextMenuItem.MarkEpisodeAsUnWatched):
+                    TraktHelper.MarkEpisodeAsUnWatched(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.Watched = false;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+
+                case ((int)ContextMenuItem.AddMovieToLibrary):
+                    TraktHelper.AddMovieToLibrary(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    selectedMovie.InCollection = true;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+                case ((int)ContextMenuItem.RemoveMovieFromLibrary):
+                    TraktHelper.RemoveMovieFromLibrary(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    selectedMovie.InCollection = false;
+                    OnMovieSelected(selectedItem, Facade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)ContextMenuItem.AddEpisodeToLibrary):
+                    TraktHelper.AddEpisodeToLibrary(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.InCollection = true;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    break;
+                case ((int)ContextMenuItem.RemoveEpisodeFromLibrary):
+                    TraktHelper.RemoveEpisodeFromLibrary(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString());
+                    selectedEpisode.InCollection = false;
+                    OnEpisodeSelected(selectedItem, Facade);
+                    (selectedItem.Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
@@ -678,6 +944,100 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void RateMovie(TraktMovie movie)
+        {
+            // default rating to love if not already set
+            TraktRateMovie rateObject = new TraktRateMovie
+            {
+                IMDBID = movie.Imdb,
+                Title = movie.Title,
+                Year = movie.Year,
+                Rating = movie.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            string prevRating = movie.Rating;
+            movie.Rating = GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != movie.Rating)
+            {
+                if (prevRating == "false" || prevRating == null)
+                {
+                    movie.Ratings.Votes++;
+                    if (movie.Rating == "love")
+                        movie.Ratings.LovedCount++;
+                    else
+                        movie.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    movie.Ratings.LovedCount--;
+                    movie.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    movie.Ratings.LovedCount++;
+                    movie.Ratings.HatedCount--;
+                }
+
+                movie.Ratings.Percentage = (int)Math.Round(100 * (movie.Ratings.LovedCount / (float)movie.Ratings.Votes));
+            }
+        }
+
+        private void RateEpisode(TraktShow show, TraktEpisode episode)
+        {
+            // default rating to love if not already set
+            TraktRateEpisode rateObject = new TraktRateEpisode
+            {
+                SeriesID = show.Tvdb,
+                Title = show.Title,
+                Year = show.Year.ToString(),
+                Episode = episode.Number.ToString(),
+                Season = episode.Season.ToString(),
+                Rating = episode.Rating,
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            string prevRating = episode.Rating;
+            episode.Rating = GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject);
+
+            // if previous rating not equal to current rating then 
+            // update skin properties to reflect changes so we dont
+            // need to re-request from server
+            if (prevRating != episode.Rating)
+            {
+                if (prevRating == "false" || prevRating == null)
+                {
+                    episode.Ratings.Votes++;
+                    if (episode.Rating == "love")
+                        episode.Ratings.LovedCount++;
+                    else
+                        episode.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "love")
+                {
+                    episode.Ratings.LovedCount--;
+                    episode.Ratings.HatedCount++;
+                }
+
+                if (prevRating == "hate")
+                {
+                    episode.Ratings.LovedCount++;
+                    episode.Ratings.HatedCount--;
+                }
+
+                episode.Ratings.Percentage = (int)Math.Round(100 * (episode.Ratings.LovedCount / (float)episode.Ratings.Votes));
+            }
+        }
 
         private void CheckAndPlayMovie(bool jumpTo)
         {
@@ -1037,7 +1397,6 @@ namespace TraktPlugin.GUI
                 episodeItem.IconImage = "defaultTraktEpisode.png";
                 episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
                 episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
-                episodeItem.Item = activity;
                 episodeItem.OnItemSelected += OnEpisodeSelected;
                 Utils.SetDefaultIcons(episodeItem);
                 Facade.Add(episodeItem);
@@ -1084,10 +1443,10 @@ namespace TraktPlugin.GUI
                 movieItem.Item = activity.Movie.Images;
                 movieItem.TVTag = activity;
                 movieItem.ItemId = id++;
+                movieItem.IsPlayed = activity.Movie.Watched;
                 movieItem.IconImage = "defaultVideo.png";
                 movieItem.IconImageBig = "defaultVideoBig.png";
                 movieItem.ThumbnailImage = "defaultVideoBig.png";
-                movieItem.Item = activity;
                 movieItem.OnItemSelected += OnMovieSelected;
                 Utils.SetDefaultIcons(movieItem);
                 Facade.Add(movieItem);
@@ -1303,6 +1662,13 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartFileName", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
@@ -1311,6 +1677,16 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Plays", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
             #endregion
 
@@ -1327,6 +1703,16 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Genres", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Plays", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.LovedCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Percentage", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
             #endregion
@@ -1367,6 +1753,13 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
             SetProperty("#Trakt.Show.Genres", string.Join(", ", episode.Show.Genres.ToArray()));
+            SetProperty("#Trakt.Show.InWatchList", episode.Show.InWatchList.ToString());
+            SetProperty("#Trakt.Show.Rating", episode.Show.Rating);
+            SetProperty("#Trakt.Show.Ratings.Icon", (episode.Show.Ratings.LovedCount > episode.Show.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Show.Ratings.HatedCount", episode.Show.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.LovedCount", episode.Show.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Show.Ratings.Percentage", episode.Show.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Show.Ratings.Votes", episode.Show.Ratings.Votes.ToString());
             SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
             SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
@@ -1375,6 +1768,16 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Url", episode.Episode.Url);
             SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Episode.Overview) ? Translation.NoEpisodeSummary : episode.Episode.Overview);
             SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());
+            SetProperty("#Trakt.Episode.InCollection", episode.Episode.InCollection.ToString());
+            SetProperty("#Trakt.Episode.InWatchList", episode.Episode.InWatchList.ToString());
+            SetProperty("#Trakt.Episode.Plays", episode.Episode.Plays.ToString());
+            SetProperty("#Trakt.Episode.Watched", episode.Episode.Watched.ToString());
+            SetProperty("#Trakt.Episode.Rating", episode.Episode.Rating);
+            SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Episode.Ratings.LovedCount > episode.Episode.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Episode.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Episode.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Episode.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Episode.Ratings.Votes.ToString());
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images == null ? string.Empty : episode.Episode.Images.EpisodeImageFilename);
         }
 
@@ -1394,6 +1797,16 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Url", movie.Movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Movie.Year);
             SetProperty("#Trakt.Movie.Genres", string.Join(", ", movie.Movie.Genres.ToArray()));
+            SetProperty("#Trakt.Movie.InCollection", movie.Movie.InCollection.ToString());
+            SetProperty("#Trakt.Movie.InWatchList", movie.Movie.InWatchList.ToString());
+            SetProperty("#Trakt.Movie.Plays", movie.Movie.Plays.ToString());
+            SetProperty("#Trakt.Movie.Watched", movie.Movie.Watched.ToString());
+            SetProperty("#Trakt.Movie.Rating", movie.Movie.Rating);
+            SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Movie.Ratings.LovedCount > movie.Movie.Ratings.HatedCount) ? "love" : "hate");
+            SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Movie.Ratings.HatedCount.ToString());
+            SetProperty("#Trakt.Movie.Ratings.LovedCount", movie.Movie.Ratings.LovedCount.ToString());
+            SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Movie.Ratings.Percentage.ToString());
+            SetProperty("#Trakt.Movie.Ratings.Votes", movie.Movie.Ratings.Votes.ToString());
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.PosterImageFilename);
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Movie.Images == null ? string.Empty : movie.Movie.Images.FanartImageFilename);
         }
@@ -1676,9 +2089,78 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
+            MainOverlayImage mainOverlay = MainOverlayImage.None;
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if ((TVTag is TraktActivity.Activity))
+            {
+                if ((TVTag as TraktActivity.Activity).Movie != null)
+                {
+                    TraktMovie movie = (TVTag as TraktActivity.Activity).Movie;
+
+                    if (movie.InWatchList)
+                        mainOverlay = MainOverlayImage.Watchlist;
+                    else if (movie.Watched)
+                        mainOverlay = MainOverlayImage.Seenit;
+
+                    // add additional overlay if applicable
+                    if (movie.InCollection)
+                        mainOverlay |= MainOverlayImage.Library;
+
+                    if (movie.Rating == "love")
+                        ratingOverlay = RatingOverlayImage.Love;
+                    else if (movie.Rating == "hate")
+                        ratingOverlay = RatingOverlayImage.Hate;
+                }
+                else
+                {
+                    TraktEpisode episode = (TVTag as TraktActivity.Activity).Episode;
+
+                    if (episode.InWatchList)
+                        mainOverlay = MainOverlayImage.Watchlist;
+                    else if (episode.Watched)
+                        mainOverlay = MainOverlayImage.Seenit;
+
+                    // add additional overlay if applicable
+                    if (episode.InCollection)
+                        mainOverlay |= MainOverlayImage.Library;
+
+                    if (episode.Rating == "love")
+                        ratingOverlay = RatingOverlayImage.Love;
+                    else if (episode.Rating == "hate")
+                        ratingOverlay = RatingOverlayImage.Hate;
+                }
+            }
+            
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+            {
+                // get a reference to a MediaPortal Texture Identifier
+                string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+                string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+
+                // build memory image
+                Image memoryImage = null;
+                if ((TVTag as TraktActivity.Activity).Movie != null)
+                    memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
+                else
+                    memoryImage = GUIImageHandler.DrawOverlayOnEpisodeThumb(imageFilePath, mainOverlay, ratingOverlay, new Size(400, 225));
+
+                if (memoryImage == null) return;
+
+                // load texture into facade item
+                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                {
+                    ThumbnailImage = texture;
+                    IconImage = texture;
+                    IconImageBig = texture;
+                }
+            }
+            else
+            {
+                ThumbnailImage = imageFilePath;
+                IconImage = imageFilePath;
+                IconImageBig = imageFilePath;
+            }
 
             // if selected and is current window force an update of thumbnail
             UpdateCurrentSelection();

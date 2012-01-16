@@ -171,6 +171,20 @@ namespace TraktPlugin.TraktHandlers
             return syncData;
         }
 
+        public static TraktEpisodeSync CreateEpisodeSyncData(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        {
+            TraktEpisodeSync syncData = new TraktEpisodeSync
+            {
+                SeriesID = tvdbid,
+                Title = title,
+                EpisodeList = new List<TraktEpisodeSync.Episode>{ new TraktEpisodeSync.Episode { EpisodeIndex = episodeidx, SeasonIndex = seasonidx } },
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            return syncData;
+        }
+
         public static TraktShowSync CreateShowSyncData(string title, string year)
         {
             return CreateShowSyncData(title, year, null);
@@ -185,7 +199,8 @@ namespace TraktPlugin.TraktHandlers
             TraktShowSync.Show syncShow = new TraktShowSync.Show
             {
                 Title = title,
-                Year = Convert.ToInt32(year)
+                Year = Convert.ToInt32(year),
+                TVDBID = imdb.StartsWith("tt") ? null : imdb
             };
             shows.Add(syncShow);
 
