@@ -6,6 +6,29 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.TraktHandlers
 {
+    public enum VideoType
+    {
+        Movie,
+        Series
+    }
+
+    public class VideoInfo
+    {
+        public VideoType Type { get; set; }
+        public string Title { get; set; }
+        public string Year { get; set; }
+        public string SeasonIdx { get; set; }
+        public string EpisodeIdx { get; set; }
+
+        public override string ToString()
+        {
+            if (this.Type == VideoType.Series)
+                return string.Format("{0} - {1}x{2}", this.Title, this.SeasonIdx, this.EpisodeIdx);
+            else
+                return string.Format("{0}{1}", this.Title, string.IsNullOrEmpty(this.Year) ? string.Empty : " (" + this.Year + ")");
+        }
+    }
+
     public class BasicHandler
     {
         /// <summary>
@@ -212,6 +235,60 @@ namespace TraktPlugin.TraktHandlers
             };
 
             return syncData;
+        }
+
+        public static TraktEpisodeScrobble CreateEpisodeScrobbleData(VideoInfo info)
+        {
+            try
+            {
+                // create scrobble data
+                TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble
+                {
+                    Title = info.Title,
+                    Year = info.Year,
+                    Season = info.SeasonIdx,
+                    Episode = info.EpisodeIdx,
+                    PluginVersion = TraktSettings.Version,
+                    MediaCenter = "Mediaportal",
+                    MediaCenterVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString(),
+                    MediaCenterBuildDate = String.Empty,
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                return scrobbleData;
+            }
+            catch (Exception e)
+            {
+                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
+                return null;
+            }
+        }
+
+        public static TraktMovieScrobble CreateMovieScrobbleData(VideoInfo info)
+        {
+            try
+            {
+                // create scrobble data
+                TraktMovieScrobble scrobbleData = new TraktMovieScrobble
+                {
+                    Title = info.Title,
+                    Year = info.Year,
+                    PluginVersion = TraktSettings.Version,
+                    MediaCenter = "Mediaportal",
+                    MediaCenterVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString(),
+                    MediaCenterBuildDate = String.Empty,
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                return scrobbleData;
+            }
+            catch (Exception e)
+            {
+                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
+                return null;
+            }
         }
 
         public static bool IsValidImdb(string id)

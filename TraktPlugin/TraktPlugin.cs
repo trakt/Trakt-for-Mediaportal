@@ -286,6 +286,13 @@ namespace TraktPlugin
                 TraktHandlers.Remove(item);
             }
             #endregion
+
+            #region My TV Recordings
+            if (TraktHandlers.Exists(p => p.Name == "My TV Recordings"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "My TV Recordings");
+            }
+            #endregion
         }
 
         private void LoadPluginHandlers()
@@ -404,6 +411,21 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region My TV Recordings
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My TV Recordings");
+                if (!handlerExists && TraktSettings.MyTVRecordings != -1)
+                    TraktHandlers.Add(new MyTVRecordings(TraktSettings.MyTVRecordings));
+                else if (handlerExists && TraktSettings.MyTVRecordings == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "My TV Recordings");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "My TV Recordings");
+            }
+            #endregion
+
             if (TraktHandlers.Count == 0)
             {
                 TraktLogger.Info("No Plugin Handlers configured!");
@@ -499,11 +521,11 @@ namespace TraktPlugin
                 
         #region MediaPortal Playback Hooks
 
-        //Various hooks into Mediaportals Video plackback
+        // Various hooks into MediaPortals Video playback
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StartScrobble(filename);
             }
@@ -511,7 +533,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackChanged(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StartScrobble(filename);
             }
@@ -519,7 +541,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStopped(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StopScrobble();
             }
@@ -527,7 +549,7 @@ namespace TraktPlugin
         
         private void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StopScrobble();
             }
@@ -997,7 +1019,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region ScrobblingMethods
+        #region Scrobbling Methods
         /// <summary>
         /// Begins searching our supported plugins libraries to scrobble
         /// </summary>

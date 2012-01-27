@@ -64,48 +64,70 @@
   <ItemGroup>
     <Reference Include="AniDBAPI">
       <HintPath>..\Externals\AniDBAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Anime2">
       <HintPath>..\Externals\Anime2.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Anime2Schema">
       <HintPath>..\Externals\Anime2Schema.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Core" Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Debug'">
       <HintPath>..\Externals\Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Core" Condition="'$(Configuration)'=='Release12' or '$(Configuration)'=='Debug12'">
       <HintPath>..\Externals\MP12\Core.dll</HintPath>
     </Reference>
     <Reference Include="Cornerstone">
       <HintPath>..\Externals\Cornerstone.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Databases">
       <HintPath>..\Externals\Databases.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Dialogs">
       <HintPath>..\Externals\Dialogs.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Gentle.Common">
+      <HintPath>..\Externals\Gentle.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Gentle.Framework">
+      <HintPath>..\Externals\Gentle.Framework.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MovingPictures">
       <HintPath>..\Externals\MovingPictures.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MP-TVSeries">
       <HintPath>..\Externals\MP-TVSeries.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MPEIPlugin">
       <HintPath>..\Externals\MPEIPlugin.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MyFilms">
       <HintPath>..\Externals\MyFilms.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OnlineVideos">
       <HintPath>..\Externals\OnlineVideos.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OnlineVideos.MediaPortal1">
       <HintPath>..\Externals\OnlineVideos.MediaPortal1.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -117,11 +139,25 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TvBusinessLayer">
+      <HintPath>..\Externals\TvBusinessLayer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TVDatabase">
+      <HintPath>..\Externals\TVDatabase.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TvPlugin">
+      <HintPath>..\Externals\TvPlugin.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Utils">
       <HintPath>..\Externals\Utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowPlugins">
       <HintPath>..\Externals\WindowPlugins.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +238,7 @@
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
     <Compile Include="TraktHandlers\MyAnime.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
+    <Compile Include="TraktHandlers\MyTVRecordings.cs" />
     <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />
     <Compile Include="TraktLists.cs" />
