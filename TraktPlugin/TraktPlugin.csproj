@@ -147,10 +147,6 @@
       <HintPath>..\Externals\TVDatabase.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TvPlugin">
-      <HintPath>..\Externals\TvPlugin.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Utils">
       <HintPath>..\Externals\Utils.dll</HintPath>
       <Private>False</Private>
@@ -344,6 +340,7 @@
     <Content Include="Resources\Languages\no.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Languages\sv.xml" />
     <Content Include="Resources\Skins\Blue3Wide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\Blue3Wide\Media\defaultTraktCalendarBig.png" />
