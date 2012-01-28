@@ -67,6 +67,15 @@
         <width>280</width>
         <label>My Anime</label>
         <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>8</ondown>
+      </control>
+      <control>
+        <description>My Recorded TV</description>
+        <type>togglebutton</type>
+        <id>8</id>
+        <width>280</width>
+        <label>My TV Recordings</label>
+        <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
       </control>
     </control>

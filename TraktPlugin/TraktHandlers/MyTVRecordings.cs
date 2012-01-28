@@ -63,7 +63,7 @@ namespace TraktPlugin.TraktHandlers
 
             CurrentRecording = new VideoInfo
             {
-                Type = !string.IsNullOrEmpty(recording.EpisodeNum) && !string.IsNullOrEmpty(recording.SeriesNum) ? VideoType.Series : VideoType.Movie,
+                Type = !string.IsNullOrEmpty(recording.EpisodeNum) || !string.IsNullOrEmpty(recording.SeriesNum) ? VideoType.Series : VideoType.Movie,
                 Title = title,
                 Year = year,
                 SeasonIdx = recording.SeriesNum,
