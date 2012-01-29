@@ -525,7 +525,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (g_Player.IsVideo || g_Player.IsTVRecording)
             {
                 StartScrobble(filename);
             }
@@ -533,7 +533,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackChanged(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (g_Player.IsVideo || g_Player.IsTVRecording)
             {
                 StartScrobble(filename);
             }
@@ -541,7 +541,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStopped(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (g_Player.IsVideo || g_Player.IsTVRecording)
             {
                 StopScrobble();
             }
@@ -549,7 +549,7 @@ namespace TraktPlugin
         
         private void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (g_Player.IsVideo || g_Player.IsTVRecording)
             {
                 StopScrobble();
             }
