@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-#if MP12
 using MediaPortal.Common.Utils;
-#endif
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -35,16 +33,7 @@ using MediaPortal.Common.Utils;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-// Increment revision for MediaPortal 1.2 plugin so we dont have any issues with upgrading from MP1.1.
-#if !MP12
-[assembly: AssemblyVersion("1.3.4.0")]
-[assembly: AssemblyFileVersion("1.3.4.0")]
-#else
 [assembly: AssemblyVersion("1.3.4.1")]
 [assembly: AssemblyFileVersion("1.3.4.1")]
-#endif
 
-// MediaPortal Version Compatibility
-#if MP12
 [assembly: CompatibleVersion("1.1.6.27644")]
-#endif

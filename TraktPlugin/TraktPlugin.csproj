@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MP12</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,13 +26,13 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;MP11</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release12|AnyCPU'">
     <OutputPath>bin\Release12\</OutputPath>
-    <DefineConstants>TRACE;MP12</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug12|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug12\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MP12</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\TraktPlugin.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -78,12 +78,9 @@
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Core" Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Debug'">
+    <Reference Include="Core">
       <HintPath>..\Externals\Core.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Core" Condition="'$(Configuration)'=='Release12' or '$(Configuration)'=='Debug12'">
-      <HintPath>..\Externals\MP12\Core.dll</HintPath>
     </Reference>
     <Reference Include="Cornerstone">
       <HintPath>..\Externals\Cornerstone.dll</HintPath>

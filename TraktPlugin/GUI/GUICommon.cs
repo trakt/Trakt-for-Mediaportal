@@ -101,9 +101,6 @@ namespace TraktPlugin.GUI
 
                 if (movieExists)
                 {
-                    // Loading Parameter only works in MediaPortal 1.2
-                    // Load MovingPictures Details view else, directly play movie if using MP 1.1
-                    #if MP12
                     if (jumpTo)
                     {
                         string loadingParameter = string.Format("movieid:{0}", movieid);
@@ -111,10 +108,9 @@ namespace TraktPlugin.GUI
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MovingPictures, loadingParameter);
                     }
                     else
+                    {
                         TraktHandlers.MovingPictures.PlayMovie(movieid);
-                    #else
-                    TraktHandlers.MovingPictures.PlayMovie(movieid);
-                    #endif
+                    }
                     handled = true;
                 }
             }
@@ -134,14 +130,13 @@ namespace TraktPlugin.GUI
                     }
                     else
                     {
-                        GUIVideoFiles.PlayMovie(movie.ID);
+                        GUIVideoFiles.PlayMovie(movie.ID, false);
                     }
                     handled = true;
                 }
             }
 
             // check if its in My Films database
-            #if MP12
             if (TraktHelper.IsMyFilmsAvailableAndEnabled && handled == false)
             {
                 int? movieid = null;
@@ -163,16 +158,13 @@ namespace TraktPlugin.GUI
                     handled = true;
                 }
             }
-            #endif
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
                 string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
             }
-            #endif
 
         }
 
@@ -199,7 +191,6 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.MyAnime.PlayEpisode(seriesid, seasonidx, episodeidx);
             }
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes found! Attempting Trailer lookup in IMDb Trailers.");
@@ -207,7 +198,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
             }
-            #endif
         }
 
         /// <summary>
@@ -234,7 +224,6 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(seriesid);
             }
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes found! Attempting Trailer lookup in IMDb Trailers.");
@@ -242,7 +231,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
             }
-            #endif
         }
     }
 }

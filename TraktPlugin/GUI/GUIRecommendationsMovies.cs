@@ -275,7 +275,6 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 // Trailers
@@ -283,15 +282,12 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
-            #endif
 
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
-            
-            #if MP12
             if (!selectedMovie.InCollection && TraktHelper.IsMpNZBAvailableAndEnabled)
             {
                 // Search for movie with mpNZB
@@ -299,9 +295,7 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
             }
-            #endif
 
-            #if MP12
             if (!selectedMovie.InCollection && TraktHelper.IsMyTorrentsAvailableAndEnabled)
             {
                 // Search for movie with MyTorrents
@@ -309,7 +303,6 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
             }
-            #endif
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -428,29 +421,23 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     ShowTrailersMenu(selectedMovie);
                     break;
-                #endif
               
                 case ((int)ContextMenuItem.ChangeLayout):
                     ShowLayoutMenu();
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedMovie.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
-                #endif
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchTorrent):
                     string loadPar = selectedMovie.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
-                #endif
 
                 default:
                     break;
@@ -631,7 +618,6 @@ namespace TraktPlugin.GUI
             return ratingChanged;
         }
 
-        #if MP12
         private void ShowTrailersMenu(TraktMovie movie)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -679,7 +665,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
-        #endif
 
         private void ShowLayoutMenu()
         {
@@ -935,11 +920,6 @@ namespace TraktPlugin.GUI
                         }
                         #endregion
                     }
-                    #if !MP12
-                    // refresh the facade so thumbnails get displayed
-                    // this is not needed in MP 1.2 Beta
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_REFRESH, GUIWindowManager.ActiveWindow, 0, 50, 0, 0, null));
-                    #endif
                 })
                 {
                     IsBackground = true,

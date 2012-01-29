@@ -224,14 +224,12 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
-            #endif
 
             // Add to Custom List
             listItem = new GUIListItem(Translation.AddToList + "...");
@@ -248,7 +246,6 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
-            #if MP12
             if (TraktHelper.IsMpNZBAvailableAndEnabled)
             {
                 // Search for show with mpNZB
@@ -256,9 +253,7 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
             }
-            #endif
 
-            #if MP12
             if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
             {
                 // Search for show with MyTorrents
@@ -266,8 +261,6 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
             }
-            #endif
-
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -304,11 +297,9 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveEpisodeInUserList(selectedSeries.Title, selectedSeries.Year.ToString(), selectedEpisode.Season.ToString(), selectedEpisode.Number.ToString(), selectedSeries.Tvdb, false);
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     ShowTrailersMenu(selectedSeries);
                     break;
-                #endif
 
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
@@ -328,19 +319,15 @@ namespace TraktPlugin.GUI
                     ShowLayoutMenu();
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0} S{1}E{2}", selectedSeries.Title, selectedEpisode.Season.ToString("D2"), selectedEpisode.Number.ToString("D2"));
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
-                #endif
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchTorrent):
                     string loadPar = string.Format("{0} S{1}E{2}", selectedSeries.Title, selectedEpisode.Season.ToString("D2"), selectedEpisode.Number.ToString("D2"));
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
-                #endif
 
                 default:
                     break;
@@ -370,7 +357,6 @@ namespace TraktPlugin.GUI
             GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
         }
 
-        #if MP12
         private void ShowTrailersMenu(TraktShow show)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -413,7 +399,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
-        #endif
 
         private TraktEpisodeSync CreateSyncData(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> item)
         {
@@ -747,11 +732,6 @@ namespace TraktPlugin.GUI
                         }
                         #endregion
                     }
-                    #if !MP12
-                    // refresh the facade so thumbnails get displayed
-                    // this is not needed in MP 1.2 Beta
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_REFRESH, GUIWindowManager.ActiveWindow, 0, 50, 0, 0, null));
-                    #endif
                 })
                 {
                     IsBackground = true,

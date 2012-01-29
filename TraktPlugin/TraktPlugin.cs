@@ -547,7 +547,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
-            if (g_Player.IsVideo || g_Player.IsTVRecording)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StartScrobble(filename);
             }
@@ -555,7 +555,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackChanged(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (g_Player.IsVideo || g_Player.IsTVRecording)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StartScrobble(filename);
             }
@@ -563,7 +563,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStopped(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (g_Player.IsVideo || g_Player.IsTVRecording)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StopScrobble();
             }
@@ -571,7 +571,7 @@ namespace TraktPlugin
         
         private void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            if (g_Player.IsVideo || g_Player.IsTVRecording)
+            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
             {
                 StopScrobble();
             }
@@ -782,10 +782,9 @@ namespace TraktPlugin
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
                                     year = GUIPropertyManager.GetProperty("#year").Trim();
                                     imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
-                                    #if MP12
+                                    
                                     fanart = string.Empty;
-                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
-                                    #endif
+                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);                                    
 
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {

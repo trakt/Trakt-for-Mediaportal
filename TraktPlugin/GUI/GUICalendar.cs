@@ -434,14 +434,12 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
             }
 
-            #if MP12
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
-            #endif
 
             // Watch List Filter
             if (CurrentCalendar == CalendarType.MyShows)
@@ -566,11 +564,9 @@ namespace TraktPlugin.GUI
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     if (episodeItem != null) ShowTrailersMenu(episodeItem);
                     break;
-                #endif
 
                 case ((int)ContextMenuItem.WatchlistFilter):
                     TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
@@ -805,7 +801,6 @@ namespace TraktPlugin.GUI
             GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
         }
 
-        #if MP12
         private void ShowTrailersMenu(TraktCalendar.TraktEpisodes episodeItem)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -848,7 +843,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
-        #endif
 
         private void ShowStartDateMenu()
         {
@@ -1425,11 +1419,6 @@ namespace TraktPlugin.GUI
                         }
                         #endregion
                     }
-                    #if !MP12
-                    // refresh the facade so thumbnails get displayed
-                    // this is not needed in MP 1.2 Beta
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_REFRESH, GUIWindowManager.ActiveWindow, 0, 50, 0, 0, null));
-                    #endif
                 })
                 {
                     IsBackground = true,

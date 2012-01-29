@@ -53,12 +53,10 @@ namespace TraktPlugin.TraktHandlers
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Anime2.dll");
             if (!File.Exists(pluginFilename)) throw new FileNotFoundException("Plugin not found!");
 
-            #if MP12
-            TraktLogger.Debug("Adding Hooks to My Anime");            
+            TraktLogger.Debug("Adding Hooks to My Anime");
             animeWindow = (MainWindow)GUIWindowManager.GetWindow((int)ExternalPluginWindows.MyAnime);
             animeWindow.OnToggleWatched += new MainWindow.OnToggleWatchedHandler(OnToggleWatched);
             animeWindow.OnRateSeries += new MainWindow.OnRateSeriesHandler(OnRateSeries);
-            #endif
 
             Priority = priority;
         }
@@ -317,12 +315,10 @@ namespace TraktPlugin.TraktHandlers
 
         public void DisposeEvents()
         {
-            #if MP12
             TraktLogger.Debug("Removing Hooks from My Anime");
             animeWindow.OnToggleWatched -= new MainWindow.OnToggleWatchedHandler(OnToggleWatched);
             animeWindow.OnRateSeries -= new MainWindow.OnRateSeriesHandler(OnRateSeries);
             animeWindow = null;
-            #endif
         }
 
         /// <summary>

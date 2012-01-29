@@ -467,7 +467,6 @@ namespace TraktPlugin.GUI
             }
 
             // Trailers
-            #if MP12
             if ((selectedMovie != null) && TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
@@ -482,7 +481,6 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
                 itemCount++;
             }
-            #endif
 
             // Add to Custom List
             if (selectedMovie != null)
@@ -672,7 +670,6 @@ namespace TraktPlugin.GUI
             }
 
             // Search with mpNZB
-            #if MP12
             if (TraktHelper.IsMpNZBAvailableAndEnabled)
             {
                 if ((selectedMovie != null && !selectedMovie.InCollection) || selectedEpisode != null)
@@ -683,10 +680,8 @@ namespace TraktPlugin.GUI
                     itemCount++;
                 }
             }
-            #endif
 
             // Search with MyTorrents
-            #if MP12
             if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
             {
                 if ((selectedMovie != null && !selectedMovie.InCollection) || selectedEpisode != null)
@@ -697,7 +692,6 @@ namespace TraktPlugin.GUI
                     itemCount++;
                 }
             }
-            #endif
 
             if (itemCount == 0) return;
 
@@ -743,14 +737,12 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.Trailers):
                     if (selectedMovie != null)
                         ShowTrailersMenu<TraktMovie>(selectedMovie);
                     else
                         ShowTrailersMenu<TraktShow>(selectedShow);
                     break;
-                #endif
 
                 case ((int)ContextMenuItem.AddMovieToList):
                     TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
@@ -904,7 +896,6 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = String.Empty;
                     if (selectedMovie != null)
@@ -917,9 +908,7 @@ namespace TraktPlugin.GUI
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
-                #endif
 
-                #if MP12
                 case ((int)ContextMenuItem.SearchTorrent):
                     string loadPar = String.Empty;
                     if (selectedMovie != null)
@@ -932,7 +921,6 @@ namespace TraktPlugin.GUI
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
-                #endif
 
                 default:
                     break;
@@ -1142,7 +1130,6 @@ namespace TraktPlugin.GUI
             deleteFriendThread.Start(user);
         }
 
-        #if MP12
         private void ShowTrailersMenu<T>(T item)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -1206,7 +1193,6 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
-        #endif
 
         private void LoadFriendsList()
         {
@@ -1978,11 +1964,6 @@ namespace TraktPlugin.GUI
                         }
                         #endregion
                     }
-                    #if !MP12
-                    // refresh the facade so thumbnails get displayed
-                    // this is not needed in MP 1.2 Beta
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_REFRESH, GUIWindowManager.ActiveWindow, 0, 50, 0, 0, null));
-                    #endif
                 })
                 {
                     IsBackground = true,

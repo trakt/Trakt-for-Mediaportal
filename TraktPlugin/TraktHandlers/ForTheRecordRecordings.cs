@@ -111,7 +111,7 @@ namespace TraktPlugin.TraktHandlers
             double progress = 0.0;
             if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
 
-            //TraktLogger.Debug(string.Format("Percentage of '{0}' watched is {1}%", CurrentRecording.Title, progress.ToString("N2")));
+            TraktLogger.Debug(string.Format("Percentage of '{0}' watched is {1}%", CurrentRecording.Title, progress.ToString("N2")));
 
             // if recording is at least 80% complete, consider watched
             if (progress >= 80.0)
