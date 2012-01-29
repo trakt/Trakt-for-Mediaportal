@@ -293,6 +293,13 @@ namespace TraktPlugin
                 TraktHandlers.RemoveAll(p => p.Name == "My TV Recordings");
             }
             #endregion
+
+            #region 4TR TV Recordings
+            if (TraktHandlers.Exists(p => p.Name == "4TR TV Recordings"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "4TR TV Recordings");
+            }
+            #endregion
         }
 
         private void LoadPluginHandlers()
@@ -423,6 +430,21 @@ namespace TraktPlugin
             catch (Exception)
             {
                 TraktLogger.Error(errorMessage, "My TV Recordings");
+            }
+            #endregion
+
+            #region 4TR TV Recordings
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "4TR TV Recordings");
+                if (!handlerExists && TraktSettings.ForTheRecordRecordings != -1)
+                    TraktHandlers.Add(new ForTheRecordRecordings(TraktSettings.ForTheRecordRecordings));
+                else if (handlerExists && TraktSettings.ForTheRecordRecordings == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "4TR TV Recordings");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "4TR TV Recordings");
             }
             #endregion
 

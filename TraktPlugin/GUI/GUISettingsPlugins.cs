@@ -27,7 +27,8 @@ namespace TraktPlugin.GUI
             MyFilms = 5,
             OnlineVideos = 6,
             MyAnime = 7,
-            MyRecordedTV = 8
+            MyRecordedTV = 8,
+            ForTheRecordRecordings = 9
         }
 
         [SkinControl((int)SkinControls.TVSeries)]
@@ -50,6 +51,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.MyRecordedTV)]
         protected GUIToggleButtonControl btnMyRecordedTV = null;
+
+        [SkinControl((int)SkinControls.ForTheRecordRecordings)]
+        protected GUIToggleButtonControl btnForTheRecordRecordings = null;
         #endregion
 
         #region Constructor
@@ -67,6 +71,7 @@ namespace TraktPlugin.GUI
         int OnlineVideos { get; set; }
         int MyAnime { get; set; }
         int MyRecordedTV { get; set; }
+        int ForTheRecordRecordings { get; set; }
 
         #endregion
 
@@ -116,10 +121,11 @@ namespace TraktPlugin.GUI
             if (!btnOnlineVideos.Selected) OnlineVideos = -1;
             if (!btnMyAnime.Selected) MyAnime = -1;
             if (btnMyRecordedTV != null) { if (!btnMyRecordedTV.Selected) MyRecordedTV = -1; }
+            if (btnForTheRecordRecordings != null) { if (!btnForTheRecordRecordings.Selected) ForTheRecordRecordings = -1; }
 
             // enable plugins
             int i = 1;
-            int[] intArray = new int[7] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos, MyAnime, MyRecordedTV };
+            int[] intArray = new int[8] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos, MyAnime, MyRecordedTV, ForTheRecordRecordings };
             Array.Sort(intArray);
 
             // keep existing sort order
@@ -130,6 +136,7 @@ namespace TraktPlugin.GUI
             if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }
             if (btnMyAnime.Selected && MyAnime < 0) { MyAnime = intArray.Max() + i; i++; }
             if (btnMyRecordedTV != null) { if (btnMyRecordedTV.Selected && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; } }
+            if (btnForTheRecordRecordings != null) { if (btnForTheRecordRecordings.Selected && ForTheRecordRecordings < 0) { ForTheRecordRecordings = intArray.Max() + i; i++; } }
 
             // save settings
             TraktSettings.TVSeries = TVSeries;
@@ -139,6 +146,7 @@ namespace TraktPlugin.GUI
             TraktSettings.OnlineVideos = OnlineVideos;
             TraktSettings.MyAnime = MyAnime;
             if (btnMyRecordedTV != null) { TraktSettings.MyTVRecordings = MyRecordedTV; }
+            if (btnForTheRecordRecordings != null) { TraktSettings.ForTheRecordRecordings = ForTheRecordRecordings; }
 
             TraktSettings.saveSettings();
 
@@ -183,6 +191,11 @@ namespace TraktPlugin.GUI
                 PluginHandlersChanged = true;
                 PluginHandlersAdded = TraktSettings.MyTVRecordings == -1;
             }
+            if (control == btnForTheRecordRecordings)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.ForTheRecordRecordings == -1;
+            }
 
             base.OnClicked(controlId, control, actionType);
         }
@@ -200,6 +213,7 @@ namespace TraktPlugin.GUI
             OnlineVideos = TraktSettings.OnlineVideos;
             MyAnime = TraktSettings.MyAnime;
             MyRecordedTV = TraktSettings.MyTVRecordings;
+            ForTheRecordRecordings = TraktSettings.ForTheRecordRecordings;
 
             try
             {
@@ -210,6 +224,7 @@ namespace TraktPlugin.GUI
                 if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
                 if (MyAnime >= 0) btnMyAnime.Selected = true;
                 if (btnMyRecordedTV != null) { if (MyRecordedTV >= 0) btnMyRecordedTV.Selected = true; }
+                if (btnForTheRecordRecordings != null) { if (ForTheRecordRecordings >= 0) btnForTheRecordRecordings.Selected = true; }
             }
             catch
             {

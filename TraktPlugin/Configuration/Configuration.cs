@@ -33,6 +33,7 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.OnlineVideos, "OnlineVideos"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyAnime, "My Anime"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyTVRecordings, "My TV Recordings"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordRecordings, "4TR TV Recordings"));
             items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
             {
                 // sort disabled at end of list
@@ -159,6 +160,9 @@ namespace TraktPlugin
                     case "My TV Recordings":
                         TraktSettings.MyTVRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
+                    case "4TR TV Recordings":
+                        TraktSettings.ForTheRecordRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
                 }
                 i++;
             }
@@ -191,6 +195,9 @@ namespace TraktPlugin
                     break;
                 case "My TV Recordings":
                     TraktSettings.MyTVRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "4TR TV Recordings":
+                    TraktSettings.ForTheRecordRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
             }
         }

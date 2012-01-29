@@ -97,6 +97,18 @@
       <HintPath>..\Externals\Dialogs.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ForTheRecord.Entities">
+      <HintPath>..\Externals\ForTheRecord.Entities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ForTheRecord.ServiceAgents">
+      <HintPath>..\Externals\ForTheRecord.ServiceAgents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ForTheRecord.ServiceContracts">
+      <HintPath>..\Externals\ForTheRecord.ServiceContracts.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Gentle.Common">
       <HintPath>..\Externals\Gentle.Common.dll</HintPath>
       <Private>False</Private>
@@ -232,6 +244,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
+    <Compile Include="TraktHandlers\ForTheRecordRecordings.cs" />
     <Compile Include="TraktHandlers\MyAnime.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
     <Compile Include="TraktHandlers\MyTVRecordings.cs" />
