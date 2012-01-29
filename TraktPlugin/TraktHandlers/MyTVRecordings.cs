@@ -53,7 +53,11 @@ namespace TraktPlugin.TraktHandlers
             // get recording details from tv database
             TvBusinessLayer layer = new TvBusinessLayer();
             Recording recording = layer.GetRecordingByFileName(filename);
-            if (recording == null) return false;
+            if (recording == null || string.IsNullOrEmpty(recording.Title))
+            {
+                TraktLogger.Info("Unable to get recording details from database.");
+                return false;
+            }
 
             // get year from title if available, some EPG entries contain this
             string title = null;
