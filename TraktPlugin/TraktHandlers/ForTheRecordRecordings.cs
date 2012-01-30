@@ -111,10 +111,12 @@ namespace TraktPlugin.TraktHandlers
             double progress = 0.0;
             if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
 
-            TraktLogger.Debug(string.Format("Percentage of '{0}' watched is {1}%", CurrentRecording.Title, progress.ToString("N2")));
+            TraktLogger.Debug("Current Position: {0}, Duration: {1}", g_Player.CurrentPosition.ToString(), g_Player.Duration.ToString());
+            TraktLogger.Debug(string.Format("Percentage of '{0}' watched is {1}%", CurrentRecording.Title, progress > 100.0 ? "100" : progress.ToString("N2")));
 
             // if recording is at least 80% complete, consider watched
-            if (progress >= 80.0)
+            // consider watched with invalid progress as well, we should never be exactly 0.0
+            if (progress == 0.0 || progress >= 80.0)
             {
                 #region scrobble
                 Thread scrobbleRecording = new Thread(delegate(object obj)
@@ -122,7 +124,7 @@ namespace TraktPlugin.TraktHandlers
                     VideoInfo videoInfo = obj as VideoInfo;
                     if (videoInfo == null) return;
 
-                    TraktLogger.Info("Playback of 4TR tv-recording is considered watched '{0}'", videoInfo.ToString());
+                    TraktLogger.Info("Playback of '{0}' in 4TR tv-recording is considered watched.", videoInfo.ToString());
 
                     if (videoInfo.Type == VideoType.Series)
                     {
@@ -190,8 +192,11 @@ namespace TraktPlugin.TraktHandlers
             double progress = 0.0;
 
             if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
-            scrobbleData.Duration = Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = Convert.ToInt32(progress).ToString();
+
+            // sometimes with recordings/timeshifting we can get inaccurate player properties
+            // adjust if duration is less than a typical movie
+            scrobbleData.Duration = (duration < 15.0) ? "60" : Convert.ToInt32(duration).ToString();
+            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
             TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
             TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -208,8 +213,11 @@ namespace TraktPlugin.TraktHandlers
             double progress = 0.0;
 
             if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
-            scrobbleData.Duration = Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = Convert.ToInt32(progress).ToString();
+
+            // sometimes with recordings/timeshifting we can get invalid player properties
+            // adjust if duration is less than a typical episode
+            scrobbleData.Duration = (duration < 15.0) ? "30" : Convert.ToInt32(duration).ToString();
+            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
             TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
             TraktAPI.TraktAPI.LogTraktResponse(response);
