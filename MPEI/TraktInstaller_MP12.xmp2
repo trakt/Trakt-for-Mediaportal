@@ -13,7 +13,7 @@
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
               <Param1 />
               <UpdateOption>AlwaysOverwrite</UpdateOption>
-              <LocalFileName>..\TraktPlugin\bin\Release12\TraktPlugin.dll</LocalFileName>
+              <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
               <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
             </FileItem>
@@ -61,6 +61,13 @@
               <LocalFileName>..\TraktPlugin\Resources\Languages\es.xml</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{e234b451-99d5-48f9-8385-0cb5362bf6bd}-es.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\es.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\sv.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5f23253a-bdd3-4617-89f3-a8ed7a7148ce}-sv.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\sv.xml</DestinationFilename>
             </FileItem>
           </Items>
         </Files>
@@ -1213,23 +1220,19 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
-      <Minor>3</Minor>
-      <Build>3</Build>
-      <Revision>1</Revision>
+      <Minor>4</Minor>
+      <Build>0</Build>
+      <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Fixed some possible errors when trakt server is unavailable during library sync.
-* Added some minor logging enhancements for when we get unexpected API responses.
-* Added Genres property to all Show, Episode and Movie windows.
-* Updated minimum requirements for MovingPictures to v1.2.3. With this allows us to better listen to events coming from MovingPictures GUI such as toggle watched.
-* Updated Watched History list in the Friends window, now can show site Ratings and user specific properties such as InCollection, InWatchlist etc. Use Context Menu to set properties. Note: User properties are not yet sent from API.</VersionDescription>
+    <VersionDescription>* Added Watching and Scrobble support for TV Recordings using the built in MediaPortal plugin and 4TR plugin.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2012-01-19T10:00:00</ReleaseDate>
+    <ReleaseDate>2012-01-30T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
-    <Location>.\Release12\TraktPlugin_MP12.mpe1</Location>
+    <Location>.\Release\TraktPlugin_MP12.mpe1</Location>
     <Params>
       <Items>
         <SectionParam Name="Icon">
@@ -1269,7 +1272,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
-        <LocalFileName>..\TraktPlugin\bin\Release12\TraktPlugin.dll</LocalFileName>
+        <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
         <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
       </FileItem>
@@ -1307,6 +1310,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\es.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{e234b451-99d5-48f9-8385-0cb5362bf6bd}-es.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\es.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\sv.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5f23253a-bdd3-4617-89f3-a8ed7a7148ce}-sv.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\sv.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -2124,14 +2134,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{74ce87f9-b9b4-45e1-9d4a-db1b1c059f4b}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{1dccd010-274c-4bbb-a505-955080f31c1d}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{d4dcac25-c83f-4b98-a305-09fc4a8640a6}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{008f0045-631e-449b-b010-ec4142db01b1}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
