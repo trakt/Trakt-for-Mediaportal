@@ -2327,7 +2327,21 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         </Items>
       </Dependencies>
       <PluginDependencies>
-        <Items />
+        <Items>
+          <PluginDependencyItem AssemblyName="TraktPlugin.dll">
+            <CompatibleVersion>
+              <Items>
+                <CompatibleVersionItem>
+                  <MinRequiredVersion>1.1.6.27644</MinRequiredVersion>
+                  <DesignedForVersion>1.1.6.27644</DesignedForVersion>
+                </CompatibleVersionItem>
+              </Items>
+            </CompatibleVersion>
+            <SubSystemsUsed>
+              <Items />
+            </SubSystemsUsed>
+          </PluginDependencyItem>
+        </Items>
       </PluginDependencies>
       <GeneralInfo>
         <Name>Trakt for MediaPortal</Name>
