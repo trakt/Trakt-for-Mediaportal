@@ -361,6 +361,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Languages\es.xml" />
+    <Content Include="Resources\Languages\nl.xml" />
     <Content Include="Resources\Languages\no.xml">
       <SubType>Designer</SubType>
     </Content>
