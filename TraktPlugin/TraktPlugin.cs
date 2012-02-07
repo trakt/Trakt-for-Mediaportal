@@ -170,7 +170,6 @@ namespace TraktPlugin
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
             GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
-            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);
             
             // Initialize translations
             Translation.Init();
@@ -759,20 +758,6 @@ namespace TraktPlugin
                 // with extension settings
                 TraktLogger.Debug("Entering Extension Settings window");
                 TraktSettings.saveSettings();
-            }
-        }
-
-        void GUIWindowManager_OnNewAction(Action action)
-        {
-            switch (action.wID)
-            {
-                case Action.ActionType.ACTION_NEXT_CHANNEL:
-                    TraktLogger.Info("Next Channel");
-                    break;
-
-                case Action.ActionType.ACTION_PREV_CHANNEL:
-                    TraktLogger.Info("Prev Channel");
-                    break;                
             }
         }
 
