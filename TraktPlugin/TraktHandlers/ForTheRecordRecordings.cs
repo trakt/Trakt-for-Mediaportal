@@ -72,6 +72,7 @@ namespace TraktPlugin.TraktHandlers
                 Year = year,
                 SeasonIdx = recording.SeriesNumber == null ? null : recording.SeriesNumber.ToString(),
                 EpisodeIdx = recording.EpisodeNumber == null ? null : recording.EpisodeNumber.ToString(),
+                IsScrobbling = true
             };
 
             if (CurrentRecording.Type == VideoType.Series)
@@ -86,14 +87,23 @@ namespace TraktPlugin.TraktHandlers
 
                 VideoInfo videoInfo = stateInfo as VideoInfo;
 
-                if (videoInfo.Type == VideoType.Series)
+                // maybe the program does not exist on trakt
+                // ignore in future if it failed previously
+                if (videoInfo.IsScrobbling)
                 {
-                    ScrobbleEpisode(videoInfo, TraktScrobbleStates.watching);
+                    if (videoInfo.Type == VideoType.Series)
+                    {
+                        videoInfo.IsScrobbling = BasicHandler.ScrobbleEpisode(videoInfo, TraktScrobbleStates.watching);
+                    }
+                    else
+                    {
+                        videoInfo.IsScrobbling = BasicHandler.ScrobbleMovie(videoInfo, TraktScrobbleStates.watching);
+                    }
+
+                    if (videoInfo.Equals(CurrentRecording)) 
+                        CurrentRecording.IsScrobbling = videoInfo.IsScrobbling;
                 }
-                else
-                {
-                    ScrobbleMovie(videoInfo, TraktScrobbleStates.watching);
-                }
+
             }), CurrentRecording, 3000, 900000);
             #endregion
 
@@ -116,7 +126,7 @@ namespace TraktPlugin.TraktHandlers
 
             // if recording is at least 80% complete, consider watched
             // consider watched with invalid progress as well, we should never be exactly 0.0
-            if (progress == 0.0 || progress >= 80.0)
+            if ((progress == 0.0 || progress >= 80.0) && CurrentRecording.IsScrobbling)
             {
                 #region scrobble
                 Thread scrobbleRecording = new Thread(delegate(object obj)
@@ -128,11 +138,11 @@ namespace TraktPlugin.TraktHandlers
 
                     if (videoInfo.Type == VideoType.Series)
                     {
-                        ScrobbleEpisode(videoInfo, TraktScrobbleStates.scrobble);
+                        BasicHandler.ScrobbleEpisode(videoInfo, TraktScrobbleStates.scrobble);
                     }
                     else
                     {
-                        ScrobbleMovie(videoInfo, TraktScrobbleStates.scrobble);
+                        BasicHandler.ScrobbleMovie(videoInfo, TraktScrobbleStates.scrobble);
                     }
                 })
                 {
@@ -176,51 +186,6 @@ namespace TraktPlugin.TraktHandlers
             }
 
             CurrentRecording = null;
-        }
-
-        #endregion
-
-        #region Scrobble
-
-        private void ScrobbleMovie(VideoInfo videoInfo, TraktScrobbleStates state)
-        {
-            TraktMovieScrobble scrobbleData = BasicHandler.CreateMovieScrobbleData(videoInfo);
-            if (scrobbleData == null) return;
-
-            // get duration in minutes
-            double duration = g_Player.Duration / 60;
-            double progress = 0.0;
-
-            if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
-
-            // sometimes with recordings/timeshifting we can get inaccurate player properties
-            // adjust if duration is less than a typical movie
-            scrobbleData.Duration = (duration < 15.0) ? "60" : Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
-
-            TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
-            TraktAPI.TraktAPI.LogTraktResponse(response);
-        }
-
-        private void ScrobbleEpisode(VideoInfo videoInfo, TraktScrobbleStates state)
-        {
-            // get scrobble data to send to api
-            TraktEpisodeScrobble scrobbleData = BasicHandler.CreateEpisodeScrobbleData(videoInfo);
-            if (scrobbleData == null) return;
-
-            // get duration in minutes
-            double duration = g_Player.Duration / 60;
-            double progress = 0.0;
-
-            if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
-
-            // sometimes with recordings/timeshifting we can get invalid player properties
-            // adjust if duration is less than a typical episode
-            scrobbleData.Duration = (duration < 15.0) ? "30" : Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
-
-            TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
-            TraktAPI.TraktAPI.LogTraktResponse(response);
         }
 
         #endregion

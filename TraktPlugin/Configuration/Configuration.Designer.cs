@@ -126,7 +126,7 @@
             this.gbPlugins.Controls.Add(this.clbPlugins);
             this.gbPlugins.Location = new System.Drawing.Point(12, 115);
             this.gbPlugins.Name = "gbPlugins";
-            this.gbPlugins.Size = new System.Drawing.Size(304, 96);
+            this.gbPlugins.Size = new System.Drawing.Size(304, 113);
             this.gbPlugins.TabIndex = 1;
             this.gbPlugins.TabStop = false;
             this.gbPlugins.Text = "Plugins";
@@ -157,7 +157,7 @@
             this.clbPlugins.Location = new System.Drawing.Point(9, 19);
             this.clbPlugins.MultiColumn = true;
             this.clbPlugins.Name = "clbPlugins";
-            this.clbPlugins.Size = new System.Drawing.Size(244, 64);
+            this.clbPlugins.Size = new System.Drawing.Size(244, 79);
             this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
@@ -169,7 +169,7 @@
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 276);
+            this.gbMisc.Location = new System.Drawing.Point(12, 293);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(304, 133);
             this.gbMisc.TabIndex = 3;
@@ -250,7 +250,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(241, 415);
+            this.btnOK.Location = new System.Drawing.Point(241, 432);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -282,7 +282,7 @@
             // 
             this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(12, 217);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 234);
             this.gbRestrictions.Name = "gbRestrictions";
             this.gbRestrictions.Size = new System.Drawing.Size(304, 53);
             this.gbRestrictions.TabIndex = 2;
@@ -303,7 +303,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 444);
+            this.ClientSize = new System.Drawing.Size(328, 461);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);

@@ -976,26 +976,27 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
-        public static void LogTraktResponse<T>(T response)
+        public static bool LogTraktResponse<T>(T response)
         {
             try
             {
                 if (response == null || (response as TraktResponse).Status == null)
                 {
                     TraktLogger.Error("Response from server was unexpected.");
-                    return;
+                    return false;
                 }
+
                 // check response error status
                 if ((response as TraktResponse).Status != "success")
                 {
                     if ((response as TraktResponse).Error == "The remote server returned an error: (401) Unauthorized.")
                     {
-                        // handle unauthorized (GUI notification)
-                        //GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UnAuthorized);
-                        // log it
                         TraktLogger.Error("401 Unauthorized, Please check your Username and Password");
-                    }else
+                    }
+                    else
                         TraktLogger.Error((response as TraktResponse).Error);
+
+                    return false;
                 }
                 else
                 {
@@ -1013,11 +1014,13 @@ namespace TraktPlugin.TraktAPI
                             TraktLogger.Info(message, (response as TraktSyncResponse).Inserted, (response as TraktSyncResponse).AlreadyExist, (response as TraktSyncResponse).Skipped);
                         }
                     }
+                    return true;
                 }
             }
             catch (Exception)
             {
                 TraktLogger.Info("Response: {0}", "Failed to interpret response from server");
+                return false;
             }
         }
 

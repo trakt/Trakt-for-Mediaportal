@@ -83,6 +83,22 @@
         <width>300</width>
         <label>4TR TV Recordings</label>
         <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>My Live TV</description>
+        <type>togglebutton</type>
+        <id>10</id>
+        <width>300</width>
+        <label>My Live TV</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>4TR Live TV</description>
+        <type>togglebutton</type>
+        <id>11</id>
+        <width>300</width>
+        <label>4TR Live TV</label>
+        <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
       </control>
     </control>

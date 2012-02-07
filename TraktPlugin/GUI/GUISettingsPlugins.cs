@@ -28,7 +28,9 @@ namespace TraktPlugin.GUI
             OnlineVideos = 6,
             MyAnime = 7,
             MyRecordedTV = 8,
-            ForTheRecordRecordings = 9
+            ForTheRecordRecordings = 9,
+            MyLiveTV = 10,
+            ForTheRecordLiveTV = 11
         }
 
         [SkinControl((int)SkinControls.TVSeries)]
@@ -54,6 +56,12 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.ForTheRecordRecordings)]
         protected GUIToggleButtonControl btnForTheRecordRecordings = null;
+
+        [SkinControl((int)SkinControls.MyLiveTV)]
+        protected GUIToggleButtonControl btnMyLiveTV = null;
+
+        [SkinControl((int)SkinControls.ForTheRecordLiveTV)]
+        protected GUIToggleButtonControl btnForTheRecordLiveTV = null;
         #endregion
 
         #region Constructor
@@ -72,6 +80,8 @@ namespace TraktPlugin.GUI
         int MyAnime { get; set; }
         int MyRecordedTV { get; set; }
         int ForTheRecordRecordings { get; set; }
+        int MyLiveTV { get; set; }
+        int ForTheRecordLiveTV { get; set; }
 
         #endregion
 
@@ -122,10 +132,13 @@ namespace TraktPlugin.GUI
             if (!btnMyAnime.Selected) MyAnime = -1;
             if (btnMyRecordedTV != null) { if (!btnMyRecordedTV.Selected) MyRecordedTV = -1; }
             if (btnForTheRecordRecordings != null) { if (!btnForTheRecordRecordings.Selected) ForTheRecordRecordings = -1; }
+            if (btnMyLiveTV != null) { if (!btnMyLiveTV.Selected) MyLiveTV = -1; }
+            if (btnForTheRecordLiveTV != null) { if (!btnForTheRecordLiveTV.Selected) ForTheRecordLiveTV = -1; }
 
             // enable plugins
             int i = 1;
-            int[] intArray = new int[8] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos, MyAnime, MyRecordedTV, ForTheRecordRecordings };
+            int[] intArray = new int[10] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos,
+                                          MyAnime, MyRecordedTV, ForTheRecordRecordings, MyLiveTV, ForTheRecordLiveTV };
             Array.Sort(intArray);
 
             // keep existing sort order
@@ -137,6 +150,8 @@ namespace TraktPlugin.GUI
             if (btnMyAnime.Selected && MyAnime < 0) { MyAnime = intArray.Max() + i; i++; }
             if (btnMyRecordedTV != null) { if (btnMyRecordedTV.Selected && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; } }
             if (btnForTheRecordRecordings != null) { if (btnForTheRecordRecordings.Selected && ForTheRecordRecordings < 0) { ForTheRecordRecordings = intArray.Max() + i; i++; } }
+            if (btnMyLiveTV != null) { if (btnMyLiveTV.Selected && MyLiveTV < 0) { MyLiveTV = intArray.Max() + i; i++; } }
+            if (btnForTheRecordLiveTV != null) { if (btnForTheRecordLiveTV.Selected && ForTheRecordLiveTV < 0) { ForTheRecordLiveTV = intArray.Max() + i; i++; } }
 
             // save settings
             TraktSettings.TVSeries = TVSeries;
@@ -144,9 +159,11 @@ namespace TraktPlugin.GUI
             TraktSettings.MyVideos = MyVideos;
             TraktSettings.MyFilms = MyFilms;
             TraktSettings.OnlineVideos = OnlineVideos;
-            TraktSettings.MyAnime = MyAnime;
+            TraktSettings.MyAnime = MyAnime;            
             if (btnMyRecordedTV != null) { TraktSettings.MyTVRecordings = MyRecordedTV; }
             if (btnForTheRecordRecordings != null) { TraktSettings.ForTheRecordRecordings = ForTheRecordRecordings; }
+            if (btnMyLiveTV != null) { TraktSettings.MyTVLive = MyLiveTV; }
+            if (btnForTheRecordLiveTV != null) { TraktSettings.ForTheRecordTVLive = ForTheRecordLiveTV; }
 
             TraktSettings.saveSettings();
 
@@ -196,6 +213,16 @@ namespace TraktPlugin.GUI
                 PluginHandlersChanged = true;
                 PluginHandlersAdded = TraktSettings.ForTheRecordRecordings == -1;
             }
+            if (control == btnMyLiveTV)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.MyTVLive == -1;
+            }
+            if (control == btnForTheRecordLiveTV)
+            {
+                PluginHandlersChanged = true;
+                PluginHandlersAdded = TraktSettings.ForTheRecordTVLive == -1;
+            }
 
             base.OnClicked(controlId, control, actionType);
         }
@@ -214,6 +241,8 @@ namespace TraktPlugin.GUI
             MyAnime = TraktSettings.MyAnime;
             MyRecordedTV = TraktSettings.MyTVRecordings;
             ForTheRecordRecordings = TraktSettings.ForTheRecordRecordings;
+            MyLiveTV = TraktSettings.MyTVLive;
+            ForTheRecordLiveTV = TraktSettings.ForTheRecordTVLive;
 
             try
             {
@@ -225,6 +254,8 @@ namespace TraktPlugin.GUI
                 if (MyAnime >= 0) btnMyAnime.Selected = true;
                 if (btnMyRecordedTV != null) { if (MyRecordedTV >= 0) btnMyRecordedTV.Selected = true; }
                 if (btnForTheRecordRecordings != null) { if (ForTheRecordRecordings >= 0) btnForTheRecordRecordings.Selected = true; }
+                if (btnMyLiveTV != null) { if (MyLiveTV >= 0) btnMyLiveTV.Selected = true; }
+                if (btnForTheRecordLiveTV != null) { if (ForTheRecordLiveTV >= 0) btnForTheRecordLiveTV.Selected = true; }
             }
             catch
             {

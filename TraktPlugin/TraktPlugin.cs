@@ -170,6 +170,7 @@ namespace TraktPlugin
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
             GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
+            GUIWindowManager.OnNewAction += new OnActionHandler(GUIWindowManager_OnNewAction);
             
             // Initialize translations
             Translation.Init();
@@ -294,10 +295,24 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region My TV Live
+            if (TraktHandlers.Exists(p => p.Name == "My TV Live"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "My TV Live");
+            }
+            #endregion
+
             #region 4TR TV Recordings
             if (TraktHandlers.Exists(p => p.Name == "4TR TV Recordings"))
             {
                 TraktHandlers.RemoveAll(p => p.Name == "4TR TV Recordings");
+            }
+            #endregion
+
+            #region 4TR TV Live
+            if (TraktHandlers.Exists(p => p.Name == "4TR TV Live"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "4TR TV Live");
             }
             #endregion
         }
@@ -433,6 +448,21 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region My TV Live
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My TV Live");
+                if (!handlerExists && TraktSettings.MyTVLive != -1)
+                    TraktHandlers.Add(new MyTVLive(TraktSettings.MyTVLive));
+                else if (handlerExists && TraktSettings.MyTVRecordings == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "My TV Live");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "My TV Live");
+            }
+            #endregion
+
             #region 4TR TV Recordings
             try
             {
@@ -445,6 +475,21 @@ namespace TraktPlugin
             catch (Exception)
             {
                 TraktLogger.Error(errorMessage, "4TR TV Recordings");
+            }
+            #endregion
+
+            #region 4TR TV Live
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "4TR TV Live");
+                if (!handlerExists && TraktSettings.ForTheRecordTVLive != -1)
+                    TraktHandlers.Add(new ForTheRecordTVLive(TraktSettings.ForTheRecordTVLive));
+                else if (handlerExists && TraktSettings.ForTheRecordTVLive == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "4TR TV Live");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "4TR TV Live");
             }
             #endregion
 
@@ -547,7 +592,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (IsValidScrobbleType(type))
             {
                 StartScrobble(filename);
             }
@@ -555,7 +600,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackChanged(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (IsValidScrobbleType(type))
             {
                 StartScrobble(filename);
             }
@@ -563,7 +608,7 @@ namespace TraktPlugin
 
         private void g_Player_PlayBackStopped(g_Player.MediaType type, int stoptime, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (IsValidScrobbleType(type))
             {
                 StopScrobble();
             }
@@ -571,12 +616,17 @@ namespace TraktPlugin
         
         private void g_Player_PlayBackEnded(g_Player.MediaType type, string filename)
         {
-            if (type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording)
+            if (IsValidScrobbleType(type))
             {
                 StopScrobble();
             }
         }
-        
+
+        private bool IsValidScrobbleType(g_Player.MediaType type)
+        {
+            return type == g_Player.MediaType.Video || type == g_Player.MediaType.Recording || type == g_Player.MediaType.TV;
+        }
+
         #endregion
 
         #region MediaPortal Window Hooks
@@ -712,6 +762,20 @@ namespace TraktPlugin
             }
         }
 
+        void GUIWindowManager_OnNewAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_NEXT_CHANNEL:
+                    TraktLogger.Info("Next Channel");
+                    break;
+
+                case Action.ActionType.ACTION_PREV_CHANNEL:
+                    TraktLogger.Info("Prev Channel");
+                    break;                
+            }
+        }
+
         void GUIWindowManager_Receivers(GUIMessage message)
         {
             bool validWatchListItem = false;
@@ -730,6 +794,16 @@ namespace TraktPlugin
 
             switch (message.Message)
             {
+                case GUIMessage.MessageType.GUI_MSG_RECORDER_VIEW_CHANNEL:
+                    TraktLogger.Info("GUI_MSG_RECORDER_VIEW_CHANNEL");
+                    break;
+                case GUIMessage.MessageType.GUI_MSG_TUNE_EXTERNAL_CHANNEL:
+                    TraktLogger.Info("GUI_MSG_TUNE_EXTERNAL_CHANNEL");
+                    break;
+                case GUIMessage.MessageType.GUI_MSG_RESUME_TV:
+                    TraktLogger.Info("GUI_MSG_RESUME_TV");
+                    break;
+
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:                    
                     switch (GUIWindowManager.ActiveWindow)
                     {

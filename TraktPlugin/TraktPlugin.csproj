@@ -94,16 +94,24 @@
       <HintPath>..\Externals\Dialogs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ForTheRecord.Entities">
+    <Reference Include="ForTheRecord.Entities, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
       <HintPath>..\Externals\ForTheRecord.Entities.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ForTheRecord.ServiceAgents">
+    <Reference Include="ForTheRecord.ServiceAgents, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
       <HintPath>..\Externals\ForTheRecord.ServiceAgents.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ForTheRecord.ServiceContracts">
+    <Reference Include="ForTheRecord.ServiceContracts, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
       <HintPath>..\Externals\ForTheRecord.ServiceContracts.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ForTheRecord.UI.MediaPortal, Version=1.5.0.1, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\Externals\ForTheRecord.UI.MediaPortal.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
     <Reference Include="Gentle.Common">
@@ -154,6 +162,10 @@
     </Reference>
     <Reference Include="TVDatabase">
       <HintPath>..\Externals\TVDatabase.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TvPlugin">
+      <HintPath>..\Externals\TvPlugin.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Utils">
@@ -242,8 +254,10 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
     <Compile Include="TraktHandlers\ForTheRecordRecordings.cs" />
+    <Compile Include="TraktHandlers\ForTheRecordTVLive.cs" />
     <Compile Include="TraktHandlers\MyAnime.cs" />
     <Compile Include="TraktHandlers\MyFilms.cs" />
+    <Compile Include="TraktHandlers\MyTVLive.cs" />
     <Compile Include="TraktHandlers\MyTVRecordings.cs" />
     <Compile Include="TraktHandlers\OnlineVideos.cs" />
     <Compile Include="TraktHelper.cs" />

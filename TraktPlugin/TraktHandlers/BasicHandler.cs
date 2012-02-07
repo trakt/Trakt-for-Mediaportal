@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MediaPortal.Player;
+using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.TraktHandlers
@@ -15,11 +17,15 @@ namespace TraktPlugin.TraktHandlers
     public class VideoInfo
     {
         public VideoType Type { get; set; }
+        public DateTime StartTime { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }
         public string SeasonIdx { get; set; }
         public string EpisodeIdx { get; set; }
+        public double Runtime { get; set; }
+        public bool IsScrobbling { get; set; }
 
+        #region overrides
         public override string ToString()
         {
             if (this.Type == VideoType.Series)
@@ -27,6 +33,18 @@ namespace TraktPlugin.TraktHandlers
             else
                 return string.Format("{0}{1}", this.Title, string.IsNullOrEmpty(this.Year) ? string.Empty : " (" + this.Year + ")");
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            return (this.ToString().Equals(((VideoInfo)obj).ToString()));
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        #endregion
     }
 
     public class BasicHandler
@@ -289,6 +307,57 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Scrobbles a movie from a videoInfo object
+        /// </summary>
+        /// <returns>returns true if successfully scrobbled</returns>
+        public static bool ScrobbleMovie(VideoInfo videoInfo, TraktScrobbleStates state)
+        {
+            TraktMovieScrobble scrobbleData = CreateMovieScrobbleData(videoInfo);
+            if (scrobbleData == null) return false;
+
+            // get duration/position in minutes
+            double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
+            double position = g_Player.CurrentPosition / 60;
+            double progress = 0.0;
+
+            if (duration > 0.0) progress = (position / duration) * 100.0;
+
+            // sometimes with recordings/timeshifting we can get inaccurate player properties
+            // adjust if duration is less than a typical movie
+            scrobbleData.Duration = (duration < 15.0) ? "60" : Convert.ToInt32(duration).ToString();
+            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
+
+            TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
+            return TraktAPI.TraktAPI.LogTraktResponse(response);
+        }
+
+        /// <summary>
+        /// Scrobbles a episode from a videoInfo object
+        /// </summary>
+        /// <returns>returns true if successfully scrobbled</returns>
+        public static bool ScrobbleEpisode(VideoInfo videoInfo, TraktScrobbleStates state)
+        {
+            // get scrobble data to send to api
+            TraktEpisodeScrobble scrobbleData = CreateEpisodeScrobbleData(videoInfo);
+            if (scrobbleData == null) return false;
+
+            // get duration/position in minutes
+            double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
+            double position = g_Player.CurrentPosition / 60;
+            double progress = 0.0;
+
+            if (duration > 0.0) progress = (position / duration) * 100.0;
+
+            // sometimes with recordings/timeshifting we can get invalid player properties
+            // adjust if duration is less than a typical episode
+            scrobbleData.Duration = (duration < 10.0) ? "30" : Convert.ToInt32(duration).ToString();
+            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
+
+            TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
+            return TraktAPI.TraktAPI.LogTraktResponse(response);
         }
 
         public static bool IsValidImdb(string id)
