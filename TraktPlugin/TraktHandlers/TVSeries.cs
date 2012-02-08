@@ -547,7 +547,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
 
-            TraktRateValue rating = TraktHelper.GetRateValue(series[DBOnlineSeries.cMyRating]);
+            TraktRateValue rating = TraktHelper.GetRateValue(episode[DBOnlineEpisode.cMyRating]);
 
             TraktRateEpisode episodeData = new TraktRateEpisode()
             {
