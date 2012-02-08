@@ -63,6 +63,8 @@ namespace TraktPlugin
         public static bool HideWatchedRelatedShows { get; set; }
         public static int WebRequestTimeout { get; set; }
         public static bool HideSpoilersOnShouts { get; set; }
+        public static int LoveMinimumValue { get; set; }
+        public static int HateMaximumValue { get; set; }
         #endregion
 
         #region Constants
@@ -115,6 +117,8 @@ namespace TraktPlugin
         private const string cUserLogins = "UserLogins";
         private const string cWebRequestTimeout = "WebRequestTimeout";
         private const string cHideSpoilersOnShouts = "HideSpoilersOnShouts";
+        private const string cLoveMinimumValue = "LoveMinimumValue";
+        private const string cHateMaximumValue = "HateMaximumValue";
         #endregion
 
         #region Properties
@@ -165,7 +169,7 @@ namespace TraktPlugin
 
         public static ConnectionState AccountStatus
         {
-            get 
+            get
             {
                 lock (lockObject)
                 {
@@ -278,6 +282,8 @@ namespace TraktPlugin
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
+                LoveMinimumValue = xmlreader.GetValueAsInt(cTrakt, cLoveMinimumValue, 8);
+                HateMaximumValue = xmlreader.GetValueAsInt(cTrakt, cHateMaximumValue, 3);
             }
         }
 
@@ -335,6 +341,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedMovies, HideWatchedRelatedMovies);
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedShows, HideWatchedRelatedShows);
                 xmlwriter.SetValueAsBool(cTrakt, cHideSpoilersOnShouts, HideSpoilersOnShouts);
+                xmlwriter.SetValue(cTrakt, cLoveMinimumValue, LoveMinimumValue);
+                xmlwriter.SetValue(cTrakt, cHateMaximumValue, HateMaximumValue);
             }
 
             Settings.SaveCache();

@@ -39,7 +39,7 @@ namespace TraktPlugin.TraktHandlers
             Priority = priority;
             TraktLogger.Debug("Adding Hooks to Moving Pictures Database");
             MovingPicturesCore.DatabaseManager.ObjectInserted += new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
-            MovingPicturesCore.DatabaseManager.ObjectUpdatedEx +=new DatabaseManager.ObjectUpdatedDelegate(DatabaseManager_ObjectUpdatedEx);
+            MovingPicturesCore.DatabaseManager.ObjectUpdatedEx += new DatabaseManager.ObjectUpdatedDelegate(DatabaseManager_ObjectUpdatedEx);
             MovingPicturesCore.DatabaseManager.ObjectDeleted += new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectDeleted);
         }
 
@@ -47,7 +47,7 @@ namespace TraktPlugin.TraktHandlers
 
         public string Name { get { return "Moving Pictures"; } }
         public int Priority { get; set; }
-        
+
         public void SyncLibrary()
         {
             TraktLogger.Info("Moving Pictures Starting Sync");
@@ -151,7 +151,7 @@ namespace TraktPlugin.TraktHandlers
                         movie.ImdbID = tlm.IMDBID;
                         movie.Commit();
                     }
-                    
+
                     // If it is watched in Trakt but not Moving Pictures update
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && movie.ActiveUserSettings.WatchedCount == 0)
@@ -340,7 +340,7 @@ namespace TraktPlugin.TraktHandlers
         {
             if (traktTimer != null)
                 traktTimer.Stop();
-            
+
             if (currentMovie != null)
             {
                 if (g_Player.Duration != 0)
@@ -482,7 +482,7 @@ namespace TraktPlugin.TraktHandlers
                 // if we are syncing, we maybe manually setting state from trakt
                 // in this case we dont want to resend to trakt
                 if (SyncInProgress) return;
-                
+
                 // we check the watched flag and update Trakt respectfully
                 // ignore if movie is the current movie being scrobbled, this will be set to watched automatically
                 if (ui.WatchedCountChanged() && movie != currentMovie)
@@ -502,20 +502,12 @@ namespace TraktPlugin.TraktHandlers
                         }
                     }
                 }
-                
+
                 // we will update the Trakt rating of the Movie
-                // TODO: Create a user setting for what they want to define as love/hate
                 if (ui.RatingChanged() && userMovieSettings.UserRating > 0)
                 {
                     TraktLogger.Info("Received Rate event in MovingPictures for movie '{0}' with rating '{1}/5'", movie.Title, userMovieSettings.UserRating);
-                    if (userMovieSettings.UserRating >= 4)
-                    {
-                        RateMovie(CreateRateData(movie, TraktRateValue.love.ToString()));
-                    }
-                    else if (userMovieSettings.UserRating <= 2)
-                    {
-                        RateMovie(CreateRateData(movie, TraktRateValue.hate.ToString()));
-                    }
+                    RateMovie(CreateRateData(movie, TraktHelper.GetRateValue(userMovieSettings.UserRating, true).ToString()));
                 }
             }
         }
@@ -557,7 +549,7 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
-        
+
         #region SyncingMovieData
 
         /// <summary>
@@ -645,13 +637,13 @@ namespace TraktPlugin.TraktHandlers
                 return null;
 
             List<TraktMovieSync.Movie> moviesList = (from m in Movies
-                                                select new TraktMovieSync.Movie
-                                                {
-                                                    IMDBID = m.ImdbID,
-                                                    TMDBID = GetTmdbID(m),
-                                                    Title = m.Title,
-                                                    Year = m.Year.ToString()
-                                                }).ToList();
+                                                     select new TraktMovieSync.Movie
+                                                     {
+                                                         IMDBID = m.ImdbID,
+                                                         TMDBID = GetTmdbID(m),
+                                                         Title = m.Title,
+                                                         Year = m.Year.ToString()
+                                                     }).ToList();
 
             TraktMovieSync syncData = new TraktMovieSync
             {
@@ -661,7 +653,7 @@ namespace TraktPlugin.TraktHandlers
             };
             return syncData;
         }
-               
+
         /// <summary>
         /// Creates Sync Data based on a single DBMovieInfo object
         /// </summary>
@@ -823,11 +815,11 @@ namespace TraktPlugin.TraktHandlers
         {
             #region WatchList
             TraktLogger.Debug("Creating the watchlist node");
-            var watchlistNode = new DBNode<DBMovieInfo> {Name = "${" + GUI.Translation.WatchList + "}"};
+            var watchlistNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.WatchList + "}" };
 
             var watchlistSettings = new DBMovieNodeSettings();
             watchlistNode.AdditionalSettings = watchlistSettings;
-            
+
             TraktLogger.Debug("Getting the Movie's from Moving Pictures");
             var movieList = DBMovieInfo.GetAll();
 
@@ -839,7 +831,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
                 watchlistFilter.WhiteList.Add(movie);
             }
-            
+
             if (watchlistFilter.WhiteList.Count == 0)
             {
                 TraktLogger.Debug("Nothing in watchlist, Blacklisting everything");
@@ -853,7 +845,7 @@ namespace TraktPlugin.TraktHandlers
 
             #region Recommendations
             TraktLogger.Debug("Creating the recommendations node");
-            var recommendationsNode = new DBNode<DBMovieInfo> {Name = "${" + GUI.Translation.Recommendations + "}"};
+            var recommendationsNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.Recommendations + "}" };
 
             var recommendationsSettings = new DBMovieNodeSettings();
             recommendationsNode.AdditionalSettings = recommendationsSettings;
@@ -865,7 +857,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
                 recommendationsFilter.WhiteList.Add(movie);
             }
-            
+
             if (recommendationsFilter.WhiteList.Count == 0)
             {
                 TraktLogger.Debug("Nothing in recommendation list, Blacklisting everything");
@@ -887,7 +879,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.MovingPicturesCategoryId != -1)
             {
                 var rootNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
-                if(rootNode != null)
+                if (rootNode != null)
                 {
                     RemoveMovieFromNode(movie, rootNode);
                 }
@@ -1166,7 +1158,7 @@ namespace TraktPlugin.TraktHandlers
                                      recommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
                                      recommendationsAge = DateTime.Now;
                                  }
-                                 if(recommendations == null || watchList == null)
+                                 if (recommendations == null || watchList == null)
                                  {
                                      TraktLogger.Error("Recommendations or Watchlist were null so updating filters failed");
                                      return;
