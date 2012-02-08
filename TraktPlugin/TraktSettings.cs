@@ -282,7 +282,7 @@ namespace TraktPlugin
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
-                LoveMinimumValue = xmlreader.GetValueAsInt(cTrakt, cLoveMinimumValue, 8);
+                LoveMinimumValue = xmlreader.GetValueAsInt(cTrakt, cLoveMinimumValue, 7);
                 HateMaximumValue = xmlreader.GetValueAsInt(cTrakt, cHateMaximumValue, 3);
             }
         }
