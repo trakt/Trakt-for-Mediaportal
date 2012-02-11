@@ -982,8 +982,11 @@ namespace TraktPlugin.TraktAPI
             {
                 if (response == null || (response as TraktResponse).Status == null)
                 {
+                    // server is probably temporarily unavailable
+                    // return true even though it failed, so we can try again
+                    // currently the return value is only being used in livetv/recordings
                     TraktLogger.Error("Response from server was unexpected.");
-                    return false;
+                    return true;
                 }
 
                 // check response error status
