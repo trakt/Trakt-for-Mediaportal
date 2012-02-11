@@ -61,7 +61,8 @@ namespace TraktPlugin.TraktAPI
     public enum TraktRateValue
     {
         love,
-        hate
+        hate,
+        unrate
     }
 
     /// <summary>

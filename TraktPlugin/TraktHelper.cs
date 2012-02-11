@@ -72,6 +72,7 @@ namespace TraktPlugin
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "mpNZB.dll")) && IsPluginEnabled("mpNZB");
             }
         }
+
         public static bool IsMyTorrentsAvailableAndEnabled
         {
             get
@@ -79,6 +80,33 @@ namespace TraktPlugin
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyTorrents.dll")) && IsPluginEnabled("MyTorrents");
             }
         }
+
+        public static TraktRateValue GetRateValue(int starRating, bool starRatingIsOutOf5 = false)
+        {
+            if (starRatingIsOutOf5)
+                starRating = starRating*2;
+
+            if (starRating >= TraktSettings.LoveMinimumValue)
+                return TraktRateValue.love;
+
+            if (starRating <= TraktSettings.HateMaximumValue)
+                return TraktRateValue.hate;
+
+            return TraktRateValue.unrate;
+        }
+
+        public static TraktRateValue GetRateValue(double starRating, bool starRatingIsOutOf5 = false)
+        {
+            return GetRateValue((int) starRating, starRatingIsOutOf5);
+        }
+
+        public static TraktRateValue GetRateValue(int? starRating, bool starRatingIsOutOf5 = false)
+        {
+            if (starRating == null)
+                return TraktRateValue.unrate;
+            return GetRateValue((int)starRating, starRatingIsOutOf5);
+        }
+
         #endregion
 
         #region API Helpers
