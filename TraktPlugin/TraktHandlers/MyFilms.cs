@@ -557,10 +557,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 MFMovie tMovie = o as MFMovie;
 
-                if (rating >= 7.0)
-                    response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktRateValue.love.ToString()));
-                else
-                    response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktRateValue.hate.ToString()));
+                response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktHelper.GetRateValue(rating).ToString()));
 
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             })

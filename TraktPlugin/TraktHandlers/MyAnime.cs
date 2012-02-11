@@ -677,11 +677,11 @@ namespace TraktPlugin.TraktHandlers
         {
             if (series == null || series.TvDB_ID == null) return null;
 
-            TraktRateValue loveorhate = Convert.ToDouble(rateValue) >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
+            TraktRateValue rating = TraktHelper.GetRateValue(Convert.ToDouble(rateValue));
 
             TraktRateSeries seriesData = new TraktRateSeries()
             {
-                Rating = loveorhate.ToString(),
+                Rating = rating.ToString(),
                 SeriesID = series.TvDB_ID.ToString(),
                 Year = GetStartYear(series),
                 Title = series.TvDB_Name,
@@ -689,7 +689,7 @@ namespace TraktPlugin.TraktHandlers
                 Password = TraktSettings.Password,
             };
 
-            TraktLogger.Info("Rating '{0}' as '{1}'", series.TvDB_Name, loveorhate.ToString());
+            TraktLogger.Info("Rating '{0}' as '{1}'", series.TvDB_Name, rating.ToString());
             return seriesData;
         }
 

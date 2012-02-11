@@ -525,11 +525,11 @@ namespace TraktPlugin.TraktHandlers
         {
             if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
 
-            TraktRateValue loveorhate = series[DBOnlineSeries.cMyRating] >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
+            TraktRateValue rating = TraktHelper.GetRateValue(series[DBOnlineSeries.cMyRating]);
 
             TraktRateSeries seriesData = new TraktRateSeries()
             {
-                Rating = loveorhate.ToString(),
+                Rating = rating.ToString(),
                 SeriesID = series[DBOnlineSeries.cID],
                 Year = series.Year,
                 Title = series[DBOnlineSeries.cOriginalName],
@@ -537,7 +537,7 @@ namespace TraktPlugin.TraktHandlers
                 Password = TraktSettings.Password,
             };
 
-            TraktLogger.Info("Rating '{0}' as '{1}'", series.ToString(), loveorhate.ToString());
+            TraktLogger.Info("Rating '{0}' as '{1}'", series.ToString(), rating.ToString());
             return seriesData;
         }
 
@@ -547,12 +547,12 @@ namespace TraktPlugin.TraktHandlers
 
             if (series == null || series[DBOnlineSeries.cTraktIgnore]) return null;
 
-            TraktRateValue loveorhate = episode[DBOnlineEpisode.cMyRating] >= 7.0 ? TraktRateValue.love : TraktRateValue.hate;
+            TraktRateValue rating = TraktHelper.GetRateValue(episode[DBOnlineEpisode.cMyRating]);
 
             TraktRateEpisode episodeData = new TraktRateEpisode()
             {
                 Episode = episode[DBOnlineEpisode.cEpisodeIndex],
-                Rating = loveorhate.ToString(),
+                Rating = rating.ToString(),
                 Season = episode[DBOnlineEpisode.cSeasonIndex],
                 SeriesID = episode[DBOnlineEpisode.cSeriesID],
                 Year = series.Year,
@@ -561,7 +561,7 @@ namespace TraktPlugin.TraktHandlers
                 Password = TraktSettings.Password
             };
 
-            TraktLogger.Info("Rating '{0}' as '{1}'", episode.ToString(), loveorhate.ToString());
+            TraktLogger.Info("Rating '{0}' as '{1}'", episode.ToString(), rating.ToString());
             return episodeData;
         }
 
