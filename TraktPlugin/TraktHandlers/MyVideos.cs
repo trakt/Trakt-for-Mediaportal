@@ -316,37 +316,40 @@ namespace TraktPlugin.TraktHandlers
 
             if (CurrentMovie == null) return;
 
-            Thread scrobbleMovie = new Thread(delegate(object o)
-            {
-                IMDBMovie movie = o as IMDBMovie;
-                if (movie == null) return;
-
-                TraktLogger.Info("MyVideos movie considered watched '{0}'", movie.Title);
-
-                // get scrobble data to send to api
-                TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
-                if (scrobbleData == null) return;
-
-                // set duration/progress in scrobble data                
-                Double duration = g_Player.Duration == 0.0 ? movie.RunTime * 60.0 : g_Player.Duration;
-                scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60.0).ToString();
-                scrobbleData.Progress = "100";
-
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
-            })
-            {
-                IsBackground = true,
-                Name = "Scrobble Movie"
-            };
-
-            // if movie is atleat 90% complete, consider watched
+            // if movie is atleast 90% complete, consider watched
             if ((g_Player.CurrentPosition / (g_Player.Duration == 0.0 ? CurrentMovie.RunTime * 60.0 : g_Player.Duration)) >= 0.9)
             {
+                #region scrobble
+                Thread scrobbleMovie = new Thread(delegate(object o)
+                {
+                    IMDBMovie movie = o as IMDBMovie;
+                    if (movie == null) return;
+
+                    TraktLogger.Info("MyVideos movie considered watched '{0}'", movie.Title);
+
+                    // get scrobble data to send to api
+                    TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
+                    if (scrobbleData == null) return;
+
+                    // set duration/progress in scrobble data
+                    Double duration = g_Player.Duration == 0.0 ? movie.RunTime * 60.0 : g_Player.Duration;
+                    scrobbleData.Duration = Convert.ToInt32(duration / 60.0).ToString();
+                    scrobbleData.Progress = "100";
+
+                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Scrobble Movie"
+                };
+
                 scrobbleMovie.Start(CurrentMovie);
+                #endregion
             }
             else
             {
+                #region cancel watching
                 TraktLogger.Info("Stopped MyVideos movies playback '{0}'", CurrentMovie.Title);
 
                 // stop scrobbling
@@ -362,6 +365,7 @@ namespace TraktPlugin.TraktHandlers
                 };
 
                 cancelWatching.Start();
+                #endregion
             }
 
             CurrentMovie = null;            
