@@ -436,6 +436,10 @@ namespace TraktPlugin.GUI
         public static string SettingWebRequestCacheDescription = "Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.";
         public static string SettingWebRequestTimeoutName = "Web Request Timeout";
         public static string SettingWebRequestTimeoutDescription = "Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.";
+        public static string SettingLoveMinimumName = "Minimum value for 'Love' rating";
+        public static string SettingHateMaximumName = "Maximum value for 'Hate' rating";
+        public static string SettingLoveMinimumDescription = "Set the minimum value as set in Rating dialogs from Plugins to send as a 'Love (Totally Ninja)' value to trakt.tv. Dialogs with '5 Stars' will count as twice the value e.g '3/5' will count as '6'.";
+        public static string SettingHateMaximumDescription = "Set the maximum value as set in Rating dialogs from Plugins to send as a 'Hate (Weak Sauce)' value to trakt.tv. Dialogs with '5 Stars' will count as twice the value e.g '3/5' will count as '6'.";
 
         // T
         public static string Timeout = "Timeout";

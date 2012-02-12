@@ -257,6 +257,10 @@
   <string Field="SettingWebRequestCacheDescription">Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.</string>
   <string Field="SettingWebRequestTimeoutName">Web Request Timeout</string>
   <string Field="SettingWebRequestTimeoutDescription">Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.</string>
+  <string Field="SettingLoveMinimumName">Minimum value for 'Love' rating</string>
+  <string Field="SettingHateMaximumName">Maximum value for 'Hate' rating</string>
+  <string Field="SettingLoveMinimumDescription">Set the minimum value as set in Rating dialogs from Plugins to send as a 'Love (Totally Ninja)' value to trakt.tv. Dialogs with '5 Stars' will count as twice the value e.g '3/5' will count as '6'.</string>
+  <string Field="SettingHateMaximumDescription">Set the maximum value as set in Rating dialogs from Plugins to send as a 'Hate (Weak Sauce)' value to trakt.tv. Dialogs with '5 Stars' will count as twice the value e.g '3/5' will count as '6'.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
