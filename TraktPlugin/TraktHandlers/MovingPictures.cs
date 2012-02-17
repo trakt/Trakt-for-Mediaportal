@@ -759,20 +759,50 @@ namespace TraktPlugin.TraktHandlers
                 traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
             }
 
-            if (traktNode != null)
-            {
-                TraktLogger.Debug("Removing all children nodes");
-                traktNode.Children.Clear();
-
-                TraktLogger.Debug("Adding nodes");
-                traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
-                traktNode.Children.ForEach(new Action<DBNode<DBMovieInfo>>(n => n.Parent = traktNode));
-                MovingPicturesCore.Settings.CategoriesMenu.Commit();
-            }
-            else
+            if (traktNode == null)
             {
                 TraktLogger.Error("Trakt Node is null, can't continue making categories");
+                return;
             }
+
+            if (traktNode.Name != "${Trakt}")
+            {
+                TraktLogger.Debug("It doesn't look like this is the correct node so we will recreate it");
+                RemoveMovingPicturesCategories();
+                CreateMovingPictureCategories();
+
+                if (TraktSettings.MovingPicturesCategoryId != -1)
+                {
+                    TraktLogger.Debug("Retrieving node from Moving Pictures Database");
+                    traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
+                }
+
+                if (traktNode == null)
+                {
+                    TraktLogger.Error("Trakt Node is null, can't continue making categories");
+                    return;
+                }
+            }
+
+            if (traktNode.Children.Count == 0)
+            {
+                TraktLogger.Debug("Adding nodes");
+                traktNode.Children.AddRange(CreateNodes());
+                traktNode.Children.ForEach(n => n.Parent = traktNode);
+            }
+
+            var recommendationsNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+            var watchlistNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.WatchList + "}");
+
+            if (recommendationsNode == null || watchlistNode == null)
+            {
+                TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+            }
+
+            UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
+
+            traktNode.Commit();
+            MovingPicturesCore.Settings.CategoriesMenu.Commit();
         }
 
         private static void UpdateMovingPicturesFilters(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
@@ -795,37 +825,81 @@ namespace TraktPlugin.TraktHandlers
                 traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
             }
 
-            if (traktNode != null)
+            if (traktNode == null)
             {
-                TraktLogger.Debug("Removing all children nodes");
-                traktNode.Children.Clear();
+                TraktLogger.Error("Trakt Node is null, can't continue making categories");
+                return;
+            }
 
-                TraktLogger.Debug("Adding nodes");
-                traktNode.Children.AddRange(CreateNodes(traktRecommendationMovies, traktWatchListMovies));
-                traktNode.Children.ForEach(new Action<DBNode<DBMovieInfo>>(n => n.Parent = traktNode));
-                MovingPicturesCore.Settings.FilterMenu.Commit();
-            }
-            else
+            if (traktNode.Name != "${Trakt}")
             {
-                TraktLogger.Error("Trakt Node is null, can't continue making filters");
+                TraktLogger.Debug("It doesn't look like this is the correct node so we will recreate it");
+                RemoveMovingPicturesCategories();
+                CreateMovingPictureCategories();
+
+                if (TraktSettings.MovingPicturesCategoryId != -1)
+                {
+                    TraktLogger.Debug("Retrieving node from Moving Pictures Database");
+                    traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
+                }
+
+                if (traktNode == null)
+                {
+                    TraktLogger.Error("Trakt Node is null, can't continue making categories");
+                    return;
+                }
             }
+
+            if (traktNode.Children.Count == 0)
+            {
+                TraktLogger.Debug("Adding nodes");
+                traktNode.Children.AddRange(CreateNodes());
+                traktNode.Children.ForEach(n => n.Parent = traktNode);
+            }
+
+            var recommendationsNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+            var watchlistNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.WatchList + "}");
+
+            if (recommendationsNode == null || watchlistNode == null)
+            {
+                TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+            }
+
+            UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
+            traktNode.Commit();
+
+            MovingPicturesCore.Settings.FilterMenu.Commit();
         }
 
-        private static IEnumerable<DBNode<DBMovieInfo>> CreateNodes(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
+        private static IEnumerable<DBNode<DBMovieInfo>> CreateNodes()
         {
-            #region WatchList
-            TraktLogger.Debug("Creating the watchlist node");
             var watchlistNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.WatchList + "}" };
 
             var watchlistSettings = new DBMovieNodeSettings();
             watchlistNode.AdditionalSettings = watchlistSettings;
 
+            var recommendationsNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.Recommendations + "}" };
+
+            var recommendationsSettings = new DBMovieNodeSettings();
+            recommendationsNode.AdditionalSettings = recommendationsSettings;
+
+            return new[] { watchlistNode, recommendationsNode };
+        }
+
+        private static void UpdateNodes(DBNode<DBMovieInfo>[] nodes, IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
+        {
+            if (nodes.Length != 2)
+            {
+                TraktLogger.Error("We don't have the correct number of nodes to correctly update");
+            }
+
             TraktLogger.Debug("Getting the Movie's from Moving Pictures");
             var movieList = DBMovieInfo.GetAll();
 
-
+            #region WatchList
             TraktLogger.Debug("Creating the watchlist filter");
             var watchlistFilter = new DBFilter<DBMovieInfo>();
+            TraktLogger.Debug(traktWatchListMovies.Aggregate("", (current, next) => current + " " + next.Title));
             foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
@@ -838,18 +912,14 @@ namespace TraktPlugin.TraktHandlers
                 watchlistFilter.BlackList.AddRange(movieList);
             }
 
+
+            TraktLogger.Debug("Retrieving the watchlist node");
+            var watchlistNode = nodes[0];
             watchlistNode.Filter = watchlistFilter;
-
-
+            watchlistNode.Commit();
             #endregion
 
             #region Recommendations
-            TraktLogger.Debug("Creating the recommendations node");
-            var recommendationsNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.Recommendations + "}" };
-
-            var recommendationsSettings = new DBMovieNodeSettings();
-            recommendationsNode.AdditionalSettings = recommendationsSettings;
-
             TraktLogger.Debug("Creating the recommendations filter");
             var recommendationsFilter = new DBFilter<DBMovieInfo>();
             foreach (var movie in traktRecommendationMovies.Select(traktMovie => movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0)).Where(movie => movie != null))
@@ -864,11 +934,11 @@ namespace TraktPlugin.TraktHandlers
                 recommendationsFilter.BlackList.AddRange(movieList);
             }
 
+            TraktLogger.Debug("Retrieving the recommendations node");
+            var recommendationsNode = nodes[1];
             recommendationsNode.Filter = recommendationsFilter;
-
+            recommendationsNode.Commit();
             #endregion
-
-            return new DBNode<DBMovieInfo>[] { watchlistNode, recommendationsNode };
         }
 
         private static void RemoveMovieFromFiltersAndCategories(DBMovieInfo movie)
@@ -1034,7 +1104,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 DBNode<DBMovieInfo> traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
 
-                if (traktNode != null)
+                if (traktNode != null && traktNode.Name == "${Trakt}")
                 {
                     TraktLogger.Debug("Removing Categories from Moving Pictures");
                     MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Remove(traktNode);
@@ -1116,7 +1186,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 DBNode<DBMovieInfo> traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
 
-                if (traktNode != null)
+                if (traktNode != null && traktNode.Name == "${Trakt}")
                 {
                     TraktLogger.Debug("Removing Filters from Moving Pictures");
                     MovingPicturesCore.Settings.FilterMenu.RootNodes.Remove(traktNode);
