@@ -325,16 +325,22 @@ namespace TraktPlugin.TraktAPI
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
+        public static IEnumerable<TraktLibraryMovies> GetAllMoviesForUser(string user)
+        {
+            return GetAllMoviesForUser(user, true);
+        }
+
         /// <summary>
         /// Gets all movies for a user from trakt, including movies not in collection
         /// </summary>
         /// <param name="user">The user to get</param>
+        /// <param name="syncDataOnly">set this to true (default) if you want the absolute minimum data returned nessacary for syncing</param>
         /// <returns>The trakt movie library</returns>
-        public static IEnumerable<TraktLibraryMovies> GetAllMoviesForUser(string user)
+        public static IEnumerable<TraktLibraryMovies> GetAllMoviesForUser(string user, bool syncDataOnly)
         {
             TraktLogger.Info("Getting user {0}'s movies from trakt", user);
             //Get the library
-            string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesAll, user), GetUserAuthentication());
+            string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesAll, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", moviesForUser);
             //hand it on
             // if we timeout we will return an error response
@@ -343,15 +349,21 @@ namespace TraktPlugin.TraktAPI
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
+        public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user)
+        {
+            return GetLibraryEpisodesForUser(user, true);
+        }
+
         /// <summary>
         /// Gets the trakt episode library for a user
         /// </summary>
         /// <param name="user">The user to get</param>
+        /// <param name="syncDataOnly">set this to true (default) if you want the absolute minimum data returned nessacary for syncing</param>
         /// <returns>The trakt episode library</returns>
-        public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user)
+        public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user, bool syncDataOnly)
         {
             TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", user);
-            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesCollection, user), GetUserAuthentication());
+            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesCollection, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);            
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
@@ -359,15 +371,21 @@ namespace TraktPlugin.TraktAPI
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
+        public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user)
+        {
+            return GetWatchedEpisodesForUser(user, true);
+        }
+
         /// <summary>
         /// Gets the trakt watched/seen episodes for a user
         /// </summary>
         /// <param name="user">The user to get</param>
+        /// <param name="syncDataOnly">set this to true (default) if you want the absolute minimum data returned nessacary for syncing</param>
         /// <returns>The trakt episode library</returns>
-        public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user)
+        public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user, bool syncDataOnly)
         {
             TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", user);
-            string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user), GetUserAuthentication());
+            string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
@@ -377,8 +395,13 @@ namespace TraktPlugin.TraktAPI
 
         public static IEnumerable<TraktLibraryShow> GetUnSeenEpisodesForUser(string user)
         {
+            return GetUnSeenEpisodesForUser(user, true);
+        }
+
+        public static IEnumerable<TraktLibraryShow> GetUnSeenEpisodesForUser(string user, bool syncDataOnly)
+        {
             TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", user);
-            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesUnSeen, user), GetUserAuthentication());
+            string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesUnSeen, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
             TraktLogger.Debug("Response: {0}", showsForUser);
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
