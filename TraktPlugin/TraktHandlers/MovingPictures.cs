@@ -750,7 +750,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (TraktSettings.MovingPicturesCategoryId == -1)
             {
-                CreateMovingPictureCategories();
+                CreateMovingPicturesCategories();
             }
 
             if (TraktSettings.MovingPicturesCategoryId != -1)
@@ -759,17 +759,14 @@ namespace TraktPlugin.TraktHandlers
                 traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
             }
 
-            if (traktNode == null)
-            {
-                TraktLogger.Error("Trakt Node is null, can't continue making categories");
-                return;
-            }
-
-            if (traktNode.Name != "${Trakt}")
+            if (traktNode == null || traktNode.Name != "${Trakt}")
             {
                 TraktLogger.Debug("It doesn't look like this is the correct node so we will recreate it");
-                RemoveMovingPicturesCategories();
-                CreateMovingPictureCategories();
+
+                // force create again.
+                TraktSettings.MovingPicturesCategoryId = -1;
+                traktNode = null;
+                CreateMovingPicturesCategories();
 
                 if (TraktSettings.MovingPicturesCategoryId != -1)
                 {
@@ -796,7 +793,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (recommendationsNode == null || watchlistNode == null)
             {
-                TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+                TraktLogger.Debug("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
                 traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
                 recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
@@ -820,7 +817,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (TraktSettings.MovingPicturesFiltersId == -1)
             {
-                CreateMovingPictureFilters();
+                CreateMovingPicturesFilters();
             }
 
             if (TraktSettings.MovingPicturesFiltersId != -1)
@@ -829,22 +826,19 @@ namespace TraktPlugin.TraktHandlers
                 traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
             }
 
-            if (traktNode == null)
-            {
-                TraktLogger.Error("Trakt Node is null, can't continue making categories");
-                return;
-            }
-
-            if (traktNode.Name != "${Trakt}")
+            if (traktNode == null || traktNode.Name != "${Trakt}")
             {
                 TraktLogger.Debug("It doesn't look like this is the correct node so we will recreate it");
-                RemoveMovingPicturesCategories();
-                CreateMovingPictureCategories();
 
-                if (TraktSettings.MovingPicturesCategoryId != -1)
+                // force create again.
+                TraktSettings.MovingPicturesFiltersId = -1;
+                traktNode = null;
+                CreateMovingPicturesFilters();
+
+                if (TraktSettings.MovingPicturesFiltersId != -1)
                 {
                     TraktLogger.Debug("Retrieving node from Moving Pictures Database");
-                    traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
+                    traktNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
                 }
 
                 if (traktNode == null)
@@ -866,7 +860,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (recommendationsNode == null || watchlistNode == null)
             {
-                TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+                TraktLogger.Debug("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
                 traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
                 recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
@@ -1074,7 +1068,7 @@ namespace TraktPlugin.TraktHandlers
             player.Play(movie);
         }
 
-        public static void CreateMovingPictureCategories()
+        public static void CreateMovingPicturesCategories()
         {
             if (!TraktSettings.MovingPicturesCategories)
                 return;
@@ -1102,7 +1096,6 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
                 TraktSettings.MovingPicturesCategoryId = (int)traktNode.ID;
                 TraktSettings.saveSettings();
-
             }
             else
             {
@@ -1156,7 +1149,7 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
-        public static void CreateMovingPictureFilters()
+        public static void CreateMovingPicturesFilters()
         {
             if (!TraktSettings.MovingPicturesFilters)
                 return;
@@ -1184,11 +1177,10 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
                 TraktSettings.MovingPicturesFiltersId = (int)traktNode.ID;
                 TraktSettings.saveSettings();
-
             }
             else
             {
-                TraktLogger.Debug("Category has already been created");
+                TraktLogger.Debug("Filter has already been created");
             }
         }
 

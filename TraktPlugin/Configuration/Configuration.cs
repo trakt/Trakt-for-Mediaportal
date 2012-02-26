@@ -311,7 +311,7 @@ namespace TraktPlugin
             pd.ShowDialog();
             pd.Line1 = "Creating Categories";
             
-            TraktHandlers.MovingPictures.CreateMovingPictureCategories();
+            TraktHandlers.MovingPictures.CreateMovingPicturesCategories();
             //Update
             pd.Line1 = "Updating Categories";
             TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
@@ -352,7 +352,7 @@ namespace TraktPlugin
             pd.ShowDialog();
             pd.Line1 = "Creating Filters";
 
-            TraktHandlers.MovingPictures.CreateMovingPictureFilters();
+            TraktHandlers.MovingPictures.CreateMovingPicturesFilters();
             //Update
             pd.Line1 = "Updating Filters";
             TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();

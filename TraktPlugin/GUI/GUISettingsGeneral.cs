@@ -158,7 +158,7 @@ namespace TraktPlugin.GUI
 
             GUIWindowManager.Process();
 
-            TraktHandlers.MovingPictures.CreateMovingPictureCategories();
+            TraktHandlers.MovingPictures.CreateMovingPicturesCategories();
 
             progressDialog.SetHeading(Translation.UpdatingCategories);
             GUIWindowManager.Process();
@@ -209,7 +209,7 @@ namespace TraktPlugin.GUI
 
             GUIWindowManager.Process();
 
-            TraktHandlers.MovingPictures.CreateMovingPictureFilters();
+            TraktHandlers.MovingPictures.CreateMovingPicturesFilters();
 
             progressDialog.SetHeading(Translation.UpdatingFilters);
             GUIWindowManager.Process();
