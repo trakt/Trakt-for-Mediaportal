@@ -791,17 +791,19 @@ namespace TraktPlugin.TraktHandlers
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
             }
 
-            var recommendationsNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
-            var watchlistNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.WatchList + "}");
+            var recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+            var watchlistNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.WatchList + "}");
 
             if (recommendationsNode == null || watchlistNode == null)
             {
                 TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+                traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
+                traktNode.Children.ForEach(n => n.Parent = traktNode);
             }
 
             UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
-
             traktNode.Commit();
+
             MovingPicturesCore.Settings.CategoriesMenu.Commit();
         }
 
@@ -857,12 +859,14 @@ namespace TraktPlugin.TraktHandlers
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
             }
 
-            var recommendationsNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
-            var watchlistNode = traktNode.Children.First(x => x.Name == "${" + GUI.Translation.WatchList + "}");
+            var recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+            var watchlistNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.WatchList + "}");
 
             if (recommendationsNode == null || watchlistNode == null)
             {
                 TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
+                traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
+                traktNode.Children.ForEach(n => n.Parent = traktNode);
             }
 
             UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
@@ -873,17 +877,34 @@ namespace TraktPlugin.TraktHandlers
 
         private static IEnumerable<DBNode<DBMovieInfo>> CreateNodes()
         {
-            var watchlistNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.WatchList + "}" };
+            return CreateNodes(true, true);
+        }
 
-            var watchlistSettings = new DBMovieNodeSettings();
-            watchlistNode.AdditionalSettings = watchlistSettings;
+        private static IEnumerable<DBNode<DBMovieInfo>> CreateNodes(bool watchlist, bool recommendations)
+        {
+            List<DBNode<DBMovieInfo>> nodesAdded = new List<DBNode<DBMovieInfo>>();
 
-            var recommendationsNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.Recommendations + "}" };
+            if (watchlist)
+            {
+                var watchlistNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.WatchList + "}" };
 
-            var recommendationsSettings = new DBMovieNodeSettings();
-            recommendationsNode.AdditionalSettings = recommendationsSettings;
+                var watchlistSettings = new DBMovieNodeSettings();
+                watchlistNode.AdditionalSettings = watchlistSettings;
 
-            return new[] { watchlistNode, recommendationsNode };
+                nodesAdded.Add(watchlistNode);
+            }
+
+            if (recommendations)
+            {
+                var recommendationsNode = new DBNode<DBMovieInfo> { Name = "${" + GUI.Translation.Recommendations + "}" };
+
+                var recommendationsSettings = new DBMovieNodeSettings();
+                recommendationsNode.AdditionalSettings = recommendationsSettings;
+
+                nodesAdded.Add(recommendationsNode);
+            }
+
+            return nodesAdded;
         }
 
         private static void UpdateNodes(DBNode<DBMovieInfo>[] nodes, IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
@@ -912,9 +933,9 @@ namespace TraktPlugin.TraktHandlers
                 watchlistFilter.BlackList.AddRange(movieList);
             }
 
-
             TraktLogger.Debug("Retrieving the watchlist node");
             var watchlistNode = nodes[0];
+            watchlistNode.Filter.Delete();
             watchlistNode.Filter = watchlistFilter;
             watchlistNode.Commit();
             #endregion
@@ -936,6 +957,7 @@ namespace TraktPlugin.TraktHandlers
 
             TraktLogger.Debug("Retrieving the recommendations node");
             var recommendationsNode = nodes[1];
+            recommendationsNode.Filter.Delete();
             recommendationsNode.Filter = recommendationsFilter;
             recommendationsNode.Commit();
             #endregion
@@ -984,7 +1006,12 @@ namespace TraktPlugin.TraktHandlers
             {
                 node.Filter.WhiteList.Remove(movie);
                 if (node.Filter.WhiteList.Count == 0)
-                    node.Filter.BlackList.AddRange(DBMovieInfo.GetAll());
+                {
+                    var filter = new DBFilter<DBMovieInfo>();
+                    filter.BlackList.AddRange(DBMovieInfo.GetAll());
+                    node.Filter.Delete();
+                    node.Filter = filter;
+                }
                 node.Commit();
             }
         }
@@ -1098,7 +1125,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.MovingPicturesCategories)
                 return;
 
-            TraktLogger.Info("Removing Moving Pictures Categories");
+            TraktLogger.Debug("Removing Moving Pictures Categories");
 
             if (TraktSettings.MovingPicturesCategoryId != -1)
             {
@@ -1180,7 +1207,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.MovingPicturesFilters)
                 return;
 
-            TraktLogger.Info("Removing Moving Pictures Filters");
+            TraktLogger.Debug("Removing Moving Pictures Filters");
 
             if (TraktSettings.MovingPicturesFiltersId != -1)
             {
