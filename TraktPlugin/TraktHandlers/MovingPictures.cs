@@ -255,10 +255,10 @@ namespace TraktPlugin.TraktHandlers
             //Get it once to speed things up
             if (TraktSettings.MovingPicturesCategories || TraktSettings.MovingPicturesFilters)
             {
-                TraktLogger.Debug("Retrieving watchlist from trakt");
+                TraktLogger.Info("Retrieving watchlist from trakt");
                 traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
 
-                TraktLogger.Debug("Retrieving recommendations from trakt");
+                TraktLogger.Info("Retrieving recommendations from trakt");
                 traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
             }
 
@@ -918,7 +918,7 @@ namespace TraktPlugin.TraktHandlers
             #region WatchList
             TraktLogger.Debug("Creating the watchlist filter");
             var watchlistFilter = new DBFilter<DBMovieInfo>();
-            TraktLogger.Debug(traktWatchListMovies.Aggregate("", (current, next) => current + " " + next.Title));
+            TraktLogger.Debug("WatchList: {0}", string.Join(", ", traktWatchListMovies.Select(m => m.Title).ToArray()));
             foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
@@ -1133,6 +1133,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Debug("Removing Categories from Moving Pictures");
                     MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Remove(traktNode);
                     MovingPicturesCore.Settings.CategoriesMenu.RootNodes.Commit();
+                    traktNode.Delete();
                 }
                 else
                 {
@@ -1214,6 +1215,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Debug("Removing Filters from Moving Pictures");
                     MovingPicturesCore.Settings.FilterMenu.RootNodes.Remove(traktNode);
                     MovingPicturesCore.Settings.FilterMenu.RootNodes.Commit();
+                    traktNode.Delete();
                 }
                 else
                 {
