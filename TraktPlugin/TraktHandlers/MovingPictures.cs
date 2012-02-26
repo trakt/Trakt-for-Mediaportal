@@ -799,6 +799,8 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
                 traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
+                recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+                watchlistNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.WatchList + "}");
             }
 
             UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
@@ -867,6 +869,8 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Error("Recommendations node is null?[{0}] or Watchlist node is null?[{1}]", (recommendationsNode == null).ToString(), (watchlistNode == null).ToString());
                 traktNode.Children.AddRange(CreateNodes(watchlistNode == null, recommendationsNode == null));
                 traktNode.Children.ForEach(n => n.Parent = traktNode);
+                recommendationsNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.Recommendations + "}");
+                watchlistNode = traktNode.Children.FirstOrDefault(x => x.Name == "${" + GUI.Translation.WatchList + "}");
             }
 
             UpdateNodes(new[] { watchlistNode, recommendationsNode }, traktRecommendationMovies, traktWatchListMovies);
@@ -935,7 +939,7 @@ namespace TraktPlugin.TraktHandlers
 
             TraktLogger.Debug("Retrieving the watchlist node");
             var watchlistNode = nodes[0];
-            watchlistNode.Filter.Delete();
+            if (watchlistNode.Filter != null) watchlistNode.Filter.Delete();
             watchlistNode.Filter = watchlistFilter;
             watchlistNode.Commit();
             #endregion
@@ -957,7 +961,7 @@ namespace TraktPlugin.TraktHandlers
 
             TraktLogger.Debug("Retrieving the recommendations node");
             var recommendationsNode = nodes[1];
-            recommendationsNode.Filter.Delete();
+            if (recommendationsNode.Filter != null) recommendationsNode.Filter.Delete();
             recommendationsNode.Filter = recommendationsFilter;
             recommendationsNode.Commit();
             #endregion
