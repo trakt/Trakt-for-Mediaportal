@@ -265,6 +265,9 @@ namespace TraktPlugin.TraktHandlers
         {
             StopScrobble();
 
+            // stop check if not valid player type for plugin handler
+            if (g_Player.IsTV || g_Player.IsTVRecording) return false;
+
             // lookup movie by filename
             IMDBMovie movie = new IMDBMovie();
             int result = VideoDatabase.GetMovieInfo(filename, ref movie);

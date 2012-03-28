@@ -282,6 +282,9 @@ namespace TraktPlugin.TraktHandlers
         public bool Scrobble(String filename)
         {
             StopScrobble();
+            
+            // stop check if not valid player type for plugin handler
+            if (g_Player.IsTV || g_Player.IsTVRecording) return false;
 
             bool matchFound = false;
             List<DBMovieInfo> searchResults = (from m in DBMovieInfo.GetAll() where (from path in m.LocalMedia select path.FullPath).ToList().Contains(filename) select m).ToList();

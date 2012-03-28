@@ -208,6 +208,9 @@ namespace TraktPlugin.TraktHandlers
         {
             StopScrobble();
 
+            // stop check if not valid player type for plugin handler
+            if (g_Player.IsTV || g_Player.IsTVRecording) return false;
+
             // lookup episode by filename
             List<FileLocal> files = FileLocal.GetAll();
             FileLocal file = files.FirstOrDefault(f => f.FileNameFull == filename);
