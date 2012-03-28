@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Trakt translation file -->
-<!-- Danish (DA) 14-12-2011 -->
+<!-- Danish (DA) 28-03-2012 -->
 <!-- Note: English is the fallback for any strings not found in other languages -->
 <strings>
   <!-- A -->
@@ -249,14 +249,18 @@
   <string Field="SettingListedHomeDescription">Slå denne indstilling til for at lade Trakt-tilføjelsen vises i Hjem-menuen.</string>
   <string Field="SettingListedPluginsName">Vis i Mine Tilføjelser</string>
   <string Field="SettingListedPluginsDescription">Slå denne indstilling til for at lade Trakt-tilføjelsen vises i Mine Tilføjelser.</string>
-  <string Field="SettingSyncTimerName">Bibliotek synkroniserings periode</string>
+  <string Field="SettingSyncTimerName">Biblioteksynkroniserings periode</string>
   <string Field="SettingSyncTimerDescription">Indstil hvor tit bibliotektet skal synkroniseres i timer. Standard er hver 24. time.</string>
   <string Field="SettingSyncStartDelayName">Forsink biblioteksynkronisering</string>
   <string Field="SettingSyncStartDelayDescription">Indtil forsinkelsen i sekunder før synkronisering påbegyndes efter Mediaportal har startet. Standard er 0 sekunder.</string>
-  <string Field="SettingWebRequestCacheName">Web forespørgelses cachetid</string>
+  <string Field="SettingWebRequestCacheName">Webforespørgelses cachetid</string>
   <string Field="SettingWebRequestCacheDescription">Indtil hvor tit web-data hentes til tilføjelsen. Dette er typisk Kalender, Populære og Anbefalinger. Standard er 15 minutter.</string>
-  <string Field="SettingWebRequestTimeoutName">Web forespørgelses timeout</string>
-  <string Field="SettingWebRequestTimeoutDescription">Indtil hvor længe Trakt forsøger at forbinde til serveren før den annullerer alle web-forespørgelser. Standard er 30 sekunder.</string>
+  <string Field="SettingWebRequestTimeoutName">Webforespørgelses timeout</string>
+  <string Field="SettingWebRequestTimeoutDescription">Indstil hvor længe Trakt forsøger at forbinde til serveren før den annullerer alle web-forespørgelser. Standard er 30 sekunder.</string>
+  <string Field="SettingLoveMinimumName">Minimum værdi for 'Elsk' vurdering</string>
+  <string Field="SettingHateMaximumName">Maksimum værdi for 'Had' vurdering</string>
+  <string Field="SettingLoveMinimumDescription">Sætter minimum værdien i vurderinger til at blive sendt som 'Elsker (Totally Ninja)' værdien til trakt.tv. Dialoger med '5 stjerner' vil tæller dobbelt, dvs. værdien '3/5' tæller som '6'.</string>
+  <string Field="SettingHateMaximumDescription">Sætter maksimum værdien i vurderinger til at blive sendt som 'Hader (Weak Sauce)' værdien til trakt.tv. Dialoger med '5 stjerner' vil tæller dobbelt, dvs. værdien '3/5' tæller som '6'.</string>
     
   <!-- T -->
   <string Field="Timeout">Timeout</string>
