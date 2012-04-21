@@ -1271,6 +1271,10 @@ namespace TraktPlugin.GUI
             // add each episode to the list
             foreach (var activity in activities)
             {
+                // bad data in API
+                if (activity.Show == null || activity.Episode == null)
+                    continue;
+
                 string itemName = string.Format("{0} - {1}x{2}{3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), string.IsNullOrEmpty(activity.Episode.Title) ? string.Empty : " - " + activity.Episode.Title);
                 GUITraktUserListItem episodeItem = new GUITraktUserListItem(itemName);
 
@@ -1329,6 +1333,9 @@ namespace TraktPlugin.GUI
             // add each episode to the list
             foreach (var activity in activities)
             {
+                // bad data in API
+                if (activity.Movie == null) continue;
+                    
                 GUITraktUserListItem movieItem = new GUITraktUserListItem(activity.Movie.Title);
 
                 movieItem.Label2 = activity.Timestamp.FromEpoch().ToShortDateString();
