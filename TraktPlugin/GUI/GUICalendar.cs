@@ -739,50 +739,7 @@ namespace TraktPlugin.GUI
 
         private void RateEpisode(TraktCalendar.TraktEpisodes episode)
         {
-            // default rating to love if not already set
-            TraktRateEpisode rateObject = new TraktRateEpisode
-            {
-                SeriesID = episode.Show.Tvdb,
-                Title = episode.Show.Title,
-                Year = episode.Show.Year.ToString(),
-                Episode = episode.Episode.Number.ToString(),
-                Season = episode.Episode.Season.ToString(),
-                Rating = episode.Episode.Rating,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            string prevRating = episode.Episode.Rating;
-            episode.Episode.Rating = GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject);
-
-            // if previous rating not equal to current rating then 
-            // update skin properties to reflect changes so we dont
-            // need to re-request from server
-            if (prevRating != episode.Episode.Rating)
-            {
-                if (prevRating == "false")
-                {
-                    episode.Episode.Ratings.Votes++;
-                    if (episode.Episode.Rating == "love")
-                        episode.Episode.Ratings.LovedCount++;
-                    else
-                        episode.Episode.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "love")
-                {
-                    episode.Episode.Ratings.LovedCount--;
-                    episode.Episode.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "hate")
-                {
-                    episode.Episode.Ratings.LovedCount++;
-                    episode.Episode.Ratings.HatedCount--;
-                }
-
-                episode.Episode.Ratings.Percentage = (int)Math.Round(100 * (episode.Episode.Ratings.LovedCount / (float)episode.Episode.Ratings.Votes));
-            }
+            GUICommon.RateEpisode(episode.Show, episode.Episode);
         }
 
         private void CheckAndPlayEpisode()
@@ -1246,25 +1203,19 @@ namespace TraktPlugin.GUI
             if (viewButton != null)
                 viewButton.Label = Translation.View + ": " + GetCalendarTypeName(CurrentCalendar);
 
-            SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
+            GUICommon.SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
             switch (CurrentCalendar)
             {
                 case CalendarType.MyShows:
-                    SetProperty("#Trakt.CurrentView", Translation.CalendarMyShows);
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMyShows);
                     break;
                 case CalendarType.Premieres:
-                    SetProperty("#Trakt.CurrentView", Translation.CalendarPremieres);
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarPremieres);
                     break;
                 case CalendarType.AllShows:
-                    SetProperty("#Trakt.CurrentView", Translation.CalendarAllShows);
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllShows);
                     break;
             }            
-        }
-
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
         }
 
         private void ClearProperties()
@@ -1272,95 +1223,17 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Calendar.Selected.Date", string.Empty);
             GUIUtils.SetProperty("#selectedindex", string.Empty);
 
-            GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.InWatchList", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.InCollection", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Plays", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Watched", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Rating", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Ratings.LovedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Percentage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Ratings.Votes", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
+            GUICommon.ClearShowProperties();
+            GUICommon.ClearEpisodeProperties();
         }
 
         private void PublishEpisodeSkinProperties(TraktCalendar.TraktEpisodes episode)
         {
-            SetProperty("#Trakt.Calendar.Selected.Date", episode.Date);
-            SetProperty("#selectedindex", episode.SelectedIndex);
+            GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", episode.Date);
+            GUICommon.SetProperty("#selectedindex", episode.SelectedIndex);
 
-            SetProperty("#Trakt.Show.Imdb", episode.Show.Imdb);
-            SetProperty("#Trakt.Show.Tvdb", episode.Show.Tvdb);
-            SetProperty("#Trakt.Show.TvRage", episode.Show.TvRage);
-            SetProperty("#Trakt.Show.Title", episode.Show.Title);
-            SetProperty("#Trakt.Show.Url", episode.Show.Url);
-            SetProperty("#Trakt.Show.AirDay", episode.Show.AirDay);
-            SetProperty("#Trakt.Show.AirTime", episode.Show.AirTime);
-            SetProperty("#Trakt.Show.Certification", episode.Show.Certification);
-            SetProperty("#Trakt.Show.Country", episode.Show.Country);
-            SetProperty("#Trakt.Show.FirstAired", episode.Show.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.Network", episode.Show.Network);
-            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(episode.Show.Overview) ? Translation.NoShowSummary : episode.Show.Overview);
-            SetProperty("#Trakt.Show.Runtime", episode.Show.Runtime.ToString());
-            SetProperty("#Trakt.Show.Year", episode.Show.Year.ToString());
-            SetProperty("#Trakt.Show.Genres", string.Join(", ", episode.Show.Genres.ToArray()));
-            SetProperty("#Trakt.Show.InWatchList", episode.Show.InWatchList.ToString());
-            SetProperty("#Trakt.Show.Rating", episode.Show.Rating);
-            SetProperty("#Trakt.Show.Ratings.Icon", (episode.Show.Ratings.LovedCount > episode.Show.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Show.Ratings.HatedCount", episode.Show.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.LovedCount", episode.Show.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.Percentage", episode.Show.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Show.Ratings.Votes", episode.Show.Ratings.Votes.ToString());
-            SetProperty("#Trakt.Show.FanartImageFilename", episode.Show.Images.FanartImageFilename);
-            SetProperty("#Trakt.Episode.Number", episode.Episode.Number.ToString());
-            SetProperty("#Trakt.Episode.Season", episode.Episode.Season.ToString());
-            SetProperty("#Trakt.Episode.FirstAired", episode.Episode.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Episode.Number.ToString()) : episode.Episode.Title);
-            SetProperty("#Trakt.Episode.Url", episode.Episode.Url);
-            SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Episode.Overview) ? Translation.NoEpisodeSummary : episode.Episode.Overview);
-            SetProperty("#Trakt.Episode.Runtime", episode.Episode.Runtime.ToString());
-            SetProperty("#Trakt.Episode.InWatchList", episode.Episode.InWatchList.ToString());
-            SetProperty("#Trakt.Episode.InCollection", episode.Episode.InCollection.ToString());
-            SetProperty("#Trakt.Episode.Plays", episode.Episode.Plays.ToString());
-            SetProperty("#Trakt.Episode.Watched", episode.Episode.Watched.ToString());
-            SetProperty("#Trakt.Episode.Rating", episode.Episode.Rating);
-            SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Episode.Ratings.LovedCount > episode.Episode.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Episode.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Episode.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Episode.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Episode.Ratings.Votes.ToString());
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Episode.Images.EpisodeImageFilename);
+            GUICommon.SetShowProperties(episode.Show);
+            GUICommon.SetEpisodeProperties(episode.Episode);
         }
 
         private void GetImages(List<TraktImage> itemsWithThumbs)
@@ -1495,12 +1368,7 @@ namespace TraktPlugin.GUI
             if (episode.Episode.InCollection)
                 mainOverlay |= MainOverlayImage.Library;
 
-            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-
-            if (episode.Episode.Rating == "love")
-                ratingOverlay = RatingOverlayImage.Love;
-            else if (episode.Episode.Rating == "hate")
-                ratingOverlay = RatingOverlayImage.Hate;
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(episode.Episode.RatingAdvanced);
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

@@ -550,14 +550,14 @@ namespace TraktPlugin.TraktHandlers
             }
 
             // Add setting for this later to control love/hate value
-            double rating = Convert.ToDouble(value);
+            string rating = Convert.ToInt32(value).ToString();
             TraktRateResponse response = null;
 
             Thread rateThread = new Thread((o) =>
             {
                 MFMovie tMovie = o as MFMovie;
 
-                response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, TraktHelper.GetRateValue(rating).ToString()));
+                response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, rating));
 
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             })

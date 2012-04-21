@@ -57,6 +57,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "rating")]
         public string Rating { get; set; }
+
+        [DataMember(Name = "rating_advanced")]
+        public int RatingAdvanced { get; set; }
         
         [DataMember(Name = "ratings")]
         public TraktRatings Ratings { get; set; }

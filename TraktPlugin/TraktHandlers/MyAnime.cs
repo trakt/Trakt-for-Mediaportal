@@ -680,11 +680,11 @@ namespace TraktPlugin.TraktHandlers
         {
             if (series == null || series.TvDB_ID == null) return null;
 
-            TraktRateValue rating = TraktHelper.GetRateValue(Convert.ToDouble(rateValue));
+            string rating = Convert.ToInt32(rateValue).ToString();
 
             TraktRateSeries seriesData = new TraktRateSeries()
             {
-                Rating = rating.ToString(),
+                Rating = rating,
                 SeriesID = series.TvDB_ID.ToString(),
                 Year = GetStartYear(series),
                 Title = series.TvDB_Name,

@@ -572,12 +572,6 @@ namespace TraktPlugin.GUI
             GetImages(showImages);
         }
 
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
-        }
-
         private void InitProperties()
         {
             // Fanart
@@ -589,7 +583,7 @@ namespace TraktPlugin.GUI
 
             // load Watch list for user
             if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
-            SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
+            GUICommon.SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.WatchListEpisodesDefaultLayout;
@@ -599,37 +593,10 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.WatchList.Inserted", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.EpisodeImageFilename", string.Empty);
+            GUICommon.SetProperty("#Trakt.Episode.WatchList.Inserted", string.Empty);
+
+            GUICommon.ClearShowProperties();
+            GUICommon.ClearEpisodeProperties();
         }
 
         private void PublishEpisodeSkinProperties(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> e)
@@ -637,36 +604,10 @@ namespace TraktPlugin.GUI
             var show = e.Key;
             var episode = e.Value;
 
-            SetProperty("#Trakt.Show.Imdb", show.Imdb);
-            SetProperty("#Trakt.Show.Tvdb", show.Tvdb);
-            SetProperty("#Trakt.Show.TvRage", show.TvRage);
-            SetProperty("#Trakt.Show.Title", show.Title);
-            SetProperty("#Trakt.Show.Url", show.Url);
-            SetProperty("#Trakt.Show.AirDay", show.AirDay);
-            SetProperty("#Trakt.Show.AirTime", show.AirTime);
-            SetProperty("#Trakt.Show.Certification", show.Certification);
-            SetProperty("#Trakt.Show.Country", show.Country);
-            SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.Network", show.Network);
-            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
-            SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
-            SetProperty("#Trakt.Show.Year", show.Year.ToString());
-            SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
-            SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
-            SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
-            SetProperty("#Trakt.Episode.Number", episode.Number.ToString());
-            SetProperty("#Trakt.Episode.Season", episode.Season.ToString());
-            SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Episode.WatchList.Inserted", episode.Inserted.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Number.ToString()) : episode.Title);
-            SetProperty("#Trakt.Episode.Url", episode.Url);
-            SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Overview) ? Translation.NoEpisodeSummary : episode.Overview);
-            SetProperty("#Trakt.Episode.Runtime", episode.Runtime.ToString());
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.EpisodeImageFilename);
+            GUICommon.SetProperty("#Trakt.Episode.WatchList.Inserted", episode.Inserted.FromEpoch().ToShortDateString());
+
+            GUICommon.SetShowProperties(show);
+            GUICommon.SetEpisodeProperties(episode);
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)

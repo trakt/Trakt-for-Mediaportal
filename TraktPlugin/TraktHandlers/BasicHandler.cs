@@ -140,7 +140,7 @@ namespace TraktPlugin.TraktHandlers
                 IMDBID = imdb,
                 Title = title,
                 Year = year,
-                Rating = "love",
+                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
@@ -154,7 +154,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Title = title,
                 SeriesID = tvdb,
-                Rating = "love",
+                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
@@ -170,7 +170,7 @@ namespace TraktPlugin.TraktHandlers
                 SeriesID = tvdb,
                 Episode = episodeidx,
                 Season = seasonidx,
-                Rating = "love",
+                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };

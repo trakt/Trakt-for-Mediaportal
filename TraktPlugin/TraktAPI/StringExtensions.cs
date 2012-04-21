@@ -95,5 +95,11 @@ namespace TraktPlugin
             return Regex.Replace(item, invalidReStr, string.Empty).ToLower().Replace(" ", "-");
         }
 
+        public static bool IsNumber(this string number)
+        {
+            double retValue;
+            return double.TryParse(number, out retValue);
+        }
+
     }
 }

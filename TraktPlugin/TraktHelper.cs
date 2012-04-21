@@ -81,32 +81,6 @@ namespace TraktPlugin
             }
         }
 
-        public static TraktRateValue GetRateValue(int starRating, bool starRatingIsOutOf5 = false)
-        {
-            if (starRatingIsOutOf5)
-                starRating = starRating*2;
-
-            if (starRating >= TraktSettings.LoveMinimumValue)
-                return TraktRateValue.love;
-
-            if (starRating <= TraktSettings.HateMaximumValue)
-                return TraktRateValue.hate;
-
-            return TraktRateValue.unrate;
-        }
-
-        public static TraktRateValue GetRateValue(double starRating, bool starRatingIsOutOf5 = false)
-        {
-            return GetRateValue((int) starRating, starRatingIsOutOf5);
-        }
-
-        public static TraktRateValue GetRateValue(int? starRating, bool starRatingIsOutOf5 = false)
-        {
-            if (starRating == null)
-                return TraktRateValue.unrate;
-            return GetRateValue((int)starRating, starRatingIsOutOf5);
-        }
-
         #endregion
 
         #region API Helpers
@@ -693,6 +667,8 @@ namespace TraktPlugin
 
         #region Internal Helpers
 
+        #region Add / Remove List Items
+
         internal static void AddRemoveItemInList(string slug, TraktListItem item, bool remove)
         {
             AddRemoveItemInList(new List<string> { slug }, new List<TraktListItem>() { item }, remove);
@@ -738,6 +714,8 @@ namespace TraktPlugin
 
             listThread.Start();
         }
+
+        #endregion
 
         #endregion
     }

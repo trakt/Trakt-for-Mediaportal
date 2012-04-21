@@ -7,7 +7,7 @@ using MediaPortal.Common.Utils;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TraktPlugin")]
-[assembly: AssemblyDescription("Adds Trakt Support to Mediaportal")]
+[assembly: AssemblyDescription("Adds Trakt Support to MediaPortal")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TraktPlugin")]
@@ -33,7 +33,7 @@ using MediaPortal.Common.Utils;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.1.0")]
-[assembly: AssemblyFileVersion("1.5.1.0")]
+[assembly: AssemblyVersion("1.6.0.0")]
+[assembly: AssemblyFileVersion("1.6.0.0")]
 
 [assembly: CompatibleVersion("1.1.6.27644")]

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -19,15 +20,62 @@ namespace TraktPlugin.GUI
         Library = 4,
     }
 
+    /// <summary>
+    /// Support both Advanced and Simple rating overlays
+    /// Order of enum values are important!
+    /// </summary>
     public enum RatingOverlayImage
     {
+        None,
+        Heart1,
+        Heart2,
+        Heart3,
+        Heart4,
+        Heart5,
+        Heart6,
+        Heart7,
+        Heart8,
+        Heart9,
+        Heart10,
         Love,
-        Hate,
-        None
+        Hate
     }
 
     public static class GUIImageHandler
     {
+        /// <summary>
+        /// Get a overlay for images that represent a users Advanced Rating score
+        /// </summary>
+        /// <param name="rating">the movie, show or episodes advanced rating (backwards compatible with simple ratings)</param>
+        internal static RatingOverlayImage GetRatingOverlay(int rating)
+        {
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (!TraktSettings.ShowAdvancedRatingsDialog)
+            {
+                if (rating > 5)
+                    ratingOverlay = RatingOverlayImage.Love;
+                else if (rating >= 1)
+                    ratingOverlay = RatingOverlayImage.Hate;
+            }
+            else
+            {
+                // do extra check to confirm new skin images exist
+                // if not fall back to basic overlays
+                if (!File.Exists(GUIGraphicsContext.Skin + string.Format(@"\Media\traktHeart{0}.png", rating)))
+                {
+                    if (rating > 5)
+                        ratingOverlay = RatingOverlayImage.Love;
+                    else if (rating >= 1)
+                        ratingOverlay = RatingOverlayImage.Hate;
+                }
+                else
+                    ratingOverlay = (RatingOverlayImage)rating;
+            }
+
+            return ratingOverlay;
+        }
+
         /// <summary>
         /// Download an image if it does not exist locally
         /// </summary>

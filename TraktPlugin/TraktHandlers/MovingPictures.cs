@@ -510,7 +510,7 @@ namespace TraktPlugin.TraktHandlers
                 if (ui.RatingChanged() && userMovieSettings.UserRating > 0)
                 {
                     TraktLogger.Info("Received Rate event in MovingPictures for movie '{0}' with rating '{1}/5'", movie.Title, userMovieSettings.UserRating);
-                    RateMovie(CreateRateData(movie, TraktHelper.GetRateValue(userMovieSettings.UserRating, true).ToString()));
+                    RateMovie(CreateRateData(movie, (userMovieSettings.UserRating * 2).ToString()));
                 }
             }
         }

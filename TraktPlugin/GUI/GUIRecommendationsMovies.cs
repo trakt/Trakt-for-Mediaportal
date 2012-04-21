@@ -392,7 +392,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Rate):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
-                    if (RateMovie(selectedMovie))
+                    if (GUICommon.RateMovie(selectedMovie))
                     {
                         // also mark as watched
                         MarkMovieAsWatched(selectedMovie);
@@ -589,35 +589,7 @@ namespace TraktPlugin.GUI
 
             syncThread.Start(movie);
         }
-
-        private bool RateMovie(TraktMovie movie)
-        {
-            // init since its not part of the API
-            movie.Rating = "false";
-            bool ratingChanged = false;
-
-            // default rating to love if not already set
-            TraktRateMovie rateObject = new TraktRateMovie
-            {
-                IMDBID = movie.Imdb,
-                Title = movie.Title,
-                Year = movie.Year,
-                Rating = movie.Rating,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            string prevRating = movie.Rating;
-            movie.Rating = GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject);
-
-            if (prevRating != movie.Rating)
-            {
-                ratingChanged = true;
-            }
-
-            return ratingChanged;
-        }
-
+        
         private void ShowTrailersMenu(TraktMovie movie)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -786,12 +758,6 @@ namespace TraktPlugin.GUI
             GetImages(movieImages);
         }
 
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
-        }
-
         private void InitProperties()
         {
             // Fanart
@@ -807,54 +773,12 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.Movie.Imdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Certification", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Released", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Tagline", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Tmdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Trailer", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Genres", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.PosterImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.FanartImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.InCollection", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.InWatchList", string.Empty);            
-            GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.LovedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Percentage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.Votes", string.Empty);
+            GUICommon.ClearMovieProperties();
         }
 
         private void PublishMovieSkinProperties(TraktMovie movie)
         {
-            SetProperty("#Trakt.Movie.Imdb", movie.Imdb);
-            SetProperty("#Trakt.Movie.Certification", movie.Certification);
-            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
-            SetProperty("#Trakt.Movie.Released", movie.Released.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Movie.Runtime", movie.Runtime.ToString());
-            SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
-            SetProperty("#Trakt.Movie.Title", movie.Title);
-            SetProperty("#Trakt.Movie.Tmdb", movie.Tmdb);
-            SetProperty("#Trakt.Movie.Trailer", movie.Trailer);
-            SetProperty("#Trakt.Movie.Url", movie.Url);
-            SetProperty("#Trakt.Movie.Year", movie.Year);
-            SetProperty("#Trakt.Movie.Genres", string.Join(", ", movie.Genres.ToArray()));
-            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
-            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.PosterImageFilename);
-            SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
-            SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
-            SetProperty("#Trakt.Movie.Rating", movie.Rating);
-            SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Movie.Ratings.LovedCount", movie.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Movie.Ratings.Votes", movie.Ratings.Votes.ToString());
+            GUICommon.SetMovieProperties(movie);
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)

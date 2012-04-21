@@ -119,9 +119,50 @@ namespace TraktPlugin
         private const string cHideSpoilersOnShouts = "HideSpoilersOnShouts";
         private const string cLoveMinimumValue = "LoveMinimumValue";
         private const string cHateMaximumValue = "HateMaximumValue";
+        private const string cShowAdvancedRatingsDialog = "ShowAdvancedRatingsDialog";
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Show Advanced or Simple Ratings Dialog
+        /// Settings is Synced from Server
+        /// </summary>
+        public static bool ShowAdvancedRatingsDialog
+        {
+            get
+            {
+                return _showAdvancedRatingsDialogs;
+            }
+            set
+            {
+                // allow last saved setting to be available immediately
+                _showAdvancedRatingsDialogs = value;
+
+                // sync setting - delay on startup
+                Thread syncSetting = new Thread((o) =>
+                {
+                    if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+                        return;
+
+                    TraktLogger.Info("Loading Online Settings");
+                    Thread.Sleep(5000);
+
+                    TraktAccountSettings settings = TraktAPI.TraktAPI.GetAccountSettings();
+                    if (settings.Status == "success")
+                    {
+                        _showAdvancedRatingsDialogs = settings.ViewingSettings.RatingSettings.Mode == "advanced";
+                    }
+                })
+                {
+                    IsBackground = true,
+                    Name = "Settings"
+                };
+                syncSetting.Start();
+            }
+        }
+        static bool _showAdvancedRatingsDialogs;
+
         /// <summary>
         /// Get Movie Plugin Count
         /// </summary>
@@ -232,7 +273,7 @@ namespace TraktPlugin
         /// </summary>
         public static void loadSettings()
         {
-            TraktLogger.Info("Loading Settings");
+            TraktLogger.Info("Loading Local Settings");
             using (Settings xmlreader = new MPSettings())
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
@@ -284,6 +325,7 @@ namespace TraktPlugin
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
                 LoveMinimumValue = xmlreader.GetValueAsInt(cTrakt, cLoveMinimumValue, 7);
                 HateMaximumValue = xmlreader.GetValueAsInt(cTrakt, cHateMaximumValue, 3);
+                ShowAdvancedRatingsDialog = xmlreader.GetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, false);
             }
         }
 
@@ -343,6 +385,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cHideSpoilersOnShouts, HideSpoilersOnShouts);
                 xmlwriter.SetValue(cTrakt, cLoveMinimumValue, LoveMinimumValue);
                 xmlwriter.SetValue(cTrakt, cHateMaximumValue, HateMaximumValue);
+                xmlwriter.SetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, ShowAdvancedRatingsDialog);
             }
 
             Settings.SaveCache();

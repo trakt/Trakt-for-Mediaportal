@@ -374,7 +374,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateShow(selectedShow);
+                    GUICommon.RateShow(selectedShow);
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
@@ -508,51 +508,6 @@ namespace TraktPlugin.GUI
             syncThread.Start(show);
         }
 
-        private void RateShow(TraktShow show)
-        {
-            TraktRateSeries rateObject = new TraktRateSeries
-            {
-                SeriesID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year.ToString(),
-                Rating = show.Rating,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            string prevRating = show.Rating;
-            show.Rating = GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject);
-
-            // if previous rating not equal to current rating then 
-            // update skin properties to reflect changes so we dont
-            // need to re-request from server
-            if (prevRating != show.Rating)
-            {
-                if (prevRating == "false")
-                {
-                    show.Ratings.Votes++;
-                    if (show.Rating == "love")
-                        show.Ratings.LovedCount++;
-                    else
-                        show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "love")
-                {
-                    show.Ratings.LovedCount--;
-                    show.Ratings.HatedCount++;
-                }
-
-                if (prevRating == "hate")
-                {
-                    show.Ratings.LovedCount++;
-                    show.Ratings.HatedCount--;
-                }
-
-                show.Ratings.Percentage = (int)Math.Round(100 * (show.Ratings.LovedCount / (float)show.Ratings.Votes));
-            }
-        }
-
         private void ShowLayoutMenu()
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -675,12 +630,6 @@ namespace TraktPlugin.GUI
             GetImages(showImages);
         }
 
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
-        }
-
         private void InitProperties()
         {
             // Fanart
@@ -712,60 +661,13 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.Related.Show", string.Empty);           
-
-            GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.TvRage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Tvdb", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Trailer", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Related.Show", string.Empty);
+            GUICommon.ClearShowProperties();            
         }
 
         private void PublishShowSkinProperties(TraktShow show)
         {
-            SetProperty("#Trakt.Show.AirDay", show.AirDay);
-            SetProperty("#Trakt.Show.AirTime", show.AirTime);
-            SetProperty("#Trakt.Show.Country", show.Country);
-            SetProperty("#Trakt.Show.Network", show.Network);
-            SetProperty("#Trakt.Show.TvRage", show.TvRage);
-            SetProperty("#Trakt.Show.Imdb", show.Imdb);
-            SetProperty("#Trakt.Show.Certification", show.Certification);
-            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
-            SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
-            SetProperty("#Trakt.Show.Title", show.Title);
-            SetProperty("#Trakt.Show.Url", show.Url);
-            SetProperty("#Trakt.Show.Year", show.Year.ToString());
-            SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
-            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
-            SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
-            SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
-            SetProperty("#Trakt.Show.Rating", show.Rating);
-            SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
+            GUICommon.SetShowProperties(show);
         }
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
@@ -887,12 +789,7 @@ namespace TraktPlugin.GUI
             if (show.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
 
-            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-
-            if (show.Rating == "love")
-                ratingOverlay = RatingOverlayImage.Love;
-            else if (show.Rating == "hate")
-                ratingOverlay = RatingOverlayImage.Hate;
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

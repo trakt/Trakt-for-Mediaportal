@@ -60,9 +60,19 @@ namespace TraktPlugin.TraktAPI
     /// </summary>
     public enum TraktRateValue
     {
-        love,
-        hate,
-        unrate
+        unrate,
+        one,
+        two,
+        three,
+        four,
+        five,
+        six,
+        seven,
+        eight,
+        nine,
+        ten,
+        love, //deprecated - ten
+        hate  //deprecated - one
     }
 
     /// <summary>
@@ -741,6 +751,12 @@ namespace TraktPlugin.TraktAPI
         {
             string response = Transmit(TraktURIs.TestAccount, account.ToJSON());
             return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktAccountSettings GetAccountSettings()
+        {
+            string response = Transmit(TraktURIs.AccountSettings, GetUserAuthentication());
+            return response.FromJSON<TraktAccountSettings>();
         }
 
         #endregion

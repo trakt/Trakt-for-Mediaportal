@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MediaPortal.Configuration;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using System.Threading;
 
@@ -430,91 +431,104 @@ namespace TraktPlugin.GUI
                 return (string)GUIGraphicsContext.form.Invoke(d, rateObject);
             }
 
-            string currentRating = "false";
+            TraktRateValue currentRating = TraktRateValue.unrate;
 
             GUIRateDialog ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);
             ratingDlg.Reset();
             
             ratingDlg.SetHeading(Translation.RateHeading);
 
+            // show simple love/hate icons or 10-heart icons
+            ratingDlg.ShowAdvancedRatings = TraktSettings.ShowAdvancedRatingsDialog;
+
             // if item is not rated, it will default to love
             if (rateObject is TraktRateEpisode)
             {
                 TraktRateEpisode item = rateObject as TraktRateEpisode;
                 ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Season, item.Episode));
-                currentRating = item.Rating ?? "false";
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
+                if (ratingDlg.ShowAdvancedRatings)
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
+                else
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
             else if (rateObject is TraktRateSeries)
             {
                 TraktRateSeries item = rateObject as TraktRateSeries;
                 ratingDlg.SetLine(1, item.Title);
-                currentRating = item.Rating ?? "false";
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
+                if (ratingDlg.ShowAdvancedRatings)
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
+                else
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
             else
             {
                 TraktRateMovie item = rateObject as TraktRateMovie;
                 ratingDlg.SetLine(1, item.Title);
-                currentRating = item.Rating ?? "false";
-                ratingDlg.Rated = (TraktAPI.TraktRateValue)Enum.Parse(typeof(TraktAPI.TraktRateValue), currentRating == "false" ? "love" : currentRating, true);
+                if (ratingDlg.ShowAdvancedRatings)
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
+                else
+                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
             
+            // show dialog
             ratingDlg.DoModal(ratingDlg.GetID);
-            if (ratingDlg.IsSubmitted)
+            
+            if (!ratingDlg.IsSubmitted) return "-1";
+
+            if (rateObject is TraktRateEpisode)
             {
-                if (rateObject is TraktRateEpisode)
+                TraktRateEpisode item = rateObject as TraktRateEpisode;
+                currentRating = ratingDlg.Rated;
+                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                Thread rateThread = new Thread(delegate(object obj)
                 {
-                    TraktRateEpisode item = rateObject as TraktRateEpisode;
-                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    item.Rating = currentRating;
-                    Thread rateThread = new Thread(delegate(object obj)
-                    {
-                        TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(item);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
-                    })
-                    {
-                        IsBackground = true,
-                        Name = "Rate Episode"
-                    };
-                    rateThread.Start(item);
-                }
-                else if (rateObject is TraktRateSeries)
+                    TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(item);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
                 {
-                    TraktRateSeries item = rateObject as TraktRateSeries;
-                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    item.Rating = currentRating;
-                    Thread rateThread = new Thread(delegate(object obj)
-                    {
-                        TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(item);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
-                    })
-                    {
-                        IsBackground = true,
-                        Name = "Rate Series"
-                    };
-                    rateThread.Start(item);
-                }
-                else
+                    IsBackground = true,
+                    Name = "Rate Episode"
+                };
+                rateThread.Start(item);
+            }
+            else if (rateObject is TraktRateSeries)
+            {
+                TraktRateSeries item = rateObject as TraktRateSeries;
+                currentRating = ratingDlg.Rated;
+                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                Thread rateThread = new Thread(delegate(object obj)
                 {
-                    TraktRateMovie item = rateObject as TraktRateMovie;
-                    currentRating = Enum.GetName(typeof(TraktAPI.TraktRateValue), ratingDlg.Rated);
-                    item.Rating = currentRating;
-                    Thread rateThread = new Thread(delegate(object obj)
-                    {
-                        TraktRateResponse response = TraktAPI.TraktAPI.RateMovie(item);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
-                    })
-                    {
-                        IsBackground = true,
-                        Name = "Rate Movie"
-                    };
-                    rateThread.Start(item);
-                }
+                    TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(item);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Rate Series"
+                };
+                rateThread.Start(item);
+            }
+            else
+            {
+                TraktRateMovie item = rateObject as TraktRateMovie;
+                currentRating = ratingDlg.Rated;
+                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                Thread rateThread = new Thread(delegate(object obj)
+                {
+                    TraktRateResponse response = TraktAPI.TraktAPI.RateMovie(item);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Rate Movie"
+                };
+                rateThread.Start(item);
             }
 
-            // return new rating
-            return currentRating;
+            // return new rating (0 - 10)
+            // old love / hate enum values are deprecated
+            // if using basic ratings 1 = hate and 10 = love
+            // 0 is unrate
+            return ((int)currentRating).ToString();
         }
     }    
 }
