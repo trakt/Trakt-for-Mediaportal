@@ -49,6 +49,8 @@ namespace TraktPlugin.GUI
         [SkinControlAttribute(1010)]
         protected GUIToggleButtonControl btnTenHeart = null;
 
+        bool AdvancedRatingsSupported { get; set; }
+
         #region Public Properties
 
         public TraktRateValue Rated { get; set; }
@@ -413,7 +415,7 @@ namespace TraktPlugin.GUI
 
             // skins may take a while to be updated
             // introduced in v1.6.0, this also includes skin check
-            if (ShowAdvancedRatings)
+            if (AdvancedRatingsSupported)
             {
                 btnOneHeart.Visible = ShowAdvancedRatings;
                 btnTwoHeart.Visible = ShowAdvancedRatings;
@@ -488,6 +490,8 @@ namespace TraktPlugin.GUI
             {
                 ShowAdvancedRatings = false;
             }
+            else
+                AdvancedRatingsSupported = true;
         }
 
         #endregion
