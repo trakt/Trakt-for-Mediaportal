@@ -63,8 +63,6 @@ namespace TraktPlugin
         public static bool HideWatchedRelatedShows { get; set; }
         public static int WebRequestTimeout { get; set; }
         public static bool HideSpoilersOnShouts { get; set; }
-        public static int LoveMinimumValue { get; set; }
-        public static int HateMaximumValue { get; set; }
         #endregion
 
         #region Constants
@@ -117,8 +115,6 @@ namespace TraktPlugin
         private const string cUserLogins = "UserLogins";
         private const string cWebRequestTimeout = "WebRequestTimeout";
         private const string cHideSpoilersOnShouts = "HideSpoilersOnShouts";
-        private const string cLoveMinimumValue = "LoveMinimumValue";
-        private const string cHateMaximumValue = "HateMaximumValue";
         private const string cShowAdvancedRatingsDialog = "ShowAdvancedRatingsDialog";
         #endregion
 
@@ -323,8 +319,6 @@ namespace TraktPlugin
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
-                LoveMinimumValue = xmlreader.GetValueAsInt(cTrakt, cLoveMinimumValue, 7);
-                HateMaximumValue = xmlreader.GetValueAsInt(cTrakt, cHateMaximumValue, 3);
                 ShowAdvancedRatingsDialog = xmlreader.GetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, false);
             }
         }
@@ -383,8 +377,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedMovies, HideWatchedRelatedMovies);
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedShows, HideWatchedRelatedShows);
                 xmlwriter.SetValueAsBool(cTrakt, cHideSpoilersOnShouts, HideSpoilersOnShouts);
-                xmlwriter.SetValue(cTrakt, cLoveMinimumValue, LoveMinimumValue);
-                xmlwriter.SetValue(cTrakt, cHateMaximumValue, HateMaximumValue);
                 xmlwriter.SetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, ShowAdvancedRatingsDialog);
             }
 
