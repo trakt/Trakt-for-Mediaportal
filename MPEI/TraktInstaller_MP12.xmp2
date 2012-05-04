@@ -471,6 +471,153 @@
               <ZipFileName>Installer{CopyFile}\{193bc8b6-dca0-45ba-b865-fd2e33a6e7cc}-Trakt.Related.Shows.xml</ZipFileName>
               <DestinationFilename>%Skin%\Default\Trakt.Related.Shows.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7292a00b-6ef4-457a-8733-066c328dbf77}-heart-1.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6956d708-7101-4fee-8f95-9198c7c1170a}-heart-10.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cc5cfd1e-74c4-4b6a-a1d0-46fa300fb6af}-heart-2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2d6767be-2ddf-43cb-9cd3-68c16e4248d8}-heart-3.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2e950042-9dd1-4e43-a238-56fa2fb9a889}-heart-4.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fafa0d8d-4247-4406-ab2d-8b85fda50acc}-heart-5.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1a32142d-dd93-48f9-b75c-cbfc31efee4d}-heart-6.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{80f26ece-b920-4321-a3ec-b48b61b48c82}-heart-7.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{eaf724ae-7c25-4108-a6e2-ce46e95d2c0e}-heart-8.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ac7d56dd-da0e-428b-8068-15d7ecf06933}-heart-9.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-9.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b6c567a7-9875-4263-9a98-c94262a4b972}-heart-off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\heart-off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d38c9f76-62a0-4a43-9619-dee328df4bfd}-traktHeart1.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8d6dddb2-62c8-46ce-affd-63e5ee5c4e1b}-traktHeart10.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c073d157-a414-4aa6-9d5e-2c60070731e6}-traktHeart2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{882a5ce5-21b4-49d9-b4be-53262be11571}-traktHeart3.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9cb1183b-dd63-4ccd-8c18-53f57f4038e4}-traktHeart4.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9847e0a4-b71e-4a86-af17-d144cd3011ab}-traktHeart5.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{176a253e-3261-4551-b8ce-55d9bf057194}-traktHeart6.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6d620719-5536-47a1-85da-2f440a103b72}-traktHeart7.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e71622f4-124f-4292-b2f7-762ec84d747a}-traktHeart8.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{16911cb9-c06e-46c4-b34f-9a283af38312}-traktHeart9.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktHeart9.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -901,6 +1048,153 @@
               <ZipFileName>Installer{CopyFile}\{390d43fc-6ca1-4908-a0a1-0d38f70c35dc}-Trakt.Related.Shows.xml</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Trakt.Related.Shows.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9282db67-4790-4c54-9fcb-3027a730860b}-heart-1.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fcdb9116-cdb6-4b69-a502-5b1e09492a27}-heart-10.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{54aa7a64-c3a7-4923-9485-ac180d7d073d}-heart-2.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{caff76f8-8ef4-48b3-8611-dba2fe5cb467}-heart-3.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c1c6e0fc-bf1c-4c17-aa56-995a1900e03d}-heart-4.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{23585789-7d85-4cd8-801b-87f1b30496c5}-heart-5.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{23600549-eb99-449e-a69a-27ecd6bee218}-heart-6.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{25088424-34be-4262-8f78-f27a5e749360}-heart-7.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{382bfaab-1265-4ae3-9a8e-549bd109a9f0}-heart-8.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{92e0be94-399a-4816-b3e6-abae4d5450b0}-heart-9.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-9.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e9378a10-f641-4d18-ac3f-c12856496507}-heart-off.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\heart-off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{97476b92-6d1d-449e-b318-2883abb83673}-traktHeart1.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{80a93452-84d6-45df-b7bc-7d86ecc5b17a}-traktHeart10.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{08e5a07f-a0e0-4699-aabb-46ad761ae291}-traktHeart2.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3a10c023-90f9-4f44-85e0-895c110a6c1c}-traktHeart3.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9013757a-3396-49b4-a76d-0d3781673fe5}-traktHeart4.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5fcbc0d0-7a9f-403c-bfb9-bc75100bfdcc}-traktHeart5.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5403378b-8989-4b5e-857a-45c248451d6e}-traktHeart6.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ef0b8646-f81f-435b-88da-f3e913d6a0b7}-traktHeart7.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{72644cc0-65e0-4f00-83e3-0f9b5e82dbfc}-traktHeart8.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{23261b2e-a1c1-4f04-bc0f-ca816a2225db}-traktHeart9.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart9.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1227,23 +1521,31 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
-      <Minor>5</Minor>
-      <Build>1</Build>
+      <Minor>6</Minor>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added customizable rating values for plugin rate dialogs, these can be changed in Advanced Settings. The default value for 'Weak Sauce' has been changed so please review these settings before rating.
-* Fixed wrong 'Duration' field sent to trakt one My Videos scrobble.
-* Changed scrobble handling for Live TV to continue scrobbling when a server error occurs.
-* Fixed MovingPictures 'Recommendations' and 'WatchList' category settings being reset each time a Library sync occurs.
-* Fixed MovingPictures Categories and BlackList/WhiteList filters not being cleaned up each Library Sync.
-* Improved Reliability of MovingPictures Category creation.
-* Faster Library Sync for each of the plugin handlers and less verbose debug logging.</VersionDescription>
+    <VersionDescription>* Support for trakt Advanced Ratings (10-Heart scale):
+    - Account setting for advanced ratings is synced from trakt so plugin can show simple/advanced ratings.
+    - New rating image overlays for posters if using advanced ratings.
+    - Updated rating dialog to show 10 Hearts if advanced ratings is enabled.
+    - Added support to unrate item from rate dialog.
+    - All external plugins will automatically send ratings in 10 point scale when rating an item.
+    - New skin property for advanced rating.
+
+* Fix friend's watched history not loading entirely if activity api returns a null movie or episode.
+
+* Added check in plugin handlers to exit early if video type is not supported.
+
+* Updated Danish translations, thanks 1stdead.
+
+</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2012-02-27T10:00:00</ReleaseDate>
+    <ReleaseDate>2012-05-05T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_MP12.mpe1</Location>
     <Params>
@@ -1726,6 +2028,153 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7292a00b-6ef4-457a-8733-066c328dbf77}-heart-1.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6956d708-7101-4fee-8f95-9198c7c1170a}-heart-10.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cc5cfd1e-74c4-4b6a-a1d0-46fa300fb6af}-heart-2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2d6767be-2ddf-43cb-9cd3-68c16e4248d8}-heart-3.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2e950042-9dd1-4e43-a238-56fa2fb9a889}-heart-4.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fafa0d8d-4247-4406-ab2d-8b85fda50acc}-heart-5.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1a32142d-dd93-48f9-b75c-cbfc31efee4d}-heart-6.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{80f26ece-b920-4321-a3ec-b48b61b48c82}-heart-7.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{eaf724ae-7c25-4108-a6e2-ce46e95d2c0e}-heart-8.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ac7d56dd-da0e-428b-8068-15d7ecf06933}-heart-9.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\heart-off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b6c567a7-9875-4263-9a98-c94262a4b972}-heart-off.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\heart-off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d38c9f76-62a0-4a43-9619-dee328df4bfd}-traktHeart1.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8d6dddb2-62c8-46ce-affd-63e5ee5c4e1b}-traktHeart10.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c073d157-a414-4aa6-9d5e-2c60070731e6}-traktHeart2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{882a5ce5-21b4-49d9-b4be-53262be11571}-traktHeart3.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9cb1183b-dd63-4ccd-8c18-53f57f4038e4}-traktHeart4.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9847e0a4-b71e-4a86-af17-d144cd3011ab}-traktHeart5.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{176a253e-3261-4551-b8ce-55d9bf057194}-traktHeart6.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6d620719-5536-47a1-85da-2f440a103b72}-traktHeart7.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e71622f4-124f-4292-b2f7-762ec84d747a}-traktHeart8.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{16911cb9-c06e-46c4-b34f-9a283af38312}-traktHeart9.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktHeart9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.AccountDialog.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c0fc8685-fb7d-4654-b94f-9e9b3b9a2945}-Trakt.AccountDialog.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.AccountDialog.xml</DestinationFilename>
@@ -2142,6 +2591,153 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Related.Shows.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{390d43fc-6ca1-4908-a0a1-0d38f70c35dc}-Trakt.Related.Shows.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.Related.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9282db67-4790-4c54-9fcb-3027a730860b}-heart-1.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fcdb9116-cdb6-4b69-a502-5b1e09492a27}-heart-10.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{54aa7a64-c3a7-4923-9485-ac180d7d073d}-heart-2.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{caff76f8-8ef4-48b3-8611-dba2fe5cb467}-heart-3.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c1c6e0fc-bf1c-4c17-aa56-995a1900e03d}-heart-4.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{23585789-7d85-4cd8-801b-87f1b30496c5}-heart-5.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{23600549-eb99-449e-a69a-27ecd6bee218}-heart-6.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{25088424-34be-4262-8f78-f27a5e749360}-heart-7.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{382bfaab-1265-4ae3-9a8e-549bd109a9f0}-heart-8.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{92e0be94-399a-4816-b3e6-abae4d5450b0}-heart-9.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\heart-off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e9378a10-f641-4d18-ac3f-c12856496507}-heart-off.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\heart-off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{97476b92-6d1d-449e-b318-2883abb83673}-traktHeart1.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{80a93452-84d6-45df-b7bc-7d86ecc5b17a}-traktHeart10.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{08e5a07f-a0e0-4699-aabb-46ad761ae291}-traktHeart2.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3a10c023-90f9-4f44-85e0-895c110a6c1c}-traktHeart3.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9013757a-3396-49b4-a76d-0d3781673fe5}-traktHeart4.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5fcbc0d0-7a9f-403c-bfb9-bc75100bfdcc}-traktHeart5.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5403378b-8989-4b5e-857a-45c248451d6e}-traktHeart6.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ef0b8646-f81f-435b-88da-f3e913d6a0b7}-traktHeart7.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{72644cc0-65e0-4f00-83e3-0f9b5e82dbfc}-traktHeart8.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktHeart9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{23261b2e-a1c1-4f04-bc0f-ca816a2225db}-traktHeart9.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktHeart9.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
