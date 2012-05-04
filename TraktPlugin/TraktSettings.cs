@@ -141,13 +141,18 @@ namespace TraktPlugin
                     if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
                         return;
 
-                    TraktLogger.Info("Loading Online Settings");
                     Thread.Sleep(5000);
+                    TraktLogger.Info("Loading Online Settings");
 
                     TraktAccountSettings settings = TraktAPI.TraktAPI.GetAccountSettings();
                     if (settings.Status == "success")
                     {
                         _showAdvancedRatingsDialogs = settings.ViewingSettings.RatingSettings.Mode == "advanced";
+                        TraktLogger.Debug("Response: " + settings.ToJSON());
+                    }
+                    else
+                    {
+                        TraktLogger.Error("Failed to retrieved trakt settings online.");
                     }
                 })
                 {
