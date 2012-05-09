@@ -549,8 +549,8 @@ namespace TraktPlugin.TraktHandlers
                 return;
             }
 
-            // Add setting for this later to control love/hate value
-            string rating = Convert.ToInt32(value).ToString();
+            // My Films is a 100 point scale out of 10. Treat as decimal and then round off
+            string rating = Math.Round(Convert.ToDecimal(value), MidpointRounding.AwayFromZero).ToString();
             TraktRateResponse response = null;
 
             Thread rateThread = new Thread((o) =>
