@@ -246,9 +246,15 @@
     <Compile Include="TraktAPI\DataStructures\TraktListItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktListSlug.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSlug.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktRateEpisodes.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktRateMovies.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktRateShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShout.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSlug.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserEpisodeRating.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUserList.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserMovieRating.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserShowRating.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchedHistoryItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />

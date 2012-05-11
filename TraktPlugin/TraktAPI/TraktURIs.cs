@@ -39,6 +39,9 @@ namespace TraktPlugin.TraktAPI
         public const string UserMovieWatchList = @"http://api.trakt.tv/user/watchlist/movies.json/" + ApiKey + @"/{0}";
         public const string UserShowsWatchList = @"http://api.trakt.tv/user/watchlist/shows.json/" + ApiKey + @"/{0}";
         public const string UserEpisodesWatchList = @"http://api.trakt.tv/user/watchlist/episodes.json/" + ApiKey + @"/{0}";
+        public const string UserRatedMoviesList = @"http://api.trakt.tv/user/ratings/movies.json/" + ApiKey + @"/{0}";
+        public const string UserRatedShowsList = @"http://api.trakt.tv/user/ratings/shows.json/" + ApiKey + @"/{0}";
+        public const string UserRatedEpisodesList = @"http://api.trakt.tv/user/ratings/episodes.json/" + ApiKey + @"/{0}";
         public const string CreateAccount = @"http://api.trakt.tv/account/create/" + ApiKey;
         public const string TestAccount = @"http://api.trakt.tv/account/test/" + ApiKey;
         public const string UserEpisodeWatchedHistory = @"http://api.trakt.tv/user/watched/episodes.json/" + ApiKey + @"/{0}";
@@ -66,5 +69,10 @@ namespace TraktPlugin.TraktAPI
         public const string RelatedShows = @"http://api.trakt.tv/show/related.json/" + ApiKey + @"/{0}{1}";
         public const string ActivityUser = @"http://api.trakt.tv/activity/user.json/" + ApiKey + @"/{0}/{1}/{2}";
         public const string AccountSettings = @"http://api.trakt.tv/account/settings/" + ApiKey;
+        public const string RateMovies = @"http://api.trakt.tv/rate/movies/" + ApiKey;
+        public const string RateShows = @"http://api.trakt.tv/rate/shows/" + ApiKey;
+        public const string RateEpisodes = @"http://api.trakt.tv/rate/episodes/" + ApiKey;
+        
+
     }
 }

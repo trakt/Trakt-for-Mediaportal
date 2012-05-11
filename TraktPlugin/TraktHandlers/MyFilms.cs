@@ -223,7 +223,7 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
-            //Send Library/Collection
+            #region Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (MFMovie m in moviesToSync)
                 TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
@@ -235,8 +235,9 @@ namespace TraktPlugin.TraktHandlers
                 BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+            #endregion
 
-            //Send Seen
+            #region Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (MFMovie m in watchedMoviesToSync)
                 TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
@@ -248,7 +249,55 @@ namespace TraktPlugin.TraktHandlers
                 BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+            #endregion
 
+            #region Ratings Sync
+            // only sync ratings if we are using Advanced Ratings
+            if (TraktSettings.SyncRatings)
+            {
+                var traktRatedMovies = TraktAPI.TraktAPI.GetUserRatedMovies(TraktSettings.Username);
+                if (traktRatedMovies == null)
+                    TraktLogger.Error("Error getting rated movies from trakt server.");
+                else
+                    TraktLogger.Info("{0} rated movies in trakt library", traktRatedMovies.Count().ToString());
+
+                if (traktRatedMovies != null)
+                {
+                    // get the movies that we have rated/unrated
+                    var RatedList = MovieList.Where(m => m.Rating > 0.0).ToList();
+                    var UnRatedList = MovieList.Except(RatedList).ToList();
+                    TraktLogger.Info("{0} rated movies available to sync in MyFilms database", RatedList.Count.ToString());
+
+                    var ratedMoviesToSync = new List<MFMovie>(RatedList);
+                    foreach (var trm in traktRatedMovies)
+                    {
+                        foreach (var movie in UnRatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == trm.IMDBID || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        {
+                            // update local collection rating
+                            TraktLogger.Info("Inserting rating '{0}/10' for movie '{1} ({2})'", trm.RatingAdvanced, movie.Title, movie.Year);
+                            movie.Rating = trm.RatingAdvanced;
+                            movie.Commit();
+                        }
+
+                        foreach (var movie in RatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == trm.IMDBID || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        {
+                            // already rated on trakt, remove from sync collection
+                            ratedMoviesToSync.Remove(movie);
+                        }
+                    }
+
+                    TraktLogger.Info("{0} rated movies to sync to trakt", ratedMoviesToSync.Count);
+                    if (ratedMoviesToSync.Count > 0)
+                    {
+                        ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for movie '{1} ({2})'", a.Rating, a.Title, a.Year));
+                        TraktResponse response = TraktAPI.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    }
+                }
+            }
+            #endregion
+
+            #region Clean Library
             //Dont clean library if more than one movie plugin installed
             if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1)
             {
@@ -271,8 +320,9 @@ namespace TraktPlugin.TraktHandlers
                         TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
                         TraktAPI.TraktAPI.LogTraktResponse(response);
                     }
-                }                
+                }
             }
+            #endregion
 
             SyncInProgress = false;
             TraktLogger.Info("My Films Sync Completed");
@@ -436,6 +486,28 @@ namespace TraktPlugin.TraktHandlers
                 Rating = rating
             };
             return rateData;
+        }
+
+        public static TraktRateMovies CreateRatingMoviesData(List<MFMovie> localMovies)
+        {
+            if (String.IsNullOrEmpty(TraktSettings.Username) || String.IsNullOrEmpty(TraktSettings.Password))
+                return null;
+
+            var traktMovies = from m in localMovies
+                              select new TraktRateMovies.Movie
+                              {
+                                  IMDBID = m.IMDBNumber,
+                                  Title = m.Title,
+                                  Year = m.Year,
+                                  Rating = Convert.ToInt32(Math.Round(Convert.ToDecimal(m.Rating), MidpointRounding.AwayFromZero))
+                              };
+
+            return new TraktRateMovies
+            {
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                Movies = traktMovies.ToList()
+            };
         }
 
         #endregion

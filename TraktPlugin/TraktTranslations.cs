@@ -444,7 +444,9 @@ namespace TraktPlugin.GUI
         public static string SettingWebRequestCacheDescription = "Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.";
         public static string SettingWebRequestTimeoutName = "Web Request Timeout";
         public static string SettingWebRequestTimeoutDescription = "Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.";
-      
+        public static string SettingSyncRatingsName = "Synchronize Ratings";
+        public static string SettingSyncRatingsDescription = "Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.";
+
         // T
         public static string Timeout = "Timeout";
         public static string Trending = "Trending";

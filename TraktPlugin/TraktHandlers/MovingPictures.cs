@@ -122,10 +122,10 @@ namespace TraktPlugin.TraktHandlers
 
             //Get the movies that we have watched
             List<DBMovieInfo> SeenList = MovieList.Where(m => m.ActiveUserSettings.WatchedCount > 0).ToList();
-
             TraktLogger.Info("{0} watched movies available to sync in MovingPictures database", SeenList.Count.ToString());
 
-            //Get all movies we have in our library including movies in users collection            
+            #region Get Movie Library from Trakt
+            //Get all movies we have in our library including movies in users collection
             IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
             if (traktMoviesAll == null)
             {
@@ -134,12 +134,13 @@ namespace TraktPlugin.TraktHandlers
                 return;
             }
             TraktLogger.Info("{0} movies in trakt library", traktMoviesAll.Count().ToString());
+            #endregion
 
             #region Movies to Sync to Collection
             //Filter out a list of movies we have already sync'd in our collection
             List<TraktLibraryMovies> NoLongerInOurCollection = new List<TraktLibraryMovies>();
             List<DBMovieInfo> moviesToSync = new List<DBMovieInfo>(MovieList);
-            foreach (TraktLibraryMovies tlm in traktMoviesAll)
+            foreach (TraktLibraryMovies tlm in traktMoviesAll.ToList())
             {
                 bool notInLocalCollection = true;
                 foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
@@ -198,7 +199,54 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
-            //Send Library/Collection
+            #region Ratings Sync
+            // only sync ratings if we are using Advanced Ratings
+            if (TraktSettings.SyncRatings)
+            {
+                var traktRatedMovies = TraktAPI.TraktAPI.GetUserRatedMovies(TraktSettings.Username);
+                if (traktRatedMovies == null)
+                    TraktLogger.Error("Error getting rated movies from trakt server.");
+                else
+                    TraktLogger.Info("{0} rated movies in trakt library", traktRatedMovies.Count().ToString());
+
+                if (traktRatedMovies != null)
+                {
+                    // get the movies that we have rated/unrated
+                    var RatedList = MovieList.Where(m => m.ActiveUserSettings.UserRating > 0).ToList();
+                    var UnRatedList = MovieList.Except(RatedList).ToList();
+                    TraktLogger.Info("{0} rated movies available to sync in MovingPictures database", RatedList.Count.ToString());
+
+                    var ratedMoviesToSync = new List<DBMovieInfo>(RatedList);
+                    foreach (var trm in traktRatedMovies)
+                    {
+                        foreach (var movie in UnRatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == trm.IMDBID || (GetTmdbID(m) == trm.TMDBID) || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        {
+                            // update local collection rating (5 Point Scale)
+                            int rating = (int)(Math.Round(trm.RatingAdvanced / 2.0, MidpointRounding.AwayFromZero));
+                            TraktLogger.Info("Inserting rating '{0}/5' for movie '{1} ({2})'", rating, movie.Title, movie.Year);
+                            movie.ActiveUserSettings.UserRating = rating;
+                            movie.Commit();
+                        }
+
+                        foreach (var movie in RatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == trm.IMDBID || (GetTmdbID(m) == trm.TMDBID) || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        {
+                            // already rated on trakt, remove from sync collection
+                            ratedMoviesToSync.Remove(movie);
+                        }
+                    }
+
+                    TraktLogger.Info("{0} rated movies to sync to trakt", ratedMoviesToSync.Count);
+                    if (ratedMoviesToSync.Count > 0)
+                    {
+                        ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/5' for movie '{1} ({2})'", a.ActiveUserSettings.UserRating, a.Title, a.Year));
+                        TraktResponse response = TraktAPI.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                    }
+                }
+            }
+            #endregion
+
+            #region Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (DBMovieInfo m in moviesToSync)
                 TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
@@ -210,8 +258,9 @@ namespace TraktPlugin.TraktHandlers
                 BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+            #endregion
 
-            //Send Seen
+            #region Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (DBMovieInfo m in watchedMoviesToSync)
                 TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.ImdbID, GetTmdbID(m));
@@ -223,7 +272,9 @@ namespace TraktPlugin.TraktHandlers
                 BasicHandler.InsertAlreadyExistMovies(response);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             }
+            #endregion
 
+            #region Clean Library
             //Dont clean library if more than one movie plugin installed
             if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1)
             {
@@ -248,7 +299,9 @@ namespace TraktPlugin.TraktHandlers
                     }
                 }
             }
+            #endregion
 
+            #region Filters and Categories
             IEnumerable<TraktWatchListMovie> traktWatchListMovies = null;
             IEnumerable<TraktMovie> traktRecommendationMovies = null;
 
@@ -273,6 +326,7 @@ namespace TraktPlugin.TraktHandlers
                 UpdateMovingPicturesFilters(traktRecommendationMovies, traktWatchListMovies);
             else
                 RemoveMovingPicturesFilters();
+            #endregion
 
             SyncInProgress = false;
             TraktLogger.Info("Moving Pictures Sync Completed");
@@ -736,6 +790,29 @@ namespace TraktPlugin.TraktHandlers
                 Rating = rating
             };
             return rateData;
+        }
+
+        public static TraktRateMovies CreateRatingMoviesData(List<DBMovieInfo> localMovies)
+        {
+            if (String.IsNullOrEmpty(TraktSettings.Username) || String.IsNullOrEmpty(TraktSettings.Password))
+                return null;
+
+            var traktMovies = from m in localMovies
+                              select new TraktRateMovies.Movie
+                              {
+                                IMDBID = m.ImdbID,
+                                TMDBID = GetTmdbID(m),
+                                Title = m.Title,
+                                Year = m.Year,
+                                Rating = (int)(m.ActiveUserSettings.UserRating * 2)
+                              };
+
+            return new TraktRateMovies
+            {
+                UserName = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                Movies = traktMovies.ToList()
+            };
         }
 
         #endregion
@@ -1274,5 +1351,5 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
-    }
+    }    
 }

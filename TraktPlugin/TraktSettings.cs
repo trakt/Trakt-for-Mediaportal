@@ -63,6 +63,7 @@ namespace TraktPlugin
         public static bool HideWatchedRelatedShows { get; set; }
         public static int WebRequestTimeout { get; set; }
         public static bool HideSpoilersOnShouts { get; set; }
+        public static bool SyncRatings { get; set; }
         #endregion
 
         #region Constants
@@ -116,6 +117,7 @@ namespace TraktPlugin
         private const string cWebRequestTimeout = "WebRequestTimeout";
         private const string cHideSpoilersOnShouts = "HideSpoilersOnShouts";
         private const string cShowAdvancedRatingsDialog = "ShowAdvancedRatingsDialog";
+        private const string cSyncRatings = "SyncRatings";
         #endregion
 
         #region Properties
@@ -325,6 +327,7 @@ namespace TraktPlugin
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);
                 ShowAdvancedRatingsDialog = xmlreader.GetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, false);
+                SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, false);
             }
         }
 
@@ -383,6 +386,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedShows, HideWatchedRelatedShows);
                 xmlwriter.SetValueAsBool(cTrakt, cHideSpoilersOnShouts, HideSpoilersOnShouts);
                 xmlwriter.SetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, ShowAdvancedRatingsDialog);
+                xmlwriter.SetValueAsBool(cTrakt, cSyncRatings, SyncRatings);
             }
 
             Settings.SaveCache();

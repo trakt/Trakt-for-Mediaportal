@@ -265,6 +265,8 @@
   <string Field="SettingWebRequestCacheDescription">Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.</string>
   <string Field="SettingWebRequestTimeoutName">Web Request Timeout</string>
   <string Field="SettingWebRequestTimeoutDescription">Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.</string>
+  <string Field="SettingSyncRatingsName">Synchronize Ratings</string>
+  <string Field="SettingSyncRatingsDescription">Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

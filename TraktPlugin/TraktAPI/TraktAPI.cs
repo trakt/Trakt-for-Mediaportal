@@ -436,6 +436,18 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
+        /// Sends episodes rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
+        public static TraktRateResponse RateEpisodes(TraktRateEpisodes episodes)
+        {
+            if (episodes == null) return null;
+            string response = Transmit(TraktURIs.RateEpisodes, episodes.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
+        /// <summary>
         /// Sends series rate data to Trakt
         /// </summary>
         /// <param name="episode">The Trakt rate data to send</param>
@@ -448,13 +460,38 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
+        /// Sends multiple series rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
+        public static TraktRateResponse RateSeries(TraktRateShows shows)
+        {
+            if (shows == null) return null;
+            string response = Transmit(TraktURIs.RateShows, shows.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
+        /// <summary>
         /// Sends movie rate data to Trakt
         /// </summary>
         /// <param name="episode">The Trakt rate data to send</param>
         /// <returns>The response from Trakt</returns>
         public static TraktRateResponse RateMovie(TraktRateMovie movie)
         {
+            if (movie == null) return null;
             string response = Transmit(string.Format(TraktURIs.RateItem, TraktItemType.movie.ToString()), movie.ToJSON());
+            return response.FromJSON<TraktRateResponse>();
+        }
+
+        /// <summary>
+        /// Sends movies rate data to Trakt
+        /// </summary>
+        /// <param name="episode">The Trakt rate data to send</param>
+        /// <returns>The response from Trakt</returns>
+        public static TraktRateResponse RateMovies(TraktRateMovies movies)
+        {
+            if (movies == null) return null;
+            string response = Transmit(TraktURIs.RateMovies, movies.ToJSON());
             return response.FromJSON<TraktRateResponse>();
         }
 
@@ -574,6 +611,36 @@ namespace TraktPlugin.TraktAPI
         {
             string userList = Transmit(string.Format(TraktURIs.UserList, user, slug), GetUserAuthentication());
             return userList.FromJSON<TraktUserList>();
+        }
+
+        /// <summary>
+        /// Returns the users Rated Movies
+        /// </summary>
+        /// <param name="user">username of person</param>
+        public static IEnumerable<TraktUserMovieRating> GetUserRatedMovies(string user)
+        {
+            string ratedMovies = Transmit(string.Format(TraktURIs.UserRatedMoviesList, user), GetUserAuthentication());
+            return ratedMovies.FromJSONArray<TraktUserMovieRating>();
+        }
+
+        /// <summary>
+        /// Returns the users Rated Shows
+        /// </summary>
+        /// <param name="user">username of person</param>
+        public static IEnumerable<TraktUserShowRating> GetUserRatedShows(string user)
+        {
+            string ratedShows = Transmit(string.Format(TraktURIs.UserRatedShowsList, user), GetUserAuthentication());
+            return ratedShows.FromJSONArray<TraktUserShowRating>();
+        }
+
+        /// <summary>
+        /// Returns the users Rated Episodes
+        /// </summary>
+        /// <param name="user">username of person</param>
+        public static IEnumerable<TraktUserEpisodeRating> GetUserRatedEpisodes(string user)
+        {
+            string ratedEpisodes = Transmit(string.Format(TraktURIs.UserRatedEpisodesList, user), GetUserAuthentication());
+            return ratedEpisodes.FromJSONArray<TraktUserEpisodeRating>();
         }
 
         #endregion
