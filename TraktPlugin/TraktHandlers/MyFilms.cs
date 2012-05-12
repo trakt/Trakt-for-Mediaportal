@@ -277,6 +277,7 @@ namespace TraktPlugin.TraktHandlers
                             // update local collection rating
                             TraktLogger.Info("Inserting rating '{0}/10' for movie '{1} ({2})'", trm.RatingAdvanced, movie.Title, movie.Year);
                             movie.Rating = trm.RatingAdvanced;
+                            movie.Username = TraktSettings.Username;
                             movie.Commit();
                         }
 
@@ -757,6 +758,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
                     movieToRate.Rating = (float)rating;
+                    movieToRate.Username = TraktSettings.Username;
                     movieToRate.Commit();
                 }
             })
