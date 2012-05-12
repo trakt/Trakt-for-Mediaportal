@@ -420,7 +420,7 @@ namespace TraktPlugin.GUI
         }
 
         /// <summary>
-        /// Shows a Trakt Rate Dialog (Love/Hate)
+        /// Shows a Trakt Rate Dialog (Love/Hate) or 10-Heart based on settings
         /// </summary>        
         /// <param name="rateObject">Type of object being rated</param>
         public static string ShowRateDialog<T>(T rateObject)

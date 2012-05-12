@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.Player;
@@ -322,6 +323,8 @@ namespace TraktPlugin.TraktHandlers
             // if movie is atleast 90% complete, consider watched
             if ((g_Player.CurrentPosition / (g_Player.Duration == 0.0 ? CurrentMovie.RunTime * 60.0 : g_Player.Duration)) >= 0.9)
             {
+                ShowRateDialog(CurrentMovie);
+
                 #region scrobble
                 Thread scrobbleMovie = new Thread(delegate(object o)
                 {
@@ -485,6 +488,49 @@ namespace TraktPlugin.TraktHandlers
             imdbMovie = movie;
             return true;
         }
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Shows the Rate Movie Dialog after playback has ended
+        /// </summary>
+        /// <param name="movie">The movie being rated</param>
+        private void ShowRateDialog(IMDBMovie movie)
+        {
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", movie.Title);
+
+            new Thread((o) =>
+            {
+                IMDBMovie movieToRate = o as IMDBMovie;
+                if (movieToRate == null) return;
+
+                TraktRateMovie rateObject = new TraktRateMovie
+                {
+                    IMDBID = movieToRate.IMDBNumber,
+                    Title = movieToRate.Title,
+                    Year = movieToRate.Year.ToString(),
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                // get the rating submitted to trakt
+                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
+                    // note: no user rating field to update locally
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(movie);
+        }
+
         #endregion
 
     }

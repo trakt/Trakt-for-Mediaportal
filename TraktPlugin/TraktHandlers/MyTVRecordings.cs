@@ -8,6 +8,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Threading;
 using MediaPortal.Player;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TvDatabase;
@@ -127,6 +128,9 @@ namespace TraktPlugin.TraktHandlers
             // consider watched with invalid progress as well, we should never be exactly 0.0
             if ((progress == 0.0 || progress >= 80.0) && CurrentRecording.IsScrobbling)
             {
+                // Show rate dialog
+                ShowRateDialog(CurrentRecording);
+
                 #region scrobble
                 Thread scrobbleRecording = new Thread(delegate(object obj)
                 {
@@ -202,6 +206,61 @@ namespace TraktPlugin.TraktHandlers
             year = regMatch.Groups["year"].Value;
         }
 
+        /// <summary>
+        /// Shows the Rate Dialog after playback has ended
+        /// </summary>
+        /// <param name="episode">The item being rated</param>
+        private void ShowRateDialog(VideoInfo videoInfo)
+        {
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", videoInfo.Title);
+
+            new Thread((o) =>
+            {
+                VideoInfo itemToRate = o as VideoInfo;
+                if (itemToRate == null) return;
+
+                int rating = 0;
+
+                if (itemToRate.Type == VideoType.Series)
+                {
+                    TraktRateEpisode rateObject = new TraktRateEpisode
+                    {
+                        Title = itemToRate.Title,
+                        Year = itemToRate.Year,
+                        Episode = itemToRate.EpisodeIdx,
+                        Season = itemToRate.SeasonIdx,
+                        UserName = TraktSettings.Username,
+                        Password = TraktSettings.Password
+                    };
+                    // get the rating submitted to trakt
+                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                }
+                else if (itemToRate.Type == VideoType.Movie)
+                {
+                    TraktRateMovie rateObject = new TraktRateMovie
+                    {
+                        Title = itemToRate.Title,
+                        Year = itemToRate.Year,
+                        UserName = TraktSettings.Username,
+                        Password = TraktSettings.Password
+                    };
+                    // get the rating submitted to trakt
+                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+                }
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", itemToRate.Title, rating.ToString());
+                    // note: no user rating field to set
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(videoInfo);
+        }
         #endregion
     }
 }

@@ -8,6 +8,7 @@ using MediaPortal.Plugins.MovingPictures;
 using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
 using MediaPortal.Plugins.MovingPictures.Database;
 using MediaPortal.Plugins.MovingPictures.MainUI;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using System.Timers;
@@ -26,6 +27,7 @@ namespace TraktPlugin.TraktHandlers
         Timer traktTimer;
         DBMovieInfo currentMovie;
         bool SyncInProgress;
+        bool TraktRateSent;
         public static MoviePlayer player = null;
         private static IEnumerable<TraktMovie> recommendations;
         private static IEnumerable<TraktWatchListMovie> watchList;
@@ -561,7 +563,8 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 // we will update the Trakt rating of the Movie
-                if (ui.RatingChanged() && userMovieSettings.UserRating > 0)
+                // ignore if we rated using trakt rate dialog
+                if (ui.RatingChanged() && userMovieSettings.UserRating > 0 && !TraktRateSent)
                 {
                     TraktLogger.Info("Received Rate event in MovingPictures for movie '{0}' with rating '{1}/5'", movie.Title, userMovieSettings.UserRating);
                     RateMovie(CreateRateData(movie, (userMovieSettings.UserRating * 2).ToString()));
@@ -584,6 +587,7 @@ namespace TraktPlugin.TraktHandlers
                 if (!TraktSettings.BlockedFilenames.Contains(watchedEvent.Movie.LocalMedia[0].FullPath) && !TraktSettings.BlockedFolders.Any(f => watchedEvent.Movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
                     TraktLogger.Info("Watched History updated in MovingPictures for movie '{0}'", watchedEvent.Movie.Title);
+                    ShowRateDialog(watchedEvent.Movie);
                     ScrobbleHandler(watchedEvent.Movie, TraktScrobbleStates.scrobble);
                     RemoveMovieFromFiltersAndCategories(watchedEvent.Movie);
                 }
@@ -818,6 +822,54 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Other Private Methods
+
+        /// <summary>
+        /// Shows the Rate Movie Dialog after playback has ended
+        /// </summary>
+        /// <param name="movie">The movie being rated</param>
+        private void ShowRateDialog(DBMovieInfo movie)
+        {
+            if (MovingPicturesCore.Settings.AutoPromptForRating) return;    // movpics dialog is enabled
+            if (!TraktSettings.ShowRateDialogOnWatched) return;             // not enabled
+            if (movie.ActiveUserSettings.UserRating > 0) return;            // already rated
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", movie.Title);
+
+            new System.Threading.Thread((o) =>
+            {
+                var movieToRate = o as DBMovieInfo;
+                if (movieToRate == null) return;
+
+                TraktRateMovie rateObject = new TraktRateMovie
+                {
+                    TMDBID = GetTmdbID(movieToRate),
+                    IMDBID = movieToRate.ImdbID,
+                    Title = movieToRate.Title,
+                    Year = movieToRate.Year.ToString(),
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                // get the rating submitted to trakt
+                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+
+                if (rating > 0)
+                {
+                    // flag to ignore event handler
+                    TraktRateSent = true;
+
+                    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
+                    movieToRate.ActiveUserSettings.UserRating = (int)(Math.Round(rating / 2.0, MidpointRounding.AwayFromZero));
+                    movieToRate.Commit();
+
+                    TraktRateSent = false;
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(movie);
+        }
 
         private static void UpdateMovingPicturesCategories(IEnumerable<TraktMovie> traktRecommendationMovies, IEnumerable<TraktWatchListMovie> traktWatchListMovies)
         {

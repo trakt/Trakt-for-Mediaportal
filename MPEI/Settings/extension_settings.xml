@@ -1,6 +1,6 @@
 <extension_settings>
 	<disable_entry>
-		<setting entryname="plugins" name="Extensions" displayname="Plugin Enabled" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="Yes|No"/> 
+		<setting entryname="plugins" name="Extensions" displayname="Plugin Enabled" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="Yes|No"/>
 	</disable_entry>
 	<settings section="#Trakt.Translation.Plugin.Label">
     <setting entryname="plugins" name="Trakt" displayname="#Trakt.Translation.SettingPluginEnabledName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingPluginEnabledDescription.Label" configfile="MediaPortal.xml" /> 
@@ -11,5 +11,6 @@
     <setting entryname="Trakt" name="WebRequestCacheMinutes" displayname="#Trakt.Translation.SettingWebRequestCacheName.Label" defaultvalue="15" type="string" listvalues="1|5|10|15|30|60|120|360|720|1440" displaylistvalues="1|5|10|15|30|60|120|360|720|1440" description="#Trakt.Translation.SettingWebRequestCacheDescription.Label" configfile="MediaPortal.xml" />
     <setting entryname="Trakt" name="WebRequestTimeout" displayname="#Trakt.Translation.SettingWebRequestTimeoutName.Label" defaultvalue="15000" type="string" listvalues="15000|30000|45000|60000|90000" displaylistvalues="15|30|45|60|90" description="#Trakt.Translation.SettingWebRequestTimeoutDescription.Label" configfile="MediaPortal.xml" />
     <setting entryname="Trakt" name="SyncRatings" displayname="#Trakt.Translation.SettingSyncRatingsName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingSyncRatingsDescription.Label" configfile="MediaPortal.xml" />
+    <setting entryname="Trakt" name="ShowRateDialogOnWatched" displayname="#Trakt.Translation.SettingShowRateDialogOnWatchedName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingShowRateDialogOnWatchedDescription.Label" configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

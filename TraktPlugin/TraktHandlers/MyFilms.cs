@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.Player;
@@ -582,6 +583,9 @@ namespace TraktPlugin.TraktHandlers
                     MFMovie watchedMovie = obj as MFMovie;
                     if (watchedMovie == null) return;
 
+                    // show trakt rating dialog
+                    ShowRateDialog(watchedMovie);
+
                     TraktLogger.Info("My Films movie considered watched: '{0}'", watchedMovie.Title);
 
                     // get scrobble data to send to api
@@ -716,6 +720,50 @@ namespace TraktPlugin.TraktHandlers
             movieid = movie.ID;
             config = movie.Config;
             return true;
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Shows the Rate Movie Dialog after playback has ended
+        /// </summary>
+        /// <param name="movie">The movie being rated</param>
+        private void ShowRateDialog(MFMovie movie)
+        {
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled
+            if (movie.Rating > 0) return;                           // already rated
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", movie.Title);
+
+            new Thread((o) =>
+            {
+                MFMovie movieToRate = o as MFMovie;
+                if (movieToRate == null) return;
+
+                TraktRateMovie rateObject = new TraktRateMovie
+                {
+                    IMDBID = movieToRate.IMDBNumber,
+                    TMDBID = movieToRate.TMDBNumber,
+                    Title = movieToRate.Title,
+                    Year = movieToRate.Year.ToString(),
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                // get the rating submitted to trakt
+                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
+                    movieToRate.Rating = (float)rating;
+                    movieToRate.Commit();
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(movie);
         }
         #endregion
 

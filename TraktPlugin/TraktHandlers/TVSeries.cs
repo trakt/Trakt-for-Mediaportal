@@ -7,6 +7,7 @@ using MediaPortal.GUI.Library;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using WindowPlugins.GUITVSeries;
@@ -871,6 +872,51 @@ namespace TraktPlugin.TraktHandlers
             return null;
         }
 
+        /// <summary>
+        /// Shows the Rate Episode Dialog after playback has ended
+        /// </summary>
+        /// <param name="episode">The episode being rated</param>
+        private void ShowRateDialog(DBEpisode episode)
+        {
+            if (DBOption.GetOptions(DBOption.cAskToRate)) return;   // tvseries dialog is enabled
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled
+            if (episode[DBOnlineEpisode.cMyRating] > 0) return;     // already rated
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", episode.ToString());
+
+            new Thread((o) =>
+            {
+                DBEpisode epToRate = o as DBEpisode;
+                if (epToRate == null) return;
+
+                DBSeries series = Helper.getCorrespondingSeries(epToRate[DBOnlineEpisode.cSeriesID]);
+
+                TraktRateEpisode rateObject = new TraktRateEpisode
+                {
+                    SeriesID = epToRate[DBOnlineEpisode.cSeriesID],
+                    Title = series == null ? string.Empty : series.ToString(),
+                    Episode = epToRate[DBOnlineEpisode.cEpisodeIndex],
+                    Season = epToRate[DBOnlineEpisode.cSeasonIndex],
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                // get the rating submitted to trakt
+                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
+                    epToRate[DBOnlineEpisode.cMyRating] = rating;
+                    epToRate.Commit();
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(episode);
+        }
+
         #endregion
 
         #region TVSeries Events
@@ -916,24 +962,30 @@ namespace TraktPlugin.TraktHandlers
             DBEpisode currentEpisode = null;
             EpisodeWatching = false;
 
-            Thread scrobbleEpisode = new Thread(delegate()
+            Thread scrobbleEpisode = new Thread(delegate(object o)
             {
+                DBEpisode ep = o as DBEpisode;
+                if (o == null) return;
+
                 // submit watched state to trakt API
                 // could be a double episode so mark last one as watched
                 // 1st episode is set to watched during playback timer
-                if (episode[DBEpisode.cEpisodeIndex2] > 0 && MarkedFirstAsWatched)
+                if (ep[DBEpisode.cEpisodeIndex2] > 0 && MarkedFirstAsWatched)
                 {
                     // only set 2nd episode as watched here
                     SQLCondition condition = new SQLCondition();
-                    condition.Add(new DBEpisode(), DBEpisode.cFilename, episode[DBEpisode.cFilename], SQLConditionType.Equal);
+                    condition.Add(new DBEpisode(), DBEpisode.cFilename, ep[DBEpisode.cFilename], SQLConditionType.Equal);
                     List<DBEpisode> episodes = DBEpisode.Get(condition, false);
                     currentEpisode = episodes[1];
                 }
                 else
                 {
                     // single episode
-                    currentEpisode = episode;
+                    currentEpisode = ep;
                 }
+
+                // show trakt rating dialog
+                ShowRateDialog(currentEpisode);
 
                 TraktLogger.Info("TVSeries episode considered watched '{0}'", currentEpisode.ToString());
 
@@ -954,7 +1006,7 @@ namespace TraktPlugin.TraktHandlers
                 Name = "Scrobble Episode"
             };
 
-            scrobbleEpisode.Start();
+            scrobbleEpisode.Start(episode);
         }
 
         private void OnEpisodeStarted(DBEpisode episode)

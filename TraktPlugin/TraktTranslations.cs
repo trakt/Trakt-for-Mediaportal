@@ -446,6 +446,8 @@ namespace TraktPlugin.GUI
         public static string SettingWebRequestTimeoutDescription = "Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.";
         public static string SettingSyncRatingsName = "Synchronize Ratings";
         public static string SettingSyncRatingsDescription = "Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.";
+        public static string SettingShowRateDialogOnWatchedName = "Show Rate Dialog on Watched";
+        public static string SettingShowRateDialogOnWatchedDescription = "Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated or if the plugin is already set to show its own dialog.";
 
         // T
         public static string Timeout = "Timeout";

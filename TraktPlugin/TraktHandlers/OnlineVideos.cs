@@ -143,11 +143,14 @@ namespace TraktPlugin.TraktHandlers
                     return;
                 }
 
+                // Show Rating Dialog
+                ShowRateDialog(info);
+
                 // Playback Ended or Stopped and Considered Watched
                 // TrackVideoPlayback event only gets fired on Stopped if > 80% watched
                 TraktLogger.Info("Playback of '{0}' is considered watched at {1:0.00}%", info.Title, (percentPlayed * 100).ToString());
 
-                Thread stopThread = new Thread(delegate(object o)
+                Thread scrobbleThread = new Thread(delegate(object o)
                 {
                     ITrackingInfo videoInfo = o as ITrackingInfo;
                     
@@ -183,7 +186,7 @@ namespace TraktPlugin.TraktHandlers
                     Name = "Scrobble"
                 };
 
-                stopThread.Start(info);
+                scrobbleThread.Start(info);
             }
         }
         
@@ -260,6 +263,67 @@ namespace TraktPlugin.TraktHandlers
             ovObject = null;
         }
 
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Shows the Rate Dialog after playback has ended
+        /// </summary>
+        /// <param name="episode">The item being rated</param>
+        private void ShowRateDialog(ITrackingInfo videoInfo)
+        {            
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", videoInfo.Title);
+
+            new Thread((o) =>
+            {
+                ITrackingInfo itemToRate = o as ITrackingInfo;
+                if (itemToRate == null) return;
+
+                int rating = 0;
+
+                if (itemToRate.VideoKind == VideoKind.TvSeries)
+                {
+                    TraktRateEpisode rateObject = new TraktRateEpisode
+                    {
+                        SeriesID = itemToRate.ID_TVDB,
+                        Title = itemToRate.Title,
+                        Year = itemToRate.Year > 1900 ? itemToRate.Year.ToString() : null,
+                        Episode = itemToRate.Episode.ToString(),
+                        Season = itemToRate.Season.ToString(),
+                        UserName = TraktSettings.Username,
+                        Password = TraktSettings.Password
+                    };
+                    // get the rating submitted to trakt
+                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                }
+                else if (itemToRate.VideoKind == VideoKind.Movie)
+                {
+                    TraktRateMovie rateObject = new TraktRateMovie
+                    {
+                        IMDBID = itemToRate.ID_IMDB,
+                        TMDBID = itemToRate.ID_TMDB,
+                        Title = itemToRate.Title,
+                        Year = itemToRate.Year > 1900 ? itemToRate.Year.ToString() : null,
+                        UserName = TraktSettings.Username,
+                        Password = TraktSettings.Password
+                    };
+                    // get the rating submitted to trakt
+                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+                }
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", itemToRate.Title, rating.ToString());
+                    // note: no user rating field to set
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(videoInfo);
+        }
         #endregion
     }
 }

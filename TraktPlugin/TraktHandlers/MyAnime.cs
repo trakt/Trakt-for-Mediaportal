@@ -286,6 +286,7 @@ namespace TraktPlugin.TraktHandlers
             // if episode is atleast 90% complete, consider watched
             if ((g_Player.CurrentPosition / g_Player.Duration) >= 0.9)
             {
+                ShowRateDialog(CurrentEpisode);
                 scrobbleEpisode.Start(CurrentEpisode);
             }
             else
@@ -810,6 +811,58 @@ namespace TraktPlugin.TraktHandlers
                 return syncData;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Shows the Rate Episode Dialog after playback has ended
+        /// </summary>
+        /// <param name="episode">The episode being rated</param>
+        private void ShowRateDialog(FileLocal episode)
+        {
+            new Thread((o) =>
+            {
+                FileLocal epToRate = o as FileLocal;
+                if (epToRate == null) return;
+
+                string seriesid = null;
+                int seasonidx = 0;
+                int episodeidx = 0;
+
+                if (epToRate.AnimeEpisodes == null || epToRate.AnimeEpisodes.Count == 0 || !GetTVDBEpisodeInfo(epToRate.AnimeEpisodes[0], out seriesid, out seasonidx, out episodeidx))
+                {
+                    TraktLogger.Warning("Unable to rate episode, no AniDb/TVDb reference in database yet.");
+                    return;
+                }
+
+                if (!TraktSettings.ShowRateDialogOnWatched) return;          // not enabled
+                if (epToRate.AnimeEpisodes[0].UserRating > 0) return;        // already rated
+
+                TraktLogger.Debug("Showing rate dialog for '{0}'", epToRate.AnimeEpisodes[0].EpisodeName);
+
+                TraktRateEpisode rateObject = new TraktRateEpisode
+                {
+                    Title = epToRate.AniDB_File.AnimeSeries.SeriesName,
+                    Year = GetStartYear(epToRate.AniDB_File.AnimeSeries),
+                    Season = seasonidx.ToString(),
+                    Episode = episodeidx.ToString(),
+                    SeriesID = seriesid,
+                    UserName = TraktSettings.Username,
+                    Password = TraktSettings.Password
+                };
+
+                // get the rating submitted to trakt
+                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", epToRate.AnimeEpisodes[0].EpisodeName, rating.ToString());
+                    // note: can't set rating locally as its read only
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            }.Start(episode);
         }
 
         #endregion
