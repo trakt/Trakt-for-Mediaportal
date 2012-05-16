@@ -24,6 +24,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "tvdb_id")]
         public string SeriesID { get; set; }
 
+        [DataMember(Name = "episode_tvdb_id")]
+        public string EpisodeID { get; set; }
+
         [DataMember(Name = "imdb_id")]
         public string IMDBID { get; set; }
 

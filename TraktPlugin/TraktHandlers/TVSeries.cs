@@ -679,6 +679,7 @@ namespace TraktPlugin.TraktHandlers
                 Year = series.Year,
                 Season = episode[DBOnlineEpisode.cSeasonIndex],
                 Episode = episode[DBOnlineEpisode.cEpisodeIndex],
+                EpisodeID = episode[DBOnlineEpisode.cID],
                 SeriesID = series[DBSeries.cID],
                 PluginVersion = TraktSettings.Version,
                 MediaCenter = "Mediaportal",
