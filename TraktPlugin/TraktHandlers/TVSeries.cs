@@ -555,6 +555,32 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
+        /// <summary>
+        /// Finds an episode in the current TVSeries Episode List
+        /// </summary>
+        /// <param name="episode"></param>
+        /// <returns></returns>
+        public static GUIListItem FindEpisodeInFacade(DBEpisode episode)
+        {
+            if (Facade == null) return null;
+
+            for (int i = 0; i < Facade.Count; i++)
+            {
+                var control = Facade[i];
+                GUIListItem listItem = control as GUIListItem;
+                if (listItem == null) return null;
+
+                // not in the episode level anymore
+                DBEpisode ep = listItem.TVTag as DBEpisode;
+                if (ep == null) return null;
+
+                if (ep.Equals(episode))
+                    return listItem;
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Public Properties
@@ -566,20 +592,27 @@ namespace TraktPlugin.TraktHandlers
         {
             get
             {
-                // Ensure we are in TVSeries window
-                GUIWindow window = GUIWindowManager.GetWindow(9811);
-                if (window == null) return null;
-
-                // Get the Facade control
-                GUIFacadeControl facade = window.GetControl(50) as GUIFacadeControl;
-                if (facade == null) return null;
+                if (Facade == null) return null;
 
                 // Get the Selected Item
-                GUIListItem currentitem = facade.SelectedListItem;
+                GUIListItem currentitem = Facade.SelectedListItem;
                 if (currentitem == null) return null;
 
                 // Get the series/episode object
                 return currentitem.TVTag;
+            }
+        }
+
+        public static GUIFacadeControl Facade
+        {
+            get
+            {
+                // Ensure we are in TVSeries window
+                GUIWindow window = GUIWindowManager.GetWindow((int)ExternalPluginWindows.TVSeries);
+                if (window == null) return null;
+
+                // Get the Facade control
+                return window.GetControl(50) as GUIFacadeControl;
             }
         }
 
@@ -910,6 +943,13 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
                     epToRate[DBOnlineEpisode.cMyRating] = rating;
                     epToRate.Commit();
+
+                    // update the facade holding the episode objects
+                    var listItem = FindEpisodeInFacade(episode);
+                    if (listItem != null)
+                    {
+                        listItem.TVTag = epToRate;
+                    }
                 }
             })
             {
