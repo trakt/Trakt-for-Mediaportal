@@ -21,6 +21,8 @@ namespace TraktPlugin
 
         private Timer ActivityTimer = null;
 
+        bool StopAvatarDownload = false;
+
         #endregion
 
         #region Constructor
@@ -109,6 +111,9 @@ namespace TraktPlugin
                 }
             }
 
+            // stop any existing image downloads
+            StopAvatarDownload = true;
+
             // clear facade
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
@@ -149,6 +154,7 @@ namespace TraktPlugin
             GUIUtils.SetProperty("#Trakt.Activity.Description", TraktSettings.ShowCommunityActivity ? Translation.ActivityCommunityDesc : Translation.ActivityFriendsDesc);
 
             // Download avatar images Async and set to facade
+            StopAvatarDownload = false;
             GetImages<TraktUserProfile>(avatarImages);
         }
 
@@ -421,6 +427,7 @@ namespace TraktPlugin
 
                         if (item is TraktUserProfile)
                         {
+                            if (StopAvatarDownload) return;
                             remoteThumb = (item as TraktUserProfile).Avatar;
                             localThumb = (item as TraktUserProfile).AvatarFilename;
                         }
@@ -448,6 +455,7 @@ namespace TraktPlugin
                                 // notify that image has been downloaded
                                 if (item is TraktUserProfile)
                                 {
+                                    if (StopAvatarDownload) return;
                                     (item as TraktUserProfile).NotifyPropertyChanged("AvatarFilename");
                                 }
                                 else if (item is TraktMovie.MovieImages)
