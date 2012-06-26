@@ -36,6 +36,13 @@ namespace TraktPlugin.GUI
         Shouts = 87280
     }
 
+    enum TraktDashboardControls
+    {
+        ActivityFacade = 98300,
+        TrendingShowsFacade = 98301,
+        TrendingMoviesFacade = 98302
+    }
+
     enum ExternalPluginWindows
     {
         OnlineVideos = 4755,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
@@ -7,7 +8,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktUserProfile : TraktResponse
+    public class TraktUserProfile : INotifyPropertyChanged
     {
         [DataMember(Name = "username")]
         public string Username { get; set; }
@@ -154,6 +155,43 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 else
                     return Movie.Title;
             }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        /// <summary>
+        /// Path to local Avatar Image
+        /// </summary>
+        public string AvatarFilename
+        {
+            get
+            {
+                string filename = string.Empty;
+                if (!string.IsNullOrEmpty(Avatar))
+                {
+                    string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Avatars");
+                    filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(new Uri(Avatar).LocalPath));
+                }
+                return filename;
+            }
+            set
+            {
+                _AvatarFilename = value;
+            }
+        }
+        string _AvatarFilename = string.Empty;
+
+        /// <summary>
+        /// Notify image property change during async image downloading
+        /// Sends messages to facade to update image
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

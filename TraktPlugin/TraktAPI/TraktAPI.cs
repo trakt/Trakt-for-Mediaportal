@@ -647,6 +647,50 @@ namespace TraktPlugin.TraktAPI
 
         #region Activity
 
+        public static TraktActivity GetFriendActivity()
+        {
+            return GetFriendActivity(null, null);
+        }
+
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetFriendActivity(types, actions, 0, 0);
+        }
+
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            // get comma seperated list of types and actions (if more than one)
+            string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            string activity = Transmit(string.Format(TraktURIs.ActivityFriends, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            return activity.FromJSON<TraktActivity>();
+        }
+
+        public static TraktActivity GetCommunityActivity()
+        {
+            return GetCommunityActivity(null, null);
+        }
+
+        public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetCommunityActivity(types, actions, 0, 0);
+        }
+
+        public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            // get comma seperated list of types and actions (if more than one)
+            string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            string activity = Transmit(string.Format(TraktURIs.ActivityCommunity, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            return activity.FromJSON<TraktActivity>();
+        }
+
         public static TraktActivity GetUserActivity(string username, List<ActivityType> types, List<ActivityAction> actions)
         {
             // get comma seperated list of types and actions (if more than one)

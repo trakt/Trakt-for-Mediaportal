@@ -65,6 +65,7 @@ namespace TraktPlugin
         public static bool HideSpoilersOnShouts { get; set; }
         public static bool SyncRatings { get; set; }
         public static bool ShowRateDialogOnWatched { get; set; }
+        public static bool ShowCommunityActivity { get; set; }
         #endregion
 
         #region Constants
@@ -120,6 +121,7 @@ namespace TraktPlugin
         private const string cShowAdvancedRatingsDialog = "ShowAdvancedRatingsDialog";
         private const string cSyncRatings = "SyncRatings";
         private const string cShowRateDialogOnWatched = "ShowRateDialogOnWatched";
+        private const string cShowCommunityActivity = "ShowCommunityActivity";
         #endregion
 
         #region Properties
@@ -331,6 +333,7 @@ namespace TraktPlugin
                 ShowAdvancedRatingsDialog = xmlreader.GetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, false);
                 SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, false);
                 ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, false);
+                ShowCommunityActivity = xmlreader.GetValueAsBool(cTrakt, cShowCommunityActivity, false);
             }
         }
 
@@ -391,6 +394,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, ShowAdvancedRatingsDialog);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncRatings, SyncRatings);
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDialogOnWatched, ShowRateDialogOnWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cShowCommunityActivity, ShowCommunityActivity);
             }
 
             Settings.SaveCache();

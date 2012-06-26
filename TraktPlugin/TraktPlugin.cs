@@ -17,13 +17,13 @@ using TraktPlugin.TraktAPI.DataStructures;
 namespace TraktPlugin
 {
     /// <summary>
-    /// TraktPlugin for Mediaportal and Moving Pictures. Adds the Trakt scrobbling API to Moving Pictures
-    /// Created by Luke Barnett
+    /// TraktPlugin for Mediaportal.
+    /// Created by Luke Barnett, Damien Haynes
     /// </summary>
     [PluginIcons("TraktPlugin.Resources.Images.icon_normal.png", "TraktPlugin.Resources.Images.icon_faded.png")]
     public class TraktPlugin : GUIWindow, ISetupForm
     {
-        #region Private variables
+        #region Private Variables
         //List of all our TraktHandlers
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         //Worker used for syncing libraries
@@ -31,6 +31,8 @@ namespace TraktPlugin
         static Timer syncLibraryTimer;
         //Settings Management from MPEI
         ExtensionSettings extensionSettings = new ExtensionSettings();
+        //Dashboard - Activity / Trending Items
+        TraktDashboard dashBoard = new TraktDashboard();
         #endregion
 
         #region ISetupFrom
@@ -179,6 +181,9 @@ namespace TraktPlugin
 
             // Initialize Extension Settings
             extensionSettings.Init();
+
+            // Initialize Skin Dashboard
+            dashBoard.Init();
 
             // Load main skin window
             // this is a launching pad to all other windows
@@ -749,6 +754,17 @@ namespace TraktPlugin
                 };
 
                 friendsThread.Start();
+            }
+            #endregion
+
+            #region Dashboard Start
+            if (TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
+            {
+                dashBoard.StartActivityPolling();
+            }
+            else
+            {
+                dashBoard.StopActivityPolling();
             }
             #endregion
 

@@ -69,8 +69,17 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "rating")]
             public string Rating { get; set; }
 
+            [DataMember(Name = "rating_advanced")]
+            public string RatingAdvanced { get; set; }
+
+            [DataMember(Name = "use_rating_advanced")]
+            public bool UseRatingAdvanced { get; set; }
+
             [DataMember(Name = "episode")]
             public TraktEpisode Episode { get; set; }
+
+            [DataMember(Name = "episodes")]
+            public List<TraktEpisode> Episodes { get; set; }
 
             [DataMember(Name = "show")]
             public TraktShow Show { get; set; }

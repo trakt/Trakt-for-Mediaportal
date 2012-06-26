@@ -236,6 +236,7 @@
     <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
+    <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccountSettings.cs" />

@@ -22,6 +22,10 @@ namespace TraktPlugin.GUI
         public static int EpisodeThumbRatingOverlayPosX { get; set; }
         public static int EpisodeThumbRatingOverlayPosY { get; set; }
 
+        public static List<string> DashBoardActivityWindows { get; set; }
+        public static List<string> DashBoardTrendingShowsWindows { get; set; }
+        public static List<string> DashBoardTrendingMoviesWindows { get; set; }
+
         public static void Init()
         {
             // Import Skin Settings
@@ -57,7 +61,43 @@ namespace TraktPlugin.GUI
             }
 
             // Read and Import Skin Settings            
-            GetOverlayPositions(doc);            
+            GetOverlayPositions(doc);
+
+            // Read Dashboard Skin Setings
+            GetActivityWindows(doc);
+        }
+
+        /// <summary>
+        /// Gets the windows supported by skin to display activities and trending items
+        /// </summary>
+        /// <param name="doc"></param>
+        private static void GetActivityWindows(XmlDocument doc)
+        {
+            TraktLogger.Info("Loading Settings for Activity Windows");
+
+            DashBoardActivityWindows = new List<string>();
+            DashBoardTrendingShowsWindows = new List<string>();
+            DashBoardTrendingMoviesWindows = new List<string>();
+
+            XmlNode node = null;
+
+            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/activities");
+            if (node != null)
+            {
+                DashBoardActivityWindows = node.InnerText.Split('|').ToList();
+            }
+
+            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trendingshows");
+            if (node != null)
+            {
+                DashBoardTrendingShowsWindows = node.InnerText.Split('|').ToList();
+            }
+
+            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trendingmovies");
+            if (node != null)
+            {
+                DashBoardTrendingMoviesWindows = node.InnerText.Split('|').ToList();
+            }
         }
 
         /// <summary>

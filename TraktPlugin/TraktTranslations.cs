@@ -185,6 +185,23 @@ namespace TraktPlugin.GUI
         public static string Account = "Account";
         public static string AccountSetup = "Account Setup";
         public static string AccountDialog = "Account Dialog";
+        public static string Activity = "Activity";
+        public static string ActivityFriendsDesc = "See what your friends are up to...";
+        public static string ActivityCommunityDesc = "See what the community is up to...";
+        public static string ActivityWatching = "{0} is watching {1}";
+        public static string ActivityWatched = "{0} watched {1}";
+        public static string ActivityCheckedIn = "{0} checked into {1}";
+        public static string ActivityCollected = "{0} collected {1}";
+        public static string ActivityCollectedEpisodes = "{0} collected {1} episodes of {2}";
+        public static string ActivitySeen = "{0} seen {1}";
+        public static string ActivitySeenEpisodes = "{0} seen {1} episodes of {2}";
+        public static string ActivityRating = "{0} rated {1}";
+        public static string ActivityRatingAdvanced = "{0} rated {1} [{2}/10]";
+        public static string ActivityWatchlist = "{0} added {1} to their watchlist";
+        public static string ActivityAddToList = "{0} added {1} to {2}";
+        public static string ActivityCreatedList = "{0} created list {1}";
+        public static string ActivityShouts = "{0} shouted on {1}";
+        public static string Activities = "Activities";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
         public static string AddToList = "Add to List";
@@ -225,6 +242,8 @@ namespace TraktPlugin.GUI
         public static string CreatingFilters = "Creating Filters";
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
+        public static string Community = "Community";
+        public static string CommunityActivity = "Community Activity";
         public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
         public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
         public static string CopyList = "Copy List...";        
@@ -259,6 +278,7 @@ namespace TraktPlugin.GUI
         public static string FirstAired = "First Aired";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
+        public static string FriendActivity = "Friend Activity";
         public static string FriendRequest = "Friend Request";
         public static string FriendRequestMessage = "You have {0} friend requests, approve or deny from friends window";
         public static string FullName = "Full Name";
@@ -268,6 +288,7 @@ namespace TraktPlugin.GUI
         public static string General = "General";
         public static string GeneralSettings = "General Settings";
         public static string GetFriendRequestsOnStartup = "Get Friend Requests on Startup";
+        public static string GettingActivity = "Getting Activity";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsRequests = "Getting Friends Requests";
@@ -328,6 +349,7 @@ namespace TraktPlugin.GUI
         public static string Name = "Name";
         public static string Network = "Network";
         public static string NextWeek = "Next Week";
+        public static string NoActivities = "No Activity Found.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoEpisodesThisWeek = "No episodes on this week";
         public static string NoMovieSummary = "Movie summary is currently not available.";

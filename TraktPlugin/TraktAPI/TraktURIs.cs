@@ -68,6 +68,8 @@ namespace TraktPlugin.TraktAPI
         public const string RelatedMovies = @"http://api.trakt.tv/movie/related.json/" + ApiKey + @"/{0}{1}";
         public const string RelatedShows = @"http://api.trakt.tv/show/related.json/" + ApiKey + @"/{0}{1}";
         public const string ActivityUser = @"http://api.trakt.tv/activity/user.json/" + ApiKey + @"/{0}/{1}/{2}";
+        public const string ActivityFriends = @"http://api.trakt.tv/activity/friends.json/" + ApiKey + @"/{0}/{1}{2}";
+        public const string ActivityCommunity = @"http://api.trakt.tv/activity/community.json/" + ApiKey + @"/{0}/{1}{2}";
         public const string AccountSettings = @"http://api.trakt.tv/account/settings/" + ApiKey;
         public const string RateMovies = @"http://api.trakt.tv/rate/movies/" + ApiKey;
         public const string RateShows = @"http://api.trakt.tv/rate/shows/" + ApiKey;

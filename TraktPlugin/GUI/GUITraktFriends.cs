@@ -1767,44 +1767,8 @@ namespace TraktPlugin.GUI
     /// Extends TraktUserProfile with properties we can
     /// use to notify the facade for loading
     /// </summary>
-    public class GUIFriendItem : TraktUserProfile, INotifyPropertyChanged
+    public class GUIFriendItem : TraktUserProfile
     {
-        #region INotifyPropertyChanged
-
-        /// <summary>
-        /// Path to local Avatar Image
-        /// </summary>
-        public string AvatarFilename
-        { 
-            get
-            {
-                string filename = string.Empty;
-                if (!string.IsNullOrEmpty(Avatar))
-                {
-                    string folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
-                    filename = Path.Combine(folder, Path.GetFileName(new Uri(Avatar).LocalPath));
-                }
-                return filename;
-            }
-            set
-            {
-                _AvatarFilename = value; 
-            } 
-        }
-        string _AvatarFilename = string.Empty;
-
-        /// <summary>
-        /// Notify image property change during async image downloading
-        /// Sends messages to facade to update image
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 
     public class GUITraktUserListItem : GUIListItem
