@@ -16,7 +16,6 @@ namespace TraktPlugin
     {
         #region Private Variables
 
-        private TraktActivity PreviousActivity = null;
         private long ActivityStartTime = 0;
 
         private Timer ActivityTimer = null;
@@ -128,7 +127,7 @@ namespace TraktPlugin
                 string activityImage = GetActivityImage(activity);
                 string avatarImage = GetAvatarImage(activity);
 
-                item.Label2 = string.Format("{0}", activity.Timestamp.FromEpoch().ToLocalTime().ToShortTimeString());
+                item.Label2 = activity.Timestamp.FromEpoch().ToLocalTime().ToShortTimeString();
                 item.TVTag = activity;
                 item.Item = activity.User;
                 item.ItemId = Int32.MaxValue - itemId;
@@ -481,12 +480,24 @@ namespace TraktPlugin
 
         #region Public Properties
 
+        public TraktActivity PreviousActivity { get; set; }
+
         #endregion
 
         #region Public Methods
 
         public void Init()
         {
+            // Load from Persisted Settings
+            if (TraktSettings.LastActivityLoad != null && TraktSettings.LastActivityLoad.Activities != null)
+            {
+                PreviousActivity = TraktSettings.LastActivityLoad;
+                if (TraktSettings.LastActivityLoad.Timestamps != null)
+                {
+                    ActivityStartTime = TraktSettings.LastActivityLoad.Timestamps.Current;
+                }
+            }
+
             // initalize timercallbacks
             if (TraktSkinSettings.DashBoardActivityWindows.Count > 0)
             {

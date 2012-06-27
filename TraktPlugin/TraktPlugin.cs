@@ -219,6 +219,9 @@ namespace TraktPlugin
             // Unload Plugin Handlers
             UnLoadPluginHandlers();
 
+            // save dashboard data
+            TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
+
             // save settings
             TraktSettings.saveSettings();
 
