@@ -341,39 +341,14 @@ namespace TraktPlugin.TraktHandlers
             var categoryTraktList = movieListAll.Where(m => m.CategoryTrakt.Count > 0).ToList();
             TraktLogger.Info("{0} trakt-categorized movies available in MyFilms database", categoryTraktList.Count.ToString());
 
+            #region update watchlist tags
             IEnumerable<TraktWatchListMovie> traktWatchListMovies = null;
-            IEnumerable<TraktMovie> traktRecommendationMovies = null;
-            IEnumerable<TraktTrendingMovie> traktTrendingMovies = null;
-            IEnumerable<TraktUserList> traktUserLists = null;
-
-            // Trakt 'tags' - might be localized ...
-            const string Watchlist = "Watchlist"; // Translation.WatchList;
-            const string Recommendations = "Recommendations"; // Translation.Recommendations;
-            const string Trending = "Trending"; // Translation.Trending;
-            const string Userlist = "Userlist"; // Translation.List;
-
-            #region read data from trakt site
+            string Watchlist = Translation.WatchList;
             TraktLogger.Info("Retrieving watchlist from trakt");
             traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
             TraktLogger.Info("Retrieved {0} watchlist items from trakt", traktWatchListMovies.Count());
-
-            TraktLogger.Info("Retrieving recommendations from trakt");
-            traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
-            TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
-
-            TraktLogger.Info("Retrieving trending movies from trakt");
-            traktTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
-            TraktLogger.Info("Retrieved {0} trending items from trakt", traktTrendingMovies.Count());
-
-            TraktLogger.Info("Retrieving user lists from trakt");
-            traktUserLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
-            TraktLogger.Info("Retrieved {0} user lists from trakt", traktUserLists.Count());
-            #endregion
-            
-            // update trakt tags ...
             if (traktWatchListMovies != null)
             {
-                #region update watchlist tags
                 var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Watchlist)).ToList();  //movieListAll.ToList();
                 foreach (var trm in traktWatchListMovies)
                 {
@@ -397,12 +372,17 @@ namespace TraktPlugin.TraktHandlers
                     movie.Username = TraktSettings.Username;
                     movie.Commit();
                 }
-                #endregion
             }
+            #endregion
 
+            #region update recommendation tags
+            IEnumerable<TraktMovie> traktRecommendationMovies = null;
+            string Recommendations = Translation.Recommendations;
+            TraktLogger.Info("Retrieving recommendations from trakt");
+            traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+            TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
             if (traktRecommendationMovies != null)
             {
-                #region update recommendation tags
                 var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Recommendations)).ToList();
                 foreach (var trm in traktRecommendationMovies)
                 {
@@ -428,11 +408,17 @@ namespace TraktPlugin.TraktHandlers
                     movie.Username = TraktSettings.Username;
                     movie.Commit();
                 }
-                #endregion
             }
+            #endregion
+
+            #region update trending tags
+            IEnumerable<TraktTrendingMovie> traktTrendingMovies = null;
+            string Trending = Translation.Trending;
+            TraktLogger.Info("Retrieving trending movies from trakt");
+            traktTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+            TraktLogger.Info("Retrieved {0} trending items from trakt", traktTrendingMovies.Count());
             if (traktTrendingMovies != null)
             {
-                #region update trending tags
                 var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Trending)).ToList();
                 foreach (var trm in traktTrendingMovies)
                 {
@@ -459,16 +445,21 @@ namespace TraktPlugin.TraktHandlers
                     movie.Username = TraktSettings.Username;
                     movie.Commit();
                 }
-                #endregion
             }
+            #endregion
 
+            #region update user list tags
+            IEnumerable<TraktUserList> traktUserLists = null;
+            string Userlist = Translation.List;
+            TraktLogger.Info("Retrieving user lists from trakt");
+            traktUserLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+            TraktLogger.Info("Retrieved {0} user lists from trakt", traktUserLists.Count());
             if (traktUserLists != null)
             {
-                #region update user list tags
                 foreach (TraktUserList traktUserList in traktUserLists)
                 {
                     TraktUserList traktUserListMovies = TraktAPI.TraktAPI.GetUserList(TraktSettings.Username, traktUserList.Slug);
-                    string userListName = Userlist + " - " + traktUserList.Name;
+                    string userListName = Userlist + ": " + traktUserList.Name;
                     var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(userListName)).ToList();
                     TraktLogger.Info("Processing trakt user list '{0}' as tag '{1}' with '{2}' items", traktUserList.Name, userListName, traktUserListMovies.Items.Count);
 
@@ -496,8 +487,9 @@ namespace TraktPlugin.TraktHandlers
                         movie.Commit();
                     }
                 }
-                #endregion
             }
+            #endregion
+
             #endregion
 
             SyncInProgress = false;
@@ -773,6 +765,7 @@ namespace TraktPlugin.TraktHandlers
 
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
                     TraktAPI.TraktAPI.LogTraktResponse(response);
+                    // UpdateRecommendations();
                 })
                 {
                     IsBackground = true,
@@ -940,6 +933,49 @@ namespace TraktPlugin.TraktHandlers
                 Name = "Rate",
                 IsBackground = true
             }.Start(movie);
+        }
+
+        /// <summary>
+        /// Updates the recommended movies to local library
+        /// </summary>
+        private void UpdateRecommendations()
+        {
+            ArrayList myvideos = new ArrayList();
+            BaseMesFilms.GetMovies(ref myvideos);
+            List<MFMovie> movieListAll = (from MFMovie movie in myvideos select movie).ToList(); // Add tags also to blocked movies, as it is only local
+            IEnumerable<TraktMovie> traktRecommendationMovies = null;
+
+            traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+            TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
+            
+            if (traktRecommendationMovies != null)
+            {
+                var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Translation.Recommendations)).ToList();
+                foreach (var trm in traktRecommendationMovies)
+                {
+                    foreach (var movie in movieListAll.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == trm.Imdb || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year.ToString() == trm.Year)))
+                    {
+                        if (!movie.CategoryTrakt.Contains(Translation.Recommendations))
+                        {
+                            // update local trakt category
+                            TraktLogger.Info("Inserting trakt category '{0}' for movie '{1} ({2})'", Translation.Recommendations, movie.Title, movie.Year);
+                            movie.CategoryTrakt.Add(Translation.Recommendations);
+                            movie.Username = TraktSettings.Username;
+                            movie.Commit();
+                        }
+                        cleanupList.Remove(movie);
+                    }
+                }
+                // remove tag from remaining films
+                foreach (var movie in cleanupList)
+                {
+                    // update local trakt category
+                    TraktLogger.Info("Removing trakt category '{0}' for movie '{1} ({2})'", Translation.Recommendations, movie.Title, movie.Year);
+                    movie.CategoryTrakt.Remove(Translation.Recommendations);
+                    movie.Username = TraktSettings.Username;
+                    movie.Commit();
+                }
+            }
         }
         #endregion
 
