@@ -9,11 +9,22 @@ using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin
 {
     internal class TraktDashboard
     {
+        #region Enums
+
+        enum ContextMenuItem
+        {
+            ShowCommunityActivity,
+            ShowFriendActivity
+        }
+
+        #endregion
+
         #region Private Variables
 
         private long ActivityStartTime = 0;
@@ -476,6 +487,67 @@ namespace TraktPlugin
             }
         }
 
+        private bool IsDashBoardWindow()
+        {
+            bool hasDashBoard = false;
+
+            if (TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+                hasDashBoard = true;
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+                hasDashBoard = true;
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+                hasDashBoard = true;
+
+            return hasDashBoard;
+        }
+
+        private void ShowActivityContextMenu()
+        {
+            var activityFacade = GetActivityFacade();
+            if (activityFacade == null) return;
+
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return;
+
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem listItem = null;
+
+            // switch between Community / Friends
+            if (!TraktSettings.ShowCommunityActivity)
+            {
+                listItem = new GUIListItem(Translation.ShowCommunityActivity);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.ShowCommunityActivity;
+            }
+            else
+            {
+                listItem = new GUIListItem(Translation.ShowFriendActivity);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.ShowFriendActivity;
+            }
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)ContextMenuItem.ShowCommunityActivity):
+                    TraktSettings.ShowCommunityActivity = true;
+                    PreviousActivity = null;
+                    StartActivityPolling();
+                    break;
+
+                case ((int)ContextMenuItem.ShowFriendActivity):
+                    TraktSettings.ShowCommunityActivity = false;
+                    PreviousActivity = null;
+                    StartActivityPolling();
+                    break;
+            }
+        }
+
         #endregion
 
         #region Public Properties
@@ -484,10 +556,51 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Event Handlers
+
+        private void GUIWindowManager_Receivers(GUIMessage message)
+        {
+            if (!IsDashBoardWindow()) return;
+
+            switch (message.Message)
+            {                   
+                case GUIMessage.MessageType.GUI_MSG_CLICKED:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void GUIWindowManager_OnNewAction(Action action)
+        {
+            if (!IsDashBoardWindow()) return;
+
+            var activeWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_CONTEXT_MENU:
+                    if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade)
+                    {
+                        ShowActivityContextMenu();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
         #region Public Methods
 
         public void Init()
         {
+            GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
+            GUIWindowManager.OnNewAction +=new OnActionHandler(GUIWindowManager_OnNewAction);
+
             // Load from Persisted Settings
             if (TraktSettings.LastActivityLoad != null && TraktSettings.LastActivityLoad.Activities != null)
             {

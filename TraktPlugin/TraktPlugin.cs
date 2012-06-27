@@ -798,17 +798,7 @@ namespace TraktPlugin
 
             switch (message.Message)
             {
-                case GUIMessage.MessageType.GUI_MSG_RECORDER_VIEW_CHANNEL:
-                    TraktLogger.Info("GUI_MSG_RECORDER_VIEW_CHANNEL");
-                    break;
-                case GUIMessage.MessageType.GUI_MSG_TUNE_EXTERNAL_CHANNEL:
-                    TraktLogger.Info("GUI_MSG_TUNE_EXTERNAL_CHANNEL");
-                    break;
-                case GUIMessage.MessageType.GUI_MSG_RESUME_TV:
-                    TraktLogger.Info("GUI_MSG_RESUME_TV");
-                    break;
-
-                case GUIMessage.MessageType.GUI_MSG_CLICKED:                    
+                case GUIMessage.MessageType.GUI_MSG_CLICKED:
                     switch (GUIWindowManager.ActiveWindow)
                     {
                         case (int)ExternalPluginWindows.OnlineVideos:
