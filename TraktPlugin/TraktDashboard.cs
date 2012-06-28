@@ -57,6 +57,13 @@ namespace TraktPlugin
 
         private void ClearActivityProperties()
         {
+            GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", "none");
+            GUIUtils.SetProperty("#Trakt.Selected.Activity.Action", "none");
+
+            GUICommon.ClearEpisodeProperties();
+            GUICommon.ClearMovieProperties();
+            GUICommon.ClearEpisodeProperties();
+
             GUIUtils.SetProperty("#Trakt.Activity.Count", "0");
             GUIUtils.SetProperty("#Trakt.Activity.Items", string.Format("0 {0}", Translation.Activities));
             GUIUtils.SetProperty("#Trakt.Activity.Description", TraktSettings.ShowCommunityActivity ? Translation.ActivityCommunityDesc : Translation.ActivityFriendsDesc);
@@ -148,7 +155,7 @@ namespace TraktPlugin
                 item.IconImageBig = avatarImage;
                 item.ThumbnailImage = avatarImage;
                 item.PinImage = activityImage;
-                //item.OnItemSelected += OnActivitySelected;
+                item.OnItemSelected += OnActivitySelected;
                 facade.Add(item);
                 itemId++;
 
@@ -587,6 +594,71 @@ namespace TraktPlugin
         #endregion
 
         #region Event Handlers
+
+        private void OnActivitySelected(GUIListItem item, GUIControl parent)
+        {
+            TraktActivity.Activity activity = item.TVTag as TraktActivity.Activity;
+            if (activity == null)
+            {
+                return;
+            }
+
+            // set type and action properties
+            GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", activity.Type);
+            GUIUtils.SetProperty("#Trakt.Selected.Activity.Action", activity.Action);
+
+            switch (activity.Type)
+            {
+                case "episode":
+                    if (activity.Action == "seen" || activity.Action == "collection")
+                    {
+                        if (activity.Episodes.Count > 1)
+                        {
+                            GUICommon.SetEpisodeProperties(activity.Episodes.First());
+                        }
+                        else
+                        {
+                            GUICommon.SetEpisodeProperties(activity.Episode);
+                        }
+                    }
+                    else
+                    {
+                        GUICommon.SetEpisodeProperties(activity.Episode);
+                    }
+                    GUICommon.SetShowProperties(activity.Show);
+                    break;
+
+                case "show":
+                    GUICommon.SetShowProperties(activity.Show);
+                    break;
+
+                case "movie":
+                    GUICommon.SetMovieProperties(activity.Movie);
+                    break;
+
+                case "list":
+                    if (activity.Action == "item_added")
+                    {
+                        // return the name of the item added to the list
+                        switch (activity.ListItem.Type)
+                        {
+                            case "show":
+                                GUICommon.SetShowProperties(activity.Show);
+                                break;
+
+                            case "episode":
+                                GUICommon.SetShowProperties(activity.Show);
+                                GUICommon.SetEpisodeProperties(activity.Episode);
+                                break;
+
+                            case "movie":
+                                GUICommon.SetMovieProperties(activity.Movie);
+                                break;
+                        }
+                    }
+                    break;
+            }
+        }        
 
         private void GUIWindowManager_Receivers(GUIMessage message)
         {
