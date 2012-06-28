@@ -38,6 +38,7 @@ namespace TraktPlugin.GUI
 
     enum TraktDashboardControls
     {
+        DashboardAnimation = 98299,
         ActivityFacade = 98300,
         TrendingShowsFacade = 98301,
         TrendingMoviesFacade = 98302

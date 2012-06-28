@@ -27,6 +27,8 @@ namespace TraktPlugin
 
         #region Private Variables
 
+        GUIAnimation UpdateAnimationControl = null;
+
         private long ActivityStartTime = 0;
 
         private Timer ActivityTimer = null;
@@ -377,6 +379,8 @@ namespace TraktPlugin
 
         private TraktActivity GetActivity(bool community)
         {
+            SetUpdateAnimation(true);
+
             if (PreviousActivity == null || ActivityStartTime <= 0)
             {
                 PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity();
@@ -409,6 +413,8 @@ namespace TraktPlugin
             {
                 ActivityStartTime = PreviousActivity.Timestamps.Current;
             }
+
+            SetUpdateAnimation(false);
 
             return PreviousActivity;
         }
@@ -546,6 +552,30 @@ namespace TraktPlugin
                     StartActivityPolling();
                     break;
             }
+        }
+
+        private void SetUpdateAnimation(bool enable)
+        {
+            // get control
+            var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            var control = window.GetControl((int)TraktDashboardControls.DashboardAnimation);
+            if (control == null) return;
+
+            try
+            {
+                UpdateAnimationControl = control as GUIAnimation;
+
+                if (UpdateAnimationControl != null)
+                {
+                    if (enable)
+                        UpdateAnimationControl.AllocResources();
+                    else
+                        UpdateAnimationControl.Dispose();
+
+                    UpdateAnimationControl.Visible = enable;
+                }
+            }
+            catch (Exception) { }
         }
 
         #endregion
