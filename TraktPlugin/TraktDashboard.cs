@@ -34,6 +34,7 @@ namespace TraktPlugin
         private Timer ActivityTimer = null;
 
         bool StopAvatarDownload = false;
+        bool GetFullActivityLoad = false;
 
         #endregion
 
@@ -87,18 +88,21 @@ namespace TraktPlugin
             // no luck, possible skinning error
             if (facade == null) return;
 
-            // load facade if empty and we have activity already
-            // facade is empty on re-load of window
-            if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities.Count > 0)
+            lock (this)
             {
-                LoadActivityFacade(PreviousActivity, facade);
+                // load facade if empty and we have activity already
+                // facade is empty on re-load of window
+                if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities.Count > 0)
+                {
+                    LoadActivityFacade(PreviousActivity, facade);
+                }
+
+                // get latest activity
+                var activities = GetActivity(TraktSettings.ShowCommunityActivity);
+
+                // load activity into list
+                LoadActivityFacade(activities, facade);
             }
-
-            // get latest activity
-            var activities = GetActivity(TraktSettings.ShowCommunityActivity);
-
-            // load activity into list
-            LoadActivityFacade(activities, facade);
         }
 
         private void LoadActivityFacade(TraktActivity activities, GUIFacadeControl facade)
@@ -388,9 +392,10 @@ namespace TraktPlugin
         {
             SetUpdateAnimation(true);
 
-            if (PreviousActivity == null || ActivityStartTime <= 0)
+            if (PreviousActivity == null || ActivityStartTime <= 0 || GetFullActivityLoad)
             {
                 PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity();
+                GetFullActivityLoad = false;
             }
             else
             {
@@ -549,13 +554,13 @@ namespace TraktPlugin
             {
                 case ((int)ContextMenuItem.ShowCommunityActivity):
                     TraktSettings.ShowCommunityActivity = true;
-                    PreviousActivity = null;
+                    GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;
 
                 case ((int)ContextMenuItem.ShowFriendActivity):
                     TraktSettings.ShowCommunityActivity = false;
-                    PreviousActivity = null;
+                    GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;
             }
@@ -585,6 +590,63 @@ namespace TraktPlugin
             catch (Exception) { }
         }
 
+        private void PlayActivityItem(bool jumpTo)
+        {
+            // get control
+            var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            var control = window.GetControl((int)TraktDashboardControls.ActivityFacade);
+            if (control == null) return;
+
+            // get selected item in facade
+            var activityFacade = control as GUIFacadeControl;
+            TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+
+            switch (activity.Type)
+            {
+                case "episode":
+                    if (activity.Action == "seen" || activity.Action == "collection")
+                    {
+                        if (activity.Episodes.Count > 1)
+                        {
+                            GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                            return;
+                        }
+                    } 
+                    GUICommon.CheckAndPlayEpisode(activity.Show, activity.Episode);
+                    break;
+
+                case "show":
+                    GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                    break;
+
+                case "movie":
+                    GUICommon.CheckAndPlayMovie(jumpTo, activity.Movie);
+                    break;
+
+                case "list":
+                    if (activity.Action == "item_added")
+                    {
+                        // return the name of the item added to the list
+                        switch (activity.ListItem.Type)
+                        {
+                            case "show":
+                                GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                                break;
+
+                            case "episode":
+                                GUICommon.CheckAndPlayEpisode(activity.Show, activity.Episode);
+                                break;
+
+                            case "movie":
+                                GUICommon.CheckAndPlayMovie(jumpTo, activity.Movie);
+                                break;
+                        }
+                    }
+                    break;
+            }
+
+        }
+
         #endregion
 
         #region Public Properties
@@ -600,6 +662,7 @@ namespace TraktPlugin
             TraktActivity.Activity activity = item.TVTag as TraktActivity.Activity;
             if (activity == null)
             {
+                ClearActivityProperties();
                 return;
             }
 
@@ -664,9 +727,16 @@ namespace TraktPlugin
         {
             if (!IsDashBoardWindow()) return;
 
+            var activeWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            
             switch (message.Message)
             {                   
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
+                    if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade &&
+                        message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
+                    {
+                        PlayActivityItem(true);
+                    }
                     break;
 
                 default:
@@ -686,6 +756,14 @@ namespace TraktPlugin
                     if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade)
                     {
                         ShowActivityContextMenu();
+                    }
+                    break;
+
+                case Action.ActionType.ACTION_PLAY:
+                case Action.ActionType.ACTION_MUSIC_PLAY:
+                    if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade)
+                    {
+                        PlayActivityItem(false);
                     }
                     break;
 

@@ -92,6 +92,17 @@ namespace TraktPlugin.GUI
             return true;
         }
 
+        public static void CheckAndPlayMovie(bool jumpTo, TraktMovie movie)
+        {
+            if (movie == null) return;
+
+            string title = movie.Title;
+            string imdbid = movie.Imdb;
+            int year = Convert.ToInt32(movie.Year);
+
+            CheckAndPlayMovie(jumpTo, title, year, imdbid);
+        }
+
         /// <summary>
         /// Checks if a selected movie exists locally and plays movie or
         /// jumps to corresponding plugin details view
@@ -178,6 +189,12 @@ namespace TraktPlugin.GUI
 
         }
 
+        public static void CheckAndPlayEpisode(TraktShow show, TraktEpisode episode)
+        {
+            if (show == null || episode == null) return;
+            CheckAndPlayEpisode(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb, episode.Season, episode.Number);
+        }
+
         /// <summary>
         /// Checks if a selected episode exists locally and plays episode
         /// </summary>
@@ -208,6 +225,12 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
             }
+        }
+
+        public static void CheckAndPlayFirstUnwatched(TraktShow show)
+        {
+            if (show == null) return;
+            CheckAndPlayFirstUnwatched(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb);
         }
 
         /// <summary>
