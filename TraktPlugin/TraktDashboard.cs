@@ -67,9 +67,10 @@ namespace TraktPlugin
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", "none");
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Action", "none");
 
+            GUICommon.ClearUserProperties();
             GUICommon.ClearEpisodeProperties();
             GUICommon.ClearMovieProperties();
-            GUICommon.ClearEpisodeProperties();
+            GUICommon.ClearShowProperties();
 
             GUIUtils.SetProperty("#Trakt.Activity.Count", "0");
             GUIUtils.SetProperty("#Trakt.Activity.Items", string.Format("0 {0}", Translation.Activities));
@@ -851,7 +852,7 @@ namespace TraktPlugin
             TraktTrendingMovie movie = facade.SelectedListItem.TVTag as TraktTrendingMovie;
 
             GUICommon.CheckAndPlayMovie(jumpTo, movie);
-        }
+        }        
 
         #endregion
 
@@ -877,6 +878,8 @@ namespace TraktPlugin
             // set type and action properties
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", activity.Type);
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Action", activity.Action);
+
+            GUICommon.SetUserProperties(activity.User);
 
             switch (activity.Type)
             {

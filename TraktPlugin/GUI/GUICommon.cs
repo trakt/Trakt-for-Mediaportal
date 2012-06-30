@@ -523,6 +523,38 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty(property, propertyValue);
         }
 
+        internal static void ClearUserProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Avatar", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.AvatarFileName", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.FullName", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Gender", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.JoinDate", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.ApprovedDate", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Location", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
+        }
+
+        internal static void SetUserProperties(TraktUserProfile user)
+        {
+            SetProperty("#Trakt.User.About", user.About);
+            SetProperty("#Trakt.User.Age", user.Age);
+            SetProperty("#Trakt.User.Avatar", user.Avatar);
+            SetProperty("#Trakt.User.AvatarFileName", user.AvatarFilename);
+            SetProperty("#Trakt.User.FullName", user.FullName);
+            SetProperty("#Trakt.User.Gender", user.Gender);
+            SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
+            SetProperty("#Trakt.User.ApprovedDate", user.ApprovedDate == 0 ? "N/A" : user.ApprovedDate.FromEpoch().ToLongDateString());
+            SetProperty("#Trakt.User.Location", user.Location);
+            SetProperty("#Trakt.User.Protected", user.Protected);
+            SetProperty("#Trakt.User.Url", user.Url);
+            SetProperty("#Trakt.User.Username", user.Username);
+        }
+
         internal static void ClearMovieProperties()
         {
             GUIUtils.SetProperty("#Trakt.Movie.Imdb", string.Empty);

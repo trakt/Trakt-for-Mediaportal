@@ -1524,19 +1524,7 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Avatar", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.AvatarFileName", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.FullName", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Gender", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.JoinDate", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.ApprovedDate", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Location", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
-
+            GUICommon.ClearUserProperties();
             GUICommon.ClearShowProperties();
             GUICommon.ClearEpisodeProperties();
             GUICommon.ClearMovieProperties();
@@ -1544,18 +1532,7 @@ namespace TraktPlugin.GUI
 
         private void PublishFriendSkinProperties(GUIFriendItem user)
         {
-            GUICommon.SetProperty("#Trakt.User.About", user.About);
-            GUICommon.SetProperty("#Trakt.User.Age", user.Age);
-            GUICommon.SetProperty("#Trakt.User.Avatar", user.Avatar);
-            GUICommon.SetProperty("#Trakt.User.AvatarFileName", user.AvatarFilename);
-            GUICommon.SetProperty("#Trakt.User.FullName", user.FullName);
-            GUICommon.SetProperty("#Trakt.User.Gender", user.Gender);
-            GUICommon.SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
-            GUICommon.SetProperty("#Trakt.User.ApprovedDate", user.ApprovedDate == 0 ? "N/A" : user.ApprovedDate.FromEpoch().ToLongDateString());
-            GUICommon.SetProperty("#Trakt.User.Location", user.Location);
-            GUICommon.SetProperty("#Trakt.User.Protected", user.Protected);
-            GUICommon.SetProperty("#Trakt.User.Url", user.Url);
-            GUICommon.SetProperty("#Trakt.User.Username", user.Username);
+            GUICommon.SetUserProperties(user);
         }
 
         private void PublishEpisodeSkinProperties(TraktActivity.Activity episode)
