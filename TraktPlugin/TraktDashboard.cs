@@ -96,13 +96,17 @@ namespace TraktPlugin
 
         private void LoadActivity()
         {
+            GUIFacadeControl facade = null;
+
             // get the facade, may need to wait until
             // window has completely loaded
             if (TraktSkinSettings.DashboardActivityFacadeType.ToLowerInvariant() != "none")
             {
-                var facade = GetFacade((int)TraktDashboardControls.ActivityFacade);
+                facade = GetFacade((int)TraktDashboardControls.ActivityFacade);
                 if (facade == null) return;
 
+                // we may trigger a re-load by switching from
+                // community->friends->community
                 lock (this)
                 {
                     // load facade if empty and we have activity already
@@ -123,7 +127,9 @@ namespace TraktPlugin
                     LoadActivityFacade(activities, facade);
                 }
             }
-            else if (TraktSkinSettings.DashboardActivityPropertiesMaxItems > 0)
+            
+            // only need to publish properties
+            if (facade == null && TraktSkinSettings.DashboardActivityPropertiesMaxItems > 0)
             {
                 // get latest activity
                 var activities = GetActivity(TraktSettings.ShowCommunityActivity);
@@ -238,9 +244,11 @@ namespace TraktPlugin
 
         private void LoadTrendingMovies()
         {
+            GUIFacadeControl facade = null;
+
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
-                var facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
+                facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
                 if (facade == null) return;
 
                 // load facade if empty and we have trending already
@@ -259,9 +267,10 @@ namespace TraktPlugin
 
                 // load trending into list
                 LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
-
             }
-            else if (TraktSkinSettings.DashboardTrendingFacadeMaxItems > 0)
+            
+            // only publish skin properties
+            if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
                 PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
@@ -379,9 +388,11 @@ namespace TraktPlugin
 
         private void LoadTrendingShows()
         {
+            GUIFacadeControl facade = null;
+
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
-                var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+                facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
                 if (facade == null) return;
 
                 // load facade if empty and we have trending already
@@ -401,7 +412,9 @@ namespace TraktPlugin
                 // load trending into list
                 LoadTrendingShowsFacade(PreviousTrendingShows, facade);
             }
-            else if (TraktSkinSettings.DashboardTrendingFacadeMaxItems > 0)
+            
+            // only publish skin properties
+            if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
                 PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
@@ -747,7 +760,7 @@ namespace TraktPlugin
                 if (incrementalActivity != null)
                 {
                     TraktLogger.Debug("Response: {0}", incrementalActivity.ToJSON());
-                    PreviousActivity.Activities = incrementalActivity.Activities.Union(PreviousActivity.Activities).Take(100).ToList();
+                    PreviousActivity.Activities = incrementalActivity.Activities.Union(PreviousActivity.Activities).Take(TraktSkinSettings.DashboardActivityFacadeMaxItems).ToList();
                     PreviousActivity.Timestamps = incrementalActivity.Timestamps;
                 }
             }

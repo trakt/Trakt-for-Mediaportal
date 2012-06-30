@@ -89,7 +89,8 @@ namespace TraktPlugin.GUI
             DashboardTrendingPropertiesMaxItems = 0;
 
             DashboardTrendingFacadeMaxItems = 10;
-            DashboardActivityFacadeMaxItems = 100;
+            DashboardActivityFacadeMaxItems = 25;
+
             DashboardActivityFacadeType = "None";
             DashboardTrendingFacadeType = "None";
 
@@ -111,6 +112,13 @@ namespace TraktPlugin.GUI
                     DashboardActivityFacadeType = node.InnerText;
                 }
 
+                node = rootNode.SelectSingleNode("facademaxitems");
+                if (node != null)
+                {
+                    int maxItems;
+                    if (int.TryParse(node.InnerText, out maxItems))
+                        DashboardActivityFacadeMaxItems = maxItems;
+                }
                 node = rootNode.SelectSingleNode("propertiesmaxitems");
                 if (node != null)
                 {
