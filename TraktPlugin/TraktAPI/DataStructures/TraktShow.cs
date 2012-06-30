@@ -80,7 +80,11 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 {
                     if (TraktSettings.DownloadFullSizeFanart)
                         return _fanart;
-                    return _fanart.Replace(".jpg", "-940.jpg");
+
+                    if (_fanart != null && !_fanart.EndsWith("-940.jpg"))
+                        return _fanart.Replace(".jpg", "-940.jpg");
+                    else
+                        return _fanart;
                 }
                 set
                 {
@@ -94,7 +98,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
             {
                 get
                 {
-                    return _poster.Replace(".jpg", "-300.jpg");
+                    if (_poster != null && !_poster.EndsWith("-300.jpg"))
+                        return _poster.Replace(".jpg", "-300.jpg");
+                    return _poster;
                 }
                 set
                 {

@@ -298,6 +298,7 @@
   <string Field="Timeout">Timeout</string>
   <string Field="Trending">Trending</string>
   <string Field="TrendingShows">Trending Shows</string>
+  <string Field="TrendingShowsAndMovies">Trending Shows and Movies</string>
   <string Field="TrendingMovies">Trending Movies</string>
   <string Field="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
   <string Field="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>

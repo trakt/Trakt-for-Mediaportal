@@ -478,6 +478,7 @@ namespace TraktPlugin.GUI
         public static string Trending = "Trending";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";
+        public static string TrendingShowsAndMovies = "Trending TV Shows and Movies";
         public static string TrendingMoviePeople = "There are {0} people watching {1} movies right now!";
         public static string TrendingTVShowsPeople = "There are {0} people watching {1} tv shows right now!";
         public static string TVShow = "TV Show";

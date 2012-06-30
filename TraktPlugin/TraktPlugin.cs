@@ -221,6 +221,8 @@ namespace TraktPlugin
 
             // save dashboard data
             TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
+            TraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
+            TraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
 
             // save settings
             TraktSettings.saveSettings();
@@ -764,10 +766,14 @@ namespace TraktPlugin
             if (TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartActivityPolling();
+                dashBoard.StartTrendingShowsPolling();
+                dashBoard.StartTrendingMoviesPolling();
             }
             else
             {
                 dashBoard.StopActivityPolling();
+                dashBoard.StopTrendingShowsPolling();
+                dashBoard.StopTrendingMoviesPolling();
             }
             #endregion
 
