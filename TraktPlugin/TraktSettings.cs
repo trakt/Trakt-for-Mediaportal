@@ -69,6 +69,8 @@ namespace TraktPlugin
         public static TraktActivity LastActivityLoad { get; set; }
         public static IEnumerable<TraktTrendingMovie> LastTrendingMovies { get; set; }
         public static IEnumerable<TraktTrendingShow> LastTrendingShows { get; set; }
+        public static int DashboardActivityPollInterval { get; set; }
+        public static int DashboardTrendingPollInterval { get; set; }
         #endregion
 
         #region Constants
@@ -128,6 +130,8 @@ namespace TraktPlugin
         private const string cLastActivityLoad = "LastActivityLoad";
         private const string cLastTrendingMovies = "LastTrendingMovies";
         private const string cLastTrendingShows = "LastTrendingShows";
+        private const string cDashboardActivityPollInterval = "DashboardActivityPollInterval";
+        private const string cDashboardTrendingPollInterval = "DashboardTrendingPollInterval";
         #endregion
 
         #region Properties
@@ -343,6 +347,8 @@ namespace TraktPlugin
                 LastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
                 LastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
                 LastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
+                DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
+                DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
             }
         }
 
@@ -407,6 +413,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cLastActivityLoad, LastActivityLoad.ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingShows, LastTrendingShows.ToList().ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingMovies, LastTrendingMovies.ToList().ToJSON());
+                xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
+                xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
             }
 
             Settings.SaveCache();

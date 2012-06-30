@@ -69,7 +69,7 @@ namespace TraktPlugin
                 facade = window.GetControl(facadeID) as GUIFacadeControl;
                 if (facade == null)
                 {
-                    TraktLogger.Debug("Facade not ready: {0}", i.ToString());
+                    TraktLogger.Debug("Facade [id:{0}] not ready!", facadeID.ToString());
                     Thread.Sleep(100);
                 }
                 i++;
@@ -1242,7 +1242,7 @@ namespace TraktPlugin
         {
             if (TrendingMoviesTimer != null)
             {
-                TrendingMoviesTimer.Change(0, 300000);
+                TrendingMoviesTimer.Change(0, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1250,7 +1250,7 @@ namespace TraktPlugin
         {
             if (TrendingShowsTimer != null)
             {
-                TrendingShowsTimer.Change(0, 300000);
+                TrendingShowsTimer.Change(0, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1258,7 +1258,7 @@ namespace TraktPlugin
         {
             if (ActivityTimer != null)
             {
-                ActivityTimer.Change(0, 15000);
+                ActivityTimer.Change(0, TraktSettings.DashboardActivityPollInterval);
             }
         }
 

@@ -472,6 +472,10 @@ namespace TraktPlugin.GUI
         public static string SettingSyncRatingsDescription = "Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.";
         public static string SettingShowRateDialogOnWatchedName = "Show Rate Dialog on Watched";
         public static string SettingShowRateDialogOnWatchedDescription = "Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated or if the plugin is already set to show its own dialog.";
+        public static string SettingActivityPollIntervalName = "Dashboard Activity Poll Interval";
+        public static string SettingActivityPollIntervalDescription = "Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.";
+        public static string SettingTrendingPollIntervalName = "Dashboard Trending Poll Interval";
+        public static string SettingTrendingPollIntervalDescription = "Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.";
 
         // T
         public static string Timeout = "Timeout";
