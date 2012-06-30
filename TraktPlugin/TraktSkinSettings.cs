@@ -25,8 +25,11 @@ namespace TraktPlugin.GUI
         public static List<string> DashBoardActivityWindows { get; set; }
         public static List<string> DashBoardTrendingShowsWindows { get; set; }
         public static List<string> DashBoardTrendingMoviesWindows { get; set; }
+        public static int DashboardActivityPropertiesMaxItems { get; set; }
+        public static int DashboardTrendingPropertiesMaxItems { get; set; }
         public static int DashboardActivityFacadeMaxItems { get; set; }
         public static int DashboardTrendingFacadeMaxItems { get; set; }
+        public static string DashboardActivityFacadeType { get; set; }
         public static string DashboardTrendingFacadeType { get; set; }
 
         public static void Init()
@@ -82,8 +85,13 @@ namespace TraktPlugin.GUI
             DashBoardTrendingShowsWindows = new List<string>();
             DashBoardTrendingMoviesWindows = new List<string>();
 
+            DashboardActivityPropertiesMaxItems = 0;
+            DashboardTrendingPropertiesMaxItems = 0;
+
             DashboardTrendingFacadeMaxItems = 10;
-            DashboardTrendingFacadeType = "Filmstrip";
+            DashboardActivityFacadeMaxItems = 100;
+            DashboardActivityFacadeType = "None";
+            DashboardTrendingFacadeType = "None";
 
             XmlNode rootNode = null;
             XmlNode node = null;
@@ -96,17 +104,45 @@ namespace TraktPlugin.GUI
                 {
                     DashBoardActivityWindows = node.InnerText.Split('|').ToList();
                 }
+
+                node = rootNode.SelectSingleNode("facadetype");
+                if (node != null)
+                {
+                    DashboardActivityFacadeType = node.InnerText;
+                }
+
+                node = rootNode.SelectSingleNode("propertiesmaxitems");
+                if (node != null)
+                {
+                    int maxItems;
+                    if (int.TryParse(node.InnerText, out maxItems))
+                        DashboardActivityPropertiesMaxItems = maxItems;
+                }
             }
 
             rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending");
             if (rootNode != null)
             {
+                node = rootNode.SelectSingleNode("facadetype");
+                if (node != null)
+                {
+                    DashboardTrendingFacadeType = node.InnerText;
+                }
+
                 node = rootNode.SelectSingleNode("facademaxitems");
                 if (node != null)
                 {
                     int maxItems;
                     if (int.TryParse(node.InnerText, out maxItems))
                         DashboardTrendingFacadeMaxItems = maxItems;
+                }
+
+                node = rootNode.SelectSingleNode("propertiesmaxitems");
+                if (node != null)
+                {
+                    int maxItems;
+                    if (int.TryParse(node.InnerText, out maxItems))
+                        DashboardTrendingPropertiesMaxItems = maxItems;
                 }
 
                 node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending/shows");

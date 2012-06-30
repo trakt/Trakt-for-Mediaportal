@@ -54,15 +54,32 @@ namespace TraktPlugin
 
         private GUIFacadeControl GetFacade(int facadeID)
         {
-            // get current window
-            var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            int i = 0;
+            GUIFacadeControl facade = null;
 
-            // get facade control
-            var control = window.GetControl(facadeID);
-            return control as GUIFacadeControl;
+            // window init message does not seem to work!!!
+            // so we need to be ensured that the window is fully loaded
+            // before we can get reference to a skin control
+            do
+            {
+                // get current window
+                var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+
+                // get facade control
+                facade = window.GetControl(facadeID) as GUIFacadeControl;
+                if (facade == null)
+                {
+                    TraktLogger.Debug("Facade not ready: {0}", i.ToString());
+                    Thread.Sleep(100);
+                }
+                i++;
+            }
+            while (i < 50 && facade == null);
+
+            return facade;
         }
 
-        private void ClearActivityProperties()
+        private void ClearSelectedActivityProperties()
         {
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", "none");
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Action", "none");
@@ -79,36 +96,67 @@ namespace TraktPlugin
 
         private void LoadActivity()
         {
-            GUIFacadeControl facade = null;
-            int i = 0;
-
             // get the facade, may need to wait until
             // window has completely loaded
-            do
+            if (TraktSkinSettings.DashboardActivityFacadeType.ToLowerInvariant() != "none")
             {
-                facade = GetFacade((int)TraktDashboardControls.ActivityFacade);
-                if (facade == null) Thread.Sleep(250);
-                i++;
-            }
-            while (i < 10 && facade == null);
+                var facade = GetFacade((int)TraktDashboardControls.ActivityFacade);
+                if (facade == null) return;
 
-            // no luck, possible skinning error
-            if (facade == null) return;
-
-            lock (this)
-            {
-                // load facade if empty and we have activity already
-                // facade is empty on re-load of window
-                if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities.Count > 0)
+                lock (this)
                 {
-                    LoadActivityFacade(PreviousActivity, facade);
-                }
+                    // load facade if empty and we have activity already
+                    // facade is empty on re-load of window
+                    if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities.Count > 0)
+                    {
+                        PublishActivityProperties(PreviousActivity);
+                        LoadActivityFacade(PreviousActivity, facade);
+                    }
 
+                    // get latest activity
+                    var activities = GetActivity(TraktSettings.ShowCommunityActivity);
+
+                    // publish properties
+                    PublishActivityProperties(activities);
+
+                    // load activity into list
+                    LoadActivityFacade(activities, facade);
+                }
+            }
+            else if (TraktSkinSettings.DashboardActivityPropertiesMaxItems > 0)
+            {
                 // get latest activity
                 var activities = GetActivity(TraktSettings.ShowCommunityActivity);
+                if (activities == null || activities.Activities == null) return;
 
-                // load activity into list
-                LoadActivityFacade(activities, facade);
+                // publish properties
+                PublishActivityProperties(activities);
+                
+                // download images
+                var avatarImages = new List<TraktUserProfile>();
+                avatarImages.AddRange(activities.Activities.Select(a => a.User).Take(TraktSkinSettings.DashboardActivityPropertiesMaxItems));
+                GetImages<TraktUserProfile>(avatarImages);
+            }
+        }
+
+        private void PublishActivityProperties()
+        {
+            PublishActivityProperties(PreviousActivity);
+        }
+        private void PublishActivityProperties(TraktActivity activity)
+        {
+            var activities = activity.Activities;
+            if (activities == null) return;
+
+            for (int i = 0; i < TraktSkinSettings.DashboardActivityPropertiesMaxItems; i++)
+            {
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Action", i), activities[i].Action);
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Type", i), activities[i].Type);
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.ActivityPinIcon", i), GetActivityImage(activities[i]));
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.ActivityPinIconNoExt", i), GetActivityImage(activities[i]).Replace(".png", string.Empty));
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Title", i), GetActivityItemName(activities[i]));
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Time", i), activities[i].Timestamp.FromEpoch().ToLocalTime().ToShortTimeString());
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Day", i), activities[i].Timestamp.FromEpoch().ToLocalTime().DayOfWeek.ToString().Substring(0,3));
             }
         }
 
@@ -122,8 +170,8 @@ namespace TraktPlugin
             {
                 GUIListItem item = new GUIListItem(Translation.NoActivities);
                 facade.Add(item);
-                facade.SetCurrentLayout("List");
-                ClearActivityProperties();
+                facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
+                ClearSelectedActivityProperties();
                 return;
             }
 
@@ -176,7 +224,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout("List");
+            facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Activity.Count", activities.Activities.Count().ToString());
@@ -190,34 +238,88 @@ namespace TraktPlugin
 
         private void LoadTrendingMovies()
         {
-            GUIFacadeControl facade = null;
-            int i = 0;
-
-            // get the facade, may need to wait until
-            // window has completely loaded
-            do
+            if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
-                facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
-                if (facade == null) Thread.Sleep(250);
-                i++;
-            }
-            while (i < 10 && facade == null);
+                var facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
+                if (facade == null) return;
 
-            // no luck, possible skinning error
-            if (facade == null) return;
+                // load facade if empty and we have trending already
+                // facade is empty on re-load of window
+                if (facade.Count == 0 && PreviousTrendingMovies != null && PreviousTrendingMovies.Count() > 0)
+                {
+                    PublishMovieProperties(PreviousTrendingMovies);
+                    LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
+                }
 
-            // load facade if empty and we have trending already
-            // facade is empty on re-load of window
-            if (facade.Count == 0 && PreviousTrendingMovies != null && PreviousTrendingMovies.Count() > 0)
-            {
+                // get latest trending
+                PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+
+                // publish properties
+                PublishMovieProperties(PreviousTrendingMovies);
+
+                // load trending into list
                 LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
+
             }
+            else if (TraktSkinSettings.DashboardTrendingFacadeMaxItems > 0)
+            {
+                // get latest trending
+                PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
+                if (PreviousTrendingMovies == null || PreviousTrendingMovies.Count() == 0) return;
 
-            // get latest trending
-            PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                // publish properties
+                PublishMovieProperties(PreviousTrendingMovies);
 
-            // load trending into list
-            LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
+                // download images
+                var movieImages = new List<TraktMovie.MovieImages>();
+                movieImages.AddRange(PreviousTrendingMovies.Select(m => m.Images).Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems));
+                GetImages<TraktMovie.MovieImages>(movieImages);
+            }
+        }
+
+        private void PublishMovieProperties()
+        {
+            PublishMovieProperties(PreviousTrendingMovies);
+        }
+        private void PublishMovieProperties(IEnumerable<TraktTrendingMovie> movies)
+        {
+            if (movies == null) return;
+
+            var movieList = movies.ToList();
+
+            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            {
+                var movie = movieList[i];
+
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), movie.Watchers.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
+
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Imdb", i), movie.Imdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), movie.Certification);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), movie.Released.FromEpoch().ToShortDateString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Runtime", i), movie.Runtime.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Tagline", i), movie.Tagline);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Title", i), movie.Title);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Tmdb", i), movie.Tmdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Trailer", i), movie.Trailer);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), movie.Url);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), movie.Year);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", movie.Genres.ToArray()));
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), movie.Images.PosterImageFilename);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), movie.Images.FanartImageFilename);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InCollection", i), movie.InCollection.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InWatchList", i), movie.InWatchList.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Plays", i), movie.Plays.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watched", i), movie.Watched.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Rating", i), movie.Rating);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.RatingAdvanced", i), movie.RatingAdvanced.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.HatedCount", i), movie.Ratings.HatedCount.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.LovedCount", i), movie.Ratings.LovedCount.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), movie.Ratings.Percentage.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), movie.Ratings.Votes.ToString());
+            }
         }
 
         private void LoadTrendingMoviesFacade(IEnumerable<TraktTrendingMovie> movies, GUIFacadeControl facade)
@@ -277,34 +379,83 @@ namespace TraktPlugin
 
         private void LoadTrendingShows()
         {
-            GUIFacadeControl facade = null;
-            int i = 0;
-
-            // get the facade, may need to wait until
-            // window has completely loaded
-            do
+            if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
-                facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
-                if (facade == null) Thread.Sleep(250);
-                i++;
-            }
-            while (i < 10 && facade == null);
+                var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+                if (facade == null) return;
 
-            // no luck, possible skinning error
-            if (facade == null) return;
+                // load facade if empty and we have trending already
+                // facade is empty on re-load of window
+                if (facade.Count == 0 && PreviousTrendingShows != null && PreviousTrendingShows.Count() > 0)
+                {
+                    PublishShowProperties(PreviousTrendingShows);
+                    LoadTrendingShowsFacade(PreviousTrendingShows, facade);
+                }
 
-            // load facade if empty and we have trending already
-            // facade is empty on re-load of window
-            if (facade.Count == 0 && PreviousTrendingShows != null && PreviousTrendingShows.Count() > 0)
-            {
+                // get latest trending
+                PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+
+                // publish properties
+                PublishShowProperties(PreviousTrendingShows);
+
+                // load trending into list
                 LoadTrendingShowsFacade(PreviousTrendingShows, facade);
             }
+            else if (TraktSkinSettings.DashboardTrendingFacadeMaxItems > 0)
+            {
+                // get latest trending
+                PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
+                if (PreviousTrendingShows == null || PreviousTrendingShows.Count() == 0) return;
 
-            // get latest trending
-            PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                // publish properties
+                PublishShowProperties(PreviousTrendingShows);
 
-            // load trending into list
-            LoadTrendingShowsFacade(PreviousTrendingShows, facade);
+                // download images
+                var showImages = new List<TraktShow.ShowImages>();
+                showImages.AddRange(PreviousTrendingShows.Select(s => s.Images).Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems));
+                GetImages<TraktShow.ShowImages>(showImages);
+            }
+        }
+
+        private void PublishShowProperties()
+        {
+            PublishShowProperties(PreviousTrendingShows);
+        }
+        private void PublishShowProperties(IEnumerable<TraktTrendingShow> shows)
+        {
+            if (shows == null) return;
+
+            var showList = shows.ToList();
+
+            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            {
+                var show = showList[i];
+
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Imdb", i), show.Imdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Tvdb", i), show.Tvdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvRage", i), show.TvRage);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Title", i), show.Title);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Url", i), show.Url);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.AirDay", i), show.AirDay);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.AirTime", i), show.AirTime);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Certification", i), show.Certification);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Country", i), show.Country);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FirstAired", i), show.FirstAired.FromEpoch().ToShortDateString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Network", i), show.Network);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Overview", i), string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Runtime", i), show.Runtime.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Year", i), show.Year.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Join(", ", show.Genres.ToArray()));
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), show.InWatchList.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), show.Rating);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.RatingAdvanced", i), show.RatingAdvanced.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.HatedCount", i), show.Ratings.HatedCount.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.LovedCount", i), show.Ratings.LovedCount.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), show.Ratings.Percentage.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), show.Ratings.Votes.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), show.Images.FanartImageFilename);
+            }
         }
 
         private void LoadTrendingShowsFacade(IEnumerable<TraktTrendingShow> shows, GUIFacadeControl facade)
@@ -668,16 +819,19 @@ namespace TraktPlugin
                                 {
                                     if (StopAvatarDownload) return;
                                     (item as TraktUserProfile).NotifyPropertyChanged("AvatarFilename");
+                                    PublishActivityProperties();
                                 }
                                 else if (item is TraktMovie.MovieImages)
                                 {
                                     if (StopTrendingMoviesDownload) return;
                                     (item as TraktMovie.MovieImages).NotifyPropertyChanged("PosterImageFilename");
+                                    PublishMovieProperties();
                                 }
                                 else if (item is TraktShow.ShowImages)
                                 {
                                     if (StopTrendingShowsDownload) return;
                                     (item as TraktShow.ShowImages).NotifyPropertyChanged("PosterImageFilename");
+                                    PublishShowProperties();
                                 }
                             }
                         }
@@ -871,7 +1025,7 @@ namespace TraktPlugin
             TraktActivity.Activity activity = item.TVTag as TraktActivity.Activity;
             if (activity == null)
             {
-                ClearActivityProperties();
+                ClearSelectedActivityProperties();
                 return;
             }
 
@@ -1056,7 +1210,7 @@ namespace TraktPlugin
             // initialize timercallbacks
             if (TraktSkinSettings.DashBoardActivityWindows.Count > 0)
             {
-                ClearActivityProperties();
+                ClearSelectedActivityProperties();
                 ActivityTimer = new Timer(new TimerCallback((o) => { LoadActivity(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
