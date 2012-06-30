@@ -213,7 +213,7 @@ namespace TraktPlugin
             }
 
             // get latest trending
-            PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(10);
+            PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
 
             // load trending into list
             LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
@@ -262,7 +262,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout("Filmstrip");
+            facade.SetCurrentLayout(TraktSkinSettings.DashboardTrendingFacadeType);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Movies.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
@@ -300,7 +300,7 @@ namespace TraktPlugin
             }
 
             // get latest trending
-            PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(10);
+            PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
 
             // load trending into list
             LoadTrendingShowsFacade(PreviousTrendingShows, facade);
@@ -349,7 +349,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout("Filmstrip");
+            facade.SetCurrentLayout(TraktSkinSettings.DashboardTrendingFacadeType);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Shows.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));

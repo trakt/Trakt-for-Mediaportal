@@ -25,6 +25,9 @@ namespace TraktPlugin.GUI
         public static List<string> DashBoardActivityWindows { get; set; }
         public static List<string> DashBoardTrendingShowsWindows { get; set; }
         public static List<string> DashBoardTrendingMoviesWindows { get; set; }
+        public static int DashboardActivityFacadeMaxItems { get; set; }
+        public static int DashboardTrendingFacadeMaxItems { get; set; }
+        public static string DashboardTrendingFacadeType { get; set; }
 
         public static void Init()
         {
@@ -64,39 +67,67 @@ namespace TraktPlugin.GUI
             GetOverlayPositions(doc);
 
             // Read Dashboard Skin Setings
-            GetActivityWindows(doc);
+            GetDashboardSkinSettings(doc);
         }
 
         /// <summary>
-        /// Gets the windows supported by skin to display activities and trending items
+        /// Gets the dashboard settings e.g. windows supported
         /// </summary>
         /// <param name="doc"></param>
-        private static void GetActivityWindows(XmlDocument doc)
+        private static void GetDashboardSkinSettings(XmlDocument doc)
         {
-            TraktLogger.Info("Loading Settings for Activity Windows");
+            TraktLogger.Info("Loading Settings for Dashboard");
 
             DashBoardActivityWindows = new List<string>();
             DashBoardTrendingShowsWindows = new List<string>();
             DashBoardTrendingMoviesWindows = new List<string>();
 
+            DashboardTrendingFacadeMaxItems = 10;
+            DashboardTrendingFacadeType = "Filmstrip";
+
+            XmlNode rootNode = null;
             XmlNode node = null;
 
-            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/activities");
-            if (node != null)
+            rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/activities");
+            if (rootNode != null)
             {
-                DashBoardActivityWindows = node.InnerText.Split('|').ToList();
+                node = rootNode.SelectSingleNode("windows");
+                if (node != null)
+                {
+                    DashBoardActivityWindows = node.InnerText.Split('|').ToList();
+                }
             }
 
-            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trendingshows");
-            if (node != null)
+            rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending");
+            if (rootNode != null)
             {
-                DashBoardTrendingShowsWindows = node.InnerText.Split('|').ToList();
-            }
+                node = rootNode.SelectSingleNode("facademaxitems");
+                if (node != null)
+                {
+                    int maxItems;
+                    if (int.TryParse(node.InnerText, out maxItems))
+                        DashboardTrendingFacadeMaxItems = maxItems;
+                }
 
-            node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trendingmovies");
-            if (node != null)
-            {
-                DashBoardTrendingMoviesWindows = node.InnerText.Split('|').ToList();
+                node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending/shows");
+                if (node != null)
+                {
+                    node = node.SelectSingleNode("windows");
+                    if (node != null)
+                    {
+                        DashBoardTrendingShowsWindows = node.InnerText.Split('|').ToList();
+                    }
+                }
+
+                node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending/movies");
+                if (node != null)
+                {
+                    node = node.SelectSingleNode("windows");
+                    if (node != null)
+                    {
+                        DashBoardTrendingMoviesWindows = node.InnerText.Split('|').ToList();
+                    }
+                }
             }
         }
 
