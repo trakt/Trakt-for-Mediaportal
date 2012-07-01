@@ -42,6 +42,9 @@ namespace TraktPlugin
 
         bool GetFullActivityLoad = false;
 
+        DateTime LastTrendingShowUpdate = DateTime.MinValue;
+        DateTime LastTrendingMovieUpdate = DateTime.MinValue;
+
         #endregion
 
         #region Constructor
@@ -260,28 +263,28 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
 
                 // publish properties
-                PublishMovieProperties(PreviousTrendingMovies);
+                PublishMovieProperties(trendingMovies);
 
                 // load trending into list
-                LoadTrendingMoviesFacade(PreviousTrendingMovies, facade);
+                LoadTrendingMoviesFacade(trendingMovies, facade);
             }
             
             // only publish skin properties
             if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
-                PreviousTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
-                if (PreviousTrendingMovies == null || PreviousTrendingMovies.Count() == 0) return;
+                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
+                if (trendingMovies == null || trendingMovies.Count() == 0) return;
 
                 // publish properties
-                PublishMovieProperties(PreviousTrendingMovies);
+                PublishMovieProperties(trendingMovies);
 
                 // download images
                 var movieImages = new List<TraktMovie.MovieImages>();
-                movieImages.AddRange(PreviousTrendingMovies.Select(m => m.Images).Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems));
+                movieImages.AddRange(trendingMovies.Select(m => m.Images));
                 GetImages<TraktMovie.MovieImages>(movieImages);
             }
         }
@@ -404,28 +407,28 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
 
                 // publish properties
-                PublishShowProperties(PreviousTrendingShows);
+                PublishShowProperties(trendingShows);
 
                 // load trending into list
-                LoadTrendingShowsFacade(PreviousTrendingShows, facade);
+                LoadTrendingShowsFacade(trendingShows, facade);
             }
             
             // only publish skin properties
             if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
-                PreviousTrendingShows = TraktAPI.TraktAPI.GetTrendingShows().Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
-                if (PreviousTrendingShows == null || PreviousTrendingShows.Count() == 0) return;
+                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
+                if (trendingShows == null || trendingShows.Count() == 0) return;
 
                 // publish properties
-                PublishShowProperties(PreviousTrendingShows);
+                PublishShowProperties(trendingShows);
 
                 // download images
                 var showImages = new List<TraktShow.ShowImages>();
-                showImages.AddRange(PreviousTrendingShows.Select(s => s.Images).Take(TraktSkinSettings.DashboardTrendingPropertiesMaxItems));
+                showImages.AddRange(trendingShows.Select(s => s.Images));
                 GetImages<TraktShow.ShowImages>(showImages);
             }
         }
@@ -731,6 +734,54 @@ namespace TraktPlugin
             }
 
             return name;
+        }
+
+        private IEnumerable<TraktTrendingMovie> GetTrendingMovies(int maxItems)
+        {
+            double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingMovieUpdate).TotalMilliseconds;
+
+            if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
+            {
+                var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                if (trendingMovies != null && trendingMovies.Count() > 0)
+                {
+                    TraktLogger.Debug("Getting trending movies from trakt");
+                    LastTrendingMovieUpdate = DateTime.Now;
+                    PreviousTrendingMovies = trendingMovies.Take(maxItems);
+                }
+            }
+            else
+            {
+                TraktLogger.Debug("Getting trending movies from cache");
+                // update start interval
+                int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
+                TrendingMoviesTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
+            }
+            return PreviousTrendingMovies;
+        }
+
+        private IEnumerable<TraktTrendingShow> GetTrendingShows(int maxItems)
+        {
+            double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingShowUpdate).TotalMilliseconds;
+
+            if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
+            {
+                TraktLogger.Debug("Getting trending shows from trakt");
+                var trendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                if (trendingShows != null && trendingShows.Count() > 0)
+                {
+                    LastTrendingShowUpdate = DateTime.Now;
+                    PreviousTrendingShows = trendingShows.Take(maxItems);
+                }
+            }
+            else
+            {
+                TraktLogger.Debug("Getting trending shows from cache");
+                // update start interval
+                int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
+                TrendingShowsTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
+            }
+            return PreviousTrendingShows;
         }
 
         private TraktActivity GetActivity(bool community)
