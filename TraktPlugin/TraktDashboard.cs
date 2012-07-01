@@ -980,15 +980,15 @@ namespace TraktPlugin
                         switch (activity.ListItem.Type)
                         {
                             case "show":
-                                GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                                GUICommon.CheckAndPlayFirstUnwatched(activity.ListItem.Show);
                                 break;
 
                             case "episode":
-                                GUICommon.CheckAndPlayEpisode(activity.Show, activity.Episode);
+                                GUICommon.CheckAndPlayEpisode(activity.ListItem.Show, activity.ListItem.Episode);
                                 break;
 
                             case "movie":
-                                GUICommon.CheckAndPlayMovie(jumpTo, activity.Movie);
+                                GUICommon.CheckAndPlayMovie(jumpTo, activity.ListItem.Movie);
                                 break;
                         }
                     }
@@ -1084,16 +1084,16 @@ namespace TraktPlugin
                         switch (activity.ListItem.Type)
                         {
                             case "show":
-                                GUICommon.SetShowProperties(activity.Show);
+                                GUICommon.SetShowProperties(activity.ListItem.Show);
                                 break;
 
                             case "episode":
-                                GUICommon.SetShowProperties(activity.Show);
-                                GUICommon.SetEpisodeProperties(activity.Episode);
+                                GUICommon.SetShowProperties(activity.ListItem.Show);
+                                GUICommon.SetEpisodeProperties(activity.ListItem.Episode);
                                 break;
 
                             case "movie":
-                                GUICommon.SetMovieProperties(activity.Movie);
+                                GUICommon.SetMovieProperties(activity.ListItem.Movie);
                                 break;
                         }
                     }
@@ -1138,6 +1138,7 @@ namespace TraktPlugin
             switch (message.Message)
             {                   
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
+                    if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
                     if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
                     {
                         PlayActivityItem(true);
