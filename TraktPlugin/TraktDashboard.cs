@@ -248,6 +248,7 @@ namespace TraktPlugin
         private void LoadTrendingMovies()
         {
             GUIFacadeControl facade = null;
+            bool isCached;
 
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
@@ -263,29 +264,37 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
+                
+                // prevent an unnessarary reload
+                if (!isCached && facade.Count > 0)
+                {
+                    // publish properties
+                    PublishMovieProperties(trendingMovies);
 
-                // publish properties
-                PublishMovieProperties(trendingMovies);
-
-                // load trending into list
-                LoadTrendingMoviesFacade(trendingMovies, facade);
+                    // load trending into list
+                    LoadTrendingMoviesFacade(trendingMovies, facade);
+                }
             }
             
             // only publish skin properties
             if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
-                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
-                if (trendingMovies == null || trendingMovies.Count() == 0) return;
+                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingPropertiesMaxItems, out isCached);
 
-                // publish properties
-                PublishMovieProperties(trendingMovies);
+                if (!isCached)
+                {
+                    if (trendingMovies == null || trendingMovies.Count() == 0) return;
 
-                // download images
-                var movieImages = new List<TraktMovie.MovieImages>();
-                movieImages.AddRange(trendingMovies.Select(m => m.Images));
-                GetImages<TraktMovie.MovieImages>(movieImages);
+                    // publish properties
+                    PublishMovieProperties(trendingMovies);
+
+                    // download images
+                    var movieImages = new List<TraktMovie.MovieImages>();
+                    movieImages.AddRange(trendingMovies.Select(m => m.Images));
+                    GetImages<TraktMovie.MovieImages>(movieImages);
+                }
             }
         }
 
@@ -392,6 +401,7 @@ namespace TraktPlugin
         private void LoadTrendingShows()
         {
             GUIFacadeControl facade = null;
+            bool isCached;
 
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
@@ -407,29 +417,37 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingFacadeMaxItems);
+                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
 
-                // publish properties
-                PublishShowProperties(trendingShows);
+                // precent an unnessarary reload
+                if (!isCached && facade.Count > 0)
+                {
+                    // publish properties
+                    PublishShowProperties(trendingShows);
 
-                // load trending into list
-                LoadTrendingShowsFacade(trendingShows, facade);
+                    // load trending into list
+                    LoadTrendingShowsFacade(trendingShows, facade);
+                }
             }
             
             // only publish skin properties
             if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
             {
                 // get latest trending
-                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingPropertiesMaxItems);
-                if (trendingShows == null || trendingShows.Count() == 0) return;
+                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingPropertiesMaxItems, out isCached);
+                
+                if (!isCached)
+                {
+                    if (trendingShows == null || trendingShows.Count() == 0) return;
 
-                // publish properties
-                PublishShowProperties(trendingShows);
+                    // publish properties
+                    PublishShowProperties(trendingShows);
 
-                // download images
-                var showImages = new List<TraktShow.ShowImages>();
-                showImages.AddRange(trendingShows.Select(s => s.Images));
-                GetImages<TraktShow.ShowImages>(showImages);
+                    // download images
+                    var showImages = new List<TraktShow.ShowImages>();
+                    showImages.AddRange(trendingShows.Select(s => s.Images));
+                    GetImages<TraktShow.ShowImages>(showImages);
+                }
             }
         }
 
@@ -736,8 +754,9 @@ namespace TraktPlugin
             return name;
         }
 
-        private IEnumerable<TraktTrendingMovie> GetTrendingMovies(int maxItems)
+        private IEnumerable<TraktTrendingMovie> GetTrendingMovies(int maxItems, out bool isCached)
         {
+            isCached = false;
             double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingMovieUpdate).TotalMilliseconds;
 
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
@@ -753,6 +772,7 @@ namespace TraktPlugin
             else
             {
                 TraktLogger.Debug("Getting trending movies from cache");
+                isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
                 TrendingMoviesTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
@@ -760,8 +780,9 @@ namespace TraktPlugin
             return PreviousTrendingMovies;
         }
 
-        private IEnumerable<TraktTrendingShow> GetTrendingShows(int maxItems)
+        private IEnumerable<TraktTrendingShow> GetTrendingShows(int maxItems, out bool isCached)
         {
+            isCached = false;
             double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingShowUpdate).TotalMilliseconds;
 
             if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
@@ -777,6 +798,7 @@ namespace TraktPlugin
             else
             {
                 TraktLogger.Debug("Getting trending shows from cache");
+                isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
                 TrendingShowsTimer.Change(startInterval, TraktSettings.DashboardTrendingPollInterval);
