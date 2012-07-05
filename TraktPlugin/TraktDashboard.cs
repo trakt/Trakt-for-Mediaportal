@@ -58,7 +58,7 @@ namespace TraktPlugin
             int i = 0;
             GUIFacadeControl facade = null;
 
-            // window init message does not seem to work!!!
+            // window init message does not work unless overridden from a guiwindow class
             // so we need to be ensured that the window is fully loaded
             // before we can get reference to a skin control
             do
@@ -97,6 +97,7 @@ namespace TraktPlugin
 
         private void LoadActivity()
         {
+            TraktLogger.Debug("Loading Trakt Activity...");
             GUIFacadeControl facade = null;
 
             // get the facade, may need to wait until
@@ -172,6 +173,8 @@ namespace TraktPlugin
             if (!TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
+            TraktLogger.Debug("Loading Trakt Activity Facade");
+
             // if no activities report to user
             if (activities == null || activities.Activities.Count == 0)
             {
@@ -241,10 +244,14 @@ namespace TraktPlugin
             // Download avatar images Async and set to facade
             StopAvatarDownload = false;
             GetImages<TraktUserProfile>(avatarImages);
+
+            TraktLogger.Debug("Finished Loading Activity facade...");
         }
 
         private void LoadTrendingMovies()
         {
+            TraktLogger.Debug("Loading Trakt Trending Movies...");
+
             GUIFacadeControl facade = null;
             bool isCached;
 
@@ -346,6 +353,8 @@ namespace TraktPlugin
             if (!TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
+            TraktLogger.Debug("Loading Trakt Trending Movies facade...");
+
             // if no trending, then nothing to do
             if (movies == null || movies.Count() == 0)
                 return;
@@ -394,10 +403,14 @@ namespace TraktPlugin
             // Download images Async and set to facade
             StopTrendingMoviesDownload = false;
             GetImages<TraktMovie.MovieImages>(movieImages);
+
+            TraktLogger.Debug("Finished Loading Trending Movies facade...");
         }
 
         private void LoadTrendingShows()
         {
+            TraktLogger.Debug("Loading Trakt Trending Shows...");
+
             GUIFacadeControl facade = null;
             bool isCached;
 
@@ -495,6 +508,8 @@ namespace TraktPlugin
             if (!TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
+            TraktLogger.Debug("Loading Trakt Trending Shows facade...");
+
             // if no trending, then nothing to do
             if (shows == null || shows.Count() == 0)
                 return;
@@ -543,6 +558,8 @@ namespace TraktPlugin
             // Download images Async and set to facade
             StopTrendingShowsDownload = false;
             GetImages<TraktShow.ShowImages>(showImages);
+
+            TraktLogger.Debug("Finished Loading Trending Shows facade...");
         }
 
         private string GetActivityImage(TraktActivity.Activity activity)
@@ -1261,6 +1278,30 @@ namespace TraktPlugin
                         PlayMovie(false);
                     }
                     break;
+                
+                case Action.ActionType.ACTION_MOVE_DOWN:
+                    // handle ondown for filmstrips as mediaportal skin navigation for ondown is broken                       
+                    if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                    {
+                        var control = GetFacade(activeWindow.GetFocusControlId());
+                        if (control == null) return;
+
+                        if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
+
+                        // set focus on correct control
+                        GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.TrendingMoviesFacade);
+                    }
+                    else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
+                    {
+                        var control = GetFacade(activeWindow.GetFocusControlId());
+                        if (control == null) return;
+
+                        if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
+
+                        // set focus on correct control
+                        GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.ActivityFacade);
+                    }
+                    break;
 
                 default:
                     break;
@@ -1316,7 +1357,7 @@ namespace TraktPlugin
         {
             if (TrendingMoviesTimer != null)
             {
-                TrendingMoviesTimer.Change(250, TraktSettings.DashboardTrendingPollInterval);
+                TrendingMoviesTimer.Change(500, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1324,7 +1365,7 @@ namespace TraktPlugin
         {
             if (TrendingShowsTimer != null)
             {
-                TrendingShowsTimer.Change(250, TraktSettings.DashboardTrendingPollInterval);
+                TrendingShowsTimer.Change(500, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1332,7 +1373,7 @@ namespace TraktPlugin
         {
             if (ActivityTimer != null)
             {
-                ActivityTimer.Change(250, TraktSettings.DashboardActivityPollInterval);
+                ActivityTimer.Change(500, TraktSettings.DashboardActivityPollInterval);
             }
         }
 
