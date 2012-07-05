@@ -27,9 +27,7 @@ namespace TraktPlugin
         #endregion
 
         #region Private Variables
-
-        GUIAnimation UpdateAnimationControl = null;
-
+        
         private long ActivityStartTime = 0;
 
         private Timer ActivityTimer = null;
@@ -739,7 +737,7 @@ namespace TraktPlugin
                                 break;
 
                             case "movie":
-                                name = activity.ListItem.Movie.Title;
+                                name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
                                 break;
                         }
                     }
@@ -1000,16 +998,16 @@ namespace TraktPlugin
 
             try
             {
-                UpdateAnimationControl = control as GUIAnimation;
+                var animation = control as GUIAnimation;
 
-                if (UpdateAnimationControl != null)
+                if (animation != null)
                 {
                     if (enable)
-                        UpdateAnimationControl.AllocResources();
+                        animation.AllocResources();
                     else
-                        UpdateAnimationControl.Dispose();
+                        animation.Dispose();
 
-                    UpdateAnimationControl.Visible = enable;
+                    animation.Visible = enable;
                 }
             }
             catch (Exception) { }
@@ -1206,8 +1204,6 @@ namespace TraktPlugin
         {
             if (!IsDashBoardWindow()) return;
 
-            var activeWindow = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
-            
             switch (message.Message)
             {                   
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
@@ -1224,6 +1220,10 @@ namespace TraktPlugin
                     {
                         PlayMovie(true);
                     }
+                    break;
+
+                case GUIMessage.MessageType.GUI_MSG_WINDOW_INIT:
+                    // doesn't work, only if overridden from a guiwindow class
                     break;
 
                 default:
@@ -1316,7 +1316,7 @@ namespace TraktPlugin
         {
             if (TrendingMoviesTimer != null)
             {
-                TrendingMoviesTimer.Change(0, TraktSettings.DashboardTrendingPollInterval);
+                TrendingMoviesTimer.Change(250, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1324,7 +1324,7 @@ namespace TraktPlugin
         {
             if (TrendingShowsTimer != null)
             {
-                TrendingShowsTimer.Change(0, TraktSettings.DashboardTrendingPollInterval);
+                TrendingShowsTimer.Change(250, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1332,7 +1332,7 @@ namespace TraktPlugin
         {
             if (ActivityTimer != null)
             {
-                ActivityTimer.Change(0, TraktSettings.DashboardActivityPollInterval);
+                ActivityTimer.Change(250, TraktSettings.DashboardActivityPollInterval);
             }
         }
 
