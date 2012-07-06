@@ -297,6 +297,8 @@
   <string Field="SettingActivityPollIntervalDescription">Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.</string>
   <string Field="SettingTrendingPollIntervalName">Dashboard Trending Poll Interval</string>
   <string Field="SettingTrendingPollIntervalDescription">Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.</string>
+  <string Field="SettingDashboardLoadDelayName">Dashboard Loading Delay</string>
+  <string Field="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

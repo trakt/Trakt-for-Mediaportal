@@ -476,6 +476,8 @@ namespace TraktPlugin.GUI
         public static string SettingActivityPollIntervalDescription = "Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.";
         public static string SettingTrendingPollIntervalName = "Dashboard Trending Poll Interval";
         public static string SettingTrendingPollIntervalDescription = "Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.";
+        public static string SettingDashboardLoadDelayName = "Dashboard Loading Delay";
+        public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
 
         // T
         public static string Timeout = "Timeout";

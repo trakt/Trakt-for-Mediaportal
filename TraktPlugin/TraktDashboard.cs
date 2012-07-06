@@ -1357,7 +1357,7 @@ namespace TraktPlugin
         {
             if (TrendingMoviesTimer != null)
             {
-                TrendingMoviesTimer.Change(500, TraktSettings.DashboardTrendingPollInterval);
+                TrendingMoviesTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1365,7 +1365,7 @@ namespace TraktPlugin
         {
             if (TrendingShowsTimer != null)
             {
-                TrendingShowsTimer.Change(500, TraktSettings.DashboardTrendingPollInterval);
+                TrendingShowsTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardTrendingPollInterval);
             }
         }
 
@@ -1373,7 +1373,7 @@ namespace TraktPlugin
         {
             if (ActivityTimer != null)
             {
-                ActivityTimer.Change(500, TraktSettings.DashboardActivityPollInterval);
+                ActivityTimer.Change(TraktSettings.DashboardLoadDelay, TraktSettings.DashboardActivityPollInterval);
             }
         }
 
