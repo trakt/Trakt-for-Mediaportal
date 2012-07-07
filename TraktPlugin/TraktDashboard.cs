@@ -476,6 +476,9 @@ namespace TraktPlugin
             {
                 var show = showList[i];
 
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), show.Watchers.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), show.Watchers > 1 ? string.Format(Translation.PeopleWatching, show.Watchers) : Translation.PersonWatching);
+
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Imdb", i), show.Imdb);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Tvdb", i), show.Tvdb);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvRage", i), show.TvRage);
