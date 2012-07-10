@@ -156,7 +156,9 @@ namespace TraktPlugin
             var activities = activity.Activities;
             if (activities == null) return;
 
-            for (int i = 0; i < TraktSkinSettings.DashboardActivityPropertiesMaxItems; i++)
+            int maxItems = activities.Count() < TraktSkinSettings.DashboardActivityFacadeMaxItems ? activities.Count() : TraktSkinSettings.DashboardActivityFacadeMaxItems;
+
+            for (int i = 0; i < maxItems; i++)
             {
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Action", i), activities[i].Action);
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Type", i), activities[i].Type);
@@ -165,6 +167,7 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Title", i), GetActivityItemName(activities[i]));
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Time", i), activities[i].Timestamp.FromEpoch().ToLocalTime().ToShortTimeString());
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Day", i), activities[i].Timestamp.FromEpoch().ToLocalTime().DayOfWeek.ToString().Substring(0,3));
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Shout", i), GetActivityShoutText(activities[i]));
             }
         }
 
@@ -312,8 +315,9 @@ namespace TraktPlugin
             if (movies == null) return;
 
             var movieList = movies.ToList();
+            int maxItems = movies.Count() < TraktSkinSettings.DashboardTrendingPropertiesMaxItems ? movies.Count() : TraktSkinSettings.DashboardTrendingPropertiesMaxItems;
 
-            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            for (int i = 0; i < maxItems; i++)
             {
                 var movie = movieList[i];
 
@@ -471,8 +475,9 @@ namespace TraktPlugin
             if (shows == null) return;
 
             var showList = shows.ToList();
+            int maxItems = shows.Count() < TraktSkinSettings.DashboardTrendingPropertiesMaxItems ? shows.Count() : TraktSkinSettings.DashboardTrendingPropertiesMaxItems;
 
-            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            for (int i = 0; i < maxItems; i++)
             {
                 var show = showList[i];
 
@@ -614,6 +619,13 @@ namespace TraktPlugin
                 filename = "defaultTraktUser.png";
             }
             return filename;
+        }
+
+        private string GetActivityShoutText(TraktActivity.Activity activity)
+        {
+            if (activity.Action != "shout") return string.Empty;
+            if (activity.Shout.Spoiler) return Translation.HiddenToPreventSpoilers;
+            return activity.Shout.Text;
         }
 
         private string GetListItemTitle(TraktActivity.Activity activity)
