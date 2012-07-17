@@ -1101,7 +1101,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.MovingPicturesCategoryId != -1)
             {
                 var rootNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesCategoryId);
-                if (rootNode != null)
+                if (rootNode != null && rootNode.Children != null)
                 {
                     RemoveMovieFromNode(movie, rootNode);
                 }
@@ -1116,7 +1116,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.MovingPicturesFiltersId != -1)
             {
                 var rootNode = MovingPicturesCore.DatabaseManager.Get<DBNode<DBMovieInfo>>(TraktSettings.MovingPicturesFiltersId);
-                if (rootNode != null)
+                if (rootNode != null && rootNode.Children != null)
                 {
                     RemoveMovieFromNode(movie, rootNode);
                 }
@@ -1134,6 +1134,9 @@ namespace TraktPlugin.TraktHandlers
         {
             foreach (var node in rootNode.Children)
             {
+                if (node.Filter == null)
+                    continue;
+
                 node.Filter.WhiteList.Remove(movie);
                 if (node.Filter.WhiteList.Count == 0)
                 {
