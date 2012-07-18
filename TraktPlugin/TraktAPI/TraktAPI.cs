@@ -649,23 +649,29 @@ namespace TraktPlugin.TraktAPI
 
         public static TraktActivity GetFriendActivity()
         {
-            return GetFriendActivity(null, null);
+            return GetFriendActivity(null, null, false);
         }
 
-        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions)
+        public static TraktActivity GetFriendActivity(bool includeMe)
         {
-            return GetFriendActivity(types, actions, 0, 0);
+            return GetFriendActivity(null, null, includeMe);
         }
 
-        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, bool includeMe)
+        {
+            return GetFriendActivity(types, actions, 0, 0, includeMe);
+        }
+
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end, bool includeMe)
         {
             // get comma seperated list of types and actions (if more than one)
             string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
             string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
 
             string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+            string apiUrl = includeMe ? TraktURIs.ActivityFriendsMe : TraktURIs.ActivityFriends;
 
-            string activity = Transmit(string.Format(TraktURIs.ActivityFriends, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            string activity = Transmit(string.Format(apiUrl, activityTypes, activityActions, startEnd), GetUserAuthentication());
             return activity.FromJSON<TraktActivity>();
         }
 

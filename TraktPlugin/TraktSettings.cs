@@ -66,6 +66,7 @@ namespace TraktPlugin
         public static bool SyncRatings { get; set; }
         public static bool ShowRateDialogOnWatched { get; set; }
         public static bool ShowCommunityActivity { get; set; }
+        public static bool IncludeMeInFriendsActivity { get; set; }
         public static TraktActivity LastActivityLoad { get; set; }
         public static IEnumerable<TraktTrendingMovie> LastTrendingMovies { get; set; }
         public static IEnumerable<TraktTrendingShow> LastTrendingShows { get; set; }
@@ -128,6 +129,7 @@ namespace TraktPlugin
         private const string cSyncRatings = "SyncRatings";
         private const string cShowRateDialogOnWatched = "ShowRateDialogOnWatched";
         private const string cShowCommunityActivity = "ShowCommunityActivity";
+        private const string cIncludeMeInFriendsActivity = "IncludeMeInFriendsActivity";
         private const string cLastActivityLoad = "LastActivityLoad";
         private const string cLastTrendingMovies = "LastTrendingMovies";
         private const string cLastTrendingShows = "LastTrendingShows";
@@ -346,6 +348,7 @@ namespace TraktPlugin
                 SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, false);
                 ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, false);
                 ShowCommunityActivity = xmlreader.GetValueAsBool(cTrakt, cShowCommunityActivity, false);
+                IncludeMeInFriendsActivity = xmlreader.GetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, false);
                 LastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
                 LastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
                 LastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
@@ -413,6 +416,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cSyncRatings, SyncRatings);
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDialogOnWatched, ShowRateDialogOnWatched);
                 xmlwriter.SetValueAsBool(cTrakt, cShowCommunityActivity, ShowCommunityActivity);
+                xmlwriter.SetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, IncludeMeInFriendsActivity);
                 xmlwriter.SetValue(cTrakt, cLastActivityLoad, LastActivityLoad.ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingShows, LastTrendingShows.ToList().ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingMovies, LastTrendingMovies.ToList().ToJSON());

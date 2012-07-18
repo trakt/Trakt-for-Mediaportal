@@ -83,6 +83,7 @@
   <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
   <string Field="DisconnectAccount">Disconnect Account: {0}</string>
   <string Field="DismissRecommendation">Dismiss this Recommendation</string>
+  <string Field="DontIncludeMeInFriendsActivity">Don't Include Me in Friends Activity</string>
   <string Field="DownloadFanart">Download Fanart</string>
   <string Field="DownloadFullSizeFanart">Download Original Size Fanart</string>
   
@@ -137,15 +138,16 @@
   <string Field="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from menu.</string>
 
   <!-- I -->
+  <string Field="IncludeMeInFriendsActivity">Include Me in Friends Activity</string>
   <string Field="Inserted">Inserted</string>
   <string Field="Item">Item</string>
   <string Field="Items">Items</string>
   
-  <!-- K -->
-  
   <!-- J -->
   <string Field="JoinDate">Join Date</string>
   <string Field="Joined">Joined</string>
+
+  <!-- K -->
   
   <!-- L -->
   <string Field="Location">Location</string>

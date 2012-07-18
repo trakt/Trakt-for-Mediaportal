@@ -21,7 +21,9 @@ namespace TraktPlugin
         enum ContextMenuItem
         {
             ShowCommunityActivity,
-            ShowFriendActivity
+            ShowFriendActivity,
+            IncludeMeInFriendsActivity,
+            DontIncludeMeInFriendsActivity
         }
 
         #endregion
@@ -842,7 +844,7 @@ namespace TraktPlugin
 
             if (PreviousActivity == null || ActivityStartTime <= 0 || GetFullActivityLoad)
             {
-                PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity();
+                PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity(TraktSettings.IncludeMeInFriendsActivity);
                 GetFullActivityLoad = false;
             }
             else
@@ -856,7 +858,7 @@ namespace TraktPlugin
                 }
                 else
                 {
-                    incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                    incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), TraktSettings.IncludeMeInFriendsActivity);
                 }
 
                 // join the Previous request with the current
@@ -993,6 +995,19 @@ namespace TraktPlugin
                 listItem = new GUIListItem(Translation.ShowCommunityActivity);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.ShowCommunityActivity;
+
+                if (!TraktSettings.IncludeMeInFriendsActivity)
+                {
+                    listItem = new GUIListItem(Translation.IncludeMeInFriendsActivity);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.IncludeMeInFriendsActivity;
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.DontIncludeMeInFriendsActivity);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.DontIncludeMeInFriendsActivity;
+                }
             }
             else
             {
@@ -1015,6 +1030,18 @@ namespace TraktPlugin
 
                 case ((int)ContextMenuItem.ShowFriendActivity):
                     TraktSettings.ShowCommunityActivity = false;
+                    GetFullActivityLoad = true;
+                    StartActivityPolling();
+                    break;
+
+                case ((int)ContextMenuItem.IncludeMeInFriendsActivity):
+                    TraktSettings.IncludeMeInFriendsActivity = true;
+                    GetFullActivityLoad = true;
+                    StartActivityPolling();
+                    break;
+
+                case ((int)ContextMenuItem.DontIncludeMeInFriendsActivity):
+                    TraktSettings.IncludeMeInFriendsActivity = false;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;

@@ -262,6 +262,7 @@ namespace TraktPlugin.GUI
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
         public static string DisconnectAccount = "Disconnect Account: {0}";
         public static string DismissRecommendation = "Dismiss this Recommendation";
+        public static string DontIncludeMeInFriendsActivity = "Don't Include Me in Friends Activity";
         public static string DownloadFanart = "Download Fanart";
         public static string DownloadFullSizeFanart = "Download Original Size Fanart";
 
@@ -316,15 +317,16 @@ namespace TraktPlugin.GUI
         public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";
 
         // I
+        public static string IncludeMeInFriendsActivity = "Include Me in Friends Activity";
         public static string Inserted = "Inserted";
         public static string Item = "Item";
-        public static string Items = "Items";
-
-        // I
+        public static string Items = "Items";        
 
         // J
         public static string JoinDate = "Join Date";
         public static string Joined = "Joined";
+
+        // K
 
         // L
         public static string Location = "Location";
