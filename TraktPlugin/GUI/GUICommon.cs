@@ -586,6 +586,8 @@ namespace TraktPlugin.GUI
 
         internal static void SetMovieProperties(TraktMovie movie)
         {
+            if (movie == null) return;
+
             SetProperty("#Trakt.Movie.Imdb", movie.Imdb);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
@@ -643,6 +645,8 @@ namespace TraktPlugin.GUI
 
         internal static void SetShowProperties(TraktShow show)
         {
+            if (show == null) return;
+
             SetProperty("#Trakt.Show.Imdb", show.Imdb);
             SetProperty("#Trakt.Show.Tvdb", show.Tvdb);
             SetProperty("#Trakt.Show.TvRage", show.TvRage);
@@ -694,6 +698,8 @@ namespace TraktPlugin.GUI
 
         internal static void SetEpisodeProperties(TraktEpisode episode)
         {
+            if (episode == null) return;
+
             SetProperty("#Trakt.Episode.Number", episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromEpoch().ToShortDateString());

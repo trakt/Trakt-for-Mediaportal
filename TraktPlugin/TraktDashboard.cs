@@ -322,6 +322,7 @@ namespace TraktPlugin
             for (int i = 0; i < maxItems; i++)
             {
                 var movie = movieList[i];
+                if (movie == null) continue;
 
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), movie.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
@@ -482,6 +483,7 @@ namespace TraktPlugin
             for (int i = 0; i < maxItems; i++)
             {
                 var show = showList[i];
+                if (show == null) continue;
 
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), show.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), show.Watchers > 1 ? string.Format(Translation.PeopleWatching, show.Watchers) : Translation.PersonWatching);
@@ -707,80 +709,88 @@ namespace TraktPlugin
         {
             string name = string.Empty;
 
-            switch (activity.Type)
+            try
             {
-                case "episode":
-                    if (activity.Action == "seen" || activity.Action == "collection")
-                    {
-                        if (activity.Episodes.Count > 1)
+                switch (activity.Type)
+                {
+                    case "episode":
+                        if (activity.Action == "seen" || activity.Action == "collection")
                         {
-                            // just return show name
-                            name = activity.Show.Title;
-                        }
-                        else
-                        {
-                            //  get the first and only item in collection of episodes
-                            string episodeIndex = activity.Episodes.First().Number.ToString();
-                            string seasonIndex = activity.Episodes.First().Season.ToString();
-                            string episodeName = activity.Episodes.First().Title;
-
-                            if (string.IsNullOrEmpty(episodeName))
-                                episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
-
-                            name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, seasonIndex, episodeIndex, episodeName);
-                        }
-                    }
-                    else
-                    {
-                        string episodeName = activity.Episode.Title;
-
-                        if (string.IsNullOrEmpty(episodeName))
-                            episodeName = string.Format("{0} {1}", Translation.Episode, activity.Episode.Number.ToString());
-
-                        name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), episodeName);
-                    }
-                    break;
-
-                case "show":
-                    name = activity.Show.Title;
-                    break;
-
-                case "movie":
-                    name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
-                    break;
-
-                case "list":
-                    if (activity.Action == "item_added")
-                    {
-                        // return the name of the item added to the list
-                        switch (activity.ListItem.Type)
-                        {
-                            case "show":
-                                name = activity.ListItem.Show.Title;
-                                break;
-
-                            case "episode":
-                                string episodeIndex = activity.ListItem.Episode.Number.ToString();
-                                string seasonIndex = activity.ListItem.Episode.Season.ToString();
-                                string episodeName = activity.ListItem.Episode.Title;
+                            if (activity.Episodes.Count > 1)
+                            {
+                                // just return show name
+                                name = activity.Show.Title;
+                            }
+                            else
+                            {
+                                //  get the first and only item in collection of episodes
+                                string episodeIndex = activity.Episodes.First().Number.ToString();
+                                string seasonIndex = activity.Episodes.First().Season.ToString();
+                                string episodeName = activity.Episodes.First().Title;
 
                                 if (string.IsNullOrEmpty(episodeName))
                                     episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
 
-                                name = string.Format("{0} - {1}x{2} - {3}", activity.ListItem.Show.Title, seasonIndex, episodeIndex, episodeName);
-                                break;
-
-                            case "movie":
-                                name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
-                                break;
+                                name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, seasonIndex, episodeIndex, episodeName);
+                            }
                         }
-                    }
-                    else if (activity.Action == "created")
-                    {
-                        // return the list name
-                        name = activity.List.Name;
-                    }
-                    break;
+                        else
+                        {
+                            string episodeName = activity.Episode.Title;
+
+                            if (string.IsNullOrEmpty(episodeName))
+                                episodeName = string.Format("{0} {1}", Translation.Episode, activity.Episode.Number.ToString());
+
+                            name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), episodeName);
+                        }
+                        break;
+
+                    case "show":
+                        name = activity.Show.Title;
+                        break;
+
+                    case "movie":
+                        name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
+                        break;
+
+                    case "list":
+                        if (activity.Action == "item_added")
+                        {
+                            // return the name of the item added to the list
+                            switch (activity.ListItem.Type)
+                            {
+                                case "show":
+                                    name = activity.ListItem.Show.Title;
+                                    break;
+
+                                case "episode":
+                                    string episodeIndex = activity.ListItem.Episode.Number.ToString();
+                                    string seasonIndex = activity.ListItem.Episode.Season.ToString();
+                                    string episodeName = activity.ListItem.Episode.Title;
+
+                                    if (string.IsNullOrEmpty(episodeName))
+                                        episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
+
+                                    name = string.Format("{0} - {1}x{2} - {3}", activity.ListItem.Show.Title, seasonIndex, episodeIndex, episodeName);
+                                    break;
+
+                                case "movie":
+                                    name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
+                                    break;
+                            }
+                        }
+                        else if (activity.Action == "created")
+                        {
+                            // return the list name
+                            name = activity.List.Name;
+                        }
+                        break;
+                }
+            }
+            catch
+            {
+                // most likely trakt returned a null object
+                name = string.Empty;
             }
 
             return name;
