@@ -31,6 +31,7 @@ namespace TraktPlugin.GUI
         public static int DashboardTrendingFacadeMaxItems { get; set; }
         public static string DashboardActivityFacadeType { get; set; }
         public static string DashboardTrendingFacadeType { get; set; }
+        public static bool HasDashboardStatistics { get; set; }
 
         public static void Init()
         {
@@ -96,6 +97,12 @@ namespace TraktPlugin.GUI
 
             XmlNode rootNode = null;
             XmlNode node = null;
+
+            rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/statistics");
+            if (rootNode != null)
+            {
+                HasDashboardStatistics = rootNode.InnerText.ToLowerInvariant() == "true";
+            }
 
             rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/activities");
             if (rootNode != null)

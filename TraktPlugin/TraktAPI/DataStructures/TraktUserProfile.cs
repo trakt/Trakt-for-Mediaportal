@@ -52,7 +52,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public class Statistics
         {
             [DataMember(Name = "friends")]
-            public string FriendCount { get; set; }
+            public string Friends { get; set; }
 
             [DataMember(Name = "shows")]
             public ShowStats Shows { get; set; }
@@ -67,48 +67,123 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public class ShowStats
             {
                 [DataMember(Name = "library")]
-                public string Count { get; set; }
+                public string Library { get; set; }
+
+                [DataMember(Name = "watched")]
+                public string Watched { get; set; }
+
+                [DataMember(Name = "collection")]
+                public string Collection { get; set; }
+
+                [DataMember(Name = "shouts")]
+                public string Shouts { get; set; }
+
+                [DataMember(Name = "loved")]
+                public string Loved { get; set; }
+
+                [DataMember(Name = "hated")]
+                public string Hated { get; set; }
             }
 
             [DataContract]
             public class EpisodeStats
             {
                 [DataMember(Name = "watched")]
-                public string WatchedCount { get; set; }
-
-                [DataMember(Name = "watched_unique")]
-                public string WatchedUniqueCount { get; set; }
-
-                [DataMember(Name = "watched_trakt")]
-                public string WatchedTraktCount { get; set; }
-
-                [DataMember(Name = "watched_trakt_unique")]
-                public string WatchedTraktUniqueCount { get; set; }
+                public string Watched { get; set; }
 
                 [DataMember(Name = "watched_elsewhere")]
-                public string WatchedElseWhereCount { get; set; }
+                public string WatchedElseWhere { get; set; }
+
+                [DataMember(Name = "watched_trakt")]
+                public string WatchedTrakt { get; set; }
+
+                [DataMember(Name = "watched_trakt_unique")]
+                public string WatchedTraktUnique { get; set; }
+
+                [DataMember(Name = "watched_unique")]
+                public string WatchedUnique { get; set; }
+
+                [DataMember(Name = "scrobbles")]
+                public string Scrobbles { get; set; }
+
+                [DataMember(Name = "scrobbles_unique")]
+                public string ScrobblesUnique { get; set; }
+
+                [DataMember(Name = "checkins")]
+                public string Checkins { get; set; }
+
+                [DataMember(Name = "checkins_unique")]
+                public string CheckinsUnique { get; set; }
+
+                [DataMember(Name = "seen")]
+                public string Seen { get; set; }
 
                 [DataMember(Name = "unwatched")]
-                public string UnWatchedCount { get; set; }
+                public string UnWatched { get; set; }
+
+                [DataMember(Name = "collection")]
+                public string Collection { get; set; }
+
+                [DataMember(Name = "shouts")]
+                public string Shouts { get; set; }
+
+                [DataMember(Name = "loved")]
+                public string Loved { get; set; }
+
+                [DataMember(Name = "hated")]
+                public string Hated { get; set; }
             }
 
             [DataContract]
             public class MovieStats
             {
                 [DataMember(Name = "watched")]
-                public string WatchedCount { get; set; }
-
-                [DataMember(Name = "watched_trakt")]
-                public string WatchedTraktCount { get; set; }
+                public string Watched { get; set; }
 
                 [DataMember(Name = "watched_elsewhere")]
-                public string WatchedElseWhereCount { get; set; }
+                public string WatchedElseWhere { get; set; }
+
+                [DataMember(Name = "watched_trakt")]
+                public string WatchedTrakt { get; set; }
+
+                [DataMember(Name = "watched_trakt_unique")]
+                public string WatchedTraktUnique { get; set; }
+
+                [DataMember(Name = "watched_unique")]
+                public string WatchedUnique { get; set; }
+
+                [DataMember(Name = "scrobbles")]
+                public string Scrobbles { get; set; }
+
+                [DataMember(Name = "scrobbles_unique")]
+                public string ScrobblesUnique { get; set; }
+
+                [DataMember(Name = "checkins")]
+                public string Checkins { get; set; }
+
+                [DataMember(Name = "checkins_unique")]
+                public string CheckinsUnique { get; set; }
+
+                [DataMember(Name = "seen")]
+                public string Seen { get; set; }
 
                 [DataMember(Name = "library")]
-                public string MovieCount { get; set; }
+                public string Library { get; set; }
 
                 [DataMember(Name = "unwatched")]
-                public string UnWatchedCount { get; set; }
+                public string UnWatched { get; set; }
+
+                [DataMember(Name = "collection")]
+                public string Collection { get; set; }
+
+                [DataMember(Name = "shouts")]
+                public string Shouts { get; set; }
+
+                [DataMember(Name = "loved")]
+                public string Loved { get; set; }
+
+                [DataMember(Name = "hated")]
+                public string Hated { get; set; }
             }
         }
 

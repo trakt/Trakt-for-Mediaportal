@@ -73,6 +73,7 @@ namespace TraktPlugin
         public static int DashboardActivityPollInterval { get; set; }
         public static int DashboardTrendingPollInterval { get; set; }
         public static int DashboardLoadDelay { get; set; }
+        public static TraktUserProfile.Statistics LastStatistics { get; set; }
         #endregion
 
         #region Constants
@@ -133,6 +134,7 @@ namespace TraktPlugin
         private const string cLastActivityLoad = "LastActivityLoad";
         private const string cLastTrendingMovies = "LastTrendingMovies";
         private const string cLastTrendingShows = "LastTrendingShows";
+        private const string cLastStatistics = "LastStatistics";
         private const string cDashboardActivityPollInterval = "DashboardActivityPollInterval";
         private const string cDashboardTrendingPollInterval = "DashboardTrendingPollInterval";
         private const string cDashboardLoadDelay = "DashboardLoadDelay";
@@ -352,6 +354,7 @@ namespace TraktPlugin
                 LastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
                 LastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
                 LastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
+                LastStatistics = xmlreader.GetValueAsString(cTrakt, cLastStatistics, null).FromJSON<TraktUserProfile.Statistics>();
                 DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
                 DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
@@ -420,6 +423,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cLastActivityLoad, LastActivityLoad.ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingShows, LastTrendingShows.ToList().ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastTrendingMovies, LastTrendingMovies.ToList().ToJSON());
+                xmlwriter.SetValue(cTrakt, cLastStatistics, LastStatistics.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardLoadDelay, DashboardLoadDelay);

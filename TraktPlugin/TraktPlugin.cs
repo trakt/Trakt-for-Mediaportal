@@ -223,6 +223,7 @@ namespace TraktPlugin
             TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
             TraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
             TraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
+            TraktSettings.LastStatistics = dashBoard.PreviousStatistics;
 
             // save settings
             TraktSettings.saveSettings();
