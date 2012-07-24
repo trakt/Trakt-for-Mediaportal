@@ -4,15 +4,42 @@
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
 	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
-  <define>#currentmodule:Trakt</define>  
-  <define>#selecteditem:#highlightedbutton</define>
   <controls>
-    <import>common.settings.xml</import>
+    <control>
+      <description>BG</description>
+      <type>image</type>
+      <id>1</id>
+      <texture>background.png</texture>
+      <width>1280</width>
+      <height>720</height>
+    </control>
+     <control>
+      <description>background top overlay</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1280</width>
+      <height>270</height>
+      <texture>overlay_top.png</texture>
+      <colordiffuse>ffffffff</colordiffuse>
+    </control>
+		<control>
+      <type>label</type>
+      <id>1</id>
+      <posX>30</posX>
+      <posY>10</posY>
+      <label>#currentmodule</label>
+      <font>font14</font>
+      <align>left</align>
+      <textcolor>ivory</textcolor>
+    </control>
     <import>common.time.xml</import>
+		<import>Trakt.Dashboard.xml</import>
     <control>
       <type>image</type>
       <id>0</id>
-      <posX>230</posX>
+      <posX>40</posX>
       <posY>100</posY>
       <width>100</width>
 			<height>100</height>
@@ -24,9 +51,8 @@
       <type>group</type>
       <description>group element</description>
       <animation effect="fade" time="200" delay="200">windowopen</animation>
-      <posX>216</posX>
+      <posX>40</posX>
       <posY>201</posY>
-      <width>350</width>
       <height>379</height>
       <layout>StackLayout(Vertical)</layout>
       <control>
@@ -36,7 +62,9 @@
         <id>2</id>        
         <label>#Trakt.Translation.Calendar.Label</label>
 				<hyperlink>87259</hyperlink>
-				<onup>15</onup>
+				<onup>99</onup>
+				<width>280</width>
+				<onright>98300</onright>
       </control>      
       <control>
         <description>Friends</description>
@@ -45,6 +73,8 @@
         <id>3</id>
 				<hyperlink>87260</hyperlink>
         <label>#Trakt.Translation.Friends.Label</label>
+				<width>280</width>
+				<onright>98300</onright>
       </control>
       <control>
         <description>Recommendations</description>
@@ -52,7 +82,9 @@
 				<width>350</width>
         <id>4</id>
 				<hyperlink>87261</hyperlink>
-        <label>#Trakt.Translation.Recommendations.Label</label>        
+        <label>#Trakt.Translation.Recommendations.Label</label>
+				<width>280</width>
+				<onright>98300</onright>
       </control>
       <control>
         <description>Trending</description>
@@ -60,7 +92,9 @@
 				<width>350</width>
         <id>5</id>
 				<hyperlink>87264</hyperlink>
-        <label>#Trakt.Translation.Trending.Label</label>        
+        <label>#Trakt.Translation.Trending.Label</label>
+				<width>280</width>
+				<onright>98301</onright>
       </control>
       <control>
         <description>Watch List</description>
@@ -69,6 +103,8 @@
         <id>6</id>
 				<hyperlink>87267</hyperlink>
         <label>#Trakt.Translation.WatchList.Label</label>
+				<width>280</width>
+				<onright>98301</onright>
       </control>
 			<control>
         <description>Lists</description>
@@ -77,6 +113,8 @@
         <id>7</id>
 				<hyperlink>87275</hyperlink>
         <label>#Trakt.Translation.Lists.Label</label>
+				<width>280</width>
+				<onright>98301</onright>
       </control>
       <control>
         <description>Settings</description>
@@ -86,6 +124,8 @@
         <label>#Trakt.Translation.Settings.Label</label>
 				<hyperlink>87271</hyperlink>
 				<ondown>99</ondown>
+				<width>280</width>
+				<onright>98301</onright>
       </control>
       <control>
         <description>MPEIUPDATE:a9c3845a_8718_4712_85cc_26f56520bb9a</description>
@@ -96,14 +136,16 @@
 				<ondown>2</ondown>
         <onup>7</onup>
         <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
+				<width>280</width>
+				<onright>98301</onright>
       </control>
 		</control>
     <control>
       <description>Update Indicator</description>
       <type>image</type>
       <id>0</id>
-      <posX>500</posX>
-      <posY>527</posY>
+      <posX>280</posX>
+      <posY>492</posY>
       <width>36</width>
       <height>36</height>
       <texture>isupdate.png</texture>
