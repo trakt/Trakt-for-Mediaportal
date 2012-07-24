@@ -942,6 +942,17 @@ namespace TraktPlugin
             {
                 PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity(TraktSettings.IncludeMeInFriendsActivity);
                 GetFullActivityLoad = false;
+
+                // check that we have any friend activity, if not switch to friends+me
+                // not everyone has friends! We could use friend count but that means an extra uneeded request
+                if (PreviousActivity != null && PreviousActivity.Activities != null)
+                {
+                    if (!TraktSettings.ShowCommunityActivity && !TraktSettings.IncludeMeInFriendsActivity)
+                    {
+                        TraktSettings.IncludeMeInFriendsActivity = true;
+                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
+                    }
+                }
             }
             else
             {
@@ -958,7 +969,7 @@ namespace TraktPlugin
                 }
 
                 // join the Previous request with the current
-                if (incrementalActivity != null)
+                if (incrementalActivity != null && incrementalActivity.Activities != null)
                 {
                     TraktLogger.Debug("Response: {0}", incrementalActivity.ToJSON());
                     PreviousActivity.Activities = incrementalActivity.Activities.Union(PreviousActivity.Activities).Take(TraktSkinSettings.DashboardActivityFacadeMaxItems).ToList();
@@ -967,7 +978,7 @@ namespace TraktPlugin
             }
 
             // store current timestamp and only request incremental change next time
-            if (PreviousActivity != null)
+            if (PreviousActivity != null && PreviousActivity.Timestamps != null)
             {
                 ActivityStartTime = PreviousActivity.Timestamps.Current;
             }
