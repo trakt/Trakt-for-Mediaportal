@@ -153,7 +153,7 @@ namespace TraktPlugin.GUI
                         if (SelectedType == TraktItemType.movie)
                             CheckAndPlayMovie(true);
                         else
-                            CheckAndPlayEpisode();
+                            CheckAndPlayEpisode(true);
                     }
                     break;
 
@@ -181,7 +181,7 @@ namespace TraktPlugin.GUI
                     if (SelectedType == TraktItemType.movie)
                         CheckAndPlayMovie(false);
                     else
-                        CheckAndPlayEpisode();
+                        CheckAndPlayEpisode(false);
                     break;
                 default:
                     base.OnAction(action);
@@ -542,7 +542,7 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void CheckAndPlayEpisode()
+        private void CheckAndPlayEpisode(bool jumpTo)
         {
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
@@ -556,7 +556,7 @@ namespace TraktPlugin.GUI
             // if its a show/season, play first unwatched
             if (SelectedType != TraktItemType.episode)
             {
-                GUICommon.CheckAndPlayFirstUnwatched(seriesid, searchterm);
+                GUICommon.CheckAndPlayFirstUnwatched(seriesid, searchterm, jumpTo);
             }
             else
             {

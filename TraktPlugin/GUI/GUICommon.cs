@@ -110,10 +110,12 @@ namespace TraktPlugin.GUI
         /// <param name="jumpTo">false if movie should be played directly</param>
         public static void CheckAndPlayMovie(bool jumpTo, string title, int year, string imdbid)
         {
+            TraktLogger.Info("Attempting to play movie: {0} ({1}) [{2}]", title, year, imdbid);
             bool handled = false;
 
             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
             {
+                TraktLogger.Info("Checking if any movie to watch in MovingPictures");
                 int? movieid = null;
 
                 // Find Movie ID in MovingPictures
@@ -122,6 +124,7 @@ namespace TraktPlugin.GUI
 
                 if (movieExists)
                 {
+                    TraktLogger.Info("Found movie in MovingPictures with movieId '{0}'", movieid.ToString());
                     if (jumpTo)
                     {
                         string loadingParameter = string.Format("movieid:{0}", movieid);
@@ -139,6 +142,7 @@ namespace TraktPlugin.GUI
             // check if its in My Videos database
             if (TraktSettings.MyVideos >= 0 && handled == false)
             {
+                TraktLogger.Info("Checking if any movie to watch in My Videos");
                 IMDBMovie movie = null;
                 if (TraktHandlers.MyVideos.FindMovieID(title, year, imdbid, ref movie))
                 {
@@ -160,6 +164,7 @@ namespace TraktPlugin.GUI
             // check if its in My Films database
             if (TraktHelper.IsMyFilmsAvailableAndEnabled && handled == false)
             {
+                TraktLogger.Info("Checking if any movie to watch in My Films");
                 int? movieid = null;
                 string config = null;
                 if (TraktHandlers.MyFilmsHandler.FindMovie(title, year, imdbid, ref movieid, ref config))
@@ -182,6 +187,7 @@ namespace TraktPlugin.GUI
 
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
+                TraktLogger.Info("No movies found! Attempting Trailer lookup in IMDb Trailers.");
                 string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
@@ -229,10 +235,14 @@ namespace TraktPlugin.GUI
 
         public static void CheckAndPlayFirstUnwatched(TraktShow show)
         {
-            if (show == null) return;
-            CheckAndPlayFirstUnwatched(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb);
+            CheckAndPlayFirstUnwatched(show, false);
         }
-
+        public static void CheckAndPlayFirstUnwatched(TraktShow show, bool jumpTo)
+        {
+            if (show == null) return;
+            CheckAndPlayFirstUnwatched(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb, jumpTo);
+        }
+        
         /// <summary>
         /// Checks if a selected show exists locally and plays first unwatched episode
         /// </summary>
@@ -240,15 +250,33 @@ namespace TraktPlugin.GUI
         /// <param name="imdbid">the series imdb id of show</param>
         public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid)
         {
+            CheckAndPlayFirstUnwatched(seriesid, imdbid, false);
+        }
+        public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid, bool jumpTo)
+        {
             TraktLogger.Info("Attempting to play TVDb: {0}, IMDb: {1}", seriesid.ToString(), imdbid);
             bool handled = false;
 
             // check if plugin is installed and enabled
             if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
             {
-                // Play episode if it exists
-                TraktLogger.Info("Checking if any episodes to watch in MP-TVSeries");
-                handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(seriesid);
+                if (jumpTo)
+                {
+                    TraktLogger.Info("Looking for series in MP-TVSeries database");
+                    if (TraktHandlers.TVSeries.SeriesExists(seriesid))
+                    {
+                        string loadingParameter = string.Format("seriesid:{0}", seriesid);
+                        GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.TVSeries, loadingParameter);
+                        handled = true;
+                    }
+                }
+                else
+                {
+                    // Play episode if it exists
+                    TraktLogger.Info("Checking if any episodes to watch in MP-TVSeries");
+                    handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(seriesid);
+
+                }
             }
 
             if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)

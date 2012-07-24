@@ -156,7 +156,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        CheckAndPlayEpisode();
+                        CheckAndPlayEpisode(true);
                     }
                     break;
 
@@ -177,7 +177,7 @@ namespace TraktPlugin.GUI
             {
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
-                    CheckAndPlayEpisode();
+                    CheckAndPlayEpisode(false);
                     break;
                 default:
                     base.OnAction(action);
@@ -338,13 +338,13 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void CheckAndPlayEpisode()
+        private void CheckAndPlayEpisode(bool jumpTo)
         {
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
             TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
-            GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb);
+            GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb, jumpTo);
         }
 
         private void ShowTrailersMenu(TraktTrendingShow show)

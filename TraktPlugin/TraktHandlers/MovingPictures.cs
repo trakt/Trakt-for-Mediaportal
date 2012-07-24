@@ -1177,7 +1177,11 @@ namespace TraktPlugin.TraktHandlers
 
             // try find a match
             DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
-            if (movie == null) return false;
+            if (movie == null)
+            {
+                TraktLogger.Info("Found no movies for {0} ({1})", title, year);
+                return false;
+            }
 
             movieID = movie.ID;
             return true;

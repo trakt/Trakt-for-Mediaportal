@@ -466,29 +466,46 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="seriesid">series id of episode</param>
         public static bool PlayFirstUnwatchedEpisode(int seriesid)
         {
-            var episodes = DBEpisode.Get(seriesid);
-            if (episodes == null || episodes.Count == 0) return false;
-
-            // filter out anything we can't play
-            episodes.RemoveAll(e => string.IsNullOrEmpty(e[DBEpisode.cFilename]));
-            if (episodes.Count == 0) return false;
-
-            TraktLogger.Info("Found {0} local episodes for TVDb {1}", episodes.Count, seriesid.ToString());
-
-            // sort episodes using DBEpisode sort comparer
-            // this takes into consideration Aired/DVD order and Specials in-line sorting
-            episodes.Sort();
-
-            // get first episode unwatched, otherwise get most recently aired
-            var episode = episodes.Where(e => e[DBOnlineEpisode.cWatched] == 0).FirstOrDefault();
-            if (episode == null)
+            try
             {
-                TraktLogger.Info("No Unwatched episodes found, Playing most recent episode");
-                episode = episodes.LastOrDefault();
-            }
-            if (episode == null) return false;
+                var episodes = DBEpisode.Get(seriesid);
+                if (episodes == null || episodes.Count == 0)
+                {
+                    TraktLogger.Info("Found no episodes for TVDb {0}", seriesid.ToString());
+                    return false;
+                }
 
-            return PlayEpisode(episode);
+                // filter out anything we can't play
+                episodes.RemoveAll(e => string.IsNullOrEmpty(e[DBEpisode.cFilename]));
+                if (episodes.Count == 0)
+                {
+                    TraktLogger.Info("Found no local episodes for TVDb {0}", seriesid.ToString());
+                    return false;
+                }
+
+                TraktLogger.Info("Found {0} local episodes for TVDb {1}", episodes.Count, seriesid.ToString());
+
+                // sort episodes using DBEpisode sort comparer
+                // this takes into consideration Aired/DVD order and Specials in-line sorting
+                episodes.Sort();
+
+                // get first episode unwatched, otherwise get most recently aired
+                var episode = episodes.Where(e => e[DBOnlineEpisode.cWatched] == 0).FirstOrDefault();
+                if (episode == null)
+                {
+                    TraktLogger.Info("No Unwatched episodes found, Playing most recent episode");
+                    episode = episodes.LastOrDefault();
+                }
+                if (episode == null) return false;
+
+                return PlayEpisode(episode);
+            }
+            catch (Exception e)
+            {
+                TraktLogger.Error("Error attempting to play first unwatched episode");
+                TraktLogger.Error("Error Message: ", e.Message);
+                return false;
+            }
         }
 
         public static bool PlayEpisode(DBEpisode episode)
@@ -579,6 +596,12 @@ namespace TraktPlugin.TraktHandlers
             }
 
             return null;
+        }
+
+        public static bool SeriesExists(int seriesId)
+        {
+            var series = DBSeries.Get(seriesId);
+            return (series != null);
         }
 
         #endregion

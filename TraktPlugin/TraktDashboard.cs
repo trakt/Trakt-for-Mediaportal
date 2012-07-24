@@ -1195,7 +1195,7 @@ namespace TraktPlugin
                     {
                         if (activity.Episodes.Count > 1)
                         {
-                            GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                            GUICommon.CheckAndPlayFirstUnwatched(activity.Show, jumpTo);
                             return;
                         }
                     } 
@@ -1203,7 +1203,7 @@ namespace TraktPlugin
                     break;
 
                 case "show":
-                    GUICommon.CheckAndPlayFirstUnwatched(activity.Show);
+                    GUICommon.CheckAndPlayFirstUnwatched(activity.Show, jumpTo);
                     break;
 
                 case "movie":
@@ -1217,7 +1217,7 @@ namespace TraktPlugin
                         switch (activity.ListItem.Type)
                         {
                             case "show":
-                                GUICommon.CheckAndPlayFirstUnwatched(activity.ListItem.Show);
+                                GUICommon.CheckAndPlayFirstUnwatched(activity.ListItem.Show, jumpTo);
                                 break;
 
                             case "episode":
@@ -1234,7 +1234,7 @@ namespace TraktPlugin
 
         }
 
-        private void PlayShow()
+        private void PlayShow(bool jumpTo)
         {
             // get control
             var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
@@ -1243,7 +1243,7 @@ namespace TraktPlugin
             // get selected item in facade
             TraktTrendingShow show = facade.SelectedListItem.TVTag as TraktTrendingShow;
 
-            GUICommon.CheckAndPlayFirstUnwatched(show);
+            GUICommon.CheckAndPlayFirstUnwatched(show, jumpTo);
         }
 
         private void PlayMovie(bool jumpTo)
@@ -1381,7 +1381,7 @@ namespace TraktPlugin
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
-                        PlayShow();
+                        PlayShow(true);
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingMoviesFacade)
                     {
@@ -1421,7 +1421,7 @@ namespace TraktPlugin
                     }
                     if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
-                        PlayShow();
+                        PlayShow(false);
                     }
                     if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
                     {
