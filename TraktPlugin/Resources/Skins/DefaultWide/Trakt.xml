@@ -74,6 +74,7 @@
 				<hyperlink>87260</hyperlink>
         <label>#Trakt.Translation.Friends.Label</label>
 				<width>280</width>
+				<onup>2</onup>
 				<onright>98300</onright>
       </control>
       <control>
@@ -84,6 +85,7 @@
 				<hyperlink>87261</hyperlink>
         <label>#Trakt.Translation.Recommendations.Label</label>
 				<width>280</width>
+				<onup>3</onup>
 				<onright>98300</onright>
       </control>
       <control>
@@ -94,6 +96,7 @@
 				<hyperlink>87264</hyperlink>
         <label>#Trakt.Translation.Trending.Label</label>
 				<width>280</width>
+				<onup>4</onup>
 				<onright>98301</onright>
       </control>
       <control>
@@ -104,6 +107,7 @@
 				<hyperlink>87267</hyperlink>
         <label>#Trakt.Translation.WatchList.Label</label>
 				<width>280</width>
+				<onup>5</onup>
 				<onright>98301</onright>
       </control>
 			<control>
@@ -114,6 +118,7 @@
 				<hyperlink>87275</hyperlink>
         <label>#Trakt.Translation.Lists.Label</label>
 				<width>280</width>
+				<onup>6</onup>
 				<onright>98301</onright>
       </control>
       <control>
@@ -123,6 +128,7 @@
         <id>8</id>
         <label>#Trakt.Translation.Settings.Label</label>
 				<hyperlink>87271</hyperlink>
+				<onup>7</onup>
 				<ondown>99</ondown>
 				<width>280</width>
 				<onright>98301</onright>
@@ -134,7 +140,7 @@
         <id>99</id>
         <label>#MPEI.Translation.Update.Label</label>
 				<ondown>2</ondown>
-        <onup>7</onup>
+        <onup>8</onup>
         <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
 				<width>280</width>
 				<onright>98301</onright>
