@@ -74,6 +74,7 @@ namespace TraktPlugin
         public static int DashboardTrendingPollInterval { get; set; }
         public static int DashboardLoadDelay { get; set; }
         public static TraktUserProfile.Statistics LastStatistics { get; set; }
+        public static bool DashboardMovieTrendingActive { get; set; }
         #endregion
 
         #region Constants
@@ -138,6 +139,7 @@ namespace TraktPlugin
         private const string cDashboardActivityPollInterval = "DashboardActivityPollInterval";
         private const string cDashboardTrendingPollInterval = "DashboardTrendingPollInterval";
         private const string cDashboardLoadDelay = "DashboardLoadDelay";
+        private const string cDashboardMovieTrendingActive = "DashboardMovieTrendingActive";
         #endregion
 
         #region Properties
@@ -358,6 +360,7 @@ namespace TraktPlugin
                 DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
                 DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
+                DashboardMovieTrendingActive = xmlreader.GetValueAsBool(cTrakt, cDashboardMovieTrendingActive, false);
             }
         }
 
@@ -427,6 +430,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardLoadDelay, DashboardLoadDelay);
+                xmlwriter.SetValueAsBool(cTrakt, cDashboardMovieTrendingActive, DashboardMovieTrendingActive);
             }
 
             Settings.SaveCache();

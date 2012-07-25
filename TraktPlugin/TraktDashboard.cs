@@ -339,6 +339,50 @@ namespace TraktPlugin
             TraktLogger.Debug("Finished Loading Activity facade...");
         }
 
+        /// <summary>
+        /// Skinners can use this property to toggle visibility of trending facades/properties
+        /// </summary>
+        private void SetTrendingVisibility()
+        {
+            var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+            var toggleButton = window.GetControl((int)TraktDashboardControls.ToggleTrendingCheckButton) as GUICheckButton;
+
+            // if skin does not have checkmark control to toggle trending then exit
+            if (toggleButton == null) return;
+
+            if (toggleButton != null)
+            {
+                var trendingShowsFacade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+                var trendingMoviesFacade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
+
+                bool moviesVisible = TraktSettings.DashboardMovieTrendingActive;
+
+                toggleButton.Selected = moviesVisible;
+                //toggleButton.Label = moviesVisible ? Translation.Movies : Translation.TVShows;
+                GUIUtils.SetProperty("#Trakt.Dashboard.TrendingType.Active", moviesVisible ? "movies" : "shows");
+
+                if (trendingMoviesFacade != null)
+                {
+                    trendingMoviesFacade.Visible = moviesVisible;
+                    if (trendingMoviesFacade.FilmstripLayout != null) trendingMoviesFacade.FilmstripLayout.Visible = moviesVisible;
+                    if (trendingMoviesFacade.ListLayout != null) trendingMoviesFacade.ListLayout.Visible = moviesVisible;
+                    if (trendingMoviesFacade.AlbumListLayout != null) trendingMoviesFacade.AlbumListLayout.Visible = moviesVisible;
+                    if (trendingMoviesFacade.ThumbnailLayout != null) trendingMoviesFacade.ThumbnailLayout.Visible = moviesVisible;
+                    if (trendingMoviesFacade.CoverFlowLayout != null) trendingMoviesFacade.CoverFlowLayout.Visible = moviesVisible;
+                }
+
+                if (trendingShowsFacade != null)
+                {
+                    trendingShowsFacade.Visible = !moviesVisible;
+                    if (trendingShowsFacade.FilmstripLayout != null) trendingShowsFacade.FilmstripLayout.Visible = !moviesVisible;
+                    if (trendingShowsFacade.ListLayout != null) trendingShowsFacade.ListLayout.Visible = !moviesVisible;
+                    if (trendingShowsFacade.AlbumListLayout != null) trendingShowsFacade.AlbumListLayout.Visible = !moviesVisible;
+                    if (trendingShowsFacade.ThumbnailLayout != null) trendingShowsFacade.ThumbnailLayout.Visible = !moviesVisible;
+                    if (trendingShowsFacade.CoverFlowLayout != null) trendingShowsFacade.CoverFlowLayout.Visible = !moviesVisible;
+                }
+            }
+        }
+
         private void LoadTrendingMovies()
         {
             TraktLogger.Debug("Loading Trakt Trending Movies...");
@@ -348,6 +392,9 @@ namespace TraktPlugin
 
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
+                // update toggle visibility
+                SetTrendingVisibility();
+
                 facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
                 if (facade == null) return;
 
@@ -497,6 +544,8 @@ namespace TraktPlugin
             StopTrendingMoviesDownload = false;
             GetImages<TraktMovie.MovieImages>(movieImages);
 
+            SetTrendingVisibility();
+
             TraktLogger.Debug("Finished Loading Trending Movies facade...");
         }
 
@@ -509,6 +558,9 @@ namespace TraktPlugin
 
             if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
             {
+                // update toggle visibility
+                SetTrendingVisibility();
+
                 facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
                 if (facade == null) return;
 
@@ -656,6 +708,8 @@ namespace TraktPlugin
             // Download images Async and set to facade
             StopTrendingShowsDownload = false;
             GetImages<TraktShow.ShowImages>(showImages);
+            
+            SetTrendingVisibility();
 
             TraktLogger.Debug("Finished Loading Trending Shows facade...");
         }
@@ -1265,7 +1319,7 @@ namespace TraktPlugin
         public TraktActivity PreviousActivity { get; set; }
         public IEnumerable<TraktTrendingMovie> PreviousTrendingMovies { get; set; }
         public IEnumerable<TraktTrendingShow> PreviousTrendingShows { get; set; }
-        public TraktUserProfile.Statistics PreviousStatistics { get; set; }
+        public TraktUserProfile.Statistics PreviousStatistics { get; set; }        
 
         #endregion
 
@@ -1374,6 +1428,12 @@ namespace TraktPlugin
             switch (message.Message)
             {                   
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
+                    if (message.SenderControlId == (int)TraktDashboardControls.ToggleTrendingCheckButton)
+                    {
+                        TraktSettings.DashboardMovieTrendingActive = !TraktSettings.DashboardMovieTrendingActive;
+                        SetTrendingVisibility();
+                    }
+
                     if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
                     if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
                     {
@@ -1558,7 +1618,6 @@ namespace TraktPlugin
                 TrendingShowsTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
-
         #endregion
     }
 

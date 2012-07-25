@@ -767,14 +767,28 @@ namespace TraktPlugin
             if (TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartActivityPolling();
-                dashBoard.StartTrendingShowsPolling();
-                dashBoard.StartTrendingMoviesPolling();
             }
             else
             {
                 dashBoard.StopActivityPolling();
-                dashBoard.StopTrendingShowsPolling();
+            }
+
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(windowID.ToString()))
+            {
+                dashBoard.StartTrendingMoviesPolling();
+            }
+            else
+            {
                 dashBoard.StopTrendingMoviesPolling();
+            }
+
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(windowID.ToString()))
+            {
+                dashBoard.StartTrendingShowsPolling();
+            }
+            else
+            {
+                dashBoard.StopTrendingShowsPolling();
             }
             #endregion
 
