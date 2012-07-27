@@ -941,11 +941,7 @@ namespace TraktPlugin.GUI
             if (selectedItem.TVTag as TraktActivity.Activity == null) return;
             TraktMovie selectedMovie = (selectedItem.TVTag as TraktActivity.Activity).Movie;
 
-            string title = selectedMovie.Title;
-            string imdbid = selectedMovie.Imdb;
-            int year = Convert.ToInt32(selectedMovie.Year);
-
-            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+            GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
         }
 
         private void CheckAndPlayEpisode()

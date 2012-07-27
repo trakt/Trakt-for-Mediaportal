@@ -574,11 +574,7 @@ namespace TraktPlugin.GUI
             TraktUserListItem userListItem = selectedItem.TVTag as TraktUserListItem;
             if (userListItem == null || userListItem.Movie == null) return;
 
-            string title = userListItem.Movie.Title;
-            string imdbid = userListItem.Movie.Imdb;
-            int year = Convert.ToInt32(userListItem.Year);
-
-            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+            GUICommon.CheckAndPlayMovie(jumpTo, userListItem.Movie);
         }
 
         private TraktShowSync CreateShowSyncData(TraktShow show)

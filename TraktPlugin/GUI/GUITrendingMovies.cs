@@ -418,11 +418,7 @@ namespace TraktPlugin.GUI
             TraktTrendingMovie selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
             if (selectedMovie == null) return;
 
-            string title = selectedMovie.Title;
-            string imdbid = selectedMovie.Imdb;
-            int year = Convert.ToInt32(selectedMovie.Year);
-
-            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+            GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
         }
 
         private TraktMovieSync CreateSyncData(TraktTrendingMovie movie)
@@ -663,7 +659,7 @@ namespace TraktPlugin.GUI
             foreach (var movie in movies)
             {
                 GUITraktTrendingMovieListItem item = new GUITraktTrendingMovieListItem(movie.Title);
-
+                
                 item.Label2 = movie.Year;
                 item.TVTag = movie;
                 item.Item = movie.Images;

@@ -495,11 +495,7 @@ namespace TraktPlugin.GUI
             TraktMovie selectedMovie = selectedItem.TVTag as TraktMovie;
             if (selectedMovie == null) return;
 
-            string title = selectedMovie.Title;
-            string imdbid = selectedMovie.Imdb;
-            int year = Convert.ToInt32(selectedMovie.Year);
-
-            GUICommon.CheckAndPlayMovie(jumpTo, title, year, imdbid);
+            GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
         }
 
         private TraktMovieSync CreateSyncData(TraktMovie movie)

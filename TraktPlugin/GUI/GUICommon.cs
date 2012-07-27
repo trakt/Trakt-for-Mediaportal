@@ -99,9 +99,10 @@ namespace TraktPlugin.GUI
 
             string title = movie.Title;
             string imdbid = movie.Imdb;
+            string trailer = movie.Trailer;
             int year = Convert.ToInt32(movie.Year);
 
-            CheckAndPlayMovie(jumpTo, title, year, imdbid);
+            CheckAndPlayMovie(jumpTo, title, year, imdbid, trailer);
         }
 
         /// <summary>
@@ -110,6 +111,10 @@ namespace TraktPlugin.GUI
         /// </summary>
         /// <param name="jumpTo">false if movie should be played directly</param>
         public static void CheckAndPlayMovie(bool jumpTo, string title, int year, string imdbid)
+        {
+            CheckAndPlayMovie(jumpTo, title, year, imdbid, null);
+        }
+        public static void CheckAndPlayMovie(bool jumpTo, string title, int year, string imdbid, string trailer)
         {
             TraktLogger.Info("Attempting to play movie: {0} ({1}) [{2}]", title, year, imdbid);
             bool handled = false;
@@ -188,6 +193,13 @@ namespace TraktPlugin.GUI
 
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
+                if (!string.IsNullOrEmpty(trailer))
+                {
+                    TraktLogger.Info("No movies found! Attempting to play trailer.");
+                    bool success = TraktHandlers.OnlineVideos.Play(trailer);
+                    if (success) return;
+                }
+
                 TraktLogger.Info("No movies found! Attempting Trailer lookup in IMDb Trailers.");
                 string loadingParameter = string.Format("site:IMDb Movie Trailers|search:{0}|return:Locked", imdbid);
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
