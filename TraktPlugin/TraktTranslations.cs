@@ -388,6 +388,7 @@ namespace TraktPlugin.GUI
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
+        public static string PlayTrailerStream = "Play Trailer Stream";
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";
         public static string Public = "Public";

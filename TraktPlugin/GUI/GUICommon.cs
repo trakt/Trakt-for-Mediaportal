@@ -799,6 +799,13 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(Translation.Trailer);
 
+            if (!string.IsNullOrEmpty(movie.Trailer))
+            {
+                // trailer can be played without searching
+                GUIListItem pItem = new GUIListItem(Translation.PlayTrailerStream);
+                dlg.Add(pItem);
+            }
+
             foreach (TrailerSiteMovies site in Enum.GetValues(typeof(TrailerSiteMovies)))
             {
                 string menuItem = Enum.GetName(typeof(TrailerSiteMovies), site);
@@ -833,6 +840,13 @@ namespace TraktPlugin.GUI
                         siteUtil = "YouTube";
                         searchParam = movie.Title;
                         break;
+
+                    default:
+                        if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+                        {
+                            TraktHandlers.OnlineVideos.Play(movie.Trailer);
+                        }
+                        return;
                 }
 
                 string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);

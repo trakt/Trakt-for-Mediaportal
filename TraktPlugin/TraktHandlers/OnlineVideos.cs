@@ -329,7 +329,7 @@ namespace TraktPlugin.TraktHandlers
                     factory.PreparedPlayer.Dispose();
                 }
             },
-            "Play Trailer Stream", false);
+            GUI.Translation.PlayTrailerStream, false);
            
             return true;
         }
