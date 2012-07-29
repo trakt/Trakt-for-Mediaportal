@@ -45,13 +45,6 @@ namespace TraktPlugin.GUI
             WatchedHistory
         }
 
-        enum TrailerSite
-        {
-            IMDb,
-            iTunes,
-            YouTube
-        }
-
         enum ContextMenuItem
         {
             Trailers,
@@ -739,9 +732,9 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Trailers):
                     if (selectedMovie != null)
-                        ShowTrailersMenu<TraktMovie>(selectedMovie);
+                        GUICommon.ShowMovieTrailersMenu(selectedMovie);
                     else
-                        ShowTrailersMenu<TraktShow>(selectedShow);
+                        GUICommon.ShowTVShowTrailersMenu(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddMovieToList):
@@ -1030,70 +1023,6 @@ namespace TraktPlugin.GUI
             };
 
             deleteFriendThread.Start(user);
-        }
-
-        private void ShowTrailersMenu<T>(T item)
-        {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSite), site);
-                // iTunes site only supports movie trailers
-                if (item is TraktShow && menuItem == "iTunes") continue;
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Movie Trailers";
-                        if (item is TraktMovie)
-                        {
-                            if (!string.IsNullOrEmpty((item as TraktMovie).Imdb))
-                                // Exact search
-                                searchParam = (item as TraktMovie).Imdb;
-                            else
-                                searchParam = (item as TraktMovie).Title;
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty((item as TraktShow).Imdb))
-                                // Exact search
-                                searchParam = (item as TraktShow).Imdb;
-                            else
-                                searchParam = (item as TraktShow).Title;
-                        }
-                        break;
-
-                    case ("iTunes"):
-                        siteUtil = "iTunes Movie Trailers";
-                        searchParam = (item as TraktMovie).Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        if (item is TraktActivity.Activity)
-                            searchParam = (item as TraktMovie).Title;
-                        else
-                            searchParam = (item as TraktShow).Title;
-                        break;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
-            }
         }
 
         private void LoadFriendsList()

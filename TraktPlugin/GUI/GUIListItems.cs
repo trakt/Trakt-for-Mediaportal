@@ -48,13 +48,6 @@ namespace TraktPlugin.GUI
             Filmstrip = 3,
         }
 
-        enum TrailerSite
-        {
-            IMDb,
-            iTunes,
-            YouTube
-        }
-
         enum ContextMenuItem
         {
             MarkAsWatched,
@@ -498,7 +491,10 @@ namespace TraktPlugin.GUI
                     break;
                 
                 case ((int)ContextMenuItem.Trailers):
-                    ShowTrailersMenu(userListItem);
+                    if (SelectedType == TraktItemType.movie)
+                        GUICommon.ShowMovieTrailersMenu(userListItem.Movie);
+                    else
+                        GUICommon.ShowTVShowTrailersMenu(userListItem.Show);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -758,55 +754,6 @@ namespace TraktPlugin.GUI
             else if (SelectedType == TraktItemType.episode)
             {
                 GUICommon.RateEpisode(item.Show, item.Episode);
-            }
-        }
-
-        private void ShowTrailersMenu(TraktUserListItem item)
-        {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSite), site);
-                if (SelectedType != TraktItemType.movie && menuItem == "iTunes") continue;
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);                
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Trailers";
-                        if (!string.IsNullOrEmpty(item.ImdbId))
-                            // Exact search
-                            searchParam = item.ImdbId;
-                        else
-                            searchParam = item.Title;
-                        break;
-
-                    case ("iTunes"):
-                        siteUtil = "iTunes Movie Trailers";
-                        searchParam = item.Movie.Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        searchParam = item.Title;
-                        break;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
 

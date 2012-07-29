@@ -75,12 +75,6 @@ namespace TraktPlugin.GUI
             WatchlistFilter
         }
 
-        enum TrailerSite
-        {
-            IMDb,
-            YouTube
-        }
-
         enum StartDates
         {
             Today,
@@ -565,7 +559,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    if (episodeItem != null) ShowTrailersMenu(episodeItem);
+                    if (episodeItem != null) GUICommon.ShowTVShowTrailersMenu(episodeItem.Show);
                     break;
 
                 case ((int)ContextMenuItem.WatchlistFilter):
@@ -756,49 +750,6 @@ namespace TraktPlugin.GUI
             string searchterm = string.IsNullOrEmpty(episode.Show.Imdb) ? episode.Show.Title : episode.Show.Imdb;
 
             GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
-        }
-
-        private void ShowTrailersMenu(TraktCalendar.TraktEpisodes episodeItem)
-        {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSite), site);
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(episodeItem.Show.Imdb))
-                            // Exact search
-                            searchParam = episodeItem.Show.Imdb;
-                        else
-                            searchParam = episodeItem.Show.Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        searchParam = episodeItem.Show.Title;
-                        break;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
-            }
         }
 
         private void ShowStartDateMenu()

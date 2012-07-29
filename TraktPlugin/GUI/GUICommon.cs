@@ -10,6 +10,20 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
+    #region Enums
+    enum TrailerSiteMovies
+    {
+        IMDb,
+        iTunes,
+        YouTube
+    }
+
+    enum TrailerSiteShows
+    {
+        IMDb,
+        YouTube
+    }
+
     enum TraktGUIWindows
     {
         Main = 87258,
@@ -66,9 +80,11 @@ namespace TraktPlugin.GUI
         CustomList = 97261,
         RelatedItems = 97262
     }
+    #endregion
 
     public class GUICommon
     {
+        #region Check Login
         public static bool CheckLogin()
         {
             return CheckLogin(true);
@@ -92,7 +108,9 @@ namespace TraktPlugin.GUI
             }
             return true;
         }
+        #endregion
 
+        #region Play Movie
         public static void CheckAndPlayMovie(bool jumpTo, TraktMovie movie)
         {
             if (movie == null) return;
@@ -205,9 +223,10 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
                 handled = true;
             }
-
         }
+        #endregion
 
+        #region PlayEpisode
         public static void CheckAndPlayEpisode(TraktShow show, TraktEpisode episode)
         {
             if (show == null || episode == null) return;
@@ -306,6 +325,7 @@ namespace TraktPlugin.GUI
                 handled = true;
             }
         }
+        #endregion
 
         #region Rate Movie
 
@@ -766,6 +786,109 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
         }
+
+        #endregion
+
+        #region GUI Context Menus
+
+        #region Movie Trailers
+
+        public static void ShowMovieTrailersMenu(TraktMovie movie)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.Trailer);
+
+            foreach (TrailerSiteMovies site in Enum.GetValues(typeof(TrailerSiteMovies)))
+            {
+                string menuItem = Enum.GetName(typeof(TrailerSiteMovies), site);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                dlg.Add(pItem);
+            }
+            
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                string siteUtil = string.Empty;
+                string searchParam = string.Empty;
+
+                switch (dlg.SelectedLabelText)
+                {
+                    case ("IMDb"):
+                        siteUtil = "IMDb Movie Trailers";
+                        if (!string.IsNullOrEmpty(movie.Imdb))
+                            // Exact search
+                            searchParam = movie.Imdb;
+                        else
+                            searchParam = movie.Title;
+                        break;
+
+                    case ("iTunes"):
+                        siteUtil = "iTunes Movie Trailers";
+                        searchParam = movie.Title;
+                        break;
+
+                    case ("YouTube"):
+                        siteUtil = "YouTube";
+                        searchParam = movie.Title;
+                        break;
+                }
+
+                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
+                
+                // Launch OnlineVideos Trailer search
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
+            }
+        }
+
+        #endregion
+
+        #region TV Show Trailers
+        public static void ShowTVShowTrailersMenu(TraktShow show)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.Trailer);
+
+            foreach (TrailerSiteShows site in Enum.GetValues(typeof(TrailerSiteShows)))
+            {
+                string menuItem = Enum.GetName(typeof(TrailerSiteShows), site);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                dlg.Add(pItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                string siteUtil = string.Empty;
+                string searchParam = string.Empty;
+
+                switch (dlg.SelectedLabelText)
+                {
+                    case ("IMDb"):
+                        siteUtil = "IMDb Movie Trailers";
+                        if (!string.IsNullOrEmpty(show.Imdb))
+                            // Exact search
+                            searchParam = show.Imdb;
+                        else
+                            searchParam = show.Title;
+                        break;
+
+                    case ("YouTube"):
+                        siteUtil = "YouTube";
+                        searchParam = show.Title;
+                        break;
+                }
+
+                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
+
+                // Launch OnlineVideos Trailer search
+                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
+            }
+        }
+        #endregion
 
         #endregion
 

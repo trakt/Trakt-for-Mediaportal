@@ -81,12 +81,6 @@ namespace TraktPlugin.GUI
             SearchTorrent
         }
 
-        enum TrailerSite
-        {
-            IMDb,
-            YouTube
-        }
-
         #endregion
 
         #region Constructor
@@ -351,7 +345,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    ShowTrailersMenu(selectedShow);
+                    GUICommon.ShowTVShowTrailersMenu(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
@@ -411,49 +405,6 @@ namespace TraktPlugin.GUI
 
             TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
             GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb, jumpTo);
-        }
-
-        private void ShowTrailersMenu(TraktShow show)
-        {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            foreach (TrailerSite site in Enum.GetValues(typeof(TrailerSite)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSite), site);
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(show.Imdb))
-                            // Exact search
-                            searchParam = show.Imdb;
-                        else
-                            searchParam = show.Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        searchParam = show.Title;
-                        break;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
-            }
         }
 
         private TraktShowSync CreateSyncData(TraktShow show)
