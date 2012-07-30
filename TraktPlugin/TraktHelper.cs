@@ -311,7 +311,7 @@ namespace TraktPlugin
                     {
                         Type = TraktItemType.show.ToString(),
                         Title = title,
-                        Year = Convert.ToInt32(year),
+                        Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year),
                         TvdbId = tvdbid
                     };
 

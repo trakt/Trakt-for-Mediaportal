@@ -240,7 +240,7 @@ namespace TraktPlugin.TraktHandlers
             TraktShowSync.Show syncShow = new TraktShowSync.Show
             {
                 Title = title,
-                Year = Convert.ToInt32(year),
+                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year),
                 TVDBID = imdb.StartsWith("tt") ? null : imdb
             };
             shows.Add(syncShow);

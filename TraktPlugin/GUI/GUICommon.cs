@@ -78,7 +78,17 @@ namespace TraktPlugin.GUI
         Rate = 97259,
         Shouts = 97260,
         CustomList = 97261,
-        RelatedItems = 97262
+        RelatedItems = 97262,
+        TraktMenu = 97270
+    }
+
+    enum TraktMenuItems
+    {
+        AddToWatchList,
+        AddToCustomList,
+        Rate,
+        Shouts,
+        Related
     }
     #endregion
 
@@ -902,6 +912,185 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
+        #endregion
+
+        #region Trakt External Menu
+
+        #region Movies
+        public static void ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
+
+            pItem = new GUIListItem(Translation.Shouts);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.RelatedMovies);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Related;
+
+            pItem = new GUIListItem(Translation.AddToWatchList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
+
+            pItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TraktMenuItems.Rate):
+                    TraktLogger.Info("Rating movie '{0} ({1}) [{2}]'", title, year, imdbid);
+                    GUIUtils.ShowRateDialog<TraktRateMovie>(TraktHandlers.BasicHandler.CreateMovieRateData(title, year, imdbid));
+                    break;
+
+                case ((int)TraktMenuItems.Shouts):
+                    TraktLogger.Info("Searching Shouts for movie '{0} ({1}) [{2}]'", title, year, imdbid);
+                    TraktHelper.ShowMovieShouts(imdbid, title, year, fanart);
+                    break;
+
+                case ((int)TraktMenuItems.Related):
+                    TraktLogger.Info("Show Related Movies for '{0} ({1}) [{2}]'", title, year, imdbid);
+                    TraktHelper.ShowRelatedMovies(imdbid, title, year);
+                    break;
+
+                case ((int)TraktMenuItems.AddToWatchList):
+                    TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Watch List", title, year, imdbid);
+                    TraktHelper.AddMovieToWatchList(title, year, imdbid, true);
+                    break;
+
+                case ((int)TraktMenuItems.AddToCustomList):
+                    TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Custom List", title, year, imdbid);
+                    TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Shows
+        public static void ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
+
+            pItem = new GUIListItem(Translation.Shouts);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.RelatedShows);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Related;
+
+            pItem = new GUIListItem(Translation.AddToWatchList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
+
+            pItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TraktMenuItems.Rate):
+                    TraktLogger.Info("Rating show '{0}'", title);
+                    GUIUtils.ShowRateDialog<TraktRateSeries>(TraktHandlers.BasicHandler.CreateShowRateData(title, tvdbid));
+                    break;
+
+                case ((int)TraktMenuItems.Shouts):
+                    TraktLogger.Info("Searching Shouts for show '{0}'", title);
+                    TraktHelper.ShowTVShowShouts(tvdbid, title, fanart);
+                    break;
+
+                case ((int)TraktMenuItems.Related):
+                    TraktLogger.Info("Show Related Shows for '{0}'", title);
+                    TraktHelper.ShowRelatedShows(tvdbid, title);
+                    break;
+
+                case ((int)TraktMenuItems.AddToWatchList):
+                    TraktLogger.Info("Adding show '{0}' to Watch List", title);
+                    TraktHelper.AddShowToWatchList(title, null, tvdbid);
+                    break;
+
+                case ((int)TraktMenuItems.AddToCustomList):
+                    TraktLogger.Info("Adding show '{0}' to Custom List", title);
+                    TraktHelper.AddRemoveShowInUserList(title, null, tvdbid, false);
+                    break;
+            }
+        }
+        #endregion
+
+        #region Episodes
+        public static void ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
+
+            pItem = new GUIListItem(Translation.Shouts);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.AddToWatchList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
+
+            pItem = new GUIListItem(Translation.AddToList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TraktMenuItems.Rate):
+                    TraktLogger.Info("Rating episode '{0} - {1}x{2}'", title, season, episode);
+                    GUIUtils.ShowRateDialog<TraktRateEpisode>(TraktHandlers.BasicHandler.CreateEpisodeRateData(title, tvdbid, season, episode));
+                    break;
+
+                case ((int)TraktMenuItems.Shouts):
+                    TraktLogger.Info("Searching Shouts for episode '{0} - {1}x{2}'", title, season, episode);
+                    TraktHelper.ShowEpisodeShouts(tvdbid, title, season, episode, fanart);
+                    break;
+
+                case ((int)TraktMenuItems.AddToWatchList):
+                    TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Watch List", title, season, episode);
+                    TraktHelper.AddEpisodeToWatchList(title, year, tvdbid, season, episode);
+                    break;
+
+                case ((int)TraktMenuItems.AddToCustomList):
+                    TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Custom List", title, season, episode);
+                    TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdbid, false);
+                    break;
+            }
+        }
+        #endregion
+
         #endregion
 
         #endregion

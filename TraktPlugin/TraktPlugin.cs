@@ -808,6 +808,7 @@ namespace TraktPlugin
             bool validRateItem = false;
             bool validShoutItem = false;
             bool validRelatedItem = false;
+            bool validTraktMenuItem = false;
             string title = string.Empty;
             string year = string.Empty;
             string imdb = string.Empty;
@@ -867,6 +868,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.Rate):
                                 case ((int)ExternalPluginControls.Shouts):
                                 case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
                                     year = GUIPropertyManager.GetProperty("#year").Trim();
@@ -882,6 +884,7 @@ namespace TraktPlugin
                                         if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems) validRelatedItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.TraktMenu) validTraktMenuItem = true;
                                     }
 
                                     // Set focus to Play Button now so we dont go in a loop
@@ -899,6 +902,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.Rate):
                                 case ((int)ExternalPluginControls.Shouts):
                                 case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
                                     title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
                                     year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
@@ -912,6 +916,7 @@ namespace TraktPlugin
                                         if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems) validRelatedItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.TraktMenu) validTraktMenuItem = true;
                                     }
 
                                     // Set focus to Play Button now so we dont go in a loop
@@ -921,76 +926,53 @@ namespace TraktPlugin
                             #endregion
                             break;
                         case (int)ExternalPluginWindows.TVSeries:
-                            #region Rate Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Rate)
+                            #region WatchList/CustomList/Rate/Shouts/Related
+                            switch (message.SenderControlId)
                             {
-                                Object obj = TVSeries.SelectedObject;
-                                if (obj != null)
-                                {
-                                    switch (TVSeries.GetSelectedType(obj))
+                                case ((int)ExternalPluginControls.WatchList):
+                                case ((int)ExternalPluginControls.CustomList):
+                                case ((int)ExternalPluginControls.Rate):
+                                case ((int)ExternalPluginControls.Shouts):
+                                case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.TraktMenu):
+                                    Object obj = TVSeries.SelectedObject;
+                                    bool validItem = false;
+                                    if (obj != null)
                                     {
-                                        case TVSeries.SelectedType.Episode:
-                                            type = "episode";
-                                            validRateItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
-                                            break;
+                                        switch (TVSeries.GetSelectedType(obj))
+                                        {
+                                            case TVSeries.SelectedType.Episode:
+                                                type = "episode";
+                                                validItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                                break;
 
-                                        case TVSeries.SelectedType.Series:
-                                            type = "series";
-                                            validRateItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
-                                            break;
+                                            case TVSeries.SelectedType.Series:
+                                                type = "series";
+                                                validItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                                break;
 
-                                        default:
-                                            break;
+                                            default:
+                                                break;
+                                        }
+
+                                        fanart = GUIPropertyManager.GetProperty("#TVSeries.Current.Fanart").Trim();
+
+                                        if (validItem)
+                                        {
+                                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems) validRelatedItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.TraktMenu) validTraktMenuItem = true;
+                                        }
                                     }
+
                                     // Set focus to Facade now so we dont go in a loop
                                     GUIControl.FocusControl((int)ExternalPluginWindows.TVSeries, 50);
-                                }
+                                    break;
                             }
-                            #endregion
-                            #region Shouts Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.Shouts)
-                            {
-                                Object obj = TVSeries.SelectedObject;
-                                if (obj != null)
-                                {
-                                    switch (TVSeries.GetSelectedType(obj))
-                                    {
-                                        case TVSeries.SelectedType.Episode:
-                                            type = "episode";
-                                            validShoutItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
-                                            break;
-
-                                        case TVSeries.SelectedType.Series:
-                                            type = "series";
-                                            validShoutItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }
-                                    fanart = GUIPropertyManager.GetProperty("#TVSeries.Current.Fanart").Trim();
-                                }
-                            }
-                            #endregion
-                            #region Related Item Button
-                            if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems)
-                            {
-                                Object obj = TVSeries.SelectedObject;
-                                if (obj != null)
-                                {
-                                    switch (TVSeries.GetSelectedType(obj))
-                                    {
-                                        case TVSeries.SelectedType.Series:
-                                            type = "series";
-                                            validRelatedItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
-                                            break;
-
-                                        default:
-                                            break;
-                                    }                                    
-                                }
-                            }
-                            #endregion
+                            #endregion                            
                             break;
                     }
                     break;
@@ -1002,35 +984,29 @@ namespace TraktPlugin
             #region Add To Watch List
             if (validWatchListItem)
             {
-                if (!GUICommon.CheckLogin(false)) return;
-
-                if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
+                if (type == "movie")
                 {
-                    TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Watch List", type, title, year, imdb);
-
-                    Thread syncThread = new Thread(delegate(object obj)
+                    if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
                     {
-                        if (type == "movie")
-                        {
-                            TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(title, year, imdb), TraktSyncModes.watchlist);
-                            GUIWatchListMovies.ClearCache(TraktSettings.Username);
-                            if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
-                            {
-                                MovingPictures.ClearWatchListCache();
-                                MovingPictures.UpdateCategoriesAndFilters();
-                            }
-                        }
-                        else
-                        {
-                            TraktAPI.TraktAPI.SyncShowWatchList(BasicHandler.CreateShowSyncData(title, year, imdb), TraktSyncModes.watchlist);
-                            GUIWatchListShows.ClearCache(TraktSettings.Username);
-                        }
-                    })
+                        TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Watch List", title, year, imdb);
+                        TraktHelper.AddMovieToWatchList(title, year, imdb, true);
+                    }
+                }
+                else if (type == "show")
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.WatchList, Translation.AddShowToWatchList, true))
                     {
-                        IsBackground = true,
-                        Name = "Adding to Watch List"
-                    };
-                    syncThread.Start();
+                        TraktLogger.Info("Adding show '{0}' to Watch List", title);
+                        TraktHelper.AddShowToWatchList(title, year, tvdb);
+                    }
+                }
+                else if (type == "episode")
+                {
+                    if (GUIUtils.ShowYesNoDialog(Translation.WatchList, Translation.AddEpisodeToWatchList, true))
+                    {
+                        TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Watch List", title, season, episode);
+                        TraktHelper.AddEpisodeToWatchList(title, year, tvdb, season, episode);
+                    }
                 }
             }
             #endregion
@@ -1038,13 +1014,20 @@ namespace TraktPlugin
             #region Add To Custom List
             if (validCustomListItem)
             {
-                if (!GUICommon.CheckLogin(false)) return;
-
-                TraktLogger.Info("Adding {0} '{1} ({2}) [{3}]' to Custom List", type, title, year, imdb);
-
                 if (type == "movie")
                 {
+                    TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Custom List", title, year, imdb);
                     TraktHelper.AddRemoveMovieInUserList(title, year, imdb, false);
+                }
+                else if (type == "show")
+                {
+                    TraktLogger.Info("Adding show '{0}' to Custom List", title);
+                    TraktHelper.AddRemoveShowInUserList(title, year, tvdb, false);
+                }
+                else if (type == "episode")
+                {
+                    TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Custom List", title, season, episode);
+                    TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdb, false);
                 }
             }
             #endregion
@@ -1122,6 +1105,28 @@ namespace TraktPlugin
                         TraktHelper.ShowRelatedShows(tvdb, title);
                         break;
                     #endregion
+                }
+            }
+            #endregion
+
+            #region Trakt Menu
+            if (validTraktMenuItem)
+            {
+                if (!GUICommon.CheckLogin(false)) return;
+
+                switch (type)
+                {
+                    case "movie":
+                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, fanart);
+                        break;
+
+                    case "series":
+                        GUICommon.ShowTraktExtTVShowMenu(title, year, tvdb, fanart);
+                        break;
+
+                    case "episode":
+                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, fanart);
+                        break;
                 }
             }
             #endregion
