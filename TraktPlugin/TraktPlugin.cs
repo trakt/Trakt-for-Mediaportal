@@ -873,10 +873,15 @@ namespace TraktPlugin
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
                                     year = GUIPropertyManager.GetProperty("#year").Trim();
                                     imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                  
+                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
+                                    if (fanart.ToLowerInvariant().Equals("unknown"))
+                                    {
+                                        string movieid = GUIPropertyManager.GetProperty("#movieid").Trim();
+                                        // In mediaportal 1.3A fanart are saved without title but with movieid.
+                                        MediaPortal.Util.FanArt.GetFanArtfilename(movieid, 0, out fanart);
+                                    }
                                     
-                                    fanart = string.Empty;
-                                    MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);                                    
-
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
                                         if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
