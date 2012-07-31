@@ -408,9 +408,9 @@ namespace TraktPlugin
 
                 // get latest trending
                 var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
-                
-                // prevent an unnessarary reload
-                if (!isCached && facade.Count > 0)
+
+                // prevent an unnecessary reload
+                if (!isCached)
                 {
                     // publish properties
                     PublishMovieProperties(trendingMovies);
@@ -575,8 +575,8 @@ namespace TraktPlugin
                 // get latest trending
                 var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
 
-                // precent an unnessarary reload
-                if (!isCached && facade.Count > 0)
+                // prevent an unnecessary reload
+                if (!isCached)
                 {
                     // publish properties
                     PublishShowProperties(trendingShows);

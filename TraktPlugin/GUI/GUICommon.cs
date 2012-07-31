@@ -224,8 +224,8 @@ namespace TraktPlugin.GUI
                 if (!string.IsNullOrEmpty(trailer))
                 {
                     TraktLogger.Info("No movies found! Attempting to play trailer.");
-                    bool success = TraktHandlers.OnlineVideos.Play(trailer);
-                    if (success) return;
+                    TraktHandlers.OnlineVideos.Play(trailer);
+                    return;
                 }
 
                 TraktLogger.Info("No movies found! Attempting Trailer lookup in IMDb Trailers.");
@@ -812,7 +812,7 @@ namespace TraktPlugin.GUI
             if (!string.IsNullOrEmpty(movie.Trailer))
             {
                 // trailer can be played without searching
-                GUIListItem pItem = new GUIListItem(Translation.PlayTrailerStream);
+                GUIListItem pItem = new GUIListItem(Translation.PlayTrailer);
                 dlg.Add(pItem);
             }
 

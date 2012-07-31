@@ -258,80 +258,124 @@ namespace TraktPlugin.TraktHandlers
 
         #region Static Methods
 
-        public static bool Play(string stream)
+        static void GetTrailerUrl(string htmlPage)
         {
-            if (string.IsNullOrEmpty(stream)) return false;
-
-            // use onlinevideo youtube siteutils to get
-            // playback urls as trakt only gives us the html page
-            if (stream.Contains("youtube.com"))
-            {
-                // get playback url from stream
-                TraktLogger.Info("Getting playback url from page '{0}'", stream);
-                
-                var ovHosterProxy = OnlineVideosAppDomain.Domain.CreateInstanceAndUnwrap(typeof(OnlineVideosHosterProxy).Assembly.FullName, typeof(OnlineVideosHosterProxy).FullName) as OnlineVideosHosterProxy;
-                stream = ovHosterProxy.GetVideoUrls(stream);
-
-                if (string.IsNullOrEmpty(stream))
-                {
-                    TraktLogger.Info("Unable to find playback url from stream!", stream);
-                    return false;
-                }
-                TraktLogger.Info("Found playback url: '{0}'", stream);
-            }
-
-            TraktLogger.Info("Preparing graph for playback of '{0}'", stream);
-
-            PlayerFactory factory = new PlayerFactory(PlayerType.Internal, stream);
-            bool? prepareResult = ((OnlineVideosPlayer)factory.PreparedPlayer).PrepareGraph();
-
-            if (prepareResult != true)
-            {
-                TraktLogger.Info("Failed to create Player graph.");
-                return false;
-            }
+            // get playback url from stream
+            TraktLogger.Debug("Getting playback url from page '{0}'", htmlPage);
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                TraktLogger.Info("OnlineVideo Pre-Buffering Started");
-                if (((OnlineVideosPlayer)factory.PreparedPlayer).BufferFile())
-                {
-                    TraktLogger.Info("OnlineVideo Pre-Buffering Complete");
-                    return true;
-                }
-                else
-                {
-                    return null;
-                }
-
+                var ovHosterProxy = OnlineVideosAppDomain.Domain.CreateInstanceAndUnwrap(typeof(OnlineVideosHosterProxy).Assembly.FullName, typeof(OnlineVideosHosterProxy).FullName) as OnlineVideosHosterProxy;
+                var url = ovHosterProxy.GetVideoUrls(htmlPage);
+                return url;
             },
             delegate(bool success, object result)
             {
-                if ((result as bool?) != null)
-                {
-                    (factory.PreparedPlayer as OVSPLayer).GoFullscreen = true;
+                string url = result as string;
 
-                    IPlayerFactory savedFactory = g_Player.Factory;
-                    g_Player.Factory = factory;
-                    try
-                    {
-                        g_Player.Play(stream, g_Player.MediaType.Video);
-                    }
-                    catch (Exception e)
-                    {
-                        TraktLogger.Warning("Exception while playing stream: {0}", e.Message);
-                    }
-                    g_Player.Factory = savedFactory;
-                }
-                else
+                if (success)
                 {
-                    TraktLogger.Error("Failed to Buffer stream.");
-                    factory.PreparedPlayer.Dispose();
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        BufferTrailer(url);
+                    }
+                    else
+                    {
+                        TraktLogger.Info("Unable to get url for trailer playback.", url);
+                        GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
+                    }
                 }
             },
-            GUI.Translation.PlayTrailerStream, false);
-           
-            return true;
+            GUI.Translation.GettingTrailerUrls, false);
+        }
+
+        static void BufferTrailer(string url)
+        {
+            // stop player if currently playing some other video
+            if (g_Player.Playing) g_Player.Stop();
+
+            // prepare graph must be done on the MP main thread
+            TraktLogger.Debug("Preparing graph for playback of '{0}'", url);
+            var factory = new PlayerFactory(PlayerType.Internal, url);
+            bool? prepareResult = ((OnlineVideosPlayer)factory.PreparedPlayer).PrepareGraph();
+            TraktLogger.Debug("Preparing graph complete.");
+
+            switch (prepareResult)
+            {
+                case true:
+                    GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+                    {
+                        TraktLogger.Info("OnlineVideo pre-buffering started.");
+                        if (((OnlineVideosPlayer)factory.PreparedPlayer).BufferFile())
+                        {
+                            TraktLogger.Info("OnlineVideo pre-buffering complete.");
+                            return true;
+                        }
+                        else
+                        {
+                            TraktLogger.Error("Error pre-buffering trailer.");
+                            return null;
+                        }
+                    },
+                    delegate(bool success, object result)
+                    {
+                        PlayTrailer(url, factory, result as bool?);
+                    },
+                    GUI.Translation.BufferingTrailer, false);
+                    break;
+
+                case false:
+                    // play without buffering
+                    PlayTrailer(url, factory, prepareResult);
+                    break;
+
+                default:
+                    TraktLogger.Error("Failed to create player graph.");
+                    GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
+                    break;
+            }
+        }
+
+        static void PlayTrailer(string url, PlayerFactory factory, bool? preparedPlayerResult)
+        {
+            if (preparedPlayerResult != null)
+            {
+                (factory.PreparedPlayer as OVSPLayer).GoFullscreen = true;
+
+                var savedFactory = g_Player.Factory;
+                g_Player.Factory = factory;
+
+                try
+                {
+                    g_Player.Play(factory.PreparedUrl, g_Player.MediaType.Video);
+                }
+                catch (Exception e)
+                {
+                    TraktLogger.Warning("Exception while playing trailer: {0}", e.Message);
+                }
+                g_Player.Factory = savedFactory;
+            }
+            else
+            {
+                factory.PreparedPlayer.Dispose();
+                GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
+            }
+        }
+
+        public static void Play(string url)
+        {
+            if (string.IsNullOrEmpty(url)) return;
+
+            if (url.Contains("youtube.com"))
+            {
+                // use onlinevideo youtube siteutils to get
+                // playback urls as trakt only gives us the html page
+                GetTrailerUrl(url);
+            }
+            else
+            {
+                BufferTrailer(url);
+            }
         }
 
         #endregion

@@ -43,6 +43,7 @@
   <string Field="AdvancedSettings">Advanced Settings</string>
   
   <!-- B -->
+  <string Field="BufferingTrailer">Buffering Trailer</string>
   
   <!-- C -->
   <string Field="Cancel">Cancel</string>
@@ -128,6 +129,7 @@
   <string Field="GettingWatchListEpisodes">Getting Watch List Episodes</string>
   <string Field="GettingRelatedMovies">Getting Related Movies</string>
   <string Field="GettingRelatedShows">Getting Related Shows</string>
+  <string Field="GettingTrailerUrls">Getting Trailer Urls</string>
   
   <!-- H -->
   <string Field="Hate">Hate</string>
@@ -209,7 +211,7 @@
   <string Field="Protected">Protected</string>
   <string Field="PersonWatching">1 Person Watching</string>
   <string Field="PeopleWatching">{0} People Watching</string>
-  <string Field="PlayTrailerStream">Play Trailer Stream</string>
+  <string Field="PlayTrailer">Play Trailer</string>
   <string Field="Plugin">Plugin</string>
   <string Field="Plugins">Plugins</string>
   <string Field="Public">Public</string>
@@ -328,6 +330,7 @@
   <string Field="UnRate">UnRate</string>
   <string Field="UpdatingCategories">Updating Categories</string>
   <string Field="UpdatingFilters">Updating Filters</string>
+  <string Field="UnableToPlayTrailer">Unable to play trailer.</string>
   
   <!-- V -->
   <string Field="View">View</string>

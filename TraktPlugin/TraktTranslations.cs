@@ -221,7 +221,7 @@ namespace TraktPlugin.GUI
         public static string AdvancedSettings = "Advanced Settings";
 
         // B
-        
+        public static string BufferingTrailer = "Buffering Trailer";
 
         // C
         public static string Cancel = "Cancel";
@@ -307,6 +307,7 @@ namespace TraktPlugin.GUI
         public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
         public static string GettingRelatedMovies = "Getting Related Movies";
         public static string GettingRelatedShows = "Getting Related Shows";
+        public static string GettingTrailerUrls = "Getting Trailer Urls";
 
         // H
         public static string Hate = "Hate";
@@ -388,7 +389,7 @@ namespace TraktPlugin.GUI
         public static string Protected = "Protected";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
-        public static string PlayTrailerStream = "Play Trailer Stream";
+        public static string PlayTrailer = "Play Trailer";
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";
         public static string Public = "Public";
@@ -507,6 +508,7 @@ namespace TraktPlugin.GUI
         public static string UnRate = "UnRate";
         public static string UpdatingCategories = "Updating Categories";
         public static string UpdatingFilters = "Updating Filters";
+        public static string UnableToPlayTrailer = "Unable to play trailer.";
 
         // V
         public static string View = "View";
