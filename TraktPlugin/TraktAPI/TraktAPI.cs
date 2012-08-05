@@ -786,15 +786,53 @@ namespace TraktPlugin.TraktAPI
         }
 
 
+        /// <summary>
+        /// Get Recommendations with out any filtering
+        /// </summary>
         public static IEnumerable<TraktMovie> GetRecommendedMovies()
         {
             string response = Transmit(TraktURIs.UserMovieRecommendations, GetUserAuthentication());
             return response.FromJSONArray<TraktMovie>();
         }
 
+        public static IEnumerable<TraktMovie> GetRecommendedMovies(string genre, bool hidecollected, bool hidewatchlisted, int startyear, int endyear)
+        {
+            var traktRecommendationPost = new TraktRecommendations
+            {
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                HideCollected = hidecollected,
+                HideWatchlisted = hidewatchlisted,
+                StartYear = startyear,
+                EndYear = endyear
+            };
+
+            string response = Transmit(TraktURIs.UserMovieRecommendations, traktRecommendationPost.ToJSON());
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        /// <summary>
+        /// Get Recommendations with out any filtering
+        /// </summary>        
         public static IEnumerable<TraktShow> GetRecommendedShows()
         {
             string response = Transmit(TraktURIs.UserShowsRecommendations, GetUserAuthentication());
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        public static IEnumerable<TraktShow> GetRecommendedShows(string genre, bool hidecollected, bool hidewatchlisted, int startyear, int endyear)
+        {
+            var traktRecommendationPost = new TraktRecommendations
+            {
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password,
+                HideCollected = hidecollected,
+                HideWatchlisted = hidewatchlisted,
+                StartYear = startyear,
+                EndYear = endyear
+            };
+
+            string response = Transmit(TraktURIs.UserShowsRecommendations, traktRecommendationPost.ToJSON());
             return response.FromJSONArray<TraktShow>();
         }
 
