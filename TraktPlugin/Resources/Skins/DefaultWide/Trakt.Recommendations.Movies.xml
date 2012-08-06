@@ -240,22 +240,117 @@
 				<visible>!Control.HasFocus(50)</visible>				
 				<control>
 					<description>button group</description>
-					<type>group</type>					
-					<posX>71</posX>
+					<type>group</type>
+					<posX>51</posX>
 					<posY>121</posY>
 					<layout>StackLayout</layout>          
 					<visible>!Control.HasFocus(50)</visible>
 					<animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
 					<animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
 					<control>
-          <description>Change Layout</description>
-          <type>button</type>
-          <id>2</id>
-					<label>-</label>
-          <onup>21</onup>
-          <onleft>50</onleft>
-					<onright>50</onright>
-        </control>
+						<description>Change Layout</description>
+						<type>button</type>
+						<id>2</id>
+						<label>-</label>
+						<onup>21</onup>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<width>300</width>
+					</control>
+					<control>
+						<description>Genres</description>
+						<type>button</type>
+						<id>3</id>
+						<label>-</label>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<width>300</width>
+					</control>
+					<control>
+						<description>Toggle Hide Collected</description>
+						<type>checkbutton</type>
+						<id>4</id>
+						<width>300</width>
+						<height>45</height>
+						<textXOff>11</textXOff>
+						<textYOff>6</textYOff>
+						<label>#Trakt.Translation.HideCollected.Label</label>
+						<font>font12</font>
+						<markWidth>25</markWidth>
+						<markHeight>25</markHeight>
+						<markXOff>15</markXOff>
+						<markalign>right</markalign>
+						<markvalign>middle</markvalign>
+						<textureFocus>button_focus.png</textureFocus>
+						<textureNoFocus>button_nofocus.png</textureNoFocus>
+						<textureCheckmark>check-box.png</textureCheckmark>
+						<textureCheckmarkNoFocus>check-boxNF.png</textureCheckmarkNoFocus>
+						<shadowAngle>45</shadowAngle>
+						<shadowDistance>1</shadowDistance>
+						<shadowColor>ff000000</shadowColor>
+						<font>font12</font>
+						<textcolor>ffffffff</textcolor>
+						<colordiffuse>ffffffff</colordiffuse>
+						<textcolorNoFocus>ffa9d0f7</textcolorNoFocus>
+						<disabledcolor>ff808080</disabledcolor>
+						<dimColor>ff000000</dimColor>
+						<textalign>left</textalign>
+						<textvalign>middle</textvalign>
+						<onleft>50</onleft>
+						<onright>50</onright>
+					</control>
+					<control>
+						<description>Toggle Hide Watchlisted</description>
+						<type>checkbutton</type>
+						<id>5</id>
+						<width>300</width>
+						<height>45</height>
+						<textXOff>11</textXOff>
+						<textYOff>6</textYOff>
+						<label>#Trakt.Translation.HideWatchlisted.Label</label>
+						<font>font12</font>
+						<markWidth>25</markWidth>
+						<markHeight>25</markHeight>
+						<markXOff>15</markXOff>
+						<markalign>right</markalign>
+						<markvalign>middle</markvalign>
+						<textureFocus>button_focus.png</textureFocus>
+						<textureNoFocus>button_nofocus.png</textureNoFocus>
+						<textureCheckmark>check-box.png</textureCheckmark>
+						<textureCheckmarkNoFocus>check-boxNF.png</textureCheckmarkNoFocus>
+						<shadowAngle>45</shadowAngle>
+						<shadowDistance>1</shadowDistance>
+						<shadowColor>ff000000</shadowColor>
+						<font>font12</font>
+						<textcolor>ffffffff</textcolor>
+						<colordiffuse>ffffffff</colordiffuse>
+						<textcolorNoFocus>ffa9d0f7</textcolorNoFocus>
+						<disabledcolor>ff808080</disabledcolor>
+						<dimColor>ff000000</dimColor>
+						<textalign>left</textalign>
+						<textvalign>middle</textvalign>
+						<onleft>50</onleft>
+						<onright>50</onright>
+					</control>
+					<control>
+						<description>Start Year</description>
+						<type>button</type>
+						<id>6</id>
+						<label>-</label>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<width>300</width>
+					</control>
+					<control>
+						<description>End Year</description>
+						<type>button</type>
+						<id>7</id>
+						<label>-</label>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<width>300</width>
+						<ondown>2</ondown>
+					</control>
 				</control>
       </control>
 		</control>
