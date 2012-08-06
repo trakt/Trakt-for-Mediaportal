@@ -108,6 +108,7 @@ namespace TraktPlugin.GUI
             {
                 if (_RecommendedShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
+                    SetRecommendationProperties();
                     if ((StartYear > EndYear) && EndYear != 0) StartYear = 0;
                     _RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows(TraktGenres.ShowGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
                     LastRequest = DateTime.UtcNow;
@@ -738,6 +739,17 @@ namespace TraktPlugin.GUI
             EndYear = TraktSettings.ShowRecommendationEndYear;
             if (startYearButton != null) GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
             if (endYearButton != null) GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
+
+            SetRecommendationProperties();
+        }
+
+        private void SetRecommendationProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.Recommendations.Genre", TraktGenres.Translate(CurrentGenre));
+            GUIUtils.SetProperty("#Trakt.Recommendations.HideCollected", HideCollected.ToString());
+            GUIUtils.SetProperty("#Trakt.Recommendations.HideWatchlisted", HideWatchlisted.ToString());
+            GUIUtils.SetProperty("#Trakt.Recommendations.StartYear", StartYear == 0 ? "1919" : StartYear.ToString());
+            GUIUtils.SetProperty("#Trakt.Recommendations.EndYear", EndYear == 0 ? DateTime.Now.AddYears(3).Year.ToString() : EndYear.ToString());
         }
 
         private void ClearProperties()
