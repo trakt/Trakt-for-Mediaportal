@@ -801,6 +801,7 @@ namespace TraktPlugin.TraktAPI
             {
                 Username = TraktSettings.Username,
                 Password = TraktSettings.Password,
+                Genre = genre,
                 HideCollected = hidecollected,
                 HideWatchlisted = hidewatchlisted,
                 StartYear = startyear,
@@ -826,6 +827,7 @@ namespace TraktPlugin.TraktAPI
             {
                 Username = TraktSettings.Username,
                 Password = TraktSettings.Password,
+                Genre = genre,
                 HideCollected = hidecollected,
                 HideWatchlisted = hidewatchlisted,
                 StartYear = startyear,

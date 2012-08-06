@@ -24,6 +24,21 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(3)]
+        protected GUIButtonControl genreButton = null;
+
+        [SkinControl(4)]
+        protected GUICheckButton hideCollectedButton = null;
+
+        [SkinControl(5)]
+        protected GUICheckButton hideWatchlistedButton = null;
+
+        [SkinControl(6)]
+        protected GUIButtonControl startYearButton = null;
+
+        [SkinControl(7)]
+        protected GUIButtonControl endYearButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -82,9 +97,14 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         bool StopDownload { get; set; }
-        private Layout CurrentLayout { get; set; }
+        Layout CurrentLayout { get; set; }
+        string CurrentGenre { get; set; }
+        bool HideCollected { get; set; }
+        bool HideWatchlisted { get; set; }
+        int StartYear { get; set; }
+        int EndYear { get; set; }
         int PreviousSelectedIndex { get; set; }
-        private ImageSwapper backdrop;
+        ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
 
         IEnumerable<TraktMovie> RecommendedMovies
@@ -93,7 +113,8 @@ namespace TraktPlugin.GUI
             {
                 if (_RecommendedMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+                    if ((StartYear > EndYear) && EndYear != 0) StartYear = 0;
+                    _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies(TraktGenres.MovieGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
@@ -145,6 +166,17 @@ namespace TraktPlugin.GUI
             // save current layout
             TraktSettings.RecommendedMoviesDefaultLayout = (int)CurrentLayout;
 
+            // genre
+            TraktSettings.MovieRecommendationGenre = CurrentGenre;
+
+            // hide collected/watchlisted
+            TraktSettings.MovieRecommendationHideCollected = HideCollected;
+            TraktSettings.MovieRecommendationHideWatchlisted = HideWatchlisted;
+
+            // start/end year
+            TraktSettings.MovieRecommendationStartYear = StartYear;
+            TraktSettings.MovieRecommendationEndYear = EndYear;
+
             base.OnPageDestroy(new_windowId);
         }
 
@@ -166,6 +198,55 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     ShowLayoutMenu();
+                    break;
+
+                // Genre Button
+                case (3):
+                    ShowGenreMenu();
+                    break;
+                
+                // Hide Collected Toggle Button
+                case (4):
+                    HideCollected = hideCollectedButton.Selected;
+                    ReloadRecommendations();
+                    break;
+
+                // Hide Watchlisted Toggle Button
+                case (5):
+                    HideWatchlisted = hideWatchlistedButton.Selected;
+                    ReloadRecommendations();
+                    break;
+
+                // Start Year Button
+                case (6):
+                    string startYear = StartYear.ToString();
+                    if (startYear == "0") startYear = "1888";
+                    if (GUIUtils.GetStringFromKeyboard(ref startYear))
+                    {
+                        int result;
+                        if (startYear.Length == 4 && int.TryParse(startYear, out result))
+                        {
+                            StartYear = result;
+                            GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
+                            ReloadRecommendations();
+                        }
+                    }
+                    break;
+
+                // End Year Button
+                case (7):
+                    string endYear = EndYear.ToString();
+                    if (endYear == "0") endYear = DateTime.Now.AddYears(3).Year.ToString();
+                    if (GUIUtils.GetStringFromKeyboard(ref endYear))
+                    {
+                        int result;
+                        if (endYear.Length == 4 && int.TryParse(endYear, out result))
+                        {
+                            EndYear = result;
+                            GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
+                            ReloadRecommendations();
+                        }
+                    }
                     break;
 
                 default:
@@ -443,6 +524,15 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
+        private void ReloadRecommendations()
+        {
+            PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
+            ClearProperties();
+            GUIControl.ClearControl(GetID, Facade.GetID);
+            _RecommendedMovies = null;
+            LoadRecommendedMovies();
+        }
+
         private void CheckAndPlayMovie(bool jumpTo)
         {
             GUIListItem selectedItem = this.Facade.SelectedListItem;
@@ -578,7 +668,35 @@ namespace TraktPlugin.GUI
 
             syncThread.Start(movie);
         }
-        
+
+        private void ShowGenreMenu()
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(TraktGenres.ItemName(CurrentGenre));
+
+            foreach (string genre in TraktGenres.MovieGenres.Keys)
+            {
+                string menuItem = TraktGenres.ItemName(genre);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                if (genre == CurrentGenre) pItem.Selected = true;
+                dlg.Add(pItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                var genre = TraktGenres.MovieGenres.ElementAt(dlg.SelectedLabel).Key;
+                if (genre != CurrentGenre)
+                {
+                    CurrentGenre = genre;
+                    GUIControl.SetControlLabel(GetID, genreButton.GetID, TraktGenres.ItemName(CurrentGenre));
+                    ReloadRecommendations();
+                }
+            }
+        }
+
         private void ShowLayoutMenu()
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -622,6 +740,22 @@ namespace TraktPlugin.GUI
                     break;
             }
             return strLine;
+        }
+
+        private string GetStartYearTitle(int startYear)
+        {
+            if (startYear == 0)
+                return string.Format(Translation.StartYear, 1888);
+            else
+                return string.Format(Translation.StartYear, startYear);
+        }
+
+        private string GetEndYearTitle(int endYear)
+        {
+            if (endYear == 0)
+                return string.Format(Translation.EndYear, DateTime.Now.AddYears(3).Year);
+            else
+                return string.Format(Translation.EndYear, endYear);
         }
 
         private void LoadRecommendedMovies()
@@ -710,6 +844,22 @@ namespace TraktPlugin.GUI
             CurrentLayout = (Layout)TraktSettings.RecommendedMoviesDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+
+            // genres
+            CurrentGenre = TraktSettings.MovieRecommendationGenre;
+            if (genreButton != null) GUIControl.SetControlLabel(GetID, genreButton.GetID, TraktGenres.ItemName(CurrentGenre));
+
+            // toggles for hide collected/watchlisted
+            HideCollected = TraktSettings.MovieRecommendationHideCollected;
+            HideWatchlisted = TraktSettings.MovieRecommendationHideWatchlisted;
+            if (hideCollectedButton != null) hideCollectedButton.Selected = HideCollected;
+            if (hideWatchlistedButton != null) hideWatchlistedButton.Selected = HideWatchlisted;
+
+            // start/end year
+            StartYear = TraktSettings.MovieRecommendationStartYear;
+            EndYear = TraktSettings.MovieRecommendationEndYear;
+            if (startYearButton != null) GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
+            if (endYearButton != null) GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
         }
 
         private void ClearProperties()

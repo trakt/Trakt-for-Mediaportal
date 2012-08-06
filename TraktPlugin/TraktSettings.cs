@@ -75,6 +75,16 @@ namespace TraktPlugin
         public static int DashboardLoadDelay { get; set; }
         public static TraktUserProfile.Statistics LastStatistics { get; set; }
         public static bool DashboardMovieTrendingActive { get; set; }
+        public static string MovieRecommendationGenre { get; set; }
+        public static bool MovieRecommendationHideCollected { get; set; }
+        public static bool MovieRecommendationHideWatchlisted { get; set; }
+        public static int MovieRecommendationStartYear { get; set; }
+        public static int MovieRecommendationEndYear { get; set; }
+        public static string ShowRecommendationGenre { get; set; }
+        public static bool ShowRecommendationHideCollected { get; set; }
+        public static bool ShowRecommendationHideWatchlisted { get; set; }
+        public static int ShowRecommendationStartYear { get; set; }
+        public static int ShowRecommendationEndYear { get; set; }
         #endregion
 
         #region Constants
@@ -140,6 +150,16 @@ namespace TraktPlugin
         private const string cDashboardTrendingPollInterval = "DashboardTrendingPollInterval";
         private const string cDashboardLoadDelay = "DashboardLoadDelay";
         private const string cDashboardMovieTrendingActive = "DashboardMovieTrendingActive";
+        private const string cMovieRecommendationGenre = "MovieRecommendationGenre";
+        private const string cMovieRecommendationHideCollected = "MovieRecommendationHideCollected";
+        private const string cMovieRecommendationHideWatchlisted = "MovieRecommendationHideWatchlisted";
+        private const string cMovieRecommendationStartYear = "MovieRecommendationStartYear";
+        private const string cMovieRecommendationEndYear = "MovieRecommendationEndYear";
+        private const string cShowRecommendationGenre = "ShowRecommendationGenre";
+        private const string cShowRecommendationHideCollected = "ShowRecommendationHideCollected";
+        private const string cShowRecommendationHideWatchlisted = "ShowRecommendationHideWatchlisted";
+        private const string cShowRecommendationStartYear = "ShowRecommendationStartYear";
+        private const string cShowRecommendationEndYear = "ShowRecommendationEndYear";
         #endregion
 
         #region Properties
@@ -361,6 +381,16 @@ namespace TraktPlugin
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
                 DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
                 DashboardMovieTrendingActive = xmlreader.GetValueAsBool(cTrakt, cDashboardMovieTrendingActive, false);
+                MovieRecommendationGenre = xmlreader.GetValueAsString(cTrakt, cMovieRecommendationGenre, "All");
+                MovieRecommendationHideCollected = xmlreader.GetValueAsBool(cTrakt, cMovieRecommendationHideCollected, false);
+                MovieRecommendationHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cMovieRecommendationHideWatchlisted, false);
+                MovieRecommendationStartYear = xmlreader.GetValueAsInt(cTrakt, cMovieRecommendationStartYear, 0);
+                MovieRecommendationEndYear = xmlreader.GetValueAsInt(cTrakt, cMovieRecommendationEndYear, 0);
+                ShowRecommendationGenre = xmlreader.GetValueAsString(cTrakt, cShowRecommendationGenre, "All");
+                ShowRecommendationHideCollected = xmlreader.GetValueAsBool(cTrakt, cShowRecommendationHideCollected, false);
+                ShowRecommendationHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cShowRecommendationHideWatchlisted, false);
+                ShowRecommendationStartYear = xmlreader.GetValueAsInt(cTrakt, cShowRecommendationStartYear, 0);
+                ShowRecommendationEndYear = xmlreader.GetValueAsInt(cTrakt, cShowRecommendationEndYear, 0);
             }
         }
 
@@ -431,6 +461,16 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardLoadDelay, DashboardLoadDelay);
                 xmlwriter.SetValueAsBool(cTrakt, cDashboardMovieTrendingActive, DashboardMovieTrendingActive);
+                xmlwriter.SetValue(cTrakt, cMovieRecommendationGenre, MovieRecommendationGenre);
+                xmlwriter.SetValueAsBool(cTrakt, cMovieRecommendationHideCollected, MovieRecommendationHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cMovieRecommendationHideWatchlisted, MovieRecommendationHideWatchlisted);
+                xmlwriter.SetValue(cTrakt, cMovieRecommendationStartYear, MovieRecommendationStartYear);
+                xmlwriter.SetValue(cTrakt, cMovieRecommendationEndYear, MovieRecommendationEndYear);
+                xmlwriter.SetValue(cTrakt, cShowRecommendationGenre, ShowRecommendationGenre);
+                xmlwriter.SetValueAsBool(cTrakt, cShowRecommendationHideCollected, ShowRecommendationHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cShowRecommendationHideWatchlisted, ShowRecommendationHideWatchlisted);
+                xmlwriter.SetValue(cTrakt, cShowRecommendationStartYear, ShowRecommendationStartYear);
+                xmlwriter.SetValue(cTrakt, cShowRecommendationEndYear, ShowRecommendationEndYear);
             }
 
             Settings.SaveCache();

@@ -270,6 +270,7 @@ namespace TraktPlugin.GUI
         public static string EditList = "Edit List...";
         public static string EditingList = "Editing List";
         public static string Email = "Email";
+        public static string EndYear = "End Year: {0}";
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
@@ -288,6 +289,42 @@ namespace TraktPlugin.GUI
         public static string Gender = "Gender";
         public static string General = "General";
         public static string GeneralSettings = "General Settings";
+        public static string Genre = "Genre";
+        public static string GenreItem = "Genre: {0}";
+        public static string GenreAction = "Action";
+        public static string GenreAdventure = "Adventure";
+        public static string GenreAll = "All";
+        public static string GenreAnimation = "Animation";
+        public static string GenreChildren = "Children";
+        public static string GenreComedy = "Comedy";
+        public static string GenreCrime = "Crime";
+        public static string GenreDocumentary = "Documentary";
+        public static string GenreDrama = "Drama";
+        public static string GenreFamily = "Family";
+        public static string GenreFantasy = "Fantasy";
+        public static string GenreGameShow = "Game Show";
+        public static string GenreFilmNoir = "Film Noir";
+        public static string GenreHistory = "History";
+        public static string GenreHomeAndGarden = "Home And Garden";
+        public static string GenreHorror = "Horror";
+        public static string GenreIndie = "Indie";
+        public static string GenreMiniSeries = "Mini Series";
+        public static string GenreMusic = "Music";
+        public static string GenreMusical = "Musical";
+        public static string GenreMystery = "Mystery";
+        public static string GenreNews = "News";
+        public static string GenreNone = "None";
+        public static string GenreReality = "Reality";
+        public static string GenreRomance = "Romance";
+        public static string GenreScienceFiction = "Science Fiction";
+        public static string GenreSoap = "Soap";
+        public static string GenreSpecialInterest = "Special Interest";
+        public static string GenreSport = "Sport";
+        public static string GenreSuspense = "Suspense";
+        public static string GenreTalkShow = "Talk Show";
+        public static string GenreThriller = "Thriller";
+        public static string GenreWar = "War";
+        public static string GenreWestern = "Western";
         public static string GetFriendRequestsOnStartup = "Get Friend Requests on Startup";
         public static string GettingActivity = "Getting Activity";
         public static string GettingCalendar = "Getting Calendar";
@@ -313,8 +350,10 @@ namespace TraktPlugin.GUI
         public static string Hate = "Hate";
         public static string Hated = "Hated";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
+        public static string HideCollected = "Hide Collected";
         public static string HideWatched = "Hide Watched";
         public static string HideSpoilers = "Hide Spoilers";
+        public static string HideWatchlisted = "Hide Watchlisted";
         public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";
 
         // I
@@ -482,6 +521,7 @@ namespace TraktPlugin.GUI
         public static string SettingTrendingPollIntervalDescription = "Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.";
         public static string SettingDashboardLoadDelayName = "Dashboard Loading Delay";
         public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
+        public static string StartYear = "Start Year: {0}";        
 
         // T
         public static string Timeout = "Timeout";

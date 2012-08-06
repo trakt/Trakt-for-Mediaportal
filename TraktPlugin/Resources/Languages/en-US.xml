@@ -92,6 +92,7 @@
   <string Field="EditList">Edit List...</string>
   <string Field="EditingList">Editing List</string>
   <string Field="Email">Email</string>
+  <string Field="EndYear">End: {0}</string>
   <string Field="Episode">Episode</string>
   <string Field="Episodes">Episodes</string>
   <string Field="Error">Trakt Error</string>
@@ -110,6 +111,42 @@
   <string Field="Gender">Gender</string>
   <string Field="General">General</string>
   <string Field="GeneralSettings">GeneralSettings</string>
+  <string Field="Genre">Genre</string>
+  <string Field="GenreItem">Genre: {0}</string>
+  <string Field="GenreAction">Action</string>
+  <string Field="GenreAdventure">Adventure</string>
+  <string Field="GenreAll">All</string>
+  <string Field="GenreAnimation">Animation</string>
+  <string Field="GenreChildren">Children</string>
+  <string Field="GenreComedy">Comedy</string>
+  <string Field="GenreCrime">Crime</string>
+  <string Field="GenreDocumentary">Documentary</string>
+  <string Field="GenreDrama">Drama</string>
+  <string Field="GenreFamily">Family</string>
+  <string Field="GenreFantasy">Fantasy</string>
+  <string Field="GenreGameShow">Game Show</string>
+  <string Field="GenreFilmNoir">Film Noir</string>
+  <string Field="GenreHistory">History</string>
+  <string Field="GenreHomeAndGarden">Home And Garden</string>
+  <string Field="GenreHorror">Horror</string>
+  <string Field="GenreIndie">Indie</string>
+  <string Field="GenreMiniSeries">Mini Series</string>
+  <string Field="GenreMusic">Music</string>
+  <string Field="GenreMusical">Musical</string>
+  <string Field="GenreMystery">Mystery</string>
+  <string Field="GenreNews">News</string>
+  <string Field="GenreNone">None</string>
+  <string Field="GenreReality">Reality</string>
+  <string Field="GenreRomance">Romance</string>
+  <string Field="GenreScienceFiction">Science Fiction</string>
+  <string Field="GenreSoap">Soap</string>
+  <string Field="GenreSpecialInterest">Special Interest</string>
+  <string Field="GenreSport">Sport</string>
+  <string Field="GenreSuspense">Suspense</string>
+  <string Field="GenreTalkShow">Talk Show</string>
+  <string Field="GenreThriller">Thriller</string>
+  <string Field="GenreWar">War</string>
+  <string Field="GenreWestern">Western</string>
   <string Field="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
   <string Field="GettingActivity">GettingActivity</string>
   <string Field="GettingCalendar">Getting Calendar</string>
@@ -135,7 +172,9 @@
   <string Field="Hate">Hate</string>
   <string Field="Hated">Hated</string>
   <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string Field="HideCollected">Hide Collected</string>
   <string Field="HideWatched">Hide Watched</string>
+  <string Field="HideWatchlisted">Hide Watchlisted</string>
   <string Field="HideSpoilers">Hide Spoilers</string>
   <string Field="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from menu.</string>
 
@@ -304,6 +343,7 @@
   <string Field="SettingTrendingPollIntervalDescription">Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.</string>
   <string Field="SettingDashboardLoadDelayName">Dashboard Loading Delay</string>
   <string Field="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
+  <string Field="StartYear">Start: {0}</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

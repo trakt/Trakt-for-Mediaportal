@@ -262,6 +262,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
+    <Compile Include="TraktGenres.cs" />
     <Compile Include="TraktHandlers\ForTheRecordRecordings.cs" />
     <Compile Include="TraktHandlers\ForTheRecordTVLive.cs" />
     <Compile Include="TraktHandlers\MyAnime.cs" />

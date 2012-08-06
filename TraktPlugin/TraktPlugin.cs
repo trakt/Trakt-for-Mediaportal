@@ -179,6 +179,9 @@ namespace TraktPlugin
             // Initialize skin settings
             TraktSkinSettings.Init();
 
+            // Initialize genres
+            TraktGenres.Init();
+
             // Initialize Extension Settings
             extensionSettings.Init();
 
