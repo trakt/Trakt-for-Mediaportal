@@ -88,7 +88,12 @@ namespace TraktPlugin.GUI
         AddToCustomList,
         Rate,
         Shouts,
-        Related
+        Related,
+        Calendar,
+        Recommendations,
+        Trending,
+        WatchList,
+        Lists
     }
     #endregion
 
@@ -919,6 +924,10 @@ namespace TraktPlugin.GUI
         #region Movies
         public static void ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart)
         {
+            ShowTraktExtMovieMenu(title, year, imdbid, fanart, false);
+        }
+        public static void ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, bool showAll)
+        {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
@@ -942,6 +951,26 @@ namespace TraktPlugin.GUI
             pItem = new GUIListItem(Translation.AddToList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // also show non-context sensitive items related to movies
+            if (showAll)
+            {
+                pItem = new GUIListItem(Translation.Recommendations);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Recommendations;
+
+                pItem = new GUIListItem(Translation.Trending);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Trending;
+
+                pItem = new GUIListItem(Translation.WatchList);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.WatchList;
+
+                pItem = new GUIListItem(Translation.Lists);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Lists;
+            }
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -973,6 +1002,22 @@ namespace TraktPlugin.GUI
                     TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Custom List", title, year, imdbid);
                     TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
                     break;
+
+                case ((int)TraktMenuItems.Recommendations):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecommendationsMovies);
+                    break;
+
+                case ((int)TraktMenuItems.Trending):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.TrendingMovies);
+                    break;
+
+                case ((int)TraktMenuItems.WatchList):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
+                    break;
+
+                case ((int)TraktMenuItems.Lists):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
             }
         }
 
@@ -980,6 +1025,10 @@ namespace TraktPlugin.GUI
 
         #region Shows
         public static void ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart)
+        {
+            ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, false);
+        }
+        public static void ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1004,6 +1053,30 @@ namespace TraktPlugin.GUI
             pItem = new GUIListItem(Translation.AddToList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // also show non-context sensitive items related to shows
+            if (showAll)
+            {
+                pItem = new GUIListItem(Translation.Calendar);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Calendar;
+
+                pItem = new GUIListItem(Translation.Recommendations);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Recommendations;
+
+                pItem = new GUIListItem(Translation.Trending);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Trending;
+
+                pItem = new GUIListItem(Translation.WatchList);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.WatchList;
+
+                pItem = new GUIListItem(Translation.Lists);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Lists;
+            }
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -1035,12 +1108,36 @@ namespace TraktPlugin.GUI
                     TraktLogger.Info("Adding show '{0}' to Custom List", title);
                     TraktHelper.AddRemoveShowInUserList(title, null, tvdbid, false);
                     break;
+
+                case ((int)TraktMenuItems.Calendar):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    break;
+
+                case ((int)TraktMenuItems.Recommendations):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecommendationsShows);
+                    break;
+
+                case ((int)TraktMenuItems.Trending):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.TrendingShows);
+                    break;
+
+                case ((int)TraktMenuItems.WatchList):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
+                    break;
+
+                case ((int)TraktMenuItems.Lists):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
             }
         }
         #endregion
 
         #region Episodes
         public static void ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart)
+        {
+            ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, fanart, false);
+        }
+        public static void ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1061,6 +1158,22 @@ namespace TraktPlugin.GUI
             pItem = new GUIListItem(Translation.AddToList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // also show non-context sensitive items related to episodes
+            if (showAll)
+            {
+                pItem = new GUIListItem(Translation.Calendar);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Calendar;
+
+                pItem = new GUIListItem(Translation.WatchList);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.WatchList;
+
+                pItem = new GUIListItem(Translation.Lists);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Lists;
+            }
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -1086,6 +1199,18 @@ namespace TraktPlugin.GUI
                 case ((int)TraktMenuItems.AddToCustomList):
                     TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Custom List", title, season, episode);
                     TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdbid, false);
+                    break;
+
+                case ((int)TraktMenuItems.Calendar):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    break;
+
+                case ((int)TraktMenuItems.WatchList):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
+                    break;
+
+                case ((int)TraktMenuItems.Lists):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
             }
         }
