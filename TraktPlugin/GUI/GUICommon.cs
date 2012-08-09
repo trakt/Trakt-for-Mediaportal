@@ -922,11 +922,11 @@ namespace TraktPlugin.GUI
         #region Trakt External Menu
 
         #region Movies
-        public static void ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart)
+        public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart)
         {
-            ShowTraktExtMovieMenu(title, year, imdbid, fanart, false);
+            return ShowTraktExtMovieMenu(title, year, imdbid, fanart, false);
         }
-        public static void ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, bool showAll)
+        public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -974,7 +974,7 @@ namespace TraktPlugin.GUI
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
-            if (dlg.SelectedId < 0) return;
+            if (dlg.SelectedId < 0) return false;
 
             switch (dlg.SelectedId)
             {
@@ -1019,16 +1019,17 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
             }
+            return true;
         }
 
         #endregion
 
         #region Shows
-        public static void ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart)
+        public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart)
         {
-            ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, false);
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, false);
         }
-        public static void ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, bool showAll)
+        public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1080,7 +1081,7 @@ namespace TraktPlugin.GUI
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
-            if (dlg.SelectedId < 0) return;
+            if (dlg.SelectedId < 0) return false;
 
             switch (dlg.SelectedId)
             {
@@ -1129,15 +1130,16 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
             }
+            return true;
         }
         #endregion
 
         #region Episodes
-        public static void ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart)
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart)
         {
-            ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, fanart, false);
+            return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, fanart, false);
         }
-        public static void ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, bool showAll)
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1177,7 +1179,7 @@ namespace TraktPlugin.GUI
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
-            if (dlg.SelectedId < 0) return;
+            if (dlg.SelectedId < 0) return false;
 
             switch (dlg.SelectedId)
             {
@@ -1213,6 +1215,7 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
             }
+            return true;
         }
         #endregion
 
