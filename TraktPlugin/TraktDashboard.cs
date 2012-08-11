@@ -261,7 +261,7 @@ namespace TraktPlugin
 
         private void LoadActivityFacade(TraktActivity activities, GUIFacadeControl facade)
         {
-            if (!TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardActivityWindows == null || !TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
             TraktLogger.Debug("Loading Trakt Activity Facade");
@@ -490,7 +490,7 @@ namespace TraktPlugin
 
         private void LoadTrendingMoviesFacade(IEnumerable<TraktTrendingMovie> movies, GUIFacadeControl facade)
         {
-            if (!TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows == null || !TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
             TraktLogger.Debug("Loading Trakt Trending Movies facade...");
@@ -655,7 +655,7 @@ namespace TraktPlugin
 
         private void LoadTrendingShowsFacade(IEnumerable<TraktTrendingShow> shows, GUIFacadeControl facade)
         {
-            if (!TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows == null || !TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
             TraktLogger.Debug("Loading Trakt Trending Shows facade...");
@@ -1127,11 +1127,11 @@ namespace TraktPlugin
         {
             bool hasDashBoard = false;
 
-            if (TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 hasDashBoard = true;
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 hasDashBoard = true;
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 hasDashBoard = true;
 
             return hasDashBoard;
@@ -1549,18 +1549,18 @@ namespace TraktPlugin
             }
 
             // initialize timercallbacks
-            if (TraktSkinSettings.DashBoardActivityWindows.Count > 0)
+            if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Count > 0)
             {
                 ClearSelectedActivityProperties();
                 ActivityTimer = new Timer(new TimerCallback((o) => { LoadActivity(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows.Count > 0)
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Count > 0)
             {
                 TrendingMoviesTimer = new Timer(new TimerCallback((o) => { LoadTrendingMovies(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows.Count > 0)
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Count > 0)
             {
                 TrendingShowsTimer = new Timer(new TimerCallback((o) => { LoadTrendingShows(); }), null, Timeout.Infinite, Timeout.Infinite);
             }

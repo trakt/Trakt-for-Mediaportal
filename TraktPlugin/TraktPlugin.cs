@@ -767,7 +767,7 @@ namespace TraktPlugin
             #endregion
 
             #region Dashboard Start
-            if (TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
+            if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartActivityPolling();
             }
@@ -776,7 +776,7 @@ namespace TraktPlugin
                 dashBoard.StopActivityPolling();
             }
 
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(windowID.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartTrendingMoviesPolling();
             }
@@ -785,7 +785,7 @@ namespace TraktPlugin
                 dashBoard.StopTrendingMoviesPolling();
             }
 
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(windowID.ToString()))
+            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartTrendingShowsPolling();
             }
