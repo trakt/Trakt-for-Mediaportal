@@ -1584,23 +1584,19 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>1</Major>
-      <Minor>8</Minor>
+      <Minor>9</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added ability for skinners to create a Trakt Dashboard which can display activities of your friends and the community, trending shows and movies.
-* Added a new button for skinners to show a Trakt Context menu for relevant actions on selected Item. This frees up space as opposed to implementing a button for each action. Skinners can still use individual buttons if they wish.
-* Added ability to stream trailers directly using OnlineVideos rather than trailer search. This is available when trakt has the trailer url otherwise it will initiate a search.
-* Fixed a reported crash when removing movies from MovingPictures filters.
-* Fixed shouts window not showing Fanart when invoked from MyVideos Details view in MediaPortal 1.3.
-* Better detection for Online Videos, was not being detected as installed on one users machine.
-* Added JumpTo feature for TVShows, when clicking Enter or OK on remote it will attempt to jump directly to the series in MP-TVSeries. Play button will play first unwatched episode directly.</VersionDescription>
+    <VersionDescription>*  Added Filtering support in Recommendation windows, can re-generate list of recommendations based on Genre, Hide Collected, Hide Watchlisted, Start Year &amp; End Year.
+
+* Fixed MediaPortal not working properly if skin settings file not found.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
-    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v1.8.0.mpe1</OnlineLocation>
-    <ReleaseDate>2012-08-04T10:00:00</ReleaseDate>
+    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v1.9.0.mpe1</OnlineLocation>
+    <ReleaseDate>2012-08-12T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -2868,14 +2864,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{aff1f8fa-25a7-4759-9491-f016e6039285}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{74f5e86a-1b0f-4f32-9218-1d508922e03c}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{99ed05d2-19f1-4ed3-a58f-54767c03bec9}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{8f7d0c0e-256e-4121-8806-c79af4dc74d4}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
