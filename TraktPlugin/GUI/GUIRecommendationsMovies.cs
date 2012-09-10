@@ -39,6 +39,9 @@ namespace TraktPlugin.GUI
         [SkinControl(7)]
         protected GUIButtonControl endYearButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -246,6 +249,21 @@ namespace TraktPlugin.GUI
                             EndYear = result;
                             GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
                             ReloadRecommendations();
+                        }
+                    }
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByRecommendedMovies);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByRecommendedMovies.Field)
+                        {
+                            TraktSettings.SortByRecommendedMovies = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadRecommendedMovies();
                         }
                     }
                     break;
@@ -789,11 +807,15 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort movies
+            var movieList = movies.ToList();
+            movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByRecommendedMovies.Field, TraktSettings.SortByRecommendedMovies.Direction));
+
             int itemId = 0;
             List<TraktMovie.MovieImages> movieImages = new List<TraktMovie.MovieImages>();
 
             // Add each movie mark remote if not in collection            
-            foreach (var movie in movies)
+            foreach (var movie in movieList)
             {
                 GUITraktRecommendedMovieListItem item = new GUITraktRecommendedMovieListItem(movie.Title);
 
@@ -863,6 +885,29 @@ namespace TraktPlugin.GUI
             if (endYearButton != null) GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
 
             SetRecommendationProperties();
+
+            if (sortButton != null)
+            {
+                UpdateButtonState();
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByRecommendedMovies.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadRecommendedMovies();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByRecommendedMovies);
+                sortButton.IsAscending = (TraktSettings.SortByRecommendedMovies.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByRecommendedMovies));
         }
 
         private void SetRecommendationProperties()

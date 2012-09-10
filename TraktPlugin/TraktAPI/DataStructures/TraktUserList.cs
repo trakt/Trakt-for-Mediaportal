@@ -215,6 +215,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
 
                     case "show":
+                        retValue = Show.Plays;
+                        break;
+
                     case "season":
                         retValue = _plays;
                         break;
@@ -233,9 +236,13 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
 
                     case "show":
+                        Show.Plays = value;
+                        break;
+
                     case "season":
                         _plays = value;
                         break;
+
                     case "episode":
                         Episode.Plays = value;
                         break;
@@ -257,9 +264,13 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
 
                     case "show":
+                        retValue = Show.Watched;
+                        break;
+
                     case "season":
                         retValue = _watched;
                         break;
+
                     case "episode":
                         retValue = Episode.Watched;
                         break;
@@ -275,9 +286,13 @@ namespace TraktPlugin.TraktAPI.DataStructures
                         break;
 
                     case "show":
+                        Show.Watched = value;
+                        break;
+
                     case "season":
                         _watched = value;
                         break;
+
                     case "episode":
                         Episode.Watched = value;
                         break;

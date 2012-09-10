@@ -55,6 +55,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "in_watchlist")]
         public bool InWatchList { get; set; }
 
+        [DataMember(Name = "watched")]
+        public bool Watched { get; set; }
+
+        [DataMember(Name = "plays")]
+        public int Plays { get; set; }
+
         [DataMember(Name = "rating")]
         public string Rating { get; set; }
 

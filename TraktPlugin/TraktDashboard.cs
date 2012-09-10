@@ -642,6 +642,8 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Year", i), show.Year.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Join(", ", show.Genres.ToArray()));
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), show.InWatchList.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), show.Watched.ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), show.Plays.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), show.Rating);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.RatingAdvanced", i), show.RatingAdvanced.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
@@ -1697,6 +1699,8 @@ namespace TraktPlugin
 
                 if (show.InWatchList)
                     mainOverlay = MainOverlayImage.Watchlist;
+                else if (show.Watched)
+                    mainOverlay = MainOverlayImage.Seenit;
 
                 RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
 

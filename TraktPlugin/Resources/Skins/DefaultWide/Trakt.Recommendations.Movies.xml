@@ -258,6 +258,17 @@
 						<width>300</width>
 					</control>
 					<control>
+						<description>Sort</description>
+						<type>sortbutton</type>
+						<id>8</id>
+						<label>-</label>
+						<onleft>50</onleft>
+						<onright>50</onright>
+						<width>300</width>
+						<offsetSortButtonX>260</offsetSortButtonX>
+						<offsetSortButtonY>4</offsetSortButtonY>
+					</control>
+					<control>
 						<description>Genres</description>
 						<type>button</type>
 						<id>3</id>

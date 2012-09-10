@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
@@ -94,6 +95,23 @@ namespace TraktPlugin.GUI
         Trending,
         WatchList,
         Lists
+    }
+
+    public enum SortingFields
+    {
+        Title,
+        ReleaseDate,
+        Score,
+        Votes,
+        Runtime,
+        PeopleWatching,
+        WatchListInserted
+    }
+
+    public enum SortingDirections
+    {
+        Ascending,
+        Descending
     }
     #endregion
 
@@ -709,6 +727,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.RatingAdvanced", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
@@ -739,6 +759,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
             SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
+            SetProperty("#Trakt.Show.Watched", show.Watched.ToString());
+            SetProperty("#Trakt.Show.Plays", show.Plays.ToString());
             SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.RatingAdvanced", show.RatingAdvanced.ToString());
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
@@ -805,6 +827,148 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region GUI Context Menus
+
+        #region SortBy
+
+        public static SortBy ShowSortMenu(SortBy currentSortBy)
+        {
+            var newSortBy = new SortBy();
+
+            GUIDialogMenu dlg = (GUIDialogMenu)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return null;
+
+            dlg.Reset();
+            dlg.SetHeading(495); // Sort options
+
+            // Add generic sortby fields
+            GUIListItem pItem = new GUIListItem(Translation.Title);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.Title;
+
+            pItem = new GUIListItem(Translation.ReleaseDate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.ReleaseDate;
+
+            pItem = new GUIListItem(Translation.Score);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.Score;
+
+            pItem = new GUIListItem(Translation.Votes);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.Votes;
+
+            pItem = new GUIListItem(Translation.Runtime);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.Runtime;
+
+            // Trending
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingMovies || 
+                GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingShows) {
+                pItem = new GUIListItem(Translation.Watchers);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)SortingFields.PeopleWatching;
+            }
+
+            // Watchlist
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.WatchedListMovies || 
+                GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.WatchedListShows) {
+                pItem = new GUIListItem(Translation.Inserted);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)SortingFields.WatchListInserted;
+            }
+
+            // set the focus to currently used sort method
+            dlg.SelectedLabel = (int)currentSortBy.Field;
+
+            // show dialog and wait for result
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId == -1) return null;
+            
+            switch (dlg.SelectedId)
+            {
+                case (int)SortingFields.Title:
+                    newSortBy.Field = SortingFields.Title;
+                    break;
+
+                case (int)SortingFields.ReleaseDate:
+                    newSortBy.Field = SortingFields.ReleaseDate;
+                    newSortBy.Direction = SortingDirections.Descending;
+                    break;
+
+                case (int)SortingFields.Score:
+                    newSortBy.Field = SortingFields.Score;
+                    newSortBy.Direction = SortingDirections.Descending;
+                    break;
+
+                case (int)SortingFields.Votes:
+                    newSortBy.Field = SortingFields.Votes;
+                    newSortBy.Direction = SortingDirections.Descending;
+                    break;
+
+                case (int)SortingFields.Runtime:
+                    newSortBy.Field = SortingFields.Runtime;
+                    break;
+
+                case (int)SortingFields.PeopleWatching:
+                    newSortBy.Field = SortingFields.PeopleWatching;
+                    newSortBy.Direction = SortingDirections.Descending;
+                    break;
+
+                case (int)SortingFields.WatchListInserted:
+                    newSortBy.Field = SortingFields.WatchListInserted;
+                    break;
+
+                default:
+                    newSortBy.Field = SortingFields.Title;
+                    break;
+            }
+
+            return newSortBy;
+        }
+
+        public static string GetSortByString(SortBy currentSortBy)
+        {
+            string strLine = string.Empty;
+
+            switch (currentSortBy.Field)
+            {
+                case SortingFields.Title:
+                    strLine = Translation.Title;
+                    break;
+
+                case SortingFields.ReleaseDate:
+                    strLine = Translation.ReleaseDate;
+                    break;
+
+                case SortingFields.Score:
+                    strLine = Translation.Score;
+                    break;
+
+                case SortingFields.Votes:
+                    strLine = Translation.Votes;
+                    break;
+
+                case SortingFields.Runtime:
+                    strLine = Translation.Runtime;
+                    break;
+
+                case SortingFields.PeopleWatching:
+                    strLine = Translation.Watchers;
+                    break;
+
+                case SortingFields.WatchListInserted:
+                    strLine = Translation.Inserted;
+                    break;
+                
+                default:
+                    strLine = Translation.Title;
+                    break;
+            }
+
+            return GUILocalizeStrings.Get(96) + strLine;
+        }
+
+        #endregion
 
         #region Movie Trailers
 

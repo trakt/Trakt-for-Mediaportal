@@ -24,6 +24,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -175,6 +178,21 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     ShowLayoutMenu();
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByWatchListMovies);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByWatchListMovies.Field)
+                        {
+                            TraktSettings.SortByWatchListMovies = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadWatchListMovies();
+                        }
+                    }
                     break;
 
                 default:
@@ -668,11 +686,15 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort movies
+            var movieList = movies.ToList();
+            movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByWatchListMovies.Field, TraktSettings.SortByWatchListMovies.Direction));
+
             int itemId = 0;
             List<TraktMovie.MovieImages> movieImages = new List<TraktMovie.MovieImages>();
 
             // Add each movie
-            foreach (var movie in movies)
+            foreach (var movie in movieList)
             {
                 GUITraktWatchListMovieListItem item = new GUITraktWatchListMovieListItem(movie.Title);
 
@@ -723,8 +745,34 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.WatchListMoviesDefaultLayout;
-            // update button label
+
+            // Update Button States
+            UpdateButtonState();
+
+            if (sortButton != null)
+            {
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByWatchListMovies.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadWatchListMovies();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update layout button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByWatchListMovies);
+                sortButton.IsAscending = (TraktSettings.SortByWatchListMovies.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByWatchListMovies));
         }
 
         private void ClearProperties()

@@ -384,7 +384,8 @@
   <string Field="Watched">Watched</string>
   <string Field="WatchedMovies">Watched Movies</string>
   <string Field="WatchedEpisodes">Watched Episodes</string>
-  <string Field="WatchedShows">Watched Shows</string>  
+  <string Field="WatchedShows">Watched Shows</string>
+  <string Field="Watchers">Watchers</string>
   <string Field="Watching">Watching</string>
   <string Field="WatchListMovies">Movie Watch List</string>
   <string Field="WatchListShows">Show Watch List</string>

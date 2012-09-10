@@ -213,6 +213,7 @@
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
+    <Compile Include="GUI\GUIListItemSorter.cs" />
     <Compile Include="GUI\GUIListItems.cs" />
     <Compile Include="GUI\GUILists.cs" />
     <Compile Include="GUI\GUIRelatedMovies.cs" />

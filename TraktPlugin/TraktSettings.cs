@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
+using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 
@@ -85,6 +86,12 @@ namespace TraktPlugin
         public static bool ShowRecommendationHideWatchlisted { get; set; }
         public static int ShowRecommendationStartYear { get; set; }
         public static int ShowRecommendationEndYear { get; set; }
+        public static SortBy SortByTrendingMovies { get; set; }
+        public static SortBy SortByRecommendedMovies { get; set; }
+        public static SortBy SortByWatchListMovies { get; set; }
+        public static SortBy SortByTrendingShows { get; set; }
+        public static SortBy SortByRecommendedShows { get; set; }
+        public static SortBy SortByWatchListShows { get; set; }
         #endregion
 
         #region Constants
@@ -160,6 +167,12 @@ namespace TraktPlugin
         private const string cShowRecommendationHideWatchlisted = "ShowRecommendationHideWatchlisted";
         private const string cShowRecommendationStartYear = "ShowRecommendationStartYear";
         private const string cShowRecommendationEndYear = "ShowRecommendationEndYear";
+        private const string cSortByTrendingMovies = "SortByTrendingMovies";
+        private const string cSortByRecommendedMovies = "SortByRecommendedMovies";
+        private const string cSortByWatchListMovies = "SortByWatchListMovies";
+        private const string cSortByTrendingShows = "SortByTrendingShows";
+        private const string cSortByRecommendedShows = "SortByRecommendedShows";
+        private const string cSortByWatchListShows = "SortByWatchListShows";
         #endregion
 
         #region Properties
@@ -391,6 +404,12 @@ namespace TraktPlugin
                 ShowRecommendationHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cShowRecommendationHideWatchlisted, false);
                 ShowRecommendationStartYear = xmlreader.GetValueAsInt(cTrakt, cShowRecommendationStartYear, 0);
                 ShowRecommendationEndYear = xmlreader.GetValueAsInt(cTrakt, cShowRecommendationEndYear, 0);
+                SortByRecommendedMovies = xmlreader.GetValueAsString(cTrakt, cSortByRecommendedMovies, "{\"Field\": 0,\"Direction\": 0}").FromJSON<SortBy>();
+                SortByRecommendedShows = xmlreader.GetValueAsString(cTrakt, cSortByRecommendedShows, "{\"Field\": 0,\"Direction\": 0}").FromJSON<SortBy>();
+                SortByTrendingMovies = xmlreader.GetValueAsString(cTrakt, cSortByTrendingMovies, "{\"Field\": 5,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByTrendingShows = xmlreader.GetValueAsString(cTrakt, cSortByTrendingShows, "{\"Field\": 5,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByWatchListMovies = xmlreader.GetValueAsString(cTrakt, cSortByWatchListMovies, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByWatchListShows = xmlreader.GetValueAsString(cTrakt, cSortByWatchListShows, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
             }
         }
 
@@ -471,6 +490,12 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowRecommendationHideWatchlisted, ShowRecommendationHideWatchlisted);
                 xmlwriter.SetValue(cTrakt, cShowRecommendationStartYear, ShowRecommendationStartYear);
                 xmlwriter.SetValue(cTrakt, cShowRecommendationEndYear, ShowRecommendationEndYear);
+                xmlwriter.SetValue(cTrakt, cSortByRecommendedMovies, SortByRecommendedMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByRecommendedShows, SortByRecommendedShows.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByTrendingMovies, SortByTrendingMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByTrendingShows, SortByTrendingShows.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByWatchListMovies, SortByWatchListMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByWatchListShows, SortByWatchListShows.ToJSON());
             }
 
             Settings.SaveCache();

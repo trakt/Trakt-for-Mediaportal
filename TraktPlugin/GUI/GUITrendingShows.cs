@@ -22,6 +22,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -157,6 +160,21 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     ShowLayoutMenu();
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByTrendingShows);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByTrendingShows.Field)
+                        {
+                            TraktSettings.SortByTrendingShows = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadTrendingShows();
+                        }
+                    }
                     break;
 
                 default:
@@ -468,10 +486,14 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort shows
+            var showList = shows.ToList();
+            showList.Sort(new GUIListItemShowSorter(TraktSettings.SortByTrendingShows.Field, TraktSettings.SortByTrendingShows.Direction));
+
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
-            
-            foreach (var show in shows)
+
+            foreach (var show in showList)
             {
                 GUITraktTrendingShowListItem item = new GUITraktTrendingShowListItem(show.Title);
 
@@ -516,8 +538,34 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.TrendingShowsDefaultLayout;
-            // update button label
+
+            // Update Button States
+            UpdateButtonState();
+
+            if (sortButton != null)
+            {
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByTrendingShows.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadTrendingShows();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update layout button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByTrendingShows);
+                sortButton.IsAscending = (TraktSettings.SortByTrendingShows.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByTrendingShows));
         }
 
         private void ClearProperties()
@@ -655,6 +703,8 @@ namespace TraktPlugin.GUI
 
             if (show.InWatchList)
                 mainOverlay = MainOverlayImage.Watchlist;
+            else if (show.Watched)
+                mainOverlay = MainOverlayImage.Seenit;
 
             RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
 

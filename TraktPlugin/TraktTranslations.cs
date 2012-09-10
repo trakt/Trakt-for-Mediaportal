@@ -521,7 +521,8 @@ namespace TraktPlugin.GUI
         public static string SettingTrendingPollIntervalDescription = "Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.";
         public static string SettingDashboardLoadDelayName = "Dashboard Loading Delay";
         public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
-        public static string StartYear = "Start Year: {0}";        
+        public static string StartYear = "Start Year: {0}";
+
 
         // T
         public static string Timeout = "Timeout";
@@ -562,6 +563,7 @@ namespace TraktPlugin.GUI
         public static string Watched = "Watched";
         public static string WatchedMovies = "Watched Movies";
         public static string WatchedEpisodes = "Watched Episodes";
+        public static string Watchers = "Watchers";
         public static string Watching = "Watching";
         public static string WatchListMovies = "Movie Watch List";
         public static string WatchListShows = "Show Watch List";

@@ -22,6 +22,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -169,6 +172,21 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     ShowLayoutMenu();
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByWatchListShows);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByWatchListShows.Field)
+                        {
+                            TraktSettings.SortByWatchListShows = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadWatchListShows();
+                        }
+                    }
                     break;
 
                 default:
@@ -506,11 +524,15 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort shows
+            var showList = shows.ToList();
+            showList.Sort(new GUIListItemShowSorter(TraktSettings.SortByWatchListShows.Field, TraktSettings.SortByWatchListShows.Direction));
+
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
 
             // Add each show
-            foreach (var show in shows)
+            foreach (var show in showList)
             {
                 GUITraktWatchListShowListItem item = new GUITraktWatchListShowListItem(show.Title);
 
@@ -560,8 +582,34 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.WatchListShowsDefaultLayout;
-            // update button label
+
+            // Update Button States
+            UpdateButtonState();
+
+            if (sortButton != null)
+            {
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByWatchListShows.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadWatchListShows();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update layout button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByWatchListShows);
+                sortButton.IsAscending = (TraktSettings.SortByWatchListShows.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByWatchListShows));
         }
 
         private void ClearProperties()

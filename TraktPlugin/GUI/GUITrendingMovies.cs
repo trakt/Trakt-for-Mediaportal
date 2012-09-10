@@ -24,6 +24,9 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUIButtonControl layoutButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -163,6 +166,21 @@ namespace TraktPlugin.GUI
                 // Layout Button
                 case (2):
                     ShowLayoutMenu();
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByTrendingMovies);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByTrendingMovies.Field)
+                        {
+                            TraktSettings.SortByTrendingMovies = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadTrendingMovies();
+                        }
+                    }
                     break;
 
                 default:
@@ -520,7 +538,7 @@ namespace TraktPlugin.GUI
             };
 
             syncThread.Start(movie);
-        }        
+        }
 
         private void ShowLayoutMenu()
         {
@@ -597,11 +615,15 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort movies
+            var movieList = movies.ToList();
+            movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
+
             int itemId = 0;
             List<TraktMovie.MovieImages> movieImages = new List<TraktMovie.MovieImages>();
 
             // Add each movie mark remote if not in collection            
-            foreach (var movie in movies)
+            foreach (var movie in movieList)
             {
                 GUITraktTrendingMovieListItem item = new GUITraktTrendingMovieListItem(movie.Title);
                 
@@ -651,8 +673,35 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.TrendingMoviesDefaultLayout;
-            // update button label
+            
+            // Update Button States
+            UpdateButtonState();
+
+            if (sortButton != null)
+            {
+                UpdateButtonState();
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByTrendingMovies.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadTrendingMovies();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update layout button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByTrendingMovies);
+                sortButton.IsAscending = (TraktSettings.SortByTrendingMovies.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByTrendingMovies));
         }
 
         private void ClearProperties()

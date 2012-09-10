@@ -37,6 +37,9 @@ namespace TraktPlugin.GUI
         [SkinControl(7)]
         protected GUIButtonControl endYearButton = null;
 
+        [SkinControl(8)]
+        protected GUISortButtonControl sortButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -241,6 +244,21 @@ namespace TraktPlugin.GUI
                             EndYear = result;
                             GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
                             ReloadRecommendations();
+                        }
+                    }
+                    break;
+
+                // Sort Button
+                case (8):
+                    var newSortBy = GUICommon.ShowSortMenu(TraktSettings.SortByRecommendedShows);
+                    if (newSortBy != null)
+                    {
+                        if (newSortBy.Field != TraktSettings.SortByRecommendedShows.Field)
+                        {
+                            TraktSettings.SortByRecommendedShows = newSortBy;
+                            PreviousSelectedIndex = 0;
+                            UpdateButtonState();
+                            LoadRecommendedShows();
                         }
                     }
                     break;
@@ -672,10 +690,14 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // sort shows
+            var showList = shows.ToList();
+            showList.Sort(new GUIListItemShowSorter(TraktSettings.SortByRecommendedShows.Field, TraktSettings.SortByRecommendedShows.Direction));
+
             int itemId = 0;
             List<TraktShow.ShowImages> showImages = new List<TraktShow.ShowImages>();
 
-            foreach (var show in shows)
+            foreach (var show in showList)
             {
                 GUITraktRecommendedShowListItem item = new GUITraktRecommendedShowListItem(show.Title);
 
@@ -741,6 +763,29 @@ namespace TraktPlugin.GUI
             if (endYearButton != null) GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
 
             SetRecommendationProperties();
+
+            if (sortButton != null)
+            {
+                UpdateButtonState();
+                sortButton.SortChanged += (o, e) =>
+                {
+                    TraktSettings.SortByRecommendedShows.Direction = (SortingDirections)(e.Order - 1);
+                    PreviousSelectedIndex = 0;
+                    UpdateButtonState();
+                    LoadRecommendedShows();
+                };
+            }
+        }
+
+        private void UpdateButtonState()
+        {
+            // update sortby button label
+            if (sortButton != null)
+            {
+                sortButton.Label = GUICommon.GetSortByString(TraktSettings.SortByRecommendedShows);
+                sortButton.IsAscending = (TraktSettings.SortByRecommendedShows.Direction == SortingDirections.Ascending);
+            }
+            GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByRecommendedShows));
         }
 
         private void SetRecommendationProperties()
