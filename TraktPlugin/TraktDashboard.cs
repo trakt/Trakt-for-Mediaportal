@@ -1699,8 +1699,8 @@ namespace TraktPlugin
 
                 if (show.InWatchList)
                     mainOverlay = MainOverlayImage.Watchlist;
-                else if (show.Watched)
-                    mainOverlay = MainOverlayImage.Seenit;
+                //else if (show.Watched)
+                //    mainOverlay = MainOverlayImage.Seenit;
 
                 RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
 
