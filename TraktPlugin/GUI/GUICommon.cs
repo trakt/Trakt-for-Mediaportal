@@ -844,7 +844,7 @@ namespace TraktPlugin.GUI
         #region GUI Context Menus
 
         #region Layout
-        public static Layout ShowLayoutMenu(Layout currentLayout)
+        internal static Layout ShowLayoutMenu(Layout currentLayout)
         {
             Layout newLayout = currentLayout;
 
@@ -873,7 +873,7 @@ namespace TraktPlugin.GUI
             return newLayout;
         }
 
-        public static string GetLayoutTranslation(Layout layout)
+        internal static string GetLayoutTranslation(Layout layout)
         {
             bool mp12 = TraktSettings.MPVersion <= new Version(1, 2, 0, 0);
 
@@ -899,7 +899,7 @@ namespace TraktPlugin.GUI
 
         #region SortBy
 
-        public static SortBy ShowSortMenu(SortBy currentSortBy)
+        internal static SortBy ShowSortMenu(SortBy currentSortBy)
         {
             var newSortBy = new SortBy();
 
@@ -995,7 +995,7 @@ namespace TraktPlugin.GUI
             return newSortBy;
         }
 
-        public static string GetSortByString(SortBy currentSortBy)
+        internal static string GetSortByString(SortBy currentSortBy)
         {
             string strLine = string.Empty;
 
