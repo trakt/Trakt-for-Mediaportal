@@ -522,6 +522,7 @@ namespace TraktPlugin.GUI
         public static string SettingDashboardLoadDelayName = "Dashboard Loading Delay";
         public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
         public static string StartYear = "Start Year: {0}";
+        public static string SortBy = "Sort By: {0}";
 
 
         // T

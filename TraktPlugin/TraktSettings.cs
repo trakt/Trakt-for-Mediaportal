@@ -258,6 +258,14 @@ namespace TraktPlugin
             }
         }
 
+        public static Version MPVersion
+        { 
+            get
+            {
+                return Assembly.GetEntryAssembly().GetName().Version;
+            }
+        }
+
         public static string UserAgent
         {
             get

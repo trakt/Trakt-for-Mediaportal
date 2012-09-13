@@ -875,6 +875,8 @@ namespace TraktPlugin.GUI
 
         public static string GetLayoutTranslation(Layout layout)
         {
+            bool mp12 = TraktSettings.MPVersion <= new Version(1, 2, 0, 0);
+
             string strLine = string.Empty;
             switch (layout)
             {
@@ -891,7 +893,7 @@ namespace TraktPlugin.GUI
                     strLine = GUILocalizeStrings.Get(733);
                     break;
             }
-            return strLine;
+            return mp12 ? strLine : GUILocalizeStrings.Get(95) + strLine;
         }
         #endregion
 
@@ -1032,7 +1034,7 @@ namespace TraktPlugin.GUI
                     break;
             }
 
-            return GUILocalizeStrings.Get(96) + strLine;
+            return string.Format(Translation.SortBy, strLine);
         }
 
         #endregion

@@ -344,6 +344,7 @@
   <string Field="SettingDashboardLoadDelayName">Dashboard Loading Delay</string>
   <string Field="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
   <string Field="StartYear">Start: {0}</string>
+  <string Field="SortBy">Sort By: {0}</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
