@@ -12,6 +12,15 @@ using TraktPlugin.TraktAPI.DataStructures;
 namespace TraktPlugin.GUI
 {
     #region Enums
+
+    public enum Layout 
+    {
+        List = 0,
+        SmallIcons = 1,
+        LargeIcons = 2,
+        Filmstrip = 3,
+    }
+
     enum TrailerSiteMovies
     {
         IMDb,
@@ -23,6 +32,12 @@ namespace TraktPlugin.GUI
     {
         IMDb,
         YouTube
+    }
+
+    public enum TraktGUIControls 
+    {
+        Layout = 2,
+        Facade = 50,
     }
 
     enum TraktGUIWindows
@@ -827,6 +842,58 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region GUI Context Menus
+
+        #region Layout
+        public static Layout ShowLayoutMenu(Layout currentLayout)
+        {
+            Layout newLayout = currentLayout;
+
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(GetLayoutTranslation(currentLayout));
+
+            foreach (Layout layout in Enum.GetValues(typeof(Layout)))
+            {
+                string menuItem = GetLayoutTranslation(layout);
+                GUIListItem pItem = new GUIListItem(menuItem);
+                if (layout == currentLayout) pItem.Selected = true;
+                dlg.Add(pItem);
+            }
+
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+
+            if (dlg.SelectedLabel >= 0)
+            {
+                var facade = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow).GetControl((int)TraktGUIControls.Facade) as GUIFacadeControl;
+
+                newLayout = (Layout)dlg.SelectedLabel;
+                facade.SetCurrentLayout(Enum.GetName(typeof(Layout), newLayout));
+                GUIControl.SetControlLabel(GUIWindowManager.ActiveWindow, (int)TraktGUIControls.Layout, GetLayoutTranslation(newLayout));
+            }
+            return newLayout;
+        }
+
+        public static string GetLayoutTranslation(Layout layout)
+        {
+            string strLine = string.Empty;
+            switch (layout)
+            {
+                case Layout.List:
+                    strLine = GUILocalizeStrings.Get(101);
+                    break;
+                case Layout.SmallIcons:
+                    strLine = GUILocalizeStrings.Get(100);
+                    break;
+                case Layout.LargeIcons:
+                    strLine = GUILocalizeStrings.Get(417);
+                    break;
+                case Layout.Filmstrip:
+                    strLine = GUILocalizeStrings.Get(733);
+                    break;
+            }
+            return strLine;
+        }
+        #endregion
 
         #region SortBy
 

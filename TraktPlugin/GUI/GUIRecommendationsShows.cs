@@ -56,14 +56,6 @@ namespace TraktPlugin.GUI
 
         #region Enums
 
-        enum Layout
-        {
-            List = 0,
-            SmallIcons = 1,
-            LargeIcons = 2,
-            Filmstrip = 3,
-        }
-
         enum ContextMenuItem
         {
             AddToWatchList,
@@ -196,7 +188,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    ShowLayoutMenu();
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
                     break;
 
                 // Genre Button
@@ -450,7 +442,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
-                    ShowLayoutMenu();
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -599,51 +591,6 @@ namespace TraktPlugin.GUI
             }
         }
 
-        private void ShowLayoutMenu()
-        {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(GetLayoutTranslation(CurrentLayout));
-
-            foreach (Layout layout in Enum.GetValues(typeof(Layout)))
-            {
-                string menuItem = GetLayoutTranslation(layout);
-                GUIListItem pItem = new GUIListItem(menuItem);
-                if (layout == CurrentLayout) pItem.Selected = true;
-                dlg.Add(pItem);
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                CurrentLayout = (Layout)dlg.SelectedLabel;
-                Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
-                GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
-            }
-        }
-
-        private string GetLayoutTranslation(Layout layout)
-        {
-            string strLine = string.Empty;
-            switch (layout)
-            {
-                case Layout.List:
-                    strLine = GUILocalizeStrings.Get(101);
-                    break;
-                case Layout.SmallIcons:
-                    strLine = GUILocalizeStrings.Get(100);
-                    break;
-                case Layout.LargeIcons:
-                    strLine = GUILocalizeStrings.Get(417);
-                    break;
-                case Layout.Filmstrip:
-                    strLine = GUILocalizeStrings.Get(733);
-                    break;
-            }
-            return strLine;
-        }
-
         private string GetStartYearTitle(int startYear)
         {
             if (startYear == 0)
@@ -744,7 +691,7 @@ namespace TraktPlugin.GUI
             // load last layout
             CurrentLayout = (Layout)TraktSettings.RecommendedShowsDefaultLayout;
             // update button label
-            GUIControl.SetControlLabel(GetID, layoutButton.GetID, GetLayoutTranslation(CurrentLayout));
+            GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
 
             // genres
             CurrentGenre = TraktSettings.ShowRecommendationGenre;
@@ -964,10 +911,10 @@ namespace TraktPlugin.GUI
             GUIRecommendationsShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIRecommendationsShows;
             if (window != null)
             {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem(87262, 50);
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.RecommendationsShows, (int)TraktGUIControls.Facade);
                 if (selectedItem == this)
                 {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, 50, ItemId, 0, null));
+                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
                 }
             }
         }
