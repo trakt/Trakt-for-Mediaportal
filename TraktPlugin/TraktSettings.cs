@@ -202,14 +202,14 @@ namespace TraktPlugin
                     TraktLogger.Info("Loading Online Settings");
 
                     TraktAccountSettings settings = TraktAPI.TraktAPI.GetAccountSettings();
-                    if (settings.Status == "success")
+                    if (settings != null && settings.Status == "success")
                     {
                         _showAdvancedRatingsDialogs = settings.ViewingSettings.RatingSettings.Mode == "advanced";
                         TraktLogger.Debug("Response: " + settings.ToJSON());
                     }
                     else
                     {
-                        TraktLogger.Error("Failed to retrieved trakt settings online.");
+                        TraktLogger.Error("Failed to retrieve trakt settings online.");
                     }
                 })
                 {
