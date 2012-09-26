@@ -26,7 +26,7 @@
         <width>680</width>
         <label>#Trakt.Translation.DownloadFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>6</onup>
+        <onup>7</onup>
         <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
         <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
         <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
@@ -74,6 +74,18 @@
         <id>6</id>
         <width>680</width>
         <label>#Trakt.Translation.CreateMovingPicturesFilters.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
+      </control>
+			<control>
+        <description>Show Rate Dialog On Watched</description>
+        <type>togglebutton</type>
+        <id>7</id>
+        <width>680</width>
+        <label>#Trakt.Translation.ShowRateDialogOnWatched.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
         <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>

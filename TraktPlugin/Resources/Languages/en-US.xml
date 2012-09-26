@@ -318,6 +318,7 @@
   <string Field="StartDate">Start Date</string>
   <string Field="Synchronize">Synchronize</string>
   <string Field="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
+  <string Field="ShowRateDialogOnWatched">Show Rate Dialog On Item Watched</string>
   <string Field="ShowWatched">Show Watched</string>
   <string Field="SettingPluginEnabledName">Plugin Enabled</string>
   <string Field="SettingPluginEnabledDescription">Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.</string>

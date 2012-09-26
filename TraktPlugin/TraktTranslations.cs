@@ -496,6 +496,7 @@ namespace TraktPlugin.GUI
         public static string StartDate = "Start Date";
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
+        public static string ShowRateDialogOnWatched = "Show Rate Dialog On Item Watched";
         public static string ShowWatched = "Show Watched";
         public static string SettingPluginEnabledName = "Plugin Enabled";
         public static string SettingPluginEnabledDescription = "Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.";
