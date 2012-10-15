@@ -92,6 +92,9 @@ namespace TraktPlugin.GUI
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
             if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
 
+            // update any internal plugin settings required
+            TraktSettings.UpdateInternalPluginSettings();
+
             TraktSettings.saveSettings();
 
             base.OnPageDestroy(new_windowId);

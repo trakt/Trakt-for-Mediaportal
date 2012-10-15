@@ -639,6 +639,11 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        public static void UpdateSettingAsBool(string setting, bool value)
+        {
+            DBOption.SetOptions(setting, value);
+        }
+
         #endregion
 
         #region Data Creators

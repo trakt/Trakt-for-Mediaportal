@@ -509,6 +509,19 @@ namespace TraktPlugin
             Settings.SaveCache();
         }
 
+        public static void UpdateInternalPluginSettings()
+        {
+            // disable internal plugin rate dialogs if we show trakt dialog
+            if (TraktSettings.ShowRateDialogOnWatched)
+            {
+                if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                    TraktHandlers.MovingPictures.UpdateSettingAsBool("auto_prompt_for_rating", false);
+
+                if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+                    TraktHandlers.TVSeries.UpdateSettingAsBool("askToRate", false);
+            }
+        }
+
         #endregion
     }
 
@@ -563,6 +576,9 @@ namespace TraktPlugin
 
                 // re-initialize sync Interval
                 TraktPlugin.ChangeSyncTimer(TraktSettings.SyncTimerLength, TraktSettings.SyncTimerLength);
+
+                // update any internal plugin settings required
+                TraktSettings.UpdateInternalPluginSettings();
             }
         }
         #endregion

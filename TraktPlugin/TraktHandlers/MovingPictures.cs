@@ -1409,6 +1409,14 @@ namespace TraktPlugin.TraktHandlers
             watchList = null;
         }
 
+        public static void UpdateSettingAsBool(string setting, bool value)
+        {
+            if (MovingPicturesCore.Settings.ContainsKey(setting))
+            {
+                MovingPicturesCore.Settings[setting].Value = value;
+            }
+        }
+
         #endregion
     }    
 }
