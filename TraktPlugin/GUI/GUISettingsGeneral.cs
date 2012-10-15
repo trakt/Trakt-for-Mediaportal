@@ -27,7 +27,8 @@ namespace TraktPlugin.GUI
             GetFriendRequests = 4,
             CreateMovingPicturesCategories = 5,
             CreateMovingPicturesFilters = 6,
-            ShowRateDialogOnWatched = 7
+            ShowRateDialogOnWatched = 7,
+            SyncRatings = 8
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
@@ -47,6 +48,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.ShowRateDialogOnWatched)]
         protected GUIToggleButtonControl btnShowRateDialogOnWatched = null;
+        
+        [SkinControl((int)SkinControls.SyncRatings)]
+        protected GUIToggleButtonControl btnSyncRatings = null;
 
         #endregion
 
@@ -86,6 +90,7 @@ namespace TraktPlugin.GUI
             if (btnDownloadFullSizeFanart != null) TraktSettings.DownloadFullSizeFanart = btnDownloadFullSizeFanart.Selected;
             if (btnGetFriendRequests != null) TraktSettings.GetFriendRequestsOnStartup = btnGetFriendRequests.Selected;
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
+            if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
 
             TraktSettings.saveSettings();
 
@@ -113,7 +118,8 @@ namespace TraktPlugin.GUI
             if (btnGetFriendRequests != null) btnGetFriendRequests.Selected = TraktSettings.GetFriendRequestsOnStartup;
             if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Selected = TraktSettings.MovingPicturesCategories;
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Selected = TraktSettings.MovingPicturesFilters;
-            if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Selected = TraktSettings.ShowRateDialogOnWatched;            
+            if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Selected = TraktSettings.ShowRateDialogOnWatched;
+            if (btnSyncRatings != null) btnSyncRatings.Selected = TraktSettings.SyncRatings;
 
             // Set Labels
             // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
@@ -123,6 +129,7 @@ namespace TraktPlugin.GUI
             if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Label = Translation.CreateMovingPicturesCategories;
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Label = Translation.CreateMovingPicturesFilters;
             if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Label = Translation.ShowRateDialogOnWatched;
+            if (btnSyncRatings != null) btnSyncRatings.Label = Translation.SettingSyncRatingsName;
         }
 
         private void CreateMovingPicturesCategoriesClicked()
