@@ -1051,7 +1051,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Debug("Creating the watchlist filter");
             var watchlistFilter = new DBFilter<DBMovieInfo>();
             TraktLogger.Debug("WatchList: {0}", string.Join(", ", traktWatchListMovies.Select(m => m.Title).ToArray()));
-            foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID.CompareTo(traktmovie.Imdb) == 0)).Where(movie => movie != null))
+            foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktmovie.Imdb) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
                 watchlistFilter.WhiteList.Add(movie);
@@ -1073,7 +1073,7 @@ namespace TraktPlugin.TraktHandlers
             #region Recommendations
             TraktLogger.Debug("Creating the recommendations filter");
             var recommendationsFilter = new DBFilter<DBMovieInfo>();
-            foreach (var movie in traktRecommendationMovies.Select(traktMovie => movieList.Find(m => m.ImdbID.CompareTo(traktMovie.Imdb) == 0)).Where(movie => movie != null))
+            foreach (var movie in traktRecommendationMovies.Select(traktMovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktMovie.Imdb) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
                 recommendationsFilter.WhiteList.Add(movie);
