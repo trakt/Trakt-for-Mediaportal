@@ -329,7 +329,7 @@
   <string Field="SettingSyncTimerName">Library Synchronization Period</string>
   <string Field="SettingSyncTimerDescription">Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.</string>
   <string Field="SettingSyncStartDelayName">Library Synchronization Start Delay</string>
-  <string Field="SettingSyncStartDelayDescription">Delay (in seconds) before Library Synchronization starts on MediaPortal Startup. Default is every 0 seconds.</string>
+  <string Field="SettingSyncStartDelayDescription">Delay (in seconds) before Library Synchronization starts on MediaPortal Startup. Default is 0 seconds.</string>
   <string Field="SettingWebRequestCacheName">Web Request Cache Time</string>
   <string Field="SettingWebRequestCacheDescription">Set the period of time (in minutes) that web data is cached in gui windows such as Calendar, Trending and Recommendations. Default is 15 minutes.</string>
   <string Field="SettingWebRequestTimeoutName">Web Request Timeout</string>
