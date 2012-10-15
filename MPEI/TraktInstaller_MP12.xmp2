@@ -1584,17 +1584,21 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>2</Major>
-      <Minor>0</Minor>
-      <Build>1</Build>
+      <Minor>1</Minor>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>*  Fixed a potential crash on startup if trakt server is offline or unresponsive.</VersionDescription>
+    <VersionDescription>* Added 'Show Rate Dialog on Watched' setting to GUI Settings-&gt;General window.
+* Added 'Synchronize Ratings' setting to GUI Settings-&gt;General window.
+* Disable other plugin Rate Dialogs if Trakt Rate dialog is enabled.
+* Fixed a possible null reference exception when creating movingpictures categories/filters.
+* Fixed a small grammatical error in advanced settings.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
-    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v2.0.1.mpe1</OnlineLocation>
-    <ReleaseDate>2012-09-18T10:00:00</ReleaseDate>
+    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v2.1.0.mpe1</OnlineLocation>
+    <ReleaseDate>2012-10-15T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
