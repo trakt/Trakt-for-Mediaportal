@@ -59,6 +59,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            ShowSeasonInfo,
             HideShowWatched,
             AddToWatchList,
             RemoveFromWatchList,
@@ -178,7 +179,17 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        CheckAndPlayEpisode(true);
+                        if (TraktSettings.EnableJumpToForTVShows)
+                        {
+                            CheckAndPlayEpisode(true);
+                        }
+                        else
+                        {
+                            GUIListItem selectedItem = this.Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+                            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                        }
                     }
                     break;
 
@@ -234,6 +245,11 @@ namespace TraktPlugin.GUI
             dlg.SetHeading(GUIUtils.PluginName());
 
             GUIListItem listItem = null;
+
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
 
             // Hide/Show Watched items
             listItem = new GUIListItem(HideWatched ? Translation.ShowWatched : Translation.HideWatched);
@@ -308,6 +324,10 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                    break;
+
                 case ((int)ContextMenuItem.HideShowWatched):
                     HideWatched = !HideWatched;
                     if (hideWatchedButton != null) hideWatchedButton.Selected = HideWatched;

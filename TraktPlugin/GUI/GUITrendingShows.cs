@@ -44,6 +44,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             AddToWatchList,
+            ShowSeasonInfo,
             RemoveFromWatchList,
             AddToList,
             Related,
@@ -145,7 +146,17 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        CheckAndPlayEpisode(true);
+                        if (TraktSettings.EnableJumpToForTVShows)
+                        {
+                            CheckAndPlayEpisode(true);
+                        }
+                        else
+                        {
+                            GUIListItem selectedItem = this.Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+                            TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                        }
                     }
                     break;
 
@@ -218,6 +229,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
+
             // Add to Custom List
             listItem = new GUIListItem(Translation.AddToList + "...");
             dlg.Add(listItem);
@@ -278,6 +294,10 @@ namespace TraktPlugin.GUI
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
+                    break;
+
+                case ((int)ContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):

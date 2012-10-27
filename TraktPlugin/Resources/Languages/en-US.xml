@@ -157,6 +157,7 @@
   <string Field="GettingListItems">Getting List Items</string>
   <string Field="GettingSearchResults">Getting Search Results</string>
   <string Field="GettingShouts">Getting Shouts</string>
+  <string Field="GettingShowSeasons">Getting Show Seasons</string>
   <string Field="GettingTrendingMovies">Getting Trending Movies</string>
   <string Field="GettingTrendingShows">Getting Trending Shows</string>
   <string Field="GettingRecommendedMovies">Getting Recommended Movies</string>
@@ -166,7 +167,7 @@
   <string Field="GettingWatchListEpisodes">Getting Watch List Episodes</string>
   <string Field="GettingRelatedMovies">Getting Related Movies</string>
   <string Field="GettingRelatedShows">Getting Related Shows</string>
-  <string Field="GettingTrailerUrls">Getting Trailer Urls</string>
+  <string Field="GettingTrailerUrls">Getting Trailer Urls</string>  
   
   <!-- H -->
   <string Field="Hate">Hate</string>
@@ -231,6 +232,7 @@
   <string Field="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string Field="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string Field="NoSearchResultsFound">No Search Results Found</string>
+  <string Field="NoSeasonsForShow">No Seasons found for show!</string>
   <string Field="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
   <string Field="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
   <string Field="NoUserLists">{0} has not created any lists!</string>
@@ -299,6 +301,7 @@
   <string Field="SearchWithMpNZB">Search NZB</string>
   <string Field="SearchTorrent">Search Torrent</string>
   <string Field="Season">Season</string>
+  <string Field="Seasons">Seasons</string>
   <string Field="SearchForFriend">Search for Friend...</string>
   <string Field="SendFriendRequest">Send friend request to {0}?</string>
   <string Field="SelectLists">Select Lists</string>
@@ -319,6 +322,7 @@
   <string Field="Synchronize">Synchronize</string>
   <string Field="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
   <string Field="ShowRateDialogOnWatched">Show Rate Dialog On Item Watched</string>
+  <string Field="ShowSeasonInfo">Season Information...</string>
   <string Field="ShowWatched">Show Watched</string>
   <string Field="SettingPluginEnabledName">Plugin Enabled</string>
   <string Field="SettingPluginEnabledDescription">Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.</string>
@@ -344,8 +348,11 @@
   <string Field="SettingTrendingPollIntervalDescription">Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.</string>
   <string Field="SettingDashboardLoadDelayName">Dashboard Loading Delay</string>
   <string Field="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
+  <string Field="SettingEnableJumpToForTVShowsName">Enable TVShow Jump To Feature</string>
+  <string Field="SettingEnableJumpToForTVShowsDescription">Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.</string>
   <string Field="StartYear">Start: {0}</string>
   <string Field="SortBy">Sort By: {0}</string>
+  <string Field="Specials">Specials</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>

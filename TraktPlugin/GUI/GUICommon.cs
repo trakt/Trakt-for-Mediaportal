@@ -63,7 +63,8 @@ namespace TraktPlugin.GUI
         ListItems = 87276,
         RelatedMovies = 87277,
         RelatedShows = 87278,
-        Shouts = 87280
+        Shouts = 87280,
+        ShowSeasons = 87281
     }
 
     enum TraktDashboardControls
@@ -724,6 +725,22 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Ratings.Votes", movie.Ratings.Votes.ToString());
         }
 
+        internal static void ClearSeasonProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", string.Empty);
+        }
+
+        internal static void SetSeasonProperties(TraktShowSeason season)
+        {
+            GUIUtils.SetProperty("#Trakt.Season.Number", season.Season.ToString());
+            GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount.ToString());
+            GUIUtils.SetProperty("#Trakt.Season.Url", season.Url);
+            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", season.Images.PosterImageFilename);
+        }
+
         internal static void ClearShowProperties()
         {
             GUIUtils.SetProperty("#Trakt.Show.Imdb", string.Empty);
@@ -832,11 +849,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Ratings.Percentage.ToString());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings.Votes.ToString());
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.EpisodeImageFilename);
-        }
-
-        internal static void ClearSeasonProperties()
-        {
-            GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
         }
 
         #endregion

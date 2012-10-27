@@ -43,6 +43,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            ShowSeasonInfo,
             RemoveFromWatchList,
             AddToWatchList,
             AddToList,
@@ -157,7 +158,17 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        CheckAndPlayEpisode(true);
+                        if (TraktSettings.EnableJumpToForTVShows)
+                        {
+                            CheckAndPlayEpisode(true);
+                        }
+                        else
+                        {
+                            GUIListItem selectedItem = this.Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+                            TraktWatchListShow selectedShow = (TraktWatchListShow)selectedItem.TVTag;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                        }
                     }
                     break;
 
@@ -220,6 +231,11 @@ namespace TraktPlugin.GUI
             dlg.SetHeading(GUIUtils.PluginName());
 
             GUIListItem listItem = null;
+
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
 
             if (CurrentUser == TraktSettings.Username)
             {
@@ -289,6 +305,10 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                    break;
+
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;

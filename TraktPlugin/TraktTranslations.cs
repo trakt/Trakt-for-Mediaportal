@@ -339,12 +339,13 @@ namespace TraktPlugin.GUI
         public static string GettingRecommendedMovies = "Getting Recommended Movies";
         public static string GettingRecommendedShows = "Getting Recommended Shows";
         public static string GettingShouts = "Getting Shouts";
+        public static string GettingShowSeasons = "Getting Show Seasons";
         public static string GettingWatchListMovies = "Getting Watch List Movies";
         public static string GettingWatchListShows = "Getting Watch List Shows";
         public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
         public static string GettingRelatedMovies = "Getting Related Movies";
         public static string GettingRelatedShows = "Getting Related Shows";
-        public static string GettingTrailerUrls = "Getting Trailer Urls";
+        public static string GettingTrailerUrls = "Getting Trailer Urls";        
 
         // H
         public static string Hate = "Hate";
@@ -413,6 +414,7 @@ namespace TraktPlugin.GUI
         public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
         public static string NoUserLists = "{0} has not created any lists!";
         public static string NoListItemsFound = "No items found in this list!";
+        public static string NoSeasonsForShow = "No Seasons found for show!";
         public static string NoRelatedMovies = "No Related movies found for {0}!";
         public static string NoRelatedShows = "No Related shows found for {0}!";
         public static string No = "No";
@@ -477,6 +479,7 @@ namespace TraktPlugin.GUI
         public static string SearchWithMpNZB = "Search NZB";
         public static string SearchTorrent = "Search Torrent";
         public static string Season = "Season";
+        public static string Seasons = "Seasons";
         public static string SearchForFriend = "Search for Friend...";
         public static string SendFriendRequest = "Send friend request to {0}?";
         public static string SelectLists = "Select Lists";
@@ -497,6 +500,7 @@ namespace TraktPlugin.GUI
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
         public static string ShowRateDialogOnWatched = "Show Rate Dialog On Item Watched";
+        public static string ShowSeasonInfo = "Season Information...";
         public static string ShowWatched = "Show Watched";
         public static string SettingPluginEnabledName = "Plugin Enabled";
         public static string SettingPluginEnabledDescription = "Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.";
@@ -522,8 +526,11 @@ namespace TraktPlugin.GUI
         public static string SettingTrendingPollIntervalDescription = "Set the interval (in minutes) that the trakt trending shows and movies are updated on the dashboard.";
         public static string SettingDashboardLoadDelayName = "Dashboard Loading Delay";
         public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
+        public static string SettingEnableJumpToForTVShowsName = "Enable TVShow Jump To Feature";
+        public static string SettingEnableJumpToForTVShowsDescription = "Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
+        public static string Specials = "Specials";
 
 
         // T

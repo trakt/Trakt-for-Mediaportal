@@ -75,7 +75,7 @@ namespace TraktPlugin.TraktAPI
         public const string RateMovies = @"http://api.trakt.tv/rate/movies/" + ApiKey;
         public const string RateShows = @"http://api.trakt.tv/rate/shows/" + ApiKey;
         public const string RateEpisodes = @"http://api.trakt.tv/rate/episodes/" + ApiKey;
-        
+        public const string ShowSeasons = @"http://api.trakt.tv/show/seasons.json/" + ApiKey + @"/{0}";
 
     }
 }

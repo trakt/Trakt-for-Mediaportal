@@ -224,6 +224,7 @@
     <Compile Include="GUI\GUISettingsGeneral.cs" />
     <Compile Include="GUI\GUISettingsPlugins.cs" />
     <Compile Include="GUI\GUIShouts.cs" />
+    <Compile Include="GUI\GUIShowSeasons.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
     <Compile Include="GUI\GUIRecommendationsShows.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRecommendations.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktShowSeason.cs" />
     <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />
@@ -459,6 +461,7 @@
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Shouts.xml" />
+    <Content Include="Resources\Skins\DefaultWide\Trakt.Show.Seasons.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.SkinSettings.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Trending.Movies.xml" />
     <Content Include="Resources\Skins\DefaultWide\Trakt.Trending.Shows.xml" />
@@ -535,6 +538,7 @@
     <Content Include="Resources\Skins\Default\Trakt.Settings.Plugins.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Settings.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Shouts.xml" />
+    <Content Include="Resources\Skins\Default\Trakt.Show.Seasons.xml" />
     <Content Include="Resources\Skins\Default\Trakt.SkinSettings.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Trending.Movies.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Trending.Shows.xml" />

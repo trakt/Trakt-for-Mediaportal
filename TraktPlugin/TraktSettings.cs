@@ -40,6 +40,7 @@ namespace TraktPlugin
         public static int SyncStartDelay { get; set; }
         public static int TrendingMoviesDefaultLayout { get; set; }
         public static int TrendingShowsDefaultLayout { get; set; }
+        public static int ShowSeasonsDefaultLayout { get; set; }
         public static int RecommendedMoviesDefaultLayout { get; set; }
         public static int RecommendedShowsDefaultLayout { get; set; }
         public static int WatchListMoviesDefaultLayout { get; set; }
@@ -92,6 +93,7 @@ namespace TraktPlugin
         public static SortBy SortByTrendingShows { get; set; }
         public static SortBy SortByRecommendedShows { get; set; }
         public static SortBy SortByWatchListShows { get; set; }
+        public static bool EnableJumpToForTVShows { get; set; }
         #endregion
 
         #region Constants
@@ -128,6 +130,7 @@ namespace TraktPlugin
         private const string cListItemsDefaultLayout = "ListItemsDefaultLayout";
         private const string cRelatedMoviesDefaultLayout = "RelatedMoviesDefaultLayout";
         private const string cRelatedShowsDefaultLayout = "RelatedShowsDefaultLayout";
+        private const string cShowSeasonsDefaultLayout = "ShowSeasonsLayout";
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDefaultCalendarStartDate = "DefaultCalendarStartDate";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
@@ -173,6 +176,7 @@ namespace TraktPlugin
         private const string cSortByTrendingShows = "SortByTrendingShows";
         private const string cSortByRecommendedShows = "SortByRecommendedShows";
         private const string cSortByWatchListShows = "SortByWatchListShows";
+        private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         #endregion
 
         #region Properties
@@ -374,6 +378,7 @@ namespace TraktPlugin
                 ListItemsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cListItemsDefaultLayout, 0);
                 RelatedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedMoviesDefaultLayout, 0);
                 RelatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedShowsDefaultLayout, 0);
+                ShowSeasonsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cShowSeasonsDefaultLayout, 0);
                 DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
                 DefaultCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarStartDate, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
@@ -418,6 +423,7 @@ namespace TraktPlugin
                 SortByTrendingShows = xmlreader.GetValueAsString(cTrakt, cSortByTrendingShows, "{\"Field\": 5,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByWatchListMovies = xmlreader.GetValueAsString(cTrakt, cSortByWatchListMovies, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByWatchListShows = xmlreader.GetValueAsString(cTrakt, cSortByWatchListShows, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
+                EnableJumpToForTVShows = xmlreader.GetValueAsBool(cTrakt, cEnableJumpToForTVShows, false);
             }
         }
 
@@ -460,6 +466,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cRelatedShowsDefaultLayout, RelatedShowsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cListsDefaultLayout, ListsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cListItemsDefaultLayout, ListItemsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cShowSeasonsDefaultLayout, ShowSeasonsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarStartDate, DefaultCalendarStartDate);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
@@ -504,6 +511,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSortByTrendingShows, SortByTrendingShows.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByWatchListMovies, SortByWatchListMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByWatchListShows, SortByWatchListShows.ToJSON());
+                xmlwriter.SetValueAsBool(cTrakt, cEnableJumpToForTVShows, EnableJumpToForTVShows);
             }
 
             Settings.SaveCache();

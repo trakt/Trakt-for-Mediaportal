@@ -1003,6 +1003,20 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Show Seasons
+
+        /// <summary>
+        /// Return a list of seasons for a tv show
+        /// </summary>
+        /// <param name="title">The show search term, either (title-year seperate spaces with '-'), imdbid, tvdbid</param>
+        public static IEnumerable<TraktShowSeason> GetShowSeasons(string title)
+        {
+            string response = Transmit(string.Format(TraktURIs.ShowSeasons, title), string.Empty);
+            return response.FromJSONArray<TraktShowSeason>();
+        }
+
+        #endregion
+
         #region Helpers
 
         /// <summary>
