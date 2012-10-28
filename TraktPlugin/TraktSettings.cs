@@ -41,6 +41,7 @@ namespace TraktPlugin
         public static int TrendingMoviesDefaultLayout { get; set; }
         public static int TrendingShowsDefaultLayout { get; set; }
         public static int ShowSeasonsDefaultLayout { get; set; }
+        public static int SeasonEpisodesDefaultLayout { get; set; }
         public static int RecommendedMoviesDefaultLayout { get; set; }
         public static int RecommendedShowsDefaultLayout { get; set; }
         public static int WatchListMoviesDefaultLayout { get; set; }
@@ -131,6 +132,7 @@ namespace TraktPlugin
         private const string cRelatedMoviesDefaultLayout = "RelatedMoviesDefaultLayout";
         private const string cRelatedShowsDefaultLayout = "RelatedShowsDefaultLayout";
         private const string cShowSeasonsDefaultLayout = "ShowSeasonsLayout";
+        private const string cSeasonEpisodesDefaultLayout = "SeasonEpisodesDefaultLayout";
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDefaultCalendarStartDate = "DefaultCalendarStartDate";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
@@ -379,6 +381,7 @@ namespace TraktPlugin
                 RelatedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedMoviesDefaultLayout, 0);
                 RelatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedShowsDefaultLayout, 0);
                 ShowSeasonsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cShowSeasonsDefaultLayout, 0);
+                SeasonEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSeasonEpisodesDefaultLayout, 0);
                 DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
                 DefaultCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarStartDate, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
@@ -467,6 +470,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cListsDefaultLayout, ListsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cListItemsDefaultLayout, ListItemsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cShowSeasonsDefaultLayout, ShowSeasonsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSeasonEpisodesDefaultLayout, SeasonEpisodesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
                 xmlwriter.SetValue(cTrakt, cDefaultCalendarStartDate, DefaultCalendarStartDate);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);

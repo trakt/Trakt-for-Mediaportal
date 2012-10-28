@@ -64,7 +64,8 @@ namespace TraktPlugin.GUI
         RelatedMovies = 87277,
         RelatedShows = 87278,
         Shouts = 87280,
-        ShowSeasons = 87281
+        ShowSeasons = 87281,
+        SeasonEpisodes = 87282
     }
 
     enum TraktDashboardControls

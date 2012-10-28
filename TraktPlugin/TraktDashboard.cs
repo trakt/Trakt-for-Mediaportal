@@ -1443,7 +1443,19 @@ namespace TraktPlugin
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
-                        PlayShow(true);
+                        if (TraktSettings.EnableJumpToForTVShows)
+                        {
+                            PlayShow(true);
+                        }
+                        else
+                        {
+                            var facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+                            if (facade == null) return;
+
+                            var selectedShow = facade.SelectedListItem.TVTag as TraktTrendingShow;
+
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                        }
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingMoviesFacade)
                     {

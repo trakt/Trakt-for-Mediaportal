@@ -95,7 +95,7 @@ namespace TraktPlugin.GUI
             // Get Loading Parameter
             if (!GetLoadingParameter())
             {
-                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Main);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
                 return;
             }
 
@@ -132,7 +132,19 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        
+                        var selectedItem = this.Facade.SelectedListItem;
+                        if (selectedItem == null) return;
+
+                        var selectedSeason = selectedItem.TVTag as TraktShowSeason;
+                        if (selectedSeason == null) return;
+
+                        // create loading parameter for episode listing
+                        var loadingParam = new SeasonLoadingParameter
+                        {
+                            Season = selectedSeason,
+                            Show = Show
+                        };
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
                     }
                     break;
 
@@ -291,11 +303,18 @@ namespace TraktPlugin.GUI
 
         private bool GetLoadingParameter()
         {
-            // maybe re-loading, so check previous window id
-            if (GUIWindowManager.GetPreviousActiveWindow() == GUIWindowManager.ActiveWindow && Show != null) return true;
+            if (_loadParameter == null)
+            {
+                // maybe re-loading, so check previous window id
+                if (Show != null && !string.IsNullOrEmpty(Show.Tvdb))
+                    return true;
 
+                return false;
+            }
+            
             Show = _loadParameter.FromJSON<TraktShow>();
             if (Show == null || string.IsNullOrEmpty(Show.Tvdb)) return false;
+            
             return true;
         }
 

@@ -215,6 +215,7 @@
   <string Field="Network">Network</string>
   <string Field="NextWeek">Next Week</string>
   <string Field="NoActivities">No Activity Found.</string>
+  <string Field="NoEpisodesInSeason">No Episodes are available in Season.</string>
   <string Field="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string Field="NoEpisodesThisWeek">No episodes on this week</string>
   <string Field="NoMovieSummary">Movie summary is currently not available.</string>

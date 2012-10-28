@@ -393,6 +393,7 @@ namespace TraktPlugin.GUI
         public static string Network = "Network";
         public static string NextWeek = "Next Week";
         public static string NoActivities = "No Activity Found.";
+        public static string NoEpisodesInSeason = "No Episodes are available in Season.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoEpisodesThisWeek = "No episodes on this week";
         public static string NoMovieSummary = "Movie summary is currently not available.";
