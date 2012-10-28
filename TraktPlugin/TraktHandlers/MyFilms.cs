@@ -40,7 +40,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(5,0,3,1488))
+                if (new Version(version) < new Version(6,0,0,2616))
                     throw new FileLoadException("Plugin does not meet minimum requirements!");
             }
 
