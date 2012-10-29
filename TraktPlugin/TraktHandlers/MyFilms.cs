@@ -346,10 +346,12 @@ namespace TraktPlugin.TraktHandlers
             string Watchlist = Translation.WatchList;
             TraktLogger.Info("Retrieving watchlist from trakt");
             traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-            TraktLogger.Info("Retrieved {0} watchlist items from trakt", traktWatchListMovies.Count());
+            
             if (traktWatchListMovies != null)
             {
-                var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Watchlist)).ToList();  //movieListAll.ToList();
+                TraktLogger.Info("Retrieved {0} watchlist items from trakt", traktWatchListMovies.Count());
+
+                var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Watchlist)).ToList();
                 foreach (var trm in traktWatchListMovies)
                 {
                     TraktLogger.Debug("Processing trakt watchlist movie - Title '{0}', Year '{1}' Imdb '{2}'", trm.Title ?? "null", trm.Year ?? "null", trm.Imdb ?? "null");
@@ -381,17 +383,22 @@ namespace TraktPlugin.TraktHandlers
             string Userlist = Translation.List;
             TraktLogger.Info("Retrieving user lists from trakt");
             traktUserLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
-            TraktLogger.Info("Retrieved {0} user lists from trakt", traktUserLists.Count());
+            
             if (traktUserLists != null)
             {
+                TraktLogger.Info("Retrieved {0} user lists from trakt", traktUserLists.Count());
+
                 foreach (TraktUserList traktUserList in traktUserLists)
                 {
                     TraktUserList traktUserListMovies = TraktAPI.TraktAPI.GetUserList(TraktSettings.Username, traktUserList.Slug);
+                    if (traktUserListMovies == null) continue;
+
                     string userListName = Userlist + ": " + traktUserList.Name;
                     var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(userListName)).ToList();
                     TraktLogger.Info("Processing trakt user list '{0}' as tag '{1}' with '{2}' items", traktUserList.Name, userListName, traktUserListMovies.Items.Count);
 
-                    foreach (var trm in traktUserListMovies.Items)
+                    // process 'movies' only 
+                    foreach (var trm in traktUserListMovies.Items.Where(m => m.Type == "movie"))
                     {
                         TraktLogger.Debug("Processing trakt user list movie - Title '{0}', Year '{1}' ImdbId '{2}'", trm.Title ?? "null", trm.Year ?? "null", trm.ImdbId ?? "null");
                         foreach (var movie in movieListAll.Where(m => (BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == (trm.ImdbId)) || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year.ToString() == trm.Year)))
@@ -425,9 +432,11 @@ namespace TraktPlugin.TraktHandlers
             string Recommendations = Translation.Recommendations;
             TraktLogger.Info("Retrieving recommendations from trakt");
             traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
-            TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
+            
             if (traktRecommendationMovies != null)
             {
+                TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
+
                 var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Recommendations)).ToList();
                 foreach (var trm in traktRecommendationMovies)
                 {
@@ -462,9 +471,11 @@ namespace TraktPlugin.TraktHandlers
             string Trending = Translation.Trending;
             TraktLogger.Info("Retrieving trending movies from trakt");
             traktTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
-            TraktLogger.Info("Retrieved {0} trending items from trakt", traktTrendingMovies.Count());
+            
             if (traktTrendingMovies != null)
             {
+                TraktLogger.Info("Retrieved {0} trending items from trakt", traktTrendingMovies.Count());
+
                 var cleanupList = movieListAll.Where(m => m.CategoryTrakt.Contains(Trending)).ToList();
                 foreach (var trm in traktTrendingMovies)
                 {
