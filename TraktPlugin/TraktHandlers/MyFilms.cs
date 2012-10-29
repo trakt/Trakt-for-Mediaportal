@@ -458,7 +458,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region update trending tags
-            IEnumerable<TraktTrendingMovie> traktTrendingMovies = null;
+            /*IEnumerable<TraktTrendingMovie> traktTrendingMovies = null;
             string Trending = Translation.Trending;
             TraktLogger.Info("Retrieving trending movies from trakt");
             traktTrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
@@ -491,7 +491,7 @@ namespace TraktPlugin.TraktHandlers
                     movie.Username = TraktSettings.Username;
                     movie.Commit();
                 }
-            }
+            }*/
             #endregion
 
             #endregion
