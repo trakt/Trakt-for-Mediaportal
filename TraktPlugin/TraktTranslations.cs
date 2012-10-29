@@ -238,6 +238,7 @@ namespace TraktPlugin.GUI
         public static string CreatingAccount = "Creating Account...";
         public static string CreateMovingPicturesCategories = "Create Moving Pictures Categories";
         public static string CreateMovingPicturesFilters = "Create Moving Pictures Filters";
+        public static string CreateMyFilmsCategories = "Create My Films Categories";
         public static string CreatingCategories = "Creating Categories";
         public static string CreatingFilters = "Creating Filters";
         public static string CreatingList = "Creating List";

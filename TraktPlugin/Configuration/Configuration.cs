@@ -54,6 +54,7 @@ namespace TraktPlugin
 
             cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
             cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
+            cbMyFilmsCategories.Checked = TraktSettings.MyFilmsCategories;
             #endregion
 
             // handle events now that we have populated default settings
@@ -357,6 +358,11 @@ namespace TraktPlugin
             pd.Line1 = "Updating Filters";
             TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();
             pd.CloseDialog();
+        }
+
+        private void cbMyFilmsCategories_Click(object sender, EventArgs e)
+        {
+            TraktSettings.MyFilmsCategories = !TraktSettings.MyFilmsCategories;
         }
 
     }

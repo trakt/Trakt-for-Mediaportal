@@ -41,6 +41,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.cbMyFilmsCategories = new System.Windows.Forms.CheckBox();
             this.cbMovingPicturesFilters = new System.Windows.Forms.CheckBox();
             this.cbMovingPicturesCategories = new System.Windows.Forms.CheckBox();
             this.lbSyncTimerLength = new System.Windows.Forms.Label();
@@ -163,6 +164,7 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.cbMyFilmsCategories);
             this.gbMisc.Controls.Add(this.cbMovingPicturesFilters);
             this.gbMisc.Controls.Add(this.cbMovingPicturesCategories);
             this.gbMisc.Controls.Add(this.lbSyncTimerLength);
@@ -171,15 +173,26 @@
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 293);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(304, 133);
+            this.gbMisc.Size = new System.Drawing.Size(304, 159);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
             // 
+            // cbMyFilmsCategories
+            // 
+            this.cbMyFilmsCategories.AutoSize = true;
+            this.cbMyFilmsCategories.Location = new System.Drawing.Point(9, 85);
+            this.cbMyFilmsCategories.Name = "cbMyFilmsCategories";
+            this.cbMyFilmsCategories.Size = new System.Drawing.Size(153, 17);
+            this.cbMyFilmsCategories.TabIndex = 4;
+            this.cbMyFilmsCategories.Text = "Create My Fi&lms Categories";
+            this.cbMyFilmsCategories.UseVisualStyleBackColor = true;
+            this.cbMyFilmsCategories.Click += new System.EventHandler(this.cbMyFilmsCategories_Click);
+            // 
             // cbMovingPicturesFilters
             // 
             this.cbMovingPicturesFilters.AutoSize = true;
-            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 63);
+            this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 65);
             this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
             this.cbMovingPicturesFilters.Size = new System.Drawing.Size(166, 17);
             this.cbMovingPicturesFilters.TabIndex = 3;
@@ -226,23 +239,23 @@
             // 
             // btnClearLibrary
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(7, 103);
+            this.btnClearLibrary.Location = new System.Drawing.Point(6, 128);
             this.btnClearLibrary.Name = "btnClearLibrary";
             this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
-            this.btnClearLibrary.TabIndex = 5;
+            this.btnClearLibrary.TabIndex = 6;
             this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
-                    "arked as watched or rated online.");
+        "arked as watched or rated online.");
             this.btnClearLibrary.UseVisualStyleBackColor = true;
             this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
             // 
             // cbKeepInSync
             // 
             this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(9, 81);
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 105);
             this.cbKeepInSync.Name = "cbKeepInSync";
             this.cbKeepInSync.Size = new System.Drawing.Size(202, 17);
-            this.cbKeepInSync.TabIndex = 4;
+            this.cbKeepInSync.TabIndex = 5;
             this.cbKeepInSync.Text = "&Keep library/collection clean on trakt.";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
@@ -250,7 +263,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(241, 432);
+            this.btnOK.Location = new System.Drawing.Point(241, 458);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -303,7 +316,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 461);
+            this.ClientSize = new System.Drawing.Size(328, 488);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -349,5 +362,6 @@
         private System.Windows.Forms.LinkLabel linkTrakt;
         private System.Windows.Forms.CheckBox cbMovingPicturesCategories;
         private System.Windows.Forms.CheckBox cbMovingPicturesFilters;
+        private System.Windows.Forms.CheckBox cbMyFilmsCategories;
     }
 }

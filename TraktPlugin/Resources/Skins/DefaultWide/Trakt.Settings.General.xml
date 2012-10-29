@@ -81,6 +81,18 @@
         <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
       </control>
 			<control>
+        <description>Create My Films Filters</description>
+        <type>togglebutton</type>
+        <id>9</id>
+        <width>680</width>
+        <label>#Trakt.Translation.CreateMyFilmsFilters.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <textureFocus>trakt-togglebutton-on-focus.png</textureFocus>
+        <textureNoFocus>trakt-togglebutton-on-nofocus.png</textureNoFocus>
+        <AltTextureFocus>trakt-togglebutton-off-focus.png</AltTextureFocus>
+        <AltTextureNoFocus>trakt-togglebutton-off-nofocus.png</AltTextureNoFocus>
+      </control>
+			<control>
         <description>Show Rate Dialog On Watched</description>
         <type>togglebutton</type>
         <id>7</id>

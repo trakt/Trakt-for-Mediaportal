@@ -60,6 +60,7 @@
   <string Field="CreatingAccount">Creating Account...</string>
   <string Field="CreateMovingPicturesCategories">Create Moving Pictures Categories</string>
   <string Field="CreateMovingPicturesFilters">Create Moving Pictures Filters</string>
+  <string Field="CreateMyFilmsCategories">Create My Films Categories</string>
   <string Field="CreatingCategories">Creating Categories</string>
   <string Field="CreatingFilters">Creating Filters</string>
   <string Field="CreatingList">Creating List</string>

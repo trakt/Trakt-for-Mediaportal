@@ -28,7 +28,8 @@ namespace TraktPlugin.GUI
             CreateMovingPicturesCategories = 5,
             CreateMovingPicturesFilters = 6,
             ShowRateDialogOnWatched = 7,
-            SyncRatings = 8
+            SyncRatings = 8,
+            CreateMyFilmsCategories = 9
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
@@ -45,6 +46,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.CreateMovingPicturesFilters)]
         protected GUIToggleButtonControl btnCreateMovingPicturesFilters = null;
+
+        [SkinControl((int)SkinControls.CreateMyFilmsCategories)]
+        protected GUIToggleButtonControl btnCreateMyFilmsCategories = null;
 
         [SkinControl((int)SkinControls.ShowRateDialogOnWatched)]
         protected GUIToggleButtonControl btnShowRateDialogOnWatched = null;
@@ -91,6 +95,7 @@ namespace TraktPlugin.GUI
             if (btnGetFriendRequests != null) TraktSettings.GetFriendRequestsOnStartup = btnGetFriendRequests.Selected;
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
             if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
+            if (btnCreateMyFilmsCategories != null) TraktSettings.MyFilmsCategories = btnCreateMyFilmsCategories.Selected;
 
             // update any internal plugin settings required
             TraktSettings.UpdateInternalPluginSettings();
@@ -123,6 +128,7 @@ namespace TraktPlugin.GUI
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Selected = TraktSettings.MovingPicturesFilters;
             if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Selected = TraktSettings.ShowRateDialogOnWatched;
             if (btnSyncRatings != null) btnSyncRatings.Selected = TraktSettings.SyncRatings;
+            if (btnCreateMyFilmsCategories != null) btnCreateMyFilmsCategories.Selected = TraktSettings.MyFilmsCategories;
 
             // Set Labels
             // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
@@ -133,6 +139,7 @@ namespace TraktPlugin.GUI
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Label = Translation.CreateMovingPicturesFilters;
             if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Label = Translation.ShowRateDialogOnWatched;
             if (btnSyncRatings != null) btnSyncRatings.Label = Translation.SettingSyncRatingsName;
+            if (btnCreateMyFilmsCategories != null) btnCreateMyFilmsCategories.Label = Translation.CreateMyFilmsCategories;
         }
 
         private void CreateMovingPicturesCategoriesClicked()
