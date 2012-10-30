@@ -62,6 +62,7 @@ namespace TraktPlugin.GUI
             ShowSeasonInfo,
             HideShowWatched,
             MarkAsWatched,
+            AddToLibrary,
             AddToWatchList,
             RemoveFromWatchList,
             AddToList,
@@ -262,6 +263,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
 
+            // Add Show to Library
+            listItem = new GUIListItem(Translation.AddToLibrary);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
+
             // Add/Remove Watch List            
             if (!selectedShow.InWatchList)
             {
@@ -343,6 +349,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     GUICommon.MarkShowAsSeen(selectedShow);
+                    break;
+
+                case ((int)ContextMenuItem.AddToLibrary):
+                    GUICommon.AddShowToLibrary(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
