@@ -495,8 +495,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowCommunityActivity, ShowCommunityActivity);
                 xmlwriter.SetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, IncludeMeInFriendsActivity);
                 xmlwriter.SetValue(cTrakt, cLastActivityLoad, LastActivityLoad.ToJSON());
-                xmlwriter.SetValue(cTrakt, cLastTrendingShows, LastTrendingShows.ToList().ToJSON());
-                xmlwriter.SetValue(cTrakt, cLastTrendingMovies, LastTrendingMovies.ToList().ToJSON());
+                xmlwriter.SetValue(cTrakt, cLastTrendingShows, (LastTrendingShows ?? "{}".FromJSONArray<TraktTrendingShow>()).ToList().ToJSON());
+                xmlwriter.SetValue(cTrakt, cLastTrendingMovies, (LastTrendingMovies ?? "{}".FromJSONArray<TraktTrendingMovie>()).ToList().ToJSON());
                 xmlwriter.SetValue(cTrakt, cLastStatistics, LastStatistics.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
