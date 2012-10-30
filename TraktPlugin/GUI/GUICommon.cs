@@ -643,8 +643,9 @@ namespace TraktPlugin.GUI
 
             Thread seenThread = new Thread(o =>
                 {
-                    TraktLogger.Info("Marking {0} as seen", seenShow.Title);
-                    var response = TraktAPI.TraktAPI.SyncShowAsSeen(o as TraktShowSeen);
+                    var oShow = o as TraktShowSeen;
+                    TraktLogger.Info("Marking {0} as seen", oShow.Title);
+                    var response = TraktAPI.TraktAPI.SyncShowAsSeen(oShow);
                     TraktAPI.TraktAPI.LogTraktResponse(response);
                 })
                 {
@@ -657,7 +658,7 @@ namespace TraktPlugin.GUI
 
         #endregion
 
-        #region Mark Show As Seen
+        #region Mark Season As Seen
 
         public static void MarkSeasonAsSeen(TraktShow show, int season)
         {
@@ -674,8 +675,9 @@ namespace TraktPlugin.GUI
 
             Thread seenThread = new Thread(o =>
             {
-                TraktLogger.Info("Marking {0} season {1} as seen", seenSeason.Title, seenSeason.Season);
-                var response = TraktAPI.TraktAPI.SyncSeasonAsSeen(o as TraktSeasonSeen);
+                var oSeason = o as TraktSeasonSeen;
+                TraktLogger.Info("Marking {0} season {1} as seen", oSeason.Title, oSeason.Season);
+                var response = TraktAPI.TraktAPI.SyncSeasonAsSeen(oSeason);
                 TraktAPI.TraktAPI.LogTraktResponse(response);
             })
             {
@@ -684,6 +686,69 @@ namespace TraktPlugin.GUI
             };
 
             seenThread.Start(seenSeason);
+        }
+
+        #endregion
+
+        #region Add Show to Library
+
+        public static void AddShowToLibrary(TraktShow show)
+        {
+            TraktShowLibrary libShow = new TraktShowLibrary
+            {
+                Tvdb = show.Tvdb,
+                Imdb = show.Imdb,
+                Title = show.Title,
+                Year = show.Year,
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            Thread libThread = new Thread(o =>
+            {
+                var oShow = o as TraktShowLibrary;
+                TraktLogger.Info("Adding {0} to library", oShow.Title);
+                var response = TraktAPI.TraktAPI.SyncShowAsLibrary(oShow);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Add Show to Library"
+            };
+
+            libThread.Start(libShow);
+        }
+
+        #endregion
+
+        #region Add Season to Library
+
+        public static void AddSeasonToLibrary(TraktShow show, int season)
+        {
+            TraktSeasonLibrary libSeason = new TraktSeasonLibrary
+            {
+                Season = season,
+                Tvdb = show.Tvdb,
+                Imdb = show.Imdb,
+                Title = show.Title,
+                Year = show.Year,
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            Thread libThread = new Thread(o =>
+            {
+                var oSeason = o as TraktSeasonLibrary;
+                TraktLogger.Info("Adding {0} season {1} to library", oSeason.Title, oSeason.Season);
+                var response = TraktAPI.TraktAPI.SyncSeasonAsLibrary(oSeason);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Add Season to Library"
+            };
+
+            libThread.Start(libSeason);
         }
 
         #endregion

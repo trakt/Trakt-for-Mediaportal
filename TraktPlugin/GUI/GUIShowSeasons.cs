@@ -32,6 +32,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             MarkAsWatched,
+            AddToLibrary,
             AddToList,
             ChangeLayout
         }
@@ -180,6 +181,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
 
+            // Add season to Library
+            listItem = new GUIListItem(Translation.AddToLibrary);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
+
             // Add to Custom List
             listItem = new GUIListItem(Translation.AddToList + "...");
             dlg.Add(listItem);
@@ -198,6 +204,10 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.MarkAsWatched):
                     GUICommon.MarkSeasonAsSeen(Show, selectedSeason.Season);
+                    break;
+
+                case ((int)ContextMenuItem.AddToLibrary):
+                    GUICommon.AddSeasonToLibrary(Show, selectedSeason.Season);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
