@@ -31,6 +31,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            MarkAsWatched,
             AddToList,
             ChangeLayout
         }
@@ -174,6 +175,11 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            // Mark season as watched
+            listItem = new GUIListItem(Translation.MarkAsWatched);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
+
             // Add to Custom List
             listItem = new GUIListItem(Translation.AddToList + "...");
             dlg.Add(listItem);
@@ -190,6 +196,10 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.MarkAsWatched):
+                    GUICommon.MarkSeasonAsSeen(Show, selectedSeason.Season);
+                    break;
+
                 case ((int)ContextMenuItem.AddToList):
                     TraktHelper.AddRemoveSeasonInUserList(Show.Title, Show.Year.ToString(), selectedSeason.Season.ToString() ,Show.Tvdb, false);
                     break;

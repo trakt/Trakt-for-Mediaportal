@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
@@ -622,6 +623,67 @@ namespace TraktPlugin.GUI
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region Mark Show As Seen
+
+        public static void MarkShowAsSeen(TraktShow show)
+        {
+            TraktShowSeen seenShow = new TraktShowSeen
+            {
+                Tvdb = show.Tvdb,
+                Imdb = show.Imdb,
+                Title = show.Title,
+                Year = show.Year,
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            Thread seenThread = new Thread(o =>
+                {
+                    TraktLogger.Info("Marking {0} as seen", seenShow.Title);
+                    var response = TraktAPI.TraktAPI.SyncShowAsSeen(o as TraktShowSeen);
+                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Mark Show As Seen"
+                };
+
+            seenThread.Start(seenShow);
+        }
+
+        #endregion
+
+        #region Mark Show As Seen
+
+        public static void MarkSeasonAsSeen(TraktShow show, int season)
+        {
+            TraktSeasonSeen seenSeason = new TraktSeasonSeen
+            {
+                Season = season,
+                Tvdb = show.Tvdb,
+                Imdb = show.Imdb,
+                Title = show.Title,
+                Year = show.Year,
+                Username = TraktSettings.Username,
+                Password = TraktSettings.Password
+            };
+
+            Thread seenThread = new Thread(o =>
+            {
+                TraktLogger.Info("Marking {0} season {1} as seen", seenSeason.Title, seenSeason.Season);
+                var response = TraktAPI.TraktAPI.SyncSeasonAsSeen(o as TraktSeasonSeen);
+                TraktAPI.TraktAPI.LogTraktResponse(response);
+            })
+            {
+                IsBackground = true,
+                Name = "Mark Season As Seen"
+            };
+
+            seenThread.Start(seenSeason);
         }
 
         #endregion

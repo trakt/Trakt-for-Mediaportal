@@ -313,6 +313,18 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktResponse>();
         }
 
+        public static TraktResponse SyncShowAsSeen(TraktShowSeen show)
+        {
+            string response = Transmit(TraktURIs.ShowSeen, show.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse SyncSeasonAsSeen(TraktSeasonSeen showSeason)
+        {
+            string response = Transmit(TraktURIs.SeasonSeen, showSeason.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
         #endregion
 
         #region Trakt Library Calls
