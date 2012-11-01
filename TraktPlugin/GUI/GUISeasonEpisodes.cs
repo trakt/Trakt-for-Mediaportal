@@ -538,7 +538,7 @@ namespace TraktPlugin.GUI
                 // add image for download
                 episodeImages.Add(episode.Images);
 
-                item.Label2 = episode.FirstAired.FromEpoch().ToShortDateString();
+                item.Label2 = episode.FirstAired == 0 ? " " : episode.FirstAired.FromEpoch().ToShortDateString();
                 item.TVTag = episode;
                 item.IsPlayed = episode.Watched;
                 item.Item = episode.Images;
