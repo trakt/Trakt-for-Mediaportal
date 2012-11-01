@@ -354,6 +354,8 @@
   <string Field="SettingEnableJumpToForTVShowsDescription">Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.</string>
   <string Field="StartYear">Start: {0}</string>
   <string Field="SortBy">Sort By: {0}</string>
+  <string Field="SortSeasonsAscending">Sort Seasons in Ascending order</string>
+  <string Field="SortSeasonsDescending">Sort Seasons in Descending order</string>
   <string Field="Specials">Specials</string>
   
   <!-- T -->

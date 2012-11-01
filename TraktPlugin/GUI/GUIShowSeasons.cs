@@ -34,6 +34,7 @@ namespace TraktPlugin.GUI
             MarkAsWatched,
             AddToLibrary,
             AddToList,
+            Sort,
             ChangeLayout
         }
 
@@ -191,6 +192,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
+            // Sort By
+            listItem = new GUIListItem(TraktSettings.SortSeasonsAscending ? Translation.SortSeasonsDescending : Translation.SortSeasonsAscending);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Sort;
+          
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -212,6 +218,11 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToList):
                     TraktHelper.AddRemoveSeasonInUserList(Show.Title, Show.Year.ToString(), selectedSeason.Season.ToString() ,Show.Tvdb, false);
+                    break;
+
+                case ((int)ContextMenuItem.Sort):
+                    TraktSettings.SortSeasonsAscending = !TraktSettings.SortSeasonsAscending;
+                    LoadShowSeasons();
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -281,6 +292,12 @@ namespace TraktPlugin.GUI
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoSeasonsForShow);
                 GUIWindowManager.ShowPreviousWindow();
                 return;
+            }
+
+            // sort ascending or descending order
+            if (TraktSettings.SortSeasonsAscending)
+            {
+                seasons = seasons.OrderBy(s => s.Season);
             }
 
             int itemId = 0;

@@ -532,6 +532,8 @@ namespace TraktPlugin.GUI
         public static string SettingEnableJumpToForTVShowsDescription = "Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
+        public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
+        public static string SortSeasonsDescending = "Sort Seasons in Descending order";
         public static string Specials = "Specials";
 
 

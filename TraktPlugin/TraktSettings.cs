@@ -96,6 +96,7 @@ namespace TraktPlugin
         public static SortBy SortByWatchListShows { get; set; }
         public static bool EnableJumpToForTVShows { get; set; }
         public static bool MyFilmsCategories { get; set; }
+        public static bool SortSeasonsAscending { get; set; }
         #endregion
 
         #region Constants
@@ -181,6 +182,7 @@ namespace TraktPlugin
         private const string cSortByWatchListShows = "SortByWatchListShows";
         private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         private const string cMyFilmsCategories = "MyFilmsCategories";
+        private const string cSortSeasonsAscending = "SortSeasonsAscending";
         #endregion
 
         #region Properties
@@ -430,6 +432,7 @@ namespace TraktPlugin
                 SortByWatchListShows = xmlreader.GetValueAsString(cTrakt, cSortByWatchListShows, "{\"Field\": 6,\"Direction\": 1}").FromJSON<SortBy>();
                 EnableJumpToForTVShows = xmlreader.GetValueAsBool(cTrakt, cEnableJumpToForTVShows, false);
                 MyFilmsCategories = xmlreader.GetValueAsBool(cTrakt, cMyFilmsCategories, false);
+                SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
             }
         }
 
@@ -520,6 +523,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSortByWatchListShows, SortByWatchListShows.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cEnableJumpToForTVShows, EnableJumpToForTVShows);
                 xmlwriter.SetValueAsBool(cTrakt, cMyFilmsCategories, MyFilmsCategories);
+                xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
             }
 
             Settings.SaveCache();
