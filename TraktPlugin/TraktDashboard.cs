@@ -1235,6 +1235,27 @@ namespace TraktPlugin
             catch (Exception) { }
         }
 
+        private void ViewShout(TraktActivity.Activity activity)
+        {
+            switch (activity.Type)
+            {
+                case "movie":
+                    TraktHelper.ShowMovieShouts(activity.Movie.Imdb, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.FanartImageFilename);
+                    break;
+
+                case "show":
+                    TraktHelper.ShowTVShowShouts(activity.Show.Tvdb, activity.Show.Title, activity.Show.Images.FanartImageFilename);
+                    break;
+
+                case "episode":
+                    TraktHelper.ShowEpisodeShouts(activity.Show.Tvdb, activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), activity.Show.Images.FanartImageFilename);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         private void PlayActivityItem(bool jumpTo)
         {
             // get control
@@ -1439,7 +1460,19 @@ namespace TraktPlugin
                     if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
                     if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
                     {
-                        PlayActivityItem(true);
+                        var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
+                        if (activityFacade == null) return;
+
+                        var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+
+                        if (activity.Action == "shout")
+                        {
+                            ViewShout(activity);
+                        }
+                        else
+                        {
+                            PlayActivityItem(true);
+                        }
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
