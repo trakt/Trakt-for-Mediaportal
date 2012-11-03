@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.Web;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktHandlers;
 
@@ -948,7 +949,7 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktUserProfile> SearchForFriends(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchUsers, searchTerm), GetUserAuthentication());
+            string response = Transmit(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
             return response.FromJSONArray<TraktUserProfile>();
         }
 
@@ -957,7 +958,7 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchMovies, searchTerm), string.Empty);
+            string response = Transmit(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm)), string.Empty);
             return response.FromJSONArray<TraktMovie>();
         }
 
@@ -966,7 +967,7 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktShow> SearchShows(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchShows, searchTerm), string.Empty);
+            string response = Transmit(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm)), string.Empty);
             return response.FromJSONArray<TraktShow>();
         }
 
@@ -975,7 +976,7 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktSearchEpisode> SearchEpisodes(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, searchTerm), string.Empty);
+            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm)), string.Empty);
             return response.FromJSONArray<TraktSearchEpisode>();
         }
 

@@ -167,9 +167,6 @@ namespace TraktPlugin.GUI
             {
                 if (_Friends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    IEnumerable<TraktUserProfile> test = (IEnumerable<TraktUserProfile>)TraktAPI.TraktAPI.GetFriends();
-
-
                     _Friends = TraktAPI.TraktAPI.GetFriends();
                     LastRequest = DateTime.UtcNow;
                     PreviousFriendSelectedIndex = 0;
