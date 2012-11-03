@@ -104,7 +104,7 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         static Views ViewLevel { get; set; }
         ViewType SelectedType { get; set; }
-        GUIFriendItem CurrentFriend { get; set; }
+        TraktUserProfile CurrentFriend { get; set; }
         ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
         Dictionary<string, IEnumerable<TraktActivity.Activity>> friendEpisodeHistory = new Dictionary<string, IEnumerable<TraktActivity.Activity>>();
@@ -161,12 +161,15 @@ namespace TraktPlugin.GUI
         }
         private IEnumerable<TraktActivity.Activity> _WatchedMovies = null;
 
-        IEnumerable<GUIFriendItem> TraktFriends
+        IEnumerable<TraktUserProfile> TraktFriends
         {
             get
             {
                 if (_Friends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
+                    IEnumerable<TraktUserProfile> test = (IEnumerable<TraktUserProfile>)TraktAPI.TraktAPI.GetFriends();
+
+
                     _Friends = TraktAPI.TraktAPI.GetFriends();
                     LastRequest = DateTime.UtcNow;
                     PreviousFriendSelectedIndex = 0;
@@ -176,13 +179,13 @@ namespace TraktPlugin.GUI
                 return _Friends;
             }
         }
-        static IEnumerable<GUIFriendItem> _Friends = null;
+        static IEnumerable<TraktUserProfile> _Friends = null;
 
         #endregion
 
         #region Public Properties
 
-        public static IEnumerable<GUIFriendItem> FriendRequests
+        public static IEnumerable<TraktUserProfile> FriendRequests
         {
             get
             {
@@ -194,7 +197,7 @@ namespace TraktPlugin.GUI
                 return _FriendRequests;
             }
         }
-        static IEnumerable<GUIFriendItem> _FriendRequests = null;
+        static IEnumerable<TraktUserProfile> _FriendRequests = null;
 
         #endregion
 
@@ -276,17 +279,17 @@ namespace TraktPlugin.GUI
                                     if (GUIUtils.ShowYesNoDialog(Translation.FriendRequest, string.Format(Translation.ApproveFriendMessage, friend.Label), true))
                                     {
                                         // Friend Approved, add Friend
-                                        ApproveFriend(friend.Item as GUIFriendItem);
+                                        ApproveFriend(friend.Item as TraktUserProfile);
 
                                         // update cache
-                                        (friend.Item as GUIFriendItem).ApprovedDate = DateTime.UtcNow.ToEpoch();
+                                        (friend.Item as TraktUserProfile).ApprovedDate = DateTime.UtcNow.ToEpoch();
                                         _Friends = _Friends.Concat(_FriendRequests.Where(f => f.Username == friend.Label));
                                         _FriendRequests = _FriendRequests.Except(_FriendRequests.Where(f => f.Username == friend.Label));
                                     }
                                     else
                                     {
                                         // Friend Denied, remove Friend from Pending Requests
-                                        DenyFriend(friend.Item as GUIFriendItem);
+                                        DenyFriend(friend.Item as TraktUserProfile);
 
                                         // update cache
                                         _FriendRequests = _FriendRequests.Except(_FriendRequests.Where(f => f.Username == friend.Label));
@@ -299,7 +302,7 @@ namespace TraktPlugin.GUI
                                 {
                                     if (GUIUtils.ShowYesNoDialog(Translation.Friends, string.Format(Translation.SendFriendRequest, friend.Label), true))
                                     {
-                                        AddFriend(friend.Item as GUIFriendItem);
+                                        AddFriend(friend.Item as TraktUserProfile);
                                         // return to friends list
                                         LoadFriendsList();
                                     }
@@ -697,7 +700,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.AddFriend):
                     if (GUIUtils.ShowYesNoDialog(Translation.Friends, string.Format(Translation.SendFriendRequest, selectedItem.Label), true))
                     {
-                        AddFriend(selectedItem.Item as GUIFriendItem);
+                        AddFriend(selectedItem.Item as TraktUserProfile);
                         // return to friends list
                         LoadFriendsList();
                     }
@@ -881,7 +884,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.DeleteFriend, string.Format(Translation.DeleteFriendMessage, selectedItem.Label)))
                     {
                         // Delete friend
-                        DeleteFriend(selectedItem.Item as GUIFriendItem);
+                        DeleteFriend(selectedItem.Item as TraktUserProfile);
                         // Clear Cache
                         _Friends = _Friends.Except(_Friends.Where(f => f.Username == selectedItem.Label));
                         // Re-Load list
@@ -954,7 +957,7 @@ namespace TraktPlugin.GUI
             GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
         }
 
-        private TraktFriend CreateFriendData(GUIFriendItem user)
+        private TraktFriend CreateFriendData(TraktUserProfile user)
         {
             TraktFriend friend = new TraktFriend
             {
@@ -965,7 +968,7 @@ namespace TraktPlugin.GUI
             return friend;
         }
 
-        private void AddFriend(GUIFriendItem user)
+        private void AddFriend(TraktUserProfile user)
         {
             Thread addFriendThread = new Thread(delegate(object obj)
             {
@@ -980,7 +983,7 @@ namespace TraktPlugin.GUI
             addFriendThread.Start(user);
         }
 
-        private void ApproveFriend(GUIFriendItem user)
+        private void ApproveFriend(TraktUserProfile user)
         {
             Thread approveFriendThread = new Thread(delegate(object obj)
             {
@@ -995,7 +998,7 @@ namespace TraktPlugin.GUI
             approveFriendThread.Start(user);
         }
 
-        private void DenyFriend(GUIFriendItem user)
+        private void DenyFriend(TraktUserProfile user)
         {
             Thread denyFriendThread = new Thread(delegate(object obj)
             {
@@ -1010,7 +1013,7 @@ namespace TraktPlugin.GUI
             denyFriendThread.Start(user);
         }
 
-        private void DeleteFriend(GUIFriendItem user)
+        private void DeleteFriend(TraktUserProfile user)
         {
             Thread deleteFriendThread = new Thread(delegate(object obj)
             {
@@ -1039,7 +1042,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     // Get Friend List from Result Handler
-                    IEnumerable<GUIFriendItem> friends = result as IEnumerable<GUIFriendItem>;
+                    IEnumerable<TraktUserProfile> friends = result as IEnumerable<TraktUserProfile>;
 
                     #region Get Friend Requests for user as well
                     GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
@@ -1048,11 +1051,11 @@ namespace TraktPlugin.GUI
                     },
                     delegate(bool frSuccess, object frResult)
                     {
-                        IEnumerable<GUIFriendItem> friendRequests = null;
+                        IEnumerable<TraktUserProfile> friendRequests = null;
                         if (frSuccess)
                         {
                             // Get Friend Requests from Result Handler
-                            friendRequests = result as IEnumerable<GUIFriendItem>;
+                            friendRequests = result as IEnumerable<TraktUserProfile>;
                         }
                     }, Translation.GettingFriendsRequests, true);
                     #endregion
@@ -1072,7 +1075,7 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    SendSearchResultsToFacade(result as IEnumerable<GUIFriendItem>);
+                    SendSearchResultsToFacade(result as IEnumerable<TraktUserProfile>);
                 }
             }, Translation.GettingSearchResults, true);
         }
@@ -1289,7 +1292,7 @@ namespace TraktPlugin.GUI
             GetImages<TraktMovie.MovieImages>(movieImages);
         }
 
-        private void SendSearchResultsToFacade(IEnumerable<GUIFriendItem> searchResults)
+        private void SendSearchResultsToFacade(IEnumerable<TraktUserProfile> searchResults)
         {
             int itemCount = searchResults.Count();
 
@@ -1342,11 +1345,11 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<GUIFriendItem> images = new List<GUIFriendItem>(searchResults.ToList());
-            GetImages<GUIFriendItem>(images);
+            List<TraktUserProfile> images = new List<TraktUserProfile>(searchResults.ToList());
+            GetImages<TraktUserProfile>(images);
         }
 
-        private void SendFriendsToFacade(IEnumerable<GUIFriendItem> friends, IEnumerable<GUIFriendItem> friendRequests)
+        private void SendFriendsToFacade(IEnumerable<TraktUserProfile> friends, IEnumerable<TraktUserProfile> friendRequests)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -1414,9 +1417,9 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<GUIFriendItem> friendImages = new List<GUIFriendItem>(friends.ToList());
+            List<TraktUserProfile> friendImages = new List<TraktUserProfile>(friends.ToList());
             if (friendRequests != null) friendImages.AddRange(friendRequests);
-            GetImages<GUIFriendItem>(friendImages);
+            GetImages<TraktUserProfile>(friendImages);
         }
 
         private void InitProperties()
@@ -1455,7 +1458,7 @@ namespace TraktPlugin.GUI
             GUICommon.ClearMovieProperties();
         }
 
-        private void PublishFriendSkinProperties(GUIFriendItem user)
+        private void PublishFriendSkinProperties(TraktUserProfile user)
         {
             GUICommon.SetUserProperties(user);
         }
@@ -1483,7 +1486,7 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            CurrentFriend = (item as GUITraktUserListItem).Item as GUIFriendItem;
+            CurrentFriend = (item as GUITraktUserListItem).Item as TraktUserProfile;
             PublishFriendSkinProperties(CurrentFriend);
             GUIImageHandler.LoadFanart(backdrop, string.Empty);
             // reset selected indexes
@@ -1556,11 +1559,11 @@ namespace TraktPlugin.GUI
                         
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
-                        
-                        if (item is GUIFriendItem)
+
+                        if (item is TraktUserProfile)
                         {
-                            remoteThumb = (item as GUIFriendItem).Avatar;
-                            localThumb = (item as GUIFriendItem).AvatarFilename;
+                            remoteThumb = (item as TraktUserProfile).Avatar;
+                            localThumb = (item as TraktUserProfile).AvatarFilename;
                         }
                         else if (item is TraktMovie.MovieImages)
                         {
@@ -1584,9 +1587,9 @@ namespace TraktPlugin.GUI
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
                                 // notify that image has been downloaded
-                                if (item is GUIFriendItem)
+                                if (item is TraktUserProfile)
                                 {
-                                    (item as GUIFriendItem).NotifyPropertyChanged("AvatarFilename");
+                                    (item as TraktUserProfile).NotifyPropertyChanged("AvatarFilename");
                                 }
                                 else if (item is TraktMovie.MovieImages)
                                 {
@@ -1665,14 +1668,6 @@ namespace TraktPlugin.GUI
 
     }
 
-    /// <summary>
-    /// Extends TraktUserProfile with properties we can
-    /// use to notify the facade for loading
-    /// </summary>
-    public class GUIFriendItem : TraktUserProfile
-    {
-    }
-
     public class GUITraktUserListItem : GUIListItem
     {
         public GUITraktUserListItem(string strLabel) : base(strLabel) { }
@@ -1689,8 +1684,8 @@ namespace TraktPlugin.GUI
                 INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUIFriendItem && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as GUIFriendItem).AvatarFilename);
+                    if (s is TraktUserProfile && e.PropertyName == "AvatarFilename")
+                        SetImageToGui((s as TraktUserProfile).AvatarFilename);
                     else if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
                     else if (s is TraktImage && e.PropertyName == "EpisodeImages")

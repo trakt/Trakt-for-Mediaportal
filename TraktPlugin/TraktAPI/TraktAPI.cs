@@ -6,7 +6,6 @@ using System.Text;
 using System.Net;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktHandlers;
-using TraktPlugin.GUI;
 
 namespace TraktPlugin.TraktAPI
 {
@@ -533,10 +532,10 @@ namespace TraktPlugin.TraktAPI
         /// Returns a list of Friends and their user profiles
         /// </summary>
         /// <param name="user">username of person to retrieve friend s list</param>
-        public static IEnumerable<GUIFriendItem> GetUserFriends(string user)
+        public static IEnumerable<TraktUserProfile> GetUserFriends(string user)
         {
             string response = Transmit(string.Format(TraktURIs.UserFriends, user), GetUserAuthentication());
-            return response.FromJSONArray<GUIFriendItem>();
+            return response.FromJSONArray<TraktUserProfile>();
         }
         
         /// <summary>
@@ -738,19 +737,19 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns a list of Friends for current user
         /// </summary>        
-        public static IEnumerable<GUIFriendItem> GetFriends()
+        public static IEnumerable<TraktUserProfile> GetFriends()
         {
             string response = Transmit(TraktURIs.Friends, GetUserAuthentication());
-            return response.FromJSONArray<GUIFriendItem>();
+            return response.FromJSONArray<TraktUserProfile>();
         }
 
         /// <summary>
         /// Returns a list of Friend requests for current user
         /// </summary>        
-        public static IEnumerable<GUIFriendItem> GetFriendRequests()
+        public static IEnumerable<TraktUserProfile> GetFriendRequests()
         {
             string response = Transmit(TraktURIs.FriendRequests, GetUserAuthentication());
-            return response.FromJSONArray<GUIFriendItem>();
+            return response.FromJSONArray<TraktUserProfile>();
         }
 
         public static TraktResponse FriendApprove(TraktFriend friend)
@@ -947,10 +946,10 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns a list of users found using search term
         /// </summary>        
-        public static IEnumerable<GUIFriendItem> SearchForFriends(string searchTerm)
+        public static IEnumerable<TraktUserProfile> SearchForFriends(string searchTerm)
         {
             string response = Transmit(string.Format(TraktURIs.SearchUsers, searchTerm), GetUserAuthentication());
-            return response.FromJSONArray<GUIFriendItem>();
+            return response.FromJSONArray<TraktUserProfile>();
         }
 
         #endregion
