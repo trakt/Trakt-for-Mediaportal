@@ -952,6 +952,33 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktUserProfile>();
         }
 
+        /// <summary>
+        /// Returns a list of movies found using search term
+        /// </summary>        
+        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchMovies, searchTerm), string.Empty);
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        /// <summary>
+        /// Returns a list of shows found using search term
+        /// </summary>        
+        public static IEnumerable<TraktShow> SearchShows(string searchTerm)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchShows, searchTerm), string.Empty);
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        /// <summary>
+        /// Returns a list of episodes found using search term
+        /// </summary>        
+        public static IEnumerable<TraktSearchEpisode> SearchEpisodes(string searchTerm)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, searchTerm), string.Empty);
+            return response.FromJSONArray<TraktSearchEpisode>();
+        }
+
         #endregion
 
         #region Shouts
