@@ -980,6 +980,15 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktSearchEpisode>();
         }
 
+        /// <summary>
+        /// Returns a list of actors found using search term
+        /// </summary>        
+        public static IEnumerable<TraktActor> SearchActor(string searchTerm)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchActor, HttpUtility.UrlEncode(searchTerm)), string.Empty);
+            return response.FromJSONArray<TraktActor>();
+        }
+
         #endregion
 
         #region Shouts
