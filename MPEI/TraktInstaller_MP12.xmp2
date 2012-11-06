@@ -618,6 +618,20 @@
               <ZipFileName>Installer{CopyFile}\{16911cb9-c06e-46c4-b34f-9a283af38312}-traktHeart9.png</ZipFileName>
               <DestinationFilename>%Skin%\Default\Media\traktHeart9.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Season.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5b462b84-fbb3-4ea4-aa23-a4f1d227a2ce}-Trakt.Season.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Season.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Show.Seasons.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ae83a4df-d925-4792-856d-70920013aec8}-Trakt.Show.Seasons.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Trakt.Show.Seasons.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1258,6 +1272,20 @@
               <ZipFileName>Installer{CopyFile}\{d21c91cd-ad48-4d02-88d0-39c9be8c160b}-traktActivityWatchlist.png</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityWatchlist.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Season.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{68095d68-a1f0-432b-af3d-5252bc162aaf}-Trakt.Season.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Season.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Show.Seasons.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5dc1fa47-6fae-4bef-a02e-cd24b867be1e}-Trakt.Show.Seasons.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Show.Seasons.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1584,21 +1612,27 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>2</Major>
-      <Minor>1</Minor>
+      <Minor>2</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added 'Show Rate Dialog on Watched' setting to GUI Settings-&gt;General window.
-* Added 'Synchronize Ratings' setting to GUI Settings-&gt;General window.
-* Disable other plugin Rate Dialogs if Trakt Rate dialog is enabled.
-* Fixed a possible null reference exception when creating movingpictures categories/filters.
-* Fixed a small grammatical error in advanced settings.</VersionDescription>
+    <VersionDescription>* Added new Seasons and Episode views for trakt Shows.
+
+* Added new advanced setting to control behaviour when clicking on Show ie disable JumpTo functionality.
+
+* Added option to mark all episodes as watched from the Show Level, this is also available at the Season level from the Season GUI. Also added similiar setting to Add To Library.
+
+* Added support for Custom Lists, Recommendations, WatchList to sync to MyFilms plugin categories. Requires v6.0. New setting to enable/disable this functionality during Sync.
+
+* Open Shouts window when clicking on a shout item in the Dashboard Activity list.
+
+* Updated German translations, thanks catavolt.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
-    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v2.1.0.mpe1</OnlineLocation>
-    <ReleaseDate>2012-10-15T10:00:00</ReleaseDate>
+    <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v2.2.0.mpe1</OnlineLocation>
+    <ReleaseDate>2012-11-06T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -2224,6 +2258,20 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktHeart9.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{16911cb9-c06e-46c4-b34f-9a283af38312}-traktHeart9.png</ZipFileName>
         <DestinationFilename>%Skin%\Default\Media\traktHeart9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Season.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5b462b84-fbb3-4ea4-aa23-a4f1d227a2ce}-Trakt.Season.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Season.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Trakt.Show.Seasons.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ae83a4df-d925-4792-856d-70920013aec8}-Trakt.Show.Seasons.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Trakt.Show.Seasons.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -2854,6 +2902,20 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktActivityWatchlist.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{d21c91cd-ad48-4d02-88d0-39c9be8c160b}-traktActivityWatchlist.png</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityWatchlist.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Season.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{68095d68-a1f0-432b-af3d-5252bc162aaf}-Trakt.Season.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Season.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Show.Seasons.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5dc1fa47-6fae-4bef-a02e-cd24b867be1e}-Trakt.Show.Seasons.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Show.Seasons.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
