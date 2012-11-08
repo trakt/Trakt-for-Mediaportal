@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Trakt translation file -->
+<!-- English (US) -->
+<!-- Note: English is the fallback for any strings not found in other languages -->
+<strings>
+  <!-- A -->
+  <string Field="Account">Account</string>
+  <string Field="AccountSetup">Impostazioni Account</string>
+  <string Field="AccountDialog">Finestra Account</string>
+  <string Field="Activity">Attività</string>
+  <string Field="ActivityFriendsDesc">Attività degli amici...</string>
+  <string Field="ActivityCommunityDesc">Attività della comunità...</string>
+  <string Field="ActivityWatching">{0} sta guardando {1}</string>
+  <string Field="ActivityWatched">{0} visti {1}</string>
+  <string Field="ActivityCheckedIn">{0} entrati in {1}</string>
+  <string Field="ActivityCollected">{0} collezionati {1}</string>
+  <string Field="ActivityCollectedEpisodes">{0} collezionati {1} di {2} episodi</string>
+  <string Field="ActivitySeen">{0} visti {1}</string>
+  <string Field="ActivitySeenEpisodes">{0} visti {1} di {2} episodi</string>
+  <string Field="ActivityRating">{0} valutazione {1}</string>
+  <string Field="ActivityRatingAdvanced">{0} valutazione {1} [{2}/10]</string>
+  <string Field="ActivityWatchlist">{0} aggiunti {1} alla loro lista da vedere</string>
+  <string Field="ActivityAddToList">{0} aggiunti {1} a {2}</string>
+  <string Field="ActivityCreatedList">{0} creati {1}</string>
+  <string Field="ActivityShouts">{0} giudicati su {1}</string>  
+  <string Field="Activities">Attività</string>
+  <string Field="AddFriend">Aggiungi Amico...</string>
+  <string Field="AddToLibrary">Aggiungi nella Libreria</string>
+  <string Field="AddToList">Aggiungi nella Lista...</string>
+  <string Field="AddToWatchList">Aggiungi nella Lista da Vedere</string>
+  <string Field="AddShowToWatchList">Aggiungi Serie nella Lista da Vedere</string>
+  <string Field="AddEpisodeToWatchList">Aggiungi Episodio nella Lista da Vedere</string>
+  <string Field="AddShowToList">Aggiungi Serie nella Lista</string>
+  <string Field="AddEpisodeToList">Aggiungi Episodio nella Lista</string>
+  <string Field="AddThisItemToWatchList">Aggiungere questo elemento nella tua lista da vedere?</string>
+  <string Field="Age">Età</string>
+  <string Field="AirDate">Data Uscita</string>
+  <string Field="AirDay">Giorno Uscita</string>
+  <string Field="AirTime">Ora Uscita</string>
+  <string Field="Approve">Approva</string>
+  <string Field="ApprovedDate">Data Approvazione</string>
+  <string Field="ApproveFriendMessage">Vuoi aggiungere l'utente {0}\nagli amici?</string>
+  <string Field="AdvancedSettings">Impostazioni Avanzate</string>
+  
+  <!-- B -->
+  <string Field="BufferingTrailer">Buffering Trailer</string>
+  
+  <!-- C -->
+  <string Field="Cancel">Cancella</string>
+  <string Field="Calendar">Calendario</string>
+  <string Field="CalendarMyShows">Le Mie Serie</string>
+  <string Field="CalendarPremieres">Anteprime</string>
+  <string Field="CalendarAllShows">Tutte le Serie</string>
+  <string Field="Certification">Certificazioni</string>
+  <string Field="ChangeView">Cambia Vista...</string>
+  <string Field="ChangeLayout">Cambia Layout...</string>
+  <string Field="Create">Crea</string>
+  <string Field="CreateAccount">Crea Account</string>
+  <string Field="CreateNewAccount">Crea Nuovo Account...</string>
+  <string Field="CreatingAccount">Creazione Account...</string>
+  <string Field="CreateMovingPicturesCategories">Crea Categorie Moving Pictures</string>
+  <string Field="CreateMovingPicturesFilters">Crea Filtri Moving Pictures</string>
+  <string Field="CreateMyFilmsCategories">Crea Categorie My Films</string>
+  <string Field="CreatingCategories">Creazione Categorie</string>
+  <string Field="CreatingFilters">Creazione Filtri</string>
+  <string Field="CreatingList">Creazione Lista</string>
+  <string Field="CreateList">Crea una nuova Lista...</string>
+  <string Field="Community">Comunità</string>
+  <string Field="CommunityActivity">Attività Comunità</string>
+  <string Field="ConfirmDeleteList">Vuoi davvero cancellare\nquesta lista?</string>
+  <string Field="ConfirmDeleteListItem">Vuoi davvero cancellare\nquesto elemento dalla lista?</string>
+  <string Field="CopyList">Copia Lista...</string>
+  
+  <!-- D -->
+  <string Field="DateToday">Oggi</string>
+  <string Field="DateYesterday">Ieri</string>
+  <string Field="DateOneWeekAgo">1 Settimana fa</string>
+  <string Field="DateTwoWeeksAgo">2 Settimane fa</string>
+  <string Field="DateOneMonthAgo">1 Mese fa</string>
+  <string Field="Deny">Rifiuta</string>
+  <string Field="DeleteList">Cancella Lista</string>
+  <string Field="DeleteListItem">Cancella Elemento Lista</string>
+  <string Field="DeletingList">Cancellazione Lista</string>
+  <string Field="DeleteFriend">Cancella Amico</string>
+  <string Field="DeleteFriendMessage">Vuoi davvero cancellare\n{0} dagli Amici?</string>
+  <string Field="DisconnectAccount">Disconnetti Account: {0}</string>
+  <string Field="DismissRecommendation">Elimina dai Consigliati</string>
+  <string Field="DontIncludeMeInFriendsActivity">Non includermi nelle Attività degli Amici</string>
+  <string Field="DownloadFanart">Download Fanart</string>
+  <string Field="DownloadFullSizeFanart">Download Fanart nelle Dimensioni Originali</string>
+  
+  <!-- E -->
+  <string Field="EditList">Modifica Lista...</string>
+  <string Field="EditingList">Modifica Lista in corso</string>
+  <string Field="Email">Email</string>
+  <string Field="EndYear">Fine: {0}</string>
+  <string Field="Episode">Episodio</string>
+  <string Field="Episodes">Episodi</string>
+  <string Field="Error">Errore Trakt</string>
+  <string Field="ErrorCalendar">Errore recupero calendario.</string>
+  
+  <!-- F -->
+  <string Field="FirstAired">Prima Trasmissione</string>
+  <string Field="Friend">Amico</string>
+  <string Field="Friends">Amici</string>
+  <string Field="FriendActivity">Attività Amici</string>
+  <string Field="FriendRequest">Richiesta Amicizia</string>
+  <string Field="FriendRequestMessage">Hai {0} richieste di amicizia, approva o rifiuta nella finestra Amici</string>
+  <string Field="FullName">Nome Completo</string>
+  
+  <!-- G -->
+  <string Field="Gender">Genere</string>
+  <string Field="General">Generale</string>
+  <string Field="GeneralSettings">Impostazioni Generali</string>
+  <string Field="Genre">Genere</string>
+  <string Field="GenreItem">Genere: {0}</string>
+  <string Field="GenreAction">Azione</string>
+  <string Field="GenreAdventure">Avventura</string>
+  <string Field="GenreAll">Tutti</string>
+  <string Field="GenreAnimation">Animazione</string>
+  <string Field="GenreChildren">Per Bambini</string>
+  <string Field="GenreComedy">Commedia</string>
+  <string Field="GenreCrime">Giallo</string>
+  <string Field="GenreDocumentary">Documentario</string>
+  <string Field="GenreDrama">Dramma</string>
+  <string Field="GenreFamily">Per Famiglia</string>
+  <string Field="GenreFantasy">Fantastico</string>
+  <string Field="GenreGameShow">Gioco</string>
+  <string Field="GenreFilmNoir">Film Noir</string>
+  <string Field="GenreHistory">Storico</string>
+  <string Field="GenreHomeAndGarden">Casa e Giardino</string>
+  <string Field="GenreHorror">Horror</string>
+  <string Field="GenreIndie">Indie</string>
+  <string Field="GenreMiniSeries">Mini Serie</string>
+  <string Field="GenreMusic">Musicale</string>
+  <string Field="GenreMusical">Musical</string>
+  <string Field="GenreMystery">Mistero</string>
+  <string Field="GenreNews">Notizie</string>
+  <string Field="GenreNone">Non Definito</string>
+  <string Field="GenreReality">Reality</string>
+  <string Field="GenreRomance">Romantico</string>
+  <string Field="GenreScienceFiction">Fantascienza</string>
+  <string Field="GenreSoap">Soap</string>
+  <string Field="GenreSpecialInterest">Interesse Speciale</string>
+  <string Field="GenreSport">Sport</string>
+  <string Field="GenreSuspense">Suspance</string>
+  <string Field="GenreTalkShow">Talk Show</string>
+  <string Field="GenreThriller">Thriller</string>
+  <string Field="GenreWar">Guerra</string>
+  <string Field="GenreWestern">Western</string>
+  <string Field="GetFriendRequestsOnStartup">Ricevi richieste Amicizia all'avvio</string>
+  <string Field="GettingActivity">Ricezione Attività</string>
+  <string Field="GettingCalendar">Ricezione Calendario</string>
+  <string Field="GettingFriendsList">Ricezione Lista Amici</string>
+  <string Field="GettingFriendsRequests">Ricezione Richieste Amicizia</string>
+  <string Field="GettingFriendsWatchedHistory">Ricezione Storico visti dagli Amici</string>  
+  <string Field="GettingLists">Ricezione Liste</string>
+  <string Field="GettingListItems">Ricezione Elementi Lista</string>
+  <string Field="GettingSearchResults">Ricezione Risultati Ricerca</string>
+  <string Field="GettingShouts">Ricezione Giudizio</string>
+  <string Field="GettingShowSeasons">Ricezione Stagioni Serie</string>
+  <string Field="GettingTrendingMovies">Ricezione Film di Tendenza</string>
+  <string Field="GettingTrendingShows">Ricezione Serie di  Tendenza</string>
+  <string Field="GettingRecommendedMovies">Ricezione Film Consigliati</string>
+  <string Field="GettingRecommendedShows">Ricezione Serie Consigliate</string>
+  <string Field="GettingWatchListMovies">Ricezione Liste Film da Vedere</string>
+  <string Field="GettingWatchListShows">Ricezione Liste Serie da Vedere</string>
+  <string Field="GettingWatchListEpisodes">Ricezione Liste Episodi da Vedere</string>
+  <string Field="GettingRelatedMovies">Ricezione Film Correlati</string>
+  <string Field="GettingRelatedShows">Ricezione Serie Correlate</string>
+  <string Field="GettingTrailerUrls">Ricezione URLs Trailer</string>  
+  
+  <!-- H -->
+  <string Field="Hate">Non mi Piace</string>
+  <string Field="Hated">Non mi è Piaciuto</string>
+  <string Field="HideTVShowsInWatchlist">Nascondi Serie TV nella Lista da Vedere</string>
+  <string Field="HideCollected">Nascondi Collezionati</string>
+  <string Field="HideWatched">Nascondi Visti</string>
+  <string Field="HideWatchlisted">Nascondi Elenco Visti</string>
+  <string Field="HideSpoilers">Nascondi Anticipazioni Trama</string>
+  <string Field="HiddenToPreventSpoilers">Questo giudizio è stato nascosto per prevenire anticipazioni della trama, puoi cambiare questa opzione dal menù.</string>
+
+  <!-- I -->
+  <string Field="IncludeMeInFriendsActivity">Includimi nelle Attività degli Amici</string>
+  <string Field="Inserted">Inserito</string>
+  <string Field="Item">Elemento</string>
+  <string Field="Items">Elementi</string>
+  
+  <!-- J -->
+  <string Field="JoinDate">Data Registrazione</string>
+  <string Field="Joined">Registrato</string>
+
+  <!-- K -->
+  
+  <!-- L -->
+  <string Field="Location">Località</string>
+  <string Field="Layout">Layout</string>
+  <string Field="List">Lista</string>
+  <string Field="Lists">Liste</string>
+  <string Field="Love">Mi Piace</string>
+  <string Field="Loved">Mi è Piaciuto</string>
+  <string Field="LoginExistingAccount">Login su Account Esistente...</string>
+  <string Field="LoggedIn">Collegato</string>
+  <string Field="Login">Login</string>
+  <string Field="ListNameAlreadyExists">Esiste già una Lista con questo nome!</string>
+  
+  <!-- M -->
+  <string Field="MarkAsWatched">Marca come Visto</string>
+  <string Field="MarkAsUnWatched">Marca come Non Visto</string>
+  <string Field="Movie">Film</string>
+  <string Field="Movies">Film</string>
+  <string Field="MultiSelectDialog">Finestra Multi-Selezione</string>
+  
+  <!-- N -->
+  <string Field="Name">Nome</string>
+  <string Field="Network">Rete</string>
+  <string Field="NextWeek">Prossima Settimana</string>
+  <string Field="NoActivities">Nessuna Attività Trovata.</string>
+  <string Field="NoEpisodesInSeason">Nessun Episodio disponibile nella Stagione.</string>
+  <string Field="NoEpisodeSummary">Sommario Episodi al momento non disponibile.</string>
+  <string Field="NoEpisodesThisWeek">Nessun episodio in questa settimana</string>
+  <string Field="NoMovieSummary">Sommario Film al momento non disponibile.</string>
+  <string Field="NoShowSummary">Sommario Serie al momento non disponibile.</string>
+  <string Field="NoFriends">Nessun Amico!</string>
+  <string Field="NoFriendsTaunt">Non hai Amici!</string>
+  <string Field="NoTrendingMovies">Nessun Film in visione ora!</string>
+  <string Field="NoTrendingShows">Nessuna Serie in visione ora!</string>
+  <string Field="NoMovieRecommendations">Nessun Film Consigliato Trovato!</string>
+  <string Field="NoShowRecommendations">Nessuna Serie Consigliata Trovata!</string>
+  <string Field="NoShowWatchList">{0} non ha serie nella Lista da Vedere!</string>
+  <string Field="NoMovieWatchList">{0} non ha film nella Lista da Vedere!</string>
+  <string Field="NoEpisodeWatchList">{0} non ha episodi nella Lista da Vedere!</string>
+  <string Field="NoShoutsForItem">Nessun Giudizio per {0}!</string>
+  <string Field="NoPluginsEnabled">Non hai definito nessun plugin nella configurazione.\nVuoi configurare i plugin adesso?</string>
+  <string Field="NotLoggedIn">Non puoi accedere a questa area senza essere\ncollegato. Vuoi Registrarti o Accedere\na trakt.tv adesso?</string>
+  <string Field="NoSearchResultsFound">Nessun Risultato Trovato</string>
+  <string Field="NoSeasonsForShow">Nessuna Stagione trovata per la serie!</string>
+  <string Field="NoMovingPictures">Moving Pictures Non è Installato o Abilitato</string>
+  <string Field="NoListsFound">Nessuna lista trovata, Vuoi creare\nuna lista adesso?</string>
+  <string Field="NoUserLists">{0} non ha alcuna lista!</string>
+  <string Field="NoListItemsFound">Nessun elemento trovato in questa lista!</string>
+  <string Field="NoRelatedMovies">Nessun Film correlato trovato per {0}!</string>
+  <string Field="NoRelatedShows">Nessuna Serie correlata trovata per {0}!</string>
+  <string Field="No">No</string>
+  
+  <!-- O -->
+  <string Field="OK">OK</string>
+  <string Field="Overview">Panoramica</string>
+  
+  <!-- P -->
+  <string Field="Password">Password</string>
+  <string Field="People">Persone</string>
+  <string Field="Percentage">Percentuale</string>
+  <string Field="Protected">Protetto</string>
+  <string Field="PersonWatching">1 Persona in Visione</string>
+  <string Field="PeopleWatching">{0} Persone in Visione</string>
+  <string Field="PlayTrailer">Vedi Trailer</string>
+  <string Field="Plugin">Plugin</string>
+  <string Field="Plugins">Plugin</string>
+  <string Field="Public">Pubblico</string>
+  <string Field="Private">Privato</string>
+  <string Field="Privacy">Privacy</string>
+  <string Field="PrivacyPublic">Tutti possono vedere questa lista</string>
+  <string Field="PrivacyFriends">Solo gli Amici possono vedere questa lista</string>
+  <string Field="PrivacyPrivate">Solo Tu puoi vedere questa lista</string>
+  
+  <!-- R -->
+  <string Field="Rate">Valuta</string>
+  <string Field="Rated">Valutato</string>
+  <string Field="Rating">Valutazione</string>
+  <string Field="RateMovie">Valuta Film...</string>
+  <string Field="RateShow">Valuta Serie...</string>
+  <string Field="RateEpisode">Valuta Episodio...</string>
+  <string Field="RateDialog">Finestra Valutazione Trakt</string>
+  <string Field="RateHate">Salsa Debole :(</string>
+  <string Field="RateLove">Totalmente Ninja!</string>
+  <string Field="RateHeading">Che cosa pensi?</string>
+  <string Field="RateTwo">Terribile</string>
+  <string Field="RateThree">Cattivo</string>
+  <string Field="RateFour">Povero</string>
+  <string Field="RateFive">Meh</string>
+  <string Field="RateSix">Discreto</string>
+  <string Field="RateSeven">Buono</string>
+  <string Field="RateEight">Ottimo</string>
+  <string Field="RateNine">Superbo</string>
+  <string Field="Recommendations">Consigliati</string>
+  <string Field="RecommendedMovies">Film Consigliati</string>
+  <string Field="RecommendedShows">Serie Consigliate</string>
+  <string Field="RelatedMovies">Film Correlati</string>
+  <string Field="RelatedShows">Serie Correlate</string>
+  <string Field="Released">Rilasciato</string>
+  <string Field="ReleaseDate">Data Rilascio</string>
+  <string Field="RemoveFromLibrary">Rimuovi dalla Libreria</string>
+  <string Field="RemoveFromWatchList">Rimuovi dalla Lista da Vedere</string>
+  <string Field="RemoveShowFromWatchList">Rimuovi Serie dalla Lista da Vedere</string>
+  <string Field="RemoveEpisodeFromWatchList">Rimuovi Episodio dalla Lista da Vedere</string>
+  <string Field="RemoveFromList">Rimuovi dalla Lista...</string>
+  <string Field="Runtime">Durata</string>
+  
+  <!-- S -->
+  <string Field="Score">Votazione</string>
+  <string Field="Scrobble">Scrobble</string>
+  <string Field="SearchWithMpNZB">Ricerca NZB</string>
+  <string Field="SearchTorrent">Ricerca Torrent</string>
+  <string Field="Season">Stagione</string>
+  <string Field="Seasons">Stagioni</string>
+  <string Field="SearchForFriend">Ricerca per Amico...</string>
+  <string Field="SendFriendRequest">Invia richiesta amicizia a {0}?</string>
+  <string Field="SelectLists">Seleziona Liste</string>
+  <string Field="SelectUser">Seleziona Utente</string>
+  <string Field="Series">Serie</string>
+  <string Field="SeriesPlural">Serie</string>
+  <string Field="Settings">Impostazioni</string>
+  <string Field="Shout">Giudizio</string>
+  <string Field="Shouts">Giudizi</string>
+  <string Field="ShowTVShowsInWatchlist">Visualizza Serie TV nella Lista da Vedere</string>
+  <string Field="ShowSpoilers">Visualizza Anticipazioni Trama</string>
+  <string Field="ShowFriendActivity">Visualizza Attività Amici</string>
+  <string Field="ShowCommunityActivity">Visualizza Attività Comunità</string>
+  <string Field="SigningIntoAccount">Registrazione nell'Account...</string>
+  <string Field="SkinPluginsOutOfDate">Errore caricamento finestra, la skin non è aggiornata!\nEsci da MediaPortal ed entra nella Configurazione per\nabilitare i gestori dei plugin.</string>
+  <string Field="SkinOutOfDate">Questa caratteristica non è disponibile per la tua\nskin. Controlla se è disponibile un Aggiornamento.</string>
+  <string Field="StartDate">Data Inizio</string>
+  <string Field="Synchronize">Sincronizza</string>
+  <string Field="SynchronizeNow">Nuovo Gestore Plugin aggiunto .\nVuoi Sincronizzare le tue\nlibrerie adesso?</string>
+  <string Field="ShowRateDialogOnWatched">Visualizza finestra valutazione per l'elemento visto</string>
+  <string Field="ShowSeasonInfo">Informazioni Stagione...</string>
+  <string Field="ShowWatched">Visualizza Visti</string>
+  <string Field="SettingPluginEnabledName">Plugin Abilitato</string>
+  <string Field="SettingPluginEnabledDescription">Abilita / Disabilita questa impostazione per controllare se Trakt è caricato con MediaPortal.</string>
+  <string Field="SettingListedHomeName">Elencato nella schermata Home</string>
+  <string Field="SettingListedHomeDescription">Abilita questa impostazione per avere Trakt nel menù principale della schermata Home.</string>
+  <string Field="SettingListedPluginsName">Elencato ne I Miei Plugin</string>
+  <string Field="SettingListedPluginsDescription">Abilita questa impostazione per avere Trakt nel menù della schermata I Miei Plugin.</string>
+  <string Field="SettingSyncTimerName">Intervallo Sincronizzazione Libreria</string>
+  <string Field="SettingSyncTimerDescription">Imposta l'intervallo di tempo (in ore) fra ogni Sincronizzazione della Libreria. L'impostazione predefinita è ogni 24 ore.</string>
+  <string Field="SettingSyncStartDelayName">Ritardo Avvio Sincronizzazione Libreria</string>
+  <string Field="SettingSyncStartDelayDescription">Ritardo (in secondi) Sincronizzazione Libreria all'avvio di MediaPortal. L'impostazione predefinita è 0 secondi.</string>
+  <string Field="SettingWebRequestCacheName">Memorizzazione Richiesta Web</string>
+  <string Field="SettingWebRequestCacheDescription">Imposta l'intervallo di tempo (in minuti) in cui i dati web vengono memorizzati nelle viste Calendario, Tendenze e Consigliati. L'impostazione predefinita è 15 minuti.</string>
+  <string Field="SettingWebRequestTimeoutName">Richiesta Web Scaduta</string>
+  <string Field="SettingWebRequestTimeoutDescription">Imposta l'intervallo di tempo (in secondi) prima della cancellazione di ogni richiesta web. L'impostazione predefinita è 30 secondi.</string>
+  <string Field="SettingSyncRatingsName">Sincronizzazione Valutazioni</string>
+  <string Field="SettingSyncRatingsDescription">Abilita questa impostazione per la sincronizzazione a 2-vie delle valutazioni durante il sync della libreria. Se un elemento è stato valutato localmente o in remoto, non sarà sovrascritto per evitare qualsiasi problema. Si raccomanda di valutare gli elemnti online usando la valutazione avanzata prima di abilitare questa impostazione.</string>
+  <string Field="SettingShowRateDialogOnWatchedName">Visualizza Finestra Valutazione dopo la Visione</string>
+  <string Field="SettingShowRateDialogOnWatchedDescription">Abilita questa impostazione per visualizzare la finestra di valutazione Trakt dopo che un film o un episodio è terminato e considerato visto. La finestra di valutazione Trakt non sarà visualizzata se l'elemento è stato già valutato.</string>
+  <string Field="SettingActivityPollIntervalName">Intervallo aggiornamento Dashboard Attività</string>
+  <string Field="SettingActivityPollIntervalDescription">Imposta l'intervallo (in secondi) in cui le attività della comunità/degli amici Trakt è aggiornata nella dashboard.</string>
+  <string Field="SettingTrendingPollIntervalName">Intervallo Aggiornamento Dashboard Tendenze</string>
+  <string Field="SettingTrendingPollIntervalDescription">Imposta l'intervallo (in minuti) in cui le serie ed i film di tendenza sono aggiornati nella dashboard.</string>
+  <string Field="SettingDashboardLoadDelayName">Ritardo Caricamento Dashboard</string>
+  <string Field="SettingDashboardLoadDelayDescription">Questa impostazione serve per controllare il ritardo in millisecondi in cui la dashboard inizia a caricare i dati dopo che la finestra Principale è stata aperta. Settando questo valore troppo basso si possono causare errori ed il mancato caricamento della finestra.</string>
+  <string Field="SettingEnableJumpToForTVShowsName">Abilita Funzionalità Vai a TVSeries</string>
+  <string Field="SettingEnableJumpToForTVShowsDescription">Abilita questa impostazione per abilitare l'utente ad andare direttamente al plugin TVSeries premendo Enter o OK su una Serie TV Trakt. Se disabilitato saranno visualizzate le informazioni sulla Stagione da trakt.tv.</string>
+  <string Field="StartYear">Avvio: {0}</string>
+  <string Field="SortBy">Ordina per: {0}</string>
+  <string Field="Specials">Speciali</string>
+  
+  <!-- T -->
+  <string Field="Timeout">Scaduto</string>
+  <string Field="Trending">Tendenze</string>
+  <string Field="TrendingShows">Serie di Tendenza</string>
+  <string Field="TrendingShowsAndMovies">Serie e Film di Tendenza</string>
+  <string Field="TrendingMovies">Film di Tendenza</string>
+  <string Field="TrendingMoviePeople">Ci sono {0} persone che stanno guardando {1} film in questo momento!</string>
+  <string Field="TrendingTVShowsPeople">Ci sono {0} persone che stanno guardando {1} serie tv in questo momento!</string>
+  <string Field="TVShow">Serie TV</string>
+  <string Field="TVShows">Serie TV</string>
+  <string Field="Tagline">Slogan</string>
+  <string Field="Title">Titolo</string>
+  <string Field="Trailer">Trailer</string>
+  <string Field="Trailers">Trailer...</string>
+  
+  <!-- U -->
+  <string Field="UserHasNotWatchedEpisodes">L'utente non ha visto nessun episodio!</string>
+  <string Field="UserHasNotWatchedMovies">L'utente non ha visto nessun film!</string>
+  <string Field="User">Utente</string>
+  <string Field="Users">Utenti</string>
+  <string Field="Username">Nome Utente</string>
+  <string Field="UnAuthorized">Autenticazione fallita, controlla il nome utente e la password nelle impostazioni.</string>
+  <string Field="UnRate">Non Valutato</string>
+  <string Field="UpdatingCategories">Aggiornamento Categorie</string>
+  <string Field="UpdatingFilters">Aggiornamento Filtri</string>
+  <string Field="UnableToPlayTrailer">Impossibile riprodurre trailer.</string>
+  
+  <!-- V -->
+  <string Field="View">Vista</string>
+  <string Field="Votes">Voti</string>
+  <string Field="ValidUsername">Devi immettere un nome utente valido!</string>
+  <string Field="ValidPassword">Devi immetter una password valida!</string>
+  <string Field="ValidEmail">Devi immettere una email valida!</string>
+
+  <!-- W -->
+  <string Field="WatchList">Liste da Vedere</string>
+  <string Field="Watched">Visto</string>
+  <string Field="WatchedMovies">Film Visti</string>
+  <string Field="WatchedEpisodes">Episodi Visti</string>
+  <string Field="WatchedShows">Serie Viste</string>
+  <string Field="Watchers">Spettatori</string>
+  <string Field="Watching">In Visione</string>
+  <string Field="WatchListMovies">Lista Film da Vedere</string>
+  <string Field="WatchListShows">Lista Serie da Vedere</string>
+  <string Field="WatchListEpisodes">Lista Episodi da Vedere</string>  
+
+  <!-- Y -->
+  <string Field="Year">Anno</string>
+  <string Field="Yes">Sì</string>
+  
+</strings>
