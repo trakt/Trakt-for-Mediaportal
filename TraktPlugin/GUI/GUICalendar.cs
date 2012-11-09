@@ -58,6 +58,7 @@ namespace TraktPlugin.GUI
         {
             View,
             StartDate,
+            ShowSeasonInfo,
             MarkAsWatched,
             MarkAsUnWatched,
             AddShowToList,
@@ -345,6 +346,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.StartDate;
 
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
+
             // Related Shows
             listItem = new GUIListItem(Translation.RelatedShows + "...");
             dlg.Add(listItem);
@@ -459,6 +465,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.StartDate):
                     ShowStartDateMenu();
+                    break;
+
+                case ((int)ContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, episodeItem.Show.ToJSON());
                     break;
 
                 case ((int)ContextMenuItem.Related):
