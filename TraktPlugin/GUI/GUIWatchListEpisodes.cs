@@ -598,7 +598,7 @@ namespace TraktPlugin.GUI
                     if (s is TraktImage && e.PropertyName == "EpisodeImages")
                         SetImageToGui((s as TraktImage).EpisodeImages.EpisodeImageFilename);
                     if (s is TraktImage && e.PropertyName == "ShowImages")
-                        UpdateCurrentSelection();
+                        this.UpdateItemIfSelected((int)TraktGUIWindows.WatchedListEpisodes, ItemId);
                 };
             }
         } protected object _Item;
@@ -616,20 +616,7 @@ namespace TraktPlugin.GUI
             IconImageBig = imageFilePath;
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();
-        }
-
-        protected void UpdateCurrentSelection()
-        {
-            GUIWatchListEpisodes window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIWatchListEpisodes;
-            if (window != null)
-            {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.WatchedListEpisodes, (int)TraktGUIControls.Facade);
-                if (selectedItem == this)
-                {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
-                }
-            }
+            this.UpdateItemIfSelected((int)TraktGUIWindows.WatchedListEpisodes, ItemId);
         }
     }
 }

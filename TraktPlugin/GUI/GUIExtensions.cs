@@ -123,5 +123,25 @@ namespace TraktPlugin.GUI
             GUIMessage msg = new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, self.WindowId, 0, self.GetID, index, 0, null);
             GUIGraphicsContext.SendMessage(msg);
         }
+
+        /// <summary>
+        /// Sends a Thread message to select an item on a facade object. Will only send if itemid parameter is currently selected
+        /// </summary>
+        /// <param name="self">the list object</param>
+        /// <param name="windowId">the window id containing list control</param>
+        /// <param name="index">the item id in list to check if selected</param>
+        /// <param name="controlId">the id of the list control, defaults to 50</param>
+        public static void UpdateItemIfSelected(this GUIListItem self, int windowId, int index, int controlId = 50)
+        {
+            if (GUIWindowManager.ActiveWindow != windowId) return;
+
+            GUIListItem selectedItem = GUIControl.GetSelectedListItem(windowId, controlId);
+            
+            // only send message if the current item is selected
+            if (selectedItem == self)
+            {
+                GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, controlId, index, 0, null));
+            }
+        }
     }
 }

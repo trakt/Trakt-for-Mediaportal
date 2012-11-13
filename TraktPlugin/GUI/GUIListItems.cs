@@ -1036,14 +1036,14 @@ namespace TraktPlugin.GUI
                     if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
                     if (s is TraktMovie.MovieImages && e.PropertyName == "FanartImageFilename")
-                        UpdateCurrentSelection();
+                        this.UpdateItemIfSelected((int)TraktGUIWindows.ListItems, ItemId);
                     if (s is TraktShow.ShowImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
                     // re-size season posters to same as series/movie posters
                     if (s is TraktShow.ShowImages && e.PropertyName == "SeasonImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).SeasonImageFilename, new Size(300, 434));
                     if (s is TraktShow.ShowImages && e.PropertyName == "FanartImageFilename")
-                        UpdateCurrentSelection();
+                        this.UpdateItemIfSelected((int)TraktGUIWindows.ListItems, ItemId);
                 };
             }
         } protected object _Item;
@@ -1103,20 +1103,7 @@ namespace TraktPlugin.GUI
             }
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();
-        }
-
-        protected void UpdateCurrentSelection()
-        {
-            GUIListItems window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIListItems;
-            if (window != null)
-            {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.ListItems, (int)TraktGUIControls.Facade);
-                if (selectedItem == this)
-                {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
-                }
-            }
+            this.UpdateItemIfSelected((int)TraktGUIWindows.ListItems, ItemId);
         }
     }
 }

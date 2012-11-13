@@ -670,7 +670,7 @@ namespace TraktPlugin.GUI
                     if (s is TraktShow.ShowImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
                     if (s is TraktShow.ShowImages && e.PropertyName == "FanartImageFilename")
-                        UpdateCurrentSelection();
+                        this.UpdateItemIfSelected((int)TraktGUIWindows.TrendingShows, ItemId);
 
                 };
             }
@@ -722,20 +722,7 @@ namespace TraktPlugin.GUI
             }
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();
-        }
-
-        protected void UpdateCurrentSelection()
-        {
-            GUITrendingShows window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUITrendingShows;
-            if (window != null)
-            {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.TrendingShows, (int)TraktGUIControls.Facade);
-                if (selectedItem == this)
-                {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
-                }
-            }
+            this.UpdateItemIfSelected((int)TraktGUIWindows.TrendingShows, ItemId);
         }
     }
 }

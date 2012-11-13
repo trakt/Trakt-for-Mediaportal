@@ -975,7 +975,7 @@ namespace TraktPlugin.GUI
                     if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
                     if (s is TraktMovie.MovieImages && e.PropertyName == "FanartImageFilename")
-                        UpdateCurrentSelection();
+                        this.UpdateItemIfSelected((int)TraktGUIWindows.RecommendationsMovies, ItemId);
                 };
             }
         } protected object _Item;
@@ -1027,20 +1027,7 @@ namespace TraktPlugin.GUI
             }
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();
-        }
-
-        protected void UpdateCurrentSelection()
-        {
-            GUIRecommendationsMovies window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIRecommendationsMovies;
-            if (window != null)
-            {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.RecommendationsMovies, (int)TraktGUIControls.Facade);
-                if (selectedItem == this)
-                {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
-                }
-            }
+            this.UpdateItemIfSelected((int)TraktGUIWindows.RecommendationsMovies, ItemId);
         }
     }
 }

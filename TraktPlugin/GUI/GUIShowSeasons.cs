@@ -473,20 +473,7 @@ namespace TraktPlugin.GUI
             IconImageBig = imageFilePath;
 
             // if selected and is current window force an update of thumbnail
-            UpdateCurrentSelection();
-        }
-
-        protected void UpdateCurrentSelection()
-        {
-            GUIShowSeasons window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow) as GUIShowSeasons;
-            if (window != null)
-            {
-                GUIListItem selectedItem = GUIControl.GetSelectedListItem((int)TraktGUIWindows.ShowSeasons, (int)TraktGUIControls.Facade);
-                if (selectedItem == this)
-                {
-                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, (int)TraktGUIControls.Facade, ItemId, 0, null));
-                }
-            }
+            this.UpdateItemIfSelected((int)TraktGUIWindows.ShowSeasons, ItemId);
         }
     }
 }
