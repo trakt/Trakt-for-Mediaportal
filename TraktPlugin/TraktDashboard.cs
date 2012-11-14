@@ -14,6 +14,28 @@ using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin
 {
+    public enum ActivityType
+    {
+        episode,
+        list,
+        movie,
+        show
+    }
+
+    public enum ActivityAction
+    {
+        checkin,
+        collection,
+        created,
+        item_added,
+        rating,
+        scrobble,
+        seen,
+        shout,
+        watching,
+        watchlist
+    }
+
     internal class TraktDashboard
     {
         #region Enums
@@ -718,38 +740,42 @@ namespace TraktPlugin
 
         private string GetActivityImage(TraktActivity.Activity activity)
         {
-            string imageFilename = string.Empty;
+            if (activity == null || string.IsNullOrEmpty(activity.Action))
+                return string.Empty;
 
-            switch (activity.Action)
+            string imageFilename = string.Empty;
+            ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+
+            switch (action)
             {
-                case "checkin":
-                case "watching":
+                case ActivityAction.checkin:
+                case ActivityAction.watching:
                     imageFilename = "traktActivityWatching.png";
                     break;
 
-                case "seen":
-                case "scrobble":
+                case ActivityAction.seen:
+                case ActivityAction.scrobble:
                     imageFilename = "traktActivityWatched.png";
                     break;
 
-                case "collection":
+                case ActivityAction.collection:
                     imageFilename = "traktActivityCollected.png";
                     break;
 
-                case "rating":
+                case ActivityAction.rating:
                     imageFilename = int.Parse(activity.RatingAdvanced) > 5 ? "traktActivityLove.png" : "traktActivityHate.png";
                     break;
 
-                case "watchlist":
+                case ActivityAction.watchlist:
                     imageFilename = "traktActivityWatchlist.png";
                     break;
 
-                case "shout":
+                case ActivityAction.shout:
                     imageFilename = "traktActivityShout.png";
                     break;
 
-                case "item_added":
-                case "created":
+                case ActivityAction.item_added:
+                case ActivityAction.created:
                     imageFilename = "traktActivityList.png";
                     break;
             }
@@ -769,33 +795,41 @@ namespace TraktPlugin
 
         private string GetActivityShoutText(TraktActivity.Activity activity)
         {
-            if (activity.Action != "shout") return string.Empty;
+            if (activity.Action != ActivityAction.shout.ToString()) return string.Empty;
             if (activity.Shout.Spoiler) return Translation.HiddenToPreventSpoilers;
             return activity.Shout.Text;
         }
 
         private string GetListItemTitle(TraktActivity.Activity activity)
         {
+            if (activity == null) return string.Empty;
+
             string itemName = GetActivityItemName(activity);
             string userName = activity.User.Username;
             string title = string.Empty;
 
-            switch (activity.Action)
+            if (string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
+                return string.Empty;
+
+            ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+
+            switch (action)
             {
-                case "watching":
+                case ActivityAction.watching:
                     title = string.Format(Translation.ActivityWatching, userName, itemName);
                     break;
 
-                case "scrobble":
+                case ActivityAction.scrobble:
                     title = string.Format(Translation.ActivityWatched, userName, itemName);
                     break;
 
-                case "checkin":
+                case ActivityAction.checkin:
                     title = string.Format(Translation.ActivityCheckedIn, userName, itemName);
                     break;
 
-                case "seen":
-                    if (activity.Type == "episode" && activity.Episodes.Count > 1)
+                case ActivityAction.seen:
+                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
                     {
                         title = string.Format(Translation.ActivitySeenEpisodes, userName, activity.Episodes.Count, itemName);
                     }
@@ -805,8 +839,8 @@ namespace TraktPlugin
                     }
                     break;
 
-                case "collection":
-                    if (activity.Type == "episode" && activity.Episodes.Count > 1)
+                case ActivityAction.collection:
+                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
                     {
                         title = string.Format(Translation.ActivityCollectedEpisodes, userName, activity.Episodes.Count, itemName);
                     }
@@ -816,7 +850,7 @@ namespace TraktPlugin
                     }
                     break;
 
-                case "rating":
+                case ActivityAction.rating:
                     if (activity.UseRatingAdvanced)
                     {
                         title = string.Format(Translation.ActivityRatingAdvanced, userName, itemName, activity.RatingAdvanced);
@@ -827,19 +861,19 @@ namespace TraktPlugin
                     }
                     break;
 
-                case "watchlist":
+                case ActivityAction.watchlist:
                     title = string.Format(Translation.ActivityWatchlist, userName, itemName);
                     break;
 
-                case "shout":
+                case ActivityAction.shout:
                     title = string.Format(Translation.ActivityShouts, userName, itemName);
                     break;
 
-                case "created": // created list
+                case ActivityAction.created: // created list
                     title = string.Format(Translation.ActivityCreatedList, userName, itemName);
                     break;
 
-                case "item_added": // added item to list
+                case ActivityAction.item_added: // added item to list
                     title = string.Format(Translation.ActivityAddToList, userName, itemName, activity.List.Name);
                     break;
             }
@@ -853,10 +887,13 @@ namespace TraktPlugin
 
             try
             {
-                switch (activity.Type)
+                ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+                ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+
+                switch (type)
                 {
-                    case "episode":
-                        if (activity.Action == "seen" || activity.Action == "collection")
+                    case ActivityType.episode:
+                        if (action == ActivityAction.seen || action == ActivityAction.collection)
                         {
                             if (activity.Episodes.Count > 1)
                             {
@@ -887,16 +924,16 @@ namespace TraktPlugin
                         }
                         break;
 
-                    case "show":
+                    case ActivityType.show:
                         name = activity.Show.Title;
                         break;
 
-                    case "movie":
+                    case ActivityType.movie:
                         name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
                         break;
 
-                    case "list":
-                        if (activity.Action == "item_added")
+                    case ActivityType.list:
+                        if (action == ActivityAction.item_added)
                         {
                             // return the name of the item added to the list
                             switch (activity.ListItem.Type)
@@ -921,7 +958,7 @@ namespace TraktPlugin
                                     break;
                             }
                         }
-                        else if (activity.Action == "created")
+                        else if (action == ActivityAction.created)
                         {
                             // return the list name
                             name = activity.List.Name;
@@ -1265,10 +1302,16 @@ namespace TraktPlugin
             // get selected item in facade
             TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
 
-            switch (activity.Type)
+            if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
+                return;
+
+            ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+
+            switch (type)
             {
-                case "episode":
-                    if (activity.Action == "seen" || activity.Action == "collection")
+                case ActivityType.episode:
+                    if (action == ActivityAction.seen || action == ActivityAction.collection)
                     {
                         if (activity.Episodes.Count > 1)
                         {
@@ -1279,16 +1322,16 @@ namespace TraktPlugin
                     GUICommon.CheckAndPlayEpisode(activity.Show, activity.Episode);
                     break;
 
-                case "show":
+                case ActivityType.show:
                     GUICommon.CheckAndPlayFirstUnwatched(activity.Show, jumpTo);
                     break;
 
-                case "movie":
+                case ActivityType.movie:
                     GUICommon.CheckAndPlayMovie(jumpTo, activity.Movie);
                     break;
 
-                case "list":
-                    if (activity.Action == "item_added")
+                case ActivityType.list:
+                    if (action == ActivityAction.item_added)
                     {
                         // return the name of the item added to the list
                         switch (activity.ListItem.Type)
@@ -1351,7 +1394,7 @@ namespace TraktPlugin
         private void OnActivitySelected(GUIListItem item, GUIControl parent)
         {
             TraktActivity.Activity activity = item.TVTag as TraktActivity.Activity;
-            if (activity == null)
+            if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
             {
                 ClearSelectedActivityProperties();
                 return;
@@ -1363,10 +1406,13 @@ namespace TraktPlugin
 
             GUICommon.SetUserProperties(activity.User);
 
-            switch (activity.Type)
+            ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+
+            switch (type)
             {
-                case "episode":
-                    if (activity.Action == "seen" || activity.Action == "collection")
+                case ActivityType.episode:
+                    if (action == ActivityAction.seen || action == ActivityAction.collection)
                     {
                         if (activity.Episodes.Count > 1)
                         {
@@ -1384,16 +1430,16 @@ namespace TraktPlugin
                     GUICommon.SetShowProperties(activity.Show);
                     break;
 
-                case "show":
+                case ActivityType.show:
                     GUICommon.SetShowProperties(activity.Show);
                     break;
 
-                case "movie":
+                case ActivityType.movie:
                     GUICommon.SetMovieProperties(activity.Movie);
                     break;
 
-                case "list":
-                    if (activity.Action == "item_added")
+                case ActivityType.list:
+                    if (action == ActivityAction.item_added)
                     {
                         // return the name of the item added to the list
                         switch (activity.ListItem.Type)
@@ -1458,20 +1504,61 @@ namespace TraktPlugin
                     }
 
                     if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
+
                     if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
                     {
                         var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
                         if (activityFacade == null) return;
 
                         var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+                        if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
+                            return;
 
-                        if (activity.Action == "shout")
+                        ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+                        ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+
+                        switch (action)
                         {
-                            ViewShout(activity);
-                        }
-                        else
-                        {
-                            PlayActivityItem(true);
+                            case ActivityAction.shout:
+                                // view shout in shouts window
+                                ViewShout(activity);
+                                break;
+
+                            case ActivityAction.item_added:
+                                // load users list
+                                GUIListItems.CurrentList = new TraktUserList { Slug = activity.List.Slug, Name = activity.List.Name };
+                                GUIListItems.CurrentUser = activity.User.Username;
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ListItems);
+                                break;
+
+                            case ActivityAction.created:
+                                // load users lists
+                                GUILists.CurrentUser = activity.User.Username;
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                                break;
+
+                            case ActivityAction.watchlist:
+                                // load users watchlist
+                                if (type == ActivityType.movie)
+                                {
+                                    GUIWatchListMovies.CurrentUser = activity.User.Username;
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
+                                }
+                                else if (type == ActivityType.show)
+                                {
+                                    GUIWatchListShows.CurrentUser = activity.User.Username;
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
+                                }
+                                else
+                                {
+                                    GUIWatchListEpisodes.CurrentUser = activity.User.Username;
+                                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
+                                }
+                                break;
+
+                            default:
+                                PlayActivityItem(true);
+                                break;
                         }
                     }
                     if (message.SenderControlId == (int)TraktDashboardControls.TrendingShowsFacade)
