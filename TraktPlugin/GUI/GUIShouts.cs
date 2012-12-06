@@ -344,6 +344,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
 
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
@@ -365,6 +366,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Protected", shout.User.Protected);
             SetProperty("#Trakt.User.Url", shout.User.Url);
             SetProperty("#Trakt.User.Username", shout.User.Username);
+            SetProperty("#Trakt.User.VIP", shout.User.VIP.ToString());
 
             SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());

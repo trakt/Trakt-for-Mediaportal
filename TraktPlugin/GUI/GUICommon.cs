@@ -775,6 +775,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
         }
 
         internal static void SetUserProperties(TraktUserProfile user)
@@ -791,6 +792,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Protected", user.Protected);
             SetProperty("#Trakt.User.Url", user.Url);
             SetProperty("#Trakt.User.Username", user.Username);
+            SetProperty("#Trakt.User.VIP", user.VIP.ToString());
         }
 
         internal static void ClearMovieProperties()
@@ -897,6 +899,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.PosterImageFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.BannerImageFilename", string.Empty);
         }
 
         internal static void SetShowProperties(TraktShow show)
@@ -929,6 +933,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
             SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
+            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
+            SetProperty("#Trakt.Show.BannerImageFilename", show.Images.BannerImageFilename);
         }
 
         internal static void ClearEpisodeProperties()

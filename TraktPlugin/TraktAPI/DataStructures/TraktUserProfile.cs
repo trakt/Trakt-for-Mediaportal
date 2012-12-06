@@ -46,6 +46,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "stats")]
         public Statistics Stats { get; set; }
 
+        [DataMember(Name = "vip")]
+        public bool VIP { get; set; }
+
         #region Statistics
 
         [DataContract]

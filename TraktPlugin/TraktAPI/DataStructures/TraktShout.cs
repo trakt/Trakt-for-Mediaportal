@@ -55,6 +55,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "url")]
             public string Url { get; set; }
 
+            [DataMember(Name = "vip")]
+            public bool VIP { get; set; }
+
             #region INotifyPropertyChanged
 
             /// <summary>
