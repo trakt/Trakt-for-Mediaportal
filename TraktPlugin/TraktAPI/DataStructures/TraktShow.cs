@@ -115,6 +115,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
             }
             string _poster = string.Empty;
 
+            [DataMember(Name = "banner")]
+            public string Banner { get; set; }
+
             [DataMember(Name = "season")]
             public string Season { get; set; }
 
@@ -142,6 +145,26 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 }
             }
             string _PosterImageFilename = string.Empty;
+
+            public string BannerImageFilename
+            {
+                get
+                {
+                    string filename = string.Empty;
+                    if (!string.IsNullOrEmpty(Banner))
+                    {
+                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Banners");
+                        Uri uri = new Uri(Banner);
+                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
+                    }
+                    return filename;
+                }
+                set
+                {
+                    _BannerImageFilename = value;
+                }
+            }
+            string _BannerImageFilename = string.Empty;
 
             public string SeasonImageFilename
             {
