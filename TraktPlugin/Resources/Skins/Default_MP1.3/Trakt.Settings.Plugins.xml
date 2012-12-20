@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87273</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#currentmodule:#Trakt.Translation.Plugins.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9997</define>
+  <controls>
+    <control>
+      <description>BG</description>
+      <type>image</type>
+      <id>1</id>
+      <texture>BH Videos.jpg</texture>
+      <width>960</width>
+      <height>720</height>
+      <colordiffuse>90ffffff</colordiffuse>
+    </control>
+    
+		<import>Trakt.Common.Fanart.xml</import>
+		<import>common.window.xml</import>
+    <import>common.time.xml</import>
+    <import>Trakt.Common.xml</import>    
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <posX>320</posX>
+      <posY>221</posY>
+      <width>280</width>
+      <height>379</height>
+      <layout>StackLayout</layout>
+      <control>
+        <description>MP-TVSeries</description>
+        <type>togglebutton</type>
+        <id>2</id>
+        <label>MP-TVSeries</label>
+        <width>280</width>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>17</onup>
+      </control>
+      <control>
+        <description>MovingPictures</description>
+        <type>togglebutton</type>
+        <id>3</id>
+        <width>280</width>
+        <label>Moving Pictures</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>My Videos</description>
+        <type>togglebutton</type>
+        <id>4</id>
+        <width>280</width>
+        <label>My Videos</label>
+        <onleft>#defaultcontrol.onleft</onleft>        
+      </control>
+      <control>
+        <description>My Films</description>
+        <type>togglebutton</type>
+        <id>5</id>
+        <width>280</width>
+        <label>My Films</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+			<control>
+        <description>Online Videos</description>
+        <type>togglebutton</type>
+        <id>6</id>
+        <width>280</width>
+        <label>Online Videos</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+			<control>
+        <description>My Anime</description>
+        <type>togglebutton</type>
+        <id>7</id>
+        <width>280</width>
+        <label>My Anime</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>My Recorded TV</description>
+        <type>togglebutton</type>
+        <id>8</id>
+        <width>280</width>
+        <label>My TV Recordings</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>4TR Recorded TV</description>
+        <type>togglebutton</type>
+        <id>9</id>
+        <width>280</width>
+        <label>4TR TV Recordings</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>My Live TV</description>
+        <type>togglebutton</type>
+        <id>10</id>
+        <width>280</width>
+        <label>My Live TV</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>4TR Live TV</description>
+        <type>togglebutton</type>
+        <id>11</id>
+        <width>280</width>
+        <label>4TR Live TV</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
+      </control>
+    </control>
+  </controls>
+</window>

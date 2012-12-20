@@ -1,0 +1,150 @@
+<window>
+	<controls>
+		<control>
+			<description>group element</description>
+			<type>group</type>
+			<dimColor>FFFFFFFF</dimColor>
+			<control>
+				<type>label</type>
+				<id>0</id>
+				<posX>340</posX>
+				<posY>55</posY>
+				<width>840</width>
+				<font>font14</font>
+				<label>#Trakt.Activity.Description</label>
+			</control>
+			<control>
+				<description>Activity Stream</description>
+				<type>facadeview</type>
+				<id>98300</id>
+				<control>
+					<type>listcontrol</type>
+					<id>98300</id>
+					<posX>320</posX>
+					<posY>90</posY>
+					<height>270</height>
+					<width>630</width>
+					<scrollOffset>2</scrollOffset>
+					<itemWidth>32</itemWidth>
+					<itemHeight>32</itemHeight>
+					<IconXOff>10</IconXOff>
+					<IconYOff>1</IconYOff>
+					<PinIconXOff>595</PinIconXOff>
+					<PinIconYOff>1</PinIconYOff>
+					<PinIconWidth>32</PinIconWidth>
+					<PinIconHeight>32</PinIconHeight>
+					<textXOff>10</textXOff>
+					<textYOff>5</textYOff>
+					<textXOff2>600</textXOff2>
+					<textYOff2>5</textYOff2>
+					<textXOff3>75</textXOff3>
+					<textYOff3>10</textYOff3>
+					<font>font10</font>
+					<font2>font10</font2>
+					<onright>98300</onright>
+					<spinCanFocus>no</spinCanFocus>
+					<keepaspectratio>yes</keepaspectratio>
+					<spinPosX>-2000</spinPosX>
+					<suffix>|</suffix>
+				</control>
+			</control>
+			<control>
+				<description>Trending Label</description>
+				<type>label</type>
+				<id>0</id>
+				<posX>340</posX>
+				<posY>312</posY>
+				<width>840</width>
+				<font>font14</font>
+				<label>#Trakt.Translation.TrendingShowsAndMovies.Label</label>
+			</control>			
+			<control>
+				<description>Trending Shows</description>
+        <type>facadeview</type>
+        <id>98301</id>
+        <control>
+          <type>filmstrip</type>
+					<dimColor>ffffffff</dimColor>
+          <id>98301</id>
+          <onup>98300</onup>
+					<posX>330</posX>
+          <posY>350</posY>
+					<width>630</width>
+          <height>220</height>
+          <scrollOffset>0</scrollOffset>
+          <itemWidth>120</itemWidth>
+          <itemHeight>156</itemHeight>
+          <textureWidth>116</textureWidth>
+          <textureHeight>170</textureHeight>
+          <thumbWidth>110</thumbWidth>
+          <thumbHeight>163</thumbHeight>
+          <thumbPosX>3</thumbPosX>
+          <thumbPosY>3</thumbPosY>
+					<frame>videothumbframe.png</frame>
+          <frameFocus>videothumbframe.png</frameFocus>
+					<showFrame>yes</showFrame>
+          <showFolder>no</showFolder>
+          <showBackGround>no</showBackGround>
+          <showInfoImage>no</showInfoImage>
+          <enableFocusZoom>no</enableFocusZoom>
+					<keepaspectratio>no</keepaspectratio>
+					<spinCanFocus>no</spinCanFocus>
+					<spinXOff>-2000</spinXOff>
+					<thumbs mask="Videothumbmask.png"></thumbs>
+					<thumbAnimation effect="zoom" start="100,100" end="105,105" time="200" tween="circle" ease="inout">focus</thumbAnimation>
+          <thumbAnimation effect="zoom" start="105,105" end="100,100" time="200" tween="back" ease="inout">unfocus</thumbAnimation>
+        </control>
+      </control>
+			<control>
+				<description>Trending Movies</description>
+        <type>facadeview</type>
+        <id>98302</id>
+        <control>
+          <type>filmstrip</type>
+					<dimColor>ffffffff</dimColor>
+          <id>98302</id>
+          <onup>98301</onup>
+					<ondown>98301</ondown>
+					<posX>330</posX>
+          <posY>526</posY>
+					<width>630</width>
+          <height>220</height>
+          <scrollOffset>0</scrollOffset>
+          <itemWidth>120</itemWidth>
+          <itemHeight>156</itemHeight>
+          <textureWidth>116</textureWidth>
+          <textureHeight>170</textureHeight>
+          <thumbWidth>110</thumbWidth>
+          <thumbHeight>163</thumbHeight>
+          <thumbPosX>3</thumbPosX>
+          <thumbPosY>3</thumbPosY>
+					<frame>videothumbframe.png</frame>
+          <frameFocus>videothumbframe.png</frameFocus>
+					<showFrame>yes</showFrame>
+          <showFolder>no</showFolder>
+          <showBackGround>no</showBackGround>
+          <showInfoImage>no</showInfoImage>
+          <enableFocusZoom>no</enableFocusZoom>
+					<keepaspectratio>no</keepaspectratio>
+					<spinCanFocus>no</spinCanFocus>
+					<spinXOff>-2000</spinXOff>
+					<thumbs mask="Videothumbmask.png"></thumbs>
+					<thumbAnimation effect="zoom" start="100,100" end="105,105" time="200" tween="circle" ease="inout">focus</thumbAnimation>
+          <thumbAnimation effect="zoom" start="105,105" end="100,100" time="200" tween="back" ease="inout">unfocus</thumbAnimation>
+        </control>
+      </control>
+			<control>
+				<description>Update Animation</description>
+				<type>animation</type>
+				<id>98299</id>
+				<posX>890</posX>
+				<posY>50</posY>
+				<width>36</width>
+				<height>36</height>
+				<textures>common.waiting.1.png;common.waiting.2.png;common.waiting.3.png;common.waiting.4.png;common.waiting.5.png;common.waiting.6.png;common.waiting.7.png;common.waiting.8.png</textures>
+				<Duration>0:0:01.5</Duration>
+				<keepaspectratio>yes</keepaspectratio>
+			</control>
+		</control>
+	</controls>
+</window>
