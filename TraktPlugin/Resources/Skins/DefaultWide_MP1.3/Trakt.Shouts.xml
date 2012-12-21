@@ -18,9 +18,9 @@
       <id>1</id>
       <description>Fanart Image</description>
       <type>image</type>
-      <posX>-240</posX>
+      <posX>0</posX>
       <posY>0</posY>
-      <width>1920</width>
+      <width>1280</width>
       <height>720</height>
       <texture>#Trakt.Shout.Fanart</texture>
     </control>
@@ -139,10 +139,10 @@
       <description>Avatar</description>
       <type>image</type>
       <id>1</id>
-      <posX>93</posX>
+      <posX>105</posX>
       <posY>500</posY>
       <height>110</height>
-      <width>146</width>
+      <width>110</width>
       <keepaspectratio>yes</keepaspectratio>
       <zoom>yes</zoom>
       <texture>#selectedthumb</texture>
@@ -152,7 +152,7 @@
       <id>0</id>
       <label>#Trakt.User.FullName | #Trakt.User.Location</label>
       <type>label</type>
-      <posX>266</posX>
+      <posX>250</posX>
       <posY>495</posY>
       <width>893</width>
       <textcolor>ff6FAFE1</textcolor>
@@ -163,7 +163,7 @@
       <description>Shout</description>
       <type>textboxscrollup</type>
       <id>0</id>
-      <posX>266</posX>
+      <posX>250</posX>
       <posY>525</posY>
       <width>893</width>
       <height>70</height>

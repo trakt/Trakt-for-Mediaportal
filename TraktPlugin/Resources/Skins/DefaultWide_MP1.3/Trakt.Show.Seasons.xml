@@ -19,9 +19,9 @@
       <type>image</type>
       <id>60</id>
       <type>image</type>
-      <posX>-240</posX>
+      <posX>0</posX>
       <posY>0</posY>
-      <width>1920</width>
+      <width>1280</width>
       <height>720</height>
       <texture>#Trakt.Show.Fanart</texture>
       <dimColor>50ffffff</dimColor>
