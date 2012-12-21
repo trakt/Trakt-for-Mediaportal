@@ -572,6 +572,9 @@ namespace TraktPlugin.GUI
             {
                 episode.RatingAdvanced = newRating;
 
+                if (episode.Ratings == null)
+                    episode.Ratings = new TraktRatings();
+
                 // if not rated previously bump up the votes
                 if (prevRating == 0)
                 {
@@ -979,11 +982,11 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Watched", episode.Watched.ToString());
             SetProperty("#Trakt.Episode.Rating", episode.Rating);
             SetProperty("#Trakt.Episode.RatingAdvanced", episode.RatingAdvanced.ToString());
-            SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Ratings.LovedCount > episode.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings.Votes.ToString());
+            SetProperty("#Trakt.Episode.Ratings.Icon", ((episode.Ratings != null) && (episode.Ratings.LovedCount > episode.Ratings.HatedCount)) ? "love" : "hate");
+            SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Ratings != null ? episode.Ratings.HatedCount.ToString() : "0");
+            SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings != null ? episode.Ratings.LovedCount.ToString() : "0");
+            SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Ratings != null ? episode.Ratings.Percentage.ToString() : "0");
+            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings != null ? episode.Ratings.Votes.ToString() : "0");
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.EpisodeImageFilename);
         }
 
