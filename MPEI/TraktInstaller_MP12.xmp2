@@ -2745,7 +2745,7 @@ public class Script
 		}
 		else
 		{
-			string defaultSkinSource = configPath + @"\Trakt\Skin\Default_MP1.2";
+			string defaultSkinSource = configPath + @"\Trakt\Skin\Default";
 			string defaultSkinDestination = Path.Combine(skinPath, "Default");
 			CopyFiles(defaultSkinSource, defaultSkinDestination, true);
 		}
@@ -2833,7 +2833,7 @@ public class Script
 		}
 		else
 		{
-			string defaultSkinSource = configPath + @"\Trakt\Skin\DefaultWide_MP1.2";
+			string defaultSkinSource = configPath + @"\Trakt\Skin\DefaultWide";
 			string defaultSkinDestination = Path.Combine(skinPath, "DefaultWide");
 			CopyFiles(defaultSkinSource, defaultSkinDestination, true);
 		}
@@ -3042,12 +3042,12 @@ Trakt will also synchronize your watched flags across multiple installations.</E
 
 * Added 'Season Information' context menu item to Calendar GUI.
 
-*  Open Users personal list when clicking on a list/watchlist activity from the dashboard.
+* Open Users personal list when clicking on a list/watchlist activity from the dashboard.
 
 * Updated Italian translations, thanks Marduk65.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>https://github.com/downloads/Technicolour/Trakt-for-Mediaportal/TraktPlugin_v2.3.0.mpe1</OnlineLocation>
-    <ReleaseDate>2012-12-21T10:00:00</ReleaseDate>
+    <ReleaseDate>2012-12-22T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
