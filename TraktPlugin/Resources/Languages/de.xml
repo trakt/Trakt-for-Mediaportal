@@ -313,7 +313,6 @@
   <string Field="SigningIntoAccount">Anmelden...</string>
   <string Field="SkinPluginsOutOfDate">Fehler beim Laden des Fensters - \nIhr Skin ist veraltet!\nBeenden Sie MediaPortal und \nrufen Sie die Konfiguration auf,\num die Plugins Handler zu aktivieren.</string>
   <string Field="SkinOutOfDate">Diese Funktion wird von Ihrem Skin nicht\nunterstützt. Bitte suchen Sie ein Update.</string>
-  <string Field="SigningIntoAccount">In Account einloggen</string>
   <string Field="StartDate">Start-Datum</string>
   <string Field="Synchronize">Synchronisieren</string>
   <string Field="SynchronizeNow">Neue Plugin Handler wurden hinzugefügt.\nMöchten Sie jetzt Ihre\nBibliotheken synchronisieren?</string>

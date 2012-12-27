@@ -121,14 +121,25 @@ namespace TraktPlugin.GUI
             foreach (XmlNode stringEntry in doc.DocumentElement.ChildNodes)
             {
                 if (stringEntry.NodeType == XmlNodeType.Element)
+                {
                     try
                     {
-                        TranslatedStrings.Add(stringEntry.Attributes.GetNamedItem("Field").Value, stringEntry.InnerText);
+                        string key = stringEntry.Attributes.GetNamedItem("Field").Value;
+                        if (!TranslatedStrings.ContainsKey(key))
+                        {
+                            TranslatedStrings.Add(key, stringEntry.InnerText);
+                        }
+                        else
+                        {
+                            TraktLogger.Error("Error in Translation Engine, the translation key '{0}' already exists.", key);
+                        }
+                        
                     }
                     catch (Exception ex)
                     {
-                        TraktLogger.Error("Error in Translation Engine", ex.Message);
+                        TraktLogger.Error("Error in Translation Engine: {0}", ex.Message);
                     }
+                }
             }
 
             Type TransType = typeof(Translation);
@@ -138,7 +149,7 @@ namespace TraktPlugin.GUI
                 if (TranslatedStrings != null && TranslatedStrings.ContainsKey(fi.Name))
                     TransType.InvokeMember(fi.Name, BindingFlags.SetField, null, TransType, new object[] { TranslatedStrings[fi.Name] });
                 else
-                    TraktLogger.Info("Translation not found for field: {0}.  Using hard-coded English default.", fi.Name);
+                    TraktLogger.Info("Translation not found for field: {0}. Using hard-coded English default.", fi.Name);
             }
             return TranslatedStrings.Count;
         }
