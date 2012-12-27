@@ -88,7 +88,8 @@ namespace TraktPlugin.GUI
         MyAnime = 6001,
         MpNZB = 3847,
         MPEISettings = 803,
-        MyTorrents = 5678
+        MyTorrents = 5678,
+        Showtimes = 7111992
     }
 
     enum ExternalPluginControls

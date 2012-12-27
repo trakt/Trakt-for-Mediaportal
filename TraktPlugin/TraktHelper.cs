@@ -102,6 +102,11 @@ namespace TraktPlugin
             AddMovieToWatchList(title, year, null, updateMovingPicturesFilters);
         }
 
+        public static void AddMovieToWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
+        {
+            AddMovieToWatchList(title, year, imdbid, null, updateMovingPicturesFilters);
+        }
+
         /// <summary>
         /// Adds a movie to the current users Watch List
         /// </summary>
@@ -109,11 +114,11 @@ namespace TraktPlugin
         /// <param name="year">year of movie</param>
         /// <param name="imdbid">imdbid of movie</param>
         /// <param name="updateMovingPicturesFilters">set to true if movingpictures categories/filters should also be updated</param>
-        public static void AddMovieToWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
+        public static void AddMovieToWatchList(string title, string year, string imdbid, string tmdb, bool updateMovingPicturesFilters)
         {
             if (!GUICommon.CheckLogin(false)) return;
 
-            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid, tmdb);
             if (syncObject == null) return;
 
             Thread syncThread = new Thread(delegate(object obj)

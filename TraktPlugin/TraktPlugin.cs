@@ -856,9 +856,11 @@ namespace TraktPlugin
             bool validShoutItem = false;
             bool validRelatedItem = false;
             bool validTraktMenuItem = false;
+            bool updateMovPicsFiltersAndCats = false;
             string title = string.Empty;
             string year = string.Empty;
             string imdb = string.Empty;
+            string tmdb = string.Empty;
             string tvdb = string.Empty;
             string season = string.Empty;
             string episode = string.Empty;
@@ -901,6 +903,43 @@ namespace TraktPlugin
                                         }
                                         // Return focus to details list now so we dont go in a loop
                                         GUIControl.FocusControl((int)ExternalPluginWindows.OnlineVideos, 51);
+                                    }
+                                    break;
+                            }
+                            #endregion
+                            break;
+                        case (int)ExternalPluginWindows.Showtimes:
+                            #region WatchList/CustomList Button
+                            switch (message.SenderControlId)
+                            {
+                                case ((int)ExternalPluginControls.WatchList):
+                                case ((int)ExternalPluginControls.CustomList):
+                                    // Confirm we are in Showtimes Details view
+                                    // This will give us enough information to send to trakt
+                                    bool isDetails = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow).GetControl(24).Visible;
+                                    if (isDetails)
+                                    {
+                                        title = GUIPropertyManager.GetProperty("#st_title").Trim();
+                                        DateTime releaseDate = DateTime.MinValue;
+
+                                        if (DateTime.TryParse(GUIPropertyManager.GetProperty("#st_releasedate").Trim(), out releaseDate))
+                                        {
+                                            year = releaseDate.Year.ToString();
+                                        }
+                                                                               
+                                        imdb = GUIPropertyManager.GetProperty("#st_imdb");
+                                        if (imdb == null) imdb = string.Empty;
+
+                                        tmdb = GUIPropertyManager.GetProperty("#st_tmdb");
+                                        if (tmdb == null) imdb = string.Empty;
+
+                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt") || !string.IsNullOrEmpty(tmdb))
+                                        {
+                                            if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
+                                        }
+                                        // set focus to next button so we dont go in a loop
+                                        GUIControl.FocusControl((int)ExternalPluginWindows.Showtimes, 42);
                                     }
                                     break;
                             }
@@ -956,6 +995,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.RelatedItems):
                                 case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
+                                    updateMovPicsFiltersAndCats = true;
                                     title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
                                     year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
                                     imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
@@ -1041,7 +1081,7 @@ namespace TraktPlugin
                     if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
                     {
                         TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Watch List", title, year, imdb);
-                        TraktHelper.AddMovieToWatchList(title, year, imdb, true);
+                        TraktHelper.AddMovieToWatchList(title, year, imdb, tmdb, updateMovPicsFiltersAndCats);
                     }
                 }
                 else if (type == "show")
