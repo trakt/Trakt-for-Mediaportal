@@ -75,6 +75,22 @@
       <HintPath>..\Externals\Anime2Schema.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ArgusTV.DataContracts">
+      <HintPath>..\Externals\ArgusTV.DataContracts.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ArgusTV.ServiceAgents">
+      <HintPath>..\Externals\ArgusTV.ServiceAgents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ArgusTV.ServiceContracts">
+      <HintPath>..\Externals\ArgusTV.ServiceContracts.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ArgusTV.UI.MediaPortal">
+      <HintPath>..\Externals\ArgusTV.UI.MediaPortal.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
       <Private>False</Private>
@@ -273,6 +289,8 @@
     <Compile Include="TraktAPI\DataStructures\TraktWatchListShow.cs" />
     <Compile Include="TraktAPI\DateTimeExtensions.cs" />
     <Compile Include="TraktGenres.cs" />
+    <Compile Include="TraktHandlers\ArgusRecordings.cs" />
+    <Compile Include="TraktHandlers\ArgusTVLive.cs" />
     <Compile Include="TraktHandlers\ForTheRecordRecordings.cs" />
     <Compile Include="TraktHandlers\ForTheRecordTVLive.cs" />
     <Compile Include="TraktHandlers\MyAnime.cs" />

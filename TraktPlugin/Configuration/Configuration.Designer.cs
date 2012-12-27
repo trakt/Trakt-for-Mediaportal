@@ -68,7 +68,7 @@
             this.gbTraktAccount.Controls.Add(this.lbUsername);
             this.gbTraktAccount.Location = new System.Drawing.Point(12, 12);
             this.gbTraktAccount.Name = "gbTraktAccount";
-            this.gbTraktAccount.Size = new System.Drawing.Size(304, 97);
+            this.gbTraktAccount.Size = new System.Drawing.Size(316, 97);
             this.gbTraktAccount.TabIndex = 0;
             this.gbTraktAccount.TabStop = false;
             this.gbTraktAccount.Text = "Account";
@@ -76,7 +76,7 @@
             // linkTrakt
             // 
             this.linkTrakt.AutoSize = true;
-            this.linkTrakt.Location = new System.Drawing.Point(220, 71);
+            this.linkTrakt.Location = new System.Drawing.Point(238, 71);
             this.linkTrakt.Name = "linkTrakt";
             this.linkTrakt.Size = new System.Drawing.Size(71, 13);
             this.linkTrakt.TabIndex = 4;
@@ -89,7 +89,7 @@
             this.tbPassword.Location = new System.Drawing.Point(67, 48);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(224, 20);
+            this.tbPassword.Size = new System.Drawing.Size(243, 20);
             this.tbPassword.TabIndex = 3;
             this.tbPassword.UseSystemPasswordChar = true;
             this.tbPassword.Enter += new System.EventHandler(this.tbPassword_Enter);
@@ -98,7 +98,7 @@
             // 
             this.tbUsername.Location = new System.Drawing.Point(67, 22);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(224, 20);
+            this.tbUsername.Size = new System.Drawing.Size(243, 20);
             this.tbUsername.TabIndex = 1;
             this.tbUsername.TextChanged += new System.EventHandler(this.tbUsername_TextChanged);
             // 
@@ -127,7 +127,7 @@
             this.gbPlugins.Controls.Add(this.clbPlugins);
             this.gbPlugins.Location = new System.Drawing.Point(12, 115);
             this.gbPlugins.Name = "gbPlugins";
-            this.gbPlugins.Size = new System.Drawing.Size(304, 113);
+            this.gbPlugins.Size = new System.Drawing.Size(322, 124);
             this.gbPlugins.TabIndex = 1;
             this.gbPlugins.TabStop = false;
             this.gbPlugins.Text = "Plugins";
@@ -135,7 +135,7 @@
             // btnDown
             // 
             this.btnDown.Image = global::TraktPlugin.Properties.Resources.arrow_down;
-            this.btnDown.Location = new System.Drawing.Point(262, 53);
+            this.btnDown.Location = new System.Drawing.Point(287, 53);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(29, 30);
             this.btnDown.TabIndex = 2;
@@ -145,7 +145,7 @@
             // btnUp
             // 
             this.btnUp.Image = global::TraktPlugin.Properties.Resources.arrow_up;
-            this.btnUp.Location = new System.Drawing.Point(262, 19);
+            this.btnUp.Location = new System.Drawing.Point(287, 19);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(29, 29);
             this.btnUp.TabIndex = 1;
@@ -154,11 +154,12 @@
             // 
             // clbPlugins
             // 
+            this.clbPlugins.CheckOnClick = true;
             this.clbPlugins.FormattingEnabled = true;
             this.clbPlugins.Location = new System.Drawing.Point(9, 19);
             this.clbPlugins.MultiColumn = true;
             this.clbPlugins.Name = "clbPlugins";
-            this.clbPlugins.Size = new System.Drawing.Size(244, 79);
+            this.clbPlugins.Size = new System.Drawing.Size(272, 94);
             this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
@@ -171,9 +172,9 @@
             this.gbMisc.Controls.Add(this.cbTraktSyncLength);
             this.gbMisc.Controls.Add(this.btnClearLibrary);
             this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(12, 293);
+            this.gbMisc.Location = new System.Drawing.Point(12, 304);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(304, 159);
+            this.gbMisc.Size = new System.Drawing.Size(322, 159);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
@@ -241,7 +242,7 @@
             // 
             this.btnClearLibrary.Location = new System.Drawing.Point(6, 128);
             this.btnClearLibrary.Name = "btnClearLibrary";
-            this.btnClearLibrary.Size = new System.Drawing.Size(271, 23);
+            this.btnClearLibrary.Size = new System.Drawing.Size(275, 23);
             this.btnClearLibrary.TabIndex = 6;
             this.btnClearLibrary.Text = "&Clear Trakt Library";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
@@ -263,7 +264,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(241, 458);
+            this.btnOK.Location = new System.Drawing.Point(253, 469);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -295,16 +296,16 @@
             // 
             this.gbRestrictions.Controls.Add(this.btnMovieRestrictions);
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
-            this.gbRestrictions.Location = new System.Drawing.Point(12, 234);
+            this.gbRestrictions.Location = new System.Drawing.Point(12, 245);
             this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Size = new System.Drawing.Size(304, 53);
+            this.gbRestrictions.Size = new System.Drawing.Size(322, 53);
             this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
             // 
             // btnMovieRestrictions
             // 
-            this.btnMovieRestrictions.Location = new System.Drawing.Point(149, 20);
+            this.btnMovieRestrictions.Location = new System.Drawing.Point(177, 20);
             this.btnMovieRestrictions.Name = "btnMovieRestrictions";
             this.btnMovieRestrictions.Size = new System.Drawing.Size(104, 23);
             this.btnMovieRestrictions.TabIndex = 1;
@@ -316,7 +317,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 488);
+            this.ClientSize = new System.Drawing.Size(346, 498);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);

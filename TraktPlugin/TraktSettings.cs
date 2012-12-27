@@ -30,6 +30,8 @@ namespace TraktPlugin
         public static int MyTVLive { get; set; }
         public static int ForTheRecordRecordings { get; set; }
         public static int ForTheRecordTVLive { get; set; }
+        public static int ArgusRecordings { get; set; }
+        public static int ArgusTVLive { get; set; }
         public static bool KeepTraktLibraryClean { get; set; }
         public static List<String> BlockedFilenames { get; set; }
         public static List<String> BlockedFolders { get; set; }
@@ -115,6 +117,8 @@ namespace TraktPlugin
         private const string cMyTVLive = "MyTVLive";
         private const string cForTheRecordRecordings = "ForTheRecordRecordings";
         private const string cForTheRecordTVLive = "ForTheRecordTVLive";
+        private const string cArgusRecordings = "ArgusRecordings";
+        private const string cArgusTVLive = "ArgusTVLive";
         private const string cKeepTraktLibraryClean = "KeepLibraryClean";
         private const string cBlockedFilenames = "BlockedFilenames";
         private const string cBlockedFolders = "BlockedFolders";
@@ -365,6 +369,8 @@ namespace TraktPlugin
                 MyTVLive = xmlreader.GetValueAsInt(cTrakt, cMyTVLive, -1);
                 ForTheRecordRecordings = xmlreader.GetValueAsInt(cTrakt, cForTheRecordRecordings, -1);
                 ForTheRecordTVLive = xmlreader.GetValueAsInt(cTrakt, cForTheRecordTVLive, -1);
+                ArgusRecordings = xmlreader.GetValueAsInt(cTrakt, cArgusRecordings, -1);
+                ArgusTVLive = xmlreader.GetValueAsInt(cTrakt, cArgusTVLive, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
                 BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
                 BlockedFolders = xmlreader.GetValueAsString(cTrakt, cBlockedFolders, "").FromJSONArray<string>().ToList();
@@ -457,6 +463,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMyTVLive, MyTVLive);
                 xmlwriter.SetValue(cTrakt, cForTheRecordRecordings, ForTheRecordRecordings);
                 xmlwriter.SetValue(cTrakt, cForTheRecordTVLive, ForTheRecordTVLive);
+                xmlwriter.SetValue(cTrakt, cArgusRecordings, ArgusRecordings);
+                xmlwriter.SetValue(cTrakt, cArgusTVLive, ArgusTVLive);
                 xmlwriter.SetValueAsBool(cTrakt, cKeepTraktLibraryClean, KeepTraktLibraryClean);
                 xmlwriter.SetValue(cTrakt, cBlockedFilenames, BlockedFilenames.ToJSON());
                 xmlwriter.SetValue(cTrakt, cBlockedFolders, BlockedFolders.ToJSON());

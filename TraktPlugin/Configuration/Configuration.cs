@@ -36,13 +36,15 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyTVLive, "My TV Live"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordRecordings, "4TR TV Recordings"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordTVLive, "4TR TV Live"));
-            items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
+            items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusRecordings, "Argus TV Recordings"));
+            items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusTVLive, "Argus TV Live"));
+            /*items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
             {
                 // sort disabled at end of list
                 int sortx = x.Key == -1 ? 1000 : x.Key;
                 int sorty = y.Key == -1 ? 1000 : y.Key;
                 return sortx.CompareTo(sorty); 
-            }));
+            }));*/
 
             foreach (var item in items)
             {
@@ -172,6 +174,12 @@ namespace TraktPlugin
                     case "4TR TV Live":
                         TraktSettings.ForTheRecordTVLive = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
+                    case "Argus TV Recordings":
+                        TraktSettings.ArgusRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
+                    case "Argus TV Live":
+                        TraktSettings.ArgusTVLive = clbPlugins.GetItemChecked(i) ? i : -1;
+                        break;
                 }
                 i++;
             }
@@ -213,6 +221,12 @@ namespace TraktPlugin
                     break;
                 case "4TR TV Live":
                     TraktSettings.ForTheRecordTVLive = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "Argus TV Recordings":
+                    TraktSettings.ArgusRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
+                    break;
+                case "Argus TV Live":
+                    TraktSettings.ArgusTVLive = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
             }
         }

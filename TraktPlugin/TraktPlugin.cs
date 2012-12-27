@@ -328,6 +328,20 @@ namespace TraktPlugin
                 TraktHandlers.RemoveAll(p => p.Name == "4TR TV Live");
             }
             #endregion
+
+            #region Argus TV Recordings
+            if (TraktHandlers.Exists(p => p.Name == "Argus TV Recordings"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "Argus TV Recordings");
+            }
+            #endregion
+
+            #region Argus TV Live
+            if (TraktHandlers.Exists(p => p.Name == "Argus TV Live"))
+            {
+                TraktHandlers.RemoveAll(p => p.Name == "Argus TV Live");
+            }
+            #endregion
         }
 
         private void LoadPluginHandlers()
@@ -503,6 +517,36 @@ namespace TraktPlugin
             catch (Exception)
             {
                 TraktLogger.Error(errorMessage, "4TR TV Live");
+            }
+            #endregion
+
+            #region Argus TV Recordings
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "Argus TV Recordings");
+                if (!handlerExists && TraktSettings.ArgusRecordings != -1)
+                    TraktHandlers.Add(new ArgusTVRecordings(TraktSettings.ArgusRecordings));
+                else if (handlerExists && TraktSettings.ArgusRecordings == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "Argus TV Recordings");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "Argus TV Recordings");
+            }
+            #endregion
+
+            #region Argus TV Live
+            try
+            {
+                bool handlerExists = TraktHandlers.Exists(p => p.Name == "Argus TV Live");
+                if (!handlerExists && TraktSettings.ArgusTVLive != -1)
+                    TraktHandlers.Add(new ArgusTVLive(TraktSettings.ArgusTVLive));
+                else if (handlerExists && TraktSettings.ArgusTVLive == -1)
+                    TraktHandlers.RemoveAll(p => p.Name == "Argus TV Live");
+            }
+            catch (Exception)
+            {
+                TraktLogger.Error(errorMessage, "Argus TV Live");
             }
             #endregion
 
