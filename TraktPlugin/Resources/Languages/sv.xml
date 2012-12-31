@@ -7,6 +7,23 @@
   <string Field="Account">Konto</string>
   <string Field="AccountSetup">Kontoinställningar</string>
   <string Field="AccountDialog">Dialogruta - konto</string>
+  <string Field="Activity">Aktivitet</string>
+  <string Field="ActivityFriendsDesc">Se vad dina vänner gör...</string>
+  <string Field="ActivityCommunityDesc">Se vad övriga användare gör...</string>
+  <string Field="ActivityWatching">{0} tittar {1}</string>
+  <string Field="ActivityWatched">{0} har sett {1}</string>
+  <string Field="ActivityCheckedIn">{0} kollade in {1}</string>
+  <string Field="ActivityCollected">{0} samlade {1}</string>
+  <string Field="ActivityCollectedEpisodes">{0} samlade {1} avsnitt av {2}</string>
+  <string Field="ActivitySeen">{0} sett {1}</string>
+  <string Field="ActivitySeenEpisodes">{0} sett {1} avsnitt av {2}</string>
+  <string Field="ActivityRating">{0} betygsatt {1}</string>
+  <string Field="ActivityRatingAdvanced">{0} betygsatt {1} [{2}/10]</string>
+  <string Field="ActivityWatchlist">{0} lade till {1} till sin WatchList</string>
+  <string Field="ActivityAddToList">{0} lade till {1} till {2}</string>
+  <string Field="ActivityCreatedList">{0} skapade {1}</string>
+  <string Field="ActivityShouts">{0} shout den {1}</string>  
+  <string Field="Activities">Aktiviteter</string>
   <string Field="AddFriend">Lägg till vän...</string>
   <string Field="AddToLibrary">Lägg till i bibliotek</string>
   <string Field="AddToList">Lägg till i lista...</string>
@@ -26,7 +43,8 @@
   <string Field="AdvancedSettings">Avancerade inställningar</string>
   
   <!-- B -->
-  
+   <string Field="BufferingTrailer">Buffrar trailer</string>
+    
   <!-- C -->
   <string Field="Cancel">Avbryt</string>
   <string Field="Calendar">Kalender</string>
@@ -42,10 +60,13 @@
   <string Field="CreatingAccount">Skapar konto...</string>
   <string Field="CreateMovingPicturesCategories">Skapa kategorier i Moving Pictures</string>
   <string Field="CreateMovingPicturesFilters">Skapa filter för Moving Pictures</string>
+  <string Field="CreateMyFilmsCategories">Skapa kategorier i My Films</string>
   <string Field="CreatingCategories">Skapar kategorier</string>
   <string Field="CreatingFilters">Skapar filter</string>
   <string Field="CreatingList">Skapar lista</string>
   <string Field="CreateList">Skapa en ny lista...</string>
+  <string Field="Community">Community</string>
+  <string Field="CommunityActivity">Community-aktivitet</string>
   <string Field="ConfirmDeleteList">Är det säkert att du vill radera\nden här listan?</string>
   <string Field="ConfirmDeleteListItem">Är det säkert att du vill radera\ndetta objekt från den här listan?</string>
   <string Field="CopyList">Kopiera lista...</string>
@@ -64,6 +85,7 @@
   <string Field="DeleteFriendMessage">Är det säkert att du vill ta bort\n{0} från dina vänner?</string>
   <string Field="DisconnectAccount">Koppla ifrån konto: {0}</string>
   <string Field="DismissRecommendation">Ignorera denna rekommendation</string>
+  <string Field="DontIncludeMeInFriendsActivity">Visa inte mina aktiviteter för mina vänner</string>
   <string Field="DownloadFanart">Hämta fanart</string>
   <string Field="DownloadFullSizeFanart">Hämta fanart i dess originalstorlek</string>
   
@@ -71,6 +93,7 @@
   <string Field="EditList">Ändra listan...</string>
   <string Field="EditingList">Ändrar listan</string>
   <string Field="Email">Email</string>
+  <string Field="EndYear">Slut: {0}</string>
   <string Field="Episode">Avsnitt</string>
   <string Field="Episodes">Avsnitt</string>
   <string Field="Error">Trakt-fel</string>
@@ -80,6 +103,7 @@
   <string Field="FirstAired">Först visad</string>
   <string Field="Friend">Vän</string>
   <string Field="Friends">Vänner</string>
+  <string Field="FriendActivity">Vänners aktiviteter</string>
   <string Field="FriendRequest">Vänförfrågan</string>
   <string Field="FriendRequestMessage">Du har {0} vänförfrågningar, lägg till eller neka från vän-sidan</string>
   <string Field="FullName">Fullständigt namn</string>
@@ -88,7 +112,44 @@
   <string Field="Gender">Kön</string>
   <string Field="General">Allmänt</string>
   <string Field="GeneralSettings">Allmänna inställningar</string>
+  <string Field="Genre">Genre</string>
+  <string Field="GenreItem">Genre: {0}</string>
+  <string Field="GenreAction">Action</string>
+  <string Field="GenreAdventure">Äventyr</string>
+  <string Field="GenreAll">Alla</string>
+  <string Field="GenreAnimation">Tecknat</string>
+  <string Field="GenreChildren">Barn</string>
+  <string Field="GenreComedy">Komedy</string>
+  <string Field="GenreCrime">Brott</string>
+  <string Field="GenreDocumentary">Dokumentär</string>
+  <string Field="GenreDrama">Drama</string>
+  <string Field="GenreFamily">Familj</string>
+  <string Field="GenreFantasy">Fantasi</string>
+  <string Field="GenreGameShow">Tävlingsprogram</string>
+  <string Field="GenreFilmNoir">Film Noir</string>
+  <string Field="GenreHistory">Historia</string>
+  <string Field="GenreHomeAndGarden">Hem och trädgård</string>
+  <string Field="GenreHorror">Skräck</string>
+  <string Field="GenreIndie">Oberoende</string>
+  <string Field="GenreMiniSeries">Mini-Serie</string>
+  <string Field="GenreMusic">Musik</string>
+  <string Field="GenreMusical">Musikal</string>
+  <string Field="GenreMystery">Mysterium</string>
+  <string Field="GenreNews">Nyheter</string>
+  <string Field="GenreNone">Ingen</string>
+  <string Field="GenreReality">Dokumentär</string>
+  <string Field="GenreRomance">Romantik</string>
+  <string Field="GenreScienceFiction">Science-Fiction</string>
+  <string Field="GenreSoap">Såpa</string>
+  <string Field="GenreSpecialInterest">Speciella intressen</string>
+  <string Field="GenreSport">Sport</string>
+  <string Field="GenreSuspense">Spänning</string>
+  <string Field="GenreTalkShow">Talkshow</string>
+  <string Field="GenreThriller">Thriller</string>
+  <string Field="GenreWar">Krig</string>
+  <string Field="GenreWestern">Western</string>
   <string Field="GetFriendRequestsOnStartup">Se vänförfrågningar vid start</string>
+  <string Field="GettingActivity">Hämtar aktiviteter</string>
   <string Field="GettingCalendar">Tar emot kalender</string>
   <string Field="GettingFriendsList">Tar emot vänlista</string>
   <string Field="GettingFriendsRequests">Tar emot vänförfrågningar</string>
@@ -97,6 +158,7 @@
   <string Field="GettingListItems">Tar emot list-objekt</string>
   <string Field="GettingSearchResults">Tar emot sökresultat</string>
   <string Field="GettingShouts">Tar emot Shouts</string>
+  <string Field="GettingShowSeasons">Hämtar seriesäsonger</string>
   <string Field="GettingTrendingMovies">Tar emot filmer som växer i popularitet</string>
   <string Field="GettingTrendingShows">Tar emot serier som växer i popularitet</string>
   <string Field="GettingRecommendedMovies">Tar emot rekommenderade filmer</string>
@@ -106,16 +168,20 @@
   <string Field="GettingWatchListEpisodes">Tar emot avsnitt på Watch List</string>
   <string Field="GettingRelatedMovies">Tar emot relaterade filmer</string>
   <string Field="GettingRelatedShows">Tar emot relaterade serier</string>
-  
+  <string Field="GettingTrailerUrls">Hämtar adresser till trailers</string>  
+
   <!-- H -->
   <string Field="Hate">Hata</string>
   <string Field="Hated">Hatade</string>
   <string Field="HideTVShowsInWatchlist">Göm TV-serier i Watch List</string>
+  <string Field="HideCollected">Göm samlade</string>
   <string Field="HideWatched">Göm sedda</string>
+  <string Field="HideWatchlisted">Göm allt redan i WatchList</string>
   <string Field="HideSpoilers">Göm spoilers</string>
   <string Field="HiddenToPreventSpoilers">Denna shout har gömts för att förhindra spoilers, du kan ändra denna inställning i menyn.</string>
 
   <!-- I -->
+  <string Field="IncludeMeInFriendsActivity">Visa mina aktiviteter för mina vänner</string>
   <string Field="Inserted">Infogat</string>
   <string Field="Item">Objekt</string>
   <string Field="Items">antal objekt</string>
@@ -149,6 +215,8 @@
   <string Field="Name">Namn</string>
   <string Field="Network">Kanal</string>
   <string Field="NextWeek">Nästa vecka</string>
+  <string Field="NoActivities">Inga aktiviteter hittades.</string>
+  <string Field="NoEpisodesInSeason">Inga avsnitt finns i denna säsong.</string>
   <string Field="NoEpisodeSummary">Ingen beskrivning av avsnittets handling finns för tillfället.</string>
   <string Field="NoEpisodesThisWeek">Inga avsnitt visas denna veckan</string>
   <string Field="NoMovieSummary">Ingen handling för denna film finns tillgänglig för tillfället.</string>
@@ -166,6 +234,7 @@
   <string Field="NoPluginsEnabled">Det finns inga plugin-inställningar.\nVill du ställa in plugins nu?</string>
   <string Field="NotLoggedIn">Du kan inte komma längre utan att\nvara inloggad. Vill du registrera dig eller logga in \nto hos trakt.tv nu?</string>
   <string Field="NoSearchResultsFound">Sökningen gav inga träffar</string>
+  <string Field="NoSeasonsForShow">Inga säsonger finns för denna serie!</string>
   <string Field="NoMovingPictures">Moving Pictures är antingen inte installerad eller avstängd</string>
   <string Field="NoListsFound">Inga listor hittades, vill du skapa\nen lista nu?</string>
   <string Field="NoUserLists">{0} har inte skapat någon lista!</string>
@@ -185,6 +254,7 @@
   <string Field="Protected">Skyddad</string>
   <string Field="PersonWatching">1 person tittar</string>
   <string Field="PeopleWatching">{0} personer tittar</string>
+  <string Field="PlayTrailer">Spela trailer</string>
   <string Field="Plugin">Plugin</string>
   <string Field="Plugins">Plugins</string>
   <string Field="Public">Publikt</string>
@@ -205,6 +275,14 @@
   <string Field="RateHate">Weak Sauce :(</string>
   <string Field="RateLove">Totally Ninja!</string>
   <string Field="RateHeading">Vad tycker du?</string>
+  <string Field="RateTwo">Fruktansvärd</string>
+  <string Field="RateThree">Kass</string>
+  <string Field="RateFour">Dålig</string>
+  <string Field="RateFive">Meh</string>
+  <string Field="RateSix">Okej</string>
+  <string Field="RateSeven">Bra</string>
+  <string Field="RateEight">Grym</string>
+  <string Field="RateNine">Superb</string>
   <string Field="Recommendations">Rekommendationer</string>
   <string Field="RecommendedMovies">Rekommenderade filmer</string>
   <string Field="RecommendedShows">Rekommenderade serier</string>
@@ -225,6 +303,7 @@
   <string Field="SearchWithMpNZB">Sök NZB</string>
   <string Field="SearchTorrent">Sök Torrent</string>
   <string Field="Season">Säsong</string>
+  <string Field="Seasons">Säsonger</string>
   <string Field="SearchForFriend">Hitta en vän...</string>
   <string Field="SendFriendRequest">Skicka en vänförfrågan till {0}?</string>
   <string Field="SelectLists">Välj listor</string>
@@ -236,12 +315,16 @@
   <string Field="Shouts">Shouts</string>
   <string Field="ShowTVShowsInWatchlist">Visa TV-serier i Watch list</string>
   <string Field="ShowSpoilers">Visa Spoilers</string>
+  <string Field="ShowFriendActivity">Visa vänners aktiviteter</string>
+  <string Field="ShowCommunityActivity">Visa allas aktiviteter</string>
   <string Field="SigningIntoAccount">Loggar in...</string>
   <string Field="SkinPluginsOutOfDate">Visningsfel, detta skin är för gammalt!\nStäng MediaPortal och starta Configuration för att\nhantera plugins.</string>
   <string Field="SkinOutOfDate">Denna funktion stöds inte av detta \nskin. Se efter om en uppdatering finns.</string>
   <string Field="StartDate">Startdatum</string>
   <string Field="Synchronize">Synka</string>
   <string Field="SynchronizeNow">Ny hanterare av plugins har lagts till.\nVill du synka ditt \nbibliotek nu?</string>
+  <string Field="ShowRateDialogOnWatched">Betygsätt efter visning</string>
+  <string Field="ShowSeasonInfo">Säsongsinformation...</string>
   <string Field="ShowWatched">Visa sedda</string>
   <string Field="SettingPluginEnabledName">Plugin på</string>
   <string Field="SettingPluginEnabledDescription">Sätt på / stäng av denna inställning för att tillåta att Trakt laddas med MediaPortal.</string>
@@ -257,11 +340,29 @@
   <string Field="SettingWebRequestCacheDescription">Sätt den tid (i minuter) som web-data skall behållas i cache t ex kalender, filmer som är populära eller rekommendationer. Grundinställningen är 15 minuter.</string>
   <string Field="SettingWebRequestTimeoutName">Timeout för nätanslutningar</string>
   <string Field="SettingWebRequestTimeoutDescription">Sätt den tid (i sekunder) för hur lång tid en nätanslutning skall hålla på. Grundinställningen är 30 sekunder.</string>
+  <string Field="SettingSyncRatingsName">Synkronisera betyg</string>
+  <string Field="SettingSyncRatingsDescription">Denna inställning möjliggör 2-vägs synkning av betyg när ditt bibliotek synkas. Om ett artikel har betygsatts lokalt eller av på annan plats skrivs det inte över för att minska risk för avrundningsfel. Rekommendationen är att artiklar som inte finns lokalt betygsätts online med fler röster innan denna inställning aktiveras.</string>
+  <string Field="SettingShowRateDialogOnWatchedName">Visa betygsättningsdialog när objektet är sett.</string>
+  <string Field="SettingShowRateDialogOnWatchedDescription">Denna inställning möjliggör att betygsättningsdialogen visas efter att en film eller ett serieavsnitt är slut och räknas som sett. Betygsättningsdialogen för Trakt visas inte om objektet redan har betygsatts.</string>
+  <string Field="SettingActivityPollIntervalName">Intervall för hämtning av aktiviteter</string>
+  <string Field="SettingActivityPollIntervalDescription">Inställning för hur ofta nya aktiviteter skall hämtas från Trakt community och dina vänner för visning lokalt.</string>
+  <string Field="SettingTrendingPollIntervalName">Intervall för hämtning av populärt</string>
+  <string Field="SettingTrendingPollIntervalDescription">Inställning (i minuter) för hur ofta information om vilka de mest populära filmerna och serierna är skall hämtas från Trakt community för att visa lokalt.</string>
+  <string Field="SettingDashboardLoadDelayName">Fördröjning av huvudskärm</string>
+  <string Field="SettingDashboardLoadDelayDescription">Denna inställning kontrollerar hur snabbt (i millisekunder) som huvudskärmen skall laddas fram när GUI-fönstret har öppnats. Om detta värde är för lågt kan fel uppstå eller så kanske inte huvudskärmen laddas riktigt.</string>
+  <string Field="SettingEnableJumpToForTVShowsName">Tillåt "Hoppa till"-funktion i TV-Serier</string>
+  <string Field="SettingEnableJumpToForTVShowsDescription">Med denna inställning på kan användaren hoppa direkt till MP TV-Series genom att trycka på OK när en serie är markerad i Trakt. Om den är avstängd visas istället information från trakt.tv.</string>
+  <string Field="StartYear">Började: {0}</string>
+  <string Field="SortBy">Sortera efter: {0}</string>
+  <string Field="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
+  <string Field="SortSeasonsDescending">Sortera säsonger i fallande ordning</string>
+  <string Field="Specials">Specialer</string>
   
   <!-- T -->
   <string Field="Timeout">Timeout</string>
   <string Field="Trending">Populärt</string>
   <string Field="TrendingShows">Populära serier</string>
+  <string Field="TrendingShowsAndMovies">Populära serier och filmer</string>
   <string Field="TrendingMovies">Populära filmer</string>
   <string Field="TrendingMoviePeople">Just nu tittar {0} användare på {1} filmer!</string>
   <string Field="TrendingTVShowsPeople">Just nu tittar {0} användare på {1} TV-serier!</string>
@@ -278,10 +379,12 @@
   <string Field="User">Användare</string>
   <string Field="Users">Användare</string>
   <string Field="Username">Användarnamn</string>
+  <string Field="UnRate">Märk som ej betygsatt</string>
   <string Field="UnAuthorized">Inloggning misslyckades, var vänlig se över användarnamn och lösenord i inställningarna.</string>
   <string Field="UpdatingCategories">Uppdaterar kategorier</string>
   <string Field="UpdatingFilters">Uppdaterar filter</string>
-  
+  <string Field="UnableToPlayTrailer">Kunde inte spela trailer.</string>
+    
   <!-- V -->
   <string Field="View">Vy</string>
   <string Field="Votes">Röster</string>
@@ -295,6 +398,7 @@
   <string Field="WatchedMovies">Sedda filmer</string>
   <string Field="WatchedEpisodes">Sedda avsnitt</string>
   <string Field="WatchedShows">Sedda serier</string>  
+  <string Field="Watchers">Tittare</string>
   <string Field="Watching">Tittar på</string>
   <string Field="WatchListMovies">Watch List - filmer</string>
   <string Field="WatchListShows">Visa Watch List</string>
