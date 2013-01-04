@@ -37,18 +37,17 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordRecordings, "4TR TV Recordings"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordTVLive, "4TR TV Live"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusRecordings, "Argus TV Recordings"));
-            items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusTVLive, "Argus TV Live"));
-            /*items.Sort(new Comparison<KeyValuePair<int, string>>((x, y) => 
-            {
-                // sort disabled at end of list
-                int sortx = x.Key == -1 ? 1000 : x.Key;
-                int sorty = y.Key == -1 ? 1000 : y.Key;
-                return sortx.CompareTo(sorty); 
-            }));*/
+            items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusTVLive, "Argus TV Live"));            
 
-            foreach (var item in items)
+            // add enabled ones to top of list, sort by priority
+            foreach (var item in items.Where(p => p.Key >= 0).OrderBy(p => p.Key))
             {
-                clbPlugins.Items.Add(item.Value, item.Key != -1);
+                clbPlugins.Items.Add(item.Value, true);
+            }
+            // add disabled ones last, sort by name
+            foreach (var item in items.Where(p => p.Key < 0).OrderBy(p => p.Value))
+            {
+              clbPlugins.Items.Add(item.Value, false);
             }
             
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
