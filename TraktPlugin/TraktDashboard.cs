@@ -93,14 +93,16 @@ namespace TraktPlugin
 
                 // get facade control
                 facade = window.GetControl(facadeID) as GUIFacadeControl;
-                if (facade == null)
-                {
-                    TraktLogger.Debug("Facade [id:{0}] not ready!", facadeID.ToString());
-                    Thread.Sleep(100);
-                }
+                if (facade == null) Thread.Sleep(100);
+
                 i++;
             }
             while (i < 50 && facade == null);
+
+            if (facade == null)
+            {
+                TraktLogger.Debug("Unable to find Facade [id:{0}], check that trakt skin settings are correctly defined!", facadeID.ToString());
+            }
 
             return facade;
         }
@@ -1214,6 +1216,23 @@ namespace TraktPlugin
                 listItem = new GUIListItem(Translation.ShowFriendActivity);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.ShowFriendActivity;
+            }
+
+            TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+            if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
+            {
+                if (activity.Movie != null)
+                {
+                    // place holder for more items
+                }
+                else if (activity.Show != null)
+                {
+                    // place holder for more items
+                }
+                else if (activity.Episode != null)
+                {
+                    // place holder for more items
+                }
             }
 
             // Show Context Menu
