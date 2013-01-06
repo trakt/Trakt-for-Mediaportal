@@ -145,7 +145,7 @@ namespace TraktPlugin.TraktHandlers
             foreach (TraktLibraryMovies tlm in traktMoviesAll.ToList())
             {
                 bool notInLocalCollection = true;
-                foreach (DBMovieInfo movie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo movie in MovieList.Where(m => MovieMatch(m, tlm)))
                 {
                     // If the users IMDb Id is empty/invalid and we have matched one then set it
                     if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(movie.ImdbID))
@@ -177,7 +177,7 @@ namespace TraktPlugin.TraktHandlers
                     //filter out if its already in collection
                     if (tlm.InCollection)
                     {
-                        moviesToSync.RemoveAll(m => (BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID) || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year));
+                        moviesToSync.RemoveAll(m => MovieMatch(m, tlm));
                     }
                     break;
                 }
@@ -193,7 +193,7 @@ namespace TraktPlugin.TraktHandlers
             List<DBMovieInfo> watchedMoviesToSync = new List<DBMovieInfo>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == tlm.IMDBID || (GetTmdbID(m) == tlm.TMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
+                foreach (DBMovieInfo watchedMovie in SeenList.Where(m => MovieMatch(m, tlm)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);
@@ -221,7 +221,7 @@ namespace TraktPlugin.TraktHandlers
                     var ratedMoviesToSync = new List<DBMovieInfo>(RatedList);
                     foreach (var trm in traktRatedMovies)
                     {
-                        foreach (var movie in UnRatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == trm.IMDBID || (GetTmdbID(m) == trm.TMDBID) || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        foreach (var movie in UnRatedList.Where(m => MovieMatch(m, trm)))
                         {
                             // update local collection rating (5 Point Scale)
                             int rating = (int)(Math.Round(trm.RatingAdvanced / 2.0, MidpointRounding.AwayFromZero));
@@ -230,7 +230,7 @@ namespace TraktPlugin.TraktHandlers
                             movie.Commit();
                         }
 
-                        foreach (var movie in RatedList.Where(m => BasicHandler.GetProperMovieImdbId(m.ImdbID) == trm.IMDBID || (GetTmdbID(m) == trm.TMDBID) || (string.Compare(m.Title, trm.Title, true) == 0 && m.Year == trm.Year)))
+                        foreach (var movie in RatedList.Where(m => MovieMatch(m, trm)))
                         {
                             // already rated on trakt, remove from sync collection
                             ratedMoviesToSync.Remove(movie);
@@ -823,6 +823,24 @@ namespace TraktPlugin.TraktHandlers
 
         #region Other Private Methods
 
+        private bool MovieMatch(DBMovieInfo movPicsMovie, TraktMovieBase traktMovie)
+        {
+            // IMDb comparison
+            if (!string.IsNullOrEmpty(traktMovie.IMDBID) && !string.IsNullOrEmpty(BasicHandler.GetProperMovieImdbId(movPicsMovie.ImdbID)))
+            {
+                return string.Compare(BasicHandler.GetProperMovieImdbId(movPicsMovie.ImdbID), traktMovie.IMDBID, true) == 0;
+            }
+
+            // TMDb comparison
+            if (!string.IsNullOrEmpty(GetTmdbID(movPicsMovie)) && !string.IsNullOrEmpty(traktMovie.TMDBID))
+            {
+                return string.Compare(GetTmdbID(movPicsMovie), traktMovie.TMDBID, true) == 0;
+            }
+
+            // Title & Year comparison
+            return string.Compare(movPicsMovie.Title, traktMovie.Title, true) == 0 && movPicsMovie.Year.ToString() == traktMovie.Year.ToString();
+        }
+
         /// <summary>
         /// Shows the Rate Movie Dialog after playback has ended
         /// </summary>
@@ -1051,7 +1069,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Debug("Creating the watchlist filter");
             var watchlistFilter = new DBFilter<DBMovieInfo>();
             TraktLogger.Debug("WatchList: {0}", string.Join(", ", traktWatchListMovies.Select(m => m.Title).ToArray()));
-            foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktmovie.Imdb) == 0)).Where(movie => movie != null))
+            foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktmovie.IMDBID) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);
                 watchlistFilter.WhiteList.Add(movie);
@@ -1073,7 +1091,7 @@ namespace TraktPlugin.TraktHandlers
             #region Recommendations
             TraktLogger.Debug("Creating the recommendations filter");
             var recommendationsFilter = new DBFilter<DBMovieInfo>();
-            foreach (var movie in traktRecommendationMovies.Select(traktMovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktMovie.Imdb) == 0)).Where(movie => movie != null))
+            foreach (var movie in traktRecommendationMovies.Select(traktMovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktMovie.IMDBID) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to recommendations", movie.Title);
                 recommendationsFilter.WhiteList.Add(movie);

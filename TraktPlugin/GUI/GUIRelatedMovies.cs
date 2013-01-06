@@ -399,7 +399,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, false);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
@@ -420,7 +420,7 @@ namespace TraktPlugin.GUI
                     RelatedMovie relMovie = new RelatedMovie
                     {
                         Title = selectedMovie.Title,
-                        IMDbId = selectedMovie.Imdb,
+                        IMDbId = selectedMovie.IMDBID,
                         Year = Convert.ToInt32(selectedMovie.Year)
                     };
                     relatedMovie = relMovie;
@@ -437,7 +437,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
-                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.Imdb, TMDbId = selectedMovie.Tmdb, Title = selectedMovie.Title, Year = selectedMovie.Year };
+                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.IMDBID, TMDbId = selectedMovie.TMDBID, Title = selectedMovie.Title, Year = selectedMovie.Year };
                     GUIShouts.Fanart = selectedMovie.Images.FanartImageFilename;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
                     break;
@@ -490,7 +490,7 @@ namespace TraktPlugin.GUI
 
             TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
             {
-                IMDBID = movie.Imdb,
+                IMDBID = movie.IMDBID,
                 Title = movie.Title,
                 Year = movie.Year
             };

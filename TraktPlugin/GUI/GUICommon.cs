@@ -168,7 +168,7 @@ namespace TraktPlugin.GUI
             if (movie == null) return;
 
             string title = movie.Title;
-            string imdbid = movie.Imdb;
+            string imdbid = movie.IMDBID;
             string trailer = movie.Trailer;
             int year = Convert.ToInt32(movie.Year);
 
@@ -385,8 +385,8 @@ namespace TraktPlugin.GUI
         {
             TraktRateMovie rateObject = new TraktRateMovie
             {
-                IMDBID = movie.Imdb,
-                TMDBID = movie.Tmdb,
+                IMDBID = movie.IMDBID,
+                TMDBID = movie.TMDBID,
                 Title = movie.Title,
                 Year = movie.Year,
                 Rating = movie.RatingAdvanced.ToString(),
@@ -832,14 +832,14 @@ namespace TraktPlugin.GUI
         {
             if (movie == null) return;
 
-            SetProperty("#Trakt.Movie.Imdb", movie.Imdb);
+            SetProperty("#Trakt.Movie.Imdb", movie.IMDBID);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
             SetProperty("#Trakt.Movie.Released", movie.Released.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime.ToString());
             SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
             SetProperty("#Trakt.Movie.Title", movie.Title);
-            SetProperty("#Trakt.Movie.Tmdb", movie.Tmdb);
+            SetProperty("#Trakt.Movie.Tmdb", movie.TMDBID);
             SetProperty("#Trakt.Movie.Trailer", movie.Trailer);
             SetProperty("#Trakt.Movie.Url", movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Year);
@@ -1224,9 +1224,9 @@ namespace TraktPlugin.GUI
                 {
                     case ("IMDb"):
                         siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(movie.Imdb))
+                        if (!string.IsNullOrEmpty(movie.IMDBID))
                             // Exact search
-                            searchParam = movie.Imdb;
+                            searchParam = movie.IMDBID;
                         else
                             searchParam = movie.Title;
                         break;

@@ -271,7 +271,7 @@ namespace TraktPlugin.GUI
                             case "movie":
                                 listItem.Title = item.Movie.Title;
                                 listItem.Year = Convert.ToInt32(item.Movie.Year);
-                                listItem.ImdbId = item.Movie.Imdb;
+                                listItem.ImdbId = item.Movie.IMDBID;
                                 break;
                             case "show":
                                 listItem.Title = item.Show.Title;

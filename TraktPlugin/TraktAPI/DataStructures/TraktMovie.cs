@@ -8,13 +8,10 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktMovie
+    public class TraktMovie :TraktMovieBase
     {
         [DataMember(Name = "certification")]
         public string Certification { get; set; }
-
-        [DataMember(Name = "imdb_id")]
-        public string Imdb { get; set; }
 
         [DataMember(Name = "overview")]
         public string Overview { get; set; }
@@ -28,20 +25,14 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "tagline")]
         public string Tagline { get; set; }
 
-        [DataMember(Name = "title")]
-        public string Title { get; set; }
-
-        [DataMember(Name = "tmdb_id")]
-        public string Tmdb { get; set; }
+        [DataMember(Name = "rt_id")]
+        public string RtId { get; set; }
 
         [DataMember(Name = "trailer")]
         public string Trailer { get; set; }
 
         [DataMember(Name = "url")]
         public string Url { get; set; }
-
-        [DataMember(Name = "year")]
-        public string Year { get; set; }
 
         [DataMember(Name = "plays")]
         public int Plays { get; set; }

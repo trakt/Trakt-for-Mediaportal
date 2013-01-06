@@ -445,7 +445,7 @@ namespace TraktPlugin.GUI
                     if (SelectedType == TraktItemType.movie)
                     {
                         RelatedMovie relatedMovie = new RelatedMovie();
-                        relatedMovie.IMDbId = userListItem.Movie.Imdb;
+                        relatedMovie.IMDbId = userListItem.Movie.IMDBID;
                         relatedMovie.Title = userListItem.Movie.Title;
                         GUIRelatedMovies.relatedMovie = relatedMovie;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
@@ -473,7 +473,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = (GUIShouts.ShoutTypeEnum)Enum.Parse(typeof(GUIShouts.ShoutTypeEnum), SelectedType.ToString(), true);
                     if (SelectedType == TraktItemType.movie)
-                        GUIShouts.MovieInfo = new MovieShout { IMDbId = userListItem.ImdbId, TMDbId = userListItem.Movie.Tmdb, Title = userListItem.Title, Year = userListItem.Year };
+                        GUIShouts.MovieInfo = new MovieShout { IMDbId = userListItem.ImdbId, TMDbId = userListItem.Movie.TMDBID, Title = userListItem.Title, Year = userListItem.Year };
                     else if (SelectedType == TraktItemType.show)
                         GUIShouts.ShowInfo = new ShowShout { IMDbId = userListItem.ImdbId, TVDbId = userListItem.Show.Tvdb, Title = userListItem.Title };
                     else
@@ -589,7 +589,7 @@ namespace TraktPlugin.GUI
 
             TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
             {
-                IMDBID = movie.Imdb,
+                IMDBID = movie.IMDBID,
                 Title = movie.Title,
                 Year = movie.Year
             };            

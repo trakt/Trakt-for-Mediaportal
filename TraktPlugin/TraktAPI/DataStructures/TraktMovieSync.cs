@@ -22,20 +22,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public List<Movie> MovieList { get; set; }
 
         [DataContract]
-        public class Movie : IEquatable<Movie>
+        public class Movie : TraktMovieBase, IEquatable<Movie>
         {
-            [DataMember(Name = "imdb_id")]
-            public string IMDBID { get; set; }
-
-            [DataMember(Name = "tmdb_id")]
-            public string TMDBID { get; set; }
-
-            [DataMember(Name = "title")]
-            public string Title { get; set; }
-
-            [DataMember(Name = "year")]
-            public string Year { get; set; }
-
             #region IEquatable
             public bool Equals(Movie other)
             {

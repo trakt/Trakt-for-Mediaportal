@@ -715,7 +715,7 @@ namespace TraktPlugin.GUI
                     if (selectedMovie != null)
                     {
                         RelatedMovie relatedMovie = new RelatedMovie();
-                        relatedMovie.IMDbId = selectedMovie.Imdb;
+                        relatedMovie.IMDbId = selectedMovie.IMDBID;
                         relatedMovie.Title = selectedMovie.Title;
                         GUIRelatedMovies.relatedMovie = relatedMovie;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
@@ -738,7 +738,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddMovieToList):
-                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, false);
                     break;
                 case ((int)ContextMenuItem.AddShowToList):
                     TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
@@ -748,13 +748,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddMovieToWatchList):
-                    TraktHelper.AddMovieToWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, true);
+                    TraktHelper.AddMovieToWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
                 case ((int)ContextMenuItem.RemoveMovieFromWatchList):
-                    TraktHelper.RemoveMovieFromWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, true);
+                    TraktHelper.RemoveMovieFromWatchList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, true);
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
@@ -796,13 +796,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkMovieAsWatched):
-                    TraktHelper.MarkMovieAsWatched(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    TraktHelper.MarkMovieAsWatched(selectedMovie.IMDBID, selectedMovie.Title, selectedMovie.Year);
                     selectedMovie.Watched = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
                 case ((int)ContextMenuItem.MarkMovieAsUnWatched):
-                    TraktHelper.MarkMovieAsUnWatched(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    TraktHelper.MarkMovieAsUnWatched(selectedMovie.IMDBID, selectedMovie.Title, selectedMovie.Year);
                     selectedMovie.Watched = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
@@ -822,13 +822,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddMovieToLibrary):
-                    TraktHelper.AddMovieToLibrary(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    TraktHelper.AddMovieToLibrary(selectedMovie.IMDBID, selectedMovie.Title, selectedMovie.Year);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
                 case ((int)ContextMenuItem.RemoveMovieFromLibrary):
-                    TraktHelper.RemoveMovieFromLibrary(selectedMovie.Imdb, selectedMovie.Title, selectedMovie.Year);
+                    TraktHelper.RemoveMovieFromLibrary(selectedMovie.IMDBID, selectedMovie.Title, selectedMovie.Year);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
@@ -867,8 +867,8 @@ namespace TraktPlugin.GUI
                         GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
                         GUIShouts.MovieInfo = new MovieShout 
                         { 
-                            IMDbId = selectedMovie.Imdb, 
-                            TMDbId = selectedMovie.Tmdb, 
+                            IMDbId = selectedMovie.IMDBID, 
+                            TMDbId = selectedMovie.TMDBID, 
                             Title = selectedMovie.Title, 
                             Year = selectedMovie.Year 
                         };

@@ -366,7 +366,7 @@ namespace TraktPlugin.TraktHandlers
 
         public static bool IsValidImdb(string id)
         {
-            if (id == null || !id.StartsWith("tt")) return false;
+            if (id == null || !id.StartsWith("tt", StringComparison.InvariantCultureIgnoreCase)) return false;
             if (id.Length != 9) return false;
             return true;
         }
@@ -382,7 +382,7 @@ namespace TraktPlugin.TraktHandlers
 
             // handle invalid ids
             // return null so we dont match empty result from trakt
-            if (id == null || !id.StartsWith("tt")) return null;
+            if (id == null || !id.StartsWith("tt", StringComparison.InvariantCultureIgnoreCase)) return null;
 
             // correctly format to 9 char string
             if (id.Length != 9)

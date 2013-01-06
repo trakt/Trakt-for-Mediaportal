@@ -450,7 +450,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.Imdb, false);
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, false);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
@@ -469,7 +469,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Related):
                     RelatedMovie relatedMovie = new RelatedMovie();
-                    relatedMovie.IMDbId = selectedMovie.Imdb;
+                    relatedMovie.IMDbId = selectedMovie.IMDBID;
                     relatedMovie.Title = selectedMovie.Title;
                     GUIRelatedMovies.relatedMovie = relatedMovie;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
@@ -501,7 +501,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
-                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.Imdb, TMDbId = selectedMovie.Tmdb, Title = selectedMovie.Title, Year = selectedMovie.Year };
+                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.IMDBID, TMDbId = selectedMovie.TMDBID, Title = selectedMovie.Title, Year = selectedMovie.Year };
                     GUIShouts.Fanart = selectedMovie.Images.FanartImageFilename;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
                     break;
@@ -563,7 +563,7 @@ namespace TraktPlugin.GUI
 
             TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
             {
-                IMDBID = movie.Imdb,
+                IMDBID = movie.IMDBID,
                 Title = movie.Title,
                 Year = movie.Year
             };
@@ -617,8 +617,8 @@ namespace TraktPlugin.GUI
                 {
                     UserName = TraktSettings.Username,
                     Password = TraktSettings.Password,
-                    IMDbId = dismissMovie.Imdb,
-                    TMDbId = dismissMovie.Tmdb,
+                    IMDbId = dismissMovie.IMDBID,
+                    TMDbId = dismissMovie.TMDBID,
                     Title = dismissMovie.Title,
                     Year = dismissMovie.Year
                 };

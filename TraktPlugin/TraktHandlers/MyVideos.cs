@@ -149,7 +149,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 bool notInLocalCollection = true;
                 // if it is in both libraries
-                foreach (IMDBMovie libraryMovie in MovieList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
+                foreach (IMDBMovie libraryMovie in MovieList.Where(m => MovieMatch(m, tlm)))
                 {
                     // If the users IMDb Id is empty/invalid and we have matched one then set it
                     if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
@@ -184,7 +184,7 @@ namespace TraktPlugin.TraktHandlers
                     //filter out if its already in collection
                     if (tlm.InCollection)
                     {
-                        moviesToSync.RemoveAll(m => (BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID) || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year));
+                        moviesToSync.RemoveAll(m => MovieMatch(m, tlm));
                     }
                     break;
                 }
@@ -200,7 +200,7 @@ namespace TraktPlugin.TraktHandlers
             List<IMDBMovie> watchedMoviesToSync = new List<IMDBMovie>(SeenList);
             foreach (TraktLibraryMovies tlm in traktMoviesAll.Where(t => t.Plays > 0 || t.UnSeen))
             {
-                foreach (IMDBMovie watchedMovie in SeenList.Where(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == tlm.IMDBID || (string.Compare(m.Title, tlm.Title, true) == 0 && m.Year.ToString() == tlm.Year)))
+                foreach (IMDBMovie watchedMovie in SeenList.Where(m => MovieMatch(m, tlm)))
                 {
                     //filter out
                     watchedMoviesToSync.Remove(watchedMovie);
@@ -491,6 +491,18 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Private Methods
+
+        private bool MovieMatch(IMDBMovie myVideosMovie, TraktMovieBase traktMovie)
+        {
+            // IMDb comparison
+            if (!string.IsNullOrEmpty(traktMovie.IMDBID) && !string.IsNullOrEmpty(BasicHandler.GetProperMovieImdbId(myVideosMovie.IMDBNumber)))
+            {
+                return string.Compare(BasicHandler.GetProperMovieImdbId(myVideosMovie.IMDBNumber), traktMovie.IMDBID, true) == 0;
+            }
+
+            // Title & Year comparison
+            return string.Compare(myVideosMovie.Title, traktMovie.Title, true) == 0 && myVideosMovie.Year.ToString() == traktMovie.Year.ToString();
+        }
 
         /// <summary>
         /// Shows the Rate Movie Dialog after playback has ended

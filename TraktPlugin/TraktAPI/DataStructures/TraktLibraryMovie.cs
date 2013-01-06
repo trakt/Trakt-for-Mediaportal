@@ -10,22 +10,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
     /// Data structure for a movie to send to and from Trakt
     /// </summary>
     [DataContract]
-    public class TraktLibraryMovies : TraktResponse
+    public class TraktLibraryMovies : TraktMovieBase
     {
-        [DataMember(Name = "title")]
-        public string Title { get; set; }
-
-        [DataMember(Name = "year")]
-        public string Year { get; set; }
-
         [DataMember(Name = "url")]
         public string Url { get; set; }
-
-        [DataMember(Name = "imdb_id")]
-        public string IMDBID { get; set; }
-
-        [DataMember(Name = "tmdb_id")]
-        public string TMDBID { get; set; }
 
         [DataMember(Name = "plays")]
         public int Plays { get; set; }

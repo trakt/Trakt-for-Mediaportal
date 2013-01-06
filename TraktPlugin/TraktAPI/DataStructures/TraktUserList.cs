@@ -473,7 +473,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 switch (Type)
                 {
                     case "movie":
-                        retValue = Movie.Imdb;
+                        retValue = Movie.IMDBID;
                         break;
 
                     case "show":

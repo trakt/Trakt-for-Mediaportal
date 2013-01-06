@@ -258,6 +258,7 @@
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActor.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieBase.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRecommendations.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSearch.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonSeen.cs" />

@@ -484,17 +484,17 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), movie.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
 
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Imdb", i), movie.Imdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Imdb", i), movie.IMDBID);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), movie.Certification);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), movie.Released.FromEpoch().ToShortDateString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Runtime", i), movie.Runtime.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Tagline", i), movie.Tagline);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Title", i), movie.Title);
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Tmdb", i), movie.Tmdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Tmdb", i), movie.TMDBID);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Trailer", i), movie.Trailer);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), movie.Url);
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), movie.Year);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), movie.Year.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", movie.Genres.ToArray()));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), movie.Images.PosterImageFilename);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), movie.Images.FanartImageFilename);
@@ -1296,7 +1296,7 @@ namespace TraktPlugin
             switch (activity.Type)
             {
                 case "movie":
-                    TraktHelper.ShowMovieShouts(activity.Movie.Imdb, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.FanartImageFilename);
+                    TraktHelper.ShowMovieShouts(activity.Movie.IMDBID, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.FanartImageFilename);
                     break;
 
                 case "show":
