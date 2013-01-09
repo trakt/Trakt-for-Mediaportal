@@ -601,7 +601,7 @@ namespace TraktPlugin
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
-                Thread.CurrentThread.Name = "Library Sync";
+                Thread.CurrentThread.Name = "LibrarySync";
 
             TraktLogger.Info("Library Sync Complete for all enabled plugins.");
 
@@ -616,7 +616,7 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.CurrentThread.Name = "Library Sync";
+            Thread.CurrentThread.Name = "LibrarySync";
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
@@ -738,7 +738,7 @@ namespace TraktPlugin
                 })
                 {
                     IsBackground = true,
-                    Name = "Check Connection"
+                    Name = "CheckConnection"
                 };
                 checkStatus.Start();
             }
@@ -778,7 +778,7 @@ namespace TraktPlugin
               })
               {
                 IsBackground = true,
-                Name = "Plugin Handler Check"
+                Name = "PluginCheck"
               };
               pluginHandlerCheckThread.Start();
             }
@@ -803,7 +803,7 @@ namespace TraktPlugin
                 })
                 {
                     IsBackground = true,
-                    Name = "Getting Friend Requests"
+                    Name = "GetFriendReq"
                 };
 
                 friendsThread.Start();

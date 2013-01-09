@@ -974,7 +974,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Adding Friend"
+                Name = "AddingFriend"
             };
 
             addFriendThread.Start(user);
@@ -989,7 +989,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Approving Friend Request"
+                Name = "ApprovingFriendRequest"
             };
 
             approveFriendThread.Start(user);
@@ -1004,7 +1004,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Denying Friend Request"
+                Name = "DenyingFriendRequest"
             };
 
             denyFriendThread.Start(user);
@@ -1019,7 +1019,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Deleting Friend Request"
+                Name = "DeletingFriendRequest"
             };
 
             deleteFriendThread.Start(user);
@@ -1645,7 +1645,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Friends Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

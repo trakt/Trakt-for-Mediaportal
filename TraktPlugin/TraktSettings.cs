@@ -571,7 +571,7 @@ namespace TraktPlugin
                 }
             })
             {
-                Name = "Extension Settings",
+                Name = "Settings",
                 IsBackground = true
             };
 

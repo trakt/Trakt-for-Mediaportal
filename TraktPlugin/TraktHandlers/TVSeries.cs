@@ -79,7 +79,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            TraktLogger.Info("TVSeries Starting Sync");
+            TraktLogger.Info("MP-TVSeries Starting Sync");
             SyncInProgress = true;
 
             #region Get online data
@@ -345,7 +345,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             SyncInProgress = false;
-            TraktLogger.Info("TVSeries Sync Completed");
+            TraktLogger.Info("MP-TVSeries Sync Completed");
         }
 
         public bool Scrobble(string filename)
@@ -361,7 +361,7 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble Episode";
+                Thread.CurrentThread.Name = "Scrobble";
 
                 // duration in minutes
                 double duration = CurrentEpisode[DBEpisode.cLocalPlaytime] / 60000;
@@ -803,7 +803,7 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
-                TraktLogger.Info("Recieved rate episode event from tvseries");
+                TraktLogger.Info("Received Rate Episode event from tvseries");
 
                 TraktRateEpisode episodeRateData = CreateEpisodeRateData(episode);
                 if (episodeRateData == null) return;
@@ -814,7 +814,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Rate Episode"
+                Name = "Rate"
             };
 
             rateThread.Start();
@@ -824,7 +824,7 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread rateThread = new Thread(delegate()
             {
-                TraktLogger.Info("Recieved rate series event from tvseries");
+                TraktLogger.Info("Received Rate Show event from tvseries");
 
                 TraktRateSeries seriesRateData = CreateSeriesRateData(series);
                 if (seriesRateData == null) return;
@@ -835,7 +835,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Rate Series"
+                Name = "Rate"
             };
 
             rateThread.Start();
@@ -992,9 +992,11 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportCompleted(bool newEpisodeAdded)
         {
+            Thread.CurrentThread.Name = "LibrarySync";
+
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Debug("TVSeries import complete, checking if sync required.");
+            TraktLogger.Debug("MP-TVSeries import complete, checking if sync required.");
 
             if (newEpisodeAdded)
             {
@@ -1006,21 +1008,21 @@ namespace TraktPlugin.TraktHandlers
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
-                        TraktLogger.Debug("TVSeries sync still in progress.");
+                        TraktLogger.Debug("MP-TVSeries sync still in progress. Trying again in 60secs.");
                         Thread.Sleep(60000);
                     }
                     SyncLibrary();
                 })
                 {
                     IsBackground = true,
-                    Name = "TVSeries Sync"
+                    Name = "LibrarySync"
                 };
 
                 syncThread.Start();
             }
             else
             {
-                TraktLogger.Debug("TVSeries sync is not required.");
+                TraktLogger.Debug("MP-TVSeries sync is not required.");
             }
         }
 
@@ -1056,7 +1058,7 @@ namespace TraktPlugin.TraktHandlers
                 // show trakt rating dialog
                 ShowRateDialog(currentEpisode);
 
-                TraktLogger.Info("TVSeries episode considered watched '{0}'", currentEpisode.ToString());
+                TraktLogger.Info("MP-TVSeries episode considered watched '{0}'", currentEpisode.ToString());
 
                 // get scrobble data to send to api
                 TraktEpisodeScrobble scrobbleData = CreateScrobbleData(currentEpisode);
@@ -1072,7 +1074,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Scrobble Episode"
+                Name = "Scrobble"
             };
 
             scrobbleEpisode.Start(episode);
@@ -1082,7 +1084,7 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Starting TVSeries episode playback '{0}'", episode.ToString());
+            TraktLogger.Info("Starting MP-TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = true;
             CurrentEpisode = episode;
         }
@@ -1092,7 +1094,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // Episode does not count as watched, we dont need to do anything.
-            TraktLogger.Info("Stopped TVSeries episode playback '{0}'", episode.ToString());
+            TraktLogger.Info("Stopped MP-TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = false;
             StopScrobble();
 
@@ -1105,7 +1107,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Cancel Watching Episode"
+                Name = "CancelWatching"
             };
 
             cancelWatching.Start();      
@@ -1127,7 +1129,7 @@ namespace TraktPlugin.TraktHandlers
 
             Thread toggleWatched = new Thread(delegate()
             {
-                TraktLogger.Info("Recieved togglewatched event from tvseries");
+                TraktLogger.Info("Received togglewatched event from mp-tvseries");
 
                 TraktEpisodeSync episodeSyncData = CreateSyncData(series, episodes);
                 if (episodeSyncData == null) return;
@@ -1136,7 +1138,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "TVSeries Toggle Watched"
+                Name = "ToggleWatched"
             };
 
             toggleWatched.Start();

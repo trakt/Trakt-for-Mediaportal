@@ -637,7 +637,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Adding Show to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(episode);
@@ -651,7 +651,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Adding Episode to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(episode);
@@ -665,7 +665,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Show from Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(episode);
@@ -679,7 +679,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Episode from Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(episode);
@@ -693,7 +693,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Add Episode to Library"
+                Name = "AddLibrary"
             };
 
             syncThread.Start(episode);
@@ -707,7 +707,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Remove Episode From Library"
+                Name = "RemoveLibrary"
             };
 
             syncThread.Start(episode);
@@ -721,7 +721,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Episode as Watched"
+                Name = "MarkWatched"
             };
 
             syncThread.Start(episode);
@@ -735,7 +735,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Episode as UnWatched"
+                Name = "MarkUnWatched"
             };
 
             syncThread.Start(episode);
@@ -1256,7 +1256,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Episode Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

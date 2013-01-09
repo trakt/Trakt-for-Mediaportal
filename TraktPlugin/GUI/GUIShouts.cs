@@ -424,7 +424,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Shouts Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

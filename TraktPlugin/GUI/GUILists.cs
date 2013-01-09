@@ -302,7 +302,7 @@ namespace TraktPlugin.GUI
                 }
             })
             {
-                Name = "Copy List",
+                Name = "CopyList",
                 IsBackground = true
             };
             copyThread.Start(copyList);

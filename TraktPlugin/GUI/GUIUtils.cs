@@ -487,7 +487,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Rate Episode"
+                    Name = "Rate"
                 };
                 rateThread.Start(item);
             }
@@ -503,7 +503,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Rate Series"
+                    Name = "Rate"
                 };
                 rateThread.Start(item);
             }
@@ -519,7 +519,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Rate Movie"
+                    Name = "Rate"
                 };
                 rateThread.Start(item);
             }

@@ -514,7 +514,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Adding Movie to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(movie);
@@ -528,7 +528,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Movie from Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(movie);
@@ -544,7 +544,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Movie as Watched"
+                Name = "MarkWatched"
             };
 
             syncThread.Start(movie);
@@ -558,7 +558,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Movie as UnWatched"
+                Name = "MarkUnWatched"
             };
 
             syncThread.Start(movie);
@@ -572,7 +572,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Add Movie to Library"
+                Name = "AddLibrary"
             };
 
             syncThread.Start(movie);
@@ -586,7 +586,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Remove Movie From Library"
+                Name = "RemoveLibrary"
             };
 
             syncThread.Start(movie);
@@ -795,7 +795,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Movie Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

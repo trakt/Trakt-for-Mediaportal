@@ -654,7 +654,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Mark Show As Seen"
+                    Name = "MarkWatched"
                 };
 
             seenThread.Start(seenShow);
@@ -686,7 +686,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Season As Seen"
+                Name = "MarkWatched"
             };
 
             seenThread.Start(seenSeason);
@@ -717,7 +717,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Add Show to Library"
+                Name = "AddLibrary"
             };
 
             libThread.Start(libShow);
@@ -749,7 +749,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Add Season to Library"
+                Name = "AddLibrary"
             };
 
             libThread.Start(libSeason);

@@ -152,7 +152,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Cancel Watching"
+                    Name = "CancelWatching"
                 };
 
                 cancelWatching.Start(CurrentProgram);

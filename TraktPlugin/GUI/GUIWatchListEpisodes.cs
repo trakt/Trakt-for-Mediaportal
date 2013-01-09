@@ -379,7 +379,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Episode from Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(item);
@@ -574,7 +574,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Episode Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

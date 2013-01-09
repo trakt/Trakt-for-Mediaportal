@@ -223,7 +223,7 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble Episode";
+                Thread.CurrentThread.Name = "Scrobble";
 
                 FileLocal episode = stateInfo as FileLocal;
                 if (episode == null) return;
@@ -279,7 +279,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Scrobble Episode"
+                Name = "Scrobble"
             };
             #endregion
 
@@ -303,7 +303,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Cancel Watching Episode"
+                    Name = "CancelWatching"
                 };
                 #endregion
 
@@ -873,7 +873,7 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Recieved rating event for series from my anime");
+            TraktLogger.Info("Received rating event for series from my anime");
 
             Thread rateThread = new Thread(delegate()
             {
@@ -886,7 +886,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "Rate Series"
+                Name = "Rate"
             };
 
             rateThread.Start();
@@ -896,7 +896,7 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Recieved togglewatched event from my anime");
+            TraktLogger.Info("Received togglewatched event from my anime");
 
             Thread toggleWatched = new Thread(delegate()
             {
@@ -911,7 +911,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "My Anime Toggle Watched"
+                Name = "ToggleWatched"
             };
 
             toggleWatched.Start();

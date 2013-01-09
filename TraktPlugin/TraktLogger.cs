@@ -46,7 +46,7 @@ namespace TraktPlugin
         public static void Info(String log)
         {
             if(TraktSettings.LogLevel >= 2)
-                writeToFile(String.Format(createPrefix(), "Info", log));
+                writeToFile(String.Format(createPrefix(), "INFO", log));
         }
 
         public static void Info(String format, params Object[] args)
@@ -54,18 +54,13 @@ namespace TraktPlugin
             Info(String.Format(format, args));
         }
 
-        public static void Info(String format, params String[] args)
-        {
-            Info(String.Format(format, args));
-        }
-
         public static void Debug(String log)
         {
             if(TraktSettings.LogLevel >= 3)
-                writeToFile(String.Format(createPrefix(), "Debug", log));
+                writeToFile(String.Format(createPrefix(), "DEBG", log));
         }
 
-        public static void Debug(String format, params String[] args)
+        public static void Debug(String format, params Object[] args)
         {
             Debug(String.Format(format, args));
         }
@@ -73,10 +68,10 @@ namespace TraktPlugin
         public static void Error(String log)
         {
             if(TraktSettings.LogLevel >= 0)
-                writeToFile(String.Format(createPrefix(), "Error", log));
+                writeToFile(String.Format(createPrefix(), "ERR ", log));
         }
 
-        public static void Error(String format, params String[] args)
+        public static void Error(String format, params Object[] args)
         {
             Error(String.Format(format, args));
         }
@@ -84,17 +79,17 @@ namespace TraktPlugin
         public static void Warning(String log)
         {
             if(TraktSettings.LogLevel >= 1)
-                writeToFile(String.Format(createPrefix(), "Warning", log));
+                writeToFile(String.Format(createPrefix(), "WARN", log));
         }
 
-        public static void Warning(String format, params String[] args)
+        public static void Warning(String format, params Object[] args)
         {
             Warning(String.Format(format, args));
         }
 
         private static String createPrefix()
         {
-            return DateTime.Now + String.Format("[{0}][{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId) +  "[{0}] {1}";
+            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " [{0}] " + String.Format("[{0}][{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId.ToString().PadLeft(2,'0')) +  ": {1}";
         }
 
         private static void writeToFile(String log)

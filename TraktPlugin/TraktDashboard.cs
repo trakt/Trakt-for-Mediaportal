@@ -109,6 +109,8 @@ namespace TraktPlugin
 
         private void GetStatistics()
         {
+            Thread.CurrentThread.Name = "DashStats";
+
             // initial publish from persisted settings
             if (TraktSettings.LastStatistics != null)
             {
@@ -209,6 +211,8 @@ namespace TraktPlugin
 
         private void LoadActivity()
         {
+            Thread.CurrentThread.Name = "DashActivity";
+
             TraktLogger.Debug("Loading Trakt Activity...");
             GUIFacadeControl facade = null;
 
@@ -409,6 +413,8 @@ namespace TraktPlugin
 
         private void LoadTrendingMovies()
         {
+            Thread.CurrentThread.Name = "DashMovies";
+
             TraktLogger.Debug("Loading Trakt Trending Movies...");
 
             GUIFacadeControl facade = null;
@@ -575,6 +581,8 @@ namespace TraktPlugin
 
         private void LoadTrendingShows()
         {
+            Thread.CurrentThread.Name = "DashShows";
+
             TraktLogger.Debug("Loading Trakt Trending Shows...");
 
             GUIFacadeControl facade = null;
@@ -1159,7 +1167,7 @@ namespace TraktPlugin
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Dashboard Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

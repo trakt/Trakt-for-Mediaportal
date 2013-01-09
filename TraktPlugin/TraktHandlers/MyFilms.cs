@@ -540,7 +540,7 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble Movie";
+                Thread.CurrentThread.Name = "Scrobble";
 
                 MFMovie currentMovie = stateInfo as MFMovie;
 
@@ -763,7 +763,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Cancel Watching Movie"
+                    Name = "CancelWatching"
                 };
 
                 cancelWatching.Start();
@@ -802,7 +802,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Scrobble Movie"
+                    Name = "Scrobble"
                 };
 
                 scrobbleMovie.Start(movie);
@@ -815,7 +815,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(MFMovie movie, string value)
         {
-            TraktLogger.Info("Recieved rating event from MyFilms");
+            TraktLogger.Info("Received rating event from MyFilms");
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -840,7 +840,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "My Films Rate"
+                Name = "Rate"
             };
 
             rateThread.Start(movie);
@@ -848,7 +848,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(MFMovie movie, bool watched, int count)
         {
-            TraktLogger.Info("Received togglewatched event from MyFilms");
+            TraktLogger.Info("Received togglewatched event from My Films");
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -867,7 +867,7 @@ namespace TraktPlugin.TraktHandlers
             })
             {
                 IsBackground = true,
-                Name = "My Films Toggle Watched"
+                Name = "ToggleWatched"
             };
 
             toggleWatchedThread.Start(movie);
@@ -889,14 +889,14 @@ namespace TraktPlugin.TraktHandlers
                 while (SyncInProgress)
                 {
                     // only do one sync at a time
-                    TraktLogger.Debug("My Films sync still in progress, waiting to complete...");
+                    TraktLogger.Debug("My Films sync still in progress, waiting to complete. Trying again in 60secs.");
                     Thread.Sleep(60000);
                 }
                 SyncLibrary();
             })
             {
                 IsBackground = true,
-                Name = "My Films Sync"
+                Name = "LibrarySync"
             };
 
             syncThread.Start();

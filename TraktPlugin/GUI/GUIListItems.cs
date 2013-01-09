@@ -640,7 +640,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Adding Item to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(item);
@@ -659,7 +659,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Removing Item from Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(item);
@@ -676,7 +676,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Item as Watched"
+                Name = "MarkWatched"
             };
 
             syncThread.Start(item);
@@ -693,7 +693,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Mark Item as UnWatched"
+                Name = "MarkUnWatched"
             };
 
             syncThread.Start(item);
@@ -710,7 +710,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Add Item to Library"
+                Name = "AddLibrary"
             };
 
             syncThread.Start(item);
@@ -727,7 +727,7 @@ namespace TraktPlugin.GUI
             })
             {
                 IsBackground = true,
-                Name = "Remove Item From Library"
+                Name = "RemoveLibrary"
             };
 
             syncThread.Start(item);
@@ -1005,7 +1005,7 @@ namespace TraktPlugin.GUI
                 })
                 {
                     IsBackground = true,
-                    Name = "Trakt Image Downloader " + i.ToString()
+                    Name = "ImageDownloader" + i.ToString()
                 }.Start(groupList);
             }
         }

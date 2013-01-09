@@ -135,7 +135,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Adding Movie to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -162,7 +162,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Removing Movie From Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -183,7 +183,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Adding Show to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -202,7 +202,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Removing Show From Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -222,7 +222,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Adding Episode to Watch List"
+                Name = "AddWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -240,7 +240,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Removing Episode From Watch List"
+                Name = "RemoveWatchList"
             };
 
             syncThread.Start(syncObject);
@@ -532,7 +532,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Mark Movie as Watched"
+                Name = "MarkWatched"
             };
 
             syncThread.Start(syncObject);
@@ -549,7 +549,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Mark Movie as UnWatched"
+                Name = "MarkUnWatched"
             };
 
             syncThread.Start(syncObject);
@@ -569,7 +569,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Mark Episode as Watched"
+                Name = "MarkWatched"
             };
 
             syncThread.Start(syncObject);
@@ -587,7 +587,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Mark Episode as UnWatched"
+                Name = "MarkUnWatched"
             };
 
             syncThread.Start(syncObject);
@@ -606,7 +606,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Add Movie to Library"
+                Name = "AddLibrary"
             };
 
             syncThread.Start(syncObject);
@@ -623,7 +623,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Remove Movie from Library"
+                Name = "RemoveLibrary"
             };
 
             syncThread.Start(syncObject);
@@ -643,7 +643,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Add Episode to Library"
+                Name = "AddLibrary"
             };
 
             syncThread.Start(syncObject);
@@ -661,7 +661,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Remove Episode From Library"
+                Name = "RemoveLibrary"
             };
 
             syncThread.Start(syncObject);
@@ -713,7 +713,7 @@ namespace TraktPlugin
                 }
             })
             {
-                Name = remove ? "Remove Item from List" : "Add Item to List",
+                Name = remove ? "RemoveList" : "AddList",
                 IsBackground = true
             };
 

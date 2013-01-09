@@ -43,7 +43,7 @@ namespace TraktPlugin.GUI
                 _active = value;
 
                 Thread newThread = new Thread(new ThreadStart(activeWorker));
-                newThread.Name = "AsyncImageResource.activeWorker";
+                newThread.Name = "Cornerstone";
                 newThread.Start();
             }
         }
@@ -141,7 +141,7 @@ namespace TraktPlugin.GUI
             set
             {
                 Thread newThread = new Thread(new ParameterizedThreadStart(setFilenameWorker));
-                newThread.Name = "AsyncImageResource.setFilenameWorker";
+                newThread.Name = "Cornerstone";
                 newThread.Start(value);
             }
         }
@@ -320,7 +320,7 @@ namespace TraktPlugin.GUI
             }
             catch (Exception e)
             {
-                TraktLogger.Info("Failed to load image {0}: {1}", filename, e.Message);
+                TraktLogger.Warning("Failed to load image {0}: {1}", filename, e.Message);
                 image = null;
             }
 

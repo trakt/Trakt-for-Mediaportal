@@ -428,7 +428,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="e"></param>
         private void traktTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            System.Threading.Thread.CurrentThread.Name = "Scrobble Movie";
+            System.Threading.Thread.CurrentThread.Name = "Scrobble";
             ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
         }
 
@@ -473,7 +473,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="e"></param>
         void scrobbler_DoWork(object sender, DoWorkEventArgs e)
         {
-            System.Threading.Thread.CurrentThread.Name = "Scrobble Movie";
+            System.Threading.Thread.CurrentThread.Name = "Scrobble";
             MovieScrobbleAndMode data = e.Argument as MovieScrobbleAndMode;
             e.Result = TraktAPI.TraktAPI.ScrobbleMovieState(data.MovieScrobble, data.ScrobbleState);
         }
@@ -486,7 +486,7 @@ namespace TraktPlugin.TraktHandlers
         void scrobbler_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (System.Threading.Thread.CurrentThread.Name == null)
-                System.Threading.Thread.CurrentThread.Name = "Scrobble Movie";
+                System.Threading.Thread.CurrentThread.Name = "Scrobble";
 
             TraktResponse response = e.Result as TraktResponse;
             TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -633,7 +633,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="e"></param>
         void moviesync_DoWork(object sender, DoWorkEventArgs e)
         {
-            System.Threading.Thread.CurrentThread.Name = "Library Sync";
+            System.Threading.Thread.CurrentThread.Name = "LibrarySync";
             //Get the sync data
             MovieSyncAndMode data = e.Argument as MovieSyncAndMode;
             //performt the sync
@@ -648,7 +648,7 @@ namespace TraktPlugin.TraktHandlers
         void moviesync_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (System.Threading.Thread.CurrentThread.Name == null)
-                System.Threading.Thread.CurrentThread.Name = "Library Sync";
+                System.Threading.Thread.CurrentThread.Name = "LibrarySync";
 
             TraktResponse response = e.Result as TraktResponse;
             TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -667,7 +667,7 @@ namespace TraktPlugin.TraktHandlers
 
         void rateMovie_DoWork(object sender, DoWorkEventArgs e)
         {
-            System.Threading.Thread.CurrentThread.Name = "Rate Movie";
+            System.Threading.Thread.CurrentThread.Name = "Rate";
             TraktRateMovie data = (TraktRateMovie)e.Argument;
             e.Result = TraktAPI.TraktAPI.RateMovie(data);
         }
@@ -675,7 +675,7 @@ namespace TraktPlugin.TraktHandlers
         void rateMovie_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (System.Threading.Thread.CurrentThread.Name == null)
-                System.Threading.Thread.CurrentThread.Name = "Rate Movie";
+                System.Threading.Thread.CurrentThread.Name = "Rate";
 
             TraktRateResponse response = (TraktRateResponse)e.Result;
             TraktAPI.TraktAPI.LogTraktResponse(response);
@@ -1394,7 +1394,7 @@ namespace TraktPlugin.TraktHandlers
             var bw = new BackgroundWorker();
             bw.DoWork += delegate(object sender, DoWorkEventArgs args)
                              {
-                                 System.Threading.Thread.CurrentThread.Name = "Category Updater";
+                                 System.Threading.Thread.CurrentThread.Name = "CategoryUpdater";
 
                                  if (!TraktSettings.MovingPicturesCategories && !TraktSettings.MovingPicturesFilters)
                                      return;

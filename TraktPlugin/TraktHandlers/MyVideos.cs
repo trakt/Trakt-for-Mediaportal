@@ -280,7 +280,7 @@ namespace TraktPlugin.TraktHandlers
             #region scrobble timer
             TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble Movie";
+                Thread.CurrentThread.Name = "Scrobble";
 
                 IMDBMovie currentMovie = stateInfo as IMDBMovie;
 
@@ -347,7 +347,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Scrobble Movie"
+                    Name = "Scrobble"
                 };
 
                 scrobbleMovie.Start(CurrentMovie);
@@ -367,7 +367,7 @@ namespace TraktPlugin.TraktHandlers
                 })
                 {
                     IsBackground = true,
-                    Name = "Cancel Watching Movie"
+                    Name = "CancelWatching"
                 };
 
                 cancelWatching.Start();
