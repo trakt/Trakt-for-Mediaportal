@@ -822,8 +822,16 @@ namespace TraktPlugin.GUI
             // toggles for hide collected/watchlisted
             HideCollected = TraktSettings.MovieRecommendationHideCollected;
             HideWatchlisted = TraktSettings.MovieRecommendationHideWatchlisted;
-            if (hideCollectedButton != null) hideCollectedButton.Selected = HideCollected;
-            if (hideWatchlistedButton != null) hideWatchlistedButton.Selected = HideWatchlisted;
+            if (hideCollectedButton != null)
+            {
+                hideCollectedButton.Selected = HideCollected;
+                GUIControl.SetControlLabel(GetID, hideCollectedButton.GetID, Translation.HideCollected);
+            }
+            if (hideWatchlistedButton != null)
+            {
+                hideWatchlistedButton.Selected = HideWatchlisted;
+                GUIControl.SetControlLabel(GetID, hideCollectedButton.GetID, Translation.HideWatchlisted);
+            }
 
             // start/end year
             StartYear = TraktSettings.MovieRecommendationStartYear;
