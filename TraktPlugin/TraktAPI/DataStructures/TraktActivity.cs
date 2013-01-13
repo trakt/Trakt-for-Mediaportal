@@ -64,7 +64,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public string Action { get; set; }
 
             [DataMember(Name = "user")]
-            public TraktUserProfile User { get; set; }
+            public TraktUser User { get; set; }
 
             [DataMember(Name = "rating")]
             public string Rating { get; set; }

@@ -782,7 +782,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
         }
 
-        internal static void SetUserProperties(TraktUserProfile user)
+        internal static void SetUserProperties(TraktUser user)
         {
             SetProperty("#Trakt.User.About", user.About);
             SetProperty("#Trakt.User.Age", user.Age);

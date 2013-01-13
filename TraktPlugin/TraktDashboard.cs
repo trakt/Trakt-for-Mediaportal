@@ -257,9 +257,9 @@ namespace TraktPlugin
                 PublishActivityProperties(activities);
                 
                 // download images
-                var avatarImages = new List<TraktUserProfile>();
+                var avatarImages = new List<TraktUser>();
                 avatarImages.AddRange(activities.Activities.Select(a => a.User).Take(TraktSkinSettings.DashboardActivityPropertiesMaxItems));
-                GetImages<TraktUserProfile>(avatarImages);
+                GetImages<TraktUser>(avatarImages);
             }
         }
 
@@ -325,7 +325,7 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            var avatarImages = new List<TraktUserProfile>();
+            var avatarImages = new List<TraktUser>();
 
             // Add each activity item to the facade
             foreach (var activity in activities.Activities)
@@ -362,7 +362,7 @@ namespace TraktPlugin
 
             // Download avatar images Async and set to facade
             StopAvatarDownload = false;
-            GetImages<TraktUserProfile>(avatarImages);
+            GetImages<TraktUser>(avatarImages);
 
             TraktLogger.Debug("Finished Loading Activity facade...");
         }
@@ -1113,11 +1113,11 @@ namespace TraktPlugin
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
 
-                        if (item is TraktUserProfile)
+                        if (item is TraktUser)
                         {
                             if (StopAvatarDownload) return;
-                            remoteThumb = (item as TraktUserProfile).Avatar;
-                            localThumb = (item as TraktUserProfile).AvatarFilename;
+                            remoteThumb = (item as TraktUser).Avatar;
+                            localThumb = (item as TraktUser).AvatarFilename;
                         }
                         else if (item is TraktMovie.MovieImages)
                         {
@@ -1143,10 +1143,10 @@ namespace TraktPlugin
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
                                 // notify that image has been downloaded
-                                if (item is TraktUserProfile)
+                                if (item is TraktUser)
                                 {
                                     if (StopAvatarDownload) return;
-                                    (item as TraktUserProfile).NotifyPropertyChanged("AvatarFilename");
+                                    (item as TraktUser).NotifyPropertyChanged("AvatarFilename");
                                     PublishActivityProperties();
                                 }
                                 else if (item is TraktMovie.MovieImages)
@@ -1304,15 +1304,15 @@ namespace TraktPlugin
             switch (activity.Type)
             {
                 case "movie":
-                    TraktHelper.ShowMovieShouts(activity.Movie.IMDBID, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.FanartImageFilename);
+                    TraktHelper.ShowMovieShouts(activity.Movie.IMDBID, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.FanartImageFilename, activity.Movie.Images.Fanart);
                     break;
 
                 case "show":
-                    TraktHelper.ShowTVShowShouts(activity.Show.Tvdb, activity.Show.Title, activity.Show.Images.FanartImageFilename);
+                    TraktHelper.ShowTVShowShouts(activity.Show.Tvdb, activity.Show.Title, activity.Show.Images.FanartImageFilename, activity.Show.Images.Fanart);
                     break;
 
                 case "episode":
-                    TraktHelper.ShowEpisodeShouts(activity.Show.Tvdb, activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), activity.Show.Images.FanartImageFilename);
+                    TraktHelper.ShowEpisodeShouts(activity.Show.Tvdb, activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), activity.Show.Images.FanartImageFilename, activity.Show.Images.Fanart);
                     break;
 
                 default:
@@ -1795,8 +1795,8 @@ namespace TraktPlugin
                 INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is TraktUserProfile && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktUserProfile).AvatarFilename);
+                    if (s is TraktUser && e.PropertyName == "AvatarFilename")
+                        SetImageToGui((s as TraktUser).AvatarFilename);
                     if (s is TraktShow.ShowImages && e.PropertyName == "PosterImageFilename")
                         SetImageToGui((s as TraktShow.ShowImages).PosterImageFilename);
                     if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")

@@ -225,7 +225,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             // update local collection rating (5 Point Scale)
                             int rating = (int)(Math.Round(trm.RatingAdvanced / 2.0, MidpointRounding.AwayFromZero));
-                            TraktLogger.Info("Inserting rating '{0}/5' for movie '{1} ({2})'", rating, movie.Title, movie.Year);
+                            TraktLogger.Info("Inserting rating '{0}/10'=>'{1}/5' for movie '{2} ({3})'", trm.RatingAdvanced, rating, movie.Title, movie.Year);
                             movie.ActiveUserSettings.UserRating = rating;
                             movie.Commit();
                         }
@@ -240,7 +240,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("{0} rated movies to sync to trakt", ratedMoviesToSync.Count);
                     if (ratedMoviesToSync.Count > 0)
                     {
-                        ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/5' for movie '{1} ({2})'", a.ActiveUserSettings.UserRating, a.Title, a.Year));
+                        ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/5'=>'{1}/10' for movie '{1} ({2})'", a.ActiveUserSettings.UserRating, a.ActiveUserSettings.UserRating * 2, a.Title, a.Year));
                         TraktResponse response = TraktAPI.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
                         TraktAPI.TraktAPI.LogTraktResponse(response);
                     }

@@ -452,7 +452,7 @@ namespace TraktPlugin
         #endregion
 
         #region Movie Shouts
-        public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
+        public static void ShowMovieShouts(string imdb, string title, string year, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -470,12 +470,13 @@ namespace TraktPlugin
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
             GUIShouts.MovieInfo = movieInfo;
             GUIShouts.Fanart = fanart;
+            GUIShouts.OnlineFanart = onlineFanart;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
         #endregion
 
         #region Show Shouts
-        public static void ShowTVShowShouts(string tvdb, string title, string fanart)
+        public static void ShowTVShowShouts(string tvdb, string title, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -492,12 +493,13 @@ namespace TraktPlugin
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
             GUIShouts.ShowInfo = seriesInfo;
             GUIShouts.Fanart = fanart;
+            GUIShouts.OnlineFanart = onlineFanart;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
         #endregion
 
         #region Episode Shouts
-        public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart)
+        public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -516,6 +518,7 @@ namespace TraktPlugin
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
             GUIShouts.EpisodeInfo = episodeInfo;
             GUIShouts.Fanart = fanart;
+            GUIShouts.OnlineFanart = onlineFanart;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
         #endregion

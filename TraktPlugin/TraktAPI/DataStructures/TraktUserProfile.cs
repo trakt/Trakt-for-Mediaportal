@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktUserProfile : INotifyPropertyChanged
+    public class TraktUser : INotifyPropertyChanged
     {
         [DataMember(Name = "username")]
         public string Username { get; set; }
@@ -43,13 +43,55 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [DataMember(Name = "stats")]
-        public Statistics Stats { get; set; }
-
         [DataMember(Name = "vip")]
         public bool VIP { get; set; }
 
+        #region INotifyPropertyChanged
+
+        /// <summary>
+        /// Path to local Avatar Image
+        /// </summary>
+        public string AvatarFilename
+        {
+            get
+            {
+                string filename = string.Empty;
+                if (!string.IsNullOrEmpty(Avatar))
+                {
+                    string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Avatars");
+                    filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(new Uri(Avatar).LocalPath));
+                }
+                return filename;
+            }
+            set
+            {
+                _AvatarFilename = value;
+            }
+        }
+        string _AvatarFilename = string.Empty;
+
+        /// <summary>
+        /// Notify image property change during async image downloading
+        /// Sends messages to facade to update image
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+    }
+
+    [DataContract]
+    public class TraktUserProfile : TraktUser
+    {
         #region Statistics
+
+        [DataMember(Name = "stats")]
+        public Statistics Stats { get; set; }
 
         [DataContract]
         public class Statistics
@@ -192,6 +234,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         #endregion
 
+        #region Watch Item
+
         [DataMember(Name = "watching")]
         public WatchItem Watching { get; set; }
 
@@ -203,8 +247,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "watched_movies")]
         public List<WatchItem> WatchedMovies { get; set; }
-
-        #region Watch Item
 
         [DataContract]
         public class WatchItem
@@ -233,43 +275,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 else
                     return Movie.Title;
             }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        /// <summary>
-        /// Path to local Avatar Image
-        /// </summary>
-        public string AvatarFilename
-        {
-            get
-            {
-                string filename = string.Empty;
-                if (!string.IsNullOrEmpty(Avatar))
-                {
-                    string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Avatars");
-                    filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(new Uri(Avatar).LocalPath));
-                }
-                return filename;
-            }
-            set
-            {
-                _AvatarFilename = value;
-            }
-        }
-        string _AvatarFilename = string.Empty;
-
-        /// <summary>
-        /// Notify image property change during async image downloading
-        /// Sends messages to facade to update image
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

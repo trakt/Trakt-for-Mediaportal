@@ -64,6 +64,7 @@ namespace TraktPlugin.GUI
         public static ShowShout ShowInfo { get; set; }
         public static EpisodeShout EpisodeInfo { get; set; }
         public static string Fanart { get; set; }
+        public static string OnlineFanart { get; set; }
 
         #endregion
 
@@ -281,7 +282,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Shouts : Translation.Shout));            
 
             int id = 0;
-            List<TraktShout.TraktUser> users = new List<TraktShout.TraktUser>();
+            List<TraktUser> users = new List<TraktUser>();
 
             // Add each user that shouted to the list
             foreach (var shout in shouts)
@@ -320,7 +321,10 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
-            GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
+            // only set property if file exists
+            // if we set now and download later, image will not set to skin
+            if (File.Exists(Fanart))
+                GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
 
             if (hideSpoilersButton != null)
             {
@@ -332,41 +336,18 @@ namespace TraktPlugin.GUI
         private void ClearProperties()
         {
             GUIUtils.SetProperty("#Trakt.Shouts.CurrentItem", string.Empty);
-
-            GUIUtils.SetProperty("#Trakt.User.About", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Age", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Avatar", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.AvatarFileName", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.FullName", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Gender", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.JoinDate", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Location", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Protected", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
-            GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
-
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
             GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
+
+            GUICommon.ClearUserProperties();
         }
 
         private void PublishShoutSkinProperties(TraktShout shout)
         {
             if (shout == null) return;
 
-            SetProperty("#Trakt.User.About", shout.User.About);
-            SetProperty("#Trakt.User.Age", shout.User.Age);
-            SetProperty("#Trakt.User.Avatar", shout.User.Avatar);
-            SetProperty("#Trakt.User.AvatarFileName", shout.User.AvatarFilename);
-            SetProperty("#Trakt.User.FullName", shout.User.FullName);
-            SetProperty("#Trakt.User.Gender", shout.User.Gender);
-            SetProperty("#Trakt.User.JoinDate", shout.User.JoinDate.FromEpoch().ToLongDateString());
-            SetProperty("#Trakt.User.Location", shout.User.Location);
-            SetProperty("#Trakt.User.Protected", shout.User.Protected);
-            SetProperty("#Trakt.User.Url", shout.User.Url);
-            SetProperty("#Trakt.User.Username", shout.User.Username);
-            SetProperty("#Trakt.User.VIP", shout.User.VIP.ToString());
+            GUICommon.SetUserProperties(shout.User);
 
             SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
@@ -385,17 +366,34 @@ namespace TraktPlugin.GUI
             PublishShoutSkinProperties(item.TVTag as TraktShout);
         }
 
-        private void GetImages(List<TraktShout.TraktUser> itemsWithThumbs)
+        private void GetImages(List<TraktUser> itemsWithThumbs)
         {
             StopDownload = false;
 
+            new Thread((o) =>
+                {
+                    // download fanart if we need to
+                    if (!File.Exists(Fanart) && !string.IsNullOrEmpty(OnlineFanart) && TraktSettings.DownloadFanart)
+                    {
+                        if (GUIImageHandler.DownloadImage(OnlineFanart, Fanart))
+                        {
+                            // notify that image has been downloaded
+                            GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
+                        }
+                    }
+                })
+                {
+                    IsBackground = true,
+                    Name = "ImageDownloader"
+                }.Start();
+            
             // split the downloads in 5+ groups and do multithreaded downloading
             int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
             int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
 
             for (int i = 0; i < groups; i++)
             {
-                List<TraktShout.TraktUser> groupList = new List<TraktShout.TraktUser>();
+                List<TraktUser> groupList = new List<TraktUser>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
@@ -403,7 +401,7 @@ namespace TraktPlugin.GUI
 
                 new Thread(delegate(object o)
                 {
-                    List<TraktShout.TraktUser> items = (List<TraktShout.TraktUser>)o;
+                    List<TraktUser> items = (List<TraktUser>)o;
                     foreach (var item in items)
                     {
                         // stop download if we have exited window
@@ -446,8 +444,8 @@ namespace TraktPlugin.GUI
                 INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is TraktShout.TraktUser && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktShout.TraktUser).AvatarFilename);
+                    if (s is TraktUser && e.PropertyName == "AvatarFilename")
+                        SetImageToGui((s as TraktUser).AvatarFilename);
                 };
             }
         } protected object _Item;
