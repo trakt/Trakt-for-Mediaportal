@@ -101,5 +101,12 @@ namespace TraktPlugin
             return double.TryParse(number, out retValue);
         }
 
+        public static string StripHTML(this string htmlString)
+        {
+            if (string.IsNullOrEmpty(htmlString)) return string.Empty;
+
+            string pattern = @"<(.|\n)*?>";
+            return Regex.Replace(htmlString, pattern, string.Empty);
+        }
     }
 }

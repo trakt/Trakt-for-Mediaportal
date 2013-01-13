@@ -357,7 +357,7 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                SetProperty("#Trakt.Shout.Text", shout.Shout);
+                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Shout).StripHTML());
             }
         }
 
