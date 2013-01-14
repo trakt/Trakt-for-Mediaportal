@@ -357,9 +357,11 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
-            // Fanart
-            GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.FanartImageFilename);
-
+            // only set property if file exists
+            // if we set now and download later, image will not set to skin
+            if (File.Exists(Show.Images.FanartImageFilename))
+                GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.FanartImageFilename);
+       
             // Load Show Properties
             PublishShowSkinProperties(Show);
 
@@ -395,6 +397,23 @@ namespace TraktPlugin.GUI
         private void GetImages(List<TraktShowSeason.SeasonImages> itemsWithThumbs)
         {
             StopDownload = false;
+
+            new Thread((o) =>
+            {
+                // download fanart if we need to
+                if (!File.Exists(Show.Images.FanartImageFilename) && !string.IsNullOrEmpty(Show.Images.Fanart) && TraktSettings.DownloadFanart)
+                {
+                    if (GUIImageHandler.DownloadImage(Show.Images.Fanart, Show.Images.FanartImageFilename))
+                    {
+                        // notify that image has been downloaded
+                        GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.FanartImageFilename);
+                    }
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "ImageDownloader"
+            }.Start();
 
             // split the downloads in 5+ groups and do multithreaded downloading
             int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
