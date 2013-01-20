@@ -3031,23 +3031,27 @@ public class Script
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>2</Major>
-      <Minor>3</Minor>
+      <Minor>5</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added support for MediaPortal 1.3 Default skins. Installer will install correct ones based on installed version of MediaPortal.
-
-* Added 'Season Information' context menu item to Calendar GUI.
-
-* Open Users personal list when clicking on a list/watchlist activity from the dashboard.
-
-* Updated Italian translations, thanks Marduk65.</VersionDescription>
+    <VersionDescription>* Added support for scrobbling from Argus TV (Live and Recordings).
+* Fixed a duplicate field in German translations.
+* Added support for 'Add to Watchlist' from Showtimes Details view. Skins can add this button similar to OnlineVideos Trailers.
+* Updated Swedish translations, thanks emphatic.
+* Updated logging with better formatting.
+* Fixed movie matching during library sync when both the trakt and local movies are missing an IMDb Id.
+* Improved movie matching in My Films library sync, will now also use TMDb Id if available.
+* Fixed toggle buttons in Recommendations GUI not showing label in MediaPortal 1.2.
+* Added fanart download for Shouts and TVShow Season/Episode GUI, previously relied on the fanart already available,
+* Removed HTML Tags and Entities from Shouts, these are advanced formatting tags which can be possibly used by people when entering shouts online.
+* Replaced some common unicode characters which cause skin issues before publishing to skin, this will help avoid issues seen with text not set with-in the bounds of the textbox height defined by the skin.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2012-12-22T10:00:00</ReleaseDate>
+    <ReleaseDate>2013-01-20T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -5568,14 +5572,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{e200109f-d92b-4082-8459-56bcdfc50607}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{c896fb1f-f946-45e8-b797-c01624648b42}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{6bde387e-95a3-40f0-9446-fc4d047b7e5d}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{e73a97e4-45fe-406e-9b45-752609e43328}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
