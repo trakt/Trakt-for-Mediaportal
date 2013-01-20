@@ -729,7 +729,7 @@ namespace TraktPlugin.GUI
             if (hideWatchlistedButton != null)
             {
                 hideWatchlistedButton.Selected = HideWatchlisted;
-                GUIControl.SetControlLabel(GetID, hideCollectedButton.GetID, Translation.HideWatchlisted);
+                GUIControl.SetControlLabel(GetID, hideWatchlistedButton.GetID, Translation.HideWatchlisted);
             }
 
             // start/end year

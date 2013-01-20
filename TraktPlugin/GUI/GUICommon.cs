@@ -784,7 +784,7 @@ namespace TraktPlugin.GUI
 
         internal static void SetUserProperties(TraktUser user)
         {
-            SetProperty("#Trakt.User.About", user.About);
+            SetProperty("#Trakt.User.About", user.About.RemapHighOrderChars());
             SetProperty("#Trakt.User.Age", user.Age);
             SetProperty("#Trakt.User.Avatar", user.Avatar);
             SetProperty("#Trakt.User.AvatarFileName", user.AvatarFilename);
@@ -834,11 +834,11 @@ namespace TraktPlugin.GUI
 
             SetProperty("#Trakt.Movie.Imdb", movie.IMDBID);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
-            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview);
+            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Released", movie.Released.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime.ToString());
             SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
-            SetProperty("#Trakt.Movie.Title", movie.Title);
+            SetProperty("#Trakt.Movie.Title", movie.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Tmdb", movie.TMDBID);
             SetProperty("#Trakt.Movie.Trailer", movie.Trailer);
             SetProperty("#Trakt.Movie.Url", movie.Url);
@@ -914,7 +914,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Imdb", show.Imdb);
             SetProperty("#Trakt.Show.Tvdb", show.Tvdb);
             SetProperty("#Trakt.Show.TvRage", show.TvRage);
-            SetProperty("#Trakt.Show.Title", show.Title);
+            SetProperty("#Trakt.Show.Title", show.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Url", show.Url);
             SetProperty("#Trakt.Show.AirDay", show.AirDay);
             SetProperty("#Trakt.Show.AirTime", show.AirTime);
@@ -922,7 +922,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Country", show.Country);
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Show.Network", show.Network);
-            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview);
+            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
             SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
@@ -973,9 +973,9 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Season", episode.Season.ToString());
             SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired == 0 ? " " : episode.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Episode.FirstAiredLocalized", episode.FirstAiredLocalized == 0 ? " " : episode.FirstAiredLocalized.FromEpoch().ToShortDateString());
-            SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Number.ToString()) : episode.Title);
+            SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Number.ToString()) : episode.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Episode.Url", episode.Url);
-            SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Overview) ? Translation.NoEpisodeSummary : episode.Overview);
+            SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Overview) ? Translation.NoEpisodeSummary : episode.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Episode.Runtime", episode.Runtime.ToString());
             SetProperty("#Trakt.Episode.InWatchList", episode.InWatchList.ToString());
             SetProperty("#Trakt.Episode.InCollection", episode.InCollection.ToString());
