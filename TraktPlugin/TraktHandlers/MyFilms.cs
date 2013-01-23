@@ -165,26 +165,24 @@ namespace TraktPlugin.TraktHandlers
                 // if it is in both libraries
                 foreach (MFMovie libraryMovie in MovieList.Where(m => MovieMatch(m, tlm)))
                 {
-                    // If we have a matched IMdb Id ...
-                    if (BasicHandler.IsValidImdb(tlm.IMDBID))
+                    // If the users IMDb Id is empty/invalid and we have matched one then set it
+                    if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
                     {
-                      // If the users IMDb Id is empty/invalid and we have matched one then set it
-                      if (!BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
-                      {
                         TraktLogger.Info("Movie '{0}' inserted IMDb Id '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
                         libraryMovie.Username = TraktSettings.Username;
                         libraryMovie.Commit();
-                      }
-
-                      // If the users TMDb Id is empty/invalid and we have one then set it
-                      if (!string.IsNullOrEmpty(tlm.TMDBID) && string.IsNullOrEmpty(libraryMovie.TMDBNumber))
-                      {
-                        TraktLogger.Info("Movie '{0}' inserted TMDb Id '{1}'", libraryMovie.Title, tlm.TMDBID);
-                        libraryMovie.TMDBNumber = tlm.TMDBID;
-                      }
                     }
 
+                    // If the users TMDb Id is empty/invalid and we have one then set it
+                    if (string.IsNullOrEmpty(libraryMovie.TMDBNumber) && !string.IsNullOrEmpty(tlm.TMDBID))
+                    {
+                        TraktLogger.Info("Movie '{0}' inserted TMDb Id '{1}'", libraryMovie.Title, tlm.TMDBID);
+                        libraryMovie.TMDBNumber = tlm.TMDBID;
+                        libraryMovie.Username = TraktSettings.Username;
+                        libraryMovie.Commit();
+                    }
+                    
                     // if it is watched in Trakt but not My Films update
                     // skip if movie is watched but user wishes to have synced as unseen locally
                     if (tlm.Plays > 0 && !tlm.UnSeen && libraryMovie.Watched == false)
