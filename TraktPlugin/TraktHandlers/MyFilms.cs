@@ -165,13 +165,24 @@ namespace TraktPlugin.TraktHandlers
                 // if it is in both libraries
                 foreach (MFMovie libraryMovie in MovieList.Where(m => MovieMatch(m, tlm)))
                 {
-                    // If the users IMDb Id is empty/invalid and we have matched one then set it
-                    if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
+                    // If we have a matched IMdb Id ...
+                    if (BasicHandler.IsValidImdb(tlm.IMDBID))
                     {
+                      // If the users IMDb Id is empty/invalid and we have matched one then set it
+                      if (!BasicHandler.IsValidImdb(libraryMovie.IMDBNumber))
+                      {
                         TraktLogger.Info("Movie '{0}' inserted IMDb Id '{1}'", libraryMovie.Title, tlm.IMDBID);
                         libraryMovie.IMDBNumber = tlm.IMDBID;
                         libraryMovie.Username = TraktSettings.Username;
                         libraryMovie.Commit();
+                      }
+
+                      // If the users TMDb Id is empty/invalid and we have one then set it
+                      if (!string.IsNullOrEmpty(tlm.TMDBID) && string.IsNullOrEmpty(libraryMovie.TMDBNumber))
+                      {
+                        TraktLogger.Info("Movie '{0}' inserted TMDb Id '{1}'", libraryMovie.Title, tlm.TMDBID);
+                        libraryMovie.TMDBNumber = tlm.TMDBID;
+                      }
                     }
 
                     // if it is watched in Trakt but not My Films update
@@ -227,7 +238,7 @@ namespace TraktPlugin.TraktHandlers
             #region Send Library/Collection
             TraktLogger.Info("{0} movies need to be added to Library", moviesToSync.Count.ToString());
             foreach (MFMovie m in moviesToSync)
-                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
+                TraktLogger.Info("Sending movie to trakt library, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.IMDBNumber, m.TMDBNumber);
 
             if (moviesToSync.Count > 0)
             {
@@ -241,7 +252,7 @@ namespace TraktPlugin.TraktHandlers
             #region Send Seen
             TraktLogger.Info("{0} movies need to be added to SeenList", watchedMoviesToSync.Count.ToString());
             foreach (MFMovie m in watchedMoviesToSync)
-                TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}", m.Title, m.Year.ToString(), m.IMDBNumber);
+              TraktLogger.Info("Sending movie to trakt as seen, Title: {0}, Year: {1}, IMDb: {2}, TMDb: {3}", m.Title, m.Year.ToString(), m.IMDBNumber, m.TMDBNumber);
 
             if (watchedMoviesToSync.Count > 0)
             {
@@ -597,6 +608,7 @@ namespace TraktPlugin.TraktHandlers
                                                      select new TraktMovieSync.Movie
                                                      {
                                                          IMDBID = m.IMDBNumber,
+                                                         TMDBID = m.TMDBNumber,
                                                          Title = m.Title,
                                                          Year = m.Year.ToString()
                                                      }).ToList();
@@ -627,6 +639,7 @@ namespace TraktPlugin.TraktHandlers
             moviesList.Add(new TraktMovieSync.Movie
             {
                 IMDBID = Movie.IMDBNumber,
+                TMDBID = Movie.TMDBNumber,
                 Title = Movie.Title,
                 Year = Movie.Year.ToString()
             });
@@ -658,6 +671,7 @@ namespace TraktPlugin.TraktHandlers
                 Title = movie.Title,
                 Year = movie.Year.ToString(),
                 IMDBID = movie.IMDBNumber,
+                TMDBID = movie.TMDBNumber,
                 PluginVersion = TraktSettings.Version,
                 MediaCenter = "Mediaportal",
                 MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
@@ -681,7 +695,7 @@ namespace TraktPlugin.TraktHandlers
                 Title = movie.Title,
                 Year = movie.Year.ToString(),
                 IMDBID = movie.IMDBNumber,
-                TMDBID = null,
+                TMDBID = movie.TMDBNumber,
                 UserName = username,
                 Password = password,
                 Rating = rating
@@ -698,6 +712,7 @@ namespace TraktPlugin.TraktHandlers
                               select new TraktRateMovies.Movie
                               {
                                   IMDBID = m.IMDBNumber,
+                                  TMDBID = m.TMDBNumber,
                                   Title = m.Title,
                                   Year = m.Year,
                                   Rating = Convert.ToInt32(Math.Round(Convert.ToDecimal(m.RatingUser), MidpointRounding.AwayFromZero))
