@@ -61,7 +61,7 @@
           <id>50</id>
           <height>360</height>
           <width>1066</width>
-          <onleft>2</onleft>
+          <onleft>3</onleft>
           <onright>50</onright>
           <spinCanFocus>no</spinCanFocus>
         </control>
@@ -123,6 +123,28 @@
           <animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
           <animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
           <control>
+            <description>Next Episode</description>
+            <type>button</type>
+            <id>3</id>
+            <width>293</width>
+            <label>209</label>
+            <onleft>4</onleft>
+            <onright>50</onright>
+            <onup>21</onup>
+            <ondown>4</ondown>
+          </control>
+            <control>
+            <description>Previous Episode</description>
+            <type>button</type>
+            <id>4</id>
+            <width>293</width>
+            <label>210</label>
+            <onleft>2</onleft>
+            <onright>50</onright>
+            <onup>3</onup>
+            <ondown>2</ondown>
+          </control>
+          <control>
             <description>Toggle Hide Spoilers</description>
             <type>checkbutton</type>
             <id>2</id>
@@ -130,7 +152,7 @@
             <label>-</label>
             <onleft>2</onleft>
             <onright>50</onright>
-            <onup>21</onup>
+            <onup>4</onup>
           </control>
         </control>
       </control>
@@ -170,6 +192,7 @@
       <font>font14</font>
       <label>#Trakt.Shout.Text</label>
       <scrollStartDelaySec>12</scrollStartDelaySec>
+      <seperator>-----------------------------------------------------------------------------</seperator>
     </control>
   </controls>
 </window>

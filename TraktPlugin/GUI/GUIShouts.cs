@@ -26,6 +26,12 @@ namespace TraktPlugin.GUI
         [SkinControl(2)]
         protected GUICheckButton hideSpoilersButton = null;
 
+        [SkinControl(3)]
+        protected GUIButtonControl nextEpisodeButton = null;
+
+        [SkinControl(4)]
+        protected GUIButtonControl prevEpisodeButton = null;
+
         #endregion
 
         #region Enums
@@ -33,7 +39,9 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             Shout,
-            Spoilers
+            Spoilers,
+            NextEpisode,
+            PrevEpisode
         }
 
         public enum ShoutTypeEnum
@@ -54,7 +62,8 @@ namespace TraktPlugin.GUI
         #region Private Properties
 
         bool StopDownload { get; set; }
-       
+        bool ExitIfNoShoutsFound { get; set; }
+
         #endregion
 
         #region Public Properties
@@ -95,6 +104,9 @@ namespace TraktPlugin.GUI
 
             // Initialize
             InitProperties();
+            
+            // Enable/Disable GUI prev/next buttons
+            EnableGUIButtons();
 
             // Load Shouts for Selected item
             LoadShoutsList();
@@ -126,6 +138,16 @@ namespace TraktPlugin.GUI
                     PublishShoutSkinProperties(Facade.SelectedListItem.TVTag as TraktShout);
                     break;
 
+                // Next Episode
+                case (3):
+                    GetNextEpisodeShouts();
+                    break;
+
+                // Previous Episode
+                case (4):
+                    GetPrevEpisodeShouts();
+                    break;
+
                 default:
                     break;
             }
@@ -147,7 +169,22 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem listItem = null;            
+            GUIListItem listItem = null;
+
+            if (ShoutType == ShoutTypeEnum.episode)
+            {
+                listItem = new GUIListItem(Translation.NextEpisode);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.NextEpisode;
+
+                if (int.Parse(EpisodeInfo.EpisodeIdx) > 1)
+                {
+                    listItem = new GUIListItem(Translation.PreviousEpisode);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.PrevEpisode;
+                }
+            }
+
             listItem = new GUIListItem(TraktSettings.HideSpoilersOnShouts ? Translation.ShowSpoilers : Translation.HideSpoilers);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Spoilers;
@@ -164,6 +201,14 @@ namespace TraktPlugin.GUI
                     PublishShoutSkinProperties(selectedShout);
                     break;
 
+                case ((int)ContextMenuItem.NextEpisode):
+                    GetNextEpisodeShouts();
+                    break;
+
+                case ((int)ContextMenuItem.PrevEpisode):
+                    GetPrevEpisodeShouts();
+                    break;
+
                 default:
                     break;
             }
@@ -174,6 +219,72 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void GetNextEpisodeShouts()
+        {
+            if (ShoutType != ShoutTypeEnum.episode) return;
+
+            var episodeIndex = int.Parse(EpisodeInfo.EpisodeIdx);
+            var seasonIndex = int.Parse(EpisodeInfo.SeasonIdx);
+
+            // increment by 1 episode
+            EpisodeInfo.EpisodeIdx = (episodeIndex + 1).ToString();
+
+            // flag to indicate we dont want to exit if no shouts found
+            ExitIfNoShoutsFound = false;
+
+            LoadShoutsList();
+
+            // set focus back to facade
+            GUIControl.FocusControl(GetID, Facade.GetID);
+        }
+
+        private void GetPrevEpisodeShouts()
+        {
+            if (ShoutType != ShoutTypeEnum.episode) return;
+
+            var episodeIndex = int.Parse(EpisodeInfo.EpisodeIdx);
+            var seasonIndex = int.Parse(EpisodeInfo.SeasonIdx);
+
+            // there is no episode 0
+            if (episodeIndex == 1) return;
+
+            // decrement by 1 episode
+            EpisodeInfo.EpisodeIdx = (episodeIndex - 1).ToString();
+
+            // flag to indicate we dont want to exit if no shouts found
+            ExitIfNoShoutsFound = false;
+
+            LoadShoutsList();
+
+            // set focus back to facade
+            GUIControl.FocusControl(GetID, Facade.GetID);
+        }
+
+        private void EnableGUIButtons()
+        {
+            if (nextEpisodeButton == null || prevEpisodeButton == null) return;
+
+            // only enable episode buttons for episode shouts
+            if (ShoutType != ShoutTypeEnum.episode)
+            {
+                GUIControl.DisableControl(GetID, nextEpisodeButton.GetID);
+                GUIControl.DisableControl(GetID, prevEpisodeButton.GetID);
+                return;
+            }
+
+            // we could get the max episode number and disable next button
+            // on last episode, for now, lets not do the extra request and 
+            // rely on notify to popup indicating no more shouts.
+            GUIControl.EnableControl(GetID, nextEpisodeButton.GetID);
+            GUIControl.EnableControl(GetID, prevEpisodeButton.GetID);
+
+            // if episode one, then disable prev button
+            if (int.Parse(EpisodeInfo.EpisodeIdx) <= 1)
+            {
+                GUIControl.DisableControl(GetID, prevEpisodeButton.GetID);
+            }
+        }
 
         private void LoadShoutsList()
         {
@@ -272,10 +383,14 @@ namespace TraktPlugin.GUI
                             title = string.Format(EpisodeInfo.ToString());
                             break;
                     }
+                    ClearProperties();
                     GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoShoutsForItem, title));
                 }
-                GUIWindowManager.ShowPreviousWindow();
-                return;
+                if (ExitIfNoShoutsFound)
+                {
+                    GUIWindowManager.ShowPreviousWindow();
+                    return;
+                }
             }
 
             GUIUtils.SetProperty("#itemcount", shouts.Count().ToString());
@@ -303,11 +418,21 @@ namespace TraktPlugin.GUI
                 users.Add(shout.User);
             }
 
-            // Set Facade Layout
-            Facade.SetCurrentLayout("List");
-            GUIControl.FocusControl(GetID, Facade.GetID);
+            // Enable / Disable GUI Controls
+            EnableGUIButtons();
 
-            Facade.SelectedListItemIndex = 0;
+            // Set Facade Layout
+            if (Facade.Count > 0)
+            {
+                Facade.SetCurrentLayout("List");
+                GUIControl.FocusControl(GetID, Facade.GetID);
+
+                Facade.SelectedListItemIndex = 0;
+            }
+            else
+            {
+                GUIControl.FocusControl(GetID, nextEpisodeButton.GetID);
+            }
 
             // Download avatars Async and set to facade            
             GetImages(users);
@@ -321,6 +446,8 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            ExitIfNoShoutsFound = true;
+
             // only set property if file exists
             // if we set now and download later, image will not set to skin
             if (File.Exists(Fanart))
@@ -357,7 +484,7 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Shout).StripHTML());
+                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Shout.RemapHighOrderChars()).StripHTML());
             }
         }
 

@@ -221,6 +221,7 @@ namespace TraktPlugin.TraktHandlers
             if (TraktSettings.SyncRatings)
             {
                 #region Episode Ratings
+                TraktLogger.Info("Getting rated episodes from trakt");
                 var traktRatedEpisodes = TraktAPI.TraktAPI.GetUserRatedEpisodes(TraktSettings.Username);
                 if (traktRatedEpisodes == null)
                     TraktLogger.Error("Error getting rated episodes from trakt server.");
@@ -273,6 +274,7 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 #region Show Ratings
+                TraktLogger.Info("Getting rated shows from trakt");
                 var traktRatedShows = TraktAPI.TraktAPI.GetUserRatedShows(TraktSettings.Username);
                 if (traktRatedShows == null)
                     TraktLogger.Error("Error getting rated shows from trakt server.");

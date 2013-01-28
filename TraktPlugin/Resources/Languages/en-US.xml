@@ -214,6 +214,7 @@
   <!-- N -->
   <string Field="Name">Name</string>
   <string Field="Network">Network</string>
+  <string Field="NextEpisode">Next Episode</string>
   <string Field="NextWeek">Next Week</string>
   <string Field="NoActivities">No Activity Found.</string>
   <string Field="NoEpisodesInSeason">No Episodes are available in Season.</string>
@@ -258,6 +259,7 @@
   <string Field="Plugin">Plugin</string>
   <string Field="Plugins">Plugins</string>
   <string Field="Public">Public</string>
+  <string Field="PreviousEpisode">Previous Episode</string>
   <string Field="Private">Private</string>
   <string Field="Privacy">Privacy</string>
   <string Field="PrivacyPublic">Anyone can view this list</string>

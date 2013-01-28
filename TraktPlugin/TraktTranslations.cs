@@ -403,6 +403,7 @@ namespace TraktPlugin.GUI
         // N
         public static string Name = "Name";
         public static string Network = "Network";
+        public static string NextEpisode = "Next Episode";
         public static string NextWeek = "Next Week";
         public static string NoActivities = "No Activity Found.";
         public static string NoEpisodesInSeason = "No Episodes are available in Season.";
@@ -447,6 +448,7 @@ namespace TraktPlugin.GUI
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";
         public static string Public = "Public";
+        public static string PreviousEpisode = "Previous Episode";
         public static string Private = "Private";
         public static string Privacy = "Privacy";
         public static string PrivacyPublic = "Anyone can view this list";
