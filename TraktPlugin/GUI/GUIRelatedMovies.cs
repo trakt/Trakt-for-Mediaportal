@@ -148,6 +148,12 @@ namespace TraktPlugin.GUI
         {
             base.OnPageLoad();
 
+            if (relatedMovie == null)
+            {
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
+
             // Clear GUI Properties
             ClearProperties();
 
