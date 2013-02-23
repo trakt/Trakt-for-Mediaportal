@@ -3031,27 +3031,19 @@ public class Script
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>2</Major>
-      <Minor>5</Minor>
+      <Minor>6</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added support for scrobbling from Argus TV (Live and Recordings).
-* Fixed a duplicate field in German translations.
-* Added support for 'Add to Watchlist' from Showtimes Details view. Skins can add this button similar to OnlineVideos Trailers.
-* Updated Swedish translations, thanks emphatic.
-* Updated logging with better formatting.
-* Fixed movie matching during library sync when both the trakt and local movies are missing an IMDb Id.
-* Improved movie matching in My Films library sync, will now also use TMDb Id if available.
-* Fixed toggle buttons in Recommendations GUI not showing label in MediaPortal 1.2.
-* Added fanart download for Shouts and TVShow Season/Episode GUI, previously relied on the fanart already available,
-* Removed HTML Tags and Entities from Shouts, these are advanced formatting tags which can be possibly used by people when entering shouts online.
-* Replaced some common unicode characters which cause skin issues before publishing to skin, this will help avoid issues seen with text not set with-in the bounds of the textbox height defined by the skin.</VersionDescription>
+    <VersionDescription>* Added Next/Previous episode support from Shouts window. Users can use the context menu for unsupported skins.
+* Improved usage of TMDb Id's in MyFilms Library Sync and Scrobble. Thanks Guzzi.
+* Return to Home screen if resuming MediaPortal into Related Movie/Shows window.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2013-01-20T10:00:00</ReleaseDate>
+    <ReleaseDate>2013-02-24T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
