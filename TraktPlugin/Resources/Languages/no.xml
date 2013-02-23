@@ -2,226 +2,226 @@
 <!-- Trakt translation file -->
 <!-- Norwegian (NO) -->
 <!-- Note: English is the fallback for any strings not found in other languages -->
-<strings>
+<resources>
   <!-- A -->
-  <string Field="Account">Konto</string>
-  <string Field="AccountSetup">Oppsett for konto</string>
-  <string Field="AccountDialog">Dialog konto</string>
-  <string Field="AddFriend">Add Friend...</string>
-  <string Field="AddToLibrary">Legg til i biblioteket</string>
-  <string Field="AddToWatchList">Legg til i ønsker å se</string>
-  <string Field="AddShowToWatchList">Add Show to Watch List</string>
-  <string Field="AddEpisodeToWatchList">Add Episode to Watch List</string>
-  <string Field="AddThisItemToWatchList">Add this item to your watch list?</string>
-  <string Field="Age">Age</string>
-  <string Field="AirDate">Dato</string>
-  <string Field="AirDay">Dag</string>
-  <string Field="AirTime">Klokkeslett</string>
-  <string Field="Approve">Approve</string>
-  <string Field="ApprovedDate">Approved Date</string>
-  <string Field="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string name="Account">Konto</string>
+  <string name="AccountSetup">Oppsett for konto</string>
+  <string name="AccountDialog">Dialog konto</string>
+  <string name="AddFriend">Add Friend...</string>
+  <string name="AddToLibrary">Legg til i biblioteket</string>
+  <string name="AddToWatchList">Legg til i ønsker å se</string>
+  <string name="AddShowToWatchList">Add Show to Watch List</string>
+  <string name="AddEpisodeToWatchList">Add Episode to Watch List</string>
+  <string name="AddThisItemToWatchList">Add this item to your watch list?</string>
+  <string name="Age">Age</string>
+  <string name="AirDate">Dato</string>
+  <string name="AirDay">Dag</string>
+  <string name="AirTime">Klokkeslett</string>
+  <string name="Approve">Approve</string>
+  <string name="ApprovedDate">Approved Date</string>
+  <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
   
   <!-- B -->
   
   <!-- C -->
-  <string Field="Cancel">Avbryt</string>
-  <string Field="Calendar">Kalender</string>
-  <string Field="CalendarMyShows">Mine Serier</string>
-  <string Field="CalendarPremieres">Premiere</string>
-  <string Field="CalendarAllShows">All Shows</string>
-  <string Field="Certification">Sertifisering</string>
-  <string Field="ChangeView">Bytt visning...</string>
-  <string Field="ChangeLayout">Bytt utseende...</string>
-  <string Field="Create">Lag</string>
-  <string Field="CreateAccount">Lag konto</string>
-  <string Field="CreateNewAccount">Lag ny konto...</string>
-  <string Field="CreatingAccount">Lager konto...</string>
+  <string name="Cancel">Avbryt</string>
+  <string name="Calendar">Kalender</string>
+  <string name="CalendarMyShows">Mine Serier</string>
+  <string name="CalendarPremieres">Premiere</string>
+  <string name="CalendarAllShows">All Shows</string>
+  <string name="Certification">Sertifisering</string>
+  <string name="ChangeView">Bytt visning...</string>
+  <string name="ChangeLayout">Bytt utseende...</string>
+  <string name="Create">Lag</string>
+  <string name="CreateAccount">Lag konto</string>
+  <string name="CreateNewAccount">Lag ny konto...</string>
+  <string name="CreatingAccount">Lager konto...</string>
   
   <!-- D -->
-  <string Field="DateToday">Today</string>
-  <string Field="DateYesterday">Yesterday</string>
-  <string Field="DateOneWeekAgo">1 Week Ago</string>
-  <string Field="DateTwoWeeksAgo">2 Weeks Ago</string>
-  <string Field="DateOneMonthAgo">1 Month Ago</string>
-  <string Field="Deny">Deny</string>
-  <string Field="DeleteFriend">Delete Friend</string>
-  <string Field="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
-  <string Field="DisconnectAccount">Koble fra konto: {0}</string>
-  <string Field="DownloadFanart">Last ned Fanart</string>
-  <string Field="DownloadFullSizeFanart">Bruk original størrelse på Fanart</string>
+  <string name="DateToday">Today</string>
+  <string name="DateYesterday">Yesterday</string>
+  <string name="DateOneWeekAgo">1 Week Ago</string>
+  <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
+  <string name="DateOneMonthAgo">1 Month Ago</string>
+  <string name="Deny">Deny</string>
+  <string name="DeleteFriend">Delete Friend</string>
+  <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string name="DisconnectAccount">Koble fra konto: {0}</string>
+  <string name="DownloadFanart">Last ned Fanart</string>
+  <string name="DownloadFullSizeFanart">Bruk original størrelse på Fanart</string>
   
   <!-- E -->
-  <string Field="Email">Epost</string>
-  <string Field="Episode">Episode</string>
-  <string Field="Episodes">Episoder</string>
-  <string Field="Error">Feil med Trakt</string>
-  <string Field="ErrorCalendar">Feil ved henting av kalender.</string>
+  <string name="Email">Epost</string>
+  <string name="Episode">Episode</string>
+  <string name="Episodes">Episoder</string>
+  <string name="Error">Feil med Trakt</string>
+  <string name="ErrorCalendar">Feil ved henting av kalender.</string>
   
   <!-- F -->
-  <string Field="FirstAired">Først sendt</string>
-  <string Field="Friend">Venn</string>
-  <string Field="Friends">Venner</string>
-  <string Field="FriendRequest">Friend Request</string>
-  <string Field="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
-  <string Field="FullName">Fult Navn</string>
+  <string name="FirstAired">Først sendt</string>
+  <string name="Friend">Venn</string>
+  <string name="Friends">Venner</string>
+  <string name="FriendRequest">Friend Request</string>
+  <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
+  <string name="FullName">Fult Navn</string>
   
   <!-- G -->
-  <string Field="Gender">Kjønn</string>
-  <string Field="General">Generelt</string>
-  <string Field="GeneralSettings">Generelle innstillinger</string>
-  <string Field="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
-  <string Field="GettingCalendar">Henter kalender</string>
-  <string Field="GettingFriendsList">Henter liste med venner</string>
-  <string Field="GettingFriendsRequests">Getting Friend Requests</string>
-  <string Field="GettingFriendsWatchedHistory">Henter hva venner har sett</string>
-  <string Field="GettingSearchResults">Getting Search Results</string>
-  <string Field="GettingShouts">Getting Shouts</string>
-  <string Field="GettingTrendingMovies">Henter populære filmer</string>
-  <string Field="GettingTrendingShows">Henter populære serier</string>
-  <string Field="GettingRecommendedMovies">Henter anbefalte filmer</string>
-  <string Field="GettingRecommendedShows">Henter anbefalte serier</string>
-  <string Field="GettingWatchListMovies">Henter liste med sette filmer</string>
-  <string Field="GettingWatchListShows">Henter liste med sette serier</string>
-  <string Field="GettingWatchListEpisodes">Henter liste med sette episoder</string>
+  <string name="Gender">Kjønn</string>
+  <string name="General">Generelt</string>
+  <string name="GeneralSettings">Generelle innstillinger</string>
+  <string name="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
+  <string name="GettingCalendar">Henter kalender</string>
+  <string name="GettingFriendsList">Henter liste med venner</string>
+  <string name="GettingFriendsRequests">Getting Friend Requests</string>
+  <string name="GettingFriendsWatchedHistory">Henter hva venner har sett</string>
+  <string name="GettingSearchResults">Getting Search Results</string>
+  <string name="GettingShouts">Getting Shouts</string>
+  <string name="GettingTrendingMovies">Henter populære filmer</string>
+  <string name="GettingTrendingShows">Henter populære serier</string>
+  <string name="GettingRecommendedMovies">Henter anbefalte filmer</string>
+  <string name="GettingRecommendedShows">Henter anbefalte serier</string>
+  <string name="GettingWatchListMovies">Henter liste med sette filmer</string>
+  <string name="GettingWatchListShows">Henter liste med sette serier</string>
+  <string name="GettingWatchListEpisodes">Henter liste med sette episoder</string>
   
   <!-- H -->
-  <string Field="Hate">Hater</string>
-  <string Field="Hated">Hatet</string>
-  <string Field="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string name="Hate">Hater</string>
+  <string name="Hated">Hatet</string>
+  <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   
   <!-- I -->
-  <string Field="Inserted">Satt inn</string>
+  <string name="Inserted">Satt inn</string>
   
   <!-- K -->
   
   <!-- J -->
-  <string Field="JoinDate">Ble med den</string>
-  <string Field="Joined">Blitt med</string>
+  <string name="JoinDate">Ble med den</string>
+  <string name="Joined">Blitt med</string>
   
   <!-- L -->
-  <string Field="Location">Lokasjon</string>
-  <string Field="Layout">Utseende</string>
-  <string Field="Love">Liker</string>
-  <string Field="Loved">Likt</string>
-  <string Field="LoginExistingAccount">Logg inn på eksisterende konto...</string>
-  <string Field="LoggedIn">Innlogget</string>
-  <string Field="Login">Logg inn</string>
+  <string name="Location">Lokasjon</string>
+  <string name="Layout">Utseende</string>
+  <string name="Love">Liker</string>
+  <string name="Loved">Likt</string>
+  <string name="LoginExistingAccount">Logg inn på eksisterende konto...</string>
+  <string name="LoggedIn">Innlogget</string>
+  <string name="Login">Logg inn</string>
   
   <!-- M -->
-  <string Field="MarkAsWatched">Merk som sett</string>
-  <string Field="Movie">Film</string>
-  <string Field="Movies">Filmer</string>
+  <string name="MarkAsWatched">Merk som sett</string>
+  <string name="Movie">Film</string>
+  <string name="Movies">Filmer</string>
   
   <!-- N -->
-  <string Field="Name">Navn</string>
-  <string Field="Network">Kanal</string>
-  <string Field="NextWeek">Neste uke</string>
-  <string Field="NoEpisodeSummary">Episode oppsummering ikke tigjengelig.</string>
-  <string Field="NoEpisodesThisWeek">Ingen episode denne uke</string>
-  <string Field="NoMovieSummary">Film oppsummering ikke tigjengelig.</string>
-  <string Field="NoShowSummary">Serie oppsummering ikke tigjengelig.</string>
-  <string Field="NoFriends">Ingen venner!</string>
-  <string Field="NoFriendsTaunt">Du har ingen venner!</string>
-  <string Field="NoTrendingMovies">Ingen filmer blir vises for øyeblikket!</string>
-  <string Field="NoTrendingShows">Ingen serier vises for øyeblikket!</string>
-  <string Field="NoShowWatchList">{0} has no shows in Watch List!</string>
-  <string Field="NoMovieWatchList">{0} has no movies in Watch List!</string>
-  <string Field="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
-  <string Field="NoMovieWatchList">Ingen filmer i sett listen!</string>
-  <string Field="NoEpisodeWatchList">Ingen episoder i sett listen!</string>
-  <string Field="NoShoutsForItem">No Shouts for {0}!</string>
-  <string Field="NoPluginsEnabled">Du har ikke konfigurert tillegget i innstillinger.\nVil du konfigurere tillegget nå?</string>
-  <string Field="NotLoggedIn">Du må være logget inn for å vise dette området.\nVil du bli med eller logge inn\npå trakt.tv nå?</string>
-  <string Field="NoSearchResultsFound">No Search Results Found</string>
+  <string name="Name">Navn</string>
+  <string name="Network">Kanal</string>
+  <string name="NextWeek">Neste uke</string>
+  <string name="NoEpisodeSummary">Episode oppsummering ikke tigjengelig.</string>
+  <string name="NoEpisodesThisWeek">Ingen episode denne uke</string>
+  <string name="NoMovieSummary">Film oppsummering ikke tigjengelig.</string>
+  <string name="NoShowSummary">Serie oppsummering ikke tigjengelig.</string>
+  <string name="NoFriends">Ingen venner!</string>
+  <string name="NoFriendsTaunt">Du har ingen venner!</string>
+  <string name="NoTrendingMovies">Ingen filmer blir vises for øyeblikket!</string>
+  <string name="NoTrendingShows">Ingen serier vises for øyeblikket!</string>
+  <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
+  <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
+  <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string name="NoMovieWatchList">Ingen filmer i sett listen!</string>
+  <string name="NoEpisodeWatchList">Ingen episoder i sett listen!</string>
+  <string name="NoShoutsForItem">No Shouts for {0}!</string>
+  <string name="NoPluginsEnabled">Du har ikke konfigurert tillegget i innstillinger.\nVil du konfigurere tillegget nå?</string>
+  <string name="NotLoggedIn">Du må være logget inn for å vise dette området.\nVil du bli med eller logge inn\npå trakt.tv nå?</string>
+  <string name="NoSearchResultsFound">No Search Results Found</string>
   
   <!-- O -->
-  <string Field="OK">OK</string>
-  <string Field="Overview">Oversikt</string>
+  <string name="OK">OK</string>
+  <string name="Overview">Oversikt</string>
   
   <!-- P -->
-  <string Field="Password">Passord</string>
-  <string Field="People">People</string>
-  <string Field="Percentage">Prosent</string>
-  <string Field="Protected">Beskyttet</string>
-  <string Field="PersonWatching">1 Person ser på</string>
-  <string Field="PeopleWatching">{0} Personer ser på</string>
-  <string Field="Plugins">Tillegg</string>
+  <string name="Password">Passord</string>
+  <string name="People">People</string>
+  <string name="Percentage">Prosent</string>
+  <string name="Protected">Beskyttet</string>
+  <string name="PersonWatching">1 Person ser på</string>
+  <string name="PeopleWatching">{0} Personer ser på</string>
+  <string name="Plugins">Tillegg</string>
   
   <!-- R -->
-  <string Field="Rate">Karakter</string>
-  <string Field="Rated">Karakter satt</string>
-  <string Field="Rating">Gi karakter</string>
-  <string Field="RateMovie">Gi filmen en karakter...</string>
-  <string Field="RateShow">Gi serien en karakter...</string>
-  <string Field="RateEpisode">Gi episoden en karakter...</string>
-  <string Field="RateDialog">Trakt karakter dialog</string>
-  <string Field="RateHate">Svak Saus :(</string>
-  <string Field="RateLove">Komplett Ninja!</string>
-  <string Field="RateHeading">Hva synes du?</string>
-  <string Field="Recommendations">Anbefalinger</string>
-  <string Field="RecommendedMovies">Anbefalte filmer</string>
-  <string Field="RecommendedShows">Anbefalte serier</string>
-  <string Field="Released">Utgitt</string>
-  <string Field="ReleaseDate">Utgitt dato</string>
-  <string Field="RemoveFromLibrary">Fjern fra biblioteket</string>
-  <string Field="RemoveFromWatchList">Fjern fra sett listen</string>
-  <string Field="RemoveShowFromWatchList">Remove Show from Watch List</string>
-  <string Field="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
-  <string Field="Runtime">Lengde</string>
+  <string name="Rate">Karakter</string>
+  <string name="Rated">Karakter satt</string>
+  <string name="Rating">Gi karakter</string>
+  <string name="RateMovie">Gi filmen en karakter...</string>
+  <string name="RateShow">Gi serien en karakter...</string>
+  <string name="RateEpisode">Gi episoden en karakter...</string>
+  <string name="RateDialog">Trakt karakter dialog</string>
+  <string name="RateHate">Svak Saus :(</string>
+  <string name="RateLove">Komplett Ninja!</string>
+  <string name="RateHeading">Hva synes du?</string>
+  <string name="Recommendations">Anbefalinger</string>
+  <string name="RecommendedMovies">Anbefalte filmer</string>
+  <string name="RecommendedShows">Anbefalte serier</string>
+  <string name="Released">Utgitt</string>
+  <string name="ReleaseDate">Utgitt dato</string>
+  <string name="RemoveFromLibrary">Fjern fra biblioteket</string>
+  <string name="RemoveFromWatchList">Fjern fra sett listen</string>
+  <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
+  <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
+  <string name="Runtime">Lengde</string>
   
   <!-- S -->
-  <string Field="Score">Score</string>
-  <string Field="Season">Sesong</string>
-  <string Field="SearchForFriend">Search for Friend...</string>
-  <string Field="SendFriendRequest">Send friend request to {0}?</string>
-  <string Field="Series">Serie</string>
-  <string Field="SeriesPlural">Serier</string>
-  <string Field="Settings">Innstillinger</string>
-  <string Field="Shout">Shout</string>
-  <string Field="Shouts">Shouts</string>
-  <string Field="SigningIntoAccount">Logger inn på konto...</string>
-  <string Field="StartDate">Start Date</string>
+  <string name="Score">Score</string>
+  <string name="Season">Sesong</string>
+  <string name="SearchForFriend">Search for Friend...</string>
+  <string name="SendFriendRequest">Send friend request to {0}?</string>
+  <string name="Series">Serie</string>
+  <string name="SeriesPlural">Serier</string>
+  <string name="Settings">Innstillinger</string>
+  <string name="Shout">Shout</string>
+  <string name="Shouts">Shouts</string>
+  <string name="SigningIntoAccount">Logger inn på konto...</string>
+  <string name="StartDate">Start Date</string>
   
   <!-- T -->
-  <string Field="Timeout">Tiden gikk ut</string>
-  <string Field="Trending">Hva er populært</string>
-  <string Field="TrendingShows">Populære serier</string>
-  <string Field="TrendingMovies">Populære filmer</string>
-  <string Field="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
-  <string Field="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>
-  <string Field="TVShow">TV serie</string>
-  <string Field="TVShows">TV serier</string>
-  <string Field="Tagline">Tagline</string>
-  <string Field="Title">Title</string>
-  <string Field="Trailer">Trailer</string>
-  <string Field="Trailers">Trailers...</string>
+  <string name="Timeout">Tiden gikk ut</string>
+  <string name="Trending">Hva er populært</string>
+  <string name="TrendingShows">Populære serier</string>
+  <string name="TrendingMovies">Populære filmer</string>
+  <string name="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
+  <string name="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>
+  <string name="TVShow">TV serie</string>
+  <string name="TVShows">TV serier</string>
+  <string name="Tagline">Tagline</string>
+  <string name="Title">Title</string>
+  <string name="Trailer">Trailer</string>
+  <string name="Trailers">Trailers...</string>
   
   <!-- U -->
-  <string Field="UserHasNotWatchedEpisodes">Brukeren har ikke sett noen episoder!</string>
-  <string Field="UserHasNotWatchedMovies">Brukeren har ikke sett noen filmer!</string>
-  <string Field="User">Bruker</string>
-  <string Field="Users">Users</string>
-  <string Field="Username">Brukernavn</string>
-  <string Field="UnAuthorized">Autentisering feilet, vennligst sjekk brukernavn og passord i innstillingene.</string>
+  <string name="UserHasNotWatchedEpisodes">Brukeren har ikke sett noen episoder!</string>
+  <string name="UserHasNotWatchedMovies">Brukeren har ikke sett noen filmer!</string>
+  <string name="User">Bruker</string>
+  <string name="Users">Users</string>
+  <string name="Username">Brukernavn</string>
+  <string name="UnAuthorized">Autentisering feilet, vennligst sjekk brukernavn og passord i innstillingene.</string>
   
   <!-- V -->
-  <string Field="View">Visning</string>
-  <string Field="Votes">Stemmer</string>
-  <string Field="ValidUsername">Du må skrive inn et gyldig navn!</string>
-  <string Field="ValidPassword">Du må skrive inn et gyldig passord!</string>
-  <string Field="ValidEmail">Du må skrive inn en gyldig epost!</string>
+  <string name="View">Visning</string>
+  <string name="Votes">Stemmer</string>
+  <string name="ValidUsername">Du må skrive inn et gyldig navn!</string>
+  <string name="ValidPassword">Du må skrive inn et gyldig passord!</string>
+  <string name="ValidEmail">Du må skrive inn en gyldig epost!</string>
 
   <!-- W -->
-  <string Field="WatchList">Liste over ønsker å se</string>
-  <string Field="Watched">Sett</string>
-  <string Field="WatchedMovies">Sette filmer</string>
-  <string Field="WatchedShows">Sette serier</string>  
-  <string Field="Watching">Ser på nå</string>
-  <string Field="WatchListMovies">Liste over filmer å se</string>
-  <string Field="WatchListShows">Liste over serier å se</string>
-  <string Field="WatchListEpisodes">Liste over episoder å se</string>  
+  <string name="WatchList">Liste over ønsker å se</string>
+  <string name="Watched">Sett</string>
+  <string name="WatchedMovies">Sette filmer</string>
+  <string name="WatchedShows">Sette serier</string>  
+  <string name="Watching">Ser på nå</string>
+  <string name="WatchListMovies">Liste over filmer å se</string>
+  <string name="WatchListShows">Liste over serier å se</string>
+  <string name="WatchListEpisodes">Liste over episoder å se</string>  
 
   <!-- Y -->
-  <string Field="Year">År</string>
+  <string name="Year">År</string>
   
-</strings>
+</resources>
