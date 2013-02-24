@@ -124,7 +124,7 @@ namespace TraktPlugin.GUI
                 {
                     try
                     {
-                        string key = stringEntry.Attributes.GetNamedItem("Field").Value;
+                        string key = stringEntry.Attributes.GetNamedItem("name").Value;
                         if (!TranslatedStrings.ContainsKey(key))
                         {
                             TranslatedStrings.Add(key, stringEntry.InnerText);
