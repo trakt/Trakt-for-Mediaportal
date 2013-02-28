@@ -1,6 +1,6 @@
 [main]
 host=https://www.transifex.com
-[MP2_CommunityPlugins.trakt]
+[MP1_CommunityPlugins.trakt]
 file_filter=TraktPlugin\Resources\Languages\<lang>.xml
 source_file=TraktPlugin\Resources\Languages\en-US.xml
 source_lang=en
