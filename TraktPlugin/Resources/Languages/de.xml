@@ -1,9 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- Trakt translation file -->
-<!-- German (DE) -->
-<!-- Note: English is the fallback for any strings not found in other languages -->
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!-- A -->
+  <!--A-->
   <string name="Account">Account</string>
   <string name="AccountSetup">Account-Einstellungen</string>
   <string name="AccountDialog">Account-Dialog</string>
@@ -41,11 +38,9 @@
   <string name="ApprovedDate">Bestätigtes Datum</string>
   <string name="ApproveFriendMessage">Möchten Sie {0}\nals Freund hinzufügen?</string>
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
-  
-  <!-- B -->
+  <!--B-->
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
-  
-  <!-- C -->
+  <!--C-->
   <string name="Cancel">Abbrechen</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Meine Serien</string>
@@ -70,8 +65,7 @@
   <string name="ConfirmDeleteList">Soll diese Liste wirklich\ngelöscht werden?</string>
   <string name="ConfirmDeleteListItem">Soll dieses Element wirklich\naus der Liste gelöscht werden?</string>
   <string name="CopyList">Liste kopieren</string>
-  
-  <!-- D -->
+  <!--D-->
   <string name="DateToday">Heute</string>
   <string name="DateYesterday">Gestern</string>
   <string name="DateOneWeekAgo">Vor 1 Woche</string>
@@ -87,8 +81,7 @@
   <string name="DismissRecommendation">Diesen Vorschlag abweisen</string>
   <string name="DownloadFanart">Download Fanart</string>
   <string name="DownloadFullSizeFanart">Download Fanart in Originalgröße</string>
-  
-  <!-- E -->
+  <!--E-->
   <string name="EditList">Liste bearbeiten</string>
   <string name="EditingList">Liste wird bearbeitet</string>
   <string name="Email">Email</string>
@@ -97,8 +90,7 @@
   <string name="Episodes">Episoden</string>
   <string name="Error">Trakt Fehler</string>
   <string name="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
-  
-  <!-- F -->
+  <!--F-->
   <string name="FirstAired">Erstausstrahlung</string>
   <string name="Friend">Freund</string>
   <string name="Friends">Freunde</string>
@@ -106,8 +98,7 @@
   <string name="FriendRequest">Freund-Anfrage</string>
   <string name="FriendRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Freund-Fenster</string>
   <string name="FullName">Vollständiger Name</string>
-  
-  <!-- G -->
+  <!--G-->
   <string name="Gender">Geschlecht</string>
   <string name="General">Allgemein</string>
   <string name="GeneralSettings">Allgemeine Einstellungen</string>
@@ -166,8 +157,7 @@
   <string name="GettingWatchListEpisodes">Beobachtungsliste Episoden wird abgerufen</string>
   <string name="GettingRelatedShows">Ähnliche Shows abrufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
-
-  <!-- H -->
+  <!--H-->
   <string name="Hate">Hass</string>
   <string name="Hated">Verhasst</string>
   <string name="HideTVShowsInWatchlist">Keine TV-Serien in Beobachtungsliste anzeigen</string>
@@ -176,20 +166,16 @@
   <string name="HideWatchlisted">Beobachtete ausblenden</string>
   <string name="HideSpoilers">Spoiler ausblenden</string>
   <string name="HiddenToPreventSpoilers">Dieser Shout wurde wegen Spoiler ausgeblendet, Sie können diese Option im Menü ändern.</string>
-  
-  <!-- I -->
+  <!--I-->
   <string name="IncludeMeInFriendsActivity">Mich in Freund-Aktivitäten einbeziehen</string>
   <string name="Inserted">Eingefügt</string>
   <string name="Item">Element</string>
   <string name="Items">Elemente</string>
-  
-  <!-- K -->
-  
-  <!-- J -->
+  <!--J-->
   <string name="JoinDate">Betrittsdatum</string>
   <string name="Joined">Beigetreten</string>
-  
-  <!-- L -->
+  <!--K-->
+  <!--L-->
   <string name="Location">Ort</string>
   <string name="Layout">Layout</string>
   <string name="List">Liste</string>
@@ -200,15 +186,13 @@
   <string name="LoggedIn">Eingeloggt</string>
   <string name="Login">Einloggen</string>
   <string name="ListNameAlreadyExists">Es existiert bereits eine Liste mit diesem Namen!</string>
-  
-  <!-- M -->
+  <!--M-->
   <string name="MarkAsWatched">Als gesehen markieren</string>
   <string name="MarkAsUnWatched">Als ungesehen markieren</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filme</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
-
-  <!-- N -->
+  <!--N-->
   <string name="Name">Name</string>
   <string name="Network">Netzwerk</string>
   <string name="NextWeek">Nächste Woche</string>
@@ -237,12 +221,10 @@
   <string name="NoRelatedMovies">Keine Filme ähnlich {0} gefunden!</string>
   <string name="NoRelatedShows">Keine Serien ähnlich {0} gefunden!</string>
   <string name="No">Nein</string>
-  
-  <!-- O -->
+  <!--O-->
   <string name="OK">OK</string>
   <string name="Overview">Übersicht</string>
-  
-  <!-- P -->
+  <!--P-->
   <string name="Password">Passwort</string>
   <string name="People">Personen</string>
   <string name="Percentage">Prozent</string>
@@ -256,8 +238,7 @@
   <string name="PrivacyPublic">Jeder kann diese Liste ansehen</string>
   <string name="PrivacyFriends">Nur Freunde können diese Liste ansehen</string>
   <string name="PrivacyPrivate">Nur Sie können diese Liste ansehen</string>
-  
-  <!-- R -->
+  <!--R-->
   <string name="Rate">Bewerten</string>
   <string name="Rated">Bewertet</string>
   <string name="Rating">Bewertung</string>
@@ -289,8 +270,7 @@
   <string name="RemoveEpisodeFromWatchList">Episode aus Beobachtungsliste löschen</string>
   <string name="RemoveFromList">Aus Liste löschen</string>
   <string name="Runtime">Laufzeit</string>
-  
-  <!-- S -->
+  <!--S-->
   <string name="Score">Punktestand</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Mit mpNZB suchen</string>
@@ -348,8 +328,7 @@
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="Specials">Specials</string>
-  
-  <!-- T -->
+  <!--T-->
   <string name="Timeout">Zeitüberschreitung</string>
   <string name="Trending">Populär</string>
   <string name="TrendingShows">Populäre Serien</string>
@@ -363,8 +342,7 @@
   <string name="Title">Titel</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer</string>
-  
-  <!-- U -->
+  <!--U-->
   <string name="UserHasNotWatchedEpisodes">Benutzer hat noch keine Folgen angeschaut!</string>
   <string name="UserHasNotWatchedMovies">Benutzer hat noch keine Filme angeschaut!</string>
   <string name="User">Benutzer</string>
@@ -375,28 +353,24 @@
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingFilters">Filter werden aktualisiert</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
-
-  <!-- V -->
+  <!--V-->
   <string name="View">Ansehen</string>
   <string name="Votes">Stimmen</string>
   <string name="ValidUsername">Bitte einen gültigen Benutzernamen eingeben!</string>
   <string name="ValidPassword">Bitte ein gültiges Passwort eingeben!</string>
   <string name="ValidEmail">Bitte eine gültige Email eingeben!</string>
-
-  <!-- W -->
+  <!--W-->
   <string name="WatchList">Beobachtungsliste</string>
   <string name="Watched">Gesehen</string>
   <string name="WatchedMovies">Gesehene Filme</string>
+  <string name="WatchedEpisodes">Gesehene Episoden</string>
   <string name="WatchedShows">Gesehene Serien</string>
-  <string name="WatchedEpisodes">Gesehene Episoden</string>  
   <string name="Watchers">Zuschauer</string>
   <string name="Watching">Schaut gerade</string>
   <string name="WatchListMovies">Beobachtungsliste Filme</string>
   <string name="WatchListShows">Beobachtungsliste Serien</string>
-  <string name="WatchListEpisodes">Beobachtungsliste Episoden</string>  
-
-  <!-- Y -->
+  <string name="WatchListEpisodes">Beobachtungsliste Episoden</string>
+  <!--Y-->
   <string name="Year">Jahr</string>
   <string name="Yes">Ja</string>
-  
 </resources>

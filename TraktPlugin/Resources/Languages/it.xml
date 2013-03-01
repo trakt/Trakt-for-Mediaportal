@@ -1,9 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- Trakt translation file -->
-<!-- English (US) -->
-<!-- Note: English is the fallback for any strings not found in other languages -->
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!-- A -->
+  <!--A-->
   <string name="Account">Account</string>
   <string name="AccountSetup">Impostazioni Account</string>
   <string name="AccountDialog">Finestra Account</string>
@@ -22,7 +19,7 @@
   <string name="ActivityWatchlist">{0} aggiunti {1} alla loro lista da vedere</string>
   <string name="ActivityAddToList">{0} aggiunti {1} a {2}</string>
   <string name="ActivityCreatedList">{0} creati {1}</string>
-  <string name="ActivityShouts">{0} giudicati su {1}</string>  
+  <string name="ActivityShouts">{0} giudicati su {1}</string>
   <string name="Activities">Attività</string>
   <string name="AddFriend">Aggiungi Amico...</string>
   <string name="AddToLibrary">Aggiungi nella Libreria</string>
@@ -39,13 +36,11 @@
   <string name="AirTime">Ora Uscita</string>
   <string name="Approve">Approva</string>
   <string name="ApprovedDate">Data Approvazione</string>
-  <string name="ApproveFriendMessage">Vuoi aggiungere l'utente {0}\nagli amici?</string>
+  <string name="ApproveFriendMessage">Vuoi aggiungere l\'utente {0}\nagli amici?</string>
   <string name="AdvancedSettings">Impostazioni Avanzate</string>
-  
-  <!-- B -->
+  <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
-  
-  <!-- C -->
+  <!--C-->
   <string name="Cancel">Cancella</string>
   <string name="Calendar">Calendario</string>
   <string name="CalendarMyShows">Le Mie Serie</string>
@@ -70,8 +65,7 @@
   <string name="ConfirmDeleteList">Vuoi davvero cancellare\nquesta lista?</string>
   <string name="ConfirmDeleteListItem">Vuoi davvero cancellare\nquesto elemento dalla lista?</string>
   <string name="CopyList">Copia Lista...</string>
-  
-  <!-- D -->
+  <!--D-->
   <string name="DateToday">Oggi</string>
   <string name="DateYesterday">Ieri</string>
   <string name="DateOneWeekAgo">1 Settimana fa</string>
@@ -88,8 +82,7 @@
   <string name="DontIncludeMeInFriendsActivity">Non includermi nelle Attività degli Amici</string>
   <string name="DownloadFanart">Download Fanart</string>
   <string name="DownloadFullSizeFanart">Download Fanart nelle Dimensioni Originali</string>
-  
-  <!-- E -->
+  <!--E-->
   <string name="EditList">Modifica Lista...</string>
   <string name="EditingList">Modifica Lista in corso</string>
   <string name="Email">Email</string>
@@ -98,8 +91,7 @@
   <string name="Episodes">Episodi</string>
   <string name="Error">Errore Trakt</string>
   <string name="ErrorCalendar">Errore recupero calendario.</string>
-  
-  <!-- F -->
+  <!--F-->
   <string name="FirstAired">Prima Trasmissione</string>
   <string name="Friend">Amico</string>
   <string name="Friends">Amici</string>
@@ -107,8 +99,7 @@
   <string name="FriendRequest">Richiesta Amicizia</string>
   <string name="FriendRequestMessage">Hai {0} richieste di amicizia, approva o rifiuta nella finestra Amici</string>
   <string name="FullName">Nome Completo</string>
-  
-  <!-- G -->
+  <!--G-->
   <string name="Gender">Genere</string>
   <string name="General">Generale</string>
   <string name="GeneralSettings">Impostazioni Generali</string>
@@ -148,12 +139,12 @@
   <string name="GenreThriller">Thriller</string>
   <string name="GenreWar">Guerra</string>
   <string name="GenreWestern">Western</string>
-  <string name="GetFriendRequestsOnStartup">Ricevi richieste Amicizia all'avvio</string>
+  <string name="GetFriendRequestsOnStartup">Ricevi richieste Amicizia all\'avvio</string>
   <string name="GettingActivity">Ricezione Attività</string>
   <string name="GettingCalendar">Ricezione Calendario</string>
   <string name="GettingFriendsList">Ricezione Lista Amici</string>
   <string name="GettingFriendsRequests">Ricezione Richieste Amicizia</string>
-  <string name="GettingFriendsWatchedHistory">Ricezione Storico visti dagli Amici</string>  
+  <string name="GettingFriendsWatchedHistory">Ricezione Storico visti dagli Amici</string>
   <string name="GettingLists">Ricezione Liste</string>
   <string name="GettingListItems">Ricezione Elementi Lista</string>
   <string name="GettingSearchResults">Ricezione Risultati Ricerca</string>
@@ -168,9 +159,8 @@
   <string name="GettingWatchListEpisodes">Ricezione Liste Episodi da Vedere</string>
   <string name="GettingRelatedMovies">Ricezione Film Correlati</string>
   <string name="GettingRelatedShows">Ricezione Serie Correlate</string>
-  <string name="GettingTrailerUrls">Ricezione URLs Trailer</string>  
-  
-  <!-- H -->
+  <string name="GettingTrailerUrls">Ricezione URLs Trailer</string>
+  <!--H-->
   <string name="Hate">Non mi Piace</string>
   <string name="Hated">Non mi è Piaciuto</string>
   <string name="HideTVShowsInWatchlist">Nascondi Serie TV nella Lista da Vedere</string>
@@ -179,20 +169,16 @@
   <string name="HideWatchlisted">Nascondi Elenco Visti</string>
   <string name="HideSpoilers">Nascondi Anticipazioni Trama</string>
   <string name="HiddenToPreventSpoilers">Questo giudizio è stato nascosto per prevenire anticipazioni della trama, puoi cambiare questa opzione dal menù.</string>
-
-  <!-- I -->
+  <!--I-->
   <string name="IncludeMeInFriendsActivity">Includimi nelle Attività degli Amici</string>
   <string name="Inserted">Inserito</string>
   <string name="Item">Elemento</string>
   <string name="Items">Elementi</string>
-  
-  <!-- J -->
+  <!--J-->
   <string name="JoinDate">Data Registrazione</string>
   <string name="Joined">Registrato</string>
-
-  <!-- K -->
-  
-  <!-- L -->
+  <!--K-->
+  <!--L-->
   <string name="Location">Località</string>
   <string name="Layout">Layout</string>
   <string name="List">Lista</string>
@@ -203,15 +189,13 @@
   <string name="LoggedIn">Collegato</string>
   <string name="Login">Login</string>
   <string name="ListNameAlreadyExists">Esiste già una Lista con questo nome!</string>
-  
-  <!-- M -->
+  <!--M-->
   <string name="MarkAsWatched">Marca come Visto</string>
   <string name="MarkAsUnWatched">Marca come Non Visto</string>
   <string name="Movie">Film</string>
   <string name="Movies">Film</string>
   <string name="MultiSelectDialog">Finestra Multi-Selezione</string>
-  
-  <!-- N -->
+  <!--N-->
   <string name="Name">Nome</string>
   <string name="Network">Rete</string>
   <string name="NextWeek">Prossima Settimana</string>
@@ -242,12 +226,10 @@
   <string name="NoRelatedMovies">Nessun Film correlato trovato per {0}!</string>
   <string name="NoRelatedShows">Nessuna Serie correlata trovata per {0}!</string>
   <string name="No">No</string>
-  
-  <!-- O -->
+  <!--O-->
   <string name="OK">OK</string>
   <string name="Overview">Panoramica</string>
-  
-  <!-- P -->
+  <!--P-->
   <string name="Password">Password</string>
   <string name="People">Persone</string>
   <string name="Percentage">Percentuale</string>
@@ -263,8 +245,7 @@
   <string name="PrivacyPublic">Tutti possono vedere questa lista</string>
   <string name="PrivacyFriends">Solo gli Amici possono vedere questa lista</string>
   <string name="PrivacyPrivate">Solo Tu puoi vedere questa lista</string>
-  
-  <!-- R -->
+  <!--R-->
   <string name="Rate">Valuta</string>
   <string name="Rated">Valutato</string>
   <string name="Rating">Valutazione</string>
@@ -296,8 +277,7 @@
   <string name="RemoveEpisodeFromWatchList">Rimuovi Episodio dalla Lista da Vedere</string>
   <string name="RemoveFromList">Rimuovi dalla Lista...</string>
   <string name="Runtime">Durata</string>
-  
-  <!-- S -->
+  <!--S-->
   <string name="Score">Votazione</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Ricerca NZB</string>
@@ -317,13 +297,13 @@
   <string name="ShowSpoilers">Visualizza Anticipazioni Trama</string>
   <string name="ShowFriendActivity">Visualizza Attività Amici</string>
   <string name="ShowCommunityActivity">Visualizza Attività Comunità</string>
-  <string name="SigningIntoAccount">Registrazione nell'Account...</string>
+  <string name="SigningIntoAccount">Registrazione nell\'Account...</string>
   <string name="SkinPluginsOutOfDate">Errore caricamento finestra, la skin non è aggiornata!\nEsci da MediaPortal ed entra nella Configurazione per\nabilitare i gestori dei plugin.</string>
   <string name="SkinOutOfDate">Questa caratteristica non è disponibile per la tua\nskin. Controlla se è disponibile un Aggiornamento.</string>
   <string name="StartDate">Data Inizio</string>
   <string name="Synchronize">Sincronizza</string>
   <string name="SynchronizeNow">Nuovo Gestore Plugin aggiunto .\nVuoi Sincronizzare le tue\nlibrerie adesso?</string>
-  <string name="ShowRateDialogOnWatched">Visualizza finestra valutazione per l'elemento visto</string>
+  <string name="ShowRateDialogOnWatched">Visualizza finestra valutazione per l\'elemento visto</string>
   <string name="ShowSeasonInfo">Informazioni Stagione...</string>
   <string name="ShowWatched">Visualizza Visti</string>
   <string name="SettingPluginEnabledName">Plugin Abilitato</string>
@@ -333,30 +313,29 @@
   <string name="SettingListedPluginsName">Elencato ne I Miei Plugin</string>
   <string name="SettingListedPluginsDescription">Abilita questa impostazione per avere Trakt nel menù della schermata I Miei Plugin.</string>
   <string name="SettingSyncTimerName">Intervallo Sincronizzazione Libreria</string>
-  <string name="SettingSyncTimerDescription">Imposta l'intervallo di tempo (in ore) fra ogni Sincronizzazione della Libreria. L'impostazione predefinita è ogni 24 ore.</string>
+  <string name="SettingSyncTimerDescription">Imposta l\'intervallo di tempo (in ore) fra ogni Sincronizzazione della Libreria. L\'impostazione predefinita è ogni 24 ore.</string>
   <string name="SettingSyncStartDelayName">Ritardo Avvio Sincronizzazione Libreria</string>
-  <string name="SettingSyncStartDelayDescription">Ritardo (in secondi) Sincronizzazione Libreria all'avvio di MediaPortal. L'impostazione predefinita è 0 secondi.</string>
+  <string name="SettingSyncStartDelayDescription">Ritardo (in secondi) Sincronizzazione Libreria all\'avvio di MediaPortal. L\'impostazione predefinita è 0 secondi.</string>
   <string name="SettingWebRequestCacheName">Memorizzazione Richiesta Web</string>
-  <string name="SettingWebRequestCacheDescription">Imposta l'intervallo di tempo (in minuti) in cui i dati web vengono memorizzati nelle viste Calendario, Tendenze e Consigliati. L'impostazione predefinita è 15 minuti.</string>
+  <string name="SettingWebRequestCacheDescription">Imposta l\'intervallo di tempo (in minuti) in cui i dati web vengono memorizzati nelle viste Calendario, Tendenze e Consigliati. L\'impostazione predefinita è 15 minuti.</string>
   <string name="SettingWebRequestTimeoutName">Richiesta Web Scaduta</string>
-  <string name="SettingWebRequestTimeoutDescription">Imposta l'intervallo di tempo (in secondi) prima della cancellazione di ogni richiesta web. L'impostazione predefinita è 30 secondi.</string>
+  <string name="SettingWebRequestTimeoutDescription">Imposta l\'intervallo di tempo (in secondi) prima della cancellazione di ogni richiesta web. L\'impostazione predefinita è 30 secondi.</string>
   <string name="SettingSyncRatingsName">Sincronizzazione Valutazioni</string>
   <string name="SettingSyncRatingsDescription">Abilita questa impostazione per la sincronizzazione a 2-vie delle valutazioni durante il sync della libreria. Se un elemento è stato valutato localmente o in remoto, non sarà sovrascritto per evitare qualsiasi problema. Si raccomanda di valutare gli elemnti online usando la valutazione avanzata prima di abilitare questa impostazione.</string>
   <string name="SettingShowRateDialogOnWatchedName">Visualizza Finestra Valutazione dopo la Visione</string>
-  <string name="SettingShowRateDialogOnWatchedDescription">Abilita questa impostazione per visualizzare la finestra di valutazione Trakt dopo che un film o un episodio è terminato e considerato visto. La finestra di valutazione Trakt non sarà visualizzata se l'elemento è stato già valutato.</string>
+  <string name="SettingShowRateDialogOnWatchedDescription">Abilita questa impostazione per visualizzare la finestra di valutazione Trakt dopo che un film o un episodio è terminato e considerato visto. La finestra di valutazione Trakt non sarà visualizzata se l\'elemento è stato già valutato.</string>
   <string name="SettingActivityPollIntervalName">Intervallo aggiornamento Dashboard Attività</string>
-  <string name="SettingActivityPollIntervalDescription">Imposta l'intervallo (in secondi) in cui le attività della comunità/degli amici Trakt è aggiornata nella dashboard.</string>
+  <string name="SettingActivityPollIntervalDescription">Imposta l\'intervallo (in secondi) in cui le attività della comunità/degli amici Trakt è aggiornata nella dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Intervallo Aggiornamento Dashboard Tendenze</string>
-  <string name="SettingTrendingPollIntervalDescription">Imposta l'intervallo (in minuti) in cui le serie ed i film di tendenza sono aggiornati nella dashboard.</string>
+  <string name="SettingTrendingPollIntervalDescription">Imposta l\'intervallo (in minuti) in cui le serie ed i film di tendenza sono aggiornati nella dashboard.</string>
   <string name="SettingDashboardLoadDelayName">Ritardo Caricamento Dashboard</string>
   <string name="SettingDashboardLoadDelayDescription">Questa impostazione serve per controllare il ritardo in millisecondi in cui la dashboard inizia a caricare i dati dopo che la finestra Principale è stata aperta. Settando questo valore troppo basso si possono causare errori ed il mancato caricamento della finestra.</string>
   <string name="SettingEnableJumpToForTVShowsName">Abilita Funzionalità Vai a TVSeries</string>
-  <string name="SettingEnableJumpToForTVShowsDescription">Abilita questa impostazione per abilitare l'utente ad andare direttamente al plugin TVSeries premendo Enter o OK su una Serie TV Trakt. Se disabilitato saranno visualizzate le informazioni sulla Stagione da trakt.tv.</string>
+  <string name="SettingEnableJumpToForTVShowsDescription">Abilita questa impostazione per abilitare l\'utente ad andare direttamente al plugin TVSeries premendo Enter o OK su una Serie TV Trakt. Se disabilitato saranno visualizzate le informazioni sulla Stagione da trakt.tv.</string>
   <string name="StartYear">Avvio: {0}</string>
   <string name="SortBy">Ordina per: {0}</string>
   <string name="Specials">Speciali</string>
-  
-  <!-- T -->
+  <!--T-->
   <string name="Timeout">Scaduto</string>
   <string name="Trending">Tendenze</string>
   <string name="TrendingShows">Serie di Tendenza</string>
@@ -370,10 +349,9 @@
   <string name="Title">Titolo</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer...</string>
-  
-  <!-- U -->
-  <string name="UserHasNotWatchedEpisodes">L'utente non ha visto nessun episodio!</string>
-  <string name="UserHasNotWatchedMovies">L'utente non ha visto nessun film!</string>
+  <!--U-->
+  <string name="UserHasNotWatchedEpisodes">L\'utente non ha visto nessun episodio!</string>
+  <string name="UserHasNotWatchedMovies">L\'utente non ha visto nessun film!</string>
   <string name="User">Utente</string>
   <string name="Users">Utenti</string>
   <string name="Username">Nome Utente</string>
@@ -382,15 +360,13 @@
   <string name="UpdatingCategories">Aggiornamento Categorie</string>
   <string name="UpdatingFilters">Aggiornamento Filtri</string>
   <string name="UnableToPlayTrailer">Impossibile riprodurre trailer.</string>
-  
-  <!-- V -->
+  <!--V-->
   <string name="View">Vista</string>
   <string name="Votes">Voti</string>
   <string name="ValidUsername">Devi immettere un nome utente valido!</string>
   <string name="ValidPassword">Devi immetter una password valida!</string>
   <string name="ValidEmail">Devi immettere una email valida!</string>
-
-  <!-- W -->
+  <!--W-->
   <string name="WatchList">Liste da Vedere</string>
   <string name="Watched">Visto</string>
   <string name="WatchedMovies">Film Visti</string>
@@ -400,10 +376,8 @@
   <string name="Watching">In Visione</string>
   <string name="WatchListMovies">Lista Film da Vedere</string>
   <string name="WatchListShows">Lista Serie da Vedere</string>
-  <string name="WatchListEpisodes">Lista Episodi da Vedere</string>  
-
-  <!-- Y -->
+  <string name="WatchListEpisodes">Lista Episodi da Vedere</string>
+  <!--Y-->
   <string name="Year">Anno</string>
   <string name="Yes">Sì</string>
-  
 </resources>

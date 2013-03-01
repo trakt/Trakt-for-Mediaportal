@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Отмена</string>
+  <string name="Calendar">Календарь</string>
+  <string name="Certification">Сертификация</string>
+  <!--D-->
+  <string name="DateToday">Сегодня</string>
+  <string name="DateYesterday">Вчера</string>
+  <string name="DownloadFanart">Скачать фанарт</string>
+  <!--E-->
+  <string name="Episode">Эпизод</string>
+  <string name="Episodes">Эпизоды</string>
+  <!--F-->
+  <string name="FirstAired">Первый показ</string>
+  <!--G-->
+  <string name="Genre">Жанр</string>
+  <string name="GenreAll">Все</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Отображение списка</string>
+  <!--M-->
+  <string name="MarkAsWatched">Отметить как просмотренный</string>
+  <string name="Movie">Фильм</string>
+  <string name="Movies">Фильмы</string>
+  <!--N-->
+  <string name="Network">Сеть</string>
+  <string name="No">Нет</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Рейтинг</string>
+  <string name="Rated">Оценен</string>
+  <string name="Rating">Рейтинг</string>
+  <string name="RateTwo">Ужасно</string>
+  <string name="RateThree">Плохо</string>
+  <string name="RateFour">Неважно</string>
+  <string name="RateSix">Ничего так</string>
+  <string name="RateSeven">Хорошо</string>
+  <string name="RateEight">Здорово</string>
+  <string name="RateNine">Супер</string>
+  <string name="Recommendations">Рекомендации</string>
+  <string name="Runtime">Время</string>
+  <!--S-->
+  <string name="Score">Рейтинг</string>
+  <string name="Season">Сезон</string>
+  <string name="Seasons">Сезоны</string>
+  <string name="Series">Сериал</string>
+  <string name="SeriesPlural">Сериал</string>
+  <string name="Shouts">Выкрики</string>
+  <string name="Specials">Дополнения</string>
+  <!--T-->
+  <string name="Timeout">Время истекло</string>
+  <string name="Trending">Трендинг</string>
+  <string name="Title">Название</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="WatchList">Список просмотра</string>
+  <string name="Watched">Просмотрен</string>
+  <!--Y-->
+  <string name="Year">Год</string>
+  <string name="Yes">Да</string>
+</resources>

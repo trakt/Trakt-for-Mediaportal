@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">취소</string>
+  <string name="Certification">Certification</string>
+  <!--D-->
+  <string name="DateToday">오늘</string>
+  <string name="DateYesterday">어제</string>
+  <string name="DownloadFanart">팬아트 다운로드</string>
+  <!--E-->
+  <string name="Episode">회차</string>
+  <string name="Episodes">에피소드</string>
+  <!--F-->
+  <string name="FirstAired">첫방영</string>
+  <!--G-->
+  <string name="Genre">장르</string>
+  <string name="GenreAll">전부</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">리스트</string>
+  <!--M-->
+  <string name="MarkAsWatched">시청으로 표시</string>
+  <string name="Movie">영화</string>
+  <string name="Movies">영화</string>
+  <!--N-->
+  <string name="Network">네트웍</string>
+  <string name="No">아니오</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">평점</string>
+  <string name="Rated">점수매겨짐</string>
+  <string name="Rating">점수</string>
+  <string name="RateTwo">2 점</string>
+  <string name="RateThree">3 점</string>
+  <string name="RateFour">4 점</string>
+  <string name="RateSix">6 점</string>
+  <string name="RateSeven">7 점</string>
+  <string name="RateEight">8 점</string>
+  <string name="RateNine">9 점</string>
+  <string name="Runtime">방영시간</string>
+  <!--S-->
+  <string name="Score">점수</string>
+  <string name="Season">시즌</string>
+  <string name="Seasons">시즌</string>
+  <string name="Series">시리즈</string>
+  <string name="SeriesPlural">시리즈</string>
+  <string name="Specials">스페셜</string>
+  <!--T-->
+  <string name="Title">제목</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="Watched">시청</string>
+  <!--Y-->
+  <string name="Year">연도</string>
+  <string name="Yes">예</string>
+</resources>

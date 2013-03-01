@@ -1,9 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- Trakt translation file -->
-<!-- Norwegian (NO) -->
-<!-- Note: English is the fallback for any strings not found in other languages -->
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!-- A -->
+  <!--A-->
   <string name="Account">Konto</string>
   <string name="AccountSetup">Oppsett for konto</string>
   <string name="AccountDialog">Dialog konto</string>
@@ -20,10 +17,8 @@
   <string name="Approve">Approve</string>
   <string name="ApprovedDate">Approved Date</string>
   <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
-  
-  <!-- B -->
-  
-  <!-- C -->
+  <!--B-->
+  <!--C-->
   <string name="Cancel">Avbryt</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mine Serier</string>
@@ -36,8 +31,7 @@
   <string name="CreateAccount">Lag konto</string>
   <string name="CreateNewAccount">Lag ny konto...</string>
   <string name="CreatingAccount">Lager konto...</string>
-  
-  <!-- D -->
+  <!--D-->
   <string name="DateToday">Today</string>
   <string name="DateYesterday">Yesterday</string>
   <string name="DateOneWeekAgo">1 Week Ago</string>
@@ -49,26 +43,25 @@
   <string name="DisconnectAccount">Koble fra konto: {0}</string>
   <string name="DownloadFanart">Last ned Fanart</string>
   <string name="DownloadFullSizeFanart">Bruk original størrelse på Fanart</string>
-  
-  <!-- E -->
+  <!--E-->
   <string name="Email">Epost</string>
   <string name="Episode">Episode</string>
   <string name="Episodes">Episoder</string>
   <string name="Error">Feil med Trakt</string>
   <string name="ErrorCalendar">Feil ved henting av kalender.</string>
-  
-  <!-- F -->
+  <!--F-->
   <string name="FirstAired">Først sendt</string>
   <string name="Friend">Venn</string>
   <string name="Friends">Venner</string>
   <string name="FriendRequest">Friend Request</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
   <string name="FullName">Fult Navn</string>
-  
-  <!-- G -->
+  <!--G-->
   <string name="Gender">Kjønn</string>
   <string name="General">Generelt</string>
   <string name="GeneralSettings">Generelle innstillinger</string>
+  <string name="Genre">Sjanger</string>
+  <string name="GenreAll">Alle</string>
   <string name="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
   <string name="GettingCalendar">Henter kalender</string>
   <string name="GettingFriendsList">Henter liste med venner</string>
@@ -83,22 +76,17 @@
   <string name="GettingWatchListMovies">Henter liste med sette filmer</string>
   <string name="GettingWatchListShows">Henter liste med sette serier</string>
   <string name="GettingWatchListEpisodes">Henter liste med sette episoder</string>
-  
-  <!-- H -->
+  <!--H-->
   <string name="Hate">Hater</string>
   <string name="Hated">Hatet</string>
   <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
-  
-  <!-- I -->
+  <!--I-->
   <string name="Inserted">Satt inn</string>
-  
-  <!-- K -->
-  
-  <!-- J -->
+  <!--J-->
   <string name="JoinDate">Ble med den</string>
   <string name="Joined">Blitt med</string>
-  
-  <!-- L -->
+  <!--K-->
+  <!--L-->
   <string name="Location">Lokasjon</string>
   <string name="Layout">Utseende</string>
   <string name="Love">Liker</string>
@@ -106,13 +94,11 @@
   <string name="LoginExistingAccount">Logg inn på eksisterende konto...</string>
   <string name="LoggedIn">Innlogget</string>
   <string name="Login">Logg inn</string>
-  
-  <!-- M -->
+  <!--M-->
   <string name="MarkAsWatched">Merk som sett</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
-  
-  <!-- N -->
+  <!--N-->
   <string name="Name">Navn</string>
   <string name="Network">Kanal</string>
   <string name="NextWeek">Neste uke</string>
@@ -127,18 +113,15 @@
   <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
   <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
-  <string name="NoMovieWatchList">Ingen filmer i sett listen!</string>
-  <string name="NoEpisodeWatchList">Ingen episoder i sett listen!</string>
   <string name="NoShoutsForItem">No Shouts for {0}!</string>
   <string name="NoPluginsEnabled">Du har ikke konfigurert tillegget i innstillinger.\nVil du konfigurere tillegget nå?</string>
   <string name="NotLoggedIn">Du må være logget inn for å vise dette området.\nVil du bli med eller logge inn\npå trakt.tv nå?</string>
   <string name="NoSearchResultsFound">No Search Results Found</string>
-  
-  <!-- O -->
+  <string name="No">Nei</string>
+  <!--O-->
   <string name="OK">OK</string>
   <string name="Overview">Oversikt</string>
-  
-  <!-- P -->
+  <!--P-->
   <string name="Password">Passord</string>
   <string name="People">People</string>
   <string name="Percentage">Prosent</string>
@@ -146,8 +129,7 @@
   <string name="PersonWatching">1 Person ser på</string>
   <string name="PeopleWatching">{0} Personer ser på</string>
   <string name="Plugins">Tillegg</string>
-  
-  <!-- R -->
+  <!--R-->
   <string name="Rate">Karakter</string>
   <string name="Rated">Karakter satt</string>
   <string name="Rating">Gi karakter</string>
@@ -158,6 +140,9 @@
   <string name="RateHate">Svak Saus :(</string>
   <string name="RateLove">Komplett Ninja!</string>
   <string name="RateHeading">Hva synes du?</string>
+  <string name="RateTwo">Forferdelig</string>
+  <string name="RateSeven">God</string>
+  <string name="RateNine">Super</string>
   <string name="Recommendations">Anbefalinger</string>
   <string name="RecommendedMovies">Anbefalte filmer</string>
   <string name="RecommendedShows">Anbefalte serier</string>
@@ -168,10 +153,10 @@
   <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string name="Runtime">Lengde</string>
-  
-  <!-- S -->
+  <!--S-->
   <string name="Score">Score</string>
   <string name="Season">Sesong</string>
+  <string name="Seasons">Sesonger</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="Series">Serie</string>
@@ -181,8 +166,8 @@
   <string name="Shouts">Shouts</string>
   <string name="SigningIntoAccount">Logger inn på konto...</string>
   <string name="StartDate">Start Date</string>
-  
-  <!-- T -->
+  <string name="Specials">Spesial</string>
+  <!--T-->
   <string name="Timeout">Tiden gikk ut</string>
   <string name="Trending">Hva er populært</string>
   <string name="TrendingShows">Populære serier</string>
@@ -195,33 +180,29 @@
   <string name="Title">Title</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
-  
-  <!-- U -->
+  <!--U-->
   <string name="UserHasNotWatchedEpisodes">Brukeren har ikke sett noen episoder!</string>
   <string name="UserHasNotWatchedMovies">Brukeren har ikke sett noen filmer!</string>
   <string name="User">Bruker</string>
   <string name="Users">Users</string>
   <string name="Username">Brukernavn</string>
   <string name="UnAuthorized">Autentisering feilet, vennligst sjekk brukernavn og passord i innstillingene.</string>
-  
-  <!-- V -->
+  <!--V-->
   <string name="View">Visning</string>
   <string name="Votes">Stemmer</string>
   <string name="ValidUsername">Du må skrive inn et gyldig navn!</string>
   <string name="ValidPassword">Du må skrive inn et gyldig passord!</string>
   <string name="ValidEmail">Du må skrive inn en gyldig epost!</string>
-
-  <!-- W -->
+  <!--W-->
   <string name="WatchList">Liste over ønsker å se</string>
   <string name="Watched">Sett</string>
   <string name="WatchedMovies">Sette filmer</string>
-  <string name="WatchedShows">Sette serier</string>  
+  <string name="WatchedShows">Sette serier</string>
   <string name="Watching">Ser på nå</string>
   <string name="WatchListMovies">Liste over filmer å se</string>
   <string name="WatchListShows">Liste over serier å se</string>
-  <string name="WatchListEpisodes">Liste over episoder å se</string>  
-
-  <!-- Y -->
+  <string name="WatchListEpisodes">Liste over episoder å se</string>
+  <!--Y-->
   <string name="Year">År</string>
-  
+  <string name="Yes">Ja</string>
 </resources>

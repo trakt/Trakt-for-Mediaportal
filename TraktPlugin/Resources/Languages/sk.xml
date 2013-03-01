@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Zrušiť</string>
+  <string name="Certification">Klasifikácia</string>
+  <!--D-->
+  <string name="DateToday">dnes</string>
+  <string name="DateYesterday">včera</string>
+  <!--E-->
+  <!--F-->
+  <!--G-->
+  <string name="Genre">Žáner</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <!--M-->
+  <string name="MarkAsWatched">Označiť za zhliadnuté</string>
+  <string name="Movie">Film</string>
+  <string name="Movies">filmov</string>
+  <!--N-->
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Hodnotenie</string>
+  <string name="Rated">Klasifikácia</string>
+  <string name="RateTwo">Otrasné</string>
+  <string name="RateSeven">Slušné</string>
+  <string name="RateNine">Skvelé</string>
+  <string name="Runtime">Dĺžka</string>
+  <!--S-->
+  <string name="Score">Hodnotenie</string>
+  <!--T-->
+  <string name="Title">Titul</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Year">Rok</string>
+</resources>

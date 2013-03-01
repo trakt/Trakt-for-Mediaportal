@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Cancelar</string>
+  <string name="Certification">Qualificação</string>
+  <!--D-->
+  <string name="DateToday">Hoje</string>
+  <string name="DateYesterday">Ontem</string>
+  <!--E-->
+  <string name="Episode">Episódio</string>
+  <string name="Episodes">Episódios</string>
+  <!--F-->
+  <!--G-->
+  <string name="Genre">Género</string>
+  <string name="GenreAll">Todos</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <!--M-->
+  <string name="MarkAsWatched">Marcar como visto</string>
+  <string name="Movie">filme</string>
+  <string name="Movies">Filmes</string>
+  <string name="MultiSelectDialog">Multi-Select Dialog</string>
+  <!--N-->
+  <string name="No">Não</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Pontuar</string>
+  <string name="Rated">Pontuação feita</string>
+  <string name="RateTwo">Péssima</string>
+  <string name="RateSeven">Boa</string>
+  <string name="RateNine">Magnífica</string>
+  <string name="Runtime">Duração</string>
+  <!--S-->
+  <string name="Score">Pontuação</string>
+  <string name="Season">Temporada</string>
+  <string name="Seasons">Temporadas</string>
+  <string name="Series">Séries</string>
+  <string name="SeriesPlural">Séries</string>
+  <string name="SettingPluginEnabledName"> Ligar Plugin</string>
+  <string name="SettingListedHomeName">Listados em Home</string>
+  <string name="SettingListedPluginsName">Listado em \"My Plugins\"</string>
+  <string name="Specials">Especiais</string>
+  <!--T-->
+  <string name="Title">Título</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Year">Ano</string>
+  <string name="Yes">Sim</string>
+</resources>

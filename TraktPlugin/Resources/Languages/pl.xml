@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Anuluj</string>
+  <string name="Certification">Ograniczenia wiekowe</string>
+  <!--D-->
+  <string name="DateToday">Dzisiaj</string>
+  <string name="DateYesterday">Wczoraj</string>
+  <string name="DownloadFanart">Pobierz fanart</string>
+  <!--E-->
+  <string name="Episode">Odcinek</string>
+  <string name="Episodes">Odcinków</string>
+  <!--F-->
+  <string name="FirstAired">Pierwsza emisja</string>
+  <!--G-->
+  <string name="Genre">Gatunek</string>
+  <string name="GenreAll">Wszystkie</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Lista</string>
+  <!--M-->
+  <string name="MarkAsWatched">Oznacz jako obejrzany</string>
+  <string name="Movie">Film</string>
+  <string name="Movies">Filmy</string>
+  <!--N-->
+  <string name="Network">Sieć</string>
+  <string name="No">Nie</string>
+  <!--O-->
+  <string name="OK">OK</string>
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Oceń</string>
+  <string name="Rated">Oceniony</string>
+  <string name="Rating">Ocena</string>
+  <string name="RateTwo">Okropny</string>
+  <string name="RateThree">Kiepski</string>
+  <string name="RateFour">Słaby</string>
+  <string name="RateSix">Znośny</string>
+  <string name="RateSeven">Dobry</string>
+  <string name="RateEight">Świetny</string>
+  <string name="RateNine">Znakomity</string>
+  <string name="Runtime">Czas trwania</string>
+  <!--S-->
+  <string name="Score">Ocena</string>
+  <string name="Season">Sezon</string>
+  <string name="Seasons">Sezony</string>
+  <string name="Series">Seriale</string>
+  <string name="SeriesPlural">Seriale</string>
+  <string name="Specials">Dodatki</string>
+  <!--T-->
+  <string name="Timeout">Przekroczony limit czasu</string>
+  <string name="Title">Tytuł</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="Watched">Obejrzany</string>
+  <!--Y-->
+  <string name="Year">Rok</string>
+  <string name="Yes">Tak</string>
+</resources>

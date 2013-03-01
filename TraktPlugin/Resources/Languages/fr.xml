@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Annuler</string>
+  <string name="Calendar">Calendrier</string>
+  <string name="Certification">Certification</string>
+  <!--D-->
+  <string name="DateToday">Aujourd\'hui</string>
+  <string name="DateYesterday">Hier</string>
+  <string name="DownloadFanart">Télécharger le Fanart</string>
+  <!--E-->
+  <string name="Episode">Episode</string>
+  <string name="Episodes">Episodes</string>
+  <!--F-->
+  <string name="FirstAired">Première Diffusion</string>
+  <!--G-->
+  <string name="Genre">Genre</string>
+  <string name="GenreAll">Tous formats</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Liste</string>
+  <!--M-->
+  <string name="MarkAsWatched">Marquer comme vu</string>
+  <string name="Movie">Film</string>
+  <string name="Movies">Films</string>
+  <string name="MultiSelectDialog">Dialogue de sélection multiple</string>
+  <!--N-->
+  <string name="Name">Nom</string>
+  <string name="Network">Chaine</string>
+  <string name="No">Non</string>
+  <!--O-->
+  <string name="OK">OK</string>
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Note</string>
+  <string name="Rated">Noté</string>
+  <string name="Rating">Note</string>
+  <string name="RateTwo">Affreux</string>
+  <string name="RateThree">Mauvais</string>
+  <string name="RateFour">Pauvre</string>
+  <string name="RateSix">Passable</string>
+  <string name="RateSeven">Bon</string>
+  <string name="RateEight">Super</string>
+  <string name="RateNine">Excellent</string>
+  <string name="Recommendations">Recommandations</string>
+  <string name="Runtime">Durée</string>
+  <!--S-->
+  <string name="Score">Score</string>
+  <string name="Season">Saison</string>
+  <string name="Seasons">Saisons</string>
+  <string name="Series">Séries</string>
+  <string name="SeriesPlural">Séries</string>
+  <string name="Shouts">Messages</string>
+  <string name="SettingPluginEnabledName">Plugin activé</string>
+  <string name="SettingListedHomeName">Listé dans Home</string>
+  <string name="SettingListedPluginsName">Listé dans My Plugins</string>
+  <string name="Specials">Spéciaux</string>
+  <!--T-->
+  <string name="Timeout">Temps expiré</string>
+  <string name="Trending">Tendances</string>
+  <string name="Title">Titre</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="WatchList">Afficher la liste</string>
+  <string name="Watched">Visionné</string>
+  <!--Y-->
+  <string name="Year">Année</string>
+  <string name="Yes">Oui</string>
+</resources>

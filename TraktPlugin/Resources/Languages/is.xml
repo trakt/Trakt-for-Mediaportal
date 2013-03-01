@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <string name="ActivityWatching">{0} er að horfa á {1}</string>
+  <string name="ActivityWatched">{0} horfðu á {1}</string>
+  <string name="AddFriend">Bæta við vini...</string>
+  <string name="AddShowToList">Bæta þáttaröð við í lista</string>
+  <string name="Age">Aldur</string>
+  <string name="ApproveFriendMessage">Viltu bæta notenda {0} sem vin?</string>
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Hætta við</string>
+  <string name="Calendar">Dagatal</string>
+  <string name="CalendarMyShows">Mínir sjónvarpsþættir</string>
+  <string name="CalendarAllShows">Allir sjónvarpsþættir</string>
+  <string name="Certification">Aldurstakmark</string>
+  <string name="Create">Búa til</string>
+  <string name="CreateMovingPicturesCategories">Búa til Moving Pictures flokkun</string>
+  <string name="CreateMovingPicturesFilters">Búa til Moving Pictures síur</string>
+  <string name="CreatingCategories">Búa til flokkanir</string>
+  <!--D-->
+  <string name="DateToday">Í dag</string>
+  <string name="DateYesterday">í gær</string>
+  <string name="DateOneWeekAgo">Fyrir viku</string>
+  <string name="DateTwoWeeksAgo">Fyrir tveimur vikum</string>
+  <string name="DateOneMonthAgo">Fyrir mánuði</string>
+  <string name="Deny">Neita</string>
+  <string name="DeleteList">Eyða lista</string>
+  <string name="DeletingList">Eyði lista</string>
+  <string name="DeleteFriend">Eyði vin</string>
+  <!--E-->
+  <string name="Episode">Þáttanúmer</string>
+  <!--F-->
+  <string name="Friend">Vinur</string>
+  <string name="Friends">Vinir</string>
+  <string name="FullName">Fullt nafn</string>
+  <!--G-->
+  <string name="Gender">Kyn</string>
+  <string name="General">Almennt</string>
+  <string name="GeneralSettings">Almennar stillingar</string>
+  <string name="Genre">Flokkur</string>
+  <string name="GenreItem">Flokkur: {0}</string>
+  <string name="GenreAdventure">Ævintýra</string>
+  <string name="GenreAll">Allir</string>
+  <string name="GenreAnimation">Teiknimyndir</string>
+  <string name="GenreChildren">Barna</string>
+  <string name="GenreComedy">Gaman</string>
+  <string name="GenreDocumentary">Heimildar</string>
+  <string name="GenreFamily">Fjölskyldu</string>
+  <string name="GenreHorror">Hryllingur</string>
+  <string name="GenreMusic">Tónlist</string>
+  <string name="GenreNone">Ekkert</string>
+  <string name="GenreSoap">Sápu</string>
+  <string name="GenreSport">Íþróttir</string>
+  <string name="GenreThriller">Spennu</string>
+  <string name="GenreWestern">Kúreka</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Listi</string>
+  <string name="Lists">Listar</string>
+  <string name="LoggedIn">Innskráður</string>
+  <string name="Login">Innskrá</string>
+  <!--M-->
+  <string name="MarkAsWatched">Merkja séða</string>
+  <string name="Movie">Kvikmynd</string>
+  <string name="Movies">Kvikmyndir</string>
+  <string name="MultiSelectDialog">Multi-Select Dialog</string>
+  <!--N-->
+  <string name="Name">Nafn</string>
+  <string name="NextEpisode">Næsti þáttur</string>
+  <string name="NextWeek">Næstu viku</string>
+  <string name="NoEpisodesThisWeek">Engir þættir í þessari viku</string>
+  <string name="NoFriends">Engir vinir!</string>
+  <string name="No">Nei</string>
+  <!--O-->
+  <string name="OK">Í lagi</string>
+  <string name="Overview">Yfirlit</string>
+  <!--P-->
+  <string name="Plugin">Viðbót</string>
+  <string name="Plugins">Viðbætur</string>
+  <!--R-->
+  <string name="Rate">Aldurst:</string>
+  <string name="Rated">Einkunn</string>
+  <string name="RateHeading">Hvað finnst þér?</string>
+  <string name="RateTwo">Hræðileg</string>
+  <string name="RateFour">Léleg</string>
+  <string name="RateSeven">Góð</string>
+  <string name="RateNine">Mjög góð</string>
+  <string name="RelatedMovies">Svipaðar kvikmyndir</string>
+  <string name="RelatedShows">Svipaðir sjónvarpsþættir</string>
+  <string name="Released">Útgefið</string>
+  <string name="ReleaseDate">Útgáfudagsetning</string>
+  <string name="RemoveFromLibrary">Eyða úr safni</string>
+  <string name="Runtime">Sýningart:</string>
+  <!--S-->
+  <string name="Score">Einkunn</string>
+  <string name="Season">Þáttaröð</string>
+  <string name="Seasons">Þáttaraðir</string>
+  <string name="SelectUser">Velja notenda</string>
+  <string name="Series">Þáttaraðir</string>
+  <string name="SeriesPlural">Þáttaraðir</string>
+  <string name="Settings">Stillingar</string>
+  <string name="SettingPluginEnabledName">Viðbætur virkt</string>
+  <string name="SettingListedHomeName">Birt í Home</string>
+  <string name="SettingListedPluginsName">Birt í Viðbætum</string>
+  <string name="StartYear">Byrja: {0}</string>
+  <string name="SortBy">Röðun eftir: {0}</string>
+  <string name="SortSeasonsAscending">Raða þáttaröðum í hækkandi röð</string>
+  <string name="SortSeasonsDescending">Raða þáttaröðum í lækkandi röð</string>
+  <!--T-->
+  <string name="Title">Heiti</string>
+  <!--U-->
+  <string name="User">Notandi</string>
+  <string name="Username">Notendanafn</string>
+  <string name="UpdatingCategories">Uppfæri flokkanir</string>
+  <string name="UpdatingFilters">Uppfæri síur</string>
+  <string name="UnableToPlayTrailer">Get ekki spilað stiklu.</string>
+  <!--V-->
+  <string name="Votes">Atkvæði</string>
+  <string name="ValidUsername">Þú verður að slá inn gilt notendanafn!</string>
+  <string name="ValidEmail">Þú verður að slá inn gilt tölvupóstfang!</string>
+  <!--W-->
+  <string name="Watched">Séð</string>
+  <string name="WatchedMovies">Séðar kvikmyndir</string>
+  <string name="WatchedEpisodes">Séðir þætti</string>
+  <string name="WatchedShows">Séðir sjónvarpsþættir</string>
+  <!--Y-->
+  <string name="Year">Ár</string>
+  <string name="Yes">Já</string>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Peruuta</string>
+  <string name="Certification">Sertifionti</string>
+  <!--D-->
+  <string name="DateToday">Tänään</string>
+  <string name="DateYesterday">Eilen</string>
+  <string name="DownloadFanart">Lataa fanitaide</string>
+  <!--E-->
+  <string name="Episode">Jakso</string>
+  <string name="Episodes">Jaksot</string>
+  <!--F-->
+  <string name="FirstAired">Ensiesitys</string>
+  <!--G-->
+  <string name="Genre">Lajityyppi</string>
+  <string name="GenreAll">Kaikki</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Lista</string>
+  <!--M-->
+  <string name="MarkAsWatched">Merkitse katsotuksi</string>
+  <string name="Movie">Elokuva</string>
+  <string name="Movies">Elokuvat</string>
+  <!--N-->
+  <string name="Name">Nimi</string>
+  <string name="Network">Studio</string>
+  <string name="No">Ei</string>
+  <!--O-->
+  <string name="OK">OK</string>
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Arvostele</string>
+  <string name="Rated">Arvosteltu</string>
+  <string name="Rating">Arvosana</string>
+  <string name="RateTwo">Kamala</string>
+  <string name="RateThree">Huono</string>
+  <string name="RateFour">Kehno</string>
+  <string name="RateSix">Kohtalainen</string>
+  <string name="RateSeven">Hyvä</string>
+  <string name="RateEight">Todella hyvä</string>
+  <string name="RateNine">Loistava</string>
+  <string name="Runtime">Kestoaika</string>
+  <!--S-->
+  <string name="Score">Pistemäärä</string>
+  <string name="Season">Tuotantokausi</string>
+  <string name="Seasons">Tuotantokaudet</string>
+  <string name="Series">Sarjat</string>
+  <string name="SeriesPlural">Sarjat</string>
+  <string name="Specials">Erikoisuudet</string>
+  <!--T-->
+  <string name="Timeout">Aikakatkaisu</string>
+  <string name="Title">Nimi</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="Watched">Katsottu</string>
+  <!--Y-->
+  <string name="Year">Vuosi</string>
+  <string name="Yes">Kyllä</string>
+</resources>

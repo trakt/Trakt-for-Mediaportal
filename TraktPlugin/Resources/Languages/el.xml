@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Άκυρο</string>
+  <string name="Certification">Καταλληλότητα</string>
+  <!--D-->
+  <string name="DateToday">Σήμερα</string>
+  <string name="DateYesterday">Χθες</string>
+  <string name="DownloadFanart">Μεταφόρτωση Fanart</string>
+  <!--E-->
+  <string name="Episode">Επεισόδιο</string>
+  <string name="Episodes">Επεισόδια</string>
+  <!--F-->
+  <string name="FirstAired">Πρώτη προβολή</string>
+  <!--G-->
+  <string name="Genre">Είδος</string>
+  <string name="GenreAll">Όλα</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">Λίστα</string>
+  <!--M-->
+  <string name="MarkAsWatched">Σημείωση ως προβληθείσας</string>
+  <string name="Movie">Ταινία</string>
+  <string name="Movies">Ταινίες</string>
+  <!--N-->
+  <string name="Name">Όνομα</string>
+  <string name="Network">Δίκτυο</string>
+  <string name="No">Όχι</string>
+  <!--O-->
+  <string name="OK">Εντάξει</string>
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Αξιολόγηση</string>
+  <string name="Rated">Αξιολογήθηκε ως</string>
+  <string name="Rating">Αξιολόγηση</string>
+  <string name="RateTwo">Απαίσιο</string>
+  <string name="RateThree">Κακό</string>
+  <string name="RateFour">Φτωχό</string>
+  <string name="RateSix">Τίμιο</string>
+  <string name="RateSeven">Καλό</string>
+  <string name="RateEight">Σπουδαίο</string>
+  <string name="RateNine">Εξαιρετικό</string>
+  <string name="Runtime">Διάρκεια</string>
+  <!--S-->
+  <string name="Score">Βαθμολογία</string>
+  <string name="Season">Κύκλος</string>
+  <string name="Seasons">Κύκλοι</string>
+  <string name="Series">Σειρές</string>
+  <string name="SeriesPlural">Σειρές</string>
+  <string name="Specials">Σπέσιαλ</string>
+  <!--T-->
+  <string name="Title">Τίτλο</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <string name="Watched">Προβληθέν</string>
+  <!--Y-->
+  <string name="Year">Έτος</string>
+  <string name="Yes">Ναι</string>
+</resources>

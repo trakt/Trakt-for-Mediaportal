@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <!--D-->
+  <!--E-->
+  <string name="Episode">Episode</string>
+  <string name="Episodes">Episoder</string>
+  <!--F-->
+  <!--G-->
+  <string name="GenreAll">Alle</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <!--M-->
+  <!--N-->
+  <string name="No">Nei</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <!--S-->
+  <string name="Season">Sesong</string>
+  <string name="Seasons">Sesonger</string>
+  <string name="Series">Serier</string>
+  <string name="SeriesPlural">Serier</string>
+  <string name="Specials">Spesialer</string>
+  <!--T-->
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Yes">Ja</string>
+</resources>

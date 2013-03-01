@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Preklici</string>
+  <string name="Certification">Certifikacija</string>
+  <!--D-->
+  <string name="DateToday">Danes</string>
+  <string name="DateYesterday">Vceraj</string>
+  <!--E-->
+  <!--F-->
+  <!--G-->
+  <string name="Genre">Žanr</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <!--M-->
+  <string name="MarkAsWatched">Oznaci kot gledano</string>
+  <string name="Movie">Film</string>
+  <string name="Movies">Filmov</string>
+  <!--N-->
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Oceni</string>
+  <string name="Rated">Ocenjeno</string>
+  <string name="RateTwo">Strašno</string>
+  <string name="RateSeven">Dobro</string>
+  <string name="RateNine">Krasno</string>
+  <string name="Runtime">Dolžina</string>
+  <!--S-->
+  <string name="Score">Tocke</string>
+  <!--T-->
+  <string name="Title">Naslov</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Year">Leto</string>
+</resources>

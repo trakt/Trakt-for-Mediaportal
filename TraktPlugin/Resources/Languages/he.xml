@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">ביטול</string>
+  <string name="Certification">אישור צפייה</string>
+  <!--D-->
+  <string name="DateToday">היום</string>
+  <string name="DateYesterday">אתמול</string>
+  <string name="DownloadFanart">הורד תמונת רקע</string>
+  <!--E-->
+  <string name="Episode">פרק</string>
+  <string name="Episodes">פרקים</string>
+  <!--F-->
+  <!--G-->
+  <string name="Genre">ז\'אנר</string>
+  <string name="GenreAll">הכל</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <string name="List">רשימה</string>
+  <!--M-->
+  <string name="MarkAsWatched">סמן כנצפה</string>
+  <string name="Movie">סרט</string>
+  <string name="Movies">סרטים</string>
+  <!--N-->
+  <string name="No">לא</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">דרג</string>
+  <string name="Rated">מדורג</string>
+  <string name="RateTwo">גרוע</string>
+  <string name="RateSeven">טוב</string>
+  <string name="RateNine">מעולה</string>
+  <string name="Runtime">זמן ריצה</string>
+  <!--S-->
+  <string name="Score">דירוג</string>
+  <string name="Season">עונה</string>
+  <string name="Seasons">עונות</string>
+  <string name="Series">סדרות</string>
+  <string name="SeriesPlural">סדרות</string>
+  <string name="Specials">ספיישלס</string>
+  <!--T-->
+  <string name="Title">שם סרט</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Year">שנה</string>
+  <string name="Yes">כן</string>
+</resources>

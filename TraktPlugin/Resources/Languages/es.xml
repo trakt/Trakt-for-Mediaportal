@@ -1,9 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- Trakt translation file -->
-<!-- English (US) -->
-<!-- Note: English is the fallback for any strings not found in other languages -->
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!-- A -->
+  <!--A-->
   <string name="Account">Account</string>
   <string name="AccountSetup">Account Setup</string>
   <string name="AccountDialog">Account Dialog</string>
@@ -22,7 +19,7 @@
   <string name="ActivityWatchlist">{0} added {1} to their watchlist</string>
   <string name="ActivityAddToList">{0} added {1} to {2}</string>
   <string name="ActivityCreatedList">{0} created {1}</string>
-  <string name="ActivityShouts">{0} shouted on {1}</string>  
+  <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>
   <string name="AddToLibrary">Add to Library</string>
@@ -41,11 +38,9 @@
   <string name="ApprovedDate">Approved Date</string>
   <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
   <string name="AdvancedSettings">Advanced Settings</string>
-  
-  <!-- B -->
+  <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
-  
-  <!-- C -->
+  <!--C-->
   <string name="Cancel">Cancel</string>
   <string name="Calendar">Calendar</string>
   <string name="CalendarMyShows">My Shows</string>
@@ -70,8 +65,7 @@
   <string name="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
   <string name="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
   <string name="CopyList">Copy List...</string>
-  
-  <!-- D -->
+  <!--D-->
   <string name="DateToday">Today</string>
   <string name="DateYesterday">Yesterday</string>
   <string name="DateOneWeekAgo">1 Week Ago</string>
@@ -85,11 +79,10 @@
   <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
   <string name="DisconnectAccount">Disconnect Account: {0}</string>
   <string name="DismissRecommendation">Dismiss this Recommendation</string>
-  <string name="DontIncludeMeInFriendsActivity">Don't Include Me in Friends Activity</string>
+  <string name="DontIncludeMeInFriendsActivity">Don\'t Include Me in Friends Activity</string>
   <string name="DownloadFanart">Download Fanart</string>
   <string name="DownloadFullSizeFanart">Download Original Size Fanart</string>
-  
-  <!-- E -->
+  <!--E-->
   <string name="EditList">Edit List...</string>
   <string name="EditingList">Editing List</string>
   <string name="Email">Email</string>
@@ -98,8 +91,7 @@
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
   <string name="ErrorCalendar">Error getting calendar.</string>
-  
-  <!-- F -->
+  <!--F-->
   <string name="FirstAired">First Aired</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
@@ -107,8 +99,7 @@
   <string name="FriendRequest">Friend Request</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
   <string name="FullName">Full Name</string>
-  
-  <!-- G -->
+  <!--G-->
   <string name="Gender">Gender</string>
   <string name="General">General</string>
   <string name="GeneralSettings">GeneralSettings</string>
@@ -153,7 +144,7 @@
   <string name="GettingCalendar">Getting Calendar</string>
   <string name="GettingFriendsList">Getting Friends List</string>
   <string name="GettingFriendsRequests">Getting Friend Requests</string>
-  <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>  
+  <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>
   <string name="GettingSearchResults">Getting Search Results</string>
@@ -168,9 +159,8 @@
   <string name="GettingWatchListEpisodes">Getting Watch List Episodes</string>
   <string name="GettingRelatedMovies">Getting Related Movies</string>
   <string name="GettingRelatedShows">Getting Related Shows</string>
-  <string name="GettingTrailerUrls">Getting Trailer Urls</string>  
-  
-  <!-- H -->
+  <string name="GettingTrailerUrls">Getting Trailer Urls</string>
+  <!--H-->
   <string name="Hate">Hate</string>
   <string name="Hated">Hated</string>
   <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
@@ -179,20 +169,16 @@
   <string name="HideWatchlisted">Hide Watchlisted</string>
   <string name="HideSpoilers">Hide Spoilers</string>
   <string name="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from menu.</string>
-
-  <!-- I -->
+  <!--I-->
   <string name="IncludeMeInFriendsActivity">Include Me in Friends Activity</string>
   <string name="Inserted">Inserted</string>
   <string name="Item">Item</string>
   <string name="Items">Items</string>
-  
-  <!-- J -->
+  <!--J-->
   <string name="JoinDate">Join Date</string>
   <string name="Joined">Joined</string>
-
-  <!-- K -->
-  
-  <!-- L -->
+  <!--K-->
+  <!--L-->
   <string name="Location">Location</string>
   <string name="Layout">Layout</string>
   <string name="List">List</string>
@@ -203,15 +189,13 @@
   <string name="LoggedIn">Logged In</string>
   <string name="Login">Login</string>
   <string name="ListNameAlreadyExists">List with this name already exists!</string>
-  
-  <!-- M -->
+  <!--M-->
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
   <string name="Movie">Movie</string>
   <string name="Movies">Movies</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
-  
-  <!-- N -->
+  <!--N-->
   <string name="Name">Name</string>
   <string name="Network">Network</string>
   <string name="NextEpisode">Next Episode</string>
@@ -243,12 +227,10 @@
   <string name="NoRelatedMovies">No Related movies found for {0}!</string>
   <string name="NoRelatedShows">No Related shows found for {0}!</string>
   <string name="No">No</string>
-  
-  <!-- O -->
+  <!--O-->
   <string name="OK">OK</string>
   <string name="Overview">Overview</string>
-  
-  <!-- P -->
+  <!--P-->
   <string name="Password">Password</string>
   <string name="People">People</string>
   <string name="Percentage">Percentage</string>
@@ -265,8 +247,7 @@
   <string name="PrivacyPublic">Anyone can view this list</string>
   <string name="PrivacyFriends">Only friends can view this list</string>
   <string name="PrivacyPrivate">Only you can view this list</string>
-  
-  <!-- R -->
+  <!--R-->
   <string name="Rate">Rate</string>
   <string name="Rated">Rated</string>
   <string name="Rating">Rating</string>
@@ -298,8 +279,7 @@
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string name="RemoveFromList">Remove from List...</string>
   <string name="Runtime">Runtime</string>
-  
-  <!-- S -->
+  <!--S-->
   <string name="Score">Score</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Search NZB</string>
@@ -343,7 +323,7 @@
   <string name="SettingWebRequestTimeoutName">Web Request Timeout</string>
   <string name="SettingWebRequestTimeoutDescription">Set the period of time (in seconds) before cancelling any web requests. Default is 30 seconds.</string>
   <string name="SettingSyncRatingsName">Synchronize Ratings</string>
-  <string name="SettingSyncRatingsDescription">Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.</string>
+  <string name="SettingSyncRatingsDescription">Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It\'s recommended that items online are rated using advanced ratings before enabling this setting.</string>
   <string name="SettingShowRateDialogOnWatchedName">Show Rate Dialog on Watched</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated.</string>
   <string name="SettingActivityPollIntervalName">Dashboard Activity Poll Interval</string>
@@ -359,8 +339,7 @@
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>
   <string name="SortSeasonsDescending">Sort Seasons in Descending order</string>
   <string name="Specials">Specials</string>
-  
-  <!-- T -->
+  <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="Trending">Trending</string>
   <string name="TrendingShows">Trending Shows</string>
@@ -374,8 +353,7 @@
   <string name="Title">Title</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
-  
-  <!-- U -->
+  <!--U-->
   <string name="UserHasNotWatchedEpisodes">User has not watched any episodes!</string>
   <string name="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string name="User">User</string>
@@ -386,15 +364,13 @@
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
-  
-  <!-- V -->
+  <!--V-->
   <string name="View">View</string>
   <string name="Votes">Votes</string>
   <string name="ValidUsername">You must enter a valid username!</string>
   <string name="ValidPassword">You must enter a valid password!</string>
   <string name="ValidEmail">You must enter a valid email!</string>
-
-  <!-- W -->
+  <!--W-->
   <string name="WatchList">Watch List</string>
   <string name="Watched">Watched</string>
   <string name="WatchedMovies">Watched Movies</string>
@@ -404,10 +380,8 @@
   <string name="Watching">Watching</string>
   <string name="WatchListMovies">Movie Watch List</string>
   <string name="WatchListShows">Show Watch List</string>
-  <string name="WatchListEpisodes">Episode Watch List</string>  
-
-  <!-- Y -->
+  <string name="WatchListEpisodes">Episode Watch List</string>
+  <!--Y-->
   <string name="Year">Year</string>
   <string name="Yes">Yes</string>
-  
 </resources>
