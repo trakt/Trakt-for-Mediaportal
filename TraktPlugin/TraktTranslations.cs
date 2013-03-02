@@ -127,7 +127,7 @@ namespace TraktPlugin.GUI
                         string key = stringEntry.Attributes.GetNamedItem("name").Value;
                         if (!TranslatedStrings.ContainsKey(key))
                         {
-                            TranslatedStrings.Add(key, stringEntry.InnerText);
+                            TranslatedStrings.Add(key, stringEntry.InnerText.NormalizeTranslation());
                         }
                         else
                         {
@@ -182,6 +182,15 @@ namespace TraktPlugin.GUI
             return input;
         }
 
+        /// <summary>
+        /// Temp workaround to remove unwanted chars from Transifex
+        /// </summary>
+        public static string NormalizeTranslation(this string input)
+        {
+            input = input.Replace("\\'", "'");
+            input = input.Replace("\\\"", "\"");
+            return input;
+        }
         #endregion
 
         #region Translations / Strings
