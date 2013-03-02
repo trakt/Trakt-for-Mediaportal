@@ -22,20 +22,6 @@ namespace TraktPlugin
         show
     }
 
-    public enum ActivityAction
-    {
-        checkin,
-        collection,
-        created,
-        item_added,
-        rating,
-        scrobble,
-        seen,
-        shout,
-        watching,
-        watchlist
-    }
-
     internal class TraktDashboard
     {
         #region Enums
@@ -812,6 +798,13 @@ namespace TraktPlugin
             return activity.Shout.Text;
         }
 
+        private string GetActivityReviewText(TraktActivity.Activity activity)
+        {
+            if (activity.Action != ActivityAction.review.ToString()) return string.Empty;
+            if (activity.Review.Spoiler) return Translation.HiddenToPreventSpoilers;
+            return activity.Review.Text;
+        }
+
         private string GetListItemTitle(TraktActivity.Activity activity)
         {
             if (activity == null) return string.Empty;
@@ -875,6 +868,10 @@ namespace TraktPlugin
 
                 case ActivityAction.watchlist:
                     title = string.Format(Translation.ActivityWatchlist, userName, itemName);
+                    break;
+
+                case ActivityAction.review:
+                    title = string.Format(Translation.ActivityReview, userName, itemName);
                     break;
 
                 case ActivityAction.shout:
@@ -1548,6 +1545,7 @@ namespace TraktPlugin
 
                         switch (action)
                         {
+                            case ActivityAction.review:
                             case ActivityAction.shout:
                                 // view shout in shouts window
                                 ViewShout(activity);

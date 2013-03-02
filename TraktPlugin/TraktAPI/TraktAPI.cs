@@ -111,6 +111,7 @@ namespace TraktPlugin.TraktAPI
         collection,
         rating,
         watchlist,
+        review,
         shout,
         created,
         item_added

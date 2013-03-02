@@ -19,6 +19,7 @@
   <string name="ActivityWatchlist">{0} added {1} to their watchlist</string>
   <string name="ActivityAddToList">{0} added {1} to {2}</string>
   <string name="ActivityCreatedList">{0} created {1}</string>
+  <string name="ActivityReview">{0} reviewed {1}</string>
   <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>

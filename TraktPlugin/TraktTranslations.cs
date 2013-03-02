@@ -220,6 +220,7 @@ namespace TraktPlugin.GUI
         public static string ActivityWatchlist = "{0} added {1} to their watchlist";
         public static string ActivityAddToList = "{0} added {1} to {2}";
         public static string ActivityCreatedList = "{0} created list {1}";
+        public static string ActivityReview = "{0} reviewed {1}";
         public static string ActivityShouts = "{0} shouted on {1}";
         public static string Activities = "Activities";
         public static string AddFriend = "Add Friend...";

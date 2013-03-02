@@ -87,14 +87,23 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "movie")]
             public TraktMovie Movie { get; set; }
 
+            [DataMember(Name = "review")]
+            public Activity.TraktShout Review { get; set; }
+
             [DataMember(Name = "shout")]
             public Activity.TraktShout Shout { get; set; }
 
             [DataContract]
             public class TraktShout
             {
+                [DataMember(Name = "id")]
+                public int Id { get; set; }
+
                 [DataMember(Name = "text")]
                 public string Text { get; set; }
+
+                [DataMember(Name = "text_html")]
+                public string TextHTML { get; set; }
 
                 [DataMember(Name = "spoiler")]
                 public bool Spoiler { get; set; }
