@@ -229,7 +229,7 @@ namespace TraktPlugin
                 {
                     // load facade if empty and we have activity already
                     // facade is empty on re-load of window
-                    if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities.Count > 0)
+                    if (facade.Count == 0 && PreviousActivity != null && PreviousActivity.Activities != null && PreviousActivity.Activities.Count > 0)
                     {
                         PublishActivityProperties(PreviousActivity);
                         LoadActivityFacade(PreviousActivity, facade);
@@ -295,8 +295,10 @@ namespace TraktPlugin
             TraktLogger.Debug("Loading Trakt Activity Facade");
 
             // if no activities report to user
-            if (activities == null || activities.Activities.Count == 0)
+            if (activities == null || activities.Activities == null || activities.Activities.Count == 0)
             {
+                facade.Clear();
+
                 GUIListItem item = new GUIListItem(Translation.NoActivities);
                 facade.Add(item);
                 facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
@@ -1041,7 +1043,7 @@ namespace TraktPlugin
         {
             SetUpdateAnimation(true);
 
-            if (PreviousActivity == null || ActivityStartTime <= 0 || GetFullActivityLoad)
+            if (PreviousActivity == null || PreviousActivity.Activities == null || ActivityStartTime <= 0 || GetFullActivityLoad)
             {
                 PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity(TraktSettings.IncludeMeInFriendsActivity);
                 GetFullActivityLoad = false;
@@ -1685,8 +1687,8 @@ namespace TraktPlugin
 
         public void Init()
         {
-            if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
-                return;
+            //if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+            //    return;
 
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
             GUIWindowManager.OnNewAction +=new OnActionHandler(GUIWindowManager_OnNewAction);
