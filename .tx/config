@@ -4,5 +4,5 @@ host=https://www.transifex.com
 file_filter=TraktPlugin\Resources\Languages\<lang>.xml
 source_file=TraktPlugin\Resources\Languages\en-US.xml
 source_lang=en
-lang_map = en: en-US
+lang_map = en: en-US, pt_BR: pt-BR
 type=ANDROID

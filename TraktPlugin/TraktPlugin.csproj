@@ -390,22 +390,47 @@
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
+    <Content Include="Resources\Languages\ca.xml" />
+    <Content Include="Resources\Languages\cs.xml" />
     <Content Include="Resources\Languages\da.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Languages\de.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Languages\el.xml" />
     <Content Include="Resources\Languages\en-US.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Languages\es.xml" />
+    <Content Include="Resources\Languages\et.xml" />
+    <Content Include="Resources\Languages\fi.xml" />
+    <Content Include="Resources\Languages\fr.xml" />
+    <Content Include="Resources\Languages\he.xml" />
+    <Content Include="Resources\Languages\hi.xml" />
+    <Content Include="Resources\Languages\hr.xml" />
+    <Content Include="Resources\Languages\hu.xml" />
+    <Content Include="Resources\Languages\id.xml" />
+    <Content Include="Resources\Languages\is.xml" />
     <Content Include="Resources\Languages\it.xml" />
+    <Content Include="Resources\Languages\ko.xml" />
+    <Content Include="Resources\Languages\lt.xml" />
+    <Content Include="Resources\Languages\nb.xml" />
     <Content Include="Resources\Languages\nl.xml" />
     <Content Include="Resources\Languages\no.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\Languages\pl.xml" />
+    <Content Include="Resources\Languages\pt-BR.xml" />
+    <Content Include="Resources\Languages\pt.xml" />
+    <Content Include="Resources\Languages\ru.xml" />
+    <Content Include="Resources\Languages\sk.xml" />
+    <Content Include="Resources\Languages\sl.xml" />
+    <Content Include="Resources\Languages\sr.xml" />
     <Content Include="Resources\Languages\sv.xml" />
+    <Content Include="Resources\Languages\tr.xml" />
+    <Content Include="Resources\Languages\uk.xml" />
+    <Content Include="Resources\Languages\zh.xml" />
     <Content Include="Resources\Skins\DefaultWide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendarBig.png" />

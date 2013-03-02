@@ -148,6 +148,7 @@
   <string name="GettingListItems">Listen-Elemente werden abgerufen</string>
   <string name="GettingSearchResults">Suchergebnisse abrufen</string>
   <string name="GettingShouts">Shouts abrufen</string>
+  <string name="GettingShowSeasons">Staffeln werden abgerufen</string>
   <string name="GettingTrendingMovies">Liste der populären Filme wird abgerufen</string>
   <string name="GettingTrendingShows">Liste der populären Serien wird abgerufen</string>
   <string name="GettingRecommendedMovies">Vorgeschlagene Filme werden abgerufen</string>
@@ -155,7 +156,8 @@
   <string name="GettingWatchListMovies">Beobachtungsliste Filme wird abgerufen</string>
   <string name="GettingWatchListShows">Beobachtungsliste Serien wird abgerufen</string>
   <string name="GettingWatchListEpisodes">Beobachtungsliste Episoden wird abgerufen</string>
-  <string name="GettingRelatedShows">Ähnliche Shows abrufen</string>
+  <string name="GettingRelatedMovies">Ähnliche Filme werden abgerufen</string>
+  <string name="GettingRelatedShows">Ähnliche Shows werden abgerufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
   <!--H-->
   <string name="Hate">Hass</string>
@@ -195,6 +197,7 @@
   <!--N-->
   <string name="Name">Name</string>
   <string name="Network">Netzwerk</string>
+  <string name="NextEpisode">Nächste Episode</string>
   <string name="NextWeek">Nächste Woche</string>
   <string name="NoActivities">Keine Aktivitäten gefunden</string>
   <string name="NoEpisodesInSeason">Keine Episoden in dieser Staffelverfügbar</string>
@@ -231,8 +234,11 @@
   <string name="Protected">Geschützt</string>
   <string name="PersonWatching">1 Person schaut gerade</string>
   <string name="PeopleWatching">{0} Personen schauen</string>
+  <string name="PlayTrailer">Trailer abspielen</string>
+  <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
   <string name="Public">Öffentlich</string>
+  <string name="PreviousEpisode">Vorherige Episode</string>
   <string name="Private">Privat</string>
   <string name="Privacy">Privatsphäre</string>
   <string name="PrivacyPublic">Jeder kann diese Liste ansehen</string>

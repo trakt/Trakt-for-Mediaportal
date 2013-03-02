@@ -14,6 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{A5
 		MPEI\Settings\extension_settings.xml = MPEI\Settings\extension_settings.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transifex", "Transifex", "{F3B3046C-F44C-46DE-8BFC-BC9AA2F94911}"
+	ProjectSection(SolutionItems) = preProject
+		.tx\config = .tx\config
+		Transifex\Init_User.bat = Transifex\Init_User.bat
+		Transifex\Pull_From_Transifex.bat = Transifex\Pull_From_Transifex.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
