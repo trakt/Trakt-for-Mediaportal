@@ -57,9 +57,9 @@ namespace TraktPlugin.TraktAPI
         public const string SearchShows = @"http://api.trakt.tv/search/shows.json/" + ApiKey + @"/{0}";
         public const string SearchEpisodes = @"http://api.trakt.tv/search/episodes.json/" + ApiKey + @"/{0}";
         public const string SearchActor = @"http://api.trakt.tv/search/people.json/" + ApiKey + @"/{0}";
-        public const string MovieShouts = @"http://api.trakt.tv/movie/shouts.json/" + ApiKey + @"/{0}";
-        public const string ShowShouts = @"http://api.trakt.tv/show/shouts.json/" + ApiKey + @"/{0}";
-        public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/shouts.json/" + ApiKey + @"/{0}/{1}/{2}";
+        public const string MovieShouts = @"http://api.trakt.tv/movie/comments.json/" + ApiKey + @"/{0}";
+        public const string ShowShouts = @"http://api.trakt.tv/show/comments.json/" + ApiKey + @"/{0}";
+        public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/comments.json/" + ApiKey + @"/{0}/{1}/{2}";
         public const string DismissMovieRecommendation = @"http://api.trakt.tv/recommendations/movies/dismiss/" + ApiKey;
         public const string DismissShowRecommendation = @"http://api.trakt.tv/recommendations/shows/dismiss/" + ApiKey;
         public const string ListAdd = @"http://api.trakt.tv/lists/add/" + ApiKey;

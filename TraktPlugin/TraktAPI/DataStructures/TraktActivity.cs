@@ -97,7 +97,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public class TraktShout
             {
                 [DataMember(Name = "id")]
-                public int Id { get; set; }
+                public long Id { get; set; }
 
                 [DataMember(Name = "text")]
                 public string Text { get; set; }

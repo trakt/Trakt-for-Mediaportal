@@ -992,7 +992,7 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region Shouts
+        #region Comments
 
         /// <summary>
         /// Return a list of shouts for a movie
