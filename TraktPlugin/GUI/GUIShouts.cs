@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -466,6 +467,12 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
             GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.UserAdvancedRating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.UserRating", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Type", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Id", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Likes", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Replies", string.Empty);
 
             GUICommon.ClearUserProperties();
         }
@@ -478,6 +485,13 @@ namespace TraktPlugin.GUI
 
             SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
+            SetProperty("#Trakt.Shout.UserAdvancedRating", shout.UserRatings.AdvancedRating.ToString());
+            SetProperty("#Trakt.Shout.UserRating", shout.UserRatings.Rating.ToString());
+            SetProperty("#Trakt.Shout.Type", shout.Type);
+            SetProperty("#Trakt.Shout.Id", shout.Id.ToString());
+            SetProperty("#Trakt.Shout.Likes", shout.Likes.ToString());
+            SetProperty("#Trakt.Shout.Replies", shout.Replies.ToString());
+
             if (TraktSettings.HideSpoilersOnShouts && shout.Spoiler)
             {
                 SetProperty("#Trakt.Shout.Text", Translation.HiddenToPreventSpoilers);
@@ -585,10 +599,37 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
-         
+            TraktShout shout = TVTag as TraktShout;
+
+            // add a rating overlay if user has rated item
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRatings);
+
+            // get a reference to a MediaPortal Texture Identifier
+            string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+
+            // build memory image, resize avatar as they come in different sizes sometimes
+            Image memoryImage = null;
+            if (ratingOverlay != RatingOverlayImage.None)
+            {
+                memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
+                if (memoryImage == null) return;
+
+                // load texture into facade item
+                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                {
+                    ThumbnailImage = texture;
+                    IconImage = texture;
+                    IconImageBig = texture;
+                }
+            }
+            else
+            {
+                ThumbnailImage = imageFilePath;
+                IconImage = imageFilePath;
+                IconImageBig = imageFilePath;
+            }
+
             // if selected and is current window force an update of thumbnail
             this.UpdateItemIfSelected((int)TraktGUIWindows.Shouts, ItemId);
         }

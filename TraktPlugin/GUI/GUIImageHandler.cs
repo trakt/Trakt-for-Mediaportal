@@ -77,6 +77,36 @@ namespace TraktPlugin.GUI
         }
 
         /// <summary>
+        /// Returns a user rating overlay to display on a user shout
+        /// </summary>
+        internal static RatingOverlayImage GetRatingOverlay(TraktShout.UserRating userRating)
+        {
+            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
+
+            if (userRating.AdvancedRating == 0 && userRating.Rating != "false")
+            {
+                if (userRating.Rating == "love") ratingOverlay = RatingOverlayImage.Love;
+                if (userRating.Rating == "hate") ratingOverlay = RatingOverlayImage.Hate;
+            }
+            else if (userRating.AdvancedRating > 0)
+            {
+                // do extra check to confirm new skin images exist
+                // if not fall back to basic overlays
+                if (!File.Exists(GUIGraphicsContext.Skin + string.Format(@"\Media\traktHeart{0}.png", userRating.AdvancedRating)))
+                {
+                    if (userRating.AdvancedRating > 5)
+                        ratingOverlay = RatingOverlayImage.Love;
+                    else if (userRating.AdvancedRating >= 1)
+                        ratingOverlay = RatingOverlayImage.Hate;
+                }
+                else
+                    ratingOverlay = (RatingOverlayImage)userRating.AdvancedRating;
+            }
+
+            return ratingOverlay;
+        }
+
+        /// <summary>
         /// Download an image if it does not exist locally
         /// </summary>
         /// <param name="url">Online URL of image to download</param>
@@ -240,6 +270,33 @@ namespace TraktPlugin.GUI
 
             gph.Dispose();
             return thumb;
+        }
+
+        /// <summary>
+        /// Draws a trakt overlay, rating icon on a poster
+        /// This is done in memory and wont touch the existing file
+        /// </summary>
+        /// <param name="origPoster">Filename of the untouched avatar</param>
+        /// <param name="type">Overlay type enum</param>
+        /// <param name="size">Size of returned image</param>
+        /// <returns>An image with overlay added to avatar</returns>
+        public static Bitmap DrawOverlayOnAvatar(string origAvartar, RatingOverlayImage ratingType, Size size)
+        {
+            Image image = GUIImageHandler.LoadImage(origAvartar);
+            if (image == null) return null;
+
+            Bitmap avatar = size.IsEmpty ? new Bitmap(image) : new Bitmap(image, size);
+            Graphics gph = Graphics.FromImage(avatar);
+
+            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
+            {
+                Bitmap newAvatar = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));
+                gph.DrawImage(newAvatar, TraktSkinSettings.AvatarRatingOverlayPosX, TraktSkinSettings.AvatarRatingOverlayPosY);
+            }
+
+            gph.Dispose();
+            return avatar;
         }
     }
 }

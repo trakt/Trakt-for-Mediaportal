@@ -22,6 +22,9 @@ namespace TraktPlugin.GUI
         public static int EpisodeThumbRatingOverlayPosX { get; set; }
         public static int EpisodeThumbRatingOverlayPosY { get; set; }
 
+        public static int AvatarRatingOverlayPosX { get; set; }
+        public static int AvatarRatingOverlayPosY { get; set; }
+
         public static List<string> DashBoardActivityWindows { get; set; }
         public static List<string> DashBoardTrendingShowsWindows { get; set; }
         public static List<string> DashBoardTrendingMoviesWindows { get; set; }
@@ -255,6 +258,21 @@ namespace TraktPlugin.GUI
             {
                 int.TryParse(node.InnerText, out posy);
                 EpisodeThumbRatingOverlayPosY = posy;
+            }
+
+            AvatarRatingOverlayPosX = 18;
+            node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/avatar/posx");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posx);
+                AvatarRatingOverlayPosX = posx;
+            }
+            AvatarRatingOverlayPosY = 0;
+            node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/avatar/posy");
+            if (node != null)
+            {
+                int.TryParse(node.InnerText, out posy);
+                AvatarRatingOverlayPosY = posy;
             }
         }
 

@@ -394,6 +394,8 @@ namespace TraktPlugin.GUI
         // L
         public static string Location = "Location";
         public static string Layout = "Layout";
+        public static string Like = "Like";
+        public static string Likes = "Likes";
         public static string List = "List";
         public static string Lists = "Lists";
         public static string Love = "Love";
@@ -496,6 +498,8 @@ namespace TraktPlugin.GUI
         public static string RemoveShowFromWatchList = "Remove Show from WatchList";
         public static string RemoveEpisodeFromWatchList = "Remove Episode from WatchList";
         public static string RemoveFromList = "Remove from List...";
+        public static string Reply = "Reply";
+        public static string Replies = "Replies";
         public static string Runtime = "Runtime";
 
         // S

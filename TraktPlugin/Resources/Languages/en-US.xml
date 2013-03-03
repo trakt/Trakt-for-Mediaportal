@@ -182,6 +182,8 @@
   <!--L-->
   <string name="Location">Location</string>
   <string name="Layout">Layout</string>
+  <string name="Like">Like</string>
+  <string name="Likes">Likes</string>
   <string name="List">List</string>
   <string name="Lists">Lists</string>
   <string name="Love">Love</string>
@@ -279,6 +281,8 @@
   <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string name="RemoveFromList">Remove from List...</string>
+  <string name="Reply">Reply</string>
+  <string name="Replies">Replies</string>
   <string name="Runtime">Runtime</string>
   <!--S-->
   <string name="Score">Score</string>
