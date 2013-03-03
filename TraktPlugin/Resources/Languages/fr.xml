@@ -48,6 +48,7 @@
   <string name="RateEight">Super</string>
   <string name="RateNine">Excellent</string>
   <string name="Recommendations">Recommandations</string>
+  <string name="ReleaseDate">Date de Sortie</string>
   <string name="Runtime">Durée</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -64,6 +65,7 @@
   <string name="Timeout">Temps expiré</string>
   <string name="Trending">Tendances</string>
   <string name="Title">Titre</string>
+  <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
   <!--W-->

@@ -45,6 +45,7 @@
   <string name="RateSeven">Καλό</string>
   <string name="RateEight">Σπουδαίο</string>
   <string name="RateNine">Εξαιρετικό</string>
+  <string name="ReleaseDate">Ημερομηνία κυκλοφορίας</string>
   <string name="Runtime">Διάρκεια</string>
   <!--S-->
   <string name="Score">Βαθμολογία</string>
@@ -55,6 +56,7 @@
   <string name="Specials">Σπέσιαλ</string>
   <!--T-->
   <string name="Title">Τίτλο</string>
+  <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
   <!--W-->

@@ -1,10 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Tili</string>
+  <string name="ActivityFriendsDesc">Katso mitä ystäväsi tekevät...</string>
+  <string name="ActivityCommunityDesc">Katso mitä yhteisössä tapahtuu...</string>
+  <string name="ActivityWatching">{0} katsoo {1}</string>
+  <string name="ActivityWatched">{0} katsoi {1}</string>
+  <string name="ActivityRating">{0} arvioi {1}</string>
+  <string name="ActivityCreatedList">{0} loi {1}</string>
+  <string name="AddFriend">Lisää ystävä...</string>
+  <string name="AddToLibrary">Lisää kirjastoon</string>
+  <string name="AddToList">Lisää listaan...</string>
+  <string name="Age">Ikä</string>
+  <string name="Approve">Hyväksy</string>
+  <string name="ApprovedDate">Hyväksymis päivämäärä</string>
+  <string name="ApproveFriendMessage">Haluaisitko lisätä käyttäjän {0}⏎ ystäväksesi?</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Peruuta</string>
+  <string name="Calendar">Kalenteri</string>
+  <string name="CalendarPremieres">Ennakot</string>
+  <string name="CalendarAllShows">Kaikki jaksot</string>
   <string name="Certification">Sertifionti</string>
+  <string name="Create">Luo</string>
+  <string name="CreateAccount">Luo tili</string>
+  <string name="CreateNewAccount">Luo uusi tili...</string>
+  <string name="CreatingAccount">Luodaan tiliä...</string>
+  <string name="CreateMovingPicturesCategories">Luo Moving Pictures kategoria</string>
   <!--D-->
   <string name="DateToday">Tänään</string>
   <string name="DateYesterday">Eilen</string>
@@ -45,20 +67,31 @@
   <string name="RateSeven">Hyvä</string>
   <string name="RateEight">Todella hyvä</string>
   <string name="RateNine">Loistava</string>
+  <string name="Recommendations">Suositukset</string>
+  <string name="Released">Julkaistu</string>
+  <string name="ReleaseDate">Julkaisupäivä</string>
   <string name="Runtime">Kestoaika</string>
   <!--S-->
   <string name="Score">Pistemäärä</string>
+  <string name="SearchTorrent">Etsi torrenttia</string>
   <string name="Season">Tuotantokausi</string>
   <string name="Seasons">Tuotantokaudet</string>
+  <string name="SearchForFriend">Etsi ystävää...</string>
+  <string name="SendFriendRequest">Lähetä ystävä pyyntö käyttäjälle {0}?</string>
+  <string name="SelectLists">Valitse listat</string>
+  <string name="SelectUser">Valitse käyttäjä</string>
   <string name="Series">Sarjat</string>
   <string name="SeriesPlural">Sarjat</string>
+  <string name="Settings">Asetukset</string>
   <string name="Specials">Erikoisuudet</string>
   <!--T-->
   <string name="Timeout">Aikakatkaisu</string>
   <string name="Title">Nimi</string>
+  <string name="Trailer">Traileri</string>
   <!--U-->
   <!--V-->
   <!--W-->
+  <string name="WatchList">Katsontalista</string>
   <string name="Watched">Katsottu</string>
   <!--Y-->
   <string name="Year">Vuosi</string>

@@ -45,6 +45,7 @@
   <string name="RateEight">Здорово</string>
   <string name="RateNine">Супер</string>
   <string name="Recommendations">Рекомендации</string>
+  <string name="ReleaseDate">Дата Релиза</string>
   <string name="Runtime">Время</string>
   <!--S-->
   <string name="Score">Рейтинг</string>
@@ -58,6 +59,7 @@
   <string name="Timeout">Время истекло</string>
   <string name="Trending">Трендинг</string>
   <string name="Title">Название</string>
+  <string name="Trailer">Трейлер</string>
   <!--U-->
   <!--V-->
   <!--W-->

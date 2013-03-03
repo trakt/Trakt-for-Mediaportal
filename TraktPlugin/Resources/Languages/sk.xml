@@ -30,11 +30,13 @@
   <string name="RateTwo">Otrasné</string>
   <string name="RateSeven">Slušné</string>
   <string name="RateNine">Skvelé</string>
+  <string name="ReleaseDate">Dátum vydánia</string>
   <string name="Runtime">Dĺžka</string>
   <!--S-->
   <string name="Score">Hodnotenie</string>
   <!--T-->
   <string name="Title">Titul</string>
+  <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
   <!--W-->

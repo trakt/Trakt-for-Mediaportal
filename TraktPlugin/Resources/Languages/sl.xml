@@ -30,11 +30,13 @@
   <string name="RateTwo">Strašno</string>
   <string name="RateSeven">Dobro</string>
   <string name="RateNine">Krasno</string>
+  <string name="ReleaseDate">Datum izida</string>
   <string name="Runtime">Dolžina</string>
   <!--S-->
   <string name="Score">Tocke</string>
   <!--T-->
   <string name="Title">Naslov</string>
+  <string name="Trailer">Reklamni film</string>
   <!--U-->
   <!--V-->
   <!--W-->

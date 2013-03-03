@@ -30,11 +30,13 @@
   <string name="RateTwo">Lose</string>
   <string name="RateSeven">Dobro</string>
   <string name="RateNine">Jako dobro</string>
+  <string name="ReleaseDate">Datum izdanja</string>
   <string name="Runtime">Vrijeme</string>
   <!--S-->
   <string name="Score">Ocjena</string>
   <!--T-->
   <string name="Title">Naslov</string>
+  <string name="Trailer">Foršpan</string>
   <!--U-->
   <!--V-->
   <!--W-->

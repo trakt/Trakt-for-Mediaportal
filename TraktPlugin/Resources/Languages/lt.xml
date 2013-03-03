@@ -17,8 +17,12 @@
   <!--O-->
   <!--P-->
   <!--R-->
+  <string name="Rated">Vertinimas</string>
+  <string name="ReleaseDate">Išleidimo data</string>
+  <string name="Runtime">Trukmė</string>
   <!--S-->
   <!--T-->
+  <string name="Trailer">Anonsas</string>
   <!--U-->
   <!--V-->
   <!--W-->

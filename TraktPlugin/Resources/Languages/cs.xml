@@ -47,6 +47,7 @@
   <string name="RateEight">Skvělé</string>
   <string name="RateNine">Výborné</string>
   <string name="Recommendations">Doporučené</string>
+  <string name="ReleaseDate">Datum vydání</string>
   <string name="Runtime">Délka</string>
   <!--S-->
   <string name="Score">Hodnocení</string>
@@ -60,6 +61,7 @@
   <string name="Timeout">Časový limit vypršel</string>
   <string name="Trending">Populární</string>
   <string name="Title">Název</string>
+  <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
   <!--W-->
