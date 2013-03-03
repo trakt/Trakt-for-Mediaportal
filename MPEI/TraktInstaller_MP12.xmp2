@@ -83,6 +83,181 @@
               <ZipFileName>Installer{CopyFile}\{931e4975-9283-43e9-a8d5-a499b0615df9}-it.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\it.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\ca.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e4a8d364-9df8-4a6d-a5ed-57b3e9ece495}-ca.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\ca.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\cs.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c5bf7b1b-20b2-455f-a82a-33aee5c91dba}-cs.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\cs.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\el.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{be528ce4-561e-43da-be53-c3aec63fb3c2}-el.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\el.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\et.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ad8accb4-4690-4677-a1ac-fa0fe9de1d87}-et.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\et.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\fi.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a5f2b03b-fff2-419a-9b77-108ee31c7fb8}-fi.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\fi.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{64d4c167-90b0-4808-a02e-b691a5d6ee45}-fr.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\he.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a2a22fd6-343f-4d6d-9a2c-eb17c8289b82}-he.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\he.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\hi.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{24c44949-b700-4566-8180-d6c21a352244}-hi.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\hi.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\hr.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e476976a-c8ff-44b2-8995-6955d86bb872}-hr.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\hr.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\hu.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3747abe3-259e-4e4b-abd0-928e53d44f18}-hu.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\hu.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\id.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{82c35361-eb8e-4e12-abcc-7bb5277f7a65}-id.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\id.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\is.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{e8f7493f-6004-467e-9642-3817bcfdbf1e}-is.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\is.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\ko.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bd0a9647-a7c5-4f7a-ab32-53548c5cab4e}-ko.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\ko.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\lt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b8def094-d523-4d51-9889-132bb994ea01}-lt.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\lt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\nb.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{41d90cad-0d47-484b-83ce-505e9e9276d1}-nb.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\nb.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\pl.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f8ed6626-2ec0-40af-91ce-3af15df5db07}-pl.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\pl.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cf454c8f-37d2-4db4-8b1c-07b72dd08f35}-pt-BR.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\pt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{790ef197-c525-476c-a49f-5b6f3b99aa4a}-pt.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\pt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\ru.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a4ac6d10-5d2d-454c-bbb9-a0623bb06c6e}-ru.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\ru.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\sk.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bd207170-3173-42f9-a3d0-e4d0f0db345c}-sk.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\sk.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\sl.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{469be62b-7be2-46c5-89e7-ec8e4fc0e010}-sl.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\sl.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\sr.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cc1cdd56-a0fe-4184-a169-3dba127ae1a9}-sr.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\sr.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\tr.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5a60249f-18d9-44b1-b438-a9d98c9d371e}-tr.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\tr.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\uk.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d3ec44e6-9b1c-4d63-8fd4-a1f3d1968d6e}-uk.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\uk.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\zh.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a988daee-9a77-451f-bed1-082816502539}-zh.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\zh.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -3031,19 +3206,18 @@ public class Script
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>2</Major>
-      <Minor>6</Minor>
+      <Minor>7</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added Next/Previous episode support from Shouts window. Users can use the context menu for unsupported skins.
-* Improved usage of TMDb Id's in MyFilms Library Sync and Scrobble. Thanks Guzzi.
-* Return to Home screen if resuming MediaPortal into Related Movie/Shows window.</VersionDescription>
+    <VersionDescription>* Added support for Transifex Translations, thanks chefkoch.
+* Updated Shouts GUI and API to use new Comments system i.e. supports both shouts and reviews. User Rating overlay is also added to avatars as well as several new skin properties, see skin designers guide for more details.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2013-02-24T10:00:00</ReleaseDate>
+    <ReleaseDate>2013-03-03T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
@@ -3144,6 +3318,181 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\it.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{931e4975-9283-43e9-a8d5-a499b0615df9}-it.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\it.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\ca.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e4a8d364-9df8-4a6d-a5ed-57b3e9ece495}-ca.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\ca.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\cs.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c5bf7b1b-20b2-455f-a82a-33aee5c91dba}-cs.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\cs.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\el.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{be528ce4-561e-43da-be53-c3aec63fb3c2}-el.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\el.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\et.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ad8accb4-4690-4677-a1ac-fa0fe9de1d87}-et.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\et.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\fi.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a5f2b03b-fff2-419a-9b77-108ee31c7fb8}-fi.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\fi.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\fr.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{64d4c167-90b0-4808-a02e-b691a5d6ee45}-fr.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\fr.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\he.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a2a22fd6-343f-4d6d-9a2c-eb17c8289b82}-he.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\he.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\hi.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{24c44949-b700-4566-8180-d6c21a352244}-hi.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\hi.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\hr.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e476976a-c8ff-44b2-8995-6955d86bb872}-hr.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\hr.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\hu.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3747abe3-259e-4e4b-abd0-928e53d44f18}-hu.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\hu.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\id.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{82c35361-eb8e-4e12-abcc-7bb5277f7a65}-id.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\id.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\is.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{e8f7493f-6004-467e-9642-3817bcfdbf1e}-is.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\is.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\ko.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bd0a9647-a7c5-4f7a-ab32-53548c5cab4e}-ko.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\ko.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\lt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b8def094-d523-4d51-9889-132bb994ea01}-lt.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\lt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\nb.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{41d90cad-0d47-484b-83ce-505e9e9276d1}-nb.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\nb.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\pl.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f8ed6626-2ec0-40af-91ce-3af15df5db07}-pl.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\pl.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\pt-BR.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cf454c8f-37d2-4db4-8b1c-07b72dd08f35}-pt-BR.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\pt-BR.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\pt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{790ef197-c525-476c-a49f-5b6f3b99aa4a}-pt.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\pt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\ru.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a4ac6d10-5d2d-454c-bbb9-a0623bb06c6e}-ru.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\ru.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\sk.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bd207170-3173-42f9-a3d0-e4d0f0db345c}-sk.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\sk.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\sl.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{469be62b-7be2-46c5-89e7-ec8e4fc0e010}-sl.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\sl.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\sr.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cc1cdd56-a0fe-4184-a169-3dba127ae1a9}-sr.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\sr.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\tr.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5a60249f-18d9-44b1-b438-a9d98c9d371e}-tr.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\tr.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\uk.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d3ec44e6-9b1c-4d63-8fd4-a1f3d1968d6e}-uk.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\uk.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\zh.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a988daee-9a77-451f-bed1-082816502539}-zh.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\zh.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
