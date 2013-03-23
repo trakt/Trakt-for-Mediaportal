@@ -4,42 +4,79 @@
   <!--B-->
   <!--C-->
   <string name="Cancel">Odustani</string>
-  <string name="Certification">Certifikat</string>
+  <string name="Calendar">Kalendar</string>
+  <string name="Certification">Potvrda</string>
   <!--D-->
   <string name="DateToday">Danas</string>
-  <string name="DateYesterday">Jucer</string>
+  <string name="DateYesterday">Jučer</string>
+  <string name="DownloadFanart">Preuzmite Fanart</string>
   <!--E-->
+  <string name="Email">E-pošta</string>
+  <string name="Episode">Epizoda</string>
+  <string name="Episodes">Epizoda</string>
   <!--F-->
+  <string name="FirstAired">Prvo emitiranje</string>
   <!--G-->
-  <string name="Genre">Zanr</string>
+  <string name="Genre">Žanr</string>
+  <string name="GenreAll">Sve</string>
+  <string name="GenreMusic">Glazba</string>
+  <string name="GenreNews">Vijesti</string>
   <!--H-->
   <!--I-->
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="List">Popis</string>
   <!--M-->
-  <string name="MarkAsWatched">Oznaci kao pogledano</string>
+  <string name="MarkAsWatched">Označite kao pogledano</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmova</string>
   <!--N-->
+  <string name="Network">TV Mreža</string>
+  <string name="No">Ne</string>
   <!--O-->
+  <string name="OK">U redu</string>
   <!--P-->
+  <string name="Plugin">Dodatak</string>
+  <string name="Plugins">Dodaci</string>
   <!--R-->
   <string name="Rate">Ocijeni</string>
   <string name="Rated">Ocjenjeno</string>
-  <string name="RateTwo">Lose</string>
+  <string name="Rating">Ocjena</string>
+  <string name="RateTwo">Užasno</string>
+  <string name="RateThree">Loše</string>
+  <string name="RateFour">Jadno</string>
+  <string name="RateSix">Korektno</string>
   <string name="RateSeven">Dobro</string>
-  <string name="RateNine">Jako dobro</string>
+  <string name="RateEight">Odlično</string>
+  <string name="RateNine">Izvrsno</string>
+  <string name="Recommendations">Preporuke</string>
   <string name="ReleaseDate">Datum izdanja</string>
   <string name="Runtime">Vrijeme</string>
   <!--S-->
   <string name="Score">Ocjena</string>
+  <string name="Season">Sezona</string>
+  <string name="Seasons">Sezona</string>
+  <string name="Series">Serija</string>
+  <string name="SeriesPlural">Serija</string>
+  <string name="Settings">Postavke</string>
+  <string name="Shouts">Shouts</string>
+  <string name="SettingPluginEnabledName">Dodatak omogućen</string>
+  <string name="SettingListedHomeName">Na popisu u Početnom izborniku</string>
+  <string name="SettingListedPluginsName">Na popisu u Mojim dodacima</string>
+  <string name="Specials">Specijala</string>
   <!--T-->
+  <string name="Timeout">Isteklo vrijeme</string>
+  <string name="Trending">Trendovi</string>
   <string name="Title">Naslov</string>
   <string name="Trailer">Foršpan</string>
   <!--U-->
   <!--V-->
+  <string name="Votes">Glasova</string>
   <!--W-->
+  <string name="WatchList">Popis za gledanje</string>
+  <string name="Watched">Pogledano</string>
   <!--Y-->
   <string name="Year">Godina</string>
+  <string name="Yes">Da</string>
 </resources>

@@ -3,34 +3,60 @@
   <!--A-->
   <!--B-->
   <!--C-->
+  <string name="Cancel">Avbryt</string>
+  <string name="Calendar">Kalender</string>
+  <string name="Certification">Aldersgrense</string>
   <!--D-->
+  <string name="DownloadFanart">Last ned Fanart</string>
   <!--E-->
   <string name="Episode">Episode</string>
   <string name="Episodes">Episoder</string>
   <!--F-->
+  <string name="FirstAired">Først sendt</string>
   <!--G-->
+  <string name="Genre">Sjanger</string>
   <string name="GenreAll">Alle</string>
   <!--H-->
   <!--I-->
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="List">Liste</string>
   <!--M-->
   <!--N-->
+  <string name="Network">Kanal</string>
   <string name="No">Nei</string>
   <!--O-->
+  <string name="OK">Ok</string>
   <!--P-->
   <!--R-->
+  <string name="Rated">Rangering</string>
+  <string name="Rating">Rangering</string>
+  <string name="RateTwo">Forferdelig</string>
+  <string name="RateThree">Veldig dårlig</string>
+  <string name="RateFour">Dårlig</string>
+  <string name="RateSix">Ok</string>
+  <string name="RateSeven">God</string>
+  <string name="RateEight">Veldig bra</string>
+  <string name="RateNine">Nesten perfekt</string>
+  <string name="Recommendations">Anbefalinger</string>
+  <string name="Runtime">Lengde</string>
   <!--S-->
   <string name="Season">Sesong</string>
   <string name="Seasons">Sesonger</string>
   <string name="Series">Serier</string>
   <string name="SeriesPlural">Serier</string>
+  <string name="Shouts">Utrop</string>
   <string name="Specials">Spesialer</string>
   <!--T-->
+  <string name="Timeout">Tiden gikk ut</string>
+  <string name="Trending">Populært</string>
+  <string name="Title">Tittel</string>
   <!--U-->
   <!--V-->
   <!--W-->
+  <string name="WatchList">Visningsliste</string>
+  <string name="Watched">Sett</string>
   <!--Y-->
   <string name="Yes">Ja</string>
 </resources>

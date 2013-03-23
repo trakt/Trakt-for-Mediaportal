@@ -7,18 +7,19 @@
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se vad dina vänner gör...</string>
   <string name="ActivityCommunityDesc">Se vad övriga användare gör...</string>
-  <string name="ActivityWatching">{0} tittar {1}</string>
+  <string name="ActivityWatching">{0} tittar på {1}</string>
   <string name="ActivityWatched">{0} har sett {1}</string>
   <string name="ActivityCheckedIn">{0} kollade in {1}</string>
   <string name="ActivityCollected">{0} samlade {1}</string>
   <string name="ActivityCollectedEpisodes">{0} samlade {1} avsnitt av {2}</string>
-  <string name="ActivitySeen">{0} sett {1}</string>
+  <string name="ActivitySeen">{0} har sett {1}</string>
   <string name="ActivitySeenEpisodes">{0} sett {1} avsnitt av {2}</string>
   <string name="ActivityRating">{0} betygsatt {1}</string>
   <string name="ActivityRatingAdvanced">{0} betygsatt {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} lade till {1} till sin WatchList</string>
   <string name="ActivityAddToList">{0} lade till {1} till {2}</string>
   <string name="ActivityCreatedList">{0} skapade {1}</string>
+  <string name="ActivityReview">{0} granskade {1}</string>
   <string name="ActivityShouts">{0} shout den {1}</string>
   <string name="Activities">Aktiviteter</string>
   <string name="AddFriend">Lägg till vän...</string>
@@ -110,12 +111,12 @@
   <string name="GenreAll">Alla</string>
   <string name="GenreAnimation">Tecknat</string>
   <string name="GenreChildren">Barn</string>
-  <string name="GenreComedy">Komedy</string>
+  <string name="GenreComedy">Komedi</string>
   <string name="GenreCrime">Brott</string>
   <string name="GenreDocumentary">Dokumentär</string>
   <string name="GenreDrama">Drama</string>
   <string name="GenreFamily">Familj</string>
-  <string name="GenreFantasy">Fantasi</string>
+  <string name="GenreFantasy">Fantasy</string>
   <string name="GenreGameShow">Tävlingsprogram</string>
   <string name="GenreFilmNoir">Film Noir</string>
   <string name="GenreHistory">Historia</string>
@@ -175,12 +176,14 @@
   <string name="Item">Objekt</string>
   <string name="Items">antal objekt</string>
   <!--J-->
-  <string name="JoinDate">Datum för registering</string>
+  <string name="JoinDate">Datum för registrering</string>
   <string name="Joined">Gick med</string>
   <!--K-->
   <!--L-->
   <string name="Location">Plats</string>
   <string name="Layout">Layout</string>
+  <string name="Like">Gilla</string>
+  <string name="Likes">Gillar</string>
   <string name="List">Lista</string>
   <string name="Lists">Listor</string>
   <string name="Love">Älska</string>
@@ -198,6 +201,7 @@
   <!--N-->
   <string name="Name">Namn</string>
   <string name="Network">Kanal</string>
+  <string name="NextEpisode">Nästa avsnitt</string>
   <string name="NextWeek">Nästa vecka</string>
   <string name="NoActivities">Inga aktiviteter hittades.</string>
   <string name="NoEpisodesInSeason">Inga avsnitt finns i denna säsong.</string>
@@ -213,7 +217,7 @@
   <string name="NoShowRecommendations">Inga serie rekommendationer funna!</string>
   <string name="NoShowWatchList">{0} har inga serier i sin Watch List!</string>
   <string name="NoMovieWatchList">{0} har inga filmer i sin Watch List!</string>
-  <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string name="NoEpisodeWatchList">{0} har inga avsnitt i Watch List!</string>
   <string name="NoShoutsForItem">Inga Shouts för {0}!</string>
   <string name="NoPluginsEnabled">Det finns inga plugin-inställningar.\nVill du ställa in plugins nu?</string>
   <string name="NotLoggedIn">Du kan inte komma längre utan att\nvara inloggad. Vill du registrera dig eller logga in \nto hos trakt.tv nu?</string>
@@ -221,7 +225,7 @@
   <string name="NoSeasonsForShow">Inga säsonger finns för denna serie!</string>
   <string name="NoMovingPictures">Moving Pictures är antingen inte installerad eller avstängd</string>
   <string name="NoListsFound">Inga listor hittades, vill du skapa\nen lista nu?</string>
-  <string name="NoUserLists">{0} har inte skapat någon lista!</string>
+  <string name="NoUserLists">{0} har inte skapat några listor!</string>
   <string name="NoListItemsFound">Inga objekt funna i denna lista!</string>
   <string name="NoRelatedMovies">Inga relaterade filmer funna för {0}!</string>
   <string name="NoRelatedShows">Inga relaterade serier funna för {0}!</string>
@@ -240,6 +244,7 @@
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
   <string name="Public">Publikt</string>
+  <string name="PreviousEpisode">Föregående avsnitt</string>
   <string name="Private">Privat</string>
   <string name="Privacy">Ej allmänt</string>
   <string name="PrivacyPublic">Vem som helst kan se denna lista</string>
@@ -276,6 +281,8 @@
   <string name="RemoveShowFromWatchList">Ta bort serie från Watch List</string>
   <string name="RemoveEpisodeFromWatchList">Ta bort avsnitt från Watch List</string>
   <string name="RemoveFromList">Ta bort från lista...</string>
+  <string name="Reply">Svar</string>
+  <string name="Replies">Svar</string>
   <string name="Runtime">Speltid</string>
   <!--S-->
   <string name="Score">Betyg</string>

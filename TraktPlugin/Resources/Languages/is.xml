@@ -1,11 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Aðgangur</string>
+  <string name="AccountSetup">Uppsetning aðgangs</string>
+  <string name="ActivityFriendsDesc">Sjá hvað þínir vinir eru að gera...</string>
   <string name="ActivityWatching">{0} er að horfa á {1}</string>
   <string name="ActivityWatched">{0} horfðu á {1}</string>
+  <string name="ActivitySeen">{0} séð {1}</string>
   <string name="AddFriend">Bæta við vini...</string>
+  <string name="AddToList">Bæta við í lista...</string>
   <string name="AddShowToList">Bæta þáttaröð við í lista</string>
   <string name="Age">Aldur</string>
+  <string name="Approve">Samþykkja</string>
+  <string name="ApprovedDate">Dags. samþykktar</string>
   <string name="ApproveFriendMessage">Viltu bæta notenda {0} sem vin?</string>
   <!--B-->
   <!--C-->
@@ -14,10 +21,16 @@
   <string name="CalendarMyShows">Mínir sjónvarpsþættir</string>
   <string name="CalendarAllShows">Allir sjónvarpsþættir</string>
   <string name="Certification">Aldurstakmark</string>
+  <string name="ChangeView">Breyta útliti...</string>
   <string name="Create">Búa til</string>
+  <string name="CreateAccount">Búa til aðgang</string>
+  <string name="CreateNewAccount">Búa til nýjan aðgang...</string>
+  <string name="CreatingAccount">Bý til aðgang...</string>
   <string name="CreateMovingPicturesCategories">Búa til Moving Pictures flokkun</string>
   <string name="CreateMovingPicturesFilters">Búa til Moving Pictures síur</string>
   <string name="CreatingCategories">Búa til flokkanir</string>
+  <string name="CreatingFilters">Bý til síur</string>
+  <string name="CreatingList">Bý til lista</string>
   <!--D-->
   <string name="DateToday">Í dag</string>
   <string name="DateYesterday">í gær</string>
@@ -26,13 +39,22 @@
   <string name="DateOneMonthAgo">Fyrir mánuði</string>
   <string name="Deny">Neita</string>
   <string name="DeleteList">Eyða lista</string>
+  <string name="DeleteListItem">Eyða úr lista</string>
   <string name="DeletingList">Eyði lista</string>
   <string name="DeleteFriend">Eyði vin</string>
   <!--E-->
+  <string name="EditList">Breyta lista...</string>
+  <string name="EditingList">Breyti lista</string>
+  <string name="Email">Tölvupóstur</string>
+  <string name="EndYear">Endar: {0}</string>
   <string name="Episode">Þáttanúmer</string>
+  <string name="Episodes">Þættir</string>
+  <string name="Error">Trakt villa</string>
   <!--F-->
+  <string name="FirstAired">Fyrst sjónvarpað</string>
   <string name="Friend">Vinur</string>
   <string name="Friends">Vinir</string>
+  <string name="FriendRequest">Vinabeiðni</string>
   <string name="FullName">Fullt nafn</string>
   <!--G-->
   <string name="Gender">Kyn</string>
@@ -49,11 +71,18 @@
   <string name="GenreFamily">Fjölskyldu</string>
   <string name="GenreHorror">Hryllingur</string>
   <string name="GenreMusic">Tónlist</string>
+  <string name="GenreNews">Fréttir</string>
   <string name="GenreNone">Ekkert</string>
   <string name="GenreSoap">Sápu</string>
   <string name="GenreSport">Íþróttir</string>
   <string name="GenreThriller">Spennu</string>
   <string name="GenreWestern">Kúreka</string>
+  <string name="GettingCalendar">Sæki dagatal</string>
+  <string name="GettingFriendsList">Sæki vinalista</string>
+  <string name="GettingFriendsRequests">Sæki vinabeiðnir</string>
+  <string name="GettingSearchResults">Næ í leitarniðurstöðu</string>
+  <string name="GettingRelatedMovies">Sæki svipaðar kvikmyndir</string>
+  <string name="GettingRelatedShows">Sæki svipaða sjónvarpsþætti</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -65,6 +94,7 @@
   <string name="Login">Innskrá</string>
   <!--M-->
   <string name="MarkAsWatched">Merkja séða</string>
+  <string name="MarkAsUnWatched">Merkja óséða</string>
   <string name="Movie">Kvikmynd</string>
   <string name="Movies">Kvikmyndir</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
@@ -74,16 +104,35 @@
   <string name="NextWeek">Næstu viku</string>
   <string name="NoEpisodesThisWeek">Engir þættir í þessari viku</string>
   <string name="NoFriends">Engir vinir!</string>
+  <string name="NoFriendsTaunt">Þú átt enga vini!</string>
+  <string name="NoTrendingShows">Ekki verið að horfa á neinn sjónvarpsþátt!</string>
+  <string name="NoSearchResultsFound">Fundust engar leitarniðurstöður</string>
+  <string name="NoMovingPictures">MovingPictures er ekki uppsett eða óvirkt</string>
+  <string name="NoUserLists">{0} hefur ekki búið til neinn lista!</string>
+  <string name="NoListItemsFound">Engin atriði fundust í þessum lista!</string>
+  <string name="NoRelatedMovies">Engar svipaðar kvikmyndir fyrir {0} fundust!</string>
+  <string name="NoRelatedShows">Engir svipaðir sjónvarpsþættir fyrir {0}!</string>
   <string name="No">Nei</string>
   <!--O-->
   <string name="OK">Í lagi</string>
   <string name="Overview">Yfirlit</string>
   <!--P-->
+  <string name="Password">Aðgangsorð</string>
+  <string name="Percentage">Hlutfall</string>
+  <string name="Protected">Varið</string>
+  <string name="PersonWatching">1 aðili að horfa</string>
+  <string name="PeopleWatching">{0} aðilar eru að horfa</string>
+  <string name="PlayTrailer">Spila stiklu</string>
   <string name="Plugin">Viðbót</string>
   <string name="Plugins">Viðbætur</string>
+  <string name="PreviousEpisode">Fyrri þáttur</string>
+  <string name="PrivacyPublic">Allir geta séð þennan lista</string>
+  <string name="PrivacyFriends">Aðeins vinir geta skoðað þennan lista</string>
+  <string name="PrivacyPrivate">Aðeins þú getur skoðað þennan lista</string>
   <!--R-->
   <string name="Rate">Aldurst:</string>
   <string name="Rated">Einkunn</string>
+  <string name="Rating">Einkunnagjöf</string>
   <string name="RateHeading">Hvað finnst þér?</string>
   <string name="RateTwo">Hræðileg</string>
   <string name="RateFour">Léleg</string>
@@ -94,11 +143,16 @@
   <string name="Released">Útgefið</string>
   <string name="ReleaseDate">Útgáfudagsetning</string>
   <string name="RemoveFromLibrary">Eyða úr safni</string>
+  <string name="RemoveFromList">Eyða úr lista...</string>
   <string name="Runtime">Sýningart:</string>
   <!--S-->
   <string name="Score">Einkunn</string>
+  <string name="SearchTorrent">Leta Torrent</string>
   <string name="Season">Þáttaröð</string>
   <string name="Seasons">Þáttaraðir</string>
+  <string name="SearchForFriend">Leita af vini...</string>
+  <string name="SendFriendRequest">Senda vinabeiðni til {0}?</string>
+  <string name="SelectLists">Veljið lista</string>
   <string name="SelectUser">Velja notenda</string>
   <string name="Series">Þáttaraðir</string>
   <string name="SeriesPlural">Þáttaraðir</string>

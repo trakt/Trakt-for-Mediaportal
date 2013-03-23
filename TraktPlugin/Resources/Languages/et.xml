@@ -5,6 +5,8 @@
   <!--C-->
   <!--D-->
   <!--E-->
+  <string name="Episode">Episood</string>
+  <string name="Episodes">Episoodid</string>
   <!--F-->
   <!--G-->
   <!--H-->
@@ -18,6 +20,10 @@
   <!--P-->
   <!--R-->
   <!--S-->
+  <string name="Season">Hooaeg</string>
+  <string name="Seasons">Hooajad</string>
+  <string name="Series">Seriaalid</string>
+  <string name="SeriesPlural">Seriaalid</string>
   <!--T-->
   <!--U-->
   <!--V-->

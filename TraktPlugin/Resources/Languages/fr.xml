@@ -1,23 +1,116 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Compte</string>
+  <string name="AccountSetup">Paramétrage du compte</string>
+  <string name="Activity">Activité</string>
+  <string name="Activities">Activités</string>
+  <string name="AddFriend">Ajouter un ami</string>
+  <string name="AddToLibrary">Ajouter à la bibliothèque</string>
+  <string name="AddToList">Ajouter à la liste</string>
+  <string name="AddToWatchList">Ajouter à la liste Vu</string>
+  <string name="AddShowToWatchList">Ajouter la série à la liste Vu</string>
+  <string name="AddEpisodeToWatchList">Ajouter l\'épisode à la liste Vu</string>
+  <string name="AddShowToList">Ajouter la série à la liste </string>
+  <string name="AddEpisodeToList">Ajouter l\'épisode à la liste </string>
+  <string name="AddThisItemToWatchList">Ajouter cet élément à votre liste Vu ?</string>
+  <string name="Age">Age</string>
+  <string name="AdvancedSettings">Paramétrages avancés</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Annuler</string>
   <string name="Calendar">Calendrier</string>
+  <string name="CalendarMyShows">Mes séries</string>
   <string name="Certification">Certification</string>
+  <string name="CreateAccount">Créer un compte</string>
+  <string name="CreateNewAccount">Créer un nouveau compte</string>
+  <string name="CreatingAccount">Création d\'un compte</string>
+  <string name="CreatingFilters">Création de filtres</string>
+  <string name="CreatingList">Création d\'un liste</string>
+  <string name="CreateList">Créer une nouvelle liste</string>
+  <string name="Community">Communauté</string>
+  <string name="CommunityActivity">Activité de la communauté</string>
   <!--D-->
   <string name="DateToday">Aujourd\'hui</string>
   <string name="DateYesterday">Hier</string>
+  <string name="DateOneWeekAgo">Il  y a 1 semaine</string>
+  <string name="DateTwoWeeksAgo">Il  y a 2 semaines</string>
+  <string name="DateOneMonthAgo">Il  y a 1 mois</string>
+  <string name="Deny">Refuser</string>
+  <string name="DeleteList">Supprimer une liste</string>
+  <string name="DeleteListItem">Supprimer l\'élément de la liste</string>
+  <string name="DeletingList">Suppression de la liste</string>
+  <string name="DeleteFriend">Supprimer un ami</string>
+  <string name="DeleteFriendMessage">Etes vous sur de supprimer ⏎ {0} comme ami ?</string>
+  <string name="DisconnectAccount">Compte déconnecté: {0}</string>
   <string name="DownloadFanart">Télécharger le Fanart</string>
   <!--E-->
+  <string name="EditList">Afficher la liste ....</string>
+  <string name="Email">Email</string>
   <string name="Episode">Episode</string>
   <string name="Episodes">Episodes</string>
+  <string name="Error">Erreur de Track</string>
+  <string name="ErrorCalendar">Erreur lors de l\'obtention du calendrier</string>
   <!--F-->
   <string name="FirstAired">Première Diffusion</string>
+  <string name="Friend">Ami</string>
+  <string name="Friends">Amis</string>
+  <string name="FriendRequest">Requête d\'ami</string>
+  <string name="FullName">Nom complet</string>
   <!--G-->
+  <string name="Gender">Genre</string>
+  <string name="General">Général</string>
+  <string name="GeneralSettings">Paramétrés généraux</string>
   <string name="Genre">Genre</string>
+  <string name="GenreItem">Genre: {0}</string>
+  <string name="GenreAction">Action</string>
+  <string name="GenreAdventure">Aventure</string>
   <string name="GenreAll">Tous formats</string>
+  <string name="GenreChildren">Enfant</string>
+  <string name="GenreComedy">Comedie</string>
+  <string name="GenreCrime">Policier</string>
+  <string name="GenreDocumentary">Documentaire</string>
+  <string name="GenreDrama">Drame</string>
+  <string name="GenreFamily">Familiale</string>
+  <string name="GenreFantasy">Fantasy</string>
+  <string name="GenreGameShow">Jeux</string>
+  <string name="GenreFilmNoir">Film Noir</string>
+  <string name="GenreHistory">Historique</string>
+  <string name="GenreHomeAndGarden">Maison et jardin</string>
+  <string name="GenreHorror">Horreur</string>
+  <string name="GenreIndie">Indépendant</string>
+  <string name="GenreMiniSeries">Mini Séries</string>
+  <string name="GenreMusic">Musique</string>
+  <string name="GenreMusical">Musical </string>
+  <string name="GenreMystery">Mystere</string>
+  <string name="GenreNews">Nouveaux</string>
+  <string name="GenreNone">Aucun</string>
+  <string name="GenreReality">Réality Show</string>
+  <string name="GenreRomance">Romantique</string>
+  <string name="GenreScienceFiction">Science-fiction</string>
+  <string name="GenreSoap">Soap</string>
+  <string name="GenreSpecialInterest">Romantique</string>
+  <string name="GenreSport">Sport</string>
+  <string name="GenreSuspense">Suspense</string>
+  <string name="GenreTalkShow">Talk Show</string>
+  <string name="GenreThriller">Thriller</string>
+  <string name="GenreWar">Guerre</string>
+  <string name="GenreWestern">Western</string>
+  <string name="GettingCalendar">Obtenir un calendrier</string>
+  <string name="GettingFriendsList">Obtenir une liste d\'amis</string>
+  <string name="GettingFriendsRequests">Obtenir les demandes des amis</string>
+  <string name="GettingLists">Obtenir des listes</string>
+  <string name="GettingListItems">Obtenir les éléments de la liste</string>
+  <string name="GettingSearchResults">Obtenir les résultats de la recherche</string>
+  <string name="GettingShouts">Obtenir des messges</string>
+  <string name="GettingShowSeasons">Obtenir les saisons d\'une série</string>
+  <string name="GettingTrendingMovies">Obtenir la liste des films tendances</string>
+  <string name="GettingTrendingShows">Obtenir la liste des séries tendances</string>
+  <string name="GettingRecommendedMovies">Obtenir la liste des films recommandés</string>
+  <string name="GettingRecommendedShows">Obtenir la liste des séries recommandées</string>
+  <string name="GettingWatchListMovies">Obtenir la liste des films vus</string>
+  <string name="GettingWatchListShows">Obtenir la liste des séries vues</string>
+  <string name="GettingWatchListEpisodes">Obtenir la liste des épisodes vus</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -36,6 +129,9 @@
   <!--O-->
   <string name="OK">OK</string>
   <!--P-->
+  <string name="Password">Mot de passe</string>
+  <string name="Plugin">Plugin</string>
+  <string name="Plugins">Plugins</string>
   <!--R-->
   <string name="Rate">Note</string>
   <string name="Rated">Noté</string>
@@ -56,6 +152,7 @@
   <string name="Seasons">Saisons</string>
   <string name="Series">Séries</string>
   <string name="SeriesPlural">Séries</string>
+  <string name="Settings">Paramétres</string>
   <string name="Shouts">Messages</string>
   <string name="SettingPluginEnabledName">Plugin activé</string>
   <string name="SettingListedHomeName">Listé dans Home</string>
@@ -68,6 +165,7 @@
   <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
+  <string name="Votes">Votes</string>
   <!--W-->
   <string name="WatchList">Afficher la liste</string>
   <string name="Watched">Visionné</string>

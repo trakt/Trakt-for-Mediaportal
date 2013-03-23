@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
-  <string name="Account">Account</string>
+  <string name="Account">Cuenta</string>
   <string name="AccountSetup">Account Setup</string>
   <string name="AccountDialog">Account Dialog</string>
   <string name="Activity">Activity</string>
@@ -19,6 +19,7 @@
   <string name="ActivityWatchlist">{0} added {1} to their watchlist</string>
   <string name="ActivityAddToList">{0} added {1} to {2}</string>
   <string name="ActivityCreatedList">{0} created {1}</string>
+  <string name="ActivityReview">{0} crítica {1}</string>
   <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>
@@ -181,6 +182,8 @@
   <!--L-->
   <string name="Location">Location</string>
   <string name="Layout">Layout</string>
+  <string name="Like">Gustar</string>
+  <string name="Likes">Gustos</string>
   <string name="List">List</string>
   <string name="Lists">Lists</string>
   <string name="Love">Love</string>
@@ -278,6 +281,8 @@
   <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string name="RemoveFromList">Remove from List...</string>
+  <string name="Reply">Responder</string>
+  <string name="Replies">Respuestas</string>
   <string name="Runtime">Runtime</string>
   <!--S-->
   <string name="Score">Score</string>

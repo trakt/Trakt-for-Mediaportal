@@ -1,6 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Konto</string>
+  <string name="AccountSetup">Nastavenie konta</string>
+  <string name="AccountDialog">Dialóg konta</string>
+  <string name="Activity">Aktivita</string>
+  <string name="ActivityWatching">{0} pozerá {1}</string>
+  <string name="ActivityWatched">{0} pozrel {1}</string>
+  <string name="ActivityReview">{0} ohodnotil {1}</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Zrušiť</string>
@@ -12,17 +19,22 @@
   <!--F-->
   <!--G-->
   <string name="Genre">Žáner</string>
+  <string name="GenreHistory">História</string>
   <!--H-->
   <!--I-->
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="Like">Páči sa</string>
+  <string name="Likes">Sa to páči</string>
   <!--M-->
   <string name="MarkAsWatched">Označiť za zhliadnuté</string>
   <string name="Movie">Film</string>
   <string name="Movies">filmov</string>
   <!--N-->
+  <string name="No">Nie</string>
   <!--O-->
+  <string name="OK">OK</string>
   <!--P-->
   <!--R-->
   <string name="Rate">Hodnotenie</string>
@@ -31,15 +43,47 @@
   <string name="RateSeven">Slušné</string>
   <string name="RateNine">Skvelé</string>
   <string name="ReleaseDate">Dátum vydánia</string>
+  <string name="Reply">Odpoveď</string>
+  <string name="Replies">Odpovedí</string>
   <string name="Runtime">Dĺžka</string>
   <!--S-->
   <string name="Score">Hodnotenie</string>
   <!--T-->
+  <string name="TVShow">TV relácia</string>
+  <string name="TVShows">TV relácie</string>
+  <string name="Tagline">Tagline</string>
   <string name="Title">Titul</string>
   <string name="Trailer">Trailer</string>
+  <string name="Trailers">Trailery...</string>
   <!--U-->
+  <string name="UserHasNotWatchedEpisodes">Používateľ nevidel žiadnu epizódu!</string>
+  <string name="UserHasNotWatchedMovies">Používateľ nevidel žiadny film!</string>
+  <string name="User">Používateľ</string>
+  <string name="Users">Používatelia</string>
+  <string name="Username">Používateľské meno</string>
+  <string name="UnAuthorized">Autentifikácia zlyhala, prosím skontrolujte používateľské meno a heslo v nastaveniach.</string>
+  <string name="UnRate">Zruš hodnotenie</string>
+  <string name="UpdatingCategories">Aktualizujem Kategórie</string>
+  <string name="UpdatingFilters">Aktualizujem FIltre</string>
+  <string name="UnableToPlayTrailer">Nie je možné prehrať trailer.</string>
   <!--V-->
+  <string name="View">Zobraz</string>
+  <string name="Votes">Hlasov</string>
+  <string name="ValidUsername">Musíte zadať platné prihlasovacie meno!</string>
+  <string name="ValidPassword">Musíte zadať platné heslo!</string>
+  <string name="ValidEmail">Musíte zadať platný e-mail!</string>
   <!--W-->
+  <string name="WatchList">Zoznam</string>
+  <string name="Watched">Videné</string>
+  <string name="WatchedMovies">Videné Filmy</string>
+  <string name="WatchedEpisodes">Videné Epizódy</string>
+  <string name="WatchedShows">Videné relácie</string>
+  <string name="Watchers">Pozorovatelia</string>
+  <string name="Watching">Pozerám</string>
+  <string name="WatchListMovies">Zoznam Filmov</string>
+  <string name="WatchListShows">Zobraz Zoznam Epizód</string>
+  <string name="WatchListEpisodes">Zoznam Epizód</string>
   <!--Y-->
   <string name="Year">Rok</string>
+  <string name="Yes">Áno</string>
 </resources>

@@ -2,11 +2,14 @@
 <resources>
   <!--A-->
   <string name="Account">Tili</string>
+  <string name="AccountSetup">Luo tili</string>
   <string name="ActivityFriendsDesc">Katso mitä ystäväsi tekevät...</string>
   <string name="ActivityCommunityDesc">Katso mitä yhteisössä tapahtuu...</string>
   <string name="ActivityWatching">{0} katsoo {1}</string>
   <string name="ActivityWatched">{0} katsoi {1}</string>
+  <string name="ActivitySeen">{0} nähty {1}</string>
   <string name="ActivityRating">{0} arvioi {1}</string>
+  <string name="ActivityRatingAdvanced">{0} arvostellut {1} [{2}/10]</string>
   <string name="ActivityCreatedList">{0} loi {1}</string>
   <string name="AddFriend">Lisää ystävä...</string>
   <string name="AddToLibrary">Lisää kirjastoon</string>
@@ -15,23 +18,46 @@
   <string name="Approve">Hyväksy</string>
   <string name="ApprovedDate">Hyväksymis päivämäärä</string>
   <string name="ApproveFriendMessage">Haluaisitko lisätä käyttäjän {0}⏎ ystäväksesi?</string>
+  <string name="AdvancedSettings">Kehittyneet asetukset</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Peruuta</string>
   <string name="Calendar">Kalenteri</string>
+  <string name="CalendarMyShows">Sarjani</string>
   <string name="CalendarPremieres">Ennakot</string>
   <string name="CalendarAllShows">Kaikki jaksot</string>
   <string name="Certification">Sertifionti</string>
+  <string name="ChangeView">Muuta näkymää...</string>
+  <string name="ChangeLayout">Muuta ulkoasua...</string>
   <string name="Create">Luo</string>
   <string name="CreateAccount">Luo tili</string>
   <string name="CreateNewAccount">Luo uusi tili...</string>
   <string name="CreatingAccount">Luodaan tiliä...</string>
   <string name="CreateMovingPicturesCategories">Luo Moving Pictures kategoria</string>
+  <string name="CreateMovingPicturesFilters">Luo Moving Pictures suodatin</string>
+  <string name="CreateMyFilmsCategories">Luo My Films kategoria</string>
+  <string name="CreatingCategories">Luodaan kategorioita</string>
+  <string name="CreatingFilters">Luodaan suodattimia</string>
+  <string name="CreatingList">Luodaan listaa</string>
+  <string name="CreateList">Luo uusi lista...</string>
+  <string name="ConfirmDeleteList">Haluatko varmasti poistaa \ntämän listan?</string>
+  <string name="ConfirmDeleteListItem">Haluatko varmasti poistaa \ntämän kohteen listalta?</string>
+  <string name="CopyList">Kopioi lista...</string>
   <!--D-->
   <string name="DateToday">Tänään</string>
   <string name="DateYesterday">Eilen</string>
+  <string name="DateOneWeekAgo">1 Viikko sitten</string>
+  <string name="DateTwoWeeksAgo">2 viikkoa sitten</string>
+  <string name="DateOneMonthAgo">1 kuukausi sitten</string>
+  <string name="Deny">Estä</string>
+  <string name="DeleteList">Poista lista</string>
+  <string name="DeletingList">Poistetaan listaa</string>
+  <string name="DeleteFriend">Poista ystävä</string>
+  <string name="DeleteFriendMessage">Haluatko varmasti poistaa \n{0} ystävistäsi?</string>
+  <string name="DismissRecommendation">Ohita tämä suositus</string>
   <string name="DownloadFanart">Lataa fanitaide</string>
   <!--E-->
+  <string name="Email">Sähköposti</string>
   <string name="Episode">Jakso</string>
   <string name="Episodes">Jaksot</string>
   <!--F-->
@@ -39,6 +65,8 @@
   <!--G-->
   <string name="Genre">Lajityyppi</string>
   <string name="GenreAll">Kaikki</string>
+  <string name="GenreMusic">Musiikki</string>
+  <string name="GenreNews">Uutiset</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -56,6 +84,8 @@
   <!--O-->
   <string name="OK">OK</string>
   <!--P-->
+  <string name="Plugin">Lisäosa</string>
+  <string name="Plugins">Lisäosat</string>
   <!--R-->
   <string name="Rate">Arvostele</string>
   <string name="Rated">Arvosteltu</string>
@@ -83,13 +113,19 @@
   <string name="Series">Sarjat</string>
   <string name="SeriesPlural">Sarjat</string>
   <string name="Settings">Asetukset</string>
+  <string name="Shouts">Huudot</string>
+  <string name="SettingPluginEnabledName">Lisäosa otettu käyttöön</string>
+  <string name="SettingListedHomeName">Näkyy Kotivalikossa</string>
+  <string name="SettingListedPluginsName">Näkyy Lisäosissa</string>
   <string name="Specials">Erikoisuudet</string>
   <!--T-->
   <string name="Timeout">Aikakatkaisu</string>
+  <string name="Trending">Nousussa</string>
   <string name="Title">Nimi</string>
   <string name="Trailer">Traileri</string>
   <!--U-->
   <!--V-->
+  <string name="Votes">Äänet</string>
   <!--W-->
   <string name="WatchList">Katsontalista</string>
   <string name="Watched">Katsottu</string>
