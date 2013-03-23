@@ -259,11 +259,17 @@
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActor.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieBase.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetwork.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkApprove.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkFollowResponse.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkReqUser.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkUser.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRecommendations.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSearch.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonSeen.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSeason.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSeen.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUser.cs" />
     <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktAccount.cs" />

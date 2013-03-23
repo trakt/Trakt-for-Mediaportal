@@ -10,7 +10,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktAccountSettings : TraktResponse
     {
         [DataMember(Name = "profile")]
-        public TraktUserProfile Profile { get; set; }
+        public TraktUser Profile { get; set; }
 
         [DataMember(Name = "account")]
         public Account AccountSettings { get; set; }

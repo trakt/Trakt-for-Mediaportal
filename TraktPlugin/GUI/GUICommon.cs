@@ -791,7 +791,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.FullName", user.FullName);
             SetProperty("#Trakt.User.Gender", user.Gender);
             SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
-            SetProperty("#Trakt.User.ApprovedDate", user.ApprovedDate == 0 ? "N/A" : user.ApprovedDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);
             SetProperty("#Trakt.User.Protected", user.Protected);
             SetProperty("#Trakt.User.Url", user.Url);

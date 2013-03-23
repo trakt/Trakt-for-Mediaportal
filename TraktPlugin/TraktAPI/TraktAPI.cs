@@ -734,49 +734,126 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region Friends
+        #region Friends / Network
 
         /// <summary>
         /// Returns a list of Friends for current user
-        /// </summary>        
-        public static IEnumerable<TraktUserProfile> GetFriends()
+        /// Friends are a two-way relationship ie. both following each other
+        /// </summary>
+        public static IEnumerable<TraktNetworkUser> GetNetworkFriends()
         {
-            string response = Transmit(TraktURIs.Friends, GetUserAuthentication());
-            return response.FromJSONArray<TraktUserProfile>();
+            return GetNetworkFriends(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkUser> GetNetworkFriends(string person)
+        {
+            string response = Transmit(string.Format(TraktURIs.NetworkFriends, person), GetUserAuthentication());
+            return response.FromJSONArray<TraktNetworkUser>();
         }
 
         /// <summary>
-        /// Returns a list of Friend requests for current user
-        /// </summary>        
+        /// Returns a list of people the current user follows
+        /// </summary>
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing()
+        {
+            return GetNetworkFollowing(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing(string person)
+        {
+            string response = Transmit(string.Format(TraktURIs.NetworkFollowing, person), GetUserAuthentication());
+            return response.FromJSONArray<TraktNetworkUser>();
+        }
+
+        /// <summary>
+        /// Returns a list of people that follow the current
+        /// </summary>
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers()
+        {
+            return GetNetworkFollowers(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers(string person)
+        {
+            string response = Transmit(string.Format(TraktURIs.NetworkFollowers, person), GetUserAuthentication());
+            return response.FromJSONArray<TraktNetworkUser>();
+        }
+
+        /// <summary>
+        /// Returns a list of people awaiting following approval
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<TraktNetworkReqUser> GetNetworkRequests()
+        {
+            string response = Transmit(TraktURIs.NetworkRequests, GetUserAuthentication());
+            return response.FromJSONArray<TraktNetworkReqUser>();
+        }
+
+        public static TraktNetworkFollowResponse NetworkFollow(TraktNetwork person)
+        {
+            string response = Transmit(TraktURIs.NetworkFollow, person.ToJSON());
+            return response.FromJSON<TraktNetworkFollowResponse>();
+        }
+
+        public static TraktResponse NetworkUnFollow(TraktNetwork person)
+        {
+            string response = Transmit(TraktURIs.NetworkUnFollow, person.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse NetworkApprove(TraktNetworkApprove person)
+        {
+            string response = Transmit(TraktURIs.NetworkApprove, person.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        public static TraktResponse NetworkDeny(TraktNetwork person)
+        {
+            string response = Transmit(TraktURIs.NetworkDeny, person.ToJSON());
+            return response.FromJSON<TraktResponse>();
+        }
+
+        #region Obselete Methods
+
+        [Obsolete("This method is now obsolete, use GetNetworkFriends()", false)]
+        public static IEnumerable<TraktUserProfile> GetFriends()
+        {
+            string response = Transmit(string.Format(TraktURIs.Friends, TraktSettings.Username), GetUserAuthentication());
+            return response.FromJSONArray<TraktUserProfile>();
+        }
+
+        [Obsolete("This method is now obsolete, use GetNetworkRequests()", false)]
         public static IEnumerable<TraktUserProfile> GetFriendRequests()
         {
             string response = Transmit(TraktURIs.FriendRequests, GetUserAuthentication());
             return response.FromJSONArray<TraktUserProfile>();
         }
 
+        [Obsolete("This method is now obsolete, use NetworkApprove()", false)]
         public static TraktResponse FriendApprove(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendApprove, friend.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
 
+        [Obsolete("This method is now obsolete, use NetworkFollow()", false)]
         public static TraktResponse FriendAdd(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendAdd, friend.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
 
+        [Obsolete("This method is now obsolete, use NetworkDeny()", false)]
         public static TraktResponse FriendDeny(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendDeny, friend.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
 
+        [Obsolete("This method is now obsolete, use NetworkUnfollow()", false)]
         public static TraktResponse FriendDelete(TraktFriend friend)
         {
             string response = Transmit(TraktURIs.FriendDelete, friend.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
+        #endregion
 
         #endregion
 

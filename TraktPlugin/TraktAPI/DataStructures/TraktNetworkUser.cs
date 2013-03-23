@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
@@ -7,9 +8,9 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktFriend : TraktAuthentication
+    public class TraktNetworkUser : TraktUser
     {
-        [DataMember(Name = "friend")]
-        public string Friend { get; set; }
+        [DataMember(Name = "approved")]
+        public long ApprovedDate { get; set; }
     }
 }

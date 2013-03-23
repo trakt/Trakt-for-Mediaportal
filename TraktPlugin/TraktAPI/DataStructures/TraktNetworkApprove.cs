@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktFriend : TraktAuthentication
+    public class TraktNetworkApprove : TraktNetwork
     {
-        [DataMember(Name = "friend")]
-        public string Friend { get; set; }
+        [DataMember(Name = "follow_back")]
+        public bool FollowBack { get; set; }
     }
 }
