@@ -26,14 +26,6 @@ namespace TraktPlugin
     {
         #region Enums
 
-        enum ContextMenuItem
-        {
-            ShowCommunityActivity,
-            ShowFriendActivity,
-            IncludeMeInFriendsActivity,
-            DontIncludeMeInFriendsActivity
-        }
-
         #endregion
 
         #region Private Variables
@@ -1203,42 +1195,41 @@ namespace TraktPlugin
             {
                 listItem = new GUIListItem(Translation.ShowCommunityActivity);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.ShowCommunityActivity;
+                listItem.ItemId = (int)ActivityContextMenuItem.ShowCommunityActivity;
 
                 if (!TraktSettings.IncludeMeInFriendsActivity)
                 {
                     listItem = new GUIListItem(Translation.IncludeMeInFriendsActivity);
                     dlg.Add(listItem);
-                    listItem.ItemId = (int)ContextMenuItem.IncludeMeInFriendsActivity;
+                    listItem.ItemId = (int)ActivityContextMenuItem.IncludeMeInFriendsActivity;
                 }
                 else
                 {
                     listItem = new GUIListItem(Translation.DontIncludeMeInFriendsActivity);
                     dlg.Add(listItem);
-                    listItem.ItemId = (int)ContextMenuItem.DontIncludeMeInFriendsActivity;
+                    listItem.ItemId = (int)ActivityContextMenuItem.DontIncludeMeInFriendsActivity;
                 }
             }
             else
             {
                 listItem = new GUIListItem(Translation.ShowFriendActivity);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.ShowFriendActivity;
+                listItem.ItemId = (int)ActivityContextMenuItem.ShowFriendActivity;
             }
 
             TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
-                if (activity.Movie != null)
+                if (activity.Movie != null || activity.Show != null)
                 {
-                    // place holder for more items
-                }
-                else if (activity.Show != null)
-                {
-                    // place holder for more items
-                }
-                else if (activity.Episode != null)
-                {
-                    // place holder for more items
+                    // get a list of common actions to perform on the selected item
+                    var listItems = GUICommon.GetContextMenuItemsForActivity();
+                    foreach (var item in listItems)
+                    {
+                        int itemId = item.ItemId;
+                        dlg.Add(item);
+                        item.ItemId = itemId;
+                    }
                 }
             }
 
@@ -1248,28 +1239,62 @@ namespace TraktPlugin
 
             switch (dlg.SelectedId)
             {
-                case ((int)ContextMenuItem.ShowCommunityActivity):
+                case ((int)ActivityContextMenuItem.ShowCommunityActivity):
                     TraktSettings.ShowCommunityActivity = true;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;
 
-                case ((int)ContextMenuItem.ShowFriendActivity):
+                case ((int)ActivityContextMenuItem.ShowFriendActivity):
                     TraktSettings.ShowCommunityActivity = false;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;
 
-                case ((int)ContextMenuItem.IncludeMeInFriendsActivity):
+                case ((int)ActivityContextMenuItem.IncludeMeInFriendsActivity):
                     TraktSettings.IncludeMeInFriendsActivity = true;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
                     break;
 
-                case ((int)ContextMenuItem.DontIncludeMeInFriendsActivity):
+                case ((int)ActivityContextMenuItem.DontIncludeMeInFriendsActivity):
                     TraktSettings.IncludeMeInFriendsActivity = false;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
+                    break;
+
+                case ((int)ActivityContextMenuItem.AddToList):
+                    if (activity.Movie != null)
+                        TraktHelper.AddRemoveMovieInUserList(activity.Movie, false);
+                    else if (activity.Episode != null)
+                        TraktHelper.AddRemoveEpisodeInUserList(activity.Show, activity.Episode, false);
+                    else
+                        TraktHelper.AddRemoveShowInUserList(activity.Show, false);
+                    break;
+
+                case ((int)ActivityContextMenuItem.AddToWatchList):
+                    if (activity.Movie != null)
+                        TraktHelper.AddMovieToWatchList(activity.Movie, true);
+                    else if (activity.Episode != null)
+                        TraktHelper.AddEpisodeToWatchList(activity.Show, activity.Episode);
+                    else
+                        TraktHelper.AddShowToWatchList(activity.Show);
+                    break;
+
+                case ((int)ActivityContextMenuItem.Shouts):
+                    if (activity.Movie != null)
+                        TraktHelper.ShowMovieShouts(activity.Movie);
+                    else if (activity.Episode != null)
+                        TraktHelper.ShowEpisodeShouts(activity.Show, activity.Episode);
+                    else
+                        TraktHelper.ShowTVShowShouts(activity.Show);
+                    break;
+
+                case ((int)ActivityContextMenuItem.Trailers):
+                    if (activity.Movie != null) 
+                        GUICommon.ShowMovieTrailersMenu(activity.Movie); 
+                    else 
+                        GUICommon.ShowTVShowTrailersMenu(activity.Show);
                     break;
             }
         }

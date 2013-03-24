@@ -35,6 +35,21 @@ namespace TraktPlugin.GUI
         YouTube
     }
 
+    enum ActivityContextMenuItem
+    {
+        ShowCommunityActivity,
+        ShowFriendActivity,
+        IncludeMeInFriendsActivity,
+        DontIncludeMeInFriendsActivity,
+        MarkAsWatched,
+        AddToWatchList,
+        AddToList,
+        Related,
+        Rate,
+        Shouts,
+        Trailers,
+    }
+
     public enum TraktGUIControls 
     {
         Layout = 2,
@@ -993,6 +1008,45 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region GUI Context Menus
+
+        #region Activity
+
+        /// <summary>
+        /// Returns a list of context menu items for a selected movie in the Activity Dashboard
+        /// Activity API does not return authenticated data such as InWatchlist, InCollection, Rating etc.
+        /// </summary>
+        public static List<GUIListItem> GetContextMenuItemsForActivity()
+        {
+            GUIListItem listItem = null;
+            List<GUIListItem> listItems = new List<GUIListItem>();
+
+            // Add Watch List  
+            listItem = new GUIListItem(Translation.AddToWatchList);
+            listItem.ItemId = (int)ActivityContextMenuItem.AddToWatchList;
+            listItems.Add(listItem);
+
+            // Add to Custom list
+            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem.ItemId = (int)ActivityContextMenuItem.AddToList;
+            listItems.Add(listItem);
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            listItem.ItemId = (int)ActivityContextMenuItem.Shouts;
+            listItems.Add(listItem);
+
+            // Trailers
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                listItem.ItemId = (int)ActivityContextMenuItem.Trailers;
+                listItems.Add(listItem);
+            }
+
+            return listItems;
+        }
+
+        #endregion
 
         #region Layout
         internal static Layout ShowLayoutMenu(Layout currentLayout)

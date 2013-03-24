@@ -87,6 +87,11 @@ namespace TraktPlugin
 
         #region Movie Watchlist
 
+        public static void AddMovieToWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
+        {
+            AddMovieToWatchList(movie.Title, movie.Year, movie.IMDBID, updateMovingPicturesFilters);
+        }
+
         public static void AddMovieToWatchList(string title, string year)
         {
             AddMovieToWatchList(title, year, null);
@@ -170,6 +175,10 @@ namespace TraktPlugin
         #endregion
 
         #region Show WatchList
+        public static void AddShowToWatchList(TraktShow show)
+        {
+            AddShowToWatchList(show.Title, show.Year.ToString(), show.Tvdb);
+        }
         public static void AddShowToWatchList(string title, string year, string tvdbid)
         {
             TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
@@ -210,6 +219,10 @@ namespace TraktPlugin
         #endregion
 
         #region Episode WatchList
+        public static void AddEpisodeToWatchList(TraktShow show, TraktEpisode episode)
+        {
+            AddEpisodeToWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void AddEpisodeToWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -248,6 +261,10 @@ namespace TraktPlugin
         #endregion
 
         #region Add/Remove Movie in List
+        public static void AddRemoveMovieInUserList(TraktMovie movie, bool remove)
+        {
+            AddRemoveMovieInUserList(TraktSettings.Username, movie.Title, movie.Year, movie.IMDBID, remove);
+        }
 
         public static void AddRemoveMovieInUserList(string title, string year, string imdbid, bool remove)
         {
@@ -288,6 +305,10 @@ namespace TraktPlugin
         #endregion
 
         #region Add/Remove Show in List
+        public static void AddRemoveShowInUserList(TraktShow show, bool remove)
+        {
+            AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year.ToString(), show.Tvdb, remove);
+        }
 
         public static void AddRemoveShowInUserList(string title, string year, string tvdbid, bool remove)
         {
@@ -369,6 +390,10 @@ namespace TraktPlugin
         #endregion
 
         #region Add/Remove Episode in List
+        public static void AddRemoveEpisodeInUserList(TraktShow show, TraktEpisode episode, bool remove)
+        {
+            AddRemoveEpisodeInUserList(TraktSettings.Username, show.Title, show.Year.ToString(), episode.Season.ToString(), episode.Number.ToString(), show.Tvdb, remove);
+        }
 
         public static void AddRemoveEpisodeInUserList(string title, string year, string season, string episode, string tvdbid, bool remove)
         {
@@ -452,6 +477,10 @@ namespace TraktPlugin
         #endregion
 
         #region Movie Shouts
+        public static void ShowMovieShouts(TraktMovie movie)
+        {
+            ShowMovieShouts(movie.IMDBID, movie.Title, movie.Year, movie.Images.FanartImageFilename, movie.Images.Fanart);
+        }
         public static void ShowMovieShouts(string imdb, string title, string year, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
@@ -476,6 +505,10 @@ namespace TraktPlugin
         #endregion
 
         #region Show Shouts
+        public static void ShowTVShowShouts(TraktShow show)
+        {
+            ShowTVShowShouts(show.Tvdb, show.Title, show.Images.FanartImageFilename, show.Images.Fanart);
+        }
         public static void ShowTVShowShouts(string tvdb, string title, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
@@ -499,6 +532,10 @@ namespace TraktPlugin
         #endregion
 
         #region Episode Shouts
+        public static void ShowEpisodeShouts(TraktShow show, TraktEpisode episode)
+        {
+            ShowEpisodeShouts(show.Tvdb, show.Title, episode.Season.ToString(), episode.Number.ToString(), show.Images.FanartImageFilename, show.Images.Fanart);
+        }
         public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
