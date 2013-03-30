@@ -42,6 +42,7 @@ namespace TraktPlugin
         bool StopTrendingMoviesDownload = false;
 
         bool GetFullActivityLoad = false;
+        bool TrendingContextMenuIsActive = false;
 
         DateTime LastTrendingShowUpdate = DateTime.MinValue;
         DateTime LastTrendingMovieUpdate = DateTime.MinValue;
@@ -1177,6 +1178,194 @@ namespace TraktPlugin
             return hasDashBoard;
         }
 
+        private void ShowTrendingShowsContextMenu()
+        {
+            var trendingShowsFacade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
+            if (trendingShowsFacade == null) return;
+
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return;
+
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            var selectedItem = trendingShowsFacade.SelectedListItem;
+            var selectedShow = selectedItem.TVTag as TraktTrendingShow;
+
+            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow);
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TrendingContextMenuItem.AddToWatchList):
+                    TraktHelper.AddShowToWatchList(selectedShow);
+                    selectedShow.InWatchList = true;
+                    OnTrendingShowSelected(selectedItem, trendingShowsFacade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                    break;
+
+                case ((int)TrendingContextMenuItem.MarkAsWatched):
+                    GUICommon.MarkShowAsSeen(selectedShow);
+                    break;
+
+                case ((int)TrendingContextMenuItem.AddToLibrary):
+                    GUICommon.AddShowToLibrary(selectedShow);
+                    break;
+
+                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                    TraktHelper.RemoveShowFromWatchList(selectedShow);
+                    selectedShow.InWatchList = false;
+                    OnTrendingShowSelected(selectedItem, trendingShowsFacade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Related):
+                    TraktHelper.ShowRelatedShows(selectedShow);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Trailers):
+                    GUICommon.ShowTVShowTrailersMenu(selectedShow);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Shouts):
+                    TraktHelper.ShowTVShowShouts(selectedShow);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Rate):
+                    GUICommon.RateShow(selectedShow);
+                    OnTrendingShowSelected(selectedItem, trendingShowsFacade);
+                    selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = string.Format("search:{0}", selectedShow.Title);
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+
+                case ((int)TrendingContextMenuItem.SearchTorrent):
+                    string loadPar = selectedShow.Title;
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        private void ShowTrendingMoviesContextMenu()
+        {
+            var trendingMoviesFacade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
+            if (trendingMoviesFacade == null) return;
+
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return;
+
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            var selectedItem = trendingMoviesFacade.SelectedListItem;
+            var selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
+
+            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie);
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TrendingContextMenuItem.MarkAsWatched):
+                    TraktHelper.MarkMovieAsWatched(selectedMovie);
+                    if (selectedMovie.Plays == 0) selectedMovie.Plays = 1;
+                    selectedMovie.Watched = true;
+                    selectedItem.IsPlayed = true;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.MarkAsUnWatched):
+                    TraktHelper.MarkMovieAsUnWatched(selectedMovie);
+                    selectedMovie.Watched = false;
+                    selectedItem.IsPlayed = false;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.AddToWatchList):
+                    TraktHelper.AddMovieToWatchList(selectedMovie, true);
+                    selectedMovie.InWatchList = true;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                    TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
+                    selectedMovie.InWatchList = false;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.AddToList):
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie, false);
+                    break;
+
+                case ((int)TrendingContextMenuItem.AddToLibrary):
+                    TraktHelper.AddMovieToLibrary(selectedMovie);
+                    selectedMovie.InCollection = true;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.RemoveFromLibrary):
+                    TraktHelper.RemoveMovieFromLibrary(selectedMovie);
+                    selectedMovie.InCollection = false;
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.Related):
+                    TraktHelper.ShowRelatedMovies(selectedMovie);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Rate):
+                    GUICommon.RateMovie(selectedMovie);
+                    OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
+                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    break;
+
+                case ((int)TrendingContextMenuItem.Shouts):
+                    TraktHelper.ShowMovieShouts(selectedMovie);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Trailers):
+                    GUICommon.ShowMovieTrailersMenu(selectedMovie);
+                    break;
+
+                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
+                    string loadingParam = string.Format("search:{0}", selectedMovie.Title);
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
+                    break;
+
+                case ((int)TrendingContextMenuItem.SearchTorrent):
+                    string loadPar = selectedMovie.Title;
+                    GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         private void ShowActivityContextMenu()
         {
             var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
@@ -1288,6 +1477,15 @@ namespace TraktPlugin
                         TraktHelper.ShowEpisodeShouts(activity.Show, activity.Episode);
                     else
                         TraktHelper.ShowTVShowShouts(activity.Show);
+                    break;
+
+                case ((int)ActivityContextMenuItem.Rate):
+                    if (activity.Movie != null)
+                        GUICommon.RateMovie(activity.Movie);
+                    else if (activity.Episode != null)
+                        GUICommon.RateEpisode(activity.Show, activity.Episode);
+                    else
+                        GUICommon.RateShow(activity.Show);
                     break;
 
                 case ((int)ActivityContextMenuItem.Trailers):
@@ -1655,8 +1853,20 @@ namespace TraktPlugin
                 case Action.ActionType.ACTION_CONTEXT_MENU:
                     if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.ActivityFacade)
                     {
+                        TrendingContextMenuIsActive = true;
                         ShowActivityContextMenu();
                     }
+                    else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
+                    {
+                        TrendingContextMenuIsActive = true;
+                        ShowTrendingMoviesContextMenu();
+                    }
+                    else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                    {
+                        TrendingContextMenuIsActive = true;
+                        ShowTrendingShowsContextMenu();
+                    }
+                    TrendingContextMenuIsActive = false;
                     break;
 
                 case Action.ActionType.ACTION_PLAY:
@@ -1677,7 +1887,7 @@ namespace TraktPlugin
                 
                 case Action.ActionType.ACTION_MOVE_DOWN:
                     // handle ondown for filmstrips as mediaportal skin navigation for ondown is broken                       
-                    if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                    if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
                     {
                         var control = GetFacade(activeWindow.GetFocusControlId());
                         if (control == null) return;
@@ -1687,7 +1897,7 @@ namespace TraktPlugin
                         // set focus on correct control
                         GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.TrendingMoviesFacade);
                     }
-                    else if (activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
+                    else if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
                     {
                         var control = GetFacade(activeWindow.GetFocusControlId());
                         if (control == null) return;
@@ -1703,7 +1913,7 @@ namespace TraktPlugin
                     break;
             }
         }
-
+         
         #endregion
 
         #region Public Methods

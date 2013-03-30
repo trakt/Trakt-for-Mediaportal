@@ -41,23 +41,6 @@ namespace TraktPlugin.GUI
 
         #region Enums
 
-        enum ContextMenuItem
-        {
-            AddToWatchList,
-            ShowSeasonInfo,
-            MarkAsWatched,
-            AddToLibrary,
-            RemoveFromWatchList,
-            AddToList,
-            Related,
-            Trailers,
-            Shouts,
-            Rate,
-            ChangeLayout,
-            SearchWithMpNZB,
-            SearchTorrent
-        }
-
         #endregion
 
         #region Constructor
@@ -215,84 +198,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem listItem = null;
-
-            // Add/Remove Watch List            
-            if (!selectedShow.InWatchList)
-            {
-                listItem = new GUIListItem(Translation.AddToWatchList);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.AddToWatchList;
-            }
-            else
-            {
-                listItem = new GUIListItem(Translation.RemoveFromWatchList);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
-            }
-
-            // Show Season Information
-            listItem = new GUIListItem(Translation.ShowSeasonInfo);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
-
-            // Mark Show as Watched
-            listItem = new GUIListItem(Translation.MarkAsWatched);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
-
-            // Add Show to Library
-            listItem = new GUIListItem(Translation.AddToLibrary);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
-
-            // Add to Custom List
-            listItem = new GUIListItem(Translation.AddToList + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.AddToList;
-
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
-            {
-                listItem = new GUIListItem(Translation.Trailers);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Trailers;
-            }
-
-            // Related Shows
-            listItem = new GUIListItem(Translation.RelatedShows + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Related;
-
-            // Rate Show
-            listItem = new GUIListItem(Translation.RateShow);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Rate;
-
-            // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Shouts;
-
-            // Change Layout
-            listItem = new GUIListItem(Translation.ChangeLayout);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
-
-            if (TraktHelper.IsMpNZBAvailableAndEnabled)
-            {
-                // Search for show with mpNZB
-                listItem = new GUIListItem(Translation.SearchWithMpNZB);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
-            }
-
-            if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
-            {
-                // Search for show with MyTorrents
-                listItem = new GUIListItem(Translation.SearchTorrent);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.SearchTorrent;
-            }
+            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -300,73 +206,64 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
-                case ((int)ContextMenuItem.AddToWatchList):
-                    AddShowToWatchList(selectedShow);
+                case ((int)TrendingContextMenuItem.AddToWatchList):
+                    TraktHelper.AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
-                case ((int)ContextMenuItem.ShowSeasonInfo):
+                case ((int)TrendingContextMenuItem.ShowSeasonInfo):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
                     break;
 
-                case ((int)ContextMenuItem.MarkAsWatched):
+                case ((int)TrendingContextMenuItem.MarkAsWatched):
                     GUICommon.MarkShowAsSeen(selectedShow);
                     break;
 
-                case ((int)ContextMenuItem.AddToLibrary):
+                case ((int)TrendingContextMenuItem.AddToLibrary):
                     GUICommon.AddShowToLibrary(selectedShow);
                     break;
 
-                case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemoveShowFromWatchList(selectedShow);
+                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                    TraktHelper.RemoveShowFromWatchList(selectedShow);
                     selectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
-                case ((int)ContextMenuItem.AddToList):
+                case ((int)TrendingContextMenuItem.AddToList):
                     TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
                     break;
-                
-                case ((int)ContextMenuItem.Related):
-                    RelatedShow relatedShow = new RelatedShow();
-                    relatedShow.Title = selectedShow.Title;
-                    relatedShow.TVDbId = selectedShow.Tvdb;
-                    GUIRelatedShows.relatedShow = relatedShow;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+
+                case ((int)TrendingContextMenuItem.Related):
+                    TraktHelper.ShowRelatedShows(selectedShow);
                     break;
 
-                case ((int)ContextMenuItem.Trailers):
+                case ((int)TrendingContextMenuItem.Trailers):
                     GUICommon.ShowTVShowTrailersMenu(selectedShow);
                     break;
 
-                case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
-                    GUIShouts.ShowInfo = new ShowShout { IMDbId = selectedShow.Imdb, TVDbId = selectedShow.Tvdb, Title = selectedShow.Title };
-                    GUIShouts.Fanart = selectedShow.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                case ((int)TrendingContextMenuItem.Shouts):
+                    TraktHelper.ShowTVShowShouts(selectedShow);
                     break;
 
-                case ((int)ContextMenuItem.Rate):
+                case ((int)TrendingContextMenuItem.Rate):
                     GUICommon.RateShow(selectedShow);
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
-                case ((int)ContextMenuItem.ChangeLayout):
+                case ((int)TrendingContextMenuItem.ChangeLayout):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
                     break;
 
-                case ((int)ContextMenuItem.SearchWithMpNZB):
+                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedShow.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
-                case ((int)ContextMenuItem.SearchTorrent):
+                case ((int)TrendingContextMenuItem.SearchTorrent):
                     string loadPar = selectedShow.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
@@ -389,58 +286,6 @@ namespace TraktPlugin.GUI
 
             TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
             GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb, jumpTo);
-        }
-
-        private TraktShowSync CreateSyncData(TraktTrendingShow show)
-        {
-            if (show == null) return null;
-
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show syncShow = new TraktShowSync.Show
-            {
-                TVDBID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year
-            };
-            shows.Add(syncShow);
-
-            TraktShowSync syncData = new TraktShowSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                Shows = shows
-            };
-
-            return syncData;
-        }
-
-        private void AddShowToWatchList(TraktTrendingShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktTrendingShow), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(show);
-        }
-
-        private void RemoveShowFromWatchList(TraktTrendingShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktTrendingShow), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(show);
         }
 
         private void LoadTrendingShows()

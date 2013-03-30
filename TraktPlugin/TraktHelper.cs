@@ -146,6 +146,10 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void RemoveMovieFromWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
+        {
+            RemoveMovieFromWatchList(movie.Title, movie.Year, movie.IMDBID, updateMovingPicturesFilters);
+        }
         public static void RemoveMovieFromWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
         {
             if (!GUICommon.CheckLogin(false)) return;
@@ -198,6 +202,10 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void RemoveShowFromWatchList(TraktShow show)
+        {
+            RemoveShowFromWatchList(show.Title, show.Year.ToString(), show.Tvdb);
+        }
         public static void RemoveShowFromWatchList(string title, string year, string tvdbid)
         {
             TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
@@ -436,6 +444,10 @@ namespace TraktPlugin
         #endregion
 
         #region Related Movies
+        public static void ShowRelatedMovies(TraktMovie movie)
+        {
+            ShowRelatedMovies(movie.IMDBID, movie.Title, movie.Year);
+        }
         public static void ShowRelatedMovies(string imdbid, string title, string year)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Movies.xml"))
@@ -457,6 +469,10 @@ namespace TraktPlugin
         #endregion
 
         #region Related Shows
+        public static void ShowRelatedShows(TraktShow show)
+        {
+            ShowRelatedShows(show.Tvdb, show.Title);
+        }
         public static void ShowRelatedShows(string tvdbid, string title)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Shows.xml"))
@@ -561,9 +577,13 @@ namespace TraktPlugin
         #endregion
 
         #region Movie Watched/UnWatched
-        public static void MarkMovieAsWatched(string imdbid, string title, string year)
+        public static void MarkMovieAsWatched(TraktMovie movie)
         {
-            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            MarkMovieAsWatched(movie.IMDBID, movie.Title, movie.Year, movie.TMDBID);
+        }
+        public static void MarkMovieAsWatched(string imdbid, string title, string year, string tmdbid = null)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid, tmdbid);
             if (syncObject == null) return;
 
             Thread syncThread = new Thread(delegate(object obj)
@@ -578,9 +598,13 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
-        public static void MarkMovieAsUnWatched(string imdbid, string title, string year)
+        public static void MarkMovieAsUnWatched(TraktMovie movie)
         {
-            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
+            MarkMovieAsUnWatched(movie.IMDBID, movie.Title, movie.Year, movie.TMDBID);
+        }
+        public static void MarkMovieAsUnWatched(string imdbid, string title, string year, string tmdbid = null)
+        {
+            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid, tmdbid);
             if (syncObject == null) return;
 
             Thread syncThread = new Thread(delegate(object obj)
@@ -635,7 +659,11 @@ namespace TraktPlugin
         #endregion
 
         #region Movie Library/UnLibrary
-        public static void AddMovieToLibrary(string imdbid, string title, string year)
+        public static void AddMovieToLibrary(TraktMovie movie)
+        {
+            AddMovieToLibrary(movie.IMDBID, movie.Title, movie.Year, movie.TMDBID);
+        }
+        public static void AddMovieToLibrary(string imdbid, string title, string year, string tmdbid = null)
         {
             TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
             if (syncObject == null) return;
@@ -652,7 +680,11 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
-        public static void RemoveMovieFromLibrary(string imdbid, string title, string year)
+        public static void RemoveMovieFromLibrary(TraktMovie movie)
+        {
+            RemoveMovieFromLibrary(movie.IMDBID, movie.Title, movie.Year, movie.TMDBID);
+        }
+        public static void RemoveMovieFromLibrary(string imdbid, string title, string year, string tmdbid = null)
         {
             TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
             if (syncObject == null) return;

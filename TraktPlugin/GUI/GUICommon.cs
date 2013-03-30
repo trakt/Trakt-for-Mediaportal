@@ -50,6 +50,25 @@ namespace TraktPlugin.GUI
         Trailers,
     }
 
+    public enum TrendingContextMenuItem
+    {
+        MarkAsWatched,
+        MarkAsUnWatched,
+        AddToWatchList,
+        RemoveFromWatchList,
+        AddToList,
+        AddToLibrary,
+        RemoveFromLibrary,
+        Related,
+        Rate,
+        Shouts,
+        ChangeLayout,
+        Trailers,
+        SearchWithMpNZB,
+        SearchTorrent,
+        ShowSeasonInfo
+    }
+
     public enum TraktGUIControls 
     {
         Layout = 2,
@@ -1015,7 +1034,7 @@ namespace TraktPlugin.GUI
         /// Returns a list of context menu items for a selected movie in the Activity Dashboard
         /// Activity API does not return authenticated data such as InWatchlist, InCollection, Rating etc.
         /// </summary>
-        public static List<GUIListItem> GetContextMenuItemsForActivity()
+        internal static List<GUIListItem> GetContextMenuItemsForActivity()
         {
             GUIListItem listItem = null;
             List<GUIListItem> listItems = new List<GUIListItem>();
@@ -1035,6 +1054,11 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ActivityContextMenuItem.Shouts;
             listItems.Add(listItem);
 
+            // Rate
+            listItem = new GUIListItem(Translation.Rate + "...");
+            listItem.ItemId = (int)ActivityContextMenuItem.Rate;
+            listItems.Add(listItem);
+
             // Trailers
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
             {
@@ -1044,6 +1068,196 @@ namespace TraktPlugin.GUI
             }
 
             return listItems;
+        }
+
+        internal static void CreateTrendingMoviesContextMenu(ref IDialogbox dlg, TraktMovie movie)
+        {
+            GUIListItem listItem = null;
+
+            // Mark As Watched
+            if (!movie.Watched)
+            {
+                listItem = new GUIListItem(Translation.MarkAsWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.MarkAsWatched;
+            }
+
+            // Mark As UnWatched
+            if (movie.Watched)
+            {
+                listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.MarkAsUnWatched;
+            }
+
+            // Add/Remove Watch List            
+            if (!movie.InWatchList)
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.AddToWatchList;
+            }
+            else
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromWatchList;
+            }
+
+            // Add to Custom list
+            listItem = new GUIListItem(Translation.AddToList + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
+
+            // Add to Library
+            // Don't allow if it will be removed again on next sync
+            // movie could be part of a DVD collection
+            if (!movie.InCollection && !TraktSettings.KeepTraktLibraryClean)
+            {
+                listItem = new GUIListItem(Translation.AddToLibrary);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.AddToLibrary;
+            }
+
+            if (movie.InCollection)
+            {
+                listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromLibrary;
+            }
+
+            // Related Movies
+            listItem = new GUIListItem(Translation.RelatedMovies + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Related;
+
+            // Rate Movie
+            listItem = new GUIListItem(Translation.RateMovie);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Rate;
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
+
+            // Trailers
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.Trailers;
+            }
+
+            // Change Layout
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingMovies)
+            {
+                listItem = new GUIListItem(Translation.ChangeLayout);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.ChangeLayout;
+            }
+
+            if (!movie.InCollection && TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                // Search for movie with mpNZB
+                listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.SearchWithMpNZB;
+            }
+
+            if (!movie.InCollection && TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                // Search for movie with MyTorrents
+                listItem = new GUIListItem(Translation.SearchTorrent);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.SearchTorrent;
+            }
+
+        }
+
+        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show)
+        {
+            GUIListItem listItem = null;
+
+            // Add/Remove Watch List            
+            if (!show.InWatchList)
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.AddToWatchList;
+            }
+            else
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromWatchList;
+            }
+
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.ShowSeasonInfo;
+
+            // Mark Show as Watched
+            listItem = new GUIListItem(Translation.MarkAsWatched);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.MarkAsWatched;
+
+            // Add Show to Library
+            listItem = new GUIListItem(Translation.AddToLibrary);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.AddToLibrary;
+
+            // Add to Custom List
+            listItem = new GUIListItem(Translation.AddToList + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
+
+            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.Trailers;
+            }
+
+            // Related Shows
+            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Related;
+
+            // Rate Show
+            listItem = new GUIListItem(Translation.RateShow);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Rate;
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Shouts + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
+
+            // Change Layout
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingShows)
+            {
+                listItem = new GUIListItem(Translation.ChangeLayout);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.ChangeLayout;
+            }
+
+            if (TraktHelper.IsMpNZBAvailableAndEnabled)
+            {
+                // Search for show with mpNZB
+                listItem = new GUIListItem(Translation.SearchWithMpNZB);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.SearchWithMpNZB;
+            }
+
+            if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            {
+                // Search for show with MyTorrents
+                listItem = new GUIListItem(Translation.SearchTorrent);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.SearchTorrent;
+            }
         }
 
         #endregion
