@@ -762,6 +762,7 @@ namespace TraktPlugin
                     break;
 
                 case ActivityAction.shout:
+                case ActivityAction.review:
                     imageFilename = "traktActivityShout.png";
                     break;
 
