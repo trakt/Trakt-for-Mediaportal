@@ -1040,7 +1040,7 @@ namespace TraktPlugin
 
                 // check that we have any friend activity, if not switch to friends+me
                 // not everyone has friends! We could use friend count but that means an extra uneeded request
-                if (PreviousActivity != null && PreviousActivity.Activities != null)
+                if (PreviousActivity == null || PreviousActivity.Activities == null || PreviousActivity.Activities.Count == 0)
                 {
                     if (!TraktSettings.ShowCommunityActivity && !TraktSettings.IncludeMeInFriendsActivity)
                     {
@@ -1920,9 +1920,6 @@ namespace TraktPlugin
 
         public void Init()
         {
-            //if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
-            //    return;
-
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
             GUIWindowManager.OnNewAction +=new OnActionHandler(GUIWindowManager_OnNewAction);
 
