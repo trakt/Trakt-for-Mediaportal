@@ -47,6 +47,8 @@ namespace TraktPlugin
         DateTime LastTrendingShowUpdate = DateTime.MinValue;
         DateTime LastTrendingMovieUpdate = DateTime.MinValue;
 
+        TraktActivity.Activity PreviousSelectedActivity = null;
+
         #endregion
 
         #region Constructor
@@ -306,11 +308,18 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
+            int PreviousSelectedIdx = 0;
             var avatarImages = new List<TraktUser>();
 
             // Add each activity item to the facade
             foreach (var activity in activities.Activities)
             {
+                if (PreviousSelectedActivity != null)
+                {
+                    if (activity.Timestamp == PreviousSelectedActivity.Timestamp)
+                        PreviousSelectedIdx = itemId;
+                }
+
                 GUITraktDashboardListItem item = new GUITraktDashboardListItem(GetListItemTitle(activity));
 
                 string activityImage = GetActivityImage(activity);
@@ -335,6 +344,9 @@ namespace TraktPlugin
 
             // Set Facade Layout
             facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
+
+            // Select previously selected item
+            facade.SelectIndex(PreviousSelectedIdx);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Activity.Count", activities.Activities.Count().ToString());
@@ -1649,6 +1661,9 @@ namespace TraktPlugin
                 ClearSelectedActivityProperties();
                 return;
             }
+
+            // remember last selected item
+            PreviousSelectedActivity = activity;
 
             // set type and action properties
             GUIUtils.SetProperty("#Trakt.Selected.Activity.Type", activity.Type);
