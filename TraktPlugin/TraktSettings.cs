@@ -99,6 +99,7 @@ namespace TraktPlugin
         public static bool EnableJumpToForTVShows { get; set; }
         public static bool MyFilmsCategories { get; set; }
         public static bool SortSeasonsAscending { get; set; }
+        public static bool RememberLastSelectedActivity { get; set; }
         #endregion
 
         #region Constants
@@ -187,6 +188,7 @@ namespace TraktPlugin
         private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         private const string cMyFilmsCategories = "MyFilmsCategories";
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
+        private const string cRememberLastSelectedActivity = "RememberLastSelectedActivity";
         #endregion
 
         #region Properties
@@ -439,6 +441,7 @@ namespace TraktPlugin
                 EnableJumpToForTVShows = xmlreader.GetValueAsBool(cTrakt, cEnableJumpToForTVShows, false);
                 MyFilmsCategories = xmlreader.GetValueAsBool(cTrakt, cMyFilmsCategories, false);
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
+                RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
             }
         }
 
@@ -532,6 +535,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cEnableJumpToForTVShows, EnableJumpToForTVShows);
                 xmlwriter.SetValueAsBool(cTrakt, cMyFilmsCategories, MyFilmsCategories);
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
+                xmlwriter.SetValueAsBool(cTrakt, cRememberLastSelectedActivity, RememberLastSelectedActivity);
             }
 
             Settings.SaveCache();

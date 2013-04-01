@@ -557,6 +557,8 @@ namespace TraktPlugin.GUI
         public static string SettingDashboardLoadDelayDescription = "This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.";
         public static string SettingEnableJumpToForTVShowsName = "Enable TV Show Jump To Feature";
         public static string SettingEnableJumpToForTVShowsDescription = "Enable this setting to allow user to Jump directly to the MP-TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.";
+        public static string SettingRememberLastSelectedActivityName = "Remember Last Selected Activity on Dashboard";
+        public static string SettingRememberLastSelectedActivityDescription = "Enable this setting to re-select the last selected activity when the Trakt dashboard is re-loaded, if disabled the first item will always be selected on re-load.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

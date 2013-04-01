@@ -308,13 +308,13 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            int PreviousSelectedIdx = 0;
+            int PreviousSelectedIdx = -1;
             var avatarImages = new List<TraktUser>();
 
             // Add each activity item to the facade
             foreach (var activity in activities.Activities)
             {
-                if (PreviousSelectedActivity != null)
+                if (PreviousSelectedIdx == -1 && PreviousSelectedActivity != null && TraktSettings.RememberLastSelectedActivity)
                 {
                     if (activity.Equals(PreviousSelectedActivity))
                         PreviousSelectedIdx = itemId;
@@ -346,7 +346,7 @@ namespace TraktPlugin
             facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
 
             // Select previously selected item
-            if (facade.LayoutControl.IsFocused)
+            if (facade.LayoutControl.IsFocused && PreviousSelectedIdx >= 0)
                 facade.SelectIndex(PreviousSelectedIdx);
 
             // set facade properties
