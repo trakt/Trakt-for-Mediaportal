@@ -316,7 +316,7 @@ namespace TraktPlugin
             {
                 if (PreviousSelectedActivity != null)
                 {
-                    if (activity.Timestamp == PreviousSelectedActivity.Timestamp)
+                    if (activity.Equals(PreviousSelectedActivity))
                         PreviousSelectedIdx = itemId;
                 }
 
@@ -346,7 +346,8 @@ namespace TraktPlugin
             facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
 
             // Select previously selected item
-            facade.SelectIndex(PreviousSelectedIdx);
+            if (facade.LayoutControl.IsFocused)
+                facade.SelectIndex(PreviousSelectedIdx);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Activity.Count", activities.Activities.Count().ToString());

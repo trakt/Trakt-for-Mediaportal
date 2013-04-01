@@ -26,8 +26,16 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public List<Activity> Activities { get; set; }
 
         [DataContract]
-        public class Activity
+        public class Activity : IEquatable<Activity>
         {
+            public bool Equals(Activity other)
+            {
+                if (other == null)
+                    return false;
+
+                return (this.Timestamp == other.Timestamp && this.User.Username == other.User.Username);
+            }
+
             [DataMember(Name = "timestamp")]
             public long Timestamp { get; set; }
 
