@@ -101,6 +101,7 @@ namespace TraktPlugin
         public static bool SortSeasonsAscending { get; set; }
         public static bool RememberLastSelectedActivity { get; set; }
         public static int MovPicsRatingDlgDelay { get; set; }
+        public static bool ShowRateDlgForPlaylists { get; set; }
         #endregion
 
         #region Constants
@@ -191,6 +192,7 @@ namespace TraktPlugin
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
         private const string cRememberLastSelectedActivity = "RememberLastSelectedActivity";
         private const string cMovPicsRatingDlgDelay = "MovPicsRatingDlgDelay";
+        private const string cShowRateDlgForPlaylists = "ShowRateDlgForPlaylists";
         #endregion
 
         #region Properties
@@ -445,6 +447,7 @@ namespace TraktPlugin
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
                 MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
+                ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, true);
             }
         }
 
@@ -539,6 +542,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cMyFilmsCategories, MyFilmsCategories);
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
                 xmlwriter.SetValueAsBool(cTrakt, cRememberLastSelectedActivity, RememberLastSelectedActivity);
+                xmlwriter.SetValueAsBool(cTrakt, cShowRateDlgForPlaylists, ShowRateDlgForPlaylists);
             }
 
             Settings.SaveCache();

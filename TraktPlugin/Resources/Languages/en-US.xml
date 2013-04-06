@@ -331,6 +331,8 @@
   <string name="SettingSyncRatingsDescription">Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It\'s recommended that items online are rated using advanced ratings before enabling this setting.</string>
   <string name="SettingShowRateDialogOnWatchedName">Show Rate Dialog on Watched</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Show Rate Dialog In Playlists</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">If Trakt Rate Dialog is enabled, disable this setting if you wish to not display it from playlist views.</string>
   <string name="SettingActivityPollIntervalName">Dashboard Activity Poll Interval</string>
   <string name="SettingActivityPollIntervalDescription">Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Dashboard Trending Poll Interval</string>

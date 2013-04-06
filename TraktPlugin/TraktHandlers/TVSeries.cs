@@ -54,7 +54,7 @@ namespace TraktPlugin.TraktHandlers
             VideoHandler.EpisodeWatched += new VideoHandler.EpisodeWatchedDelegate(OnEpisodeWatched);
             VideoHandler.EpisodeStarted += new VideoHandler.EpisodeStartedDelegate(OnEpisodeStarted);
             VideoHandler.EpisodeStopped += new VideoHandler.EpisodeStoppedDelegate(OnEpisodeStopped);
-            PlayListPlayer.EpisodeWatched +=new PlayListPlayer.EpisodeWatchedDelegate(OnEpisodeWatched);
+            PlayListPlayer.EpisodeWatched +=new PlayListPlayer.EpisodeWatchedDelegate(OnPlaylistEpisodeWatched);
             PlayListPlayer.EpisodeStarted += new PlayListPlayer.EpisodeStartedDelegate(OnEpisodeStarted);
             PlayListPlayer.EpisodeStopped += new PlayListPlayer.EpisodeStoppedDelegate(OnEpisodeStopped);
             
@@ -940,11 +940,12 @@ namespace TraktPlugin.TraktHandlers
         /// Shows the Rate Episode Dialog after playback has ended
         /// </summary>
         /// <param name="episode">The episode being rated</param>
-        private void ShowRateDialog(DBEpisode episode)
+        private void ShowRateDialog(DBEpisode episode, bool isPlaylist)
         {
-            if (DBOption.GetOptions(DBOption.cAskToRate)) return;   // tvseries dialog is enabled
-            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled
-            if (episode[DBOnlineEpisode.cMyRating] > 0) return;     // already rated
+            if (DBOption.GetOptions(DBOption.cAskToRate)) return;               // tvseries dialog is enabled
+            if (!TraktSettings.ShowRateDialogOnWatched) return;                 // not enabled
+            if (episode[DBOnlineEpisode.cMyRating] > 0) return;                 // already rated
+            if (isPlaylist && !TraktSettings.ShowRateDlgForPlaylists) return;   // disabled for playlists
 
             TraktLogger.Debug("Showing rate dialog for '{0}'", episode.ToString());
 
@@ -1028,7 +1029,15 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        private void OnPlaylistEpisodeWatched(DBEpisode episode)
+        {
+            OnEpisodeWatched(episode, true);
+        }
         private void OnEpisodeWatched(DBEpisode episode)
+        {
+            OnEpisodeWatched(episode, false);
+        }
+        private void OnEpisodeWatched(DBEpisode episode, bool isPlaylist)
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -1058,7 +1067,7 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 // show trakt rating dialog
-                ShowRateDialog(currentEpisode);
+                ShowRateDialog(currentEpisode, isPlaylist);
 
                 TraktLogger.Info("MP-TVSeries episode considered watched '{0}'", currentEpisode.ToString());
 

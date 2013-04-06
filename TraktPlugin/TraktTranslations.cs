@@ -549,6 +549,8 @@ namespace TraktPlugin.GUI
         public static string SettingSyncRatingsDescription = "Enable this setting for 2-way synchronization of ratings during Library Sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It's recommended that items online are rated using advanced ratings before enabling this setting.";
         public static string SettingShowRateDialogOnWatchedName = "Show Rate Dialog on Watched";
         public static string SettingShowRateDialogOnWatchedDescription = "Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated.";
+        public static string SettingShowRateDialogInPlaylistsName = "Show Rate Dialog In Playlists";
+        public static string SettingShowRateDialogInPlaylistsDescription = "If Trakt Rate Dialog is enabled, disable this setting if you wish to not display it from playlist views";
         public static string SettingActivityPollIntervalName = "Dashboard Activity Poll Interval";
         public static string SettingActivityPollIntervalDescription = "Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.";
         public static string SettingTrendingPollIntervalName = "Dashboard Trending Poll Interval";
@@ -558,13 +560,12 @@ namespace TraktPlugin.GUI
         public static string SettingEnableJumpToForTVShowsName = "Enable TV Show Jump To Feature";
         public static string SettingEnableJumpToForTVShowsDescription = "Enable this setting to allow user to Jump directly to the MP-TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.";
         public static string SettingRememberLastSelectedActivityName = "Remember Last Selected Activity on Dashboard";
-        public static string SettingRememberLastSelectedActivityDescription = "Enable this setting to re-select the last selected activity when the Trakt dashboard is re-loaded, if disabled the first item will always be selected on re-load.";
+        public static string SettingRememberLastSelectedActivityDescription = "Enable this setting to re-select the last selected activity when the Trakt dashboard is re-loaded, if disabled the first item will always be selected on re-load.";        
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
         public static string SortSeasonsDescending = "Sort Seasons in Descending order";
         public static string Specials = "Specials";
-
 
         // T
         public static string Timeout = "Timeout";
