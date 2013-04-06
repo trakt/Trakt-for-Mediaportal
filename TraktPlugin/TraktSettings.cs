@@ -100,6 +100,7 @@ namespace TraktPlugin
         public static bool MyFilmsCategories { get; set; }
         public static bool SortSeasonsAscending { get; set; }
         public static bool RememberLastSelectedActivity { get; set; }
+        public static int MovPicsRatingDlgDelay { get; set; }
         #endregion
 
         #region Constants
@@ -189,6 +190,7 @@ namespace TraktPlugin
         private const string cMyFilmsCategories = "MyFilmsCategories";
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
         private const string cRememberLastSelectedActivity = "RememberLastSelectedActivity";
+        private const string cMovPicsRatingDlgDelay = "MovPicsRatingDlgDelay";
         #endregion
 
         #region Properties
@@ -442,6 +444,7 @@ namespace TraktPlugin
                 MyFilmsCategories = xmlreader.GetValueAsBool(cTrakt, cMyFilmsCategories, false);
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
+                MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
             }
         }
 

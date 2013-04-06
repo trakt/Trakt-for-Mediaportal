@@ -868,6 +868,12 @@ namespace TraktPlugin.TraktHandlers
                     Password = TraktSettings.Password
                 };
 
+                // added a delay due to bug in MovingPictures blocking OnPageLoad()
+                // a call to GUIWindowManager.Process() causes MediaPortal to wait until any modal dialog is closed.
+                // the value may need to be tweaked on some systems
+                // visible symtoms of issue is wrong backdrop / progress in background whilst dialog is modal
+                System.Threading.Thread.Sleep(TraktSettings.MovPicsRatingDlgDelay);
+
                 // get the rating submitted to trakt
                 int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
 
