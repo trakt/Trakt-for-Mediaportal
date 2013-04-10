@@ -67,18 +67,26 @@ namespace TraktPlugin
             // window init message does not work unless overridden from a guiwindow class
             // so we need to be ensured that the window is fully loaded
             // before we can get reference to a skin control
-            do
+            try
             {
-                // get current window
-                var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+                do
+                {
+                    // get current window
+                    var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
 
-                // get facade control
-                facade = window.GetControl(facadeID) as GUIFacadeControl;
-                if (facade == null) Thread.Sleep(100);
+                    // get facade control
+                    facade = window.GetControl(facadeID) as GUIFacadeControl;
+                    if (facade == null) Thread.Sleep(100);
 
-                i++;
+                    i++;
+                }
+                while (i < 50 && facade == null);
             }
-            while (i < 50 && facade == null);
+            catch (Exception ex)
+            {
+                TraktLogger.Error("MediaPortal failed to get the active control");
+                TraktLogger.Error(ex.StackTrace);
+            }
 
             if (facade == null)
             {
