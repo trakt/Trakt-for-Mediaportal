@@ -7,6 +7,7 @@ using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using MediaPortal.Player;
+using MediaPortal.Playlists;
 using System.Reflection;
 using System.ComponentModel;
 using MediaPortal.Video.Database;
@@ -510,7 +511,8 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movie">The movie being rated</param>
         private void ShowRateDialog(IMDBMovie movie)
         {
-            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+            if (!TraktSettings.ShowRateDialogOnWatched) return;
+            if (!TraktSettings.ShowRateDlgForPlaylists && PlayListPlayer.SingletonPlayer.CurrentPlaylistType == PlayListType.PLAYLIST_VIDEO) return;
 
             TraktLogger.Debug("Showing rate dialog for '{0}'", movie.Title);
 
