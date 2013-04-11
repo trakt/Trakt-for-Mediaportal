@@ -972,7 +972,19 @@ namespace TraktPlugin.TraktHandlers
                 if (rating > 0)
                 {
                     TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
+                     
                     epToRate[DBOnlineEpisode.cMyRating] = rating;
+                    if (epToRate[DBOnlineEpisode.cRatingCount] == 0)
+                    {
+                        // not really needed but nice touch
+                        // tvseries does not do this automatically on userrating insert
+                        // we could do one step further and re-calculate rating for any vote count
+                        epToRate[DBOnlineEpisode.cRatingCount] = 1;
+                        epToRate[DBOnlineEpisode.cRating] = rating;
+                    }
+                    // ensure we force watched flag otherwise
+                    // we will overwrite current state on facade with state before playback
+                    epToRate[DBOnlineEpisode.cWatched] = true;
                     epToRate.Commit();
 
                     // update the facade holding the episode objects
