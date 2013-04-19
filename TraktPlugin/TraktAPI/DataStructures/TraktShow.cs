@@ -41,7 +41,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string AirTime { get; set; }
 
         [DataMember(Name = "air_time_localized")]
-        public long FirstAiredLocalized { get; set; }
+        public string AirTimeLocalized { get; set; }
 
         [DataMember(Name = "certification")]
         public string Certification { get; set; }
