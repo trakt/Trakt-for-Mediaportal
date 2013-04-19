@@ -962,7 +962,7 @@ namespace TraktPlugin.GUI
                 {
                     // add day header
                     GUIListItem item = new GUIListItem();
-                    item.Label3 = DateTime.Parse(day.ToString()).ToLongDateString();
+                    item.Label3 = GetDayHeader(DateTime.Parse(day.ToString()));
                     item.IconImage = "defaultTraktCalendar.png";
                     item.IconImageBig = "defaultTraktCalendarBig.png";
                     item.ThumbnailImage = "defaultTraktCalendarBig.png";
@@ -1046,6 +1046,18 @@ namespace TraktPlugin.GUI
 
             // Download episode images Async and set to facade
             GetImages(showImages);
+        }
+
+        private string GetDayHeader(DateTime dateTime)
+        {
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear))
+                return Translation.Today;
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear + 1))
+                return Translation.Tomorrow;
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear - 1))
+                return Translation.Yesterday;
+
+            return dateTime.ToLongDateString();
         }
 
         private void OnCalendarDateSelected(GUIListItem item, GUIControl parent)

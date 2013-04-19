@@ -578,6 +578,8 @@ namespace TraktPlugin.GUI
         public static string TVShow = "TV Show";
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";
+        public static string Today = "Today";
+        public static string Tomorrow = "Tomorrow";
         public static string Title = "Title";
         public static string Trailer = "Trailer";
         public static string Trailers = "Trailers...";
@@ -615,6 +617,7 @@ namespace TraktPlugin.GUI
         // Y
         public static string Year = "Year";
         public static string Yes = "Yes";
+        public static string Yesterday = "Yesterday";
 
         #endregion
 
