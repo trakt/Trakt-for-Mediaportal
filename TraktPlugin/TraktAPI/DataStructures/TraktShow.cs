@@ -40,6 +40,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "air_time")]
         public string AirTime { get; set; }
 
+        [DataMember(Name = "air_time_localized")]
+        public long FirstAiredLocalized { get; set; }
+
         [DataMember(Name = "certification")]
         public string Certification { get; set; }
 
