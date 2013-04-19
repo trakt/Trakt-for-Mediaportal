@@ -109,7 +109,19 @@
       <label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)+string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
+    </control>
+		<control>
+      <description>Series Airs</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>294</posY>
+      <width>210</width>
+      <label>#Trakt.Episode.FirstAiredLocalizedDayOfWeek #Trakt.Show.AirTimeLocalized</label>
+      <font>font12</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
     </control>
 		
 		<control>
