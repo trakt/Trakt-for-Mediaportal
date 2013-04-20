@@ -884,8 +884,22 @@ namespace TraktPlugin.TraktHandlers
 
                     TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
                     movieToRate.ActiveUserSettings.UserRating = (int)(Math.Round(rating / 2.0, MidpointRounding.AwayFromZero));
-                    movieToRate.Commit();
 
+                    // Publish to skin - same as how MovingPictures does it i.e. lose precision due to rounding
+                    if (GUIUtils.GetProperty("#MovingPictures.SelectedMovie.title").Equals(movieToRate.Title))
+                    {
+                        GUICommon.SetProperty("#MovingPictures.UserMovieSettings.user_rating", movieToRate.ActiveUserSettings.UserRating.ToString());
+                        GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", (movieToRate.ActiveUserSettings.UserRating * 2).ToString());
+                    }
+
+                    if (movieToRate.Popularity == 0 && movieToRate.Score == 0)
+                    {
+                        movieToRate.Score = rating;
+                        movieToRate.Popularity = 1;
+                    }
+
+                    movieToRate.Commit();
+                    
                     TraktRateSent = false;
                 }
             })
