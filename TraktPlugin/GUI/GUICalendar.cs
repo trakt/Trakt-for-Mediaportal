@@ -1060,13 +1060,17 @@ namespace TraktPlugin.GUI
 
         private string GetDayHeader(DateTime dateTime)
         {
-            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear))
-                return Translation.Today;
-            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear + 1))
-                return Translation.Tomorrow;
-            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear - 1))
-                return Translation.Yesterday;
-
+            // only set this for My Shows as the other types are not localized
+            // Today, Tomorrow and Yesterday will not make much sense in that case.
+            if (CurrentCalendar == CalendarType.MyShows)
+            {
+                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear))
+                    return Translation.Today;
+                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear + 1))
+                    return Translation.Tomorrow;
+                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear - 1))
+                    return Translation.Yesterday;
+            }
             return dateTime.ToLongDateString();
         }
 
