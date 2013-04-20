@@ -25,6 +25,9 @@ namespace TraktPlugin.GUI
         [SkinControl(3)]
         protected GUIButtonControl startDateButton = null;
 
+        [SkinControl(4)]
+        protected GUICheckButton hideWatchlistedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -292,6 +295,12 @@ namespace TraktPlugin.GUI
                 // Start Date Button
                 case (3):
                     ShowStartDateMenu();
+                    break;
+
+                // Hide Watchlisted
+                case (4):
+                    TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
+                    LoadCalendar();
                     break;
 
                 default:
@@ -574,6 +583,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.WatchlistFilter):
                     TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
+                    SetHideWatchlisted();
                     LoadCalendar();
                     break;
 
@@ -1106,6 +1116,8 @@ namespace TraktPlugin.GUI
             CurrentStartDate = (StartDates)TraktSettings.DefaultCalendarStartDate;
             SetCurrentStartDate();
 
+            SetHideWatchlisted();
+
             // clear properties only if we need to
             if (LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
@@ -1168,6 +1180,15 @@ namespace TraktPlugin.GUI
             // Set current start date in button label
             if (startDateButton != null)
                 startDateButton.Label = Translation.StartDate + ": " + GetStartDateName(CurrentStartDate);
+        }
+
+        private void SetHideWatchlisted()
+        {
+            if (hideWatchlistedButton != null)
+            {
+                hideWatchlistedButton.Selected = TraktSettings.CalendarHideTVShowsInWatchList;
+                GUIControl.SetControlLabel(GetID, hideWatchlistedButton.GetID, Translation.HideWatchlisted);
+            }
         }
 
         private void SetCurrentView()
