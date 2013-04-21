@@ -441,7 +441,7 @@ namespace TraktPlugin.GUI
             if (selectedItem == null) return;
 
             TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
-            GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb, jumpTo);
+            GUICommon.CheckAndPlayFirstUnwatched(selectedShow, jumpTo);
         }
 
         private TraktShowSync CreateSyncData(TraktShow show)

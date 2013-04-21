@@ -764,12 +764,7 @@ namespace TraktPlugin.GUI
             var episode = selectedItem.TVTag as TraktCalendar.TraktEpisodes;
             if (episode == null) return;
 
-            int seriesid = Convert.ToInt32(episode.Show.Tvdb);
-            int seasonidx = episode.Episode.Season;
-            int episodeidx = episode.Episode.Number;
-            string searchterm = string.IsNullOrEmpty(episode.Show.Imdb) ? episode.Show.Title : episode.Show.Imdb;
-
-            GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
+            GUICommon.CheckAndPlayEpisode(episode.Show, episode.Episode);
         }
 
         private void ShowStartDateMenu()

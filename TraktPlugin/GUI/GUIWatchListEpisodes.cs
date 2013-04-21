@@ -335,12 +335,7 @@ namespace TraktPlugin.GUI
             var selectedSeries = item.Key;
             var selectedEpisode = item.Value;
 
-            int seriesid = Convert.ToInt32(selectedSeries.Tvdb);
-            int seasonidx = selectedEpisode.Season;
-            int episodeidx = selectedEpisode.Number;
-            string searchterm = string.IsNullOrEmpty(selectedSeries.Imdb) ? selectedSeries.Title : selectedSeries.Imdb;
-
-            GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
+            GUICommon.CheckAndPlayEpisode(selectedSeries, selectedEpisode);
         }
 
         private TraktEpisodeSync CreateSyncData(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> item)

@@ -285,7 +285,7 @@ namespace TraktPlugin.GUI
             if (selectedItem == null) return;
 
             TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
-            GUICommon.CheckAndPlayFirstUnwatched(Convert.ToInt32(selectedShow.Tvdb), string.IsNullOrEmpty(selectedShow.Imdb) ? selectedShow.Title : selectedShow.Imdb, jumpTo);
+            GUICommon.CheckAndPlayFirstUnwatched(selectedShow, jumpTo);
         }
 
         private void LoadTrendingShows()

@@ -486,7 +486,7 @@ namespace TraktPlugin.GUI
                     if (SelectedType == TraktItemType.movie)
                         GUICommon.ShowMovieTrailersMenu(userListItem.Movie);
                     else
-                        GUICommon.ShowTVShowTrailersMenu(userListItem.Show);
+                        GUICommon.ShowTVShowTrailersMenu(userListItem.Show, userListItem.Episode);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -544,13 +544,13 @@ namespace TraktPlugin.GUI
             // if its a show/season, play first unwatched
             if (SelectedType != TraktItemType.episode)
             {
-                GUICommon.CheckAndPlayFirstUnwatched(seriesid, searchterm, jumpTo);
+                GUICommon.CheckAndPlayFirstUnwatched(seriesid, searchterm, jumpTo, userListItem.Title);
             }
             else
             {
                 int seasonidx = Convert.ToInt32(userListItem.SeasonNumber);
                 int episodeidx = Convert.ToInt32(userListItem.EpisodeNumber);
-                GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
+                GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx, userListItem.Title);
             }
         }
 

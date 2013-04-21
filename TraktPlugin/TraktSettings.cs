@@ -102,6 +102,8 @@ namespace TraktPlugin
         public static bool RememberLastSelectedActivity { get; set; }
         public static int MovPicsRatingDlgDelay { get; set; }
         public static bool ShowRateDlgForPlaylists { get; set; }
+        public static string DefaultTVShowTrailerSite { get; set; }
+        public static string DefaultMovieTrailerSite { get; set; }
         #endregion
 
         #region Constants
@@ -193,6 +195,8 @@ namespace TraktPlugin
         private const string cRememberLastSelectedActivity = "RememberLastSelectedActivity";
         private const string cMovPicsRatingDlgDelay = "MovPicsRatingDlgDelay";
         private const string cShowRateDlgForPlaylists = "ShowRateDlgForPlaylists";
+        private const string cDefaultTVShowTrailerSite = "DefaultTVShowTrailerSite";
+        private const string cDefaultMovieTrailerSite = "DefaultMovieTrailerSite";
         #endregion
 
         #region Properties
@@ -448,6 +452,8 @@ namespace TraktPlugin
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
                 MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
                 ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, true);
+                DefaultTVShowTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultTVShowTrailerSite, "YouTube");
+                DefaultMovieTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultMovieTrailerSite, "IMDb Movie Trailers");
             }
         }
 
@@ -543,6 +549,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
                 xmlwriter.SetValueAsBool(cTrakt, cRememberLastSelectedActivity, RememberLastSelectedActivity);
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDlgForPlaylists, ShowRateDlgForPlaylists);
+                xmlwriter.SetValue(cTrakt, cDefaultTVShowTrailerSite, DefaultTVShowTrailerSite);
+                xmlwriter.SetValue(cTrakt, cDefaultMovieTrailerSite, DefaultMovieTrailerSite);
             }
 
             Settings.SaveCache();

@@ -381,12 +381,7 @@ namespace TraktPlugin.GUI
 
             var selectedEpisode = selectedItem.TVTag as TraktEpisode;
 
-            int seriesid = Convert.ToInt32(Show.Tvdb);
-            int seasonidx = selectedEpisode.Season;
-            int episodeidx = selectedEpisode.Number;
-            string searchterm = string.IsNullOrEmpty(Show.Imdb) ? Show.Title : Show.Imdb;
-
-            GUICommon.CheckAndPlayEpisode(seriesid, searchterm, seasonidx, episodeidx);
+            GUICommon.CheckAndPlayEpisode(Show, selectedEpisode);
         }
 
         private TraktEpisodeSync CreateEpisodeSyncData(TraktEpisode episode)
