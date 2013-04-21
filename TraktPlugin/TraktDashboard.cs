@@ -1513,8 +1513,8 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.Trailers):
                     if (activity.Movie != null) 
                         GUICommon.ShowMovieTrailersMenu(activity.Movie); 
-                    else 
-                        GUICommon.ShowTVShowTrailersMenu(activity.Show);
+                    else
+                        GUICommon.ShowTVShowTrailersMenu(activity.Show, activity.Episode);
                     break;
             }
         }

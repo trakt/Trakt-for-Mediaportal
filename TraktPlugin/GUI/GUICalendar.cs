@@ -578,7 +578,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    if (episodeItem != null) GUICommon.ShowTVShowTrailersMenu(episodeItem.Show);
+                    if (episodeItem != null) GUICommon.ShowTVShowTrailersMenu(episodeItem.Show, episodeItem.Episode);
                     break;
 
                 case ((int)ContextMenuItem.WatchlistFilter):

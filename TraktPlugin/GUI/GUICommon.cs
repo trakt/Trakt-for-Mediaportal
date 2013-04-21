@@ -1530,7 +1530,7 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region TV Show Trailers
-        public static void ShowTVShowTrailersMenu(TraktShow show)
+        public static void ShowTVShowTrailersMenu(TraktShow show, TraktEpisode episode = null)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1564,6 +1564,10 @@ namespace TraktPlugin.GUI
                     case ("YouTube"):
                         siteUtil = "YouTube";
                         searchParam = show.Title;
+                        if (episode != null)
+                        {
+                            searchParam += string.Format(" S{0}E{1}", episode.Season.ToString().PadLeft(2, '0'), episode.Number.ToString().PadLeft(2, '0'));
+                        }
                         break;
                 }
 

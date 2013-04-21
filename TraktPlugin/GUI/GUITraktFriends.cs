@@ -734,7 +734,7 @@ namespace TraktPlugin.GUI
                     if (selectedMovie != null)
                         GUICommon.ShowMovieTrailersMenu(selectedMovie);
                     else
-                        GUICommon.ShowTVShowTrailersMenu(selectedShow);
+                        GUICommon.ShowTVShowTrailersMenu(selectedShow, selectedEpisode);
                     break;
 
                 case ((int)ContextMenuItem.AddMovieToList):

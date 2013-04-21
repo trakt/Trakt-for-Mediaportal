@@ -284,7 +284,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    GUICommon.ShowTVShowTrailersMenu(selectedSeries);
+                    GUICommon.ShowTVShowTrailersMenu(selectedSeries, selectedEpisode);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
