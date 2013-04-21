@@ -31,6 +31,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            Trailers,
             AddToWatchList,
             RemoveFromWatchList,
             AddToLibrary,
@@ -190,6 +191,10 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            listItem = new GUIListItem(Translation.Trailers + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Trailers;
+
             if (selectedEpisode.Watched)
             {
                 listItem = new GUIListItem(Translation.MarkAsUnWatched);
@@ -271,6 +276,10 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.Trailers):
+                    GUICommon.ShowTVShowTrailersMenu(Show, selectedEpisode);
+                    break;
+
                 case ((int)ContextMenuItem.MarkAsWatched):
                     MarkEpisodeAsWatched(selectedEpisode);
                     selectedEpisode.Watched = true;
