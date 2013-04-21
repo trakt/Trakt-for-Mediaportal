@@ -5,7 +5,7 @@
   <!--C-->
   <string name="Cancel">Отмена</string>
   <string name="Calendar">Календарь</string>
-  <string name="Certification">Сертификация</string>
+  <string name="Certification">Рейтинг MPAA</string>
   <!--D-->
   <string name="DateToday">Сегодня</string>
   <string name="DateYesterday">Вчера</string>
@@ -35,18 +35,18 @@
   <!--P-->
   <!--R-->
   <string name="Rate">Рейтинг</string>
-  <string name="Rated">Оценен</string>
+  <string name="Rated">Оценка</string>
   <string name="Rating">Рейтинг</string>
-  <string name="RateTwo">Ужасно</string>
+  <string name="RateTwo">Ужасный</string>
   <string name="RateThree">Плохо</string>
   <string name="RateFour">Неважно</string>
   <string name="RateSix">Ничего так</string>
-  <string name="RateSeven">Хорошо</string>
+  <string name="RateSeven">Хороший</string>
   <string name="RateEight">Здорово</string>
-  <string name="RateNine">Супер</string>
+  <string name="RateNine">Великолепный</string>
   <string name="Recommendations">Рекомендации</string>
   <string name="ReleaseDate">Дата Релиза</string>
-  <string name="Runtime">Время</string>
+  <string name="Runtime">Продолжительность</string>
   <!--S-->
   <string name="Score">Рейтинг</string>
   <string name="Season">Сезон</string>
@@ -59,6 +59,7 @@
   <string name="Timeout">Время истекло</string>
   <string name="Trending">Трендинг</string>
   <string name="Title">Название</string>
+  <string name="Today">Сегодня</string>
   <string name="Trailer">Трейлер</string>
   <!--U-->
   <!--V-->
@@ -68,4 +69,5 @@
   <!--Y-->
   <string name="Year">Год</string>
   <string name="Yes">Да</string>
+  <string name="Yesterday">Вчера</string>
 </resources>

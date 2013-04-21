@@ -35,17 +35,17 @@
   <!--P-->
   <!--R-->
   <string name="Rate">Oceń</string>
-  <string name="Rated">Oceniony</string>
+  <string name="Rated">Ocena</string>
   <string name="Rating">Ocena</string>
-  <string name="RateTwo">Okropny</string>
+  <string name="RateTwo">Zły</string>
   <string name="RateThree">Kiepski</string>
   <string name="RateFour">Słaby</string>
   <string name="RateSix">Znośny</string>
   <string name="RateSeven">Dobry</string>
   <string name="RateEight">Świetny</string>
-  <string name="RateNine">Znakomity</string>
+  <string name="RateNine">Świetny</string>
   <string name="ReleaseDate">Data wydania</string>
-  <string name="Runtime">Czas trwania</string>
+  <string name="Runtime">Czas</string>
   <!--S-->
   <string name="Score">Ocena</string>
   <string name="Season">Sezon</string>
@@ -56,6 +56,7 @@
   <!--T-->
   <string name="Timeout">Przekroczony limit czasu</string>
   <string name="Title">Tytuł</string>
+  <string name="Today">Dzisiaj</string>
   <string name="Trailer">Zwiastun</string>
   <!--U-->
   <!--V-->
@@ -64,4 +65,5 @@
   <!--Y-->
   <string name="Year">Rok</string>
   <string name="Yes">Tak</string>
+  <string name="Yesterday">Wczoraj</string>
 </resources>

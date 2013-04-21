@@ -42,7 +42,7 @@
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
   <!--C-->
-  <string name="Cancel">Cancel</string>
+  <string name="Cancel">Cancelar</string>
   <string name="Calendar">Calendar</string>
   <string name="CalendarMyShows">My Shows</string>
   <string name="CalendarPremieres">Premieres</string>
@@ -108,7 +108,7 @@
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
   <string name="GenreAdventure">Adventure</string>
-  <string name="GenreAll">All</string>
+  <string name="GenreAll">Todas</string>
   <string name="GenreAnimation">Animation</string>
   <string name="GenreChildren">Children</string>
   <string name="GenreComedy">Comedy</string>
@@ -252,7 +252,7 @@
   <string name="PrivacyPrivate">Only you can view this list</string>
   <!--R-->
   <string name="Rate">Rate</string>
-  <string name="Rated">Rated</string>
+  <string name="Rated">Valorado</string>
   <string name="Rating">Rating</string>
   <string name="RateMovie">Rate Movie...</string>
   <string name="RateShow">Rate Show...</string>
@@ -275,7 +275,7 @@
   <string name="RelatedMovies">Related Movies</string>
   <string name="RelatedShows">Related Shows</string>
   <string name="Released">Released</string>
-  <string name="ReleaseDate">Release Date</string>
+  <string name="ReleaseDate">Fecha de estreno</string>
   <string name="RemoveFromLibrary">Remove from Library</string>
   <string name="RemoveFromWatchList">Remove from Watch List</string>
   <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
@@ -283,7 +283,7 @@
   <string name="RemoveFromList">Remove from List...</string>
   <string name="Reply">Responder</string>
   <string name="Replies">Respuestas</string>
-  <string name="Runtime">Runtime</string>
+  <string name="Runtime">Duración</string>
   <!--S-->
   <string name="Score">Score</string>
   <string name="Scrobble">Scrobble</string>
@@ -297,7 +297,7 @@
   <string name="SelectUser">Select User</string>
   <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
-  <string name="Settings">Settings</string>
+  <string name="Settings">Configuración</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
   <string name="ShowTVShowsInWatchlist">Show TV Shows in Watch List</string>
@@ -313,11 +313,11 @@
   <string name="ShowRateDialogOnWatched">Show Rate Dialog On Item Watched</string>
   <string name="ShowSeasonInfo">Season Information...</string>
   <string name="ShowWatched">Show Watched</string>
-  <string name="SettingPluginEnabledName">Plugin Enabled</string>
+  <string name="SettingPluginEnabledName">Plugin Activado</string>
   <string name="SettingPluginEnabledDescription">Enable / Disable this setting to control if the Trakt plugin is loaded with MediaPortal.</string>
-  <string name="SettingListedHomeName">Listed in Home</string>
+  <string name="SettingListedHomeName">Listado en Home</string>
   <string name="SettingListedHomeDescription">Enable this setting for the Trakt plugin to appear in the main Home screen menu items.</string>
-  <string name="SettingListedPluginsName">Listed in My Plugins</string>
+  <string name="SettingListedPluginsName">Listado en Mis Plugins</string>
   <string name="SettingListedPluginsDescription">Enable this setting for the Trakt plugin to appear in the My Plugins screen menu items.</string>
   <string name="SettingSyncTimerName">Library Synchronization Period</string>
   <string name="SettingSyncTimerDescription">Set the period of time (in hours) between each Library Synchronization. Default is every 24 hours.</string>
@@ -356,6 +356,7 @@
   <string name="TVShows">TV Shows</string>
   <string name="Tagline">Tagline</string>
   <string name="Title">Title</string>
+  <string name="Today">Hoy</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
@@ -388,5 +389,6 @@
   <string name="WatchListEpisodes">Episode Watch List</string>
   <!--Y-->
   <string name="Year">Year</string>
-  <string name="Yes">Yes</string>
+  <string name="Yes">Si</string>
+  <string name="Yesterday">Ayer</string>
 </resources>

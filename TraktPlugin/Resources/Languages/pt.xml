@@ -48,10 +48,12 @@
   <string name="Specials">Especiais</string>
   <!--T-->
   <string name="Title">Título</string>
+  <string name="Today">Hoje</string>
   <!--U-->
   <!--V-->
   <!--W-->
   <!--Y-->
   <string name="Year">Ano</string>
   <string name="Yes">Sim</string>
+  <string name="Yesterday">Ontem</string>
 </resources>

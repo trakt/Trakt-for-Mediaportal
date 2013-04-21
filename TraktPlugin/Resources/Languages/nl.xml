@@ -47,7 +47,7 @@
   <string name="CalendarMyShows">Mijn series</string>
   <string name="CalendarPremieres">Premières</string>
   <string name="CalendarAllShows">Alle series</string>
-  <string name="Certification">Certificaat</string>
+  <string name="Certification">Classificatie</string>
   <string name="ChangeView">Wijzig weergave</string>
   <string name="ChangeLayout">Wijzig lay-out</string>
   <string name="Create">Creëren</string>
@@ -93,7 +93,7 @@
   <string name="Error">Trakt fout</string>
   <string name="ErrorCalendar">Fout tijdens het ophalen van kalender</string>
   <!--F-->
-  <string name="FirstAired">Eerst uitgezonden</string>
+  <string name="FirstAired">Eerste uitzending</string>
   <string name="Friend">Vriend</string>
   <string name="Friends">Vrienden</string>
   <string name="FriendActivity">Vriend activiteit</string>
@@ -108,7 +108,7 @@
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Actie</string>
   <string name="GenreAdventure">Avontuur</string>
-  <string name="GenreAll">Alle</string>
+  <string name="GenreAll">Alles</string>
   <string name="GenreAnimation">Animatie</string>
   <string name="GenreChildren">Kinderen</string>
   <string name="GenreComedy">Humor</string>
@@ -200,7 +200,7 @@
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
   <!--N-->
   <string name="Name">Naam</string>
-  <string name="Network">Netwerk</string>
+  <string name="Network">Kanaal</string>
   <string name="NextEpisode">Volgende aflevering</string>
   <string name="NextWeek">Volgende week</string>
   <string name="NoActivities">Geen activiteit gevonden</string>
@@ -231,7 +231,7 @@
   <string name="NoRelatedShows">Geen gerelateerde series gevonden voor {0}!</string>
   <string name="No">Nee</string>
   <!--O-->
-  <string name="OK">Oké</string>
+  <string name="OK">OK</string>
   <string name="Overview">Overzicht</string>
   <!--P-->
   <string name="Password">Wachtwoord</string>
@@ -241,8 +241,8 @@
   <string name="PersonWatching">1 persoon kijkt</string>
   <string name="PeopleWatching">{0} mensen kijken</string>
   <string name="PlayTrailer">Trailer afspelen</string>
-  <string name="Plugin">Plugin</string>
-  <string name="Plugins">Plugins</string>
+  <string name="Plugin">Plug-in</string>
+  <string name="Plugins">Plug-ins</string>
   <string name="Public">Openbaar</string>
   <string name="PreviousEpisode">Vorige aflevering</string>
   <string name="Private">Privé</string>
@@ -251,9 +251,9 @@
   <string name="PrivacyFriends">Alleen vrienden kunnen deze lijst bekijken</string>
   <string name="PrivacyPrivate">Alleen jij kan deze lijst bekijken</string>
   <!--R-->
-  <string name="Rate">Beoordeel</string>
-  <string name="Rated">Beoordeeld</string>
-  <string name="Rating">Beoordeling</string>
+  <string name="Rate">Waardeer</string>
+  <string name="Rated">Waardering</string>
+  <string name="Rating">Waardering</string>
   <string name="RateMovie">Beoordeel films</string>
   <string name="RateShow">Beoordeel serie</string>
   <string name="RateEpisode">Beoordeel aflevering</string>
@@ -275,7 +275,7 @@
   <string name="RelatedMovies">Gerelateerde films</string>
   <string name="RelatedShows">Gerelateerde series</string>
   <string name="Released">Uitgekomen</string>
-  <string name="ReleaseDate">Datum uitgekomen</string>
+  <string name="ReleaseDate">Release datum</string>
   <string name="RemoveFromLibrary">Verwijder uit bibliotheek</string>
   <string name="RemoveFromWatchList">Verwijder uit kijk lijst</string>
   <string name="RemoveShowFromWatchList">Verwijder serie uit kijk lijst</string>
@@ -285,7 +285,7 @@
   <string name="Replies">Reacties</string>
   <string name="Runtime">Speelduur</string>
   <!--S-->
-  <string name="Score">Beoordeling</string>
+  <string name="Score">Score</string>
   <string name="Scrobble">Scrobbel</string>
   <string name="SearchWithMpNZB">Zoek NZB</string>
   <string name="SearchTorrent">Zoek torrent</string>
@@ -295,8 +295,8 @@
   <string name="SendFriendRequest">Zend vriend verzoek naar {0}?</string>
   <string name="SelectLists">Selecteer lijst</string>
   <string name="SelectUser">Selecteer gebruiker</string>
-  <string name="Series">Series</string>
-  <string name="SeriesPlural">Series</string>
+  <string name="Series">Serie</string>
+  <string name="SeriesPlural">Serie</string>
   <string name="Settings">Instellingen</string>
   <string name="Shout">Stem</string>
   <string name="Shouts">Stemmen</string>
@@ -313,11 +313,11 @@
   <string name="ShowRateDialogOnWatched">Waarderingsdialoog weergeven voor bekeken item</string>
   <string name="ShowSeasonInfo">Seizoen informatie...</string>
   <string name="ShowWatched">Serie bekeken</string>
-  <string name="SettingPluginEnabledName">Plugin ingeschakeld</string>
+  <string name="SettingPluginEnabledName">Plug-in ingeschakeld</string>
   <string name="SettingPluginEnabledDescription">Schakel deze instelling in/uit om Trakt te laden bij het opstarten van MediaPortal</string>
-  <string name="SettingListedHomeName">Toon in Home scherm</string>
+  <string name="SettingListedHomeName">Weergeven in hoofdmenu</string>
   <string name="SettingListedHomeDescription">Schakel deze instelling in om de Trakt plugin te laten verschijnen in het Home scherm.</string>
-  <string name="SettingListedPluginsName">Toon in mijn plugins</string>
+  <string name="SettingListedPluginsName">Weergeven in plug-in menu</string>
   <string name="SettingListedPluginsDescription">Schakel deze setting in om de Trakt plugin te laten verschijnen in het mijn plugins.</string>
   <string name="SettingSyncTimerName">Bibliotheek synchronisatie periode</string>
   <string name="SettingSyncTimerDescription">Stel de periode in (in aantal uren) tussen elke bibliotheek synchronisatie. Standaard is dit 24 uur.</string>
@@ -339,7 +339,7 @@
   <string name="Specials">Extra\'s</string>
   <!--T-->
   <string name="Timeout">Time-out</string>
-  <string name="Trending">Populair</string>
+  <string name="Trending">Veel bekeken</string>
   <string name="TrendingShows">Populaire series</string>
   <string name="TrendingShowsAndMovies">Trending series en films</string>
   <string name="TrendingMovies">Populaire films</string>
@@ -349,6 +349,7 @@
   <string name="TVShows">TV series</string>
   <string name="Tagline">Label</string>
   <string name="Title">Titel</string>
+  <string name="Today">Vandaag</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
@@ -382,4 +383,5 @@
   <!--Y-->
   <string name="Year">Jaar</string>
   <string name="Yes">Ja</string>
+  <string name="Yesterday">Gisteren</string>
 </resources>

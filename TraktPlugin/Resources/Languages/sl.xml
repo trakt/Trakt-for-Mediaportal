@@ -124,10 +124,10 @@
   <string name="GenreHorror">Horror</string>
   <string name="GenreIndie">Indie</string>
   <string name="GenreMiniSeries">Mini Series</string>
-  <string name="GenreMusic">Music</string>
+  <string name="GenreMusic">Glasba</string>
   <string name="GenreMusical">Musical</string>
   <string name="GenreMystery">Mystery</string>
-  <string name="GenreNews">News</string>
+  <string name="GenreNews">Novice</string>
   <string name="GenreNone">None</string>
   <string name="GenreReality">Reality</string>
   <string name="GenreRomance">Romance</string>
@@ -252,7 +252,7 @@
   <string name="PrivacyPrivate">Samo ti lahko pogledaš ta seznam</string>
   <!--R-->
   <string name="Rate">Oceni</string>
-  <string name="Rated">Ocenjeno</string>
+  <string name="Rated">Ocena</string>
   <string name="Rating">Ocena</string>
   <string name="RateMovie">Oceni film...</string>
   <string name="RateShow">Oceni oddajo...</string>
@@ -283,7 +283,7 @@
   <string name="RemoveFromList">Odstrani s seznama...</string>
   <string name="Reply">Odgovori</string>
   <string name="Replies">Odgovori</string>
-  <string name="Runtime">Dolžina</string>
+  <string name="Runtime">Trajanje</string>
   <!--S-->
   <string name="Score">Točke</string>
   <string name="Scrobble">Scrobble</string>
@@ -295,8 +295,8 @@
   <string name="SendFriendRequest">Pošlji zahtevo za prijateljstvo {0}?</string>
   <string name="SelectLists">Izberi sezname</string>
   <string name="SelectUser">Izberi uporabnika</string>
-  <string name="Series">Serije</string>
-  <string name="SeriesPlural">Serije</string>
+  <string name="Series">Serija</string>
+  <string name="SeriesPlural">Serija</string>
   <string name="Settings">Nastavitve</string>
   <string name="Shout">Krik</string>
   <string name="Shouts">Kriki</string>
@@ -317,7 +317,7 @@
   <string name="SettingPluginEnabledDescription">Omogoči / Onemogoči to nastavitev za nadzor, če se Trakt vtičnik naloži z MediaPortalom.</string>
   <string name="SettingListedHomeName">Prikazan v Home</string>
   <string name="SettingListedHomeDescription">Omogoči to nastavitev, da bo Trakt vtičnik prikazan v meniju Domačega zaslona.</string>
-  <string name="SettingListedPluginsName">Prikazano v moji vtičniki</string>
+  <string name="SettingListedPluginsName">Prikazan v Moji vtičniki</string>
   <string name="SettingListedPluginsDescription">Omogoči to nastavitev, da bo Trakt vtičnik prikazan v meniju Moji vtičniki zaslona.</string>
   <string name="SettingSyncTimerName">Obdobje sinhronizacije knjižnice</string>
   <string name="SettingSyncTimerDescription">Nastavi obdobje časa (v urah) med vsako sinhronizacijo knjižnice. Privzeto je vsakih 24 ur.</string>
@@ -345,7 +345,7 @@
   <string name="SortSeasonsDescending">Sortiraj sezone padajoče</string>
   <string name="Specials">Posebnosti</string>
   <!--T-->
-  <string name="Timeout">Čas poteka</string>
+  <string name="Timeout">Čas preteka</string>
   <string name="Trending">Trendi</string>
   <string name="TrendingShows">Trendi oddaje</string>
   <string name="TrendingShowsAndMovies">Trendi oddaje in filmov</string>
@@ -356,6 +356,7 @@
   <string name="TVShows">TV oddaje</string>
   <string name="Tagline">Slogan</string>
   <string name="Title">Naslov</string>
+  <string name="Today">Danes</string>
   <string name="Trailer">Reklamni film</string>
   <string name="Trailers">Reklamni filmi...</string>
   <!--U-->
@@ -389,4 +390,5 @@
   <!--Y-->
   <string name="Year">Leto</string>
   <string name="Yes">Da</string>
+  <string name="Yesterday">Vceraj</string>
 </resources>

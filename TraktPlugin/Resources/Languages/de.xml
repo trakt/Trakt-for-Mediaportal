@@ -86,7 +86,7 @@
   <string name="EditingList">Liste wird bearbeitet</string>
   <string name="Email">Email</string>
   <string name="EndYear">bis Jahr: {0}</string>
-  <string name="Episode">Episode</string>
+  <string name="Episode">Folge</string>
   <string name="Episodes">Episoden</string>
   <string name="Error">Trakt Fehler</string>
   <string name="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
@@ -106,7 +106,7 @@
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
   <string name="GenreAdventure">Abenteuer</string>
-  <string name="GenreAll">Alles</string>
+  <string name="GenreAll">Alle</string>
   <string name="GenreAnimation">Animation</string>
   <string name="GenreChildren">Kinder</string>
   <string name="GenreComedy">Comedy</string>
@@ -117,7 +117,7 @@
   <string name="GenreFantasy">Fantasy</string>
   <string name="GenreGameShow">Spielshow</string>
   <string name="GenreFilmNoir">Film Noir</string>
-  <string name="GenreHistory">Geschichte</string>
+  <string name="GenreHistory">Übersicht</string>
   <string name="GenreHomeAndGarden">Heim und Garten</string>
   <string name="GenreHorror">Horror</string>
   <string name="GenreIndie">Indisch</string>
@@ -193,7 +193,7 @@
   <string name="MarkAsUnWatched">Als ungesehen markieren</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filme</string>
-  <string name="MultiSelectDialog">Multi-Select Dialog</string>
+  <string name="MultiSelectDialog">Multi-Auswahl-Dialog</string>
   <!--N-->
   <string name="Name">Name</string>
   <string name="Network">Netzwerk</string>
@@ -246,7 +246,7 @@
   <string name="PrivacyPrivate">Nur Sie können diese Liste ansehen</string>
   <!--R-->
   <string name="Rate">Bewerten</string>
-  <string name="Rated">Bewertet</string>
+  <string name="Rated">Bewertung</string>
   <string name="Rating">Bewertung</string>
   <string name="RateMovie">Film bewerten</string>
   <string name="RateShow">Serie bewerten</string>
@@ -269,7 +269,7 @@
   <string name="RelatedMovies">Ähnliche Filme</string>
   <string name="RelatedShows">Ähnliche Serien</string>
   <string name="Released">Erschienen</string>
-  <string name="ReleaseDate">Erscheinungstermin</string>
+  <string name="ReleaseDate">Veröffentlicht</string>
   <string name="RemoveFromLibrary">Aus Bibliothek löschen</string>
   <string name="RemoveFromWatchList">Aus Beobachtungsliste löschen</string>
   <string name="RemoveShowFromWatchList">Serie aus Beobachtungsliste löschen</string>
@@ -287,7 +287,7 @@
   <string name="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
   <string name="SelectLists">Listen auswählen</string>
   <string name="SelectUser">Benutzer auswählen</string>
-  <string name="Series">Serie</string>
+  <string name="Series">Serien</string>
   <string name="SeriesPlural">Serien</string>
   <string name="Settings">Einstellungen</string>
   <string name="Shout">Shout</string>
@@ -307,9 +307,9 @@
   <string name="ShowWatched">Gesehene anzeigen</string>
   <string name="SettingPluginEnabledName">Plugin aktiviert</string>
   <string name="SettingPluginEnabledDescription">Aktivieren / Deaktivieren dieser Einstellung zur Kontrolle, ob das Trakt-Plugin mit MediaPortal geladen wird.</string>
-  <string name="SettingListedHomeName">In Hauptmenü</string>
+  <string name="SettingListedHomeName">Im Home-Bildschirm anzeigen</string>
   <string name="SettingListedHomeDescription">Diese Einstellung bewirkt die Anzeige des Trakt-Plugins im Hauptmenü.</string>
-  <string name="SettingListedPluginsName">In Plugins</string>
+  <string name="SettingListedPluginsName">In Meine Plugins gelistet</string>
   <string name="SettingListedPluginsDescription">Diese Einstellung bewirkt die Anzeige des Trakt-Plugins im Plugins-Menü.</string>
   <string name="SettingSyncTimerName">Intervall der Bibliotheks-Symchronisierung</string>
   <string name="SettingSyncTimerDescription">Festlegen des Intervalls (in Stunden) zwischen jeder Synchronisation der Bibliotheken. Standard ist 24 Stunden.</string>
@@ -346,6 +346,7 @@
   <string name="TVShows">TV-Serien</string>
   <string name="Tagline">Inhaltsangabe</string>
   <string name="Title">Titel</string>
+  <string name="Today">Heute</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer</string>
   <!--U-->
@@ -379,4 +380,5 @@
   <!--Y-->
   <string name="Year">Jahr</string>
   <string name="Yes">Ja</string>
+  <string name="Yesterday">Gestern</string>
 </resources>

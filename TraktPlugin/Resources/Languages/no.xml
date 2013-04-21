@@ -46,7 +46,7 @@
   <string name="CalendarMyShows">Mine Serier</string>
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">All Shows</string>
-  <string name="Certification">Sertifisering</string>
+  <string name="Certification">Aldersgrense</string>
   <string name="ChangeView">Bytt visning...</string>
   <string name="ChangeLayout">Bytt utseende...</string>
   <string name="Create">Lag</string>
@@ -66,7 +66,7 @@
   <string name="ConfirmDeleteListItem">Er du sikker på at du vil slette⏎ dette objektet fra listen?</string>
   <string name="CopyList">Kopier liste...</string>
   <!--D-->
-  <string name="DateToday">Today</string>
+  <string name="DateToday">I dag</string>
   <string name="DateYesterday">Yesterday</string>
   <string name="DateOneWeekAgo">1 Week Ago</string>
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
@@ -188,7 +188,7 @@
   <string name="Login">Logg inn</string>
   <string name="ListNameAlreadyExists">List med tilsvarende navn finnes allerede</string>
   <!--M-->
-  <string name="MarkAsWatched">Merk som sett</string>
+  <string name="MarkAsWatched">Marker som sett</string>
   <string name="MarkAsUnWatched">Marker som usett</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
@@ -214,7 +214,7 @@
   <string name="NoSearchResultsFound">No Search Results Found</string>
   <string name="No">Nei</string>
   <!--O-->
-  <string name="OK">OK</string>
+  <string name="OK">Ok</string>
   <string name="Overview">Oversikt</string>
   <!--P-->
   <string name="Password">Passord</string>
@@ -225,9 +225,9 @@
   <string name="PeopleWatching">{0} Personer ser på</string>
   <string name="Plugins">Tillegg</string>
   <!--R-->
-  <string name="Rate">Karakter</string>
-  <string name="Rated">Karakter satt</string>
-  <string name="Rating">Gi karakter</string>
+  <string name="Rate">Vurder</string>
+  <string name="Rated">Rangering</string>
+  <string name="Rating">Rangering</string>
   <string name="RateMovie">Gi filmen en karakter...</string>
   <string name="RateShow">Gi serien en karakter...</string>
   <string name="RateEpisode">Gi episoden en karakter...</string>
@@ -235,40 +235,40 @@
   <string name="RateHate">Svak Saus :(</string>
   <string name="RateLove">Komplett Ninja!</string>
   <string name="RateHeading">Hva synes du?</string>
-  <string name="RateTwo">Forferdelig</string>
+  <string name="RateTwo">Dårlig</string>
   <string name="RateThree">Veldig dårlig</string>
   <string name="RateFour">Dårlig</string>
   <string name="RateSix">Ok</string>
   <string name="RateSeven">God</string>
   <string name="RateEight">Veldig bra</string>
-  <string name="RateNine">Super</string>
+  <string name="RateNine">Bra</string>
   <string name="Recommendations">Anbefalinger</string>
   <string name="RecommendedMovies">Anbefalte filmer</string>
   <string name="RecommendedShows">Anbefalte serier</string>
   <string name="Released">Utgitt</string>
-  <string name="ReleaseDate">Utgitt dato</string>
+  <string name="ReleaseDate">Utgivelsesdato</string>
   <string name="RemoveFromLibrary">Fjern fra biblioteket</string>
   <string name="RemoveFromWatchList">Fjern fra sett listen</string>
   <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
-  <string name="Runtime">Lengde</string>
+  <string name="Runtime">Varighet</string>
   <!--S-->
-  <string name="Score">Score</string>
+  <string name="Score">Vurdering</string>
   <string name="Season">Sesong</string>
   <string name="Seasons">Sesonger</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="Series">Serie</string>
-  <string name="SeriesPlural">Serier</string>
+  <string name="SeriesPlural">Serie</string>
   <string name="Settings">Innstillinger</string>
   <string name="Shout">Shout</string>
-  <string name="Shouts">Shouts</string>
+  <string name="Shouts">Utrop</string>
   <string name="SigningIntoAccount">Logger inn på konto...</string>
   <string name="StartDate">Start Date</string>
-  <string name="Specials">Spesial</string>
+  <string name="Specials">Spesielle</string>
   <!--T-->
   <string name="Timeout">Tiden gikk ut</string>
-  <string name="Trending">Hva er populært</string>
+  <string name="Trending">Populært</string>
   <string name="TrendingShows">Populære serier</string>
   <string name="TrendingMovies">Populære filmer</string>
   <string name="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
@@ -276,7 +276,8 @@
   <string name="TVShow">TV serie</string>
   <string name="TVShows">TV serier</string>
   <string name="Tagline">Tagline</string>
-  <string name="Title">Title</string>
+  <string name="Title">Tittel</string>
+  <string name="Today">I dag</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
@@ -293,7 +294,7 @@
   <string name="ValidPassword">Du må skrive inn et gyldig passord!</string>
   <string name="ValidEmail">Du må skrive inn en gyldig epost!</string>
   <!--W-->
-  <string name="WatchList">Liste over ønsker å se</string>
+  <string name="WatchList">Visningsliste</string>
   <string name="Watched">Sett</string>
   <string name="WatchedMovies">Sette filmer</string>
   <string name="WatchedShows">Sette serier</string>
@@ -304,4 +305,5 @@
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>
+  <string name="Yesterday">Yesterday</string>
 </resources>

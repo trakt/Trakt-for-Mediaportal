@@ -42,12 +42,12 @@
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
   <!--C-->
-  <string name="Cancel">Cancella</string>
+  <string name="Cancel">Cancel</string>
   <string name="Calendar">Calendario</string>
   <string name="CalendarMyShows">Le Mie Serie</string>
   <string name="CalendarPremieres">Anteprime</string>
   <string name="CalendarAllShows">Tutte le Serie</string>
-  <string name="Certification">Certificazioni</string>
+  <string name="Certification">Certifica</string>
   <string name="ChangeView">Cambia Vista...</string>
   <string name="ChangeLayout">Cambia Layout...</string>
   <string name="Create">Crea</string>
@@ -81,7 +81,7 @@
   <string name="DisconnectAccount">Disconnetti Account: {0}</string>
   <string name="DismissRecommendation">Elimina dai Consigliati</string>
   <string name="DontIncludeMeInFriendsActivity">Non includermi nelle Attività degli Amici</string>
-  <string name="DownloadFanart">Download Fanart</string>
+  <string name="DownloadFanart">Scarica la fanart</string>
   <string name="DownloadFullSizeFanart">Download Fanart nelle Dimensioni Originali</string>
   <!--E-->
   <string name="EditList">Modifica Lista...</string>
@@ -93,7 +93,7 @@
   <string name="Error">Errore Trakt</string>
   <string name="ErrorCalendar">Errore recupero calendario.</string>
   <!--F-->
-  <string name="FirstAired">Prima Trasmissione</string>
+  <string name="FirstAired">Trasmesso la prima volta</string>
   <string name="Friend">Amico</string>
   <string name="Friends">Amici</string>
   <string name="FriendActivity">Attività Amici</string>
@@ -184,7 +184,7 @@
   <string name="Layout">Layout</string>
   <string name="Like">Piace</string>
   <string name="Likes">Piacciono</string>
-  <string name="List">Lista</string>
+  <string name="List">Elenco</string>
   <string name="Lists">Liste</string>
   <string name="Love">Mi Piace</string>
   <string name="Loved">Mi è Piaciuto</string>
@@ -193,11 +193,11 @@
   <string name="Login">Login</string>
   <string name="ListNameAlreadyExists">Esiste già una Lista con questo nome!</string>
   <!--M-->
-  <string name="MarkAsWatched">Marca come Visto</string>
+  <string name="MarkAsWatched">Marca come visto</string>
   <string name="MarkAsUnWatched">Marca come Non Visto</string>
   <string name="Movie">Film</string>
-  <string name="Movies">Film</string>
-  <string name="MultiSelectDialog">Finestra Multi-Selezione</string>
+  <string name="Movies">Films</string>
+  <string name="MultiSelectDialog">Finestra di Selezione Multipla</string>
   <!--N-->
   <string name="Name">Nome</string>
   <string name="Network">Rete</string>
@@ -252,7 +252,7 @@
   <string name="PrivacyPrivate">Solo Tu puoi vedere questa lista</string>
   <!--R-->
   <string name="Rate">Valuta</string>
-  <string name="Rated">Valutato</string>
+  <string name="Rated">Divieti</string>
   <string name="Rating">Valutazione</string>
   <string name="RateMovie">Valuta Film...</string>
   <string name="RateShow">Valuta Serie...</string>
@@ -262,12 +262,12 @@
   <string name="RateLove">Totalmente Ninja!</string>
   <string name="RateHeading">Che cosa pensi?</string>
   <string name="RateTwo">Terribile</string>
-  <string name="RateThree">Cattivo</string>
-  <string name="RateFour">Povero</string>
+  <string name="RateThree">Brutto</string>
+  <string name="RateFour">Scarso</string>
   <string name="RateFive">Meh</string>
-  <string name="RateSix">Discreto</string>
+  <string name="RateSix">Decente</string>
   <string name="RateSeven">Buono</string>
-  <string name="RateEight">Ottimo</string>
+  <string name="RateEight">Grande</string>
   <string name="RateNine">Superbo</string>
   <string name="Recommendations">Consigliati</string>
   <string name="RecommendedMovies">Film Consigliati</string>
@@ -275,7 +275,7 @@
   <string name="RelatedMovies">Film Correlati</string>
   <string name="RelatedShows">Serie Correlate</string>
   <string name="Released">Rilasciato</string>
-  <string name="ReleaseDate">Data Rilascio</string>
+  <string name="ReleaseDate">Data di Uscita</string>
   <string name="RemoveFromLibrary">Rimuovi dalla Libreria</string>
   <string name="RemoveFromWatchList">Rimuovi dalla Lista da Vedere</string>
   <string name="RemoveShowFromWatchList">Rimuovi Serie dalla Lista da Vedere</string>
@@ -285,7 +285,7 @@
   <string name="Replies">Risposte</string>
   <string name="Runtime">Durata</string>
   <!--S-->
-  <string name="Score">Votazione</string>
+  <string name="Score">Punteggio</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Ricerca NZB</string>
   <string name="SearchTorrent">Ricerca Torrent</string>
@@ -315,9 +315,9 @@
   <string name="ShowWatched">Visualizza Visti</string>
   <string name="SettingPluginEnabledName">Plugin Abilitato</string>
   <string name="SettingPluginEnabledDescription">Abilita / Disabilita questa impostazione per controllare se Trakt è caricato con MediaPortal.</string>
-  <string name="SettingListedHomeName">Elencato nella schermata Home</string>
+  <string name="SettingListedHomeName">Visualizzato nella Home</string>
   <string name="SettingListedHomeDescription">Abilita questa impostazione per avere Trakt nel menù principale della schermata Home.</string>
-  <string name="SettingListedPluginsName">Elencato ne I Miei Plugin</string>
+  <string name="SettingListedPluginsName">Visualizzato in My Plugins</string>
   <string name="SettingListedPluginsDescription">Abilita questa impostazione per avere Trakt nel menù della schermata I Miei Plugin.</string>
   <string name="SettingSyncTimerName">Intervallo Sincronizzazione Libreria</string>
   <string name="SettingSyncTimerDescription">Imposta l\'intervallo di tempo (in ore) fra ogni Sincronizzazione della Libreria. L\'impostazione predefinita è ogni 24 ore.</string>
@@ -356,6 +356,7 @@
   <string name="TVShows">Serie TV</string>
   <string name="Tagline">Slogan</string>
   <string name="Title">Titolo</string>
+  <string name="Today">Oggi</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer...</string>
   <!--U-->
@@ -376,7 +377,7 @@
   <string name="ValidPassword">Devi immetter una password valida!</string>
   <string name="ValidEmail">Devi immettere una email valida!</string>
   <!--W-->
-  <string name="WatchList">Liste da Vedere</string>
+  <string name="WatchList">Lista da vedere</string>
   <string name="Watched">Visto</string>
   <string name="WatchedMovies">Film Visti</string>
   <string name="WatchedEpisodes">Episodi Visti</string>
@@ -389,4 +390,5 @@
   <!--Y-->
   <string name="Year">Anno</string>
   <string name="Yes">Sì</string>
+  <string name="Yesterday">Ieri</string>
 </resources>

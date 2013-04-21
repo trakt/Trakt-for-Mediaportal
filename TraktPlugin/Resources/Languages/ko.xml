@@ -53,6 +53,7 @@
   <string name="Specials">스페셜</string>
   <!--T-->
   <string name="Title">제목</string>
+  <string name="Today">오늘</string>
   <!--U-->
   <!--V-->
   <!--W-->
@@ -60,4 +61,5 @@
   <!--Y-->
   <string name="Year">연도</string>
   <string name="Yes">예</string>
+  <string name="Yesterday">어제</string>
 </resources>

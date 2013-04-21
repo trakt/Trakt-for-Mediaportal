@@ -3,7 +3,7 @@
   <!--A-->
   <!--B-->
   <!--C-->
-  <string name="Cancel">Zrušit</string>
+  <string name="Cancel">Storno</string>
   <string name="Calendar">Kalendář</string>
   <string name="Certification">Certifikace</string>
   <!--D-->
@@ -27,7 +27,7 @@
   <!--M-->
   <string name="MarkAsWatched">Označit za zhlédnuté</string>
   <string name="Movie">Film</string>
-  <string name="Movies">filmů</string>
+  <string name="Movies">Filmy</string>
   <!--N-->
   <string name="Name">Název</string>
   <string name="Network">Kanál</string>
@@ -37,7 +37,7 @@
   <!--P-->
   <!--R-->
   <string name="Rate">Hodnocení</string>
-  <string name="Rated">Hodnoceno</string>
+  <string name="Rated">Hodnocení</string>
   <string name="Rating">Hodnocení</string>
   <string name="RateTwo">Otřesné</string>
   <string name="RateThree">Zlé</string>
@@ -51,7 +51,7 @@
   <string name="Runtime">Délka</string>
   <!--S-->
   <string name="Score">Hodnocení</string>
-  <string name="Season">Řada</string>
+  <string name="Season">Sezóna</string>
   <string name="Seasons">Řad</string>
   <string name="Series">TV pořady</string>
   <string name="SeriesPlural">TV pořady</string>
@@ -61,6 +61,7 @@
   <string name="Timeout">Časový limit vypršel</string>
   <string name="Trending">Populární</string>
   <string name="Title">Název</string>
+  <string name="Today">dnes</string>
   <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
@@ -70,4 +71,5 @@
   <!--Y-->
   <string name="Year">Rok</string>
   <string name="Yes">Ano</string>
+  <string name="Yesterday">včera</string>
 </resources>

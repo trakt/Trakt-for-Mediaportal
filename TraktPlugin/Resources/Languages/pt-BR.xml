@@ -4,7 +4,7 @@
   <!--B-->
   <!--C-->
   <string name="Cancel">Cancelar</string>
-  <string name="Certification">Clasificação</string>
+  <string name="Certification">Classificação indicativa</string>
   <!--D-->
   <string name="DateToday">Hoje</string>
   <string name="DateYesterday">Ontem</string>
@@ -15,7 +15,7 @@
   <!--F-->
   <string name="FirstAired">Primeira exibição</string>
   <!--G-->
-  <string name="Genre">Genero</string>
+  <string name="Genre">Gênero</string>
   <string name="GenreAll">Tudo</string>
   <!--H-->
   <!--I-->
@@ -35,15 +35,15 @@
   <!--P-->
   <!--R-->
   <string name="Rate">Classificar</string>
-  <string name="Rated">Classificada</string>
+  <string name="Rated">Classificado como</string>
   <string name="Rating">Classificação</string>
-  <string name="RateTwo">Terrível</string>
+  <string name="RateTwo">Péssimo</string>
   <string name="RateThree">Ruim</string>
   <string name="RateFour">Inferior</string>
   <string name="RateSix">Razoável</string>
   <string name="RateSeven">Bom</string>
   <string name="RateEight">Ótimo</string>
-  <string name="RateNine">Magnífico</string>
+  <string name="RateNine">Excelente</string>
   <string name="Runtime">Duração</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -57,6 +57,7 @@
   <string name="Specials">Especiais</string>
   <!--T-->
   <string name="Title">Título</string>
+  <string name="Today">Hoje</string>
   <!--U-->
   <!--V-->
   <!--W-->
@@ -64,4 +65,5 @@
   <!--Y-->
   <string name="Year">Ano</string>
   <string name="Yes">Sim</string>
+  <string name="Yesterday">Ontem</string>
 </resources>

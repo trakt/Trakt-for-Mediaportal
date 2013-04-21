@@ -10,23 +10,30 @@
   <string name="ActivitySeen">{0} nähty {1}</string>
   <string name="ActivityRating">{0} arvioi {1}</string>
   <string name="ActivityRatingAdvanced">{0} arvostellut {1} [{2}/10]</string>
+  <string name="ActivityWatchlist">{0} lisäsi {1} katsontalistalleen</string>
   <string name="ActivityCreatedList">{0} loi {1}</string>
+  <string name="ActivityReview">{0} arvosteltu {1}</string>
+  <string name="Activities">Aktiviteetit</string>
   <string name="AddFriend">Lisää ystävä...</string>
   <string name="AddToLibrary">Lisää kirjastoon</string>
   <string name="AddToList">Lisää listaan...</string>
   <string name="Age">Ikä</string>
+  <string name="AirDate">Lähetyspäivämäärä</string>
+  <string name="AirDay">Lähetyspäivä</string>
+  <string name="AirTime">Lähetysaika</string>
   <string name="Approve">Hyväksy</string>
   <string name="ApprovedDate">Hyväksymis päivämäärä</string>
   <string name="ApproveFriendMessage">Haluaisitko lisätä käyttäjän {0}⏎ ystäväksesi?</string>
   <string name="AdvancedSettings">Kehittyneet asetukset</string>
   <!--B-->
+  <string name="BufferingTrailer">Ladataan traileria</string>
   <!--C-->
   <string name="Cancel">Peruuta</string>
   <string name="Calendar">Kalenteri</string>
   <string name="CalendarMyShows">Sarjani</string>
   <string name="CalendarPremieres">Ennakot</string>
   <string name="CalendarAllShows">Kaikki jaksot</string>
-  <string name="Certification">Sertifionti</string>
+  <string name="Certification">Sertifiointi</string>
   <string name="ChangeView">Muuta näkymää...</string>
   <string name="ChangeLayout">Muuta ulkoasua...</string>
   <string name="Create">Luo</string>
@@ -40,6 +47,8 @@
   <string name="CreatingFilters">Luodaan suodattimia</string>
   <string name="CreatingList">Luodaan listaa</string>
   <string name="CreateList">Luo uusi lista...</string>
+  <string name="Community">Yhteisö</string>
+  <string name="CommunityActivity">Yhteisön aktiviteetit</string>
   <string name="ConfirmDeleteList">Haluatko varmasti poistaa \ntämän listan?</string>
   <string name="ConfirmDeleteListItem">Haluatko varmasti poistaa \ntämän kohteen listalta?</string>
   <string name="CopyList">Kopioi lista...</string>
@@ -57,14 +66,37 @@
   <string name="DismissRecommendation">Ohita tämä suositus</string>
   <string name="DownloadFanart">Lataa fanitaide</string>
   <!--E-->
+  <string name="EditList">Muokkaa listaa...</string>
+  <string name="EditingList">Muokataan listaa</string>
   <string name="Email">Sähköposti</string>
+  <string name="EndYear">Loppu: {0}</string>
   <string name="Episode">Jakso</string>
   <string name="Episodes">Jaksot</string>
+  <string name="Error">Trakt virhe</string>
+  <string name="ErrorCalendar">Virhe haettaessa kalenteria.</string>
   <!--F-->
   <string name="FirstAired">Ensiesitys</string>
+  <string name="Friend">Ystävä</string>
+  <string name="Friends">Ystävät</string>
+  <string name="FriendActivity">Ystävän aktiviteetit</string>
+  <string name="FriendRequest">Ystävän pyynnöt</string>
+  <string name="FullName">Koko nimi</string>
   <!--G-->
+  <string name="Gender">Sukupuoli</string>
+  <string name="General">Yleiset</string>
+  <string name="GeneralSettings">Yleiset Asetukset</string>
   <string name="Genre">Lajityyppi</string>
+  <string name="GenreItem">Tyylilaji: {0}</string>
+  <string name="GenreAction">Toiminta</string>
+  <string name="GenreAdventure">Seikkailu</string>
   <string name="GenreAll">Kaikki</string>
+  <string name="GenreAnimation">Animaatio</string>
+  <string name="GenreChildren">Lapset</string>
+  <string name="GenreComedy">Komedia</string>
+  <string name="GenreCrime">Rikos</string>
+  <string name="GenreDocumentary">Dokumentti</string>
+  <string name="GenreDrama">Draama</string>
+  <string name="GenreHistory">Historia</string>
   <string name="GenreMusic">Musiikki</string>
   <string name="GenreNews">Uutiset</string>
   <!--H-->
@@ -80,6 +112,7 @@
   <!--N-->
   <string name="Name">Nimi</string>
   <string name="Network">Studio</string>
+  <string name="NoSearchResultsFound">Osumia ei löytynyt! Muuta hakua.</string>
   <string name="No">Ei</string>
   <!--O-->
   <string name="OK">OK</string>
@@ -122,6 +155,7 @@
   <string name="Timeout">Aikakatkaisu</string>
   <string name="Trending">Nousussa</string>
   <string name="Title">Nimi</string>
+  <string name="Today">Tänään</string>
   <string name="Trailer">Traileri</string>
   <!--U-->
   <!--V-->
@@ -132,4 +166,5 @@
   <!--Y-->
   <string name="Year">Vuosi</string>
   <string name="Yes">Kyllä</string>
+  <string name="Yesterday">Eilen</string>
 </resources>

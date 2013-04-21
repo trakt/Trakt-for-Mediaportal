@@ -3,7 +3,7 @@
   <!--A-->
   <!--B-->
   <!--C-->
-  <string name="Cancel">Odustani</string>
+  <string name="Cancel">Odustanite</string>
   <string name="Calendar">Kalendar</string>
   <string name="Certification">Potvrda</string>
   <!--D-->
@@ -18,7 +18,7 @@
   <string name="FirstAired">Prvo emitiranje</string>
   <!--G-->
   <string name="Genre">Žanr</string>
-  <string name="GenreAll">Sve</string>
+  <string name="GenreAll">Svi</string>
   <string name="GenreMusic">Glazba</string>
   <string name="GenreNews">Vijesti</string>
   <!--H-->
@@ -33,6 +33,7 @@
   <string name="Movies">Filmova</string>
   <!--N-->
   <string name="Network">TV Mreža</string>
+  <string name="NoSearchResultsFound">Nema pronađenih rezultata! Pokušajte izmijeniti vašu pretragu.</string>
   <string name="No">Ne</string>
   <!--O-->
   <string name="OK">U redu</string>
@@ -41,7 +42,7 @@
   <string name="Plugins">Dodaci</string>
   <!--R-->
   <string name="Rate">Ocijeni</string>
-  <string name="Rated">Ocjenjeno</string>
+  <string name="Rated">Ocijenjeno</string>
   <string name="Rating">Ocjena</string>
   <string name="RateTwo">Užasno</string>
   <string name="RateThree">Loše</string>
@@ -52,7 +53,7 @@
   <string name="RateNine">Izvrsno</string>
   <string name="Recommendations">Preporuke</string>
   <string name="ReleaseDate">Datum izdanja</string>
-  <string name="Runtime">Vrijeme</string>
+  <string name="Runtime">Trajanje</string>
   <!--S-->
   <string name="Score">Ocjena</string>
   <string name="Season">Sezona</string>
@@ -69,6 +70,7 @@
   <string name="Timeout">Isteklo vrijeme</string>
   <string name="Trending">Trendovi</string>
   <string name="Title">Naslov</string>
+  <string name="Today">Danas</string>
   <string name="Trailer">Foršpan</string>
   <!--U-->
   <!--V-->
@@ -79,4 +81,5 @@
   <!--Y-->
   <string name="Year">Godina</string>
   <string name="Yes">Da</string>
+  <string name="Yesterday">Jucer</string>
 </resources>

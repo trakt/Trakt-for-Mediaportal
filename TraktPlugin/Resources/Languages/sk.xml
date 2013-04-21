@@ -32,13 +32,14 @@
   <string name="Movie">Film</string>
   <string name="Movies">filmov</string>
   <!--N-->
+  <string name="NoSearchResultsFound">Žiadne záznamy neboli nájdené! Skúste zmeniť vyhľadávaciu podmienku.</string>
   <string name="No">Nie</string>
   <!--O-->
   <string name="OK">OK</string>
   <!--P-->
   <!--R-->
   <string name="Rate">Hodnotenie</string>
-  <string name="Rated">Klasifikácia</string>
+  <string name="Rated">Hodnotenie</string>
   <string name="RateTwo">Otrasné</string>
   <string name="RateSeven">Slušné</string>
   <string name="RateNine">Skvelé</string>
@@ -53,6 +54,7 @@
   <string name="TVShows">TV relácie</string>
   <string name="Tagline">Tagline</string>
   <string name="Title">Titul</string>
+  <string name="Today">dnes</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailery...</string>
   <!--U-->
@@ -86,4 +88,5 @@
   <!--Y-->
   <string name="Year">Rok</string>
   <string name="Yes">Áno</string>
+  <string name="Yesterday">včera</string>
 </resources>

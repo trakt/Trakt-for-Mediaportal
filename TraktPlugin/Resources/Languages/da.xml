@@ -179,7 +179,7 @@
   <string name="PrivacyPrivate">Listen synlig for dig selv</string>
   <!--R-->
   <string name="Rate">Vurdér</string>
-  <string name="Rated">Vurderet</string>
+  <string name="Rated">Bedømmelse</string>
   <string name="Rating">Vurdering</string>
   <string name="RateMovie">Vurdér film...</string>
   <string name="RateShow">Vurdér serie...</string>
@@ -201,13 +201,13 @@
   <string name="RelatedMovies">Relaterede film</string>
   <string name="RelatedShows">Relaterede serier</string>
   <string name="Released">Sendt</string>
-  <string name="ReleaseDate">Sendt dato</string>
+  <string name="ReleaseDate">Udgivelses Dato</string>
   <string name="RemoveFromLibrary">Fjern fra bibliotek</string>
   <string name="RemoveFromWatchList">Fjern fra setliste</string>
   <string name="RemoveShowFromWatchList">Fjern serie fra setliste</string>
   <string name="RemoveEpisodeFromWatchList">Fjern afsnit fra setliste</string>
   <string name="RemoveFromList">Fjern fra liste...</string>
-  <string name="Runtime">Spilletid</string>
+  <string name="Runtime">Spillelængde</string>
   <!--S-->
   <string name="Score">Score</string>
   <string name="Scrobble">Debatér</string>
@@ -219,7 +219,7 @@
   <string name="SendFriendRequest">Spørg efter venneanmodning til {0}?</string>
   <string name="SelectLists">Vælg lister</string>
   <string name="SelectUser">Vælg bruger</string>
-  <string name="Series">Serie</string>
+  <string name="Series">Serier</string>
   <string name="SeriesPlural">Serier</string>
   <string name="Settings">Indstillinger</string>
   <string name="Shout">Debatindlæg</string>
@@ -259,6 +259,7 @@
   <string name="TVShows">Serier</string>
   <string name="Tagline">Tagline</string>
   <string name="Title">Title</string>
+  <string name="Today">I dag</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
@@ -289,4 +290,5 @@
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>
+  <string name="Yesterday">I går</string>
 </resources>

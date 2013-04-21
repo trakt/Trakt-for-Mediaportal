@@ -16,7 +16,7 @@
   <string name="FirstAired">Πρώτη προβολή</string>
   <!--G-->
   <string name="Genre">Είδος</string>
-  <string name="GenreAll">Όλα</string>
+  <string name="GenreAll">Όλοι</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -36,7 +36,7 @@
   <!--P-->
   <!--R-->
   <string name="Rate">Αξιολόγηση</string>
-  <string name="Rated">Αξιολογήθηκε ως</string>
+  <string name="Rated">Αξιολογήθηκε</string>
   <string name="Rating">Αξιολόγηση</string>
   <string name="RateTwo">Απαίσιο</string>
   <string name="RateThree">Κακό</string>
@@ -49,13 +49,14 @@
   <string name="Runtime">Διάρκεια</string>
   <!--S-->
   <string name="Score">Βαθμολογία</string>
-  <string name="Season">Κύκλος</string>
+  <string name="Season">Σαιζόν</string>
   <string name="Seasons">Κύκλοι</string>
   <string name="Series">Σειρές</string>
   <string name="SeriesPlural">Σειρές</string>
   <string name="Specials">Σπέσιαλ</string>
   <!--T-->
-  <string name="Title">Τίτλο</string>
+  <string name="Title">Τίτλος</string>
+  <string name="Today">Σήμερα</string>
   <string name="Trailer">Trailer</string>
   <!--U-->
   <!--V-->
@@ -64,4 +65,5 @@
   <!--Y-->
   <string name="Year">Έτος</string>
   <string name="Yes">Ναι</string>
+  <string name="Yesterday">Χθες</string>
 </resources>

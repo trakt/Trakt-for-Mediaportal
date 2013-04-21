@@ -165,7 +165,8 @@
   <string name="SortSeasonsAscending">Raða þáttaröðum í hækkandi röð</string>
   <string name="SortSeasonsDescending">Raða þáttaröðum í lækkandi röð</string>
   <!--T-->
-  <string name="Title">Heiti</string>
+  <string name="Title">Titill</string>
+  <string name="Today">Í dag</string>
   <!--U-->
   <string name="User">Notandi</string>
   <string name="Username">Notendanafn</string>
@@ -184,4 +185,5 @@
   <!--Y-->
   <string name="Year">Ár</string>
   <string name="Yes">Já</string>
+  <string name="Yesterday">í gær</string>
 </resources>

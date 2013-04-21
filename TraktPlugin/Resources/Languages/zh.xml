@@ -11,7 +11,7 @@
   <!--E-->
   <!--F-->
   <!--G-->
-  <string name="Genre">类型</string>
+  <string name="Genre">流派</string>
   <string name="GenreHistory">历史</string>
   <!--H-->
   <!--I-->
@@ -37,9 +37,11 @@
   <string name="Score">评分</string>
   <!--T-->
   <string name="Title">标题</string>
+  <string name="Today">今天</string>
   <!--U-->
   <!--V-->
   <!--W-->
   <!--Y-->
   <string name="Year">年份</string>
+  <string name="Yesterday">昨天</string>
 </resources>
