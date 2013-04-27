@@ -497,7 +497,11 @@ namespace TraktPlugin
         {
             ShowMovieShouts(movie.IMDBID, movie.Title, movie.Year, movie.Images.FanartImageFilename, movie.Images.Fanart);
         }
-        public static void ShowMovieShouts(string imdb, string title, string year, string fanart, string onlineFanart = null)
+        public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
+        {
+            ShowMovieShouts(imdb, title, year, fanart, null);
+        }
+        public static void ShowMovieShouts(string imdb, string title, string year, string fanart, string onlineFanart)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
