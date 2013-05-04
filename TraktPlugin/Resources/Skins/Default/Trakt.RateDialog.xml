@@ -13,7 +13,7 @@
       <posX>-1000</posX>
       <posY>0</posY>
       <onup>100</onup>
-      <textureFocus>-</textureFocus>
+      <textureCheckmark>-</textureCheckmark>
       <textureNoFocus>-</textureNoFocus>
     </control>
 		
@@ -27,7 +27,7 @@
       <width>50</width>
       <height>36</height>
       <onup>101</onup>
-      <textureFocus>rate.love.on.png</textureFocus>
+      <textureCheckmark>rate.love.on.png</textureCheckmark>
       <textureNoFocus>rate.love.off.png</textureNoFocus>
       <animation effect="fade" time="200">windowopen</animation>
       <animation effect="fade" time="200">windowclose</animation>
@@ -41,7 +41,7 @@
       <width>50</width>
       <height>36</height>
       <onup>1001</onup>
-      <textureFocus>rate.hate.on.png</textureFocus>
+      <textureCheckmark>rate.hate.on.png</textureCheckmark>
       <textureNoFocus>rate.hate.off.png</textureNoFocus>
       <animation effect="fade" time="200">windowopen</animation>
       <animation effect="fade" time="200">windowclose</animation>
@@ -61,160 +61,140 @@
 		<!-- 10 Heart Ratings -->
 		<control>
 			<description>1 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1001</id>
 			<posX>210</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1002</onup>
-			<textureFocus>heart-1.png</textureFocus>
-			<textureNoFocus>heart-1.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-1.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>2 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1002</id>
 			<posX>235</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1003</onup>
-			<textureFocus>heart-2.png</textureFocus>
-			<textureNoFocus>heart-2.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-2.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>3 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1003</id>
 			<posX>260</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1004</onup>
-			<textureFocus>heart-3.png</textureFocus>
-			<textureNoFocus>heart-3.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-3.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>4 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1004</id>
 			<posX>285</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1005</onup>
-			<textureFocus>heart-4.png</textureFocus>
-			<textureNoFocus>heart-4.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-4.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>5 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1005</id>
 			<posX>310</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1006</onup>
-			<textureFocus>heart-5.png</textureFocus>
-			<textureNoFocus>heart-5.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-5.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>6 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1006</id>
 			<posX>335</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1007</onup>
-			<textureFocus>heart-6.png</textureFocus>
-			<textureNoFocus>heart-6.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-6.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>7 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1007</id>
 			<posX>360</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1008</onup>
-			<textureFocus>heart-7.png</textureFocus>
-			<textureNoFocus>heart-7.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-7.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>8 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1008</id>
 			<posX>385</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1009</onup>
-			<textureFocus>heart-8.png</textureFocus>
-			<textureNoFocus>heart-8.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-8.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>9 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1009</id>
 			<posX>410</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
 			<onup>1010</onup>
-			<textureFocus>heart-9.png</textureFocus>
-			<textureNoFocus>heart-9.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-9.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>
 		<control>
 			<description>10 Heart</description>
-			<type>togglebutton</type>
+			<type>checkmark</type>
 			<id>1010</id>
 			<posX>435</posX>
 			<posY>300</posY>
 			<width>24</width>
 			<height>24</height>
-			<textureFocus>heart-10.png</textureFocus>
-			<textureNoFocus>heart-10.png</textureNoFocus>
-			<AltTextureFocus>heart-off.png</AltTextureFocus>
-			<AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+			<textureCheckmark>heart-10.png</textureCheckmark>
+			<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
 			<animation effect="fade" time="200">windowopen</animation>
 			<animation effect="fade" time="200">windowclose</animation>
 		</control>

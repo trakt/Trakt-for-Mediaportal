@@ -36,40 +36,40 @@ namespace TraktPlugin.GUI
         }
 
         [SkinControl((int)SkinControls.TVSeries)]
-        protected GUIToggleButtonControl btnTVSeries = null;
+        protected GUICheckButton btnTVSeries = null;
 
         [SkinControl((int)SkinControls.MovingPictures)]
-        protected GUIToggleButtonControl btnMovingPictures = null;
+        protected GUICheckButton btnMovingPictures = null;
 
         [SkinControl((int)SkinControls.MyVideos)]
-        protected GUIToggleButtonControl btnMyVideos = null;
+        protected GUICheckButton btnMyVideos = null;
 
         [SkinControl((int)SkinControls.MyFilms)]
-        protected GUIToggleButtonControl btnMyFilms = null;
+        protected GUICheckButton btnMyFilms = null;
 
         [SkinControl((int)SkinControls.OnlineVideos)]
-        protected GUIToggleButtonControl btnOnlineVideos = null;
+        protected GUICheckButton btnOnlineVideos = null;
 
         [SkinControl((int)SkinControls.MyAnime)]
-        protected GUIToggleButtonControl btnMyAnime = null;
+        protected GUICheckButton btnMyAnime = null;
 
         [SkinControl((int)SkinControls.MyRecordedTV)]
-        protected GUIToggleButtonControl btnMyRecordedTV = null;
+        protected GUICheckButton btnMyRecordedTV = null;
 
         [SkinControl((int)SkinControls.ForTheRecordRecordings)]
-        protected GUIToggleButtonControl btnForTheRecordRecordings = null;
+        protected GUICheckButton btnForTheRecordRecordings = null;
 
         [SkinControl((int)SkinControls.MyLiveTV)]
-        protected GUIToggleButtonControl btnMyLiveTV = null;
+        protected GUICheckButton btnMyLiveTV = null;
 
         [SkinControl((int)SkinControls.ForTheRecordLiveTV)]
-        protected GUIToggleButtonControl btnForTheRecordLiveTV = null;
+        protected GUICheckButton btnForTheRecordLiveTV = null;
 
         [SkinControl((int)SkinControls.ArgusRecordings)]
-        protected GUIToggleButtonControl btnArgusRecordings = null;
+        protected GUICheckButton btnArgusRecordings = null;
 
         [SkinControl((int)SkinControls.ArgusLiveTV)]
-        protected GUIToggleButtonControl btnArgusLiveTV = null;
+        protected GUICheckButton btnArgusLiveTV = null;
         #endregion
 
         #region Constructor

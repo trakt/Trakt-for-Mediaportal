@@ -29,25 +29,25 @@ namespace TraktPlugin.GUI
         [SkinControlAttribute(101)]
         protected GUIButtonControl btnHate = null;
         [SkinControlAttribute(1001)]
-        protected GUIToggleButtonControl btnOneHeart = null;
+        protected GUICheckMarkControl btnOneHeart = null;
         [SkinControlAttribute(1002)]
-        protected GUIToggleButtonControl btnTwoHeart = null;
+        protected GUICheckMarkControl btnTwoHeart = null;
         [SkinControlAttribute(1003)]
-        protected GUIToggleButtonControl btnThreeHeart = null;
+        protected GUICheckMarkControl btnThreeHeart = null;
         [SkinControlAttribute(1004)]
-        protected GUIToggleButtonControl btnFourHeart = null;
+        protected GUICheckMarkControl btnFourHeart = null;
         [SkinControlAttribute(1005)]
-        protected GUIToggleButtonControl btnFiveHeart = null;
+        protected GUICheckMarkControl btnFiveHeart = null;
         [SkinControlAttribute(1006)]
-        protected GUIToggleButtonControl btnSixHeart = null;
+        protected GUICheckMarkControl btnSixHeart = null;
         [SkinControlAttribute(1007)]
-        protected GUIToggleButtonControl btnSevenHeart = null;
+        protected GUICheckMarkControl btnSevenHeart = null;
         [SkinControlAttribute(1008)]
-        protected GUIToggleButtonControl btnEightHeart = null;
+        protected GUICheckMarkControl btnEightHeart = null;
         [SkinControlAttribute(1009)]
-        protected GUIToggleButtonControl btnNineHeart = null;
+        protected GUICheckMarkControl btnNineHeart = null;
         [SkinControlAttribute(1010)]
-        protected GUIToggleButtonControl btnTenHeart = null;
+        protected GUICheckMarkControl btnTenHeart = null;
 
         bool AdvancedRatingsSupported { get; set; }
 
@@ -385,11 +385,15 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                GUIToggleButtonControl[] btnHearts = new GUIToggleButtonControl[10] { btnOneHeart, btnTwoHeart, btnThreeHeart, btnFourHeart, btnFiveHeart,
-															                          btnSixHeart, btnSevenHeart, btnEightHeart, btnNineHeart, btnTenHeart };
+                GUICheckMarkControl[] btnHearts = new GUICheckMarkControl[10]
+                { 
+                    btnOneHeart, btnTwoHeart, btnThreeHeart, btnFourHeart, btnFiveHeart,
+					btnSixHeart, btnSevenHeart, btnEightHeart, btnNineHeart, btnTenHeart
+                };
 
                 for (int i = 0; i < 10; i++)
                 {
+                    btnHearts[i].Label = string.Empty;
                     btnHearts[i].Selected = ((int)Rated > i);
                 }
                 if ((int)Rated >= 1)

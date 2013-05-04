@@ -31,7 +31,7 @@
       <layout>StackLayout</layout>
       <control>
         <description>MP-TVSeries</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>2</id>
         <label>MP-TVSeries</label>
         <width>310</width>
@@ -41,7 +41,7 @@
       </control>
       <control>
         <description>MovingPictures</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>3</id>
         <width>310</width>
         <label>Moving Pictures</label>
@@ -50,7 +50,7 @@
       </control>
       <control>
         <description>My Videos</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>4</id>
         <width>310</width>
         <label>My Videos</label>
@@ -59,7 +59,7 @@
       </control>
       <control>
         <description>My Films</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>5</id>
         <width>310</width>
         <label>My Films</label>
@@ -68,7 +68,7 @@
       </control>
       <control>
         <description>Online Videos</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>6</id>
         <width>310</width>
         <label>Online Videos</label>
@@ -77,7 +77,7 @@
       </control>
       <control>
         <description>My Anime</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>7</id>
         <width>310</width>
         <label>My Anime</label>
@@ -96,7 +96,7 @@
       <layout>StackLayout</layout>
       <control>
         <description>My Recorded TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>8</id>
         <width>310</width>
         <label>My TV Recordings</label>
@@ -106,7 +106,7 @@
       </control>
       <control>
         <description>4TR Recorded TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>9</id>
         <width>310</width>
         <label>4TR TV Recordings</label>
@@ -115,7 +115,7 @@
       </control>
 			<control>
         <description>Argus Recorded TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>12</id>
         <width>310</width>
         <label>Argus TV Recordings</label>
@@ -124,7 +124,7 @@
       </control>
       <control>
         <description>My Live TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>10</id>
         <width>310</width>
         <label>My Live TV</label>
@@ -133,7 +133,7 @@
       </control>
       <control>
         <description>4TR Live TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>11</id>
         <width>310</width>
         <label>4TR Live TV</label>
@@ -142,7 +142,7 @@
       </control>
 			<control>
         <description>Argus Live TV</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>13</id>
         <width>310</width>
         <label>Argus Live TV</label>

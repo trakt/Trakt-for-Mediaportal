@@ -31,66 +31,66 @@
       <layout>StackLayout(Vertical)</layout>
       <control>
         <description>Download Fanart</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>2</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.DownloadFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
         <onup>8</onup>
       </control>
       <control>
         <description>Download FullSize Fanart</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>3</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.DownloadFullSizeFanart.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Get Friend Requests on startup</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>4</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.GetFriendRequestsOnStartup.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Create Moving Pictures Categories</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>5</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.CreateMovingPicturesCategories.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Create Moving Pictures Filters</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>6</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.CreateMovingPicturesFilters.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Create My Films Categories</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>9</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.CreateMyFilmsCategories.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Show Rate Dialog On Watched</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>7</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.ShowRateDialogOnWatched.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control>
         <description>Sync Ratings</description>
-        <type>togglebutton</type>
+        <type>checkbutton</type>
         <id>8</id>
-        <width>533</width>
+        <width>840</width>
         <label>#Trakt.Translation.SettingSyncRatingsName.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>

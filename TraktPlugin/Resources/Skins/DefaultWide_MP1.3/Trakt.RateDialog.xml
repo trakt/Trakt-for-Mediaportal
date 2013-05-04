@@ -15,6 +15,7 @@
       <textureFocus>-</textureFocus>
       <textureNoFocus>-</textureNoFocus>
     </control>
+		
     <!-- Love / Hate Ratings -->
     <control>
       <description>Love</description>
@@ -50,134 +51,117 @@
       <align>right</align>
       <font>font14</font>
     </control>
+		
+		<!-- 10 Heart Ratings -->
     <control>
       <type>group</type>
-      <description>group element</description>
-      <posX>373</posX>
+      <description>10 Heart Ratings</description>
+      <posX>383</posX>
       <posY>360</posY>
       <width>333</width>
       <height>379</height>
-      <layout>StackLayout(7, Horizontal)</layout>
+      <layout>StackLayout(7,Horizontal,false)</layout>
       <control>
         <description>1 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1001</id>
         <width>32</width>
         <height>30</height>
         <onup>1002</onup>
-        <textureFocus>heart-1.png</textureFocus>
-        <textureNoFocus>heart-1.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+				<textureCheckmark>heart-1.png</textureCheckmark>
+				<textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>2 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1002</id>
         <width>32</width>
         <height>30</height>
         <onup>1003</onup>
-        <textureFocus>heart-2.png</textureFocus>
-        <textureNoFocus>heart-2.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-2.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>3 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1003</id>
         <width>32</width>
         <height>30</height>
         <onup>1004</onup>
-        <textureFocus>heart-3.png</textureFocus>
-        <textureNoFocus>heart-3.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-3.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>4 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1004</id>
         <width>32</width>
         <height>30</height>
         <onup>1005</onup>
-        <textureFocus>heart-4.png</textureFocus>
-        <textureNoFocus>heart-4.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-4.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>5 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1005</id>
         <width>30</width>
         <height>30</height>
         <onup>1006</onup>
-        <textureFocus>heart-5.png</textureFocus>
-        <textureNoFocus>heart-5.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-5.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>6 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1006</id>
         <width>32</width>
         <height>30</height>
         <onup>1007</onup>
-        <textureFocus>heart-6.png</textureFocus>
-        <textureNoFocus>heart-6.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-6.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>7 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1007</id>
         <width>32</width>
         <height>30</height>
         <onup>1008</onup>
-        <textureFocus>heart-7.png</textureFocus>
-        <textureNoFocus>heart-7.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-7.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>8 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1008</id>
         <width>32</width>
         <height>30</height>
         <onup>1009</onup>
-        <textureFocus>heart-8.png</textureFocus>
-        <textureNoFocus>heart-8.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-8.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>9 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1009</id>
         <width>32</width>
         <height>30</height>
         <onup>1010</onup>
-        <textureFocus>heart-9.png</textureFocus>
-        <textureNoFocus>heart-9.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-9.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
       <control>
         <description>10 Heart</description>
-        <type>togglebutton</type>
+        <type>checkmark</type>
         <id>1010</id>
         <width>32</width>
         <height>30</height>
-        <textureFocus>heart-10.png</textureFocus>
-        <textureNoFocus>heart-10.png</textureNoFocus>
-        <AltTextureFocus>heart-off.png</AltTextureFocus>
-        <AltTextureNoFocus>heart-off.png</AltTextureNoFocus>
+        <textureCheckmark>heart-10.png</textureCheckmark>
+        <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
       </control>
     </control>
+		
     <control>
       <description>Selected Rating</description>
       <type>label</type>

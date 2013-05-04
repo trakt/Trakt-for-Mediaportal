@@ -33,28 +33,28 @@ namespace TraktPlugin.GUI
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
-        protected GUIToggleButtonControl btnDownloadFanart = null;
+        protected GUICheckButton btnDownloadFanart = null;
 
         [SkinControl((int)SkinControls.DownloadFullSizeFanart)]
-        protected GUIToggleButtonControl btnDownloadFullSizeFanart = null;
+        protected GUICheckButton btnDownloadFullSizeFanart = null;
 
         [SkinControl((int)SkinControls.GetFriendRequests)]
-        protected GUIToggleButtonControl btnGetFriendRequests = null;
+        protected GUICheckButton btnGetFriendRequests = null;
 
         [SkinControl((int)SkinControls.CreateMovingPicturesCategories)]
-        protected GUIToggleButtonControl btnCreateMovingPicturesCategories = null;
+        protected GUICheckButton btnCreateMovingPicturesCategories = null;
 
         [SkinControl((int)SkinControls.CreateMovingPicturesFilters)]
-        protected GUIToggleButtonControl btnCreateMovingPicturesFilters = null;
+        protected GUICheckButton btnCreateMovingPicturesFilters = null;
 
         [SkinControl((int)SkinControls.CreateMyFilmsCategories)]
-        protected GUIToggleButtonControl btnCreateMyFilmsCategories = null;
+        protected GUICheckButton btnCreateMyFilmsCategories = null;
 
         [SkinControl((int)SkinControls.ShowRateDialogOnWatched)]
-        protected GUIToggleButtonControl btnShowRateDialogOnWatched = null;
+        protected GUICheckButton btnShowRateDialogOnWatched = null;
         
         [SkinControl((int)SkinControls.SyncRatings)]
-        protected GUIToggleButtonControl btnSyncRatings = null;
+        protected GUICheckButton btnSyncRatings = null;
 
         #endregion
 

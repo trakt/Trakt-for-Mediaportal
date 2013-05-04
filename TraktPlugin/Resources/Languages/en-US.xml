@@ -103,7 +103,7 @@
   <!--G-->
   <string name="Gender">Gender</string>
   <string name="General">General</string>
-  <string name="GeneralSettings">GeneralSettings</string>
+  <string name="GeneralSettings">General Settings</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
