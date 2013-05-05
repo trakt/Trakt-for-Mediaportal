@@ -653,8 +653,22 @@ namespace TraktPlugin.GUI
 
             if (shows.Count() == 0)
             {
-                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowRecommendations);
-                GUIWindowManager.ShowPreviousWindow();
+                // try again
+                if (genreButton == null)
+                {
+                    // restore defaults for next time so we can get recommendations
+                    if (CurrentGenre != "All")
+                        CurrentGenre = "All";
+
+                    _RecommendedShows = null;
+                    GUIWindowManager.ShowPreviousWindow();
+
+                }
+                else
+                {
+                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoShowRecommendations);
+                    GUIControl.FocusControl(GetID, genreButton.GetID);
+                }
                 return;
             }
 
