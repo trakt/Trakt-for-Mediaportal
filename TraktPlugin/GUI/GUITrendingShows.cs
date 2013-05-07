@@ -25,6 +25,18 @@ namespace TraktPlugin.GUI
         [SkinControl(8)]
         protected GUISortButtonControl sortButton = null;
 
+        [SkinControl(9)]
+        protected GUICheckButton filterWatchedButton = null;
+
+        [SkinControl(10)]
+        protected GUICheckButton filterWatchListedButton = null;
+
+        [SkinControl(11)]
+        protected GUICheckButton filterCollectedButton = null;
+
+        [SkinControl(12)]
+        protected GUICheckButton filterRatedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -165,6 +177,34 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                // Hide Watched
+                case (9):
+                    TraktSettings.TrendingShowsHideWatched = !TraktSettings.TrendingShowsHideWatched;
+                    UpdateButtonState();
+                    LoadTrendingShows();
+                    break;
+
+                // Hide Watchlisted
+                case (10):
+                    TraktSettings.TrendingShowsHideWatchlisted = !TraktSettings.TrendingShowsHideWatchlisted;
+                    UpdateButtonState();
+                    LoadTrendingShows();
+                    break;
+
+                // Hide Collected
+                case (11):
+                    TraktSettings.TrendingShowsHideCollected = !TraktSettings.TrendingShowsHideCollected;
+                    UpdateButtonState();
+                    LoadTrendingShows();
+                    break;
+
+                // Hide Rated
+                case (12):
+                    TraktSettings.TrendingShowsHideRated = !TraktSettings.TrendingShowsHideRated;
+                    UpdateButtonState();
+                    LoadTrendingShows();
+                    break;
+
                 default:
                     break;
             }
@@ -211,6 +251,7 @@ namespace TraktPlugin.GUI
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingShowsHideWatchlisted) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.ShowSeasonInfo):
@@ -219,10 +260,12 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
                     GUICommon.MarkShowAsSeen(selectedShow);
+                    if (TraktSettings.TrendingShowsHideWatched) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
                     GUICommon.AddShowToLibrary(selectedShow);
+                    if (TraktSettings.TrendingShowsHideCollected) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
@@ -252,6 +295,7 @@ namespace TraktPlugin.GUI
                     GUICommon.RateShow(selectedShow);
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingShowsHideRated) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.ChangeLayout):
@@ -317,6 +361,9 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
+
+            // filter shows
+            shows = GUICommon.FilterTrendingShows(shows);
 
             // sort shows
             var showList = shows.ToList();
@@ -398,6 +445,16 @@ namespace TraktPlugin.GUI
                 sortButton.IsAscending = (TraktSettings.SortByTrendingShows.Direction == SortingDirections.Ascending);
             }
             GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByTrendingShows));
+
+            // update filter buttons
+            if (filterWatchedButton != null)
+                filterWatchedButton.Selected = TraktSettings.TrendingShowsHideWatched;
+            if (filterWatchListedButton != null)
+                filterWatchListedButton.Selected = TraktSettings.TrendingShowsHideWatchlisted;
+            if (filterCollectedButton != null)
+                filterCollectedButton.Selected = TraktSettings.TrendingShowsHideCollected;
+            if (filterRatedButton != null)
+                filterRatedButton.Selected = TraktSettings.TrendingShowsHideRated;
         }
 
         private void ClearProperties()
@@ -407,7 +464,7 @@ namespace TraktPlugin.GUI
 
             GUIUtils.SetProperty("#Trakt.Show.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watchers.Extra", string.Empty);
-            GUICommon.ClearShowProperties(); ;
+            GUICommon.ClearShowProperties();
         }
 
         private void PublishShowSkinProperties(TraktTrendingShow show)

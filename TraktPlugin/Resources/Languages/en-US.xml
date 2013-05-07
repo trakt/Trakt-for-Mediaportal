@@ -93,6 +93,7 @@
   <string name="Error">Trakt Error</string>
   <string name="ErrorCalendar">Error getting calendar.</string>
   <!--F-->
+  <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Hated</string>
   <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   <string name="HideCollected">Hide Collected</string>
+  <string name="HideRated">Hide Rated</string>
   <string name="HideWatched">Hide Watched</string>
   <string name="HideWatchlisted">Hide Watchlisted</string>
   <string name="HideSpoilers">Hide Spoilers</string>

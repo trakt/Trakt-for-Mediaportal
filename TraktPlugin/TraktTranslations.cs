@@ -299,6 +299,7 @@ namespace TraktPlugin.GUI
         public static string ErrorCalendar = "Error getting calendar.";        
 
         // F
+        public static string Filters = "Filters";
         public static string FirstAired = "First Aired";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
@@ -375,6 +376,7 @@ namespace TraktPlugin.GUI
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
         public static string HideCollected = "Hide Collected";
         public static string HideWatched = "Hide Watched";
+        public static string HideRated = "Hide Rated";
         public static string HideSpoilers = "Hide Spoilers";
         public static string HideWatchlisted = "Hide Watchlisted";
         public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";

@@ -1906,5 +1906,37 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region
+        internal static IEnumerable<TraktTrendingMovie> FilterTrendingMovies(IEnumerable<TraktTrendingMovie> moviesToFilter)
+        {
+            if (TraktSettings.TrendingMoviesHideWatched)
+                moviesToFilter = moviesToFilter.Where(m => !m.Watched);
+
+            if (TraktSettings.TrendingMoviesHideWatchlisted)
+                moviesToFilter = moviesToFilter.Where(m => !m.InWatchList);
+
+            if (TraktSettings.TrendingMoviesHideCollected)
+                moviesToFilter = moviesToFilter.Where(m => !m.InCollection);
+
+            if (TraktSettings.TrendingMoviesHideRated)
+                moviesToFilter = moviesToFilter.Where(m => m.RatingAdvanced == 0 || m.Rating == "false");
+
+            return moviesToFilter;
+        }
+
+        internal static IEnumerable<TraktTrendingShow> FilterTrendingShows(IEnumerable<TraktTrendingShow> showsToFilter)
+        {
+            if (TraktSettings.TrendingShowsHideWatched)
+                showsToFilter = showsToFilter.Where(m => !m.Watched);
+
+            if (TraktSettings.TrendingShowsHideWatchlisted)
+                showsToFilter = showsToFilter.Where(m => !m.InWatchList);
+
+            if (TraktSettings.TrendingShowsHideRated)
+                showsToFilter = showsToFilter.Where(m => m.Rating == null || m.Rating == "false");
+
+            return showsToFilter;
+        }
+        #endregion
     }
 }

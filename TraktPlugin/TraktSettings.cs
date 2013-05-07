@@ -104,6 +104,14 @@ namespace TraktPlugin
         public static bool ShowRateDlgForPlaylists { get; set; }
         public static string DefaultTVShowTrailerSite { get; set; }
         public static string DefaultMovieTrailerSite { get; set; }
+        public static bool TrendingMoviesHideWatched { get; set; }
+        public static bool TrendingMoviesHideWatchlisted { get; set; }
+        public static bool TrendingMoviesHideCollected { get; set; }
+        public static bool TrendingMoviesHideRated { get; set; }
+        public static bool TrendingShowsHideWatched { get; set; }
+        public static bool TrendingShowsHideWatchlisted { get; set; }
+        public static bool TrendingShowsHideCollected { get; set; }
+        public static bool TrendingShowsHideRated { get; set; }
         #endregion
 
         #region Constants
@@ -197,6 +205,15 @@ namespace TraktPlugin
         private const string cShowRateDlgForPlaylists = "ShowRateDlgForPlaylists";
         private const string cDefaultTVShowTrailerSite = "DefaultTVShowTrailerSite";
         private const string cDefaultMovieTrailerSite = "DefaultMovieTrailerSite";
+        private const string cTrendingMoviesHideWatched = "TrendingMoviesHideWatched";
+        private const string cTrendingMoviesHideWatchlisted = "TrendingMoviesHideWatchlisted";
+        private const string cTrendingMoviesHideCollected = "TrendingMoviesHideCollected";
+        private const string cTrendingMoviesHideRated = "TrendingMoviesHideRated";
+        private const string cTrendingShowsHideWatched = "TrendingShowsHideWatched";
+        private const string cTrendingShowsHideWatchlisted = "TrendingShowsHideWatchlisted";
+        private const string cTrendingShowsHideCollected = "TrendingShowsHideCollected";
+        private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
+
         #endregion
 
         #region Properties
@@ -454,6 +471,14 @@ namespace TraktPlugin
                 ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, true);
                 DefaultTVShowTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultTVShowTrailerSite, "YouTube");
                 DefaultMovieTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultMovieTrailerSite, "IMDb Movie Trailers");
+                TrendingMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatched, false);
+                TrendingMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, false);
+                TrendingMoviesHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideCollected, false);
+                TrendingMoviesHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideRated, false);
+                TrendingShowsHideWatched = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideWatched, false);
+                TrendingShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, false);
+                TrendingShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideCollected, false);
+                TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
             }
         }
 
@@ -551,6 +576,14 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDlgForPlaylists, ShowRateDlgForPlaylists);
                 xmlwriter.SetValue(cTrakt, cDefaultTVShowTrailerSite, DefaultTVShowTrailerSite);
                 xmlwriter.SetValue(cTrakt, cDefaultMovieTrailerSite, DefaultMovieTrailerSite);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideWatched, TrendingMoviesHideWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, TrendingMoviesHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideCollected, TrendingMoviesHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideRated, TrendingMoviesHideRated);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideWatched, TrendingShowsHideWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, TrendingShowsHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideCollected, TrendingShowsHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
             }
 
             Settings.SaveCache();

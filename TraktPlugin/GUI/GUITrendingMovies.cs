@@ -27,6 +27,18 @@ namespace TraktPlugin.GUI
         [SkinControl(8)]
         protected GUISortButtonControl sortButton = null;
 
+        [SkinControl(9)]
+        protected GUICheckButton filterWatchedButton = null;
+
+        [SkinControl(10)]
+        protected GUICheckButton filterWatchListedButton = null;
+
+        [SkinControl(11)]
+        protected GUICheckButton filterCollectedButton = null;
+
+        [SkinControl(12)]
+        protected GUICheckButton filterRatedButton = null;
+
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -157,6 +169,34 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                // Hide Watched
+                case (9):
+                    TraktSettings.TrendingMoviesHideWatched = !TraktSettings.TrendingMoviesHideWatched;
+                    UpdateButtonState();
+                    LoadTrendingMovies();
+                    break;
+
+                // Hide Watchlisted
+                case (10):
+                    TraktSettings.TrendingMoviesHideWatchlisted = !TraktSettings.TrendingMoviesHideWatchlisted;
+                    UpdateButtonState();
+                    LoadTrendingMovies();
+                    break;
+
+                // Hide Collected
+                case (11):
+                    TraktSettings.TrendingMoviesHideCollected = !TraktSettings.TrendingMoviesHideCollected;
+                    UpdateButtonState();
+                    LoadTrendingMovies();
+                    break;
+
+                // Hide Rated
+                case (12):
+                    TraktSettings.TrendingMoviesHideRated = !TraktSettings.TrendingMoviesHideRated;
+                    UpdateButtonState();
+                    LoadTrendingMovies();
+                    break;
+
                 default:
                     break;
             }
@@ -205,6 +245,7 @@ namespace TraktPlugin.GUI
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingMoviesHideWatched) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsUnWatched):
@@ -220,6 +261,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
@@ -238,6 +280,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromLibrary):
@@ -255,6 +298,7 @@ namespace TraktPlugin.GUI
                     GUICommon.RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.Shouts):
@@ -330,6 +374,9 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
+
+            // filter movies
+            movies = GUICommon.FilterTrendingMovies(movies);
 
             // sort movies
             var movieList = movies.ToList();
@@ -418,6 +465,16 @@ namespace TraktPlugin.GUI
                 sortButton.IsAscending = (TraktSettings.SortByTrendingMovies.Direction == SortingDirections.Ascending);
             }
             GUIUtils.SetProperty("#Trakt.SortBy", GUICommon.GetSortByString(TraktSettings.SortByTrendingMovies));
+
+            // update filter buttons
+            if (filterWatchedButton != null)
+                filterWatchedButton.Selected = TraktSettings.TrendingMoviesHideWatched;
+            if (filterWatchListedButton != null)
+                filterWatchListedButton.Selected = TraktSettings.TrendingMoviesHideWatchlisted;
+            if (filterCollectedButton != null)
+                filterCollectedButton.Selected = TraktSettings.TrendingMoviesHideCollected;
+            if (filterRatedButton != null)
+                filterRatedButton.Selected = TraktSettings.TrendingMoviesHideRated;
         }
 
         private void ClearProperties()
