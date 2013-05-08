@@ -346,6 +346,11 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
+            #region Cache Shows In Library
+            TraktLogger.Debug("Caching TVShows in Library");
+            TraktSettings.ShowsInCollection = traktCollectionEpisodes.Select(e => e.SeriesId).ToList();
+            #endregion
+
             SyncInProgress = false;
             TraktLogger.Info("MP-TVSeries Sync Completed");
         }

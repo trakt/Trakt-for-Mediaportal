@@ -112,6 +112,7 @@ namespace TraktPlugin
         public static bool TrendingShowsHideWatchlisted { get; set; }
         public static bool TrendingShowsHideCollected { get; set; }
         public static bool TrendingShowsHideRated { get; set; }
+        public static List<string> ShowsInCollection { get; set; }
         #endregion
 
         #region Constants
@@ -213,6 +214,7 @@ namespace TraktPlugin
         private const string cTrendingShowsHideWatchlisted = "TrendingShowsHideWatchlisted";
         private const string cTrendingShowsHideCollected = "TrendingShowsHideCollected";
         private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
+        private const string cShowsInCollection = "ShowsInCollection";
 
         #endregion
 
@@ -479,6 +481,7 @@ namespace TraktPlugin
                 TrendingShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, false);
                 TrendingShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideCollected, false);
                 TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
+                ShowsInCollection = xmlreader.GetValueAsString(cTrakt, cShowsInCollection, "").FromJSONArray<string>().ToList();
             }
         }
 
@@ -584,6 +587,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, TrendingShowsHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideCollected, TrendingShowsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
+                xmlwriter.SetValue(cTrakt, cShowsInCollection, ShowsInCollection.ToJSON());
             }
 
             Settings.SaveCache();

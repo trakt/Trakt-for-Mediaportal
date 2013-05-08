@@ -1927,13 +1927,16 @@ namespace TraktPlugin.GUI
         internal static IEnumerable<TraktTrendingShow> FilterTrendingShows(IEnumerable<TraktTrendingShow> showsToFilter)
         {
             if (TraktSettings.TrendingShowsHideWatched)
-                showsToFilter = showsToFilter.Where(m => !m.Watched);
+                showsToFilter = showsToFilter.Where(s => !s.Watched);
 
             if (TraktSettings.TrendingShowsHideWatchlisted)
-                showsToFilter = showsToFilter.Where(m => !m.InWatchList);
+                showsToFilter = showsToFilter.Where(s => !s.InWatchList);
+
+            if (TraktSettings.TrendingShowsHideCollected)
+                showsToFilter = showsToFilter.Where(s => !TraktSettings.ShowsInCollection.Contains(s.Tvdb));
 
             if (TraktSettings.TrendingShowsHideRated)
-                showsToFilter = showsToFilter.Where(m => m.Rating == null || m.Rating == "false");
+                showsToFilter = showsToFilter.Where(s => s.Rating == null || s.Rating == "false");
 
             return showsToFilter;
         }
