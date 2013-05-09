@@ -693,7 +693,7 @@ namespace TraktPlugin
         {
             // Settings/General window
             // this is where a user can change skins\languages from GUI
-            if (windowID == (int)Window.WINDOW_SETTINGS_SKIN)
+            if (windowID == (int)ExternalPluginWindows.MPSkinSettings)
             {
                 // did skin change?
                 if (TraktSkinSettings.CurrentSkin != TraktSkinSettings.PreviousSkin)

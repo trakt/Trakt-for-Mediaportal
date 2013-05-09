@@ -123,7 +123,8 @@ namespace TraktPlugin.GUI
         MpNZB = 3847,
         MPEISettings = 803,
         MyTorrents = 5678,
-        Showtimes = 7111992
+        Showtimes = 7111992,
+        MPSkinSettings = 705
     }
 
     enum ExternalPluginControls
