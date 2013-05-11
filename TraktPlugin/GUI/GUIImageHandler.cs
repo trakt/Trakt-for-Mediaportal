@@ -120,6 +120,7 @@ namespace TraktPlugin.GUI
             // Ignore Image placeholders (series/movies with no artwork)
             // use skins default images instead
             if (url.Contains("poster-small") || url.Contains("fanart-summary")) return false;
+            if (url.Contains("poster-dark") || url.Contains("fanart-dark")) return false;
 
             try
             {
@@ -151,7 +152,7 @@ namespace TraktPlugin.GUI
             // Activate Backdrop in Image Swapper
             if (!backdrop.Active) backdrop.Active = true;
 
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || !File.Exists(filename))
+            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || filename.Contains("fanart-dark") || !File.Exists(filename))
                 filename = string.Empty;
 
             // Assign Fanart filename to Image Loader
