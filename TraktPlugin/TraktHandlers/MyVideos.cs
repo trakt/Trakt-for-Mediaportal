@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using TraktPlugin.GUI;
@@ -10,8 +11,10 @@ using MediaPortal.Player;
 using MediaPortal.Playlists;
 using System.Reflection;
 using System.ComponentModel;
+using MediaPortal.Configuration;
 using MediaPortal.Video.Database;
 using System.Threading;
+using System.IO;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -28,6 +31,16 @@ namespace TraktPlugin.TraktHandlers
 
         public MyVideos(int priority)
         {
+            // check that we are running MediaPortal 1.3 or greater
+            string libFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "WindowPlugins.dll");
+
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(libFilename);
+            string version = fvi.ProductVersion;
+            if (new Version(version) < new Version(1, 3, 0, 0))
+            {
+                throw new FileLoadException("MediaPortal does not meet minimum requirements!");
+            }
+
             Priority = priority;
         }
 
@@ -167,8 +180,15 @@ namespace TraktPlugin.TraktHandlers
                     {
                         TraktLogger.Info("Movie '{0}' is watched on Trakt updating Database", libraryMovie.Title);
                         libraryMovie.Watched = 1;
+                        if (libraryMovie.DateWatched == "0001-01-01 00:00:00") libraryMovie.DateWatched = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         IMDBMovie details = libraryMovie;
                         VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
+
+                        if (libraryMovie.WatchedCount == 0)
+                        {
+                            VideoDatabase.SetMovieWatchedCount(libraryMovie.ID, tlm.Plays);
+                            VideoDatabase.SetMovieWatchedStatus(libraryMovie.ID, true, 0);
+                        }
                     }
 
                     // mark movies as unseen if watched locally
@@ -178,6 +198,7 @@ namespace TraktPlugin.TraktHandlers
                         libraryMovie.Watched = 0;
                         IMDBMovie details = libraryMovie;
                         VideoDatabase.SetMovieInfoById(libraryMovie.ID, ref details);
+                        VideoDatabase.SetMovieWatchedStatus(libraryMovie.ID, false, 0);
                     }
 
                     notInLocalCollection = false;
