@@ -233,7 +233,9 @@
   <string name="NoRelatedShows">No Related shows found for {0}!</string>
   <string name="No">No</string>
   <!--O-->
+  <string name="Off">Off</string>
   <string name="OK">OK</string>
+  <string name="On">On</string>
   <string name="Overview">Overview</string>
   <!--P-->
   <string name="Password">Password</string>

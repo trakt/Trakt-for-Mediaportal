@@ -17,6 +17,7 @@ namespace TraktPlugin.GUI
         public string ItemTitle { get; set; }
         public string ItemTitle2 { get; set; }
         public object Tag { get; set; }
+        public bool IsToggle { get; set; }
         public bool Selected { get; set; }
     }
 
@@ -77,6 +78,17 @@ namespace TraktPlugin.GUI
                 if (SelectionList.SelectedListItem != null)
                 {
                     SelectionList.SelectedListItem.Selected = !SelectionList.SelectedListItem.Selected;
+
+                    // check if item is a toggle button and change label accordingly
+                    if (SelectionList.SelectedListItem.TVTag is bool)
+                    {
+                        if ((bool)SelectionList.SelectedListItem.TVTag)
+                        {
+                            string currentStateLabel = SelectionList.SelectedListItem.Label2;
+                            SelectionList.SelectedListItem.Label2 = currentStateLabel == Translation.On ? Translation.Off : Translation.On;
+                        }
+                    }
+
                     return;
                 }
             }

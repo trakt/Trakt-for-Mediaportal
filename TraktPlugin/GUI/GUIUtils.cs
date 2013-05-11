@@ -313,8 +313,8 @@ namespace TraktPlugin.GUI
                     item.Label = multiSelectionItem.ItemTitle;
                     item.Label2 = multiSelectionItem.ItemTitle2;
                     item.MusicTag = multiSelectionItem.Tag;
+                    item.TVTag = multiSelectionItem.IsToggle;
                     item.Selected = multiSelectionItem.Selected;
-
                     dlgMultiSelect.Add(item);
                 }
 

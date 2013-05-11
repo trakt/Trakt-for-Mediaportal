@@ -448,7 +448,9 @@ namespace TraktPlugin.GUI
         public static string No = "No";
 
         // O
+        public static string Off = "Off";
         public static string OK = "OK";
+        public static string On = "On";
         public static string Overview = "Overview";
 
         // P
