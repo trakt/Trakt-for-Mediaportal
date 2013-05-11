@@ -238,7 +238,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow);
+            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow, false);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -277,6 +277,14 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.AddToList):
                     TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Filters):
+                    if (GUICommon.ShowTVShowFiltersMenu())
+                    {
+                        UpdateButtonState();
+                        LoadTrendingShows();
+                    }
                     break;
 
                 case ((int)TrendingContextMenuItem.Related):

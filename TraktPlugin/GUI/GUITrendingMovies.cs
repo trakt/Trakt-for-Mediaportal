@@ -230,7 +230,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie);
+            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie, false);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -299,6 +299,14 @@ namespace TraktPlugin.GUI
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies();
+                    break;
+
+                case ((int)TrendingContextMenuItem.Filters):
+                    if (GUICommon.ShowMovieFiltersMenu())
+                    {
+                        UpdateButtonState();
+                        LoadTrendingMovies();
+                    }
                     break;
 
                 case ((int)TrendingContextMenuItem.Shouts):

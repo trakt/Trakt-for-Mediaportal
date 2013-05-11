@@ -1214,7 +1214,7 @@ namespace TraktPlugin
             var selectedItem = trendingShowsFacade.SelectedListItem;
             var selectedShow = selectedItem.TVTag as TraktTrendingShow;
 
-            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow);
+            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow, true);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -1298,7 +1298,7 @@ namespace TraktPlugin
             var selectedItem = trendingMoviesFacade.SelectedListItem;
             var selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
 
-            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie);
+            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie, true);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);

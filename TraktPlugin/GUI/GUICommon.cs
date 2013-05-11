@@ -56,6 +56,7 @@ namespace TraktPlugin.GUI
         MarkAsUnWatched,
         AddToWatchList,
         RemoveFromWatchList,
+        Filters,
         AddToList,
         AddToLibrary,
         RemoveFromLibrary,
@@ -166,6 +167,14 @@ namespace TraktPlugin.GUI
     {
         Ascending,
         Descending
+    }
+
+    public enum Filters
+    {
+        Watched,
+        Watchlisted,
+        Collected,
+        Rated
     }
     #endregion
 
@@ -1098,7 +1107,7 @@ namespace TraktPlugin.GUI
             return listItems;
         }
 
-        internal static void CreateTrendingMoviesContextMenu(ref IDialogbox dlg, TraktMovie movie)
+        internal static void CreateTrendingMoviesContextMenu(ref IDialogbox dlg, TraktMovie movie, bool dashboard)
         {
             GUIListItem listItem = null;
 
@@ -1154,6 +1163,14 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromLibrary;
             }
 
+            // Filters
+            if (!dashboard)
+            {
+                listItem = new GUIListItem(Translation.Filters + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.Filters;
+            }
+
             // Related Movies
             listItem = new GUIListItem(Translation.RelatedMovies + "...");
             dlg.Add(listItem);
@@ -1203,7 +1220,7 @@ namespace TraktPlugin.GUI
 
         }
 
-        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show)
+        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show, bool dashboard)
         {
             GUIListItem listItem = null;
 
@@ -1246,6 +1263,14 @@ namespace TraktPlugin.GUI
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)TrendingContextMenuItem.Trailers;
+            }
+
+            // Filters
+            if (!dashboard)
+            {
+                listItem = new GUIListItem(Translation.Filters + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)TrendingContextMenuItem.Filters;
             }
 
             // Related Shows
@@ -1907,7 +1932,97 @@ namespace TraktPlugin.GUI
 
         #endregion
 
-        #region
+        #region Filters
+        static List<MultiSelectionItem> GetFilterListItems(Dictionary<Filters, bool> filters)
+        {
+            List<MultiSelectionItem> selectItems = new List<MultiSelectionItem>();
+
+            foreach (var filter in filters)
+            {
+                MultiSelectionItem multiSelectItem = new MultiSelectionItem
+                {
+                    ItemID = filter.Key.ToString(),
+                    ItemTitle = Translation.GetByName(string.Format("Hide{0}", filter.Key)),
+                    ItemTitle2 = filter.Value ? Translation.On : Translation.Off,
+                    IsToggle = true,
+                    Selected = false
+                };
+                selectItems.Add(multiSelectItem);
+            }
+
+            return selectItems;
+        }
+
+        internal static bool ShowMovieFiltersMenu()
+        {
+            Dictionary<Filters, bool> filters = new Dictionary<Filters, bool>();
+
+            filters.Add(Filters.Watched, TraktSettings.TrendingMoviesHideWatched);
+            filters.Add(Filters.Watchlisted, TraktSettings.TrendingMoviesHideWatchlisted);
+            filters.Add(Filters.Collected, TraktSettings.TrendingMoviesHideCollected);
+            filters.Add(Filters.Rated, TraktSettings.TrendingMoviesHideRated);
+
+            var selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, GetFilterListItems(filters));
+            if (selectedItems == null) return false;
+
+            foreach (var item in selectedItems.Where(l => l.Selected == true))
+            {
+                // toggle state of all selected items
+                switch ((Filters)Enum.Parse(typeof(Filters), item.ItemID, true))
+                {
+                    case Filters.Watched:
+                        TraktSettings.TrendingMoviesHideWatched = !TraktSettings.TrendingMoviesHideWatched;
+                        break;
+                    case Filters.Watchlisted:
+                        TraktSettings.TrendingMoviesHideWatchlisted = !TraktSettings.TrendingMoviesHideWatchlisted;
+                        break;
+                    case Filters.Collected:
+                        TraktSettings.TrendingMoviesHideCollected = !TraktSettings.TrendingMoviesHideCollected;
+                        break;
+                    case Filters.Rated:
+                        TraktSettings.TrendingMoviesHideRated = !TraktSettings.TrendingMoviesHideRated;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        internal static bool ShowTVShowFiltersMenu()
+        {
+            Dictionary<Filters, bool> filters = new Dictionary<Filters, bool>();
+
+            filters.Add(Filters.Watched, TraktSettings.TrendingShowsHideWatched);
+            filters.Add(Filters.Watchlisted, TraktSettings.TrendingShowsHideWatchlisted);
+            filters.Add(Filters.Collected, TraktSettings.TrendingShowsHideCollected);
+            filters.Add(Filters.Rated, TraktSettings.TrendingShowsHideRated);
+
+            var selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, GetFilterListItems(filters));
+            if (selectedItems == null) return false;
+
+            foreach (var item in selectedItems.Where(l => l.Selected == true))
+            {
+                // toggle state of all selected items
+                switch ((Filters)Enum.Parse(typeof(Filters), item.ItemID, true))
+                {
+                    case Filters.Watched:
+                        TraktSettings.TrendingShowsHideWatched = !TraktSettings.TrendingShowsHideWatched;
+                        break;
+                    case Filters.Watchlisted:
+                        TraktSettings.TrendingShowsHideWatchlisted = !TraktSettings.TrendingShowsHideWatchlisted;
+                        break;
+                    case Filters.Collected:
+                        TraktSettings.TrendingShowsHideCollected = !TraktSettings.TrendingShowsHideCollected;
+                        break;
+                    case Filters.Rated:
+                        TraktSettings.TrendingShowsHideRated = !TraktSettings.TrendingShowsHideRated;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
         internal static IEnumerable<TraktTrendingMovie> FilterTrendingMovies(IEnumerable<TraktTrendingMovie> moviesToFilter)
         {
             if (TraktSettings.TrendingMoviesHideWatched)
