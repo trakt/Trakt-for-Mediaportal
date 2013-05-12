@@ -113,7 +113,9 @@
   <string name="NoRelatedShows">Engir svipaðir sjónvarpsþættir fyrir {0}!</string>
   <string name="No">Nei</string>
   <!--O-->
+  <string name="Off">Af</string>
   <string name="OK">Í lagi</string>
+  <string name="On">Á</string>
   <string name="Overview">Yfirlit</string>
   <!--P-->
   <string name="Password">Aðgangsorð</string>

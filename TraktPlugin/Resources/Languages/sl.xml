@@ -233,7 +233,9 @@
   <string name="NoRelatedShows">Ni najdenih sorodnih oddaj za {0}!</string>
   <string name="No">Ne</string>
   <!--O-->
+  <string name="Off">Izklopljen</string>
   <string name="OK">V redu</string>
+  <string name="On">Vklopljen</string>
   <string name="Overview">Pregled</string>
   <!--P-->
   <string name="Password">Geslo</string>

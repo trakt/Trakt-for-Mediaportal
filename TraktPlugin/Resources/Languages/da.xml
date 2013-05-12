@@ -165,7 +165,9 @@
   <string name="NoRelatedShows">Ingen relatererde serier fundet til {0}!</string>
   <string name="No">Nej</string>
   <!--O-->
+  <string name="Off">Fra</string>
   <string name="OK">OK</string>
+  <string name="On">Tænd</string>
   <string name="Overview">Overblik</string>
   <!--P-->
   <string name="Password">Kodeord</string>

@@ -233,7 +233,9 @@
   <string name="NoRelatedShows">Geen gerelateerde series gevonden voor {0}!</string>
   <string name="No">Nee</string>
   <!--O-->
+  <string name="Off">Uit</string>
   <string name="OK">OK</string>
+  <string name="On">Aan</string>
   <string name="Overview">Overzicht</string>
   <!--P-->
   <string name="Password">Wachtwoord</string>

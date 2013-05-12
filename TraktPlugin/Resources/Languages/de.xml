@@ -231,7 +231,9 @@
   <string name="NoRelatedShows">Keine Serien ähnlich {0} gefunden!</string>
   <string name="No">Nein</string>
   <!--O-->
+  <string name="Off">Aus</string>
   <string name="OK">OK</string>
+  <string name="On">An</string>
   <string name="Overview">Übersicht</string>
   <!--P-->
   <string name="Password">Passwort</string>

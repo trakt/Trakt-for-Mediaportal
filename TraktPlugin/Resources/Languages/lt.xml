@@ -233,7 +233,9 @@
   <string name="NoRelatedShows">Nerasta su {0} susijusių laidų!</string>
   <string name="No">Ne</string>
   <!--O-->
+  <string name="Off">Išjungta</string>
   <string name="OK">OK</string>
+  <string name="On">Įjungta</string>
   <string name="Overview">Apžvalga</string>
   <!--P-->
   <string name="Password">Slaptažodis</string>

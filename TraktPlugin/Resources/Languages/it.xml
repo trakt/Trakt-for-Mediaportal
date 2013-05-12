@@ -231,7 +231,9 @@
   <string name="NoRelatedShows">Nessuna Serie correlata trovata per {0}!</string>
   <string name="No">No</string>
   <!--O-->
+  <string name="Off">Off</string>
   <string name="OK">OK</string>
+  <string name="On">On</string>
   <string name="Overview">Panoramica</string>
   <!--P-->
   <string name="Password">Password</string>

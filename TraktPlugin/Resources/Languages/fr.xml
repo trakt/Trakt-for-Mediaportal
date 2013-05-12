@@ -215,7 +215,9 @@
   <string name="NoRelatedShows">Aucune série similaire trouvée pour {0}!</string>
   <string name="No">Non</string>
   <!--O-->
+  <string name="Off">Off</string>
   <string name="OK">OK</string>
+  <string name="On">On</string>
   <string name="Overview">Vue d\'ensemble</string>
   <!--P-->
   <string name="Password">Mot de passe</string>

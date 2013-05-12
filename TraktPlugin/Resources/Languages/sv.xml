@@ -233,7 +233,9 @@
   <string name="NoRelatedShows">Inga relaterade serier funna för {0}!</string>
   <string name="No">Nej</string>
   <!--O-->
+  <string name="Off">Av</string>
   <string name="OK">OK</string>
+  <string name="On">På</string>
   <string name="Overview">Översikt</string>
   <!--P-->
   <string name="Password">Lösenord</string>

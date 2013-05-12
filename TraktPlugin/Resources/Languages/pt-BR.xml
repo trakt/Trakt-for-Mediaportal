@@ -32,6 +32,8 @@
   <string name="Network">emissora</string>
   <string name="No">Não</string>
   <!--O-->
+  <string name="Off">Desligar</string>
+  <string name="On">Ligado</string>
   <!--P-->
   <!--R-->
   <string name="Rate">Classificar</string>
