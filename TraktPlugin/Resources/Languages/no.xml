@@ -92,6 +92,7 @@
   <string name="Error">Feil med Trakt</string>
   <string name="ErrorCalendar">Feil ved henting av kalender.</string>
   <!--F-->
+  <string name="Filters">Filtre</string>
   <string name="FirstAired">Først sendt</string>
   <string name="Friend">Venn</string>
   <string name="Friends">Venner</string>
@@ -102,7 +103,6 @@
   <!--G-->
   <string name="Gender">Kjønn</string>
   <string name="General">Generelt</string>
-  <string name="GeneralSettings">Generelle innstillinger</string>
   <string name="Genre">Sjanger</string>
   <string name="GenreItem">Sjanger: {0}</string>
   <string name="GenreAction">Action</string>

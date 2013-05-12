@@ -19,6 +19,7 @@
   <string name="ActivityWatchlist">{0} hat {1} zur Beobachtungsliste hinzugefügt</string>
   <string name="ActivityAddToList">{0} hat {1} zu {2} hinzugefügt</string>
   <string name="ActivityCreatedList">{0} hat {1} erstellt</string>
+  <string name="ActivityReview">{0} bewertete {1}</string>
   <string name="ActivityShouts">{0} shouted nach {1}</string>
   <string name="Activities">Aktivitäten</string>
   <string name="AddFriend">Freund hinzufügen...</string>
@@ -79,6 +80,7 @@
   <string name="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
   <string name="DisconnectAccount">Account trennen: {0}</string>
   <string name="DismissRecommendation">Diesen Vorschlag abweisen</string>
+  <string name="DontIncludeMeInFriendsActivity">Mich nicht in Freund-Aktivitäten einbeziehen</string>
   <string name="DownloadFanart">Download Fanart</string>
   <string name="DownloadFullSizeFanart">Download Fanart in Originalgröße</string>
   <!--E-->
@@ -91,6 +93,7 @@
   <string name="Error">Trakt Fehler</string>
   <string name="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
   <!--F-->
+  <string name="Filters">Filter</string>
   <string name="FirstAired">Erstausstrahlung</string>
   <string name="Friend">Freund</string>
   <string name="Friends">Freunde</string>
@@ -101,7 +104,6 @@
   <!--G-->
   <string name="Gender">Geschlecht</string>
   <string name="General">Allgemein</string>
-  <string name="GeneralSettings">Allgemeine Einstellungen</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
@@ -180,6 +182,8 @@
   <!--L-->
   <string name="Location">Ort</string>
   <string name="Layout">Layout</string>
+  <string name="Like">Gefällt Mir</string>
+  <string name="Likes">Gefällt mir Angaben</string>
   <string name="List">Liste</string>
   <string name="Lists">Listen</string>
   <string name="Love">Lieben</string>
@@ -209,6 +213,8 @@
   <string name="NoFriendsTaunt">Du hast keine Freunde!</string>
   <string name="NoTrendingMovies">Zur Zeit werden keine Filme angeschaut!</string>
   <string name="NoTrendingShows">Zur Zeit werden keine Serien angeschaut!</string>
+  <string name="NoMovieRecommendations">Keine Film Vorschläge gefunden!</string>
+  <string name="NoShowRecommendations">Keine Serien Vorschläge gefunden!</string>
   <string name="NoShowWatchList">{0} hat keine Serien in seiner Beobachtungsliste!</string>
   <string name="NoMovieWatchList">{0} hat keine Filme in seiner Beobachtungsliste!</string>
   <string name="NoEpisodeWatchList">{0} hat keine Episoden in seiner Beobachtungsliste!</string>
@@ -275,6 +281,8 @@
   <string name="RemoveShowFromWatchList">Serie aus Beobachtungsliste löschen</string>
   <string name="RemoveEpisodeFromWatchList">Episode aus Beobachtungsliste löschen</string>
   <string name="RemoveFromList">Aus Liste löschen</string>
+  <string name="Reply">antworten</string>
+  <string name="Replies">Anworten</string>
   <string name="Runtime">Laufzeit</string>
   <!--S-->
   <string name="Score">Punktestand</string>
@@ -323,6 +331,7 @@
   <string name="SettingSyncRatingsDescription">Aktivieren Sie diese Einstellung für eine 2-Wege-Synchronisierung der Bewertungen während der Synchronisation der Bibliotheken. Wenn ein Element lokal oder rechnerfern bewertet wurde, wird es nicht überschrieben, um Rundungsfehler zu vermeiden. Es wird empfohlen, rechnerferne Elemente mit der erweiterten Bewertung zu bewerten, bevor diese Einstellung aktiviert wird.</string>
   <string name="SettingShowRateDialogOnWatchedName">Bewertungsdialog nach Gesehen</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Aktivieren Sie diese Einstellung zur Anzeige des Trakt-Bewertungsdialogs, sobald ein Film oder eine Episode angesehen wurde und als gesehen gilt. Der Trakt-Bewertungsdialog wird nicht angezeigt, wenn das Element bereits bewertet wurde.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Zeige Bewertungsdialog in Playliste</string>
   <string name="SettingActivityPollIntervalName">Intervall der Dashboard-Aktivitäten</string>
   <string name="SettingActivityPollIntervalDescription">Festlegen des Intervalls (in Sekunden) zur Aktualisierung der Freund-/Gemeinschafts-Aktivitäten im Dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Intervall der Dashboard-Populär-Anzeige</string>
@@ -331,8 +340,13 @@
   <string name="SettingDashboardLoadDelayDescription">Diese Einstellung legt die Verzögerung (in Millisekunden) fest, nach der die Daten nach dem Fensteraufbau in das Dashboard geladen werden. Wird dieser Wert zu klein angegeben, kann dies zu Fehlern führen und schlimmstenfalls den Aufbau des Dashboard-Fensters verhindern.</string>
   <string name="SettingEnableJumpToForTVShowsName">Anzeige von TVSerien aktivieren</string>
   <string name="SettingEnableJumpToForTVShowsDescription">Aktivieren Sie diese Einstellung, um direkt zum TVSerien-Plugin zu springen, wenn wenn Sie Enter oder OK auf einer Trakt-TV-Serie drücken. Deaktivieren Sie diese Einstellung, um die Staffel- und Episoden-Informationen von trakt.tv anzuzeigen.</string>
+  <string name="SettingRememberLastSelectedActivityName">Erinnere letzte markierte Aktion auf dem Dashboard</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Standard Serien Trailer Seite</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Standard Film Trailer Seite</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
+  <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>
+  <string name="SortSeasonsDescending">Sortiere Staffeln abfalled</string>
   <string name="Specials">Specials</string>
   <!--T-->
   <string name="Timeout">Zeitüberschreitung</string>
@@ -347,6 +361,7 @@
   <string name="Tagline">Inhaltsangabe</string>
   <string name="Title">Titel</string>
   <string name="Today">Heute</string>
+  <string name="Tomorrow">Morgen</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer</string>
   <!--U-->

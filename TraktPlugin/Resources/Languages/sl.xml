@@ -93,6 +93,7 @@
   <string name="Error">Napaka Trakta</string>
   <string name="ErrorCalendar">Napaka pridobivanja koledarja.</string>
   <!--F-->
+  <string name="Filters">Filtri</string>
   <string name="FirstAired">Prvič predvajano</string>
   <string name="Friend">Prijatelj</string>
   <string name="Friends">Prijatelji</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Osovraženo</string>
   <string name="HideTVShowsInWatchlist">Skrij TV oddaje v seznamu gledanih</string>
   <string name="HideCollected">Skrij zbrane</string>
+  <string name="HideRated">Skrij ocenjene</string>
   <string name="HideWatched">Skrij gledane</string>
   <string name="HideWatchlisted">Skrij Watchlisted</string>
   <string name="HideSpoilers">Skrij Spoilerje</string>
@@ -331,6 +333,8 @@
   <string name="SettingSyncRatingsDescription">Omogoči to nastavitev za 2-smerno sinhronizacijo ocen med sinhr. knjižnice. Če je bil element ocenjen lokalno ali oddaljeno, potem ne bo prepisan za izogib težav pri zaokroževanju. Priporočeno je, da so online elementi ocenjeni z uporabo naprednih ocen pred omogočanjem te nastavitve.</string>
   <string name="SettingShowRateDialogOnWatchedName">Prikaži Oceni pogovorno okno na gledanih</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Omogoči to nastavitev za prikaz ocenitvenega pogovornega okna Trakta, ko se je končal film ali epizoda in je obravnavana kot ogledana. Pogovorno okno ne bo prikazano, če je element že bil ocenjen.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Prikaži pogovorno okno oceni v seznamih predvajanja</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">Če je pogovorno okno oceni omogočeno, onemogočite to nastavitev , če ga ne želite prikazati s pogleda seznamov predvajanja.</string>
   <string name="SettingActivityPollIntervalName">Interval ankete aktivnosti armaturne plošče </string>
   <string name="SettingActivityPollIntervalDescription">Nastavi interval (v sekundah), ko je dejavnost trakt skupnosti/prijateljev posodobljena na armaturni plošči.</string>
   <string name="SettingTrendingPollIntervalName">Interval ankete trendov armaturne plošče</string>
@@ -338,7 +342,13 @@
   <string name="SettingDashboardLoadDelayName">Zakasnitev nalaganja armaturne plošče </string>
   <string name="SettingDashboardLoadDelayDescription">Ta nastavitev je za nadzor kako dolgo v milisekundah dokler armaturna plošča začne nalaganje podatkov potem, ko je bil odrt GUI. Nastavitev prenizke vrednosti lahko povzroči napake in onemogoči nalaganje okna.</string>
   <string name="SettingEnableJumpToForTVShowsName">Omogoči TV oddaja skoči na funkcijo</string>
-  <string name="SettingEnableJumpToForTVShowsDescription">Omogoči to nastavitev, da dovoliš uporabniku skočiti direktno na TVSeries vtičnik med pritiskanjem Enter ali OK na Trakt TV oddaji. Če je onemogočeno bo prikazalo informacije o sezoni iz trakt.tv..</string>
+  <string name="SettingEnableJumpToForTVShowsDescription">Omogočite to nastavitev, da dovoliš uporabniku skočiti direktno na TVSeries vtičnik med pritiskanjem Enter ali OK na Trakt TV oddaji. Če je onemogočeno bo prikazalo informacije o sezoni iz trakt.tv..</string>
+  <string name="SettingRememberLastSelectedActivityName">Pomni zadnjo izbrano dejavnost na armaturni plošči</string>
+  <string name="SettingRememberLastSelectedActivityDescription">Omogočite to nastavitev za ponovno izbiro zadnje izbrane dejavnosti, ko se ponovno nalaga armaturna plošča Trakt-a. Če je onemogočeno, bo ob ponovnem nalaganju vedno izbran prvi element.</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Privzeta stran napovednikov TV oddaj</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Izberite privzeto stran napovednikov TV oddaj, ko se izvaja samodejno iskanje napovednikov npr. ob pritisku predvajaj tv oddaje ali epizode. Pri uporabi strani YouTube so uporabljeni dodatni iskalni parametri za iskanje epizod kot so sezona in številka epizode.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Privzeta stran napovednikov filmov</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Izberite privzeto stran napovednikov filmov, ko se izvaja samodejno iskanje napovednikov npr. ob pritisku predvajaj film.</string>
   <string name="StartYear">Začni: {0}</string>
   <string name="SortBy">Sortiraj po: {0}</string>
   <string name="SortSeasonsAscending">Sortiraj sezone naraščajoče</string>
@@ -357,6 +367,7 @@
   <string name="Tagline">Slogan</string>
   <string name="Title">Naslov</string>
   <string name="Today">Danes</string>
+  <string name="Tomorrow">Jutri</string>
   <string name="Trailer">Reklamni film</string>
   <string name="Trailers">Reklamni filmi...</string>
   <!--U-->

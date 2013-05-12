@@ -93,6 +93,7 @@
   <string name="Error">Trakt fout</string>
   <string name="ErrorCalendar">Fout tijdens het ophalen van kalender</string>
   <!--F-->
+  <string name="Filters">Filters</string>
   <string name="FirstAired">Eerste uitzending</string>
   <string name="Friend">Vriend</string>
   <string name="Friends">Vrienden</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Gehaat</string>
   <string name="HideTVShowsInWatchlist">Verberg TV serie in kijk lijst</string>
   <string name="HideCollected">Verberg verzameld</string>
+  <string name="HideRated">Gewaardeerde verbergen</string>
   <string name="HideWatched">Verberg bekeken</string>
   <string name="HideWatchlisted">Verberg kijklijst</string>
   <string name="HideSpoilers">Verberg spoilers</string>
@@ -252,7 +254,7 @@
   <string name="PrivacyPrivate">Alleen jij kan deze lijst bekijken</string>
   <!--R-->
   <string name="Rate">Waardeer</string>
-  <string name="Rated">Waardering</string>
+  <string name="Rated">Gewaardeerd</string>
   <string name="Rating">Waardering</string>
   <string name="RateMovie">Beoordeel films</string>
   <string name="RateShow">Beoordeel serie</string>
@@ -324,14 +326,29 @@
   <string name="SettingSyncStartDelayName">Bibliotheek synchronisatie start vertraging</string>
   <string name="SettingSyncStartDelayDescription">Vertraging (in aantal seconden) voor dat de bibliotheek synchronisatie begint bij het opstarten van MediaPortal. Standaard is dit 0 seconden.</string>
   <string name="SettingWebRequestCacheName">Web aanvraag cache tijd</string>
+  <string name="SettingWebRequestCacheDescription">Stel de periode in (in minuten) hoe lang webdata wordt bewaard voor de schermen zoals de Kalender, Trending en Aanbevelingen. Standaard is 15 minuten.</string>
   <string name="SettingWebRequestTimeoutName">Web aanvraag Time-out</string>
+  <string name="SettingWebRequestTimeoutDescription">Stel de periode in (in seconden) voordat een webaanvraag wordt geannuleerd. Standaard is 30 seconden</string>
   <string name="SettingSyncRatingsName">Waarderingen synchroniseren</string>
+  <string name="SettingSyncRatingsDescription">Schakel deze instelling in voor 2-weg synchronisatie van waarderingen tijdens het synchroniseren van de bibliotheek. Wanneer een item lokaal of op afstand is gewaardeerd dan wordt deze niet overschreven om afrondingsfouten te voorkomen. Het wordt aanbevolen om items online te waarderen via geavanceerd waarderen voordat deze instelling wordt ingeschakeld.</string>
   <string name="SettingShowRateDialogOnWatchedName">Waarderings dialoog weergeven wanneer bekeken</string>
+  <string name="SettingShowRateDialogOnWatchedDescription">Schakel deze instelling in om het Trakt waarderingsdialoog weer te geven nadat een film of aflevering volledig is bekeken. Het Trakt waarderingsdialoog zal niet worden weergegeven wanneer een item al is beoordeeld.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Waarderingsvenster weergeven in afspeellijsten</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">Wanneer het Trakt waarderingsvenster is ingeschakeld, schakel dan deze instelling uit als je het niet wilt weergeven in het afspeellijst scherm.</string>
   <string name="SettingActivityPollIntervalName">Dashboard activiteiten peilingsinterval</string>
+  <string name="SettingActivityPollIntervalDescription">Stel de interval (in seconden) in voor wanneer de activeit van de Trakt leden/vrienden wordt bijgewerkt op het dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Dashboard trending peilingsinterval</string>
+  <string name="SettingTrendingPollIntervalDescription">Stel de interval (in minuten) in voor wanneer de Trakt shows en films worden bijgewerkt op het dashboard.</string>
   <string name="SettingDashboardLoadDelayName">Dashboard laadvertraging</string>
+  <string name="SettingDashboardLoadDelayDescription">Deze instelling is voor het instellen van de duur in miliseconden voordat het dashboard start met het laden van gegevens nadat het scherm is geopend. Het wijzigen van deze instelling naar een te lage waarde kan fouten veroorzaken tijdens het laden van het scherm.</string>
   <string name="SettingEnableJumpToForTVShowsName">TVSerie spring naar optie inschakelen</string>
   <string name="SettingEnableJumpToForTVShowsDescription">Schakel deze instelling in om direct naar de TVSeries plugin te springen wanneer op Enter of OK wordt gedrukt bij een Trakt TV serie. Wanneer uitgeschakeld, wordt seizoensinformatie weergegeven van trakt.tv.</string>
+  <string name="SettingRememberLastSelectedActivityName">Herinner de laatst geselecteerde activiteit op het dashboard</string>
+  <string name="SettingRememberLastSelectedActivityDescription">Schakel deze instelling in om de laatst geselecteerde activiteit te herselecteren wanneer het Trakt dashboard wordt herladen. Wanneer uitgeschakeld, zal altijd het eerste item worden geselecteerd tijdens het herladen.</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Standaard TV-serie trailer website</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Kies de standaard TV-show trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een TV-show of aflevering. Wanneer gebruik wordt gemaakt van YouTube, dan worden extra zoek parameters gebruikt voor het zoeken naar afleveringen zoals seizoen en aflevering.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Standaard film trailer website</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Kies de standaard film trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een film.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sorteer op: {0}</string>
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>
@@ -350,6 +367,7 @@
   <string name="Tagline">Label</string>
   <string name="Title">Titel</string>
   <string name="Today">Vandaag</string>
+  <string name="Tomorrow">Morgen</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->

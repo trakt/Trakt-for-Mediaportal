@@ -75,6 +75,7 @@
   <string name="Error">Trakt virhe</string>
   <string name="ErrorCalendar">Virhe haettaessa kalenteria.</string>
   <!--F-->
+  <string name="Filters">Suodattimet</string>
   <string name="FirstAired">Ensiesitys</string>
   <string name="Friend">Ystävä</string>
   <string name="Friends">Ystävät</string>
@@ -84,7 +85,6 @@
   <!--G-->
   <string name="Gender">Sukupuoli</string>
   <string name="General">Yleiset</string>
-  <string name="GeneralSettings">Yleiset Asetukset</string>
   <string name="Genre">Lajityyppi</string>
   <string name="GenreItem">Tyylilaji: {0}</string>
   <string name="GenreAction">Toiminta</string>

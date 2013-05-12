@@ -77,6 +77,7 @@
   <string name="Error">Erreur de Track</string>
   <string name="ErrorCalendar">Erreur lors de l\'obtention du calendrier</string>
   <!--F-->
+  <string name="Filters">Filtres</string>
   <string name="FirstAired">Première Diffusion</string>
   <string name="Friend">Ami</string>
   <string name="Friends">Amis</string>
@@ -87,7 +88,6 @@
   <!--G-->
   <string name="Gender">Genre</string>
   <string name="General">Général</string>
-  <string name="GeneralSettings">Paramétrés généraux</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
@@ -166,8 +166,12 @@
   <!--L-->
   <string name="Location">Emplacement</string>
   <string name="Layout">Mise en page</string>
+  <string name="Like">Apprécié</string>
+  <string name="Likes">Appréciés</string>
   <string name="List">Liste</string>
   <string name="Lists">Listes</string>
+  <string name="Love">Aimer</string>
+  <string name="Loved">Aimé</string>
   <string name="LoginExistingAccount">Connexion à un compte existant...</string>
   <string name="LoggedIn">Connecté</string>
   <string name="Login">Connexion</string>
@@ -313,6 +317,8 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Activez ce paramètre afin de permettre à l\'utilisateur d\'accéder directement au plugin TVSeries, lorsqu\'il appuis sur Entrée ou sur OK dans une émission de télévision Trakt. Lorsqu\'il est désactivé, seul les informations provenant de Track.tv seront affichées.</string>
   <string name="SettingRememberLastSelectedActivityName">Se souvenir de la dernière activité sélectionnée sur tableau de bord</string>
   <string name="SettingRememberLastSelectedActivityDescription">Activez ce paramètre afin de  sélectionner  la dernière activité validée lors du prochain chargement du tableau de bord.. Si le paramètre est désactivé, le premier élément sera sélectionnée lors du chargement du tableau de bord.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Site par défaut des bandes annonces</string>
+  <string name="StartYear">Début: {0}</string>
   <string name="SortBy">Trier par : {0}</string>
   <string name="SortSeasonsAscending">Trier les saisons par ordre croissant</string>
   <string name="SortSeasonsDescending">Trier les saisons par ordre décroissant</string>
@@ -329,6 +335,7 @@
   <string name="TVShows">Shows TV</string>
   <string name="Title">Titre</string>
   <string name="Today">Aujourd\'hui</string>
+  <string name="Tomorrow">Demain</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Bandes annonces...</string>
   <!--U-->

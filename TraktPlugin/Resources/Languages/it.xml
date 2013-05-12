@@ -93,6 +93,7 @@
   <string name="Error">Errore Trakt</string>
   <string name="ErrorCalendar">Errore recupero calendario.</string>
   <!--F-->
+  <string name="Filters">Filtri</string>
   <string name="FirstAired">Trasmesso la prima volta</string>
   <string name="Friend">Amico</string>
   <string name="Friends">Amici</string>
@@ -103,7 +104,6 @@
   <!--G-->
   <string name="Gender">Genere</string>
   <string name="General">Generale</string>
-  <string name="GeneralSettings">Impostazioni Generali</string>
   <string name="Genre">Genere</string>
   <string name="GenreItem">Genere: {0}</string>
   <string name="GenreAction">Azione</string>

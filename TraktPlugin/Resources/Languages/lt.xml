@@ -93,6 +93,7 @@
   <string name="Error">Trakt klaida</string>
   <string name="ErrorCalendar">Klaida gaunant kalendorių</string>
   <!--F-->
+  <string name="Filters">Filtrai</string>
   <string name="FirstAired">Pirma kartą rodytas</string>
   <string name="Friend">Draugas</string>
   <string name="Friends">Draugai</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Nekenčiami</string>
   <string name="HideTVShowsInWatchlist">Slėpti TV laidas žiūrimų sąraše</string>
   <string name="HideCollected">Slėpti kolekcionuojamus</string>
+  <string name="HideRated">Slėpti įvertintus</string>
   <string name="HideWatched">Slėpti žiūrėtus</string>
   <string name="HideWatchlisted">Slėpti žiūrėtųjų sąraše</string>
   <string name="HideSpoilers">Slėpti išnašas</string>
@@ -343,6 +345,10 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Įjungti šį nustatymą, kad vartotojai galėtų Peršokti tiesiai į TV Serialų įskiepį kai paspaudžia Enter arba OK ant Trakt Laidos. Kai išjungta rodys Sezono informaciją iš Trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Prisiminti paskutinį pasirinktą veiksmą darbastalyje</string>
   <string name="SettingRememberLastSelectedActivityDescription">Įjungus šį nustatymą bus pakartotinai pasirinktas vėliausias veiksmas Trakt darbastaliui atnaujinant, jei išjungta - atnaujinant bus naudojamas pirmasis įrašas .</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Numatytas TV laidų anonsų puslapis</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Pasirinkite numatytąjį TV laidų anonsų puslapį, kuris bus naudojamas automatinei paieškai. Jei naudojamas YouTube, bus naudojami papildomi paieškos parametrai kaip sezono ir epizodo numeriai.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Numatytas filmų anonsų puslapis</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Pasirinkite numatytąjį filmų anonsų puslapį, kuris bus naudojamas automatinei paieškai.</string>
   <string name="StartYear">Pradėti: {0}</string>
   <string name="SortBy">Rūšiuoti pagal: {0}</string>
   <string name="SortSeasonsAscending">Rūšiuoti Sezonus didėjančia tvarka</string>
@@ -361,6 +367,7 @@
   <string name="Tagline">Antraštė</string>
   <string name="Title">Antraštė</string>
   <string name="Today">Šiandien</string>
+  <string name="Tomorrow">Rytoj</string>
   <string name="Trailer">Anonsas</string>
   <string name="Trailers">Anonsai...</string>
   <!--U-->

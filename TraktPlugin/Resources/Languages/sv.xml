@@ -93,6 +93,7 @@
   <string name="Error">Trakt-fel</string>
   <string name="ErrorCalendar">Fel vid hämtning av kalender.</string>
   <!--F-->
+  <string name="Filters">Filter</string>
   <string name="FirstAired">Först visad</string>
   <string name="Friend">Vän</string>
   <string name="Friends">Vänner</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Hatade</string>
   <string name="HideTVShowsInWatchlist">Göm TV-serier i Watch List</string>
   <string name="HideCollected">Göm samlade</string>
+  <string name="HideRated">Dölj betygsatta</string>
   <string name="HideWatched">Göm sedda</string>
   <string name="HideWatchlisted">Göm allt redan i WatchList</string>
   <string name="HideSpoilers">Göm spoilers</string>
@@ -343,6 +345,10 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Med denna inställning på kan användaren hoppa direkt till MP TV-Series genom att trycka på OK när en serie är markerad i Trakt. Om den är avstängd visas istället information från trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Kom ihåg den senast markerade aktiviteten i instrumentpanelen</string>
   <string name="SettingRememberLastSelectedActivityDescription">Aktivera den här inställningen ifall du vill återmarkera den senast valda aktiviteten när Trakts instrumentpanel laddas om.\nOm inställningen inte är aktiverad kommer i stället den första posten i listan alltid att markeras vid omladdning.</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Förvald webbplats för TV-programtrailrar</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Välj den förvalda webbplatsen för TV-programtrailrar som ska användas när automatisk trailersökning utförs. t ex när du trycker spela på ett TV-program eller avsnitt. När du använder YouTube så används extra parametrar för avsnittssökningar såsom säsong och avsnittsnummer.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Förvald webbplats för filmtrailrar</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Välj den förvalda webbplatsen för filmtrailrar som ska användas när automatisk trailersökning utförs, t ex när du trycker spela på en trakt-film. </string>
   <string name="StartYear">Började: {0}</string>
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
@@ -361,6 +367,7 @@
   <string name="Tagline">Tagline</string>
   <string name="Title">Titel</string>
   <string name="Today">Idag</string>
+  <string name="Tomorrow">Imorgon</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->

@@ -4,6 +4,9 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Kontoindstillinger</string>
   <string name="AccountDialog">Brugerdialog</string>
+  <string name="Activity">Aktivitet</string>
+  <string name="ActivityFriendsDesc">Se hvad dine venner laver...</string>
+  <string name="ActivityCommunityDesc">Se, hvad fællesskabet laver...</string>
   <string name="AddFriend">Tilføj ven...</string>
   <string name="AddToLibrary">Tilføj til bibliotek</string>
   <string name="AddToList">Tilføj til liste...</string>
@@ -41,6 +44,8 @@
   <string name="CreatingFilters">Opretter filtre</string>
   <string name="CreatingList">Opretter liste</string>
   <string name="CreateList">Opret en ny listet...</string>
+  <string name="Community">Fællesskabet </string>
+  <string name="CommunityActivity">Fællesskabs aktivitet</string>
   <string name="ConfirmDeleteList">Ønsker du at slette denne liste?</string>
   <string name="ConfirmDeleteListItem">Ønsker du at fjerne dette fra listen?</string>
   <string name="CopyList">Kopier liste...</string>
@@ -69,6 +74,7 @@
   <string name="Error">Trakt fejl</string>
   <string name="ErrorCalendar">Fejl i indlæsning af kalender.</string>
   <!--F-->
+  <string name="Filters">Filter</string>
   <string name="FirstAired">Premiere</string>
   <string name="Friend">Ven</string>
   <string name="Friends">Venner</string>
@@ -78,7 +84,6 @@
   <!--G-->
   <string name="Gender">Køn</string>
   <string name="General">Generelt</string>
-  <string name="GeneralSettings">Indstillinger</string>
   <string name="Genre">Genre</string>
   <string name="GenreAll">Alle</string>
   <string name="GetFriendRequestsOnStartup">Vis venneanmodning ved startup</string>
@@ -226,6 +231,7 @@
   <string name="Shouts">Debatindlæg</string>
   <string name="ShowTVShowsInWatchlist">Vis serier i set-listen</string>
   <string name="ShowSpoilers">Vis spoilers</string>
+  <string name="ShowCommunityActivity">Vis fællesskabs aktiviteter</string>
   <string name="SigningIntoAccount">Logger ind på kontoen...</string>
   <string name="SkinPluginsOutOfDate">Fejl ved åbning af vinduet. Skinnet er forældes!\nLuk MediaPortal, åbn konfigurationen for\nat slå plugins håndteringer til.</string>
   <string name="SkinOutOfDate">Featuren er ikke tilgængelig i dit skin\n. Se om der er opdateringer tilgængelig.</string>
@@ -247,6 +253,7 @@
   <string name="SettingWebRequestCacheDescription">Indtil hvor tit web-data hentes til tilføjelsen. Dette er typisk Kalender, Populære og Anbefalinger. Standard er 15 minutter.</string>
   <string name="SettingWebRequestTimeoutName">Webforespørgelses timeout</string>
   <string name="SettingWebRequestTimeoutDescription">Indstil hvor længe Trakt forsøger at forbinde til serveren før den annullerer alle web-forespørgelser. Standard er 30 sekunder.</string>
+  <string name="SettingActivityPollIntervalDescription">Indstil intervallet (i sekunder), som Trakt fællesskabets / venners aktiviteter opdateret på opslagstavlen.</string>
   <string name="Specials">Ekstra</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
