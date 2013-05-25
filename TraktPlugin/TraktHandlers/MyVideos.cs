@@ -24,7 +24,7 @@ namespace TraktPlugin.TraktHandlers
 
         Timer TraktTimer;        
         IMDBMovie CurrentMovie = null;
-
+        int WatchedPercent = 95;
         #endregion
 
         #region Constructor
@@ -39,6 +39,12 @@ namespace TraktPlugin.TraktHandlers
             if (new Version(version) < new Version(1, 3, 0, 0))
             {
                 throw new FileLoadException("MediaPortal does not meet minimum requirements!");
+            }
+
+            // get video watched percentage to count as scrobble
+            using (MediaPortal.Profile.Settings xmlreader = new MediaPortal.Profile.MPSettings())
+            {
+                WatchedPercent = xmlreader.GetValueAsInt("movies", "playedpercentagewatched", 95);
             }
 
             Priority = priority;
@@ -342,8 +348,8 @@ namespace TraktPlugin.TraktHandlers
 
             if (CurrentMovie == null) return;
 
-            // if movie is atleast 90% complete, consider watched
-            if ((g_Player.CurrentPosition / (g_Player.Duration == 0.0 ? CurrentMovie.RunTime * 60.0 : g_Player.Duration)) >= 0.9)
+            // if movie is atleast XX% complete, consider watched
+            if ((g_Player.CurrentPosition / (g_Player.Duration == 0.0 ? CurrentMovie.RunTime * 60.0 : g_Player.Duration)) >= WatchedPercent / 100.0)
             {
                 ShowRateDialog(CurrentMovie);
 
@@ -353,7 +359,7 @@ namespace TraktPlugin.TraktHandlers
                     IMDBMovie movie = o as IMDBMovie;
                     if (movie == null) return;
 
-                    TraktLogger.Info("MyVideos movie considered watched '{0}'", movie.Title);
+                    TraktLogger.Info("MyVideos movie is considered watched '{0}'", movie.Title);
 
                     // get scrobble data to send to api
                     TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
@@ -378,7 +384,7 @@ namespace TraktPlugin.TraktHandlers
             else
             {
                 #region cancel watching
-                TraktLogger.Info("Stopped MyVideos movies playback '{0}'", CurrentMovie.Title);
+                TraktLogger.Info("Stopped MyVideos movie playback '{0}'", CurrentMovie.Title);
 
                 // stop scrobbling
                 Thread cancelWatching = new Thread(delegate()
