@@ -1069,6 +1069,32 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Summary
+
+        /// <summary>
+        /// Returns full movie details
+        /// </summary>
+        /// <param name="ID">TMDB ID, IMDB ID or slug</param>
+        /// <returns></returns>
+        public static TraktMovie MovieOverview(string ID)
+        {
+            string response = Transmit(string.Format(TraktURIs.MovieOverview, HttpUtility.UrlEncode(ID)), string.Empty);
+            return response.FromJSON<TraktMovie>();
+        }
+
+        /// <summary>
+        /// Returns tv series details
+        /// </summary>
+        /// <param name="ID">TVDB ID or slug</param>
+        /// <returns></returns>
+        public static TraktShow SeriesOverview(string ID)
+        {
+            string response = Transmit(string.Format(TraktURIs.SeriesOverview, HttpUtility.UrlEncode(ID)), string.Empty);
+            return response.FromJSON<TraktShow>();
+        }
+
+        #endregion
+
         #region Comments
 
         /// <summary>
