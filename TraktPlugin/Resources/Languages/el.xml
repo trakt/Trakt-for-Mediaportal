@@ -27,6 +27,7 @@
   <string name="MarkAsWatched">Σημείωση ως προβληθείσας</string>
   <string name="Movie">Ταινία</string>
   <string name="Movies">Ταινίες</string>
+  <string name="MultiSelectDialog">Πολλαπλής διάλογος Επιλογής</string>
   <!--N-->
   <string name="Name">Όνομα</string>
   <string name="Network">Δίκτυο</string>

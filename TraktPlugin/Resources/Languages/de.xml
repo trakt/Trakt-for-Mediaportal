@@ -104,6 +104,7 @@
   <!--G-->
   <string name="Gender">Geschlecht</string>
   <string name="General">Allgemein</string>
+  <string name="GeneralSettings">Grundeinstellungen</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
@@ -166,6 +167,7 @@
   <string name="Hated">Verhasst</string>
   <string name="HideTVShowsInWatchlist">Keine TV-Serien in Beobachtungsliste anzeigen</string>
   <string name="HideCollected">Sammlungen ausblenden</string>
+  <string name="HideRated">Verstecke bewertete</string>
   <string name="HideWatched">Gesehene ausblenden</string>
   <string name="HideWatchlisted">Beobachtete ausblenden</string>
   <string name="HideSpoilers">Spoiler ausblenden</string>
@@ -334,6 +336,7 @@
   <string name="SettingShowRateDialogOnWatchedName">Bewertungsdialog nach Gesehen</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Aktivieren Sie diese Einstellung zur Anzeige des Trakt-Bewertungsdialogs, sobald ein Film oder eine Episode angesehen wurde und als gesehen gilt. Der Trakt-Bewertungsdialog wird nicht angezeigt, wenn das Element bereits bewertet wurde.</string>
   <string name="SettingShowRateDialogInPlaylistsName">Zeige Bewertungsdialog in Playliste</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">Wenn der Trakt-Bewertungsdialog aktiviert ist und du diese Einstellung hier deaktivierst, wird der Dialog in Playlist-Ansichten nicht angezeigt.</string>
   <string name="SettingActivityPollIntervalName">Intervall der Dashboard-Aktivitäten</string>
   <string name="SettingActivityPollIntervalDescription">Festlegen des Intervalls (in Sekunden) zur Aktualisierung der Freund-/Gemeinschafts-Aktivitäten im Dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Intervall der Dashboard-Populär-Anzeige</string>
@@ -343,8 +346,11 @@
   <string name="SettingEnableJumpToForTVShowsName">Anzeige von TVSerien aktivieren</string>
   <string name="SettingEnableJumpToForTVShowsDescription">Aktivieren Sie diese Einstellung, um direkt zum TVSerien-Plugin zu springen, wenn wenn Sie Enter oder OK auf einer Trakt-TV-Serie drücken. Deaktivieren Sie diese Einstellung, um die Staffel- und Episoden-Informationen von trakt.tv anzuzeigen.</string>
   <string name="SettingRememberLastSelectedActivityName">Erinnere letzte markierte Aktion auf dem Dashboard</string>
+  <string name="SettingRememberLastSelectedActivityDescription">Aktiviere diese Einstellung, wenn du willst, dass die zuletzt ausgewählte Aktivität beim erneuten Aufruf der Trakt-Zentrale vorgewählt wird. Ansonsten wird einfach die erste Aktivität in der Liste markiert sein.</string>
   <string name="SettingDefaultTVShowTrailerSiteName">Standard Serien Trailer Seite</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Wähle hier die Standard-Quelle für Serien-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einer Serie oder einer Folge geklickt wird. Wenn YouTube benutzt werden soll, werden extra Parameter wie die Staffel- und Folgennummer benutzt.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Standard Film Trailer Seite</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Wähle hier die Standard-Quelle für Film-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einem Film in Trakt geklickt wird.</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>

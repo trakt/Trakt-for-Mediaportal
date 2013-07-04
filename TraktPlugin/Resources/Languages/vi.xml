@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--A-->
+  <!--B-->
+  <!--C-->
+  <string name="Cancel">Hủy bỏ</string>
+  <string name="Certification">Chứng chỉ</string>
+  <!--D-->
+  <string name="DateToday">Hôm nay</string>
+  <string name="DateYesterday">Hôm qua</string>
+  <string name="DownloadFanart">Tải về Fanart</string>
+  <!--E-->
+  <string name="Episode">Episode</string>
+  <string name="Episodes">Episodes</string>
+  <!--F-->
+  <!--G-->
+  <string name="Genre">Loại</string>
+  <string name="GenreAll">Tất cả</string>
+  <!--H-->
+  <!--I-->
+  <!--J-->
+  <!--K-->
+  <!--L-->
+  <!--M-->
+  <string name="MarkAsWatched">Đánh đấu đã xem</string>
+  <string name="Movie">Phim</string>
+  <string name="Movies">Phim</string>
+  <!--N-->
+  <string name="No">Không đồng ý</string>
+  <!--O-->
+  <!--P-->
+  <!--R-->
+  <string name="Rate">Xếp hạng</string>
+  <string name="Rated">Được xếp hạng</string>
+  <string name="RateTwo">Tồi tệ</string>
+  <string name="RateSeven">Tốt</string>
+  <string name="RateNine">Thật là Phồng Tôm</string>
+  <string name="ReleaseDate">Ngày phát hành</string>
+  <string name="Runtime">Thời gian chiếu</string>
+  <!--S-->
+  <string name="Score">Điểm</string>
+  <string name="Season">Season</string>
+  <string name="Seasons">Seasons</string>
+  <string name="Series">Series</string>
+  <string name="SeriesPlural">Series</string>
+  <string name="Specials">Đặc biệt</string>
+  <!--T-->
+  <string name="Title">Tiêu đề</string>
+  <string name="Today">Hôm nay</string>
+  <!--U-->
+  <!--V-->
+  <!--W-->
+  <!--Y-->
+  <string name="Year">Năm</string>
+  <string name="Yes">Đồng ý</string>
+  <string name="Yesterday">Hôm qua</string>
+</resources>

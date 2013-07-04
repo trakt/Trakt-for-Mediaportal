@@ -35,7 +35,9 @@
   <string name="NoSearchResultsFound">Žiadne záznamy neboli nájdené! Skúste zmeniť vyhľadávaciu podmienku.</string>
   <string name="No">Nie</string>
   <!--O-->
+  <string name="Off">Vyp.</string>
   <string name="OK">OK</string>
+  <string name="On">Zap.</string>
   <!--P-->
   <!--R-->
   <string name="Rate">Hodnotenie</string>

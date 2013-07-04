@@ -5,7 +5,8 @@
   <string name="AccountSetup">Paramétrage du compte</string>
   <string name="AccountDialog">Boite de dialogue concernant le compte</string>
   <string name="Activity">Activité</string>
-  <string name="ActivityFriendsDesc">Voir ce que vos amis font</string>
+  <string name="ActivityFriendsDesc">Voir ce que vos amis font...</string>
+  <string name="ActivityShouts">{0} messages sur {1}</string>
   <string name="Activities">Activités</string>
   <string name="AddFriend">Ajouter un ami</string>
   <string name="AddToLibrary">Ajouter à la bibliothèque</string>
@@ -25,6 +26,7 @@
   <string name="ApproveFriendMessage">Accepter {0} comme ami?</string>
   <string name="AdvancedSettings">Paramétrages avancés</string>
   <!--B-->
+  <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
   <!--C-->
   <string name="Cancel">Annuler</string>
   <string name="Calendar">Calendrier</string>
@@ -88,6 +90,7 @@
   <!--G-->
   <string name="Gender">Genre</string>
   <string name="General">Général</string>
+  <string name="GeneralSettings">Paramètres Généraux</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
@@ -133,7 +136,7 @@
   <string name="GettingLists">Récupérer des listes</string>
   <string name="GettingListItems">Récupérer les éléments de la liste</string>
   <string name="GettingSearchResults">Récupérer les résultats de la recherche</string>
-  <string name="GettingShouts">Récupérer les messges</string>
+  <string name="GettingShouts">Récupérer les messages d\'humeur</string>
   <string name="GettingShowSeasons">Récupérer les saisons d\'une série</string>
   <string name="GettingTrendingMovies">Récupérer la liste des films tendances</string>
   <string name="GettingTrendingShows">Récupérer la liste des séries tendances</string>
@@ -150,10 +153,11 @@
   <string name="Hated">Détesté</string>
   <string name="HideTVShowsInWatchlist">Cacher les séries de la liste à voir</string>
   <string name="HideCollected">Masquer ce qui est collecté</string>
+  <string name="HideRated">Masquer les Notés</string>
   <string name="HideWatched">Masquer les Vus</string>
   <string name="HideWatchlisted">Masquer la liste Vu</string>
   <string name="HideSpoilers">Masquer les résumés</string>
-  <string name="HiddenToPreventSpoilers">Ce message a été masqué pour éviter d\'eventuel résumé, vous pouvez modifier cette option à partir du menu.</string>
+  <string name="HiddenToPreventSpoilers">Ce message a été masqué pour éviter d’éventuel résumé, vous pouvez modifier cette option à partir du menu.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">M\'inclure dans Activités des amis</string>
   <string name="Inserted">Inséré</string>
@@ -202,7 +206,7 @@
   <string name="NoShowWatchList">{0} n\'a aucune série dans la liste Vu</string>
   <string name="NoMovieWatchList">{0} n\'a aucun film dans sa liste Vu</string>
   <string name="NoEpisodeWatchList">{0} n\'a aucun épisode dans la liste Vu</string>
-  <string name="NoShoutsForItem">Aucun message pour {0}!</string>
+  <string name="NoShoutsForItem">Aucun message d\'humeur pour {0}!</string>
   <string name="NoPluginsEnabled">Aucun plugin n\'est configuré.⏎Voulez vous les configurer maintenant?</string>
   <string name="NotLoggedIn">Accès impossible sans être connecté. ⏎Voulez vous  vous connecter à Trackt.tv?</string>
   <string name="NoSearchResultsFound">Aucun résultat pour la recherche</string>
@@ -269,6 +273,7 @@
   <string name="Runtime">Durée</string>
   <!--S-->
   <string name="Score">Score</string>
+  <string name="Scrobble">Récupérer</string>
   <string name="SearchWithMpNZB">Recherche de NZB</string>
   <string name="SearchTorrent">Recherche de Torrent</string>
   <string name="Season">Saison</string>
@@ -280,14 +285,14 @@
   <string name="Series">Séries</string>
   <string name="SeriesPlural">Séries</string>
   <string name="Settings">Paramètres</string>
-  <string name="Shout">Message</string>
-  <string name="Shouts">Messages</string>
+  <string name="Shout">Message d\'humeur</string>
+  <string name="Shouts">Messages d\'humeur</string>
   <string name="ShowTVShowsInWatchlist">Messages</string>
   <string name="ShowSpoilers">Afficher les résumés</string>
   <string name="ShowFriendActivity">Montrer l\'Activité de l\'ami</string>
   <string name="ShowCommunityActivity">Afficher l\'activité de la communauté</string>
   <string name="SigningIntoAccount">Connexion en cours...</string>
-  <string name="SkinPluginsOutOfDate">Erreur lors du chargement, le thème n\'est pas à jour! ⏎ Quitter MediaPortal, puis lancer la  configuration afin d’accéder  au gestionnaire d\'⏎ de plugins.</string>
+  <string name="SkinPluginsOutOfDate">Erreur lors du chargement, le thème n\'est pas à jour! ⏎ Quitter MediaPortal, puis lancer la  configuration afin d’accéder au gestionnaire ⏎ de plugins.</string>
   <string name="SkinOutOfDate">Cette fonction n\'est pas disponible pour votre ⏎thème. Vérifier si une mise à jour est disponible</string>
   <string name="StartDate">Date de début de recherche</string>
   <string name="Synchronize">Synchroniser</string>
@@ -319,6 +324,7 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Activez ce paramètre afin de permettre à l\'utilisateur d\'accéder directement au plugin TVSeries, lorsqu\'il appuis sur Entrée ou sur OK dans une émission de télévision Trakt. Lorsqu\'il est désactivé, seul les informations provenant de Track.tv seront affichées.</string>
   <string name="SettingRememberLastSelectedActivityName">Se souvenir de la dernière activité sélectionnée sur tableau de bord</string>
   <string name="SettingRememberLastSelectedActivityDescription">Activez ce paramètre afin de  sélectionner  la dernière activité validée lors du prochain chargement du tableau de bord.. Si le paramètre est désactivé, le premier élément sera sélectionnée lors du chargement du tableau de bord.</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Site, par défaut, des bande-annonces des émissions TV</string>
   <string name="SettingDefaultMovieTrailerSiteName">Site par défaut des bandes annonces</string>
   <string name="StartYear">Début: {0}</string>
   <string name="SortBy">Trier par : {0}</string>
@@ -335,6 +341,7 @@
   <string name="TrendingTVShowsPeople">Il y a {0} personne(s) qui regarde(nt) {1} Show TV actuellement!</string>
   <string name="TVShow">Show TV</string>
   <string name="TVShows">Shows TV</string>
+  <string name="Tagline">Tagline</string>
   <string name="Title">Titre</string>
   <string name="Today">Aujourd\'hui</string>
   <string name="Tomorrow">Demain</string>

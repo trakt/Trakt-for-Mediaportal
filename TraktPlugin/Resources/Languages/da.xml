@@ -7,6 +7,21 @@
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se hvad dine venner laver...</string>
   <string name="ActivityCommunityDesc">Se, hvad fællesskabet laver...</string>
+  <string name="ActivityWatching">{0} ser nu {1}</string>
+  <string name="ActivityWatched">{0} sete {1}</string>
+  <string name="ActivityCheckedIn">{0} tjekket ind {1}</string>
+  <string name="ActivityCollected">{0} indsamlet {1}</string>
+  <string name="ActivityCollectedEpisodes">{0} indsamlede {1} episoder af {2}</string>
+  <string name="ActivitySeen">{0} Har set {1}</string>
+  <string name="ActivitySeenEpisodes">{0} har set {1} episoder af {2}</string>
+  <string name="ActivityRating">{0} rated {1}</string>
+  <string name="ActivityRatingAdvanced">{0} rated {1} [{2}/10]</string>
+  <string name="ActivityWatchlist">{0} tilføjede {1} til deres observationsliste</string>
+  <string name="ActivityAddToList">{0} tilføjede {1} til {2}</string>
+  <string name="ActivityCreatedList">{0} oprettede {1}</string>
+  <string name="ActivityReview">{0} reviewede {1}</string>
+  <string name="ActivityShouts">{0} råbte på {1}</string>
+  <string name="Activities">Aktiviteter</string>
   <string name="AddFriend">Tilføj ven...</string>
   <string name="AddToLibrary">Tilføj til bibliotek</string>
   <string name="AddToList">Tilføj til liste...</string>
@@ -25,6 +40,7 @@
   <string name="ApproveFriendMessage">Ønsker du at tilføje {0}\nsom ven?</string>
   <string name="AdvancedSettings">Advancerede indstillinger</string>
   <!--B-->
+  <string name="BufferingTrailer">Bufferlagringen Trailer</string>
   <!--C-->
   <string name="Cancel">Annuller</string>
   <string name="Calendar">Kalender</string>
@@ -40,6 +56,7 @@
   <string name="CreatingAccount">Opretter konto...</string>
   <string name="CreateMovingPicturesCategories">Opret Moving Pictures kategorier</string>
   <string name="CreateMovingPicturesFilters">Opret Moving Pictures filtre</string>
+  <string name="CreateMyFilmsCategories">Opret My Films Kategorier</string>
   <string name="CreatingCategories">Opretter kategorier</string>
   <string name="CreatingFilters">Opretter filtre</string>
   <string name="CreatingList">Opretter liste</string>
@@ -63,12 +80,14 @@
   <string name="DeleteFriendMessage">Ønsker du at fjerne\n{0} som ven?</string>
   <string name="DisconnectAccount">Log ud fra kontoen: {0}</string>
   <string name="DismissRecommendation">Fjern anbefaling</string>
+  <string name="DontIncludeMeInFriendsActivity">Udelad Mig fra Venners aktiviteter</string>
   <string name="DownloadFanart">Hent Fanart</string>
   <string name="DownloadFullSizeFanart">Hent original størrelses Fanart</string>
   <!--E-->
   <string name="EditList">Rediger liste...</string>
   <string name="EditingList">Redigerer liste</string>
   <string name="Email">Email</string>
+  <string name="EndYear">Slut: {0}</string>
   <string name="Episode">Afsnit</string>
   <string name="Episodes">Afsnit</string>
   <string name="Error">Trakt fejl</string>
@@ -78,15 +97,52 @@
   <string name="FirstAired">Premiere</string>
   <string name="Friend">Ven</string>
   <string name="Friends">Venner</string>
+  <string name="FriendActivity">Venners aktiviteter</string>
   <string name="FriendRequest">Venneanmodning</string>
   <string name="FriendRequestMessage">Du har {0} venneanmodninger. Godkend eller afslå i venne-vinduet.</string>
   <string name="FullName">Fuldt navn</string>
   <!--G-->
   <string name="Gender">Køn</string>
   <string name="General">Generelt</string>
+  <string name="GeneralSettings">Generelle indstillinger</string>
   <string name="Genre">Genre</string>
+  <string name="GenreItem">Genre: {0}</string>
+  <string name="GenreAction">Action</string>
+  <string name="GenreAdventure">Eventyr</string>
   <string name="GenreAll">Alle</string>
+  <string name="GenreAnimation">Animation</string>
+  <string name="GenreChildren">Børn</string>
+  <string name="GenreComedy">Komedie</string>
+  <string name="GenreCrime">Krimi</string>
+  <string name="GenreDocumentary">Dokumentar</string>
+  <string name="GenreDrama">Drama</string>
+  <string name="GenreFamily">Familie</string>
+  <string name="GenreFantasy">Fantasi</string>
+  <string name="GenreGameShow">Game Show</string>
+  <string name="GenreFilmNoir">Film Noir</string>
+  <string name="GenreHistory">Historie</string>
+  <string name="GenreHomeAndGarden">Hjem og haven</string>
+  <string name="GenreHorror">Skræk</string>
+  <string name="GenreIndie">Indisk</string>
+  <string name="GenreMiniSeries">Mini Serier</string>
+  <string name="GenreMusic">Musik</string>
+  <string name="GenreMusical">Musical</string>
+  <string name="GenreMystery">Mystik</string>
+  <string name="GenreNews">Nyheder</string>
+  <string name="GenreNone">Ingen</string>
+  <string name="GenreReality">Reality</string>
+  <string name="GenreRomance">Romantik</string>
+  <string name="GenreScienceFiction">Science Fiction</string>
+  <string name="GenreSoap">Soap</string>
+  <string name="GenreSpecialInterest">Special Interesser</string>
+  <string name="GenreSport">Sport</string>
+  <string name="GenreSuspense">Spænding</string>
+  <string name="GenreTalkShow">Talk Show</string>
+  <string name="GenreThriller">Thriller</string>
+  <string name="GenreWar">Krig</string>
+  <string name="GenreWestern">Western</string>
   <string name="GetFriendRequestsOnStartup">Vis venneanmodning ved startup</string>
+  <string name="GettingActivity">Hent aktivitet</string>
   <string name="GettingCalendar">Indlæser kalender</string>
   <string name="GettingFriendsList">Indlæser venneliste</string>
   <string name="GettingFriendsRequests">Indlæser venneanmodninger</string>
@@ -95,6 +151,7 @@
   <string name="GettingListItems">Henter listeindhold</string>
   <string name="GettingSearchResults">Indlæser søgeresultater</string>
   <string name="GettingShouts">Henter debatindlæg</string>
+  <string name="GettingShowSeasons">Henter Show sæsoner</string>
   <string name="GettingTrendingMovies">Indlæser populære film</string>
   <string name="GettingTrendingShows">Indlæser populære serier</string>
   <string name="GettingRecommendedMovies">Indlæser anbefalede film</string>
@@ -104,14 +161,19 @@
   <string name="GettingWatchListEpisodes">Indlæser sete afsnit</string>
   <string name="GettingRelatedMovies">Henter relaterede film</string>
   <string name="GettingRelatedShows">Henter relaterede serier</string>
+  <string name="GettingTrailerUrls">Henter Trailer Urls</string>
   <!--H-->
   <string name="Hate">Had</string>
   <string name="Hated">Hadede</string>
   <string name="HideTVShowsInWatchlist">Gem serier i set-listen</string>
+  <string name="HideCollected">Skjul indsamlede</string>
+  <string name="HideRated">Skjul Rated</string>
   <string name="HideWatched">Skjul set</string>
+  <string name="HideWatchlisted">Skjul setliste</string>
   <string name="HideSpoilers">Skjul spoilers</string>
   <string name="HiddenToPreventSpoilers">Denne kommentar er skjult for at forhindre spoilers. Det kan ændres i indstilingerne i menuen.</string>
   <!--I-->
+  <string name="IncludeMeInFriendsActivity">Medtag Mig i Venners Aktiviteter</string>
   <string name="Inserted">Indsæt</string>
   <string name="Item">Emne</string>
   <string name="Items">Emner</string>
@@ -122,6 +184,8 @@
   <!--L-->
   <string name="Location">Sted</string>
   <string name="Layout">Layout</string>
+  <string name="Like">Like</string>
+  <string name="Likes">Likes</string>
   <string name="List">Liste</string>
   <string name="Lists">Lister</string>
   <string name="Love">Elsker</string>
@@ -139,7 +203,10 @@
   <!--N-->
   <string name="Name">Navn</string>
   <string name="Network">Station</string>
+  <string name="NextEpisode">Næste episode</string>
   <string name="NextWeek">Næste uge</string>
+  <string name="NoActivities">Ingen aktivitet fundet</string>
+  <string name="NoEpisodesInSeason">Ingen episoder er tilgængelige i sæson.</string>
   <string name="NoEpisodeSummary">Afsnittets sammendrag er ikke tilgængeligt.</string>
   <string name="NoEpisodesThisWeek">Ingen afsnit denne uge</string>
   <string name="NoMovieSummary">Film sammendrag er ikke tilgængeligt.</string>
@@ -157,6 +224,7 @@
   <string name="NoPluginsEnabled">Du har ikke defineret nogle tilføjelser i indstillingerne. \nØnsker du at ændre det nu?</string>
   <string name="NotLoggedIn">Du har ikke adgang til dette område\nuden login. Ønsker du at oprette\nen bruger på trakt.tv eller logge ind?</string>
   <string name="NoSearchResultsFound">Ingen søgeresultater fundet</string>
+  <string name="NoSeasonsForShow">Ingen sæsoner fundet til show!</string>
   <string name="NoMovingPictures">Moving Pictures er ikke installeret eller slået til</string>
   <string name="NoListsFound">Ingen lister fundet, ønsker du at\noprette en liste nu?</string>
   <string name="NoUserLists">{0} har ikke oprettet nogen lister!</string>
@@ -176,9 +244,11 @@
   <string name="Protected">Beskyttet</string>
   <string name="PersonWatching">1 person ser</string>
   <string name="PeopleWatching">{0} personer ser</string>
+  <string name="PlayTrailer">Afspil trailer</string>
   <string name="Plugin">Tilføjelse</string>
   <string name="Plugins">Tilføjelser</string>
   <string name="Public">Offentlig</string>
+  <string name="PreviousEpisode">Foregående episode</string>
   <string name="Private">Privat</string>
   <string name="Privacy">Privatliv</string>
   <string name="PrivacyPublic">Listen er synlig for alle</string>
@@ -198,6 +268,7 @@
   <string name="RateTwo">Forfærdelig</string>
   <string name="RateThree">Dårlig</string>
   <string name="RateFour">Ringe</string>
+  <string name="RateFive">Meh</string>
   <string name="RateSix">Rimelig</string>
   <string name="RateSeven">God</string>
   <string name="RateEight">Meget god</string>
@@ -214,6 +285,8 @@
   <string name="RemoveShowFromWatchList">Fjern serie fra setliste</string>
   <string name="RemoveEpisodeFromWatchList">Fjern afsnit fra setliste</string>
   <string name="RemoveFromList">Fjern fra liste...</string>
+  <string name="Reply">Svar</string>
+  <string name="Replies">Svar</string>
   <string name="Runtime">Spillelængde</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -233,6 +306,7 @@
   <string name="Shouts">Debatindlæg</string>
   <string name="ShowTVShowsInWatchlist">Vis serier i set-listen</string>
   <string name="ShowSpoilers">Vis spoilers</string>
+  <string name="ShowFriendActivity">Vis venners aktiviteter</string>
   <string name="ShowCommunityActivity">Vis fællesskabs aktiviteter</string>
   <string name="SigningIntoAccount">Logger ind på kontoen...</string>
   <string name="SkinPluginsOutOfDate">Fejl ved åbning af vinduet. Skinnet er forældes!\nLuk MediaPortal, åbn konfigurationen for\nat slå plugins håndteringer til.</string>
@@ -240,6 +314,8 @@
   <string name="StartDate">Start dato</string>
   <string name="Synchronize">Synkronisér</string>
   <string name="SynchronizeNow">Ny tilføjelsers metoder er blevet tilføjet.\nØnsker du at synkronisere dine \nbiblioteker nu?</string>
+  <string name="ShowRateDialogOnWatched">Vis Rate Dialog på det viste objekt</string>
+  <string name="ShowSeasonInfo">Sæson Information...</string>
   <string name="ShowWatched">Vis sete</string>
   <string name="SettingPluginEnabledName">Tilføjelse slået til</string>
   <string name="SettingPluginEnabledDescription">Slå til / fra denne indstilling for at starte Trakt-tilføjelsen med MediaPortal.</string>
@@ -255,12 +331,36 @@
   <string name="SettingWebRequestCacheDescription">Indtil hvor tit web-data hentes til tilføjelsen. Dette er typisk Kalender, Populære og Anbefalinger. Standard er 15 minutter.</string>
   <string name="SettingWebRequestTimeoutName">Webforespørgelses timeout</string>
   <string name="SettingWebRequestTimeoutDescription">Indstil hvor længe Trakt forsøger at forbinde til serveren før den annullerer alle web-forespørgelser. Standard er 30 sekunder.</string>
+  <string name="SettingSyncRatingsName">Synkroniser Ratings</string>
+  <string name="SettingSyncRatingsDescription">Aktiver denne indstilling for 2-vejs synkronisering af ratings under bibliotekets sync. Hvis et objekt er blevet bedømt lokalt eller eksternt, så vil det ikke blive overskrevet, for at undgå afrundingsproblemer. Det anbefales, at objeker, der er online, vurderes ved hjælp af avancerede ratings, før du aktiverer denne indstilling.</string>
+  <string name="SettingShowRateDialogOnWatchedName">Vis Rate dialog på Seet</string>
+  <string name="SettingShowRateDialogOnWatchedDescription">Aktiver denne indstilling for at vise Trakt rate dialogen efter en film eller episode er afsluttet og anses for gennemset. Trakt rate dialogen vil ikke blive vist, hvis objektet allerede er vurderet.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Vis Rate Dialog på afspilningslister</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">Hvis Trakt Rate Dialog er aktiveret, skal du deaktivere denne indstilling, hvis du ønsker ikke at vise det fra afspilningsliste-views.</string>
+  <string name="SettingActivityPollIntervalName">Dashboard Aktivitets Afstemnings Interval</string>
   <string name="SettingActivityPollIntervalDescription">Indstil intervallet (i sekunder), som Trakt fællesskabets / venners aktiviteter opdateret på opslagstavlen.</string>
+  <string name="SettingTrendingPollIntervalName">Dashboard populæreste afstemning Interval</string>
+  <string name="SettingTrendingPollIntervalDescription">Indstil intervallet (i minutter) hvor ofte Trakt popularitetsvisning af shows og film opdateres på dashboard.</string>
+  <string name="SettingDashboardLoadDelayName">Dashboard indlæsningsforsinkelse</string>
+  <string name="SettingDashboardLoadDelayDescription">Denne indstilling kontrollere ventetiden i millisekunder, inden dashboardet begynder at indlæse data, efter GUI-vinduet er åbnet. Sættes denne værdi for lavt, kan det forårsage fejl og manglende indlæsning af vinduet.</string>
+  <string name="SettingEnableJumpToForTVShowsName">Aktiver TVShow Hop til mulighed</string>
+  <string name="SettingEnableJumpToForTVShowsDescription">Aktiver denne indstilling for at tillade brugeren at springe direkte til TVSeries plugin, når du trykker på Enter eller OK på et Trakt TV Show. Når deaktiveret sæson oplysninger fra trakt.tv vist.</string>
+  <string name="SettingRememberLastSelectedActivityName">Husk sidst valgte Aktivitet på Dashboard</string>
+  <string name="SettingRememberLastSelectedActivityDescription">Aktiver denne indstilling for at genvælge den senest valgte aktivitet, når Trakt dashboardet er re-loadedet, deaktiveret vælges altid det første punkt ved re-load.</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Default TV Show Trailer Site</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Vælg den default TV Show Trailer site der skal bruges, når en automatisk trailer søgning er udført fx ved Tryk på Play på et Trakt TV-show eller episode. Når du bruger YouTube-webstedet, anvendes ekstra søgeparametre som sæson og Episode numre til Episode søgninger .</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Default Movie Trailer Site</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Vælg default Movie Trailer site der skal bruges, når en automatisk trailer søgning udføres ved fx Tryk på Play på en Trakt film.</string>
+  <string name="StartYear">Start: {0}</string>
+  <string name="SortBy">Sorter per:  {0}</string>
+  <string name="SortSeasonsAscending">Sortere sæsoner i stigende rækkefølge</string>
+  <string name="SortSeasonsDescending">Sortere sæsoneri faldende orden</string>
   <string name="Specials">Ekstra</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="Trending">Populære</string>
   <string name="TrendingShows">Populære serier</string>
+  <string name="TrendingShowsAndMovies">Trending Shows og film</string>
   <string name="TrendingMovies">Populære film</string>
   <string name="TrendingMoviePeople">Der er {0} personer, der ser denne film {1} lige nu!</string>
   <string name="TrendingTVShowsPeople">Der er {0} personer, der ser denne serie {1} lige nu!</string>
@@ -269,6 +369,7 @@
   <string name="Tagline">Tagline</string>
   <string name="Title">Title</string>
   <string name="Today">I dag</string>
+  <string name="Tomorrow">I morgen</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
@@ -278,8 +379,10 @@
   <string name="Users">Brugere</string>
   <string name="Username">Brugernavn</string>
   <string name="UnAuthorized">Login mislykkedes, kontrollér venligst brugernavn og password i indstillingerne.</string>
+  <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Opdaterer kategorier</string>
   <string name="UpdatingFilters">Opdaterer filtre</string>
+  <string name="UnableToPlayTrailer">Kan ikke spille trailer.</string>
   <!--V-->
   <string name="View">Syn</string>
   <string name="Votes">Stemmer</string>
@@ -292,6 +395,7 @@
   <string name="WatchedMovies">Sete film</string>
   <string name="WatchedEpisodes">Sete afsnit</string>
   <string name="WatchedShows">Sete serier</string>
+  <string name="Watchers">Sete</string>
   <string name="Watching">Ser</string>
   <string name="WatchListMovies">Sete filmliste</string>
   <string name="WatchListShows">Sete serierliste</string>

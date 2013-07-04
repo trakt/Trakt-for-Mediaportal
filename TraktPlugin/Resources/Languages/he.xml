@@ -4,6 +4,7 @@
   <!--B-->
   <!--C-->
   <string name="Cancel">ביטול</string>
+  <string name="Calendar">לוח שנה</string>
   <string name="Certification">אישור צפייה</string>
   <!--D-->
   <string name="DateToday">היום</string>
@@ -27,15 +28,24 @@
   <string name="Movie">סרט</string>
   <string name="Movies">סרטים</string>
   <!--N-->
+  <string name="Network">רשת</string>
   <string name="No">לא</string>
   <!--O-->
+  <string name="OK">אוקיי</string>
   <!--P-->
   <!--R-->
   <string name="Rate">דרג</string>
   <string name="Rated">מדורג</string>
+  <string name="Rating">דירוג</string>
   <string name="RateTwo">גרוע</string>
+  <string name="RateThree">רע</string>
+  <string name="RateFour">ירוד</string>
+  <string name="RateSix">בינוני</string>
   <string name="RateSeven">טוב</string>
+  <string name="RateEight">נהדר</string>
   <string name="RateNine">מעולה</string>
+  <string name="Recommendations">המלצות</string>
+  <string name="ReleaseDate">תאריך שחרור</string>
   <string name="Runtime">זמן ריצה</string>
   <!--S-->
   <string name="Score">דירוג</string>
@@ -50,6 +60,7 @@
   <!--U-->
   <!--V-->
   <!--W-->
+  <string name="Watched">נצפה</string>
   <!--Y-->
   <string name="Year">שנה</string>
   <string name="Yes">כן</string>
