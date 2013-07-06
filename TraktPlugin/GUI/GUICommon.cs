@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
     {
         Main = 87258,
         Calendar = 87259,
-        Friends = 87260,
+        Friends = 87260, // removed
         Recommendations = 87261,
         RecommendationsShows = 87262,
         RecommendationsMovies = 87263,
@@ -101,7 +101,8 @@ namespace TraktPlugin.GUI
         RelatedShows = 87278,
         Shouts = 87280,
         ShowSeasons = 87281,
-        SeasonEpisodes = 87282
+        SeasonEpisodes = 87282,
+        Network = 87283
     }
 
     enum TraktDashboardControls

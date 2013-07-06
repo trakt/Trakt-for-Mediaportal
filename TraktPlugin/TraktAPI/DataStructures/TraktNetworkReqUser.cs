@@ -11,6 +11,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktNetworkReqUser : TraktUser
     {
         [DataMember(Name = "requested")]
-        public long Requested { get; set; }
+        public long RequestDate { get; set; }
     }
 }

@@ -87,8 +87,8 @@ namespace TraktPlugin.TraktAPI
         public const string ShowLibrary = @"http://api.trakt.tv/show/library/" + ApiKey;
         public const string SeasonLibrary = @"http://api.trakt.tv/show/season/library/" + ApiKey;
         public const string NetworkFriends = @"http://api.trakt.tv/user/network/friends.json/" + ApiKey + "/{0}";
-        public const string NetworkFollowers = @"http://api.trakt.tv/network/followers.json/" + ApiKey + "/{0}";
-        public const string NetworkFollowing = @"http://api.trakt.tv/network/following.json/" + ApiKey + "/{0}";
+        public const string NetworkFollowers = @"http://api.trakt.tv/user/network/followers.json/" + ApiKey + "/{0}";
+        public const string NetworkFollowing = @"http://api.trakt.tv/user/network/following.json/" + ApiKey + "/{0}";
         public const string NetworkRequests = @"http://api.trakt.tv/network/requests/" + ApiKey;
         public const string NetworkFollow = @"http://api.trakt.tv/network/follow/" + ApiKey;
         public const string NetworkUnFollow = @"http://api.trakt.tv/network/unfollow/" + ApiKey;

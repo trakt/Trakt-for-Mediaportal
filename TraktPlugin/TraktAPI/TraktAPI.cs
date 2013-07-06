@@ -764,7 +764,7 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
-        /// Returns a list of people that follow the current
+        /// Returns a list of people that follow the current user
         /// </summary>
         public static IEnumerable<TraktNetworkUser> GetNetworkFollowers()
         {
@@ -777,7 +777,7 @@ namespace TraktPlugin.TraktAPI
         }
 
         /// <summary>
-        /// Returns a list of people awaiting following approval
+        /// Returns a list of people awaiting 'following' approval
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<TraktNetworkReqUser> GetNetworkRequests()
@@ -1025,10 +1025,10 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns a list of users found using search term
         /// </summary>        
-        public static IEnumerable<TraktUserProfile> SearchForFriends(string searchTerm)
+        public static IEnumerable<TraktUser> SearchForUsers(string searchTerm)
         {
             string response = Transmit(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
-            return response.FromJSONArray<TraktUserProfile>();
+            return response.FromJSONArray<TraktUser>();
         }
 
         /// <summary>

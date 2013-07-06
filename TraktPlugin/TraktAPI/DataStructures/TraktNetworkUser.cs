@@ -10,7 +10,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktNetworkUser : TraktUser
     {
-        [DataMember(Name = "approved")]
+        [DataMember(Name = "since")]
         public long ApprovedDate { get; set; }
     }
 }

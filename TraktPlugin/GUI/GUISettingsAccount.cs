@@ -283,7 +283,7 @@ namespace TraktPlugin.GUI
 
                 // clear caches
                 // watch lists are stored by user so dont need clearing.
-                GUITraktFriends.ClearCache();
+                GUINetwork.ClearCache();
                 GUICalendar.ClearCache();
                 GUIRecommendationsMovies.ClearCache();
                 GUIRecommendationsShows.ClearCache();

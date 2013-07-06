@@ -234,6 +234,7 @@
     <Compile Include="GUI\GUIListItemSorter.cs" />
     <Compile Include="GUI\GUIListItems.cs" />
     <Compile Include="GUI\GUILists.cs" />
+    <Compile Include="GUI\GUINetwork.cs" />
     <Compile Include="GUI\GUIRelatedMovies.cs" />
     <Compile Include="GUI\GUIRelatedShows.cs" />
     <Compile Include="GUI\GUISeasonEpisodes.cs" />
@@ -254,7 +255,6 @@
     <Compile Include="GUI\GUICalendar.cs" />
     <Compile Include="GUI\GUIExtensions.cs" />
     <Compile Include="GUI\GUIImageHandler.cs" />
-    <Compile Include="GUI\GUITraktFriends.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActor.cs" />
@@ -436,6 +436,7 @@
     <Content Include="Resources\Languages\sv.xml" />
     <Content Include="Resources\Languages\tr.xml" />
     <Content Include="Resources\Languages\uk.xml" />
+    <Content Include="Resources\Languages\vi.xml" />
     <Content Include="Resources\Languages\zh.xml" />
     <Content Include="Resources\Skins\DefaultWide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktCalendar.png" />

@@ -36,8 +36,11 @@
   <string name="AirDay">Air Day</string>
   <string name="AirTime">Air Time</string>
   <string name="Approve">Approve</string>
+  <string name="ApproveAndFollowBack">Approve and Follow Back</string>
   <string name="ApprovedDate">Approved Date</string>
   <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string name="ApproveFollwerMessage">Would you like to allow user {0}\nto follow you?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Would you like to allow user {0}\nto follow you and follow user back?</string>
   <string name="AdvancedSettings">Advanced Settings</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
@@ -73,6 +76,7 @@
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string name="DateOneMonthAgo">1 Month Ago</string>
   <string name="Deny">Deny</string>
+  <string name="DenyFollowRequest">Deny Follow Request from user {0}?</string>
   <string name="DeleteList">Delete List</string>
   <string name="DeleteListItem">Delete List Item</string>
   <string name="DeletingList">Deleting List</string>
@@ -95,11 +99,21 @@
   <!--F-->
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
+  <string name="Follow">Follow</string>
+  <string name="Followed">Followed</string>
+  <string name="Follower">Follower</string>
+  <string name="Followers">Followers</string>
+  <string name="Following">Following</string>
+  <string name="FollowUser">Follow User</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
   <string name="FriendActivity">Friend Activity</string>
   <string name="FriendRequest">Friend Request</string>
+  <string name="FollowerRequest">Follower Request</string>
+  <string name="FollowerRequests">Follower Requests</string>
+  <string name="FollowPendingApproval">Follow request has been sent to {0} and is pending approval.</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
+  <string name="FollowerRequestMessage">You have {0} follower requests, approve or deny from network window</string>
   <string name="FullName">Full Name</string>
   <!--G-->
   <string name="Gender">Gender</string>
@@ -142,10 +156,14 @@
   <string name="GenreWar">War</string>
   <string name="GenreWestern">Western</string>
   <string name="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
+  <string name="GetFollowerRequestsOnStartup">Get Follower Requests on Startup</string>
   <string name="GettingActivity">GettingActivity</string>
   <string name="GettingCalendar">Getting Calendar</string>
   <string name="GettingFriendsList">Getting Friends List</string>
+  <string name="GettingFollowingList">Getting Following List</string>
+  <string name="GettingFollowerList">Getting Follower List</string>
   <string name="GettingFriendsRequests">Getting Friend Requests</string>
+  <string name="GettingFollowerRequests">Getting Follower Requests</string>
   <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>
@@ -213,6 +231,9 @@
   <string name="NoShowSummary">Show summary is currently not available.</string>
   <string name="NoFriends">No Friends!</string>
   <string name="NoFriendsTaunt">You have no Friends!</string>
+  <string name="NoFollowersTaunt">You have no followers!</string>
+  <string name="NoFollowerReqTaunt">You have no follower requests!</string>
+  <string name="NoFollowingTaunt">You are not following anyone!</string>
   <string name="NoTrendingMovies">No Movies current being watched!</string>
   <string name="NoTrendingShows">No Shows current being watched!</string>
   <string name="NoMovieRecommendations">No Movie Recommendations Found!</string>
@@ -240,6 +261,7 @@
   <!--P-->
   <string name="Password">Password</string>
   <string name="People">People</string>
+  <string name="Person">Person</string>
   <string name="Percentage">Percentage</string>
   <string name="Protected">Protected</string>
   <string name="PersonWatching">1 Person Watching</string>
@@ -273,9 +295,12 @@
   <string name="RateSeven">Good</string>
   <string name="RateEight">Great</string>
   <string name="RateNine">Superb</string>
+  <string name="RecentWatchedEpisodes">Recently Watched Episodes</string>
+  <string name="RecentWatchedMovies">Recently Watched Movies</string>
   <string name="Recommendations">Recommendations</string>
   <string name="RecommendedMovies">Recommended Movies</string>
   <string name="RecommendedShows">Recommended Shows</string>
+  <string name="Refresh">Refresh</string>
   <string name="RelatedMovies">Related Movies</string>
   <string name="RelatedShows">Related Shows</string>
   <string name="Released">Released</string>
@@ -287,6 +312,7 @@
   <string name="RemoveFromList">Remove from List...</string>
   <string name="Reply">Reply</string>
   <string name="Replies">Replies</string>
+  <string name="Requests">Requests</string>
   <string name="Runtime">Runtime</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -295,8 +321,11 @@
   <string name="SearchTorrent">Search Torrent</string>
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
+  <string name="Search">Search</string>
   <string name="SearchForFriend">Search for Friend...</string>
+  <string name="SearchForUser">Search for User...</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
+  <string name="SendFollowRequest">Send follow request to {0}?</string>
   <string name="SelectLists">Select Lists</string>
   <string name="SelectUser">Select User</string>
   <string name="Series">Series</string>
@@ -379,6 +408,8 @@
   <string name="Users">Users</string>
   <string name="Username">Username</string>
   <string name="UnAuthorized">Authentication failed, please check username and password in settings.</string>
+  <string name="UnFollow">UnFollow</string>
+  <string name="UnFollowMessage">Are you sure you want to unfollow\nuser {0}?</string>
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>

@@ -237,8 +237,11 @@ namespace TraktPlugin.GUI
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
         public static string Approve = "Approve";
+        public static string ApproveAndFollowBack = "Approve and Follow Back";
         public static string ApprovedDate = "Approved Date";
         public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";
+        public static string ApproveFollowerMessage = "Would you like to allow user {0}\nto follow you?";
+        public static string ApproveFollowerAndFollowBackMessage = "Would you like to allow user {0}\nto follow you and follow user back?";
         public static string AdvancedSettings = "Advanced Settings";
 
         // B
@@ -280,6 +283,7 @@ namespace TraktPlugin.GUI
         public static string DeleteListItem = "Delete List Item";
         public static string DeletingList = "Deleting List";
         public static string Deny = "Deny";
+        public static string DenyFollowRequest = "Deny Follow Request from user {0}?";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
         public static string DisconnectAccount = "Disconnect Account: {0}";
@@ -301,11 +305,21 @@ namespace TraktPlugin.GUI
         // F
         public static string Filters = "Filters";
         public static string FirstAired = "First Aired";
+        public static string Follow = "Follow";
+        public static string Followed = "Followed";
+        public static string Follower = "Follower";
+        public static string Followers = "Followers";
+        public static string Following = "Following";
+        public static string FollowUser = "Follow User";
+        public static string FollowPendingApproval = "Follow request has been sent to {0} and is pending approval.";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
         public static string FriendActivity = "Friend Activity";
         public static string FriendRequest = "Friend Request";
+        public static string FollowerRequest = "Follower Request";
+        public static string FollowerRequests = "Follower Requests";
         public static string FriendRequestMessage = "You have {0} friend requests, approve or deny from friends window";
+        public static string FollowerRequestMessage = "You have {0} follower requests, approve or deny from network window";
         public static string FullName = "Full Name";
 
         // G
@@ -349,10 +363,14 @@ namespace TraktPlugin.GUI
         public static string GenreWar = "War";
         public static string GenreWestern = "Western";
         public static string GetFriendRequestsOnStartup = "Get Friend Requests on Startup";
+        public static string GetFollowerRequestsOnStartup = "Get Follower Requests on Startup";
         public static string GettingActivity = "Getting Activity";
         public static string GettingCalendar = "Getting Calendar";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsRequests = "Getting Friends Requests";
+        public static string GettingFollowerRequests = "Getting Follower Requests";
+        public static string GettingFollowerList = "Getting Follower List";
+        public static string GettingFollowingList = "Getting Following List";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingLists = "Getting Lists";
         public static string GettingListItems = "Getting List Items";
@@ -426,7 +444,10 @@ namespace TraktPlugin.GUI
         public static string NoMovieSummary = "Movie summary is currently not available.";
         public static string NoShowSummary = "Show summary is currently not available.";
         public static string NoFriends = "No Friends!";
-        public static string NoFriendsTaunt = "You have no Friends!";
+        public static string NoFriendsTaunt = "You have no friends!";
+        public static string NoFollowersTaunt = "You have no followers!";
+        public static string NoFollowingTaunt = "You are not following anyone!";
+        public static string NoFollowerReqTaunt = "You have no follower requests!";
         public static string NoTrendingMovies = "No Movies current being watched!";
         public static string NoTrendingShows = "No Shows current being watched!";
         public static string NoMovieRecommendations = "No Movie Recommendations Found!";
@@ -458,6 +479,7 @@ namespace TraktPlugin.GUI
         public static string People = "People";
         public static string Percentage = "Percentage";
         public static string Protected = "Protected";
+        public static string Person = "Person";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
         public static string PlayTrailer = "Play Trailer";
@@ -493,10 +515,13 @@ namespace TraktPlugin.GUI
         public static string Recommendations = "Recommendations";
         public static string RecommendedMovies = "Recommended Movies";
         public static string RecommendedShows = "Recommended Shows";
+        public static string Refresh = "Refresh";
         public static string RelatedMovies = "Related Movies";
         public static string RelatedShows = "Related Shows";
         public static string Released = "Released";
         public static string ReleaseDate = "Release Date";
+        public static string RecentWatchedMovies = "Recently Watched Movies";
+        public static string RecentWatchedEpisodes = "Recently Watched Episodes";
         public static string RemoveFromLibrary = "Remove from Library";
         public static string RemoveFromWatchList = "Remove from WatchList";
         public static string RemoveShowFromWatchList = "Remove Show from WatchList";
@@ -504,6 +529,7 @@ namespace TraktPlugin.GUI
         public static string RemoveFromList = "Remove from List...";
         public static string Reply = "Reply";
         public static string Replies = "Replies";
+        public static string Requests = "Requests";
         public static string Runtime = "Runtime";
 
         // S
@@ -513,8 +539,11 @@ namespace TraktPlugin.GUI
         public static string SearchTorrent = "Search Torrent";
         public static string Season = "Season";
         public static string Seasons = "Seasons";
+        public static string Search = "Search";
         public static string SearchForFriend = "Search for Friend...";
+        public static string SearchForUser = "Search for User...";
         public static string SendFriendRequest = "Send friend request to {0}?";
+        public static string SendFollowRequest = "Send follow request to {0}?";
         public static string SelectLists = "Select Lists";
         public static string SelectUser = "Select User";
         public static string Series = "Series";
@@ -599,6 +628,8 @@ namespace TraktPlugin.GUI
         public static string Users = "Users";
         public static string Username = "Username";
         public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
+        public static string UnFollow = "UnFollow";
+        public static string UnFollowMessage = "Are you sure you want to unfollow\nuser {0}?";
         public static string UnRate = "UnRate";
         public static string UpdatingCategories = "Updating Categories";
         public static string UpdatingFilters = "Updating Filters";

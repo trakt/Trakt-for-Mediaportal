@@ -58,7 +58,7 @@ namespace TraktPlugin
         public static bool DownloadFullSizeFanart { get; set; }
         public static bool DownloadFanart { get; set; }
         public static int WebRequestCacheMinutes { get; set; }
-        public static bool GetFriendRequestsOnStartup { get; set; }
+        public static bool GetFollowerRequestsOnStartup { get; set; }
         public static int MovingPicturesCategoryId { get; set; }
         public static bool MovingPicturesCategories { get; set; }
         public static int MovingPicturesFiltersId { get; set; }
@@ -113,6 +113,7 @@ namespace TraktPlugin
         public static bool TrendingShowsHideCollected { get; set; }
         public static bool TrendingShowsHideRated { get; set; }
         public static List<string> ShowsInCollection { get; set; }
+        public static int DefaultNetworkView { get; set; }
         #endregion
 
         #region Constants
@@ -158,7 +159,7 @@ namespace TraktPlugin
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
         private const string cDownloadFanart = "DownloadFanart";
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
-        private const string cGetFriendRequestsOnStartup = "GetFriendRequestsOnStartup";
+        private const string cGetFollowerRequestsOnStartup = "GetFriendRequestsOnStartup";
         private const string cMovingPicturesCategoryId = "MovingPicturesCategoryId";
         private const string cMovingPicturesCategories = "MovingPicturesCategories";
         private const string cMovingPicturesFilterId = "MovingPicturesFilterId";
@@ -215,6 +216,7 @@ namespace TraktPlugin
         private const string cTrendingShowsHideCollected = "TrendingShowsHideCollected";
         private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
         private const string cShowsInCollection = "ShowsInCollection";
+        private const string cDefaultNetworkView = "DefaultNetworkView";
 
         #endregion
 
@@ -427,7 +429,7 @@ namespace TraktPlugin
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
                 WebRequestTimeout = xmlreader.GetValueAsInt(cTrakt, cWebRequestTimeout, 30000);
-                GetFriendRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, true);
+                GetFollowerRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, true);
                 MovingPicturesCategoryId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesCategoryId, -1);
                 MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
                 MovingPicturesFiltersId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesFilterId, -1);
@@ -482,6 +484,7 @@ namespace TraktPlugin
                 TrendingShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideCollected, false);
                 TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
                 ShowsInCollection = xmlreader.GetValueAsString(cTrakt, cShowsInCollection, "").FromJSONArray<string>().ToList();
+                DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
             }
         }
 
@@ -534,7 +537,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
                 xmlwriter.SetValue(cTrakt, cWebRequestTimeout, WebRequestTimeout);
-                xmlwriter.SetValueAsBool(cTrakt, cGetFriendRequestsOnStartup, GetFriendRequestsOnStartup);
+                xmlwriter.SetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, GetFollowerRequestsOnStartup);
                 xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
                 xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
                 xmlwriter.SetValue(cTrakt, cMovingPicturesFilterId, MovingPicturesFiltersId);
@@ -588,6 +591,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideCollected, TrendingShowsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
                 xmlwriter.SetValue(cTrakt, cShowsInCollection, ShowsInCollection.ToJSON());
+                xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
             }
 
             Settings.SaveCache();

@@ -24,7 +24,7 @@ namespace TraktPlugin.GUI
         {
             DownloadFanart = 2,
             DownloadFullSizeFanart = 3,
-            GetFriendRequests = 4,
+            GetFollowerRequests = 4,
             CreateMovingPicturesCategories = 5,
             CreateMovingPicturesFilters = 6,
             ShowRateDialogOnWatched = 7,
@@ -38,8 +38,8 @@ namespace TraktPlugin.GUI
         [SkinControl((int)SkinControls.DownloadFullSizeFanart)]
         protected GUICheckButton btnDownloadFullSizeFanart = null;
 
-        [SkinControl((int)SkinControls.GetFriendRequests)]
-        protected GUICheckButton btnGetFriendRequests = null;
+        [SkinControl((int)SkinControls.GetFollowerRequests)]
+        protected GUICheckButton btnGetFollowerRequests = null;
 
         [SkinControl((int)SkinControls.CreateMovingPicturesCategories)]
         protected GUICheckButton btnCreateMovingPicturesCategories = null;
@@ -92,7 +92,7 @@ namespace TraktPlugin.GUI
             // save settings
             if (btnDownloadFanart != null) TraktSettings.DownloadFanart = btnDownloadFanart.Selected;
             if (btnDownloadFullSizeFanart != null) TraktSettings.DownloadFullSizeFanart = btnDownloadFullSizeFanart.Selected;
-            if (btnGetFriendRequests != null) TraktSettings.GetFriendRequestsOnStartup = btnGetFriendRequests.Selected;
+            if (btnGetFollowerRequests != null) TraktSettings.GetFollowerRequestsOnStartup = btnGetFollowerRequests.Selected;
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
             if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
             if (btnCreateMyFilmsCategories != null) TraktSettings.MyFilmsCategories = btnCreateMyFilmsCategories.Selected;
@@ -123,7 +123,7 @@ namespace TraktPlugin.GUI
             // Set States
             if (btnDownloadFanart !=null) btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
             if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
-            if (btnGetFriendRequests != null) btnGetFriendRequests.Selected = TraktSettings.GetFriendRequestsOnStartup;
+            if (btnGetFollowerRequests != null) btnGetFollowerRequests.Selected = TraktSettings.GetFollowerRequestsOnStartup;
             if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Selected = TraktSettings.MovingPicturesCategories;
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Selected = TraktSettings.MovingPicturesFilters;
             if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Selected = TraktSettings.ShowRateDialogOnWatched;
@@ -134,7 +134,7 @@ namespace TraktPlugin.GUI
             // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
             if (btnDownloadFanart != null) btnDownloadFanart.Label = Translation.DownloadFanart;
             if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Label = Translation.DownloadFullSizeFanart;
-            if (btnGetFriendRequests != null) btnGetFriendRequests.Label = Translation.GetFriendRequestsOnStartup;
+            if (btnGetFollowerRequests != null) btnGetFollowerRequests.Label = Translation.GetFollowerRequestsOnStartup;
             if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Label = Translation.CreateMovingPicturesCategories;
             if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Label = Translation.CreateMovingPicturesFilters;
             if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Label = Translation.ShowRateDialogOnWatched;

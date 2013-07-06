@@ -714,7 +714,7 @@ namespace TraktPlugin
         }
 
         bool ConnectionChecked = false;
-        bool FriendRequestsChecked = false;
+        bool FollowerRequestsChecked = false;
         void GUIWindowManager_OnActivateWindow(int windowID)
         {
             #region Connection Check
@@ -784,29 +784,29 @@ namespace TraktPlugin
             }
             #endregion
 
-            #region Friend Requests Check
-            if (TraktSettings.GetFriendRequestsOnStartup && !FriendRequestsChecked)
+            #region Follower Requests Check
+            if (TraktSettings.GetFollowerRequestsOnStartup && !FollowerRequestsChecked)
             {
-                FriendRequestsChecked = true;
-                Thread friendsThread = new Thread(delegate(object obj)
+                FollowerRequestsChecked = true;
+                Thread followerReqThread = new Thread(delegate(object obj)
                 {
                     if (TraktSettings.AccountStatus == ConnectionState.Connected)
                     {
-                        var friendRequests = GUITraktFriends.FriendRequests;
-                        TraktLogger.Info("Friend requests: {0}", friendRequests.Count().ToString());
-                        if (friendRequests.Count() > 0)
+                        var followerRequests = GUINetwork.TraktFollowerRequests;
+                        TraktLogger.Info("Follower requests: {0}", followerRequests.Count().ToString());
+                        if (followerRequests.Count() > 0)
                         {
                             Thread.Sleep(10000);
-                            GUIUtils.ShowNotifyDialog(Translation.FriendRequest, string.Format(Translation.FriendRequestMessage, friendRequests.Count().ToString()));
+                            GUIUtils.ShowNotifyDialog(Translation.FollowerRequests, string.Format(Translation.FollowerRequestMessage, followerRequests.Count().ToString()));
                         }
                     }
                 })
                 {
                     IsBackground = true,
-                    Name = "GetFriendReq"
+                    Name = "GetFollowReq"
                 };
 
-                friendsThread.Start();
+                followerReqThread.Start();
             }
             #endregion
 
