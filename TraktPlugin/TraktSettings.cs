@@ -114,6 +114,8 @@ namespace TraktPlugin
         public static bool TrendingShowsHideRated { get; set; }
         public static List<string> ShowsInCollection { get; set; }
         public static int DefaultNetworkView { get; set; }
+        public static int WatchedHistoryMoviesDefaultLayout { get; set; }
+        public static int WatchedHistoryEpisodesDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -217,7 +219,8 @@ namespace TraktPlugin
         private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
         private const string cShowsInCollection = "ShowsInCollection";
         private const string cDefaultNetworkView = "DefaultNetworkView";
-
+        private const string cWatchedHistoryMoviesDefaultLayout = "WatchedHistoryMoviesDefaultLayout";
+        private const string cWatchedHistoryEpisodesDefaultLayout = "WatchedHistoryEpisodesDefaultLayout";
         #endregion
 
         #region Properties
@@ -485,6 +488,8 @@ namespace TraktPlugin
                 TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
                 ShowsInCollection = xmlreader.GetValueAsString(cTrakt, cShowsInCollection, "").FromJSONArray<string>().ToList();
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
+                WatchedHistoryMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchedHistoryMoviesDefaultLayout, 0);
+                WatchedHistoryEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchedHistoryEpisodesDefaultLayout, 0);
             }
         }
 
@@ -592,6 +597,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
                 xmlwriter.SetValue(cTrakt, cShowsInCollection, ShowsInCollection.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
+                xmlwriter.SetValue(cTrakt, cWatchedHistoryMoviesDefaultLayout, WatchedHistoryMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cWatchedHistoryEpisodesDefaultLayout, WatchedHistoryEpisodesDefaultLayout);
             }
 
             Settings.SaveCache();

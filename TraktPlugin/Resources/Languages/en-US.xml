@@ -164,6 +164,7 @@
   <string name="GettingFollowerList">Getting Follower List</string>
   <string name="GettingFriendsRequests">Getting Friend Requests</string>
   <string name="GettingFollowerRequests">Getting Follower Requests</string>
+  <string name="GettingUserWatchedHistory">Getting User Watched History</string>
   <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>

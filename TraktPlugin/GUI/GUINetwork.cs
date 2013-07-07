@@ -229,6 +229,11 @@ namespace TraktPlugin.GUI
                                 // Launch Corresponding Activity window
                                 switch (SelectedActivity)
                                 {
+                                    case (ActivityType.MovieWatchHistory):
+                                        GUIWatchedHistoryMovies.CurrentUser = CurrentSelectedUser.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedHistoryMovies);
+                                        break;
+
                                     case (ActivityType.MovieWatchList):
                                         GUIWatchListMovies.CurrentUser = CurrentSelectedUser.Username;
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
@@ -1194,9 +1199,9 @@ namespace TraktPlugin.GUI
 
         private void OnActivityTypeSelected(GUIListItem item, GUIControl parent)
         {
-            if (item.Label == Translation.WatchedEpisodes)
+            if (item.Label == Translation.RecentWatchedEpisodes)
                 SelectedActivity = ActivityType.EpisodeWatchHistory;
-            else if (item.Label == Translation.WatchedMovies)
+            else if (item.Label == Translation.RecentWatchedMovies)
                 SelectedActivity = ActivityType.MovieWatchHistory;
             else if (item.Label == Translation.WatchListMovies)
                 SelectedActivity = ActivityType.MovieWatchList;

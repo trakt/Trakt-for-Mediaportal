@@ -225,7 +225,7 @@ namespace TraktPlugin.GUI
         public static string Activities = "Activities";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Library";
-        public static string AddToList = "Add to List";
+        public static string AddToList = "Add to List...";
         public static string AddToWatchList = "Add to WatchList";
         public static string AddShowToWatchList = "Add Show to WatchList";
         public static string AddEpisodeToWatchList = "Add Episode to WatchList";
@@ -371,6 +371,7 @@ namespace TraktPlugin.GUI
         public static string GettingFollowerRequests = "Getting Follower Requests";
         public static string GettingFollowerList = "Getting Follower List";
         public static string GettingFollowingList = "Getting Following List";
+        public static string GettingUserWatchedHistory = "Getting User Watched History";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingLists = "Getting Lists";
         public static string GettingListItems = "Getting List Items";

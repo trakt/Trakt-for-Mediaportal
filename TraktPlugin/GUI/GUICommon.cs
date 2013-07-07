@@ -102,7 +102,9 @@ namespace TraktPlugin.GUI
         Shouts = 87280,
         ShowSeasons = 87281,
         SeasonEpisodes = 87282,
-        Network = 87283
+        Network = 87283,
+        WatchedHistoryMovies = 87284,
+        WatchedHistoryEpisodes = 87285
     }
 
     enum TraktDashboardControls
