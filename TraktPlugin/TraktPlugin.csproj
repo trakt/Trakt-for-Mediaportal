@@ -244,6 +244,7 @@
     <Compile Include="GUI\GUISettingsPlugins.cs" />
     <Compile Include="GUI\GUIShouts.cs" />
     <Compile Include="GUI\GUIShowSeasons.cs" />
+    <Compile Include="GUI\GUIWatchedHistoryEpisodes.cs" />
     <Compile Include="GUI\GUIWatchedHistoryMovies.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />

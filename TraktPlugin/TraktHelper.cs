@@ -249,6 +249,10 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void RemoveEpisodeFromWatchList(TraktShow show, TraktEpisode episode)
+        {
+            RemoveEpisodeFromWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void RemoveEpisodeFromWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -625,6 +629,10 @@ namespace TraktPlugin
         #endregion
 
         #region Episode Watched/UnWatched
+        public static void MarkEpisodeAsWatched(TraktShow show, TraktEpisode episode)
+        {
+            MarkEpisodeAsWatched(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void MarkEpisodeAsWatched(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -643,6 +651,10 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void MarkEpisodeAsUnWatched(TraktShow show, TraktEpisode episode)
+        {
+            MarkEpisodeAsUnWatched(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void MarkEpisodeAsUnWatched(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -707,6 +719,10 @@ namespace TraktPlugin
         #endregion
 
         #region Episode Library/UnLibrary
+        public static void AddEpisodeToLibrary(TraktShow show, TraktEpisode episode)
+        {
+            AddEpisodeToLibrary(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void AddEpisodeToLibrary(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -725,6 +741,10 @@ namespace TraktPlugin
             syncThread.Start(syncObject);
         }
 
+        public static void RemoveEpisodeFromLibrary(TraktShow show, TraktEpisode episode)
+        {
+            RemoveEpisodeFromLibrary(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+        }
         public static void RemoveEpisodeFromLibrary(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);

@@ -234,6 +234,11 @@ namespace TraktPlugin.GUI
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedHistoryMovies);
                                         break;
 
+                                    case (ActivityType.EpisodeWatchHistory):
+                                        GUIWatchedHistoryEpisodes.CurrentUser = CurrentSelectedUser.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedHistoryEpisodes);
+                                        break;
+
                                     case (ActivityType.MovieWatchList):
                                         GUIWatchListMovies.CurrentUser = CurrentSelectedUser.Username;
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
