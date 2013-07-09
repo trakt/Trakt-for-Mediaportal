@@ -167,6 +167,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
+                        PreviousUser = CurrentUser;
                         CheckAndPlayEpisode(true);
                     }
                     break;
@@ -194,6 +195,7 @@ namespace TraktPlugin.GUI
                     break;
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
+                    PreviousUser = CurrentUser;
                     CheckAndPlayEpisode(false);
                     break;
                 default:
@@ -361,6 +363,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
+                    PreviousUser = CurrentUser;
                     GUICommon.ShowTVShowTrailersMenu(selectedShow, selectedEpisode);
                     break;
 
