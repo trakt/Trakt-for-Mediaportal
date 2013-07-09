@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--version="1.0" encoding="utf-8" standalone="yes"-->
 <window>
   <controls>
     <control>
@@ -27,6 +26,7 @@
           <textYOff3>8</textYOff3>
           <textalign3>right</textalign3>
           <font3>font9</font3>
+          <font2>font9</font2>
           <scrollOffset>2</scrollOffset>
           <spinCanFocus>no</spinCanFocus>
           <unfocusedAlpha>160</unfocusedAlpha>

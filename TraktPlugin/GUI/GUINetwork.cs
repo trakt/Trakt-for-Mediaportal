@@ -89,7 +89,7 @@ namespace TraktPlugin.GUI
         static ViewLevel CurrentViewLevel { get; set; }
         View CurrentView { get; set; }
         ActivityType SelectedActivity { get; set; }
-        TraktUser CurrentSelectedUser { get; set; }        
+        TraktUser CurrentSelectedUser { get; set; }
         int PreviousUserSelectedIndex = 0;
         int PreviousActivityTypeSelectedIndex = 0;
         bool StopDownload = false;

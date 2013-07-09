@@ -455,7 +455,8 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (activities.Count() == 0)
+            // protected profiles might return null
+            if (activities == null || activities.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNotWatchedMovies);
                 PreviousUser = CurrentUser;
