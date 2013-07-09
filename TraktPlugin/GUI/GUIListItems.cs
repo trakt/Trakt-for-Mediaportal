@@ -779,13 +779,15 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            int itemId = 0;
+            int itemId = 1;
             List<object> images = new List<object>();
             
             // Add each list item
             foreach (var listItem in list.Items)
             {
-                GUITraktCustomListItem item = new GUITraktCustomListItem(listItem.ToString());
+                string itemName = list.ShowNumbers ? string.Format("{0}. {1}", itemId, listItem.ToString()) : listItem.ToString();
+
+                GUITraktCustomListItem item = new GUITraktCustomListItem(itemName);
 
                 item.Label2 = listItem.Year;
                 item.TVTag = listItem;

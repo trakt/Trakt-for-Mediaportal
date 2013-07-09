@@ -190,7 +190,9 @@ namespace TraktPlugin.GUI
                 Name = selectedList.Name,
                 Description = selectedList.Description,
                 Privacy = selectedList.Privacy,
-                Slug = selectedList.Slug
+                Slug = selectedList.Slug,
+                ShowNumbers = selectedList.ShowNumbers,
+                AllowShouts = selectedList.AllowShouts
             };
 
             switch (dlg.SelectedId)
@@ -494,6 +496,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.Privacy", string.Empty);
             SetProperty("#Trakt.List.Slug", string.Empty);
             SetProperty("#Trakt.List.Url", string.Empty);
+            SetProperty("#Trakt.List.AllowShouts", string.Empty);
+            SetProperty("#Trakt.List.ShowNumbers", string.Empty);
         }
 
         private void PublishListSkinProperties(TraktUserList list)
@@ -503,6 +507,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.Privacy", list.Privacy);
             SetProperty("#Trakt.List.Slug", list.Slug);
             SetProperty("#Trakt.List.Url", list.Url);
+            SetProperty("#Trakt.List.AllowShouts", list.AllowShouts.ToString());
+            SetProperty("#Trakt.List.ShowNumbers", list.ShowNumbers.ToString());
         }
 
         private void OnItemSelected(GUIListItem item, GUIControl parent)

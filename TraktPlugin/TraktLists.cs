@@ -183,6 +183,9 @@ namespace TraktPlugin
             if (selectedItem == -1) return false;
 
             list.Privacy = GetPrivacyLevelFromTranslation(items[selectedItem].Label2);
+
+            // Skip 'Show Shouts' and 'Use Numbering' until we have Custom Dialog for List edits
+
             return true;
         }
 

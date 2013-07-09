@@ -18,6 +18,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "privacy")]
         public string Privacy { get; set; }
 
+        [DataMember(Name = "show_numbers")]
+        public bool ShowNumbers { get; set; }
+
+        [DataMember(Name = "allow_shouts")]
+        public bool AllowShouts { get; set; }
+
         [DataMember(Name = "items")]
         public List<TraktListItem> Items { get; set; }
     }
