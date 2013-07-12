@@ -22,6 +22,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "first_aired")]
         public long FirstAired { get; set; }
 
+        [DataMember(Name = "first_aired_iso")]
+        public string FirstAiredIso { get; set; }
+
+        [DataMember(Name = "first_aired_utc")]
+        public long FirstAiredUtc { get; set; }
+
         [DataMember(Name = "country")]
         public string Country { get; set; }
 
@@ -37,8 +43,14 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "air_day")]
         public string AirDay { get; set; }
 
+        [DataMember(Name = "air_day_utc")]
+        public string AirDayUtc { get; set; }
+
         [DataMember(Name = "air_time")]
         public string AirTime { get; set; }
+
+        [DataMember(Name = "air_time_utc")]
+        public string AirTimeUtc { get; set; }
 
         [DataMember(Name = "air_time_localized")]
         public string AirTimeLocalized { get; set; }

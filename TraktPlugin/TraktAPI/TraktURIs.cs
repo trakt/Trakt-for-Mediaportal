@@ -17,6 +17,7 @@ namespace TraktPlugin.TraktAPI
         public const string UserWatchedMovies = @"http://api.trakt.tv/user/watched/movies.json/" + ApiKey + @"/{0}";
         public const string UserProfile = @"http://api.trakt.tv/user/profile.json/" + ApiKey + @"/{0}";
         public const string SeriesOverview = @"http://api.trakt.tv/show/summary.json/" + ApiKey + @"/{0}";
+        public const string SeriesOverviewExtended = @"http://api.trakt.tv/show/summary.json/" + ApiKey + @"/{0}/extended";
         public const string UserEpisodesUnSeen = @"http://api.trakt.tv/user/library/shows/unseen.json/" + ApiKey + @"/{0}{1}";
         public const string UserEpisodesCollection = @"http://api.trakt.tv/user/library/shows/collection.json/" + ApiKey + @"/{0}{1}";
         public const string UserMoviesCollection = @"http://api.trakt.tv/user/library/movies/collection.json/" + ApiKey + @"/{0}";
@@ -57,7 +58,7 @@ namespace TraktPlugin.TraktAPI
         public const string SearchMovies = @"http://api.trakt.tv/search/movies.json/" + ApiKey + @"/{0}";
         public const string SearchShows = @"http://api.trakt.tv/search/shows.json/" + ApiKey + @"/{0}";
         public const string SearchEpisodes = @"http://api.trakt.tv/search/episodes.json/" + ApiKey + @"/{0}";
-        public const string SearchActor = @"http://api.trakt.tv/search/people.json/" + ApiKey + @"/{0}";
+        public const string SearchPeople = @"http://api.trakt.tv/search/people.json/" + ApiKey + @"/{0}";
         public const string MovieShouts = @"http://api.trakt.tv/movie/comments.json/" + ApiKey + @"/{0}";
         public const string ShowShouts = @"http://api.trakt.tv/show/comments.json/" + ApiKey + @"/{0}";
         public const string EpisodeShouts = @"http://api.trakt.tv/show/episode/comments.json/" + ApiKey + @"/{0}/{1}/{2}";

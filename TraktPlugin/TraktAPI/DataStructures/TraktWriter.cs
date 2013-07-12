@@ -8,9 +8,9 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktActor : TraktPerson
+    public class TraktWriter : TraktPerson
     {
-        [DataMember(Name = "character")]
-        public string Character { get; set; }
+        [DataMember(Name = "job")]
+        public string Job { get; set; }
     }
 }

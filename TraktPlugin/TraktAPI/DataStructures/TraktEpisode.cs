@@ -28,6 +28,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "first_aired")]
         public long FirstAired { get; set; }
 
+        [DataMember(Name = "first_aired_utc")]
+        public long FirstAiredUtc { get; set; }
+
+        [DataMember(Name = "first_aired_iso")]
+        public string FirstAiredIso { get; set; }
+
         [DataMember(Name = "first_aired_localized")]
         public long FirstAiredLocalized { get; set; }
 

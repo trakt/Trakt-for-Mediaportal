@@ -1036,7 +1036,7 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm)), string.Empty);
+            string response = Transmit(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
             return response.FromJSONArray<TraktMovie>();
         }
 
@@ -1045,26 +1045,26 @@ namespace TraktPlugin.TraktAPI
         /// </summary>        
         public static IEnumerable<TraktShow> SearchShows(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm)), string.Empty);
+            string response = Transmit(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
             return response.FromJSONArray<TraktShow>();
         }
 
         /// <summary>
         /// Returns a list of episodes found using search term
         /// </summary>        
-        public static IEnumerable<TraktSearchEpisode> SearchEpisodes(string searchTerm)
+        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm)), string.Empty);
-            return response.FromJSONArray<TraktSearchEpisode>();
+            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
+            return response.FromJSONArray<TraktEpisodeSummary>();
         }
 
         /// <summary>
-        /// Returns a list of actors found using search term
+        /// Returns a list of people found using search term
         /// </summary>        
-        public static IEnumerable<TraktActor> SearchActor(string searchTerm)
+        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchActor, HttpUtility.UrlEncode(searchTerm)), string.Empty);
-            return response.FromJSONArray<TraktActor>();
+            string response = Transmit(string.Format(TraktURIs.SearchPeople, HttpUtility.UrlEncode(searchTerm)), string.Empty);
+            return response.FromJSONArray<TraktPersonSummary>();
         }
 
         #endregion
@@ -1076,10 +1076,10 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="ID">TMDB ID, IMDB ID or slug</param>
         /// <returns></returns>
-        public static TraktMovie MovieOverview(string ID)
+        public static TraktMovieSummary MovieOverview(string ID)
         {
-            string response = Transmit(string.Format(TraktURIs.MovieOverview, HttpUtility.UrlEncode(ID)), string.Empty);
-            return response.FromJSON<TraktMovie>();
+            string response = Transmit(string.Format(TraktURIs.MovieOverview, HttpUtility.UrlEncode(ID)), GetUserAuthentication());
+            return response.FromJSON<TraktMovieSummary>();
         }
 
         /// <summary>
@@ -1087,10 +1087,12 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="ID">TVDB ID or slug</param>
         /// <returns></returns>
-        public static TraktShow SeriesOverview(string ID)
+        public static TraktShowSummary SeriesOverview(string ID, bool extended = false)
         {
-            string response = Transmit(string.Format(TraktURIs.SeriesOverview, HttpUtility.UrlEncode(ID)), string.Empty);
-            return response.FromJSON<TraktShow>();
+            string url = extended ? TraktURIs.SeriesOverviewExtended : TraktURIs.SeriesOverview;
+
+            string response = Transmit(string.Format(url, HttpUtility.UrlEncode(ID)), GetUserAuthentication());
+            return response.FromJSON<TraktShowSummary>();
         }
 
         #endregion
