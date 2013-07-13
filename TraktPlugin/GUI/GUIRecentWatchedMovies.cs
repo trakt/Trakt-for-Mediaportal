@@ -151,7 +151,7 @@ namespace TraktPlugin.GUI
             ClearProperties();
 
             // save current layout
-            TraktSettings.WatchedHistoryMoviesDefaultLayout = (int)CurrentLayout;
+            TraktSettings.RecentWatchedMoviesDefaultLayout = (int)CurrentLayout;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -520,7 +520,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.RecentWatched.CurrentUser", CurrentUser);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.WatchedHistoryMoviesDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.RecentWatchedMoviesDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

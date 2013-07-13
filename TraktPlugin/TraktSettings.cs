@@ -114,8 +114,10 @@ namespace TraktPlugin
         public static bool TrendingShowsHideRated { get; set; }
         public static List<string> ShowsInCollection { get; set; }
         public static int DefaultNetworkView { get; set; }
-        public static int WatchedHistoryMoviesDefaultLayout { get; set; }
-        public static int WatchedHistoryEpisodesDefaultLayout { get; set; }
+        public static int RecentWatchedMoviesDefaultLayout { get; set; }
+        public static int RecentWatchedEpisodesDefaultLayout { get; set; }
+        public static int RecentAddedMoviesDefaultLayout { get; set; }
+        public static int RecentAddedEpisodesDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -219,8 +221,10 @@ namespace TraktPlugin
         private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
         private const string cShowsInCollection = "ShowsInCollection";
         private const string cDefaultNetworkView = "DefaultNetworkView";
-        private const string cWatchedHistoryMoviesDefaultLayout = "WatchedHistoryMoviesDefaultLayout";
-        private const string cWatchedHistoryEpisodesDefaultLayout = "WatchedHistoryEpisodesDefaultLayout";
+        private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
+        private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
+        private const string cRecentAddedMoviesDefaultLayout = "RecentAddedMoviesDefaultLayout";
+        private const string cRecentAddedEpisodesDefaultLayout = "RecentAddedEpisodesDefaultLayout";
         #endregion
 
         #region Properties
@@ -488,8 +492,10 @@ namespace TraktPlugin
                 TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
                 ShowsInCollection = xmlreader.GetValueAsString(cTrakt, cShowsInCollection, "").FromJSONArray<string>().ToList();
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
-                WatchedHistoryMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchedHistoryMoviesDefaultLayout, 0);
-                WatchedHistoryEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cWatchedHistoryEpisodesDefaultLayout, 0);
+                RecentWatchedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedMoviesDefaultLayout, 0);
+                RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
+                RecentAddedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedMoviesDefaultLayout, 0);
+                RecentAddedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedEpisodesDefaultLayout, 0);
             }
         }
 
@@ -597,8 +603,10 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
                 xmlwriter.SetValue(cTrakt, cShowsInCollection, ShowsInCollection.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
-                xmlwriter.SetValue(cTrakt, cWatchedHistoryMoviesDefaultLayout, WatchedHistoryMoviesDefaultLayout);
-                xmlwriter.SetValue(cTrakt, cWatchedHistoryEpisodesDefaultLayout, WatchedHistoryEpisodesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecentWatchedMoviesDefaultLayout, RecentWatchedMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecentAddedMoviesDefaultLayout, RecentAddedMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cRecentAddedEpisodesDefaultLayout, RecentAddedEpisodesDefaultLayout);
             }
 
             Settings.SaveCache();
