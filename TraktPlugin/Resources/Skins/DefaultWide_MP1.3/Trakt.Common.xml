@@ -43,12 +43,12 @@
         <onright>#defaultcontrol</onright>
       </control>
       <control>
-        <description>Friends</description>
+        <description>Network</description>
         <type>button</type>
         <id>9992</id>
         <width>280</width>
-        <label>#Trakt.Translation.Friends.Label</label>
-        <hyperlink>87260</hyperlink>
+        <label>#Trakt.Translation.Network.Label</label>
+        <hyperlink>87283</hyperlink>
         <onright>#defaultcontrol</onright>
       </control>
       <control>
