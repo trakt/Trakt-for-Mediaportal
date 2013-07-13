@@ -3,8 +3,8 @@
   <id>87284</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
-  <define>#Fanart.1:#Trakt.WatchedHistoryMovies.Fanart.1</define>
-  <define>#Fanart.2:#Trakt.WatchedHistoryMovies.Fanart.2</define>
+  <define>#Fanart.1:#Trakt.RecentWatchedMovies.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.RecentWatchedMovies.Fanart.2</define>
   <controls>
     <control>
       <description>BG</description>
@@ -37,7 +37,7 @@
       <width>866</width>
       <font>font11</font>
       <textcolor>ff6FAFE1</textcolor>
-      <label>#Trakt.Translation.RecentWatchedMovies.Label | #Trakt.WatchedHistory.CurrentUser</label>
+      <label>#Trakt.Translation.RecentWatchedMovies.Label | #Trakt.RecentWatched.CurrentUser</label>
       <align>left</align>
     </control>
     <import>Trakt.Common.Facade.xml</import>
