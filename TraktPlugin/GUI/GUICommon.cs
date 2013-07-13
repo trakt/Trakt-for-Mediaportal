@@ -41,6 +41,7 @@ namespace TraktPlugin.GUI
         ShowFriendActivity,
         IncludeMeInFriendsActivity,
         DontIncludeMeInFriendsActivity,
+        ShowSeasonInfo,
         MarkAsWatched,
         AddToWatchList,
         AddToList,
@@ -1071,7 +1072,7 @@ namespace TraktPlugin.GUI
         #region Activity
 
         /// <summary>
-        /// Returns a list of context menu items for a selected movie in the Activity Dashboard
+        /// Returns a list of context menu items for a selected item in the Activity Dashboard
         /// Activity API does not return authenticated data such as InWatchlist, InCollection, Rating etc.
         /// </summary>
         internal static List<GUIListItem> GetContextMenuItemsForActivity()
@@ -1145,7 +1146,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add to Custom list
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
 
@@ -1175,7 +1176,7 @@ namespace TraktPlugin.GUI
             }
 
             // Related Movies
-            listItem = new GUIListItem(Translation.RelatedMovies + "...");
+            listItem = new GUIListItem(Translation.RelatedMovies);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Related;
 
@@ -1185,7 +1186,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
+            listItem = new GUIListItem(Translation.Shouts);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
 

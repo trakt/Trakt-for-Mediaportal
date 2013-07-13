@@ -1429,11 +1429,20 @@ namespace TraktPlugin
             }
 
             TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
+                // if selected activity is an episode or show, add 'Season Info'
+                if (activity.Show != null)
+                {
+                    listItem = new GUIListItem(Translation.ShowSeasonInfo);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.ShowSeasonInfo;
+                }
+
+                // get a list of common actions to perform on the selected item
                 if (activity.Movie != null || activity.Show != null)
                 {
-                    // get a list of common actions to perform on the selected item
                     var listItems = GUICommon.GetContextMenuItemsForActivity();
                     foreach (var item in listItems)
                     {
@@ -1472,6 +1481,10 @@ namespace TraktPlugin
                     TraktSettings.IncludeMeInFriendsActivity = false;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
+                    break;
+
+                case ((int)ActivityContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, activity.Show.ToJSON());
                     break;
 
                 case ((int)ActivityContextMenuItem.AddToList):
