@@ -362,19 +362,17 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
-                    AddShowToWatchList(selectedShow);
+                    TraktHelper.AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemoveShowFromWatchList(selectedShow);
+                    TraktHelper.RemoveShowFromWatchList(selectedShow);
                     selectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -386,10 +384,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
-                    GUIShouts.ShowInfo = new ShowShout { IMDbId = selectedShow.Imdb, TVDbId = selectedShow.Tvdb, Title = selectedShow.Title };
-                    GUIShouts.Fanart = selectedShow.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowTVShowShouts(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -442,58 +437,6 @@ namespace TraktPlugin.GUI
 
             TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
             GUICommon.CheckAndPlayFirstUnwatched(selectedShow, jumpTo);
-        }
-
-        private TraktShowSync CreateSyncData(TraktShow show)
-        {
-            if (show == null) return null;
-
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show syncShow = new TraktShowSync.Show
-            {
-                TVDBID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year
-            };
-            shows.Add(syncShow);
-
-            TraktShowSync syncData = new TraktShowSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                Shows = shows
-            };
-
-            return syncData;
-        }
-
-        private void AddShowToWatchList(TraktShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(show);
-        }
-
-        private void RemoveShowFromWatchList(TraktShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktShow), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(show);
         }
 
         private void LoadRelatedShows()

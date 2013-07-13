@@ -84,7 +84,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87280;
+                return (int)TraktGUIWindows.Shouts;
             }
         }
 

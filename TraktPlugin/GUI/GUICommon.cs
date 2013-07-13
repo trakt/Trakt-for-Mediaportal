@@ -1257,7 +1257,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.AddToLibrary;
 
             // Add to Custom List
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
 
@@ -1277,7 +1277,7 @@ namespace TraktPlugin.GUI
             }
 
             // Related Shows
-            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            listItem = new GUIListItem(Translation.RelatedShows);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Related;
 
@@ -1287,7 +1287,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
+            listItem = new GUIListItem(Translation.Shouts);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
 

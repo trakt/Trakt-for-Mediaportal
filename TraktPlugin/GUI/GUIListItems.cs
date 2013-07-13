@@ -102,6 +102,12 @@ namespace TraktPlugin.GUI
         {
             base.OnPageLoad();
 
+            if (CurrentUser == null || CurrentList == null)
+            {
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
+
             // Clear GUI Properties
             ClearProperties();
 
@@ -226,7 +232,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add to Custom list
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 

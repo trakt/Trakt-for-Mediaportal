@@ -103,7 +103,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87269;
+                return (int)TraktGUIWindows.WatchedListEpisodes;
             }
         }
 
@@ -257,7 +257,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     RemovingWatchListItem = true;
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
-                    RemoveEpisodeFromWatchList(item);
+                    TraktHelper.RemoveEpisodeFromWatchList(selectedSeries, selectedEpisode);
                     if (this.Facade.Count >= 1)
                     {
                         // remove from list
@@ -288,17 +288,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
-                    GUIShouts.EpisodeInfo = new EpisodeShout
-                    { 
-                        TVDbId = selectedSeries.Tvdb, 
-                        IMDbId = selectedSeries.Imdb, 
-                        Title = selectedSeries.Title, 
-                        SeasonIdx = selectedEpisode.Season.ToString(), 
-                        EpisodeIdx = selectedEpisode.Number.ToString()
-                    };
-                    GUIShouts.Fanart = selectedSeries.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowEpisodeShouts(selectedSeries, selectedEpisode);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -337,49 +327,7 @@ namespace TraktPlugin.GUI
 
             GUICommon.CheckAndPlayEpisode(selectedSeries, selectedEpisode);
         }
-
-        private TraktEpisodeSync CreateSyncData(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> item)
-        {
-            var series = item.Key;
-            var episode = item.Value;
-
-            List<TraktEpisodeSync.Episode> episodes = new List<TraktEpisodeSync.Episode>();
-
-            TraktEpisodeSync.Episode ep = new TraktEpisodeSync.Episode
-            {
-                EpisodeIndex = episode.Number.ToString(),
-                SeasonIndex = episode.Season.ToString()                
-            };
-            episodes.Add(ep);
-
-            TraktEpisodeSync syncData = new TraktEpisodeSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                SeriesID = series.Tvdb,
-                Title = series.Title,
-                Year = series.Year.ToString(),
-                EpisodeList = episodes
-            };
-
-            return syncData;
-        }
-
-        private void RemoveEpisodeFromWatchList(KeyValuePair<TraktShow, TraktWatchListEpisode.Episode> item)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeWatchList(CreateSyncData((KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>)obj), TraktSyncModes.unwatchlist);
-                RemovingWatchListItem = false;
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(item);
-        }
-
+        
         private void LoadWatchListEpisodes()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);

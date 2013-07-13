@@ -109,7 +109,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87268;
+                return (int)TraktGUIWindows.WatchedListShows;
             }
         }
 
@@ -310,16 +310,15 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
-                    AddShowToWatchList(selectedShow);
+                    TraktHelper.AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     selectedShow.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
-                    RemoveShowFromWatchList(selectedShow);
+                    TraktHelper.RemoveShowFromWatchList(selectedShow);
                     if (_WatchListShows.Count() >= 1)
                     {
                         // remove from list
@@ -348,11 +347,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Related):
-                    RelatedShow relatedShow = new RelatedShow();
-                    relatedShow.Title = selectedShow.Title;
-                    relatedShow.TVDbId = selectedShow.Tvdb;
-                    GUIRelatedShows.relatedShow = relatedShow;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                    TraktHelper.ShowRelatedShows(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.Rate):
@@ -363,10 +358,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
-                    GUIShouts.ShowInfo = new ShowShout { IMDbId = selectedShow.Imdb, TVDbId = selectedShow.Tvdb, Title = selectedShow.Title };
-                    GUIShouts.Fanart = selectedShow.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowTVShowShouts(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
@@ -405,58 +397,6 @@ namespace TraktPlugin.GUI
 
             TraktWatchListShow selectedShow = (TraktWatchListShow)selectedItem.TVTag;
             GUICommon.CheckAndPlayFirstUnwatched(selectedShow, jumpTo);
-        }
-
-        private TraktShowSync CreateSyncData(TraktWatchListShow show)
-        {
-            if (show == null) return null;
-
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show syncShow = new TraktShowSync.Show
-            {
-                TVDBID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year
-            };
-            shows.Add(syncShow);
-
-            TraktShowSync syncData = new TraktShowSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                Shows = shows
-            };
-
-            return syncData;
-        }
-
-        private void AddShowToWatchList(TraktWatchListShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktWatchListShow), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(show);
-        }
-
-        private void RemoveShowFromWatchList(TraktWatchListShow show)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateSyncData(obj as TraktWatchListShow), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(show);
         }
 
         private void LoadWatchListShows()

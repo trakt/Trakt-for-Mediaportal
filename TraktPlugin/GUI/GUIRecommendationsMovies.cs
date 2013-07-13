@@ -127,7 +127,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87263;
+                return (int)TraktGUIWindows.RecommendationsMovies;
             }
         }
 
@@ -416,7 +416,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
-                    MarkMovieAsWatched(selectedMovie);
+                    TraktHelper.MarkMovieAsWatched(selectedMovie);
                     if (_RecommendedMovies.Count() > 1)
                     {
                         var moviesToExcept = new List<TraktMovie>();
@@ -434,19 +434,17 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
-                    AddMovieToWatchList(selectedMovie);
+                    TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemoveMovieFromWatchList(selectedMovie);
+                    TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
-                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -454,25 +452,21 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    AddMovieToLibrary(selectedMovie);
+                    TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    RemoveMovieFromLibrary(selectedMovie);
+                    TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.Related):
-                    RelatedMovie relatedMovie = new RelatedMovie();
-                    relatedMovie.IMDbId = selectedMovie.IMDBID;
-                    relatedMovie.Title = selectedMovie.Title;
-                    GUIRelatedMovies.relatedMovie = relatedMovie;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
+                    TraktHelper.ShowRelatedMovies(selectedMovie);
                     break;
 
                 case ((int)ContextMenuItem.Rate):
@@ -480,7 +474,7 @@ namespace TraktPlugin.GUI
                     if (GUICommon.RateMovie(selectedMovie))
                     {
                         // also mark as watched
-                        MarkMovieAsWatched(selectedMovie);
+                        TraktHelper.MarkMovieAsWatched(selectedMovie);
                         // remove from recommendations
                         if (_RecommendedMovies.Count() > 1)
                         {
@@ -500,10 +494,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.movie;
-                    GUIShouts.MovieInfo = new MovieShout { IMDbId = selectedMovie.IMDBID, TMDbId = selectedMovie.TMDBID, Title = selectedMovie.Title, Year = selectedMovie.Year };
-                    GUIShouts.Fanart = selectedMovie.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowMovieShouts(selectedMovie);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
@@ -555,58 +546,6 @@ namespace TraktPlugin.GUI
             GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
         }
 
-        private TraktMovieSync CreateSyncData(TraktMovie movie)
-        {
-            if (movie == null) return null;
-
-            List<TraktMovieSync.Movie> movies = new List<TraktMovieSync.Movie>();
-
-            TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
-            {
-                IMDBID = movie.IMDBID,
-                Title = movie.Title,
-                Year = movie.Year
-            };
-            movies.Add(syncMovie);
-
-            TraktMovieSync syncData = new TraktMovieSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                MovieList = movies
-            };
-
-            return syncData;
-        }
-
-        private void AddMovieToWatchList(TraktMovie movie)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktMovie), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(movie);
-        }
-
-        private void RemoveMovieFromWatchList(TraktMovie movie)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktMovie), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(movie);
-        }
-
         private void DismissRecommendation(TraktMovie movie)
         {
             Thread syncThread = new Thread(delegate(object obj)
@@ -633,48 +572,6 @@ namespace TraktPlugin.GUI
             {
                 IsBackground = true,
                 Name = "DismissRecommendation"
-            };
-
-            syncThread.Start(movie);
-        }
-
-        private void MarkMovieAsWatched(TraktMovie movie)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktMovie), TraktSyncModes.seen);
-            })
-            {
-                IsBackground = true,
-                Name = "MarkWatched"
-            };
-
-            syncThread.Start(movie);
-        }
-
-        private void AddMovieToLibrary(TraktMovie movie)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktMovie), TraktSyncModes.library);
-            })
-            {
-                IsBackground = true,
-                Name = "AddLibrary"
-            };
-
-            syncThread.Start(movie);
-        }
-
-        private void RemoveMovieFromLibrary(TraktMovie movie)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(obj as TraktMovie), TraktSyncModes.unlibrary);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveLibrary"
             };
 
             syncThread.Start(movie);

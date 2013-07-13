@@ -191,7 +191,7 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            listItem = new GUIListItem(Translation.Trailers + "...");
+            listItem = new GUIListItem(Translation.Trailers);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Trailers;
 
@@ -281,7 +281,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    MarkEpisodeAsWatched(selectedEpisode);
+                    TraktHelper.MarkEpisodeAsWatched(Show, selectedEpisode);
                     selectedEpisode.Watched = true;
                     Facade.SelectedListItem.IsPlayed = true;
                     if (selectedEpisode.Plays == 0) selectedEpisode.Plays = 1;
@@ -290,7 +290,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    MarkEpisodeAsUnWatched(selectedEpisode);
+                    TraktHelper.MarkEpisodeAsUnWatched(Show, selectedEpisode);
                     selectedEpisode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
@@ -298,35 +298,35 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    AddEpisodeToLibrary(selectedEpisode);
+                    TraktHelper.AddEpisodeToLibrary(Show, selectedEpisode);
                     selectedEpisode.InCollection = true;
                     OnEpisodeSelected(selectedItem, Facade);
                     selectedEpisode.Images.NotifyPropertyChanged("EpisodeImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    RemoveEpisodeFromLibrary(selectedEpisode);
+                    TraktHelper.RemoveEpisodeFromLibrary(Show, selectedEpisode);
                     selectedEpisode.InCollection = false;
                     OnEpisodeSelected(selectedItem, Facade);
                     selectedEpisode.Images.NotifyPropertyChanged("EpisodeImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
-                    AddEpisodeToWatchList(selectedEpisode);
+                    TraktHelper.AddEpisodeToWatchList(Show, selectedEpisode);
                     selectedEpisode.InWatchList = true;
                     OnEpisodeSelected(selectedItem, Facade);
                     selectedEpisode.Images.NotifyPropertyChanged("EpisodeImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemoveEpisodeFromWatchList(selectedEpisode);
+                    TraktHelper.RemoveEpisodeFromWatchList(Show, selectedEpisode);
                     selectedEpisode.InWatchList = false;
                     OnEpisodeSelected(selectedItem, Facade);
                     selectedEpisode.Images.NotifyPropertyChanged("EpisodeImageFilename");
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateEpisode(selectedEpisode);
+                    GUICommon.RateEpisode(Show, selectedEpisode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     selectedEpisode.Images.NotifyPropertyChanged("EpisodeImageFilename");
                     break;
@@ -336,17 +336,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
-                    GUIShouts.EpisodeInfo = new EpisodeShout
-                    {
-                        TVDbId = Show.Tvdb,
-                        IMDbId = Show.Imdb,
-                        Title = Show.Title,
-                        SeasonIdx = selectedEpisode.Season.ToString(),
-                        EpisodeIdx = selectedEpisode.Number.ToString()
-                    };
-                    GUIShouts.Fanart = Show.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowTVShowShouts(Show);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
@@ -382,119 +372,6 @@ namespace TraktPlugin.GUI
             var selectedEpisode = selectedItem.TVTag as TraktEpisode;
 
             GUICommon.CheckAndPlayEpisode(Show, selectedEpisode);
-        }
-
-        private TraktEpisodeSync CreateEpisodeSyncData(TraktEpisode episode)
-        {
-            List<TraktEpisodeSync.Episode> episodes = new List<TraktEpisodeSync.Episode>();
-
-            TraktEpisodeSync.Episode ep = new TraktEpisodeSync.Episode
-            {
-                EpisodeIndex = episode.Number.ToString(),
-                SeasonIndex = episode.Season.ToString()
-            };
-            episodes.Add(ep);
-
-            TraktEpisodeSync syncData = new TraktEpisodeSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                SeriesID = Show.Tvdb,
-                Title = Show.Title,
-                Year = Show.Year.ToString(),
-                EpisodeList = episodes
-            };
-
-            return syncData;
-        }
-
-        private void AddEpisodeToLibrary(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.library);
-            })
-            {
-                IsBackground = true,
-                Name = "AddLibrary"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RemoveEpisodeFromLibrary(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.unlibrary);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveLibrary"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void MarkEpisodeAsWatched(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.seen);
-            })
-            {
-                IsBackground = true,
-                Name = "MarkWatched"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void MarkEpisodeAsUnWatched(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.unseen);
-            })
-            {
-                IsBackground = true,
-                Name = "MarkUnWatched"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RateEpisode(TraktEpisode episode)
-        {
-            GUICommon.RateEpisode(Show, episode);
-        }
-
-        private void AddEpisodeToWatchList(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeWatchList(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RemoveEpisodeFromWatchList(TraktEpisode episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeWatchList(CreateEpisodeSyncData(obj as TraktEpisode), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(episode);
         }
 
         private void LoadSeasonEpisodes()

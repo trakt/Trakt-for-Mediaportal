@@ -171,7 +171,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87259;
+                return (int)TraktGUIWindows.Calendar;
             }
         }
 
@@ -481,35 +481,21 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Related):
-                    RelatedShow relatedShow = new RelatedShow();
-                    relatedShow.Title = episodeItem.Show.Title;
-                    relatedShow.TVDbId = episodeItem.Show.Tvdb;
-                    GUIRelatedShows.relatedShow = relatedShow;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                    TraktHelper.ShowRelatedShows(episodeItem.Show);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
-                    GUIShouts.EpisodeInfo = new EpisodeShout
-                    {
-                        TVDbId = episodeItem.Show.Tvdb,
-                        IMDbId = episodeItem.Show.Imdb,
-                        Title = episodeItem.Show.Title,
-                        SeasonIdx = episodeItem.Episode.Season.ToString(),
-                        EpisodeIdx = episodeItem.Episode.Number.ToString()
-                    };
-                    GUIShouts.Fanart = episodeItem.Show.Images.FanartImageFilename;
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                    TraktHelper.ShowEpisodeShouts(episodeItem.Show, episodeItem.Episode);
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateEpisode(episodeItem);
+                    GUICommon.RateEpisode(episodeItem.Show, episodeItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    MarkEpisodeAsWatched(episodeItem);
+                    TraktHelper.MarkEpisodeAsWatched(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.Watched = true;
                     Facade.SelectedListItem.IsPlayed = true;
                     if (episodeItem.Episode.Plays == 0) episodeItem.Episode.Plays = 1;
@@ -518,7 +504,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    MarkEpisodeAsUnWatched(episodeItem);
+                    TraktHelper.MarkEpisodeAsUnWatched(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
@@ -526,14 +512,14 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddShowToWatchList):
-                    AddShowToWatchList(episodeItem);
+                    TraktHelper.AddShowToWatchList(episodeItem.Show);
                     episodeItem.Show.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddEpisodeToWatchList):
-                    AddEpisodeToWatchList(episodeItem);
+                    TraktHelper.AddEpisodeToWatchList(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
@@ -541,14 +527,14 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.RemoveShowFromWatchList):
-                    RemoveShowFromWatchList(episodeItem);
+                    TraktHelper.RemoveShowFromWatchList(episodeItem.Show);
                     episodeItem.Show.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveEpisodeFromWatchList):
-                    RemoveEpisodeFromWatchList(episodeItem);
+                    TraktHelper.RemoveEpisodeFromWatchList(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
@@ -564,14 +550,14 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    AddEpisodeToLibrary(episodeItem);
+                    TraktHelper.AddEpisodeToLibrary(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InCollection = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    RemoveEpisodeFromLibrary(episodeItem);
+                    TraktHelper.RemoveEpisodeFromLibrary(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InCollection = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
@@ -597,164 +583,6 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
-
-        private TraktEpisodeSync CreateEpisodeSyncData(TraktCalendar.TraktEpisodes episode)
-        {
-            List<TraktEpisodeSync.Episode> episodeList = new List<TraktEpisodeSync.Episode>();
-            episodeList.Add(new TraktEpisodeSync.Episode { EpisodeIndex = episode.Episode.Number.ToString(), SeasonIndex = episode.Episode.Season.ToString() });
-
-            TraktEpisodeSync syncData = new TraktEpisodeSync
-            {
-                EpisodeList = episodeList,
-                IMDBID = episode.Show.Imdb,
-                SeriesID = episode.Show.Tvdb,
-                Title = episode.Show.Title,
-                Year = episode.Show.Year.ToString(),
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return syncData;
-        }
-
-        private TraktShowSync CreateShowSyncData(TraktCalendar.TraktEpisodes episode)
-        {
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show show = new TraktShowSync.Show
-            {
-                Title = episode.Show.Title,
-                TVDBID = episode.Show.Tvdb,
-                Year = episode.Show.Year
-            };
-            shows.Add(show);
-
-            TraktShowSync syncData = new TraktShowSync
-            {  
-                Shows = shows,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return syncData;
-        }
-
-        private void AddShowToWatchList(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateShowSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void AddEpisodeToWatchList(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeWatchList(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.watchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "AddWatchList"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RemoveShowFromWatchList(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncShowWatchList(CreateShowSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RemoveEpisodeFromWatchList(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeWatchList(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.unwatchlist);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveWatchList"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void AddEpisodeToLibrary(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.library);
-            })
-            {
-                IsBackground = true,
-                Name = "AddLibrary"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RemoveEpisodeFromLibrary(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.unlibrary);
-            })
-            {
-                IsBackground = true,
-                Name = "RemoveLibrary"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void MarkEpisodeAsWatched(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.seen);
-            })
-            {
-                IsBackground = true,
-                Name = "MarkWatched"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void MarkEpisodeAsUnWatched(TraktCalendar.TraktEpisodes episode)
-        {
-            Thread syncThread = new Thread(delegate(object obj)
-            {
-                TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateEpisodeSyncData(obj as TraktCalendar.TraktEpisodes), TraktSyncModes.unseen);
-            })
-            {
-                IsBackground = true,
-                Name = "MarkUnWatched"
-            };
-
-            syncThread.Start(episode);
-        }
-
-        private void RateEpisode(TraktCalendar.TraktEpisodes episode)
-        {
-            GUICommon.RateEpisode(episode.Show, episode.Episode);
-        }
 
         private void CheckAndPlayEpisode()
         {
@@ -1316,7 +1144,6 @@ namespace TraktPlugin.GUI
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 
     public class GUITraktCalendarListItem : GUIListItem

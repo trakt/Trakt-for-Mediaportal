@@ -97,7 +97,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87265;
+                return (int)TraktGUIWindows.TrendingShows;
             }
         }
 
