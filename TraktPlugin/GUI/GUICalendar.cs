@@ -1137,6 +1137,7 @@ namespace TraktPlugin.GUI
     {
         public TraktEpisode.ShowImages EpisodeImages { get; set; }
         public TraktShow.ShowImages ShowImages { get; set; }
+        public TraktMovie.MovieImages MovieImages { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)

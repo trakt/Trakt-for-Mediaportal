@@ -237,6 +237,7 @@
     <Compile Include="GUI\GUINetwork.cs" />
     <Compile Include="GUI\GUIRecentAddedEpisodes.cs" />
     <Compile Include="GUI\GUIRecentAddedMovies.cs" />
+    <Compile Include="GUI\GUIRecentShouts.cs" />
     <Compile Include="GUI\GUIRelatedMovies.cs" />
     <Compile Include="GUI\GUIRelatedShows.cs" />
     <Compile Include="GUI\GUISeasonEpisodes.cs" />

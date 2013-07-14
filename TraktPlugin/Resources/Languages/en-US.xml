@@ -166,6 +166,7 @@
   <string name="GettingFollowerRequests">Getting Follower Requests</string>
   <string name="GettingUserWatchedHistory">Getting User Watched History</string>
   <string name="GettingUserRecentAdded">Getting User Recently Added</string>
+  <string name="GettingUserRecentShouts">Getting User Recent Shouts</string>
   <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>
@@ -301,6 +302,7 @@
   <string name="RecentWatchedMovies">Recently Watched Movies</string>
   <string name="RecentAddedEpisodes">Recently Added Episodes</string>
   <string name="RecentAddedMovies">Recently Added Movies</string>
+  <string name="RecentShouts">Recent Shouts</string>
   <string name="Recommendations">Recommendations</string>
   <string name="RecommendedMovies">Recommended Movies</string>
   <string name="RecommendedShows">Recommended Shows</string>
@@ -410,6 +412,7 @@
   <string name="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string name="UserHasNoRecentAddedEpisodes">User has no recently added episodes!</string>
   <string name="UserHasNoRecentAddedMovies">User has no recently added movies!</string>
+  <string name="UserHasNoRecentShouts">User has not recently shouted or reviewed anything!</string>
   <string name="User">User</string>
   <string name="Users">Users</string>
   <string name="Username">Username</string>

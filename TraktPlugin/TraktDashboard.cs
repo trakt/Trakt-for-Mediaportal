@@ -269,7 +269,7 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Type", i), activities[i].Type);
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.ActivityPinIcon", i), GetActivityImage(activities[i]));
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.ActivityPinIconNoExt", i), GetActivityImage(activities[i]).Replace(".png", string.Empty));
-                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Title", i), GetActivityItemName(activities[i]));
+                GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Title", i), GUICommon.GetActivityItemName(activities[i]));
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Time", i), activities[i].Timestamp.FromEpoch().ToLocalTime().ToShortTimeString());
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Day", i), activities[i].Timestamp.FromEpoch().ToLocalTime().DayOfWeek.ToString().Substring(0,3));
                 GUIUtils.SetProperty(string.Format("#Trakt.Activity.{0}.Shout", i), GetActivityShoutText(activities[i]));
@@ -328,7 +328,7 @@ namespace TraktPlugin
                         PreviousSelectedIdx = itemId;
                 }
 
-                GUITraktDashboardListItem item = new GUITraktDashboardListItem(GetListItemTitle(activity));
+                GUITraktDashboardListItem item = new GUITraktDashboardListItem(GUICommon.GetActivityListItemTitle(activity));
 
                 string activityImage = GetActivityImage(activity);
                 string avatarImage = GetAvatarImage(activity);
@@ -818,185 +818,6 @@ namespace TraktPlugin
             if (activity.Action != ActivityAction.review.ToString()) return string.Empty;
             if (activity.Review.Spoiler) return Translation.HiddenToPreventSpoilers;
             return activity.Review.Text;
-        }
-
-        private string GetListItemTitle(TraktActivity.Activity activity)
-        {
-            if (activity == null) return string.Empty;
-
-            string itemName = GetActivityItemName(activity);
-            string userName = activity.User.Username;
-            string title = string.Empty;
-
-            if (string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
-                return string.Empty;
-
-            ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
-            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
-
-            switch (action)
-            {
-                case ActivityAction.watching:
-                    title = string.Format(Translation.ActivityWatching, userName, itemName);
-                    break;
-
-                case ActivityAction.scrobble:
-                    title = string.Format(Translation.ActivityWatched, userName, itemName);
-                    break;
-
-                case ActivityAction.checkin:
-                    title = string.Format(Translation.ActivityCheckedIn, userName, itemName);
-                    break;
-
-                case ActivityAction.seen:
-                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
-                    {
-                        title = string.Format(Translation.ActivitySeenEpisodes, userName, activity.Episodes.Count, itemName);
-                    }
-                    else
-                    {
-                        title = string.Format(Translation.ActivitySeen, userName, itemName);
-                    }
-                    break;
-
-                case ActivityAction.collection:
-                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
-                    {
-                        title = string.Format(Translation.ActivityCollectedEpisodes, userName, activity.Episodes.Count, itemName);
-                    }
-                    else
-                    {
-                        title = string.Format(Translation.ActivityCollected, userName, itemName);
-                    }
-                    break;
-
-                case ActivityAction.rating:
-                    if (activity.UseRatingAdvanced)
-                    {
-                        title = string.Format(Translation.ActivityRatingAdvanced, userName, itemName, activity.RatingAdvanced);
-                    }
-                    else
-                    {
-                        title = string.Format(Translation.ActivityRating, userName, itemName);
-                    }
-                    break;
-
-                case ActivityAction.watchlist:
-                    title = string.Format(Translation.ActivityWatchlist, userName, itemName);
-                    break;
-
-                case ActivityAction.review:
-                    title = string.Format(Translation.ActivityReview, userName, itemName);
-                    break;
-
-                case ActivityAction.shout:
-                    title = string.Format(Translation.ActivityShouts, userName, itemName);
-                    break;
-
-                case ActivityAction.created: // created list
-                    title = string.Format(Translation.ActivityCreatedList, userName, itemName);
-                    break;
-
-                case ActivityAction.item_added: // added item to list
-                    title = string.Format(Translation.ActivityAddToList, userName, itemName, activity.List.Name);
-                    break;
-            }
-
-            return title;
-        }
-
-        private string GetActivityItemName(TraktActivity.Activity activity)
-        {
-            string name = string.Empty;
-
-            try
-            {
-                ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
-                ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
-
-                switch (type)
-                {
-                    case ActivityType.episode:
-                        if (action == ActivityAction.seen || action == ActivityAction.collection)
-                        {
-                            if (activity.Episodes.Count > 1)
-                            {
-                                // just return show name
-                                name = activity.Show.Title;
-                            }
-                            else
-                            {
-                                //  get the first and only item in collection of episodes
-                                string episodeIndex = activity.Episodes.First().Number.ToString();
-                                string seasonIndex = activity.Episodes.First().Season.ToString();
-                                string episodeName = activity.Episodes.First().Title;
-
-                                if (string.IsNullOrEmpty(episodeName))
-                                    episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
-
-                                name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, seasonIndex, episodeIndex, episodeName);
-                            }
-                        }
-                        else
-                        {
-                            string episodeName = activity.Episode.Title;
-
-                            if (string.IsNullOrEmpty(episodeName))
-                                episodeName = string.Format("{0} {1}", Translation.Episode, activity.Episode.Number.ToString());
-
-                            name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), episodeName);
-                        }
-                        break;
-
-                    case ActivityType.show:
-                        name = activity.Show.Title;
-                        break;
-
-                    case ActivityType.movie:
-                        name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
-                        break;
-
-                    case ActivityType.list:
-                        if (action == ActivityAction.item_added)
-                        {
-                            // return the name of the item added to the list
-                            switch (activity.ListItem.Type)
-                            {
-                                case "show":
-                                    name = activity.ListItem.Show.Title;
-                                    break;
-
-                                case "episode":
-                                    string episodeIndex = activity.ListItem.Episode.Number.ToString();
-                                    string seasonIndex = activity.ListItem.Episode.Season.ToString();
-                                    string episodeName = activity.ListItem.Episode.Title;
-
-                                    if (string.IsNullOrEmpty(episodeName))
-                                        episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
-
-                                    name = string.Format("{0} - {1}x{2} - {3}", activity.ListItem.Show.Title, seasonIndex, episodeIndex, episodeName);
-                                    break;
-
-                                case "movie":
-                                    name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
-                                    break;
-                            }
-                        }
-                        else if (action == ActivityAction.created)
-                        {
-                            // return the list name
-                            name = activity.List.Name;
-                        }
-                        break;
-                }
-            }
-            catch
-            {
-                // most likely trakt returned a null object
-                name = string.Empty;
-            }
-
-            return name;
         }
 
         private IEnumerable<TraktTrendingMovie> GetTrendingMovies(int maxItems, out bool isCached)

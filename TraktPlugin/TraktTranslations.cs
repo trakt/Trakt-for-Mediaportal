@@ -373,6 +373,7 @@ namespace TraktPlugin.GUI
         public static string GettingFollowingList = "Getting Following List";
         public static string GettingUserWatchedHistory = "Getting User Watched History";
         public static string GettingUserRecentAdded = "Getting User Recently Added";
+        public static string GettingUserRecentShouts = "Getting User Recent Shouts";
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingLists = "Getting Lists";
         public static string GettingListItems = "Getting List Items";
@@ -526,6 +527,7 @@ namespace TraktPlugin.GUI
         public static string RecentWatchedEpisodes = "Recently Watched Episodes";
         public static string RecentAddedMovies = "Recently Added Movies";
         public static string RecentAddedEpisodes = "Recently Added Episodes";
+        public static string RecentShouts = "Recent Shouts";
         public static string RemoveFromLibrary = "Remove from Library";
         public static string RemoveFromWatchList = "Remove from WatchList";
         public static string RemoveShowFromWatchList = "Remove Show from WatchList";
@@ -630,6 +632,7 @@ namespace TraktPlugin.GUI
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";
         public static string UserHasNoRecentAddedEpisodes = "User has no recently added episodes!";
         public static string UserHasNoRecentAddedMovies = "User has no recently added movies!";
+        public static string UserHasNoRecentShouts = "User has not recently shouted or reviewed anything!";
         public static string User = "User";
         public static string Users = "Users";
         public static string Username = "Username";

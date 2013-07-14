@@ -68,6 +68,7 @@ namespace TraktPlugin.GUI
             RecentWatchedMovies,
             RecentAddedEpisodes,
             RecentAddedMovies,
+            RecentShouts,
             EpisodeWatchList,
             RatedMovies,
             RatedShows,
@@ -249,6 +250,11 @@ namespace TraktPlugin.GUI
                                     case (ActivityType.RecentAddedMovies):
                                         GUIRecentAddedMovies.CurrentUser = CurrentSelectedUser.Username;
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedMovies);
+                                        break;
+
+                                    case (ActivityType.RecentShouts):
+                                        GUIRecentShouts.CurrentUser = CurrentSelectedUser.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
                                         break;
 
                                     case (ActivityType.MovieWatchList):
@@ -757,6 +763,15 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
+            item = new GUITraktUserListItem(Translation.RecentShouts);
+            item.IconImage = CurrentSelectedUser.AvatarFilename;
+            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
+            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item.PinImage = "traktActivityShout.png";
+            item.OnItemSelected += OnActivityTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
             item = new GUITraktUserListItem(Translation.Lists);
             item.IconImage = CurrentSelectedUser.AvatarFilename;
             item.IconImageBig = CurrentSelectedUser.AvatarFilename;
@@ -1241,6 +1256,8 @@ namespace TraktPlugin.GUI
                 SelectedActivity = ActivityType.RecentAddedEpisodes;
             else if (item.Label == Translation.RecentAddedMovies)
                 SelectedActivity = ActivityType.RecentAddedMovies;
+            else if (item.Label == Translation.RecentShouts)
+                SelectedActivity = ActivityType.RecentShouts;
             else if (item.Label == Translation.WatchListMovies)
                 SelectedActivity = ActivityType.MovieWatchList;
             else if (item.Label == Translation.WatchListShows)

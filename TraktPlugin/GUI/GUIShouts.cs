@@ -482,24 +482,8 @@ namespace TraktPlugin.GUI
             if (shout == null) return;
 
             GUICommon.SetUserProperties(shout.User);
-
-            SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
-            SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
-            SetProperty("#Trakt.Shout.UserAdvancedRating", shout.UserRatings.AdvancedRating.ToString());
-            SetProperty("#Trakt.Shout.UserRating", shout.UserRatings.Rating.ToString());
-            SetProperty("#Trakt.Shout.Type", shout.Type);
-            SetProperty("#Trakt.Shout.Id", shout.Id.ToString());
-            SetProperty("#Trakt.Shout.Likes", shout.Likes.ToString());
-            SetProperty("#Trakt.Shout.Replies", shout.Replies.ToString());
-
-            if (TraktSettings.HideSpoilersOnShouts && shout.Spoiler)
-            {
-                SetProperty("#Trakt.Shout.Text", Translation.HiddenToPreventSpoilers);
-            }
-            else
-            {
-                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Shout.RemapHighOrderChars()).StripHTML());
-            }
+            GUICommon.SetShoutProperties(shout);
+            
         }
 
         private void OnShoutSelected(GUIListItem item, GUIControl parent)
