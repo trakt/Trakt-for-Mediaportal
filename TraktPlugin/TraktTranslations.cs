@@ -431,6 +431,7 @@ namespace TraktPlugin.GUI
         // M
         public static string MarkAsWatched = "Mark as Watched";
         public static string MarkAsUnWatched = "Mark as UnWatched";
+        public static string Me = "Me";
         public static string Movie = "Movie";
         public static string Movies = "Movies";
         public static string MultiSelectDialog = "Multi-Select Dialog";
@@ -495,6 +496,7 @@ namespace TraktPlugin.GUI
         public static string PrivacyPublic = "Anyone can view this list";
         public static string PrivacyFriends = "Only friends can view this list";
         public static string PrivacyPrivate = "Only you can view this list";
+        public static string Profile = "Profile";
         
         // R
         public static string Rate = "Rate";
@@ -643,6 +645,7 @@ namespace TraktPlugin.GUI
         public static string UpdatingCategories = "Updating Categories";
         public static string UpdatingFilters = "Updating Filters";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
+        public static string UserProfile = "User Profile";
 
         // V
         public static string View = "View";

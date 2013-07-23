@@ -249,6 +249,7 @@
     <Compile Include="GUI\GUIShowSeasons.cs" />
     <Compile Include="GUI\GUIRecentWatchedEpisodes.cs" />
     <Compile Include="GUI\GUIRecentWatchedMovies.cs" />
+    <Compile Include="GUI\GUIUserProfile.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />
     <Compile Include="GUI\GUIRecommendationsShows.cs" />

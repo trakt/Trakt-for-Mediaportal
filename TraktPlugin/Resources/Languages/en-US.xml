@@ -218,6 +218,7 @@
   <!--M-->
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
+  <string name="Me">Me</string>
   <string name="Movie">Movie</string>
   <string name="Movies">Movies</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
@@ -279,6 +280,7 @@
   <string name="PrivacyPublic">Anyone can view this list</string>
   <string name="PrivacyFriends">Only friends can view this list</string>
   <string name="PrivacyPrivate">Only you can view this list</string>
+  <string name="Profile">Profile</string>
   <!--R-->
   <string name="Rate">Rate</string>
   <string name="Rated">Rated</string>
@@ -423,6 +425,7 @@
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
+  <string name="UserProfile">User Profile</string>
   <!--V-->
   <string name="View">View</string>
   <string name="Votes">Votes</string>
