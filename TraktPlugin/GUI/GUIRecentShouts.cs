@@ -381,6 +381,9 @@ namespace TraktPlugin.GUI
             // Add each item added
             foreach (var activity in activities)
             {
+                // bad api data
+                if (activity.Movie == null && activity.Show == null) continue;
+
                 var item = new GUITraktRecentShoutsListItem(GUICommon.GetActivityListItemTitle(activity));
 
                 // add images for download

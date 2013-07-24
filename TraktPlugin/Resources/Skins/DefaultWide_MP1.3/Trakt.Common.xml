@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--version="1.0" encoding="utf-8" standalone="yes"-->
 <window>
   <!-- #Trakt.Settings.Account.Dialog.Visible is true when account controls are visible -->
   <controls>
@@ -33,13 +32,23 @@
       <layout>StackLayout(Vertical)</layout>
       <visible>!string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
       <control>
+        <description>User Profile</description>
+        <type>button</type>
+        <id>9990</id>
+        <width>280</width>
+        <label>#Trakt.Translation.Profile.Label</label>
+        <hyperlink>87400</hyperlink>
+        <onup>9997</onup>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
         <description>Trakt Calendar</description>
         <type>button</type>
         <id>9991</id>
         <width>280</width>
         <label>#Trakt.Translation.Calendar.Label</label>
         <hyperlink>87259</hyperlink>
-        <onup>9997</onup>
+        <onup>9990</onup>
         <onright>#defaultcontrol</onright>
       </control>
       <control>
@@ -95,7 +104,7 @@
         <label>#Trakt.Translation.Settings.Label</label>
         <hyperlink>87271</hyperlink>
         <onright>#defaultcontrol</onright>
-        <ondown>9991</ondown>
+        <ondown>9990</ondown>
       </control>
     </control>
   </controls>

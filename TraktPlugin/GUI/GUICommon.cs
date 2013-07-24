@@ -870,7 +870,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Protected", user.Protected);
             SetProperty("#Trakt.User.Url", user.Url);
             SetProperty("#Trakt.User.Username", user.Username);
-            SetProperty("#Trakt.User.VIP", user.VIP.ToString());
+            SetProperty("#Trakt.User.VIP", user.VIP.ToString().ToLower());
         }
 
         internal static void ClearMovieProperties()

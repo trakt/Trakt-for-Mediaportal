@@ -178,6 +178,7 @@ namespace TraktPlugin.GUI
 
                 case (4):
                     GUIControl.FocusControl(GetID, Facade.GetID);
+                    _UserProfile = null;
                     LoadUserProfile();
                     break;
             }
