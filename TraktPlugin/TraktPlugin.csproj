@@ -457,6 +457,8 @@
     <Content Include="Resources\Skins\DefaultWide\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktPoster.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktPosterBig.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktUser.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\hate.png" />
@@ -553,6 +555,8 @@
     <Content Include="Resources\Skins\Default\DialogMultiSelect.xml" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktEpisode.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\Default\Media\defaultTraktPoster.png" />
+    <Content Include="Resources\Skins\Default\Media\defaultTraktPosterBig.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktUser.png" />
     <Content Include="Resources\Skins\Default\Media\defaultTraktUserBig.png" />
     <Content Include="Resources\Skins\Default\Media\hate.png" />

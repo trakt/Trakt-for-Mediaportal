@@ -453,6 +453,41 @@ namespace TraktPlugin
             }
         }
 
+        private void ClearMovieProperties()
+        {
+            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            {
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), string.Empty);
+
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Imdb", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Runtime", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Tagline", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Title", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Tmdb", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Trailer", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.InCollection", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.InWatchList", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Plays", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Watched", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Rating", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.RatingAdvanced", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.HatedCount", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.LovedCount", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), string.Empty);
+            }
+        }
+
         private void LoadTrendingMoviesFacade(IEnumerable<TraktTrendingMovie> movies, GUIFacadeControl facade)
         {
             if (TraktSkinSettings.DashBoardTrendingMoviesWindows == null || !TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
@@ -619,6 +654,42 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), show.Ratings.Percentage.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), show.Ratings.Votes.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), show.Images.FanartImageFilename);
+            }
+        }
+
+        private void ClearShowProperties()
+        {
+            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            {
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), string.Empty);
+
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Imdb", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Tvdb", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.TvRage", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Title", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Url", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.AirDay", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.AirTime", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Certification", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Country", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.FirstAired", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Network", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Overview", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Runtime", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Year", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.RatingAdvanced", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.HatedCount", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.LovedCount", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), string.Empty);
             }
         }
 
@@ -1714,6 +1785,10 @@ namespace TraktPlugin
         {
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
             GUIWindowManager.OnNewAction +=new OnActionHandler(GUIWindowManager_OnNewAction);
+
+            // Clear Properties
+            ClearMovieProperties();
+            ClearShowProperties();
 
             // Load from Persisted Settings
             if (TraktSettings.LastActivityLoad != null && TraktSettings.LastActivityLoad.Activities != null)
