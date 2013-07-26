@@ -68,6 +68,7 @@ namespace TraktPlugin.GUI
                 if (_UserProfile == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _UserProfile = TraktAPI.TraktAPI.GetUserProfile(TraktSettings.Username);
+                    GetUserProfileImage(_UserProfile);
                     LastRequest = DateTime.UtcNow;
                     PreviousActivityTypeSelectedIndex = 0;
                 }
@@ -326,6 +327,14 @@ namespace TraktPlugin.GUI
 
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
+        }
+
+        private void GetUserProfileImage(TraktUserProfile userProfile)
+        {
+            string url = userProfile.Avatar;
+            string localFile = userProfile.AvatarFilename;
+
+            GUIImageHandler.DownloadImage(url, localFile);
         }
 
         private void ClearProperties()
