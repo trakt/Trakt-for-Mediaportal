@@ -407,9 +407,9 @@ namespace TraktPlugin.GUI
                 // that the movie is locally available on this computer
                 // as 'keep library clean' might not be enabled
                 //item.IsRemote = !movie.InCollection;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnMovieSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);

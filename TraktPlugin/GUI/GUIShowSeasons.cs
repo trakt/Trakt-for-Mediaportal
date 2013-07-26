@@ -312,9 +312,9 @@ namespace TraktPlugin.GUI
                 item.TVTag = season;
                 item.Item = season.Images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnSeasonSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);

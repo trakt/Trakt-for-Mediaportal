@@ -492,9 +492,9 @@ namespace TraktPlugin.GUI
                 item.Item = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IsPlayed = activity.Episode.Watched;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = "defaultTraktEpisode.png";
+                item.IconImageBig = "defaultTraktEpisodeBig.png";
+                item.ThumbnailImage = "defaultTraktEpisodeBig.png";
                 item.OnItemSelected += OnActivitySelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);

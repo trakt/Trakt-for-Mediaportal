@@ -107,6 +107,41 @@ namespace TraktPlugin.GUI
         }
 
         /// <summary>
+        /// Returns the default Poster to display in the facade
+        /// </summary>
+        /// <param name="largePoster">return small are large image</param>
+        internal static string GetDefaultPoster(bool largePoster = true)
+        {
+            if (DefaultPosterExists == false)
+            {
+                // return the MediaPortal default if not found
+                return largePoster ? "defaultVideoBig.png" : "defaultVideo.png";
+            }
+
+            return largePoster ? "defaultTraktPosterBig.png" : "defaultTraktPoster.png";
+        }
+
+        static bool? DefaultPosterExists
+        {
+            get
+            {
+                if (_defaultPosterExists == null)
+                {
+                    try
+                    {
+                        _defaultPosterExists = File.Exists(GUIGraphicsContext.Skin + @"\Media\defaultTraktPoster.png");
+                    }
+                    catch
+                    {
+                        _defaultPosterExists = false;
+                    }
+                }
+                return _defaultPosterExists;
+            }
+        } 
+        static bool? _defaultPosterExists = null;
+
+        /// <summary>
         /// Download an image if it does not exist locally
         /// </summary>
         /// <param name="url">Online URL of image to download</param>
@@ -120,7 +155,7 @@ namespace TraktPlugin.GUI
             // Ignore Image placeholders (series/movies with no artwork)
             // use skins default images instead
             if (url.Contains("poster-small") || url.Contains("fanart-summary")) return false;
-            if (url.Contains("poster-dark") || url.Contains("fanart-dark")) return false;
+            if (url.Contains("poster-dark") || url.Contains("fanart-dark") || url.Contains("episode-dark")) return false;
 
             try
             {

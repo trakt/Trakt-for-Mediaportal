@@ -483,9 +483,9 @@ namespace TraktPlugin.GUI
                 item.Item = activity.Movie.Images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IsPlayed = activity.Movie.Watched;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnActivitySelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);

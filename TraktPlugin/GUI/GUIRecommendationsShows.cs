@@ -626,9 +626,9 @@ namespace TraktPlugin.GUI
                 item.TVTag = show;
                 item.Item = show.Images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnShowSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);

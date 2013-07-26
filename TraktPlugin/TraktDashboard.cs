@@ -482,9 +482,9 @@ namespace TraktPlugin
                 item.TVTag = movie;
                 item.Item = movie.Images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnTrendingMovieSelected;
                 try
                 {
@@ -651,9 +651,9 @@ namespace TraktPlugin
                 item.TVTag = show;
                 item.Item = show.Images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnTrendingShowSelected;
                 try
                 {

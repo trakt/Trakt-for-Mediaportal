@@ -399,9 +399,9 @@ namespace TraktPlugin.GUI
                 item.TVTag = activity;
                 item.Item = images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IconImage = "defaultVideo.png";
-                item.IconImageBig = "defaultVideoBig.png";
-                item.ThumbnailImage = "defaultVideoBig.png";
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.PinImage = "traktActivityShout.png";
                 item.OnItemSelected += OnShoutSelected;
                 Utils.SetDefaultIcons(item);
