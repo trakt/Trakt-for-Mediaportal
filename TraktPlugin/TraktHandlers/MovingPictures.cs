@@ -1272,7 +1272,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
                 TraktSettings.MovingPicturesCategoryId = (int)traktNode.ID;
-                TraktSettings.saveSettings();
+                TraktSettings.SaveSettings();
             }
             else
             {
@@ -1319,7 +1319,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Removing setting");
                 TraktSettings.MovingPicturesCategoryId = -1;
-                TraktSettings.saveSettings();
+                TraktSettings.SaveSettings();
             }
             else
             {
@@ -1354,7 +1354,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Saving the ID {0}", traktNode.ID.ToString());
                 TraktSettings.MovingPicturesFiltersId = (int)traktNode.ID;
-                TraktSettings.saveSettings();
+                TraktSettings.SaveSettings();
             }
             else
             {
@@ -1401,7 +1401,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Debug("Removing setting");
                 TraktSettings.MovingPicturesFiltersId = -1;
-                TraktSettings.saveSettings();
+                TraktSettings.SaveSettings();
             }
             else
             {

@@ -100,7 +100,7 @@ namespace TraktPlugin.GUI
             // update any internal plugin settings required
             TraktSettings.UpdateInternalPluginSettings();
 
-            TraktSettings.saveSettings();
+            TraktSettings.SaveSettings();
 
             base.OnPageDestroy(new_windowId);
         }

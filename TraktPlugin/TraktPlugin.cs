@@ -154,7 +154,9 @@ namespace TraktPlugin
         public override bool Init()
         {
             TraktLogger.Info("Starting Trakt v{0}", TraktSettings.Version);
-            TraktSettings.loadSettings();
+
+            TraktSettings.PerformMaintenance();
+            TraktSettings.LoadSettings();
 
             // Load plugins we want to sync
             LoadPluginHandlers();
@@ -229,7 +231,7 @@ namespace TraktPlugin
             TraktSettings.LastStatistics = dashBoard.PreviousStatistics;
 
             // save settings
-            TraktSettings.saveSettings();
+            TraktSettings.SaveSettings();
 
             TraktLogger.Info("Goodbye");
             base.DeInit();
@@ -844,7 +846,7 @@ namespace TraktPlugin
                 // save our settings now so we dont get out of sync
                 // with extension settings
                 TraktLogger.Debug("Entering Extension Settings window");
-                TraktSettings.saveSettings();
+                TraktSettings.SaveSettings();
             }
         }
 

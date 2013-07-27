@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
 using TraktPlugin.GUI;
@@ -12,11 +14,13 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin
 {
-    public static class TraktSettings
+    public class TraktSettings
     {
         private static Object lockObject = new object();
 
         #region Settings
+        static int SettingsVersion = 1;
+
         public static string Username { get; set; }
         public static string Password { get; set; }
         public static List<TraktAuthentication> UserLogins { get; set; }
@@ -123,7 +127,13 @@ namespace TraktPlugin
         #region Constants
         public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
 
+        private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\Activity.json");
+        private static string cLastTrendingMovieFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingMovies.json");
+        private static string cLastTrendingShowFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingShows.json");
+        private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\UserStatistics.json");
+
         private const string cTrakt = "Trakt";
+        private const string cSettingsVersion = "SettingsVersion";
         private const string cUsername = "Username";
         private const string cPassword = "Password";
         private const string cMovingPictures = "MovingPictures";
@@ -302,6 +312,9 @@ namespace TraktPlugin
             }
         }
 
+        /// <summary>
+        /// Version of Plugin
+        /// </summary>
         public static string Version
         {
             get
@@ -310,6 +323,9 @@ namespace TraktPlugin
             }
         }
 
+        /// <summary>
+        /// MediaPortal Version
+        /// </summary>
         public static Version MPVersion
         { 
             get
@@ -318,6 +334,9 @@ namespace TraktPlugin
             }
         }
 
+        /// <summary>
+        /// UserAgent used for Web Requests
+        /// </summary>
         public static string UserAgent
         {
             get
@@ -326,6 +345,9 @@ namespace TraktPlugin
             }
         }
 
+        /// <summary>
+        /// The current connection status to trakt.tv
+        /// </summary>
         public static ConnectionState AccountStatus
         {
             get
@@ -389,7 +411,7 @@ namespace TraktPlugin
         /// <summary>
         /// Loads the Settings
         /// </summary>
-        public static void loadSettings()
+        internal static void LoadSettings()
         {
             TraktLogger.Info("Loading Local Settings");
             using (Settings xmlreader = new MPSettings())
@@ -450,10 +472,6 @@ namespace TraktPlugin
                 ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, false);
                 ShowCommunityActivity = xmlreader.GetValueAsBool(cTrakt, cShowCommunityActivity, false);
                 IncludeMeInFriendsActivity = xmlreader.GetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, false);
-                LastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
-                LastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
-                LastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
-                LastStatistics = xmlreader.GetValueAsString(cTrakt, cLastStatistics, null).FromJSON<TraktUserProfile.Statistics>();
                 DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
                 DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
@@ -497,16 +515,23 @@ namespace TraktPlugin
                 RecentAddedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedMoviesDefaultLayout, 0);
                 RecentAddedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedEpisodesDefaultLayout, 0);
             }
+
+            TraktLogger.Info("Loading Persisted File Cache");
+            LastActivityLoad = LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
+            LastTrendingMovies = LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktTrendingMovie>();
+            LastTrendingShows = LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktTrendingShow>();
+            LastStatistics = LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserProfile.Statistics>();
         }
 
         /// <summary>
         /// Saves the Settings
         /// </summary>
-        public static void saveSettings()
+        internal static void SaveSettings()
         {
             TraktLogger.Info("Saving Settings");
             using (Settings xmlwriter = new MPSettings())
             {
+                xmlwriter.SetValue(cTrakt, cSettingsVersion, SettingsVersion);
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
                 xmlwriter.SetValue(cTrakt, cPassword, Password);
                 xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.ToJSON());
@@ -562,10 +587,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDialogOnWatched, ShowRateDialogOnWatched);
                 xmlwriter.SetValueAsBool(cTrakt, cShowCommunityActivity, ShowCommunityActivity);
                 xmlwriter.SetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, IncludeMeInFriendsActivity);
-                xmlwriter.SetValue(cTrakt, cLastActivityLoad, LastActivityLoad.ToJSON());
-                xmlwriter.SetValue(cTrakt, cLastTrendingShows, (LastTrendingShows ?? "{}".FromJSONArray<TraktTrendingShow>()).ToList().ToJSON());
-                xmlwriter.SetValue(cTrakt, cLastTrendingMovies, (LastTrendingMovies ?? "{}".FromJSONArray<TraktTrendingMovie>()).ToList().ToJSON());
-                xmlwriter.SetValue(cTrakt, cLastStatistics, LastStatistics.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardLoadDelay, DashboardLoadDelay);
@@ -610,9 +631,18 @@ namespace TraktPlugin
             }
 
             Settings.SaveCache();
+
+            TraktLogger.Info("Saving Persistent File Cache");
+            SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
+            SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktTrendingShow>()).ToList().ToJSON());
+            SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktTrendingMovie>()).ToList().ToJSON());
+            SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
         }
 
-        public static void UpdateInternalPluginSettings()
+        /// <summary>
+        /// Modify External Plugin Settings
+        /// </summary>
+        internal static void UpdateInternalPluginSettings()
         {
             // disable internal plugin rate dialogs if we show trakt dialog
             if (TraktSettings.ShowRateDialogOnWatched)
@@ -623,6 +653,94 @@ namespace TraktPlugin
                 if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
                     TraktHandlers.TVSeries.UpdateSettingAsBool("askToRate", false);
             }
+        }
+
+        /// <summary>
+        /// Perform any maintenance tasks on the settings
+        /// </summary>
+        internal static void PerformMaintenance()
+        {
+            using (Settings xmlreader = new MPSettings())
+            {
+                int currentSettingsVersion = xmlreader.GetValueAsInt(cTrakt, cSettingsVersion, 0);
+
+                // check if any maintenance task is required
+                if (currentSettingsVersion >= SettingsVersion) return;
+
+                // upgrade settings for each version
+                while (currentSettingsVersion < SettingsVersion)
+                {
+                    switch (currentSettingsVersion)
+                    {
+                        case 0:
+                            #region upgrade dashboard persisted cache
+                            var lastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
+                            if (lastActivityLoad != null && lastActivityLoad.Activities != null && lastActivityLoad.Activities.Count > 0)
+                            {
+                                SaveFileCache(cLastActivityFileCache, lastActivityLoad.ToJSON());
+                            }
+                            xmlreader.RemoveEntry(cTrakt, cLastActivityLoad);
+
+                            var lastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
+                            if (lastTrendingMovies != null && lastTrendingMovies.Count() > 0)
+                            {
+                                SaveFileCache(cLastTrendingMovieFileCache, lastTrendingMovies.ToJSON());
+                            }
+                            xmlreader.RemoveEntry(cTrakt, cLastTrendingMovies);
+
+                            var lastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
+                            if (lastTrendingShows != null && lastTrendingShows.Count() > 0)
+                            {
+                                SaveFileCache(cLastTrendingShowFileCache, lastTrendingShows.ToJSON());
+                            }
+                            xmlreader.RemoveEntry(cTrakt, cLastTrendingShows);
+
+                            var lastStatistics = xmlreader.GetValueAsString(cTrakt, cLastStatistics, null).FromJSON<TraktUserProfile.Statistics>();
+                            if (lastStatistics != null && lastStatistics.Episodes != null && lastStatistics.Movies != null && lastStatistics.Shows != null)
+                            {
+                                SaveFileCache(cLastStatisticsFileCache, lastStatistics.ToJSON());
+                            }
+                            xmlreader.RemoveEntry(cTrakt, cLastStatistics);
+                            #endregion
+                            currentSettingsVersion++;
+                            break;
+                    }
+                }
+            }
+            Settings.SaveCache();
+        }
+
+        static void SaveFileCache(string file, string value)
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(file));
+                File.WriteAllText(file, value, Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                TraktLogger.Error(string.Format("Error saving file: {0}, Error: {1}", file, e.Message));
+            }
+        }
+
+        static string LoadFileCache(string file, string defaultValue)
+        {
+            string returnValue = defaultValue;
+
+            try
+            {
+                if (File.Exists(file))
+                {
+                    returnValue = File.ReadAllText(file, Encoding.UTF8);
+                }
+            }
+            catch (Exception e)
+            {
+                TraktLogger.Error(string.Format("Error loading file: {0}, Error: {1}", file, e.Message));
+                return defaultValue;
+            }
+
+            return returnValue;
         }
 
         #endregion
@@ -675,7 +793,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Settings updated externally");
 
                 // re-load settings
-                TraktSettings.loadSettings();
+                TraktSettings.LoadSettings();
 
                 // re-initialize sync Interval
                 TraktPlugin.ChangeSyncTimer(TraktSettings.SyncTimerLength, TraktSettings.SyncTimerLength);

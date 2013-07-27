@@ -182,7 +182,7 @@ namespace TraktPlugin.GUI
             if (btnForTheRecordLiveTV != null) { TraktSettings.ForTheRecordTVLive = ForTheRecordLiveTV; }
             if (btnArgusLiveTV != null) { TraktSettings.ArgusTVLive = ArgusLiveTV; }
 
-            TraktSettings.saveSettings();
+            TraktSettings.SaveSettings();
 
             base.OnPageDestroy(new_windowId);
         }

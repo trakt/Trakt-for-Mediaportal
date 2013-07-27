@@ -18,7 +18,9 @@ namespace TraktPlugin
         {
             InitializeComponent();
             this.Text = "Trakt Configuration v" + TraktSettings.Version;
-            TraktSettings.loadSettings();
+
+            TraktSettings.PerformMaintenance();
+            TraktSettings.LoadSettings();
 
             #region load settings
             tbUsername.Text = TraktSettings.Username;
@@ -100,7 +102,7 @@ namespace TraktPlugin
                 MessageBox.Show(message, "trakt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TraktSettings.KeepTraktLibraryClean = false;
             }
-            TraktSettings.saveSettings();
+            TraktSettings.SaveSettings();
             this.Close();
         }
 
