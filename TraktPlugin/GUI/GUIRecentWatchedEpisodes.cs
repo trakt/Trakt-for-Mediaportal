@@ -42,6 +42,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            ShowSeasonInfo,
             RemoveFromWatchList,
             AddToWatchList,
             AddToList,
@@ -226,6 +227,11 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            // Show Season Information
+            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
+
             if (!selectedEpisode.InWatchList)
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
@@ -327,6 +333,10 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.ShowSeasonInfo):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                    break;
+
                 case ((int)ContextMenuItem.MarkAsWatched):
                     TraktHelper.MarkEpisodeAsWatched(selectedShow, selectedEpisode);
                     if (selectedEpisode.Plays == 0) selectedEpisode.Plays = 1;
