@@ -76,130 +76,133 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("My Anime Starting Sync");
 
-            #region Get online data
-            // get all episodes on trakt that are marked as in 'collection'
-            IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
-            if (traktCollectionEpisodes == null)
+            if (TraktSettings.SyncLibrary)
             {
-                TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
-                return;
-            }
-            TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
-
-            // get all episodes on trakt that are marked as 'seen' or 'watched'
-            IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
-            if (traktWatchedEpisodes == null)
-            {
-                TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
-                return;
-            }
-            TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
-
-            // get all episodes on trakt that are marked as 'unseen'
-            IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
-            if (traktUnSeenEpisodes == null)
-            {
-                TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
-                return;
-            }
-            TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
-            #endregion
-
-            #region Get local data
-            List<FileLocal> localCollectionEpisodes = new List<FileLocal>();
-            List<FileLocal> localWatchedEpisodes = new List<FileLocal>();
-
-            // Get all local episodes in database
-            localCollectionEpisodes = FileLocal.GetAll().Where(f => !string.IsNullOrEmpty(f.FileNameFull) && f.AnimeEpisodes.Count > 0).ToList();
-
-            TraktLogger.Info("{0} episodes with local files in my anime database", localCollectionEpisodes.Count.ToString());
-
-            // Get only Valid Episodes types
-            localCollectionEpisodes.RemoveAll(lc => lc.AnimeEpisodes.Where(e => (e.EpisodeTypeEnum != enEpisodeType.Normal && e.EpisodeTypeEnum != enEpisodeType.Special)).Count() > 0);
-
-            TraktLogger.Info("{0} episodes with valid episode types in my anime database", localCollectionEpisodes.Count.ToString());
-
-            // Get watched episodes
-            localWatchedEpisodes = localCollectionEpisodes.Where(f => (f.AniDB_File != null && f.AniDB_File.IsWatched > 0) || (f.AnimeEpisodes != null && f.AnimeEpisodes[0].IsWatched > 0)).ToList();
-
-            TraktLogger.Info("{0} episodes watched in my anime database", localWatchedEpisodes.Count.ToString());
-            #endregion
-
-            #region Sync collection/library to trakt
-            // get list of episodes that we have not already trakt'd
-            List<FileLocal> localEpisodesToSync = new List<FileLocal>(localCollectionEpisodes);
-            foreach (FileLocal ep in localCollectionEpisodes)
-            {
-                if (TraktEpisodeExists(traktCollectionEpisodes, ep))
+                #region Get online data
+                // get all episodes on trakt that are marked as in 'collection'
+                IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+                if (traktCollectionEpisodes == null)
                 {
-                    // no interest in syncing, remove
-                    localEpisodesToSync.Remove(ep);
+                    TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
+                    return;
                 }
-            }
-            // sync unseen episodes
-            TraktLogger.Info("{0} episodes need to be added to Library", localEpisodesToSync.Count.ToString());
-            SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
-            #endregion
+                TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
 
-            #region Sync seen to trakt
-            // get list of episodes that we have not already trakt'd
-            // filter out any marked as UnSeen
-            List<FileLocal> localWatchedEpisodesToSync = new List<FileLocal>(localWatchedEpisodes);
-            foreach (FileLocal ep in localWatchedEpisodes)
-            {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep) || TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                // get all episodes on trakt that are marked as 'seen' or 'watched'
+                IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+                if (traktWatchedEpisodes == null)
                 {
-                    // no interest in syncing, remove
-                    localWatchedEpisodesToSync.Remove(ep);
+                    TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
+                    return;
                 }
-            }
-            // sync seen episodes
-            TraktLogger.Info("{0} episodes need to be added to SeenList", localWatchedEpisodesToSync.Count.ToString());
-            SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
-            #endregion
+                TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
-            #region Sync watched flags from trakt locally
-            // Sync watched flags from trakt to local database
-            // do not mark as watched locally if UnSeen on trakt
-            foreach (FileLocal ep in localCollectionEpisodes.Where(e => e.AnimeEpisodes[0].IsWatched == 0))
-            {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                // get all episodes on trakt that are marked as 'unseen'
+                IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
+                if (traktUnSeenEpisodes == null)
                 {
-                    // mark episode as watched
-                    TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
-                    ep.AnimeEpisodes[0].ToggleWatchedStatus(true, false);
+                    TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
+                    return;
                 }
-            }
-            #endregion
+                TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
+                #endregion
 
-            #region Sync unseen flags from trakt locally
-            foreach (FileLocal ep in localCollectionEpisodes.Where(e => e.AnimeEpisodes[0].IsWatched > 1))
-            {
-                if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                #region Get local data
+                List<FileLocal> localCollectionEpisodes = new List<FileLocal>();
+                List<FileLocal> localWatchedEpisodes = new List<FileLocal>();
+
+                // Get all local episodes in database
+                localCollectionEpisodes = FileLocal.GetAll().Where(f => !string.IsNullOrEmpty(f.FileNameFull) && f.AnimeEpisodes.Count > 0).ToList();
+
+                TraktLogger.Info("{0} episodes with local files in my anime database", localCollectionEpisodes.Count.ToString());
+
+                // Get only Valid Episodes types
+                localCollectionEpisodes.RemoveAll(lc => lc.AnimeEpisodes.Where(e => (e.EpisodeTypeEnum != enEpisodeType.Normal && e.EpisodeTypeEnum != enEpisodeType.Special)).Count() > 0);
+
+                TraktLogger.Info("{0} episodes with valid episode types in my anime database", localCollectionEpisodes.Count.ToString());
+
+                // Get watched episodes
+                localWatchedEpisodes = localCollectionEpisodes.Where(f => (f.AniDB_File != null && f.AniDB_File.IsWatched > 0) || (f.AnimeEpisodes != null && f.AnimeEpisodes[0].IsWatched > 0)).ToList();
+
+                TraktLogger.Info("{0} episodes watched in my anime database", localWatchedEpisodes.Count.ToString());
+                #endregion
+
+                #region Sync collection/library to trakt
+                // get list of episodes that we have not already trakt'd
+                List<FileLocal> localEpisodesToSync = new List<FileLocal>(localCollectionEpisodes);
+                foreach (FileLocal ep in localCollectionEpisodes)
                 {
-                    // mark episode as unwatched
-                    TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
-                    ep.AnimeEpisodes[0].ToggleWatchedStatus(false, false);
+                    if (TraktEpisodeExists(traktCollectionEpisodes, ep))
+                    {
+                        // no interest in syncing, remove
+                        localEpisodesToSync.Remove(ep);
+                    }
                 }
-            }
-            #endregion
+                // sync unseen episodes
+                TraktLogger.Info("{0} episodes need to be added to Library", localEpisodesToSync.Count.ToString());
+                SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
+                #endregion
 
-            #region Clean Library
-            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1)
-            {
-                TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
-
-                // if we no longer have a file reference in database remove from library
-                foreach (var series in traktCollectionEpisodes)
+                #region Sync seen to trakt
+                // get list of episodes that we have not already trakt'd
+                // filter out any marked as UnSeen
+                List<FileLocal> localWatchedEpisodesToSync = new List<FileLocal>(localWatchedEpisodes);
+                foreach (FileLocal ep in localWatchedEpisodes)
                 {
-                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e.AniDB_File.AnimeSeries.TvDB_ID.ToString() == series.SeriesId).ToList());
-                    if (syncData == null) continue;
-                    TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-                    Thread.Sleep(500);
+                    if (TraktEpisodeExists(traktWatchedEpisodes, ep) || TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                    {
+                        // no interest in syncing, remove
+                        localWatchedEpisodesToSync.Remove(ep);
+                    }
                 }
+                // sync seen episodes
+                TraktLogger.Info("{0} episodes need to be added to SeenList", localWatchedEpisodesToSync.Count.ToString());
+                SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
+                #endregion
+
+                #region Sync watched flags from trakt locally
+                // Sync watched flags from trakt to local database
+                // do not mark as watched locally if UnSeen on trakt
+                foreach (FileLocal ep in localCollectionEpisodes.Where(e => e.AnimeEpisodes[0].IsWatched == 0))
+                {
+                    if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                    {
+                        // mark episode as watched
+                        TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
+                        ep.AnimeEpisodes[0].ToggleWatchedStatus(true, false);
+                    }
+                }
+                #endregion
+
+                #region Sync unseen flags from trakt locally
+                foreach (FileLocal ep in localCollectionEpisodes.Where(e => e.AnimeEpisodes[0].IsWatched > 1))
+                {
+                    if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                    {
+                        // mark episode as unwatched
+                        TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
+                        ep.AnimeEpisodes[0].ToggleWatchedStatus(false, false);
+                    }
+                }
+                #endregion
+
+                #region Clean Library
+                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1)
+                {
+                    TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
+
+                    // if we no longer have a file reference in database remove from library
+                    foreach (var series in traktCollectionEpisodes)
+                    {
+                        TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e.AniDB_File.AnimeSeries.TvDB_ID.ToString() == series.SeriesId).ToList());
+                        if (syncData == null) continue;
+                        TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        Thread.Sleep(500);
+                    }
+                }
+                #endregion
             }
-            #endregion
 
             TraktLogger.Info("My Anime Sync Completed");
         }

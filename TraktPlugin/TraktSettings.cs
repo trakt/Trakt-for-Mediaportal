@@ -122,6 +122,7 @@ namespace TraktPlugin
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
         public static int RecentAddedMoviesDefaultLayout { get; set; }
         public static int RecentAddedEpisodesDefaultLayout { get; set; }
+        public static bool SyncLibrary { get; set; }
         #endregion
 
         #region Constants
@@ -235,6 +236,7 @@ namespace TraktPlugin
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
         private const string cRecentAddedMoviesDefaultLayout = "RecentAddedMoviesDefaultLayout";
         private const string cRecentAddedEpisodesDefaultLayout = "RecentAddedEpisodesDefaultLayout";
+        private const string cSyncLibrary = "SyncLibrary";
         #endregion
 
         #region Properties
@@ -514,6 +516,7 @@ namespace TraktPlugin
                 RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
                 RecentAddedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedMoviesDefaultLayout, 0);
                 RecentAddedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedEpisodesDefaultLayout, 0);
+                SyncLibrary = xmlreader.GetValueAsBool(cTrakt, cSyncLibrary, true);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -628,6 +631,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentAddedMoviesDefaultLayout, RecentAddedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentAddedEpisodesDefaultLayout, RecentAddedEpisodesDefaultLayout);
+                xmlwriter.SetValueAsBool(cTrakt, cSyncLibrary, SyncLibrary);
             }
 
             Settings.SaveCache();

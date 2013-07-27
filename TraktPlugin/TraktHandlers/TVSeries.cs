@@ -82,39 +82,6 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("MP-TVSeries Starting Sync");
             SyncInProgress = true;
 
-            #region Get online data
-            // get all episodes on trakt that are marked as in 'collection'
-            IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
-            if (traktCollectionEpisodes == null) 
-            {
-                TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
-                SyncInProgress = false; 
-                return; 
-            }
-            TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
-
-            // get all episodes on trakt that are marked as 'seen' or 'watched'
-            IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
-            if (traktWatchedEpisodes == null)
-            {
-                TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
-                SyncInProgress = false; 
-                return;
-            }
-            TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
-
-            // get all episodes on trakt that are marked as 'unseen'
-            IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
-            if (traktUnSeenEpisodes == null) 
-            {
-                TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
-                SyncInProgress = false;
-                return;
-            }
-            TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
-            #endregion
-
-            #region Get local data
             List<DBEpisode> localAllEpisodes = new List<DBEpisode>();
             List<DBEpisode> localCollectionEpisodes = new List<DBEpisode>();
             List<DBEpisode> localWatchedEpisodes = new List<DBEpisode>();
@@ -123,233 +90,270 @@ namespace TraktPlugin.TraktHandlers
             // of any series that syncback watched flags
             List<int> seriesToUpdateEpisodeCounts = new List<int>();
 
-            // Get all episodes in database
-            SQLCondition conditions = new SQLCondition();
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
-            conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);            
-            localAllEpisodes = DBEpisode.Get(conditions, false);
-
-            TraktLogger.Info("{0} total episodes in tvseries database", localAllEpisodes.Count.ToString());
-
-            // Get episodes of files that we have locally
-            localCollectionEpisodes = localAllEpisodes.Where(e => !string.IsNullOrEmpty(e[DBEpisode.cFilename].ToString())).ToList();
-
-            TraktLogger.Info("{0} episodes with local files in tvseries database", localCollectionEpisodes.Count.ToString());
-
-            // Get watched episodes of files that we have locally or are remote
-            // user could of deleted episode from disk but still have reference to it in database           
-            localWatchedEpisodes = localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] > 0).ToList();
-
-            TraktLogger.Info("{0} episodes watched in tvseries database", localWatchedEpisodes.Count.ToString());
-            #endregion
-
-            #region Sync collection/library to trakt
-            // get list of episodes that we have not already trakt'd
-            List<DBEpisode> localEpisodesToSync = new List<DBEpisode>(localCollectionEpisodes);
-            foreach (DBEpisode ep in localCollectionEpisodes)
+            // optional do library sync
+            if (TraktSettings.SyncLibrary)
             {
-                if (TraktEpisodeExists(traktCollectionEpisodes, ep))
+                #region Get online data
+                // get all episodes on trakt that are marked as in 'collection'
+                IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+                if (traktCollectionEpisodes == null)
                 {
-                    // no interest in syncing, remove
-                    localEpisodesToSync.Remove(ep);
+                    TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
+                    SyncInProgress = false;
+                    return;
                 }
-            }
-            // sync unseen episodes
-            TraktLogger.Info("{0} episodes need to be added to Library", localEpisodesToSync.Count.ToString());
-            SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
-            #endregion
+                TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
 
-            #region Sync seen to trakt
-            // get list of episodes that we have not already trakt'd
-            // filter out any marked as UnSeen
-            List<DBEpisode> localWatchedEpisodesToSync = new List<DBEpisode>(localWatchedEpisodes);
-            foreach (DBEpisode ep in localWatchedEpisodes)
-            {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep) || TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                // get all episodes on trakt that are marked as 'seen' or 'watched'
+                IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+                if (traktWatchedEpisodes == null)
                 {
-                    // no interest in syncing, remove
-                    localWatchedEpisodesToSync.Remove(ep);
+                    TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
+                    SyncInProgress = false;
+                    return;
                 }
-            }
-            // sync seen episodes
-            TraktLogger.Info("{0} episodes need to be added to SeenList", localWatchedEpisodesToSync.Count.ToString());
-            SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
-            #endregion
+                TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
-            #region Sync watched flags from trakt locally
-            // Sync watched flags from trakt to local database
-            // do not mark as watched locally if UnSeen on trakt
-            foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 0))
-            {
-                if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                // get all episodes on trakt that are marked as 'unseen'
+                IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
+                if (traktUnSeenEpisodes == null)
                 {
-                    DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
-                    if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
-
-                    // mark episode as watched
-                    TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
-                    ep[DBOnlineEpisode.cWatched] = true;
-                    ep.Commit();
-
-                    if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
-                        seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
+                    TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
+                    SyncInProgress = false;
+                    return;
                 }
-            }
-            #endregion
+                TraktLogger.Info("{0} tvshows with unseen episodes in trakt library", traktUnSeenEpisodes.Count().ToString());
+                #endregion
 
-            #region Sync unseen flags from trakt locally
-            foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 1))
-            {
-                if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
+                #region Get local data
+                // Get all episodes in database
+                SQLCondition conditions = new SQLCondition();
+                conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
+                conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
+                localAllEpisodes = DBEpisode.Get(conditions, false);
+
+                TraktLogger.Info("{0} total episodes in tvseries database", localAllEpisodes.Count.ToString());
+
+                // Get episodes of files that we have locally
+                localCollectionEpisodes = localAllEpisodes.Where(e => !string.IsNullOrEmpty(e[DBEpisode.cFilename].ToString())).ToList();
+
+                TraktLogger.Info("{0} episodes with local files in tvseries database", localCollectionEpisodes.Count.ToString());
+
+                // Get watched episodes of files that we have locally or are remote
+                // user could of deleted episode from disk but still have reference to it in database           
+                localWatchedEpisodes = localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] > 0).ToList();
+
+                TraktLogger.Info("{0} episodes watched in tvseries database", localWatchedEpisodes.Count.ToString());
+                #endregion
+
+                #region Sync collection/library to trakt
+                // get list of episodes that we have not already trakt'd
+                List<DBEpisode> localEpisodesToSync = new List<DBEpisode>(localCollectionEpisodes);
+                foreach (DBEpisode ep in localCollectionEpisodes)
                 {
-                    DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
-                    if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
-
-                    // mark episode as unwatched
-                    TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
-                    ep[DBOnlineEpisode.cWatched] = false;
-                    ep.Commit();
-
-                    if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
-                        seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
-                }
-            }
-            #endregion
-
-            #region Ratings Sync
-            // only sync ratings if we are using Advanced Ratings
-            if (TraktSettings.SyncRatings)
-            {
-                #region Episode Ratings
-                TraktLogger.Info("Getting rated episodes from trakt");
-                var traktRatedEpisodes = TraktAPI.TraktAPI.GetUserRatedEpisodes(TraktSettings.Username);
-                if (traktRatedEpisodes == null)
-                    TraktLogger.Error("Error getting rated episodes from trakt server.");
-                else
-                    TraktLogger.Info("{0} rated episodes in trakt library", traktRatedEpisodes.Count().ToString());
-
-                if (traktRatedEpisodes != null)
-                {
-                    // get the episodes that we have rated/unrated
-                    var ratedEpisodeList = localAllEpisodes.Where(e => e[DBOnlineEpisode.cMyRating] > 0).ToList();
-                    var unRatedEpisodeList = localAllEpisodes.Except(ratedEpisodeList).ToList();
-                    TraktLogger.Info("{0} rated episodes available to sync in tvseries database", ratedEpisodeList.Count.ToString());
-
-                    var ratedEpisodesToSync = new List<DBEpisode>(ratedEpisodeList);
-
-                    // note: these two foreach loops can be expensive!
-
-                    // find out what ratings are missing locally
-                    foreach (var episode in unRatedEpisodeList)
+                    if (TraktEpisodeExists(traktCollectionEpisodes, ep))
                     {
-                        var traktEpisode = traktRatedEpisodes.FirstOrDefault(e => e.EpisodeDetails.TVDBID == episode[DBOnlineEpisode.cID]);
-                        if (traktEpisode != null)
-                        {
-                            // update local collection rating
-                            TraktLogger.Info("Inserting rating '{0}/10' for episode '{1}'", traktEpisode.RatingAdvanced, episode.ToString());
-                            episode[DBOnlineEpisode.cMyRating] = traktEpisode.RatingAdvanced;
-                            episode.Commit();
-                        }
+                        // no interest in syncing, remove
+                        localEpisodesToSync.Remove(ep);
                     }
+                }
+                // sync unseen episodes
+                TraktLogger.Info("{0} episodes need to be added to Library", localEpisodesToSync.Count.ToString());
+                SyncLibrary(localEpisodesToSync, TraktSyncModes.library);
+                #endregion
 
-                    // find out what ratings we can send to trakt
-                    foreach (var episode in ratedEpisodeList)
+                #region Sync seen to trakt
+                // get list of episodes that we have not already trakt'd
+                // filter out any marked as UnSeen
+                List<DBEpisode> localWatchedEpisodesToSync = new List<DBEpisode>(localWatchedEpisodes);
+                foreach (DBEpisode ep in localWatchedEpisodes)
+                {
+                    if (TraktEpisodeExists(traktWatchedEpisodes, ep) || TraktEpisodeExists(traktUnSeenEpisodes, ep))
                     {
-                        var traktEpisode = traktRatedEpisodes.FirstOrDefault(e => e.EpisodeDetails.TVDBID == episode[DBOnlineEpisode.cID]);
-                        if (traktEpisode != null)
-                        {
-                            // already rated on trakt, remove from sync collection
-                            ratedEpisodesToSync.Remove(episode);
-                        }
+                        // no interest in syncing, remove
+                        localWatchedEpisodesToSync.Remove(ep);
                     }
+                }
+                // sync seen episodes
+                TraktLogger.Info("{0} episodes need to be added to SeenList", localWatchedEpisodesToSync.Count.ToString());
+                SyncLibrary(localWatchedEpisodesToSync, TraktSyncModes.seen);
+                #endregion
 
-                    TraktLogger.Info("{0} rated episodes to sync to trakt", ratedEpisodesToSync.Count);
-                    if (ratedEpisodesToSync.Count > 0)
+                #region Sync watched flags from trakt locally
+                // Sync watched flags from trakt to local database
+                // do not mark as watched locally if UnSeen on trakt
+                foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 0))
+                {
+                    if (TraktEpisodeExists(traktWatchedEpisodes, ep) && !TraktEpisodeExists(traktUnSeenEpisodes, ep))
                     {
-                        ratedEpisodesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for episode '{1}'", a[DBOnlineEpisode.cMyRating], a.ToString()));
-                        TraktResponse response = TraktAPI.TraktAPI.RateEpisodes(CreateRatingEpisodesData(ratedEpisodesToSync));
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
+                        if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
+
+                        // mark episode as watched
+                        TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
+                        ep[DBOnlineEpisode.cWatched] = true;
+                        ep.Commit();
+
+                        if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
+                            seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
                     }
                 }
                 #endregion
 
-                #region Show Ratings
-                TraktLogger.Info("Getting rated shows from trakt");
-                var traktRatedShows = TraktAPI.TraktAPI.GetUserRatedShows(TraktSettings.Username);
-                if (traktRatedShows == null)
-                    TraktLogger.Error("Error getting rated shows from trakt server.");
-                else
-                    TraktLogger.Info("{0} rated shows in trakt library", traktRatedShows.Count().ToString());
-
-                if (traktRatedShows != null)
+                #region Sync unseen flags from trakt locally
+                foreach (DBEpisode ep in localAllEpisodes.Where(e => e[DBOnlineEpisode.cWatched] == 1))
                 {
-                    // get the shows that we have rated/unrated
-                    var localAllSeries = DBSeries.Get(new SQLCondition());
-                    var ratedShowList = localAllSeries.Where(s => s[DBOnlineSeries.cMyRating] > 0).ToList();
-                    var unRatedShowList = localAllSeries.Except(ratedShowList).ToList();
-                    TraktLogger.Info("{0} rated shows available to sync in tvseries database", ratedShowList.Count.ToString());
-
-                    var ratedShowsToSync = new List<DBSeries>(ratedShowList);
-                    foreach (var traktShow in traktRatedShows)
+                    if (TraktEpisodeExists(traktUnSeenEpisodes, ep))
                     {
-                        foreach (var show in unRatedShowList.Where(s => s[DBSeries.cID] == traktShow.TVDBID))
-                        {
-                            // update local collection rating
-                            TraktLogger.Info("Inserting rating '{0}/10' for show '{1}'", traktShow.RatingAdvanced, show.ToString());
-                            show[DBOnlineEpisode.cMyRating] = traktShow.RatingAdvanced;
-                            show.Commit();
-                        }
+                        DBSeries series = Helper.getCorrespondingSeries(ep[DBOnlineEpisode.cSeriesID]);
+                        if (series == null || series[DBOnlineSeries.cTraktIgnore]) continue;
 
-                        foreach (var show in ratedShowList.Where(s => s[DBSeries.cID] == traktShow.TVDBID))
-                        {
-                            // already rated on trakt, remove from sync collection
-                            ratedShowsToSync.Remove(show);
-                        }
-                    }
+                        // mark episode as unwatched
+                        TraktLogger.Info("Marking episode '{0}' as unwatched", ep.ToString());
+                        ep[DBOnlineEpisode.cWatched] = false;
+                        ep.Commit();
 
-                    TraktLogger.Info("{0} rated shows to sync to trakt", ratedShowsToSync.Count);
-                    if (ratedShowsToSync.Count > 0)
-                    {
-                        ratedShowsToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for show '{1}'", a[DBOnlineSeries.cMyRating], a.ToString()));
-                        TraktResponse response = TraktAPI.TraktAPI.RateSeries(CreateRatingShowsData(ratedShowsToSync));
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
+                            seriesToUpdateEpisodeCounts.Add(ep[DBOnlineEpisode.cSeriesID]);
                     }
                 }
                 #endregion
-            }
-            #endregion
 
-            #region Update Episode counts in Local Database
-            foreach (int seriesID in seriesToUpdateEpisodeCounts)
-            {
-                DBSeries series = Helper.getCorrespondingSeries(seriesID);
-                if (series == null) continue;
-                TraktLogger.Info("Updating Episode Counts for series '{0}'", series.ToString());
-                DBSeries.UpdateEpisodeCounts(series);
-            }
-            #endregion
-
-            #region Clean Library
-            if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1)
-            {
-                TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
-
-                // if we no longer have a file reference in database remove from library
-                foreach (var series in traktCollectionEpisodes)
+                #region Update Episode counts in Local Database
+                foreach (int seriesID in seriesToUpdateEpisodeCounts)
                 {
-                    TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
-                    if (syncData == null) continue;
-                    TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
-                    Thread.Sleep(500);
+                    DBSeries series = Helper.getCorrespondingSeries(seriesID);
+                    if (series == null) continue;
+                    TraktLogger.Info("Updating Episode Counts for series '{0}'", series.ToString());
+                    DBSeries.UpdateEpisodeCounts(series);
                 }
-            }
-            #endregion
+                #endregion
 
-            #region Cache Shows In Library
-            TraktLogger.Debug("Caching TVShows in Library");
-            TraktSettings.ShowsInCollection = traktCollectionEpisodes.Select(e => e.SeriesId).ToList();
-            #endregion
+                #region Ratings Sync
+                // only sync ratings if we are using Advanced Ratings
+                if (TraktSettings.SyncRatings)
+                {
+                    #region Episode Ratings
+                    TraktLogger.Info("Getting rated episodes from trakt");
+                    var traktRatedEpisodes = TraktAPI.TraktAPI.GetUserRatedEpisodes(TraktSettings.Username);
+                    if (traktRatedEpisodes == null)
+                        TraktLogger.Error("Error getting rated episodes from trakt server.");
+                    else
+                        TraktLogger.Info("{0} rated episodes in trakt library", traktRatedEpisodes.Count().ToString());
+
+                    if (traktRatedEpisodes != null)
+                    {
+                        // get the episodes that we have rated/unrated
+                        var ratedEpisodeList = localAllEpisodes.Where(e => e[DBOnlineEpisode.cMyRating] > 0).ToList();
+                        var unRatedEpisodeList = localAllEpisodes.Except(ratedEpisodeList).ToList();
+                        TraktLogger.Info("{0} rated episodes available to sync in tvseries database", ratedEpisodeList.Count.ToString());
+
+                        var ratedEpisodesToSync = new List<DBEpisode>(ratedEpisodeList);
+
+                        // note: these two foreach loops can be expensive!
+
+                        // find out what ratings are missing locally
+                        foreach (var episode in unRatedEpisodeList)
+                        {
+                            var traktEpisode = traktRatedEpisodes.FirstOrDefault(e => e.EpisodeDetails.TVDBID == episode[DBOnlineEpisode.cID]);
+                            if (traktEpisode != null)
+                            {
+                                // update local collection rating
+                                TraktLogger.Info("Inserting rating '{0}/10' for episode '{1}'", traktEpisode.RatingAdvanced, episode.ToString());
+                                episode[DBOnlineEpisode.cMyRating] = traktEpisode.RatingAdvanced;
+                                episode.Commit();
+                            }
+                        }
+
+                        // find out what ratings we can send to trakt
+                        foreach (var episode in ratedEpisodeList)
+                        {
+                            var traktEpisode = traktRatedEpisodes.FirstOrDefault(e => e.EpisodeDetails.TVDBID == episode[DBOnlineEpisode.cID]);
+                            if (traktEpisode != null)
+                            {
+                                // already rated on trakt, remove from sync collection
+                                ratedEpisodesToSync.Remove(episode);
+                            }
+                        }
+
+                        TraktLogger.Info("{0} rated episodes to sync to trakt", ratedEpisodesToSync.Count);
+                        if (ratedEpisodesToSync.Count > 0)
+                        {
+                            ratedEpisodesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for episode '{1}'", a[DBOnlineEpisode.cMyRating], a.ToString()));
+                            TraktResponse response = TraktAPI.TraktAPI.RateEpisodes(CreateRatingEpisodesData(ratedEpisodesToSync));
+                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                        }
+                    }
+                    #endregion
+
+                    #region Show Ratings
+                    TraktLogger.Info("Getting rated shows from trakt");
+                    var traktRatedShows = TraktAPI.TraktAPI.GetUserRatedShows(TraktSettings.Username);
+                    if (traktRatedShows == null)
+                        TraktLogger.Error("Error getting rated shows from trakt server.");
+                    else
+                        TraktLogger.Info("{0} rated shows in trakt library", traktRatedShows.Count().ToString());
+
+                    if (traktRatedShows != null)
+                    {
+                        // get the shows that we have rated/unrated
+                        var localAllSeries = DBSeries.Get(new SQLCondition());
+                        var ratedShowList = localAllSeries.Where(s => s[DBOnlineSeries.cMyRating] > 0).ToList();
+                        var unRatedShowList = localAllSeries.Except(ratedShowList).ToList();
+                        TraktLogger.Info("{0} rated shows available to sync in tvseries database", ratedShowList.Count.ToString());
+
+                        var ratedShowsToSync = new List<DBSeries>(ratedShowList);
+                        foreach (var traktShow in traktRatedShows)
+                        {
+                            foreach (var show in unRatedShowList.Where(s => s[DBSeries.cID] == traktShow.TVDBID))
+                            {
+                                // update local collection rating
+                                TraktLogger.Info("Inserting rating '{0}/10' for show '{1}'", traktShow.RatingAdvanced, show.ToString());
+                                show[DBOnlineEpisode.cMyRating] = traktShow.RatingAdvanced;
+                                show.Commit();
+                            }
+
+                            foreach (var show in ratedShowList.Where(s => s[DBSeries.cID] == traktShow.TVDBID))
+                            {
+                                // already rated on trakt, remove from sync collection
+                                ratedShowsToSync.Remove(show);
+                            }
+                        }
+
+                        TraktLogger.Info("{0} rated shows to sync to trakt", ratedShowsToSync.Count);
+                        if (ratedShowsToSync.Count > 0)
+                        {
+                            ratedShowsToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for show '{1}'", a[DBOnlineSeries.cMyRating], a.ToString()));
+                            TraktResponse response = TraktAPI.TraktAPI.RateSeries(CreateRatingShowsData(ratedShowsToSync));
+                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                        }
+                    }
+                    #endregion
+                }
+                #endregion
+
+                #region Clean Library
+                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1)
+                {
+                    TraktLogger.Info("Removing shows From Trakt Collection no longer in database");
+
+                    // if we no longer have a file reference in database remove from library
+                    foreach (var series in traktCollectionEpisodes)
+                    {
+                        TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
+                        if (syncData == null) continue;
+                        TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
+                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        Thread.Sleep(500);
+                    }
+                }
+                #endregion
+
+                #region Cache Shows In Library
+                TraktLogger.Debug("Caching TVShows in Library");
+                TraktSettings.ShowsInCollection = traktCollectionEpisodes.Select(e => e.SeriesId).ToList();
+                #endregion
+            }
 
             SyncInProgress = false;
             TraktLogger.Info("MP-TVSeries Sync Completed");
