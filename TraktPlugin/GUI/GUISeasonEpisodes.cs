@@ -336,7 +336,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    TraktHelper.ShowTVShowShouts(Show);
+                    TraktHelper.ShowEpisodeShouts(Show, selectedEpisode);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
