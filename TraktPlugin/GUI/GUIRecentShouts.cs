@@ -98,6 +98,7 @@ namespace TraktPlugin.GUI
                     if (userRecentShouts.Keys.Contains(CurrentUser)) userRecentShouts.Remove(CurrentUser);
                     userRecentShouts.Add(CurrentUser, _RecentlyShouts);
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return userRecentShouts[CurrentUser];
             }

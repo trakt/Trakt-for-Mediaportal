@@ -98,6 +98,7 @@ namespace TraktPlugin.GUI
                     if (userRecentlyAddedMovies.Keys.Contains(CurrentUser)) userRecentlyAddedMovies.Remove(CurrentUser);
                     userRecentlyAddedMovies.Add(CurrentUser, _RecentlyAddedMovies);
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return userRecentlyAddedMovies[CurrentUser];
             }

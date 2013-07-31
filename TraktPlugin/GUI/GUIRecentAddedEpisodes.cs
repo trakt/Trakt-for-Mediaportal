@@ -99,6 +99,7 @@ namespace TraktPlugin.GUI
                     if (userRecentlyAddedEpisodes.Keys.Contains(CurrentUser)) userRecentlyAddedEpisodes.Remove(CurrentUser);
                     userRecentlyAddedEpisodes.Add(CurrentUser, _RecentlyAddedEpisodes);
                     LastRequest = DateTime.UtcNow;
+                    PreviousSelectedIndex = 0;
                 }
                 return userRecentlyAddedEpisodes[CurrentUser];
             }
