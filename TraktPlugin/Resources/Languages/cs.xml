@@ -48,6 +48,7 @@
   <string name="RateSeven">Dobré</string>
   <string name="RateEight">Skvělé</string>
   <string name="RateNine">Výborné</string>
+  <string name="RecentAddedMovies">Nedávno přidané filmy</string>
   <string name="Recommendations">Doporučené</string>
   <string name="ReleaseDate">Datum vydání</string>
   <string name="Runtime">Délka</string>
@@ -55,6 +56,7 @@
   <string name="Score">Hodnocení</string>
   <string name="Season">Sezóna</string>
   <string name="Seasons">Řad</string>
+  <string name="Search">Vyhledat</string>
   <string name="Series">TV pořady</string>
   <string name="SeriesPlural">TV pořady</string>
   <string name="Shouts">Komentáře</string>

@@ -273,6 +273,7 @@
   <string name="RateSeven">God</string>
   <string name="RateEight">Meget god</string>
   <string name="RateNine">Fortrinlig</string>
+  <string name="RecentAddedMovies">Nylig tilføjet</string>
   <string name="Recommendations">Anbefalinger</string>
   <string name="RecommendedMovies">Anbefalede film</string>
   <string name="RecommendedShows">Anbefalede seier</string>
@@ -295,6 +296,7 @@
   <string name="SearchTorrent">Søg efter torrent</string>
   <string name="Season">Sæson</string>
   <string name="Seasons">Seasoner</string>
+  <string name="Search">Søg</string>
   <string name="SearchForFriend">Søg efter venner...</string>
   <string name="SendFriendRequest">Spørg efter venneanmodning til {0}?</string>
   <string name="SelectLists">Vælg lister</string>

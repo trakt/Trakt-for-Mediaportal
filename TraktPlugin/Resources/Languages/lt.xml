@@ -36,8 +36,10 @@
   <string name="AirDay">Rodymo diena</string>
   <string name="AirTime">Rodymo laikas</string>
   <string name="Approve">Patvirtinti</string>
+  <string name="ApproveAndFollowBack">Patvirtinti ir stebėti jį</string>
   <string name="ApprovedDate">Patvirtinimo data</string>
   <string name="ApproveFriendMessage">Ar norite vartotoją pridėti {0}⏎ prie draugų?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Ar norėtumėte leisti vartotojui {0} jus stebėti ir kad jūs stebėtumėte jį?</string>
   <string name="AdvancedSettings">Išplėstiniai nustatymai</string>
   <!--B-->
   <string name="BufferingTrailer">Buferuojamas anonsas</string>
@@ -73,6 +75,7 @@
   <string name="DateTwoWeeksAgo">Prieš 2 savaites</string>
   <string name="DateOneMonthAgo">Prieš 1 mėnesį</string>
   <string name="Deny">Neleisti</string>
+  <string name="DenyFollowRequest">Ar atmesti stebėsenos užklausą vartotojui {0}?</string>
   <string name="DeleteList">Ištrinti sąrašą</string>
   <string name="DeleteListItem">Ištrinti sąrašo įrašą</string>
   <string name="DeletingList">Trinamas sąrašas</string>
@@ -95,11 +98,21 @@
   <!--F-->
   <string name="Filters">Filtrai</string>
   <string name="FirstAired">Pirma kartą rodytas</string>
+  <string name="Follow">Stebėti</string>
+  <string name="Followed">Stebėtas</string>
+  <string name="Follower">Stebėtojas</string>
+  <string name="Followers">Stebėtojai</string>
+  <string name="Following">Stebimas</string>
+  <string name="FollowUser">Stebėti vartotoją</string>
   <string name="Friend">Draugas</string>
   <string name="Friends">Draugai</string>
   <string name="FriendActivity">Draugo veikla</string>
   <string name="FriendRequest">Draugo užklausa</string>
+  <string name="FollowerRequest">Stebėtojo užklausa</string>
+  <string name="FollowerRequests">Stebėtojo užklausos</string>
+  <string name="FollowPendingApproval">Stebėjimo užklausa buvo išsiųsta {0} ir laukia patvirtinimo.</string>
   <string name="FriendRequestMessage">Jūs turite {0} draugo užklausą, patvirtinkite arba neleiskite draugų lange</string>
+  <string name="FollowerRequestMessage">Jūs turite {0} stebėtojo užklausas, patvirtinkite ar atmeskite tinklo lange</string>
   <string name="FullName">Pilnas vardas</string>
   <!--G-->
   <string name="Gender">Lytis</string>
@@ -142,10 +155,17 @@
   <string name="GenreWar">Kariniai</string>
   <string name="GenreWestern">Vesternai</string>
   <string name="GetFriendRequestsOnStartup">Startuojant gauti draugų užklausas</string>
+  <string name="GetFollowerRequestsOnStartup">Startuojant gauti stebėtojų užklausas </string>
   <string name="GettingActivity">Gaunamos veiklos</string>
   <string name="GettingCalendar">Gaunamas kalendorius</string>
   <string name="GettingFriendsList">Gaunamas draugų sąrašas</string>
+  <string name="GettingFollowingList">Gaunamas stebėjimų sąrašas</string>
+  <string name="GettingFollowerList">Gaunamas stebėtojų sąrašas</string>
   <string name="GettingFriendsRequests">Gaunamos draugų užklausos</string>
+  <string name="GettingFollowerRequests">Gaunamos stebėtojo užklausos</string>
+  <string name="GettingUserWatchedHistory">Gaunama vartotojo žiūrėjimo istorija</string>
+  <string name="GettingUserRecentAdded">Gaunami vartotojo vėliausiai pridėti</string>
+  <string name="GettingUserRecentShouts">Gaunami vartotojo vėliausi šūkiai</string>
   <string name="GettingFriendsWatchedHistory">Gaunama draugų žiūrėjimo istorija</string>
   <string name="GettingLists">Gaunami sąrašai</string>
   <string name="GettingListItems">Gaunami sąrašo įrašai</string>
@@ -197,6 +217,7 @@
   <!--M-->
   <string name="MarkAsWatched">Žymėti žiūrėtu</string>
   <string name="MarkAsUnWatched">Žymėti Nežiūrėtu</string>
+  <string name="Me">Aš</string>
   <string name="Movie">Filmas</string>
   <string name="Movies">Filmai</string>
   <string name="MultiSelectDialog">Daugkartinio pasirinkimo dialogas</string>
@@ -213,6 +234,9 @@
   <string name="NoShowSummary">Nėra laidos santraukos.</string>
   <string name="NoFriends">Nėra draugų!</string>
   <string name="NoFriendsTaunt">Jūs neturite draugų!</string>
+  <string name="NoFollowersTaunt">Jūs neturite stebėtojų!</string>
+  <string name="NoFollowerReqTaunt">Jūs neturite stebėtojų užklausų!</string>
+  <string name="NoFollowingTaunt">Jūs nieko nestebite!</string>
   <string name="NoTrendingMovies">Dabar nėra žiūrimų filmų!</string>
   <string name="NoTrendingShows">Nėra žiūrimų laidų!</string>
   <string name="NoMovieRecommendations">Nėra rekomenduojamų filmų!</string>
@@ -240,6 +264,7 @@
   <!--P-->
   <string name="Password">Slaptažodis</string>
   <string name="People">Žmonės</string>
+  <string name="Person">Asmuo</string>
   <string name="Percentage">Procentai</string>
   <string name="Protected">Apsaugotas</string>
   <string name="PersonWatching">1 asmuo žiūri</string>
@@ -254,6 +279,7 @@
   <string name="PrivacyPublic">Kiekvienas gali žiūrėti šį sąrašą</string>
   <string name="PrivacyFriends">Tik draugai gali žiūrėti šį sąrašą</string>
   <string name="PrivacyPrivate">Tik jūs galite žiūrėti šį sąrašą</string>
+  <string name="Profile">Profilis</string>
   <!--R-->
   <string name="Rate">Įvertinti</string>
   <string name="Rated">Vertinimas</string>
@@ -273,9 +299,15 @@
   <string name="RateSeven">Geras</string>
   <string name="RateEight">Labai geras</string>
   <string name="RateNine">Super</string>
+  <string name="RecentWatchedEpisodes">Paskutiniai žiūreti epizodai</string>
+  <string name="RecentWatchedMovies">Paskutiniai žiūrėti filmai</string>
+  <string name="RecentAddedEpisodes">Vėliausiai pridėti epizodai</string>
+  <string name="RecentAddedMovies">Vėliausiai pridėti filmai</string>
+  <string name="RecentShouts">Vėliausi šūkiai</string>
   <string name="Recommendations">Rekomendacijos</string>
   <string name="RecommendedMovies">Rekomenduojami filmai</string>
   <string name="RecommendedShows">Rekomenduojamos laidos</string>
+  <string name="Refresh">Atnaujinti</string>
   <string name="RelatedMovies">Susiję filmai</string>
   <string name="RelatedShows">Susijusios laidos</string>
   <string name="Released">Išleistas</string>
@@ -287,6 +319,7 @@
   <string name="RemoveFromList">Pašalinti iš sąrašo...</string>
   <string name="Reply">Atsakyti</string>
   <string name="Replies">Atsakymai</string>
+  <string name="Requests">Užklausos</string>
   <string name="Runtime">Trukmė</string>
   <!--S-->
   <string name="Score">Įvertinimas</string>
@@ -295,8 +328,11 @@
   <string name="SearchTorrent">Ieškoti torento</string>
   <string name="Season">Sezonas</string>
   <string name="Seasons">Sezonai</string>
+  <string name="Search">Ieškoti</string>
   <string name="SearchForFriend">Ieškoti draugo...</string>
+  <string name="SearchForUser">Ieškoti vartotojo...</string>
   <string name="SendFriendRequest">Siųsti draugo užklausą {0}?</string>
+  <string name="SendFollowRequest">Siųsti stebėjimo užklausą {0}?</string>
   <string name="SelectLists">Pasirinkti sąrašus</string>
   <string name="SelectUser">Pasirinkti vartotoją</string>
   <string name="Series">Serialai</string>
@@ -375,14 +411,20 @@
   <!--U-->
   <string name="UserHasNotWatchedEpisodes">Vartotojas nežiūrėjo jokiu epizodų!</string>
   <string name="UserHasNotWatchedMovies">Vartotojas nežiūrėjo jokiu filmų!</string>
+  <string name="UserHasNoRecentAddedEpisodes">Vartotojas neturi pastaruoju metu pridėtų epizodų!</string>
+  <string name="UserHasNoRecentAddedMovies">Vartotojas neturi pastaruoju metu pridėtų filmų!</string>
+  <string name="UserHasNoRecentShouts">Vartotojas pastaruoju metu nieko nešaukė ir neperžiūrėjo!</string>
   <string name="User">Vartotojas</string>
   <string name="Users">Vartotojai</string>
   <string name="Username">Vartotojo vardas</string>
   <string name="UnAuthorized">Autentikacija nepavyko, prašome patikrinti vartotojo vardą ir slaptažodį nustatymuose.</string>
+  <string name="UnFollow">Nestebėti</string>
+  <string name="UnFollowMessage">Ar jūs tikrai norite nestebėti⏎\nvartotojo {0}?</string>
   <string name="UnRate">Panaikinti vertinimą</string>
   <string name="UpdatingCategories">Atnaujinamos kategorijos</string>
   <string name="UpdatingFilters">Atnaujinami filtrai</string>
   <string name="UnableToPlayTrailer">Negalima groti anonso.</string>
+  <string name="UserProfile">Vartotojo profilis</string>
   <!--V-->
   <string name="View">Išvaizda</string>
   <string name="Votes">Balsai</string>

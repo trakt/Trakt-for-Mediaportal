@@ -35,12 +35,14 @@
   <string name="RateTwo">Tồi tệ</string>
   <string name="RateSeven">Tốt</string>
   <string name="RateNine">Thật là Phồng Tôm</string>
+  <string name="RecentAddedMovies">Các phim được thêm vào gần đây</string>
   <string name="ReleaseDate">Ngày phát hành</string>
   <string name="Runtime">Thời gian chiếu</string>
   <!--S-->
   <string name="Score">Điểm</string>
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
+  <string name="Search">Tìm kiếm</string>
   <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
   <string name="Specials">Đặc biệt</string>

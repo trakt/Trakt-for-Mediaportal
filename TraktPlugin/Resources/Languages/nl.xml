@@ -35,9 +35,12 @@
   <string name="AirDate">Datum uitgezonden</string>
   <string name="AirDay">Dag uitgezonden</string>
   <string name="AirTime">Tijd uitgezonden</string>
-  <string name="Approve">Aanbevolen</string>
-  <string name="ApprovedDate">Datum aanbevolen</string>
+  <string name="Approve">Goedkeuren</string>
+  <string name="ApproveAndFollowBack">Goedkeuren en gaan volgen</string>
+  <string name="ApprovedDate">Datum goedgekeurd</string>
   <string name="ApproveFriendMessage">Wil je gebruiker {0}\ntoevoegen als vriend?</string>
+  <string name="ApproveFollowerMessage">Vind je het leuk als gebruiker {0}\nje gaat volgen?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Wil je toestaan dat gebruiker {0} je volgt\nen dat jij deze gebruiker gaat volgen?</string>
   <string name="AdvancedSettings">Geavanceerde instellingen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer bufferen</string>
@@ -73,6 +76,7 @@
   <string name="DateTwoWeeksAgo">2 week geleden</string>
   <string name="DateOneMonthAgo">1 maand geleden</string>
   <string name="Deny">Negeer</string>
+  <string name="DenyFollowRequest">Negeer volgverzoek van gebruiker {0}?</string>
   <string name="DeleteList">Verwijder lijst</string>
   <string name="DeleteListItem">Verwijder lijst item</string>
   <string name="DeletingList">Lijst verwijderen</string>
@@ -95,11 +99,21 @@
   <!--F-->
   <string name="Filters">Filters</string>
   <string name="FirstAired">Eerste uitzending</string>
+  <string name="Follow">Volg</string>
+  <string name="Followed">Gevolgd</string>
+  <string name="Follower">Volger</string>
+  <string name="Followers">Volgers</string>
+  <string name="Following">Volgen</string>
+  <string name="FollowUser">Volg gebruiker</string>
   <string name="Friend">Vriend</string>
   <string name="Friends">Vrienden</string>
   <string name="FriendActivity">Vriend activiteit</string>
   <string name="FriendRequest">Vriend verzoek</string>
+  <string name="FollowerRequest">Volgerverzoek</string>
+  <string name="FollowerRequests">Volgerverzoeken</string>
+  <string name="FollowPendingApproval">Volgverzoek is verstuurd naar {0} en wacht op goedkeuring.</string>
   <string name="FriendRequestMessage">Je hebt {0} vriendschap verzoeken, goedkeuren of negeren van vrienden scherm</string>
+  <string name="FollowerRequestMessage">Je hebt {0} volgverzoeken, goedkeuren of negeren via netwerk scherm</string>
   <string name="FullName">Volledige naam</string>
   <!--G-->
   <string name="Gender">Geslacht</string>
@@ -142,10 +156,17 @@
   <string name="GenreWar">Oorlog</string>
   <string name="GenreWestern">Western</string>
   <string name="GetFriendRequestsOnStartup">Krijg vriendschapverzoeken bij opstarten</string>
+  <string name="GetFollowerRequestsOnStartup">Krijg volgverzoeken tijdens opstarten</string>
   <string name="GettingActivity">Activiteiten ophalen</string>
   <string name="GettingCalendar">Kalender ophalen</string>
   <string name="GettingFriendsList">Vrienden lijst ophalen</string>
+  <string name="GettingFollowingList">Ophalen volglijst</string>
+  <string name="GettingFollowerList">Ophalen volgerslijst</string>
   <string name="GettingFriendsRequests">Vriendschap verzoeken ophalen</string>
+  <string name="GettingFollowerRequests">Ophalen volgersverzoeken</string>
+  <string name="GettingUserWatchedHistory">Ophalen bekeken geschiedenis</string>
+  <string name="GettingUserRecentAdded">Ophalen recent toegevoegd</string>
+  <string name="GettingUserRecentShouts">Recente stemmen ophalen</string>
   <string name="GettingFriendsWatchedHistory">Kijk historie van vrienden ophalen</string>
   <string name="GettingLists">Lijsten ophalen</string>
   <string name="GettingListItems">Lijst items ophalen</string>
@@ -197,6 +218,7 @@
   <!--M-->
   <string name="MarkAsWatched">Markeer als bekeken</string>
   <string name="MarkAsUnWatched">Markeer als onbekeken</string>
+  <string name="Me">Mij</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
@@ -213,6 +235,9 @@
   <string name="NoShowSummary">Serie overzicht is op dit moment niet beschikbaar</string>
   <string name="NoFriends">Geen vrienden!</string>
   <string name="NoFriendsTaunt">Je hebt geen vrienden!</string>
+  <string name="NoFollowersTaunt">Je hebt geen volgers!</string>
+  <string name="NoFollowerReqTaunt">Je hebt geen volgverzoeken!</string>
+  <string name="NoFollowingTaunt">Je volgt niemand!</string>
   <string name="NoTrendingMovies">Er worden op dit moment geen films bekeken!</string>
   <string name="NoTrendingShows">Er worden op dit moment geen series bekeken!</string>
   <string name="NoMovieRecommendations">Geen aanbevolen films gevonden!</string>
@@ -240,6 +265,7 @@
   <!--P-->
   <string name="Password">Wachtwoord</string>
   <string name="People">Mensen</string>
+  <string name="Person">Persoon</string>
   <string name="Percentage">Percentage</string>
   <string name="Protected">Beveiligd</string>
   <string name="PersonWatching">1 persoon kijkt</string>
@@ -254,6 +280,7 @@
   <string name="PrivacyPublic">Iedereen kan deze lijst bekijken</string>
   <string name="PrivacyFriends">Alleen vrienden kunnen deze lijst bekijken</string>
   <string name="PrivacyPrivate">Alleen jij kan deze lijst bekijken</string>
+  <string name="Profile">Profiel</string>
   <!--R-->
   <string name="Rate">Waardeer</string>
   <string name="Rated">Gewaardeerd</string>
@@ -273,9 +300,15 @@
   <string name="RateSeven">Goed</string>
   <string name="RateEight">Zeer goed</string>
   <string name="RateNine">Geweldig</string>
+  <string name="RecentWatchedEpisodes">Recent bekeken afleveringen</string>
+  <string name="RecentWatchedMovies">Recent bekeken films</string>
+  <string name="RecentAddedEpisodes">Recent toegevoegde afleveringen</string>
+  <string name="RecentAddedMovies">Recent toegevoegde films</string>
+  <string name="RecentShouts">Recente stemmen</string>
   <string name="Recommendations">Aanbevelingen</string>
   <string name="RecommendedMovies">Aanbevolen films</string>
   <string name="RecommendedShows">Aanbevolen series</string>
+  <string name="Refresh">Verversen</string>
   <string name="RelatedMovies">Gerelateerde films</string>
   <string name="RelatedShows">Gerelateerde series</string>
   <string name="Released">Uitgekomen</string>
@@ -287,6 +320,7 @@
   <string name="RemoveFromList">Verwijder uit lijst</string>
   <string name="Reply">Antwoorden</string>
   <string name="Replies">Reacties</string>
+  <string name="Requests">Verzoeken</string>
   <string name="Runtime">Speelduur</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -295,12 +329,15 @@
   <string name="SearchTorrent">Zoek torrent</string>
   <string name="Season">Seizoen</string>
   <string name="Seasons">Seizoenen</string>
+  <string name="Search">Zoeken</string>
   <string name="SearchForFriend">Zoek naar vriend...</string>
+  <string name="SearchForUser">Zoek gebruiker...</string>
   <string name="SendFriendRequest">Zend vriend verzoek naar {0}?</string>
+  <string name="SendFollowRequest">Stuur een volg verzoek aan {0}?</string>
   <string name="SelectLists">Selecteer lijst</string>
   <string name="SelectUser">Selecteer gebruiker</string>
   <string name="Series">Serie</string>
-  <string name="SeriesPlural">Serie</string>
+  <string name="SeriesPlural">Series</string>
   <string name="Settings">Instellingen</string>
   <string name="Shout">Stem</string>
   <string name="Shouts">Stemmen</string>
@@ -351,6 +388,8 @@
   <string name="SettingDefaultTVShowTrailerSiteDescription">Kies de standaard TV-show trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een TV-show of aflevering. Wanneer gebruik wordt gemaakt van YouTube, dan worden extra zoek parameters gebruikt voor het zoeken naar afleveringen zoals seizoen en aflevering.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Standaard film trailer website</string>
   <string name="SettingDefaultMovieTrailerSiteDescription">Kies de standaard film trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een film.</string>
+  <string name="SettingSyncLibraryName">Bibliotheek sync inschakelen</string>
+  <string name="SettingSyncLibraryDescription">Schakel deze instelling in om je collectie en bekeken status te synchroniseren met trakt.tv. Alleen scrobbling is actief wanner uitgeschakeld.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sorteer op: {0}</string>
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>
@@ -375,14 +414,20 @@
   <!--U-->
   <string name="UserHasNotWatchedEpisodes">Gebruiker heeft geen enkele aflevering gezien!</string>
   <string name="UserHasNotWatchedMovies">Gebruiker heeft geen enkele films gezien!</string>
+  <string name="UserHasNoRecentAddedEpisodes">Gebruiker heeft geen recent toegevoegde afleveringen!</string>
+  <string name="UserHasNoRecentAddedMovies">Gebruiker heeft geen recent toegevoegde films!</string>
+  <string name="UserHasNoRecentShouts">Gebruiker heeft geen recente stemmen of beoordelingen gedaan!</string>
   <string name="User">Gebruiker</string>
   <string name="Users">Gebruikers</string>
   <string name="Username">Gebruikersnaam</string>
   <string name="UnAuthorized">Authenticatie mislukt, controlleer gebruikersnaam en wachtwoord.</string>
+  <string name="UnFollow">Niet meer volgen</string>
+  <string name="UnFollowMessage">Weet je zeker dat je gebruiker {0} niet meer wilt volgen?</string>
   <string name="UnRate">Beoordeling intrekken</string>
   <string name="UpdatingCategories">Categorieën updaten</string>
   <string name="UpdatingFilters">Filters updaten</string>
   <string name="UnableToPlayTrailer">Afspelen trailer niet mogelijk</string>
+  <string name="UserProfile">Gebruikersprofiel</string>
   <!--V-->
   <string name="View">Bekijk</string>
   <string name="Votes">Stemmen</string>

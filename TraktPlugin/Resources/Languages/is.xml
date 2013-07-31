@@ -139,6 +139,7 @@
   <string name="RateFour">Léleg</string>
   <string name="RateSeven">Góð</string>
   <string name="RateNine">Mjög góð</string>
+  <string name="RecentAddedMovies">Nýlega bætt við</string>
   <string name="RelatedMovies">Svipaðar kvikmyndir</string>
   <string name="RelatedShows">Svipaðir sjónvarpsþættir</string>
   <string name="Released">Útgefið</string>
@@ -151,6 +152,7 @@
   <string name="SearchTorrent">Leta Torrent</string>
   <string name="Season">Þáttaröð</string>
   <string name="Seasons">Þáttaraðir</string>
+  <string name="Search">Leita</string>
   <string name="SearchForFriend">Leita af vini...</string>
   <string name="SendFriendRequest">Senda vinabeiðni til {0}?</string>
   <string name="SelectLists">Veljið lista</string>

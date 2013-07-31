@@ -273,6 +273,7 @@
   <string name="RateSeven">Dobro</string>
   <string name="RateEight">Krasno</string>
   <string name="RateNine">Odlično</string>
+  <string name="RecentAddedMovies">Zadnje dodani filmi</string>
   <string name="Recommendations">Priporočila</string>
   <string name="RecommendedMovies">Priporočeni filmi</string>
   <string name="RecommendedShows">Priporočene oddaje</string>
@@ -295,6 +296,7 @@
   <string name="SearchTorrent">Išči Torrent</string>
   <string name="Season">Sezona</string>
   <string name="Seasons">Sezone</string>
+  <string name="Search">Iskanje</string>
   <string name="SearchForFriend">Poišči prijatelja...</string>
   <string name="SendFriendRequest">Pošlji zahtevo za prijateljstvo {0}?</string>
   <string name="SelectLists">Izberi sezname</string>

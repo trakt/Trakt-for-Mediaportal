@@ -43,6 +43,7 @@
   <string name="RateSeven">7 점</string>
   <string name="RateEight">8 점</string>
   <string name="RateNine">9 점</string>
+  <string name="RecentAddedMovies">최근 추가된 영화</string>
   <string name="Runtime">방영시간</string>
   <!--S-->
   <string name="Score">점수</string>

@@ -32,6 +32,7 @@
   <string name="RateTwo">糟糕</string>
   <string name="RateSeven">好</string>
   <string name="RateNine">优秀</string>
+  <string name="RecentAddedMovies">最近添加的电影</string>
   <string name="Runtime">片长</string>
   <!--S-->
   <string name="Score">评分</string>

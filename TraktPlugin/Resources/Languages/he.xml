@@ -44,6 +44,7 @@
   <string name="RateSeven">טוב</string>
   <string name="RateEight">נהדר</string>
   <string name="RateNine">מעולה</string>
+  <string name="RecentAddedMovies">סרטים שנוספו לאחרונה</string>
   <string name="Recommendations">המלצות</string>
   <string name="ReleaseDate">תאריך שחרור</string>
   <string name="Runtime">זמן ריצה</string>
@@ -51,6 +52,7 @@
   <string name="Score">דירוג</string>
   <string name="Season">עונה</string>
   <string name="Seasons">עונות</string>
+  <string name="Search">חפש</string>
   <string name="Series">סדרות</string>
   <string name="SeriesPlural">סדרות</string>
   <string name="Specials">ספיישלס</string>

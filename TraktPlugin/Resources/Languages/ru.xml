@@ -44,6 +44,7 @@
   <string name="RateSeven">Хороший</string>
   <string name="RateEight">Здорово</string>
   <string name="RateNine">Великолепный</string>
+  <string name="RecentAddedMovies">Недавно добавленные фильмы</string>
   <string name="Recommendations">Рекомендации</string>
   <string name="ReleaseDate">Дата Релиза</string>
   <string name="Runtime">Продолжительность</string>

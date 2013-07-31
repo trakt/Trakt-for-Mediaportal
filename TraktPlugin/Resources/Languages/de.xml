@@ -36,8 +36,11 @@
   <string name="AirDay">Sendetag</string>
   <string name="AirTime">Sendezeit</string>
   <string name="Approve">Bestätigung</string>
+  <string name="ApproveAndFollowBack">Bestätigen und ebenfalls folgen</string>
   <string name="ApprovedDate">Bestätigtes Datum</string>
   <string name="ApproveFriendMessage">Möchten Sie {0}\nals Freund hinzufügen?</string>
+  <string name="ApproveFollowerMessage">Möchten Sie, dass Benutzer {0} Ihnen folgt?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Möchten Sie {0}\nerlauben, Ihnen zu folgen und ihm ebenso folgen?</string>
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
@@ -73,6 +76,7 @@
   <string name="DateTwoWeeksAgo">Vor 2 Wochen</string>
   <string name="DateOneMonthAgo">Vor 1 Monat</string>
   <string name="Deny">Ablehnen</string>
+  <string name="DenyFollowRequest">Folge-Anfrage von {0} ablehnen?</string>
   <string name="DeleteList">Liste löschen</string>
   <string name="DeleteListItem">Listen-Element löschen</string>
   <string name="DeletingList">Liste wird gelöscht</string>
@@ -95,11 +99,21 @@
   <!--F-->
   <string name="Filters">Filter</string>
   <string name="FirstAired">Erstausstrahlung</string>
+  <string name="Follow">Folgen</string>
+  <string name="Followed">Gefolgt</string>
+  <string name="Follower">Folger</string>
+  <string name="Followers">Folger</string>
+  <string name="Following">Folgend</string>
+  <string name="FollowUser">Benutzer folgen</string>
   <string name="Friend">Freund</string>
   <string name="Friends">Freunde</string>
   <string name="FriendActivity">Freund-Aktivität</string>
   <string name="FriendRequest">Freund-Anfrage</string>
+  <string name="FollowerRequest">Folgen-Anfrage</string>
+  <string name="FollowerRequests">Folgen-Anfragen</string>
+  <string name="FollowPendingApproval">Folgen-Anfrage wurde an {0} gesendet und wartet auf Bestätigung.</string>
   <string name="FriendRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Freund-Fenster</string>
+  <string name="FollowerRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Netzwerk-Fenster</string>
   <string name="FullName">Vollständiger Name</string>
   <!--G-->
   <string name="Gender">Geschlecht</string>
@@ -142,10 +156,17 @@
   <string name="GenreWar">Krieg</string>
   <string name="GenreWestern">Western</string>
   <string name="GetFriendRequestsOnStartup">Freund-Anfragen bei Programmstart abrufen</string>
+  <string name="GetFollowerRequestsOnStartup">Folger-Anfragen bei Programmstart abrufen</string>
   <string name="GettingActivity">Aktivitäten abrufen</string>
   <string name="GettingCalendar">Kalender abrufen</string>
   <string name="GettingFriendsList">Freund-Liste abrufen</string>
+  <string name="GettingFollowingList">Gefolgten-Liste abrufent</string>
+  <string name="GettingFollowerList">Folger-Liste abrufen</string>
   <string name="GettingFriendsRequests">Freund-Anfragen abrufen</string>
+  <string name="GettingFollowerRequests">Folger-Anfragen abrufen</string>
+  <string name="GettingUserWatchedHistory">Gesehen-Verlauf des Benutzers wird abgerufen</string>
+  <string name="GettingUserRecentAdded">Kürzlich hinzugefügte Elemente des Benutzers werden abgerufen</string>
+  <string name="GettingUserRecentShouts">Kürzliche Shouts des Benutzers werden abgerufen</string>
   <string name="GettingFriendsWatchedHistory">Gesehene Filme von Freunden werden abgerufen</string>
   <string name="GettingLists">Listen werden abgerufen</string>
   <string name="GettingListItems">Listen-Elemente werden abgerufen</string>
@@ -197,6 +218,7 @@
   <!--M-->
   <string name="MarkAsWatched">Als gesehen markieren</string>
   <string name="MarkAsUnWatched">Als ungesehen markieren</string>
+  <string name="Me">Ich</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filme</string>
   <string name="MultiSelectDialog">Multi-Auswahl-Dialog</string>
@@ -213,6 +235,9 @@
   <string name="NoShowSummary">Keine Serienbeschreibung verfügbar</string>
   <string name="NoFriends">Keine Freunde!</string>
   <string name="NoFriendsTaunt">Du hast keine Freunde!</string>
+  <string name="NoFollowersTaunt">Sie haben keine Folger!</string>
+  <string name="NoFollowerReqTaunt">Sie haben keine Folger-Anfragen!</string>
+  <string name="NoFollowingTaunt">Sie folgen niemandem!</string>
   <string name="NoTrendingMovies">Zur Zeit werden keine Filme angeschaut!</string>
   <string name="NoTrendingShows">Zur Zeit werden keine Serien angeschaut!</string>
   <string name="NoMovieRecommendations">Keine Film Vorschläge gefunden!</string>
@@ -240,6 +265,7 @@
   <!--P-->
   <string name="Password">Passwort</string>
   <string name="People">Personen</string>
+  <string name="Person">Person</string>
   <string name="Percentage">Prozent</string>
   <string name="Protected">Geschützt</string>
   <string name="PersonWatching">1 Person schaut gerade</string>
@@ -254,6 +280,7 @@
   <string name="PrivacyPublic">Jeder kann diese Liste ansehen</string>
   <string name="PrivacyFriends">Nur Freunde können diese Liste ansehen</string>
   <string name="PrivacyPrivate">Nur Sie können diese Liste ansehen</string>
+  <string name="Profile">Profil</string>
   <!--R-->
   <string name="Rate">Bewerten</string>
   <string name="Rated">Bewertung</string>
@@ -273,9 +300,15 @@
   <string name="RateSeven">Gut</string>
   <string name="RateEight">Großartig</string>
   <string name="RateNine">Klasse</string>
+  <string name="RecentWatchedEpisodes">Kürzlich gesehene Episoden</string>
+  <string name="RecentWatchedMovies">Kürzlich gesehened Filme</string>
+  <string name="RecentAddedEpisodes">Kürzlich hinzugefügte Episoden</string>
+  <string name="RecentAddedMovies">Kürzlich hinzugefügte Filme</string>
+  <string name="RecentShouts">Kürzliche Shouts</string>
   <string name="Recommendations">Vorschläge</string>
   <string name="RecommendedMovies">Vorgeschlagene Filme</string>
   <string name="RecommendedShows">Vorgeschlagene Serien</string>
+  <string name="Refresh">Aktualisieren</string>
   <string name="RelatedMovies">Ähnliche Filme</string>
   <string name="RelatedShows">Ähnliche Serien</string>
   <string name="Released">Erschienen</string>
@@ -287,6 +320,7 @@
   <string name="RemoveFromList">Aus Liste löschen</string>
   <string name="Reply">antworten</string>
   <string name="Replies">Anworten</string>
+  <string name="Requests">Anfragen</string>
   <string name="Runtime">Laufzeit</string>
   <!--S-->
   <string name="Score">Punktestand</string>
@@ -295,8 +329,11 @@
   <string name="SearchTorrent">Über Torrent suchen</string>
   <string name="Season">Staffel</string>
   <string name="Seasons">Staffeln</string>
+  <string name="Search">Suchen</string>
   <string name="SearchForFriend">Nach Freund suchen</string>
+  <string name="SearchForUser">Benutzer suchen...</string>
   <string name="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
+  <string name="SendFollowRequest">Folger-Anfrage an {0}? senden?</string>
   <string name="SelectLists">Listen auswählen</string>
   <string name="SelectUser">Benutzer auswählen</string>
   <string name="Series">Serien</string>
@@ -351,6 +388,8 @@
   <string name="SettingDefaultTVShowTrailerSiteDescription">Wähle hier die Standard-Quelle für Serien-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einer Serie oder einer Folge geklickt wird. Wenn YouTube benutzt werden soll, werden extra Parameter wie die Staffel- und Folgennummer benutzt.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Standard Film Trailer Seite</string>
   <string name="SettingDefaultMovieTrailerSiteDescription">Wähle hier die Standard-Quelle für Film-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einem Film in Trakt geklickt wird.</string>
+  <string name="SettingSyncLibraryName">Bibliotheks-Synchronisierung erlauben</string>
+  <string name="SettingSyncLibraryDescription">Aktivieren Sie diese Einstellung, um Ihre Sammlung und den Gesehen-Status mit Trakt.tv zu synchronisieren. Ohne Aktivierung wird nur Scrobbling durchgeführt.</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>
@@ -375,14 +414,20 @@
   <!--U-->
   <string name="UserHasNotWatchedEpisodes">Benutzer hat noch keine Folgen angeschaut!</string>
   <string name="UserHasNotWatchedMovies">Benutzer hat noch keine Filme angeschaut!</string>
+  <string name="UserHasNoRecentAddedEpisodes">Benutzer hat keine kürzlich hinzugefügte Episoden!!</string>
+  <string name="UserHasNoRecentAddedMovies">Benutzer hat keine kürzlich hinzugefügte Filme!</string>
+  <string name="UserHasNoRecentShouts">Benutzer hat keine kürzlichen Aktivitäten!</string>
   <string name="User">Benutzer</string>
   <string name="Users">Benutzer</string>
   <string name="Username">Benutzername</string>
   <string name="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
+  <string name="UnFollow">Nicht mehr folgen</string>
+  <string name="UnFollowMessage">Sind Sie sicher, dass Sie Benutzer\n {0} nicht mehr folgen wollen?</string>
   <string name="UnRate">Bewertung zurücknehmen</string>
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingFilters">Filter werden aktualisiert</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
+  <string name="UserProfile">Benutzer-Profile</string>
   <!--V-->
   <string name="View">Ansehen</string>
   <string name="Votes">Stimmen</string>

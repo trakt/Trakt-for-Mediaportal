@@ -130,6 +130,7 @@
   <string name="RateSeven">Hyvä</string>
   <string name="RateEight">Todella hyvä</string>
   <string name="RateNine">Loistava</string>
+  <string name="RecentAddedMovies">Viimeksi lisätyt elokuvat</string>
   <string name="Recommendations">Suositukset</string>
   <string name="Released">Julkaistu</string>
   <string name="ReleaseDate">Julkaisupäivä</string>
@@ -139,6 +140,7 @@
   <string name="SearchTorrent">Etsi torrenttia</string>
   <string name="Season">Tuotantokausi</string>
   <string name="Seasons">Tuotantokaudet</string>
+  <string name="Search">Haku</string>
   <string name="SearchForFriend">Etsi ystävää...</string>
   <string name="SendFriendRequest">Lähetä ystävä pyyntö käyttäjälle {0}?</string>
   <string name="SelectLists">Valitse listat</string>

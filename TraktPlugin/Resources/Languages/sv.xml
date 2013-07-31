@@ -36,8 +36,11 @@
   <string name="AirDay">Veckodag</string>
   <string name="AirTime">Tid</string>
   <string name="Approve">Godkänn</string>
+  <string name="ApproveAndFollowBack">Godkänn och följ i min tur honom/henne</string>
   <string name="ApprovedDate">Godkänt datum</string>
   <string name="ApproveFriendMessage">Vill du lägga till användaren {0}\nbland dina vänner?</string>
+  <string name="ApproveFollowerMessage">Tillåter du att användaren {0} ⏎ föjer dig?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Godkänn att användaren {0} följer dig, och följ i din tur honom/henne</string>
   <string name="AdvancedSettings">Avancerade inställningar</string>
   <!--B-->
   <string name="BufferingTrailer">Buffrar trailer</string>
@@ -73,6 +76,7 @@
   <string name="DateTwoWeeksAgo">2 veckor sedan</string>
   <string name="DateOneMonthAgo">1 månad sedan</string>
   <string name="Deny">Neka</string>
+  <string name="DenyFollowRequest">Godkänn inte att användaren {0} följer dig</string>
   <string name="DeleteList">Radera lista</string>
   <string name="DeleteListItem">Radera objekt från lista</string>
   <string name="DeletingList">Raderar listan</string>
@@ -95,11 +99,21 @@
   <!--F-->
   <string name="Filters">Filter</string>
   <string name="FirstAired">Först visad</string>
+  <string name="Follow">Följ</string>
+  <string name="Followed">Följd</string>
+  <string name="Follower">Följare</string>
+  <string name="Followers">Följare</string>
+  <string name="Following">Följer</string>
+  <string name="FollowUser">Följ användare</string>
   <string name="Friend">Vän</string>
   <string name="Friends">Vänner</string>
   <string name="FriendActivity">Vänners aktiviteter</string>
   <string name="FriendRequest">Vänförfrågan</string>
+  <string name="FollowerRequest">Begär att följa</string>
+  <string name="FollowerRequests">Begär att följa</string>
+  <string name="FollowPendingApproval">Begäran om att följa har sänts till {0} och väntar på godkännande</string>
   <string name="FriendRequestMessage">Du har {0} vänförfrågningar, lägg till eller neka från vän-sidan</string>
+  <string name="FollowerRequestMessage">Du har {0} begärda följare, godkänn eller neka i nätverksfönstret</string>
   <string name="FullName">Fullständigt namn</string>
   <!--G-->
   <string name="Gender">Kön</string>
@@ -140,12 +154,19 @@
   <string name="GenreTalkShow">Talkshow</string>
   <string name="GenreThriller">Thriller</string>
   <string name="GenreWar">Krig</string>
-  <string name="GenreWestern">Western</string>
+  <string name="GenreWestern">Västern</string>
   <string name="GetFriendRequestsOnStartup">Se vänförfrågningar vid start</string>
+  <string name="GetFollowerRequestsOnStartup">Hämta begäran om följning vid start</string>
   <string name="GettingActivity">Hämtar aktiviteter</string>
   <string name="GettingCalendar">Tar emot kalender</string>
   <string name="GettingFriendsList">Tar emot vänlista</string>
+  <string name="GettingFollowingList">Hämtar listan med personer som du följer</string>
+  <string name="GettingFollowerList">Hämtar listan med personer som följer dig</string>
   <string name="GettingFriendsRequests">Tar emot vänförfrågningar</string>
+  <string name="GettingFollowerRequests">Hämtar begärda följare</string>
+  <string name="GettingUserWatchedHistory">Hämtar historik över vad användaren har sett</string>
+  <string name="GettingUserRecentAdded">Hämtar info över vad användaren nyligen lagt till</string>
+  <string name="GettingUserRecentShouts">Hämtar användarens senaste shouts</string>
   <string name="GettingFriendsWatchedHistory">Tar emot historik över vad dina vänner har sett</string>
   <string name="GettingLists">Tar emot listor</string>
   <string name="GettingListItems">Tar emot list-objekt</string>
@@ -197,6 +218,7 @@
   <!--M-->
   <string name="MarkAsWatched">Markera som sedd</string>
   <string name="MarkAsUnWatched">Ta bort markering som sedd</string>
+  <string name="Me">Jag</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
   <string name="MultiSelectDialog">Flervalsdialog</string>
@@ -213,6 +235,9 @@
   <string name="NoShowSummary">Ingen beskrivning för denna serie finns tillgänglig för tillfället.</string>
   <string name="NoFriends">Inga vänner!</string>
   <string name="NoFriendsTaunt">Du har inga vänner!</string>
+  <string name="NoFollowersTaunt">Du har inga följare</string>
+  <string name="NoFollowerReqTaunt">Du har inga begärda följare</string>
+  <string name="NoFollowingTaunt">Du följer inte någon</string>
   <string name="NoTrendingMovies">Inga filmer tittas på just nu!</string>
   <string name="NoTrendingShows">Inga serier tittas på just nu!</string>
   <string name="NoMovieRecommendations">Inga filmrekommendationer funna!</string>
@@ -240,6 +265,7 @@
   <!--P-->
   <string name="Password">Lösenord</string>
   <string name="People">Användare</string>
+  <string name="Person">Person</string>
   <string name="Percentage">Procent</string>
   <string name="Protected">Skyddad</string>
   <string name="PersonWatching">1 person tittar</string>
@@ -254,6 +280,7 @@
   <string name="PrivacyPublic">Vem som helst kan se denna lista</string>
   <string name="PrivacyFriends">Endast vänner kan se denna lista</string>
   <string name="PrivacyPrivate">Denna lista kan endast ses av dig</string>
+  <string name="Profile">Profil</string>
   <!--R-->
   <string name="Rate">Betygsätt</string>
   <string name="Rated">Betyg</string>
@@ -273,9 +300,15 @@
   <string name="RateSeven">Godkänd</string>
   <string name="RateEight">Toppen</string>
   <string name="RateNine">Bra</string>
+  <string name="RecentWatchedEpisodes">Nyligen sedda avsnitt</string>
+  <string name="RecentWatchedMovies">Nyligen sedda filmer</string>
+  <string name="RecentAddedEpisodes">Nyligen tillagda avsnitt</string>
+  <string name="RecentAddedMovies">Senaste filmerna</string>
+  <string name="RecentShouts">Senaste shouts</string>
   <string name="Recommendations">Rekommendationer</string>
   <string name="RecommendedMovies">Rekommenderade filmer</string>
   <string name="RecommendedShows">Rekommenderade serier</string>
+  <string name="Refresh">Uppdatera</string>
   <string name="RelatedMovies">Relaterade filmer</string>
   <string name="RelatedShows">Relaterade serier</string>
   <string name="Released">Först visad</string>
@@ -287,6 +320,7 @@
   <string name="RemoveFromList">Ta bort från lista...</string>
   <string name="Reply">Svar</string>
   <string name="Replies">Svar</string>
+  <string name="Requests">Begäran</string>
   <string name="Runtime">Speltid</string>
   <!--S-->
   <string name="Score">Betyg</string>
@@ -295,11 +329,14 @@
   <string name="SearchTorrent">Sök Torrent</string>
   <string name="Season">Säsong</string>
   <string name="Seasons">Säsonger</string>
+  <string name="Search">Sök</string>
   <string name="SearchForFriend">Hitta en vän...</string>
+  <string name="SearchForUser">Sök användare ...</string>
   <string name="SendFriendRequest">Skicka en vänförfrågan till {0}?</string>
+  <string name="SendFollowRequest">Sänd begäran om följning till {0}?</string>
   <string name="SelectLists">Välj listor</string>
   <string name="SelectUser">Välj användare</string>
-  <string name="Series">Serie</string>
+  <string name="Series">Serier</string>
   <string name="SeriesPlural">Serie</string>
   <string name="Settings">Inställningar</string>
   <string name="Shout">Shout</string>
@@ -351,6 +388,8 @@
   <string name="SettingDefaultTVShowTrailerSiteDescription">Välj den förvalda webbplatsen för TV-programtrailrar som ska användas när automatisk trailersökning utförs. t ex när du trycker spela på ett TV-program eller avsnitt. När du använder YouTube så används extra parametrar för avsnittssökningar såsom säsong och avsnittsnummer.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Förvald webbplats för filmtrailrar</string>
   <string name="SettingDefaultMovieTrailerSiteDescription">Välj den förvalda webbplatsen för filmtrailrar som ska användas när automatisk trailersökning utförs, t ex när du trycker spela på en trakt-film. </string>
+  <string name="SettingSyncLibraryName">Aktivera synkning av bibliotek</string>
+  <string name="SettingSyncLibraryDescription">Aktivera den här inställningen för att synkronisera din samling och  dess sett/inte sett status med trakt.tv. Om du inaktiverar denna inställning så blir endast scrobbling aktivt.</string>
   <string name="StartYear">Började: {0}</string>
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
@@ -375,14 +414,20 @@
   <!--U-->
   <string name="UserHasNotWatchedEpisodes">Användaren har inte några sedda avsnitt!</string>
   <string name="UserHasNotWatchedMovies">Användaren har inte några sedda filmer!</string>
+  <string name="UserHasNoRecentAddedEpisodes">Användaren har inte lagt till avsnitt nyligen!</string>
+  <string name="UserHasNoRecentAddedMovies">Användaren har inte lagt till filmer nyligen!</string>
+  <string name="UserHasNoRecentShouts">Användaren har inte nyligen gjort någon shout eller recension</string>
   <string name="User">Användare</string>
   <string name="Users">Användare</string>
   <string name="Username">Användarnamn</string>
   <string name="UnAuthorized">Inloggning misslyckades, var vänlig se över användarnamn och lösenord i inställningarna.</string>
+  <string name="UnFollow">Sluta följa</string>
+  <string name="UnFollowMessage">Är du säker på att du vill sluta följa {0}?</string>
   <string name="UnRate">Märk som ej betygsatt</string>
   <string name="UpdatingCategories">Uppdaterar kategorier</string>
   <string name="UpdatingFilters">Uppdaterar filter</string>
   <string name="UnableToPlayTrailer">Kunde inte spela trailer.</string>
+  <string name="UserProfile">Användarprofil</string>
   <!--V-->
   <string name="View">Vy</string>
   <string name="Votes">Röster</string>

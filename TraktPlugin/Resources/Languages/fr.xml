@@ -256,6 +256,7 @@
   <string name="RateSeven">Bon</string>
   <string name="RateEight">Super</string>
   <string name="RateNine">Superbe</string>
+  <string name="RecentAddedMovies">Films récemment ajoutés</string>
   <string name="Recommendations">Recommandations</string>
   <string name="RecommendedMovies">Films recommandés</string>
   <string name="RecommendedShows">Séries recommandées</string>
@@ -278,6 +279,7 @@
   <string name="SearchTorrent">Recherche de Torrent</string>
   <string name="Season">Saison</string>
   <string name="Seasons">Saisons</string>
+  <string name="Search">Recherche</string>
   <string name="SearchForFriend">Rechercher un ami...</string>
   <string name="SendFriendRequest">Envoyer une invitation à {0}?</string>
   <string name="SelectLists">Sélectionnez les listes</string>

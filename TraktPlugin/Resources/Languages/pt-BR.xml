@@ -46,6 +46,7 @@
   <string name="RateSeven">Bom</string>
   <string name="RateEight">Ótimo</string>
   <string name="RateNine">Excelente</string>
+  <string name="RecentAddedMovies">Filmes adicionados recentemente</string>
   <string name="Runtime">Duração</string>
   <!--S-->
   <string name="Score">Score</string>

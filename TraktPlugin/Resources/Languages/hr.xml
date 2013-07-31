@@ -52,6 +52,7 @@
   <string name="RateSeven">Dobro</string>
   <string name="RateEight">Odlično</string>
   <string name="RateNine">Izvrsno</string>
+  <string name="RecentAddedMovies">Nedavno dodani filmovi</string>
   <string name="Recommendations">Preporuke</string>
   <string name="ReleaseDate">Datum izdanja</string>
   <string name="Runtime">Trajanje</string>
@@ -59,6 +60,7 @@
   <string name="Score">Ocjena</string>
   <string name="Season">Sezona</string>
   <string name="Seasons">Sezona</string>
+  <string name="Search">Pretražite</string>
   <string name="Series">Serija</string>
   <string name="SeriesPlural">Serija</string>
   <string name="Settings">Postavke</string>

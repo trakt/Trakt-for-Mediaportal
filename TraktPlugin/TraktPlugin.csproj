@@ -412,6 +412,7 @@
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
+    <Content Include="Resources\Languages\bg.xml" />
     <Content Include="Resources\Languages\ca.xml" />
     <Content Include="Resources\Languages\cs.xml" />
     <Content Include="Resources\Languages\da.xml">

@@ -45,12 +45,14 @@
   <string name="RateTwo">Otrasné</string>
   <string name="RateSeven">Slušné</string>
   <string name="RateNine">Skvelé</string>
+  <string name="RecentAddedMovies">Nedávno pridané filmy</string>
   <string name="ReleaseDate">Dátum vydánia</string>
   <string name="Reply">Odpoveď</string>
   <string name="Replies">Odpovedí</string>
   <string name="Runtime">Dĺžka</string>
   <!--S-->
   <string name="Score">Hodnotenie</string>
+  <string name="Search">Hľadanie</string>
   <!--T-->
   <string name="TVShow">TV relácia</string>
   <string name="TVShows">TV relácie</string>
