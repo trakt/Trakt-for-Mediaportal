@@ -944,7 +944,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // Add each friend to the list
-            foreach (var friend in friends)
+            foreach (var friend in friends.OrderBy(f => f.ApprovedDate))
             {
                 GUITraktUserListItem userItem = new GUITraktUserListItem(friend.Username);
 
@@ -1025,7 +1025,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // Add each user to the list
-            foreach (var user in following)
+            foreach (var user in following.OrderBy(f => f.ApprovedDate))
             {
                 GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
 
@@ -1106,7 +1106,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // Add each user to the list
-            foreach (var user in followers)
+            foreach (var user in followers.OrderBy(f => f.ApprovedDate))
             {
                 GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
 
@@ -1187,7 +1187,7 @@ namespace TraktPlugin.GUI
             int id = 0;
 
             // Add each user to the list
-            foreach (var user in requests)
+            foreach (var user in requests.OrderBy(r => r.RequestDate))
             {
                 GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
 
