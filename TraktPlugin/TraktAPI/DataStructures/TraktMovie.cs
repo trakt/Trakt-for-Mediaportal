@@ -113,7 +113,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Poster))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Movies\Posters");
-                        Uri uri = new Uri(Poster);
+                        string posterUrl = Poster;
+                        if (posterUrl.Contains("jpg?"))
+                        {
+                            posterUrl = posterUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(posterUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;
@@ -133,7 +138,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Fanart))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Movies\Fanart");
-                        Uri uri = new Uri(Fanart);
+                        string fanartUrl = Fanart;
+                        if (fanartUrl.Contains("jpg?"))
+                        {
+                            fanartUrl = fanartUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(fanartUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;

@@ -83,7 +83,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Screen))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Episodes");
-                        Uri uri = new Uri(Screen);
+                        string epScreenUrl = Screen;
+                        if (epScreenUrl.Contains("jpg?"))
+                        {
+                            epScreenUrl = epScreenUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(epScreenUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;

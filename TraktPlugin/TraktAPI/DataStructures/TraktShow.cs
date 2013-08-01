@@ -149,7 +149,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Poster))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Posters");
-                        Uri uri = new Uri(Poster);
+                        string posterUrl = Poster;
+                        if (posterUrl.Contains("jpg?"))
+                        {
+                            posterUrl = posterUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(posterUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;
@@ -169,7 +174,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Banner))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Banners");
-                        Uri uri = new Uri(Banner);
+                        string bannerUrl = Banner;
+                        if (bannerUrl.Contains("jpg?"))
+                        {
+                            bannerUrl = bannerUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(bannerUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;
@@ -189,7 +199,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Season) && Season.Contains("seasons"))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Season\Posters");
-                        Uri uri = new Uri(Season);
+                        string seasonUrl = Season;
+                        if (seasonUrl.Contains("jpg?"))
+                        {
+                            seasonUrl = seasonUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(seasonUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;
@@ -209,7 +224,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
                     if (!string.IsNullOrEmpty(Fanart))
                     {
                         string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Fanart");
-                        Uri uri = new Uri(Fanart);
+                        string fanartUrl = Fanart;
+                        if (fanartUrl.Contains("jpg?"))
+                        {
+                            fanartUrl = fanartUrl.Replace("jpg?", string.Empty) + ".jpg";
+                        }
+                        var uri = new Uri(fanartUrl);
                         filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
                     }
                     return filename;
