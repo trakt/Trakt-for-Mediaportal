@@ -229,7 +229,7 @@ namespace TraktPlugin.GUI
                     // Load Activity Facade
                     LoadActivityTypes();
                 }
-            }, Translation.GettingFollowerList, true);
+            }, Translation.GettingUserProfile, true);
         }
 
         private void LoadActivityTypes()

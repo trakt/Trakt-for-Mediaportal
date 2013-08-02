@@ -389,7 +389,8 @@ namespace TraktPlugin.GUI
         public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
         public static string GettingRelatedMovies = "Getting Related Movies";
         public static string GettingRelatedShows = "Getting Related Shows";
-        public static string GettingTrailerUrls = "Getting Trailer Urls";        
+        public static string GettingTrailerUrls = "Getting Trailer Urls";
+        public static string GettingUserProfile = "Getting User Profile";
 
         // H
         public static string Hate = "Hate";
