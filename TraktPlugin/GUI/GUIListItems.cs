@@ -150,7 +150,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 default:
@@ -522,7 +522,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 default:
@@ -895,6 +895,8 @@ namespace TraktPlugin.GUI
 
             TraktUserListItem listItem = item.TVTag as TraktUserListItem;
             if (listItem == null) return;
+
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             switch (listItem.Type)
             {

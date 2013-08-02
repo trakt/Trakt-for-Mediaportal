@@ -175,7 +175,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 default:
@@ -398,7 +398,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -557,6 +557,8 @@ namespace TraktPlugin.GUI
         {
             var activity = item.TVTag as TraktActivity.Activity;
             if (activity == null) return;
+
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             PublishMovieSkinProperties(activity);
             GUIImageHandler.LoadFanart(backdrop, activity.Movie.Images.FanartImageFilename);

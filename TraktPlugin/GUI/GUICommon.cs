@@ -1474,7 +1474,7 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Layout
-        internal static Layout ShowLayoutMenu(Layout currentLayout)
+        internal static Layout ShowLayoutMenu(Layout currentLayout, int itemToSelect)
         {
             Layout newLayout = currentLayout;
 
@@ -1499,6 +1499,9 @@ namespace TraktPlugin.GUI
                 newLayout = (Layout)dlg.SelectedLabel;
                 facade.SetCurrentLayout(Enum.GetName(typeof(Layout), newLayout));
                 GUIControl.SetControlLabel(GUIWindowManager.ActiveWindow, (int)TraktGUIControls.Layout, GetLayoutTranslation(newLayout));
+                // when loosing focus from the facade the current selected index is lost
+                // e.g. changing layout from skin side menu
+                facade.SelectIndex(itemToSelect);
             }
             return newLayout;
         }

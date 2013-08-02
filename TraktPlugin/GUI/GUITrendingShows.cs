@@ -159,7 +159,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 // Sort Button
@@ -307,7 +307,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.ChangeLayout):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchWithMpNZB):
@@ -484,6 +484,8 @@ namespace TraktPlugin.GUI
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+
             TraktTrendingShow show = item.TVTag as TraktTrendingShow;
             PublishShowSkinProperties(show);
             GUIImageHandler.LoadFanart(backdrop, show.Images.FanartImageFilename);

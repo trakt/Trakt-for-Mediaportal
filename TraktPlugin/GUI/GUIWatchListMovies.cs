@@ -169,7 +169,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 // Sort Button
@@ -451,7 +451,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -620,6 +620,8 @@ namespace TraktPlugin.GUI
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+
             TraktWatchListMovie movie = item.TVTag as TraktWatchListMovie;
             PublishMovieSkinProperties(movie);
             GUIImageHandler.LoadFanart(backdrop, movie.Images.FanartImageFilename);

@@ -158,7 +158,7 @@ namespace TraktPlugin.GUI
 
                 // Layout Button
                 case (2):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 default:
@@ -292,7 +292,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
-                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout);
+                    CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
@@ -453,6 +453,8 @@ namespace TraktPlugin.GUI
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+
             var episode = (KeyValuePair<TraktShow, TraktWatchListEpisode.Episode>)item.TVTag;
             PublishEpisodeSkinProperties(episode);
             GUIImageHandler.LoadFanart(backdrop, episode.Key.Images.FanartImageFilename);
