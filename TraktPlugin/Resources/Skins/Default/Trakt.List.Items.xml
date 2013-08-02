@@ -116,17 +116,7 @@
       </control>
 		</control>
 
-		<control>
-      <description>Default image</description>
-      <id>0</id>
-      <type>image</type>
-      <posX>795</posX>
-      <posY>200</posY>
-      <width>135</width>
-      <height>194</height>
-      <texture mask="videothumbmask.png">missing_Coverart_video.png</texture>
-      <visible>facadeview.list</visible>
-    </control>
+		
     <control>
       <description>Poster</description>
       <id>500</id>

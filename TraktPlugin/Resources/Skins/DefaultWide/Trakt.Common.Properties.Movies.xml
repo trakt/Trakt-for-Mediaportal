@@ -3,17 +3,6 @@
   <controls>
     <!-- Movies List Layout -->
     <control>
-      <description>Movie Default image</description>
-      <id>0</id>
-      <type>image</type>
-      <posX>1060</posX>
-      <posY>170</posY>
-      <width>180</width>
-      <height>270</height>
-      <texture mask="videothumbmask.png">missing_Coverart_video.png</texture>
-      <visible>facadeview.list</visible>
-    </control>
-    <control>
       <description>Movie Poster</description>
       <id>500</id>
       <type>image</type>
@@ -21,7 +10,7 @@
       <posY>170</posY>
       <width>180</width>
       <height>270</height>
-			<keepaspectratio>no</keepaspectratio>
+	  <keepaspectratio>no</keepaspectratio>
       <zoom>no</zoom>
       <texture mask="videothumbmask.png">#selectedthumb</texture>
       <visible>facadeview.list</visible>
