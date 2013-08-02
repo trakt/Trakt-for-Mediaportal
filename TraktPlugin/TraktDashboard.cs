@@ -253,7 +253,7 @@ namespace TraktPlugin
             var avatarImages = new List<TraktUser>();
 
             // Add each activity item to the facade
-            foreach (var activity in activities.Activities)
+            foreach (var activity in activities.Activities.Distinct().OrderByDescending(a => a.Timestamp))
             {
                 if (PreviousSelectedIdx == -1 && PreviousSelectedActivity != null && TraktSettings.RememberLastSelectedActivity)
                 {

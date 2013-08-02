@@ -28,13 +28,23 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataContract]
         public class Activity : IEquatable<Activity>
         {
+            #region IEquatable
             public bool Equals(Activity other)
             {
                 if (other == null)
                     return false;
 
-                return (this.Timestamp == other.Timestamp && this.User.Username == other.User.Username);
+                return (this.Id == other.Id && this.Type == other.Type);
             }
+
+            public override int GetHashCode()
+            {
+                return (this.Id.ToString() + "-" + this.Type).GetHashCode();
+            }
+            #endregion
+
+            [DataMember(Name = "id")]
+            public long Id { get; set; }
 
             [DataMember(Name = "timestamp")]
             public long Timestamp { get; set; }
