@@ -1802,13 +1802,13 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Rate);
-            dlg.Add(pItem);
-            pItem.ItemId = (int)TraktMenuItems.Rate;
-
-            pItem = new GUIListItem(Translation.Shouts);
+            GUIListItem pItem = new GUIListItem(Translation.Shouts);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
 
             pItem = new GUIListItem(Translation.RelatedMovies);
             dlg.Add(pItem);
@@ -1905,13 +1905,13 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Rate);
-            dlg.Add(pItem);
-            pItem.ItemId = (int)TraktMenuItems.Rate;
-
-            pItem = new GUIListItem(Translation.Shouts);
+            GUIListItem pItem = new GUIListItem(Translation.Shouts);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
 
             pItem = new GUIListItem(Translation.RelatedShows);
             dlg.Add(pItem);
@@ -2015,13 +2015,13 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Rate);
-            dlg.Add(pItem);
-            pItem.ItemId = (int)TraktMenuItems.Rate;
-
-            pItem = new GUIListItem(Translation.Shouts);
+            GUIListItem pItem = new GUIListItem(Translation.Shouts);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
 
             pItem = new GUIListItem(Translation.AddToWatchList);
             dlg.Add(pItem);
