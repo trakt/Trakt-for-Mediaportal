@@ -25,9 +25,9 @@
   <string name="AddFriend">Vriend toevoegen</string>
   <string name="AddToLibrary">Voeg toe aan bibliotheek</string>
   <string name="AddToList">Voeg toe aan lijst</string>
-  <string name="AddToWatchList">Voeg toe aan kijk lijst</string>
-  <string name="AddShowToWatchList">Voeg serie toe aan kijk lijst</string>
-  <string name="AddEpisodeToWatchList">Voeg aflevering toe aan kijk lijst</string>
+  <string name="AddToWatchList">Voeg toe aan kijklijst</string>
+  <string name="AddShowToWatchList">Voeg serie toe aan kijklijstVerberg</string>
+  <string name="AddEpisodeToWatchList">Voeg aflevering toe aan kijklijst</string>
   <string name="AddShowToList">Voeg serie toe aan lijst</string>
   <string name="AddEpisodeToList">Voeg aflevering toe aan lijst</string>
   <string name="AddThisItemToWatchList">Wil je dit item toevoegen aan lijst?</string>
@@ -183,10 +183,11 @@
   <string name="GettingRelatedMovies">Gerelateerde films ophalen</string>
   <string name="GettingRelatedShows">Gerelateerde series ophalen</string>
   <string name="GettingTrailerUrls">Ophalen trailer url\'s</string>
+  <string name="GettingUserProfile">Ophalen gebruikersprofiel</string>
   <!--H-->
   <string name="Hate">Haat</string>
   <string name="Hated">Gehaat</string>
-  <string name="HideTVShowsInWatchlist">Verberg TV serie in kijk lijst</string>
+  <string name="HideTVShowsInWatchlist">Verberg TV serie in kijklijst</string>
   <string name="HideCollected">Verberg verzameld</string>
   <string name="HideRated">Gewaardeerde verbergen</string>
   <string name="HideWatched">Verberg bekeken</string>
@@ -224,7 +225,7 @@
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
   <!--N-->
   <string name="Name">Naam</string>
-  <string name="Network">Kanaal</string>
+  <string name="Network">Netwerk</string>
   <string name="NextEpisode">Volgende aflevering</string>
   <string name="NextWeek">Volgende week</string>
   <string name="NoActivities">Geen activiteit gevonden</string>
@@ -242,9 +243,9 @@
   <string name="NoTrendingShows">Er worden op dit moment geen series bekeken!</string>
   <string name="NoMovieRecommendations">Geen aanbevolen films gevonden!</string>
   <string name="NoShowRecommendations">Geen aanbevolen series gevonden!</string>
-  <string name="NoShowWatchList">{0} heeft geen series in kijk lijst</string>
-  <string name="NoMovieWatchList">{0} heeft geen films in kijk lijst</string>
-  <string name="NoEpisodeWatchList">{0} heeft geen afleveringen in kijk lijst</string>
+  <string name="NoShowWatchList">{0} heeft geen series in kijklijst</string>
+  <string name="NoMovieWatchList">{0} heeft geen films in kijklijst</string>
+  <string name="NoEpisodeWatchList">{0} heeft geen afleveringen in kijklijst</string>
   <string name="NoShoutsForItem">Geen stemmen voor {0}!</string>
   <string name="NoPluginsEnabled">Je hebt geen plugins ingesteld in de configuratie. Wil je de plugins nu configureren?</string>
   <string name="NotLoggedIn">Je hebt geen toegang tot deze gegevens zonder te zijn ingelogd. Wil je nu inloggen of registreren?</string>
@@ -314,9 +315,9 @@
   <string name="Released">Uitgekomen</string>
   <string name="ReleaseDate">Release datum</string>
   <string name="RemoveFromLibrary">Verwijder uit bibliotheek</string>
-  <string name="RemoveFromWatchList">Verwijder uit kijk lijst</string>
-  <string name="RemoveShowFromWatchList">Verwijder serie uit kijk lijst</string>
-  <string name="RemoveEpisodeFromWatchList">Verwijder aflevering uit kijk lijst</string>
+  <string name="RemoveFromWatchList">Verwijder uit kijklijst</string>
+  <string name="RemoveShowFromWatchList">Verwijder serie uit kijklijst</string>
+  <string name="RemoveEpisodeFromWatchList">Verwijder aflevering uit kijklijst</string>
   <string name="RemoveFromList">Verwijder uit lijst</string>
   <string name="Reply">Antwoorden</string>
   <string name="Replies">Reacties</string>
@@ -336,7 +337,7 @@
   <string name="SendFollowRequest">Stuur een volg verzoek aan {0}?</string>
   <string name="SelectLists">Selecteer lijst</string>
   <string name="SelectUser">Selecteer gebruiker</string>
-  <string name="Series">Serie</string>
+  <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
   <string name="Settings">Instellingen</string>
   <string name="Shout">Stem</string>
@@ -435,16 +436,16 @@
   <string name="ValidPassword">Je moet een correct wachtwoord invoeren!</string>
   <string name="ValidEmail">Je moet een correct Email adres invoeren!</string>
   <!--W-->
-  <string name="WatchList">Kijk lijst</string>
+  <string name="WatchList">Kijklijst</string>
   <string name="Watched">Bekeken</string>
   <string name="WatchedMovies">Bekeken films</string>
   <string name="WatchedEpisodes">Bekeken afleveringen</string>
   <string name="WatchedShows">Bekeken series</string>
   <string name="Watchers">Kijkers</string>
   <string name="Watching">Kijken</string>
-  <string name="WatchListMovies">Films kijk lijst</string>
-  <string name="WatchListShows">Serie kijk lijst</string>
-  <string name="WatchListEpisodes">Aflevering kijk lijst</string>
+  <string name="WatchListMovies">Kijklijst films</string>
+  <string name="WatchListShows">Kijklijst series</string>
+  <string name="WatchListEpisodes">Kijklijst afleveringen</string>
   <!--Y-->
   <string name="Year">Jaar</string>
   <string name="Yes">Ja</string>

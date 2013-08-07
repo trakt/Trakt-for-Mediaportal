@@ -183,6 +183,7 @@
   <string name="GettingRelatedMovies">Tar emot relaterade filmer</string>
   <string name="GettingRelatedShows">Tar emot relaterade serier</string>
   <string name="GettingTrailerUrls">Hämtar adresser till trailers</string>
+  <string name="GettingUserProfile">Hämtar användarprofil</string>
   <!--H-->
   <string name="Hate">Hata</string>
   <string name="Hated">Hatade</string>
