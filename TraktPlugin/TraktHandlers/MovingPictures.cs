@@ -510,7 +510,7 @@ namespace TraktPlugin.TraktHandlers
             if (obj.GetType() == typeof(DBMovieInfo))
             {
                 //Only remove from collection if the user wants us to
-                if (TraktSettings.KeepTraktLibraryClean)
+                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.SyncLibrary)
                 {
                     //A Movie was removed from the database update trakt
                     DBMovieInfo deletedMovie = (DBMovieInfo)obj;
@@ -596,7 +596,7 @@ namespace TraktPlugin.TraktHandlers
                 else
                     TraktLogger.Info("Movie {0} was found as blocked so did not scrobble", watchedEvent.Movie.Title);
             }
-            else if (obj.GetType() == typeof(DBMovieInfo))
+            else if (obj.GetType() == typeof(DBMovieInfo) && TraktSettings.SyncLibrary)
             {
                 //A Movie was inserted into the database update trakt
                 DBMovieInfo insertedMovie = (DBMovieInfo)obj;
