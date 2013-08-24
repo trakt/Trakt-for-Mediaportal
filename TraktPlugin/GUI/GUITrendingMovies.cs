@@ -387,7 +387,7 @@ namespace TraktPlugin.GUI
             movies = GUICommon.FilterTrendingMovies(movies);
 
             // sort movies
-            var movieList = movies.ToList();
+            var movieList = movies.Where(m => !string.IsNullOrEmpty(m.Title)).ToList();
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
 
             int itemId = 0;

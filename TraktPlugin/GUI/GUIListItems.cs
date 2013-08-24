@@ -789,7 +789,7 @@ namespace TraktPlugin.GUI
             List<object> images = new List<object>();
             
             // Add each list item
-            foreach (var listItem in list.Items)
+            foreach (var listItem in list.Items.Where(l => !string.IsNullOrEmpty(l.Title)))
             {
                 string itemName = list.ShowNumbers ? string.Format("{0}. {1}", itemId, listItem.ToString()) : listItem.ToString();
 

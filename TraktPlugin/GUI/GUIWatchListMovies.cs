@@ -518,7 +518,7 @@ namespace TraktPlugin.GUI
             }
 
             // sort movies
-            var movieList = movies.ToList();
+            var movieList = movies.Where(m => !string.IsNullOrEmpty(m.Title)).ToList();
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByWatchListMovies.Field, TraktSettings.SortByWatchListMovies.Direction));
 
             int itemId = 0;
