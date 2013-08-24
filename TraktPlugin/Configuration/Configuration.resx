@@ -126,6 +126,11 @@ attempt to sync first, it will also attempt to see if its the current plugin whe
 
 Your most frequently used plugin should be at the top.</value>
   </data>
+  <data name="cbSyncRatings.ToolTip" xml:space="preserve">
+    <value>Enable this setting for 2-way synchronization of ratings during Library Sync.
+If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues.
+It's recommended that items online are rated using advanced ratings before enabling this setting.</value>
+  </data>
   <data name="cbKeepInSync.ToolTip" xml:space="preserve">
     <value>Enable this option if you want the plugin to keep your trakt collection synchronised when
 you delete episodes and movies from your local database. This is not recommended 

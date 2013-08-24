@@ -52,12 +52,21 @@ namespace TraktPlugin
               clbPlugins.Items.Add(item.Value, false);
             }
             
-            cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
             cbTraktSyncLength.SelectedItem = (TraktSettings.SyncTimerLength / 3600000).ToString();
-
             cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
             cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
             cbMyFilmsCategories.Checked = TraktSettings.MyFilmsCategories;
+            cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
+            cbSyncLibrary.Checked = TraktSettings.SyncLibrary;
+            cbSyncRatings.Checked = TraktSettings.SyncRatings;
+
+            // disable controls if not applicable
+            if (!TraktSettings.SyncLibrary)
+            {
+                cbKeepInSync.Enabled = false;
+                cbSyncRatings.Enabled = false;
+            }
+
             #endregion
 
             // handle events now that we have populated default settings
@@ -378,6 +387,19 @@ namespace TraktPlugin
         private void cbMyFilmsCategories_Click(object sender, EventArgs e)
         {
             TraktSettings.MyFilmsCategories = !TraktSettings.MyFilmsCategories;
+        }
+
+        private void cbSyncLibrary_CheckedChanged(object sender, EventArgs e)
+        {
+            cbKeepInSync.Enabled = cbSyncLibrary.Checked;
+            cbSyncRatings.Enabled = cbSyncLibrary.Checked;
+
+            TraktSettings.SyncLibrary = cbSyncLibrary.Checked;
+        }
+
+        private void cbSyncRatings_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.SyncRatings = cbSyncRatings.Checked;
         }
 
     }
