@@ -645,6 +645,11 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktUserMovieRating> GetUserRatedMovies(string user)
         {
             string ratedMovies = Transmit(string.Format(TraktURIs.UserRatedMoviesList, user), GetUserAuthentication());
+            
+            // if we timeout we will return an error response
+            TraktResponse response = ratedMovies.FromJSON<TraktResponse>();
+            if (response == null || response.Error != null) return null;
+
             return ratedMovies.FromJSONArray<TraktUserMovieRating>();
         }
 
@@ -655,6 +660,11 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktUserShowRating> GetUserRatedShows(string user)
         {
             string ratedShows = Transmit(string.Format(TraktURIs.UserRatedShowsList, user), GetUserAuthentication());
+
+            // if we timeout we will return an error response
+            TraktResponse response = ratedShows.FromJSON<TraktResponse>();
+            if (response == null || response.Error != null) return null;
+
             return ratedShows.FromJSONArray<TraktUserShowRating>();
         }
 
@@ -665,6 +675,11 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktUserEpisodeRating> GetUserRatedEpisodes(string user)
         {
             string ratedEpisodes = Transmit(string.Format(TraktURIs.UserRatedEpisodesList, user), GetUserAuthentication());
+
+            // if we timeout we will return an error response
+            TraktResponse response = ratedEpisodes.FromJSON<TraktResponse>();
+            if (response == null || response.Error != null) return null;
+
             return ratedEpisodes.FromJSONArray<TraktUserEpisodeRating>();
         }
 
