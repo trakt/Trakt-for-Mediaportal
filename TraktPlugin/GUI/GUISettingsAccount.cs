@@ -139,8 +139,11 @@ namespace TraktPlugin.GUI
                     string username = Username;
                     if (GUIUtils.GetStringFromKeyboard(ref username))
                     {
-                        Username = username;
-                        GUIControl.SetControlLabel(GetID, btnUsername.GetID, username);
+                        if (!username.Equals(Username))
+                        {
+                            Username = username;
+                            GUIControl.SetControlLabel(GetID, btnUsername.GetID, username);
+                        }
                     }
                     break;
 
@@ -148,8 +151,11 @@ namespace TraktPlugin.GUI
                     string password = Password;
                     if (GUIUtils.GetStringFromKeyboard(ref password, true))
                     {
-                        Password = password;
-                        GUIControl.SetControlLabel(GetID, btnPassword.GetID, GetMaskedPassword(password));
+                        if (!password.Equals(Password))
+                        {
+                            Password = password;
+                            GUIControl.SetControlLabel(GetID, btnPassword.GetID, GetMaskedPassword(password));
+                        }
                     }
                     break;
 
@@ -157,8 +163,11 @@ namespace TraktPlugin.GUI
                     string email = Email;
                     if (GUIUtils.GetStringFromKeyboard(ref email))
                     {
-                        Email = email;
-                        GUIControl.SetControlLabel(GetID, btnEmail.GetID, email);
+                        if (!email.Equals(Email))
+                        {
+                            Email = email;
+                            GUIControl.SetControlLabel(GetID, btnEmail.GetID, email);
+                        }
                     }
                     break;
 

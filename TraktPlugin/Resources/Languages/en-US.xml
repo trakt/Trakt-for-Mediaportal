@@ -44,6 +44,11 @@
   <string name="AdvancedSettings">Advanced Settings</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
+  <string name="Biography">Biography</string>
+  <string name="Birthday">Birthday</string>
+  <string name="BirthDate">Birth Date</string>
+  <string name="Born">Born</string>
+  <string name="BirthPlace">Birth Place</string>
   <!--C-->
   <string name="Cancel">Cancel</string>
   <string name="Calendar">Calendar</string>
@@ -92,6 +97,7 @@
   <string name="EditingList">Editing List</string>
   <string name="Email">Email</string>
   <string name="EndYear">End: {0}</string>
+  <string name="EnterSearchTerm">Enter Search Term</string>
   <string name="Episode">Episode</string>
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
@@ -229,6 +235,7 @@
   <string name="NextEpisode">Next Episode</string>
   <string name="NextWeek">Next Week</string>
   <string name="NoActivities">No Activity Found.</string>
+  <string name="NoPersonBiography">There is no biography entered for this person.</string>
   <string name="NoEpisodesInSeason">No Episodes are available in Season.</string>
   <string name="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string name="NoEpisodesThisWeek">No episodes on this week</string>
@@ -246,6 +253,7 @@
   <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
   <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string name="NoSearchTypesSelected">You must first select one or more search types\nbefore performing an online search.</string>
   <string name="NoShoutsForItem">No Shouts for {0}!</string>
   <string name="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string name="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
@@ -331,8 +339,14 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Search</string>
+  <string name="SearchMovies">Search Movies</string>
+  <string name="SearchShows">Search Shows</string>
+  <string name="SearchEpisodes">Search Episodes</string>
+  <string name="SearchPeople">Search Peoples</string>
+  <string name="SearchUsers">Search Users</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SearchForUser">Search for User...</string>
+  <string name="SearchTypes">Search Types</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="SendFollowRequest">Send follow request to {0}?</string>
   <string name="SelectLists">Select Lists</string>

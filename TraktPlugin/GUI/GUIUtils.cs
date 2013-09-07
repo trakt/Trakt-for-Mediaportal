@@ -410,7 +410,7 @@ namespace TraktPlugin.GUI
             keyboard.Password = isPassword;
             keyboard.DoModal(GUIWindowManager.ActiveWindow);
             
-            if (keyboard.IsConfirmed && strLine != keyboard.Text)
+            if (keyboard.IsConfirmed)
             {
                 strLine = keyboard.Text;
                 return true;

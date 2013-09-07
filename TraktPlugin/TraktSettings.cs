@@ -57,6 +57,11 @@ namespace TraktPlugin
         public static int ListItemsDefaultLayout { get; set; }
         public static int RelatedMoviesDefaultLayout { get; set; }
         public static int RelatedShowsDefaultLayout { get; set; }
+        public static int SearchMoviesDefaultLayout { get; set; }
+        public static int SearchShowsDefaultLayout { get; set; }
+        public static int SearchEpisodesDefaultLayout { get; set; }
+        public static int SearchPeopleDefaultLayout { get; set; }
+        public static int SearchUsersDefaultLayout { get; set; }
         public static int DefaultCalendarView { get; set; }
         public static int DefaultCalendarStartDate { get; set; }
         public static bool DownloadFullSizeFanart { get; set; }
@@ -123,6 +128,7 @@ namespace TraktPlugin
         public static int RecentAddedMoviesDefaultLayout { get; set; }
         public static int RecentAddedEpisodesDefaultLayout { get; set; }
         public static bool SyncLibrary { get; set; }
+        public static int SearchTypes { get; set; }
         #endregion
 
         #region Constants
@@ -169,6 +175,11 @@ namespace TraktPlugin
         private const string cRelatedShowsDefaultLayout = "RelatedShowsDefaultLayout";
         private const string cShowSeasonsDefaultLayout = "ShowSeasonsLayout";
         private const string cSeasonEpisodesDefaultLayout = "SeasonEpisodesDefaultLayout";
+        private const string cSearchMoviesDefaultLayout = "SearchMoviesDefaultLayout";
+        private const string cSearchShowsDefaultLayout = "SearchShowsDefaultLayout";
+        private const string cSearchEpisodesDefaultLayout = "SearchEpisodesDefaultLayout";
+        private const string cSearchPeopleDefaultLayout = "SearchPeopleDefaultLayout";
+        private const string cSearchUsersDefaultLayout = "SearchUsersDefaultLayout";
         private const string cDefaultCalendarView = "DefaultCalendarView";
         private const string cDefaultCalendarStartDate = "DefaultCalendarStartDate";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
@@ -237,6 +248,7 @@ namespace TraktPlugin
         private const string cRecentAddedMoviesDefaultLayout = "RecentAddedMoviesDefaultLayout";
         private const string cRecentAddedEpisodesDefaultLayout = "RecentAddedEpisodesDefaultLayout";
         private const string cSyncLibrary = "SyncLibrary";
+        private const string cSearchTypes = "SearchTypes";
         #endregion
 
         #region Properties
@@ -517,6 +529,12 @@ namespace TraktPlugin
                 RecentAddedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedMoviesDefaultLayout, 0);
                 RecentAddedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentAddedEpisodesDefaultLayout, 0);
                 SyncLibrary = xmlreader.GetValueAsBool(cTrakt, cSyncLibrary, true);
+                SearchMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchMoviesDefaultLayout, 0);
+                SearchShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchShowsDefaultLayout, 0);
+                SearchEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchEpisodesDefaultLayout, 0);
+                SearchPeopleDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchPeopleDefaultLayout, 0);
+                SearchUsersDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchUsersDefaultLayout, 0);
+                SearchTypes = xmlreader.GetValueAsInt(cTrakt, cSearchTypes, 1);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -632,6 +650,12 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cRecentAddedMoviesDefaultLayout, RecentAddedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentAddedEpisodesDefaultLayout, RecentAddedEpisodesDefaultLayout);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncLibrary, SyncLibrary);
+                xmlwriter.SetValue(cTrakt, cSearchMoviesDefaultLayout, SearchMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSearchShowsDefaultLayout, SearchShowsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSearchEpisodesDefaultLayout, SearchEpisodesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSearchPeopleDefaultLayout, SearchPeopleDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSearchUsersDefaultLayout, SearchUsersDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSearchTypes, SearchTypes);
             }
 
             Settings.SaveCache();

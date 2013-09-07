@@ -397,8 +397,8 @@ namespace TraktPlugin.GUI
             foreach (var movie in movieList)
             {
                 GUITraktTrendingMovieListItem item = new GUITraktTrendingMovieListItem(movie.Title);
-                
-                item.Label2 = movie.Year;
+
+                item.Label2 = movie.Year == "0" ? "----" : movie.Year;
                 item.TVTag = movie;
                 item.Item = movie.Images;
                 item.IsPlayed = movie.Watched;

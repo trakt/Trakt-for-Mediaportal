@@ -246,6 +246,11 @@ namespace TraktPlugin.GUI
 
         // B
         public static string BufferingTrailer = "Buffering Trailer";
+        public static string Biography = "Biography";
+        public static string Birthday = "Birthday";
+        public static string Birthdate = "Birth Date";
+        public static string Born = "Born";
+        public static string BirthPlace = "Birth Place";
 
         // C
         public static string Cancel = "Cancel";
@@ -297,6 +302,7 @@ namespace TraktPlugin.GUI
         public static string EditingList = "Editing List";
         public static string Email = "Email";
         public static string EndYear = "End Year: {0}";
+        public static string EnterSearchTerm = "Enter Search Term";
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
@@ -443,6 +449,7 @@ namespace TraktPlugin.GUI
         public static string NextEpisode = "Next Episode";
         public static string NextWeek = "Next Week";
         public static string NoActivities = "No Activity Found.";
+        public static string NoPersonBiography = "There is no biography entered for this person.";
         public static string NoEpisodesInSeason = "No Episodes are available in Season.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoEpisodesThisWeek = "No episodes on this week";
@@ -460,6 +467,7 @@ namespace TraktPlugin.GUI
         public static string NoMovieWatchList = "{0} has no movies in Watch List!";
         public static string NoShowWatchList = "{0} has no shows in Watch List!";
         public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
+        public static string NoSearchTypesSelected = "You must first select one or more search types\nbefore performing an online search.";
         public static string NoShoutsForItem = "No Shouts for {0}!";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
@@ -549,8 +557,14 @@ namespace TraktPlugin.GUI
         public static string Season = "Season";
         public static string Seasons = "Seasons";
         public static string Search = "Search";
+        public static string SearchMovies = "Search Movies";
+        public static string SearchShows = "Search Shows";
+        public static string SearchEpisodes = "Search Episodes";
+        public static string SearchPeople = "Search People";
+        public static string SearchUsers = "Search Users";
         public static string SearchForFriend = "Search for Friend...";
         public static string SearchForUser = "Search for User...";
+        public static string SearchTypes = "Search Types";
         public static string SendFriendRequest = "Send friend request to {0}?";
         public static string SendFollowRequest = "Send follow request to {0}?";
         public static string SelectLists = "Select Lists";

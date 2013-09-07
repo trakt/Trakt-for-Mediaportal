@@ -217,7 +217,10 @@ namespace TraktPlugin.GUI
             {
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
-                    CheckAndPlayEpisode(false);
+                    if (!GUIBackgroundTask.Instance.IsBusy)
+                    {
+                        CheckAndPlayEpisode(false);
+                    };
                     break;
                 default:
                     base.OnAction(action);

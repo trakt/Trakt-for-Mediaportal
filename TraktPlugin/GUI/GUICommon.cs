@@ -109,7 +109,13 @@ namespace TraktPlugin.GUI
         RecentAddedMovies = 87286,
         RecentAddedEpisodes = 87287,
         RecentShouts = 87288,
-        UserProfile = 87400
+        UserProfile = 87400,
+        Search = 874001,
+        SearchEpisodes = 874002,
+        SearchShows = 874003,
+        SearchMovies = 874004,
+        SearchPeople = 874005,
+        SearchUsers = 874006
     }
 
     enum TraktDashboardControls
@@ -184,6 +190,7 @@ namespace TraktPlugin.GUI
         Collected,
         Rated
     }
+
     #endregion
 
     public class GUICommon
@@ -1059,7 +1066,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Imdb", movie.IMDBID);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
-            SetProperty("#Trakt.Movie.Released", movie.Released.FromEpoch().ToShortDateString());
+            SetProperty("#Trakt.Movie.Released", movie.Year == "0" ? "N/A" : movie.Released.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime.ToString());
             SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
             SetProperty("#Trakt.Movie.Title", movie.Title.RemapHighOrderChars());
@@ -1157,11 +1164,15 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Plays", show.Plays.ToString());
             SetProperty("#Trakt.Show.Rating", show.Rating);
             SetProperty("#Trakt.Show.RatingAdvanced", show.RatingAdvanced.ToString());
-            SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
-            SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
-            SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
-            SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
+            // Ratings not returned for all API methods that contain a show object! 
+            if (show.Ratings != null)
+            {
+                SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
+                SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
+                SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
+                SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
+                SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
+            }
             SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
             SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
             SetProperty("#Trakt.Show.BannerImageFilename", show.Images.BannerImageFilename);
@@ -1217,6 +1228,30 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Ratings != null ? episode.Ratings.Percentage.ToString() : "0");
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings != null ? episode.Ratings.Votes.ToString() : "0");
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.EpisodeImageFilename);
+        }
+
+        internal static void ClearPersonProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.Person.Name", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.HeadshotUrl", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.Biography", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.Birthday", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.Birthplace", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.TmdbId", string.Empty);
+        }
+
+        internal static void SetPersonProperties(TraktPersonSummary person)
+        {
+            GUIUtils.SetProperty("#Trakt.Person.Name", person.Name);
+            GUIUtils.SetProperty("#Trakt.Person.HeadshotUrl", person.Images.Headshot);
+            GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadshotImageFilename);
+            GUIUtils.SetProperty("#Trakt.Person.Url", person.Url);
+            GUIUtils.SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography);
+            GUIUtils.SetProperty("#Trakt.Person.Birthday", person.Birthday);
+            GUIUtils.SetProperty("#Trakt.Person.Birthplace", person.Birthplace);
+            GUIUtils.SetProperty("#Trakt.Person.TmdbId", person.TmdbId.ToString());
         }
 
         #endregion

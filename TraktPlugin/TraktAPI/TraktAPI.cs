@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Net;
+using System.Text;
+using System.Threading;
 using System.Web;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktHandlers;
@@ -128,6 +129,17 @@ namespace TraktPlugin.TraktAPI
         show,
         movie,
         list
+    }
+
+    [Flags]
+    public enum SearchType
+    {
+        none = 0,
+        movies = 1,
+        shows = 2,
+        episodes = 4,
+        people = 8,
+        users = 16
     }
 
     #endregion
@@ -1036,6 +1048,63 @@ namespace TraktPlugin.TraktAPI
         #endregion
 
         #region Search
+
+        /// <summary>
+        /// Search from one or more types, movies, episodes, shows etc...
+        /// </summary>
+        /// <param name="searchTerm">string to search for</param>
+        /// <param name="types">a list of search types</param>
+        /// <returns>returns results from multiple search types</returns>
+        public static TraktSearchResult Search(string searchTerm, HashSet<SearchType> types)
+        {
+            // collect all the results from each type in this list
+            TraktSearchResult results = new TraktSearchResult();
+
+            // run all search types in parallel
+            List<Thread> threads = new List<Thread>();
+
+            foreach (var type in types)
+            {
+                switch (type)
+                {
+                    case SearchType.movies:
+                        Thread tMovieSearch = new Thread(delegate(object obj) { results.Movies = SearchMovies(obj as string); });
+                        tMovieSearch.Start(searchTerm);
+                        threads.Add(tMovieSearch);
+                        break;
+
+                    case SearchType.shows:
+                        Thread tShowSearch = new Thread(delegate(object obj) { results.Shows = SearchShows(obj as string); });
+                        tShowSearch.Start(searchTerm);
+                        threads.Add(tShowSearch);
+                        break;
+
+                    case SearchType.episodes:
+                        Thread tEpisodeSearch = new Thread(delegate(object obj) { results.Episodes = SearchEpisodes(obj as string); });
+                        tEpisodeSearch.Start(searchTerm);
+                        threads.Add(tEpisodeSearch);
+                        break;
+
+                    case SearchType.people:
+                        Thread tPeopleSearch = new Thread(delegate(object obj) { results.People = SearchPeople(obj as string); });
+                        tPeopleSearch.Start(searchTerm);
+                        threads.Add(tPeopleSearch);
+                        break;
+
+                    case SearchType.users:
+                        Thread tUserSearch = new Thread(delegate(object obj) { results.Users = SearchForUsers(obj as string); });
+                        tUserSearch.Start(searchTerm);
+                        threads.Add(tUserSearch);
+                        break;
+                }
+            }
+
+            // wait until all search results are back
+            threads.ForEach(t => t.Join());
+
+            // now we have everything we need
+            return results;
+        }
 
         /// <summary>
         /// Returns a list of users found using search term

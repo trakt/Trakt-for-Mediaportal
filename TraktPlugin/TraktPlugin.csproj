@@ -240,6 +240,12 @@
     <Compile Include="GUI\GUIRecentShouts.cs" />
     <Compile Include="GUI\GUIRelatedMovies.cs" />
     <Compile Include="GUI\GUIRelatedShows.cs" />
+    <Compile Include="GUI\GUISearch.cs" />
+    <Compile Include="GUI\GUISearchEpisodes.cs" />
+    <Compile Include="GUI\GUISearchMovies.cs" />
+    <Compile Include="GUI\GUISearchPeople.cs" />
+    <Compile Include="GUI\GUISearchShows.cs" />
+    <Compile Include="GUI\GUISearchUsers.cs" />
     <Compile Include="GUI\GUISeasonEpisodes.cs" />
     <Compile Include="GUI\GUISettingsAccount.cs" />
     <Compile Include="GUI\GUISettings.cs" />
@@ -278,6 +284,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktProducer.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRecommendations.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSearchResult.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonSeen.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSeason.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSeen.cs" />

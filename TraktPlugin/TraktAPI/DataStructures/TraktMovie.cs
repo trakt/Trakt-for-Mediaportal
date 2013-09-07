@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktMovie :TraktMovieBase
+    public class TraktMovie : TraktMovieBase
     {
         [DataMember(Name = "certification")]
         public string Certification { get; set; }

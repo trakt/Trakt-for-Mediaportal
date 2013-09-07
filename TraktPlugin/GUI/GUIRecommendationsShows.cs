@@ -226,7 +226,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.GetStringFromKeyboard(ref startYear))
                     {
                         int result;
-                        if (startYear.Length == 4 && int.TryParse(startYear, out result))
+                        if (startYear.Length == 4 && int.TryParse(startYear, out result) && !startYear.Equals(StartYear.ToString()))
                         {
                             StartYear = result;
                             GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
@@ -242,7 +242,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.GetStringFromKeyboard(ref endYear))
                     {
                         int result;
-                        if (endYear.Length == 4 && int.TryParse(endYear, out result))
+                        if (endYear.Length == 4 && int.TryParse(endYear, out result) && !endYear.Equals(EndYear.ToString()))
                         {
                             EndYear = result;
                             GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));

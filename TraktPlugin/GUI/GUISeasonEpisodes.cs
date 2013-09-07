@@ -487,8 +487,10 @@ namespace TraktPlugin.GUI
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.SeasonEpisodesDefaultLayout;
+            
             // update button label
-            GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
+            if (layoutButton != null)
+                GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
         }
 
         private void ClearProperties()
