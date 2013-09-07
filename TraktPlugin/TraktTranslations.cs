@@ -206,6 +206,8 @@ namespace TraktPlugin.GUI
         public static string AccountSetup = "Account Setup";
         public static string AccountDialog = "Account Dialog";
         public static string Activity = "Activity";
+        public static string Actor = "Actor";
+        public static string Actors = "Actors";
         public static string ActivityFriendsDesc = "See what your friends are up to...";
         public static string ActivityCommunityDesc = "See what the community is up to...";
         public static string ActivityWatching = "{0} is watching {1}";
@@ -259,6 +261,7 @@ namespace TraktPlugin.GUI
         public static string CalendarPremieres = "Premieres";
         public static string CalendarAllShows = "All Shows";
         public static string Certification = "Certification";
+        public static string Cast = "Cast";
         public static string ChangeView = "Change View...";
         public static string ChangeLayout = "Change Layout...";
         public static string Create = "Create";
@@ -291,6 +294,8 @@ namespace TraktPlugin.GUI
         public static string DenyFollowRequest = "Deny Follow Request from user {0}?";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
+        public static string Director = "Director";
+        public static string Directors = "Directors";
         public static string DisconnectAccount = "Disconnect Account: {0}";
         public static string DismissRecommendation = "Dismiss this Recommendation";
         public static string DontIncludeMeInFriendsActivity = "Don't Include Me in Friends Activity";
@@ -397,6 +402,8 @@ namespace TraktPlugin.GUI
         public static string GettingRelatedShows = "Getting Related Shows";
         public static string GettingTrailerUrls = "Getting Trailer Urls";
         public static string GettingUserProfile = "Getting User Profile";
+        public static string Gueststar = "Gueststar";
+        public static string Gueststars = "Gueststars";
 
         // H
         public static string Hate = "Hate";
@@ -469,6 +476,7 @@ namespace TraktPlugin.GUI
         public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
         public static string NoSearchTypesSelected = "You must first select one or more search types\nbefore performing an online search.";
         public static string NoShoutsForItem = "No Shouts for {0}!";
+        public static string NoPeopleToSearch = "There are no people to search by.";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
         public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
         public static string NoSearchResultsFound = "No Search Results Found";
@@ -557,6 +565,7 @@ namespace TraktPlugin.GUI
         public static string Season = "Season";
         public static string Seasons = "Seasons";
         public static string Search = "Search";
+        public static string SearchBy = "Search By";
         public static string SearchMovies = "Search Movies";
         public static string SearchShows = "Search Shows";
         public static string SearchEpisodes = "Search Episodes";
@@ -681,6 +690,8 @@ namespace TraktPlugin.GUI
         public static string WatchListMovies = "Movie Watch List";
         public static string WatchListShows = "Show Watch List";
         public static string WatchListEpisodes = "Episode Watch List";
+        public static string Writer = "Writer";
+        public static string Writers = "Writers";
 
         // Y
         public static string Year = "Year";

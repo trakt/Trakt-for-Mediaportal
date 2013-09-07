@@ -564,6 +564,36 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
+        public static bool GetEpisodePersonInfo(Object obj, out List<string> actors, out List<string> writers, out List<string> directors, out List<string> gueststars)
+        {
+            actors = new List<string>();
+            directors = new List<string>();
+            writers = new List<string>();
+            gueststars = new List<string>();
+
+            if (obj == null) return false;
+
+            DBEpisode episode = obj as DBEpisode;
+            if (episode == null) return false;
+
+            DBSeries series = Helper.getCorrespondingSeries(episode[DBOnlineEpisode.cSeriesID]);
+            if (series == null) return false;
+
+            try
+            {
+                actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                directors.AddRange(episode[DBOnlineEpisode.cDirector].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                writers.AddRange(episode[DBOnlineEpisode.cWriter].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                gueststars.AddRange(episode[DBOnlineEpisode.cGuestStars].ToString().Split('|').Where(s => s.Trim().Length > 0));
+            }
+            catch
+            {
+                TraktLogger.Error("Error getting Episode Person Info.");
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// Get Series Info for selected object
         /// </summary>
@@ -580,6 +610,30 @@ namespace TraktPlugin.TraktHandlers
             title = series[DBOnlineSeries.cOriginalName];
             tvdb = series[DBSeries.cID];
            
+            return true;
+        }
+
+        public static bool GetSeriesPersonInfo(Object obj, out List<string> actors, out List<string> writers, out List<string> directors, out List<string> gueststars)
+        {
+            actors = new List<string>();
+            directors = new List<string>();
+            writers = new List<string>();
+            gueststars = new List<string>();
+
+            if (obj == null) return false;
+
+            DBSeries series = obj as DBSeries;
+            if (series == null) return false;
+
+            try
+            {
+                actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
+            }
+            catch
+            {
+                TraktLogger.Error("Error getting Episode Person Info.");
+                return false;
+            }
             return true;
         }
 

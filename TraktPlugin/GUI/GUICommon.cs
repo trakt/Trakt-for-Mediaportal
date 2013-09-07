@@ -149,6 +149,7 @@ namespace TraktPlugin.GUI
         Shouts = 97260,
         CustomList = 97261,
         RelatedItems = 97262,
+        SearchBy = 97263,
         TraktMenu = 97270
     }
 
@@ -166,6 +167,14 @@ namespace TraktPlugin.GUI
         WatchList,
         Lists,
         Search
+    }
+
+    enum TraktSearchByItems
+    {
+        Actors,
+        Directors,
+        Writers,
+        GuestStars
     }
 
     public enum SortingFields
@@ -1827,6 +1836,92 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Trakt External Menu
+
+        #region SearchBy Menu
+        public static bool ShowSearchByMenu(List<string> actors, List<string> directors, List<string> writers, List<string> gueststars)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.SearchBy);
+
+            GUIListItem pItem = null;
+
+            if (actors.Count > 0)
+            {
+                pItem = new GUIListItem(Translation.Actors);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktSearchByItems.Actors;
+                pItem.Label2 = actors.Count.ToString();
+            }
+
+            if (directors.Count > 0)
+            {
+                pItem = new GUIListItem(Translation.Directors);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktSearchByItems.Directors;
+                pItem.Label2 = directors.Count.ToString();
+            }
+
+            if (writers.Count > 0)
+            {
+                pItem = new GUIListItem(Translation.Writers);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktSearchByItems.Writers;
+                pItem.Label2 = writers.Count.ToString();
+            }
+
+            if (gueststars.Count > 0)
+            {
+                pItem = new GUIListItem(Translation.Gueststars);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktSearchByItems.GuestStars;
+                pItem.Label2 = gueststars.Count.ToString();
+            }
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return false;
+
+            bool retCode = false;
+
+            if (dlg.SelectedLabelText == Translation.Actors)
+                retCode = ShowSearchByPersonMenu(actors);
+            if (dlg.SelectedLabelText == Translation.Directors)
+                retCode = ShowSearchByPersonMenu(directors);
+            if (dlg.SelectedLabelText == Translation.Writers)
+                retCode = ShowSearchByPersonMenu(writers);
+            if (dlg.SelectedLabelText == Translation.Gueststars)
+                retCode = ShowSearchByPersonMenu(gueststars);
+
+            return retCode;
+        }
+
+        public static bool ShowSearchByPersonMenu(List<string> people)
+        {
+            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(Translation.SearchBy);
+
+            GUIListItem pItem = null;
+            int itemId = 0;
+
+            foreach (var person in people)
+            {
+                pItem = new GUIListItem(person);
+                dlg.Add(pItem);
+                pItem.ItemId = itemId++;
+            }
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return false;
+
+            // Trigger Search
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, dlg.SelectedLabelText);
+
+            return true;
+        }
+        #endregion
 
         #region Movies
         public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart)

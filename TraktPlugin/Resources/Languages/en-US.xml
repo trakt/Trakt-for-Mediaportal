@@ -4,6 +4,8 @@
   <string name="Account">Account</string>
   <string name="AccountSetup">Account Setup</string>
   <string name="AccountDialog">Account Dialog</string>
+  <string name="Actor">Actor</string>
+  <string name="Actors">Actors</string>
   <string name="Activity">Activity</string>
   <string name="ActivityFriendsDesc">See what your friends are up to...</string>
   <string name="ActivityCommunityDesc">See what the community is up to...</string>
@@ -55,6 +57,7 @@
   <string name="CalendarMyShows">My Shows</string>
   <string name="CalendarPremieres">Premieres</string>
   <string name="CalendarAllShows">All Shows</string>
+  <string name="Cast">Cast</string>
   <string name="Certification">Certification</string>
   <string name="ChangeView">Change View...</string>
   <string name="ChangeLayout">Change Layout...</string>
@@ -87,6 +90,8 @@
   <string name="DeletingList">Deleting List</string>
   <string name="DeleteFriend">Delete Friend</string>
   <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string name="Director">Director</string>
+  <string name="Directors">Directors</string>
   <string name="DisconnectAccount">Disconnect Account: {0}</string>
   <string name="DismissRecommendation">Dismiss this Recommendation</string>
   <string name="DontIncludeMeInFriendsActivity">Don\'t Include Me in Friends Activity</string>
@@ -190,6 +195,8 @@
   <string name="GettingRelatedShows">Getting Related Shows</string>
   <string name="GettingTrailerUrls">Getting Trailer Urls</string>
   <string name="GettingUserProfile">Getting User Profile</string>
+  <string name="GuestStar">Gueststar</string>
+  <string name="GuestStars">GuestStars</string>
   <!--H-->
   <string name="Hate">Hate</string>
   <string name="Hated">Hated</string>
@@ -255,6 +262,7 @@
   <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string name="NoSearchTypesSelected">You must first select one or more search types\nbefore performing an online search.</string>
   <string name="NoShoutsForItem">No Shouts for {0}!</string>
+  <string name="NoPeopleToSearch">There are no people to search by.</string>
   <string name="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string name="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string name="NoSearchResultsFound">No Search Results Found</string>
@@ -339,6 +347,7 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Search</string>
+  <string name="SearchBy">Search By</string>
   <string name="SearchMovies">Search Movies</string>
   <string name="SearchShows">Search Shows</string>
   <string name="SearchEpisodes">Search Episodes</string>
@@ -460,6 +469,8 @@
   <string name="WatchListMovies">Movie Watch List</string>
   <string name="WatchListShows">Show Watch List</string>
   <string name="WatchListEpisodes">Episode Watch List</string>
+  <string name="Writer">Writer</string>
+  <string name="Writers">Writers</string>
   <!--Y-->
   <string name="Year">Year</string>
   <string name="Yes">Yes</string>

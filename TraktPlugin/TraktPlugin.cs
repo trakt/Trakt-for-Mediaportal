@@ -858,6 +858,7 @@ namespace TraktPlugin
             bool validShoutItem = false;
             bool validRelatedItem = false;
             bool validTraktMenuItem = false;
+            bool validSearchItem = false;
             bool updateMovPicsFiltersAndCats = false;
             string title = string.Empty;
             string year = string.Empty;
@@ -867,6 +868,10 @@ namespace TraktPlugin
             string season = string.Empty;
             string episode = string.Empty;
             string fanart = string.Empty;
+            List<string> writers = new List<string>();
+            List<string> directors = new List<string>();
+            List<string> actors = new List<string>();
+            List<string> gueststars = new List<string>();
             string type = "movie";
 
             switch (message.Message)
@@ -987,7 +992,7 @@ namespace TraktPlugin
                             #endregion
                             break;
                         case (int)ExternalPluginWindows.MovingPictures:
-                            #region WatchList/CustomList/Rate/Shouts/RelatedItem
+                            #region WatchList/CustomList/Rate/Shouts/RelatedItem/Search
                             switch (message.SenderControlId)
                             {
                                 case ((int)ExternalPluginControls.WatchList):
@@ -995,6 +1000,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.Rate):
                                 case ((int)ExternalPluginControls.Shouts):
                                 case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.SearchBy):
                                 case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
                                     updateMovPicsFiltersAndCats = true;
@@ -1002,6 +1008,15 @@ namespace TraktPlugin
                                     year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
                                     imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
                                     fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
+
+                                    string people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.actors").Trim();
+                                    if (people != string.Empty) actors.AddRange(people.Split(',').Select(s => s.Trim()));
+
+                                    people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.writers").Trim();
+                                    if (people != string.Empty) writers.AddRange(people.Split(',').Select(s => s.Trim()));
+
+                                    people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.directors").Trim();
+                                    if (people != string.Empty) directors.AddRange(people.Split(',').Select(s => s.Trim()));
 
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
@@ -1011,6 +1026,7 @@ namespace TraktPlugin
                                         if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems) validRelatedItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.TraktMenu) validTraktMenuItem = true;
+                                        if (message.SenderControlId == (int)ExternalPluginControls.SearchBy) validSearchItem = true;
                                     }
 
                                     // Set focus to Play Button now so we dont go in a loop
@@ -1028,6 +1044,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.Rate):
                                 case ((int)ExternalPluginControls.Shouts):
                                 case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.SearchBy):
                                 case ((int)ExternalPluginControls.TraktMenu):
                                     Object obj = TVSeries.SelectedObject;
                                     bool validItem = false;
@@ -1037,12 +1054,14 @@ namespace TraktPlugin
                                         {
                                             case TVSeries.SelectedType.Episode:
                                                 type = "episode";
-                                                validItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                                validItem =  TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                                validItem |= TVSeries.GetEpisodePersonInfo(obj, out actors, out writers, out directors, out gueststars);
                                                 break;
 
                                             case TVSeries.SelectedType.Series:
                                                 type = "series";
-                                                validItem = TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                                validItem =  TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                                validItem |= TVSeries.GetSeriesPersonInfo(obj, out actors, out writers, out directors, out gueststars);
                                                 break;
 
                                             default:
@@ -1058,6 +1077,7 @@ namespace TraktPlugin
                                             if (message.SenderControlId == (int)ExternalPluginControls.Rate) validRateItem = true;
                                             if (message.SenderControlId == (int)ExternalPluginControls.Shouts) validShoutItem = true;
                                             if (message.SenderControlId == (int)ExternalPluginControls.RelatedItems) validRelatedItem = true;
+                                            if (message.SenderControlId == (int)ExternalPluginControls.SearchBy) validSearchItem = true;
                                             if (message.SenderControlId == (int)ExternalPluginControls.TraktMenu) validTraktMenuItem = true;
                                         }
                                     }
@@ -1221,6 +1241,20 @@ namespace TraktPlugin
                     case "episode":
                         GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, fanart);
                         break;
+                }
+            }
+            #endregion
+
+            #region Search Menu
+            if (validSearchItem)
+            {
+                if (actors.Count == 0 && writers.Count == 0 && directors.Count == 0 &&  gueststars.Count == 0)
+                {
+                    GUIUtils.ShowOKDialog(Translation.SearchBy, Translation.NoPeopleToSearch);
+                }
+                else
+                {
+                    GUICommon.ShowSearchByMenu(actors, directors, writers, gueststars);
                 }
             }
             #endregion
