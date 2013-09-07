@@ -33,6 +33,7 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            FollowUser,
             ChangeLayout
         }
 
@@ -174,6 +175,11 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            // Follow User
+            listItem = new GUIListItem(Translation.FollowUser);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.FollowUser;
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -185,6 +191,14 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case ((int)ContextMenuItem.FollowUser):
+                    if (GUIUtils.ShowYesNoDialog(Translation.Network, string.Format(Translation.SendFollowRequest, selectedItem.Label), true))
+                    {
+                        GUINetwork.FollowUser(selectedUser);
+                        GUINetwork.ClearCache();
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.ChangeLayout):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;

@@ -224,6 +224,8 @@ namespace TraktPlugin.GUI
             switch (action.wID)
             {
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // clear search
+                    SearchTerm = string.Empty;
                     base.OnAction(action);
                     break;
                 default:
