@@ -159,11 +159,13 @@ namespace TraktPlugin.GUI
         Rate,
         Shouts,
         Related,
+        UserProfile,
         Calendar,
         Recommendations,
         Trending,
         WatchList,
-        Lists
+        Lists,
+        Search
     }
 
     public enum SortingFields
@@ -1860,6 +1862,12 @@ namespace TraktPlugin.GUI
             // also show non-context sensitive items related to movies
             if (showAll)
             {
+                // might want to check your recently watched, stats etc
+                pItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.UserProfile;
+
+                pItem.ItemId = (int)TraktMenuItems.Lists;
                 pItem = new GUIListItem(Translation.Recommendations);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Recommendations;
@@ -1875,6 +1883,10 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
+
+                pItem = new GUIListItem(Translation.Search);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -1908,6 +1920,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.UserProfile):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
                 case ((int)TraktMenuItems.Recommendations):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecommendationsMovies);
                     break;
@@ -1922,6 +1938,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
+
+                case ((int)TraktMenuItems.Search):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
                     break;
             }
             return true;
@@ -1963,6 +1983,11 @@ namespace TraktPlugin.GUI
             // also show non-context sensitive items related to shows
             if (showAll)
             {
+                // might want to check your recently watched, stats etc
+                pItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.UserProfile;
+
                 pItem = new GUIListItem(Translation.Calendar);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Calendar;
@@ -1982,6 +2007,10 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
+
+                pItem = new GUIListItem(Translation.Search);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -2015,6 +2044,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveShowInUserList(title, null, tvdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.UserProfile):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
                 case ((int)TraktMenuItems.Calendar):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
                     break;
@@ -2033,6 +2066,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
+
+                case ((int)TraktMenuItems.Search):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
                     break;
             }
             return true;
@@ -2069,6 +2106,11 @@ namespace TraktPlugin.GUI
             // also show non-context sensitive items related to episodes
             if (showAll)
             {
+                // might want to check your recently watched, stats etc
+                pItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.UserProfile;
+
                 pItem = new GUIListItem(Translation.Calendar);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Calendar;
@@ -2080,6 +2122,10 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
+
+                pItem = new GUIListItem(Translation.Search);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -2108,6 +2154,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.UserProfile):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
                 case ((int)TraktMenuItems.Calendar):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
                     break;
@@ -2118,6 +2168,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
+
+                case ((int)TraktMenuItems.Search):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
                     break;
             }
             return true;
