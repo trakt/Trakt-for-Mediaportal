@@ -3,6 +3,18 @@
   <controls>
     <!-- Shows List Layout -->
     <control>
+      <description>Overlay text right</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>709</posX>
+      <posY>156</posY>
+      <width>549</width>
+      <height>466</height>
+      <texture mask="picturethumbmask.png">black.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
       <description>Show Poster</description>
       <id>500</id>
       <type>image</type>

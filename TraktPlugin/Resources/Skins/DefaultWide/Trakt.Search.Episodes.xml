@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-  <id>87283</id>
+  <id>874002</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
+  <define>#Fanart.1:#Trakt.SearchEpisodes.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.SearchEpisodes.Fanart.2</define>
   <controls>
     <control>
       <description>BG</description>
@@ -35,44 +37,11 @@
       <width>866</width>
       <font>font11</font>
       <textcolor>ff6FAFE1</textcolor>
-      <label>#Trakt.CurrentView</label>
+      <label>#Trakt.Translation.SearchEpisodes.Label | #Trakt.Search.SearchTerm</label>
       <align>left</align>
     </control>
-    <control>
-      <description>group element</description>
-      <type>group</type>
-      <control>
-        <type>facadeview</type>
-        <id>50</id>
-        <control>
-          <description>listcontrol</description>
-          <type>listcontrol</type>
-          <id>50</id>
-          <width>549</width>
-          <playedColor>ffffffff</playedColor>
-          <playedColor2>ffffffff</playedColor2>
-          <textcolor>ff99f9ff</textcolor>
-          <textcolorNoFocus>ff99f9ff</textcolorNoFocus>
-          <textXOff2>549</textXOff2>
-          <textYOff2>2</textYOff2>
-          <textXOff3>2544</textXOff3>
-          <textYOff3>8</textYOff3>
-		  <PinIconXOff>500</PinIconXOff>
-          <PinIconYOff>0</PinIconYOff>
-          <PinIconWidth>32</PinIconWidth>
-          <PinIconHeight>32</PinIconHeight>
-          <textalign3>right</textalign3>
-          <font3>font9</font3>
-          <font2>font11</font2>
-          <scrollOffset>2</scrollOffset>
-          <spinCanFocus>yes</spinCanFocus>
-          <unfocusedAlpha>160</unfocusedAlpha>
-          <folderPrefix />
-          <folderSuffix />
-        </control>
-      </control>
-    </control>
-	<!-- Hidden Menu -->
+    <import>Trakt.Common.Facade.Episodes.xml</import>
+    <!-- Hidden Menu -->
     <control>
       <type>actiongroup</type>
       <description>action menu</description>
@@ -128,48 +97,18 @@
           <animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
           <animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
           <control>
-            <description>Switch View</description>
+            <description>Change Layout</description>
             <type>button</type>
             <id>2</id>
             <width>293</width>
-            <label>-</label>
+            <label>Change Layout</label>
             <onleft>50</onleft>
             <onright>50</onright>
             <onup>21</onup>
           </control>
-		  <control>
-            <description>Search User</description>
-            <type>button</type>
-            <id>3</id>
-            <width>293</width>
-            <label>#Trakt.Translation.Search.Label</label>
-            <onleft>50</onleft>
-            <onright>50</onright>
-          </control>
-		  <control>
-            <description>Refresh</description>
-            <type>button</type>
-            <id>4</id>
-            <width>293</width>
-            <label>#Trakt.Translation.Refresh.Label</label>
-            <onleft>50</onleft>
-            <onright>50</onright>
-            <ondown>2</ondown>
-          </control>
         </control>
       </control>
-	</control>
-    <control>
-      <description>Overlay text right</description>
-      <id>0</id>
-      <type>image</type>
-      <posX>709</posX>
-      <posY>156</posY>
-      <width>549</width>
-      <height>466</height>
-      <texture mask="picturethumbmask.png">black.png</texture>
-      <colordiffuse>60ffffff</colordiffuse>
     </control>
-    <import>Trakt.Common.Properties.Users.xml</import>
+    <import>Trakt.Common.Properties.Episodes.xml</import>
   </controls>
 </window>

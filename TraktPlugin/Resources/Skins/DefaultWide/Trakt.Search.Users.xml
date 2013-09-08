@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-  <id>87283</id>
+  <id>874006</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
   <controls>
@@ -159,17 +159,6 @@
         </control>
       </control>
 	</control>
-    <control>
-      <description>Overlay text right</description>
-      <id>0</id>
-      <type>image</type>
-      <posX>709</posX>
-      <posY>156</posY>
-      <width>549</width>
-      <height>466</height>
-      <texture mask="picturethumbmask.png">black.png</texture>
-      <colordiffuse>60ffffff</colordiffuse>
-    </control>
     <import>Trakt.Common.Properties.Users.xml</import>
   </controls>
 </window>
