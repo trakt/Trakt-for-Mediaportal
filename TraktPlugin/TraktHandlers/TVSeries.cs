@@ -564,12 +564,9 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
-        public static bool GetEpisodePersonInfo(Object obj, out List<string> actors, out List<string> writers, out List<string> directors, out List<string> gueststars)
+        public static bool GetEpisodePersonInfo(Object obj, out SearchPeople searchPeople)
         {
-            actors = new List<string>();
-            directors = new List<string>();
-            writers = new List<string>();
-            gueststars = new List<string>();
+            searchPeople = new SearchPeople();
 
             if (obj == null) return false;
 
@@ -581,10 +578,10 @@ namespace TraktPlugin.TraktHandlers
 
             try
             {
-                actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
-                directors.AddRange(episode[DBOnlineEpisode.cDirector].ToString().Split('|').Where(s => s.Trim().Length > 0));
-                writers.AddRange(episode[DBOnlineEpisode.cWriter].ToString().Split('|').Where(s => s.Trim().Length > 0));
-                gueststars.AddRange(episode[DBOnlineEpisode.cGuestStars].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                searchPeople.Actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                searchPeople.Directors.AddRange(episode[DBOnlineEpisode.cDirector].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                searchPeople.Writers.AddRange(episode[DBOnlineEpisode.cWriter].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                searchPeople.GuestStars.AddRange(episode[DBOnlineEpisode.cGuestStars].ToString().Split('|').Where(s => s.Trim().Length > 0));
             }
             catch
             {
@@ -613,12 +610,9 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
-        public static bool GetSeriesPersonInfo(Object obj, out List<string> actors, out List<string> writers, out List<string> directors, out List<string> gueststars)
+        public static bool GetSeriesPersonInfo(Object obj, out SearchPeople searchPeople)
         {
-            actors = new List<string>();
-            directors = new List<string>();
-            writers = new List<string>();
-            gueststars = new List<string>();
+            searchPeople = new SearchPeople();
 
             if (obj == null) return false;
 
@@ -627,7 +621,7 @@ namespace TraktPlugin.TraktHandlers
 
             try
             {
-                actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
+                searchPeople.Actors.AddRange(series[DBOnlineSeries.cActors].ToString().Split('|').Where(s => s.Trim().Length > 0));
             }
             catch
             {

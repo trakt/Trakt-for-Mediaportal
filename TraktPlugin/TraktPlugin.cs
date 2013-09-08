@@ -868,10 +868,7 @@ namespace TraktPlugin
             string season = string.Empty;
             string episode = string.Empty;
             string fanart = string.Empty;
-            List<string> writers = new List<string>();
-            List<string> directors = new List<string>();
-            List<string> actors = new List<string>();
-            List<string> gueststars = new List<string>();
+            SearchPeople searchPeople = null;
             string type = "movie";
 
             switch (message.Message)
@@ -1009,14 +1006,15 @@ namespace TraktPlugin
                                     imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
                                     fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
 
+                                    searchPeople = new SearchPeople();
                                     string people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.actors").Trim();
-                                    if (people != string.Empty) actors.AddRange(people.Split(',').Select(s => s.Trim()));
+                                    if (people != string.Empty) searchPeople.Actors.AddRange(people.Split(',').Select(s => s.Trim()));
 
                                     people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.writers").Trim();
-                                    if (people != string.Empty) writers.AddRange(people.Split(',').Select(s => s.Trim()));
+                                    if (people != string.Empty) searchPeople.Writers.AddRange(people.Split(',').Select(s => s.Trim()));
 
                                     people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.directors").Trim();
-                                    if (people != string.Empty) directors.AddRange(people.Split(',').Select(s => s.Trim()));
+                                    if (people != string.Empty) searchPeople.Directors.AddRange(people.Split(',').Select(s => s.Trim()));
 
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
@@ -1050,18 +1048,20 @@ namespace TraktPlugin
                                     bool validItem = false;
                                     if (obj != null)
                                     {
+                                        searchPeople = new SearchPeople();
+
                                         switch (TVSeries.GetSelectedType(obj))
                                         {
                                             case TVSeries.SelectedType.Episode:
                                                 type = "episode";
                                                 validItem =  TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
-                                                validItem |= TVSeries.GetEpisodePersonInfo(obj, out actors, out writers, out directors, out gueststars);
+                                                validItem |= TVSeries.GetEpisodePersonInfo(obj, out searchPeople);
                                                 break;
 
                                             case TVSeries.SelectedType.Series:
                                                 type = "series";
                                                 validItem =  TVSeries.GetSeriesInfo(obj, out title, out tvdb);
-                                                validItem |= TVSeries.GetSeriesPersonInfo(obj, out actors, out writers, out directors, out gueststars);
+                                                validItem |= TVSeries.GetSeriesPersonInfo(obj, out searchPeople);
                                                 break;
 
                                             default:
@@ -1231,15 +1231,15 @@ namespace TraktPlugin
                 switch (type)
                 {
                     case "movie":
-                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, fanart);
+                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, fanart, searchPeople, false);
                         break;
 
                     case "series":
-                        GUICommon.ShowTraktExtTVShowMenu(title, year, tvdb, fanart);
+                        GUICommon.ShowTraktExtTVShowMenu(title, year, tvdb, fanart, searchPeople, false);
                         break;
 
                     case "episode":
-                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, fanart);
+                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, fanart, searchPeople, false);
                         break;
                 }
             }
@@ -1248,13 +1248,13 @@ namespace TraktPlugin
             #region Search Menu
             if (validSearchItem)
             {
-                if (actors.Count == 0 && writers.Count == 0 && directors.Count == 0 &&  gueststars.Count == 0)
+                if (searchPeople.Count == 0)
                 {
                     GUIUtils.ShowOKDialog(Translation.SearchBy, Translation.NoPeopleToSearch);
                 }
                 else
                 {
-                    GUICommon.ShowSearchByMenu(actors, directors, writers, gueststars);
+                    GUICommon.ShowSearchByMenu(searchPeople);
                 }
             }
             #endregion

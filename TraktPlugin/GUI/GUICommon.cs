@@ -166,7 +166,7 @@ namespace TraktPlugin.GUI
         Trending,
         WatchList,
         Lists,
-        Search
+        SearchBy
     }
 
     enum TraktSearchByItems
@@ -1259,7 +1259,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Person.HeadshotUrl", person.Images.Headshot);
             GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadshotImageFilename);
             GUIUtils.SetProperty("#Trakt.Person.Url", person.Url);
-            GUIUtils.SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography);
+            GUIUtils.SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography.RemapHighOrderChars());
             GUIUtils.SetProperty("#Trakt.Person.Birthday", person.Birthday);
             GUIUtils.SetProperty("#Trakt.Person.Birthplace", person.Birthplace);
             GUIUtils.SetProperty("#Trakt.Person.TmdbId", person.TmdbId.ToString());
@@ -1838,7 +1838,7 @@ namespace TraktPlugin.GUI
         #region Trakt External Menu
 
         #region SearchBy Menu
-        public static bool ShowSearchByMenu(List<string> actors, List<string> directors, List<string> writers, List<string> gueststars)
+        public static bool ShowSearchByMenu(SearchPeople people)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1846,36 +1846,36 @@ namespace TraktPlugin.GUI
 
             GUIListItem pItem = null;
 
-            if (actors.Count > 0)
+            if (people.Actors.Count > 0)
             {
                 pItem = new GUIListItem(Translation.Actors);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktSearchByItems.Actors;
-                pItem.Label2 = actors.Count.ToString();
+                pItem.Label2 = people.Actors.Count.ToString();
             }
 
-            if (directors.Count > 0)
+            if (people.Directors.Count > 0)
             {
                 pItem = new GUIListItem(Translation.Directors);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktSearchByItems.Directors;
-                pItem.Label2 = directors.Count.ToString();
+                pItem.Label2 = people.Directors.Count.ToString();
             }
 
-            if (writers.Count > 0)
+            if (people.Writers.Count > 0)
             {
                 pItem = new GUIListItem(Translation.Writers);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktSearchByItems.Writers;
-                pItem.Label2 = writers.Count.ToString();
+                pItem.Label2 = people.Writers.Count.ToString();
             }
 
-            if (gueststars.Count > 0)
+            if (people.GuestStars.Count > 0)
             {
                 pItem = new GUIListItem(Translation.Gueststars);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktSearchByItems.GuestStars;
-                pItem.Label2 = gueststars.Count.ToString();
+                pItem.Label2 = people.GuestStars.Count.ToString();
             }
 
             // Show Context Menu
@@ -1885,13 +1885,13 @@ namespace TraktPlugin.GUI
             bool retCode = false;
 
             if (dlg.SelectedLabelText == Translation.Actors)
-                retCode = ShowSearchByPersonMenu(actors);
+                retCode = ShowSearchByPersonMenu(people.Actors);
             if (dlg.SelectedLabelText == Translation.Directors)
-                retCode = ShowSearchByPersonMenu(directors);
+                retCode = ShowSearchByPersonMenu(people.Directors);
             if (dlg.SelectedLabelText == Translation.Writers)
-                retCode = ShowSearchByPersonMenu(writers);
+                retCode = ShowSearchByPersonMenu(people.Writers);
             if (dlg.SelectedLabelText == Translation.Gueststars)
-                retCode = ShowSearchByPersonMenu(gueststars);
+                retCode = ShowSearchByPersonMenu(people.GuestStars);
 
             return retCode;
         }
@@ -1921,6 +1921,7 @@ namespace TraktPlugin.GUI
 
             return true;
         }
+
         #endregion
 
         #region Movies
@@ -1929,6 +1930,10 @@ namespace TraktPlugin.GUI
             return ShowTraktExtMovieMenu(title, year, imdbid, fanart, false);
         }
         public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, bool showAll)
+        {
+            return ShowTraktExtMovieMenu(title, year, imdbid, fanart, null, showAll);
+        }
+        public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, SearchPeople people, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1954,6 +1959,14 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
 
+            // Show Search By...
+            if (people != null && people.Count != 0)
+            {
+                pItem = new GUIListItem(Translation.SearchBy + "...");
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.SearchBy;
+            }
+
             // also show non-context sensitive items related to movies
             if (showAll)
             {
@@ -1978,10 +1991,6 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
-
-                pItem = new GUIListItem(Translation.Search);
-                dlg.Add(pItem);
-                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -2015,6 +2024,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.SearchBy):
+                    ShowSearchByMenu(people);
+                    break;
+
                 case ((int)TraktMenuItems.UserProfile):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
@@ -2034,10 +2047,6 @@ namespace TraktPlugin.GUI
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
-
-                case ((int)TraktMenuItems.Search):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
-                    break;
             }
             return true;
         }
@@ -2050,6 +2059,10 @@ namespace TraktPlugin.GUI
             return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, false);
         }
         public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, bool showAll)
+        {
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, null, showAll);
+        }
+        public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, SearchPeople people, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -2074,6 +2087,14 @@ namespace TraktPlugin.GUI
             pItem = new GUIListItem(Translation.AddToList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // Show SearchBy menu...
+            if (people != null && people.Count != 0)
+            {
+                pItem = new GUIListItem(Translation.SearchBy + "...");
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.SearchBy;
+            }
 
             // also show non-context sensitive items related to shows
             if (showAll)
@@ -2102,10 +2123,6 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
-
-                pItem = new GUIListItem(Translation.Search);
-                dlg.Add(pItem);
-                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -2139,6 +2156,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveShowInUserList(title, null, tvdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.SearchBy):
+                    ShowSearchByMenu(people);
+                    break;
+
                 case ((int)TraktMenuItems.UserProfile):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
@@ -2162,10 +2183,6 @@ namespace TraktPlugin.GUI
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                     break;
-
-                case ((int)TraktMenuItems.Search):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
-                    break;
             }
             return true;
         }
@@ -2177,6 +2194,10 @@ namespace TraktPlugin.GUI
             return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, fanart, false);
         }
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, bool showAll)
+        {
+            return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, fanart, null, showAll);
+        }
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, SearchPeople people, bool showAll)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -2198,6 +2219,14 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
 
+            // Show Search By menu...
+            if (people != null && people.Count != 0)
+            {
+                pItem = new GUIListItem(Translation.SearchBy + "...");
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.SearchBy;
+            }
+
             // also show non-context sensitive items related to episodes
             if (showAll)
             {
@@ -2217,10 +2246,6 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Lists);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Lists;
-
-                pItem = new GUIListItem(Translation.Search);
-                dlg.Add(pItem);
-                pItem.ItemId = (int)TraktMenuItems.Search;
             }
 
             // Show Context Menu
@@ -2249,6 +2274,10 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.SearchBy):
+                    ShowSearchByMenu(people);
+                    break;
+
                 case ((int)TraktMenuItems.UserProfile):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
@@ -2263,10 +2292,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Lists):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
-                    break;
-
-                case ((int)TraktMenuItems.Search):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Search);
                     break;
             }
             return true;
@@ -2403,6 +2428,7 @@ namespace TraktPlugin.GUI
         }
         #endregion
 
+        #region Activity Helpers
         internal static string GetActivityListItemTitle(TraktActivity.Activity activity)
         {
             if (activity == null) return string.Empty;
@@ -2580,6 +2606,31 @@ namespace TraktPlugin.GUI
             }
 
             return name;
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Used to collect a list of people to SearchBy in External Plugins
+    /// </summary>
+    public class SearchPeople
+    {
+        public List<string> Actors = new List<string>();
+        public List<string> Directors = new List<string>();
+        public List<string> Writers = new List<string>();
+        public List<string> GuestStars = new List<string>();
+
+        public int Count
+        {
+            get
+            {
+                int peopleCount = 0;
+                peopleCount += Actors.Count();
+                peopleCount += Directors.Count();
+                peopleCount += Writers.Count();
+                peopleCount += GuestStars.Count();
+                return peopleCount;
+            }
         }
     }
 }
