@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <controls>
+    <control>
+      <description>Overlay text right</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>532</posX>
+      <posY>156</posY>
+      <width>412</width>
+      <height>466</height>
+      <texture mask="picturethumbmask.png">black.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list</visible>
+    </control>
+    <!-- People List Layout -->
+    <control>
+      <description>Headshot</description>
+      <id>500</id>
+      <type>image</type>
+      <posX>795</posX>
+      <posY>200</posY>
+      <width>135</width>
+      <height>194</height>
+      <texture mask="videothumbmask.png">#selectedthumb</texture>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Headshot Frame</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>795</posX>
+      <posY>200</posY>
+      <width>135</width>
+      <height>194</height>
+      <texture>Videothumbframe.png</texture>
+      <visible>facadeview.list</visible>
+    </control>
+
+    <control>
+      <description>Name txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>191</posY>
+      <label>#Trakt.Translation.Name.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Name,)</visible>
+    </control>
+    <control>
+      <description>Name value</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>210</posY>
+      <label>#Trakt.Person.Name</label>
+      <font>font12</font>
+      <width>210</width>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Name,)</visible>
+    </control>
+
+    <control>
+      <description>Birthplace txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>235</posY>
+      <label>#Trakt.Translation.Born.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)</visible>
+    </control>
+    <control>
+      <description>Birthplace</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>254</posY>
+      <width>210</width>
+      <label>#Trakt.Person.Birthplace</label>
+      <font>font12</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)</visible>
+    </control>
+
+    <control>
+      <description>Birthday txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>279</posY>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)</visible>
+    </control>
+    <control>
+      <description>Birthday</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>298</posY>
+      <width>210</width>
+      <label>#Trakt.Person.Birthday</label>
+      <font>font12</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)</visible>
+    </control>
+    <control>
+      <description>Separator Line</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>460</posY>
+      <width>375</width>
+      <height>1</height>
+      <texture>hbar1white.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Biography,)</visible>
+    </control>
+    <control Style="NoShadow">
+      <description>Plot value</description>
+      <type>textboxscrollup</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>470</posY>
+      <width>390</width>
+      <height>105</height>
+      <label>#Trakt.Person.Biography</label>
+      <font>font11</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Separator Line</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>547</posX>
+      <posY>580</posY>
+      <width>375</width>
+      <height>1</height>
+      <texture>hbar1white.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Biography,)</visible>
+    </control>
+  </controls>
+</window>

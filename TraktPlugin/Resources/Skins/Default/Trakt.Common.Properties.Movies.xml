@@ -1,7 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-	<controls>
-	
-	<!-- Movies List Layout -->
+  <controls>
+    <control>
+      <description>Overlay text right</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>532</posX>
+      <posY>156</posY>
+      <width>412</width>
+      <height>466</height>
+      <texture mask="picturethumbmask.png">black.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list</visible>
+    </control>
+    <!-- Movies List Layout -->
     <control>
       <description>Movie Poster</description>
       <id>500</id>
@@ -13,7 +25,7 @@
       <texture mask="videothumbmask.png">#selectedthumb</texture>
       <visible>facadeview.list</visible>
     </control>
-		<control>
+    <control>
       <description>Movie Poster Frame</description>
       <type>image</type>
       <id>1</id>
@@ -24,8 +36,8 @@
       <texture>Videothumbframe.png</texture>
       <visible>facadeview.list</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Rating txt</description>
       <type>label</type>
       <id>1</id>
@@ -37,7 +49,7 @@
       <textcolor>ff6FAFE1</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Ratings.Votes,)</visible>
     </control>
-		<control>
+    <control>
       <description>Rating Icon</description>
       <type>image</type>
       <id>1</id>
@@ -48,7 +60,7 @@
       <texture>#Trakt.Movie.Ratings.Icon.png</texture>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Ratings.Votes,)</visible>
     </control>
-		<control>
+    <control>
       <description>Rating value</description>
       <type>fadelabel</type>
       <id>1</id>
@@ -60,8 +72,8 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Ratings.Votes,)</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Genre txt</description>
       <type>label</type>
       <id>1</id>
@@ -85,8 +97,8 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Movie Released txt</description>
       <type>label</type>
       <id>1</id>
@@ -110,8 +122,8 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Released,)</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Movie Year txt</description>
       <type>label</type>
       <id>1</id>
@@ -135,8 +147,8 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Year,)</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Movie Certification Label</description>
       <type>label</type>
       <id>1</id>
@@ -158,8 +170,8 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Certification,)</visible>
     </control>
-		
-		<control>
+
+    <control>
       <description>Movie Runtime txt</description>
       <type>label</type>
       <id>1</id>
@@ -184,7 +196,7 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Runtime,)</visible>
     </control>
-		
+
     <control>
       <description>Separator Line</description>
       <type>image</type>
@@ -197,7 +209,7 @@
       <colordiffuse>60ffffff</colordiffuse>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Title,)</visible>
     </control>
-		<control Style="NoShadow">
+    <control Style="NoShadow">
       <description>Plot value</description>
       <type>textboxscrollup</type>
       <id>1</id>
@@ -222,8 +234,8 @@
       <colordiffuse>60ffffff</colordiffuse>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Title,)</visible>
     </control>
-    
-		<control>
+
+    <control>
       <description>Certification Logo</description>
       <type>image</type>
       <id>0</id>
@@ -235,6 +247,6 @@
       <keepaspectratio>no</keepaspectratio>
       <visible>facadeview.list</visible>
     </control>
-		
-	</controls>
+
+  </controls>
 </window>

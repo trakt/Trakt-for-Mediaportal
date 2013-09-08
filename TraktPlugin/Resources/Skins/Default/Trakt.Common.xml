@@ -2,7 +2,7 @@
 <window>
   <!-- #Trakt.Settings.Account.Dialog.Visible is true when account controls are visible -->
   <controls>
-		<control>
+    <control>
       <description>General Overlay</description>
       <id>0</id>
       <type>image</type>
@@ -12,21 +12,21 @@
       <height>720</height>
       <texture>general_overlay.png</texture>
     </control>
-		<control>
+    <control>
       <type>image</type>
       <id>0</id>
       <posX>60</posX>
-      <posY>140</posY>
+      <posY>80</posY>
       <width>80</width>
-			<height>80</height>
-			<keepaspectratio>yes</keepaspectratio>
+      <height>80</height>
+      <keepaspectratio>yes</keepaspectratio>
       <texture>logos\trakt.png</texture>
-    </control>    
+    </control>
     <control>
       <type>group</type>
       <description>group element</description>
       <posX>60</posX>
-      <posY>221</posY>
+      <posY>161</posY>
       <width>250</width>
       <height>379</height>
       <layout>StackLayout(Vertical)</layout>
@@ -35,17 +35,17 @@
         <description>Trakt UserProfile</description>
         <type>button</type>
         <id>9990</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Profile.Label</label>
         <hyperlink>87400</hyperlink>
-        <onup>9997</onup>
+        <onup>9998</onup>
         <onright>#defaultcontrol</onright>
       </control>
       <control>
         <description>Trakt Calendar</description>
         <type>button</type>
         <id>9991</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Calendar.Label</label>
         <hyperlink>87259</hyperlink>
         <onup>9990</onup>
@@ -55,7 +55,7 @@
         <description>Network</description>
         <type>button</type>
         <id>9992</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Network.Label</label>
         <hyperlink>87283</hyperlink>
         <onright>#defaultcontrol</onright>
@@ -64,7 +64,7 @@
         <description>Recommendations</description>
         <type>button</type>
         <id>9993</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Recommendations.Label</label>
         <hyperlink>87261</hyperlink>
         <onright>#defaultcontrol</onright>
@@ -73,7 +73,7 @@
         <description>Trending</description>
         <type>button</type>
         <id>9994</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Trending.Label</label>
         <hyperlink>87264</hyperlink>
         <onright>#defaultcontrol</onright>
@@ -82,16 +82,16 @@
         <description>Watch List</description>
         <type>button</type>
         <id>9995</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.WatchList.Label</label>
         <hyperlink>87267</hyperlink>
         <onright>#defaultcontrol</onright>
       </control>
-			<control>
+      <control>
         <description>Lists</description>
         <type>button</type>
         <id>9996</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Lists.Label</label>
         <hyperlink>87275</hyperlink>
         <onright>#defaultcontrol</onright>
@@ -100,12 +100,21 @@
         <description>Settings</description>
         <type>button</type>
         <id>9997</id>
-				<width>250</width>
+        <width>250</width>
         <label>#Trakt.Translation.Settings.Label</label>
         <hyperlink>87271</hyperlink>
         <onright>#defaultcontrol</onright>
+      </control>
+      <control>
+        <description>Search</description>
+        <type>button</type>
+        <id>9998</id>
+        <width>250</width>
+        <label>#Trakt.Translation.Search.Label</label>
+        <hyperlink>874001</hyperlink>
+        <onright>#defaultcontrol</onright>
         <ondown>9990</ondown>
       </control>
-    </control>    
+    </control>
   </controls>
 </window>
