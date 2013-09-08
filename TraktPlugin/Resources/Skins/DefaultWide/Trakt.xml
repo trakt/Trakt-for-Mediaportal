@@ -31,7 +31,7 @@
       <type>image</type>
       <id>0</id>
       <posX>40</posX>
-      <posY>140</posY>
+      <posY>80</posY>
       <width>106</width>
       <height>80</height>
       <keepaspectratio>yes</keepaspectratio>
@@ -41,7 +41,7 @@
       <type>group</type>
       <description>group element</description>
       <posX>40</posX>
-      <posY>221</posY>
+      <posY>161</posY>
       <width>280</width>
       <height>379</height>
       <layout>StackLayout(Vertical)</layout>
@@ -146,7 +146,7 @@
       <type>image</type>
       <id>0</id>
       <posX>280</posX>
-      <posY>556</posY>
+      <posY>536</posY>
       <width>28</width>
       <height>28</height>
       <texture>isupdate.png</texture>

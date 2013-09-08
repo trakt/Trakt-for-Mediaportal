@@ -27,7 +27,7 @@
       <type>group</type>
       <description>group element</description>
       <posX>350</posX>
-      <posY>221</posY>
+      <posY>161</posY>
       <width>373</width>
       <height>379</height>
       <layout>StackLayout(Vertical)</layout>
