@@ -35,7 +35,7 @@
       <width>866</width>
       <font>font11</font>
       <textcolor>ff6FAFE1</textcolor>
-      <label>#Trakt.CurrentView</label>
+      <label>#Trakt.Translation.SearchUsers.Label | #Trakt.Search.SearchTerm</label>
       <align>left</align>
     </control>
     <control>
@@ -69,6 +69,95 @@
           <unfocusedAlpha>160</unfocusedAlpha>
           <folderPrefix />
           <folderSuffix />
+        </control>
+        <control>
+          <description>Thumbnail Panel</description>
+          <type>thumbnailpanel</type>
+          <dimColor>90ffffff</dimColor>
+          <id>50</id>
+          <posX>60</posX>
+          <posY>190</posY>
+          <width>1200</width>
+          <height>480</height>
+          <scrollOffset>0</scrollOffset>
+          <onleft>2</onleft>
+          <onright>2</onright>
+          <textureWidthBig>155</textureWidthBig>
+          <textureHeightBig>155</textureHeightBig>
+          <itemWidthBig>170</itemWidthBig>
+          <itemHeightBig>195</itemHeightBig>
+          <itemWidth>120</itemWidth>
+          <itemHeight>145</itemHeight>
+          <thumbWidthBig>155</thumbWidthBig>
+          <thumbHeightBig>155</thumbHeightBig>
+          <thumbPosXBig>0</thumbPosXBig>
+          <thumbPosYBig>0</thumbPosYBig>
+          <thumbWidth>110</thumbWidth>
+          <thumbHeight>110</thumbHeight>
+          <thumbPosX>0</thumbPosX>
+          <thumbPosY>0</thumbPosY>
+          <thumbZoom>no</thumbZoom>
+          <enableFocusZoom>no</enableFocusZoom>
+          <zoomXPixels>40</zoomXPixels>
+          <zoomYPixels>40</zoomYPixels>
+          <hideUnfocusTexture>yes</hideUnfocusTexture>
+          <renderFocusText>no</renderFocusText>
+          <renderUnfocusText>no</renderUnfocusText>
+          <showFrame>true</showFrame>
+          <imageFolder>-</imageFolder>
+          <imageFolderFocus>-</imageFolderFocus>
+          <textureMask>Picturethumbmask.png</textureMask>
+          <frameNoFocus>Picturethumbframe.png</frameNoFocus>
+          <frameFocus>Picturethumbframe.png</frameFocus>
+          <keepaspectratio>no</keepaspectratio>
+          <font>font10</font>
+          <spinCanFocus>no</spinCanFocus>
+          <dimColor>80ffffff</dimColor>
+          <spinPosY>675</spinPosY>
+        </control>
+        <control>
+          <description>Filmstrip view</description>
+          <type>filmstrip</type>
+          <colordiffuse>90ffffff</colordiffuse>
+          <dimColor>90ffffff</dimColor>
+          <id>50</id>
+          <scrollOffset>2</scrollOffset>
+          <posX>60</posX>
+          <posY>260</posY>
+          <width>1180</width>
+          <height>720</height>
+          <onup>2</onup>
+          <onleft>2</onleft>
+          <thumbWidth>200</thumbWidth>
+          <thumbHeight>200</thumbHeight>
+          <thumbPosX>0</thumbPosX>
+          <thumbPosY>0</thumbPosY>
+          <itemWidth>190</itemWidth>
+          <itemHeight>210</itemHeight>
+          <textureWidth>200</textureWidth>
+          <textureHeight>200</textureHeight>
+          <imageFolder>Picturethumbframe.png</imageFolder>
+          <imageFolderFocus>Picturethumbframe.png</imageFolderFocus>
+          <frame>Picturethumbframe.png</frame>
+          <frameFocus>Picturethumbframe.png</frameFocus>
+          <textureMask>Picturethumbmask.png</textureMask>
+          <thumbs mask="Picturethumbmask.png"></thumbs>
+          <background>emtpy.png</background>
+          <InfoImage></InfoImage>
+          <showFrame>yes</showFrame>
+          <showFolder>no</showFolder>
+          <showBackGround>no</showBackGround>
+          <showInfoImage>no</showInfoImage>
+          <keepaspectratio>no</keepaspectratio>
+          <dimColor>80ffffff</dimColor>
+          <spinPosX>-800</spinPosX>
+          <scrollbarBackground>bar_hor.png</scrollbarBackground>
+          <scrollbarLeft>mouse_left_horizontal.png</scrollbarLeft>
+          <scrollbarRight>mouse_right_horizontal.png</scrollbarRight>
+          <scrollbarYOff>270</scrollbarYOff>
+          <showScrollbar>yes</showScrollbar>
+          <thumbAnimation effect="zoom" start="100,100" end="150,150" time="200" tween="circle" ease="inout">focus</thumbAnimation>
+          <thumbAnimation effect="zoom" start="150,150" end="100,100" time="200" tween="back" ease="inout">unfocus</thumbAnimation>
         </control>
       </control>
     </control>
