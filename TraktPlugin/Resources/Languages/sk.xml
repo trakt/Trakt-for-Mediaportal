@@ -4,24 +4,32 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Nastavenie konta</string>
   <string name="AccountDialog">Dialóg konta</string>
+  <string name="Actor">Herec</string>
+  <string name="Actors">Herci</string>
   <string name="Activity">Aktivita</string>
   <string name="ActivityWatching">{0} pozerá {1}</string>
   <string name="ActivityWatched">{0} pozrel {1}</string>
   <string name="ActivityReview">{0} ohodnotil {1}</string>
   <!--B-->
+  <string name="Born">Narodený</string>
   <!--C-->
   <string name="Cancel">Zrušiť</string>
   <string name="Certification">Klasifikácia</string>
   <!--D-->
   <string name="DateToday">dnes</string>
   <string name="DateYesterday">včera</string>
+  <string name="Director">Režisér</string>
+  <string name="Directors">Režiséri</string>
   <!--E-->
+  <string name="Email">Email</string>
   <string name="Episode">Epizóda</string>
   <!--F-->
   <!--G-->
   <string name="Genre">Žáner</string>
   <string name="GenreAll">Všetky</string>
   <string name="GenreHistory">História</string>
+  <string name="GenreMusic">Hudba</string>
+  <string name="GenreNews">Správy</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -43,9 +51,12 @@
   <string name="OK">OK</string>
   <string name="On">Zap.</string>
   <!--P-->
+  <string name="Plugin">Doplnok</string>
+  <string name="Plugins">Doplnky</string>
   <!--R-->
   <string name="Rate">Hodnotenie</string>
   <string name="Rated">Hodnotenie</string>
+  <string name="Rating">Hodnotenie</string>
   <string name="RateTwo">Otrasné</string>
   <string name="RateSeven">Slušné</string>
   <string name="RateNine">Skvelé</string>
@@ -58,7 +69,13 @@
   <string name="Score">Hodnotenie</string>
   <string name="Season">Sezóna</string>
   <string name="Search">Hľadanie</string>
+  <string name="SearchBy">Hľadať podľa</string>
+  <string name="Settings">Nastavenie</string>
+  <string name="SettingPluginEnabledName">Doplnok povoelný</string>
+  <string name="SettingListedHomeName">Počúvať doma</string>
+  <string name="SettingListedPluginsName">Uvedené do mojich doplnkov</string>
   <!--T-->
+  <string name="Timeout">Timeout</string>
   <string name="TVShow">TV relácia</string>
   <string name="TVShows">TV relácie</string>
   <string name="Tagline">Tagline</string>
@@ -94,6 +111,8 @@
   <string name="WatchListMovies">Zoznam Filmov</string>
   <string name="WatchListShows">Zobraz Zoznam Epizód</string>
   <string name="WatchListEpisodes">Zoznam Epizód</string>
+  <string name="Writer">Scénárista</string>
+  <string name="Writers">Scénáristi</string>
   <!--Y-->
   <string name="Year">Rok</string>
   <string name="Yes">Áno</string>

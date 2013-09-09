@@ -1,12 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Skuespiller</string>
+  <string name="Actors">Skuespillere</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Avbryt</string>
   <string name="Calendar">Kalender</string>
+  <string name="Cast">Rolleinhavere</string>
   <string name="Certification">Aldersgrense</string>
   <!--D-->
+  <string name="Director">Regissør</string>
+  <string name="Directors">Regissører</string>
   <string name="DownloadFanart">Last ned Fanart</string>
   <!--E-->
   <string name="Episode">Episode</string>
@@ -58,6 +63,8 @@
   <!--W-->
   <string name="WatchList">Visningsliste</string>
   <string name="Watched">Sett</string>
+  <string name="Writer">Manus</string>
+  <string name="Writers">Forfattere</string>
   <!--Y-->
   <string name="Yes">Ja</string>
 </resources>

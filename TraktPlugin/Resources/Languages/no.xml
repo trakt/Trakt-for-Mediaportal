@@ -4,6 +4,8 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Oppsett for konto</string>
   <string name="AccountDialog">Dialog konto</string>
+  <string name="Actor">Skuespiller</string>
+  <string name="Actors">Skuespillere</string>
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se hva vennene dine gjør...</string>
   <string name="ActivityCommunityDesc">Se hva samfunnet gjør...</string>
@@ -46,6 +48,7 @@
   <string name="CalendarMyShows">Mine Serier</string>
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">All Shows</string>
+  <string name="Cast">Rolleinhavere</string>
   <string name="Certification">Aldersgrense</string>
   <string name="ChangeView">Bytt visning...</string>
   <string name="ChangeLayout">Bytt utseende...</string>
@@ -77,6 +80,8 @@
   <string name="DeletingList">Sletter liste</string>
   <string name="DeleteFriend">Delete Friend</string>
   <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string name="Director">Regissør</string>
+  <string name="Directors">Regissører</string>
   <string name="DisconnectAccount">Koble fra konto: {0}</string>
   <string name="DismissRecommendation">Overse denne anbefalingen</string>
   <string name="DontIncludeMeInFriendsActivity">Ikke inkluder meg i venners aktiviteter</string>
@@ -257,6 +262,7 @@
   <string name="Score">Vurdering</string>
   <string name="Season">Sesong</string>
   <string name="Seasons">Sesonger</string>
+  <string name="Search">Søk</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="Series">Serie</string>
@@ -303,6 +309,8 @@
   <string name="WatchListMovies">Liste over filmer å se</string>
   <string name="WatchListShows">Liste over serier å se</string>
   <string name="WatchListEpisodes">Liste over episoder å se</string>
+  <string name="Writer">Manus</string>
+  <string name="Writers">Forfattere</string>
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>

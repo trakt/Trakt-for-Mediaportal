@@ -4,6 +4,8 @@
   <string name="Account">Račun</string>
   <string name="AccountSetup">Nastavitev računa</string>
   <string name="AccountDialog">Pogovorno okno računa</string>
+  <string name="Actor">Igralec</string>
+  <string name="Actors">Igralci</string>
   <string name="Activity">Aktivnost</string>
   <string name="ActivityFriendsDesc">Poglej kaj delajo tvoji prijatelji...</string>
   <string name="ActivityCommunityDesc">Poglej kaj dela skupnost...</string>
@@ -41,12 +43,14 @@
   <string name="AdvancedSettings">Napredne nastavitve</string>
   <!--B-->
   <string name="BufferingTrailer">Medpomnjenje trailerja</string>
+  <string name="Born">Rojen</string>
   <!--C-->
   <string name="Cancel">Prekliči</string>
   <string name="Calendar">Koledar</string>
   <string name="CalendarMyShows">Moje oddaje</string>
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">Vse oddaje</string>
+  <string name="Cast">Igralci</string>
   <string name="Certification">Certifikacija</string>
   <string name="ChangeView">Spremeni pogled...</string>
   <string name="ChangeLayout">Spremeni izgled...</string>
@@ -78,6 +82,8 @@
   <string name="DeletingList">Brisanje seznama</string>
   <string name="DeleteFriend">Izbriši prijatelja</string>
   <string name="DeleteFriendMessage">Ali ste prepričani, da želite izbrisati\n{0} kot prijatelja?</string>
+  <string name="Director">Režiser</string>
+  <string name="Directors">Režiserji</string>
   <string name="DisconnectAccount">Prekini račun: {0}</string>
   <string name="DismissRecommendation">Zavrni ta predlog</string>
   <string name="DontIncludeMeInFriendsActivity">Ne vključi me v prijateljeve aktivnosti</string>
@@ -297,6 +303,7 @@
   <string name="Season">Sezona</string>
   <string name="Seasons">Sezone</string>
   <string name="Search">Iskanje</string>
+  <string name="SearchBy">Išči po</string>
   <string name="SearchForFriend">Poišči prijatelja...</string>
   <string name="SendFriendRequest">Pošlji zahtevo za prijateljstvo {0}?</string>
   <string name="SelectLists">Izberi sezname</string>
@@ -402,6 +409,8 @@
   <string name="WatchListMovies">Seznam gledanih filmov</string>
   <string name="WatchListShows">Seznam gledanih oddaj</string>
   <string name="WatchListEpisodes">Seznam gledanih epizod</string>
+  <string name="Writer">Scenarij</string>
+  <string name="Writers">Scenarij</string>
   <!--Y-->
   <string name="Year">Leto</string>
   <string name="Yes">Da</string>

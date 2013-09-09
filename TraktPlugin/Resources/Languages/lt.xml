@@ -4,6 +4,8 @@
   <string name="Account">Paskyra</string>
   <string name="AccountSetup">Paskyros nustatymai</string>
   <string name="AccountDialog">Paskyros langas</string>
+  <string name="Actor">Aktorius</string>
+  <string name="Actors">Aktoriai</string>
   <string name="Activity">Veikla</string>
   <string name="ActivityFriendsDesc">Stebėti draugų veiklą...</string>
   <string name="ActivityCommunityDesc">Stebėti bendruomenės veiklą...</string>
@@ -39,16 +41,19 @@
   <string name="ApproveAndFollowBack">Patvirtinti ir stebėti jį</string>
   <string name="ApprovedDate">Patvirtinimo data</string>
   <string name="ApproveFriendMessage">Ar norite vartotoją pridėti {0}⏎ prie draugų?</string>
+  <string name="ApproveFollowerMessage">Ar norėtumėte leisti vartotojui {0}⏎\njus stebėti?</string>
   <string name="ApproveFollowerAndFollowBackMessage">Ar norėtumėte leisti vartotojui {0} jus stebėti ir kad jūs stebėtumėte jį?</string>
   <string name="AdvancedSettings">Išplėstiniai nustatymai</string>
   <!--B-->
   <string name="BufferingTrailer">Buferuojamas anonsas</string>
+  <string name="Born">Gimęs</string>
   <!--C-->
   <string name="Cancel">Atšaukti</string>
   <string name="Calendar">Kalendorius</string>
   <string name="CalendarMyShows">Mano laidos</string>
   <string name="CalendarPremieres">Premjeros</string>
   <string name="CalendarAllShows">Visos laidos</string>
+  <string name="Cast">Transliuojamas</string>
   <string name="Certification">Serifikacija</string>
   <string name="ChangeView">Keisti išvaizdą...</string>
   <string name="ChangeLayout">Keisti išdėstymą...</string>
@@ -81,6 +86,8 @@
   <string name="DeletingList">Trinamas sąrašas</string>
   <string name="DeleteFriend">Ištrinti draugą</string>
   <string name="DeleteFriendMessage">Ar jūs tikrai norite ištrinti⏎ {0} kaip draugą?</string>
+  <string name="Director">Režisierius</string>
+  <string name="Directors">Režisieriai</string>
   <string name="DisconnectAccount">Išjungti paskyrą: {0}</string>
   <string name="DismissRecommendation">Praleisti šią rekomendaciją</string>
   <string name="DontIncludeMeInFriendsActivity">Neįtraukti manęs į draugų veiklas</string>
@@ -182,6 +189,7 @@
   <string name="GettingRelatedMovies">Gaunami susiję filmai</string>
   <string name="GettingRelatedShows">Gaunamos susijusios laidos</string>
   <string name="GettingTrailerUrls">Gaunamos anonsų nuorodos</string>
+  <string name="GettingUserProfile">Gaunamas vartotojo profilis</string>
   <!--H-->
   <string name="Hate">Nekęsti</string>
   <string name="Hated">Nekenčiami</string>
@@ -329,6 +337,7 @@
   <string name="Season">Sezonas</string>
   <string name="Seasons">Sezonai</string>
   <string name="Search">Ieškoti</string>
+  <string name="SearchBy">Ieškoti pagal</string>
   <string name="SearchForFriend">Ieškoti draugo...</string>
   <string name="SearchForUser">Ieškoti vartotojo...</string>
   <string name="SendFriendRequest">Siųsti draugo užklausą {0}?</string>
@@ -387,6 +396,8 @@
   <string name="SettingDefaultTVShowTrailerSiteDescription">Pasirinkite numatytąjį TV laidų anonsų puslapį, kuris bus naudojamas automatinei paieškai. Jei naudojamas YouTube, bus naudojami papildomi paieškos parametrai kaip sezono ir epizodo numeriai.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Numatytas filmų anonsų puslapis</string>
   <string name="SettingDefaultMovieTrailerSiteDescription">Pasirinkite numatytąjį filmų anonsų puslapį, kuris bus naudojamas automatinei paieškai.</string>
+  <string name="SettingSyncLibraryName">Leisti sinchronizuoti biblioteką</string>
+  <string name="SettingSyncLibraryDescription">Įjungti šį nustatymą kad būtų sinchronizuojama kolekcija ir peržiūrų būsenos su trakt.tv. Jei išjungta - informacija bus tik agreguojama.</string>
   <string name="StartYear">Pradėti: {0}</string>
   <string name="SortBy">Rūšiuoti pagal: {0}</string>
   <string name="SortSeasonsAscending">Rūšiuoti Sezonus didėjančia tvarka</string>
@@ -442,6 +453,8 @@
   <string name="WatchListMovies">Žiūrimų filmų sąrašas</string>
   <string name="WatchListShows">Žiūrimų laidų sąrašas</string>
   <string name="WatchListEpisodes">Žiūrimų epizodų sąrašas</string>
+  <string name="Writer">Rašytojas</string>
+  <string name="Writers">Rašytojai</string>
   <!--Y-->
   <string name="Year">Metai</string>
   <string name="Yes">Taip</string>

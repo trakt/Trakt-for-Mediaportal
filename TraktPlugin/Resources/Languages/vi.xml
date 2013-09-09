@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Diễn viên</string>
+  <string name="Actors">Diễn viên</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Hủy bỏ</string>
@@ -8,6 +10,8 @@
   <!--D-->
   <string name="DateToday">Hôm nay</string>
   <string name="DateYesterday">Hôm qua</string>
+  <string name="Director">Đạo diễn</string>
+  <string name="Directors">Đồng đạo diễn</string>
   <string name="DownloadFanart">Tải về Fanart</string>
   <!--E-->
   <string name="Episode">Episode</string>
@@ -43,6 +47,7 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Tìm kiếm</string>
+  <string name="SearchBy">Tìm bằng</string>
   <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
   <string name="Specials">Đặc biệt</string>
@@ -52,6 +57,8 @@
   <!--U-->
   <!--V-->
   <!--W-->
+  <string name="Writer">Kịch bản</string>
+  <string name="Writers">Đồng kịch bản</string>
   <!--Y-->
   <string name="Year">Năm</string>
   <string name="Yes">Đồng ý</string>

@@ -1,13 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Ator</string>
+  <string name="Actors">Atores</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Cancelar</string>
+  <string name="Cast">Elenco</string>
   <string name="Certification">Classificação indicativa</string>
   <!--D-->
   <string name="DateToday">Hoje</string>
   <string name="DateYesterday">Ontem</string>
+  <string name="Director">Dirigido por</string>
+  <string name="Directors">Diretores</string>
   <string name="DownloadFanart">baixar imagens de fundo</string>
   <!--E-->
   <string name="Episode">Episódio</string>
@@ -65,6 +70,8 @@
   <!--V-->
   <!--W-->
   <string name="Watched">Assistido</string>
+  <string name="Writer">Roteirista</string>
+  <string name="Writers">Roteiristas</string>
   <!--Y-->
   <string name="Year">Ano</string>
   <string name="Yes">Sim</string>

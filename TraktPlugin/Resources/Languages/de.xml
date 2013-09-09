@@ -4,6 +4,8 @@
   <string name="Account">Account</string>
   <string name="AccountSetup">Account-Einstellungen</string>
   <string name="AccountDialog">Account-Dialog</string>
+  <string name="Actor">Schauspieler</string>
+  <string name="Actors">Darsteller</string>
   <string name="Activity">Activity</string>
   <string name="ActivityFriendsDesc">Aktivitäten Ihrer Freunde:</string>
   <string name="ActivityCommunityDesc">Aktivitäten der Gemeinschaft:</string>
@@ -44,12 +46,14 @@
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
+  <string name="Born">Geboren</string>
   <!--C-->
   <string name="Cancel">Abbrechen</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Meine Serien</string>
   <string name="CalendarPremieres">Premieren</string>
   <string name="CalendarAllShows">Alle Serien</string>
+  <string name="Cast">Besetzung</string>
   <string name="Certification">Zertifizierung</string>
   <string name="ChangeView">Ansicht ändern</string>
   <string name="ChangeLayout">Layout ändern</string>
@@ -82,6 +86,8 @@
   <string name="DeletingList">Liste wird gelöscht</string>
   <string name="DeleteFriend">Freund löschen</string>
   <string name="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
+  <string name="Director">Regisseur</string>
+  <string name="Directors">Regisseure</string>
   <string name="DisconnectAccount">Account trennen: {0}</string>
   <string name="DismissRecommendation">Diesen Vorschlag abweisen</string>
   <string name="DontIncludeMeInFriendsActivity">Mich nicht in Freund-Aktivitäten einbeziehen</string>
@@ -183,6 +189,7 @@
   <string name="GettingRelatedMovies">Ähnliche Filme werden abgerufen</string>
   <string name="GettingRelatedShows">Ähnliche Shows werden abgerufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
+  <string name="GettingUserProfile">Benutzerprofile werden abgerufen</string>
   <!--H-->
   <string name="Hate">Hass</string>
   <string name="Hated">Verhasst</string>
@@ -330,6 +337,7 @@
   <string name="Season">Staffel</string>
   <string name="Seasons">Staffeln</string>
   <string name="Search">Suchen</string>
+  <string name="SearchBy">Suche nach</string>
   <string name="SearchForFriend">Nach Freund suchen</string>
   <string name="SearchForUser">Benutzer suchen...</string>
   <string name="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
@@ -427,7 +435,7 @@
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingFilters">Filter werden aktualisiert</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
-  <string name="UserProfile">Benutzer-Profile</string>
+  <string name="UserProfile">Benutzerprofil</string>
   <!--V-->
   <string name="View">Ansehen</string>
   <string name="Votes">Stimmen</string>
@@ -445,6 +453,8 @@
   <string name="WatchListMovies">Beobachtungsliste Filme</string>
   <string name="WatchListShows">Beobachtungsliste Serien</string>
   <string name="WatchListEpisodes">Beobachtungsliste Episoden</string>
+  <string name="Writer">Autor</string>
+  <string name="Writers">Autoren</string>
   <!--Y-->
   <string name="Year">Jahr</string>
   <string name="Yes">Ja</string>

@@ -1,13 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Ηθοποιός</string>
+  <string name="Actors">Ηθοποιοί</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Άκυρο</string>
+  <string name="Cast">Ηθοποιοί</string>
   <string name="Certification">Καταλληλότητα</string>
   <!--D-->
   <string name="DateToday">Σήμερα</string>
   <string name="DateYesterday">Χθες</string>
+  <string name="Director">Σκηνοθέτης</string>
+  <string name="Directors">Σκηνοθέτες</string>
   <string name="DownloadFanart">Μεταφόρτωση Fanart</string>
   <!--E-->
   <string name="Episode">Επεισόδιο</string>
@@ -65,6 +70,8 @@
   <!--V-->
   <!--W-->
   <string name="Watched">Προβληθέν</string>
+  <string name="Writer">Σεναριογράφος</string>
+  <string name="Writers">Σεναριογράφοι</string>
   <!--Y-->
   <string name="Year">Έτος</string>
   <string name="Yes">Ναι</string>

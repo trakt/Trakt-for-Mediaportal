@@ -3,6 +3,8 @@
   <!--A-->
   <string name="Account">Aðgangur</string>
   <string name="AccountSetup">Uppsetning aðgangs</string>
+  <string name="Actor">Leikari</string>
+  <string name="Actors">Leikarar</string>
   <string name="ActivityFriendsDesc">Sjá hvað þínir vinir eru að gera...</string>
   <string name="ActivityWatching">{0} er að horfa á {1}</string>
   <string name="ActivityWatched">{0} horfðu á {1}</string>
@@ -20,6 +22,7 @@
   <string name="Calendar">Dagatal</string>
   <string name="CalendarMyShows">Mínir sjónvarpsþættir</string>
   <string name="CalendarAllShows">Allir sjónvarpsþættir</string>
+  <string name="Cast">Leikhópur</string>
   <string name="Certification">Aldurstakmark</string>
   <string name="ChangeView">Breyta útliti...</string>
   <string name="Create">Búa til</string>
@@ -42,6 +45,8 @@
   <string name="DeleteListItem">Eyða úr lista</string>
   <string name="DeletingList">Eyði lista</string>
   <string name="DeleteFriend">Eyði vin</string>
+  <string name="Director">Leikstjórn</string>
+  <string name="Directors">Leikstjórn</string>
   <!--E-->
   <string name="EditList">Breyta lista...</string>
   <string name="EditingList">Breyti lista</string>
@@ -153,6 +158,7 @@
   <string name="Season">Þáttaröð</string>
   <string name="Seasons">Þáttaraðir</string>
   <string name="Search">Leita</string>
+  <string name="SearchBy">Leita eftir</string>
   <string name="SearchForFriend">Leita af vini...</string>
   <string name="SendFriendRequest">Senda vinabeiðni til {0}?</string>
   <string name="SelectLists">Veljið lista</string>
@@ -185,6 +191,8 @@
   <string name="WatchedMovies">Séðar kvikmyndir</string>
   <string name="WatchedEpisodes">Séðir þætti</string>
   <string name="WatchedShows">Séðir sjónvarpsþættir</string>
+  <string name="Writer">Handrit</string>
+  <string name="Writers">Handrit</string>
   <!--Y-->
   <string name="Year">Ár</string>
   <string name="Yes">Já</string>

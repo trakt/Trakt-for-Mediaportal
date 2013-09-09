@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Актер</string>
+  <string name="Actors">Актеры</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Отмена</string>
@@ -9,6 +11,8 @@
   <!--D-->
   <string name="DateToday">Сегодня</string>
   <string name="DateYesterday">Вчера</string>
+  <string name="Director">Режиссер</string>
+  <string name="Directors">Режисеры</string>
   <string name="DownloadFanart">Скачать фанарт</string>
   <!--E-->
   <string name="Episode">Эпизод</string>
@@ -67,6 +71,8 @@
   <!--W-->
   <string name="WatchList">Список просмотра</string>
   <string name="Watched">Просмотрен</string>
+  <string name="Writer">Автор</string>
+  <string name="Writers">Авторы</string>
   <!--Y-->
   <string name="Year">Год</string>
   <string name="Yes">Да</string>

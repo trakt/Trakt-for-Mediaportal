@@ -4,6 +4,8 @@
   <string name="Account">Compte</string>
   <string name="AccountSetup">Paramétrage du compte</string>
   <string name="AccountDialog">Boite de dialogue concernant le compte</string>
+  <string name="Actor">Acteur</string>
+  <string name="Actors">Acteurs</string>
   <string name="Activity">Activité</string>
   <string name="ActivityFriendsDesc">Voir ce que vos amis font...</string>
   <string name="ActivityShouts">{0} messages sur {1}</string>
@@ -27,12 +29,14 @@
   <string name="AdvancedSettings">Paramétrages avancés</string>
   <!--B-->
   <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
+  <string name="Born">Né</string>
   <!--C-->
   <string name="Cancel">Annuler</string>
   <string name="Calendar">Calendrier</string>
   <string name="CalendarMyShows">Mes séries</string>
   <string name="CalendarPremieres">Pilotes (S01E01)</string>
   <string name="CalendarAllShows">Toutes les séries</string>
+  <string name="Cast">Distribution</string>
   <string name="Certification">Certification</string>
   <string name="ChangeView">Changer de vue ...</string>
   <string name="ChangeLayout">Changer la mise en page</string>
@@ -64,6 +68,8 @@
   <string name="DeletingList">Suppression de la liste</string>
   <string name="DeleteFriend">Supprimer un ami</string>
   <string name="DeleteFriendMessage">Etes vous sur de supprimer ⏎ {0} comme ami ?</string>
+  <string name="Director">Réalisateur</string>
+  <string name="Directors">Réalisateurs</string>
   <string name="DisconnectAccount">Compte déconnecté: {0}</string>
   <string name="DismissRecommendation">Ne pas tenir compte de la recommandation</string>
   <string name="DontIncludeMeInFriendsActivity">Ne pas m\'inclure dans Activités des amis</string>
@@ -280,6 +286,7 @@
   <string name="Season">Saison</string>
   <string name="Seasons">Saisons</string>
   <string name="Search">Recherche</string>
+  <string name="SearchBy">Rechercher par</string>
   <string name="SearchForFriend">Rechercher un ami...</string>
   <string name="SendFriendRequest">Envoyer une invitation à {0}?</string>
   <string name="SelectLists">Sélectionnez les listes</string>
@@ -377,6 +384,8 @@
   <string name="WatchListMovies">Liste des films visionnés</string>
   <string name="WatchListShows">Liste des séries visionnées</string>
   <string name="WatchListEpisodes">Liste des épisodes visionnés</string>
+  <string name="Writer">Auteur</string>
+  <string name="Writers">Auteurs</string>
   <!--Y-->
   <string name="Year">Année</string>
   <string name="Yes">Oui</string>

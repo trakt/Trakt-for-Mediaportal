@@ -4,6 +4,8 @@
   <string name="Account">Cuenta</string>
   <string name="AccountSetup">Account Setup</string>
   <string name="AccountDialog">Account Dialog</string>
+  <string name="Actor">Actor</string>
+  <string name="Actors">Actores</string>
   <string name="Activity">Activity</string>
   <string name="ActivityFriendsDesc">See what your friends are up to...</string>
   <string name="ActivityCommunityDesc">See what the community is up to...</string>
@@ -47,6 +49,7 @@
   <string name="CalendarMyShows">My Shows</string>
   <string name="CalendarPremieres">Premieres</string>
   <string name="CalendarAllShows">All Shows</string>
+  <string name="Cast">Reparto</string>
   <string name="Certification">Certification</string>
   <string name="ChangeView">Change View...</string>
   <string name="ChangeLayout">Change Layout...</string>
@@ -78,6 +81,8 @@
   <string name="DeletingList">Deleting List</string>
   <string name="DeleteFriend">Delete Friend</string>
   <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string name="Director">Director</string>
+  <string name="Directors">Directores</string>
   <string name="DisconnectAccount">Disconnect Account: {0}</string>
   <string name="DismissRecommendation">Dismiss this Recommendation</string>
   <string name="DontIncludeMeInFriendsActivity">Don\'t Include Me in Friends Activity</string>
@@ -390,6 +395,8 @@
   <string name="WatchListMovies">Movie Watch List</string>
   <string name="WatchListShows">Show Watch List</string>
   <string name="WatchListEpisodes">Episode Watch List</string>
+  <string name="Writer">Guionista</string>
+  <string name="Writers">Guionistas</string>
   <!--Y-->
   <string name="Year">Year</string>
   <string name="Yes">Si</string>

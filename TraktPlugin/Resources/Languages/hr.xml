@@ -1,14 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Glumac</string>
+  <string name="Actors">Glumci</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Odustanite</string>
   <string name="Calendar">Kalendar</string>
+  <string name="Cast">Glumci</string>
   <string name="Certification">Potvrda</string>
   <!--D-->
   <string name="DateToday">Danas</string>
   <string name="DateYesterday">Jučer</string>
+  <string name="Director">Režija</string>
+  <string name="Directors">Redatelji</string>
   <string name="DownloadFanart">Preuzmite Fanart</string>
   <!--E-->
   <string name="Email">E-pošta</string>
@@ -61,6 +66,7 @@
   <string name="Season">Sezona</string>
   <string name="Seasons">Sezona</string>
   <string name="Search">Pretražite</string>
+  <string name="SearchBy">Pretražite po</string>
   <string name="Series">Serija</string>
   <string name="SeriesPlural">Serija</string>
   <string name="Settings">Postavke</string>
@@ -81,6 +87,8 @@
   <!--W-->
   <string name="WatchList">Popis za gledanje</string>
   <string name="Watched">Pogledano</string>
+  <string name="Writer">Scenarij</string>
+  <string name="Writers">Scenarij</string>
   <!--Y-->
   <string name="Year">Godina</string>
   <string name="Yes">Da</string>

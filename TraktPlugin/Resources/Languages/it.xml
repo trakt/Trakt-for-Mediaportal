@@ -4,6 +4,8 @@
   <string name="Account">Account</string>
   <string name="AccountSetup">Impostazioni Account</string>
   <string name="AccountDialog">Finestra Account</string>
+  <string name="Actor">Attore</string>
+  <string name="Actors">Attori</string>
   <string name="Activity">Attività</string>
   <string name="ActivityFriendsDesc">Attività degli amici...</string>
   <string name="ActivityCommunityDesc">Attività della comunità...</string>
@@ -47,6 +49,7 @@
   <string name="CalendarMyShows">Le Mie Serie</string>
   <string name="CalendarPremieres">Anteprime</string>
   <string name="CalendarAllShows">Tutte le Serie</string>
+  <string name="Cast">Cast</string>
   <string name="Certification">Certifica</string>
   <string name="ChangeView">Cambia Vista...</string>
   <string name="ChangeLayout">Cambia Layout...</string>
@@ -78,6 +81,8 @@
   <string name="DeletingList">Cancellazione Lista</string>
   <string name="DeleteFriend">Cancella Amico</string>
   <string name="DeleteFriendMessage">Vuoi davvero cancellare\n{0} dagli Amici?</string>
+  <string name="Director">Regista</string>
+  <string name="Directors">Registi</string>
   <string name="DisconnectAccount">Disconnetti Account: {0}</string>
   <string name="DismissRecommendation">Elimina dai Consigliati</string>
   <string name="DontIncludeMeInFriendsActivity">Non includermi nelle Attività degli Amici</string>
@@ -295,6 +300,7 @@
   <string name="Season">Stagione</string>
   <string name="Seasons">Stagioni</string>
   <string name="Search">Cerca</string>
+  <string name="SearchBy">Cerca per</string>
   <string name="SearchForFriend">Ricerca per Amico...</string>
   <string name="SendFriendRequest">Invia richiesta amicizia a {0}?</string>
   <string name="SelectLists">Seleziona Liste</string>
@@ -391,6 +397,8 @@
   <string name="WatchListMovies">Lista Film da Vedere</string>
   <string name="WatchListShows">Lista Serie da Vedere</string>
   <string name="WatchListEpisodes">Lista Episodi da Vedere</string>
+  <string name="Writer">Sceneggiatore</string>
+  <string name="Writers">Sceneggiatori</string>
   <!--Y-->
   <string name="Year">Anno</string>
   <string name="Yes">Sì</string>

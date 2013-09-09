@@ -1,14 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">Herec</string>
+  <string name="Actors">Herci</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Storno</string>
   <string name="Calendar">Kalendář</string>
+  <string name="Cast">Hrají</string>
   <string name="Certification">Certifikace</string>
   <!--D-->
   <string name="DateToday">dnes</string>
   <string name="DateYesterday">včera</string>
+  <string name="Director">Režisér</string>
+  <string name="Directors">Režiséři</string>
   <string name="DownloadFanart">Stáhnout pozadí</string>
   <!--E-->
   <string name="Episode">Epizoda</string>
@@ -72,6 +77,8 @@
   <!--W-->
   <string name="WatchList">Fronta</string>
   <string name="Watched">Zhlédnuto</string>
+  <string name="Writer">Scénárista</string>
+  <string name="Writers">Scénáristé</string>
   <!--Y-->
   <string name="Year">Rok</string>
   <string name="Yes">Ano</string>

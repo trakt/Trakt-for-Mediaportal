@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">שחקן</string>
+  <string name="Actors">שחקנים</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">ביטול</string>
@@ -9,6 +11,8 @@
   <!--D-->
   <string name="DateToday">היום</string>
   <string name="DateYesterday">אתמול</string>
+  <string name="Director">במאי</string>
+  <string name="Directors">במאים</string>
   <string name="DownloadFanart">הורד תמונת רקע</string>
   <!--E-->
   <string name="Episode">פרק</string>
@@ -53,6 +57,7 @@
   <string name="Season">עונה</string>
   <string name="Seasons">עונות</string>
   <string name="Search">חפש</string>
+  <string name="SearchBy">חפש באמצעות</string>
   <string name="Series">סדרות</string>
   <string name="SeriesPlural">סדרות</string>
   <string name="Specials">ספיישלס</string>
@@ -63,6 +68,8 @@
   <!--V-->
   <!--W-->
   <string name="Watched">נצפה</string>
+  <string name="Writer">כותב</string>
+  <string name="Writers">כותבים</string>
   <!--Y-->
   <string name="Year">שנה</string>
   <string name="Yes">כן</string>

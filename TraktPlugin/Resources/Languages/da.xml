@@ -4,6 +4,8 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Kontoindstillinger</string>
   <string name="AccountDialog">Brugerdialog</string>
+  <string name="Actor">Skuespiller</string>
+  <string name="Actors">Skuespillere</string>
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se hvad dine venner laver...</string>
   <string name="ActivityCommunityDesc">Se, hvad fællesskabet laver...</string>
@@ -47,6 +49,7 @@
   <string name="CalendarMyShows">Mine serier</string>
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">Alle seier</string>
+  <string name="Cast">Medvirkende</string>
   <string name="Certification">Censur</string>
   <string name="ChangeView">Ændre syn...</string>
   <string name="ChangeLayout">Ændre layout...</string>
@@ -78,6 +81,8 @@
   <string name="DeletingList">Sletter liste</string>
   <string name="DeleteFriend">Fjern ven</string>
   <string name="DeleteFriendMessage">Ønsker du at fjerne\n{0} som ven?</string>
+  <string name="Director">Instruktør</string>
+  <string name="Directors">Instruktører</string>
   <string name="DisconnectAccount">Log ud fra kontoen: {0}</string>
   <string name="DismissRecommendation">Fjern anbefaling</string>
   <string name="DontIncludeMeInFriendsActivity">Udelad Mig fra Venners aktiviteter</string>
@@ -297,6 +302,7 @@
   <string name="Season">Sæson</string>
   <string name="Seasons">Seasoner</string>
   <string name="Search">Søg</string>
+  <string name="SearchBy">Søg per</string>
   <string name="SearchForFriend">Søg efter venner...</string>
   <string name="SendFriendRequest">Spørg efter venneanmodning til {0}?</string>
   <string name="SelectLists">Vælg lister</string>
@@ -402,6 +408,8 @@
   <string name="WatchListMovies">Sete filmliste</string>
   <string name="WatchListShows">Sete serierliste</string>
   <string name="WatchListEpisodes">Sete afsnitliste</string>
+  <string name="Writer">Manuskript</string>
+  <string name="Writers">Manuskript</string>
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>

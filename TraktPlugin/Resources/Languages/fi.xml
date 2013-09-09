@@ -3,6 +3,8 @@
   <!--A-->
   <string name="Account">Tili</string>
   <string name="AccountSetup">Luo tili</string>
+  <string name="Actor">Näyttelijä</string>
+  <string name="Actors">Näyttelijät</string>
   <string name="ActivityFriendsDesc">Katso mitä ystäväsi tekevät...</string>
   <string name="ActivityCommunityDesc">Katso mitä yhteisössä tapahtuu...</string>
   <string name="ActivityWatching">{0} katsoo {1}</string>
@@ -27,12 +29,14 @@
   <string name="AdvancedSettings">Kehittyneet asetukset</string>
   <!--B-->
   <string name="BufferingTrailer">Ladataan traileria</string>
+  <string name="Born">Syntynyt</string>
   <!--C-->
   <string name="Cancel">Peruuta</string>
   <string name="Calendar">Kalenteri</string>
   <string name="CalendarMyShows">Sarjani</string>
   <string name="CalendarPremieres">Ennakot</string>
   <string name="CalendarAllShows">Kaikki jaksot</string>
+  <string name="Cast">Näyttelijät</string>
   <string name="Certification">Sertifiointi</string>
   <string name="ChangeView">Muuta näkymää...</string>
   <string name="ChangeLayout">Muuta ulkoasua...</string>
@@ -63,6 +67,8 @@
   <string name="DeletingList">Poistetaan listaa</string>
   <string name="DeleteFriend">Poista ystävä</string>
   <string name="DeleteFriendMessage">Haluatko varmasti poistaa \n{0} ystävistäsi?</string>
+  <string name="Director">Ohjaaja</string>
+  <string name="Directors">Ohjaajat</string>
   <string name="DismissRecommendation">Ohita tämä suositus</string>
   <string name="DownloadFanart">Lataa fanitaide</string>
   <!--E-->
@@ -141,6 +147,7 @@
   <string name="Season">Tuotantokausi</string>
   <string name="Seasons">Tuotantokaudet</string>
   <string name="Search">Haku</string>
+  <string name="SearchBy">Etsi käyttäen</string>
   <string name="SearchForFriend">Etsi ystävää...</string>
   <string name="SendFriendRequest">Lähetä ystävä pyyntö käyttäjälle {0}?</string>
   <string name="SelectLists">Valitse listat</string>
@@ -165,6 +172,8 @@
   <!--W-->
   <string name="WatchList">Katsontalista</string>
   <string name="Watched">Katsottu</string>
+  <string name="Writer">Käsikirjoittaja</string>
+  <string name="Writers">Käsikirjoittajat</string>
   <!--Y-->
   <string name="Year">Vuosi</string>
   <string name="Yes">Kyllä</string>

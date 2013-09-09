@@ -4,6 +4,8 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Kontoinställningar</string>
   <string name="AccountDialog">Dialogruta - konto</string>
+  <string name="Actor">Skådespelare</string>
+  <string name="Actors">Skådespelare</string>
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se vad dina vänner gör...</string>
   <string name="ActivityCommunityDesc">Se vad övriga användare gör...</string>
@@ -44,12 +46,18 @@
   <string name="AdvancedSettings">Avancerade inställningar</string>
   <!--B-->
   <string name="BufferingTrailer">Buffrar trailer</string>
+  <string name="Biography">Biografi</string>
+  <string name="Birthday">Födelsedag</string>
+  <string name="BirthDate">Födelsedatum</string>
+  <string name="Born">Född</string>
+  <string name="BirthPlace">Födelseort</string>
   <!--C-->
   <string name="Cancel">Avbryt</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mina serier</string>
   <string name="CalendarPremieres">Premiärer</string>
   <string name="CalendarAllShows">Alla serier</string>
+  <string name="Cast">Rollbesättning</string>
   <string name="Certification">Åldersgräns</string>
   <string name="ChangeView">Byt vy...</string>
   <string name="ChangeLayout">Byt layout...</string>
@@ -82,6 +90,8 @@
   <string name="DeletingList">Raderar listan</string>
   <string name="DeleteFriend">Ta bort vän</string>
   <string name="DeleteFriendMessage">Är det säkert att du vill ta bort\n{0} från dina vänner?</string>
+  <string name="Director">Regissör</string>
+  <string name="Directors">Regissörer</string>
   <string name="DisconnectAccount">Koppla ifrån konto: {0}</string>
   <string name="DismissRecommendation">Ignorera denna rekommendation</string>
   <string name="DontIncludeMeInFriendsActivity">Visa inte mina aktiviteter för mina vänner</string>
@@ -92,6 +102,7 @@
   <string name="EditingList">Ändrar listan</string>
   <string name="Email">E-mail</string>
   <string name="EndYear">Slut: {0}</string>
+  <string name="EnterSearchTerm">Skriv in sökord</string>
   <string name="Episode">Avsnitt</string>
   <string name="Episodes">Avsnitt</string>
   <string name="Error">Trakt-fel</string>
@@ -184,6 +195,8 @@
   <string name="GettingRelatedShows">Tar emot relaterade serier</string>
   <string name="GettingTrailerUrls">Hämtar adresser till trailers</string>
   <string name="GettingUserProfile">Hämtar användarprofil</string>
+  <string name="GuestStar">Gästartist</string>
+  <string name="GuestStars">Gästartister</string>
   <!--H-->
   <string name="Hate">Hata</string>
   <string name="Hated">Hatade</string>
@@ -229,6 +242,7 @@
   <string name="NextEpisode">Nästa avsnitt</string>
   <string name="NextWeek">Nästa vecka</string>
   <string name="NoActivities">Inga aktiviteter hittades.</string>
+  <string name="NoPersonBiography">Det finns ingen biografi inskriven för den här personen</string>
   <string name="NoEpisodesInSeason">Inga avsnitt finns i denna säsong.</string>
   <string name="NoEpisodeSummary">Ingen beskrivning av avsnittets handling finns för tillfället.</string>
   <string name="NoEpisodesThisWeek">Inga avsnitt visas denna veckan</string>
@@ -246,7 +260,9 @@
   <string name="NoShowWatchList">{0} har inga serier i sin Watch List!</string>
   <string name="NoMovieWatchList">{0} har inga filmer i sin Watch List!</string>
   <string name="NoEpisodeWatchList">{0} har inga avsnitt i Watch List!</string>
+  <string name="NoSearchTypesSelected">Du måste först välja en eller flera söktyper innan du gör en internetsökning</string>
   <string name="NoShoutsForItem">Inga Shouts för {0}!</string>
+  <string name="NoPeopleToSearch">Det finns inga personer att söka efter.</string>
   <string name="NoPluginsEnabled">Det finns inga plugin-inställningar.\nVill du ställa in plugins nu?</string>
   <string name="NotLoggedIn">Du kan inte komma längre utan att\nvara inloggad. Vill du registrera dig eller logga in \nto hos trakt.tv nu?</string>
   <string name="NoSearchResultsFound">Sökningen gav inga träffar</string>
@@ -331,8 +347,15 @@
   <string name="Season">Säsong</string>
   <string name="Seasons">Säsonger</string>
   <string name="Search">Sök</string>
+  <string name="SearchBy">Sök efter</string>
+  <string name="SearchMovies">Sök filmer</string>
+  <string name="SearchShows">Sök program</string>
+  <string name="SearchEpisodes">Sök avsnitt</string>
+  <string name="SearchPeople">Sök personer</string>
+  <string name="SearchUsers">Sök användare</string>
   <string name="SearchForFriend">Hitta en vän...</string>
   <string name="SearchForUser">Sök användare ...</string>
+  <string name="SearchTypes">Typ av sökning</string>
   <string name="SendFriendRequest">Skicka en vänförfrågan till {0}?</string>
   <string name="SendFollowRequest">Sänd begäran om följning till {0}?</string>
   <string name="SelectLists">Välj listor</string>
@@ -446,6 +469,8 @@
   <string name="WatchListMovies">Watch List - filmer</string>
   <string name="WatchListShows">Visa Watch List</string>
   <string name="WatchListEpisodes">Watch List - avsnitt</string>
+  <string name="Writer">Manus</string>
+  <string name="Writers">Manus</string>
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>

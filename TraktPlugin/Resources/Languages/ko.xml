@@ -1,13 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Actor">배우</string>
+  <string name="Actors">배우</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">취소</string>
+  <string name="Cast">출연진</string>
   <string name="Certification">Certification</string>
   <!--D-->
   <string name="DateToday">오늘</string>
   <string name="DateYesterday">어제</string>
+  <string name="Director">감독</string>
+  <string name="Directors">감독</string>
   <string name="DownloadFanart">팬아트 다운로드</string>
   <!--E-->
   <string name="Episode">회차</string>
@@ -59,6 +64,8 @@
   <!--V-->
   <!--W-->
   <string name="Watched">시청</string>
+  <string name="Writer">작가</string>
+  <string name="Writers">작가</string>
   <!--Y-->
   <string name="Year">연도</string>
   <string name="Yes">예</string>
