@@ -444,6 +444,7 @@
     <Content Include="Resources\Languages\is.xml" />
     <Content Include="Resources\Languages\it.xml" />
     <Content Include="Resources\Languages\ko.xml" />
+    <Content Include="Resources\Languages\ku.xml" />
     <Content Include="Resources\Languages\lt.xml" />
     <Content Include="Resources\Languages\nb.xml" />
     <Content Include="Resources\Languages\nl.xml" />
