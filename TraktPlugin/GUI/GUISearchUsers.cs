@@ -176,9 +176,13 @@ namespace TraktPlugin.GUI
             GUIListItem listItem = null;
 
             // Follow User
-            listItem = new GUIListItem(Translation.FollowUser);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.FollowUser;
+            // Only show menu item if user has an account as this is an unprotected area.
+            if (!string.IsNullOrEmpty(TraktSettings.Username) && !string.IsNullOrEmpty(TraktSettings.Password))
+            {
+                listItem = new GUIListItem(Translation.FollowUser);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.FollowUser;
+            }
 
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
