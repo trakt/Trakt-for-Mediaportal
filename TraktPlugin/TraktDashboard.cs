@@ -1749,26 +1749,30 @@ namespace TraktPlugin
                     break;
                 
                 case Action.ActionType.ACTION_MOVE_DOWN:
-                    // handle ondown for filmstrips as mediaportal skin navigation for ondown is broken                       
-                    if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                    // handle ondown for filmstrips as mediaportal skin navigation for ondown is broken
+                    // issue has been resolved in MP 1.5.0 so only do it for earlier releases
+                    if (TraktSettings.MPVersion < new Version(1, 5, 0, 0))
                     {
-                        var control = GetFacade(activeWindow.GetFocusControlId());
-                        if (control == null) return;
+                        if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingShowsFacade)
+                        {
+                            var control = GetFacade(activeWindow.GetFocusControlId());
+                            if (control == null) return;
 
-                        if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
+                            if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
 
-                        // set focus on correct control
-                        GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.TrendingMoviesFacade);
-                    }
-                    else if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
-                    {
-                        var control = GetFacade(activeWindow.GetFocusControlId());
-                        if (control == null) return;
+                            // set focus on correct control
+                            GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.TrendingMoviesFacade);
+                        }
+                        else if (!TrendingContextMenuIsActive && activeWindow.GetFocusControlId() == (int)TraktDashboardControls.TrendingMoviesFacade)
+                        {
+                            var control = GetFacade(activeWindow.GetFocusControlId());
+                            if (control == null) return;
 
-                        if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
+                            if (control.CurrentLayout != GUIFacadeControl.Layout.Filmstrip) return;
 
-                        // set focus on correct control
-                        GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.ActivityFacade);
+                            // set focus on correct control
+                            GUIControl.FocusControl(GUIWindowManager.ActiveWindow, (int)TraktDashboardControls.ActivityFacade);
+                        }
                     }
                     break;
 
