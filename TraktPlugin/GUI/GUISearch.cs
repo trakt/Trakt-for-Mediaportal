@@ -60,7 +60,7 @@ namespace TraktPlugin.GUI
         int PreviousSelectedIndex { get; set; }
         SearchType SelectedSearchType { get; set; }
         HashSet<SearchType> SearchTypes = new HashSet<SearchType>();
-        string SearchTerm = string.Empty;
+        string SearchTerm = null;
         DateTime LastRequest = new DateTime();
         Dictionary<string, TraktSearchResult> searchCache = new Dictionary<string, TraktSearchResult>();
 
@@ -68,7 +68,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                string key = SearchTerm + GetSearchTypesID();
+                string key = (SearchTerm ?? string.Empty) + GetSearchTypesID();
 
                 if (!searchCache.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
@@ -149,43 +149,7 @@ namespace TraktPlugin.GUI
                         if (selectedItem == null) return;
 
                         // Load selected search results
-                        switch (SelectedSearchType)
-                        {
-                            case SearchType.movies:
-                                if (SearchResults.Movies.Count() == 0) break;
-                                GUISearchMovies.SearchTerm = SearchTerm;
-                                GUISearchMovies.Movies = SearchResults.Movies;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchMovies);
-                                break;
-
-                            case SearchType.shows:
-                                if (SearchResults.Shows.Count() == 0) break;
-                                GUISearchShows.SearchTerm = SearchTerm;
-                                GUISearchShows.Shows = SearchResults.Shows;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchShows);
-                                break;
-
-                            case SearchType.episodes:
-                                if (SearchResults.Episodes.Count() == 0) break;
-                                GUISearchEpisodes.SearchTerm = SearchTerm;
-                                GUISearchEpisodes.Episodes = SearchResults.Episodes;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchEpisodes);
-                                break;
-
-                            case SearchType.people:
-                                if (SearchResults.People.Count() == 0) break;
-                                GUISearchPeople.SearchTerm = SearchTerm;
-                                GUISearchPeople.People = SearchResults.People;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople);
-                                break;
-
-                            case SearchType.users:
-                                if (SearchResults.Users.Count() == 0) break;
-                                GUISearchUsers.SearchTerm = SearchTerm;
-                                GUISearchUsers.Users = SearchResults.Users;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchUsers);
-                                break;
-                        }
+                        SendSearchResultsToWindow(SearchResults);
                     }
                     break;
 
@@ -225,7 +189,7 @@ namespace TraktPlugin.GUI
             {
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
                     // clear search
-                    SearchTerm = string.Empty;
+                    SearchTerm = null;
                     base.OnAction(action);
                     break;
                 default:
@@ -359,6 +323,18 @@ namespace TraktPlugin.GUI
                 return;
             }
 
+            // jump directly to results
+            if (!TraktSettings.ShowSearchResultsBreakdown && SearchTypes.Count == 1)
+            {
+                // set the selected search type as we have not clicked on a facade item
+                SelectedSearchType = (SearchType)GetSearchTypesID();
+                SendSearchResultsToWindow(SearchResults);
+
+                // clear the search term so when we return (press back) we don't go in a loop.
+                SearchTerm = null;
+                return;
+            }
+
             int itemId = 0;
 
             // Add each search type to the list
@@ -392,6 +368,47 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", SearchTypes.Count.ToString(), Translation.SearchTypes));
         }
 
+        private void SendSearchResultsToWindow(TraktSearchResult searchResults)
+        {
+            switch (SelectedSearchType)
+            {
+                case SearchType.movies:
+                    if (SearchResults.Movies.Count() == 0) break;
+                    GUISearchMovies.SearchTerm = SearchTerm;
+                    GUISearchMovies.Movies = SearchResults.Movies;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchMovies);
+                    break;
+
+                case SearchType.shows:
+                    if (SearchResults.Shows.Count() == 0) break;
+                    GUISearchShows.SearchTerm = SearchTerm;
+                    GUISearchShows.Shows = SearchResults.Shows;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchShows);
+                    break;
+
+                case SearchType.episodes:
+                    if (SearchResults.Episodes.Count() == 0) break;
+                    GUISearchEpisodes.SearchTerm = SearchTerm;
+                    GUISearchEpisodes.Episodes = SearchResults.Episodes;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchEpisodes);
+                    break;
+
+                case SearchType.people:
+                    if (SearchResults.People.Count() == 0) break;
+                    GUISearchPeople.SearchTerm = SearchTerm;
+                    GUISearchPeople.People = SearchResults.People;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople);
+                    break;
+
+                case SearchType.users:
+                    if (SearchResults.Users.Count() == 0) break;
+                    GUISearchUsers.SearchTerm = SearchTerm;
+                    GUISearchUsers.Users = SearchResults.Users;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchUsers);
+                    break;
+            }
+        }
+
         private void InitProperties()
         {
             // load previous search types
@@ -405,7 +422,7 @@ namespace TraktPlugin.GUI
             if ((searchTypes & SearchType.people) == SearchType.people) peopleSearchButton.Selected = true;
             if ((searchTypes & SearchType.users) == SearchType.users) userSearchButton.Selected = true;
 
-            GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm == string.Empty ? Translation.EnterSearchTerm : SearchTerm);
+            GUIUtils.SetProperty("#Trakt.Search.SearchTerm", string.IsNullOrEmpty(SearchTerm) ? Translation.EnterSearchTerm : SearchTerm);
 
             // Load Search List if search term is populated
             if (!string.IsNullOrEmpty(SearchTerm) && searchTypes != SearchType.none)

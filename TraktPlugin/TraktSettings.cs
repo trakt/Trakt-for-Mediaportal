@@ -129,6 +129,7 @@ namespace TraktPlugin
         public static int RecentAddedEpisodesDefaultLayout { get; set; }
         public static bool SyncLibrary { get; set; }
         public static int SearchTypes { get; set; }
+        public static bool ShowSearchResultsBreakdown { get; set; }
         #endregion
 
         #region Constants
@@ -249,6 +250,7 @@ namespace TraktPlugin
         private const string cRecentAddedEpisodesDefaultLayout = "RecentAddedEpisodesDefaultLayout";
         private const string cSyncLibrary = "SyncLibrary";
         private const string cSearchTypes = "SearchTypes";
+        private const string cShowSearchResultsBreakdown = "ShowSearchResultsBreakdown";
         #endregion
 
         #region Properties
@@ -535,6 +537,7 @@ namespace TraktPlugin
                 SearchPeopleDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchPeopleDefaultLayout, 0);
                 SearchUsersDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchUsersDefaultLayout, 0);
                 SearchTypes = xmlreader.GetValueAsInt(cTrakt, cSearchTypes, 1);
+                ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -656,6 +659,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSearchPeopleDefaultLayout, SearchPeopleDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cSearchUsersDefaultLayout, SearchUsersDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cSearchTypes, SearchTypes);
+                xmlwriter.SetValueAsBool(cTrakt, cShowSearchResultsBreakdown, ShowSearchResultsBreakdown);
             }
 
             Settings.SaveCache();

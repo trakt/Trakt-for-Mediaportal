@@ -632,6 +632,8 @@ namespace TraktPlugin.GUI
         public static string SettingDefaultMovieTrailerSiteDescription = "Choose the default Movie Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt Movie.";
         public static string SettingSyncLibraryName = "Enable Library Sync";
         public static string SettingSyncLibraryDescription = "Enable this setting to synchronise your collection and watched states to and from trakt.tv. If disabled, only scrobbling will be active.";
+        public static string SettingShowSearchResultsBreakdownName = "Show Search Results Breakdown";
+        public static string SettingShowSearchResultsBreakdownDescription = "Set this setting to control the behaviour when a single search type is set in the search window. If disabled the user will jump directly to the corresponding search result when a single search type is set.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
