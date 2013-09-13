@@ -414,6 +414,8 @@
   <string name="SettingDefaultMovieTrailerSiteDescription">Choose the default Movie Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt Movie.</string>
   <string name="SettingSyncLibraryName">Enable Library Sync</string>
   <string name="SettingSyncLibraryDescription">Enable this setting to synchronise your collection and watched states to and from trakt.tv. If disabled, only scrobbling will be active.</string>
+  <string name="SettingMaxSearchResultsName">Max Search Results</string>
+  <string name="SettingMaxSearchResultsDescription">Set the maximum number of results per type to retrieve from an online search.</string>
   <string name="SettingShowSearchResultsBreakdownName">Show Search Results Breakdown</string>
   <string name="SettingShowSearchResultsBreakdownDescription">Set this setting to control the behaviour when a single search type is set in the search window. If disabled the user will jump directly to the corresponding search result when a single search type is set.</string>
   <string name="StartYear">Start: {0}</string>

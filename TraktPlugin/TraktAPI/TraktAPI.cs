@@ -1055,7 +1055,7 @@ namespace TraktPlugin.TraktAPI
         /// <param name="searchTerm">string to search for</param>
         /// <param name="types">a list of search types</param>
         /// <returns>returns results from multiple search types</returns>
-        public static TraktSearchResult Search(string searchTerm, HashSet<SearchType> types)
+        public static TraktSearchResult Search(string searchTerm, HashSet<SearchType> types, int maxResults)
         {
             // collect all the results from each type in this list
             TraktSearchResult results = new TraktSearchResult();
@@ -1068,31 +1068,31 @@ namespace TraktPlugin.TraktAPI
                 switch (type)
                 {
                     case SearchType.movies:
-                        Thread tMovieSearch = new Thread(delegate(object obj) { results.Movies = SearchMovies(obj as string); });
+                        Thread tMovieSearch = new Thread(delegate(object obj) { results.Movies = SearchMovies(obj as string, maxResults); });
                         tMovieSearch.Start(searchTerm);
                         threads.Add(tMovieSearch);
                         break;
 
                     case SearchType.shows:
-                        Thread tShowSearch = new Thread(delegate(object obj) { results.Shows = SearchShows(obj as string); });
+                        Thread tShowSearch = new Thread(delegate(object obj) { results.Shows = SearchShows(obj as string, maxResults); });
                         tShowSearch.Start(searchTerm);
                         threads.Add(tShowSearch);
                         break;
 
                     case SearchType.episodes:
-                        Thread tEpisodeSearch = new Thread(delegate(object obj) { results.Episodes = SearchEpisodes(obj as string); });
+                        Thread tEpisodeSearch = new Thread(delegate(object obj) { results.Episodes = SearchEpisodes(obj as string, maxResults); });
                         tEpisodeSearch.Start(searchTerm);
                         threads.Add(tEpisodeSearch);
                         break;
 
                     case SearchType.people:
-                        Thread tPeopleSearch = new Thread(delegate(object obj) { results.People = SearchPeople(obj as string); });
+                        Thread tPeopleSearch = new Thread(delegate(object obj) { results.People = SearchPeople(obj as string, maxResults); });
                         tPeopleSearch.Start(searchTerm);
                         threads.Add(tPeopleSearch);
                         break;
 
                     case SearchType.users:
-                        Thread tUserSearch = new Thread(delegate(object obj) { results.Users = SearchForUsers(obj as string); });
+                        Thread tUserSearch = new Thread(delegate(object obj) { results.Users = SearchForUsers(obj as string, maxResults); });
                         tUserSearch.Start(searchTerm);
                         threads.Add(tUserSearch);
                         break;
@@ -1108,46 +1108,66 @@ namespace TraktPlugin.TraktAPI
 
         /// <summary>
         /// Returns a list of users found using search term
-        /// </summary>        
+        /// </summary>
         public static IEnumerable<TraktUser> SearchForUsers(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
+            return SearchForUsers(searchTerm, 30);
+        }
+        public static IEnumerable<TraktUser> SearchForUsers(string searchTerm, int maxResults)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm), maxResults), GetUserAuthentication());
             return response.FromJSONArray<TraktUser>();
         }
 
         /// <summary>
         /// Returns a list of movies found using search term
-        /// </summary>        
+        /// </summary>
         public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
+            return SearchMovies(searchTerm, 30);
+        }
+        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm, int maxResults)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm), maxResults), GetUserAuthentication());
             return response.FromJSONArray<TraktMovie>();
         }
 
         /// <summary>
         /// Returns a list of shows found using search term
-        /// </summary>        
+        /// </summary>
         public static IEnumerable<TraktShow> SearchShows(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
+            return SearchShows(searchTerm, 30);
+        }
+        public static IEnumerable<TraktShow> SearchShows(string searchTerm, int maxResults)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm), maxResults), GetUserAuthentication());
             return response.FromJSONArray<TraktShow>();
         }
 
         /// <summary>
         /// Returns a list of episodes found using search term
-        /// </summary>        
+        /// </summary>
         public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm)), GetUserAuthentication());
+            return SearchEpisodes(searchTerm, 30);
+        }
+        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm, int maxResults)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm), maxResults), GetUserAuthentication());
             return response.FromJSONArray<TraktEpisodeSummary>();
         }
 
         /// <summary>
         /// Returns a list of people found using search term
-        /// </summary>        
+        /// </summary>
         public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm)
         {
-            string response = Transmit(string.Format(TraktURIs.SearchPeople, HttpUtility.UrlEncode(searchTerm)), string.Empty);
+            return SearchPeople(searchTerm, 30);
+        }
+        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm, int maxResults)
+        {
+            string response = Transmit(string.Format(TraktURIs.SearchPeople, HttpUtility.UrlEncode(searchTerm), maxResults), string.Empty);
             return response.FromJSONArray<TraktPersonSummary>();
         }
 

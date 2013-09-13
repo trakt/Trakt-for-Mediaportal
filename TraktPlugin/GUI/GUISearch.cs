@@ -68,11 +68,11 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                string key = (SearchTerm ?? string.Empty) + GetSearchTypesID();
+                string key = (SearchTerm ?? string.Empty) + GetSearchTypesID() + TraktSettings.MaxSearchResults;
 
                 if (!searchCache.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _SearchResults = TraktAPI.TraktAPI.Search(SearchTerm, SearchTypes);
+                    _SearchResults = TraktAPI.TraktAPI.Search(SearchTerm, SearchTypes, TraktSettings.MaxSearchResults);
                     if (searchCache.Keys.Contains(key)) searchCache.Remove(key);
                     searchCache.Add(key, _SearchResults);
                     LastRequest = DateTime.UtcNow;

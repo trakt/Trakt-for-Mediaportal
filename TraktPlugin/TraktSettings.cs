@@ -130,6 +130,7 @@ namespace TraktPlugin
         public static bool SyncLibrary { get; set; }
         public static int SearchTypes { get; set; }
         public static bool ShowSearchResultsBreakdown { get; set; }
+        public static int MaxSearchResults { get; set; }
         #endregion
 
         #region Constants
@@ -251,6 +252,7 @@ namespace TraktPlugin
         private const string cSyncLibrary = "SyncLibrary";
         private const string cSearchTypes = "SearchTypes";
         private const string cShowSearchResultsBreakdown = "ShowSearchResultsBreakdown";
+        private const string cMaxSearchResults = "MaxSearchResults";
         #endregion
 
         #region Properties
@@ -538,6 +540,7 @@ namespace TraktPlugin
                 SearchUsersDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchUsersDefaultLayout, 0);
                 SearchTypes = xmlreader.GetValueAsInt(cTrakt, cSearchTypes, 1);
                 ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
+                MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -660,6 +663,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSearchUsersDefaultLayout, SearchUsersDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cSearchTypes, SearchTypes);
                 xmlwriter.SetValueAsBool(cTrakt, cShowSearchResultsBreakdown, ShowSearchResultsBreakdown);
+                xmlwriter.SetValue(cTrakt, cMaxSearchResults, MaxSearchResults);
             }
 
             Settings.SaveCache();
