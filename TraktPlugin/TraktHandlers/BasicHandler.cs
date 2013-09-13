@@ -335,7 +335,7 @@ namespace TraktPlugin.TraktHandlers
             scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
             TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
-            return TraktAPI.TraktAPI.LogTraktResponse(response);
+            return TraktLogger.LogTraktResponse(response);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace TraktPlugin.TraktHandlers
             scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
             TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
-            return TraktAPI.TraktAPI.LogTraktResponse(response);
+            return TraktLogger.LogTraktResponse(response);
         }
 
         public static bool IsValidImdb(string id)

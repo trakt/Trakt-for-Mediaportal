@@ -121,7 +121,7 @@ namespace TraktPlugin
                 {
                     TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
                     TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(list);
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                    TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
                         ClearCache(TraktSettings.Username);

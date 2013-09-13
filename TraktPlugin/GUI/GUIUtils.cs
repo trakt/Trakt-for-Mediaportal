@@ -483,7 +483,7 @@ namespace TraktPlugin.GUI
                 Thread rateThread = new Thread(delegate(object obj)
                 {
                     TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(item);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -499,7 +499,7 @@ namespace TraktPlugin.GUI
                 Thread rateThread = new Thread(delegate(object obj)
                 {
                     TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(item);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -515,7 +515,7 @@ namespace TraktPlugin.GUI
                 Thread rateThread = new Thread(delegate(object obj)
                 {
                     TraktRateResponse response = TraktAPI.TraktAPI.RateMovie(item);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,

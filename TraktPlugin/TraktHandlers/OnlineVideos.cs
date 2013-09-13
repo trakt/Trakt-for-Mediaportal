@@ -108,7 +108,7 @@ namespace TraktPlugin.TraktHandlers
                     response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.watching);
                 }
 
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             }), currentVideo, 3000, 900000);
             #endregion
 
@@ -181,7 +181,7 @@ namespace TraktPlugin.TraktHandlers
                         response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.scrobble);
                     }
 
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,

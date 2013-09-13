@@ -253,7 +253,7 @@ namespace TraktPlugin.GUI
                 // first create new list
                 TraktLogger.Info("Creating new '{0}' list '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
                 TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(copyParams.Destination);
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
                 if (response.Status == "success")
                 {
                     // update with offical slug
@@ -299,7 +299,7 @@ namespace TraktPlugin.GUI
                     copyParams.Destination.Items = items;
                     
                     // add items to the list
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(copyParams.Destination));
+                    TraktLogger.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(copyParams.Destination));
                     if (response.Status == "success") TraktLists.ClearCache(TraktSettings.Username);
                 }
             })
@@ -328,7 +328,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     TraktResponse response = result as TraktResponse;
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                    TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
                         // reload with new list
@@ -354,7 +354,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     TraktResponse response = result as TraktResponse;
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                    TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
                         // reload with new list
@@ -380,7 +380,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     TraktResponse response = result as TraktResponse;
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                    TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
                         // reload with new list

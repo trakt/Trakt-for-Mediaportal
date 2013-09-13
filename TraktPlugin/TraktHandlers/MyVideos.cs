@@ -249,7 +249,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 }
                 #endregion
 
@@ -264,7 +264,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 }
                 #endregion
 
@@ -289,7 +289,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             //Then remove from library
                             TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
-                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                 }
@@ -343,7 +343,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.watching);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             }), movie, 3000, 900000);
             #endregion
 
@@ -380,7 +380,7 @@ namespace TraktPlugin.TraktHandlers
                     scrobbleData.Progress = "100";
 
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -400,7 +400,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,

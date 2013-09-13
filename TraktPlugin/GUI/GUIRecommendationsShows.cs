@@ -513,7 +513,7 @@ namespace TraktPlugin.GUI
                 };
 
                 TraktResponse response = TraktAPI.TraktAPI.DismissShowRecommendation(syncShow);
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
                 IsBackground = true,

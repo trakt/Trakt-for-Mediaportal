@@ -281,7 +281,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             ratedEpisodesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for episode '{1}'", a[DBOnlineEpisode.cMyRating], a.ToString()));
                             TraktResponse response = TraktAPI.TraktAPI.RateEpisodes(CreateRatingEpisodesData(ratedEpisodesToSync));
-                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                     #endregion
@@ -325,7 +325,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             ratedShowsToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for show '{1}'", a[DBOnlineSeries.cMyRating], a.ToString()));
                             TraktResponse response = TraktAPI.TraktAPI.RateSeries(CreateRatingShowsData(ratedShowsToSync));
-                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                     #endregion
@@ -343,7 +343,7 @@ namespace TraktPlugin.TraktHandlers
                         TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
                         if (syncData == null) continue;
                         TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        TraktLogger.LogTraktResponse(response);
                         Thread.Sleep(500);
                     }
                 }
@@ -418,7 +418,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.watching);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             }), null, 3000, 900000);
             #endregion
 
@@ -869,7 +869,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(episodeRateData);
 
                 // check for any error and notify
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -890,7 +890,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
 
                 // check for any error and notify
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -923,7 +923,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), mode);
 
                 // check for any error and log result
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
 
                 // wait a short period before uploading another series
                 Thread.Sleep(2000);
@@ -1150,7 +1150,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Progress = "100";
 
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.scrobble);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -1183,7 +1183,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -1214,7 +1214,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktEpisodeSync episodeSyncData = CreateSyncData(series, episodes);
                 if (episodeSyncData == null) return;
                 TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,

@@ -799,7 +799,7 @@ namespace TraktPlugin
                     else
                         response = TraktAPI.TraktAPI.ListDeleteItems(list);
 
-                    TraktAPI.TraktAPI.LogTraktResponse<TraktSyncResponse>(response);
+                    TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
                     if (response.Status == "success")
                     {
                         // clear current items in any lists

@@ -21,8 +21,6 @@ namespace TraktPlugin
         #region Settings
         static int SettingsVersion = 1;
 
-        public static string Username { get; set; }
-        public static string Password { get; set; }
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
         public static int TVSeries { get; set; }
@@ -257,6 +255,34 @@ namespace TraktPlugin
 
         #region Properties
 
+        public static string Username
+        {
+            get
+            {
+                return _username;   
+            }
+            set
+            {
+                _username = value;
+                TraktAPI.TraktAPI.Username = _username;
+            }
+        }
+        static string _username = null;
+
+        public static string Password
+        {
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                _password = value;
+                TraktAPI.TraktAPI.Password = _password;
+            }
+        }
+        static string _password = null;
+
         /// <summary>
         /// Show Advanced or Simple Ratings Dialog
         /// Settings is Synced from Server
@@ -432,6 +458,10 @@ namespace TraktPlugin
         internal static void LoadSettings()
         {
             TraktLogger.Info("Loading Local Settings");
+
+            // initialise API settings
+            TraktAPI.TraktAPI.UserAgent = UserAgent;
+
             using (Settings xmlreader = new MPSettings())
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");

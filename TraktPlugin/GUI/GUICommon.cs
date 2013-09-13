@@ -743,7 +743,7 @@ namespace TraktPlugin.GUI
                     var oShow = o as TraktShowSeen;
                     TraktLogger.Info("Marking {0} as seen", oShow.Title);
                     var response = TraktAPI.TraktAPI.SyncShowAsSeen(oShow);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -775,7 +775,7 @@ namespace TraktPlugin.GUI
                 var oSeason = o as TraktSeasonSeen;
                 TraktLogger.Info("Marking {0} season {1} as seen", oSeason.Title, oSeason.Season);
                 var response = TraktAPI.TraktAPI.SyncSeasonAsSeen(oSeason);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -806,7 +806,7 @@ namespace TraktPlugin.GUI
                 var oShow = o as TraktShowLibrary;
                 TraktLogger.Info("Adding {0} to library", oShow.Title);
                 var response = TraktAPI.TraktAPI.SyncShowAsLibrary(oShow);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -838,7 +838,7 @@ namespace TraktPlugin.GUI
                 var oSeason = o as TraktSeasonLibrary;
                 TraktLogger.Info("Adding {0} season {1} to library", oSeason.Title, oSeason.Season);
                 var response = TraktAPI.TraktAPI.SyncSeasonAsLibrary(oSeason);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,

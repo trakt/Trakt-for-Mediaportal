@@ -618,7 +618,7 @@ namespace TraktPlugin.GUI
             Thread approveFollowerThread = new Thread(delegate(object obj)
             {
                 TraktResponse response = TraktAPI.TraktAPI.NetworkApprove(CreateNetworkData(user, followBack));
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
                 IsBackground = true,
@@ -633,7 +633,7 @@ namespace TraktPlugin.GUI
             Thread denyFollowerRequest = new Thread(delegate(object obj)
             {
                 TraktResponse response = TraktAPI.TraktAPI.NetworkDeny(CreateNetworkData(user));
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
                 IsBackground = true,
@@ -648,7 +648,7 @@ namespace TraktPlugin.GUI
             Thread unfollowUserThread = new Thread(delegate(object obj)
             {
                 TraktResponse response = TraktAPI.TraktAPI.NetworkUnFollow(CreateNetworkData(user));
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
                 IsBackground = true,
@@ -1258,7 +1258,7 @@ namespace TraktPlugin.GUI
                 var currUser = obj as TraktUser;
 
                 var response = TraktAPI.TraktAPI.NetworkFollow(CreateNetworkData(currUser));
-                TraktAPI.TraktAPI.LogTraktResponse<TraktNetworkFollowResponse>(response);
+                TraktLogger.LogTraktResponse<TraktNetworkFollowResponse>(response);
 
                 // notify user if follow is pending approval by user
                 if (response.Pending)

@@ -197,7 +197,7 @@ namespace TraktPlugin.TraktHandlers
                         TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e.AniDB_File.AnimeSeries.TvDB_ID.ToString() == series.SeriesId).ToList());
                         if (syncData == null) continue;
                         TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        TraktLogger.LogTraktResponse(response);
                         Thread.Sleep(500);
                     }
                 }
@@ -247,7 +247,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.watching);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             }), CurrentEpisode, 3000, 900000);
             #endregion
 
@@ -278,7 +278,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Progress = "100";
 
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.scrobble);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -302,7 +302,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -737,7 +737,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSync, mode);
 
                     // check for any error and log result
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
 
                     // wait a short period before uploading another series
                     Thread.Sleep(2000);
@@ -885,7 +885,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
 
                 // check for any error and notify
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -909,7 +909,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktEpisodeSync episodeSyncData = CreateSyncData(AnimeSeries.GetSeriesWithSpecificTvDB((int)series).First(), episodes);
                     if (episodeSyncData == null) return;
                     TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, state ? TraktSyncModes.seen : TraktSyncModes.unseen);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 }                
             })
             {

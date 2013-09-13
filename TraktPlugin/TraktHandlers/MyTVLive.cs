@@ -133,13 +133,13 @@ namespace TraktPlugin.TraktHandlers
                     {
                         TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                         TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        TraktLogger.LogTraktResponse(response);
                     }
                     else
                     {
                         TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                         TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                        TraktAPI.TraktAPI.LogTraktResponse(response);
+                        TraktLogger.LogTraktResponse(response);
                     }
                 })
                 {

@@ -563,7 +563,7 @@ namespace TraktPlugin.GUI
                 };
 
                 TraktResponse response = TraktAPI.TraktAPI.DismissMovieRecommendation(syncMovie);
-                TraktAPI.TraktAPI.LogTraktResponse<TraktResponse>(response);
+                TraktLogger.LogTraktResponse<TraktResponse>(response);
                 if (response != null && response.Status == "success")
                 {
                     TraktHandlers.MovingPictures.UpdateCategoriesAndFilters();

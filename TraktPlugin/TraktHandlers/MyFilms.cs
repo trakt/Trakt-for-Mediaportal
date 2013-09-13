@@ -247,7 +247,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 }
                 #endregion
 
@@ -261,7 +261,7 @@ namespace TraktPlugin.TraktHandlers
                     TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 }
                 #endregion
 
@@ -315,7 +315,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for movie '{1} ({2})'", a.RatingUser, a.Title, a.Year));
                             TraktResponse response = TraktAPI.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
-                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                 }
@@ -342,7 +342,7 @@ namespace TraktPlugin.TraktHandlers
                         {
                             //Then remove from library
                             TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
-                            TraktAPI.TraktAPI.LogTraktResponse(response);
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                 }
@@ -577,7 +577,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // set watching status on trakt
                 TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.watching);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             }), CurrentMovie, 3000, 900000);
             #endregion
 
@@ -777,7 +777,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
@@ -815,7 +815,7 @@ namespace TraktPlugin.TraktHandlers
                     scrobbleData.Progress = "100";
 
                     TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
-                    TraktAPI.TraktAPI.LogTraktResponse(response);
+                    TraktLogger.LogTraktResponse(response);
                     // UpdateRecommendations();
                 })
                 {
@@ -854,7 +854,7 @@ namespace TraktPlugin.TraktHandlers
 
                 response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, rating));
 
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
@@ -881,7 +881,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 MFMovie tMovie = o as MFMovie;
                 TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(tMovie), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
-                TraktAPI.TraktAPI.LogTraktResponse(response);
+                TraktLogger.LogTraktResponse(response);
             })
             {
                 IsBackground = true,
