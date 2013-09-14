@@ -41,7 +41,11 @@ namespace TraktPlugin
                 {
                     Error("Failed to move logfile to backup");
                 }
-            }    
+            }
+
+            // listen to webclient events from the TraktAPI so we can provide useful logging            
+            TraktAPI.TraktAPI.OnDataSend += new TraktAPI.TraktAPI.OnDataSendDelegate(TraktAPI_OnDataSend);
+            TraktAPI.TraktAPI.OnDataError += new TraktAPI.TraktAPI.OnDataErrorDelegate(TraktAPI_OnDataError);
         }
 
         internal static void Info(String log)
@@ -108,6 +112,23 @@ namespace TraktPlugin
             {
                 Error("Failed to write out to log");
             }
+        }
+
+        private static void TraktAPI_OnDataSend(string address, string data)
+        {
+            if (!string.IsNullOrEmpty(data))
+            {
+                TraktLogger.Debug("Address: {0}, Post: {1}", address, data);
+            }
+            else
+            {
+                TraktLogger.Debug("Address: {0}", address);
+            }
+        }
+
+        private static void TraktAPI_OnDataError(string error)
+        {
+            TraktLogger.Debug("WebException: {0}", error);
         }
 
         /// <summary>

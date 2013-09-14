@@ -149,6 +149,17 @@ namespace TraktPlugin.TraktAPI
     /// </summary>
     public class TraktAPI
     {
+        #region Transmit Events
+        // these events can be used to log data sent / received from trakt
+        internal delegate void OnDataSendDelegate(string url, string postData);
+        internal delegate void OnDataReceivedDelegate(string response);
+        internal delegate void OnDataErrorDelegate(string error);
+
+        internal static event OnDataSendDelegate OnDataSend;
+        internal static event OnDataReceivedDelegate OnDataReceived;
+        internal static event OnDataErrorDelegate OnDataError;
+        #endregion
+
         #region Settings
 
         public static string Username { get; set; }
@@ -1078,30 +1089,35 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.movies:
                         Thread tMovieSearch = new Thread(delegate(object obj) { results.Movies = SearchMovies(obj as string, maxResults); });
                         tMovieSearch.Start(searchTerm);
+                        tMovieSearch.Name = "Search";
                         threads.Add(tMovieSearch);
                         break;
 
                     case SearchType.shows:
                         Thread tShowSearch = new Thread(delegate(object obj) { results.Shows = SearchShows(obj as string, maxResults); });
                         tShowSearch.Start(searchTerm);
+                        tShowSearch.Name = "Search";
                         threads.Add(tShowSearch);
                         break;
 
                     case SearchType.episodes:
                         Thread tEpisodeSearch = new Thread(delegate(object obj) { results.Episodes = SearchEpisodes(obj as string, maxResults); });
                         tEpisodeSearch.Start(searchTerm);
+                        tEpisodeSearch.Name = "Search";
                         threads.Add(tEpisodeSearch);
                         break;
 
                     case SearchType.people:
                         Thread tPeopleSearch = new Thread(delegate(object obj) { results.People = SearchPeople(obj as string, maxResults); });
                         tPeopleSearch.Start(searchTerm);
+                        tPeopleSearch.Name = "Search";
                         threads.Add(tPeopleSearch);
                         break;
 
                     case SearchType.users:
                         Thread tUserSearch = new Thread(delegate(object obj) { results.Users = SearchForUsers(obj as string, maxResults); });
                         tUserSearch.Start(searchTerm);
+                        tUserSearch.Name = "Search";
                         threads.Add(tUserSearch);
                         break;
                 }
@@ -1329,10 +1345,7 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The response from Trakt</returns>
         private static string Transmit(string address, string data)
         {
-            if (!string.IsNullOrEmpty(data))
-            {
-                TraktLogger.Debug("Post: {0} Address: {1}", data, address);
-            }
+            if (OnDataSend != null) OnDataSend(address, data);
 
             try
             {
@@ -1340,13 +1353,18 @@ namespace TraktPlugin.TraktAPI
                 WebClient client = new WebClient();
                 client.Encoding = Encoding.UTF8;
                 client.Headers.Add("user-agent", TraktAPI.UserAgent);
-                return client.UploadString(address, data);
+                
+                // wait for a response from the server
+                string response = client.UploadString(address, data);
+
+                // received data, pass it back
+                if (OnDataReceived != null) OnDataReceived(response);
+                return response;
             }
             catch (WebException e)
             {
-                // something bad happened
-                TraktLogger.Debug("WebException: {0}", e.Message);
-
+                if (OnDataError != null) OnDataError(e.Message);
+                
                 if(e.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ((HttpWebResponse)e.Response);
@@ -1363,6 +1381,7 @@ namespace TraktPlugin.TraktAPI
                     catch { } 
                 }
 
+                // create a proper response object
                 TraktResponse error = new TraktResponse
                 {
                     Status = "failure",
