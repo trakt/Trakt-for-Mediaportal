@@ -13,6 +13,9 @@ namespace TraktPlugin.GUI
 {
     public class GUISeasonListItem : GUIListItem
     {
+        /// <summary>
+        /// The id of the window that contains the gui list items (facade)
+        /// </summary>
         private int WindowID { get; set; }
 
         public GUISeasonListItem(string strLabel, int windowID) : base(strLabel)
@@ -20,13 +23,16 @@ namespace TraktPlugin.GUI
             this.WindowID = windowID;
         }
 
-        public object Item
+        /// <summary>
+        /// Images attached to a gui list item
+        /// </summary>
+        public TraktImage Images
         {
-            get { return _Item; }
+            get { return _Images; }
             set
             {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
+                _Images = value;
+                var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is TraktImage && e.PropertyName == "Poster")
@@ -35,7 +41,7 @@ namespace TraktPlugin.GUI
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected object _Item;
+        } protected TraktImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images

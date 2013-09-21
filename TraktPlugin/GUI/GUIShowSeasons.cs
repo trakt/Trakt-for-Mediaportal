@@ -289,7 +289,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = string.Format("{0} {1}", season.EpisodeCount, Translation.Episodes);
                 item.TVTag = season;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();

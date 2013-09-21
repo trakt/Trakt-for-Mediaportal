@@ -244,7 +244,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideWatched) LoadTrendingMovies();
                     break;
 
@@ -253,14 +253,14 @@ namespace TraktPlugin.GUI
                     selectedMovie.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies();
                     break;
 
@@ -268,7 +268,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
@@ -279,7 +279,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies();
                     break;
 
@@ -287,7 +287,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.Related):
@@ -297,7 +297,7 @@ namespace TraktPlugin.GUI
                 case ((int)TrendingContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies();
                     break;
 
@@ -404,7 +404,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = movie.Year == "0" ? "----" : movie.Year;
                 item.TVTag = movie;
-                item.Item = images;
+                item.Images = images;
                 item.IsPlayed = movie.Watched;
                 item.ItemId = Int32.MaxValue - itemId;
                 // movie in collection doesnt nessararily mean

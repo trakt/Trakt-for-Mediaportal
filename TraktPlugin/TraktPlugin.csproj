@@ -299,6 +299,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktStatistics.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktTopWatcher.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUser.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserListItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWriter.cs" />
     <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktAPI\DataStructures\SyncMovieCheck.cs" />

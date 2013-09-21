@@ -23,13 +23,16 @@ namespace TraktPlugin.GUI
             this.WindowID = windowID;
         }
 
-        public object Item
+        /// <summary>
+        /// Images attached to a gui list item
+        /// </summary>
+        public TraktImage Images
         {
-            get { return _Item; }
+            get { return _Images; }
             set
             {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
+                _Images = value;
+                var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is TraktImage && e.PropertyName == "Screen")
@@ -38,7 +41,7 @@ namespace TraktPlugin.GUI
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected object _Item;
+        } protected TraktImage _Images;
 
         public string Date { get; set; }
         public string SelectedIndex { get; set; }

@@ -410,7 +410,7 @@ namespace TraktPlugin.GUI
                 var shoutItem = new GUIUserListItem(shout.User.Username, (int)TraktGUIWindows.Shouts);
 
                 shoutItem.Label2 = shout.InsertedDate.FromEpoch().ToShortDateString();
-                shoutItem.Item = images;
+                shoutItem.Images = images;
                 shoutItem.TVTag = shout;
                 shoutItem.ItemId = id++;
                 shoutItem.IconImage = "defaultTraktUser.png";

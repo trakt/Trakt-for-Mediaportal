@@ -264,7 +264,7 @@ namespace TraktPlugin.GUI
 
                 var item = new GUIUserListItem(user.Username, (int)TraktGUIWindows.SearchUsers);
 
-                item.Item = images;
+                item.Images = images;
                 item.TVTag = user;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = "defaultTraktUser.png";

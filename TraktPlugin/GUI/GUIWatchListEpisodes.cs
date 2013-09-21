@@ -383,7 +383,7 @@ namespace TraktPlugin.GUI
                     item.Label2 = episode.FirstAired.FromEpoch().ToShortDateString();
                     item.TVTag = episodeSummary;
                     item.Date = episode.Inserted.FromEpoch().ToShortDateString();
-                    item.Item = images;
+                    item.Images = images;
                     item.ItemId = Int32.MaxValue - itemCount;
                     item.IconImage = "defaultTraktEpisode.png";
                     item.IconImageBig = "defaultTraktEpisodeBig.png";

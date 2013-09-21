@@ -436,14 +436,14 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -454,14 +454,14 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -682,7 +682,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = movie.Year;
                 item.TVTag = movie;
-                item.Item = image;
+                item.Images = image;
                 item.ItemId = Int32.MaxValue - itemId;
                 // movie in collection doesnt nessararily mean
                 // that the movie is locally available on this computer

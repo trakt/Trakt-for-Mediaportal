@@ -271,7 +271,7 @@ namespace TraktPlugin
                     
                 item.Label2 = activity.Timestamp.FromEpoch().ToLocalTime().ToShortTimeString();
                 item.TVTag = activity;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = avatarImage;
                 item.IconImageBig = avatarImage;
@@ -521,7 +521,7 @@ namespace TraktPlugin
 
                 item.Label2 = movie.Year.ToString();
                 item.TVTag = movie;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -730,7 +730,7 @@ namespace TraktPlugin
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -977,7 +977,7 @@ namespace TraktPlugin
                     TraktHelper.AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
-                    ((selectedItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.ShowSeasonInfo):
@@ -996,7 +996,7 @@ namespace TraktPlugin
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
                     selectedShow.InWatchList = false;
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
-                    ((selectedItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
@@ -1018,7 +1018,7 @@ namespace TraktPlugin
                 case ((int)TrendingContextMenuItem.Rate):
                     GUICommon.RateShow(selectedShow);
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
-                    ((selectedItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchWithMpNZB):
@@ -1064,7 +1064,7 @@ namespace TraktPlugin
                     selectedMovie.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsUnWatched):
@@ -1072,21 +1072,21 @@ namespace TraktPlugin
                     selectedMovie.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = false;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
@@ -1097,14 +1097,14 @@ namespace TraktPlugin
                     TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.Related):
@@ -1114,7 +1114,7 @@ namespace TraktPlugin
                 case ((int)TrendingContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedMovie);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
-                    ((selectedItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.Shouts):

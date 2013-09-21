@@ -253,7 +253,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddShowToWatchList(selectedShow);
                     selectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingShowsHideWatchlisted) LoadTrendingShows();
                     break;
 
@@ -275,7 +275,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
                     selectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
@@ -305,7 +305,7 @@ namespace TraktPlugin.GUI
                 case ((int)TrendingContextMenuItem.Rate):
                     GUICommon.RateShow(selectedShow);
                     OnShowSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIShowListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingShowsHideRated) LoadTrendingShows();
                     break;
 
@@ -393,7 +393,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
-                item.Item = image;
+                item.Images = image;
                 item.ItemId = Int32.MaxValue - itemId;                
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();

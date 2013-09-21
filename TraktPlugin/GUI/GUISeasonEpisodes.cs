@@ -288,7 +288,7 @@ namespace TraktPlugin.GUI
                     Facade.SelectedListItem.IsPlayed = true;
                     if (selectedEpisode.Plays == 0) selectedEpisode.Plays = 1;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
@@ -296,41 +296,41 @@ namespace TraktPlugin.GUI
                     selectedEpisode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     TraktHelper.AddEpisodeToLibrary(Show, selectedEpisode);
                     selectedEpisode.InCollection = true;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveEpisodeFromLibrary(Show, selectedEpisode);
                     selectedEpisode.InCollection = false;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddEpisodeToWatchList(Show, selectedEpisode);
                     selectedEpisode.InWatchList = true;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveEpisodeFromWatchList(Show, selectedEpisode);
                     selectedEpisode.InWatchList = false;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Rate):
                     GUICommon.RateEpisode(Show, selectedEpisode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -431,7 +431,7 @@ namespace TraktPlugin.GUI
                 item.Label2 = episode.FirstAired == 0 ? " " : episode.FirstAired.FromEpoch().ToShortDateString();
                 item.TVTag = new TraktEpisodeSummary { Episode = episode, Show = Show };
                 item.IsPlayed = episode.Watched;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemCount;
                 item.IconImage = "defaultTraktEpisode.png";
                 item.IconImageBig = "defaultTraktEpisodeBig.png";

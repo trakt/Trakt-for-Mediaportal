@@ -246,7 +246,7 @@ namespace TraktPlugin.GUI
                 var item = new GUIPersonListItem(person.Name, (int)TraktGUIWindows.SearchPeople);
                 
                 item.TVTag = person;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();

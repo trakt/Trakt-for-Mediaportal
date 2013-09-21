@@ -25,12 +25,15 @@ namespace TraktPlugin.GUI
 
         public string Date { get; set; }
 
-        public object Item
+        /// <summary>
+        /// Images attached to a gui list item
+        /// </summary>
+        public TraktImage Images
         {
-            get { return _Item; }
+            get { return _Images; }
             set
             {
-                _Item = value;
+                _Images = value;
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
@@ -40,7 +43,7 @@ namespace TraktPlugin.GUI
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected object _Item;
+        } protected TraktImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images

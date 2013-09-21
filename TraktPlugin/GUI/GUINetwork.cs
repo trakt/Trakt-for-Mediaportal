@@ -857,7 +857,7 @@ namespace TraktPlugin.GUI
                 var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = friend.ApprovedDate.FromEpoch().ToShortDateString();
-                userItem.Item = images;
+                userItem.Images = images;
                 userItem.TVTag = friend;
                 userItem.ItemId = id++;
                 userItem.IsFriend = true;
@@ -945,7 +945,7 @@ namespace TraktPlugin.GUI
 
                 userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
                 userItem.TVTag = user;
-                userItem.Item = images;
+                userItem.Images = images;
                 userItem.ItemId = id++;
                 userItem.IsFollowed = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -1030,7 +1030,7 @@ namespace TraktPlugin.GUI
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
-                userItem.Item = images;
+                userItem.Images = images;
                 userItem.TVTag = user;
                 userItem.ItemId = id++;
                 userItem.IsFollower = true;
@@ -1116,7 +1116,7 @@ namespace TraktPlugin.GUI
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = user.RequestDate.FromEpoch().ToShortDateString();
-                userItem.Item = images;
+                userItem.Images = images;
                 userItem.TVTag = user;
                 userItem.ItemId = id++;
                 userItem.IsFollowerRequest = true;

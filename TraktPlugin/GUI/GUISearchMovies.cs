@@ -313,7 +313,7 @@ namespace TraktPlugin.GUI
                     selectedMovie.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
@@ -321,21 +321,21 @@ namespace TraktPlugin.GUI
                     selectedMovie.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -346,14 +346,14 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -363,7 +363,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
@@ -460,7 +460,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = movie.Year == "0" ? "----" : movie.Year;
                 item.TVTag = movie;
-                item.Item = images;
+                item.Images = images;
                 item.IsPlayed = movie.Watched;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);

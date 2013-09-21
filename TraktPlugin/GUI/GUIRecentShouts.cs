@@ -397,7 +397,7 @@ namespace TraktPlugin.GUI
                 // add user shout date as second label
                 item.Label2 = activity.Timestamp.FromEpoch().ToShortDateString();
                 item.TVTag = activity;
-                item.Item = images;
+                item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();

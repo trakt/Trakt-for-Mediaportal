@@ -343,7 +343,7 @@ namespace TraktPlugin.GUI
                     selectedEpisode.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
@@ -351,21 +351,21 @@ namespace TraktPlugin.GUI
                     selectedEpisode.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddEpisodeToWatchList(selectedShow, selectedEpisode);
                     selectedEpisode.InWatchList = true;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveEpisodeFromWatchList(selectedShow, selectedEpisode);
                     selectedEpisode.InWatchList = false;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -381,14 +381,14 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddEpisodeToLibrary(selectedShow, selectedEpisode);
                     selectedEpisode.InCollection = true;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveEpisodeFromLibrary(selectedShow, selectedEpisode);
                     selectedEpisode.InCollection = false;
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -398,7 +398,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Rate):
                     GUICommon.RateEpisode(selectedShow, selectedEpisode);
                     OnEpisodeSelected(selectedItem, Facade);
-                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
+                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
@@ -508,7 +508,7 @@ namespace TraktPlugin.GUI
                     // add user added date as second label
                     item.Label2 = activity.Timestamp.FromEpoch().ToShortDateString();
                     item.TVTag = episodeSummary;
-                    item.Item = images;
+                    item.Images = images;
                     item.Date = activity.Timestamp.FromEpoch().ToLongDateString();
                     item.ItemId = Int32.MaxValue - itemId++;
                     item.IsPlayed = episode.Watched;

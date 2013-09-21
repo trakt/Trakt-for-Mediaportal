@@ -331,9 +331,9 @@ namespace TraktPlugin.GUI
                     selectedItem.IsPlayed = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
@@ -342,9 +342,9 @@ namespace TraktPlugin.GUI
                     selectedItem.IsPlayed = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
@@ -352,9 +352,9 @@ namespace TraktPlugin.GUI
                     userListItem.InWatchList = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
@@ -363,9 +363,9 @@ namespace TraktPlugin.GUI
                     userListItem.InWatchList = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
@@ -433,9 +433,9 @@ namespace TraktPlugin.GUI
                     userListItem.InCollection = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
@@ -443,9 +443,9 @@ namespace TraktPlugin.GUI
                     userListItem.InCollection = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -472,9 +472,9 @@ namespace TraktPlugin.GUI
                     RateItem(userListItem);
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("MoviePoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
-                        ((Facade.SelectedListItem as GUICustomListItem).Item as TraktImage).NotifyPropertyChanged("ShowPoster");
+                        (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
@@ -680,13 +680,13 @@ namespace TraktPlugin.GUI
                 var images = GetTraktImage(listItem);
                 listImages.Add(images);
 
-                string itemName = list.ShowNumbers ? string.Format("{0}. {1}", itemId, listItem.ToString()) : listItem.ToString();
+                string itemName = list.ShowNumbers ? string.Format("{0}. {1}", itemId, GetListItemName(listItem)) : GetListItemName(listItem);
 
                 var item = new GUICustomListItem(itemName, (int)TraktGUIWindows.ListItems);
                 
                 item.Label2 = listItem.Year;
                 item.TVTag = listItem;
-                item.Item = images;
+                item.Images = images;
                 item.IsPlayed = listItem.Watched;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -710,6 +710,31 @@ namespace TraktPlugin.GUI
 
             // Download images Async and set to facade
             GUICustomListItem.GetImages(listImages);
+        }
+
+        private string GetListItemName(TraktUserListItem listItem)
+        {
+            string retValue = string.Empty;
+
+            switch (listItem.Type)
+            {
+                case "movie":
+                    retValue = listItem.Movie.Title;
+                    break;
+
+                case "show":
+                    retValue = listItem.Show.Title;
+                    break;
+
+                case "season":
+                    retValue = string.Format("{0} {1} {2}", listItem.Show.Title, GUI.Translation.Season, listItem.SeasonNumber);
+                    break;
+
+                case "episode":
+                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.SeasonNumber, listItem.EpisodeNumber, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
+                    break;
+            }
+            return retValue;
         }
 
         private TraktImage GetTraktImage(TraktUserListItem listItem)
