@@ -62,7 +62,6 @@ namespace TraktPlugin.GUI
 
         #region Private Properties
 
-        bool StopDownload { get; set; }
         bool ExitIfNoShoutsFound { get; set; }
 
         #endregion
@@ -115,7 +114,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUIUserListItem.StopDownload = true;
             ClearProperties();
 
             if (hideSpoilersButton != null)
@@ -159,12 +158,13 @@ namespace TraktPlugin.GUI
         {
             if (GUIBackgroundTask.Instance.IsBusy) return;
 
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktShout selectedShout = (TraktShout)selectedItem.TVTag;
+            var selectedShout = selectedItem.TVTag as TraktShout;
+            if (selectedShout == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -398,15 +398,19 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Shouts : Translation.Shout));            
 
             int id = 0;
-            List<TraktUser> users = new List<TraktUser>();
+            var userImages = new List<TraktImage>();
 
             // Add each user that shouted to the list
             foreach (var shout in shouts)
             {
-                GUITraktShoutListItem shoutItem = new GUITraktShoutListItem(shout.User.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = shout.User.Avatar };
+                userImages.Add(images);
+
+                var shoutItem = new GUIUserListItem(shout.User.Username, (int)TraktGUIWindows.Shouts);
 
                 shoutItem.Label2 = shout.InsertedDate.FromEpoch().ToShortDateString();
-                shoutItem.Item = shout.User;
+                shoutItem.Item = images;
                 shoutItem.TVTag = shout;
                 shoutItem.ItemId = id++;
                 shoutItem.IconImage = "defaultTraktUser.png";
@@ -415,8 +419,6 @@ namespace TraktPlugin.GUI
                 shoutItem.OnItemSelected += OnShoutSelected;
                 Utils.SetDefaultIcons(shoutItem);
                 Facade.Add(shoutItem);
-
-                users.Add(shout.User);
             }
 
             // Enable / Disable GUI Controls
@@ -436,7 +438,7 @@ namespace TraktPlugin.GUI
             }
 
             // Download avatars Async and set to facade            
-            GetImages(users);
+            GUIUserListItem.GetImages(userImages);
         }
 
         private void SetProperty(string property, string value)
@@ -483,140 +485,13 @@ namespace TraktPlugin.GUI
 
             GUICommon.SetUserProperties(shout.User);
             GUICommon.SetShoutProperties(shout);
-            
         }
 
         private void OnShoutSelected(GUIListItem item, GUIControl parent)
         {
             PublishShoutSkinProperties(item.TVTag as TraktShout);
         }
-
-        private void GetImages(List<TraktUser> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            new Thread((o) =>
-                {
-                    // download fanart if we need to
-                    if (!File.Exists(Fanart) && !string.IsNullOrEmpty(OnlineFanart) && TraktSettings.DownloadFanart)
-                    {
-                        if (GUIImageHandler.DownloadImage(OnlineFanart, Fanart))
-                        {
-                            // notify that image has been downloaded
-                            GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
-                        }
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader"
-                }.Start();
-            
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<TraktUser> groupList = new List<TraktUser>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<TraktUser> items = (List<TraktUser>)o;
-                    foreach (var item in items)
-                    {
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = item.Avatar;
-                        string localThumb = item.AvatarFilename;
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("AvatarFilename");
-                            }
-                        }                        
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
-
-    }
-
-    public class GUITraktShoutListItem : GUIListItem
-    {
-        public GUITraktShoutListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktUser && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktUser).AvatarFilename);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            TraktShout shout = TVTag as TraktShout;
-
-            // add a rating overlay if user has rated item
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRatings);
-
-            // get a reference to a MediaPortal Texture Identifier
-            string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
-
-            // build memory image, resize avatar as they come in different sizes sometimes
-            Image memoryImage = null;
-            if (ratingOverlay != RatingOverlayImage.None)
-            {
-                memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
-                if (memoryImage == null) return;
-
-                // load texture into facade item
-                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                {
-                    ThumbnailImage = texture;
-                    IconImage = texture;
-                    IconImageBig = texture;
-                }
-            }
-            else
-            {
-                ThumbnailImage = imageFilePath;
-                IconImage = imageFilePath;
-                IconImageBig = imageFilePath;
-            }
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.Shouts, ItemId);
-        }
     }
 
     public class MovieShout

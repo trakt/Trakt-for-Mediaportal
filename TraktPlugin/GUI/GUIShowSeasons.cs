@@ -50,7 +50,6 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
@@ -114,7 +113,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUISeasonListItem.StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -164,12 +163,12 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktShowSeason selectedSeason = (TraktShowSeason)selectedItem.TVTag;
+            var selectedSeason = selectedItem.TVTag as TraktShowSeason;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -240,30 +239,6 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private TraktShowSync CreateSyncData(TraktTrendingShow show)
-        {
-            if (show == null) return null;
-
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show syncShow = new TraktShowSync.Show
-            {
-                TVDBID = show.Tvdb,
-                Title = show.Title,
-                Year = show.Year
-            };
-            shows.Add(syncShow);
-
-            TraktShowSync syncData = new TraktShowSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                Shows = shows
-            };
-
-            return syncData;
-        }
-
         private void LoadShowSeasons()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
@@ -301,16 +276,20 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            List<TraktShowSeason.SeasonImages> seasonImages = new List<TraktShowSeason.SeasonImages>();
+            var seasonImages = new List<TraktImage>();
 
             foreach (var season in seasons)
             {
+                // add image for download
+                var images = new TraktImage { SeasonImages = season.Images, ShowImages = Show.Images };
+                seasonImages.Add(images);
+
                 string itemLabel = season.Season == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Season.ToString());
-                GUITraktSeasonListItem item = new GUITraktSeasonListItem(itemLabel);
+                var item = new GUISeasonListItem(itemLabel, (int)TraktGUIWindows.ShowSeasons);
 
                 item.Label2 = string.Format("{0} {1}", season.EpisodeCount, Translation.Episodes);
                 item.TVTag = season;
-                item.Item = season.Images;
+                item.Item = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -319,9 +298,6 @@ namespace TraktPlugin.GUI
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
                 itemId++;
-
-                // add image for download
-                seasonImages.Add(season.Images);
             }
 
             // Set Facade Layout
@@ -335,7 +311,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", seasons.Count().ToString(), seasons.Count() > 1 ? Translation.Seasons : Translation.Season));            
 
             // Download show images Async and set to facade
-            GetImages(seasonImages);
+            GUISeasonListItem.GetImages(seasonImages);
         }
 
         private bool GetLoadingParameter()
@@ -359,8 +335,8 @@ namespace TraktPlugin.GUI
         {
             // only set property if file exists
             // if we set now and download later, image will not set to skin
-            if (File.Exists(Show.Images.FanartImageFilename))
-                GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.FanartImageFilename);
+            if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
+                GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
        
             // Load Show Properties
             PublishShowSkinProperties(Show);
@@ -392,109 +368,9 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            TraktShowSeason season = item.TVTag as TraktShowSeason;
+            var season = item.TVTag as TraktShowSeason;
             PublishSeasonSkinProperties(season);
         }
-
-        private void GetImages(List<TraktShowSeason.SeasonImages> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            new Thread((o) =>
-            {
-                // download fanart if we need to
-                if (!File.Exists(Show.Images.FanartImageFilename) && !string.IsNullOrEmpty(Show.Images.Fanart) && TraktSettings.DownloadFanart)
-                {
-                    if (GUIImageHandler.DownloadImage(Show.Images.Fanart, Show.Images.FanartImageFilename))
-                    {
-                        // notify that image has been downloaded
-                        GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.FanartImageFilename);
-                    }
-                }
-            })
-            {
-                IsBackground = true,
-                Name = "ImageDownloader"
-            }.Start();
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<TraktShowSeason.SeasonImages> groupList = new List<TraktShowSeason.SeasonImages>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<TraktShowSeason.SeasonImages> items = (List<TraktShowSeason.SeasonImages>)o;
-                    foreach (var item in items)
-                    {
-                        #region Poster
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = item.Poster;
-                        string localThumb = item.PosterImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("PosterImageFilename");
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
-    }
-
-    public class GUITraktSeasonListItem : GUIListItem
-    {
-        public GUITraktSeasonListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktShowSeason.SeasonImages && e.PropertyName == "PosterImageFilename")
-                        SetImageToGui((s as TraktShowSeason.SeasonImages).PosterImageFilename);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.ShowSeasons, ItemId);
-        }
     }
 }

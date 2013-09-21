@@ -161,13 +161,13 @@ namespace TraktPlugin.GUI
         {
             if (GUIBackgroundTask.Instance.IsBusy) return;
 
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
             var selectedUser = selectedItem.TVTag as TraktUser;
             if (selectedUser == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -253,13 +253,18 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
+            var userImages = new List<TraktImage>();
 
             // Add each user
             foreach (var user in users)
             {
-                var item = new GUITraktSearchUserListItem(user.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = user.Avatar };
+                userImages.Add(images);
 
-                item.Item = user;
+                var item = new GUIUserListItem(user.Username, (int)TraktGUIWindows.SearchUsers);
+
+                item.Item = images;
                 item.TVTag = user;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = "defaultTraktUser.png";
@@ -283,8 +288,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", users.Count().ToString(), users.Count() > 1 ? Translation.Users : Translation.User));
 
             // Download images Async and set to facade
-            List<TraktUser> images = new List<TraktUser>(users.ToList());
-            GetImages<TraktUser>(images);
+            GUIUserListItem.GetImages(userImages);
         }
 
         private void InitProperties()
@@ -330,98 +334,6 @@ namespace TraktPlugin.GUI
             var user = item.TVTag as TraktUser;
             PublishSkinProperties(user);
         }
-
-        private void GetImages<T>(List<T> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<T> groupList = new List<T>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<T> items = (List<T>)o;
-                    foreach (T item in items)
-                    {
-                        #region Facade Items
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = string.Empty;
-                        string localThumb = string.Empty;
-
-                        if (item is TraktUser)
-                        {
-                            remoteThumb = (item as TraktUser).Avatar;
-                            localThumb = (item as TraktUser).AvatarFilename;
-                        }
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                if (item is TraktUser)
-                                {
-                                    (item as TraktUser).NotifyPropertyChanged("AvatarFilename");
-                                }
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
-    }
-
-    public class GUITraktSearchUserListItem : GUIListItem
-    {
-        public GUITraktSearchUserListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktUser && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktUser).AvatarFilename);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.SearchUsers, ItemId);
-        }
     }
 }

@@ -880,7 +880,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.About", user.About.RemapHighOrderChars());
             SetProperty("#Trakt.User.Age", user.Age);
             SetProperty("#Trakt.User.Avatar", user.Avatar);
-            SetProperty("#Trakt.User.AvatarFileName", user.AvatarFilename);
+            SetProperty("#Trakt.User.AvatarFileName", user.Avatar.LocalImageFilename(ArtworkType.Avatar));
             SetProperty("#Trakt.User.FullName", user.FullName);
             SetProperty("#Trakt.User.Gender", user.Gender);
             SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
@@ -1086,8 +1086,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Url", movie.Url);
             SetProperty("#Trakt.Movie.Year", movie.Year);
             SetProperty("#Trakt.Movie.Genres", string.Join(", ", movie.Genres.ToArray()));
-            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.PosterImageFilename);
-            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.FanartImageFilename);
+            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
+            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
             SetProperty("#Trakt.Movie.InCollection", movie.InCollection.ToString());
             SetProperty("#Trakt.Movie.InWatchList", movie.InWatchList.ToString());
             SetProperty("#Trakt.Movie.Plays", movie.Plays.ToString());
@@ -1114,7 +1114,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.Number", season.Season.ToString());
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount.ToString());
             GUIUtils.SetProperty("#Trakt.Season.Url", season.Url);
-            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", season.Images.PosterImageFilename);
+            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
         }
 
         internal static void ClearShowProperties()
@@ -1184,9 +1184,9 @@ namespace TraktPlugin.GUI
                 SetProperty("#Trakt.Show.Ratings.Percentage", show.Ratings.Percentage.ToString());
                 SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
             }
-            SetProperty("#Trakt.Show.FanartImageFilename", show.Images.FanartImageFilename);
-            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.PosterImageFilename);
-            SetProperty("#Trakt.Show.BannerImageFilename", show.Images.BannerImageFilename);
+            SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            SetProperty("#Trakt.Show.PosterImageFilename", show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
+            SetProperty("#Trakt.Show.BannerImageFilename", show.Images.Banner.LocalImageFilename(ArtworkType.ShowBanner));
         }
 
         internal static void ClearEpisodeProperties()
@@ -1238,7 +1238,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings != null ? episode.Ratings.LovedCount.ToString() : "0");
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Ratings != null ? episode.Ratings.Percentage.ToString() : "0");
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings != null ? episode.Ratings.Votes.ToString() : "0");
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.EpisodeImageFilename);
+            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.Screen.LocalImageFilename(ArtworkType.EpisodeImage));
         }
 
         internal static void ClearPersonProperties()
@@ -1257,7 +1257,7 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Person.Name", person.Name);
             GUIUtils.SetProperty("#Trakt.Person.HeadshotUrl", person.Images.Headshot);
-            GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadshotImageFilename);
+            GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", person.Images.Headshot.LocalImageFilename(ArtworkType.Headshot));
             GUIUtils.SetProperty("#Trakt.Person.Url", person.Url);
             GUIUtils.SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography.RemapHighOrderChars());
             GUIUtils.SetProperty("#Trakt.Person.Birthday", person.Birthday);

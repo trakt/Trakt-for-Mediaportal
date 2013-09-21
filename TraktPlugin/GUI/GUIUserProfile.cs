@@ -237,83 +237,85 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            string avatar = UserProfile.Avatar.LocalImageFilename(ArtworkType.Avatar);
+
             // add each type to the list           
-            GUIListItem item = new GUIListItem(Translation.RecentWatchedEpisodes);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatched.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentWatchedMovies);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentWatchedMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatched.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentAddedEpisodes);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentAddedEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityCollected.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentAddedMovies);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentAddedMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityCollected.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentShouts);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentShouts, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityShout.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.Lists);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.Lists, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityList.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListShows);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListShows, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListMovies);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListEpisodes);
-            item.IconImage = UserProfile.AvatarFilename;
-            item.IconImageBig = UserProfile.AvatarFilename;
-            item.ThumbnailImage = UserProfile.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
@@ -332,7 +334,7 @@ namespace TraktPlugin.GUI
         private void GetUserProfileImage(TraktUserProfile userProfile)
         {
             string url = userProfile.Avatar;
-            string localFile = userProfile.AvatarFilename;
+            string localFile = userProfile.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             GUIImageHandler.DownloadImage(url, localFile);
         }

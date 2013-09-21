@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -103,7 +102,6 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool StopDownload { get; set; }
         FacadeMovement LastMoved { get; set; }
         CalendarType CurrentCalendar { get; set; }
         StartDates CurrentStartDate { get; set; }
@@ -215,7 +213,7 @@ namespace TraktPlugin.GUI
                     break;
             }
 
-            StopDownload = true;
+            GUIEpisodeListItem.StopDownload = true;
             ClearProperties();
 
             // save current view
@@ -342,7 +340,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            TraktCalendar.TraktEpisodes episodeItem = Facade.SelectedListItem.TVTag as TraktCalendar.TraktEpisodes;
+            var episodeItem = Facade.SelectedListItem.TVTag as TraktEpisodeSummary;
             if (episodeItem == null) return;
 
             // Create Views Menu Item
@@ -491,7 +489,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Rate):
                     GUICommon.RateEpisode(episodeItem.Show, episodeItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
@@ -500,7 +498,7 @@ namespace TraktPlugin.GUI
                     Facade.SelectedListItem.IsPlayed = true;
                     if (episodeItem.Episode.Plays == 0) episodeItem.Episode.Plays = 1;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
@@ -508,7 +506,7 @@ namespace TraktPlugin.GUI
                     episodeItem.Episode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddShowToWatchList):
@@ -522,7 +520,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddEpisodeToWatchList(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
@@ -537,7 +535,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.RemoveEpisodeFromWatchList(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
@@ -553,14 +551,14 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddEpisodeToLibrary(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InCollection = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveEpisodeFromLibrary(episodeItem.Show, episodeItem.Episode);
                     episodeItem.Episode.InCollection = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    ((Facade.SelectedListItem as GUITraktCalendarListItem).Item as TraktImage).NotifyPropertyChanged("EpisodeImages");
+                    ((Facade.SelectedListItem as GUIEpisodeListItem).Item as TraktImage).NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
@@ -589,7 +587,7 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = Facade.SelectedListItem as GUIListItem;
             if (selectedItem == null) return;
 
-            var episode = selectedItem.TVTag as TraktCalendar.TraktEpisodes;
+            var episode = selectedItem.TVTag as TraktEpisodeSummary;
             if (episode == null) return;
 
             GUICommon.CheckAndPlayEpisode(episode.Show, episode.Episode);
@@ -795,7 +793,7 @@ namespace TraktPlugin.GUI
                 {
                     // add day header
                     GUIListItem item = new GUIListItem();
-                    item.Label3 = GetDayHeader(DateTime.Parse(day.ToString()));
+                    item.Label3 = GetDayHeader(DateTime.Parse(day.Date));
                     item.IconImage = "defaultTraktCalendar.png";
                     item.IconImageBig = "defaultTraktCalendarBig.png";
                     item.ThumbnailImage = "defaultTraktCalendarBig.png";
@@ -805,7 +803,7 @@ namespace TraktPlugin.GUI
                  
                     foreach (var episode in episodes)
                     {
-                        GUITraktCalendarListItem episodeItem = new GUITraktCalendarListItem(episode.ToString());
+                        GUIEpisodeListItem episodeItem = new GUIEpisodeListItem(episode.ToString(), (int)TraktGUIWindows.Calendar);
 
                         // add image for download
                         TraktImage images = new TraktImage
@@ -816,9 +814,9 @@ namespace TraktPlugin.GUI
                         showImages.Add(images);
 
                         // extended skin properties
-                        episode.Date = DateTime.Parse(day.ToString()).ToLongDateString();
-                        episode.SelectedIndex = (itemCount + 1).ToString();
-
+                        episodeItem.Date = DateTime.Parse(day.Date).ToLongDateString();
+                        episodeItem.SelectedIndex = (itemCount + 1).ToString();
+                        
                         episodeItem.Item = images;
                         episodeItem.TVTag = episode;
                         episodeItem.ItemId = Int32.MaxValue - itemCount;
@@ -878,7 +876,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", itemCount.ToString(), itemCount > 1 ? Translation.Episodes : Translation.Episode));
 
             // Download episode images Async and set to facade
-            GetImages(showImages);
+            GUIEpisodeListItem.GetImages(showImages);
         }
 
         private string GetDayHeader(DateTime dateTime)
@@ -925,9 +923,14 @@ namespace TraktPlugin.GUI
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
-            TraktCalendar.TraktEpisodes episode = item.TVTag as TraktCalendar.TraktEpisodes;
+            // publish extended properties, selected index excludes date headers.
+            GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", (item as GUIEpisodeListItem).Date);
+            GUICommon.SetProperty("#selectedindex", (item as GUIEpisodeListItem).SelectedIndex);
+
+            var episode = item.TVTag as TraktEpisodeSummary;
             PublishEpisodeSkinProperties(episode);
-            GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.FanartImageFilename);
+
+            GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }
 
         private void InitProperties()
@@ -1048,79 +1051,11 @@ namespace TraktPlugin.GUI
             GUICommon.ClearEpisodeProperties();
         }
 
-        private void PublishEpisodeSkinProperties(TraktCalendar.TraktEpisodes episode)
+        private void PublishEpisodeSkinProperties(TraktEpisodeSummary episode)
         {
-            GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", episode.Date);
-            GUICommon.SetProperty("#selectedindex", episode.SelectedIndex);
-
             GUICommon.SetShowProperties(episode.Show);
             GUICommon.SetEpisodeProperties(episode.Episode);
         }
-
-        private void GetImages(List<TraktImage> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<TraktImage> groupList = new List<TraktImage>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<TraktImage> items = (List<TraktImage>)o;
-                    foreach (TraktImage item in items)
-                    {
-                        #region Episode Image
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = item.EpisodeImages.Screen;
-                        string localThumb = item.EpisodeImages.EpisodeImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("EpisodeImages");
-                            }
-                        }
-                        #endregion
-
-                        #region Fanart
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-                        if (!TraktSettings.DownloadFanart) continue;
-
-                        string remoteFanart = item.ShowImages.Fanart;
-                        string localFanart = item.ShowImages.FanartImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("ShowImages");
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
 
         #region Public Methods
@@ -1131,94 +1066,5 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
-    }
-
-    public class TraktImage : INotifyPropertyChanged
-    {
-        public TraktEpisode.ShowImages EpisodeImages { get; set; }
-        public TraktShow.ShowImages ShowImages { get; set; }
-        public TraktMovie.MovieImages MovieImages { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class GUITraktCalendarListItem : GUIListItem
-    {
-        public GUITraktCalendarListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktImage && e.PropertyName == "EpisodeImages")
-                        SetImageToGui((s as TraktImage).EpisodeImages.EpisodeImageFilename);
-                    if (s is TraktImage && e.PropertyName == "ShowImages")
-                        this.UpdateItemIfSelected((int)TraktGUIWindows.Calendar, ItemId);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            // determine the overlay to add to poster
-            TraktCalendar.TraktEpisodes episode = TVTag as TraktCalendar.TraktEpisodes;
-            MainOverlayImage mainOverlay = MainOverlayImage.None;
-
-            if (episode.Episode.InWatchList)
-                mainOverlay = MainOverlayImage.Watchlist;
-            else if (episode.Episode.Watched)
-                mainOverlay = MainOverlayImage.Seenit;
-
-            // add additional overlay if applicable
-            if (episode.Episode.InCollection)
-                mainOverlay |= MainOverlayImage.Library;
-
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(episode.Episode.RatingAdvanced);
-
-            // get a reference to a MediaPortal Texture Identifier
-            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
-
-            // build memory image, resize thumbnail incase its a fanart
-            Image memoryImage = null;
-            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
-            {
-                memoryImage = GUIImageHandler.DrawOverlayOnEpisodeThumb(imageFilePath, mainOverlay, ratingOverlay, new Size(400, 225));
-                if (memoryImage == null) return;
-
-                // load texture into facade item
-                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                {
-                    ThumbnailImage = texture;
-                    IconImage = texture;
-                    IconImageBig = texture;
-                }
-            }
-            else
-            {
-                ThumbnailImage = imageFilePath;
-                IconImage = imageFilePath;
-                IconImageBig = imageFilePath;
-            }
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.Calendar, ItemId);
-        }
     }
 }

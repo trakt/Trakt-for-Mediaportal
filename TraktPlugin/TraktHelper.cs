@@ -499,7 +499,7 @@ namespace TraktPlugin
         #region Movie Shouts
         public static void ShowMovieShouts(TraktMovie movie)
         {
-            ShowMovieShouts(movie.IMDBID, movie.Title, movie.Year, movie.Images.FanartImageFilename, movie.Images.Fanart);
+            ShowMovieShouts(movie.IMDBID, movie.Title, movie.Year, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), movie.Images.Fanart);
         }
         public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
         {
@@ -531,7 +531,7 @@ namespace TraktPlugin
         #region Show Shouts
         public static void ShowTVShowShouts(TraktShow show)
         {
-            ShowTVShowShouts(show.Tvdb, show.Title, show.Images.FanartImageFilename, show.Images.Fanart);
+            ShowTVShowShouts(show.Tvdb, show.Title, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), show.Images.Fanart);
         }
         public static void ShowTVShowShouts(string tvdb, string title, string fanart, string onlineFanart = null)
         {
@@ -558,7 +558,7 @@ namespace TraktPlugin
         #region Episode Shouts
         public static void ShowEpisodeShouts(TraktShow show, TraktEpisode episode)
         {
-            ShowEpisodeShouts(show.Tvdb, show.Title, episode.Season.ToString(), episode.Number.ToString(), show.Images.FanartImageFilename, show.Images.Fanart);
+            ShowEpisodeShouts(show.Tvdb, show.Title, episode.Season.ToString(), episode.Number.ToString(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), show.Images.Fanart);
         }
         public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart, string onlineFanart = null)
         {

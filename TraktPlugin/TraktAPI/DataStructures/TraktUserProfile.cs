@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
@@ -10,12 +8,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktUserProfile : TraktUser
     {
-        /// <summary>
-        /// this property can be removed when deprecated GUIFriends is replaced
-        /// </summary>
-        [DataMember(Name = "approved")]
-        public long ApprovedDate { get; set; }
-
         #region Statistics
 
         [DataMember(Name = "stats")]

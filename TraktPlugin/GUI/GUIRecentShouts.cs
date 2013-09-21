@@ -75,7 +75,6 @@ namespace TraktPlugin.GUI
 
         static int PreviousSelectedIndex { get; set; }
         static DateTime LastRequest = new DateTime();
-        bool StopDownload { get; set; }
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
@@ -147,7 +146,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUICustomListItem.StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -210,13 +209,13 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
             var selectedActivity = selectedItem.TVTag as TraktActivity.Activity;
             if (selectedActivity == null) return;
 
-            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
+            var type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -319,13 +318,13 @@ namespace TraktPlugin.GUI
 
         private void PlayActivityItem(bool jumpTo)
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
             var selectedActivity = selectedItem.TVTag as TraktActivity.Activity;
             if (selectedActivity == null) return;
 
-            ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
+            var type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
 
             switch (type)
             {
@@ -385,7 +384,7 @@ namespace TraktPlugin.GUI
                 // bad api data
                 if (activity.Movie == null && activity.Show == null) continue;
 
-                var item = new GUITraktRecentShoutsListItem(GUICommon.GetActivityListItemTitle(activity));
+                var item = new GUICustomListItem(GUICommon.GetActivityListItemTitle(activity), (int)TraktGUIWindows.RecentShouts);
 
                 // add images for download
                 var images = new TraktImage
@@ -424,7 +423,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Shout : Translation.Shouts));
 
             // Download images Async and set to facade
-            GetImages(shoutImages);
+            GUICustomListItem.GetImages(shoutImages);
         }
 
         private string GetActivityShoutText(TraktActivity.Activity activity)
@@ -518,203 +517,9 @@ namespace TraktPlugin.GUI
 
             PublishShoutSkinProperties(activity);
 
-            string fanartFileName = activity.Movie != null ? activity.Movie.Images.FanartImageFilename : activity.Show.Images.FanartImageFilename;
+            string fanartFileName = activity.Movie != null ? activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart) : activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
             GUIImageHandler.LoadFanart(backdrop, fanartFileName);
         }
-
-        private void GetImages(List<TraktImage> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                var groupList = new List<TraktImage>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    var items = (List<TraktImage>)o;
-                    foreach (var item in items)
-                    {
-                        string remoteThumb = string.Empty;
-                        string localThumb = string.Empty;
-
-                        #region Poster
-                        if (item.MovieImages != null)
-                        {
-                            if (StopDownload) return;
-                            remoteThumb = item.MovieImages.Poster;
-                            localThumb = item.MovieImages.PosterImageFilename;
-                        }
-                        else if (item.ShowImages != null)
-                        {
-                            if (StopDownload) return;
-                            remoteThumb = item.ShowImages.Poster;
-                            localThumb = item.ShowImages.PosterImageFilename;
-                        }
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                if (item.MovieImages != null)
-                                {
-                                    if (StopDownload) return;
-                                    item.NotifyPropertyChanged("MoviePosterImageFilename");
-                                }
-                                else if (item.ShowImages != null)
-                                {
-                                    if (StopDownload) return;
-                                    item.NotifyPropertyChanged("ShowPosterImageFilename");
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region Fanart
-                        if (!TraktSettings.DownloadFanart) continue;
-
-                        if (item.MovieImages != null)
-                        {
-                            if (StopDownload) return;
-                            remoteThumb = item.MovieImages.Fanart;
-                            localThumb = item.MovieImages.FanartImageFilename;
-                        }
-                        else if (item.ShowImages != null)
-                        {
-                            if (StopDownload) return;
-                            remoteThumb = item.ShowImages.Fanart;
-                            localThumb = item.ShowImages.FanartImageFilename;
-                        }
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                                {
-                                    // notify that image has been downloaded
-                                    if (item.MovieImages != null)
-                                    {
-                                        if (StopDownload) return;
-                                        item.NotifyPropertyChanged("MovieFanartImageFilename");
-                                    }
-                                    else if (item.ShowImages != null)
-                                    {
-                                        if (StopDownload) return;
-                                        item.NotifyPropertyChanged("ShowFanartImageFilename");
-                                    }
-                                }
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
-    }
-
-    public class GUITraktRecentShoutsListItem : GUIListItem
-    {
-        public GUITraktRecentShoutsListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktImage && e.PropertyName == "MoviePosterImageFilename")
-                        SetImageToGui((s as TraktImage).MovieImages.PosterImageFilename);
-                    if (s is TraktImage && e.PropertyName == "MovieFanartImageFilename")
-                        this.UpdateItemIfSelected((int)TraktGUIWindows.RecentShouts, ItemId);
-                    if (s is TraktImage && e.PropertyName == "ShowPosterImageFilename")
-                        SetImageToGui((s as TraktImage).ShowImages.PosterImageFilename);
-                    if (s is TraktImage && e.PropertyName == "ShowFanartImageFilename")
-                        this.UpdateItemIfSelected((int)TraktGUIWindows.RecentShouts, ItemId);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            // determine the overlay to add to poster
-            var activity = TVTag as TraktActivity.Activity;
-            if (activity == null) return;
-
-            var movie = activity.Movie;
-            var show = activity.Show;
-
-            MainOverlayImage mainOverlay = MainOverlayImage.None;
-            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-
-            if (movie != null && movie.InWatchList)
-                mainOverlay = MainOverlayImage.Watchlist;
-            else if (show != null && show.InWatchList)
-                mainOverlay = MainOverlayImage.Watchlist;
-            else if (movie != null && movie.Watched)
-                mainOverlay = MainOverlayImage.Seenit;
-
-            // add additional overlay if applicable
-            if (movie != null && movie.InCollection)
-                mainOverlay |= MainOverlayImage.Library;
-
-            if (movie != null)
-                ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
-            else
-                ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
-
-            // get a reference to a MediaPortal Texture Identifier
-            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
-
-            // build memory image
-            Image memoryImage = null;
-            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
-            {
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
-                if (memoryImage == null) return;
-
-                // load texture into facade item
-                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                {
-                    ThumbnailImage = texture;
-                    IconImage = texture;
-                    IconImageBig = texture;
-                }
-            }
-            else
-            {
-                ThumbnailImage = imageFilePath;
-                IconImage = imageFilePath;
-                IconImageBig = imageFilePath;
-            }
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.RecentShouts, ItemId);
-        }
     }
 }

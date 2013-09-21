@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Linq;
 using System.Text;
+using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -39,6 +41,46 @@ namespace TraktPlugin.GUI
         Heart10,
         Love,
         Hate
+    }
+    
+    /// <summary>
+    /// Artwork Types used in image downloads
+    /// </summary>
+    public enum ArtworkType
+    {
+        MoviePoster,
+        MovieFanart,
+        ShowPoster,
+        ShowBanner,
+        ShowFanart,
+        SeasonPoster,
+        EpisodeImage,
+        Avatar,
+        Headshot
+    }
+
+    /// <summary>
+    /// This object will typically hold images used in facade list items and window backgrounds
+    /// </summary>
+    public class TraktImage : INotifyPropertyChanged
+    {
+        public TraktEpisode.ShowImages EpisodeImages { get; set; }
+        public TraktShow.ShowImages ShowImages { get; set; }
+        public TraktMovie.MovieImages MovieImages { get; set; }
+        public TraktSeason.SeasonImages SeasonImages { get; set; }
+        public TraktPerson.PersonImages PoepleImages { get; set; }
+        public string Avatar { get; set; }
+
+        /// <summary>
+        /// raise event when property changes so we can know when a artwork
+        /// download is complete and ready to be pushed to skin
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public static class GUIImageHandler
@@ -106,6 +148,90 @@ namespace TraktPlugin.GUI
             return ratingOverlay;
         }
 
+        /// <summary>
+        /// Gets the local filename of an image from a Trakt URL
+        /// </summary>
+        /// <param name="url">The online URL of the trakt image</param>
+        /// <param name="type">The Type of image to get</param>
+        /// <returns>Retruns the local filename of the image</returns>
+        public static string LocalImageFilename(this string url, ArtworkType type)
+        {
+            if (string.IsNullOrEmpty(url)) return string.Empty;
+
+            string folder = string.Empty;
+
+            // clean image url
+            if (url.Contains("jpg?")) url = url.Replace("jpg?", string.Empty) + ".jpg";
+
+            switch (type)
+            {
+                case ArtworkType.Avatar:
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
+                    break;
+
+                case ArtworkType.Headshot:
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\People");
+                    break;
+
+                case ArtworkType.SeasonPoster:
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Seasons");
+                    break;
+
+                case ArtworkType.MoviePoster:
+                    url = url.ToSmallPoster();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Posters");
+                    break;
+
+                case ArtworkType.MovieFanart:
+                    url = url.ToSmallFanart();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Fanart");
+                    break;
+
+                case ArtworkType.ShowPoster:
+                    url = url.ToSmallPoster();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Posters");
+                    break;
+
+                case ArtworkType.ShowBanner:
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Banners");
+                    break;
+
+                case ArtworkType.ShowFanart:
+                    url = url.ToSmallFanart();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Fanart");
+                    break;
+
+                case ArtworkType.EpisodeImage:
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Episodes");
+                    break;
+            }
+
+            return Path.Combine(folder, Path.GetFileName(new Uri(url).LocalPath));;
+        }
+
+        /// <summary>
+        /// Get the url/filename for the smaller version of the fanart
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string ToSmallFanart(this string url)
+        {
+            // if user wants full fanart or if there is no fanart online return the raw value
+            if (TraktSettings.DownloadFullSizeFanart || url.EndsWith("-940.jpg")) return url;
+            return url.Replace(".jpg", "-940.jpg");
+        }
+
+        /// <summary>
+        /// Get the url/filename for the smaller version of the poster
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string ToSmallPoster(this string url)
+        {
+            // if there is no poster online return the raw value
+            if (url.EndsWith("-300.jpg")) return url;
+            return url.Replace(".jpg", "-300.jpg");
+        }
         /// <summary>
         /// Returns the default Poster to display in the facade
         /// </summary>

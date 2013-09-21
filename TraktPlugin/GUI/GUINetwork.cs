@@ -95,7 +95,6 @@ namespace TraktPlugin.GUI
         TraktUser CurrentSelectedUser { get; set; }
         int PreviousUserSelectedIndex = 0;
         int PreviousActivityTypeSelectedIndex = 0;
-        bool StopDownload = false;
 
         IEnumerable<TraktNetworkUser> TraktFriends
         {
@@ -178,7 +177,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUIUserListItem.StopDownload = true;
             ClearProperties();
 
             // remember settings
@@ -216,8 +215,8 @@ namespace TraktPlugin.GUI
                         switch (CurrentViewLevel)
                         {
                             case ViewLevel.Network:
-                                GUITraktUserListItem selectedUser = Facade.SelectedListItem as GUITraktUserListItem;
-                                if (selectedUser.IsFolder)
+                                var selectedItem = Facade.SelectedListItem as GUIUserListItem;
+                                if (selectedItem.IsFolder)
                                 {
                                     // return to previous view list
                                     LoadView();
@@ -308,10 +307,10 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            GUITraktUserListItem selectedItem = this.Facade.SelectedListItem as GUITraktUserListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIUserListItem;
             if (selectedItem == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -329,8 +328,8 @@ namespace TraktPlugin.GUI
                 itemCount++;
             }
 
-            // follow user found in search or from followers list (i.e. become friend)
-            if (CurrentViewLevel == ViewLevel.Network && (selectedItem.IsSearchItem || selectedItem.IsFollower))
+            // follow user in followers list (i.e. become friend)
+            if (CurrentViewLevel == ViewLevel.Network && selectedItem.IsFollower)
             {
                 listItem = new GUIListItem(Translation.Follow);
                 dlg.Add(listItem);
@@ -395,7 +394,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.FollowUser):
                     if (GUIUtils.ShowYesNoDialog(Translation.Network, string.Format(Translation.SendFollowRequest, selectedItem.Label), true))
                     {
-                        FollowUser(selectedItem.Item as TraktUser);
+                        FollowUser(selectedItem.TVTag as TraktUser);
                         selectedItem.IsFollowed = true;
                         _TraktFollowing = null;
                         _TraktFriends = null;
@@ -411,7 +410,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.UnFollow, string.Format(Translation.UnFollowMessage, selectedItem.Label)))
                     {
                         // Unfollow user
-                        UnfollowUser(selectedItem.Item as TraktUser);
+                        UnfollowUser(selectedItem.TVTag as TraktUser);
 
                         // Clear Cache - remove user from relavent lists
                         if (CurrentView == View.Following)
@@ -429,7 +428,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.ApproveFollowerMessage, selectedItem.Label), true))
                     {
                         // follower approved, send to trakt
-                        ApproveFollowerRequest(selectedItem.Item as TraktUser);
+                        ApproveFollowerRequest(selectedItem.TVTag as TraktUser);
 
                         // remove follower from requests, we have approved already
                         _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
@@ -447,7 +446,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.ApproveFollowerAndFollowBackMessage, selectedItem.Label), true))
                     {
                         // follower approved, send to trakt with follow back 
-                        ApproveFollowerRequest(selectedItem.Item as TraktUser, true);
+                        ApproveFollowerRequest(selectedItem.TVTag as TraktUser, true);
 
                         // remove follower from requests, we have approved already
                         _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
@@ -466,7 +465,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.DenyFollowRequest, selectedItem.Label), true))
                     {
                         // follower denied, remove user from pending requests
-                        DenyFollowerRequest(selectedItem.Item as TraktUser);
+                        DenyFollowerRequest(selectedItem.TVTag as TraktUser);
 
                         _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
 
@@ -703,83 +702,85 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            string avatar = CurrentSelectedUser.Avatar.LocalImageFilename(ArtworkType.Avatar);
+
             // add each type to the list           
-            GUITraktUserListItem item = new GUITraktUserListItem(Translation.RecentWatchedEpisodes);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatched.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentWatchedMovies);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentWatchedMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatched.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentAddedEpisodes);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentAddedEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityCollected.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentAddedMovies);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentAddedMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityCollected.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.RecentShouts);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.RecentShouts, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityShout.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.Lists);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.Lists, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityList.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListShows);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListShows, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListMovies);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListMovies, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUITraktUserListItem(Translation.WatchListEpisodes);
-            item.IconImage = CurrentSelectedUser.AvatarFilename;
-            item.IconImageBig = CurrentSelectedUser.AvatarFilename;
-            item.ThumbnailImage = CurrentSelectedUser.AvatarFilename;
+            item = new GUIUserListItem(Translation.WatchListEpisodes, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
             item.PinImage = "traktActivityWatchlist.png";
             item.OnItemSelected += OnActivityTypeSelected;
             Utils.SetDefaultIcons(item);
@@ -844,13 +845,20 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
+            var userImages = new List<TraktImage>();
+
             // Add each friend to the list
             foreach (var friend in friends.OrderBy(f => f.ApprovedDate))
             {
-                GUITraktUserListItem userItem = new GUITraktUserListItem(friend.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = friend.Avatar };
+                userImages.Add(images);
+
+                var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = friend.ApprovedDate.FromEpoch().ToShortDateString();
-                userItem.Item = friend;
+                userItem.Item = images;
+                userItem.TVTag = friend;
                 userItem.ItemId = id++;
                 userItem.IsFriend = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -872,8 +880,7 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<TraktNetworkUser> images = new List<TraktNetworkUser>(friends.ToList());
-            GetImages<TraktNetworkUser>(images);
+            GUIUserListItem.GetImages(userImages);
         }
         #endregion
 
@@ -925,13 +932,20 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
+            var userImages = new List<TraktImage>();
+
             // Add each user to the list
             foreach (var user in following.OrderBy(f => f.ApprovedDate))
             {
-                GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = user.Avatar };
+                userImages.Add(images);
+
+                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
-                userItem.Item = user;
+                userItem.TVTag = user;
+                userItem.Item = images;
                 userItem.ItemId = id++;
                 userItem.IsFollowed = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -953,8 +967,7 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<TraktNetworkUser> images = new List<TraktNetworkUser>(following.ToList());
-            GetImages<TraktNetworkUser>(images);
+            GUIUserListItem.GetImages(userImages);
         }
         #endregion
 
@@ -1005,14 +1018,20 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
+            var userImages = new List<TraktImage>();
 
             // Add each user to the list
             foreach (var user in followers.OrderBy(f => f.ApprovedDate))
             {
-                GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = user.Avatar };
+                userImages.Add(images);
+
+                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
-                userItem.Item = user;
+                userItem.Item = images;
+                userItem.TVTag = user;
                 userItem.ItemId = id++;
                 userItem.IsFollower = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -1034,8 +1053,7 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<TraktNetworkUser> images = new List<TraktNetworkUser>(followers.ToList());
-            GetImages<TraktNetworkUser>(images);
+            GUIUserListItem.GetImages(userImages);
         }
         #endregion
 
@@ -1086,14 +1104,20 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
+            var userImages = new List<TraktImage>();
 
             // Add each user to the list
             foreach (var user in requests.OrderBy(r => r.RequestDate))
             {
-                GUITraktUserListItem userItem = new GUITraktUserListItem(user.Username);
+                // add image to download
+                var images = new TraktImage { Avatar = user.Avatar };
+                userImages.Add(images);
+
+                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = user.RequestDate.FromEpoch().ToShortDateString();
-                userItem.Item = user;
+                userItem.Item = images;
+                userItem.TVTag = user;
                 userItem.ItemId = id++;
                 userItem.IsFollowerRequest = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -1115,8 +1139,7 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Download avatars Async and set to facade
-            List<TraktNetworkReqUser> images = new List<TraktNetworkReqUser>(requests.ToList());
-            GetImages<TraktNetworkReqUser>(images);
+            GUIUserListItem.GetImages(userImages);
         }
         #endregion
 
@@ -1132,7 +1155,7 @@ namespace TraktPlugin.GUI
 
         private void OnUserSelected(GUIListItem item, GUIControl parent)
         {
-            CurrentSelectedUser = (item as GUITraktUserListItem).Item as TraktUser;
+            CurrentSelectedUser = item.TVTag as TraktUser;
             PublishUserSkinProperties(CurrentSelectedUser);
 
             // reset selected indicies
@@ -1164,62 +1187,6 @@ namespace TraktPlugin.GUI
             PublishUserSkinProperties(CurrentSelectedUser);
             PreviousActivityTypeSelectedIndex = Facade.SelectedListItemIndex;
         }
-
-        private void GetImages<T>(List<T> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<T> groupList = new List<T>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<T> items = (List<T>)o;
-                    foreach (T item in items)
-                    {
-                        #region Facade Items
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = string.Empty;
-                        string localThumb = string.Empty;
-                        
-                        if (item is TraktUser)
-                        {
-                            remoteThumb = (item as TraktUser).Avatar;
-                            localThumb = (item as TraktUser).AvatarFilename;
-                        }
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                if (item is TraktUser)
-                                {
-                                    (item as TraktUser).NotifyPropertyChanged("AvatarFilename");
-                                }
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
 
         #region Public Static Properties
@@ -1275,47 +1242,5 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
-    }
-
-    public class GUITraktUserListItem : GUIListItem
-    {
-        public GUITraktUserListItem(string strLabel) : base(strLabel) { }
-
-        public bool IsSearchItem { get; set; }
-        public bool IsFriend { get; set; }
-        public bool IsFollower { get; set; }
-        public bool IsFollowed { get; set; }
-        public bool IsFollowerRequest { get; set; }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktUser && e.PropertyName == "AvatarFilename")
-                        SetImageToGui((s as TraktUser).AvatarFilename);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-                        
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.Network, ItemId);
-        }
     }
 }

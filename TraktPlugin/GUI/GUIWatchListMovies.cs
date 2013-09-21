@@ -76,7 +76,6 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool StopDownload { get; set; }
         private Layout CurrentLayout { get; set; }
         static int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
@@ -142,7 +141,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUIMovieListItem.StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -214,12 +213,13 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktWatchListMovie selectedMovie = (TraktWatchListMovie)selectedItem.TVTag;
+            var selectedMovie = selectedItem.TVTag as TraktWatchListMovie;
+            if (selectedMovie == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -338,7 +338,7 @@ namespace TraktPlugin.GUI
                         selectedMovie.Watched = true;
                         selectedItem.IsPlayed = true;
                         OnMovieSelected(selectedItem, Facade);
-                        selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                        ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                         GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     }
                     else
@@ -375,14 +375,14 @@ namespace TraktPlugin.GUI
                     selectedMovie.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
-                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
                     selectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
-                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
@@ -423,7 +423,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToLibrary(selectedMovie);
                     selectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
-                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
@@ -431,7 +431,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.RemoveMovieFromLibrary(selectedMovie);
                     selectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
-                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
@@ -442,7 +442,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedMovie);
                     OnMovieSelected(selectedItem, Facade);
-                    selectedMovie.Images.NotifyPropertyChanged("PosterImageFilename");
+                    ((Facade.SelectedListItem as GUIMovieListItem).Item as TraktImage).NotifyPropertyChanged("Poster");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
@@ -477,12 +477,10 @@ namespace TraktPlugin.GUI
 
         private void CheckAndPlayMovie(bool jumpTo)
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktWatchListMovie selectedMovie = selectedItem.TVTag as TraktWatchListMovie;
-            if (selectedMovie == null) return;
-
+            var selectedMovie = selectedItem.TVTag as TraktMovie;
             GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
         }
 
@@ -522,16 +520,20 @@ namespace TraktPlugin.GUI
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByWatchListMovies.Field, TraktSettings.SortByWatchListMovies.Direction));
 
             int itemId = 0;
-            List<TraktMovie.MovieImages> movieImages = new List<TraktMovie.MovieImages>();
+            var movieImages = new List<TraktImage>();
 
             // Add each movie
             foreach (var movie in movieList)
             {
-                GUITraktWatchListMovieListItem item = new GUITraktWatchListMovieListItem(movie.Title);
+                // add image for download
+                var images = new TraktImage { MovieImages = movie.Images };
+                movieImages.Add(images);
+
+                var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.WatchedListMovies);
 
                 item.Label2 = movie.Year;
                 item.TVTag = movie;
-                item.Item = movie.Images;
+                item.Item = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IsPlayed = movie.Watched;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -541,9 +543,6 @@ namespace TraktPlugin.GUI
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
                 itemId++;
-
-                // add image for download
-                movieImages.Add(movie.Images);
             }
 
             // Set Facade Layout
@@ -560,7 +559,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
 
             // Download movie images Async and set to facade
-            GetImages(movieImages);
+            GUIMovieListItem.GetImages(movieImages);
         }
 
         private void InitProperties()
@@ -622,75 +621,10 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            TraktWatchListMovie movie = item.TVTag as TraktWatchListMovie;
+            var movie = item.TVTag as TraktWatchListMovie;
             PublishMovieSkinProperties(movie);
-            GUIImageHandler.LoadFanart(backdrop, movie.Images.FanartImageFilename);
+            GUIImageHandler.LoadFanart(backdrop, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
         }
-
-        private void GetImages(List<TraktMovie.MovieImages> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                List<TraktMovie.MovieImages> groupList = new List<TraktMovie.MovieImages>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    List<TraktMovie.MovieImages> items = (List<TraktMovie.MovieImages>)o;
-                    foreach (TraktMovie.MovieImages item in items)
-                    {
-                        #region Poster
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = item.Poster;
-                        string localThumb = item.PosterImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("PosterImageFilename");
-                            }
-                        }
-                        #endregion
-
-                        #region Fanart
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-                        if (!TraktSettings.DownloadFanart) continue;
-
-                        string remoteFanart = item.Fanart;
-                        string localFanart = item.FanartImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("FanartImageFilename");
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
 
         #region Public Methods
@@ -701,81 +635,5 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
-    }
-
-    public class GUITraktWatchListMovieListItem : GUIListItem
-    {
-        public GUITraktWatchListMovieListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktMovie.MovieImages && e.PropertyName == "PosterImageFilename")
-                        SetImageToGui((s as TraktMovie.MovieImages).PosterImageFilename);
-                    if (s is TraktMovie.MovieImages && e.PropertyName == "FanartImageFilename")
-                        this.UpdateItemIfSelected((int)TraktGUIWindows.WatchedListMovies, ItemId);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            // determine the overlay to add to poster
-            TraktWatchListMovie movie = TVTag as TraktWatchListMovie;
-            MainOverlayImage mainOverlay = MainOverlayImage.None;
-
-            // only show watch list icon if viewing someone elses watch list
-            if ((GUIWatchListMovies.CurrentUser != TraktSettings.Username) && movie.InWatchList)
-                mainOverlay = MainOverlayImage.Watchlist;
-            else if (movie.Watched)
-                mainOverlay = MainOverlayImage.Seenit;
-
-            // add additional overlay if applicable
-            if (movie.InCollection)
-                mainOverlay |= MainOverlayImage.Library;
-
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
-
-            // get a reference to a MediaPortal Texture Identifier
-            string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
-
-            // build memory image
-            Image memoryImage = null;
-            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
-            {
-                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
-                if (memoryImage == null) return;
-
-                // load texture into facade item
-                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                {
-                    ThumbnailImage = texture;
-                    IconImage = texture;
-                    IconImageBig = texture;
-                }
-            }
-            else
-            {
-                ThumbnailImage = imageFilePath;
-                IconImage = imageFilePath;
-                IconImageBig = imageFilePath;
-            }
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.WatchedListMovies, ItemId);
-        }
     }
 }

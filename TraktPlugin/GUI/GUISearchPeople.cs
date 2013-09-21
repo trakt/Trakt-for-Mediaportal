@@ -56,7 +56,6 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool StopDownload { get; set; }
         bool SearchTermChanged { get; set; }
         string PreviousSearchTerm { get; set; }
         Layout CurrentLayout { get; set; }
@@ -101,7 +100,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
+            GUIPersonListItem.StopDownload = true;
             ClearProperties();
 
             _loadParameter = null;
@@ -160,13 +159,13 @@ namespace TraktPlugin.GUI
         {
             if (GUIBackgroundTask.Instance.IsBusy) return;
 
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
             var selectedPerson = selectedItem.TVTag as TraktPersonSummary;
             if (selectedPerson == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -235,15 +234,19 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var personImages = new List<TraktPerson.PersonImages>();
+            var personImages = new List<TraktImage>();
 
             // Add each movie
             foreach (var person in people)
             {
-                var item = new GUITraktSearchPeopleListItem(person.Name);
+                // add image for download
+                var images = new TraktImage { PoepleImages = person.Images };
+                personImages.Add(images);
+
+                var item = new GUIPersonListItem(person.Name, (int)TraktGUIWindows.SearchPeople);
                 
                 item.TVTag = person;
-                item.Item = person.Images;
+                item.Item = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -252,9 +255,6 @@ namespace TraktPlugin.GUI
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
                 itemId++;
-
-                // add image for download
-                personImages.Add(person.Images);
             }
 
             // Set Facade Layout
@@ -269,7 +269,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", people.Count().ToString(), people.Count() > 1 ? Translation.People : Translation.Person));
 
             // Download images Async and set to facade
-            GetImages(personImages);
+            GUIPersonListItem.GetImages(personImages);
         }
 
         private void InitProperties()
@@ -315,89 +315,6 @@ namespace TraktPlugin.GUI
             var person = item.TVTag as TraktPersonSummary;
             PublishSkinProperties(person);
         }
-
-        private void GetImages(List<TraktPerson.PersonImages> itemsWithThumbs)
-        {
-            StopDownload = false;
-
-            // split the downloads in 5+ groups and do multithreaded downloading
-            int groupSize = (int)Math.Max(1, Math.Floor((double)itemsWithThumbs.Count / 5));
-            int groups = (int)Math.Ceiling((double)itemsWithThumbs.Count() / groupSize);
-
-            for (int i = 0; i < groups; i++)
-            {
-                var groupList = new List<TraktPerson.PersonImages>();
-                for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
-                {
-                    groupList.Add(itemsWithThumbs[j]);
-                }
-
-                new Thread(delegate(object o)
-                {
-                    var items = (List<TraktPerson.PersonImages>)o;
-                    foreach (var item in items)
-                    {
-                        #region Headshot
-                        // stop download if we have exited window
-                        if (StopDownload) break;
-
-                        string remoteThumb = item.Headshot;
-                        string localThumb = item.HeadshotImageFilename;
-
-                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                        {
-                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                            {
-                                // notify that image has been downloaded
-                                item.NotifyPropertyChanged("HeadshotImageFilename");
-                            }
-                        }
-                        #endregion
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "ImageDownloader" + i.ToString()
-                }.Start(groupList);
-            }
-        }
-
         #endregion
-    }
-
-    public class GUITraktSearchPeopleListItem : GUIListItem
-    {
-        public GUITraktSearchPeopleListItem(string strLabel) : base(strLabel) { }
-
-        public object Item
-        {
-            get { return _Item; }
-            set
-            {
-                _Item = value;
-                INotifyPropertyChanged notifier = value as INotifyPropertyChanged;
-                if (notifier != null) notifier.PropertyChanged += (s, e) =>
-                {
-                    if (s is TraktPerson.PersonImages && e.PropertyName == "HeadshotImageFilename")
-                        SetImageToGui((s as TraktPerson.PersonImages).HeadshotImageFilename);
-                };
-            }
-        } protected object _Item;
-
-        /// <summary>
-        /// Loads an Image from memory into a facade item
-        /// </summary>
-        /// <param name="imageFilePath">Filename of image</param>
-        protected void SetImageToGui(string imageFilePath)
-        {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
-
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
-
-            // if selected and is current window force an update of thumbnail
-            this.UpdateItemIfSelected((int)TraktGUIWindows.SearchPeople, ItemId);
-        }
     }
 }

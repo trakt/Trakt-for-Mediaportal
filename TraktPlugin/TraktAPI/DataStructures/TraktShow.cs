@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -92,167 +91,19 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public ShowImages Images { get; set; }
 
         [DataContract]
-        public class ShowImages : INotifyPropertyChanged
+        public class ShowImages
         {
             [DataMember(Name = "fanart")]
-            public string Fanart
-            {
-                get
-                {
-                    if (TraktSettings.DownloadFullSizeFanart)
-                        return _fanart;
-
-                    if (_fanart != null && !_fanart.EndsWith("-940.jpg"))
-                        return _fanart.Replace(".jpg", "-940.jpg");
-                    else
-                        return _fanart;
-                }
-                set
-                {
-                    _fanart = value;
-                }
-            }
-            string _fanart = string.Empty;
+            public string Fanart { get; set; }
 
             [DataMember(Name = "poster")]
-            public string Poster
-            {
-                get
-                {
-                    if (_poster != null && !_poster.EndsWith("-300.jpg"))
-                        return _poster.Replace(".jpg", "-300.jpg");
-                    return _poster;
-                }
-                set
-                {
-                    _poster = value;
-                }
-            }
-            string _poster = string.Empty;
+            public string Poster { get; set; }
 
             [DataMember(Name = "banner")]
             public string Banner { get; set; }
 
             [DataMember(Name = "season")]
             public string Season { get; set; }
-
-            #region INotifyPropertyChanged
-
-            /// <summary>
-            /// Path to local poster image
-            /// </summary>
-            public string PosterImageFilename
-            {
-                get
-                {
-                    string filename = string.Empty;
-                    if (!string.IsNullOrEmpty(Poster))
-                    {
-                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Posters");
-                        string posterUrl = Poster;
-                        if (posterUrl.Contains("jpg?"))
-                        {
-                            posterUrl = posterUrl.Replace("jpg?", string.Empty) + ".jpg";
-                        }
-                        var uri = new Uri(posterUrl);
-                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
-                    }
-                    return filename;
-                }
-                set
-                {
-                    _PosterImageFilename = value;
-                }
-            }
-            string _PosterImageFilename = string.Empty;
-
-            public string BannerImageFilename
-            {
-                get
-                {
-                    string filename = string.Empty;
-                    if (!string.IsNullOrEmpty(Banner))
-                    {
-                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Banners");
-                        string bannerUrl = Banner;
-                        if (bannerUrl.Contains("jpg?"))
-                        {
-                            bannerUrl = bannerUrl.Replace("jpg?", string.Empty) + ".jpg";
-                        }
-                        var uri = new Uri(bannerUrl);
-                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
-                    }
-                    return filename;
-                }
-                set
-                {
-                    _BannerImageFilename = value;
-                }
-            }
-            string _BannerImageFilename = string.Empty;
-
-            public string SeasonImageFilename
-            {
-                get
-                {
-                    string filename = string.Empty;
-                    if (!string.IsNullOrEmpty(Season) && Season.Contains("seasons"))
-                    {
-                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Season\Posters");
-                        string seasonUrl = Season;
-                        if (seasonUrl.Contains("jpg?"))
-                        {
-                            seasonUrl = seasonUrl.Replace("jpg?", string.Empty) + ".jpg";
-                        }
-                        var uri = new Uri(seasonUrl);
-                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
-                    }
-                    return filename;
-                }
-                set
-                {
-                    _SeasonImageFilename = value;
-                }
-            }
-            string _SeasonImageFilename = string.Empty;
-
-            public string FanartImageFilename
-            {
-                get
-                {
-                    string filename = string.Empty;
-                    if (!string.IsNullOrEmpty(Fanart))
-                    {
-                        string folder = MediaPortal.Configuration.Config.GetSubFolder(MediaPortal.Configuration.Config.Dir.Thumbs, @"Trakt\Shows\Fanart");
-                        string fanartUrl = Fanart;
-                        if (fanartUrl.Contains("jpg?"))
-                        {
-                            fanartUrl = fanartUrl.Replace("jpg?", string.Empty) + ".jpg";
-                        }
-                        var uri = new Uri(fanartUrl);
-                        filename = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(uri.LocalPath));
-                    }
-                    return filename;
-                }
-                set
-                {
-                    _FanartImageFilename = value;
-                }
-            }
-            string _FanartImageFilename = string.Empty;
-
-            /// <summary>
-            /// Notify image property change during async image downloading
-            /// Sends messages to facade to update image
-            /// </summary>
-            public event PropertyChangedEventHandler PropertyChanged;
-            public void NotifyPropertyChanged(string propertyName)
-            {
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-
-            #endregion
         }
     }
 }

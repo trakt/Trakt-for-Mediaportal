@@ -233,6 +233,13 @@
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
     <Compile Include="GUI\GUIListItemSorter.cs" />
     <Compile Include="GUI\GUIListItems.cs" />
+    <Compile Include="GUI\GUIListItems\GUICustomListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUIEpisodeListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUIMovieListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUIPersonListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUISeasonListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUIShowListItem.cs" />
+    <Compile Include="GUI\GUIListItems\GUIUserListItem.cs" />
     <Compile Include="GUI\GUILists.cs" />
     <Compile Include="GUI\GUINetwork.cs" />
     <Compile Include="GUI\GUIRecentAddedEpisodes.cs" />

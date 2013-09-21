@@ -15,5 +15,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "episode")]
         public TraktEpisode Episode { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}x{2}{3}", Show.Title, Episode.Season.ToString(), Episode.Number.ToString(), string.IsNullOrEmpty(Episode.Title) ? string.Empty : " - " + Episode.Title);
+        }
     }
 }
