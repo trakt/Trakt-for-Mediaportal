@@ -93,8 +93,8 @@ namespace TraktPlugin.TraktHandlers
             #region Already Exists Movie Check
             // Remove Already-Exists Movies, these are typically movies that are using aka names and no IMDb/TMDb set
             // When we compare our local collection with trakt collection we have english only titles, so if no imdb/tmdb exists
-            // we need to fallback to title matching. When we sync aka names are sometimes accepted if defined on themoviedb.org so we need to 
-            // do this to revent syncing these movies every sync interval.
+            // we need to fallback to title matching. When we sync aka names, they're sometimes accepted if defined on themoviedb.org so we need to 
+            // do this to prevent syncing these movies every sync interval.
             if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
             {
                 TraktLogger.Debug("Skipping {0} movies as they already exist in trakt library but failed local match previously.", TraktSettings.AlreadyExistMovies.Movies.Count.ToString());

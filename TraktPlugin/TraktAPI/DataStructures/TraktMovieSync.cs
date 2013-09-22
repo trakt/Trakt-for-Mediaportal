@@ -30,7 +30,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 bool result = false;
                 if (other != null)
                 {
-                    if (this.Title.Equals(other.Title) && this.Year.Equals(other.Year) && this.IMDBID.Equals(other.IMDBID))
+                    if (this.Title.Equals(other.Title) && this.Year.Equals(other.Year) && (this.IMDBID ?? string.Empty).Equals(other.IMDBID ?? string.Empty))
                     {
                         result = true;
                     }
