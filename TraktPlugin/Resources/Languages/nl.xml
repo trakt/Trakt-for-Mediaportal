@@ -46,7 +46,11 @@
   <string name="AdvancedSettings">Geavanceerde instellingen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer bufferen</string>
+  <string name="Biography">Biografie</string>
+  <string name="Birthday">Verjaardag</string>
+  <string name="BirthDate">Geboortedatum</string>
   <string name="Born">Geboren</string>
+  <string name="BirthPlace">Geboorteplaats</string>
   <!--C-->
   <string name="Cancel">Annuleren</string>
   <string name="Calendar">Kalender</string>
@@ -98,6 +102,7 @@
   <string name="EditingList">Lijst wijzigen</string>
   <string name="Email">E-mail</string>
   <string name="EndYear">Eind: {0}</string>
+  <string name="EnterSearchTerm">Voer zoekopdracht in</string>
   <string name="Episode">Aflevering</string>
   <string name="Episodes">Afleveringen</string>
   <string name="Error">Trakt fout</string>
@@ -190,6 +195,8 @@
   <string name="GettingRelatedShows">Gerelateerde series ophalen</string>
   <string name="GettingTrailerUrls">Ophalen trailer url\'s</string>
   <string name="GettingUserProfile">Ophalen gebruikersprofiel</string>
+  <string name="GuestStar">Gast</string>
+  <string name="GuestStars">Gasten</string>
   <!--H-->
   <string name="Hate">Haat</string>
   <string name="Hated">Gehaat</string>
@@ -235,6 +242,7 @@
   <string name="NextEpisode">Volgende aflevering</string>
   <string name="NextWeek">Volgende week</string>
   <string name="NoActivities">Geen activiteit gevonden</string>
+  <string name="NoPersonBiography">Er is geen biografie ingevuld voor deze persoon</string>
   <string name="NoEpisodesInSeason">Geen afleveringen beschikbaar in seizoen.</string>
   <string name="NoEpisodeSummary">Aflevering overzicht is op dit moment niet beschikbaar</string>
   <string name="NoEpisodesThisWeek">Geen afleveringen in deze week</string>
@@ -252,7 +260,9 @@
   <string name="NoShowWatchList">{0} heeft geen series in kijklijst</string>
   <string name="NoMovieWatchList">{0} heeft geen films in kijklijst</string>
   <string name="NoEpisodeWatchList">{0} heeft geen afleveringen in kijklijst</string>
+  <string name="NoSearchTypesSelected">Je moet eerst één of meer zoektermen selecteren\nvoordat je online zoekt.</string>
   <string name="NoShoutsForItem">Geen stemmen voor {0}!</string>
+  <string name="NoPeopleToSearch">Er zijn geen personen om te zoeken.</string>
   <string name="NoPluginsEnabled">Je hebt geen plugins ingesteld in de configuratie. Wil je de plugins nu configureren?</string>
   <string name="NotLoggedIn">Je hebt geen toegang tot deze gegevens zonder te zijn ingelogd. Wil je nu inloggen of registreren?</string>
   <string name="NoSearchResultsFound">Geen zoekresultaten gevonden</string>
@@ -338,8 +348,14 @@
   <string name="Seasons">Seizoenen</string>
   <string name="Search">Zoeken</string>
   <string name="SearchBy">Zoek op</string>
+  <string name="SearchMovies">Zoek Films</string>
+  <string name="SearchShows">Zoek TV Serie</string>
+  <string name="SearchEpisodes">Zoek Afleveringen</string>
+  <string name="SearchPeople">Zoek Personen</string>
+  <string name="SearchUsers">Zoek Gebruikers</string>
   <string name="SearchForFriend">Zoek naar vriend...</string>
   <string name="SearchForUser">Zoek gebruiker...</string>
+  <string name="SearchTypes">Zoek Types</string>
   <string name="SendFriendRequest">Zend vriend verzoek naar {0}?</string>
   <string name="SendFollowRequest">Stuur een volg verzoek aan {0}?</string>
   <string name="SelectLists">Selecteer lijst</string>
@@ -398,6 +414,10 @@
   <string name="SettingDefaultMovieTrailerSiteDescription">Kies de standaard film trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een film.</string>
   <string name="SettingSyncLibraryName">Bibliotheek sync inschakelen</string>
   <string name="SettingSyncLibraryDescription">Schakel deze instelling in om je collectie en bekeken status te synchroniseren met trakt.tv. Alleen scrobbling is actief wanner uitgeschakeld.</string>
+  <string name="SettingMaxSearchResultsName">Maximaal aantal zoekresultaten</string>
+  <string name="SettingMaxSearchResultsDescription">Stel het maximum aantal resultaten per type in om als resultaat te krijgen van een online zoekopdracht.</string>
+  <string name="SettingShowSearchResultsBreakdownName">Toon zoekresultaat overzicht</string>
+  <string name="SettingShowSearchResultsBreakdownDescription">Gebruik deze instelling om het gedrag van een enkele zoekopdracht te controleren. Indien uitgeschakeld, springt de gebruiker rechtstreeks naar het zoekresultaat, als één zoekcriteria is ingesteld.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sorteer op: {0}</string>
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>

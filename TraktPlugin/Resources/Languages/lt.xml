@@ -46,7 +46,11 @@
   <string name="AdvancedSettings">Išplėstiniai nustatymai</string>
   <!--B-->
   <string name="BufferingTrailer">Buferuojamas anonsas</string>
+  <string name="Biography">Biografija</string>
+  <string name="Birthday">Gimtadienis</string>
+  <string name="BirthDate">Gimimo data</string>
   <string name="Born">Gimęs</string>
+  <string name="BirthPlace">Gimimo vieta</string>
   <!--C-->
   <string name="Cancel">Atšaukti</string>
   <string name="Calendar">Kalendorius</string>
@@ -98,6 +102,7 @@
   <string name="EditingList">Redaguojamas sąrašas</string>
   <string name="Email">El. paštas</string>
   <string name="EndYear">Pabaiga: {0}</string>
+  <string name="EnterSearchTerm">Įveskite paieškos terminą</string>
   <string name="Episode">Epizodas</string>
   <string name="Episodes">Epizodai</string>
   <string name="Error">Trakt klaida</string>
@@ -190,6 +195,8 @@
   <string name="GettingRelatedShows">Gaunamos susijusios laidos</string>
   <string name="GettingTrailerUrls">Gaunamos anonsų nuorodos</string>
   <string name="GettingUserProfile">Gaunamas vartotojo profilis</string>
+  <string name="GuestStar">Kviestinė žvaigždė</string>
+  <string name="GuestStars">Kviestinės žvaigždės</string>
   <!--H-->
   <string name="Hate">Nekęsti</string>
   <string name="Hated">Nekenčiami</string>
@@ -235,6 +242,7 @@
   <string name="NextEpisode">Kitas epizodas</string>
   <string name="NextWeek">Kitą savaitę</string>
   <string name="NoActivities">Nerasta jokios veiklos.</string>
+  <string name="NoPersonBiography">Nėra įvesta šio asmens biografija.</string>
   <string name="NoEpisodesInSeason">Sezone nėra epizodų.</string>
   <string name="NoEpisodeSummary">Nėra Epizodo santraukos.</string>
   <string name="NoEpisodesThisWeek">Šią savaitę nėra epizodų</string>
@@ -252,7 +260,9 @@
   <string name="NoShowWatchList">{0} neturi laidų žiūrimų sąraše!</string>
   <string name="NoMovieWatchList">{0} neturi filmų žiūrimų sąraše!</string>
   <string name="NoEpisodeWatchList">{0} neturi epizodų žiūrimų sąraše!</string>
+  <string name="NoSearchTypesSelected">Pirma turite įvesti vieną ar daugiau paieškos būdų⏎\nprieš pradedant paieška internete.</string>
   <string name="NoShoutsForItem">Nėra {0} šaukimų!</string>
+  <string name="NoPeopleToSearch">Paieškai nėra galimų asmenų.</string>
   <string name="NoPluginsEnabled">Jūs nenustatėte jokių įskiepių konfigūracijoje.⏎ Ar norite konfigūruoti įskiepius dabar?</string>
   <string name="NotLoggedIn">Jūs negalite pasiekti šio vietos⏎ neprisijungus. Ar norite prisiregistruoti ar prisijungti⏎ prie trakt.tv dabar?</string>
   <string name="NoSearchResultsFound">Nėra paieškos rezultatų</string>
@@ -338,8 +348,14 @@
   <string name="Seasons">Sezonai</string>
   <string name="Search">Ieškoti</string>
   <string name="SearchBy">Ieškoti pagal</string>
+  <string name="SearchMovies">Ieškoti Filmuose</string>
+  <string name="SearchShows">Ieškoti TV laidose</string>
+  <string name="SearchEpisodes">Ieškoti Epizoduose</string>
+  <string name="SearchPeople">Ieškoti Žmonėse</string>
+  <string name="SearchUsers">Ieškoti Vartotojų</string>
   <string name="SearchForFriend">Ieškoti draugo...</string>
   <string name="SearchForUser">Ieškoti vartotojo...</string>
+  <string name="SearchTypes">Ieškoti Tipuose</string>
   <string name="SendFriendRequest">Siųsti draugo užklausą {0}?</string>
   <string name="SendFollowRequest">Siųsti stebėjimo užklausą {0}?</string>
   <string name="SelectLists">Pasirinkti sąrašus</string>
@@ -398,6 +414,10 @@
   <string name="SettingDefaultMovieTrailerSiteDescription">Pasirinkite numatytąjį filmų anonsų puslapį, kuris bus naudojamas automatinei paieškai.</string>
   <string name="SettingSyncLibraryName">Leisti sinchronizuoti biblioteką</string>
   <string name="SettingSyncLibraryDescription">Įjungti šį nustatymą kad būtų sinchronizuojama kolekcija ir peržiūrų būsenos su trakt.tv. Jei išjungta - informacija bus tik agreguojama.</string>
+  <string name="SettingMaxSearchResultsName">Maksimalus paieškos rezultatų kiekis</string>
+  <string name="SettingMaxSearchResultsDescription">Nustatykite maksimalų rezultatų kiekį pagal tipą, kuriuos ieškos internete.</string>
+  <string name="SettingShowSearchResultsBreakdownName">Rodyti išskleistus paieškos rezultatus</string>
+  <string name="SettingShowSearchResultsBreakdownDescription">Šis nustatymas leis valdyti vienintelio pasirinkto paieškos tipo elgseną paieškos lange. Nepasirinkus vartotojas bus nukreiptas tiesiai į atitinkamą paieškos rezultatą.</string>
   <string name="StartYear">Pradėti: {0}</string>
   <string name="SortBy">Rūšiuoti pagal: {0}</string>
   <string name="SortSeasonsAscending">Rūšiuoti Sezonus didėjančia tvarka</string>

@@ -414,6 +414,10 @@
   <string name="SettingDefaultMovieTrailerSiteDescription">Välj den förvalda webbplatsen för filmtrailrar som ska användas när automatisk trailersökning utförs, t ex när du trycker spela på en trakt-film. </string>
   <string name="SettingSyncLibraryName">Aktivera synkning av bibliotek</string>
   <string name="SettingSyncLibraryDescription">Aktivera den här inställningen för att synkronisera din samling och  dess sett/inte sett status med trakt.tv. Om du inaktiverar denna inställning så blir endast scrobbling aktivt.</string>
+  <string name="SettingMaxSearchResultsName">Max antal sökresultat</string>
+  <string name="SettingMaxSearchResultsDescription">Sätt max antal sökresultat per söktyp som ska hämtas vid internetsökning</string>
+  <string name="SettingShowSearchResultsBreakdownName">Visa sökresultatet nedbrutet</string>
+  <string name="SettingShowSearchResultsBreakdownDescription">Den här inställningen styr beteendet  då endast en söktyp sätts i sökfönstret. Om den inaktiveras så visas direkt resultatet för en enda söktyp</string>
   <string name="StartYear">Började: {0}</string>
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>

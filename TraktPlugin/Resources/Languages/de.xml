@@ -46,7 +46,11 @@
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
+  <string name="Biography">Biografie</string>
+  <string name="Birthday">Geburtstag</string>
+  <string name="BirthDate">Geburtsdatum</string>
   <string name="Born">Geboren</string>
+  <string name="BirthPlace">Geburtsort</string>
   <!--C-->
   <string name="Cancel">Abbrechen</string>
   <string name="Calendar">Kalender</string>
@@ -98,6 +102,7 @@
   <string name="EditingList">Liste wird bearbeitet</string>
   <string name="Email">Email</string>
   <string name="EndYear">bis Jahr: {0}</string>
+  <string name="EnterSearchTerm">Geben Sie den Suchbegriff ein</string>
   <string name="Episode">Folge</string>
   <string name="Episodes">Episoden</string>
   <string name="Error">Trakt Fehler</string>
@@ -190,6 +195,8 @@
   <string name="GettingRelatedShows">Ähnliche Shows werden abgerufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
   <string name="GettingUserProfile">Benutzerprofile werden abgerufen</string>
+  <string name="GuestStar">Gaststar</string>
+  <string name="GuestStars">Gaststars</string>
   <!--H-->
   <string name="Hate">Hass</string>
   <string name="Hated">Verhasst</string>
@@ -235,6 +242,7 @@
   <string name="NextEpisode">Nächste Episode</string>
   <string name="NextWeek">Nächste Woche</string>
   <string name="NoActivities">Keine Aktivitäten gefunden</string>
+  <string name="NoPersonBiography">Für diese Person gibt es keine Biografie</string>
   <string name="NoEpisodesInSeason">Keine Episoden in dieser Staffelverfügbar</string>
   <string name="NoEpisodeSummary">Keine Episodenbeschreibung verfügbar</string>
   <string name="NoEpisodesThisWeek">Keine Episoden diese Woche</string>
@@ -252,7 +260,9 @@
   <string name="NoShowWatchList">{0} hat keine Serien in seiner Beobachtungsliste!</string>
   <string name="NoMovieWatchList">{0} hat keine Filme in seiner Beobachtungsliste!</string>
   <string name="NoEpisodeWatchList">{0} hat keine Episoden in seiner Beobachtungsliste!</string>
+  <string name="NoSearchTypesSelected">Sie müssen zunächst einen oder mehrere⏎\nSuchtypen aktivieren, bevor Sie eine Suche⏎\nausführen können</string>
   <string name="NoShoutsForItem">Keine Shouts für {0}!</string>
+  <string name="NoPeopleToSearch">Keine Personen für Suche gefunden</string>
   <string name="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>
   <string name="NotLoggedIn">Du kannst auf diese Funktion nicht zugreifen ohne\neingeloggt zu sein. Möchtest du nun einen Account erstellen oder dich \nin trakt.tv einloggen ?</string>
   <string name="NoSearchResultsFound">Keine Suchergebnisse gefunden</string>
@@ -308,7 +318,7 @@
   <string name="RateEight">Großartig</string>
   <string name="RateNine">Klasse</string>
   <string name="RecentWatchedEpisodes">Kürzlich gesehene Episoden</string>
-  <string name="RecentWatchedMovies">Kürzlich gesehened Filme</string>
+  <string name="RecentWatchedMovies">Kürzlich gesehene Filme</string>
   <string name="RecentAddedEpisodes">Kürzlich hinzugefügte Episoden</string>
   <string name="RecentAddedMovies">Kürzlich hinzugefügte Filme</string>
   <string name="RecentShouts">Kürzliche Shouts</string>
@@ -338,8 +348,14 @@
   <string name="Seasons">Staffeln</string>
   <string name="Search">Suchen</string>
   <string name="SearchBy">Suche nach</string>
+  <string name="SearchMovies">Suche Filme</string>
+  <string name="SearchShows">Suche TV-Serien</string>
+  <string name="SearchEpisodes">Suche TV-Episoden</string>
+  <string name="SearchPeople">Suche Personen</string>
+  <string name="SearchUsers">Suche Benutzer</string>
   <string name="SearchForFriend">Nach Freund suchen</string>
   <string name="SearchForUser">Benutzer suchen...</string>
+  <string name="SearchTypes">Suchtypen</string>
   <string name="SendFriendRequest">Freundschaftsanfrage an {0} senden?</string>
   <string name="SendFollowRequest">Folger-Anfrage an {0}? senden?</string>
   <string name="SelectLists">Listen auswählen</string>
@@ -398,6 +414,7 @@
   <string name="SettingDefaultMovieTrailerSiteDescription">Wähle hier die Standard-Quelle für Film-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einem Film in Trakt geklickt wird.</string>
   <string name="SettingSyncLibraryName">Bibliotheks-Synchronisierung erlauben</string>
   <string name="SettingSyncLibraryDescription">Aktivieren Sie diese Einstellung, um Ihre Sammlung und den Gesehen-Status mit Trakt.tv zu synchronisieren. Ohne Aktivierung wird nur Scrobbling durchgeführt.</string>
+  <string name="SettingMaxSearchResultsName">Höchstzahl Suchergebnisse</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>
