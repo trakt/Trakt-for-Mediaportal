@@ -161,7 +161,8 @@ namespace TraktPlugin.GUI
             string folder = string.Empty;
 
             // clean image url
-            if (url.Contains("jpg?")) url = url.Replace("jpg?", string.Empty) + ".jpg";
+            if (url.Contains("jpg?") && !url.Contains("gravatar"))
+                url = url.Replace("jpg?", string.Empty) + ".jpg";
 
             switch (type)
             {
