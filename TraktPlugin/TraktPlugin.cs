@@ -822,7 +822,7 @@ namespace TraktPlugin
                 dashBoard.StopActivityPolling();
             }
 
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(windowID.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(windowID.ToString())))
             {
                 dashBoard.StartTrendingMoviesPolling();
             }
@@ -831,7 +831,7 @@ namespace TraktPlugin
                 dashBoard.StopTrendingMoviesPolling();
             }
 
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(windowID.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Contains(windowID.ToString())))
             {
                 dashBoard.StartTrendingShowsPolling();
             }

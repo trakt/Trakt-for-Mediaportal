@@ -55,6 +55,22 @@ namespace TraktPlugin
 
         #region Private Methods
 
+        private DashboardTrendingSettings GetTrendingSettings()
+        {
+            // skinners should set unique window ids per trending so it doesn't matter if we pick the first
+            // the whole point of having a collection is to define unique dashboard settings per window otherwise all windows share the same settings
+            
+            string windowID = GUIWindowManager.ActiveWindow.ToString();
+
+            var trendingSettings = TraktSkinSettings.DashboardTrendingCollection.First(d => d.MovieWindows.Contains(windowID) || d.TVShowWindows.Contains(windowID));
+            return trendingSettings;
+        }
+
+        private int GetMaxTrendingProperties()
+        {
+            return TraktSkinSettings.DashboardTrendingCollection.Select(d => d.FacadeMaxItems).Max();
+        }
+
         private GUIFacadeControl GetFacade(int facadeID)
         {
             int i = 0;
@@ -354,7 +370,9 @@ namespace TraktPlugin
             GUIFacadeControl facade = null;
             bool isCached;
 
-            if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
+            var trendingSettings = GetTrendingSettings();
+
+            if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
                 // update toggle visibility
                 SetTrendingVisibility();
@@ -371,7 +389,7 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
+                var trendingMovies = GetTrendingMovies(out isCached);
 
                 // prevent an unnecessary reload
                 if (!isCached)
@@ -385,10 +403,10 @@ namespace TraktPlugin
             }
             
             // only publish skin properties
-            if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
+            if (facade == null && trendingSettings.PropertiesMaxItems > 0)
             {
                 // get latest trending
-                var trendingMovies = GetTrendingMovies(TraktSkinSettings.DashboardTrendingPropertiesMaxItems, out isCached);
+                var trendingMovies = GetTrendingMovies(out isCached);
 
                 if (!isCached)
                 {
@@ -417,7 +435,7 @@ namespace TraktPlugin
             if (movies == null) return;
 
             var movieList = movies.ToList();
-            int maxItems = movies.Count() < TraktSkinSettings.DashboardTrendingPropertiesMaxItems ? movies.Count() : TraktSkinSettings.DashboardTrendingPropertiesMaxItems;
+            int maxItems = movies.Count() < GetMaxTrendingProperties() ? movies.Count() : GetMaxTrendingProperties();
 
             for (int i = 0; i < maxItems; i++)
             {
@@ -457,7 +475,7 @@ namespace TraktPlugin
 
         private void ClearMovieProperties()
         {
-            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            for (int i = 0; i < GetMaxTrendingProperties(); i++)
             {
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), string.Empty);
@@ -492,8 +510,11 @@ namespace TraktPlugin
 
         private void LoadTrendingMoviesFacade(IEnumerable<TraktTrendingMovie> movies, GUIFacadeControl facade)
         {
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows == null || !TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection == null || !TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
                 return;
+            
+            // get trending settings for window
+            var trendingSettings = GetTrendingSettings();
 
             TraktLogger.Debug("Loading Trakt Trending Movies facade...");
 
@@ -511,7 +532,7 @@ namespace TraktPlugin
             var movieImages = new List<TraktImage>();
 
             // Add each activity item to the facade
-            foreach (var movie in movies)
+            foreach (var movie in movies.Take(trendingSettings.FacadeMaxItems))
             {
                 // add image for download
                 var images = new TraktImage { MovieImages = movie.Images };
@@ -536,7 +557,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout(TraktSkinSettings.DashboardTrendingFacadeType);
+            facade.SetCurrentLayout(trendingSettings.FacadeType);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Movies.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
@@ -561,7 +582,9 @@ namespace TraktPlugin
             GUIFacadeControl facade = null;
             bool isCached;
 
-            if (TraktSkinSettings.DashboardTrendingFacadeType.ToLowerInvariant() != "none")
+            var trendingSettings = GetTrendingSettings();
+
+            if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
                 // update toggle visibility
                 SetTrendingVisibility();
@@ -578,7 +601,7 @@ namespace TraktPlugin
                 }
 
                 // get latest trending
-                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingFacadeMaxItems, out isCached);
+                var trendingShows = GetTrendingShows(out isCached);
 
                 // prevent an unnecessary reload
                 if (!isCached)
@@ -592,10 +615,10 @@ namespace TraktPlugin
             }
             
             // only publish skin properties
-            if (facade == null && TraktSkinSettings.DashboardTrendingPropertiesMaxItems > 0)
+            if (facade == null && GetMaxTrendingProperties() > 0)
             {
                 // get latest trending
-                var trendingShows = GetTrendingShows(TraktSkinSettings.DashboardTrendingPropertiesMaxItems, out isCached);
+                var trendingShows = GetTrendingShows(out isCached);
                 
                 if (!isCached)
                 {
@@ -624,7 +647,7 @@ namespace TraktPlugin
             if (shows == null) return;
 
             var showList = shows.ToList();
-            int maxItems = shows.Count() < TraktSkinSettings.DashboardTrendingPropertiesMaxItems ? shows.Count() : TraktSkinSettings.DashboardTrendingPropertiesMaxItems;
+            int maxItems = shows.Count() < GetMaxTrendingProperties() ? shows.Count() : GetMaxTrendingProperties();
 
             for (int i = 0; i < maxItems; i++)
             {
@@ -665,7 +688,7 @@ namespace TraktPlugin
 
         private void ClearShowProperties()
         {
-            for (int i = 0; i < TraktSkinSettings.DashboardTrendingPropertiesMaxItems; i++)
+            for (int i = 0; i < GetMaxTrendingProperties(); i++)
             {
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), string.Empty);
@@ -701,8 +724,11 @@ namespace TraktPlugin
 
         private void LoadTrendingShowsFacade(IEnumerable<TraktTrendingShow> shows, GUIFacadeControl facade)
         {
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows == null || !TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection == null || !TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
                 return;
+
+            // get trending settings
+            var trendingSettings = GetTrendingSettings();
 
             TraktLogger.Debug("Loading Trakt Trending Shows facade...");
 
@@ -720,7 +746,7 @@ namespace TraktPlugin
             var showImages = new List<TraktImage>();
 
             // Add each activity item to the facade
-            foreach (var show in shows)
+            foreach (var show in shows.Take(trendingSettings.FacadeMaxItems))
             {
                 // add image for download
                 var images = new TraktImage { ShowImages = show.Images };
@@ -745,7 +771,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout(TraktSkinSettings.DashboardTrendingFacadeType);
+            facade.SetCurrentLayout(trendingSettings.FacadeType);
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Shows.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
@@ -831,7 +857,7 @@ namespace TraktPlugin
             return activity.Review.Text;
         }
 
-        private IEnumerable<TraktTrendingMovie> GetTrendingMovies(int maxItems, out bool isCached)
+        private IEnumerable<TraktTrendingMovie> GetTrendingMovies(out bool isCached)
         {
             isCached = false;
             double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingMovieUpdate).TotalMilliseconds;
@@ -843,7 +869,7 @@ namespace TraktPlugin
                 {
                     TraktLogger.Debug("Getting trending movies from trakt");
                     LastTrendingMovieUpdate = DateTime.Now;
-                    PreviousTrendingMovies = trendingMovies.Take(maxItems);
+                    PreviousTrendingMovies = trendingMovies;
                 }
             }
             else
@@ -857,7 +883,7 @@ namespace TraktPlugin
             return PreviousTrendingMovies;
         }
 
-        private IEnumerable<TraktTrendingShow> GetTrendingShows(int maxItems, out bool isCached)
+        private IEnumerable<TraktTrendingShow> GetTrendingShows(out bool isCached)
         {
             isCached = false;
             double timeSinceLastUpdate = DateTime.Now.Subtract(LastTrendingShowUpdate).TotalMilliseconds;
@@ -869,7 +895,7 @@ namespace TraktPlugin
                 if (trendingShows != null && trendingShows.Count() > 0)
                 {
                     LastTrendingShowUpdate = DateTime.Now;
-                    PreviousTrendingShows = trendingShows.Take(maxItems);
+                    PreviousTrendingShows = trendingShows;
                 }
             }
             else
@@ -943,9 +969,9 @@ namespace TraktPlugin
 
             if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 hasDashBoard = true;
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
                 hasDashBoard = true;
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d=> d.TVShowWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
                 hasDashBoard = true;
 
             return hasDashBoard;
@@ -1745,12 +1771,12 @@ namespace TraktPlugin
                 ActivityTimer = new Timer(new TimerCallback((o) => { LoadActivity(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
-            if (TraktSkinSettings.DashBoardTrendingMoviesWindows != null && TraktSkinSettings.DashBoardTrendingMoviesWindows.Count > 0)
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Count > 0))
             {
                 TrendingMoviesTimer = new Timer(new TimerCallback((o) => { LoadTrendingMovies(); }), null, Timeout.Infinite, Timeout.Infinite);
             }
 
-            if (TraktSkinSettings.DashBoardTrendingShowsWindows != null && TraktSkinSettings.DashBoardTrendingShowsWindows.Count > 0)
+            if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Count > 0))
             {
                 TrendingShowsTimer = new Timer(new TimerCallback((o) => { LoadTrendingShows(); }), null, Timeout.Infinite, Timeout.Infinite);
             }

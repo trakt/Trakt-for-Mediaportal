@@ -7,6 +7,15 @@ using MediaPortal.GUI.Library;
 
 namespace TraktPlugin.GUI
 {
+    public class DashboardTrendingSettings
+    {
+        public List<string> TVShowWindows { get; set; }
+        public List<string> MovieWindows { get; set; }
+        public string FacadeType { get; set; }
+        public int FacadeMaxItems { get; set; }
+        public int PropertiesMaxItems { get; set; }
+    }
+
     static class TraktSkinSettings
     {
         public static string CurrentSkin { get { return GUIGraphicsContext.Skin; } }
@@ -26,15 +35,13 @@ namespace TraktPlugin.GUI
         public static int AvatarRatingOverlayPosY { get; set; }
 
         public static List<string> DashBoardActivityWindows { get; set; }
-        public static List<string> DashBoardTrendingShowsWindows { get; set; }
-        public static List<string> DashBoardTrendingMoviesWindows { get; set; }
         public static int DashboardActivityPropertiesMaxItems { get; set; }
-        public static int DashboardTrendingPropertiesMaxItems { get; set; }
         public static int DashboardActivityFacadeMaxItems { get; set; }
-        public static int DashboardTrendingFacadeMaxItems { get; set; }
         public static string DashboardActivityFacadeType { get; set; }
-        public static string DashboardTrendingFacadeType { get; set; }
+
         public static bool HasDashboardStatistics { get; set; }
+
+        public static List<DashboardTrendingSettings> DashboardTrendingCollection { get; set; }
 
         public static void Init()
         {
@@ -85,18 +92,13 @@ namespace TraktPlugin.GUI
         {
             TraktLogger.Info("Loading Settings for Dashboard");
 
+            // skinner can define different trending dashboards
+            DashboardTrendingCollection = new List<DashboardTrendingSettings>();
+
             DashBoardActivityWindows = new List<string>();
-            DashBoardTrendingShowsWindows = new List<string>();
-            DashBoardTrendingMoviesWindows = new List<string>();
-
             DashboardActivityPropertiesMaxItems = 0;
-            DashboardTrendingPropertiesMaxItems = 0;
-
-            DashboardTrendingFacadeMaxItems = 10;
             DashboardActivityFacadeMaxItems = 25;
-
             DashboardActivityFacadeType = "None";
-            DashboardTrendingFacadeType = "None";
 
             XmlNode rootNode = null;
             XmlNode node = null;
@@ -138,49 +140,64 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            rootNode = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending");
-            if (rootNode != null)
+            var trendingNodes = doc.DocumentElement.SelectNodes("/settings/dashboard/trending");
+            if (trendingNodes != null)
             {
-                node = rootNode.SelectSingleNode("facadetype");
-                if (node != null)
+                foreach (XmlNode trendingNode in trendingNodes)
                 {
-                    DashboardTrendingFacadeType = node.InnerText;
-                }
-
-                node = rootNode.SelectSingleNode("facademaxitems");
-                if (node != null)
-                {
-                    int maxItems;
-                    if (int.TryParse(node.InnerText, out maxItems))
-                        DashboardTrendingFacadeMaxItems = maxItems;
-                }
-
-                node = rootNode.SelectSingleNode("propertiesmaxitems");
-                if (node != null)
-                {
-                    int maxItems;
-                    if (int.TryParse(node.InnerText, out maxItems))
-                        DashboardTrendingPropertiesMaxItems = maxItems;
-                }
-
-                node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending/shows");
-                if (node != null)
-                {
-                    node = node.SelectSingleNode("windows");
+                    var trendingItem = new DashboardTrendingSettings
+                    {
+                        TVShowWindows = new List<string>(),
+                        MovieWindows = new List<string>(),
+                        PropertiesMaxItems = 0,
+                        FacadeMaxItems = 10,
+                        FacadeType = "None"
+                    };
+                    
+                    node = trendingNode.SelectSingleNode("facadetype");
                     if (node != null)
                     {
-                        DashBoardTrendingShowsWindows = node.InnerText.Split('|').ToList();
+                        trendingItem.FacadeType = node.InnerText;
                     }
-                }
 
-                node = doc.DocumentElement.SelectSingleNode("/settings/dashboard/trending/movies");
-                if (node != null)
-                {
-                    node = node.SelectSingleNode("windows");
+                    node = trendingNode.SelectSingleNode("facademaxitems");
                     if (node != null)
                     {
-                        DashBoardTrendingMoviesWindows = node.InnerText.Split('|').ToList();
+                        int maxItems;
+                        if (int.TryParse(node.InnerText, out maxItems))
+                            trendingItem.FacadeMaxItems = maxItems;
                     }
+
+                    node = trendingNode.SelectSingleNode("propertiesmaxitems");
+                    if (node != null)
+                    {
+                        int maxItems;
+                        if (int.TryParse(node.InnerText, out maxItems))
+                            trendingItem.PropertiesMaxItems = maxItems;
+                    }
+
+                    node = trendingNode.SelectSingleNode("shows");
+                    if (node != null)
+                    {
+                        node = node.SelectSingleNode("windows");
+                        if (node != null)
+                        {
+                            trendingItem.TVShowWindows = node.InnerText.Split('|').ToList();
+                        }
+                    }
+
+                    node = trendingNode.SelectSingleNode("movies");
+                    if (node != null)
+                    {
+                        node = node.SelectSingleNode("windows");
+                        if (node != null)
+                        {
+                            trendingItem.MovieWindows = node.InnerText.Split('|').ToList();
+                        }
+                    }
+
+                    // add to the collection
+                    DashboardTrendingCollection.Add(trendingItem);
                 }
             }
         }
