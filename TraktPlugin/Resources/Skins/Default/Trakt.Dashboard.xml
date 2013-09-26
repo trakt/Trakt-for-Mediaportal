@@ -68,6 +68,7 @@
           <id>98301</id>
           <onup>98300</onup>
           <ondown>98302</ondown>
+          <onright>98301</onright>
           <posX>330</posX>
           <posY>350</posY>
           <width>630</width>
@@ -106,6 +107,7 @@
           <id>98302</id>
           <onup>98301</onup>
           <ondown>98300</ondown>
+          <onright>98302</onright>
           <posX>330</posX>
           <posY>526</posY>
           <width>630</width>

@@ -59,7 +59,10 @@ namespace TraktPlugin
         {
             // skinners should set unique window ids per trending so it doesn't matter if we pick the first
             // the whole point of having a collection is to define unique dashboard settings per window otherwise all windows share the same settings
-            
+
+            if (TraktSkinSettings.DashboardTrendingCollection == null)
+                return new DashboardTrendingSettings();
+
             string windowID = GUIWindowManager.ActiveWindow.ToString();
 
             var trendingSettings = TraktSkinSettings.DashboardTrendingCollection.First(d => d.MovieWindows.Contains(windowID) || d.TVShowWindows.Contains(windowID));
@@ -68,6 +71,7 @@ namespace TraktPlugin
 
         private int GetMaxTrendingProperties()
         {
+            if (TraktSkinSettings.DashboardTrendingCollection == null) return 0;
             return TraktSkinSettings.DashboardTrendingCollection.Select(d => d.FacadeMaxItems).Max();
         }
 
