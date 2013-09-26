@@ -798,7 +798,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Thread scrobbleMovie = new Thread(delegate(object obj)
                 {
-                    MFMovie watchedMovie = obj as MFMovie;
+                    var watchedMovie = obj as MFMovie;
                     if (watchedMovie == null) return;
 
                     // show trakt rating dialog
@@ -807,14 +807,14 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("My Films movie considered watched: '{0}'", watchedMovie.Title);
 
                     // get scrobble data to send to api
-                    TraktMovieScrobble scrobbleData = CreateScrobbleData(watchedMovie);
+                    var scrobbleData = CreateScrobbleData(watchedMovie);
                     if (scrobbleData == null) return;
 
-                    // set duration/progress in scrobble data                
-                    scrobbleData.Duration = Convert.ToInt32(g_Player.Duration / 60).ToString();
+                    // set duration/progress in scrobble data
+                    scrobbleData.Duration = g_Player.Duration > 0 ? Convert.ToInt32(g_Player.Duration / 60).ToString() : watchedMovie.Length.ToString();
                     scrobbleData.Progress = "100";
 
-                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
+                    var response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
                     TraktLogger.LogTraktResponse(response);
                     // UpdateRecommendations();
                 })
