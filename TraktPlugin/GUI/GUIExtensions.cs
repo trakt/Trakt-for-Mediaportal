@@ -125,6 +125,20 @@ namespace TraktPlugin.GUI
         }
 
         /// <summary>
+        /// Sets the facade and any defined layouts visibility to the visibility defined by the skin
+        /// </summary>
+        /// <param name="self"></param>
+        public static void SetVisibleFromSkinCondition(this GUIFacadeControl self)
+        {
+            self.Visible = self.VisibleFromSkinCondition;
+            if (self.FilmstripLayout != null) self.FilmstripLayout.Visible = self.FilmstripLayout.VisibleFromSkinCondition;
+            if (self.CoverFlowLayout != null) self.CoverFlowLayout.Visible = self.CoverFlowLayout.VisibleFromSkinCondition;
+            if (self.AlbumListLayout != null) self.AlbumListLayout.Visible = self.AlbumListLayout.VisibleFromSkinCondition;
+            if (self.ThumbnailLayout != null) self.ThumbnailLayout.Visible = self.ThumbnailLayout.VisibleFromSkinCondition;
+            if (self.ListLayout != null) self.ListLayout.Visible = self.ListLayout.VisibleFromSkinCondition;
+        }
+
+        /// <summary>
         /// Sends a Thread message to select an item on a facade object. Will only send if itemid parameter is currently selected
         /// </summary>
         /// <param name="self">the list object</param>

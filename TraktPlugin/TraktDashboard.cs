@@ -304,6 +304,7 @@ namespace TraktPlugin
 
             // Set Facade Layout
             facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
+            facade.SetVisibleFromSkinCondition();
 
             // Select previously selected item
             if (facade.LayoutControl.IsFocused && PreviousSelectedIdx >= 0)
@@ -340,7 +341,6 @@ namespace TraktPlugin
                 bool moviesVisible = TraktSettings.DashboardMovieTrendingActive;
 
                 toggleButton.Selected = moviesVisible;
-                //toggleButton.Label = moviesVisible ? Translation.Movies : Translation.TVShows;
                 GUIUtils.SetProperty("#Trakt.Dashboard.TrendingType.Active", moviesVisible ? "movies" : "shows");
 
                 if (trendingMoviesFacade != null)
@@ -562,6 +562,7 @@ namespace TraktPlugin
 
             // Set Facade Layout
             facade.SetCurrentLayout(trendingSettings.FacadeType);
+            facade.SetVisibleFromSkinCondition();
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Movies.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
@@ -776,6 +777,7 @@ namespace TraktPlugin
 
             // Set Facade Layout
             facade.SetCurrentLayout(trendingSettings.FacadeType);
+            facade.SetVisibleFromSkinCondition();
 
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Trending.Shows.Items", string.Format("{0} {1}", shows.Count().ToString(), shows.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
