@@ -7,6 +7,8 @@
   <string name="Actor">Herec</string>
   <string name="Actors">Herci</string>
   <string name="Activity">Aktivita</string>
+  <string name="ActivityFriendsDesc">Pozrite sa, čo sledujú vaši priatelia...</string>
+  <string name="ActivityCommunityDesc">Pozrite sa, čo sleduje komunita...</string>
   <string name="ActivityWatching">{0} pozerá {1}</string>
   <string name="ActivityWatched">{0} pozrel {1}</string>
   <string name="ActivityReview">{0} ohodnotil {1}</string>
