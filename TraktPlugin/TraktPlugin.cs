@@ -950,7 +950,7 @@ namespace TraktPlugin
                             #endregion
                             break;
                         case (int)ExternalPluginWindows.VideoInfo:
-                            #region Watchlist/CustomList/Rate/Shouts/RelatedItem
+                            #region Watchlist/CustomList/Rate/Shouts/RelatedItem/SearchBy
                             switch (message.SenderControlId)
                             {
                                 case ((int)ExternalPluginControls.WatchList):
@@ -958,6 +958,7 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.Rate):
                                 case ((int)ExternalPluginControls.Shouts):
                                 case ((int)ExternalPluginControls.RelatedItems):
+                                case ((int)ExternalPluginControls.SearchBy):
                                 case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
@@ -968,10 +969,41 @@ namespace TraktPlugin
                                     if (fanart.ToLowerInvariant().Equals("unknown"))
                                     {
                                         string movieid = GUIPropertyManager.GetProperty("#movieid").Trim();
-                                        // In mediaportal 1.3A fanart are saved without title but with movieid.
                                         MediaPortal.Util.FanArt.GetFanArtfilename(movieid, 0, out fanart);
                                     }
                                     
+                                    searchPeople = new SearchPeople();
+                                    string people = GUIPropertyManager.GetProperty("#cast").Trim();
+                                    if (people != string.Empty && people != "unknown")
+                                    {
+                                        // actors seperated by newlines
+                                        var peopleAndRoles = people.Split('\n').Select(s => s.Trim());
+
+                                        // each actor string also includes the role: {0} as {1} &#10;
+                                        // get the seperator from the localised string and then reverse the formatted string
+                                        string roleSepString = GUILocalizeStrings.Get(1320).Split(' ')[1].Trim();
+
+                                        foreach (var personAndRole in peopleAndRoles)
+                                        {
+                                            var personAndRoleStrings = personAndRole.Split(new string[] { string.Format(" {0} ", roleSepString) }, StringSplitOptions.None);
+                                            searchPeople.Actors.Add(personAndRoleStrings.First());
+                                        }
+                                    }
+
+                                    people = GUIPropertyManager.GetProperty("#director").Trim();
+                                    if (people != string.Empty && people != "unknown") searchPeople.Directors.AddRange(people.Split(',').Select(s => s.Trim()));
+
+                                    people = GUIPropertyManager.GetProperty("#credits").Trim();
+                                    if (people != string.Empty && people != "unknown")
+                                    {
+                                        var writers = people.Split(',').Select(s => s.Trim());
+                                        foreach(var writer in writers)
+                                        {
+                                            // remove the writer type e.g. (Story), (Screenplay)
+                                            searchPeople.Writers.Add(writer.Split('(').First().Trim());
+                                        }
+                                    }
+
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
                                         if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;

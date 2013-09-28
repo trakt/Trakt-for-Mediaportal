@@ -249,6 +249,7 @@ namespace TraktPlugin.GUI
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoSearchResultsFound);
                 GUIWindowManager.ShowPreviousWindow();
+                Users = null;
                 return;
             }
 
