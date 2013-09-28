@@ -1227,6 +1227,32 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
+        public static bool GetMoviePersonInfo(int? movieID, out SearchPeople searchPeople)
+        {
+            searchPeople = new SearchPeople();
+
+            if (movieID == null) return false;
+
+            var movies = DBMovieInfo.GetAll();
+            var selectedMovie = movies.Find(m => m.ID == movieID);
+            if (selectedMovie == null) return false;
+
+            foreach (var actor in selectedMovie.Actors)
+            {
+                searchPeople.Actors.Add(actor);
+            }
+            foreach (var writer in selectedMovie.Writers)
+            {
+                searchPeople.Writers.Add(writer);
+            }
+            foreach (var director in selectedMovie.Directors)
+            {
+                searchPeople.Directors.Add(director);
+            }
+
+            return true;
+        }
+        
         public static void PlayMovie(int? movieID)
         {
             if (movieID == null) return;

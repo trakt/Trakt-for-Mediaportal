@@ -1038,16 +1038,16 @@ namespace TraktPlugin
                                     imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
                                     fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
 
+                                    // get movie people from database
                                     searchPeople = new SearchPeople();
-                                    string people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.actors").Trim();
-                                    if (people != string.Empty) searchPeople.Actors.AddRange(people.Split(',').Select(s => s.Trim()));
-
-                                    people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.writers").Trim();
-                                    if (people != string.Empty) searchPeople.Writers.AddRange(people.Split(',').Select(s => s.Trim()));
-
-                                    people = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.directors").Trim();
-                                    if (people != string.Empty) searchPeople.Directors.AddRange(people.Split(',').Select(s => s.Trim()));
-
+                                    if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                                    {
+                                        int? movieID = null;
+                                        int iYear = 0; int.TryParse(year, out iYear);
+                                        if (MovingPictures.FindMovieID(title, iYear, imdb, ref movieID))
+                                            MovingPictures.GetMoviePersonInfo(movieID, out searchPeople);
+                                    }
+                                    
                                     if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
                                         if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
