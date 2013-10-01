@@ -173,6 +173,7 @@ namespace TraktPlugin.GUI
     {
         Actors,
         Directors,
+        Producers,
         Writers,
         GuestStars
     }
@@ -1862,6 +1863,14 @@ namespace TraktPlugin.GUI
                 pItem.Label2 = people.Directors.Count.ToString();
             }
 
+            if (people.Producers.Count > 0)
+            {
+                pItem = new GUIListItem(Translation.Producers);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktSearchByItems.Producers;
+                pItem.Label2 = people.Producers.Count.ToString();
+            }
+
             if (people.Writers.Count > 0)
             {
                 pItem = new GUIListItem(Translation.Writers);
@@ -1888,6 +1897,8 @@ namespace TraktPlugin.GUI
                 retCode = ShowSearchByPersonMenu(people.Actors);
             if (dlg.SelectedLabelText == Translation.Directors)
                 retCode = ShowSearchByPersonMenu(people.Directors);
+            if (dlg.SelectedLabelText == Translation.Producers)
+                retCode = ShowSearchByPersonMenu(people.Producers);
             if (dlg.SelectedLabelText == Translation.Writers)
                 retCode = ShowSearchByPersonMenu(people.Writers);
             if (dlg.SelectedLabelText == Translation.Gueststars)
@@ -1898,7 +1909,7 @@ namespace TraktPlugin.GUI
 
         public static bool ShowSearchByPersonMenu(List<string> people)
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(Translation.SearchBy);
 
@@ -2199,11 +2210,11 @@ namespace TraktPlugin.GUI
         }
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, SearchPeople people, bool showAll)
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Shouts);
+            var pItem = new GUIListItem(Translation.Shouts);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 
@@ -2617,9 +2628,10 @@ namespace TraktPlugin.GUI
     {
         public List<string> Actors = new List<string>();
         public List<string> Directors = new List<string>();
+        public List<string> Producers = new List<string>();
         public List<string> Writers = new List<string>();
         public List<string> GuestStars = new List<string>();
-
+        
         public int Count
         {
             get
@@ -2627,6 +2639,7 @@ namespace TraktPlugin.GUI
                 int peopleCount = 0;
                 peopleCount += Actors.Count();
                 peopleCount += Directors.Count();
+                peopleCount += Producers.Count();
                 peopleCount += Writers.Count();
                 peopleCount += GuestStars.Count();
                 return peopleCount;

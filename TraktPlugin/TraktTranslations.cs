@@ -311,7 +311,8 @@ namespace TraktPlugin.GUI
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
-        public static string ErrorCalendar = "Error getting calendar.";        
+        public static string ErrorCalendar = "Error getting calendar.";
+        public static string ExecutiveProducer = "Executive Producer.";
 
         // F
         public static string Filters = "Filters";
@@ -513,6 +514,8 @@ namespace TraktPlugin.GUI
         public static string PrivacyPublic = "Anyone can view this list";
         public static string PrivacyFriends = "Only friends can view this list";
         public static string PrivacyPrivate = "Only you can view this list";
+        public static string Producer = "Producer";
+        public static string Producers = "Producers";
         public static string Profile = "Profile";
         
         // R

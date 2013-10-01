@@ -107,6 +107,7 @@
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
   <string name="ErrorCalendar">Error getting calendar.</string>
+  <string name="ExecutiveProducer">Executive Producer</string>
   <!--F-->
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
@@ -298,6 +299,8 @@
   <string name="PrivacyFriends">Only friends can view this list</string>
   <string name="PrivacyPrivate">Only you can view this list</string>
   <string name="Profile">Profile</string>
+  <string name="Producer">Producer</string>
+  <string name="Producers">Producers</string>
   <!--R-->
   <string name="Rate">Rate</string>
   <string name="Rated">Rated</string>
