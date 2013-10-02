@@ -250,7 +250,7 @@ namespace TraktPlugin.GUI
         public static string BufferingTrailer = "Buffering Trailer";
         public static string Biography = "Biography";
         public static string Birthday = "Birthday";
-        public static string Birthdate = "Birth Date";
+        public static string BirthDate = "Birth Date";
         public static string Born = "Born";
         public static string BirthPlace = "Birth Place";
 
@@ -403,8 +403,8 @@ namespace TraktPlugin.GUI
         public static string GettingRelatedShows = "Getting Related Shows";
         public static string GettingTrailerUrls = "Getting Trailer Urls";
         public static string GettingUserProfile = "Getting User Profile";
-        public static string Gueststar = "Gueststar";
-        public static string Gueststars = "Gueststars";
+        public static string GuestStar = "Gueststar";
+        public static string GuestStars = "Gueststars";
 
         // H
         public static string Hate = "Hate";
