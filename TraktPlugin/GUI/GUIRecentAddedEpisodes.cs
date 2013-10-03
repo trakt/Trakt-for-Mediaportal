@@ -495,6 +495,9 @@ namespace TraktPlugin.GUI
 
                     var episodeSummary = new TraktEpisodeSummary { Episode = episode, Show = activity.Show };
 
+                    // skip invalid episodes
+                    if (episodeSummary.Episode.Number == 0) continue;
+
                     var item = new GUIEpisodeListItem(episodeSummary.ToString(), (int)TraktGUIWindows.RecentAddedEpisodes);
 
                     // add images for download

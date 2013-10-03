@@ -485,6 +485,9 @@ namespace TraktPlugin.GUI
                     continue;
 
                 var episodeSummary = new TraktEpisodeSummary { Episode = activity.Episode, Show = activity.Show };
+                
+                // skip invalid episodes
+                if (episodeSummary.Episode.Number == 0) continue;
 
                 var item = new GUIEpisodeListItem(episodeSummary.ToString(), (int)TraktGUIWindows.RecentWatchedEpisodes);
 
