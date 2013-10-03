@@ -154,7 +154,8 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Info("{0} watched movies available to sync in My Videos database", SeenList.Count.ToString());
 
-                // get the movies that we have yet to watch                        
+                // get the movies that we have yet to watch 
+                TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);       
                 IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
                 if (traktMoviesAll == null)
                 {

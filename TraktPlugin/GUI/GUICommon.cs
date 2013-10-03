@@ -1881,7 +1881,7 @@ namespace TraktPlugin.GUI
 
             if (people.GuestStars.Count > 0)
             {
-                pItem = new GUIListItem(Translation.Gueststars);
+                pItem = new GUIListItem(Translation.GuestStars);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktSearchByItems.GuestStars;
                 pItem.Label2 = people.GuestStars.Count.ToString();
@@ -1901,7 +1901,7 @@ namespace TraktPlugin.GUI
                 retCode = ShowSearchByPersonMenu(people.Producers);
             if (dlg.SelectedLabelText == Translation.Writers)
                 retCode = ShowSearchByPersonMenu(people.Writers);
-            if (dlg.SelectedLabelText == Translation.Gueststars)
+            if (dlg.SelectedLabelText == Translation.GuestStars)
                 retCode = ShowSearchByPersonMenu(people.GuestStars);
 
             return retCode;

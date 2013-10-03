@@ -151,7 +151,6 @@ namespace TraktPlugin
         {
             Thread.CurrentThread.Name = "DashActivity";
 
-            TraktLogger.Debug("Loading Trakt Activity...");
             GUIFacadeControl facade = null;
 
             // get the facade, may need to wait until
@@ -319,7 +318,7 @@ namespace TraktPlugin
             GUIUserListItem.StopDownload = false;
             GUIUserListItem.GetImages(userImages);
 
-            TraktLogger.Debug("Finished Loading Activity facade...");
+            TraktLogger.Debug("Finished Loading Activity facade");
         }
 
         /// <summary>
@@ -368,8 +367,6 @@ namespace TraktPlugin
         private void LoadTrendingMovies()
         {
             Thread.CurrentThread.Name = "DashMovies";
-
-            TraktLogger.Debug("Loading Trakt Trending Movies...");
 
             GUIFacadeControl facade = null;
             bool isCached;
@@ -520,7 +517,7 @@ namespace TraktPlugin
             // get trending settings for window
             var trendingSettings = GetTrendingSettings();
 
-            TraktLogger.Debug("Loading Trakt Trending Movies facade...");
+            TraktLogger.Debug("Loading Trakt Trending Movies facade");
 
             // if no trending, then nothing to do
             if (movies == null || movies.Count() == 0)
@@ -575,14 +572,12 @@ namespace TraktPlugin
 
             SetTrendingVisibility();
 
-            TraktLogger.Debug("Finished Loading Trending Movies facade...");
+            TraktLogger.Debug("Finished Loading Trending Movies facade");
         }
 
         private void LoadTrendingShows()
         {
             Thread.CurrentThread.Name = "DashShows";
-
-            TraktLogger.Debug("Loading Trakt Trending Shows...");
 
             GUIFacadeControl facade = null;
             bool isCached;
@@ -735,7 +730,7 @@ namespace TraktPlugin
             // get trending settings
             var trendingSettings = GetTrendingSettings();
 
-            TraktLogger.Debug("Loading Trakt Trending Shows facade...");
+            TraktLogger.Debug("Loading Trakt Trending Shows facade");
 
             // if no trending, then nothing to do
             if (shows == null || shows.Count() == 0)
@@ -790,7 +785,7 @@ namespace TraktPlugin
             
             SetTrendingVisibility();
 
-            TraktLogger.Debug("Finished Loading Trending Shows facade...");
+            TraktLogger.Debug("Finished Loading Trending Shows facade");
         }
 
         private string GetActivityImage(TraktActivity.Activity activity)
@@ -952,7 +947,6 @@ namespace TraktPlugin
                 // join the Previous request with the current
                 if (incrementalActivity != null && incrementalActivity.Activities != null)
                 {
-                    TraktLogger.Debug("Response: {0}", incrementalActivity.ToJSON());
                     PreviousActivity.Activities = incrementalActivity.Activities.Union(PreviousActivity.Activities).Take(TraktSkinSettings.DashboardActivityFacadeMaxItems).ToList();
                     PreviousActivity.Timestamps = incrementalActivity.Timestamps;
                 }

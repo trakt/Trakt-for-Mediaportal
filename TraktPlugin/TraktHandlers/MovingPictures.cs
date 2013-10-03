@@ -129,7 +129,8 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("{0} watched movies available to sync in MovingPictures database", SeenList.Count.ToString());
 
                 #region Get Movie Library from Trakt
-                //Get all movies we have in our library including movies in users collection
+                // get all movies we have in our library including movies in users collection
+                TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);
                 IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
                 if (traktMoviesAll == null)
                 {
@@ -1090,7 +1091,7 @@ namespace TraktPlugin.TraktHandlers
             #region WatchList
             TraktLogger.Debug("Creating the watchlist filter");
             var watchlistFilter = new DBFilter<DBMovieInfo>();
-            TraktLogger.Debug("WatchList: {0}", string.Join(", ", traktWatchListMovies.Select(m => m.Title).ToArray()));
+            
             foreach (var movie in traktWatchListMovies.Select(traktmovie => movieList.Find(m => m.ImdbID != null && m.ImdbID.CompareTo(traktmovie.IMDBID) == 0)).Where(movie => movie != null))
             {
                 TraktLogger.Debug("Adding {0} to watchlist", movie.Title);

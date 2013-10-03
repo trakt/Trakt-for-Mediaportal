@@ -46,6 +46,7 @@ namespace TraktPlugin
             // listen to webclient events from the TraktAPI so we can provide useful logging            
             TraktAPI.TraktAPI.OnDataSend += new TraktAPI.TraktAPI.OnDataSendDelegate(TraktAPI_OnDataSend);
             TraktAPI.TraktAPI.OnDataError += new TraktAPI.TraktAPI.OnDataErrorDelegate(TraktAPI_OnDataError);
+            TraktAPI.TraktAPI.OnDataReceived += new TraktAPI.TraktAPI.OnDataReceivedDelegate(TraktAPI_OnDataReceived);
         }
 
         internal static void Info(String log)
@@ -124,6 +125,11 @@ namespace TraktPlugin
             {
                 TraktLogger.Debug("Address: {0}", address);
             }
+        }
+
+        private static void TraktAPI_OnDataReceived(string response)
+        {
+            TraktLogger.Debug("Response: {0}", response ?? "null");
         }
 
         private static void TraktAPI_OnDataError(string error)

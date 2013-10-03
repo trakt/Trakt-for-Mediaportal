@@ -423,6 +423,8 @@ namespace TraktPlugin
                 TraktLogger.Info("Removing Movies from Trakt");
                 TraktLogger.Info("NOTE: WILL NOT REMOVE SCROBBLED MOVIES DUE TO API LIMITATION");
                 progressDialog.Line2 = "Getting movies for user";
+
+                TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);
                 var movies = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = TraktHandlers.BasicHandler.CreateMovieSyncData(movies);
@@ -461,6 +463,8 @@ namespace TraktPlugin
                 {
                     TraktLogger.Info("First removing shows from seen");
                     progressDialog.Line2 = "Getting Watched Episodes from Trakt";
+
+                    TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", TraktSettings.Username);
                     var watchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
                     if (watchedEpisodes != null)
                     {
@@ -483,6 +487,8 @@ namespace TraktPlugin
                 progressDialog.Value = 85;
                 TraktLogger.Info("Now removing shows from library");
                 progressDialog.Line2 = "Getting Library Episodes from Trakt";
+
+                TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", TraktSettings.Username);
                 var libraryEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
                 if (libraryEpisodes != null)
                 {

@@ -311,7 +311,6 @@ namespace TraktPlugin
                     if (settings != null && settings.Status == "success")
                     {
                         _showAdvancedRatingsDialogs = settings.ViewingSettings.RatingSettings.Mode == "advanced";
-                        TraktLogger.Debug("Response: " + settings.ToJSON());
                     }
                     else
                     {
@@ -419,7 +418,6 @@ namespace TraktPlugin
                         };
 
                         TraktResponse response = TraktAPI.TraktAPI.TestAccount(account);
-                        TraktLogger.Debug("Response: " + response.ToJSON());
                         if (response != null && response.Status == "success")
                         {
                             TraktLogger.Info("User {0} signed into trakt.", TraktSettings.Username);

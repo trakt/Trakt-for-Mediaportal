@@ -149,6 +149,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("{0} watched movies available to sync in MyFilms database(s)", SeenList.Count.ToString());
 
                 #region Get Movies from trakt
+                TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);
                 IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
                 if (traktMoviesAll == null)
                 {

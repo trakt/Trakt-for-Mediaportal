@@ -95,6 +95,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 #region Get online data
                 // get all episodes on trakt that are marked as in 'collection'
+                TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", TraktSettings.Username);
                 IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
                 if (traktCollectionEpisodes == null)
                 {
@@ -105,6 +106,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("{0} tvshows in trakt collection", traktCollectionEpisodes.Count().ToString());
 
                 // get all episodes on trakt that are marked as 'seen' or 'watched'
+                TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", TraktSettings.Username);
                 IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
                 if (traktWatchedEpisodes == null)
                 {
@@ -115,6 +117,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("{0} tvshows with watched episodes in trakt library", traktWatchedEpisodes.Count().ToString());
 
                 // get all episodes on trakt that are marked as 'unseen'
+                TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", TraktSettings.Username);
                 IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
                 if (traktUnSeenEpisodes == null)
                 {

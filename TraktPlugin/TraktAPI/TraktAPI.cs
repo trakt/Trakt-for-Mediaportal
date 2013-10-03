@@ -258,9 +258,6 @@ namespace TraktPlugin.TraktAPI
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.SyncMovieLibrary, mode.ToString()), syncData.ToJSON());
 
-            // Log how many movies were inserted, skipped, already exist and movie list of failures
-            TraktLogger.Debug("Response: {0}", response);
-
             // return success or failure
             return response.FromJSON<TraktSyncResponse>();
         }
@@ -285,8 +282,7 @@ namespace TraktPlugin.TraktAPI
             }
 
             // serialize Scrobble object to JSON and send to server
-            string response = Transmit(string.Format(TraktURIs.SyncShowWatchList, mode.ToString()), syncData.ToJSON());           
-            TraktLogger.Debug("Response: {0}", response);
+            string response = Transmit(string.Format(TraktURIs.SyncShowWatchList, mode.ToString()), syncData.ToJSON());
 
             // return success or failure
             return response.FromJSON<TraktResponse>();
@@ -313,7 +309,6 @@ namespace TraktPlugin.TraktAPI
 
             // serialize Scrobble object to JSON and send to server
             string response = Transmit(string.Format(TraktURIs.SyncEpisodeWatchList, mode.ToString()), syncData.ToJSON());
-            TraktLogger.Debug("Response: {0}", response);
 
             // return success or failure
             return response.FromJSON<TraktResponse>();
@@ -380,14 +375,13 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetMovieCollectionForUser(string user)
         {
-            TraktLogger.Info("Getting user {0}'s movie collection from trakt", user);
-            //Get the library
+            // get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesCollection, user), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", moviesForUser);
-            //hand it on
+
             // if we timeout we will return an error response
             TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
             if (response == null || response.Error != null) return null;
+
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -404,14 +398,13 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt movie library</returns>
         public static IEnumerable<TraktLibraryMovies> GetAllMoviesForUser(string user, bool syncDataOnly)
         {
-            TraktLogger.Info("Getting user {0}'s movies from trakt", user);
-            //Get the library
+            // Get the library
             string moviesForUser = Transmit(string.Format(TraktURIs.UserMoviesAll, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", moviesForUser);
-            //hand it on
+
             // if we timeout we will return an error response
             TraktResponse response = moviesForUser.FromJSON<TraktResponse>();
             if (response == null || response.Error != null) return null;
+
             return moviesForUser.FromJSONArray<TraktLibraryMovies>();
         }
 
@@ -428,12 +421,12 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShow> GetLibraryEpisodesForUser(string user, bool syncDataOnly)
         {
-            TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesCollection, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", showsForUser);            
+
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
             if (response == null || response.Error != null) return null;
+
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -450,12 +443,12 @@ namespace TraktPlugin.TraktAPI
         /// <returns>The trakt episode library</returns>
         public static IEnumerable<TraktLibraryShow> GetWatchedEpisodesForUser(string user, bool syncDataOnly)
         {
-            TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserWatchedEpisodes, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", showsForUser);
+
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
             if (response == null || response.Error != null) return null;
+
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -466,12 +459,12 @@ namespace TraktPlugin.TraktAPI
 
         public static IEnumerable<TraktLibraryShow> GetUnSeenEpisodesForUser(string user, bool syncDataOnly)
         {
-            TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", user);
             string showsForUser = Transmit(string.Format(TraktURIs.UserEpisodesUnSeen, user, syncDataOnly ? @"/min" : string.Empty), GetUserAuthentication());
-            TraktLogger.Debug("Response: {0}", showsForUser);
+
             // if we timeout we will return an error response
             TraktResponse response = showsForUser.FromJSON<TraktResponse>();
             if (response == null || response.Error != null) return null;
+
             return showsForUser.FromJSONArray<TraktLibraryShow>();
         }
 
@@ -932,7 +925,6 @@ namespace TraktPlugin.TraktAPI
             string response = Transmit(TraktURIs.DismissShowRecommendation, show.ToJSON());
             return response.FromJSON<TraktResponse>();
         }
-
 
         /// <summary>
         /// Get Recommendations with out any filtering
