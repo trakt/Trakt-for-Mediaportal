@@ -350,11 +350,12 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Search</string>
+  <string name="SearchAll">Search All</string>
   <string name="SearchBy">Search By</string>
   <string name="SearchMovies">Search Movies</string>
   <string name="SearchShows">Search Shows</string>
   <string name="SearchEpisodes">Search Episodes</string>
-  <string name="SearchPeople">Search Peoples</string>
+  <string name="SearchPeople">Search People</string>
   <string name="SearchUsers">Search Users</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SearchForUser">Search for User...</string>

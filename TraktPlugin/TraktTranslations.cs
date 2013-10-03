@@ -568,6 +568,7 @@ namespace TraktPlugin.GUI
         public static string Season = "Season";
         public static string Seasons = "Seasons";
         public static string Search = "Search";
+        public static string SearchAll = "Search All";
         public static string SearchBy = "Search By";
         public static string SearchMovies = "Search Movies";
         public static string SearchShows = "Search Shows";

@@ -1839,7 +1839,7 @@ namespace TraktPlugin.GUI
         #region Trakt External Menu
 
         #region SearchBy Menu
-        public static bool ShowSearchByMenu(SearchPeople people)
+        public static bool ShowSearchByMenu(SearchPeople people, string title)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1894,20 +1894,20 @@ namespace TraktPlugin.GUI
             bool retCode = false;
 
             if (dlg.SelectedLabelText == Translation.Actors)
-                retCode = ShowSearchByPersonMenu(people.Actors);
+                retCode = ShowSearchByPersonMenu(people.Actors, title);
             if (dlg.SelectedLabelText == Translation.Directors)
-                retCode = ShowSearchByPersonMenu(people.Directors);
+                retCode = ShowSearchByPersonMenu(people.Directors, title);
             if (dlg.SelectedLabelText == Translation.Producers)
-                retCode = ShowSearchByPersonMenu(people.Producers);
+                retCode = ShowSearchByPersonMenu(people.Producers, title);
             if (dlg.SelectedLabelText == Translation.Writers)
-                retCode = ShowSearchByPersonMenu(people.Writers);
+                retCode = ShowSearchByPersonMenu(people.Writers, title);
             if (dlg.SelectedLabelText == Translation.GuestStars)
-                retCode = ShowSearchByPersonMenu(people.GuestStars);
+                retCode = ShowSearchByPersonMenu(people.GuestStars, title);
 
             return retCode;
         }
 
-        public static bool ShowSearchByPersonMenu(List<string> people)
+        public static bool ShowSearchByPersonMenu(List<string> people, string title)
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1915,6 +1915,10 @@ namespace TraktPlugin.GUI
 
             GUIListItem pItem = null;
             int itemId = 0;
+
+            pItem = new GUIListItem(Translation.SearchAll);
+            dlg.Add(pItem);
+            pItem.ItemId = itemId++;
 
             foreach (var person in people)
             {
@@ -1928,7 +1932,16 @@ namespace TraktPlugin.GUI
             if (dlg.SelectedId < 0) return false;
 
             // Trigger Search
-            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, dlg.SelectedLabelText);
+            // If Search By 'All', the parse along list of all people
+            if (dlg.SelectedLabelText == Translation.SearchAll)
+            {
+                var peopleInItem = new PersonSearch { People = people, Title = title };
+                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, peopleInItem.ToJSON());
+            }
+            else
+            {
+                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, dlg.SelectedLabelText);
+            }
 
             return true;
         }
@@ -2036,7 +2049,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people);
+                    ShowSearchByMenu(people, title);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):
@@ -2168,7 +2181,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people);
+                    ShowSearchByMenu(people, title);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):
@@ -2286,7 +2299,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people);
+                    ShowSearchByMenu(people, title);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):

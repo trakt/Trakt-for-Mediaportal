@@ -17,6 +17,12 @@ using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
+    public class PersonSearch
+    {
+        public List<string> People { get; set; }
+        public string Title { get; set; }
+    }
+
     public class GUISearchPeople : GUIWindow
     {
         #region Skin Controls
@@ -57,9 +63,11 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         bool SearchTermChanged { get; set; }
+        bool IsMultiPersonSearch { get; set; }
         string PreviousSearchTerm { get; set; }
         Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex = 0;
+        private readonly Object sync = new Object();
 
         #endregion
 
@@ -104,6 +112,7 @@ namespace TraktPlugin.GUI
             ClearProperties();
 
             _loadParameter = null;
+            IsMultiPersonSearch = false;
 
             // save settings
             TraktSettings.SearchPeopleDefaultLayout = (int)CurrentLayout;
@@ -207,7 +216,37 @@ namespace TraktPlugin.GUI
                 if (People == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    People = TraktAPI.TraktAPI.SearchPeople(SearchTerm);
+                    if (!IsMultiPersonSearch)
+                    {
+                        People = TraktAPI.TraktAPI.SearchPeople(SearchTerm);
+                    }
+                    else
+                    {
+                        // do a search for all people in parallel
+                        var threads = new List<Thread>();
+
+                        foreach (string person in SearchTerm.FromJSON<PersonSearch>().People)
+                        {
+                            var tPersonSearch = new Thread((obj) =>
+                            {
+                                var result = TraktAPI.TraktAPI.SearchPeople(obj as string, 1);
+                                lock (sync)
+                                {
+                                    if (People == null)
+                                        People = result;
+                                    else
+                                        People = People.Union(result);
+                                }
+                            });
+
+                            tPersonSearch.Start(person);
+                            tPersonSearch.Name = "Search";
+                            threads.Add(tPersonSearch);
+                        }
+
+                        // wait until all search results are back
+                        threads.ForEach(t => t.Join());
+                    }
                 }
                 return People;
             },
@@ -244,7 +283,7 @@ namespace TraktPlugin.GUI
                 var images = new TraktImage { PoepleImages = person.Images };
                 personImages.Add(images);
 
-                var item = new GUIPersonListItem(person.Name, (int)TraktGUIWindows.SearchPeople);
+                var item = new GUIPersonListItem(person.Name.Trim(), (int)TraktGUIWindows.SearchPeople);
                 
                 item.TVTag = person;
                 item.Images = images;
@@ -280,6 +319,12 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Person Search Loading Parameter: {0}", _loadParameter);
                 SearchTerm = _loadParameter;
+
+                // check if the searchterm is a list of people
+                if (SearchTerm.StartsWith("{") && SearchTerm.EndsWith("}"))
+                {
+                    IsMultiPersonSearch = true;
+                }
             }
 
             // remember previous search term
@@ -288,7 +333,10 @@ namespace TraktPlugin.GUI
             PreviousSearchTerm = SearchTerm;
 
             // set context property
-            GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm);
+            if (!IsMultiPersonSearch)
+                GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm);
+            else
+                GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm.FromJSON<PersonSearch>().Title);
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.SearchPeopleDefaultLayout;
