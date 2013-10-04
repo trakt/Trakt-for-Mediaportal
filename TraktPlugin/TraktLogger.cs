@@ -134,7 +134,7 @@ namespace TraktPlugin
 
         private static void TraktAPI_OnDataError(string error)
         {
-            TraktLogger.Debug("WebException: {0}", error);
+            TraktLogger.Error("WebException: {0}", error);
         }
 
         /// <summary>

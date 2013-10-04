@@ -232,8 +232,6 @@ namespace TraktPlugin
             if (TraktSkinSettings.DashBoardActivityWindows == null || !TraktSkinSettings.DashBoardActivityWindows.Contains(GUIWindowManager.ActiveWindow.ToString()))
                 return;
 
-            TraktLogger.Debug("Loading Trakt Activity Facade");
-
             // if no activities report to user
             if (activities == null || activities.Activities == null || activities.Activities.Count == 0)
             {
@@ -259,6 +257,8 @@ namespace TraktPlugin
                     }
                 }
             }
+
+            TraktLogger.Debug("Loading Trakt Activity Facade");
 
             // stop any existing image downloads
             GUIUserListItem.StopDownload = true;
@@ -865,10 +865,10 @@ namespace TraktPlugin
 
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
+                TraktLogger.Debug("Getting trending movies from trakt");
                 var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
                 if (trendingMovies != null && trendingMovies.Count() > 0)
                 {
-                    TraktLogger.Debug("Getting trending movies from trakt");
                     LastTrendingMovieUpdate = DateTime.Now;
                     PreviousTrendingMovies = trendingMovies;
                 }
