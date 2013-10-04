@@ -1194,6 +1194,9 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.TVDbID", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.IMDbID", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", string.Empty);
@@ -1221,6 +1224,8 @@ namespace TraktPlugin.GUI
 
             SetProperty("#Trakt.Episode.Number", episode.Number.ToString());
             SetProperty("#Trakt.Episode.Season", episode.Season.ToString());
+            SetProperty("#Trakt.Episode.TVDbID", episode.TVDbID.ToString());
+            SetProperty("#Trakt.Episode.IMDbID", episode.IMDbID ?? string.Empty);
             SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired == 0 ? " " : episode.FirstAired.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Episode.FirstAiredLocalized", episode.FirstAiredLocalized == 0 ? " " : episode.FirstAiredLocalized.FromEpoch().ToShortDateString());
             SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", episode.FirstAiredLocalized == 0 ? " " : episode.FirstAiredLocalized.FromEpoch().DayOfWeek.ToString());
