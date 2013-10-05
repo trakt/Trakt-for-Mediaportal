@@ -1845,7 +1845,7 @@ namespace TraktPlugin.GUI
         #region Trakt External Menu
 
         #region SearchBy Menu
-        public static bool ShowSearchByMenu(SearchPeople people, string title)
+        public static bool ShowSearchByMenu(SearchPeople people, string title, string fanart)
         {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1900,20 +1900,20 @@ namespace TraktPlugin.GUI
             bool retCode = false;
 
             if (dlg.SelectedLabelText == Translation.Actors)
-                retCode = ShowSearchByPersonMenu(people.Actors, title);
+                retCode = ShowSearchByPersonMenu(people.Actors, title, fanart);
             if (dlg.SelectedLabelText == Translation.Directors)
-                retCode = ShowSearchByPersonMenu(people.Directors, title);
+                retCode = ShowSearchByPersonMenu(people.Directors, title, fanart);
             if (dlg.SelectedLabelText == Translation.Producers)
-                retCode = ShowSearchByPersonMenu(people.Producers, title);
+                retCode = ShowSearchByPersonMenu(people.Producers, title, fanart);
             if (dlg.SelectedLabelText == Translation.Writers)
-                retCode = ShowSearchByPersonMenu(people.Writers, title);
+                retCode = ShowSearchByPersonMenu(people.Writers, title, fanart);
             if (dlg.SelectedLabelText == Translation.GuestStars)
-                retCode = ShowSearchByPersonMenu(people.GuestStars, title);
+                retCode = ShowSearchByPersonMenu(people.GuestStars, title, fanart);
 
             return retCode;
         }
 
-        public static bool ShowSearchByPersonMenu(List<string> people, string title)
+        public static bool ShowSearchByPersonMenu(List<string> people, string title, string fanart)
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -1941,7 +1941,7 @@ namespace TraktPlugin.GUI
             // If Search By 'All', the parse along list of all people
             if (dlg.SelectedLabelText == Translation.SearchAll)
             {
-                var peopleInItem = new PersonSearch { People = people, Title = title };
+                var peopleInItem = new PersonSearch { People = people, Title = title, Fanart = fanart };
                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, peopleInItem.ToJSON());
             }
             else
@@ -2059,7 +2059,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people, title);
+                    ShowSearchByMenu(people, title, fanart);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):
@@ -2199,7 +2199,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people, title);
+                    ShowSearchByMenu(people, title, fanart);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):
@@ -2325,7 +2325,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
-                    ShowSearchByMenu(people, title);
+                    ShowSearchByMenu(people, title, fanart);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):

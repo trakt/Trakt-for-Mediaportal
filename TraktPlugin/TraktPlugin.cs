@@ -1286,7 +1286,7 @@ namespace TraktPlugin
                 }
                 else
                 {
-                    GUICommon.ShowSearchByMenu(searchPeople, title);
+                    GUICommon.ShowSearchByMenu(searchPeople, title, fanart);
                 }
             }
             #endregion

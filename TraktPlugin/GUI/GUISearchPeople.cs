@@ -21,6 +21,7 @@ namespace TraktPlugin.GUI
     {
         public List<string> People { get; set; }
         public string Title { get; set; }
+        public string Fanart { get; set; }
     }
 
     public class GUISearchPeople : GUIWindow
@@ -113,6 +114,7 @@ namespace TraktPlugin.GUI
 
             _loadParameter = null;
             IsMultiPersonSearch = false;
+            GUIUtils.SetProperty("#Trakt.People.Fanart", string.Empty);
 
             // save settings
             TraktSettings.SearchPeopleDefaultLayout = (int)CurrentLayout;
@@ -324,6 +326,11 @@ namespace TraktPlugin.GUI
                 if (SearchTerm.StartsWith("{") && SearchTerm.EndsWith("}"))
                 {
                     IsMultiPersonSearch = true;
+                    // multi-person search will most likely have fanart as its attached
+                    // to a movie, show or episode.
+                    string fanart = SearchTerm.FromJSON<PersonSearch>().Fanart;
+                    if (File.Exists(fanart))
+                        GUIUtils.SetProperty("#Trakt.People.Fanart", fanart);
                 }
             }
 
