@@ -162,6 +162,7 @@ namespace TraktPlugin.GUI
         Related,
         UserProfile,
         Calendar,
+        Network,
         Recommendations,
         Trending,
         WatchList,
@@ -2004,6 +2005,10 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.UserProfile;
 
+                pItem = new GUIListItem(Translation.Network);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Network;
+
                 pItem.ItemId = (int)TraktMenuItems.Lists;
                 pItem = new GUIListItem(Translation.Recommendations);
                 dlg.Add(pItem);
@@ -2059,6 +2064,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.UserProfile):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
+                case ((int)TraktMenuItems.Network):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Network);
                     break;
 
                 case ((int)TraktMenuItems.Recommendations):
@@ -2133,6 +2142,10 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.UserProfile;
 
+                pItem = new GUIListItem(Translation.Network);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Network;
+
                 pItem = new GUIListItem(Translation.Calendar);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Calendar;
@@ -2191,6 +2204,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.UserProfile):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
+                case ((int)TraktMenuItems.Network):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Network);
                     break;
 
                 case ((int)TraktMenuItems.Calendar):
@@ -2264,6 +2281,10 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.UserProfile;
 
+                pItem = new GUIListItem(Translation.Network);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Network;
+
                 pItem = new GUIListItem(Translation.Calendar);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Calendar;
@@ -2313,6 +2334,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Calendar):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    break;
+
+                case ((int)TraktMenuItems.Network):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Network);
                     break;
 
                 case ((int)TraktMenuItems.WatchList):
