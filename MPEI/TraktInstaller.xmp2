@@ -2043,23 +2043,24 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>3</Major>
       <Minor>1</Minor>
-      <Build>0</Build>
+      <Build>1</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added a new Search GUI, allows the user to search for Movies, TV Shows, Episodes, People (Actors, Directors, Writers etc) and Users.
-* Added a new 'Search By' item to the Trakt External Plugin menu, you can search for related people on selected item e.g. In MP-TVSeries Episode view, you can search for a guest star.
-* Fixed 'LibrarySync' setting not being respected in MovingPictures if a new movie was inserted whilst MediaPortal was running.
-* Fixed movies with no 'Titles' being added to lists. This is a bug in the API.
-* Fixed re-send of user ratings to trakt server when we don't get back a valid response of existing ratings. We presumed that no ratings were on server hence they were re-sent.
-* Exposed a few more 'LibrarySync' settings to the configuration dialog.
-* Updated Default and DefaultWide skins for Search GUI support.
+    <VersionDescription>* Added ability to apply filters on the Trending Dashboard. There is a new advanced setting to enable/disable this behaviour.
+* Added ability to 'Search All' people for a selected movie, show or episode in external plugins, instead of selecting one person at a time it will do a look-up for all users in one click.
+* Added skin property to show fanart in the 'Search People' window, this is only applicable when doing a 'Search All' from 3rd party plugin.
+* Added 'Producers' to the external SearchBy menu, used by plugins that support 'Producers' e.g. My Films.
+* Added 'Network' to the external plugin context menu. Only visible when 3rd party plugin also wants to display non-context related items.
+* Added skin properties for TVDb ID and IMDb ID for episodes.
+* Filter out invalid episodes from Recently Added/Watched GUI's i.e. episodes with number zero.
+* Fixed a few translations with incorrect casing.
 * Updated Translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2013-09-28T10:00:00</ReleaseDate>
+    <ReleaseDate>2013-10-06T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>
