@@ -107,6 +107,7 @@
   <string name="Episodes">Epizodai</string>
   <string name="Error">Trakt klaida</string>
   <string name="ErrorCalendar">Klaida gaunant kalendorių</string>
+  <string name="ExecutiveProducer">Vykdantysis prodiuseris</string>
   <!--F-->
   <string name="Filters">Filtrai</string>
   <string name="FirstAired">Pirma kartą rodytas</string>
@@ -298,6 +299,8 @@
   <string name="PrivacyFriends">Tik draugai gali žiūrėti šį sąrašą</string>
   <string name="PrivacyPrivate">Tik jūs galite žiūrėti šį sąrašą</string>
   <string name="Profile">Profilis</string>
+  <string name="Producer">Prodiuseris</string>
+  <string name="Producers">Prodiuseriai</string>
   <!--R-->
   <string name="Rate">Įvertinti</string>
   <string name="Rated">Vertinimas</string>
@@ -347,6 +350,7 @@
   <string name="Season">Sezonas</string>
   <string name="Seasons">Sezonai</string>
   <string name="Search">Ieškoti</string>
+  <string name="SearchAll">Ieškoti visur</string>
   <string name="SearchBy">Ieškoti pagal</string>
   <string name="SearchMovies">Ieškoti Filmuose</string>
   <string name="SearchShows">Ieškoti TV laidose</string>

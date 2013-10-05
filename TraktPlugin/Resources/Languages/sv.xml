@@ -107,6 +107,7 @@
   <string name="Episodes">Avsnitt</string>
   <string name="Error">Trakt-fel</string>
   <string name="ErrorCalendar">Fel vid hämtning av kalender.</string>
+  <string name="ExecutiveProducer">Verkställande producent</string>
   <!--F-->
   <string name="Filters">Filter</string>
   <string name="FirstAired">Först visad</string>
@@ -298,6 +299,8 @@
   <string name="PrivacyFriends">Endast vänner kan se denna lista</string>
   <string name="PrivacyPrivate">Denna lista kan endast ses av dig</string>
   <string name="Profile">Profil</string>
+  <string name="Producer">Producent</string>
+  <string name="Producers">Producenter</string>
   <!--R-->
   <string name="Rate">Betygsätt</string>
   <string name="Rated">Betyg</string>
@@ -347,6 +350,7 @@
   <string name="Season">Säsong</string>
   <string name="Seasons">Säsonger</string>
   <string name="Search">Sök</string>
+  <string name="SearchAll">Sök alla</string>
   <string name="SearchBy">Sök efter</string>
   <string name="SearchMovies">Sök filmer</string>
   <string name="SearchShows">Sök program</string>
