@@ -1374,7 +1374,7 @@ namespace TraktPlugin.GUI
             }
 
             // Filters
-            if (!dashboard)
+            if (TraktSettings.FilterTrendingOnDashboard || !dashboard)
             {
                 listItem = new GUIListItem(Translation.Filters + "...");
                 dlg.Add(listItem);
@@ -1476,7 +1476,7 @@ namespace TraktPlugin.GUI
             }
 
             // Filters
-            if (!dashboard)
+            if (TraktSettings.FilterTrendingOnDashboard || !dashboard)
             {
                 listItem = new GUIListItem(Translation.Filters + "...");
                 dlg.Add(listItem);

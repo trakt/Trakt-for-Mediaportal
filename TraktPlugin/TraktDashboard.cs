@@ -366,7 +366,12 @@ namespace TraktPlugin
 
         private void LoadTrendingMovies()
         {
-            Thread.CurrentThread.Name = "DashMovies";
+            LoadTrendingMovies(false);
+        }
+        private void LoadTrendingMovies(bool forceReload)
+        {
+            if (Thread.CurrentThread.Name == null)
+                Thread.CurrentThread.Name = "DashMovies";
 
             GUIFacadeControl facade = null;
             bool isCached;
@@ -393,7 +398,7 @@ namespace TraktPlugin
                 var trendingMovies = GetTrendingMovies(out isCached);
 
                 // prevent an unnecessary reload
-                if (!isCached)
+                if (!isCached || forceReload)
                 {
                     // publish properties
                     PublishMovieProperties(trendingMovies);
@@ -434,6 +439,9 @@ namespace TraktPlugin
         private void PublishMovieProperties(IEnumerable<TraktTrendingMovie> movies)
         {
             if (movies == null) return;
+
+            if (TraktSettings.FilterTrendingOnDashboard)
+                movies = GUICommon.FilterTrendingMovies(movies);
 
             var movieList = movies.ToList();
             int maxItems = movies.Count() < GetMaxTrendingProperties() ? movies.Count() : GetMaxTrendingProperties();
@@ -532,6 +540,10 @@ namespace TraktPlugin
             int itemId = 0;
             var movieImages = new List<TraktImage>();
 
+            // filter movies
+            if (TraktSettings.FilterTrendingOnDashboard)
+                movies = GUICommon.FilterTrendingMovies(movies);
+
             // Add each activity item to the facade
             foreach (var movie in movies.Take(trendingSettings.FacadeMaxItems))
             {
@@ -577,7 +589,12 @@ namespace TraktPlugin
 
         private void LoadTrendingShows()
         {
-            Thread.CurrentThread.Name = "DashShows";
+            LoadTrendingShows(false);
+        }
+        private void LoadTrendingShows(bool forceReload)
+        {
+            if (Thread.CurrentThread.Name == null)
+                Thread.CurrentThread.Name = "DashShows";
 
             GUIFacadeControl facade = null;
             bool isCached;
@@ -604,7 +621,7 @@ namespace TraktPlugin
                 var trendingShows = GetTrendingShows(out isCached);
 
                 // prevent an unnecessary reload
-                if (!isCached)
+                if (!isCached || forceReload)
                 {
                     // publish properties
                     PublishShowProperties(trendingShows);
@@ -645,6 +662,9 @@ namespace TraktPlugin
         private void PublishShowProperties(IEnumerable<TraktTrendingShow> shows)
         {
             if (shows == null) return;
+
+            if (TraktSettings.FilterTrendingOnDashboard)
+                shows = GUICommon.FilterTrendingShows(shows);
 
             var showList = shows.ToList();
             int maxItems = shows.Count() < GetMaxTrendingProperties() ? shows.Count() : GetMaxTrendingProperties();
@@ -744,6 +764,10 @@ namespace TraktPlugin
 
             int itemId = 0;
             var showImages = new List<TraktImage>();
+
+            // filter shows
+            if (TraktSettings.FilterTrendingOnDashboard)
+                shows = GUICommon.FilterTrendingShows(shows);
 
             // Add each activity item to the facade
             foreach (var show in shows.Take(trendingSettings.FacadeMaxItems))
@@ -1033,6 +1057,11 @@ namespace TraktPlugin
                     TraktHelper.ShowRelatedShows(selectedShow);
                     break;
 
+                case ((int)TrendingContextMenuItem.Filters):
+                    if (GUICommon.ShowTVShowFiltersMenu())
+                        LoadTrendingShows(true);
+                    break;
+
                 case ((int)TrendingContextMenuItem.Trailers):
                     GUICommon.ShowTVShowTrailersMenu(selectedShow);
                     break;
@@ -1117,6 +1146,11 @@ namespace TraktPlugin
 
                 case ((int)TrendingContextMenuItem.AddToList):
                     TraktHelper.AddRemoveMovieInUserList(selectedMovie, false);
+                    break;
+
+                case ((int)TrendingContextMenuItem.Filters):
+                    if (GUICommon.ShowMovieFiltersMenu())
+                        LoadTrendingMovies(true);
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
