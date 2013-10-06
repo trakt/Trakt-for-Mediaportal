@@ -2009,7 +2009,6 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Network;
 
-                pItem.ItemId = (int)TraktMenuItems.Lists;
                 pItem = new GUIListItem(Translation.Recommendations);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Recommendations;
