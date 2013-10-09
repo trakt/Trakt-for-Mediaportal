@@ -498,7 +498,7 @@ namespace TraktPlugin.GUI
             // set search term from loading parameter
             if (!string.IsNullOrEmpty(_loadParameter))
             {
-                TraktLogger.Info("Movie Search Loading Parameter: {0}", _loadParameter);
+                TraktLogger.Debug("Movie Search Loading Parameter: {0}", _loadParameter);
                 SearchTerm = _loadParameter;
             }
 

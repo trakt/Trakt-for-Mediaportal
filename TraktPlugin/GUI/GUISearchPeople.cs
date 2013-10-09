@@ -319,7 +319,7 @@ namespace TraktPlugin.GUI
             // set search term from loading parameter
             if (!string.IsNullOrEmpty(_loadParameter))
             {
-                TraktLogger.Info("Person Search Loading Parameter: {0}", _loadParameter);
+                TraktLogger.Debug("Person Search Loading Parameter: {0}", _loadParameter);
                 SearchTerm = _loadParameter;
 
                 // check if the searchterm is a list of people

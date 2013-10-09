@@ -469,7 +469,7 @@ namespace TraktPlugin.GUI
             // set search term from loading parameter
             if (!string.IsNullOrEmpty(_loadParameter))
             {
-                TraktLogger.Info("Show Search Loading Parameter: {0}", _loadParameter);
+                TraktLogger.Debug("Show Search Loading Parameter: {0}", _loadParameter);
                 SearchTerm = _loadParameter;
             }
 
