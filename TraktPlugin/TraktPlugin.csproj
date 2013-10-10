@@ -640,7 +640,6 @@
     <Content Include="Resources\Skins\Default\Trakt.Common.Facade.Episodes.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.Facade.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.Fanart.xml" />
-    <Content Include="Resources\Skins\Default\Trakt.Common.People.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.Properties.Episodes.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.Properties.Movies.xml" />
     <Content Include="Resources\Skins\Default\Trakt.Common.Properties.People.xml" />

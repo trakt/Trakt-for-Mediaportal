@@ -3,8 +3,6 @@
   <id>874005</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
-  <define>#Fanart.1:#Trakt.SearchPeople.Fanart.1</define>
-  <define>#Fanart.2:#Trakt.SearchPeople.Fanart.2</define>
   <controls>
     <control>
       <description>BG</description>

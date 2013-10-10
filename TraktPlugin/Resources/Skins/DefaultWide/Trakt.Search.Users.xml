@@ -57,7 +57,7 @@
           <textYOff2>2</textYOff2>
           <textXOff3>2544</textXOff3>
           <textYOff3>8</textYOff3>
-		  <PinIconXOff>500</PinIconXOff>
+		      <PinIconXOff>500</PinIconXOff>
           <PinIconYOff>0</PinIconYOff>
           <PinIconWidth>32</PinIconWidth>
           <PinIconHeight>32</PinIconHeight>
@@ -217,7 +217,7 @@
           <animation effect="slide" time="70" start="-300,0" reversible="false">visible</animation>
           <animation effect="slide" time="70" end="-300,0" reversible="false">hidden</animation>
           <control>
-            <description>Switch View</description>
+            <description>Change Layout</description>
             <type>button</type>
             <id>2</id>
             <width>293</width>
@@ -226,28 +226,9 @@
             <onright>50</onright>
             <onup>21</onup>
           </control>
-		  <control>
-            <description>Search User</description>
-            <type>button</type>
-            <id>3</id>
-            <width>293</width>
-            <label>#Trakt.Translation.Search.Label</label>
-            <onleft>50</onleft>
-            <onright>50</onright>
-          </control>
-		  <control>
-            <description>Refresh</description>
-            <type>button</type>
-            <id>4</id>
-            <width>293</width>
-            <label>#Trakt.Translation.Refresh.Label</label>
-            <onleft>50</onleft>
-            <onright>50</onright>
-            <ondown>2</ondown>
-          </control>
         </control>
       </control>
-	</control>
+	  </control>
     <import>Trakt.Common.Properties.Users.xml</import>
   </controls>
 </window>
