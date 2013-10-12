@@ -48,6 +48,7 @@ namespace TraktPlugin.GUI
         Related,
         Rate,
         Shouts,
+        UserProfile,
         Trailers,
     }
 
@@ -887,7 +888,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Gender", user.Gender);
             SetProperty("#Trakt.User.JoinDate", user.JoinDate.FromEpoch().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);
-            SetProperty("#Trakt.User.Protected", user.Protected);
+            SetProperty("#Trakt.User.Protected", user.Protected.ToString().ToLower());
             SetProperty("#Trakt.User.Url", user.Url);
             SetProperty("#Trakt.User.Username", user.Username);
             SetProperty("#Trakt.User.VIP", user.VIP.ToString().ToLower());

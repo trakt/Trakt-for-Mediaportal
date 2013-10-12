@@ -1240,10 +1240,18 @@ namespace TraktPlugin
                 listItem.ItemId = (int)ActivityContextMenuItem.ShowFriendActivity;
             }
 
-            TraktActivity.Activity activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
+            var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
 
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
+                // userprofile - only load for unprotected users
+                if (!activity.User.Protected)
+                {
+                    listItem = new GUIListItem(Translation.UserProfile);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.UserProfile;
+                }
+
                 // if selected activity is an episode or show, add 'Season Info'
                 if (activity.Show != null)
                 {
@@ -1293,6 +1301,11 @@ namespace TraktPlugin
                     TraktSettings.IncludeMeInFriendsActivity = false;
                     GetFullActivityLoad = true;
                     StartActivityPolling();
+                    break;
+
+                case ((int)ActivityContextMenuItem.UserProfile):
+                    GUIUserProfile.CurrentUser = activity.User.Username;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
 
                 case ((int)ActivityContextMenuItem.ShowSeasonInfo):

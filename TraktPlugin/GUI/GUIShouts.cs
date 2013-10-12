@@ -42,7 +42,8 @@ namespace TraktPlugin.GUI
             Shout,
             Spoilers,
             NextEpisode,
-            PrevEpisode
+            PrevEpisode,
+            UserProfile
         }
 
         public enum ShoutTypeEnum
@@ -189,7 +190,14 @@ namespace TraktPlugin.GUI
             listItem = new GUIListItem(TraktSettings.HideSpoilersOnShouts ? Translation.ShowSpoilers : Translation.HideSpoilers);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Spoilers;
-  
+
+            // userprofile - only load for unprotected users
+            if (!selectedShout.User.Protected)
+            {
+                listItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.UserProfile;
+            }
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -208,6 +216,11 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.PrevEpisode):
                     GetPrevEpisodeShouts();
+                    break;
+
+                case ((int)ContextMenuItem.UserProfile):
+                    GUIUserProfile.CurrentUser = selectedShout.User.Username;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
 
                 default:
