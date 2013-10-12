@@ -681,7 +681,8 @@ namespace TraktPlugin.GUI
         public static string UpdatingCategories = "Updating Categories";
         public static string UpdatingFilters = "Updating Filters";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
-        public static string UserProfile = "User Profile";
+        public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed from\nfrom the 'Friends' view.";
+        public static string UserProfile = "User Profile";        
 
         // V
         public static string View = "View";

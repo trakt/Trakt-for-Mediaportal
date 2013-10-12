@@ -224,7 +224,14 @@ namespace TraktPlugin.GUI
                                 }
                                 else
                                 {
-                                    LoadActivityTypes();
+                                    if (!CurrentSelectedUser.Protected || CurrentView == View.Friends)
+                                    {
+                                        LoadActivityTypes();
+                                    }
+                                    else
+                                    {
+                                        GUIUtils.ShowOKDialog(Translation.Protected, Translation.UserIsProtected);
+                                    }
                                 }
                                 break;
 

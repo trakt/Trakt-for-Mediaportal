@@ -461,6 +461,7 @@
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
+  <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed from\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>
   <!--V-->
   <string name="View">View</string>
