@@ -64,6 +64,7 @@ namespace TraktPlugin.GUI
 
         enum ActivityType
         {
+            UserProfile,
             RecentWatchedEpisodes,
             RecentWatchedMovies,
             RecentAddedEpisodes,
@@ -231,6 +232,11 @@ namespace TraktPlugin.GUI
                                 // Launch Corresponding Activity window
                                 switch (SelectedActivity)
                                 {
+                                    case (ActivityType.UserProfile):
+                                        GUIUserProfile.CurrentUser = CurrentSelectedUser.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                                        break;
+
                                     case (ActivityType.RecentWatchedMovies):
                                         GUIRecentWatchedMovies.CurrentUser = CurrentSelectedUser.Username;
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
@@ -704,8 +710,17 @@ namespace TraktPlugin.GUI
 
             string avatar = CurrentSelectedUser.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
-            // add each type to the list           
-            var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
+            // add each type to the list
+            var item = new GUIUserListItem(Translation.UserProfile, (int)TraktGUIWindows.Network);
+            item.IconImage = avatar;
+            item.IconImageBig = avatar;
+            item.ThumbnailImage = avatar;
+            item.PinImage = "traktUserProfile.png";
+            item.OnItemSelected += OnActivityTypeSelected;
+            Utils.SetDefaultIcons(item);
+            Facade.Add(item);
+
+            item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
             item.IconImage = avatar;
             item.IconImageBig = avatar;
             item.ThumbnailImage = avatar;
@@ -1165,7 +1180,9 @@ namespace TraktPlugin.GUI
 
         private void OnActivityTypeSelected(GUIListItem item, GUIControl parent)
         {
-            if (item.Label == Translation.RecentWatchedEpisodes)
+            if (item.Label == Translation.UserProfile)
+                SelectedActivity = ActivityType.UserProfile;
+            else if (item.Label == Translation.RecentWatchedEpisodes)
                 SelectedActivity = ActivityType.RecentWatchedEpisodes;
             else if (item.Label == Translation.RecentWatchedMovies)
                 SelectedActivity = ActivityType.RecentWatchedMovies;

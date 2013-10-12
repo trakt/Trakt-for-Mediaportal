@@ -59,20 +59,23 @@ namespace TraktPlugin.GUI
 
         static DateTime LastRequest = new DateTime();
         ActivityType SelectedActivity { get; set; }
-        int PreviousActivityTypeSelectedIndex = 0;
+        static int PreviousActivityTypeSelectedIndex = 0;
+        static Dictionary<string, TraktUserProfile> UserProfiles = new Dictionary<string, TraktUserProfile>();
 
-        TraktUserProfile UserProfile
+        static TraktUserProfile UserProfile
         {
             get
             {
-                if (_UserProfile == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!UserProfiles.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _UserProfile = TraktAPI.TraktAPI.GetUserProfile(TraktSettings.Username);
+                    _UserProfile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                    if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
                     GetUserProfileImage(_UserProfile);
+                    UserProfiles.Add(CurrentUser, _UserProfile);
                     LastRequest = DateTime.UtcNow;
                     PreviousActivityTypeSelectedIndex = 0;
                 }
-                return _UserProfile;
+                return UserProfiles[CurrentUser];
             }
         }
         static TraktUserProfile _UserProfile = null;
@@ -130,47 +133,47 @@ namespace TraktPlugin.GUI
                         switch (SelectedActivity)
                         {
                             case (ActivityType.RecentWatchedMovies):
-                                GUIRecentWatchedMovies.CurrentUser = TraktSettings.Username;
+                                GUIRecentWatchedMovies.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
                                 break;
 
                             case (ActivityType.RecentWatchedEpisodes):
-                                GUIRecentWatchedEpisodes.CurrentUser = TraktSettings.Username;
+                                GUIRecentWatchedEpisodes.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedEpisodes);
                                 break;
 
                             case (ActivityType.RecentAddedEpisodes):
-                                GUIRecentAddedEpisodes.CurrentUser = TraktSettings.Username;
+                                GUIRecentAddedEpisodes.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedEpisodes);
                                 break;
 
                             case (ActivityType.RecentAddedMovies):
-                                GUIRecentAddedMovies.CurrentUser = TraktSettings.Username;
+                                GUIRecentAddedMovies.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedMovies);
                                 break;
 
                             case (ActivityType.RecentShouts):
-                                GUIRecentShouts.CurrentUser = TraktSettings.Username;
+                                GUIRecentShouts.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
                                 break;
 
                             case (ActivityType.MovieWatchList):
-                                GUIWatchListMovies.CurrentUser = TraktSettings.Username;
+                                GUIWatchListMovies.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
                                 break;
 
                             case (ActivityType.ShowWatchList):
-                                GUIWatchListShows.CurrentUser = TraktSettings.Username;
+                                GUIWatchListShows.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
                                 break;
 
                             case (ActivityType.EpisodeWatchList):
-                                GUIWatchListEpisodes.CurrentUser = TraktSettings.Username;
+                                GUIWatchListEpisodes.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
                                 break;
 
                             case (ActivityType.Lists):
-                                GUILists.CurrentUser = TraktSettings.Username;
+                                GUILists.CurrentUser = CurrentUser;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
                                 break;
                         }
@@ -190,6 +193,12 @@ namespace TraktPlugin.GUI
         {
             switch (action.wID)
             {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // restore current user
+                    CurrentUser = TraktSettings.Username;
+                    base.OnAction(action);
+                    break;
+
                 default:
                     base.OnAction(action);
                     break;
@@ -207,7 +216,11 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
-            
+            // load profile for user
+            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
+            // this property will be the same as the standard username property
+            // with one exception, it will get set immediately upon page load
+            GUICommon.SetProperty("#Trakt.UserProfile.CurrentUser", CurrentUser);
         }
 
         private void LoadUserProfile()
@@ -331,7 +344,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
         }
 
-        private void GetUserProfileImage(TraktUserProfile userProfile)
+        static void GetUserProfileImage(TraktUserProfile userProfile)
         {
             string url = userProfile.Avatar;
             string localFile = userProfile.Avatar.LocalImageFilename(ArtworkType.Avatar);
@@ -383,6 +396,8 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Public Static Properties
+
+        public static string CurrentUser { get; set; }
 
         #endregion
     }
