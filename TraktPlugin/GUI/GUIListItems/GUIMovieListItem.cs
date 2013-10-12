@@ -18,7 +18,7 @@ namespace TraktPlugin.GUI
         /// </summary>
         private int WindowID { get; set; }
 
-        public GUIMovieListItem(string strLabel, int windowId) : base(strLabel)
+        public GUIMovieListItem(string strLabel, int windowId) : base(strLabel.RemapHighOrderChars())
         {
             this.WindowID = windowId;
         }
