@@ -1245,11 +1245,19 @@ namespace TraktPlugin
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
                 // userprofile - only load for unprotected users
-                if (!activity.User.Protected)
+                if (!activity.User.Protected || !TraktSettings.ShowCommunityActivity)
                 {
                     listItem = new GUIListItem(Translation.UserProfile);
                     dlg.Add(listItem);
                     listItem.ItemId = (int)ActivityContextMenuItem.UserProfile;
+                }
+                
+                if (TraktSettings.ShowCommunityActivity)
+                {
+                    // allow user to follow person
+                    listItem = new GUIListItem(Translation.Follow);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.FollowUser;
                 }
 
                 // if selected activity is an episode or show, add 'Season Info'
@@ -1308,6 +1316,13 @@ namespace TraktPlugin
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
 
+                case ((int)ActivityContextMenuItem.FollowUser):
+                    if (GUIUtils.ShowYesNoDialog(Translation.Network, string.Format(Translation.SendFollowRequest, activity.User.Username), true))
+                    {
+                        GUINetwork.FollowUser(activity.User);
+                        GUINetwork.ClearCache();
+                    }
+                    break;
                 case ((int)ActivityContextMenuItem.ShowSeasonInfo):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, activity.Show.ToJSON());
                     break;

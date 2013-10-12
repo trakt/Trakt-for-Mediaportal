@@ -49,6 +49,7 @@ namespace TraktPlugin.GUI
         Rate,
         Shouts,
         UserProfile,
+        FollowUser,
         Trailers,
     }
 
