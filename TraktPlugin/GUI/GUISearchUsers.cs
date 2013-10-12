@@ -34,6 +34,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             FollowUser,
+            UserProfile,
             ChangeLayout
         }
 
@@ -122,13 +123,32 @@ namespace TraktPlugin.GUI
             {
                 // Facade
                 case (50):
+                    if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
+                    {
+                        var selectedUser = Facade.SelectedListItem.TVTag as TraktUser;
+                        if (selectedUser == null) break;
+
+                        if (!selectedUser.Protected)
+                        {
+                            GUIUserProfile.CurrentUser = selectedUser.Username;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                        }
+                        else
+                        {
+                            if (GUIUtils.ShowYesNoDialog(Translation.Network, string.Format(Translation.SendFollowRequest, selectedUser.Username), true))
+                            {
+                                GUINetwork.FollowUser(selectedUser);
+                                GUINetwork.ClearCache();
+                            }
+                        }
+                    }
                     break;
 
                 // Layout Button
                 case (2):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
-
+                    
                 default:
                     break;
             }
@@ -184,6 +204,14 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.FollowUser;
             }
 
+            // User Profile
+            if (!selectedUser.Protected)
+            {
+                listItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.UserProfile;
+            }
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -201,6 +229,11 @@ namespace TraktPlugin.GUI
                         GUINetwork.FollowUser(selectedUser);
                         GUINetwork.ClearCache();
                     }
+                    break;
+
+                case ((int)ContextMenuItem.UserProfile):
+                    GUIUserProfile.CurrentUser = selectedUser.Username;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):
