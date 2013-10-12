@@ -182,7 +182,7 @@ namespace TraktPlugin.GUI
 
                 case (4):
                     GUIControl.FocusControl(GetID, Facade.GetID);
-                    _UserProfile = null;
+                    if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
                     LoadUserProfile();
                     break;
             }
