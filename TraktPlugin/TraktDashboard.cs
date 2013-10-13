@@ -1251,8 +1251,8 @@ namespace TraktPlugin
                     dlg.Add(listItem);
                     listItem.ItemId = (int)ActivityContextMenuItem.UserProfile;
                 }
-                
-                if (TraktSettings.ShowCommunityActivity)
+
+                if (TraktSettings.ShowCommunityActivity && !((activityFacade.SelectedListItem as GUIUserListItem).IsFollowed))
                 {
                     // allow user to follow person
                     listItem = new GUIListItem(Translation.Follow);
@@ -1321,6 +1321,8 @@ namespace TraktPlugin
                     {
                         GUINetwork.FollowUser(activity.User);
                         GUINetwork.ClearCache();
+                        (activityFacade.SelectedListItem as GUIUserListItem).IsFollowed = true;
+
                     }
                     break;
                 case ((int)ActivityContextMenuItem.ShowSeasonInfo):
