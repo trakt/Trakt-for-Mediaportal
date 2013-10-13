@@ -526,6 +526,7 @@
     <Content Include="Resources\Skins\DefaultWide\Media\traktNextWeek.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktSeenIt.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktSeenItLibrary.png" />
+    <Content Include="Resources\Skins\DefaultWide\Media\traktUserProfile.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktWatchedIcon.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktWatchList.png" />
     <Content Include="Resources\Skins\DefaultWide\Media\traktWatchListLibrary.png" />
@@ -632,6 +633,7 @@
     <Content Include="Resources\Skins\Default\Media\traktNextWeek.png" />
     <Content Include="Resources\Skins\Default\Media\traktSeenIt.png" />
     <Content Include="Resources\Skins\Default\Media\traktSeenItLibrary.png" />
+    <Content Include="Resources\Skins\Default\Media\traktUserProfile.png" />
     <Content Include="Resources\Skins\Default\Media\traktWatchedIcon.png" />
     <Content Include="Resources\Skins\Default\Media\traktWatchList.png" />
     <Content Include="Resources\Skins\Default\Media\traktWatchListLibrary.png" />
