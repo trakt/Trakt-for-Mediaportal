@@ -422,6 +422,8 @@
   <string name="SettingMaxSearchResultsDescription">Nustatykite maksimalų rezultatų kiekį pagal tipą, kuriuos ieškos internete.</string>
   <string name="SettingShowSearchResultsBreakdownName">Rodyti išskleistus paieškos rezultatus</string>
   <string name="SettingShowSearchResultsBreakdownDescription">Šis nustatymas leis valdyti vienintelio pasirinkto paieškos tipo elgseną paieškos lange. Nepasirinkus vartotojas bus nukreiptas tiesiai į atitinkamą paieškos rezultatą.</string>
+  <string name="SettingFilterTrendingOnDashboardName">Aktualijų filtravimas ant darbastalio</string>
+  <string name="SettingFilterTrendingOnDashboardDescription">Įjungti šį nustatymą, kad pritaikyti aktualijų filtrus ant darbastalio, pvz. Paslėpti peržiūrėtus ir pan. Tai gali būti nustatyta atitinkamame vaizde arba kontekstiniame meniu.</string>
   <string name="StartYear">Pradėti: {0}</string>
   <string name="SortBy">Rūšiuoti pagal: {0}</string>
   <string name="SortSeasonsAscending">Rūšiuoti Sezonus didėjančia tvarka</string>

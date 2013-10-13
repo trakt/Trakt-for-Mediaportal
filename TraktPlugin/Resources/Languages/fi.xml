@@ -31,6 +31,7 @@
   <string name="AdvancedSettings">Kehittyneet asetukset</string>
   <!--B-->
   <string name="BufferingTrailer">Ladataan traileria</string>
+  <string name="Biography">Elämänkerta</string>
   <string name="Birthday">Syntymäpäivä</string>
   <string name="BirthDate">Syntymä Pvm</string>
   <string name="Born">Syntynyt</string>
