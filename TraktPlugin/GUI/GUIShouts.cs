@@ -468,6 +468,8 @@ namespace TraktPlugin.GUI
             // if we set now and download later, image will not set to skin
             if (File.Exists(Fanart))
                 GUIUtils.SetProperty("#Trakt.Shout.Fanart", Fanart);
+            else
+                DownloadFanart(Fanart, OnlineFanart);
 
             if (hideSpoilersButton != null)
             {
@@ -490,6 +492,18 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Shout.Replies", string.Empty);
 
             GUICommon.ClearUserProperties();
+        }
+
+        private void DownloadFanart(string localFile, string remoteFile)
+        {
+            var getFanartthread = new Thread((o) =>
+                {
+                    GUIImageHandler.DownloadImage(remoteFile, localFile);
+                    GUIUtils.SetProperty("#Trakt.Shout.Fanart", localFile);
+
+                }) { Name = "ImageDownload", IsBackground = true };
+
+            getFanartthread.Start();
         }
 
         private void PublishShoutSkinProperties(TraktShout shout)
