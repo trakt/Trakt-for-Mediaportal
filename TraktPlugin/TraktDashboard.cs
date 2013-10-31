@@ -65,7 +65,7 @@ namespace TraktPlugin
 
             string windowID = GUIWindowManager.ActiveWindow.ToString();
 
-            var trendingSettings = TraktSkinSettings.DashboardTrendingCollection.First(d => d.MovieWindows.Contains(windowID) || d.TVShowWindows.Contains(windowID));
+            var trendingSettings = TraktSkinSettings.DashboardTrendingCollection.FirstOrDefault(d => d.MovieWindows.Contains(windowID) || d.TVShowWindows.Contains(windowID));
             return trendingSettings;
         }
 
@@ -377,6 +377,7 @@ namespace TraktPlugin
             bool isCached;
 
             var trendingSettings = GetTrendingSettings();
+            if (trendingSettings == null) return;
 
             if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
@@ -524,6 +525,7 @@ namespace TraktPlugin
             
             // get trending settings for window
             var trendingSettings = GetTrendingSettings();
+            if (trendingSettings == null) return;
 
             TraktLogger.Debug("Loading Trakt Trending Movies facade");
 
@@ -600,6 +602,7 @@ namespace TraktPlugin
             bool isCached;
 
             var trendingSettings = GetTrendingSettings();
+            if (trendingSettings == null) return;
 
             if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
@@ -749,6 +752,7 @@ namespace TraktPlugin
 
             // get trending settings
             var trendingSettings = GetTrendingSettings();
+            if (trendingSettings == null) return;
 
             TraktLogger.Debug("Loading Trakt Trending Shows facade");
 
