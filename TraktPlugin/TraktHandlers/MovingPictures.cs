@@ -353,35 +353,42 @@ namespace TraktPlugin.TraktHandlers
                 matchFound = true;
                 currentMovie = searchResults[0];
             }
-            else if (searchResults.Count == 0)
+            else
             {
                 // check if filename is DVD/Bluray format
                 if (VideoUtility.GetVideoFormat(filename) != VideoFormat.File)
                 {
                     // use the player skin properties to determine movie playing
                     // note: movingpictures sets this 2secs after playback
-                    TraktLogger.Debug("Getting movie info from player skin properties");
-                    System.Threading.Thread.Sleep(2000);
+                    TraktLogger.Info("Getting movie info from player skin properties");
+                    System.Threading.Thread.Sleep(2500);
+
                     string title = GUI.GUIUtils.GetProperty("#Play.Current.Title");
                     string year = GUI.GUIUtils.GetProperty("#Play.Current.Year");
+                    string imdb = GUI.GUIUtils.GetProperty("#Play.Current.IMDBNumber");
 
+                    // we should always have title/year
                     if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))
                     {
                         TraktLogger.Debug("Not enough information from play properties to get a movie match!");
                         return false;
                     }
 
-                    currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.Title == title && m.Year == Convert.ToInt32(year));
+                    // Check IMDb first
+                    if (string.IsNullOrEmpty(imdb))
+                    {
+                        currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.ImdbID == imdb);
+                    }
+                    else
+                    {
+                        currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.Title == title && m.Year == Convert.ToInt32(year));
+                    }
                     if (currentMovie != null) matchFound = true;
                 }
                 else
                 {
                     TraktLogger.Debug("Filename could not be matched to a movie in MovingPictures.");
                 }
-            }
-            else
-            {
-                TraktLogger.Debug("Multiple movies found for filename something is up!");
             }
 
             if (matchFound)
