@@ -424,6 +424,8 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Set this setting to control the behaviour when a single search type is set in the search window. If disabled the user will jump directly to the corresponding search result when a single search type is set.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filter Trending On Dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.</string>
+  <string name="SettingUseTrailersPluginName">Use Trailers Plugin</string>
+  <string name="SettingUseTrailersPluginDescription">Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>

@@ -81,6 +81,13 @@ namespace TraktPlugin
             }
         }
 
+        public static bool IsTrailersAvailableAndEnabled
+        {
+            get
+            {
+                return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Trailers.dll")) && IsPluginEnabled("Trailers");
+            }
+        }
         #endregion
 
         #region API Helpers

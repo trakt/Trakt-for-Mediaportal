@@ -9,6 +9,8 @@ using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using Trailers.Providers;
+using Trailers;
 
 namespace TraktPlugin.GUI
 {
@@ -237,30 +239,16 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Play Movie
-        public static void CheckAndPlayMovie(bool jumpTo, TraktMovie movie)
-        {
-            if (movie == null) return;
-
-            string title = movie.Title;
-            string imdbid = movie.IMDBID;
-            string trailer = movie.Trailer;
-            int year = Convert.ToInt32(movie.Year);
-
-            CheckAndPlayMovie(jumpTo, title, year, imdbid, trailer);
-        }
-
         /// <summary>
         /// Checks if a selected movie exists locally and plays movie or
         /// jumps to corresponding plugin details view
         /// </summary>
         /// <param name="jumpTo">false if movie should be played directly</param>
-        public static void CheckAndPlayMovie(bool jumpTo, string title, int year, string imdbid)
+        internal static void CheckAndPlayMovie(bool jumpTo, TraktMovie movie)
         {
-            CheckAndPlayMovie(jumpTo, title, year, imdbid, null);
-        }
-        public static void CheckAndPlayMovie(bool jumpTo, string title, int year, string imdbid, string trailer)
-        {
-            TraktLogger.Info("Attempting to play movie: {0} ({1}) [{2}]", title, year, imdbid);
+            if (movie == null) return;
+
+            TraktLogger.Info("Attempting to play movie: {0} ({1}) [{2}]", movie.Title, movie.Year, movie.IMDBID);
             bool handled = false;
 
             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -270,7 +258,7 @@ namespace TraktPlugin.GUI
 
                 // Find Movie ID in MovingPictures
                 // Movie List is now cached internally in MovingPictures so it will be fast
-                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(title, year, imdbid, ref movieid);
+                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref movieid);
 
                 if (movieExists)
                 {
@@ -293,19 +281,19 @@ namespace TraktPlugin.GUI
             if (TraktSettings.MyVideos >= 0 && handled == false)
             {
                 TraktLogger.Info("Checking if any movie to watch in My Videos");
-                IMDBMovie movie = null;
-                if (TraktHandlers.MyVideos.FindMovieID(title, year, imdbid, ref movie))
+                IMDBMovie imdbMovie = null;
+                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref imdbMovie))
                 {
                     // Open My Videos Video Info view so user can play movie
                     if (jumpTo)
                     {
                         GUIVideoInfo videoInfo = (GUIVideoInfo)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_VIDEO_INFO);
-                        videoInfo.Movie = movie;
+                        videoInfo.Movie = imdbMovie;
                         GUIWindowManager.ActivateWindow((int)GUIWindow.Window.WINDOW_VIDEO_INFO);
                     }
                     else
                     {
-                        GUIVideoFiles.PlayMovie(movie.ID, false);
+                        GUIVideoFiles.PlayMovie(imdbMovie.ID, false);
                     }
                     handled = true;
                 }
@@ -317,7 +305,7 @@ namespace TraktPlugin.GUI
                 TraktLogger.Info("Checking if any movie to watch in My Films");
                 int? movieid = null;
                 string config = null;
-                if (TraktHandlers.MyFilmsHandler.FindMovie(title, year, imdbid, ref movieid, ref config))
+                if (TraktHandlers.MyFilmsHandler.FindMovie(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref movieid, ref config))
                 {
                     // Open My Films Details view so user can play movie
                     if (jumpTo)
@@ -335,16 +323,23 @@ namespace TraktPlugin.GUI
                 }
             }
 
+            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            {
+                TraktLogger.Info("No movies matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
+                ShowMovieTrailersPluginMenu(movie);
+                handled = true;
+            }
+
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
-                if (!string.IsNullOrEmpty(trailer))
+                if (!string.IsNullOrEmpty(movie.Trailer))
                 {
-                    TraktLogger.Info("No movies found! Attempting to play trailer '{0}' in OnlineVideos.", trailer);
-                    TraktHandlers.OnlineVideos.Play(trailer);
+                    TraktLogger.Info("No movies matched in local plugin databases! Attempting to play trailer '{0}' in OnlineVideos.", movie.Trailer);
+                    TraktHandlers.OnlineVideos.Play(movie.Trailer);
                     return;
                 }
 
-                SearchMovieTrailer(title, imdbid);
+                SearchMovieTrailer(movie.Title, movie.IMDBID);
                 handled = true;
             }
         }
@@ -453,7 +448,7 @@ namespace TraktPlugin.GUI
             string searchTerm = TraktSettings.DefaultTVShowTrailerSite == "IMDb Movie Trailers" ? IMDbid : string.Format("{0} S{1}E{2}", Title, seasonIdx.ToString("D2"), episodeIdx.ToString("D2"));
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
 
-            TraktLogger.Info(string.Format("No episode found! Attempting tv episode trailer lookup in '{0}' with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
+            TraktLogger.Info(string.Format("No episode found! Attempting tv episode trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
 
@@ -462,7 +457,7 @@ namespace TraktPlugin.GUI
             string searchTerm = TraktSettings.DefaultTVShowTrailerSite == "IMDb Movie Trailers" ? IMDbid : Title;
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
 
-            TraktLogger.Info(string.Format("No tv show found! Attempting tv show trailer lookup in '{0}' with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
+            TraktLogger.Info(string.Format("No tv show found! Attempting tv show trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
 
@@ -471,7 +466,7 @@ namespace TraktPlugin.GUI
             string searchTerm = TraktSettings.DefaultMovieTrailerSite == "IMDb Movie Trailers" ? IMDbid : Title;
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultMovieTrailerSite, searchTerm);
 
-            TraktLogger.Info(string.Format("No movie found! Attempting movie trailer lookup in '{0}' with search term '{1}'", TraktSettings.DefaultMovieTrailerSite, searchTerm));
+            TraktLogger.Info(string.Format("No movie found! Attempting movie trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultMovieTrailerSite, searchTerm));
             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
         #endregion
@@ -1728,10 +1723,29 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Movie Trailers
+        public static void ShowMovieTrailersPluginMenu(TraktMovie movie)
+        {
+            MediaItem trailerItem = new MediaItem
+            {
+                IMDb = movie.IMDBID,
+                Plot = movie.Overview,
+                Poster = movie.Images.Poster,
+                Title = movie.Title,
+                TMDb = movie.TMDBID,
+                Year = int.Parse(movie.Year)
+            };
+            Trailers.Trailers.SearchForTrailers(trailerItem);
+        }
 
         public static void ShowMovieTrailersMenu(TraktMovie movie)
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+            {
+                ShowMovieTrailersPluginMenu(movie);
+                return;
+            }
+
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(Translation.Trailer);
 
@@ -1742,7 +1756,7 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
             }
 
-            foreach (TrailerSiteMovies site in Enum.GetValues(typeof(TrailerSiteMovies)))
+            foreach (var site in Enum.GetValues(typeof(TrailerSiteMovies)))
             {
                 string menuItem = Enum.GetName(typeof(TrailerSiteMovies), site);
                 GUIListItem pItem = new GUIListItem(menuItem);

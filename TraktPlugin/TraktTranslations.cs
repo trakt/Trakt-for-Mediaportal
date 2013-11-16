@@ -642,6 +642,8 @@ namespace TraktPlugin.GUI
         public static string SettingMaxSearchResultsDescription = "Set the maximum number of results per type to retrieve from an online search.";
         public static string SettingFilterTrendingOnDashboardName = "Filter Trending On Dashboard";
         public static string SettingFilterTrendingOnDashboardDescription = "Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.";
+        public static string SettingUseTrailersPluginName = "Use Trailers Plugin";
+        public static string SettingUseTrailersPluginDescription = "Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

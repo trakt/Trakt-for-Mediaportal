@@ -130,6 +130,7 @@ namespace TraktPlugin
         public static bool ShowSearchResultsBreakdown { get; set; }
         public static int MaxSearchResults { get; set; }
         public static bool FilterTrendingOnDashboard { get; set; }
+        public static bool UseTrailersPlugin { get; set; }
         #endregion
 
         #region Constants
@@ -253,6 +254,7 @@ namespace TraktPlugin
         private const string cShowSearchResultsBreakdown = "ShowSearchResultsBreakdown";
         private const string cMaxSearchResults = "MaxSearchResults";
         private const string cFilterTrendingOnDashboard = "FilterTrendingOnDashboard";
+        private const string cUseTrailersPlugin = "UseTrailersPlugin";
         #endregion
 
         #region Properties
@@ -572,6 +574,7 @@ namespace TraktPlugin
                 ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
                 MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
+                UseTrailersPlugin = xmlreader.GetValueAsBool(cTrakt, cUseTrailersPlugin, false);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -696,6 +699,7 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowSearchResultsBreakdown, ShowSearchResultsBreakdown);
                 xmlwriter.SetValue(cTrakt, cMaxSearchResults, MaxSearchResults);
                 xmlwriter.SetValueAsBool(cTrakt, cFilterTrendingOnDashboard, FilterTrendingOnDashboard);
+                xmlwriter.SetValueAsBool(cTrakt, cUseTrailersPlugin, UseTrailersPlugin);
             }
 
             Settings.SaveCache();
