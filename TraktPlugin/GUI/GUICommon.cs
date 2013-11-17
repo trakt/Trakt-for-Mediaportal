@@ -475,7 +475,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case "YouTube":
-                    searchTerm = string.Format("{0} {1}", movie.Title, movie.Year);
+                    searchTerm = string.Format("{0} {1} Trailer", movie.Title, movie.Year);
                     break;
             }
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultMovieTrailerSite, searchTerm);
@@ -1802,7 +1802,7 @@ namespace TraktPlugin.GUI
 
                     case ("YouTube"):
                         siteUtil = "YouTube";
-                        searchParam = movie.Title;
+                        searchParam = string.Format("{0} {1} Trailer", movie.Title, movie.Year);
                         break;
 
                     default:
@@ -1859,7 +1859,10 @@ namespace TraktPlugin.GUI
                         searchParam = show.Title;
                         if (episode != null)
                         {
-                            searchParam += string.Format(" S{0}E{1}", episode.Season.ToString("D2"), episode.Number.ToString("D2"));
+                            if (episode.Season == 0)
+                                searchParam += " " + episode.Title;
+                            else
+                                searchParam += string.Format(" S{0}E{1}", episode.Season.ToString("D2"), episode.Number.ToString("D2"));
                         }
                         break;
                 }
