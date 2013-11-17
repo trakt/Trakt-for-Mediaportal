@@ -339,72 +339,43 @@ namespace TraktPlugin.GUI
                     return;
                 }
 
-                SearchMovieTrailer(movie.Title, movie.IMDBID);
+                SearchMovieTrailer(movie);
                 handled = true;
             }
         }
         #endregion
 
         #region PlayEpisode
-        public static void CheckAndPlayEpisode(TraktShow show, TraktEpisode episode)
+        internal static void CheckAndPlayEpisode(TraktShow show, TraktEpisode episode)
         {
             if (show == null || episode == null) return;
-            CheckAndPlayEpisode(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb, episode.Season, episode.Number, show.Title);
-        }
-
-        /// <summary>
-        /// Checks if a selected episode exists locally and plays episode
-        /// </summary>
-        /// <param name="seriesid">the series tvdb id of episode</param>
-        /// <param name="imdbid">the series imdb id of episode</param>
-        /// <param name="seasonidx">the season index of episode</param>
-        /// <param name="episodeidx">the episode index of episode</param>
-        /// <param name="title">the title of the tv show - used for YouTube lookup</param>
-        public static void CheckAndPlayEpisode(int seriesid, string imdbid, int seasonidx, int episodeidx, string title = null)
-        {
+        
             bool handled = false;
 
             // check if plugin is installed and enabled
             if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
             {
                 // Play episode if it exists
-                handled = TraktHandlers.TVSeries.PlayEpisode(seriesid, seasonidx, episodeidx);
+                handled = TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
             }
 
             if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
             {
-                handled = TraktHandlers.MyAnime.PlayEpisode(seriesid, seasonidx, episodeidx);
+                handled = TraktHandlers.MyAnime.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
             }
 
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
-                SearchEpisodeTrailer(title, imdbid, seasonidx, episodeidx);
+                SearchEpisodeTrailer(show, episode);
                 handled = true;
             }
         }
-
-        public static void CheckAndPlayFirstUnwatched(TraktShow show)
-        {
-            CheckAndPlayFirstUnwatched(show, false);
-        }
-        public static void CheckAndPlayFirstUnwatched(TraktShow show, bool jumpTo)
+        
+        internal static void CheckAndPlayFirstUnwatched(TraktShow show, bool jumpTo)
         {
             if (show == null) return;
-            CheckAndPlayFirstUnwatched(Convert.ToInt32(show.Tvdb), string.IsNullOrEmpty(show.Imdb) ? show.Title : show.Imdb, jumpTo, show.Title);
-        }
-        
-        /// <summary>
-        /// Checks if a selected show exists locally and plays first unwatched episode
-        /// </summary>
-        /// <param name="seriesid">the series tvdb id of show</param>
-        /// <param name="imdbid">the series imdb id of show</param>
-        public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid, string Title = null)
-        {
-            CheckAndPlayFirstUnwatched(seriesid, imdbid, false, Title);
-        }
-        public static void CheckAndPlayFirstUnwatched(int seriesid, string imdbid, bool jumpTo, string Title = null)
-        {
-            TraktLogger.Info("Attempting to play TVDb: {0}, IMDb: {1}", seriesid.ToString(), imdbid);
+
+            TraktLogger.Info("Attempting to play TVDb: {0}, IMDb: {1}", show.Tvdb, show.Imdb);
             bool handled = false;
 
             // check if plugin is installed and enabled
@@ -413,9 +384,9 @@ namespace TraktPlugin.GUI
                 if (jumpTo)
                 {
                     TraktLogger.Info("Looking for series in MP-TVSeries database");
-                    if (TraktHandlers.TVSeries.SeriesExists(seriesid))
+                    if (TraktHandlers.TVSeries.SeriesExists(Convert.ToInt32(show.Tvdb)))
                     {
-                        string loadingParameter = string.Format("seriesid:{0}", seriesid);
+                        string loadingParameter = string.Format("seriesid:{0}", show.Tvdb);
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.TVSeries, loadingParameter);
                         handled = true;
                     }
@@ -424,46 +395,89 @@ namespace TraktPlugin.GUI
                 {
                     // Play episode if it exists
                     TraktLogger.Info("Checking if any episodes to watch in MP-TVSeries");
-                    handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(seriesid);
+                    handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(Convert.ToInt32(show.Tvdb));
                 }
             }
 
             if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("Checking if any episodes to watch in My Anime");
-                handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(seriesid);
+                handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(Convert.ToInt32(show.Tvdb));
             }
 
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
-                SearchShowTrailer(Title ?? imdbid, imdbid);
+                SearchShowTrailer(show);
                 handled = true;
             }
         }
         #endregion
 
         #region Search Trailers
-        public static void SearchEpisodeTrailer(string Title, string IMDbid, int seasonIdx, int episodeIdx)
+        internal static void SearchEpisodeTrailer(TraktShow show, TraktEpisode episode)
         {
-            string searchTerm = TraktSettings.DefaultTVShowTrailerSite == "IMDb Movie Trailers" ? IMDbid : string.Format("{0} S{1}E{2}", Title, seasonIdx.ToString("D2"), episodeIdx.ToString("D2"));
+            string searchTerm = string.Empty;
+            switch (TraktSettings.DefaultTVShowTrailerSite)
+            {
+                case "IMDb Movie Trailers":
+                    // can't really do an episode search on IMDb so just do a show search
+                    searchTerm = !string.IsNullOrEmpty(show.Imdb) ? show.Imdb : show.Title;
+                    break;
+
+                case "YouTube":
+                    // if the episode is a special, search by episode title
+                    if (episode.Season != 0)
+                    {
+                        searchTerm = string.Format("{0} S{1}E{2}", show.Title, episode.Season.ToString("D2"), episode.Number.ToString("D2"));
+                    }
+                    else
+                    {
+                        searchTerm = string.Format("{0} {1}", show.Title, episode.Title);
+                    }
+                    break;
+            }
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
 
             TraktLogger.Info(string.Format("No episode found! Attempting tv episode trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
 
-        public static void SearchShowTrailer(string Title, string IMDbid)
+        internal static void SearchShowTrailer(TraktShow show)
         {
-            string searchTerm = TraktSettings.DefaultTVShowTrailerSite == "IMDb Movie Trailers" ? IMDbid : Title;
+            string searchTerm = string.Empty;
+            switch (TraktSettings.DefaultTVShowTrailerSite)
+            {
+                case "IMDb Movie Trailers":
+                    searchTerm = !string.IsNullOrEmpty(show.Imdb) ? show.Imdb : show.Title;
+                    break;
+
+                case "YouTube":
+                    searchTerm = show.Title;
+                    break;
+            }
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
 
             TraktLogger.Info(string.Format("No tv show found! Attempting tv show trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
             GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
 
-        public static void SearchMovieTrailer(string Title, string IMDbid)
+        internal static void SearchMovieTrailer(TraktMovie movie)
         {
-            string searchTerm = TraktSettings.DefaultMovieTrailerSite == "IMDb Movie Trailers" ? IMDbid : Title;
+            string searchTerm = string.Empty;
+            switch (TraktSettings.DefaultMovieTrailerSite)
+            {
+                case "IMDb Movie Trailers":
+                    searchTerm = !string.IsNullOrEmpty(movie.IMDBID) ? movie.IMDBID : movie.Title;
+                    break;
+
+                case "iTunes Movie Trailers":
+                    searchTerm = movie.Title;
+                    break;
+
+                case "YouTube":
+                    searchTerm = string.Format("{0} {1}", movie.Title, movie.Year);
+                    break;
+            }
             string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultMovieTrailerSite, searchTerm);
 
             TraktLogger.Info(string.Format("No movie found! Attempting movie trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultMovieTrailerSite, searchTerm));
