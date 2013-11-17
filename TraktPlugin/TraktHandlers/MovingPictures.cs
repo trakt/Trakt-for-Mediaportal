@@ -28,6 +28,7 @@ namespace TraktPlugin.TraktHandlers
         DBMovieInfo currentMovie;
         bool SyncInProgress;
         bool TraktRateSent;
+        bool IsDVDPlaying;
         public static MoviePlayer player = null;
         private static IEnumerable<TraktMovie> recommendations;
         private static IEnumerable<TraktWatchListMovie> watchList;
@@ -352,9 +353,12 @@ namespace TraktPlugin.TraktHandlers
             {
                 matchFound = true;
                 currentMovie = searchResults[0];
+                IsDVDPlaying = false;
             }
             else
             {
+                IsDVDPlaying = false;
+
                 // check if filename is DVD/Bluray format
                 if (VideoUtility.GetVideoFormat(filename) != VideoFormat.File)
                 {
@@ -383,7 +387,12 @@ namespace TraktPlugin.TraktHandlers
                     {
                         currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.Title == title && m.Year == Convert.ToInt32(year));
                     }
-                    if (currentMovie != null) matchFound = true;
+
+                    if (currentMovie != null)
+                    {
+                        matchFound = true;
+                        IsDVDPlaying = true;
+                    }
                 }
                 else
                 {
@@ -414,8 +423,27 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (g_Player.Duration != 0)
                 {
-                    // no point cancelling if we will scrobble
                     Double watchPercent = MovingPicturesCore.Settings.MinimumWatchPercentage / 100.0;
+
+                    #region DVD Workaround
+
+                    // MovingPictures does not fire off a watched event for completed DVDs
+                    if (IsDVDPlaying)
+                    {
+                        IsDVDPlaying = false;
+
+                        TraktLogger.Info("DVD/Bluray stopped, checking if considered watched. Movie: '{0}', Current Position: '{1}', Duration: '{2}'", currentMovie.Title, g_Player.CurrentPosition, g_Player.Duration);
+
+                        if ((g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
+                        {
+                            ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble);
+                            currentMovie = null;
+                            return;
+                        }
+                    }
+                    #endregion
+
+                    // no point cancelling if we will scrobble on event                   
                     if ((g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
                     {
                         currentMovie = null;
