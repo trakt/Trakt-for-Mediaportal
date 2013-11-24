@@ -777,6 +777,32 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
+        /// gets the first watched date of a movie
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <returns></returns>
+        private static string GetFirstWatchedDate(DBMovieInfo movie)
+        {
+            string dateFirstPlayed = null;
+
+            if (movie.WatchedHistory != null && movie.WatchedHistory.Count > 0)
+            {
+                try
+                {
+                    // get the first time played, MovingPictures stores a history of watched dates
+                    // not the last time played as the API would lead you to believe as the best value to use
+                    dateFirstPlayed = string.Format("{0:s}{0:zzz}", movie.WatchedHistory.First().DateWatched);
+                }
+                catch (Exception e)
+                {
+                    TraktLogger.Error("Failed to get first watched date from watched movie: '{0}', Error: '{1}'", movie.Title, e.Message);
+                }
+            }
+
+            return dateFirstPlayed;
+        }
+
+        /// <summary>
         /// Creates Sync Data based on a List of DBMovieInfo objects
         /// </summary>
         /// <param name="Movies">The movies to base the object on</param>
@@ -795,7 +821,8 @@ namespace TraktPlugin.TraktHandlers
                                                          IMDBID = m.ImdbID,
                                                          TMDBID = GetTmdbID(m),
                                                          Title = m.Title,
-                                                         Year = m.Year.ToString()
+                                                         Year = m.Year.ToString(),
+                                                         LastPlayed = GetFirstWatchedDate(m)
                                                      }).ToList();
 
             TraktMovieSync syncData = new TraktMovieSync

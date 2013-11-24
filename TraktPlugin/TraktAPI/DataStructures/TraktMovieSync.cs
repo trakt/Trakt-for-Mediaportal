@@ -24,6 +24,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataContract]
         public class Movie : TraktMovieBase, IEquatable<Movie>
         {
+            [DataMember(Name = "last_played")]
+            public string LastPlayed { get; set; }
+
             #region IEquatable
             public bool Equals(Movie other)
             {

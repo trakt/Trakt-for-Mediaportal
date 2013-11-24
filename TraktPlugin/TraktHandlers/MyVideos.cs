@@ -420,6 +420,32 @@ namespace TraktPlugin.TraktHandlers
         #region DataCreators
 
         /// <summary>
+        /// Get the date watched for the movie
+        /// </summary>        
+        private static string GetLastDateWatched(IMDBMovie movie)
+        {
+            string dateLastPlayed = null;
+
+            if (!string.IsNullOrEmpty(movie.DateWatched) && movie.DateWatched != "0001-01-01 00:00:00" )
+            {
+                try
+                {
+                    DateTime dateResult;
+                    if (DateTime.TryParse(movie.DateWatched, out dateResult))
+                    {
+                        dateLastPlayed = string.Format("{0:s}{0:zzz}", dateResult);
+                    }
+                }
+                catch (Exception e)
+                {
+                    TraktLogger.Error("Failed to get last watched date from movie: '{0}', Error: '{1}'", movie.Title, e.Message);
+                }
+            }
+
+            return dateLastPlayed;
+        }
+
+        /// <summary>
         /// Creates Sync Data based on a List of IMDBMovie objects
         /// </summary>
         /// <param name="Movies">The movies to base the object on</param>
@@ -437,7 +463,8 @@ namespace TraktPlugin.TraktHandlers
                                                      {
                                                          IMDBID = m.IMDBNumber,
                                                          Title = m.Title,
-                                                         Year = m.Year.ToString()
+                                                         Year = m.Year.ToString(),
+                                                         LastPlayed = GetLastDateWatched(m)
                                                      }).ToList();
 
             TraktMovieSync syncData = new TraktMovieSync
