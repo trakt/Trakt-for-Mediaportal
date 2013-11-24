@@ -426,6 +426,8 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.</string>
   <string name="SettingUseTrailersPluginName">Use Trailers Plugin</string>
   <string name="SettingUseTrailersPluginDescription">Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Ignore Watched Percent On DVDs</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray's do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>

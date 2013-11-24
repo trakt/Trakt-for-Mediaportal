@@ -364,8 +364,8 @@ namespace TraktPlugin.TraktHandlers
                 {
                     // use the player skin properties to determine movie playing
                     // note: movingpictures sets this 2secs after playback
-                    TraktLogger.Info("Getting movie info from player skin properties");
-                    System.Threading.Thread.Sleep(2500);
+                    TraktLogger.Info("Getting DVD/Bluray movie info from player skin properties");
+                    System.Threading.Thread.Sleep(3000);
 
                     string title = GUI.GUIUtils.GetProperty("#Play.Current.Title");
                     string year = GUI.GUIUtils.GetProperty("#Play.Current.Year");
@@ -374,17 +374,19 @@ namespace TraktPlugin.TraktHandlers
                     // we should always have title/year
                     if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))
                     {
-                        TraktLogger.Debug("Not enough information from play properties to get a movie match!");
+                        TraktLogger.Info("Not enough information from play properties to get a movie match, missing Title and/or Year!");
                         return false;
                     }
 
                     // Check IMDb first
-                    if (string.IsNullOrEmpty(imdb))
+                    if (!string.IsNullOrEmpty(imdb))
                     {
+                        TraktLogger.Info("Searching MovingPictures library for movie with IMDb ID: '{0}'", imdb);
                         currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.ImdbID == imdb);
                     }
                     else
                     {
+                        TraktLogger.Info("Searching MovingPictures library for movie with Title: '{0}' and Year: '{1}'", title, year);
                         currentMovie = DBMovieInfo.GetAll().FirstOrDefault(m => m.Title == title && m.Year == Convert.ToInt32(year));
                     }
 
@@ -392,6 +394,10 @@ namespace TraktPlugin.TraktHandlers
                     {
                         matchFound = true;
                         IsDVDPlaying = true;
+                    }
+                    else
+                    {
+                        TraktLogger.Info("Could not find movie in MovingPictures library: Filename: {0}, Title: '{1}', Year: '{2}'.", filename, title, year);
                     }
                 }
                 else
@@ -402,8 +408,8 @@ namespace TraktPlugin.TraktHandlers
 
             if (matchFound)
             {
-                TraktLogger.Info(string.Format("Found playing movie '{0}' in MovingPictures.", currentMovie.Title));
-                ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
+                TraktLogger.Info(string.Format("Found playing movie '{0} ({1})' in MovingPictures.", currentMovie.Title, currentMovie.Year));
+                ScrobbleHandler(currentMovie, TraktScrobbleStates.watching, IsDVDPlaying);
                 traktTimer = new Timer();
                 traktTimer.Interval = 900000;
                 traktTimer.Elapsed += new ElapsedEventHandler(traktTimer_Elapsed);
@@ -421,28 +427,41 @@ namespace TraktPlugin.TraktHandlers
 
             if (currentMovie != null)
             {
+                Double watchPercent = MovingPicturesCore.Settings.MinimumWatchPercentage / 100.0;
+
+                #region DVD Workaround
+
+                // MovingPictures does not fire off a watched event for completed DVDs
+                if (IsDVDPlaying)
+                {
+                    IsDVDPlaying = false;
+
+                    TraktLogger.Info("DVD/Bluray stopped, checking if considered watched. Movie: '{0}', Current Position: '{1}', Duration: '{2}'", currentMovie.Title, g_Player.CurrentPosition, g_Player.Duration);
+
+                    // ignore watched percentage of video and scrobble anyway
+                    // MovingPictures also doesn't appear to store the mediainfo correct for DVDs
+                    // It appears to add up all videos on the DVD structure
+                    if (TraktSettings.IgnoreWatchedPercentOnDVD)
+                    {
+                        TraktLogger.Info("Ignoring Watched Percent on DVD, sending watched state to trakt.tv.");
+                        ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble, true);
+                        currentMovie = null;
+                        return;
+                    }
+                    
+                    // check percentage watced, if duration is '0' scrobble anyway as it could be back 
+                    // at the menu after main feature has completed.
+                    if (g_Player.Duration == 0 || (g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
+                    {
+                        ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble, true);
+                        currentMovie = null;
+                        return;
+                    }
+                }
+                #endregion
+
                 if (g_Player.Duration != 0)
                 {
-                    Double watchPercent = MovingPicturesCore.Settings.MinimumWatchPercentage / 100.0;
-
-                    #region DVD Workaround
-
-                    // MovingPictures does not fire off a watched event for completed DVDs
-                    if (IsDVDPlaying)
-                    {
-                        IsDVDPlaying = false;
-
-                        TraktLogger.Info("DVD/Bluray stopped, checking if considered watched. Movie: '{0}', Current Position: '{1}', Duration: '{2}'", currentMovie.Title, g_Player.CurrentPosition, g_Player.Duration);
-
-                        if ((g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
-                        {
-                            ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble);
-                            currentMovie = null;
-                            return;
-                        }
-                    }
-                    #endregion
-
                     // no point cancelling if we will scrobble on event                   
                     if ((g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
                     {
@@ -467,7 +486,7 @@ namespace TraktPlugin.TraktHandlers
         private void traktTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             System.Threading.Thread.CurrentThread.Name = "Scrobble";
-            ScrobbleHandler(currentMovie, TraktScrobbleStates.watching);
+            ScrobbleHandler(currentMovie, TraktScrobbleStates.watching, IsDVDPlaying);
         }
 
         /// <summary>
@@ -475,21 +494,19 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="movie">Movie to Scrobble</param>
         /// <param name="state">Scrobbling mode to use</param>
-        private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state)
+        private void ScrobbleHandler(DBMovieInfo movie, TraktScrobbleStates state, bool isDVD = false)
         {
-            TraktLogger.Debug("Scrobbling Movie {0}", movie.Title);
+            TraktLogger.Debug("Scrobbling Movie: Title: '{0}', Year: '{1}', IMDb: '{2}'", movie.Title, movie.Year, movie.ImdbID ?? "<empty>");
+
             // MovingPictures stores duration in milliseconds, g_Player reports in seconds
             Double currentPosition = g_Player.CurrentPosition;
-            Double duration = movie.ActualRuntime == 0 ? g_Player.Duration : movie.ActualRuntime / 1000.0;
+            Double duration = GetMovieDuration(movie, isDVD);
 
-            // extra checks for runtime in case both movpics and g_player reports incorrect
-            // runtime for online field (if available) is in minutes
-            if (duration == 0.0) duration = movie.Runtime * 60.0;
-
+            // g_Player reports in seconds
             Double percentageCompleted = duration != 0.0 ? (currentPosition / duration * 100.0) : 0.0;
-            TraktLogger.Debug(string.Format("Percentage of {0} is {1}%", movie.Title, percentageCompleted.ToString("N2")));
+            TraktLogger.Debug(string.Format("Percentage watched of {0} ({1}) is {2}%", movie.Title, movie.Year, percentageCompleted.ToString("N2")));
 
-            //Create Scrobbling Data
+            // create scrobbling data
             TraktMovieScrobble scrobbleData = CreateScrobbleData(movie);
 
             if (scrobbleData != null)
@@ -721,6 +738,43 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region DataCreators
+
+        /// <summary>
+        /// returns the movie duration in seconds
+        /// </summary>
+        private double GetMovieDuration(DBMovieInfo movie, bool isDVD)
+        {
+            double duration = 0.0;
+
+            // first try to get from MediaInfo
+            if (movie.ActualRuntime != 0)
+            {
+                // MovingPictures stores duration in milliseconds
+                duration = movie.ActualRuntime / 1000.0;
+            }
+            else if (g_Player.Duration != 0.0)
+            {
+                // g_Player reports in seconds
+                duration = g_Player.Duration;
+            }
+            else
+            {
+                // MovingPictures stores scraped runtime in minutes
+                duration = movie.Runtime * 60.0;
+            }
+            
+            // MediaInfo runtime from MovingPictures is wrong
+            // it sums up all videos on the DVD structure!
+            // check if more than 4hrs will suffice
+            if (isDVD && duration > (4 * 60 * 60)) duration = movie.Runtime * 60.0;
+
+            // sometimes we could be finishing a DVD in an featurette
+            // come up with an arbitrary runtime to avoid scrobbling as a trailer,
+            // and be rejected, only do this on DVDs
+            if (isDVD && duration < 900.0) duration = 120 * 60;
+
+            return duration;
+        }
 
         /// <summary>
         /// Creates Sync Data based on a List of DBMovieInfo objects

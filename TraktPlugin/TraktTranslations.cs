@@ -644,6 +644,8 @@ namespace TraktPlugin.GUI
         public static string SettingFilterTrendingOnDashboardDescription = "Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.";
         public static string SettingUseTrailersPluginName = "Use Trailers Plugin";
         public static string SettingUseTrailersPluginDescription = "Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.";
+        public static string SettingIgnoreWatchedPercentOnDVDName = "Ignore Watched Percent On DVDs";
+        public static string SettingIgnoreWatchedPercentOnDVDDescription = "Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray's do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

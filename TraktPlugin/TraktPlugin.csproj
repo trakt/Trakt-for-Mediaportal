@@ -176,6 +176,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Trailers">
       <HintPath>..\Externals\Trailers.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TvBusinessLayer">
       <HintPath>..\Externals\TvBusinessLayer.dll</HintPath>
