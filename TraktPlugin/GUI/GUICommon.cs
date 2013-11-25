@@ -1066,7 +1066,7 @@ namespace TraktPlugin.GUI
             #endregion
         }
 
-        internal static void SetShoutProperties(TraktShout shout)
+        internal static void SetShoutProperties(TraktShout shout, bool isWatched = false)
         {
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
@@ -1077,7 +1077,8 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Shout.Likes", shout.Likes.ToString());
             GUIUtils.SetProperty("#Trakt.Shout.Replies", shout.Replies.ToString());
 
-            if (TraktSettings.HideSpoilersOnShouts && shout.Spoiler)
+            // don't hide spoilers if watched
+            if (TraktSettings.HideSpoilersOnShouts && shout.Spoiler && !isWatched)
                 GUIUtils.SetProperty("#Trakt.Shout.Text", Translation.HiddenToPreventSpoilers);
             else
                 GUIUtils.SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Shout.RemapHighOrderChars()).StripHTML());
@@ -1998,6 +1999,10 @@ namespace TraktPlugin.GUI
         }
         public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, string fanart, SearchPeople people, bool showAll)
         {
+            return ShowTraktExtMovieMenu(title, year, imdbid, false, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
+        {
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
@@ -2277,6 +2282,10 @@ namespace TraktPlugin.GUI
         }
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart, SearchPeople people, bool showAll)
         {
+            return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, false, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
+        {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
@@ -2343,7 +2352,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Shouts):
                     TraktLogger.Info("Searching Shouts for episode '{0} - {1}x{2}'", title, season, episode);
-                    TraktHelper.ShowEpisodeShouts(tvdbid, title, season, episode, fanart);
+                    TraktHelper.ShowEpisodeShouts(tvdbid, title, season, episode, isWatched, fanart);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):

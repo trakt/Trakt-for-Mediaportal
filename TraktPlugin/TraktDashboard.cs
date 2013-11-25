@@ -1407,15 +1407,15 @@ namespace TraktPlugin
             switch (activity.Type)
             {
                 case "movie":
-                    TraktHelper.ShowMovieShouts(activity.Movie.IMDBID, activity.Movie.Title, activity.Movie.Year, activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), activity.Movie.Images.Fanart);
+                    TraktHelper.ShowMovieShouts(activity.Movie);
                     break;
 
                 case "show":
-                    TraktHelper.ShowTVShowShouts(activity.Show.Tvdb, activity.Show.Title, activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), activity.Show.Images.Fanart);
+                    TraktHelper.ShowTVShowShouts(activity.Show);
                     break;
 
                 case "episode":
-                    TraktHelper.ShowEpisodeShouts(activity.Show.Tvdb, activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), activity.Show.Images.Fanart);
+                    TraktHelper.ShowEpisodeShouts(activity.Show, activity.Episode);
                     break;
 
                 default:

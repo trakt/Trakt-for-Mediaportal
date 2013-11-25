@@ -868,6 +868,7 @@ namespace TraktPlugin
             string season = string.Empty;
             string episode = string.Empty;
             string fanart = string.Empty;
+            bool isWatched = false;
             SearchPeople searchPeople = null;
             string type = "movie";
 
@@ -1037,6 +1038,7 @@ namespace TraktPlugin
                                     year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
                                     imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
                                     fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
+                                    isWatched = GUIPropertyManager.GetProperty("#MovingPictures.UserMovieSettings.watched").Trim() != "0";
 
                                     // get movie people from database
                                     searchPeople = new SearchPeople();
@@ -1086,7 +1088,7 @@ namespace TraktPlugin
                                         {
                                             case TVSeries.SelectedType.Episode:
                                                 type = "episode";
-                                                validItem =  TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode);
+                                                validItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode, out isWatched);
                                                 validItem |= TVSeries.GetEpisodePersonInfo(obj, out searchPeople);
                                                 break;
 
@@ -1214,13 +1216,13 @@ namespace TraktPlugin
                     #region movie
                     case "movie":
                         TraktLogger.Info("Searching Shouts for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        TraktHelper.ShowMovieShouts(imdb, title, year, fanart);
+                        TraktHelper.ShowMovieShouts(imdb, title, year, isWatched, fanart);
                         break;
                     #endregion
                     #region episode
                     case "episode":
                         TraktLogger.Info("Searching Shouts for {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
-                        TraktHelper.ShowEpisodeShouts(tvdb, title, season, episode, fanart);
+                        TraktHelper.ShowEpisodeShouts(tvdb, title, season, episode, isWatched, fanart);
                         break;
                     #endregion
                     #region series
@@ -1263,7 +1265,7 @@ namespace TraktPlugin
                 switch (type)
                 {
                     case "movie":
-                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, isWatched, fanart, searchPeople, false);
                         break;
 
                     case "series":
@@ -1271,7 +1273,7 @@ namespace TraktPlugin
                         break;
 
                     case "episode":
-                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, isWatched, fanart, searchPeople, false);
                         break;
                 }
             }

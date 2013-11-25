@@ -75,6 +75,7 @@ namespace TraktPlugin.GUI
         public static EpisodeShout EpisodeInfo { get; set; }
         public static string Fanart { get; set; }
         public static string OnlineFanart { get; set; }
+        public static bool IsWatched { get; set; }
 
         #endregion
 
@@ -116,6 +117,8 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             GUIUserListItem.StopDownload = true;
+            IsWatched = false;
+
             ClearProperties();
 
             if (hideSpoilersButton != null)
@@ -511,7 +514,7 @@ namespace TraktPlugin.GUI
             if (shout == null) return;
 
             GUICommon.SetUserProperties(shout.User);
-            GUICommon.SetShoutProperties(shout);
+            GUICommon.SetShoutProperties(shout, IsWatched);
         }
 
         private void OnShoutSelected(GUIListItem item, GUIControl parent)

@@ -544,12 +544,13 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Get Episode Info for selected object
         /// </summary>        
-        public static bool GetEpisodeInfo(Object obj, out string title, out string tvdb, out string seasonidx, out string episodeidx)
+        public static bool GetEpisodeInfo(Object obj, out string title, out string tvdb, out string seasonidx, out string episodeidx, out bool isWatched)
         {
             title = string.Empty;
             tvdb = string.Empty;
             seasonidx = string.Empty;
             episodeidx = string.Empty;
+            isWatched = false;
 
             if (obj == null) return false;
 
@@ -563,6 +564,7 @@ namespace TraktPlugin.TraktHandlers
             tvdb = series[DBSeries.cID];
             seasonidx = episode[DBOnlineEpisode.cSeasonIndex];
             episodeidx = episode[DBOnlineEpisode.cEpisodeIndex];
+            isWatched = episode[DBOnlineEpisode.cWatched];
 
             return true;
         }
