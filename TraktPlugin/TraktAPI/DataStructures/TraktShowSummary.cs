@@ -13,9 +13,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "last_updated")]
         public long LastUpdated { get; set; }
 
-        [DataMember(Name = "status")]
-        public string Status { get; set; }
-
         [DataMember(Name = "people")]
         public TraktPeople People { get; set; }
 

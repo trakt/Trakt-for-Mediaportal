@@ -651,6 +651,7 @@ namespace TraktPlugin.GUI
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
         public static string SortSeasonsDescending = "Sort Seasons in Descending order";
         public static string Specials = "Specials";
+        public static string Status = "Status";
 
         // T
         public static string Timeout = "Timeout";

@@ -57,6 +57,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "certification")]
         public string Certification { get; set; }
 
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
         [DataMember(Name = "imdb_id")]
         public string Imdb { get; set; }
 

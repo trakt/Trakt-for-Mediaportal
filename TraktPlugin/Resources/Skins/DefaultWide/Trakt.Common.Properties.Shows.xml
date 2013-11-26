@@ -85,7 +85,7 @@
     </control>
     <control>
       <description>Genre value</description>
-      <type>fadelabel</type>
+      <type>label</type>
       <id>1</id>
       <posX>729</posX>
       <posY>250</posY>
@@ -113,8 +113,8 @@
       <id>1</id>
       <posX>729</posX>
       <posY>294</posY>
-      <width>280</width>
-      <label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
+      <width>320</width>
+      <label>#(iif(eq(#Trakt.Show.AirDay,'N/A'),'#Trakt.Show.AirTime','#Trakt.Show.AirDay #Trakt.Show.AirTime')) #(iif(eq(#Trakt.Show.Status,'N/A'),'','(#Trakt.Show.Status)'))</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>
