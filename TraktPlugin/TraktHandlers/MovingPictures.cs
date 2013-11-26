@@ -444,7 +444,11 @@ namespace TraktPlugin.TraktHandlers
                     if (TraktSettings.IgnoreWatchedPercentOnDVD)
                     {
                         TraktLogger.Info("Ignoring Watched Percent on DVD, sending watched state to trakt.tv.");
+
+                        ShowRateDialog(currentMovie);
                         ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble, true);
+                        RemoveMovieFromFiltersAndCategories(currentMovie);
+
                         currentMovie = null;
                         return;
                     }
@@ -453,7 +457,10 @@ namespace TraktPlugin.TraktHandlers
                     // at the menu after main feature has completed.
                     if (g_Player.Duration == 0 || (g_Player.CurrentPosition / g_Player.Duration) >= watchPercent)
                     {
+                        ShowRateDialog(currentMovie);
                         ScrobbleHandler(currentMovie, TraktScrobbleStates.scrobble, true);
+                        RemoveMovieFromFiltersAndCategories(currentMovie);
+
                         currentMovie = null;
                         return;
                     }
