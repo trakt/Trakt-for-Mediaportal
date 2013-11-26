@@ -1148,6 +1148,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Year", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Status", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watched", string.Empty);
@@ -1183,6 +1184,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Runtime", show.Runtime.ToString());
             SetProperty("#Trakt.Show.Year", show.Year.ToString());
+            SetProperty("#Trakt.Show.Status", show.Status);
+            SetProperty("#Trakt.Show.TranslatedStatus", show.Status.Translate());
             SetProperty("#Trakt.Show.Genres", string.Join(", ", show.Genres.ToArray()));
             SetProperty("#Trakt.Show.InWatchList", show.InWatchList.ToString());
             SetProperty("#Trakt.Show.Watched", show.Watched.ToString());

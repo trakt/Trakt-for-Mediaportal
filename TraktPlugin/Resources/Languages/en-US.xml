@@ -76,6 +76,7 @@
   <string name="CommunityActivity">Community Activity</string>
   <string name="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
   <string name="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
+  <string name="Continuing">Continuing</string>
   <string name="CopyList">Copy List...</string>
   <!--D-->
   <string name="DateToday">Today</string>
@@ -101,6 +102,7 @@
   <string name="EditList">Edit List...</string>
   <string name="EditingList">Editing List</string>
   <string name="Email">Email</string>
+  <string name="Ended">Ended</string>
   <string name="EndYear">End: {0}</string>
   <string name="EnterSearchTerm">Enter Search Term</string>
   <string name="Episode">Episode</string>
@@ -433,6 +435,7 @@
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>
   <string name="SortSeasonsDescending">Sort Seasons in Descending order</string>
   <string name="Specials">Specials</string>
+  <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="Trending">Trending</string>

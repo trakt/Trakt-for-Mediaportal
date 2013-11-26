@@ -191,6 +191,15 @@ namespace TraktPlugin.GUI
             input = input.Replace("\\\"", "\"");
             return input;
         }
+
+        /// <summary>
+        /// Extension Method to get translations
+        /// </summary>
+        public static string Translate(this string key)
+        {
+            if (string.IsNullOrEmpty(key)) return null;
+            return GetByName(key);
+        }
         #endregion
 
         #region Translations / Strings
@@ -279,7 +288,8 @@ namespace TraktPlugin.GUI
         public static string CommunityActivity = "Community Activity";
         public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
         public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
-        public static string CopyList = "Copy List...";        
+        public static string Continuing = "Continuing";
+        public static string CopyList = "Copy List...";
 
         // D
         public static string DateToday = "Today";
@@ -306,6 +316,7 @@ namespace TraktPlugin.GUI
         public static string EditList = "Edit List...";
         public static string EditingList = "Editing List";
         public static string Email = "Email";
+        public static string Ended = "Ended";
         public static string EndYear = "End Year: {0}";
         public static string EnterSearchTerm = "Enter Search Term";
         public static string Episode = "Episode";
@@ -717,5 +728,4 @@ namespace TraktPlugin.GUI
         #endregion
 
     }
-
 }
