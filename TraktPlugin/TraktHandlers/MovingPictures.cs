@@ -360,7 +360,7 @@ namespace TraktPlugin.TraktHandlers
                 IsDVDPlaying = false;
 
                 // check if filename is DVD/Bluray format
-                if (VideoUtility.GetVideoFormat(filename) != VideoFormat.File)
+                if (VideoUtility.GetVideoFormat(filename) == VideoFormat.DVD || VideoUtility.GetVideoFormat(filename) == VideoFormat.Bluray)
                 {
                     // use the player skin properties to determine movie playing
                     // note: movingpictures sets this 2secs after playback
