@@ -3,6 +3,7 @@
   <!--A-->
   <string name="Account">Tili</string>
   <string name="AccountSetup">Luo tili</string>
+  <string name="AccountDialog">Tilin ikkuna</string>
   <string name="Actor">Näyttelijä</string>
   <string name="Actors">Näyttelijät</string>
   <string name="Activity">Aktiivisuus</string>
@@ -10,6 +11,7 @@
   <string name="ActivityCommunityDesc">Katso mitä yhteisössä tapahtuu...</string>
   <string name="ActivityWatching">{0} katsoo {1}</string>
   <string name="ActivityWatched">{0} katsoi {1}</string>
+  <string name="ActivityCollected">{0} kerätty {1}</string>
   <string name="ActivitySeen">{0} nähty {1}</string>
   <string name="ActivityRating">{0} arvioi {1}</string>
   <string name="ActivityRatingAdvanced">{0} arvostellut {1} [{2}/10]</string>
@@ -20,14 +22,22 @@
   <string name="AddFriend">Lisää ystävä...</string>
   <string name="AddToLibrary">Lisää kirjastoon</string>
   <string name="AddToList">Lisää listaan...</string>
+  <string name="AddToWatchList">Lisää katsontalistalle</string>
+  <string name="AddShowToWatchList">Lisää ohjelma katsontalistalle</string>
+  <string name="AddEpisodeToWatchList">Lisää jakso katsontalistalle</string>
+  <string name="AddShowToList">Lisää ohjelma listalle</string>
+  <string name="AddEpisodeToList">Lisää jakso listalle</string>
+  <string name="AddThisItemToWatchList">Lisää tämä kohde katsontalistallesi?</string>
   <string name="Age">Ikä</string>
   <string name="AirDate">Lähetyspäivämäärä</string>
   <string name="AirDay">Lähetyspäivä</string>
   <string name="AirTime">Lähetysaika</string>
   <string name="Approve">Hyväksy</string>
+  <string name="ApproveAndFollowBack">Hyväksy ja seuraa</string>
   <string name="ApprovedDate">Hyväksymis päivämäärä</string>
   <string name="ApproveFriendMessage">Haluaisitko lisätä käyttäjän {0}⏎ ystäväksesi?</string>
   <string name="ApproveFollowerMessage">Haluatko antaa käyttäjän {0}\nseurata sinua?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Haluaisitko hyväksyä käyttäjän {0}\nseuraus pyynnön ja seurata häntä?</string>
   <string name="AdvancedSettings">Kehittyneet asetukset</string>
   <!--B-->
   <string name="BufferingTrailer">Ladataan traileria</string>
@@ -69,14 +79,18 @@
   <string name="DateTwoWeeksAgo">2 viikkoa sitten</string>
   <string name="DateOneMonthAgo">1 kuukausi sitten</string>
   <string name="Deny">Estä</string>
+  <string name="DenyFollowRequest">Hylkää seuraus pyyntö käyttäjältä {0}?</string>
   <string name="DeleteList">Poista lista</string>
+  <string name="DeleteListItem">Poista kohta listalta</string>
   <string name="DeletingList">Poistetaan listaa</string>
   <string name="DeleteFriend">Poista ystävä</string>
   <string name="DeleteFriendMessage">Haluatko varmasti poistaa \n{0} ystävistäsi?</string>
   <string name="Director">Ohjaaja</string>
   <string name="Directors">Ohjaajat</string>
+  <string name="DisconnectAccount">Kirjaudu ulos tilistä: {0}</string>
   <string name="DismissRecommendation">Ohita tämä suositus</string>
   <string name="DownloadFanart">Lataa fanitaide</string>
+  <string name="DownloadFullSizeFanart">Lataa alkuperäisen kokoinen fanitaide</string>
   <!--E-->
   <string name="EditList">Muokkaa listaa...</string>
   <string name="EditingList">Muokataan listaa</string>
@@ -87,6 +101,7 @@
   <string name="Episodes">Jaksot</string>
   <string name="Error">Trakt virhe</string>
   <string name="ErrorCalendar">Virhe haettaessa kalenteria.</string>
+  <string name="ExecutiveProducer">Vastaava tuottaja</string>
   <!--F-->
   <string name="Filters">Suodattimet</string>
   <string name="FirstAired">Ensiesitys</string>
@@ -103,10 +118,13 @@
   <string name="FollowerRequest">Seuraajan pyyntö</string>
   <string name="FollowerRequests">Seuraajan pyynnöt</string>
   <string name="FollowPendingApproval">\'Seuraa\' pyyntö on lähetetty {0} ja se odottaa hyväksyntää.</string>
+  <string name="FriendRequestMessage">Sinulla on {0} ystävä pyyntöä, hyväksy tai hylkää \'Ystävät\' ikkunassa</string>
+  <string name="FollowerRequestMessage">Sinulla on {0} seuraus pyyntöä, hyväksy tai hylkää internet ikkunassa</string>
   <string name="FullName">Koko nimi</string>
   <!--G-->
   <string name="Gender">Sukupuoli</string>
   <string name="General">Yleiset</string>
+  <string name="GeneralSettings">Yleiset asetukset</string>
   <string name="Genre">Lajityyppi</string>
   <string name="GenreItem">Tyylilaji: {0}</string>
   <string name="GenreAction">Toiminta</string>
@@ -136,14 +154,36 @@
   <string name="GenreRomance">Romantiikka</string>
   <string name="GenreScienceFiction">Skifi</string>
   <string name="GenreSoap">Saippuasarja</string>
+  <string name="GenreSpecialInterest">Erityiset mielenkiinnon kohteet</string>
   <string name="GenreSport">Urheilu</string>
   <string name="GenreTalkShow">Keskusteluohjelma</string>
   <string name="GenreThriller">Trilleri</string>
   <string name="GenreWar">Sota</string>
   <string name="GenreWestern">Länkkäri</string>
+  <string name="GettingActivity">Haetaan aktiviteettejä</string>
+  <string name="GettingCalendar">Haetaan kalenteria</string>
+  <string name="GettingFriendsList">Haetaan ystävä listaa</string>
+  <string name="GettingFollowingList">Haetaan seurattavien listaa</string>
+  <string name="GettingFollowerList">Haetaan seuraajien listaa</string>
+  <string name="GettingFriendsRequests">Haetaan ystävä ehdotuksia</string>
+  <string name="GettingFollowerRequests">Haetaan seuraus pyyntöjä</string>
+  <string name="GettingUserWatchedHistory">Haetaan käyttäjän katsonta historiaa</string>
+  <string name="GettingUserRecentAdded">Haetaan käyttäjän viimeksi lisättyjä</string>
+  <string name="GettingUserRecentShouts">Haetaan käyttäjän viimeisimmät Huudot</string>
+  <string name="GettingFriendsWatchedHistory">Haetaan ystävien \'Katsottu\' historiaa</string>
+  <string name="GettingLists">Haetaan listoja</string>
+  <string name="GettingListItems">Haetaan listan kohteita</string>
+  <string name="GettingTrailerUrls">Haetaan trailereiden osoitteita</string>
+  <string name="GettingUserProfile">Haetaan käyttäjän profiilia</string>
+  <string name="GuestStar">Vieraileva tähti</string>
+  <string name="GuestStars">Vierailevat tähdet</string>
   <!--H-->
   <string name="Hated">Vihattu</string>
+  <string name="HideRated">Piilota arvostellut</string>
   <!--I-->
+  <string name="Inserted">Asetettu</string>
+  <string name="Item">Kohde</string>
+  <string name="Items">Kohteet</string>
   <!--J-->
   <string name="JoinDate">Liittymis Pvm</string>
   <string name="Joined">Liittynyt</string>
@@ -174,9 +214,24 @@
   <string name="NextEpisode">Seuraava jakso</string>
   <string name="NextWeek">Seuraava viikko</string>
   <string name="NoEpisodesInSeason">Ei jaksoja saatavilla kaudelle.</string>
+  <string name="NoEpisodesThisWeek">Ei jaksoja tällä viikolla</string>
+  <string name="NoMovieSummary">Elokuva yhteenvetoa ei ole tällä hetkellä saatavilla.</string>
+  <string name="NoShowSummary">Ohjelma yhteenvetoa ei ole tällä hetkellä saatavilla.</string>
   <string name="NoFriends">Ei ystäviä!</string>
   <string name="NoFriendsTaunt">Sinulla ei ole ystäviä!</string>
+  <string name="NoFollowersTaunt">Sinulla ei ole seuraajia!</string>
+  <string name="NoFollowerReqTaunt">Sinulla ei ole seuraus pyyntöjä!</string>
+  <string name="NoFollowingTaunt">Sinä et seuraa ketään!</string>
+  <string name="NoMovieRecommendations">Elokuva suosituksia ei löytynyt!</string>
+  <string name="NoShowRecommendations">Ohjelma suosituksia ei löytynyt!</string>
+  <string name="NoShowWatchList">{0} ei ole ohjelmia Katselu Listalla!</string>
+  <string name="NoMovieWatchList">{0} ei ole elokuvia Katselu Listalla!</string>
+  <string name="NoEpisodeWatchList">{0} ei ole jaksoja Katselu Listalla!</string>
   <string name="NoSearchResultsFound">Osumia ei löytynyt! Muuta hakua.</string>
+  <string name="NoSeasonsForShow">Kausia ei löydetty ohjelmalle!</string>
+  <string name="NoMovingPictures">Moving Pictures ei ole asennettu tai käytössä</string>
+  <string name="NoListsFound">Listoja ei löytynyt, haluaisitko\nluoda listan nyt?</string>
+  <string name="NoUserLists">{0} ei ole luonut yhtään listaa!</string>
   <string name="No">Ei</string>
   <!--O-->
   <string name="Off">Pois päältä</string>
@@ -202,6 +257,8 @@
   <string name="PrivacyFriends">Vain ystävät voivat katsoa tätä listaa</string>
   <string name="PrivacyPrivate">Vain sinä voit katsoa tätä listaa</string>
   <string name="Profile">Profiili</string>
+  <string name="Producer">Tuottaja</string>
+  <string name="Producers">Tuottajat</string>
   <!--R-->
   <string name="Rate">Arvostele</string>
   <string name="Rated">Arvosteltu</string>
@@ -218,7 +275,11 @@
   <string name="RateSeven">Hyvä</string>
   <string name="RateEight">Todella hyvä</string>
   <string name="RateNine">Loistava</string>
+  <string name="RecentWatchedEpisodes">Viimeksi katsotut  jaksot</string>
+  <string name="RecentWatchedMovies">Viimeksi katsotut elokuvat</string>
+  <string name="RecentAddedEpisodes">Viimeisimmät jaksot</string>
   <string name="RecentAddedMovies">Viimeksi lisätyt elokuvat</string>
+  <string name="RecentShouts">Viimeisimmät Huudot</string>
   <string name="Recommendations">Suositukset</string>
   <string name="RecommendedMovies">Suositellut elokuvat</string>
   <string name="RecommendedShows">Suositellut ohjelmat</string>
@@ -227,6 +288,9 @@
   <string name="RelatedShows">Liittyvät ohjelmat</string>
   <string name="Released">Julkaistu</string>
   <string name="ReleaseDate">Julkaisupäivä</string>
+  <string name="RemoveFromLibrary">Poista Kirjastosta</string>
+  <string name="RemoveFromWatchList">Poista Katselu Listalta</string>
+  <string name="RemoveFromList">Poista listalta...</string>
   <string name="Reply">Vastaa</string>
   <string name="Replies">Vastattu</string>
   <string name="Requests">Pyynnöt</string>
@@ -237,10 +301,16 @@
   <string name="Season">Tuotantokausi</string>
   <string name="Seasons">Tuotantokaudet</string>
   <string name="Search">Haku</string>
+  <string name="SearchAll">Etsi kaikki</string>
   <string name="SearchBy">Etsi käyttäen</string>
+  <string name="SearchMovies">Etsi elokuvia</string>
+  <string name="SearchShows">Etsi ohjelmia</string>
+  <string name="SearchEpisodes">Etsi jaksoja</string>
+  <string name="SearchPeople">Etsi ihmistä</string>
   <string name="SearchUsers">Etsi käyttäjiä</string>
   <string name="SearchForFriend">Etsi ystävää...</string>
   <string name="SearchForUser">Etsi käyttäjää...</string>
+  <string name="SearchTypes">Hakutyypit</string>
   <string name="SendFriendRequest">Lähetä ystävä pyyntö käyttäjälle {0}?</string>
   <string name="SendFollowRequest">Lähetä \'Seuraa\' pyyntö {0}?</string>
   <string name="SelectLists">Valitse listat</string>
@@ -250,23 +320,52 @@
   <string name="Settings">Asetukset</string>
   <string name="Shout">Huuda</string>
   <string name="Shouts">Huudot</string>
+  <string name="SigningIntoAccount">Kirjautuu sisään...</string>
+  <string name="StartDate">Aloitus Pvm</string>
+  <string name="Synchronize">Synkronoi</string>
+  <string name="ShowSeasonInfo">Kauden tiedot...</string>
+  <string name="ShowWatched">Näytä katsotut</string>
   <string name="SettingPluginEnabledName">Lisäosa otettu käyttöön</string>
+  <string name="SettingPluginEnabledDescription">Aseta Päälle/Pois tämä asetus määrittääksesi ladataanko Trakt kun MP käynnistyy.</string>
   <string name="SettingListedHomeName">Näkyy Kotivalikossa</string>
   <string name="SettingListedPluginsName">Näkyy Lisäosissa</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Oletus TV-sarjojen traileri sivusto</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Valitse oletus TV-sarjojen traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt TV-sarjassa tai Jaksossa. Kun käytetään YouTube sivua, ylimääräisiä parametrejä käytetään Jaksoja etsittäessä, kuten Kausi ja Jakson numero.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Oletus elokuvien traileri sivusto</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Valitse oletus elokuvien traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt elokuvassa.</string>
+  <string name="SettingSyncLibraryName">Ota käyttöön kirjaston synkronointi</string>
+  <string name="SettingMaxSearchResultsName">Max etsintä tulokset</string>
+  <string name="SettingUseTrailersPluginName">Käytä \'Trailerit\' lisäosaa</string>
+  <string name="StartYear">Aloita: {0}</string>
+  <string name="SortBy">Järjestä: {0}</string>
   <string name="Specials">Erikoisuudet</string>
   <!--T-->
   <string name="Timeout">Aikakatkaisu</string>
   <string name="Trending">Nousussa</string>
+  <string name="TrendingShows">Kuumat Ohjelmat</string>
+  <string name="TrendingShowsAndMovies">Kuumat Ohjelmat ja Elokuvat</string>
+  <string name="TrendingMovies">Kuumat Elokuvat</string>
   <string name="TVShow">TV Ohjelma</string>
   <string name="TVShows">TV Ohjelmat</string>
   <string name="Title">Nimi</string>
   <string name="Today">Tänään</string>
+  <string name="Tomorrow">Huomenna</string>
   <string name="Trailer">Traileri</string>
+  <string name="Trailers">Trailerit...</string>
   <!--U-->
+  <string name="UserHasNotWatchedEpisodes">Käyttäjä ei ole katsonut jaksoja!</string>
+  <string name="UserHasNotWatchedMovies">Käyttäjä ei ole katsonut elokuvia!</string>
+  <string name="UserHasNoRecentAddedEpisodes">Käyttäjä ei ole lähiaikoina lisännyt jaksoja!</string>
+  <string name="UserHasNoRecentAddedMovies">Käyttäjä ei ole lähiaikoina lisännyt elokuvia!</string>
   <string name="User">Käyttäjä</string>
   <string name="Users">Käyttäjät</string>
   <string name="Username">Käyttäjänimi</string>
   <string name="UnAuthorized">Todennus epäonnistui, tarkista käyttäjätunnus ja salasana asetuksista.</string>
+  <string name="UnFollow">Lopeta seuraaminen</string>
+  <string name="UnFollowMessage">Oletko varma että haluat lopettaa\nkäyttäjän {0} seuraamisen?</string>
+  <string name="UpdatingCategories">Päivitetään kategorioita</string>
+  <string name="UpdatingFilters">Päivitetään suodattimia</string>
+  <string name="UnableToPlayTrailer">Ei voi toistaa traileria.</string>
   <string name="UserProfile">Käyttäjäprofiili</string>
   <!--V-->
   <string name="View">Näytä</string>
@@ -277,6 +376,14 @@
   <!--W-->
   <string name="WatchList">Katsontalista</string>
   <string name="Watched">Katsottu</string>
+  <string name="WatchedMovies">Katsotut elokuvat</string>
+  <string name="WatchedEpisodes">Katsotut jaksot</string>
+  <string name="WatchedShows">Katsotut ohjelmat</string>
+  <string name="Watchers">Katsojat</string>
+  <string name="Watching">Katsoo parhaillaan</string>
+  <string name="WatchListMovies">Elokuvien katsontalista</string>
+  <string name="WatchListShows">Ohjelmien katsontalista</string>
+  <string name="WatchListEpisodes">Jaksojen katsontalista</string>
   <string name="Writer">Käsikirjoittaja</string>
   <string name="Writers">Käsikirjoittajat</string>
   <!--Y-->

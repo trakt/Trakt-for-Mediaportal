@@ -30,6 +30,7 @@
   <string name="ApproveFriendMessage">Chcesz dodać użytkownika {0}\ndo listy przyjaciół?</string>
   <string name="AdvancedSettings">Ustawienia zaawansowane</string>
   <!--B-->
+  <string name="Biography">Biografia</string>
   <string name="Born">Urodzony</string>
   <!--C-->
   <string name="Cancel">Anuluj</string>

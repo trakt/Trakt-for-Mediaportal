@@ -17,6 +17,8 @@
   <string name="ApprovedDate">Dags. samþykktar</string>
   <string name="ApproveFriendMessage">Viltu bæta notenda {0} sem vin?</string>
   <!--B-->
+  <string name="BufferingTrailer">Stiklur í biðminni</string>
+  <string name="Biography">Ævisaga</string>
   <!--C-->
   <string name="Cancel">Hætta við</string>
   <string name="Calendar">Dagatal</string>
@@ -56,6 +58,7 @@
   <string name="Episodes">Þættir</string>
   <string name="Error">Trakt villa</string>
   <!--F-->
+  <string name="Filters">Síur</string>
   <string name="FirstAired">Fyrst sjónvarpað</string>
   <string name="Friend">Vinur</string>
   <string name="Friends">Vinir</string>
@@ -87,6 +90,7 @@
   <string name="GettingSearchResults">Næ í leitarniðurstöðu</string>
   <string name="GettingRelatedMovies">Sæki svipaðar kvikmyndir</string>
   <string name="GettingRelatedShows">Sæki svipaða sjónvarpsþætti</string>
+  <string name="GettingTrailerUrls">Sæki vefslóð stiklu</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -141,8 +145,11 @@
   <string name="Rating">Einkunnagjöf</string>
   <string name="RateHeading">Hvað finnst þér?</string>
   <string name="RateTwo">Hræðileg</string>
+  <string name="RateThree">Lélegt</string>
   <string name="RateFour">Léleg</string>
+  <string name="RateSix">Þokkalegt</string>
   <string name="RateSeven">Góð</string>
+  <string name="RateEight">Frábært</string>
   <string name="RateNine">Mjög góð</string>
   <string name="RecentAddedMovies">Nýlega bætt við</string>
   <string name="RelatedMovies">Svipaðar kvikmyndir</string>
@@ -173,9 +180,12 @@
   <string name="SortBy">Röðun eftir: {0}</string>
   <string name="SortSeasonsAscending">Raða þáttaröðum í hækkandi röð</string>
   <string name="SortSeasonsDescending">Raða þáttaröðum í lækkandi röð</string>
+  <string name="Specials">Sér þættir</string>
   <!--T-->
+  <string name="Timeout">Tímatakmörk</string>
   <string name="Title">Titill</string>
   <string name="Today">Í dag</string>
+  <string name="Trailer">Stikla</string>
   <!--U-->
   <string name="User">Notandi</string>
   <string name="Username">Notendanafn</string>

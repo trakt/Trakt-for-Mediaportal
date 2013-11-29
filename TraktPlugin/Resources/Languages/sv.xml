@@ -76,6 +76,7 @@
   <string name="CommunityActivity">Community-aktivitet</string>
   <string name="ConfirmDeleteList">Är det säkert att du vill radera\nden här listan?</string>
   <string name="ConfirmDeleteListItem">Är det säkert att du vill radera\ndetta objekt från den här listan?</string>
+  <string name="Continuing">Fortsätter</string>
   <string name="CopyList">Kopiera lista...</string>
   <!--D-->
   <string name="DateToday">Idag</string>
@@ -101,6 +102,7 @@
   <string name="EditList">Ändra listan...</string>
   <string name="EditingList">Ändrar listan</string>
   <string name="Email">E-mail</string>
+  <string name="Ended">Avslutat</string>
   <string name="EndYear">Slut: {0}</string>
   <string name="EnterSearchTerm">Skriv in sökord</string>
   <string name="Episode">Avsnitt</string>
@@ -424,11 +426,16 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Den här inställningen styr beteendet  då endast en söktyp sätts i sökfönstret. Om den inaktiveras så visas direkt resultatet för en enda söktyp</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtrera populärt</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Aktivera inställningen för att filtrera populärt t ex dölj sedda, dölj Watchlist osv. Filtren kan sättas på motsvarande sida eller via meny</string>
+  <string name="SettingUseTrailersPluginName">Använd Trailers Plugin</string>
+  <string name="SettingUseTrailersPluginDescription">Aktivera den här inställningen om du vill att Trailers plugin ska hantera alla trailer funktioner. Rekommenderas om du vill titta på mer än en trailer. Kräver att Trailers plugin är installerad.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorera procent sedd för DVD:er</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktivera den här inställningen för att ignorera procent sedd när du avbryter tittande på DVD:er. DVD och Bluray visar inte alltid rätt speltid, inställningen garanterar att rätt info skickas till trakt.tv oavsett hur mycket du har sett av skivan.</string>
   <string name="StartYear">Började: {0}</string>
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
   <string name="SortSeasonsDescending">Sortera säsonger i fallande ordning</string>
   <string name="Specials">Specialer</string>
+  <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="Trending">Populärt</string>
@@ -461,6 +468,7 @@
   <string name="UpdatingCategories">Uppdaterar kategorier</string>
   <string name="UpdatingFilters">Uppdaterar filter</string>
   <string name="UnableToPlayTrailer">Kunde inte spela trailer.</string>
+  <string name="UserIsProtected">Användaren är skyddad. Skyddade användare kan bara ses i vänvyn.</string>
   <string name="UserProfile">Användarprofil</string>
   <!--V-->
   <string name="View">Vy</string>

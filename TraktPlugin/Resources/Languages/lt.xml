@@ -76,6 +76,7 @@
   <string name="CommunityActivity">Bendruomenės veikla</string>
   <string name="ConfirmDeleteList">Ar jūs tikrai norite ištrinti⏎ šį sąrašą?</string>
   <string name="ConfirmDeleteListItem">Ar jūs tikrai norite ištrinti⏎ šį įrašą iš sąrašo?</string>
+  <string name="Continuing">Rodomas</string>
   <string name="CopyList">Kopijuoti sąrašą...</string>
   <!--D-->
   <string name="DateToday">Šiandien</string>
@@ -101,6 +102,7 @@
   <string name="EditList">Redaguoti sąrašą...</string>
   <string name="EditingList">Redaguojamas sąrašas</string>
   <string name="Email">El. paštas</string>
+  <string name="Ended">Baigtas rodyti</string>
   <string name="EndYear">Pabaiga: {0}</string>
   <string name="EnterSearchTerm">Įveskite paieškos terminą</string>
   <string name="Episode">Epizodas</string>
@@ -424,11 +426,16 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Šis nustatymas leis valdyti vienintelio pasirinkto paieškos tipo elgseną paieškos lange. Nepasirinkus vartotojas bus nukreiptas tiesiai į atitinkamą paieškos rezultatą.</string>
   <string name="SettingFilterTrendingOnDashboardName">Aktualijų filtravimas ant darbastalio</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Įjungti šį nustatymą, kad pritaikyti aktualijų filtrus ant darbastalio, pvz. Paslėpti peržiūrėtus ir pan. Tai gali būti nustatyta atitinkamame vaizde arba kontekstiniame meniu.</string>
+  <string name="SettingUseTrailersPluginName">Naudoti Anonsų įskiepį</string>
+  <string name="SettingUseTrailersPluginDescription">Įjunkite šį nustatymą ir naudokite Anonsų įskiepį anonsų funkcionalumui. Rekomenduojame jei norite gauti daugiau nei vieną anonsą. Reikia įdiegti Anonsų įskiepį.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Ignoruoti Peržiūrėtų DVD procentines reikšmes</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Įjunkite šį nustatymą norėdami ignoruoti DVD peržiūros po sustabdymo procentines reikšmes. DVD ir Bluray ne visada korektiškai pateikia rodytą laiką, šiuo nustatymu jūs užtikrinsite tinkamą reikšmės siuntimą į trakt.tv pasibaigus grojimui nepriklausomai kiek tuo metu peržiūrėta.</string>
   <string name="StartYear">Pradėti: {0}</string>
   <string name="SortBy">Rūšiuoti pagal: {0}</string>
   <string name="SortSeasonsAscending">Rūšiuoti Sezonus didėjančia tvarka</string>
   <string name="SortSeasonsDescending">Rūšiuoti Sezonus mažėjančia tvarka</string>
   <string name="Specials">Specialūs</string>
+  <string name="Status">Būklė</string>
   <!--T-->
   <string name="Timeout">Pertrauka</string>
   <string name="Trending">Naujausi</string>
@@ -461,6 +468,7 @@
   <string name="UpdatingCategories">Atnaujinamos kategorijos</string>
   <string name="UpdatingFilters">Atnaujinami filtrai</string>
   <string name="UnableToPlayTrailer">Negalima groti anonso.</string>
+  <string name="UserIsProtected">Šis vartotojas yra apribotas!⏎\nApriboti vartotojai gali būti matomi⏎\n\"Draugų\" vaizde.</string>
   <string name="UserProfile">Vartotojo profilis</string>
   <!--V-->
   <string name="View">Išvaizda</string>

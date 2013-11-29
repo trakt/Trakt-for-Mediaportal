@@ -107,6 +107,7 @@
   <string name="Episodes">Afleveringen</string>
   <string name="Error">Trakt fout</string>
   <string name="ErrorCalendar">Fout tijdens het ophalen van kalender</string>
+  <string name="ExecutiveProducer">Uitvoerend producent</string>
   <!--F-->
   <string name="Filters">Filters</string>
   <string name="FirstAired">Eerste uitzending</string>
@@ -298,6 +299,8 @@
   <string name="PrivacyFriends">Alleen vrienden kunnen deze lijst bekijken</string>
   <string name="PrivacyPrivate">Alleen jij kan deze lijst bekijken</string>
   <string name="Profile">Profiel</string>
+  <string name="Producer">Producent</string>
+  <string name="Producers">Producenten</string>
   <!--R-->
   <string name="Rate">Waardeer</string>
   <string name="Rated">Gewaardeerd</string>
@@ -347,10 +350,12 @@
   <string name="Season">Seizoen</string>
   <string name="Seasons">Seizoenen</string>
   <string name="Search">Zoeken</string>
+  <string name="SearchAll">Alles zoeken</string>
   <string name="SearchBy">Zoek op</string>
   <string name="SearchMovies">Zoek Films</string>
   <string name="SearchShows">Zoek TV Serie</string>
   <string name="SearchEpisodes">Zoek Afleveringen</string>
+  <string name="SearchPeople">Mensen zoeken</string>
   <string name="SearchUsers">Zoek Gebruikers</string>
   <string name="SearchForFriend">Zoek naar vriend...</string>
   <string name="SearchForUser">Zoek gebruiker...</string>
@@ -417,6 +422,12 @@
   <string name="SettingMaxSearchResultsDescription">Stel het maximum aantal resultaten per type in om als resultaat te krijgen van een online zoekopdracht.</string>
   <string name="SettingShowSearchResultsBreakdownName">Toon zoekresultaat overzicht</string>
   <string name="SettingShowSearchResultsBreakdownDescription">Gebruik deze instelling om het gedrag van een enkele zoekopdracht te controleren. Indien uitgeschakeld, springt de gebruiker rechtstreeks naar het zoekresultaat, als één zoekcriteria is ingesteld.</string>
+  <string name="SettingFilterTrendingOnDashboardName">Filter populair op dashboard</string>
+  <string name="SettingFilterTrendingOnDashboardDescription">Schakel deze instelling in om filters toe te passen voor populaire items op het dashboard zoals: verberg bekeken, verberg kijklijst enz. Deze kunnen worden ingesteld vanaf het corresponderende \'Populair\' scherm of het context menu. </string>
+  <string name="SettingUseTrailersPluginName">Gebruik Trailers plugin</string>
+  <string name="SettingUseTrailersPluginDescription">Schakel deze instelling in om de Trailers plugin te gebruiken voor alle trailer functionaliteit. Aanbevolen wanneer je in staat wilt zijn om meer dan een enkele trailer af te spelen. Trailers plugin moet geïnstalleerd zijn.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Negeer bekeken percentage voor DVD\'s</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Schakel deze instelling in om het bekeken percentage van een DVD te negeren wanneer deze is gestopt. DVD\'s en Bluray\'s geven niet altijd de juiste afspeeltijd weer van de hoofdvideo en deze instelling garandeerd dat altijd de bekeken status wordt gestuurd naar trakt.tv als het wordt gestopt onafhankelijk van hoeveel is bekeken.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sorteer op: {0}</string>
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>
@@ -454,6 +465,7 @@
   <string name="UpdatingCategories">Categorieën updaten</string>
   <string name="UpdatingFilters">Filters updaten</string>
   <string name="UnableToPlayTrailer">Afspelen trailer niet mogelijk</string>
+  <string name="UserIsProtected">De huidige gebruiker is beschermt!\nBeschermde gebruikers kunnen alleen\nbekeken worden in het \'Vrienden\' scherm</string>
   <string name="UserProfile">Gebruikersprofiel</string>
   <!--V-->
   <string name="View">Bekijk</string>
