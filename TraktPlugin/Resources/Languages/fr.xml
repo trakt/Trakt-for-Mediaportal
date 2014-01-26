@@ -73,6 +73,7 @@
   <string name="CommunityActivity">Activité de la communauté</string>
   <string name="ConfirmDeleteList">Etes-vous sûr de vouloir supprimer ⏎cette liste?</string>
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer ⏎cette élément de la liste?</string>
+  <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
   <!--D-->
   <string name="DateToday">Aujourd\'hui</string>
@@ -98,6 +99,7 @@
   <string name="EditList">Editer la liste ....</string>
   <string name="EditingList">Edtion de la liste</string>
   <string name="Email">Email</string>
+  <string name="Ended">Terminé</string>
   <string name="EndYear">Terminé: {0}</string>
   <string name="EnterSearchTerm">Entrez un terme pour la recherche</string>
   <string name="Episode">Episode</string>
@@ -422,6 +424,7 @@
   <string name="SortSeasonsAscending">Trier les saisons par ordre croissant</string>
   <string name="SortSeasonsDescending">Trier les saisons par ordre décroissant</string>
   <string name="Specials">Spéciaux</string>
+  <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Temps expiré</string>
   <string name="Trending">Tendances</string>

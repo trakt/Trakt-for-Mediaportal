@@ -24,9 +24,19 @@
   <string name="FirstAired">Prvo emitiranje</string>
   <!--G-->
   <string name="Genre">Žanr</string>
+  <string name="GenreAction">Akcijski</string>
   <string name="GenreAll">Svi</string>
+  <string name="GenreAnimation">Animirani</string>
+  <string name="GenreComedy">Komedija</string>
+  <string name="GenreCrime">Kriminalistički</string>
+  <string name="GenreDocumentary">Dokumentarni</string>
+  <string name="GenreDrama">Drama</string>
+  <string name="GenreFamily">Obiteljski</string>
+  <string name="GenreHistory">Povijesni</string>
   <string name="GenreMusic">Glazba</string>
   <string name="GenreNews">Vijesti</string>
+  <string name="GenreThriller">Triler</string>
+  <string name="GenreWar">Ratni</string>
   <!--H-->
   <!--I-->
   <!--J-->

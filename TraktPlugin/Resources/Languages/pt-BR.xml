@@ -1,8 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Conta</string>
+  <string name="AccountSetup">Configuração da conta</string>
   <string name="Actor">Ator</string>
   <string name="Actors">Atores</string>
+  <string name="Activity">Atividade</string>
+  <string name="ActivityFriendsDesc">Veja no que seus amigos estão interessados</string>
+  <string name="ActivityCommunityDesc">Veja no que a comunidade está interessada</string>
+  <string name="ActivityWatching">{0} está assistindo {1}</string>
+  <string name="ActivityWatched">{0} assitiu {1}</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Cancelar</string>
@@ -35,6 +42,7 @@
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
   <!--N-->
   <string name="Network">emissora</string>
+  <string name="NoSearchResultsFound">Nenhum resultado encontrado!</string>
   <string name="No">Não</string>
   <!--O-->
   <string name="Off">Desligar</string>

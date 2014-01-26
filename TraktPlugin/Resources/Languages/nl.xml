@@ -76,6 +76,7 @@
   <string name="CommunityActivity">Gemeenschaps activiteit</string>
   <string name="ConfirmDeleteList">Weet je zeker dat je \ndeze lijst wilt verwijderen?</string>
   <string name="ConfirmDeleteListItem">Weet je zeker dat je \ndit item wilt verwijderen van de lijst?</string>
+  <string name="Continuing">Lopend</string>
   <string name="CopyList">Kopiëer lijst...</string>
   <!--D-->
   <string name="DateToday">Vandaag</string>
@@ -101,6 +102,7 @@
   <string name="EditList">Wijzig lijst..</string>
   <string name="EditingList">Lijst wijzigen</string>
   <string name="Email">E-mail</string>
+  <string name="Ended">Afgelopen</string>
   <string name="EndYear">Eind: {0}</string>
   <string name="EnterSearchTerm">Voer zoekopdracht in</string>
   <string name="Episode">Aflevering</string>
@@ -433,6 +435,7 @@
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>
   <string name="SortSeasonsDescending">Sorteer seizoenen aflopend</string>
   <string name="Specials">Extra\'s</string>
+  <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Time-out</string>
   <string name="Trending">Veel bekeken</string>

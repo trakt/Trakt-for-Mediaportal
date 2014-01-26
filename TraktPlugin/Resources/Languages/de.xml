@@ -76,6 +76,7 @@
   <string name="CommunityActivity">Aktivitäten der Gemeinschaft</string>
   <string name="ConfirmDeleteList">Soll diese Liste wirklich\ngelöscht werden?</string>
   <string name="ConfirmDeleteListItem">Soll dieses Element wirklich\naus der Liste gelöscht werden?</string>
+  <string name="Continuing">Wird fortgesetzt</string>
   <string name="CopyList">Liste kopieren</string>
   <!--D-->
   <string name="DateToday">Heute</string>
@@ -101,12 +102,14 @@
   <string name="EditList">Liste bearbeiten</string>
   <string name="EditingList">Liste wird bearbeitet</string>
   <string name="Email">Email</string>
+  <string name="Ended">Beendet</string>
   <string name="EndYear">bis Jahr: {0}</string>
   <string name="EnterSearchTerm">Geben Sie den Suchbegriff ein</string>
   <string name="Episode">Folge</string>
   <string name="Episodes">Episoden</string>
   <string name="Error">Trakt Fehler</string>
   <string name="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
+  <string name="ExecutiveProducer">Ausführender Produzent</string>
   <!--F-->
   <string name="Filters">Filter</string>
   <string name="FirstAired">Erstausstrahlung</string>
@@ -298,6 +301,8 @@
   <string name="PrivacyFriends">Nur Freunde können diese Liste ansehen</string>
   <string name="PrivacyPrivate">Nur Sie können diese Liste ansehen</string>
   <string name="Profile">Profil</string>
+  <string name="Producer">Produzent</string>
+  <string name="Producers">Produzenten</string>
   <!--R-->
   <string name="Rate">Bewerten</string>
   <string name="Rated">Bewertung</string>
@@ -347,10 +352,12 @@
   <string name="Season">Staffel</string>
   <string name="Seasons">Staffeln</string>
   <string name="Search">Suchen</string>
+  <string name="SearchAll">Alles suchen</string>
   <string name="SearchBy">Suche nach</string>
   <string name="SearchMovies">Suche Filme</string>
   <string name="SearchShows">Suche TV-Serien</string>
   <string name="SearchEpisodes">Suche TV-Episoden</string>
+  <string name="SearchPeople">Suche Personen</string>
   <string name="SearchUsers">Suche Benutzer</string>
   <string name="SearchForFriend">Nach Freund suchen</string>
   <string name="SearchForUser">Benutzer suchen...</string>
@@ -414,11 +421,20 @@
   <string name="SettingSyncLibraryName">Bibliotheks-Synchronisierung erlauben</string>
   <string name="SettingSyncLibraryDescription">Aktivieren Sie diese Einstellung, um Ihre Sammlung und den Gesehen-Status mit Trakt.tv zu synchronisieren. Ohne Aktivierung wird nur Scrobbling durchgeführt.</string>
   <string name="SettingMaxSearchResultsName">Höchstzahl Suchergebnisse</string>
+  <string name="SettingMaxSearchResultsDescription">Setzt die maximale Anzahl an Ergebnissen pro Suchtyp die in einer Online-Suche zurückgegeben werden.</string>
+  <string name="SettingShowSearchResultsBreakdownDescription">Aktiviere diese Einstellung um das Verhalten bei einem einzelnen Suchtyp im Suchfenster zu steuern. Wenn deaktiviert landest du direkt im Suchergebnis wenn nur ein Suchtyp aktiviert war.</string>
+  <string name="SettingFilterTrendingOnDashboardName">Filtere Trending im Dashboard</string>
+  <string name="SettingFilterTrendingOnDashboardDescription">Aktiviere diese Einstellung um die Trending filter im Dashboard zu aktivieren. Z.B. \"Verstecke gesehene\", \"Verstecke wenn auf Watchlist\". Die Filter können in der Trending-Ansicht oder im Menü eingeschaltet werden.</string>
+  <string name="SettingUseTrailersPluginName">Benutze das Trailers-Plugin</string>
+  <string name="SettingUseTrailersPluginDescription">Aktiviere um das Trailers plugin für alle Trailer zu benutzen. Empfohlen wenn du mehr als einen Trailer abspielen können willst. Trailers plugin muss installiert sein.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Ignoriere gesehen in Prozent für DVDs</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktiviere diese Einstellung um den Gesehenstatus in Prozent für DVDs zu ignorieren. DVDs und Bluerays geben diesen oft nicht korrekt wieder.  Wenn aktiv wird bei \"Stop\" immer \"Gesehen\" an Trakt.tv gemeldet, egal wie weit du geschaut hast.</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>
   <string name="SortSeasonsDescending">Sortiere Staffeln abfalled</string>
   <string name="Specials">Specials</string>
+  <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Zeitüberschreitung</string>
   <string name="Trending">Populär</string>
@@ -451,6 +467,7 @@
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingFilters">Filter werden aktualisiert</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
+  <string name="UserIsProtected">Dieser Teilnehmer ist geschützt. \nDiese kannst du nur in der Freunde-Ansicht\naufrufen.</string>
   <string name="UserProfile">Benutzerprofil</string>
   <!--V-->
   <string name="View">Ansehen</string>

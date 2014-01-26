@@ -299,6 +299,7 @@
   <string name="SearchTorrent">Search Torrent</string>
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
+  <string name="Search">Buscar</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="SelectLists">Select Lists</string>
