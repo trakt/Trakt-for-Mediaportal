@@ -1817,6 +1817,15 @@
           </Items>
         </Files>
       </GroupItem>
+      <GroupItem Name="ExtensionsPlugin">
+        <ParentGroup />
+        <DisplayName>Extensions Plugin</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Extensions plugin for MediaPortal allows the user to upgrade compatible plugin and skin extensions with-in the GUI. Trakt advanced settings can also be accessed via Extensions.</Description>
+        <Files>
+          <Items />
+        </Files>
+      </GroupItem>
     </Items>
   </Groups>
   <Sections>
@@ -1889,6 +1898,7 @@ Click Next to continue or Cancel to exit Setup.
           <string>Languages</string>
           <string>DefaultSkin</string>
           <string>DefaultWideSkin</string>
+          <string>ExtensionsPlugin</string>
         </IncludedGroups>
         <PanelName>Tree View Selector</PanelName>
         <WizardButtonsEnum>BackNextCancel</WizardButtonsEnum>
@@ -1924,6 +1934,33 @@ Click Next to continue or Cancel to exit Setup.
             <ActionItem Name="ClearSkinCache" ActionType="ClearSkinCache" ConditionGroup="DefaultWideSkin">
               <Params>
                 <Items />
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
+            <ActionItem Name="Extension Installer" ActionType="Extension Installer" ConditionGroup="ExtensionsPlugin">
+              <Params>
+                <Items>
+                  <SectionParam Name="Extension package">
+                    <Value />
+                    <ValueType>File</ValueType>
+                    <Description>Location of the extension package</Description>
+                  </SectionParam>
+                  <SectionParam Name="Extension Id">
+                    <Value>a6afa4d6-4fd8-4607-8878-5911db044fd7</Value>
+                    <ValueType>String</ValueType>
+                    <Description>Global Id of the extension package - it will be downloaded when no file is set.</Description>
+                  </SectionParam>
+                  <SectionParam Name="Extension Version">
+                    <Value>1.2.1.195</Value>
+                    <ValueType>String</ValueType>
+                    <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
+                  </SectionParam>
+                  <SectionParam Name="Silent Install">
+                    <Value>YES</Value>
+                    <ValueType>Bool</ValueType>
+                    <Description>Silent install, No wizard screen will be displayed </Description>
+                  </SectionParam>
+                </Items>
               </Params>
               <ExecuteLocation>AfterPanelShow</ExecuteLocation>
             </ActionItem>
@@ -2069,7 +2106,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
     <ReleaseDate>2014-02-02T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
-    <Location>.\Release\TraktPlugin.mpe1</Location>
+    <Location>.\Release\TraktPlugin-[Version].mpe1</Location>
     <Params>
       <Items>
         <SectionParam Name="Icon">
