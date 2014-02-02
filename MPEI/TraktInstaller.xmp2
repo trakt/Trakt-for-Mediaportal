@@ -2039,7 +2039,7 @@ Click Next to continue or Cancel to exit Setup.
           <Revision>27644</Revision>
         </MaxVersion>
         <WarnOnly>false</WarnOnly>
-        <Message>This version of Trakt plugin is only supported on MediaPortal 1.3 or above. Please download version that is supported by your version of MediaPortal.</Message>
+        <Message>This version of Trakt plugin is only supported on MediaPortal 1.7 or above. Please download version that is supported by your version of MediaPortal.</Message>
         <Name>MediaPortal</Name>
       </DependencyItem>
     </Items>
@@ -2055,30 +2055,19 @@ Click Next to continue or Cancel to exit Setup.
     <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
-      <Major>3</Major>
-      <Minor>1</Minor>
-      <Build>3</Build>
-      <Revision>1</Revision>
+      <Major>4</Major>
+      <Minor>0</Minor>
+      <Build>0</Build>
+      <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Fixed Fanart not downloading for Shouts window. This is required when loading into the window without local fanart already available e.g. from the dashboard.
-* Added support for DVD scrobbling from MovingPictures.
-* Added an advanced setting to automatically scrobble regardless of watched percentage (for DVDs only because user may have finished movie and re-enter the menu).
-* Added support to search and play trailers via the new 'Trailers' plugin (by yours truly). This can be enabled from advanced settings.
-* Added a new skin property to the Trending Shows GUI which displays the current TV Show status (Ended / Continuing). Skinners will need to conditionally hide it from other screens if sharing properties, unfortuately not available on API for other methods.
-* Improved Trailer search for tv specials (Season 0), will now use the episode title rather than the season / episode numbers.
-* Improved syncing of watched states for movies (MovingPictures and My Videos) to also send the last or first watched date if available. This is useful for back filling your history on initial sync. This is only applicable for movies that have not already been synced e.g. new users.
-* Improved shouts window to only hide spoilers when setting is enabled and item is not watched. This of course is only possible when the watched data is available.
-* Updated the Search API to use standard query strings which basically means better search capability esp. with special characters.
-* Fixed a possible crash when switching windows with/without a dashboard (reported by user Rochess).
-* Updated translations from Transifex.
-
-Note: Last Watched Dates for movie watched sync appears to be broken on the trakt side from my tests, hopefully this gets fixed soon (issue has been reported).</VersionDescription>
+    <VersionDescription>* Updated support for MediaPortal 1.7.
+* Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2013-11-29T10:00:00</ReleaseDate>
+    <ReleaseDate>2014-02-02T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin.mpe1</Location>
     <Params>

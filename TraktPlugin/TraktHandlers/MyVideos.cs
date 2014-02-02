@@ -31,12 +31,12 @@ namespace TraktPlugin.TraktHandlers
 
         public MyVideos(int priority)
         {
-            // check that we are running MediaPortal 1.3 or greater
-            string libFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "WindowPlugins.dll");
+            // check that we are running MediaPortal 1.7 Pre-Release or greater
+            string libFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "GUIVideos.dll");
 
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(libFilename);
             string version = fvi.ProductVersion;
-            if (new Version(version) < new Version(1, 3, 0, 0))
+            if (new Version(version) < new Version(1, 6, 100, 0))
             {
                 throw new FileLoadException("MediaPortal does not meet minimum requirements!");
             }

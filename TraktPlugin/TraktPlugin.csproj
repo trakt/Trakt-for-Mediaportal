@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TraktPlugin</RootNamespace>
     <AssemblyName>TraktPlugin</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release12|AnyCPU'">
     <OutputPath>bin\Release12\</OutputPath>
@@ -91,6 +92,9 @@
       <HintPath>..\Externals\ArgusTV.UI.MediaPortal.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Common.GUIPlugins">
+      <HintPath>..\Externals\Common.GUIPlugins.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
       <Private>False</Private>
@@ -139,6 +143,9 @@
       <HintPath>..\Externals\Gentle.Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="GUIVideos">
+      <HintPath>..\Externals\GUIVideos.dll</HintPath>
+    </Reference>
     <Reference Include="MovingPictures">
       <HintPath>..\Externals\MovingPictures.dll</HintPath>
       <Private>False</Private>
@@ -166,6 +173,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
@@ -192,10 +200,6 @@
     </Reference>
     <Reference Include="Utils">
       <HintPath>..\Externals\Utils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WindowPlugins">
-      <HintPath>..\Externals\WindowPlugins.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

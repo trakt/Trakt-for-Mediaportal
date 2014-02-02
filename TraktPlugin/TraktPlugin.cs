@@ -870,7 +870,7 @@ namespace TraktPlugin
             string fanart = string.Empty;
             bool isWatched = false;
             SearchPeople searchPeople = null;
-            string type = "movie";
+            string type = "movie";            
 
             switch (message.Message)
             {
