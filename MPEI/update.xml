@@ -1009,7 +1009,7 @@ Trakt will also synchronize your watched flags across multiple installations.</E
 * Added the Extensions plugin to installation package.
 * Updated translations from Transifex.</VersionDescription>
         <DevelopmentStatus>Stable</DevelopmentStatus>
-        <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
+        <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=64</OnlineLocation>
         <ReleaseDate>2014-02-22T10:00:00</ReleaseDate>
         <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
         <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
