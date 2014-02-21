@@ -38,11 +38,18 @@
   <string name="AirDay">Air Day</string>
   <string name="AirTime">Air Time</string>
   <string name="Approve">Approve</string>
+  <string name="ApproveAndFollowBack">Aprobar y seguir de nuevo</string>
   <string name="ApprovedDate">Approved Date</string>
   <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
+  <string name="ApproveFollowerMessage">¿Te gustaría dejar que el usuario {0}\nte siga?</string>
   <string name="AdvancedSettings">Advanced Settings</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
+  <string name="Biography">Biografía</string>
+  <string name="Birthday">Cumpleaños</string>
+  <string name="BirthDate">Fecha de Nacimiento</string>
+  <string name="Born">Nació</string>
+  <string name="BirthPlace">Lugar de Nacimiento</string>
   <!--C-->
   <string name="Cancel">Cancelar</string>
   <string name="Calendar">Calendar</string>
@@ -93,22 +100,33 @@
   <string name="EditingList">Editing List</string>
   <string name="Email">Email</string>
   <string name="EndYear">End: {0}</string>
+  <string name="EnterSearchTerm">Introduce Término de Búsqueda</string>
   <string name="Episode">Episode</string>
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
   <string name="ErrorCalendar">Error getting calendar.</string>
+  <string name="ExecutiveProducer">Productor Ejecutivo</string>
   <!--F-->
   <string name="Filters">Filtros</string>
   <string name="FirstAired">First Aired</string>
+  <string name="Follow">Seguir</string>
+  <string name="Followed">Seguido</string>
+  <string name="Follower">Seguidor</string>
+  <string name="Followers">Seguidores</string>
+  <string name="Following">Siguiendo</string>
+  <string name="FollowUser">Seguir Usuario</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
   <string name="FriendActivity">Friend Activity</string>
   <string name="FriendRequest">Friend Request</string>
+  <string name="FollowerRequest">Solicitud Seguidor</string>
+  <string name="FollowerRequests">Solicitudes de Seguidores</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
   <string name="FullName">Full Name</string>
   <!--G-->
   <string name="Gender">Gender</string>
   <string name="General">General</string>
+  <string name="GeneralSettings">Configuración General</string>
   <string name="Genre">Genre</string>
   <string name="GenreItem">Genre: {0}</string>
   <string name="GenreAction">Action</string>
@@ -146,10 +164,16 @@
   <string name="GenreWar">War</string>
   <string name="GenreWestern">Western</string>
   <string name="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
+  <string name="GetFollowerRequestsOnStartup">Obtener Solicitudes de Seguidores en el Inicio</string>
   <string name="GettingActivity">GettingActivity</string>
   <string name="GettingCalendar">Getting Calendar</string>
   <string name="GettingFriendsList">Getting Friends List</string>
+  <string name="GettingFollowingList">Obtener Lista Siguiendo</string>
+  <string name="GettingFollowerList">Obteniendo Lista Seguidor</string>
   <string name="GettingFriendsRequests">Getting Friend Requests</string>
+  <string name="GettingFollowerRequests">Obteniendo Solicitudes de Seguidores</string>
+  <string name="GettingUserWatchedHistory">Obteniendo Historial de Vistos del Usuario</string>
+  <string name="GettingUserRecentAdded">Obteniendo Recientemente Añadidos del Usuario</string>
   <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>
@@ -166,11 +190,15 @@
   <string name="GettingRelatedMovies">Getting Related Movies</string>
   <string name="GettingRelatedShows">Getting Related Shows</string>
   <string name="GettingTrailerUrls">Getting Trailer Urls</string>
+  <string name="GettingUserProfile">Obteniendo Perfil de Usuario</string>
+  <string name="GuestStar">Estrella Invitada</string>
+  <string name="GuestStars">Estrellas Invitadas</string>
   <!--H-->
   <string name="Hate">Hate</string>
   <string name="Hated">Hated</string>
   <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   <string name="HideCollected">Hide Collected</string>
+  <string name="HideRated">Ocultar Calificación</string>
   <string name="HideWatched">Hide Watched</string>
   <string name="HideWatchlisted">Hide Watchlisted</string>
   <string name="HideSpoilers">Hide Spoilers</string>
@@ -200,6 +228,7 @@
   <!--M-->
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
+  <string name="Me">Yo</string>
   <string name="Movie">Movie</string>
   <string name="Movies">Movies</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
@@ -209,6 +238,7 @@
   <string name="NextEpisode">Next Episode</string>
   <string name="NextWeek">Next Week</string>
   <string name="NoActivities">No Activity Found.</string>
+  <string name="NoPersonBiography">No existe ninguna biografía para esta persona.</string>
   <string name="NoEpisodesInSeason">No Episodes are available in Season.</string>
   <string name="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string name="NoEpisodesThisWeek">No episodes on this week</string>
@@ -216,6 +246,9 @@
   <string name="NoShowSummary">Show summary is currently not available.</string>
   <string name="NoFriends">No Friends!</string>
   <string name="NoFriendsTaunt">You have no Friends!</string>
+  <string name="NoFollowersTaunt">¡No tienes seguidores!</string>
+  <string name="NoFollowerReqTaunt">¡No tienes solicitudes de seguidores!</string>
+  <string name="NoFollowingTaunt">¡No estás siguiendo a nadie!</string>
   <string name="NoTrendingMovies">No Movies current being watched!</string>
   <string name="NoTrendingShows">No Shows current being watched!</string>
   <string name="NoMovieRecommendations">No Movie Recommendations Found!</string>
@@ -224,6 +257,7 @@
   <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
   <string name="NoShoutsForItem">No Shouts for {0}!</string>
+  <string name="NoPeopleToSearch">No hay gente a buscar por.</string>
   <string name="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string name="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
   <string name="NoSearchResultsFound">No Search Results Found</string>
@@ -243,6 +277,7 @@
   <!--P-->
   <string name="Password">Password</string>
   <string name="People">People</string>
+  <string name="Person">Persona</string>
   <string name="Percentage">Percentage</string>
   <string name="Protected">Protected</string>
   <string name="PersonWatching">1 Person Watching</string>
@@ -257,6 +292,9 @@
   <string name="PrivacyPublic">Anyone can view this list</string>
   <string name="PrivacyFriends">Only friends can view this list</string>
   <string name="PrivacyPrivate">Only you can view this list</string>
+  <string name="Profile">Perfil</string>
+  <string name="Producer">Productor</string>
+  <string name="Producers">Productores</string>
   <!--R-->
   <string name="Rate">Rate</string>
   <string name="Rated">Valorado</string>
@@ -276,10 +314,14 @@
   <string name="RateSeven">Good</string>
   <string name="RateEight">Great</string>
   <string name="RateNine">Superb</string>
+  <string name="RecentWatchedEpisodes">Episodios recientemente vistos</string>
+  <string name="RecentWatchedMovies">Películas vistas recientemente</string>
+  <string name="RecentAddedEpisodes">Episodios Añadidos Recientemente</string>
   <string name="RecentAddedMovies">Películas añadidas recientemente</string>
   <string name="Recommendations">Recommendations</string>
   <string name="RecommendedMovies">Recommended Movies</string>
   <string name="RecommendedShows">Recommended Shows</string>
+  <string name="Refresh">Actualizar</string>
   <string name="RelatedMovies">Related Movies</string>
   <string name="RelatedShows">Related Shows</string>
   <string name="Released">Released</string>
@@ -291,6 +333,7 @@
   <string name="RemoveFromList">Remove from List...</string>
   <string name="Reply">Responder</string>
   <string name="Replies">Respuestas</string>
+  <string name="Requests">Peticiones</string>
   <string name="Runtime">Duración</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -300,7 +343,14 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Buscar</string>
+  <string name="SearchBy">Buscar por</string>
+  <string name="SearchMovies">Buscar Películas</string>
+  <string name="SearchShows">Buscar Shows</string>
+  <string name="SearchEpisodes">Buscar Episodios</string>
+  <string name="SearchUsers">Buscar Usuarios</string>
   <string name="SearchForFriend">Search for Friend...</string>
+  <string name="SearchForUser">Buscar por Usuario...</string>
+  <string name="SearchTypes">Tipos de Búsqueda</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
   <string name="SelectLists">Select Lists</string>
   <string name="SelectUser">Select User</string>
@@ -348,6 +398,10 @@
   <string name="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
   <string name="SettingEnableJumpToForTVShowsName">Enable TVShow Jump To Feature</string>
   <string name="SettingEnableJumpToForTVShowsDescription">Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.</string>
+  <string name="SettingSyncLibraryName">Habilitar Sincronización de Librería</string>
+  <string name="SettingMaxSearchResultsName">Máximos Resultados de la Búsqueda</string>
+  <string name="SettingMaxSearchResultsDescription">Establecer el número máximo de resultados por tipo a recuperar de una búsqueda online.</string>
+  <string name="SettingShowSearchResultsBreakdownName">Mostrar Resultados Desglosados de la Búsqueda</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>
@@ -366,19 +420,25 @@
   <string name="Tagline">Tagline</string>
   <string name="Title">Title</string>
   <string name="Today">Hoy</string>
+  <string name="Tomorrow">Mañana</string>
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
   <string name="UserHasNotWatchedEpisodes">User has not watched any episodes!</string>
   <string name="UserHasNotWatchedMovies">User has not watched any movies!</string>
+  <string name="UserHasNoRecentAddedEpisodes">¡El usuario no tiene episodios añadidos recientemente!</string>
+  <string name="UserHasNoRecentAddedMovies">¡El usuario no tiene películas añadidas recientemente!</string>
   <string name="User">User</string>
   <string name="Users">Users</string>
   <string name="Username">Username</string>
   <string name="UnAuthorized">Authentication failed, please check username and password in settings.</string>
+  <string name="UnFollow">DejarDeSeguir</string>
+  <string name="UnFollowMessage">¿Seguro que quieres dejar de seguir al\nusuario {0}?</string>
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
+  <string name="UserProfile">Perfil de Usuario</string>
   <!--V-->
   <string name="View">View</string>
   <string name="Votes">Votes</string>

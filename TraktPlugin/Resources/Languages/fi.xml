@@ -164,11 +164,13 @@
   <string name="GenreSoap">Saippuasarja</string>
   <string name="GenreSpecialInterest">Erityiset mielenkiinnon kohteet</string>
   <string name="GenreSport">Urheilu</string>
+  <string name="GenreSuspense">Jännitys</string>
   <string name="GenreTalkShow">Keskusteluohjelma</string>
   <string name="GenreThriller">Trilleri</string>
   <string name="GenreWar">Sota</string>
   <string name="GenreWestern">Länkkäri</string>
   <string name="GetFriendRequestsOnStartup">Hae ystävä ehdotuksia käynnistyksen yhteydessä</string>
+  <string name="GetFollowerRequestsOnStartup">Hae seuraus pyyntöjä käynnistyksen yhteydessä</string>
   <string name="GettingActivity">Haetaan aktiviteettejä</string>
   <string name="GettingCalendar">Haetaan kalenteria</string>
   <string name="GettingFriendsList">Haetaan ystävä listaa</string>
@@ -243,7 +245,9 @@
   <string name="NextEpisode">Seuraava jakso</string>
   <string name="NextWeek">Seuraava viikko</string>
   <string name="NoActivities">Aktiviteettejä ei löytynyt.</string>
+  <string name="NoPersonBiography">Tämä ihminen ei ole kirjoittanut henkilökohtaisia tietojaan.</string>
   <string name="NoEpisodesInSeason">Ei jaksoja saatavilla kaudelle.</string>
+  <string name="NoEpisodeSummary">Jaksojen tiedot ei ole tällä hetkellä saatavilla.</string>
   <string name="NoEpisodesThisWeek">Ei jaksoja tällä viikolla</string>
   <string name="NoMovieSummary">Elokuva yhteenvetoa ei ole tällä hetkellä saatavilla.</string>
   <string name="NoShowSummary">Ohjelma yhteenvetoa ei ole tällä hetkellä saatavilla.</string>
@@ -252,16 +256,26 @@
   <string name="NoFollowersTaunt">Sinulla ei ole seuraajia!</string>
   <string name="NoFollowerReqTaunt">Sinulla ei ole seuraus pyyntöjä!</string>
   <string name="NoFollowingTaunt">Sinä et seuraa ketään!</string>
+  <string name="NoTrendingMovies">Ei parhaillaan katseltavia elokuvia!</string>
+  <string name="NoTrendingShows">Ei parhaillaan katseltavia ohjelmia!</string>
   <string name="NoMovieRecommendations">Elokuva suosituksia ei löytynyt!</string>
   <string name="NoShowRecommendations">Ohjelma suosituksia ei löytynyt!</string>
   <string name="NoShowWatchList">{0} ei ole ohjelmia Katselu Listalla!</string>
   <string name="NoMovieWatchList">{0} ei ole elokuvia Katselu Listalla!</string>
   <string name="NoEpisodeWatchList">{0} ei ole jaksoja Katselu Listalla!</string>
+  <string name="NoSearchTypesSelected">Sinun tulee ensin valita yksi tai useampi hakutyyppi\nennen internet haun suorittamista.</string>
+  <string name="NoShoutsForItem">Ei huutoja kohteelle {0}!</string>
+  <string name="NoPeopleToSearch">Etsittäviä ihmisiä ei ole.</string>
+  <string name="NoPluginsEnabled">Et ole määritellyt lisäosia asetuksissa.\nHaluaisitko muokata lisäosia nyt?</string>
+  <string name="NotLoggedIn">Et pääse tähän kohtaan jos et ole kirjautunut\nsisään. Haluaisitko Rekisteröityä tai Kirjautua\nsisään osoitteeseen trakt.tv nyt?</string>
   <string name="NoSearchResultsFound">Hakutuloksia ei löytynyt</string>
   <string name="NoSeasonsForShow">Kausia ei löydetty ohjelmalle!</string>
   <string name="NoMovingPictures">Moving Pictures ei ole asennettu tai käytössä</string>
   <string name="NoListsFound">Listoja ei löytynyt, haluaisitko\nluoda listan nyt?</string>
   <string name="NoUserLists">{0} ei ole luonut yhtään listaa!</string>
+  <string name="NoListItemsFound">Kohteita ei löytynyt listalta!</string>
+  <string name="NoRelatedMovies">Ei yhteenliittyviä elokuvia löydetty elokuvalle {0}!</string>
+  <string name="NoRelatedShows">Ei yhteenliittyviä ohjelmia löydetty ohjelmalle{0}!</string>
   <string name="No">Ei</string>
   <!--O-->
   <string name="Off">Pois päältä</string>
@@ -296,11 +310,14 @@
   <string name="RateMovie">Arvostele elokuva...</string>
   <string name="RateShow">Arvostele ohjelma...</string>
   <string name="RateEpisode">Arvostele jakso...</string>
+  <string name="RateDialog">Trakt arvostelu taulukko</string>
+  <string name="RateHate">Heikko kastike :(</string>
   <string name="RateLove">Täysi ninja!</string>
   <string name="RateHeading">Mitä olet mieltä?</string>
   <string name="RateTwo">Kamala</string>
   <string name="RateThree">Huono</string>
   <string name="RateFour">Kehno</string>
+  <string name="RateFive">Tjaah</string>
   <string name="RateSix">Kohtalainen</string>
   <string name="RateSeven">Hyvä</string>
   <string name="RateEight">Todella hyvä</string>
@@ -320,6 +337,8 @@
   <string name="ReleaseDate">Julkaisupäivä</string>
   <string name="RemoveFromLibrary">Poista Kirjastosta</string>
   <string name="RemoveFromWatchList">Poista Katselu Listalta</string>
+  <string name="RemoveShowFromWatchList">Poista ohjelma Katsontalistalta</string>
+  <string name="RemoveEpisodeFromWatchList">Poista jakso Katsontalistalta</string>
   <string name="RemoveFromList">Poista listalta...</string>
   <string name="Reply">Vastaa</string>
   <string name="Replies">Vastattu</string>
@@ -327,6 +346,8 @@
   <string name="Runtime">Kestoaika</string>
   <!--S-->
   <string name="Score">Pistemäärä</string>
+  <string name="Scrobble">Scrobblaa</string>
+  <string name="SearchWithMpNZB">Etsi NZB:stä</string>
   <string name="SearchTorrent">Etsi torrenttia</string>
   <string name="Season">Tuotantokausi</string>
   <string name="Seasons">Tuotantokaudet</string>
@@ -350,7 +371,12 @@
   <string name="Settings">Asetukset</string>
   <string name="Shout">Huuda</string>
   <string name="Shouts">Huudot</string>
+  <string name="ShowTVShowsInWatchlist">Näytä TV-sarjat katsontalistalla</string>
+  <string name="ShowSpoilers">Näytä juonipaljastukset</string>
+  <string name="ShowFriendActivity">Näytä ystävien toiminnat</string>
+  <string name="ShowCommunityActivity">Näytä yhteisön toiminnat</string>
   <string name="SigningIntoAccount">Kirjautuu sisään...</string>
+  <string name="SkinPluginsOutOfDate">Virhe ladattaessa ikkunaa, teema on vanhentunut!\nPoistu MediaPortalista ja laita lisäosien käsittelijät päälle asetuksista.</string>
   <string name="StartDate">Aloitus Pvm</string>
   <string name="Synchronize">Synkronoi</string>
   <string name="ShowSeasonInfo">Kauden tiedot...</string>
@@ -365,6 +391,7 @@
   <string name="SettingDefaultMovieTrailerSiteName">Oletus elokuvien traileri sivusto</string>
   <string name="SettingDefaultMovieTrailerSiteDescription">Valitse oletus elokuvien traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt elokuvassa.</string>
   <string name="SettingSyncLibraryName">Ota käyttöön kirjaston synkronointi</string>
+  <string name="SettingSyncLibraryDescription">Ota tämä asetus käyttöön synkronoidaksesi kokoelmasi ja katsottujen tilasi osoitteeseen trakt.tv. Jos pois käytöstä, vain toisto historia on käytössä.</string>
   <string name="SettingMaxSearchResultsName">Max etsintä tulokset</string>
   <string name="SettingUseTrailersPluginName">Käytä \'Trailerit\' lisäosaa</string>
   <string name="StartYear">Aloita: {0}</string>
@@ -389,6 +416,7 @@
   <string name="UserHasNotWatchedMovies">Käyttäjä ei ole katsonut elokuvia!</string>
   <string name="UserHasNoRecentAddedEpisodes">Käyttäjä ei ole lähiaikoina lisännyt jaksoja!</string>
   <string name="UserHasNoRecentAddedMovies">Käyttäjä ei ole lähiaikoina lisännyt elokuvia!</string>
+  <string name="UserHasNoRecentShouts">Käyttäjä ei ole lähiaikoina huutanut tai arvostellut mitään!</string>
   <string name="User">Käyttäjä</string>
   <string name="Users">Käyttäjät</string>
   <string name="Username">Käyttäjänimi</string>
