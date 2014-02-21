@@ -94,6 +94,7 @@
     </Reference>
     <Reference Include="Common.GUIPlugins">
       <HintPath>..\Externals\Common.GUIPlugins.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Common.Utils">
       <HintPath>..\Externals\Common.Utils.dll</HintPath>
@@ -145,6 +146,7 @@
     </Reference>
     <Reference Include="GUIVideos">
       <HintPath>..\Externals\GUIVideos.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MovingPictures">
       <HintPath>..\Externals\MovingPictures.dll</HintPath>
