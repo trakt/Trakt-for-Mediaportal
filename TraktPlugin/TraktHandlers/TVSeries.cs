@@ -207,7 +207,7 @@ namespace TraktPlugin.TraktHandlers
                             ep["LastWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         if (string.IsNullOrEmpty(ep["FirstWatchedDate"]))
                             ep["FirstWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        if (string.IsNullOrEmpty(ep[DBEpisode.cDateWatched]))
+                        if (!string.IsNullOrEmpty(ep[DBEpisode.cFilename]) && string.IsNullOrEmpty(ep[DBEpisode.cDateWatched]))
                             ep[DBEpisode.cDateWatched] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                         ep.Commit();
