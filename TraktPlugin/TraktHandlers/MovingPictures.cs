@@ -11,6 +11,7 @@ using MediaPortal.Plugins.MovingPictures.MainUI;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 using System.Timers;
 using MediaPortal.Player;
 using System.Reflection;
@@ -788,9 +789,9 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        private static string GetFirstWatchedDate(DBMovieInfo movie)
+        private static long GetFirstWatchedDate(DBMovieInfo movie)
         {
-            string dateFirstPlayed = null;
+            long dateFirstPlayed = 0;
 
             if (movie.WatchedHistory != null && movie.WatchedHistory.Count > 0)
             {
@@ -798,7 +799,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     // get the first time played, MovingPictures stores a history of watched dates
                     // not the last time played as the API would lead you to believe as the best value to use
-                    dateFirstPlayed = string.Format("{0:s}{0:zzz}", movie.WatchedHistory.First().DateWatched);
+                    dateFirstPlayed = movie.WatchedHistory.First().DateWatched.ToUniversalTime().ToEpoch();
                 }
                 catch (Exception e)
                 {

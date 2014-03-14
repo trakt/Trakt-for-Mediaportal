@@ -8,6 +8,7 @@ using System.Threading;
 using System.Web;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktHandlers;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktAPI
 {

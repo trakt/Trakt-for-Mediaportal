@@ -741,11 +741,41 @@ namespace TraktPlugin.TraktHandlers
                 TraktEpisodeSync.Episode episode = new TraktEpisodeSync.Episode();
                 episode.SeasonIndex = ep[DBOnlineEpisode.cSeasonIndex];
                 episode.EpisodeIndex = ep[DBOnlineEpisode.cEpisodeIndex];
+                episode.LastPlayed = GetLastPlayedDate(ep);
                 epList.Add(episode);
             }
 
             traktSync.EpisodeList = epList;
             return traktSync;
+        }
+
+        private long GetLastPlayedDate(DBEpisode episode)
+        {
+            long lastPlayedDate = 0;
+            string slastPlayedDate = string.Empty;
+
+            // note: use string rather than constant as we can then support 
+            // older version of tvseries plugin which don't have this field
+            // FirstWatchedDate is best for syncing if available
+            if (!string.IsNullOrEmpty(episode["FirstWatchedDate"]))
+            {
+                slastPlayedDate = episode["FirstWatchedDate"];
+            }
+            else if (!string.IsNullOrEmpty(episode[DBEpisode.cDateWatched]))
+            {
+                slastPlayedDate = episode[DBEpisode.cDateWatched];
+            }
+
+            if (!string.IsNullOrEmpty(slastPlayedDate))
+            {
+                DateTime result;
+                if (DateTime.TryParse(slastPlayedDate, out result))
+                {
+                    lastPlayedDate = result.ToUniversalTime().ToEpoch();
+                }
+            }
+
+            return lastPlayedDate;
         }
 
         private TraktRateSeries CreateSeriesRateData(DBSeries series)

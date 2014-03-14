@@ -8,6 +8,7 @@ using System.Text;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 using MediaPortal.Player;
 using MediaPortal.Configuration;
 using System.Reflection;

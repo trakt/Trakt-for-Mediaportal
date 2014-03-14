@@ -7,6 +7,7 @@ using System.Text;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 using MediaPortal.Player;
 using MediaPortal.Playlists;
 using System.Reflection;
@@ -422,9 +423,9 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Get the date watched for the movie
         /// </summary>        
-        private static string GetLastDateWatched(IMDBMovie movie)
+        private static long GetLastDateWatched(IMDBMovie movie)
         {
-            string dateLastPlayed = null;
+            long dateLastPlayed = 0;
 
             if (!string.IsNullOrEmpty(movie.DateWatched) && movie.DateWatched != "0001-01-01 00:00:00" )
             {
@@ -433,7 +434,7 @@ namespace TraktPlugin.TraktHandlers
                     DateTime dateResult;
                     if (DateTime.TryParse(movie.DateWatched, out dateResult))
                     {
-                        dateLastPlayed = string.Format("{0:s}{0:zzz}", dateResult);
+                        dateLastPlayed = dateResult.ToUniversalTime().ToEpoch();
                     }
                 }
                 catch (Exception e)

@@ -12,6 +12,7 @@ using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {

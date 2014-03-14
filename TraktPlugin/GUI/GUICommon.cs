@@ -11,6 +11,7 @@ using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using Trailers.Providers;
 using Trailers;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
