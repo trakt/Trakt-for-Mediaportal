@@ -195,6 +195,21 @@ namespace TraktPlugin.TraktHandlers
                         // mark episode as watched
                         TraktLogger.Info("Marking episode '{0}' as watched", ep.ToString());
                         ep[DBOnlineEpisode.cWatched] = true;
+
+                        // we dont get back any offical timestamps for when it was watched
+                        // on the user watched api so just use the current time
+                        // we also dont get playcounts for episodes in said api,
+                        // we can assume the user has at least watched it once so set playcount = 1
+                        // note: using strings rather than tvseries constants for backwards compatibility
+                        if (string.IsNullOrEmpty(ep["PlayCount"]) || ep["PlayCount"] == 0)
+                            ep["PlayCount"] = 1;
+                        if (string.IsNullOrEmpty(ep["LastWatchedDate"]))
+                            ep["LastWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        if (string.IsNullOrEmpty(ep["FirstWatchedDate"]))
+                            ep["FirstWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        if (string.IsNullOrEmpty(ep[DBEpisode.cDateWatched]))
+                            ep[DBEpisode.cDateWatched] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
                         ep.Commit();
 
                         if (!seriesToUpdateEpisodeCounts.Contains(ep[DBOnlineEpisode.cSeriesID]))
