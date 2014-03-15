@@ -187,8 +187,8 @@
   <string name="GettingSearchResults">Haetaan hakutuloksia</string>
   <string name="GettingShouts">Haetaan huutoja</string>
   <string name="GettingShowSeasons">Haetaan ohjelman kausia</string>
-  <string name="GettingTrendingMovies">Haetaan kuumia elokuvia</string>
-  <string name="GettingTrendingShows">Haetaan kuumia ohjelmia</string>
+  <string name="GettingTrendingMovies">Haetaan suosittuja elokuvia</string>
+  <string name="GettingTrendingShows">Haetaan suosittuja sarjoja</string>
   <string name="GettingRecommendedMovies">Haetaan suositeltuja elokuvia</string>
   <string name="GettingRecommendedShows">Haetaan suositeltuja ohjelmia</string>
   <string name="GettingWatchListMovies">Haetaan katsontalistan elokuvia</string>
@@ -379,6 +379,7 @@
   <string name="SkinPluginsOutOfDate">Virhe ladattaessa ikkunaa, teema on vanhentunut!\nPoistu MediaPortalista ja laita lisäosien käsittelijät päälle asetuksista.</string>
   <string name="StartDate">Aloitus Pvm</string>
   <string name="Synchronize">Synkronoi</string>
+  <string name="ShowRateDialogOnWatched">Näytä arvostelupyyntö katsotulle ohjelmalle</string>
   <string name="ShowSeasonInfo">Kauden tiedot...</string>
   <string name="ShowWatched">Näytä katsotut</string>
   <string name="SettingPluginEnabledName">Lisäosa otettu käyttöön</string>
@@ -386,6 +387,7 @@
   <string name="SettingListedHomeName">Näkyy Kotivalikossa</string>
   <string name="SettingListedPluginsName">Näkyy Lisäosissa</string>
   <string name="SettingWebRequestTimeoutName">Internet yhdistyksen aika-katkaisu</string>
+  <string name="SettingSyncRatingsName">Synkronoi arvostelut</string>
   <string name="SettingDefaultTVShowTrailerSiteName">Oletus TV-sarjojen traileri sivusto</string>
   <string name="SettingDefaultTVShowTrailerSiteDescription">Valitse oletus TV-sarjojen traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt TV-sarjassa tai Jaksossa. Kun käytetään YouTube sivua, ylimääräisiä parametrejä käytetään Jaksoja etsittäessä, kuten Kausi ja Jakson numero.</string>
   <string name="SettingDefaultMovieTrailerSiteName">Oletus elokuvien traileri sivusto</string>
@@ -400,10 +402,10 @@
   <string name="Status">Tila</string>
   <!--T-->
   <string name="Timeout">Aikakatkaisu</string>
-  <string name="Trending">Nousussa</string>
-  <string name="TrendingShows">Kuumat Ohjelmat</string>
-  <string name="TrendingShowsAndMovies">Kuumat Ohjelmat ja Elokuvat</string>
-  <string name="TrendingMovies">Kuumat Elokuvat</string>
+  <string name="Trending">Suositut</string>
+  <string name="TrendingShows">Suositut Sarjat</string>
+  <string name="TrendingShowsAndMovies">Suositut Sarjat ja Elokuvat</string>
+  <string name="TrendingMovies">Suositut Elokuvat</string>
   <string name="TVShow">TV Ohjelma</string>
   <string name="TVShows">TV Ohjelmat</string>
   <string name="Title">Nimi</string>

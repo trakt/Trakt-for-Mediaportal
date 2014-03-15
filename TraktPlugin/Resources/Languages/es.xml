@@ -42,6 +42,7 @@
   <string name="ApprovedDate">Approved Date</string>
   <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
   <string name="ApproveFollowerMessage">¿Te gustaría dejar que el usuario {0}\nte siga?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">¿Quieres permitir al usuario {0}\nque te siga y poder seguirlo?</string>
   <string name="AdvancedSettings">Advanced Settings</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
@@ -75,6 +76,7 @@
   <string name="CommunityActivity">Community Activity</string>
   <string name="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
   <string name="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
+  <string name="Continuing">Emitiéndose</string>
   <string name="CopyList">Copy List...</string>
   <!--D-->
   <string name="DateToday">Today</string>
@@ -83,6 +85,7 @@
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string name="DateOneMonthAgo">1 Month Ago</string>
   <string name="Deny">Deny</string>
+  <string name="DenyFollowRequest">¿Denegar Solicitud de Seguimiento del usuario {0}?</string>
   <string name="DeleteList">Delete List</string>
   <string name="DeleteListItem">Delete List Item</string>
   <string name="DeletingList">Deleting List</string>
@@ -99,6 +102,7 @@
   <string name="EditList">Edit List...</string>
   <string name="EditingList">Editing List</string>
   <string name="Email">Email</string>
+  <string name="Ended">Finalizada</string>
   <string name="EndYear">End: {0}</string>
   <string name="EnterSearchTerm">Introduce Término de Búsqueda</string>
   <string name="Episode">Episode</string>
@@ -121,7 +125,9 @@
   <string name="FriendRequest">Friend Request</string>
   <string name="FollowerRequest">Solicitud Seguidor</string>
   <string name="FollowerRequests">Solicitudes de Seguidores</string>
+  <string name="FollowPendingApproval">Solicitud de seguimiento enviada a {0} y pendiente de aprobación.</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
+  <string name="FollowerRequestMessage">Tienes {0} solicitudes de seguimiento, aprueba o deniega desde la ventana en red</string>
   <string name="FullName">Full Name</string>
   <!--G-->
   <string name="Gender">Gender</string>
@@ -174,6 +180,7 @@
   <string name="GettingFollowerRequests">Obteniendo Solicitudes de Seguidores</string>
   <string name="GettingUserWatchedHistory">Obteniendo Historial de Vistos del Usuario</string>
   <string name="GettingUserRecentAdded">Obteniendo Recientemente Añadidos del Usuario</string>
+  <string name="GettingUserRecentShouts">Obteniendo Comentarios Recientes del Usuario</string>
   <string name="GettingFriendsWatchedHistory">Getting Friends Watched History</string>
   <string name="GettingLists">Getting Lists</string>
   <string name="GettingListItems">Getting List Items</string>
@@ -256,6 +263,7 @@
   <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
   <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
   <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string name="NoSearchTypesSelected">Antes de realizar una búsqueda en línea\nDebes seleccionar uno o más tipos de búsqueda.</string>
   <string name="NoShoutsForItem">No Shouts for {0}!</string>
   <string name="NoPeopleToSearch">No hay gente a buscar por.</string>
   <string name="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
@@ -318,6 +326,7 @@
   <string name="RecentWatchedMovies">Películas vistas recientemente</string>
   <string name="RecentAddedEpisodes">Episodios Añadidos Recientemente</string>
   <string name="RecentAddedMovies">Películas añadidas recientemente</string>
+  <string name="RecentShouts">Comentarios Recientes</string>
   <string name="Recommendations">Recommendations</string>
   <string name="RecommendedMovies">Recommended Movies</string>
   <string name="RecommendedShows">Recommended Shows</string>
@@ -343,15 +352,18 @@
   <string name="Season">Season</string>
   <string name="Seasons">Seasons</string>
   <string name="Search">Buscar</string>
+  <string name="SearchAll">Buscar Todo</string>
   <string name="SearchBy">Buscar por</string>
   <string name="SearchMovies">Buscar Películas</string>
   <string name="SearchShows">Buscar Shows</string>
   <string name="SearchEpisodes">Buscar Episodios</string>
+  <string name="SearchPeople">Buscar Personas</string>
   <string name="SearchUsers">Buscar Usuarios</string>
   <string name="SearchForFriend">Search for Friend...</string>
   <string name="SearchForUser">Buscar por Usuario...</string>
   <string name="SearchTypes">Tipos de Búsqueda</string>
   <string name="SendFriendRequest">Send friend request to {0}?</string>
+  <string name="SendFollowRequest">¿Enviar solicitud de seguimiento a {0}?</string>
   <string name="SelectLists">Select Lists</string>
   <string name="SelectUser">Select User</string>
   <string name="Series">Series</string>
@@ -390,6 +402,8 @@
   <string name="SettingSyncRatingsDescription">Enable this setting for 2-way synchronization of ratings during library sync. If an item has been rated locally or remotely then it wont be overwritten to avoid any rounding issues. It\'s recommended that items online are rated using advanced ratings before enabling this setting.</string>
   <string name="SettingShowRateDialogOnWatchedName">Show Rate Dialog on Watched</string>
   <string name="SettingShowRateDialogOnWatchedDescription">Enable this setting to show the Trakt rate dialog after a movie or episode has finished and considered watched. The Trakt rate dialog will not be shown if the item has already being rated.</string>
+  <string name="SettingShowRateDialogInPlaylistsName">Mostrar Diálogo de Puntuación en la Lista de Reproducción</string>
+  <string name="SettingShowRateDialogInPlaylistsDescription">Si la Puntuación de Trakt está habilitada, deshabita esta opción si no quieres que se visualice en la vista de lista de reproducción.</string>
   <string name="SettingActivityPollIntervalName">Dashboard Activity Poll Interval</string>
   <string name="SettingActivityPollIntervalDescription">Set the interval (in seconds) that the trakt community/friends activity is updated on the dashboard.</string>
   <string name="SettingTrendingPollIntervalName">Dashboard Trending Poll Interval</string>
@@ -398,15 +412,30 @@
   <string name="SettingDashboardLoadDelayDescription">This setting is to control how long in milliseconds until the dashboard starts to load data after the GUI window has opened. Changing this value too low can cause errors and fail to load window.</string>
   <string name="SettingEnableJumpToForTVShowsName">Enable TVShow Jump To Feature</string>
   <string name="SettingEnableJumpToForTVShowsDescription">Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.</string>
+  <string name="SettingRememberLastSelectedActivityName">Recordar la Última Actividad Seleccionada en el Tablero</string>
+  <string name="SettingRememberLastSelectedActivityDescription">Habilitar esta opción para volver a seleccionar la última actividad seleccionada cuando el menú de  Trakt se ha recargado, si la deshabilita siempre será seleccionado en la recarga el primer elemento .</string>
+  <string name="SettingDefaultTVShowTrailerSiteName">Web por defecto para Trailer de Programa de TV</string>
+  <string name="SettingDefaultTVShowTrailerSiteDescription">Elige el sitio web utilizado por defecto para los Trailer de Programas de TV en las búsquedas automáticas, por ejemplo, Presionando Play en un Programa de TV o Episodio. Cuando usas You Tube, los parámetros extras de búsqueda como Temporada y Número de episodio se usan para buscar el Episodio.</string>
+  <string name="SettingDefaultMovieTrailerSiteName">Web por defecto para Trailer de Películas</string>
+  <string name="SettingDefaultMovieTrailerSiteDescription">Elige el sitio web utilizado por defecto para los Trailer de Películas en las búsquedas automáticas por ejemplo, Presionando Play.</string>
   <string name="SettingSyncLibraryName">Habilitar Sincronización de Librería</string>
+  <string name="SettingSyncLibraryDescription">Habilita esta opción para sincronizar tu colección y estados de visualización con trakt.tv. Si está deshabitada, sólo el scrobbling estará activo.</string>
   <string name="SettingMaxSearchResultsName">Máximos Resultados de la Búsqueda</string>
   <string name="SettingMaxSearchResultsDescription">Establecer el número máximo de resultados por tipo a recuperar de una búsqueda online.</string>
   <string name="SettingShowSearchResultsBreakdownName">Mostrar Resultados Desglosados de la Búsqueda</string>
+  <string name="SettingShowSearchResultsBreakdownDescription">Selecciona esta opción para controlar el comportamiento cuando se establece un único tipo de búsqueda en la ventana de búsqueda. Si se deshabilita el usuario saltará directamente al correspondiente resultado de búsqueda cuando se establece un solo tipo de búsqueda.</string>
+  <string name="SettingFilterTrendingOnDashboardName">Filtrar Tendencias en la tabla</string>
+  <string name="SettingFilterTrendingOnDashboardDescription">Habilita esta opción para aplicar los filtros de tendencia en la tabla, por ejemplo: Ocultar Vistos, Ocultar Lista de Vigilancia, etc. Esto se puede configurar desde la interfaz de tendencia o desde el menú contextual.</string>
+  <string name="SettingUseTrailersPluginName">Usar Plugin trailers</string>
+  <string name="SettingUseTrailersPluginDescription">Habilita esta opción para utilizar el plugin Trailers para manejar toda la funcionalidad de los trailers. Recomendado si quieres ver más de un trailer. Requiere que el plugin Trailers esté instalado.</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorar % Visto en los DVDs</string>
+  <string name="SettingIgnoreWatchedPercentOnDVDDescription">Habilita esta opción para ignorar el porcentaje visto de un DVD cuando se para. A veces los DVD y Bluray no indican la duración correcta del vídeo principal, esto asegura siempre el scrobble (p. e. mandar estado de visto) a trakt.tv al parar, independientemente de lo mucho que hayas visto.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>
   <string name="SortSeasonsDescending">Sort Seasons in Descending order</string>
   <string name="Specials">Specials</string>
+  <string name="Status">Estado</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="Trending">Trending</string>
@@ -428,6 +457,7 @@
   <string name="UserHasNotWatchedMovies">User has not watched any movies!</string>
   <string name="UserHasNoRecentAddedEpisodes">¡El usuario no tiene episodios añadidos recientemente!</string>
   <string name="UserHasNoRecentAddedMovies">¡El usuario no tiene películas añadidas recientemente!</string>
+  <string name="UserHasNoRecentShouts">¡El usuario no ha comentado o evaluado nada últimamente!</string>
   <string name="User">User</string>
   <string name="Users">Users</string>
   <string name="Username">Username</string>
@@ -438,6 +468,7 @@
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
+  <string name="UserIsProtected">¡El usuario actual está protegido!\nLos usuarios protegidos sólo se pueden ver\ndesde la vista \"Amigos\".</string>
   <string name="UserProfile">Perfil de Usuario</string>
   <!--V-->
   <string name="View">View</string>
