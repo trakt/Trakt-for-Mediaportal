@@ -155,25 +155,45 @@ namespace TraktPlugin.TraktHandlers
                         // If the users IMDb Id is empty/invalid and we have matched one then set it
                         if (BasicHandler.IsValidImdb(tlm.IMDBID) && !BasicHandler.IsValidImdb(movie.ImdbID))
                         {
-                            TraktLogger.Info("Movie '{0}' inserted IMDb Id '{1}'", movie.Title, tlm.IMDBID);
+                            TraktLogger.Info("Movie '{0}' is missing a valid IMDb Id of '{1}', updating local database", movie.Title, tlm.IMDBID);
                             movie.ImdbID = tlm.IMDBID;
                             movie.Commit();
                         }
 
-                        // If it is watched in Trakt but not Moving Pictures update
+                        // If it is watched in Trakt but not Moving Pictures update, also update Playcount if less on local database
                         // skip if movie is watched but user wishes to have synced as unseen locally
-                        if (tlm.Plays > 0 && !tlm.UnSeen && movie.ActiveUserSettings.WatchedCount == 0)
+                        if (tlm.Plays > 0 && !tlm.UnSeen && movie.ActiveUserSettings.WatchedCount < tlm.Plays)
                         {
-                            TraktLogger.Info("Movie '{0}' is watched on Trakt, updating database", movie.Title);
-                            movie.ActiveUserSettings.WatchedCount = 1;
+                            TraktLogger.Info("Movie '{0}' has been watched '{1}' time(s) on Trakt, updating WatchedCount in local database", movie.Title, tlm.Plays);
+                            movie.ActiveUserSettings.WatchedCount = tlm.Plays;
+
+                            #region testing only
+                            // create a watched history based on sync time (we don't get back official watched dates per play...yet)
+                            //if (movie.WatchedHistory == null || movie.WatchedHistory.Count == 0)
+                            //{
+                            //    for (int i = 0; i < tlm.Plays; i++)
+                            //    {
+                            //        var watchedHistory = new DBWatchedHistory
+                            //        {
+                            //            DateWatched = DateTime.Now,
+                            //            Movie = movie,
+                            //            User = movie.ActiveUserSettings.User
+                            //        };
+
+                            //        movie.WatchedHistory.Add(watchedHistory);
+                            //        watchedHistory.Commit();
+                            //    }
+                            //}
+                            #endregion
+
                             movie.Commit();
                         }
 
                         // mark movies as unseen if watched locally
                         if (tlm.UnSeen && movie.ActiveUserSettings.WatchedCount > 0)
                         {
-                            TraktLogger.Info("Movie '{0}' is unseen on Trakt, updating database", movie.Title);
-                            movie.ActiveUserSettings.WatchedCount = 0;
+                            TraktLogger.Info("Movie '{0}' is unseen on Trakt, clearing WatchedCount in local database", movie.Title);
+                            movie.ActiveUserSettings.WatchedCount = 0; // we can't keep playcount and set unwatched :(
                             movie.ActiveUserSettings.Commit();
                         }
 
