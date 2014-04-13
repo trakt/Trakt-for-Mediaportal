@@ -279,6 +279,13 @@
               <ZipFileName>Installer{CopyFile}\{88f41b66-2e61-4cc8-a5ca-b00b8802b110}-ku.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\ku.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\ro.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bf711593-3774-4c59-bad7-f45fbc3c047a}-ro.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\ro.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1826,6 +1833,17 @@
           <Items />
         </Files>
       </GroupItem>
+      <GroupItem Name="TrailersPlugin">
+        <ParentGroup />
+        <DisplayName>Trailers Plugin</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Trailers plugin allows streaming of Movie, Show, Season and Episode videos (trailers, teasers, clips and featurettes). If no associated video is found at themoviedb.org then you can manually search on YouTube, iTunes or IMDb.
+
+Trailers can be accessed from the F9 context menu (INFO button on remote).</Description>
+        <Files>
+          <Items />
+        </Files>
+      </GroupItem>
     </Items>
   </Groups>
   <Sections>
@@ -1899,6 +1917,7 @@ Click Next to continue or Cancel to exit Setup.
           <string>DefaultSkin</string>
           <string>DefaultWideSkin</string>
           <string>ExtensionsPlugin</string>
+          <string>TrailersPlugin</string>
         </IncludedGroups>
         <PanelName>Tree View Selector</PanelName>
         <WizardButtonsEnum>BackNextCancel</WizardButtonsEnum>
@@ -1952,6 +1971,33 @@ Click Next to continue or Cancel to exit Setup.
                   </SectionParam>
                   <SectionParam Name="Extension Version">
                     <Value>1.2.1.195</Value>
+                    <ValueType>String</ValueType>
+                    <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
+                  </SectionParam>
+                  <SectionParam Name="Silent Install">
+                    <Value>YES</Value>
+                    <ValueType>Bool</ValueType>
+                    <Description>Silent install, No wizard screen will be displayed </Description>
+                  </SectionParam>
+                </Items>
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
+            <ActionItem Name="Extension Installer" ActionType="Extension Installer" ConditionGroup="TrailersPlugin">
+              <Params>
+                <Items>
+                  <SectionParam Name="Extension package">
+                    <Value />
+                    <ValueType>File</ValueType>
+                    <Description>Location of the extension package</Description>
+                  </SectionParam>
+                  <SectionParam Name="Extension Id">
+                    <Value>b4293f64-9e83-4f1f-b2e3-8bdea2a37425</Value>
+                    <ValueType>String</ValueType>
+                    <Description>Global Id of the extension package - it will be downloaded when no file is set.</Description>
+                  </SectionParam>
+                  <SectionParam Name="Extension Version">
+                    <Value>1.1.1.0</Value>
                     <ValueType>String</ValueType>
                     <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
                   </SectionParam>
@@ -2108,18 +2154,18 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>4</Major>
       <Minor>0</Minor>
-      <Build>1</Build>
+      <Build>2</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added sync back of play counts to local MovingPictures database from trakt. This does not include watched history (dates), only playcount as that's all we get back. We now check if the local play count is less than the online count.
-* Fixed last played date not syncing to trakt when doing backfill syncing (this was due to an API documentation issue), also added support for this from MP-TVSeries episodes. This is used to indicate when you watched an item for first time syncs or when scrobbles were missed e.g. service is down due to maintenance.
+    <VersionDescription>* Updated trailers support for TV Shows, Seasons and Episodes, handled by Trailers plugin by default.
+* Added Trailers plugin to MPEI installer package.
 * Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2014-03-15T10:00:00</ReleaseDate>
+    <ReleaseDate>2014-04-13T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -2416,6 +2462,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\ku.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{88f41b66-2e61-4cc8-a5ca-b00b8802b110}-ku.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\ku.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\ro.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bf711593-3774-4c59-bad7-f45fbc3c047a}-ro.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\ro.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
