@@ -1446,7 +1446,7 @@ namespace TraktPlugin
                     {
                         if (activity.Episodes.Count > 1)
                         {
-                            GUICommon.CheckAndPlayFirstUnwatched(activity.Show, jumpTo);
+                            GUICommon.CheckAndPlayFirstUnwatchedEpisode(activity.Show, jumpTo);
                             return;
                         }
                     } 
@@ -1454,7 +1454,7 @@ namespace TraktPlugin
                     break;
 
                 case ActivityType.show:
-                    GUICommon.CheckAndPlayFirstUnwatched(activity.Show, jumpTo);
+                    GUICommon.CheckAndPlayFirstUnwatchedEpisode(activity.Show, jumpTo);
                     break;
 
                 case ActivityType.movie:
@@ -1468,7 +1468,7 @@ namespace TraktPlugin
                         switch (activity.ListItem.Type)
                         {
                             case "show":
-                                GUICommon.CheckAndPlayFirstUnwatched(activity.ListItem.Show, jumpTo);
+                                GUICommon.CheckAndPlayFirstUnwatchedEpisode(activity.ListItem.Show, jumpTo);
                                 break;
 
                             case "episode":
@@ -1493,7 +1493,7 @@ namespace TraktPlugin
             // get selected item in facade
             TraktTrendingShow show = facade.SelectedListItem.TVTag as TraktTrendingShow;
 
-            GUICommon.CheckAndPlayFirstUnwatched(show, jumpTo);
+            GUICommon.CheckAndPlayFirstUnwatchedEpisode(show, jumpTo);
         }
 
         private void PlayMovie(bool jumpTo)

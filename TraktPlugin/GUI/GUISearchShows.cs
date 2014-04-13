@@ -378,7 +378,7 @@ namespace TraktPlugin.GUI
             if (selectedItem == null) return;
 
             var selectedShow = selectedItem.TVTag as TraktShow;
-            GUICommon.CheckAndPlayFirstUnwatched(selectedShow, jumpTo);
+            GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow, jumpTo);
         }
 
         private void LoadSearchResults()

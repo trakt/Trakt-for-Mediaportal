@@ -1,29 +1,211 @@
 <extension_settings>
-	<disable_entry>
-		<setting entryname="plugins" name="Trakt" displayname="Plugin Enabled" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="Yes|No"/>
-	</disable_entry>
-	<settings section="#Trakt.Translation.Plugin.Label">
-    <setting entryname="plugins" name="Trakt" displayname="#Trakt.Translation.SettingPluginEnabledName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingPluginEnabledDescription.Label" configfile="MediaPortal.xml" /> 
-    <setting entryname="home" name="Trakt" displayname="#Trakt.Translation.SettingListedHomeName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingListedHomeDescription.Label" configfile="MediaPortal.xml" /> 
-    <setting entryname="myplugins" name="Trakt" displayname="#Trakt.Translation.SettingListedPluginsName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingListedPluginsDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="SyncTimerLength" displayname="#Trakt.Translation.SettingSyncTimerName.Label" defaultvalue="86400000" type="string" listvalues="3600000|21600000|432000000|86400000" displaylistvalues="1|6|12|24" description="#Trakt.Translation.SettingSyncTimerDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="SyncStartDelay" displayname="#Trakt.Translation.SettingSyncStartDelayName.Label" defaultvalue="0" type="string" listvalues="0|15000|30000|60000|300000" displaylistvalues="0|15|30|60|300" description="#Trakt.Translation.SettingSyncStartDelayDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="WebRequestCacheMinutes" displayname="#Trakt.Translation.SettingWebRequestCacheName.Label" defaultvalue="15" type="string" listvalues="1|5|10|15|30|60|120|360|720|1440" displaylistvalues="1|5|10|15|30|60|120|360|720|1440" description="#Trakt.Translation.SettingWebRequestCacheDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="WebRequestTimeout" displayname="#Trakt.Translation.SettingWebRequestTimeoutName.Label" defaultvalue="15000" type="string" listvalues="15000|30000|45000|60000|90000" displaylistvalues="15|30|45|60|90" description="#Trakt.Translation.SettingWebRequestTimeoutDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="SyncRatings" displayname="#Trakt.Translation.SettingSyncRatingsName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingSyncRatingsDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="ShowRateDialogOnWatched" displayname="#Trakt.Translation.SettingShowRateDialogOnWatchedName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingShowRateDialogOnWatchedDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="ShowRateDlgForPlaylists" displayname="#Trakt.Translation.SettingShowRateDialogInPlaylistsName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingShowRateDialogInPlaylistsDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="DashboardActivityPollInterval" displayname="#Trakt.Translation.SettingActivityPollIntervalName.Label" defaultvalue="15000" type="string" listvalues="15000|30000|45000|60000|120000|180000|240000|300000" displaylistvalues="15|30|45|60|120|180|240|300" description="#Trakt.Translation.SettingActivityPollIntervalDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="DashboardTrendingPollInterval" displayname="#Trakt.Translation.SettingTrendingPollIntervalName.Label" defaultvalue="300000" type="string" listvalues="300000|600000|900000|18000000" displaylistvalues="5|10|15|30" description="#Trakt.Translation.SettingTrendingPollIntervalDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="DashboardLoadDelay" displayname="#Trakt.Translation.SettingDashboardLoadDelayName.Label" defaultvalue="250" type="string" listvalues="0|50|100|150|200|250|300|350|400|500|750|1000" displaylistvalues="0|50|100|150|200|250|300|350|400|500|750|1000" description="#Trakt.Translation.SettingDashboardLoadDelayDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="FilterTrendingOnDashboard" displayname="#Trakt.Translation.SettingFilterTrendingOnDashboardName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingFilterTrendingOnDashboardDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="EnableJumpToForTVShows" displayname="#Trakt.Translation.SettingEnableJumpToForTVShowsName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingEnableJumpToForTVShowsDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="RememberLastSelectedActivity" displayname="#Trakt.Translation.SettingRememberLastSelectedActivityName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingRememberLastSelectedActivityDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="DefaultTVShowTrailerSite" displayname="#Trakt.Translation.SettingDefaultTVShowTrailerSiteName.Label" defaultvalue="YouTube" type="string" listvalues="YouTube|IMDb Movie Trailers" displaylistvalues="YouTube|IMDb Movie Trailers" description="#Trakt.Translation.SettingDefaultTVShowTrailerSiteDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="DefaultMovieTrailerSite" displayname="#Trakt.Translation.SettingDefaultMovieTrailerSiteName.Label" defaultvalue="IMDb Movie Trailers" type="string" listvalues="YouTube|IMDb Movie Trailers|iTunes Movie Trailers" displaylistvalues="YouTube|IMDb Movie Trailers|iTunes Movie Trailers" description="#Trakt.Translation.SettingDefaultMovieTrailerSiteDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="UseTrailersPlugin" displayname="#Trakt.Translation.SettingUseTrailersPluginName.Label" defaultvalue="no" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingUseTrailersPluginDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="SyncLibrary" displayname="#Trakt.Translation.SettingSyncLibraryName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingSyncLibraryDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="ShowSearchResultsBreakdown" displayname="#Trakt.Translation.SettingShowSearchResultsBreakdownName.Label" defaultvalue="yes" type="string" listvalues="yes|no" displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label" description="#Trakt.Translation.SettingShowSearchResultsBreakdownDescription.Label" configfile="MediaPortal.xml" />
-    <setting entryname="Trakt" name="MaxSearchResults" displayname="#Trakt.Translation.SettingMaxSearchResultsName.Label" defaultvalue="30" type="string" listvalues="1|5|10|15|30|50|75|100|150|200" displaylistvalues="1|5|10|15|30|50|75|100|150|200" description="#Trakt.Translation.SettingMaxSearchResultsDescription.Label" configfile="MediaPortal.xml" />
+  <disable_entry>
+    <setting entryname="plugins"
+             name="Trakt"
+             displayname="Plugin Enabled"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="Yes|No"/>
+  </disable_entry>
+  <settings section="#Trakt.Translation.Plugin.Label">
+    <setting entryname="plugins"
+             name="Trakt"
+             displayname="#Trakt.Translation.SettingPluginEnabledName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingPluginEnabledDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="home"
+             name="Trakt"
+             displayname="#Trakt.Translation.SettingListedHomeName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingListedHomeDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="myplugins"
+             name="Trakt"
+             displayname="#Trakt.Translation.SettingListedPluginsName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingListedPluginsDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncTimerLength"
+             displayname="#Trakt.Translation.SettingSyncTimerName.Label"
+             defaultvalue="86400000"
+             type="string"
+             listvalues="3600000|21600000|432000000|86400000"
+             displaylistvalues="1|6|12|24"
+             description="#Trakt.Translation.SettingSyncTimerDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncStartDelay"
+             displayname="#Trakt.Translation.SettingSyncStartDelayName.Label"
+             defaultvalue="0"
+             type="string"
+             listvalues="0|15000|30000|60000|300000"
+             displaylistvalues="0|15|30|60|300"
+             description="#Trakt.Translation.SettingSyncStartDelayDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="WebRequestCacheMinutes"
+             displayname="#Trakt.Translation.SettingWebRequestCacheName.Label"
+             defaultvalue="15"
+             type="string"
+             listvalues="1|5|10|15|30|60|120|360|720|1440"
+             displaylistvalues="1|5|10|15|30|60|120|360|720|1440"
+             description="#Trakt.Translation.SettingWebRequestCacheDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="WebRequestTimeout"
+             displayname="#Trakt.Translation.SettingWebRequestTimeoutName.Label"
+             defaultvalue="15000"
+             type="string"
+             listvalues="15000|30000|45000|60000|90000"
+             displaylistvalues="15|30|45|60|90"
+             description="#Trakt.Translation.SettingWebRequestTimeoutDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncRatings"
+             displayname="#Trakt.Translation.SettingSyncRatingsName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingSyncRatingsDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="ShowRateDialogOnWatched"
+             displayname="#Trakt.Translation.SettingShowRateDialogOnWatchedName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingShowRateDialogOnWatchedDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="ShowRateDlgForPlaylists"
+             displayname="#Trakt.Translation.SettingShowRateDialogInPlaylistsName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingShowRateDialogInPlaylistsDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="DashboardActivityPollInterval"
+             displayname="#Trakt.Translation.SettingActivityPollIntervalName.Label"
+             defaultvalue="15000"
+             type="string"
+             listvalues="15000|30000|45000|60000|120000|180000|240000|300000"
+             displaylistvalues="15|30|45|60|120|180|240|300"
+             description="#Trakt.Translation.SettingActivityPollIntervalDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="DashboardTrendingPollInterval"
+             displayname="#Trakt.Translation.SettingTrendingPollIntervalName.Label"
+             defaultvalue="300000"
+             type="string"
+             listvalues="300000|600000|900000|18000000"
+             displaylistvalues="5|10|15|30"
+             description="#Trakt.Translation.SettingTrendingPollIntervalDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="DashboardLoadDelay"
+             displayname="#Trakt.Translation.SettingDashboardLoadDelayName.Label"
+             defaultvalue="250"
+             type="string"
+             listvalues="0|50|100|150|200|250|300|350|400|500|750|1000"
+             displaylistvalues="0|50|100|150|200|250|300|350|400|500|750|1000"
+             description="#Trakt.Translation.SettingDashboardLoadDelayDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="FilterTrendingOnDashboard"
+             displayname="#Trakt.Translation.SettingFilterTrendingOnDashboardName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingFilterTrendingOnDashboardDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="EnableJumpToForTVShows"
+             displayname="#Trakt.Translation.SettingEnableJumpToForTVShowsName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingEnableJumpToForTVShowsDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="RememberLastSelectedActivity"
+             displayname="#Trakt.Translation.SettingRememberLastSelectedActivityName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingRememberLastSelectedActivityDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="DefaultTVShowTrailerSite"
+             displayname="#Trakt.Translation.SettingDefaultTVShowTrailerSiteName.Label"
+             defaultvalue="YouTube"
+             type="string"
+             listvalues="YouTube|IMDb Movie Trailers"
+             displaylistvalues="YouTube|IMDb Movie Trailers"
+             description="#Trakt.Translation.SettingDefaultTVShowTrailerSiteDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="DefaultMovieTrailerSite"
+             displayname="#Trakt.Translation.SettingDefaultMovieTrailerSiteName.Label"
+             defaultvalue="IMDb Movie Trailers"
+             type="string"
+             listvalues="YouTube|IMDb Movie Trailers|iTunes Movie Trailers"
+             displaylistvalues="YouTube|IMDb Movie Trailers|iTunes Movie Trailers"
+             description="#Trakt.Translation.SettingDefaultMovieTrailerSiteDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="UseTrailersPlugin"
+             displayname="#Trakt.Translation.SettingUseTrailersPluginName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingUseTrailersPluginDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncLibrary"
+             displayname="#Trakt.Translation.SettingSyncLibraryName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingSyncLibraryDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="ShowSearchResultsBreakdown"
+             displayname="#Trakt.Translation.SettingShowSearchResultsBreakdownName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingShowSearchResultsBreakdownDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxSearchResults"
+             displayname="#Trakt.Translation.SettingMaxSearchResultsName.Label"
+             defaultvalue="30"
+             type="string"
+             listvalues="1|5|10|15|30|50|75|100|150|200"
+             displaylistvalues="1|5|10|15|30|50|75|100|150|200"
+             description="#Trakt.Translation.SettingMaxSearchResultsDescription.Label"
+             configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

@@ -334,7 +334,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ActivityType.show:
-                    GUICommon.CheckAndPlayFirstUnwatched(selectedActivity.Show, jumpTo);
+                    GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedActivity.Show, jumpTo);
                     break;
 
                 case ActivityType.movie:

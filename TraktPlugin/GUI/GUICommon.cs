@@ -365,6 +365,13 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.MyAnime.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
             }
 
+            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            {
+                TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
+                ShowTVEpisodeTrailersPluginMenu(show, episode);
+                handled = true;
+            }
+
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
             {
                 SearchEpisodeTrailer(show, episode);
@@ -372,7 +379,7 @@ namespace TraktPlugin.GUI
             }
         }
         
-        internal static void CheckAndPlayFirstUnwatched(TraktShow show, bool jumpTo)
+        internal static void CheckAndPlayFirstUnwatchedEpisode(TraktShow show, bool jumpTo)
         {
             if (show == null) return;
 
@@ -404,6 +411,13 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Checking if any episodes to watch in My Anime");
                 handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(Convert.ToInt32(show.Tvdb));
+            }
+
+            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            {
+                TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
+                ShowTVShowTrailersPluginMenu(show);
+                handled = true;
             }
 
             if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
@@ -1828,8 +1842,35 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region TV Show Trailers
+        public static void ShowTVShowTrailersPluginMenu(TraktShow show)
+        {
+            MediaItem trailerItem = new MediaItem
+            {
+                MediaType = MediaItemType.Show,
+                IMDb = show.Imdb,
+                Plot = show.Overview,
+                Poster = show.Images.Poster,
+                Title = show.Title,
+                TVDb = show.Tvdb,
+                TVRage = show.TvRage,
+                Year = show.Year,
+                AirDate = show.FirstAired.FromEpoch().ToString("yyyy-MM-dd")
+            };
+            Trailers.Trailers.SearchForTrailers(trailerItem);
+        }
+
         public static void ShowTVShowTrailersMenu(TraktShow show, TraktEpisode episode = null)
         {
+            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+            {
+                if (episode == null)
+                    ShowTVShowTrailersPluginMenu(show);
+                else
+                    ShowTVEpisodeTrailersPluginMenu(show, episode);
+
+                return;
+            }
+
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(Translation.Trailer);
@@ -1877,6 +1918,48 @@ namespace TraktPlugin.GUI
                 // Launch OnlineVideos Trailer search
                 GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
+        }
+        #endregion
+
+        #region TV Season Trailers
+        public static void ShowTVSeasonTrailersPluginMenu(TraktShow show, int season)
+        {
+            MediaItem trailerItem = new MediaItem
+            {
+                MediaType = MediaItemType.Season,
+                IMDb = show.Imdb,
+                Plot = show.Overview,
+                Poster = show.Images.Poster,
+                Title = show.Title,
+                TVDb = show.Tvdb,
+                TVRage = show.TvRage,
+                Year = show.Year,
+                AirDate = show.FirstAired.FromEpoch().ToString("yyyy-MM-dd"),
+                Season = season
+            };
+            Trailers.Trailers.SearchForTrailers(trailerItem);
+        }
+        #endregion
+
+        #region TV Episode Trailers
+        public static void ShowTVEpisodeTrailersPluginMenu(TraktShow show, TraktEpisode episode)
+        {
+            MediaItem trailerItem = new MediaItem
+            {
+                MediaType = MediaItemType.Episode,
+                IMDb = show.Imdb,
+                Plot = show.Overview,
+                Poster = show.Images.Poster,
+                Title = show.Title,
+                TVDb = show.Tvdb,
+                TVRage = show.TvRage,
+                Year = show.Year,
+                AirDate = show.FirstAired.FromEpoch().ToString("yyyy-MM-dd"),
+                Season = episode.Season,
+                Episode = episode.Number,
+                EpisodeName = episode.Title
+            };
+            Trailers.Trailers.SearchForTrailers(trailerItem);
         }
         #endregion
 

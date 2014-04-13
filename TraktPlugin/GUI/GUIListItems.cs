@@ -494,12 +494,16 @@ namespace TraktPlugin.GUI
                     {
                         GUICommon.ShowMovieTrailersMenu(userListItem.Movie);
                     }
-                    else
+                    else if (SelectedType == TraktItemType.episode)
                     {
                         userListItem.Episode.Season = Convert.ToInt32(userListItem.SeasonNumber);
                         userListItem.Episode.Number = Convert.ToInt32(userListItem.EpisodeNumber);
 
                         GUICommon.ShowTVShowTrailersMenu(userListItem.Show, userListItem.Episode);
+                    }
+                    else if (SelectedType == TraktItemType.season && TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+                    {
+                        GUICommon.ShowTVSeasonTrailersPluginMenu(userListItem.Show, int.Parse(userListItem.SeasonNumber));
                     }
                     break;
 
@@ -558,7 +562,7 @@ namespace TraktPlugin.GUI
             // if its a show/season, play first unwatched
             if (SelectedType != TraktItemType.episode)
             {
-                GUICommon.CheckAndPlayFirstUnwatched(userListItem.Show, jumpTo);
+                GUICommon.CheckAndPlayFirstUnwatchedEpisode(userListItem.Show, jumpTo);
             }
             else
             {

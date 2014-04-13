@@ -20,7 +20,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 1;
+        static int SettingsVersion = 2;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -577,7 +577,7 @@ namespace TraktPlugin
                 ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
                 MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
-                UseTrailersPlugin = xmlreader.GetValueAsBool(cTrakt, cUseTrailersPlugin, false);
+                UseTrailersPlugin = xmlreader.GetValueAsBool(cTrakt, cUseTrailersPlugin, true);
                 IgnoreWatchedPercentOnDVD = xmlreader.GetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, true);
             }
 
@@ -779,6 +779,12 @@ namespace TraktPlugin
                             }
                             xmlreader.RemoveEntry(cTrakt, cLastStatistics);
                             #endregion
+                            currentSettingsVersion++;
+                            break;
+
+                        case 1:
+                            // trailers plugin now supports tvshows, seasons and episodes.
+                            xmlreader.SetValueAsBool(cTrakt, cUseTrailersPlugin, true);
                             currentSettingsVersion++;
                             break;
                     }
