@@ -38,8 +38,11 @@
   <string name="AirDay">Jour de diffusion</string>
   <string name="AirTime">Heure de diffusion</string>
   <string name="Approve">Approuver</string>
+  <string name="ApproveAndFollowBack">Acceptez et s\'abbonner</string>
   <string name="ApprovedDate">Date approuvée</string>
   <string name="ApproveFriendMessage">Accepter {0} comme ami?</string>
+  <string name="ApproveFollowerMessage">Voulez-vous autoriser l\'utilisateur {0}\nà s\'abonner chez vous?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Voulez-vous permettre à l\'utilisateur {0}\n de vous suivre et vous de suivre l\'utilisateur ?</string>
   <string name="AdvancedSettings">Paramétrages avancés</string>
   <!--B-->
   <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
@@ -252,6 +255,7 @@
   <string name="NoFriendsTaunt">Vous n\'avez aucun ami !</string>
   <string name="NoFollowersTaunt">Vous n\'avez aucun abonné !</string>
   <string name="NoFollowerReqTaunt">Vous n\'avez aucune requête d\'abonné</string>
+  <string name="NoFollowingTaunt">Vous n’êtes abonné chez personne!</string>
   <string name="NoTrendingMovies">Aucun Films actuellement regardé!</string>
   <string name="NoTrendingShows">Aucune série actuellement regardé!</string>
   <string name="NoMovieRecommendations">Aucun film recommandé  trouvé !</string>

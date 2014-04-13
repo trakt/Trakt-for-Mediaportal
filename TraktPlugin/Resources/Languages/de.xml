@@ -422,6 +422,7 @@
   <string name="SettingSyncLibraryDescription">Aktivieren Sie diese Einstellung, um Ihre Sammlung und den Gesehen-Status mit Trakt.tv zu synchronisieren. Ohne Aktivierung wird nur Scrobbling durchgeführt.</string>
   <string name="SettingMaxSearchResultsName">Höchstzahl Suchergebnisse</string>
   <string name="SettingMaxSearchResultsDescription">Setzt die maximale Anzahl an Ergebnissen pro Suchtyp die in einer Online-Suche zurückgegeben werden.</string>
+  <string name="SettingShowSearchResultsBreakdownName">Zeige die Suchergebnisübersicht</string>
   <string name="SettingShowSearchResultsBreakdownDescription">Aktiviere diese Einstellung um das Verhalten bei einem einzelnen Suchtyp im Suchfenster zu steuern. Wenn deaktiviert landest du direkt im Suchergebnis wenn nur ein Suchtyp aktiviert war.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtere Trending im Dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Aktiviere diese Einstellung um die Trending filter im Dashboard zu aktivieren. Z.B. \"Verstecke gesehene\", \"Verstecke wenn auf Watchlist\". Die Filter können in der Trending-Ansicht oder im Menü eingeschaltet werden.</string>
