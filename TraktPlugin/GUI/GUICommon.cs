@@ -25,19 +25,6 @@ namespace TraktPlugin.GUI
         Filmstrip = 3,
     }
 
-    enum TrailerSiteMovies
-    {
-        IMDb,
-        iTunes,
-        YouTube
-    }
-
-    enum TrailerSiteShows
-    {
-        IMDb,
-        YouTube
-    }
-
     enum ActivityContextMenuItem
     {
         ShowCommunityActivity,
@@ -324,25 +311,12 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No movies matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
                 ShowMovieTrailersPluginMenu(movie);
                 handled = true;
-            }
-
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
-            {
-                if (!string.IsNullOrEmpty(movie.Trailer))
-                {
-                    TraktLogger.Info("No movies matched in local plugin databases! Attempting to play trailer '{0}' in OnlineVideos.", movie.Trailer);
-                    TraktHandlers.OnlineVideos.Play(movie.Trailer);
-                    return;
-                }
-
-                SearchMovieTrailer(movie);
-                handled = true;
-            }
+            }            
         }
         #endregion
 
@@ -365,16 +339,10 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.MyAnime.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
             }
 
-            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
                 ShowTVEpisodeTrailersPluginMenu(show, episode);
-                handled = true;
-            }
-
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
-            {
-                SearchEpisodeTrailer(show, episode);
                 handled = true;
             }
         }
@@ -413,90 +381,12 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(Convert.ToInt32(show.Tvdb));
             }
 
-            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
+            if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
                 ShowTVShowTrailersPluginMenu(show);
                 handled = true;
             }
-
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled && handled == false)
-            {
-                SearchShowTrailer(show);
-                handled = true;
-            }
-        }
-        #endregion
-
-        #region Search Trailers
-        internal static void SearchEpisodeTrailer(TraktShow show, TraktEpisode episode)
-        {
-            string searchTerm = string.Empty;
-            switch (TraktSettings.DefaultTVShowTrailerSite)
-            {
-                case "IMDb Movie Trailers":
-                    // can't really do an episode search on IMDb so just do a show search
-                    searchTerm = !string.IsNullOrEmpty(show.Imdb) ? show.Imdb : show.Title;
-                    break;
-
-                case "YouTube":
-                    // if the episode is a special, search by episode title
-                    if (episode.Season != 0)
-                    {
-                        searchTerm = string.Format("{0} S{1}E{2}", show.Title, episode.Season.ToString("D2"), episode.Number.ToString("D2"));
-                    }
-                    else
-                    {
-                        searchTerm = string.Format("{0} {1}", show.Title, episode.Title);
-                    }
-                    break;
-            }
-            string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
-
-            TraktLogger.Info(string.Format("No episode found! Attempting tv episode trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
-            GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
-        }
-
-        internal static void SearchShowTrailer(TraktShow show)
-        {
-            string searchTerm = string.Empty;
-            switch (TraktSettings.DefaultTVShowTrailerSite)
-            {
-                case "IMDb Movie Trailers":
-                    searchTerm = !string.IsNullOrEmpty(show.Imdb) ? show.Imdb : show.Title;
-                    break;
-
-                case "YouTube":
-                    searchTerm = show.Title;
-                    break;
-            }
-            string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultTVShowTrailerSite, searchTerm);
-
-            TraktLogger.Info(string.Format("No tv show found! Attempting tv show trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultTVShowTrailerSite, searchTerm));
-            GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
-        }
-
-        internal static void SearchMovieTrailer(TraktMovie movie)
-        {
-            string searchTerm = string.Empty;
-            switch (TraktSettings.DefaultMovieTrailerSite)
-            {
-                case "IMDb Movie Trailers":
-                    searchTerm = !string.IsNullOrEmpty(movie.IMDBID) ? movie.IMDBID : movie.Title;
-                    break;
-
-                case "iTunes Movie Trailers":
-                    searchTerm = movie.Title;
-                    break;
-
-                case "YouTube":
-                    searchTerm = string.Format("{0} {1} Trailer", movie.Title, movie.Year);
-                    break;
-            }
-            string loadingParameter = string.Format("site:{0}|search:{1}|return:Locked", TraktSettings.DefaultMovieTrailerSite, searchTerm);
-
-            TraktLogger.Info(string.Format("No movie found! Attempting movie trailer lookup in OnlineVideos '{0}' site util with search term '{1}'", TraktSettings.DefaultMovieTrailerSite, searchTerm));
-            GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParameter);
         }
         #endregion
 
@@ -1338,7 +1228,7 @@ namespace TraktPlugin.GUI
             listItems.Add(listItem);
 
             // Trailers
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 listItem.ItemId = (int)ActivityContextMenuItem.Trailers;
@@ -1428,7 +1318,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
 
             // Trailers
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
@@ -1499,7 +1389,7 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
 
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
@@ -1772,70 +1662,10 @@ namespace TraktPlugin.GUI
 
         public static void ShowMovieTrailersMenu(TraktMovie movie)
         {
-            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 ShowMovieTrailersPluginMenu(movie);
                 return;
-            }
-
-            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            if (!string.IsNullOrEmpty(movie.Trailer))
-            {
-                // trailer can be played without searching
-                GUIListItem pItem = new GUIListItem(Translation.PlayTrailer);
-                dlg.Add(pItem);
-            }
-
-            foreach (var site in Enum.GetValues(typeof(TrailerSiteMovies)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSiteMovies), site);
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);
-            }
-            
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(movie.IMDBID))
-                            // Exact search
-                            searchParam = movie.IMDBID;
-                        else
-                            searchParam = movie.Title;
-                        break;
-
-                    case ("iTunes"):
-                        siteUtil = "iTunes Movie Trailers";
-                        searchParam = movie.Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        searchParam = string.Format("{0} {1} Trailer", movie.Title, movie.Year);
-                        break;
-
-                    default:
-                        if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
-                        {
-                            TraktHandlers.OnlineVideos.Play(movie.Trailer);
-                        }
-                        return;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-                
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
 
@@ -1861,7 +1691,7 @@ namespace TraktPlugin.GUI
 
         public static void ShowTVShowTrailersMenu(TraktShow show, TraktEpisode episode = null)
         {
-            if (TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 if (episode == null)
                     ShowTVShowTrailersPluginMenu(show);
@@ -1869,54 +1699,6 @@ namespace TraktPlugin.GUI
                     ShowTVEpisodeTrailersPluginMenu(show, episode);
 
                 return;
-            }
-
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
-            dlg.Reset();
-            dlg.SetHeading(Translation.Trailer);
-
-            foreach (TrailerSiteShows site in Enum.GetValues(typeof(TrailerSiteShows)))
-            {
-                string menuItem = Enum.GetName(typeof(TrailerSiteShows), site);
-                GUIListItem pItem = new GUIListItem(menuItem);
-                dlg.Add(pItem);
-            }
-
-            dlg.DoModal(GUIWindowManager.ActiveWindow);
-
-            if (dlg.SelectedLabel >= 0)
-            {
-                string siteUtil = string.Empty;
-                string searchParam = string.Empty;
-
-                switch (dlg.SelectedLabelText)
-                {
-                    case ("IMDb"):
-                        siteUtil = "IMDb Movie Trailers";
-                        if (!string.IsNullOrEmpty(show.Imdb))
-                            // Exact search
-                            searchParam = show.Imdb;
-                        else
-                            searchParam = show.Title;
-                        break;
-
-                    case ("YouTube"):
-                        siteUtil = "YouTube";
-                        searchParam = show.Title;
-                        if (episode != null)
-                        {
-                            if (episode.Season == 0)
-                                searchParam += " " + episode.Title;
-                            else
-                                searchParam += string.Format(" S{0}E{1}", episode.Season.ToString("D2"), episode.Number.ToString("D2"));
-                        }
-                        break;
-                }
-
-                string loadingParam = string.Format("site:{0}|search:{1}|return:Locked", siteUtil, searchParam);
-
-                // Launch OnlineVideos Trailer search
-                GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.OnlineVideos, loadingParam);
             }
         }
         #endregion

@@ -20,7 +20,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 2;
+        static int SettingsVersion = 3;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -110,8 +110,6 @@ namespace TraktPlugin
         public static bool RememberLastSelectedActivity { get; set; }
         public static int MovPicsRatingDlgDelay { get; set; }
         public static bool ShowRateDlgForPlaylists { get; set; }
-        public static string DefaultTVShowTrailerSite { get; set; }
-        public static string DefaultMovieTrailerSite { get; set; }
         public static bool TrendingMoviesHideWatched { get; set; }
         public static bool TrendingMoviesHideWatchlisted { get; set; }
         public static bool TrendingMoviesHideCollected { get; set; }
@@ -131,7 +129,6 @@ namespace TraktPlugin
         public static bool ShowSearchResultsBreakdown { get; set; }
         public static int MaxSearchResults { get; set; }
         public static bool FilterTrendingOnDashboard { get; set; }
-        public static bool UseTrailersPlugin { get; set; }
         public static bool IgnoreWatchedPercentOnDVD { get; set; }
         #endregion
 
@@ -235,8 +232,6 @@ namespace TraktPlugin
         private const string cRememberLastSelectedActivity = "RememberLastSelectedActivity";
         private const string cMovPicsRatingDlgDelay = "MovPicsRatingDlgDelay";
         private const string cShowRateDlgForPlaylists = "ShowRateDlgForPlaylists";
-        private const string cDefaultTVShowTrailerSite = "DefaultTVShowTrailerSite";
-        private const string cDefaultMovieTrailerSite = "DefaultMovieTrailerSite";
         private const string cTrendingMoviesHideWatched = "TrendingMoviesHideWatched";
         private const string cTrendingMoviesHideWatchlisted = "TrendingMoviesHideWatchlisted";
         private const string cTrendingMoviesHideCollected = "TrendingMoviesHideCollected";
@@ -256,7 +251,6 @@ namespace TraktPlugin
         private const string cShowSearchResultsBreakdown = "ShowSearchResultsBreakdown";
         private const string cMaxSearchResults = "MaxSearchResults";
         private const string cFilterTrendingOnDashboard = "FilterTrendingOnDashboard";
-        private const string cUseTrailersPlugin = "UseTrailersPlugin";
         private const string cIgnoreWatchedPercentOnDVD = "IgnoreWatchedPercentOnDVD";
         #endregion
 
@@ -551,8 +545,6 @@ namespace TraktPlugin
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
                 MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
                 ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, true);
-                DefaultTVShowTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultTVShowTrailerSite, "YouTube");
-                DefaultMovieTrailerSite = xmlreader.GetValueAsString(cTrakt, cDefaultMovieTrailerSite, "YouTube");
                 TrendingMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatched, false);
                 TrendingMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, false);
                 TrendingMoviesHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideCollected, false);
@@ -577,7 +569,6 @@ namespace TraktPlugin
                 ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
                 MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
-                UseTrailersPlugin = xmlreader.GetValueAsBool(cTrakt, cUseTrailersPlugin, true);
                 IgnoreWatchedPercentOnDVD = xmlreader.GetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, true);
             }
 
@@ -677,8 +668,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
                 xmlwriter.SetValueAsBool(cTrakt, cRememberLastSelectedActivity, RememberLastSelectedActivity);
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDlgForPlaylists, ShowRateDlgForPlaylists);
-                xmlwriter.SetValue(cTrakt, cDefaultTVShowTrailerSite, DefaultTVShowTrailerSite);
-                xmlwriter.SetValue(cTrakt, cDefaultMovieTrailerSite, DefaultMovieTrailerSite);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideWatched, TrendingMoviesHideWatched);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, TrendingMoviesHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingMoviesHideCollected, TrendingMoviesHideCollected);
@@ -703,7 +692,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowSearchResultsBreakdown, ShowSearchResultsBreakdown);
                 xmlwriter.SetValue(cTrakt, cMaxSearchResults, MaxSearchResults);
                 xmlwriter.SetValueAsBool(cTrakt, cFilterTrendingOnDashboard, FilterTrendingOnDashboard);
-                xmlwriter.SetValueAsBool(cTrakt, cUseTrailersPlugin, UseTrailersPlugin);
                 xmlwriter.SetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, IgnoreWatchedPercentOnDVD);
             }
 
@@ -784,7 +772,15 @@ namespace TraktPlugin
 
                         case 1:
                             // trailers plugin now supports tvshows, seasons and episodes.
-                            xmlreader.SetValueAsBool(cTrakt, cUseTrailersPlugin, true);
+                            xmlreader.SetValueAsBool(cTrakt, "UseTrailersPlugin", true);
+                            currentSettingsVersion++;
+                            break;
+
+                        case 2:
+                            // Only use Trailers plugin now for Trailers functionality.
+                            xmlreader.RemoveEntry(cTrakt, "UseTrailersPlugin");
+                            xmlreader.RemoveEntry(cTrakt, "DefaultTVShowTrailerSite");
+                            xmlreader.RemoveEntry(cTrakt, "DefaultMovieTrailerSite");
                             currentSettingsVersion++;
                             break;
                     }

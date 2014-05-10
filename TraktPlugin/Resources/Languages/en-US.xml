@@ -414,10 +414,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Enable this setting to allow user to Jump directly to the TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Remember Last Selected Activity on Dashboard</string>
   <string name="SettingRememberLastSelectedActivityDescription">Enable this setting to re-select the last selected activity when the Trakt dashboard is re-loaded, if disabled the first item will always be selected on re-load.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Default TV Show Trailer Site</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Choose the default TV Show Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt TV Show or Episode. When using the YouTube site, extra search parameters are used for Episode searches such as Season and Episode numbers.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Default Movie Trailer Site</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Choose the default Movie Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt Movie.</string>
   <string name="SettingSyncLibraryName">Enable Library Sync</string>
   <string name="SettingSyncLibraryDescription">Enable this setting to synchronise your collection and watched states to and from trakt.tv. If disabled, only scrobbling will be active.</string>
   <string name="SettingMaxSearchResultsName">Max Search Results</string>
@@ -426,8 +422,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Set this setting to control the behaviour when a single search type is set in the search window. If disabled the user will jump directly to the corresponding search result when a single search type is set.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filter Trending On Dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.</string>
-  <string name="SettingUseTrailersPluginName">Use Trailers Plugin</string>
-  <string name="SettingUseTrailersPluginDescription">Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignore Watched Percent On DVDs</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray\'s do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.</string>
   <string name="StartYear">Start: {0}</string>

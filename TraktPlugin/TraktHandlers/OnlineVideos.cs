@@ -8,8 +8,6 @@ using System.Text;
 using OnlineVideos;
 using OnlineVideos.Hoster.Base;
 using OnlineVideos.MediaPortal1;
-using OnlineVideos.MediaPortal1.Player;
-using PlayerFactory = OnlineVideos.MediaPortal1.Player.PlayerFactory;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Player;
@@ -255,131 +253,7 @@ namespace TraktPlugin.TraktHandlers
         }
 
         #endregion
-
-        #region Static Methods
-
-        static void GetTrailerUrl(string htmlPage)
-        {
-            // get playback url from stream
-            TraktLogger.Debug("Getting playback url from page '{0}'", htmlPage);
-
-            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-            {
-                var ovHosterProxy = OnlineVideosAppDomain.Domain.CreateInstanceAndUnwrap(typeof(OnlineVideosHosterProxy).Assembly.FullName, typeof(OnlineVideosHosterProxy).FullName) as OnlineVideosHosterProxy;
-                var url = ovHosterProxy.GetVideoUrls(htmlPage);
-                return url;
-            },
-            delegate(bool success, object result)
-            {
-                string url = result as string;
-
-                if (success)
-                {
-                    if (!string.IsNullOrEmpty(url))
-                    {
-                        BufferTrailer(url);
-                    }
-                    else
-                    {
-                        TraktLogger.Info("Unable to get url for trailer playback.", url);
-                        GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
-                    }
-                }
-            },
-            GUI.Translation.GettingTrailerUrls, false);
-        }
-
-        static void BufferTrailer(string url)
-        {
-            // stop player if currently playing some other video
-            if (g_Player.Playing) g_Player.Stop();
-
-            // prepare graph must be done on the MP main thread
-            TraktLogger.Debug("Preparing graph for playback of '{0}'", url);
-            var factory = new PlayerFactory(PlayerType.Internal, url);
-            bool? prepareResult = ((OnlineVideosPlayer)factory.PreparedPlayer).PrepareGraph();
-            TraktLogger.Debug("Preparing graph complete.");
-
-            switch (prepareResult)
-            {
-                case true:
-                    GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-                    {
-                        TraktLogger.Info("OnlineVideo pre-buffering started.");
-                        if (((OnlineVideosPlayer)factory.PreparedPlayer).BufferFile())
-                        {
-                            TraktLogger.Info("OnlineVideo pre-buffering complete.");
-                            return true;
-                        }
-                        else
-                        {
-                            TraktLogger.Error("Error pre-buffering trailer.");
-                            return null;
-                        }
-                    },
-                    delegate(bool success, object result)
-                    {
-                        PlayTrailer(url, factory, result as bool?);
-                    },
-                    GUI.Translation.BufferingTrailer, false);
-                    break;
-
-                case false:
-                    // play without buffering
-                    PlayTrailer(url, factory, prepareResult);
-                    break;
-
-                default:
-                    TraktLogger.Error("Failed to create player graph.");
-                    GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
-                    break;
-            }
-        }
-
-        static void PlayTrailer(string url, PlayerFactory factory, bool? preparedPlayerResult)
-        {
-            if (preparedPlayerResult != null)
-            {
-                (factory.PreparedPlayer as OVSPLayer).GoFullscreen = true;
-
-                var savedFactory = g_Player.Factory;
-                g_Player.Factory = factory;
-
-                try
-                {
-                    g_Player.Play(factory.PreparedUrl, g_Player.MediaType.Video);
-                }
-                catch (Exception e)
-                {
-                    TraktLogger.Warning("Exception while playing trailer: {0}", e.Message);
-                }
-                g_Player.Factory = savedFactory;
-            }
-            else
-            {
-                factory.PreparedPlayer.Dispose();
-                GUIUtils.ShowNotifyDialog(GUI.Translation.Error, GUI.Translation.UnableToPlayTrailer);
-            }
-        }
-
-        public static void Play(string url)
-        {
-            if (string.IsNullOrEmpty(url)) return;
-
-            if (url.Contains("youtube.com"))
-            {
-                // use onlinevideo youtube siteutils to get
-                // playback urls as trakt only gives us the html page
-                GetTrailerUrl(url);
-            }
-            else
-            {
-                BufferTrailer(url);
-            }
-        }
-
-        #endregion
-
+        
         #region Other Public Methods
 
         public void DisposeEvents()
@@ -451,20 +325,5 @@ namespace TraktPlugin.TraktHandlers
             }.Start(videoInfo);
         }
         #endregion
-    }
-
-    /// <summary>
-    /// this class is needed because the Hoster class lives in the second appdomain, 
-    /// and is not marked Serialiable and does not inherit from MarshalByRefObject, 
-    /// so the object cannot cross appdomains
-    /// </summary>
-    class OnlineVideosHosterProxy : MarshalByRefObject
-    {
-        public OnlineVideosHosterProxy() { }
-
-        public string GetVideoUrls(string url)
-        {
-            return HosterFactory.GetHoster("Youtube").getVideoUrls(url);
-        }
     }
 }

@@ -641,10 +641,6 @@ namespace TraktPlugin.GUI
         public static string SettingEnableJumpToForTVShowsDescription = "Enable this setting to allow user to Jump directly to the MP-TVSeries plugin when pressing Enter or OK on a Trakt TV Show. When disabled it will display Season Information from trakt.tv.";
         public static string SettingRememberLastSelectedActivityName = "Remember Last Selected Activity on Dashboard";
         public static string SettingRememberLastSelectedActivityDescription = "Enable this setting to re-select the last selected activity when the Trakt dashboard is re-loaded, if disabled the first item will always be selected on re-load.";
-        public static string SettingDefaultTVShowTrailerSiteName = "Default TV Show Trailer Site";
-        public static string SettingDefaultTVShowTrailerSiteDescription = "Choose the default TV Show Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt TV Show or Episode. When using the YouTube site, extra search parameters are used for Episode searches such as Season and Episode numbers.";
-        public static string SettingDefaultMovieTrailerSiteName = "Default Movie Trailer Site";
-        public static string SettingDefaultMovieTrailerSiteDescription = "Choose the default Movie Trailer Site used when an automatic trailer search is performed e.g. Pressing Play on a trakt Movie.";
         public static string SettingSyncLibraryName = "Enable Library Sync";
         public static string SettingSyncLibraryDescription = "Enable this setting to synchronise your collection and watched states to and from trakt.tv. If disabled, only scrobbling will be active.";
         public static string SettingShowSearchResultsBreakdownName = "Show Search Results Breakdown";
@@ -653,8 +649,6 @@ namespace TraktPlugin.GUI
         public static string SettingMaxSearchResultsDescription = "Set the maximum number of results per type to retrieve from an online search.";
         public static string SettingFilterTrendingOnDashboardName = "Filter Trending On Dashboard";
         public static string SettingFilterTrendingOnDashboardDescription = "Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.";
-        public static string SettingUseTrailersPluginName = "Use Trailers Plugin";
-        public static string SettingUseTrailersPluginDescription = "Enable this setting to use the Trailers plugin to handle all trailers functionality. Recommended if you want the ability to play more than a single trailer. Requires Trailers plugin to be installed.";
         public static string SettingIgnoreWatchedPercentOnDVDName = "Ignore Watched Percent On DVDs";
         public static string SettingIgnoreWatchedPercentOnDVDDescription = "Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray's do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.";
         public static string StartYear = "Start Year: {0}";

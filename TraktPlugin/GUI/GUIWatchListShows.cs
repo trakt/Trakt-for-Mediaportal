@@ -259,7 +259,7 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);

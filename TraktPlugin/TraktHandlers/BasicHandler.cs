@@ -135,7 +135,7 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="title">Title of Movie</param>
         /// <param name="year">Year of Movie</param>
-        /// <param name="imdb">IMDB ID of movie</param>
+        /// <param name="imdb">IMDb ID of movie</param>
         /// <returns>Rate Data Object</returns>
         public static TraktRateMovie CreateMovieRateData(string title, string year, string imdb)
         {

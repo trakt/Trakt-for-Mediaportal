@@ -284,7 +284,7 @@ namespace TraktPlugin.GUI
             }
             
             // Trailers
-            if (TraktHelper.IsOnlineVideosAvailableAndEnabled)
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
@@ -501,7 +501,7 @@ namespace TraktPlugin.GUI
 
                         GUICommon.ShowTVShowTrailersMenu(userListItem.Show, userListItem.Episode);
                     }
-                    else if (SelectedType == TraktItemType.season && TraktSettings.UseTrailersPlugin && TraktHelper.IsTrailersAvailableAndEnabled)
+                    else if (SelectedType == TraktItemType.season && TraktHelper.IsTrailersAvailableAndEnabled)
                     {
                         GUICommon.ShowTVSeasonTrailersPluginMenu(userListItem.Show, int.Parse(userListItem.SeasonNumber));
                     }
