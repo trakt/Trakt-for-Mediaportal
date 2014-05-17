@@ -218,7 +218,10 @@ namespace TraktPlugin.GUI
         public static string Actor = "Actor";
         public static string Actors = "Actors";
         public static string ActivityFriendsDesc = "See what your friends are up to...";
+        public static string ActivityFriendsAndMeDesc = "See what you and your friends are up to...";
         public static string ActivityCommunityDesc = "See what the community is up to...";
+        public static string ActivityFollowersDesc = "See what your followers are up to...";
+        public static string ActivityFollowingDesc = "See activity for people you're following...";
         public static string ActivityWatching = "{0} is watching {1}";
         public static string ActivityWatched = "{0} watched {1}";
         public static string ActivityCheckedIn = "{0} checked into {1}";
@@ -337,6 +340,7 @@ namespace TraktPlugin.GUI
         public static string FollowPendingApproval = "Follow request has been sent to {0} and is pending approval.";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
+        public static string FriendsAndMe = "Friends And Me";
         public static string FriendActivity = "Friend Activity";
         public static string FriendRequest = "Friend Request";
         public static string FollowerRequest = "Follower Request";

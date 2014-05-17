@@ -716,17 +716,14 @@ namespace TraktPlugin.TraktAPI
         {
             return GetFriendActivity(null, null, false);
         }
-
         public static TraktActivity GetFriendActivity(bool includeMe)
         {
             return GetFriendActivity(null, null, includeMe);
         }
-
         public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, bool includeMe)
         {
             return GetFriendActivity(types, actions, 0, 0, includeMe);
         }
-
         public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end, bool includeMe)
         {
             // get comma seperated list of types and actions (if more than one)
@@ -740,16 +737,54 @@ namespace TraktPlugin.TraktAPI
             return activity.FromJSON<TraktActivity>();
         }
 
+        public static TraktActivity GetFollowingActivity()
+        {
+            return GetFollowingActivity(null, null);
+        }
+        public static TraktActivity GetFollowingActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetFollowingActivity(types, actions, 0, 0);
+        }
+        public static TraktActivity GetFollowingActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            // get comma seperated list of types and actions (if more than one)
+            string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+            
+            string activity = Transmit(string.Format(TraktURIs.ActivityFollowing, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            return activity.FromJSON<TraktActivity>();
+        }
+
+        public static TraktActivity GetFollowersActivity()
+        {
+            return GetFollowersActivity(null, null);
+        }
+        public static TraktActivity GetFollowersActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetFollowersActivity(types, actions, 0, 0);
+        }
+        public static TraktActivity GetFollowersActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            // get comma seperated list of types and actions (if more than one)
+            string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            string activity = Transmit(string.Format(TraktURIs.ActivityFollowers, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            return activity.FromJSON<TraktActivity>();
+        }
+
         public static TraktActivity GetCommunityActivity()
         {
             return GetCommunityActivity(null, null);
         }
-
         public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions)
         {
             return GetCommunityActivity(types, actions, 0, 0);
         }
-
         public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
         {
             // get comma seperated list of types and actions (if more than one)

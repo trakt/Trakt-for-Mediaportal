@@ -23,6 +23,15 @@ namespace TraktPlugin
         show
     }
 
+    public enum ActivityView
+    {
+        community,
+        followers,
+        following,
+        friends,
+        friendsandme
+    }
+
     internal class TraktDashboard
     {
         #region Enums
@@ -145,7 +154,37 @@ namespace TraktPlugin
 
             GUIUtils.SetProperty("#Trakt.Activity.Count", "0");
             GUIUtils.SetProperty("#Trakt.Activity.Items", string.Format("0 {0}", Translation.Activities));
-            GUIUtils.SetProperty("#Trakt.Activity.Description", TraktSettings.ShowCommunityActivity ? Translation.ActivityCommunityDesc : Translation.ActivityFriendsDesc);
+            GUIUtils.SetProperty("#Trakt.Activity.Description", GetActivityDescription((ActivityView)TraktSettings.ActivityStreamView));
+        }
+
+        private string GetActivityDescription(ActivityView activityView)
+        {
+            string description = string.Empty;
+
+            switch (activityView)
+            {
+                case ActivityView.community:
+                    description = Translation.ActivityCommunityDesc;
+                    break;
+
+                case ActivityView.followers:
+                    description = Translation.ActivityFollowersDesc;
+                    break;
+
+                case ActivityView.following:
+                    description = Translation.ActivityFollowingDesc;
+                    break;
+
+                case ActivityView.friends:
+                    description = Translation.ActivityFriendsDesc;
+                    break;
+
+                case ActivityView.friendsandme:
+                    description = Translation.ActivityFriendsAndMeDesc;
+                    break;
+            }
+
+            return description;
         }
 
         private void LoadActivity()
@@ -174,7 +213,7 @@ namespace TraktPlugin
                     }
 
                     // get latest activity
-                    var activities = GetActivity(TraktSettings.ShowCommunityActivity);
+                    var activities = GetActivity((ActivityView)TraktSettings.ActivityStreamView);
 
                     // publish properties
                     PublishActivityProperties(activities);
@@ -188,7 +227,7 @@ namespace TraktPlugin
             if (facade == null && TraktSkinSettings.DashboardActivityPropertiesMaxItems > 0)
             {
                 // get latest activity
-                var activities = GetActivity(TraktSettings.ShowCommunityActivity);
+                var activities = GetActivity((ActivityView)TraktSettings.ActivityStreamView);
                 if (activities == null || activities.Activities == null) return;
 
                 // publish properties
@@ -313,7 +352,7 @@ namespace TraktPlugin
             // set facade properties
             GUIUtils.SetProperty("#Trakt.Activity.Count", activities.Activities.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Activity.Items", string.Format("{0} {1}", activities.Activities.Count().ToString(), activities.Activities.Count() > 1 ? Translation.Activities : Translation.Activity));
-            GUIUtils.SetProperty("#Trakt.Activity.Description", TraktSettings.ShowCommunityActivity ? Translation.ActivityCommunityDesc : Translation.ActivityFriendsDesc);
+            GUIUtils.SetProperty("#Trakt.Activity.Description", GetActivityDescription((ActivityView)TraktSettings.ActivityStreamView));
 
             // Download avatar images Async and set to facade
             GUIUserListItem.StopDownload = false;
@@ -939,40 +978,64 @@ namespace TraktPlugin
             return PreviousTrendingShows;
         }
 
-        private TraktActivity GetActivity(bool community)
+        private TraktActivity GetActivity(ActivityView activityView)
         {
             SetUpdateAnimation(true);
 
             if (PreviousActivity == null || PreviousActivity.Activities == null || ActivityStartTime <= 0 || GetFullActivityLoad)
             {
-                PreviousActivity = community ? TraktAPI.TraktAPI.GetCommunityActivity() : TraktAPI.TraktAPI.GetFriendActivity(TraktSettings.IncludeMeInFriendsActivity);
-                GetFullActivityLoad = false;
-
-                // check that we have any friend activity, if not switch to friends+me
-                // not everyone has friends! We could use friend count but that means an extra uneeded request
-                if (PreviousActivity == null || PreviousActivity.Activities == null || PreviousActivity.Activities.Count == 0)
+                switch (activityView)
                 {
-                    if (!TraktSettings.ShowCommunityActivity && !TraktSettings.IncludeMeInFriendsActivity)
-                    {
-                        TraktSettings.IncludeMeInFriendsActivity = true;
-                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
-                    }
+                    case ActivityView.community:
+                        PreviousActivity = TraktAPI.TraktAPI.GetCommunityActivity();
+                        break;
+
+                    case ActivityView.followers:
+                        PreviousActivity = TraktAPI.TraktAPI.GetFollowersActivity();
+                        break;
+
+                    case ActivityView.following:
+                        PreviousActivity = TraktAPI.TraktAPI.GetFollowingActivity();
+                        break;
+
+                    case ActivityView.friends:
+                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(false);
+                        break;
+
+                    case ActivityView.friendsandme:
+                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(true);
+                        break;
                 }
+                GetFullActivityLoad = false;
             }
             else
             {
                 TraktActivity incrementalActivity = null;
 
                 // get latest incremental change using last current timestamp as start point
-                if (community)
+                switch (activityView)
                 {
-                    incrementalActivity = TraktAPI.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
-                }
-                else
-                {
-                    incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), TraktSettings.IncludeMeInFriendsActivity);
-                }
+                    case ActivityView.community:
+                        incrementalActivity = TraktAPI.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        break;
 
+                    case ActivityView.followers:
+                        incrementalActivity = TraktAPI.TraktAPI.GetFollowersActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        break;
+
+                    case ActivityView.following:
+                        incrementalActivity = TraktAPI.TraktAPI.GetFollowingActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        break;
+
+                    case ActivityView.friends:
+                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), false);
+                        break;
+
+                    case ActivityView.friendsandme:
+                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
+                        break;
+                }
+               
                 // join the Previous request with the current
                 if (incrementalActivity != null && incrementalActivity.Activities != null)
                 {
@@ -1205,6 +1268,46 @@ namespace TraktPlugin
             }
         }
 
+        private bool ShowActivityViewMenu()
+        {
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            if (dlg == null) return false;
+
+            dlg.Reset();
+            dlg.SetHeading(Translation.View);
+
+            GUIListItem listItem = null;
+
+            listItem = new GUIListItem(Translation.Community);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityView.community;
+
+            listItem = new GUIListItem(Translation.Followers);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityView.followers;
+
+            listItem = new GUIListItem(Translation.Following);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityView.following;
+
+            listItem = new GUIListItem(Translation.Friends);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityView.friends;
+
+            listItem = new GUIListItem(Translation.FriendsAndMe);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityView.friendsandme;
+
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return false;
+
+            TraktSettings.ActivityStreamView = dlg.SelectedId;
+            GUIUtils.SetProperty("#Trakt.Activity.Description", GetActivityDescription((ActivityView)TraktSettings.ActivityStreamView));
+            return true;
+        }
+
         private void ShowActivityContextMenu()
         {
             var activityFacade = GetFacade((int)TraktDashboardControls.ActivityFacade);
@@ -1218,46 +1321,25 @@ namespace TraktPlugin
 
             GUIListItem listItem = null;
 
-            // switch between Community / Friends
-            if (!TraktSettings.ShowCommunityActivity)
-            {
-                listItem = new GUIListItem(Translation.ShowCommunityActivity);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ActivityContextMenuItem.ShowCommunityActivity;
-
-                if (!TraktSettings.IncludeMeInFriendsActivity)
-                {
-                    listItem = new GUIListItem(Translation.IncludeMeInFriendsActivity);
-                    dlg.Add(listItem);
-                    listItem.ItemId = (int)ActivityContextMenuItem.IncludeMeInFriendsActivity;
-                }
-                else
-                {
-                    listItem = new GUIListItem(Translation.DontIncludeMeInFriendsActivity);
-                    dlg.Add(listItem);
-                    listItem.ItemId = (int)ActivityContextMenuItem.DontIncludeMeInFriendsActivity;
-                }
-            }
-            else
-            {
-                listItem = new GUIListItem(Translation.ShowFriendActivity);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ActivityContextMenuItem.ShowFriendActivity;
-            }
-
+            // activity view menu
+            listItem = new GUIListItem(Translation.ChangeView);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityContextMenuItem.ChangeView;
+            
             var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
 
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
                 // userprofile - only load for unprotected users
-                if (!activity.User.Protected || !TraktSettings.ShowCommunityActivity)
+                if (!activity.User.Protected)
                 {
                     listItem = new GUIListItem(Translation.UserProfile);
                     dlg.Add(listItem);
                     listItem.ItemId = (int)ActivityContextMenuItem.UserProfile;
                 }
 
-                if (TraktSettings.ShowCommunityActivity && !((activityFacade.SelectedListItem as GUIUserListItem).IsFollowed))
+                if (((ActivityView)TraktSettings.ActivityStreamView == ActivityView.community ||
+                     (ActivityView)TraktSettings.ActivityStreamView == ActivityView.followers) && !((activityFacade.SelectedListItem as GUIUserListItem).IsFollowed))
                 {
                     // allow user to follow person
                     listItem = new GUIListItem(Translation.Follow);
@@ -1291,29 +1373,18 @@ namespace TraktPlugin
             if (dlg.SelectedId < 0) return;
 
             switch (dlg.SelectedId)
-            {
-                case ((int)ActivityContextMenuItem.ShowCommunityActivity):
-                    TraktSettings.ShowCommunityActivity = true;
-                    GetFullActivityLoad = true;
-                    StartActivityPolling();
-                    break;
-
-                case ((int)ActivityContextMenuItem.ShowFriendActivity):
-                    TraktSettings.ShowCommunityActivity = false;
-                    GetFullActivityLoad = true;
-                    StartActivityPolling();
-                    break;
-
-                case ((int)ActivityContextMenuItem.IncludeMeInFriendsActivity):
-                    TraktSettings.IncludeMeInFriendsActivity = true;
-                    GetFullActivityLoad = true;
-                    StartActivityPolling();
-                    break;
-
-                case ((int)ActivityContextMenuItem.DontIncludeMeInFriendsActivity):
-                    TraktSettings.IncludeMeInFriendsActivity = false;
-                    GetFullActivityLoad = true;
-                    StartActivityPolling();
+            {                
+                case ((int)ActivityContextMenuItem.ChangeView):
+                    if (ShowActivityViewMenu())
+                    {
+                        GetFullActivityLoad = true;
+                        StartActivityPolling();
+                    }
+                    else
+                    {
+                        ShowActivityContextMenu();
+                        return;
+                    }
                     break;
 
                 case ((int)ActivityContextMenuItem.UserProfile):
@@ -1327,7 +1398,6 @@ namespace TraktPlugin
                         GUINetwork.FollowUser(activity.User);
                         GUINetwork.ClearCache();
                         (activityFacade.SelectedListItem as GUIUserListItem).IsFollowed = true;
-
                     }
                     break;
                 case ((int)ActivityContextMenuItem.ShowSeasonInfo):

@@ -8,7 +8,10 @@
   <string name="Actors">Actors</string>
   <string name="Activity">Activity</string>
   <string name="ActivityFriendsDesc">See what your friends are up to...</string>
+  <string name="ActivityFriendsAndMeDesc">See what you and your friends are up to...</string>
   <string name="ActivityCommunityDesc">See what the community is up to...</string>
+  <string name="ActivityFollowersDesc">See what your followers are up to...</string>
+  <string name="ActivityFollowingDesc">See activity for people you're following...</string>  
   <string name="ActivityWatching">{0} is watching {1}</string>
   <string name="ActivityWatched">{0} watched {1}</string>
   <string name="ActivityCheckedIn">{0} checked into {1}</string>
@@ -121,6 +124,7 @@
   <string name="FollowUser">Follow User</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
+  <string name="FriendsAndMe">Friends And Me</string>
   <string name="FriendActivity">Friend Activity</string>
   <string name="FriendRequest">Friend Request</string>
   <string name="FollowerRequest">Follower Request</string>

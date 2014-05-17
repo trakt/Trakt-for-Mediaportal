@@ -78,8 +78,6 @@ namespace TraktPlugin
         public static bool HideSpoilersOnShouts { get; set; }
         public static bool SyncRatings { get; set; }
         public static bool ShowRateDialogOnWatched { get; set; }
-        public static bool ShowCommunityActivity { get; set; }
-        public static bool IncludeMeInFriendsActivity { get; set; }
         public static TraktActivity LastActivityLoad { get; set; }
         public static IEnumerable<TraktTrendingMovie> LastTrendingMovies { get; set; }
         public static IEnumerable<TraktTrendingShow> LastTrendingShows { get; set; }
@@ -130,6 +128,7 @@ namespace TraktPlugin
         public static int MaxSearchResults { get; set; }
         public static bool FilterTrendingOnDashboard { get; set; }
         public static bool IgnoreWatchedPercentOnDVD { get; set; }
+        public static int ActivityStreamView { get; set; }
         #endregion
 
         #region Constants
@@ -200,8 +199,6 @@ namespace TraktPlugin
         private const string cShowAdvancedRatingsDialog = "ShowAdvancedRatingsDialog";
         private const string cSyncRatings = "SyncRatings";
         private const string cShowRateDialogOnWatched = "ShowRateDialogOnWatched";
-        private const string cShowCommunityActivity = "ShowCommunityActivity";
-        private const string cIncludeMeInFriendsActivity = "IncludeMeInFriendsActivity";
         private const string cLastActivityLoad = "LastActivityLoad";
         private const string cLastTrendingMovies = "LastTrendingMovies";
         private const string cLastTrendingShows = "LastTrendingShows";
@@ -252,6 +249,7 @@ namespace TraktPlugin
         private const string cMaxSearchResults = "MaxSearchResults";
         private const string cFilterTrendingOnDashboard = "FilterTrendingOnDashboard";
         private const string cIgnoreWatchedPercentOnDVD = "IgnoreWatchedPercentOnDVD";
+        private const string cActivityStreamView = "ActivityStreamView";
         #endregion
 
         #region Properties
@@ -517,8 +515,6 @@ namespace TraktPlugin
                 ShowAdvancedRatingsDialog = xmlreader.GetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, false);
                 SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, false);
                 ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, false);
-                ShowCommunityActivity = xmlreader.GetValueAsBool(cTrakt, cShowCommunityActivity, false);
-                IncludeMeInFriendsActivity = xmlreader.GetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, false);
                 DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
                 DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
@@ -570,6 +566,7 @@ namespace TraktPlugin
                 MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
                 IgnoreWatchedPercentOnDVD = xmlreader.GetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, true);
+                ActivityStreamView = xmlreader.GetValueAsInt(cTrakt, cActivityStreamView, 4);
             }
 
             TraktLogger.Info("Loading Persisted File Cache");
@@ -641,8 +638,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cShowAdvancedRatingsDialog, ShowAdvancedRatingsDialog);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncRatings, SyncRatings);
                 xmlwriter.SetValueAsBool(cTrakt, cShowRateDialogOnWatched, ShowRateDialogOnWatched);
-                xmlwriter.SetValueAsBool(cTrakt, cShowCommunityActivity, ShowCommunityActivity);
-                xmlwriter.SetValueAsBool(cTrakt, cIncludeMeInFriendsActivity, IncludeMeInFriendsActivity);
                 xmlwriter.SetValue(cTrakt, cDashboardActivityPollInterval, DashboardActivityPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardTrendingPollInterval, DashboardTrendingPollInterval);
                 xmlwriter.SetValue(cTrakt, cDashboardLoadDelay, DashboardLoadDelay);
@@ -693,6 +688,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxSearchResults, MaxSearchResults);
                 xmlwriter.SetValueAsBool(cTrakt, cFilterTrendingOnDashboard, FilterTrendingOnDashboard);
                 xmlwriter.SetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, IgnoreWatchedPercentOnDVD);
+                xmlwriter.SetValue(cTrakt, cActivityStreamView, ActivityStreamView);
             }
 
             Settings.SaveCache();
@@ -781,6 +777,11 @@ namespace TraktPlugin
                             xmlreader.RemoveEntry(cTrakt, "UseTrailersPlugin");
                             xmlreader.RemoveEntry(cTrakt, "DefaultTVShowTrailerSite");
                             xmlreader.RemoveEntry(cTrakt, "DefaultMovieTrailerSite");
+         
+                            // Remove old activity settings
+                            xmlreader.RemoveEntry(cTrakt, "ShowCommunityActivity");
+                            xmlreader.RemoveEntry(cTrakt, "IncludeMeInFriendsActivity");
+
                             currentSettingsVersion++;
                             break;
                     }

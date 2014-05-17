@@ -27,10 +27,7 @@ namespace TraktPlugin.GUI
 
     enum ActivityContextMenuItem
     {
-        ShowCommunityActivity,
-        ShowFriendActivity,
-        IncludeMeInFriendsActivity,
-        DontIncludeMeInFriendsActivity,
+        ChangeView,
         ShowSeasonInfo,
         MarkAsWatched,
         AddToWatchList,
