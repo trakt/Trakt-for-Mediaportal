@@ -14,6 +14,7 @@ using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -142,9 +143,39 @@ namespace TraktPlugin.GUI
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
                         if (SelectedType == TraktItemType.movie)
+                        {
                             CheckAndPlayMovie(true);
-                        else
+                        }
+                        else if (TraktSettings.EnableJumpToForTVShows || SelectedType == TraktItemType.episode)
+                        {
                             CheckAndPlayEpisode(true);
+                        }
+                        else if (SelectedType == TraktItemType.show)
+                        {
+                            var selectedItem = this.Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+
+                            var userListItem = selectedItem.TVTag as TraktUserListItem;
+                            if (userListItem == null) return;
+
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, userListItem.Show.ToJSON());
+                        }
+                        else if (SelectedType == TraktItemType.season)
+                        {
+                            var selectedItem = this.Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+
+                            var userListItem = selectedItem.TVTag as TraktUserListItem;
+                            if (userListItem == null) return;
+
+                            // create loading parameter for episode listing
+                            var loadingParam = new SeasonLoadingParameter
+                            {
+                                Season = new TraktShowSeason { Season = int.Parse(userListItem.SeasonNumber) },
+                                Show = userListItem.Show
+                            };
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
+                        }
                     }
                     break;
 

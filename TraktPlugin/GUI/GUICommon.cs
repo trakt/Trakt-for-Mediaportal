@@ -1032,8 +1032,8 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Season.Number", season.Season.ToString());
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount.ToString());
-            GUIUtils.SetProperty("#Trakt.Season.Url", season.Url);
-            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
+            GUIUtils.SetProperty("#Trakt.Season.Url", season.Url ?? string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
         }
 
         internal static void ClearShowProperties()
