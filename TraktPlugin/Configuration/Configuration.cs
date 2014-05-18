@@ -265,7 +265,7 @@ namespace TraktPlugin
             
         }
 
-        void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
+        private void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
         {
             ProgressDialog pd = new ProgressDialog(this.Handle);
             ClearLibrary(TraktAPI.TraktClearingModes.all, pd, (bool)e.Argument);
@@ -306,84 +306,12 @@ namespace TraktPlugin
 
         private void cbMovingPicturesCategories_Click(object sender, EventArgs e)
         {
-            //Check that Moving Pictures is installed
-            if (!File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MovingPictures.dll")))
-            {
-                MessageBox.Show("Moving Pictures isn't installed! Disabling...");
-                cbMovingPicturesCategories.Checked = false;
-                return;
-            }
-
-            if (TraktSettings.MovingPicturesCategories)
-            {
-                //Remove
-                TraktSettings.MovingPicturesCategories = false;
-                TraktHandlers.MovingPictures.RemoveMovingPicturesCategories();
-            }
-            else
-            {
-                //Add
-                TraktSettings.MovingPicturesCategories = true;
-                BackgroundWorker categoriesCreator = new BackgroundWorker();
-                categoriesCreator.DoWork += new DoWorkEventHandler(categoriesCreator_DoWork);
-                categoriesCreator.RunWorkerAsync();
-            }
-
-            cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
-        }
-
-        void categoriesCreator_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ProgressDialog pd = new ProgressDialog(this.Handle);
-            pd.ShowDialog();
-            pd.Line1 = "Creating Categories";
-            
-            TraktHandlers.MovingPictures.CreateMovingPicturesCategories();
-            //Update
-            pd.Line1 = "Updating Categories";
-            TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
-            pd.CloseDialog();
+            TraktSettings.MovingPicturesCategories = !TraktSettings.MovingPicturesCategories;
         }
 
         private void cbMovingPicturesFilters_Click(object sender, EventArgs e)
         {
-            //Check that Moving Pictures is installed
-            if (!File.Exists(Path.Combine(Config.GetFolder(Config.Dir.Plugins), @"Windows\MovingPictures.dll")))
-            {
-                MessageBox.Show("Moving Pictures isn't installed! Disabling...");
-                cbMovingPicturesFilters.Checked = false;
-                return;
-            }
-
-            if (TraktSettings.MovingPicturesFilters)
-            {
-                //Remove
-                TraktSettings.MovingPicturesFilters = false;
-                TraktHandlers.MovingPictures.RemoveMovingPicturesFilters();
-            }
-            else
-            {
-                //Add
-                TraktSettings.MovingPicturesFilters = true;
-                BackgroundWorker filtersCreator = new BackgroundWorker();
-                filtersCreator.DoWork += new DoWorkEventHandler(filtersCreator_DoWork);
-                filtersCreator.RunWorkerAsync();
-            }
-
-            cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
-        }
-
-        void filtersCreator_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ProgressDialog pd = new ProgressDialog(this.Handle);
-            pd.ShowDialog();
-            pd.Line1 = "Creating Filters";
-
-            TraktHandlers.MovingPictures.CreateMovingPicturesFilters();
-            //Update
-            pd.Line1 = "Updating Filters";
-            TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();
-            pd.CloseDialog();
+            TraktSettings.MovingPicturesFilters = !TraktSettings.MovingPicturesFilters;
         }
 
         private void cbMyFilmsCategories_Click(object sender, EventArgs e)

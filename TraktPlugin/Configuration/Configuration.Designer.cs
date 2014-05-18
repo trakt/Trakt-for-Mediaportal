@@ -213,9 +213,9 @@
             this.cbMyFilmsCategories.AutoSize = true;
             this.cbMyFilmsCategories.Location = new System.Drawing.Point(9, 85);
             this.cbMyFilmsCategories.Name = "cbMyFilmsCategories";
-            this.cbMyFilmsCategories.Size = new System.Drawing.Size(153, 17);
+            this.cbMyFilmsCategories.Size = new System.Drawing.Size(195, 17);
             this.cbMyFilmsCategories.TabIndex = 5;
-            this.cbMyFilmsCategories.Text = "Create My Fi&lms Categories";
+            this.cbMyFilmsCategories.Text = "Create My Fi&lms Categories on Sync";
             this.cbMyFilmsCategories.UseVisualStyleBackColor = true;
             this.cbMyFilmsCategories.Click += new System.EventHandler(this.cbMyFilmsCategories_Click);
             // 
@@ -224,9 +224,9 @@
             this.cbMovingPicturesFilters.AutoSize = true;
             this.cbMovingPicturesFilters.Location = new System.Drawing.Point(9, 65);
             this.cbMovingPicturesFilters.Name = "cbMovingPicturesFilters";
-            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(166, 17);
+            this.cbMovingPicturesFilters.Size = new System.Drawing.Size(208, 17);
             this.cbMovingPicturesFilters.TabIndex = 4;
-            this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters";
+            this.cbMovingPicturesFilters.Text = "Create Moving Pictures &Filters on Sync";
             this.cbMovingPicturesFilters.UseVisualStyleBackColor = true;
             this.cbMovingPicturesFilters.Click += new System.EventHandler(this.cbMovingPicturesFilters_Click);
             // 
@@ -235,9 +235,9 @@
             this.cbMovingPicturesCategories.AutoSize = true;
             this.cbMovingPicturesCategories.Location = new System.Drawing.Point(9, 45);
             this.cbMovingPicturesCategories.Name = "cbMovingPicturesCategories";
-            this.cbMovingPicturesCategories.Size = new System.Drawing.Size(189, 17);
+            this.cbMovingPicturesCategories.Size = new System.Drawing.Size(231, 17);
             this.cbMovingPicturesCategories.TabIndex = 3;
-            this.cbMovingPicturesCategories.Text = "Create Moving Pictures &Categories";
+            this.cbMovingPicturesCategories.Text = "Create Moving Pictures &Categories on Sync";
             this.cbMovingPicturesCategories.UseVisualStyleBackColor = true;
             this.cbMovingPicturesCategories.Click += new System.EventHandler(this.cbMovingPicturesCategories_Click);
             // 
@@ -284,9 +284,9 @@
             this.cbKeepInSync.AutoSize = true;
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 149);
             this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(199, 17);
+            this.cbKeepInSync.Size = new System.Drawing.Size(204, 17);
             this.cbKeepInSync.TabIndex = 8;
-            this.cbKeepInSync.Text = "&Keep library/collection clean on trakt";
+            this.cbKeepInSync.Text = "&Keep Library/Collection clean on trakt";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);

@@ -1426,7 +1426,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Debug("Checking if Category has already been created");
             if (TraktSettings.MovingPicturesCategoryId == -1)
             {
-                TraktLogger.Debug("Category not created so let's create it");
+                TraktLogger.Debug("Category not created, creating now");
                 DBNode<DBMovieInfo> traktNode = new DBNode<DBMovieInfo>();
                 traktNode.Name = "${Trakt}";
 
@@ -1496,7 +1496,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                TraktLogger.Debug("We don't have a record of the id!");
+                TraktLogger.Debug("No category node id found for Trakt in MovingPictures, nothing to remove.");
             }
         }
 
@@ -1578,7 +1578,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                TraktLogger.Debug("We don't have a record of the id!");
+                TraktLogger.Debug("No filter node id found for Trakt in MovingPictures, nothing to remove.");
             }
         }
 

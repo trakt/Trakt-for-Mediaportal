@@ -18,6 +18,11 @@ namespace TraktPlugin.GUI
 {
     public class GUISettingsGeneral : GUIWindow
     {
+        #region Private Variables
+        private bool UpdatingMovingPicturesCategories = false;
+        private bool UpdatingMovingPicturesFilters = false;
+        #endregion
+
         #region Skin Controls
 
         enum SkinControls
@@ -70,7 +75,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return 87274;
+                return (int)TraktGUIWindows.SettingsGeneral;
             }
         }
 
@@ -109,8 +114,10 @@ namespace TraktPlugin.GUI
         {
             if (control == btnCreateMovingPicturesCategories)
                 CreateMovingPicturesCategoriesClicked();
+
             if (control == btnCreateMovingPicturesFilters)
                 CreateMovingPicturesFiltersClicked();
+
             base.OnClicked(controlId, control, actionType);
         }
 
@@ -148,16 +155,23 @@ namespace TraktPlugin.GUI
             {
                 if (TraktSettings.MovingPicturesCategories)
                 {
-                    //Remove
+                    // Remove
+                    if (UpdatingMovingPicturesCategories)
+                    {
+                        btnCreateMovingPicturesCategories.Selected = true;
+                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), "You can't remove categories whilst they're still being updated!");
+                        return;
+                    }
+
                     TraktSettings.MovingPicturesCategories = false;
                     TraktHandlers.MovingPictures.RemoveMovingPicturesCategories();
                 }
                 else
                 {
-                    //Add
+                    // Add
                     TraktSettings.MovingPicturesCategories = true;
                     BackgroundWorker categoriesCreator = new BackgroundWorker();
-                    categoriesCreator.DoWork += new DoWorkEventHandler(categoriesCreator_DoWork);
+                    categoriesCreator.DoWork += new DoWorkEventHandler(CategoriesCreator_DoWork);
                     categoriesCreator.RunWorkerAsync();
                 }
                 btnCreateMovingPicturesCategories.Selected = TraktSettings.MovingPicturesCategories;
@@ -168,29 +182,15 @@ namespace TraktPlugin.GUI
             }
         }
 
-        void categoriesCreator_DoWork(object sender, DoWorkEventArgs e)
+        private void CategoriesCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            GUIDialogProgress progressDialog = (GUIDialogProgress)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_PROGRESS);
-
-            progressDialog.Reset();
-            progressDialog.ShowWaitCursor = true;
-            progressDialog.SetHeading(Translation.CreatingCategories);
-            progressDialog.Percentage = 0;
-            progressDialog.SetLine(1, string.Empty);
-            progressDialog.SetLine(2, string.Empty);
-            progressDialog.StartModal(this.GetID);
-
-            GUIWindowManager.Process();
-
+            UpdatingMovingPicturesCategories = true;
+            
+            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingCategories);
             TraktHandlers.MovingPictures.CreateMovingPicturesCategories();
-
-            progressDialog.SetHeading(Translation.UpdatingCategories);
-            GUIWindowManager.Process();
-
             TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
-            progressDialog.ShowWaitCursor = false;
-            progressDialog.Close();
-            GUIWindowManager.Process();
+            
+            UpdatingMovingPicturesCategories = false;
         }
 
         private void CreateMovingPicturesFiltersClicked()
@@ -199,16 +199,22 @@ namespace TraktPlugin.GUI
             {
                 if (TraktSettings.MovingPicturesFilters)
                 {
-                    //Remove
+                    // Remove
+                    if (UpdatingMovingPicturesFilters)
+                    {
+                        btnCreateMovingPicturesFilters.Selected = true;
+                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), "You can't remove filters whilst they're still being updated!");
+                        return;
+                    }
                     TraktSettings.MovingPicturesFilters = false;
                     TraktHandlers.MovingPictures.RemoveMovingPicturesFilters();
                 }
                 else
                 {
-                    //Add
+                    // Add
                     TraktSettings.MovingPicturesFilters = true;
                     BackgroundWorker filtersCreator = new BackgroundWorker();
-                    filtersCreator.DoWork += new DoWorkEventHandler(filtersCreator_DoWork);
+                    filtersCreator.DoWork += new DoWorkEventHandler(FiltersCreator_DoWork);
                     filtersCreator.RunWorkerAsync();
                 }
                 btnCreateMovingPicturesFilters.Selected = TraktSettings.MovingPicturesFilters;
@@ -219,29 +225,15 @@ namespace TraktPlugin.GUI
             }
         }
 
-        void filtersCreator_DoWork(object sender, DoWorkEventArgs e)
+        private void FiltersCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            GUIDialogProgress progressDialog = (GUIDialogProgress)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_PROGRESS);
+            UpdatingMovingPicturesFilters = true;
 
-            progressDialog.Reset();
-            progressDialog.ShowWaitCursor = true;
-            progressDialog.SetHeading(Translation.CreatingFilters);
-            progressDialog.Percentage = 0;
-            progressDialog.SetLine(1, string.Empty);
-            progressDialog.SetLine(2, string.Empty);
-            progressDialog.StartModal(this.GetID);
-
-            GUIWindowManager.Process();
-
+            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingFilters);
             TraktHandlers.MovingPictures.CreateMovingPicturesFilters();
-
-            progressDialog.SetHeading(Translation.UpdatingFilters);
-            GUIWindowManager.Process();
-
             TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();
-            progressDialog.ShowWaitCursor = false;
-            progressDialog.Close();
-            GUIWindowManager.Process();
+
+            UpdatingMovingPicturesFilters = false;
         }
 
         #endregion
