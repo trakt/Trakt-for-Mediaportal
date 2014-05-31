@@ -414,10 +414,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Aktivieren Sie diese Einstellung, um direkt zum TVSerien-Plugin zu springen, wenn wenn Sie Enter oder OK auf einer Trakt-TV-Serie drücken. Deaktivieren Sie diese Einstellung, um die Staffel- und Episoden-Informationen von trakt.tv anzuzeigen.</string>
   <string name="SettingRememberLastSelectedActivityName">Erinnere letzte markierte Aktion auf dem Dashboard</string>
   <string name="SettingRememberLastSelectedActivityDescription">Aktiviere diese Einstellung, wenn du willst, dass die zuletzt ausgewählte Aktivität beim erneuten Aufruf der Trakt-Zentrale vorgewählt wird. Ansonsten wird einfach die erste Aktivität in der Liste markiert sein.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Standard Serien Trailer Seite</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Wähle hier die Standard-Quelle für Serien-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einer Serie oder einer Folge geklickt wird. Wenn YouTube benutzt werden soll, werden extra Parameter wie die Staffel- und Folgennummer benutzt.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Standard Film Trailer Seite</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Wähle hier die Standard-Quelle für Film-Trailer für die automatische Trailer-Suche aus. Also z.B. wenn Abspielen auf einem Film in Trakt geklickt wird.</string>
   <string name="SettingSyncLibraryName">Bibliotheks-Synchronisierung erlauben</string>
   <string name="SettingSyncLibraryDescription">Aktivieren Sie diese Einstellung, um Ihre Sammlung und den Gesehen-Status mit Trakt.tv zu synchronisieren. Ohne Aktivierung wird nur Scrobbling durchgeführt.</string>
   <string name="SettingMaxSearchResultsName">Höchstzahl Suchergebnisse</string>
@@ -426,8 +422,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Aktiviere diese Einstellung um das Verhalten bei einem einzelnen Suchtyp im Suchfenster zu steuern. Wenn deaktiviert landest du direkt im Suchergebnis wenn nur ein Suchtyp aktiviert war.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtere Trending im Dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Aktiviere diese Einstellung um die Trending filter im Dashboard zu aktivieren. Z.B. \"Verstecke gesehene\", \"Verstecke wenn auf Watchlist\". Die Filter können in der Trending-Ansicht oder im Menü eingeschaltet werden.</string>
-  <string name="SettingUseTrailersPluginName">Benutze das Trailers-Plugin</string>
-  <string name="SettingUseTrailersPluginDescription">Aktiviere um das Trailers plugin für alle Trailer zu benutzen. Empfohlen wenn du mehr als einen Trailer abspielen können willst. Trailers plugin muss installiert sein.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignoriere gesehen in Prozent für DVDs</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktiviere diese Einstellung um den Gesehenstatus in Prozent für DVDs zu ignorieren. DVDs und Bluerays geben diesen oft nicht korrekt wieder.  Wenn aktiv wird bei \"Stop\" immer \"Gesehen\" an Trakt.tv gemeldet, egal wie weit du geschaut hast.</string>
   <string name="StartYear">ab Jahr: {0}</string>

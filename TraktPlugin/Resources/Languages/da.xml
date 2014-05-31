@@ -355,10 +355,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Aktiver denne indstilling for at tillade brugeren at springe direkte til TVSeries plugin, når du trykker på Enter eller OK på et Trakt TV Show. Når deaktiveret sæson oplysninger fra trakt.tv vist.</string>
   <string name="SettingRememberLastSelectedActivityName">Husk sidst valgte Aktivitet på Dashboard</string>
   <string name="SettingRememberLastSelectedActivityDescription">Aktiver denne indstilling for at genvælge den senest valgte aktivitet, når Trakt dashboardet er re-loadedet, deaktiveret vælges altid det første punkt ved re-load.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Default TV Show Trailer Site</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Vælg den default TV Show Trailer site der skal bruges, når en automatisk trailer søgning er udført fx ved Tryk på Play på et Trakt TV-show eller episode. Når du bruger YouTube-webstedet, anvendes ekstra søgeparametre som sæson og Episode numre til Episode søgninger .</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Default Movie Trailer Site</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Vælg default Movie Trailer site der skal bruges, når en automatisk trailer søgning udføres ved fx Tryk på Play på en Trakt film.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sorter per:  {0}</string>
   <string name="SortSeasonsAscending">Sortere sæsoner i stigende rækkefølge</string>

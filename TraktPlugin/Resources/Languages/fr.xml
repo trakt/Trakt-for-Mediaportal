@@ -410,8 +410,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Activez ce paramètre afin de permettre à l\'utilisateur d\'accéder directement au plugin TVSeries, lorsqu\'il appuis sur Entrée ou sur OK dans une émission de télévision Trakt. Lorsque celui ci est désactivé, seul les informations provenant de Track.tv seront affichées.</string>
   <string name="SettingRememberLastSelectedActivityName">Se souvenir de la dernière activité sélectionnée sur tableau de bord</string>
   <string name="SettingRememberLastSelectedActivityDescription">Activez ce paramètre afin de  sélectionner  la dernière activité validée lors du prochain chargement du tableau de bord.. Si le paramètre est désactivé, le premier élément sera sélectionnée lors du chargement du tableau de bord.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Site, par défaut, des bande-annonces des émissions TV</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Site par défaut des bandes annonces</string>
   <string name="SettingSyncLibraryName">Activer la synchronisation de la bibliothèque</string>
   <string name="SettingSyncLibraryDescription">Activez ce paramètre pour synchroniser votre collection et les valeurs regardées vers et à partir trakt.tv. Si désactivé, seul le scrobbling sera actif.</string>
   <string name="SettingMaxSearchResultsName">Max des résultats de recherche</string>
@@ -420,8 +418,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Activer ce paramètre pour contrôler le comportement quand un seul type de recherche est activé dans la fenêtre recherche. S\'il est désactivé l\'utilisateur sera renvoyé directement au résultat correspondant quand un seul type de recherche est activé.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtrer les populaires sur le Dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Activer ce paramètre pour appliquer les filtres populaires sur le dashboard c.a.d. Cacher les vus, Cacher la liste des vus etc. Ceux-ci peuvent être configurés depuis le GUI populaire correspondant ou le menu contextuel.</string>
-  <string name="SettingUseTrailersPluginName">Utiliser le plugin Trailers</string>
-  <string name="SettingUseTrailersPluginDescription">Activez ce paramètre pour utiliser le plugin Trailers et gérer toutes les fonctionnalités du plugin. Recommandé si vous voulez avoir la possibilité de gérer plus d\'une  bande annonce . Nécessite que le plugin Trailers soit installé.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorer le pourcentage visionné sur les DVD</string>
   <string name="StartYear">Début: {0}</string>
   <string name="SortBy">Trier par : {0}</string>

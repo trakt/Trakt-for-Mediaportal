@@ -8,7 +8,10 @@
   <string name="Actors">Aktoriai</string>
   <string name="Activity">Veikla</string>
   <string name="ActivityFriendsDesc">Stebėti draugų veiklą...</string>
+  <string name="ActivityFriendsAndMeDesc">Stebėti jūsų ir jūsų draugų veiklą...</string>
   <string name="ActivityCommunityDesc">Stebėti bendruomenės veiklą...</string>
+  <string name="ActivityFollowersDesc">Stebėti jūsų pasekėjų veiklą...</string>
+  <string name="ActivityFollowingDesc">Stebėti jūsų stebimų žmonių veiklą...</string>
   <string name="ActivityWatching">{0} žiūri {1}</string>
   <string name="ActivityWatched">{0} peržiūrėjo {1}</string>
   <string name="ActivityCheckedIn">{0} registruota į {1}</string>
@@ -121,6 +124,7 @@
   <string name="FollowUser">Stebėti vartotoją</string>
   <string name="Friend">Draugas</string>
   <string name="Friends">Draugai</string>
+  <string name="FriendsAndMe">Draugus ir mane</string>
   <string name="FriendActivity">Draugo veikla</string>
   <string name="FriendRequest">Draugo užklausa</string>
   <string name="FollowerRequest">Stebėtojo užklausa</string>
@@ -414,10 +418,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Įjungti šį nustatymą, kad vartotojai galėtų Peršokti tiesiai į TV Serialų įskiepį kai paspaudžia Enter arba OK ant Trakt Laidos. Kai išjungta rodys Sezono informaciją iš Trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Prisiminti paskutinį pasirinktą veiksmą darbastalyje</string>
   <string name="SettingRememberLastSelectedActivityDescription">Įjungus šį nustatymą bus pakartotinai pasirinktas vėliausias veiksmas Trakt darbastaliui atnaujinant, jei išjungta - atnaujinant bus naudojamas pirmasis įrašas .</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Numatytas TV laidų anonsų puslapis</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Pasirinkite numatytąjį TV laidų anonsų puslapį, kuris bus naudojamas automatinei paieškai. Jei naudojamas YouTube, bus naudojami papildomi paieškos parametrai kaip sezono ir epizodo numeriai.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Numatytas filmų anonsų puslapis</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Pasirinkite numatytąjį filmų anonsų puslapį, kuris bus naudojamas automatinei paieškai.</string>
   <string name="SettingSyncLibraryName">Leisti sinchronizuoti biblioteką</string>
   <string name="SettingSyncLibraryDescription">Įjungti šį nustatymą kad būtų sinchronizuojama kolekcija ir peržiūrų būsenos su trakt.tv. Jei išjungta - informacija bus tik agreguojama.</string>
   <string name="SettingMaxSearchResultsName">Maksimalus paieškos rezultatų kiekis</string>
@@ -426,8 +426,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Šis nustatymas leis valdyti vienintelio pasirinkto paieškos tipo elgseną paieškos lange. Nepasirinkus vartotojas bus nukreiptas tiesiai į atitinkamą paieškos rezultatą.</string>
   <string name="SettingFilterTrendingOnDashboardName">Aktualijų filtravimas ant darbastalio</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Įjungti šį nustatymą, kad pritaikyti aktualijų filtrus ant darbastalio, pvz. Paslėpti peržiūrėtus ir pan. Tai gali būti nustatyta atitinkamame vaizde arba kontekstiniame meniu.</string>
-  <string name="SettingUseTrailersPluginName">Naudoti Anonsų įskiepį</string>
-  <string name="SettingUseTrailersPluginDescription">Įjunkite šį nustatymą ir naudokite Anonsų įskiepį anonsų funkcionalumui. Rekomenduojame jei norite gauti daugiau nei vieną anonsą. Reikia įdiegti Anonsų įskiepį.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignoruoti Peržiūrėtų DVD procentines reikšmes</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Įjunkite šį nustatymą norėdami ignoruoti DVD peržiūros po sustabdymo procentines reikšmes. DVD ir Bluray ne visada korektiškai pateikia rodytą laiką, šiuo nustatymu jūs užtikrinsite tinkamą reikšmės siuntimą į trakt.tv pasibaigus grojimui nepriklausomai kiek tuo metu peržiūrėta.</string>
   <string name="StartYear">Pradėti: {0}</string>

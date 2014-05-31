@@ -8,7 +8,10 @@
   <string name="Actors">Acteurs</string>
   <string name="Activity">Activiteit</string>
   <string name="ActivityFriendsDesc">Kijk wat je vrienden doen...</string>
+  <string name="ActivityFriendsAndMeDesc">Kijk wat je vrienden doen...</string>
   <string name="ActivityCommunityDesc">Kijk wat de community doet...</string>
+  <string name="ActivityFollowersDesc">Kijk wat je volgers doen...</string>
+  <string name="ActivityFollowingDesc">Bekijk de activiteit van mensen die je volgt</string>
   <string name="ActivityWatching">{0} bekijkt {1}</string>
   <string name="ActivityWatched">{0} bekeek {1}</string>
   <string name="ActivityCheckedIn">{0} ingecheckt in {1}</string>
@@ -121,6 +124,7 @@
   <string name="FollowUser">Volg gebruiker</string>
   <string name="Friend">Vriend</string>
   <string name="Friends">Vrienden</string>
+  <string name="FriendsAndMe">Vrienden en Ik</string>
   <string name="FriendActivity">Vriend activiteit</string>
   <string name="FriendRequest">Vriend verzoek</string>
   <string name="FollowerRequest">Volgerverzoek</string>
@@ -414,10 +418,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Schakel deze instelling in om direct naar de TVSeries plugin te springen wanneer op Enter of OK wordt gedrukt bij een Trakt TV serie. Wanneer uitgeschakeld, wordt seizoensinformatie weergegeven van trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Herinner de laatst geselecteerde activiteit op het dashboard</string>
   <string name="SettingRememberLastSelectedActivityDescription">Schakel deze instelling in om de laatst geselecteerde activiteit te herselecteren wanneer het Trakt dashboard wordt herladen. Wanneer uitgeschakeld, zal altijd het eerste item worden geselecteerd tijdens het herladen.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Standaard TV-serie trailer website</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Kies de standaard TV-show trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een TV-show of aflevering. Wanneer gebruik wordt gemaakt van YouTube, dan worden extra zoek parameters gebruikt voor het zoeken naar afleveringen zoals seizoen en aflevering.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Standaard film trailer website</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Kies de standaard film trailer website voor wanneer er een automatische trailer zoekactie wordt uitgevoerd b.v. door op afspelen te drukken voor een film.</string>
   <string name="SettingSyncLibraryName">Bibliotheek sync inschakelen</string>
   <string name="SettingSyncLibraryDescription">Schakel deze instelling in om je collectie en bekeken status te synchroniseren met trakt.tv. Alleen scrobbling is actief wanner uitgeschakeld.</string>
   <string name="SettingMaxSearchResultsName">Maximaal aantal zoekresultaten</string>
@@ -426,8 +426,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Gebruik deze instelling om het gedrag van een enkele zoekopdracht te controleren. Indien uitgeschakeld, springt de gebruiker rechtstreeks naar het zoekresultaat, als één zoekcriteria is ingesteld.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filter populair op dashboard</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Schakel deze instelling in om filters toe te passen voor populaire items op het dashboard zoals: verberg bekeken, verberg kijklijst enz. Deze kunnen worden ingesteld vanaf het corresponderende \'Populair\' scherm of het context menu. </string>
-  <string name="SettingUseTrailersPluginName">Gebruik Trailers plugin</string>
-  <string name="SettingUseTrailersPluginDescription">Schakel deze instelling in om de Trailers plugin te gebruiken voor alle trailer functionaliteit. Aanbevolen wanneer je in staat wilt zijn om meer dan een enkele trailer af te spelen. Trailers plugin moet geïnstalleerd zijn.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Negeer bekeken percentage voor DVD\'s</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Schakel deze instelling in om het bekeken percentage van een DVD te negeren wanneer deze is gestopt. DVD\'s en Bluray\'s geven niet altijd de juiste afspeeltijd weer van de hoofdvideo en deze instelling garandeerd dat altijd de bekeken status wordt gestuurd naar trakt.tv als het wordt gestopt onafhankelijk van hoeveel is bekeken.</string>
   <string name="StartYear">Start: {0}</string>

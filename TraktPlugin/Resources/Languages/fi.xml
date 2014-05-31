@@ -414,10 +414,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Ota käyttöön tämä asetus hypätäksesi suoraan TVSeries -lisäosaan kun painetaan Enter tai OK -nappia Trakt TV-sarjoissa. Kun tämä on pois päältä, näytetään kauden tiedot osoitteesta Trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Muista viimeksi valittu kohde ohjauspaneelissa</string>
   <string name="SettingRememberLastSelectedActivityDescription">Ota käyttöön tämä asetus että Trakt muistaa viimeksi valitun kohteen ohjauspaneelissa kun se ladataan seuraavan kerran. Jos tämä on pois päältä, ensimmäinen kohde valitaan.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Oletus TV-sarjojen traileri sivusto</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Valitse oletus TV-sarjojen traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt TV-sarjassa tai Jaksossa. Kun käytetään YouTube sivua, ylimääräisiä parametrejä käytetään Jaksoja etsittäessä, kuten Kausi ja Jakson numero.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Oletus elokuvien traileri sivusto</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Valitse oletus elokuvien traileri sivusto, kun automaattinen trailerin etsintä on suoritettu, esim. Toista napin painaminen Trakt elokuvassa.</string>
   <string name="SettingSyncLibraryName">Ota käyttöön kirjaston synkronointi</string>
   <string name="SettingSyncLibraryDescription">Ota tämä asetus käyttöön synkronoidaksesi kokoelmasi ja katsottujen tilasi osoitteeseen trakt.tv. Jos pois käytöstä, vain toisto historia on käytössä.</string>
   <string name="SettingMaxSearchResultsName">Max etsintä tulokset</string>
@@ -426,8 +422,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Tämä asetus määrittelee haku tuloksia kun yksittäinen haku suoritetaan. Jos pois päältä, käyttäjä siirretään suoraan vastaavaan hakutulokseen kun yksittäinen haku asetus on käytössä.</string>
   <string name="SettingFilterTrendingOnDashboardName">Suodata \'Suositut\' pois ohjauspaneelista</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Ota käyttöön tämä asetus hyväksyäksesi Suositut suodattimen ohjauspaneelissa, esim. Piilota katsotut, Piilota katsontalista jne. Nämä voidaan asettaa myös Suosittujen valikosta tai asiayhteys valikosta.</string>
-  <string name="SettingUseTrailersPluginName">Käytä \'Trailerit\' lisäosaa</string>
-  <string name="SettingUseTrailersPluginDescription">Ota tämä asetus käyttöön näyttääksesi kaikki trailerit Trailers -lisäosalla. Tämä on suositeltavaa jos haluat katsoa enemmän kuin yhden trailerin. Vaatii Trailers -lisäosan olevan asennettu.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Sivuuta katsottu prosentti DVD:llä</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Ota tämä asetus käyttöön sivuuttaaksesi katsottu prosentin kun DVD on pysäytetty. DVD ja Bluray eivät aina näytä oikeaa kestoa videolla, tämä takaa sen että ne merkataan katsotuksi (lähetetään katsottu status) osoitteeseen Trakt.tv kun pysäytetään, riippumatta siitä kuinka paljon olet katsonut.</string>
   <string name="StartYear">Aloita: {0}</string>

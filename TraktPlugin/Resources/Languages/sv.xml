@@ -8,7 +8,10 @@
   <string name="Actors">Skådespelare</string>
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se vad dina vänner gör...</string>
+  <string name="ActivityFriendsAndMeDesc">Se vad du och dina vänner gör...</string>
   <string name="ActivityCommunityDesc">Se vad övriga användare gör...</string>
+  <string name="ActivityFollowersDesc">Se vad dina följare gör...</string>
+  <string name="ActivityFollowingDesc">Se vad folk du följer gör...</string>
   <string name="ActivityWatching">{0} tittar på {1}</string>
   <string name="ActivityWatched">{0} har sett {1}</string>
   <string name="ActivityCheckedIn">{0} kollade in {1}</string>
@@ -121,6 +124,7 @@
   <string name="FollowUser">Följ användare</string>
   <string name="Friend">Vän</string>
   <string name="Friends">Vänner</string>
+  <string name="FriendsAndMe">Mina vänner och jag</string>
   <string name="FriendActivity">Vänners aktiviteter</string>
   <string name="FriendRequest">Vänförfrågan</string>
   <string name="FollowerRequest">Begär att följa</string>
@@ -414,10 +418,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Med denna inställning på kan användaren hoppa direkt till MP TV-Series genom att trycka på OK när en serie är markerad i Trakt. Om den är avstängd visas istället information från trakt.tv.</string>
   <string name="SettingRememberLastSelectedActivityName">Kom ihåg den senast markerade aktiviteten i instrumentpanelen</string>
   <string name="SettingRememberLastSelectedActivityDescription">Aktivera den här inställningen ifall du vill återmarkera den senast valda aktiviteten när Trakts instrumentpanel laddas om.\nOm inställningen inte är aktiverad kommer i stället den första posten i listan alltid att markeras vid omladdning.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Förvald webbplats för TV-programtrailrar</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Välj den förvalda webbplatsen för TV-programtrailrar som ska användas när automatisk trailersökning utförs. t ex när du trycker spela på ett TV-program eller avsnitt. När du använder YouTube så används extra parametrar för avsnittssökningar såsom säsong och avsnittsnummer.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Förvald webbplats för filmtrailrar</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Välj den förvalda webbplatsen för filmtrailrar som ska användas när automatisk trailersökning utförs, t ex när du trycker spela på en trakt-film. </string>
   <string name="SettingSyncLibraryName">Aktivera synkning av bibliotek</string>
   <string name="SettingSyncLibraryDescription">Aktivera den här inställningen för att synkronisera din samling och  dess sett/inte sett status med trakt.tv. Om du inaktiverar denna inställning så blir endast scrobbling aktivt.</string>
   <string name="SettingMaxSearchResultsName">Max antal sökresultat</string>
@@ -426,8 +426,6 @@
   <string name="SettingShowSearchResultsBreakdownDescription">Den här inställningen styr beteendet  då endast en söktyp sätts i sökfönstret. Om den inaktiveras så visas direkt resultatet för en enda söktyp</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtrera populärt</string>
   <string name="SettingFilterTrendingOnDashboardDescription">Aktivera inställningen för att filtrera populärt t ex dölj sedda, dölj Watchlist osv. Filtren kan sättas på motsvarande sida eller via meny</string>
-  <string name="SettingUseTrailersPluginName">Använd Trailers Plugin</string>
-  <string name="SettingUseTrailersPluginDescription">Aktivera den här inställningen om du vill att Trailers plugin ska hantera alla trailer funktioner. Rekommenderas om du vill titta på mer än en trailer. Kräver att Trailers plugin är installerad.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorera procent sedd för DVD:er</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktivera den här inställningen för att ignorera procent sedd när du avbryter tittande på DVD:er. DVD och Bluray visar inte alltid rätt speltid, inställningen garanterar att rätt info skickas till trakt.tv oavsett hur mycket du har sett av skivan.</string>
   <string name="StartYear">Började: {0}</string>

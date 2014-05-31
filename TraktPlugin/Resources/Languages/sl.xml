@@ -357,10 +357,6 @@
   <string name="SettingEnableJumpToForTVShowsDescription">Omogočite to nastavitev, da dovoliš uporabniku skočiti direktno na TVSeries vtičnik med pritiskanjem Enter ali OK na Trakt TV oddaji. Če je onemogočeno bo prikazalo informacije o sezoni iz trakt.tv..</string>
   <string name="SettingRememberLastSelectedActivityName">Pomni zadnjo izbrano dejavnost na armaturni plošči</string>
   <string name="SettingRememberLastSelectedActivityDescription">Omogočite to nastavitev za ponovno izbiro zadnje izbrane dejavnosti, ko se ponovno nalaga armaturna plošča Trakt-a. Če je onemogočeno, bo ob ponovnem nalaganju vedno izbran prvi element.</string>
-  <string name="SettingDefaultTVShowTrailerSiteName">Privzeta stran napovednikov TV oddaj</string>
-  <string name="SettingDefaultTVShowTrailerSiteDescription">Izberite privzeto stran napovednikov TV oddaj, ko se izvaja samodejno iskanje napovednikov npr. ob pritisku predvajaj tv oddaje ali epizode. Pri uporabi strani YouTube so uporabljeni dodatni iskalni parametri za iskanje epizod kot so sezona in številka epizode.</string>
-  <string name="SettingDefaultMovieTrailerSiteName">Privzeta stran napovednikov filmov</string>
-  <string name="SettingDefaultMovieTrailerSiteDescription">Izberite privzeto stran napovednikov filmov, ko se izvaja samodejno iskanje napovednikov npr. ob pritisku predvajaj film.</string>
   <string name="StartYear">Začni: {0}</string>
   <string name="SortBy">Sortiraj po: {0}</string>
   <string name="SortSeasonsAscending">Sortiraj sezone naraščajoče</string>

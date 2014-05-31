@@ -11,7 +11,7 @@
   <string name="ActivityFriendsAndMeDesc">See what you and your friends are up to...</string>
   <string name="ActivityCommunityDesc">See what the community is up to...</string>
   <string name="ActivityFollowersDesc">See what your followers are up to...</string>
-  <string name="ActivityFollowingDesc">See activity for people you're following...</string>  
+  <string name="ActivityFollowingDesc">See activity for people you\'re following...</string>
   <string name="ActivityWatching">{0} is watching {1}</string>
   <string name="ActivityWatched">{0} watched {1}</string>
   <string name="ActivityCheckedIn">{0} checked into {1}</string>
@@ -465,10 +465,10 @@
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingCategoriesMenuMovingPics">Updating Categories Menu in MovingPictures.</string>
-  <string name="UpdatingCategoriesMenuMovingPicsWarning">You can't remove trakt from the categories menu whilst they're still being updated!</string>
+  <string name="UpdatingCategoriesMenuMovingPicsWarning">You can\'t remove trakt from the categories menu whilst they\'re still being updated!</string>
   <string name="UpdatingFilters">Updating Filters</string>
   <string name="UpdatingFiltersMenuMovingPics">Updating Filters Menu in MovingPictures.</string>
-  <string name="UpdatingFiltersMenuMovingPicsWarning">You can't remove trakt from the filters menu whilst they're still being updated!</string>
+  <string name="UpdatingFiltersMenuMovingPicsWarning">You can\'t remove trakt from the filters menu whilst they\'re still being updated!</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
   <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed from\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>

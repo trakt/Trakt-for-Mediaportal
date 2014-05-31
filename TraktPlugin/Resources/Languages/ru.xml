@@ -4,9 +4,11 @@
   <string name="Actor">Актер</string>
   <string name="Actors">Актеры</string>
   <!--B-->
+  <string name="Biography">Биография</string>
   <!--C-->
   <string name="Cancel">Отмена</string>
   <string name="Calendar">Календарь</string>
+  <string name="Cast">В ролях</string>
   <string name="Certification">Рейтинг MPAA</string>
   <!--D-->
   <string name="DateToday">Сегодня</string>
@@ -15,13 +17,17 @@
   <string name="Directors">Режисеры</string>
   <string name="DownloadFanart">Скачать фанарт</string>
   <!--E-->
+  <string name="Email">Электронная почта</string>
   <string name="Episode">Эпизод</string>
   <string name="Episodes">Эпизоды</string>
   <!--F-->
+  <string name="Filters">Фильтры</string>
   <string name="FirstAired">Первый показ</string>
   <!--G-->
   <string name="Genre">Жанр</string>
   <string name="GenreAll">Все</string>
+  <string name="GenreMusic">Музыка</string>
+  <string name="GenreNews">Новости</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -36,7 +42,10 @@
   <string name="Network">Сеть</string>
   <string name="No">Нет</string>
   <!--O-->
+  <string name="OK">OK</string>
   <!--P-->
+  <string name="Plugin">Диполнение</string>
+  <string name="Plugins">Дополнения</string>
   <!--R-->
   <string name="Rate">Рейтинг</string>
   <string name="Rated">Оценка</string>
@@ -58,8 +67,13 @@
   <string name="Seasons">Сезоны</string>
   <string name="Series">Сериал</string>
   <string name="SeriesPlural">Сериал</string>
+  <string name="Settings">Настройки</string>
   <string name="Shouts">Выкрики</string>
+  <string name="SettingPluginEnabledName">Дополнение активировано</string>
+  <string name="SettingListedHomeName">Расположено в главном меню</string>
+  <string name="SettingListedPluginsName">Расположено в Моих Плагинах</string>
   <string name="Specials">Дополнения</string>
+  <string name="Status">Статус</string>
   <!--T-->
   <string name="Timeout">Время истекло</string>
   <string name="Trending">Трендинг</string>
@@ -68,6 +82,7 @@
   <string name="Trailer">Трейлер</string>
   <!--U-->
   <!--V-->
+  <string name="Votes">Голоса</string>
   <!--W-->
   <string name="WatchList">Список просмотра</string>
   <string name="Watched">Просмотрен</string>
