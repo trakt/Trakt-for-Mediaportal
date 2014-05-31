@@ -19,8 +19,8 @@ namespace TraktPlugin.GUI
     public class GUISettingsGeneral : GUIWindow
     {
         #region Private Variables
-        private bool UpdatingMovingPicturesCategories = false;
-        private bool UpdatingMovingPicturesFilters = false;
+        private bool UpdatingMovingPicturesCategoriesMenu = false;
+        private bool UpdatingMovingPicturesFiltersMenu = false;
         #endregion
 
         #region Skin Controls
@@ -156,15 +156,15 @@ namespace TraktPlugin.GUI
                 if (TraktSettings.MovingPicturesCategories)
                 {
                     // Remove
-                    if (UpdatingMovingPicturesCategories)
+                    if (UpdatingMovingPicturesCategoriesMenu)
                     {
                         btnCreateMovingPicturesCategories.Selected = true;
-                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), "You can't remove categories whilst they're still being updated!");
+                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingCategoriesMenuMovingPicsWarning);
                         return;
                     }
 
                     TraktSettings.MovingPicturesCategories = false;
-                    TraktHandlers.MovingPictures.RemoveMovingPicturesCategories();
+                    TraktHandlers.MovingPictures.RemoveTraktFromCategoryMenu();
                 }
                 else
                 {
@@ -184,13 +184,12 @@ namespace TraktPlugin.GUI
 
         private void CategoriesCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            UpdatingMovingPicturesCategories = true;
+            UpdatingMovingPicturesCategoriesMenu = true;
             
-            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingCategories);
-            TraktHandlers.MovingPictures.CreateMovingPicturesCategories();
-            TraktHandlers.MovingPictures.UpdateMovingPicturesCategories();
+            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingCategoriesMenuMovingPics);            
+            TraktHandlers.MovingPictures.UpdateCategoriesMenu();
             
-            UpdatingMovingPicturesCategories = false;
+            UpdatingMovingPicturesCategoriesMenu = false;
         }
 
         private void CreateMovingPicturesFiltersClicked()
@@ -200,14 +199,14 @@ namespace TraktPlugin.GUI
                 if (TraktSettings.MovingPicturesFilters)
                 {
                     // Remove
-                    if (UpdatingMovingPicturesFilters)
+                    if (UpdatingMovingPicturesFiltersMenu)
                     {
                         btnCreateMovingPicturesFilters.Selected = true;
-                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), "You can't remove filters whilst they're still being updated!");
+                        GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingFiltersMenuMovingPicsWarning);
                         return;
                     }
                     TraktSettings.MovingPicturesFilters = false;
-                    TraktHandlers.MovingPictures.RemoveMovingPicturesFilters();
+                    TraktHandlers.MovingPictures.RemoveTraktFromFiltersMenu();
                 }
                 else
                 {
@@ -227,13 +226,12 @@ namespace TraktPlugin.GUI
 
         private void FiltersCreator_DoWork(object sender, DoWorkEventArgs e)
         {
-            UpdatingMovingPicturesFilters = true;
+            UpdatingMovingPicturesFiltersMenu = true;
 
-            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingFilters);
-            TraktHandlers.MovingPictures.CreateMovingPicturesFilters();
-            TraktHandlers.MovingPictures.UpdateMovingPicturesFilters();
+            GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UpdatingFiltersMenuMovingPics);
+            TraktHandlers.MovingPictures.UpdateFiltersMenu();
 
-            UpdatingMovingPicturesFilters = false;
+            UpdatingMovingPicturesFiltersMenu = false;
         }
 
         #endregion

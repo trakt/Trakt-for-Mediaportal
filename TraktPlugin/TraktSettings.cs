@@ -67,9 +67,7 @@ namespace TraktPlugin
         public static bool DownloadFanart { get; set; }
         public static int WebRequestCacheMinutes { get; set; }
         public static bool GetFollowerRequestsOnStartup { get; set; }
-        public static int MovingPicturesCategoryId { get; set; }
         public static bool MovingPicturesCategories { get; set; }
-        public static int MovingPicturesFiltersId { get; set; }
         public static bool MovingPicturesFilters { get; set; }
         public static bool CalendarHideTVShowsInWatchList { get; set; }
         public static bool HideWatchedRelatedMovies { get; set; }
@@ -186,9 +184,7 @@ namespace TraktPlugin
         private const string cDownloadFanart = "DownloadFanart";
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
         private const string cGetFollowerRequestsOnStartup = "GetFriendRequestsOnStartup";
-        private const string cMovingPicturesCategoryId = "MovingPicturesCategoryId";
         private const string cMovingPicturesCategories = "MovingPicturesCategories";
-        private const string cMovingPicturesFilterId = "MovingPicturesFilterId";
         private const string cMovingPicturesFilters = "MovingPicturesFilters";
         private const string cCalendarHideTVShowsInWatchList = "CalendarHideTVShowsInWatchList";
         private const string cHideWatchedRelatedMovies = "HideWatchedRelatedMovies";
@@ -504,9 +500,7 @@ namespace TraktPlugin
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
                 WebRequestTimeout = xmlreader.GetValueAsInt(cTrakt, cWebRequestTimeout, 30000);
                 GetFollowerRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, true);
-                MovingPicturesCategoryId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesCategoryId, -1);
                 MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
-                MovingPicturesFiltersId = xmlreader.GetValueAsInt(cTrakt, cMovingPicturesFilterId, -1);
                 MovingPicturesFilters = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesFilters, false);
                 CalendarHideTVShowsInWatchList = xmlreader.GetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, false);
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
@@ -627,9 +621,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
                 xmlwriter.SetValue(cTrakt, cWebRequestTimeout, WebRequestTimeout);
                 xmlwriter.SetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, GetFollowerRequestsOnStartup);
-                xmlwriter.SetValue(cTrakt, cMovingPicturesCategoryId, MovingPicturesCategoryId);
                 xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesCategories, MovingPicturesCategories);
-                xmlwriter.SetValue(cTrakt, cMovingPicturesFilterId, MovingPicturesFiltersId);
                 xmlwriter.SetValueAsBool(cTrakt, cMovingPicturesFilters, MovingPicturesFilters);
                 xmlwriter.SetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, CalendarHideTVShowsInWatchList);
                 xmlwriter.SetValueAsBool(cTrakt, cHideWatchedRelatedMovies, HideWatchedRelatedMovies);
@@ -781,6 +773,10 @@ namespace TraktPlugin
                             // Remove old activity settings
                             xmlreader.RemoveEntry(cTrakt, "ShowCommunityActivity");
                             xmlreader.RemoveEntry(cTrakt, "IncludeMeInFriendsActivity");
+
+                            // Remove old category/filter node ids for MovingPictures (not needed)
+                            xmlreader.RemoveEntry(cTrakt, "MovingPicturesCategoryId");
+                            xmlreader.RemoveEntry(cTrakt, "MovingPicturesFilterId");
 
                             currentSettingsVersion++;
                             break;

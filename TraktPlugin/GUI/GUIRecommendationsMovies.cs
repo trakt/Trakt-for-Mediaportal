@@ -565,7 +565,7 @@ namespace TraktPlugin.GUI
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
                 if (response != null && response.Status == "success")
                 {
-                    TraktHandlers.MovingPictures.UpdateCategoriesAndFilters();
+                    TraktHandlers.MovingPictures.RemoveMovieCriteriaFromRecommendationsNode(movie.IMDBID);
                 }
             })
             {

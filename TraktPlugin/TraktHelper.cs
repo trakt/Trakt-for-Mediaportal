@@ -139,9 +139,8 @@ namespace TraktPlugin
                 if (response == null || response.Status != "success") return;
                 if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
                 {
-                    // Update Categories & Filters
-                    MovingPictures.ClearWatchListCache();
-                    MovingPictures.UpdateCategoriesAndFilters();
+                    // Update Categories & Filters menu(s)                    
+                    MovingPictures.AddMovieCriteriaToWatchlistNode(imdbid);
                 }
                 GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
@@ -171,8 +170,7 @@ namespace TraktPlugin
                 if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
                 {
                     // Update Categories & Filters
-                    MovingPictures.ClearWatchListCache();
-                    MovingPictures.UpdateCategoriesAndFilters();
+                    MovingPictures.RemoveMovieCriteriaFromWatchlistNode(imdbid);
                 }
                 GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
@@ -814,18 +812,40 @@ namespace TraktPlugin
                         Slug = slug,
                         Items = items
                     };
+
                     TraktSyncResponse response = null;
                     if (!remove)
+                    {
                         response = TraktAPI.TraktAPI.ListAddItems(list);
+                    }
                     else
+                    {
                         response = TraktAPI.TraktAPI.ListDeleteItems(list);
+                    }
 
                     TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
                     if (response.Status == "success")
                     {
                         // clear current items in any lists
                         // list items will be refreshed online if we try to request them
-                       TraktLists.ClearItemsInList(TraktSettings.Username, slug);
+                        TraktLists.ClearItemsInList(TraktSettings.Username, slug);                                               
+
+                        // update MovingPictures Categories and Filters menu
+                        if (IsMovingPicturesAvailableAndEnabled)
+                        {
+                            // we need the name of the list so get list from slug first
+                            var userList = TraktLists.GetListForUser(TraktSettings.Username, slug);
+                            if (userList == null) continue;
+
+                            if (remove)
+                            {
+                                MovingPictures.RemoveMovieCriteriaFromCustomlistNode(userList.Name, items.First().ImdbId);
+                            }
+                            else
+                            {
+                                MovingPictures.AddMovieCriteriaToCustomlistNode(userList.Name, items.First().ImdbId);
+                            }
+                        }
                     }
                 }
             })

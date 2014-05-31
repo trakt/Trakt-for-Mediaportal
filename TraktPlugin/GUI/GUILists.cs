@@ -14,6 +14,7 @@ using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin.GUI
 {
@@ -300,7 +301,19 @@ namespace TraktPlugin.GUI
                     
                     // add items to the list
                     TraktLogger.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(copyParams.Destination));
-                    if (response.Status == "success") TraktLists.ClearCache(TraktSettings.Username);
+                    if (response.Status == "success")
+                    {
+                        TraktLists.ClearCache(TraktSettings.Username);
+
+                        BasicHandler.ClearCustomListCache();
+
+                        // updated MovingPictures categories and filters menu
+                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                        {
+                            TraktHandlers.MovingPictures.UpdateCategoriesMenu(SyncListType.CustomList);
+                            TraktHandlers.MovingPictures.UpdateFiltersMenu(SyncListType.CustomList);
+                        }
+                    }
                 }
             })
             {
@@ -331,6 +344,13 @@ namespace TraktPlugin.GUI
                     TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
+                        // remove from MovingPictures categories and filters menu
+                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                        {
+                            // not very thread safe if we tried to delete more than one before response!
+                            TraktHandlers.MovingPictures.RemoveCustomListNode(list.Name);
+                        }
+
                         // reload with new list
                         TraktLists.ClearCache(TraktSettings.Username);
                         LoadLists();
@@ -357,6 +377,13 @@ namespace TraktPlugin.GUI
                     TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {
+                        // add to MovingPictures categories and filters menu
+                        if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                        {
+                            // not very thread safe if we tried to add more than one before response!
+                            TraktHandlers.MovingPictures.AddCustomListNode(list.Name);
+                        }
+
                         // reload with new list
                         TraktLists.ClearCache(TraktSettings.Username);
                         LoadLists();
@@ -369,7 +396,7 @@ namespace TraktPlugin.GUI
             }, Translation.CreatingList, true);
         }
 
-        private void EditList(TraktList list)
+        private void EditList(TraktList list) 
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
@@ -386,6 +413,23 @@ namespace TraktPlugin.GUI
                         // reload with new list
                         TraktLists.ClearCache(TraktSettings.Username);
                         LoadLists();
+
+                        var thread = new Thread((o) =>
+                        {
+                            BasicHandler.ClearCustomListCache();
+
+                            // updated MovingPictures categories and filters menu
+                            if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                            {
+                                TraktHandlers.MovingPictures.UpdateCategoriesMenu(SyncListType.CustomList);
+                                TraktHandlers.MovingPictures.UpdateFiltersMenu(SyncListType.CustomList);
+                            }
+                        })
+                        {
+                            Name = "EditList",
+                            IsBackground = true
+                        };
+                        thread.Start();
                     }
                     else
                     {

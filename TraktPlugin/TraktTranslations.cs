@@ -693,7 +693,11 @@ namespace TraktPlugin.GUI
         public static string UnFollowMessage = "Are you sure you want to unfollow\nuser {0}?";
         public static string UnRate = "UnRate";
         public static string UpdatingCategories = "Updating Categories";
+        public static string UpdatingCategoriesMenuMovingPics = "Updating Categories Menu in MovingPictures.";
+        public static string UpdatingCategoriesMenuMovingPicsWarning = "You can't remove trakt from the categories menu whilst they're still being updated!";
         public static string UpdatingFilters = "Updating Filters";
+        public static string UpdatingFiltersMenuMovingPics = "Updating Filters Menu in MovingPictures.";
+        public static string UpdatingFiltersMenuMovingPicsWarning = "You can't remove trakt from the filters menu whilst they're still being updated!";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
         public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed from\nfrom the 'Friends' view.";
         public static string UserProfile = "User Profile";        

@@ -464,7 +464,11 @@
   <string name="UnFollowMessage">Are you sure you want to unfollow\nuser {0}?</string>
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Updating Categories</string>
+  <string name="UpdatingCategoriesMenuMovingPics">Updating Categories Menu in MovingPictures.</string>
+  <string name="UpdatingCategoriesMenuMovingPicsWarning">You can't remove trakt from the categories menu whilst they're still being updated!</string>
   <string name="UpdatingFilters">Updating Filters</string>
+  <string name="UpdatingFiltersMenuMovingPics">Updating Filters Menu in MovingPictures.</string>
+  <string name="UpdatingFiltersMenuMovingPicsWarning">You can't remove trakt from the filters menu whilst they're still being updated!</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
   <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed from\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>
