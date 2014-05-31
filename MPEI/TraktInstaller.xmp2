@@ -286,6 +286,13 @@
               <ZipFileName>Installer{CopyFile}\{bf711593-3774-4c59-bad7-f45fbc3c047a}-ro.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\ro.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\ar.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8f4f7864-911e-4c3c-9dc4-97a832f67423}-ar.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\ar.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2154,18 +2161,19 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>4</Major>
       <Minor>0</Minor>
-      <Build>2</Build>
+      <Build>3</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Updated trailers support for TV Shows, Seasons and Episodes, handled by Trailers plugin by default.
-* Added Trailers plugin to MPEI installer package.
+    <VersionDescription>* Added Custom List syncing from trakt.tv to MovingPictures categories and filters menu. This is in addition to syncing of Recommendations and Watchlist which can be enabled from Settings.
+* Added a 'Change View' menu item to the Activity Dashboard context menu, this allows you to select between five different views including two new ones: 'Community', 'Followers', 'Following', 'Friends' and 'Friends And Me'.
+* Removed trailers handling from trakt plugin, instead will now hand control over to the Trailers plugin.
 * Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2014-04-13T10:00:00</ReleaseDate>
+    <ReleaseDate>2014-05-31T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -2469,6 +2477,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\ro.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{bf711593-3774-4c59-bad7-f45fbc3c047a}-ro.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\ro.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\ar.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8f4f7864-911e-4c3c-9dc4-97a832f67423}-ar.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\ar.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
