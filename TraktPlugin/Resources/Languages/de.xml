@@ -8,7 +8,10 @@
   <string name="Actors">Darsteller</string>
   <string name="Activity">Activity</string>
   <string name="ActivityFriendsDesc">Aktivitäten Ihrer Freunde:</string>
+  <string name="ActivityFriendsAndMeDesc">Schau nach was bei dir und deinen Freunden los ist...</string>
   <string name="ActivityCommunityDesc">Aktivitäten der Gemeinschaft:</string>
+  <string name="ActivityFollowersDesc">Schau nach was bei deinen Followern los ist...\n</string>
+  <string name="ActivityFollowingDesc">Was geht bei den Leuten, denen du folgst...</string>
   <string name="ActivityWatching">{0} schaut gerade {1}</string>
   <string name="ActivityWatched">{0} hat {1} angesehen</string>
   <string name="ActivityCheckedIn">{0} hat in {1} eingecheckt</string>
@@ -121,6 +124,7 @@
   <string name="FollowUser">Benutzer folgen</string>
   <string name="Friend">Freund</string>
   <string name="Friends">Freunde</string>
+  <string name="FriendsAndMe">Meine Freunde und ich</string>
   <string name="FriendActivity">Freund-Aktivität</string>
   <string name="FriendRequest">Freund-Anfrage</string>
   <string name="FollowerRequest">Folgen-Anfrage</string>
@@ -460,7 +464,11 @@
   <string name="UnFollowMessage">Sind Sie sicher, dass Sie Benutzer\n {0} nicht mehr folgen wollen?</string>
   <string name="UnRate">Bewertung zurücknehmen</string>
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
+  <string name="UpdatingCategoriesMenuMovingPics">Aktualsiere die Kategorien in MovingPictures</string>
+  <string name="UpdatingCategoriesMenuMovingPicsWarning">Die Trakt-Kategorien lassen sich nicht aus dem Menü entfernen, solange sie noch aktualisiert werden!</string>
   <string name="UpdatingFilters">Filter werden aktualisiert</string>
+  <string name="UpdatingFiltersMenuMovingPics">Aktualisiere das Filter-Menü in MovingPictures</string>
+  <string name="UpdatingFiltersMenuMovingPicsWarning">Die Trakt-Filter lassen sich nicht aus dem Menü entfernen, solange sie noch aktualisiert werden!</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
   <string name="UserIsProtected">Dieser Teilnehmer ist geschützt. \nDiese kannst du nur in der Freunde-Ansicht\naufrufen.</string>
   <string name="UserProfile">Benutzerprofil</string>

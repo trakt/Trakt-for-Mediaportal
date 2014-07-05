@@ -464,7 +464,11 @@
   <string name="UnFollowMessage">Är du säker på att du vill sluta följa {0}?</string>
   <string name="UnRate">Märk som ej betygsatt</string>
   <string name="UpdatingCategories">Uppdaterar kategorier</string>
+  <string name="UpdatingCategoriesMenuMovingPics">Uppdaterar kategoriemenyn i MovingPictures.</string>
+  <string name="UpdatingCategoriesMenuMovingPicsWarning">Du kan inte ta bort Trakt från kategoriemenyn medans katagorierna uppdateras!</string>
   <string name="UpdatingFilters">Uppdaterar filter</string>
+  <string name="UpdatingFiltersMenuMovingPics">Uppdaterar filtermenyn i MovingPictures.</string>
+  <string name="UpdatingFiltersMenuMovingPicsWarning">Du kan inte ta bort Trakt från filtermenyn medans filtrerna uppdateras!</string>
   <string name="UnableToPlayTrailer">Kunde inte spela trailer.</string>
   <string name="UserIsProtected">Användaren är skyddad. Skyddade användare kan bara ses i vänvyn.</string>
   <string name="UserProfile">Användarprofil</string>

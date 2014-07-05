@@ -464,7 +464,11 @@
   <string name="UnFollowMessage">Weet je zeker dat je gebruiker {0} niet meer wilt volgen?</string>
   <string name="UnRate">Beoordeling intrekken</string>
   <string name="UpdatingCategories">Categorieën updaten</string>
+  <string name="UpdatingCategoriesMenuMovingPics">MovingPictures Categorie Menu aan het bijwerken.</string>
+  <string name="UpdatingCategoriesMenuMovingPicsWarning">Je kan Trakt niet verwijderen van het Categorie menu terwijl deze bijgewerkt word!</string>
   <string name="UpdatingFilters">Filters updaten</string>
+  <string name="UpdatingFiltersMenuMovingPics">MovingPictures Filters Menu aan het bijwerken.</string>
+  <string name="UpdatingFiltersMenuMovingPicsWarning">Je kan Trakt niet verwijderen van het Filters menu terwijl deze bijgewerkt word!</string>
   <string name="UnableToPlayTrailer">Afspelen trailer niet mogelijk</string>
   <string name="UserIsProtected">De huidige gebruiker is beschermt!\nBeschermde gebruikers kunnen alleen\nbekeken worden in het \'Vrienden\' scherm</string>
   <string name="UserProfile">Gebruikersprofiel</string>
