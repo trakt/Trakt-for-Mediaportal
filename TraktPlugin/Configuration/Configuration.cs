@@ -9,8 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using MediaPortal.Configuration;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin
 {
@@ -26,8 +26,7 @@ namespace TraktPlugin
 
             #region load settings
             tbUsername.Text = TraktSettings.Username;
-            // since password is Sha1, just show a dummy password
-            tbPassword.Text = string.IsNullOrEmpty(TraktSettings.Password) ? string.Empty : TraktSettings.Password.Substring(0, 10);
+            tbPassword.Text = TraktSettings.Password;
 
             List<KeyValuePair<int, string>> items = new List<KeyValuePair<int, string>>();
             items.Add(new KeyValuePair<int, string>(TraktSettings.MovingPictures, "Moving Pictures"));
@@ -35,11 +34,8 @@ namespace TraktPlugin
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyVideos, "My Videos"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyFilms, "My Films"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.OnlineVideos, "OnlineVideos"));
-            items.Add(new KeyValuePair<int, string>(TraktSettings.MyAnime, "My Anime"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyTVRecordings, "My TV Recordings"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.MyTVLive, "My TV Live"));
-            items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordRecordings, "4TR TV Recordings"));
-            items.Add(new KeyValuePair<int, string>(TraktSettings.ForTheRecordTVLive, "4TR TV Live"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusRecordings, "Argus TV Recordings"));
             items.Add(new KeyValuePair<int, string>(TraktSettings.ArgusTVLive, "Argus TV Live"));            
 
@@ -88,7 +84,7 @@ namespace TraktPlugin
                 TraktSettings.Password = string.Empty;
                 return;
             }
-            TraktSettings.Password = tbPassword.Text.GetSha1();            
+            TraktSettings.Password = tbPassword.Text;            
         }
 
         private void tbPassword_Enter(object sender, EventArgs e)
@@ -171,20 +167,11 @@ namespace TraktPlugin
                     case "OnlineVideos":
                         TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
-                    case "My Anime":
-                        TraktSettings.MyAnime = clbPlugins.GetItemChecked(i) ? i : -1;
-                        break;
                     case "My TV Recordings":
                         TraktSettings.MyTVRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
                     case "My TV Live":
                         TraktSettings.MyTVLive = clbPlugins.GetItemChecked(i) ? i : -1;
-                        break;
-                    case "4TR TV Recordings":
-                        TraktSettings.ForTheRecordRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
-                        break;
-                    case "4TR TV Live":
-                        TraktSettings.ForTheRecordTVLive = clbPlugins.GetItemChecked(i) ? i : -1;
                         break;
                     case "Argus TV Recordings":
                         TraktSettings.ArgusRecordings = clbPlugins.GetItemChecked(i) ? i : -1;
@@ -219,20 +206,11 @@ namespace TraktPlugin
                 case "OnlineVideos":
                     TraktSettings.OnlineVideos = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
-                case "My Anime":
-                    TraktSettings.MyAnime = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
-                    break;
                 case "My TV Recordings":
                     TraktSettings.MyTVRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
                 case "My TV Live":
                     TraktSettings.MyTVLive = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
-                    break;
-                case "4TR TV Recordings":
-                    TraktSettings.ForTheRecordRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
-                    break;
-                case "4TR TV Live":
-                    TraktSettings.ForTheRecordTVLive = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
                     break;
                 case "Argus TV Recordings":
                     TraktSettings.ArgusRecordings = clbPlugins.GetItemChecked(ndx) ? -1 : ndx;
@@ -268,7 +246,7 @@ namespace TraktPlugin
         private void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
         {
             ProgressDialog pd = new ProgressDialog(this.Handle);
-            ClearLibrary(TraktAPI.TraktClearingModes.all, pd, (bool)e.Argument);
+            ClearLibrary(TraktAPI.v1.TraktClearingModes.all, pd, (bool)e.Argument);
         }
 
         private void btnTVSeriesRestrictions_Click(object sender, EventArgs e)
@@ -353,7 +331,7 @@ namespace TraktPlugin
                 progressDialog.Line2 = "Getting movies for user";
 
                 TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);
-                var movies = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username).ToList();
+                var movies = TraktAPI.v1.TraktAPI.GetAllMoviesForUser(TraktSettings.Username).ToList();
 
                 var syncData = TraktHandlers.BasicHandler.CreateMovieSyncData(movies);
                 TraktResponse response = null;
@@ -362,13 +340,13 @@ namespace TraktPlugin
                 {
                     TraktLogger.Info("First removing movies from seen");
                     progressDialog.Line2 = "Setting seen movies as unseen";
-                    response = TraktAPI.TraktAPI.SyncMovieLibrary(syncData, TraktSyncModes.unseen);
+                    response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(syncData, TraktSyncModes.unseen);
                     TraktLogger.LogTraktResponse(response);
                 }
 
                 TraktLogger.Info("Now removing movies from library");
                 progressDialog.Line2 = "Removing movies from library";
-                response = TraktAPI.TraktAPI.SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
+                response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(syncData, TraktSyncModes.unlibrary);
                 TraktLogger.LogTraktResponse(response);
 
                 TraktLogger.Info("Removed all movies possible, some manual clean up may be required");
@@ -393,14 +371,14 @@ namespace TraktPlugin
                     progressDialog.Line2 = "Getting Watched Episodes from Trakt";
 
                     TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", TraktSettings.Username);
-                    var watchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+                    var watchedEpisodes = TraktAPI.v1.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
                     if (watchedEpisodes != null)
                     {
                         foreach (var series in watchedEpisodes.ToList())
                         {
                             TraktLogger.Info("Removing '{0}' from seen", series.ToString());
                             progressDialog.Line2 = string.Format("Setting {0} as unseen", series.ToString());
-                            var response = TraktAPI.TraktAPI.SyncEpisodeLibrary(TraktHandlers.BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
+                            var response = TraktAPI.v1.TraktAPI.SyncEpisodeLibrary(TraktHandlers.BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unseen);
                             TraktLogger.LogTraktResponse(response);
                             System.Threading.Thread.Sleep(500);
                             if (progressDialog.HasUserCancelled)
@@ -417,14 +395,14 @@ namespace TraktPlugin
                 progressDialog.Line2 = "Getting Library Episodes from Trakt";
 
                 TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", TraktSettings.Username);
-                var libraryEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+                var libraryEpisodes = TraktAPI.v1.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
                 if (libraryEpisodes != null)
                 {
                     foreach (var series in libraryEpisodes.ToList())
                     {
                         TraktLogger.Info("Removing '{0}' from library", series.ToString());
                         progressDialog.Line2 = string.Format("Removing {0} from library", series.ToString());
-                        var response = TraktAPI.TraktAPI.SyncEpisodeLibrary(TraktHandlers.BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
+                        var response = TraktAPI.v1.TraktAPI.SyncEpisodeLibrary(TraktHandlers.BasicHandler.CreateEpisodeSyncData(series), TraktSyncModes.unlibrary);
                         TraktLogger.LogTraktResponse(response);
                         System.Threading.Thread.Sleep(500);
                         if (progressDialog.HasUserCancelled)
@@ -441,26 +419,4 @@ namespace TraktPlugin
             progressDialog.CloseDialog();
         }
     }
-
-    #region String Extension
-
-    /// <summary>
-    /// Creats a SHA1 Hash of a string
-    /// </summary>
-    public static class SHA1StringExtension
-    {
-        public static string GetSha1(this string value)
-        {
-            var data = Encoding.ASCII.GetBytes(value);
-            var hashData = new SHA1Managed().ComputeHash(data);
-
-            var hash = string.Empty;
-
-            foreach (var b in hashData)
-                hash += b.ToString("X2");
-
-            return hash;
-        }
-    }
-    #endregion
 }

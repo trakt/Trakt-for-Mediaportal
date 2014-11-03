@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -435,7 +435,7 @@ namespace TraktPlugin.GUI
                 if (Episodes == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    Episodes = TraktAPI.TraktAPI.SearchEpisodes(SearchTerm);
+                    Episodes = TraktAPI.v1.TraktAPI.SearchEpisodes(SearchTerm);
                 }
                 return Episodes;
             },

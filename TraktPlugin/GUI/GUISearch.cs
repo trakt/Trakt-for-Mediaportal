@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -72,7 +72,7 @@ namespace TraktPlugin.GUI
 
                 if (!searchCache.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _SearchResults = TraktAPI.TraktAPI.Search(SearchTerm, SearchTypes, TraktSettings.MaxSearchResults);
+                    _SearchResults = TraktAPI.v1.TraktAPI.Search(SearchTerm, SearchTypes, TraktSettings.MaxSearchResults);
                     if (searchCache.Keys.Contains(key)) searchCache.Remove(key);
                     searchCache.Add(key, _SearchResults);
                     LastRequest = DateTime.UtcNow;

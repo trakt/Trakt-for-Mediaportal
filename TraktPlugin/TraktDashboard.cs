@@ -8,9 +8,9 @@ using System.Threading;
 using MediaPortal.Util;
 using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin
@@ -127,14 +127,15 @@ namespace TraktPlugin
             Thread.CurrentThread.Name = "DashStats";
 
             // initial publish from persisted settings
-            if (TraktSettings.LastStatistics != null)
-            {
-                GUICommon.SetStatisticProperties(TraktSettings.LastStatistics);
-                TraktSettings.LastStatistics = null;
-            }
+            //TODO
+            //if (TraktSettings.LastStatistics != null)
+            //{
+            //    GUICommon.SetStatisticProperties(TraktSettings.LastStatistics);
+            //    TraktSettings.LastStatistics = null;
+            //}
 
             // retrieve statistics from online
-            var userProfile = TraktAPI.TraktAPI.GetUserProfile(TraktSettings.Username);
+            var userProfile = TraktAPI.v1.TraktAPI.GetUserProfile(TraktSettings.Username);
             if (userProfile != null)
             {
                 GUICommon.SetStatisticProperties(userProfile.Stats);
@@ -934,7 +935,7 @@ namespace TraktPlugin
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
                 TraktLogger.Debug("Getting trending movies from trakt");
-                var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                var trendingMovies = TraktAPI.v1.TraktAPI.GetTrendingMovies();
                 if (trendingMovies != null && trendingMovies.Count() > 0)
                 {
                     LastTrendingMovieUpdate = DateTime.Now;
@@ -960,7 +961,7 @@ namespace TraktPlugin
             if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
                 TraktLogger.Debug("Getting trending shows from trakt");
-                var trendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                var trendingShows = TraktAPI.v1.TraktAPI.GetTrendingShows();
                 if (trendingShows != null && trendingShows.Count() > 0)
                 {
                     LastTrendingShowUpdate = DateTime.Now;
@@ -987,23 +988,23 @@ namespace TraktPlugin
                 switch (activityView)
                 {
                     case ActivityView.community:
-                        PreviousActivity = TraktAPI.TraktAPI.GetCommunityActivity();
+                        PreviousActivity = TraktAPI.v1.TraktAPI.GetCommunityActivity();
                         break;
 
                     case ActivityView.followers:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFollowersActivity();
+                        PreviousActivity = TraktAPI.v1.TraktAPI.GetFollowersActivity();
                         break;
 
                     case ActivityView.following:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFollowingActivity();
+                        PreviousActivity = TraktAPI.v1.TraktAPI.GetFollowingActivity();
                         break;
 
                     case ActivityView.friends:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(false);
+                        PreviousActivity = TraktAPI.v1.TraktAPI.GetFriendActivity(false);
                         break;
 
                     case ActivityView.friendsandme:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(true);
+                        PreviousActivity = TraktAPI.v1.TraktAPI.GetFriendActivity(true);
                         break;
                 }
                 GetFullActivityLoad = false;
@@ -1016,23 +1017,23 @@ namespace TraktPlugin
                 switch (activityView)
                 {
                     case ActivityView.community:
-                        incrementalActivity = TraktAPI.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        incrementalActivity = TraktAPI.v1.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.followers:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFollowersActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        incrementalActivity = TraktAPI.v1.TraktAPI.GetFollowersActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.following:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFollowingActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        incrementalActivity = TraktAPI.v1.TraktAPI.GetFollowingActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.friends:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), false);
+                        incrementalActivity = TraktAPI.v1.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), false);
                         break;
 
                     case ActivityView.friendsandme:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
+                        incrementalActivity = TraktAPI.v1.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
                         break;
                 }
                
@@ -1886,22 +1887,23 @@ namespace TraktPlugin
             ClearShowProperties();
 
             // Load from Persisted Settings
-            if (TraktSettings.LastActivityLoad != null && TraktSettings.LastActivityLoad.Activities != null)
-            {
-                PreviousActivity = TraktSettings.LastActivityLoad;
-                if (TraktSettings.LastActivityLoad.Timestamps != null)
-                {
-                    ActivityStartTime = TraktSettings.LastActivityLoad.Timestamps.Current;
-                }
-            }
-            if (TraktSettings.LastTrendingShows != null)
-            {
-                PreviousTrendingShows = TraktSettings.LastTrendingShows;
-            }
-            if (TraktSettings.LastTrendingMovies != null)
-            {
-                PreviousTrendingMovies = TraktSettings.LastTrendingMovies;
-            }
+            //TODO
+            //if (TraktSettings.LastActivityLoad != null && TraktSettings.LastActivityLoad.Activities != null)
+            //{
+            //    PreviousActivity = TraktSettings.LastActivityLoad;
+            //    if (TraktSettings.LastActivityLoad.Timestamps != null)
+            //    {
+            //        ActivityStartTime = TraktSettings.LastActivityLoad.Timestamps.Current;
+            //    }
+            //}
+            //if (TraktSettings.LastTrendingShows != null)
+            //{
+            //    PreviousTrendingShows = TraktSettings.LastTrendingShows;
+            //}
+            //if (TraktSettings.LastTrendingMovies != null)
+            //{
+            //    PreviousTrendingMovies = TraktSettings.LastTrendingMovies;
+            //}
 
             // initialize timercallbacks
             if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Count > 0)

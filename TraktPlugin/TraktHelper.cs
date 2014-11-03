@@ -9,8 +9,8 @@ using MediaPortal.Profile;
 using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktHandlers;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin
 {
@@ -135,7 +135,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.watchlist);
+                TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.watchlist);
                 if (response == null || response.Status != "success") return;
                 if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
                 {
@@ -165,7 +165,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unwatchlist);
+                TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unwatchlist);
                 if (response == null || response.Status != "success") return;
                 if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
                 {
@@ -195,7 +195,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.watchlist);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.watchlist);
                 if (response == null || response.Status != "success") return;
                 GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
             })
@@ -218,7 +218,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.unwatchlist);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.unwatchlist);
                 if (response == null || response.Status != "success") return;
                 GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
             })
@@ -243,7 +243,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.watchlist);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.watchlist);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -265,7 +265,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unwatchlist);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unwatchlist);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -615,7 +615,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.seen);
+                TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.seen);
             })
             {
                 IsBackground = true,
@@ -636,7 +636,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unseen);
+                TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unseen);
             })
             {
                 IsBackground = true,
@@ -659,7 +659,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.seen);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.seen);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -681,7 +681,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unseen);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unseen);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -705,7 +705,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.library);
+                TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.library);
             })
             {
                 IsBackground = true,
@@ -726,7 +726,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktAPI.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unlibrary);
+                TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unlibrary);
             })
             {
                 IsBackground = true,
@@ -749,7 +749,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.library);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.library);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -771,7 +771,7 @@ namespace TraktPlugin
 
             Thread syncThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unlibrary);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unlibrary);
                 if (response == null || response.Status != "success") return;
             })
             {
@@ -816,11 +816,11 @@ namespace TraktPlugin
                     TraktSyncResponse response = null;
                     if (!remove)
                     {
-                        response = TraktAPI.TraktAPI.ListAddItems(list);
+                        response = TraktAPI.v1.TraktAPI.ListAddItems(list);
                     }
                     else
                     {
-                        response = TraktAPI.TraktAPI.ListDeleteItems(list);
+                        response = TraktAPI.v1.TraktAPI.ListDeleteItems(list);
                     }
 
                     TraktLogger.LogTraktResponse<TraktSyncResponse>(response);

@@ -6,6 +6,7 @@ using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using System.ComponentModel;
 using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.Enums;
 
 namespace TraktPlugin.GUI
 {
@@ -55,7 +56,6 @@ namespace TraktPlugin.GUI
 
         public TraktRateValue Rated { get; set; }
         public bool IsSubmitted { get; set; }
-        public bool ShowAdvancedRatings { get; set; }
 
         #endregion
         
@@ -87,9 +87,6 @@ namespace TraktPlugin.GUI
             AllocResources();
             InitControls();
 
-            // Check Skin Compatibility
-            CheckSkinCompatibility();
-
             // let skin show the correct rate buttons/label            
             SetControlVisibility();
 
@@ -106,82 +103,52 @@ namespace TraktPlugin.GUI
             switch (action.wID)
             {
                 case Action.ActionType.REMOTE_1:
-                    if (ShowAdvancedRatings)
-                        Rated = TraktRateValue.one;
-                    else
-                        Rated = TraktRateValue.ten;
+                    Rated = TraktRateValue.one;
                     UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_2:
-                    if (ShowAdvancedRatings)
-                        Rated = TraktRateValue.two;
-                    else
-                        Rated = TraktRateValue.one;
+                    Rated = TraktRateValue.two;
                     UpdateRating();
                     break; 
                
                 case Action.ActionType.REMOTE_3:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.three;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.three;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_4:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.four;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.four;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_5:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.five;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.five;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_6:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.six;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.six;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_7:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.seven;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.seven;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_8:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.eight;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.eight;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_9:
-                    if (ShowAdvancedRatings)
-                    {
-                        Rated = TraktRateValue.nine;
-                        UpdateRating();
-                    }
+                    Rated = TraktRateValue.nine;
+                    UpdateRating();
                     break;
 
                 case Action.ActionType.REMOTE_0:
-                    if (ShowAdvancedRatings)
-                        Rated = TraktRateValue.ten;
-                    else
-                        Rated = TraktRateValue.unrate;
+                    Rated = TraktRateValue.ten;
                     UpdateRating();
                     break;
 
@@ -190,17 +157,10 @@ namespace TraktPlugin.GUI
                     if (action.m_key != null)
                     {
                         int key = action.m_key.KeyChar;
-                        if (ShowAdvancedRatings && (key >= '0' && key <= '9'))
+                        if (key >= '0' && key <= '9')
                         {
                             if (key == 0) key = 10;
                             Rated = (TraktRateValue)key;
-                            UpdateRating();
-                        }
-                        else if (!ShowAdvancedRatings && (key >= '0' && key <= '2'))
-                        {
-                            if (key == 0) Rated = TraktRateValue.unrate;
-                            if (key == 1) Rated = TraktRateValue.ten;
-                            if (key == 2) Rated = TraktRateValue.one;
                             UpdateRating();
                         }
                     }
@@ -234,20 +194,6 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            if (control == btnLove)
-            {
-                Rated = TraktRateValue.ten;
-                IsSubmitted = true;
-                PageDestroy();
-                return;
-            }
-            else if (control == btnHate)
-            {
-                Rated = TraktRateValue.one;
-                IsSubmitted = true;
-                PageDestroy();
-                return;
-            }
             if (control == btnOneHeart)
             {
                 Rated = TraktRateValue.one;
@@ -330,8 +276,8 @@ namespace TraktPlugin.GUI
 
                     base.OnMessage(message);
 
-                    // readjust rating and default control focus
-                    int defaultControlId = ShowAdvancedRatings ? 1000 + (int)rating : rating == TraktRateValue.ten ? 100 : 101;
+                    // read just rating and default control focus
+                    int defaultControlId = 1000 + (int)rating;
                     GUIMessage msg = new GUIMessage(GUIMessage.MessageType.GUI_MSG_SETFOCUS, GetID, 0, defaultControlId, 0, 0, null);
                     OnMessage(msg);
 
@@ -347,15 +293,11 @@ namespace TraktPlugin.GUI
                         break;
                     }
 
-                    if (!ShowAdvancedRatings && (message.TargetControlId < 100 || message.TargetControlId > 101))
-                        break;
-                    if (ShowAdvancedRatings && (message.TargetControlId < 1001 || message.TargetControlId > 1010))
+                    if (message.TargetControlId < 1001 || message.TargetControlId > 1010)
                         break;
 
-                    if (ShowAdvancedRatings)
-                        Rated = (TraktRateValue)(message.TargetControlId - 1000);
-                    else
-                        Rated = message.TargetControlId == 100 ? TraktRateValue.ten : TraktRateValue.one;
+                  
+                    Rated = (TraktRateValue)(message.TargetControlId - 1000);
                     UpdateRating();
                     break;
             }
@@ -375,69 +317,46 @@ namespace TraktPlugin.GUI
             }
 
             // Update button states
-            if (!ShowAdvancedRatings)
-            {
-                btnLove.Selected = (Rated == TraktRateValue.ten);
-                btnHate.Selected = (Rated == TraktRateValue.one);
+            GUICheckMarkControl[] btnHearts = new GUICheckMarkControl[10]
+            { 
+                btnOneHeart, btnTwoHeart, btnThreeHeart, btnFourHeart, btnFiveHeart,
+				btnSixHeart, btnSevenHeart, btnEightHeart, btnNineHeart, btnTenHeart
+            };
 
-                btnLove.Focus = (Rated == TraktRateValue.ten);
-                btnHate.Focus = (Rated == TraktRateValue.one);
-            }
-            else
+            for (int i = 0; i < 10; i++)
             {
-                GUICheckMarkControl[] btnHearts = new GUICheckMarkControl[10]
-                { 
-                    btnOneHeart, btnTwoHeart, btnThreeHeart, btnFourHeart, btnFiveHeart,
-					btnSixHeart, btnSevenHeart, btnEightHeart, btnNineHeart, btnTenHeart
-                };
-
-                for (int i = 0; i < 10; i++)
-                {
-                    btnHearts[i].Label = string.Empty;
-                    btnHearts[i].Selected = ((int)Rated > i);
-                }
-                if ((int)Rated >= 1)
-                    btnHearts[(int)Rated - 1].Focus = true;
+                btnHearts[i].Label = string.Empty;
+                btnHearts[i].Selected = ((int)Rated > i);
             }
+            if ((int)Rated >= 1)
+                btnHearts[(int)Rated - 1].Focus = true;
 
             // Update Rating Description
-            if (lblRating != null && !ShowAdvancedRatings)
-            {
-                lblRating.Label = GetRatingDescription();
-            }
-            else if (lblRatingAdvanced != null && ShowAdvancedRatings)
-            {
-                lblRatingAdvanced.Label = Rated == TraktRateValue.unrate ? GetRatingDescription() : string.Format("({0}) {1} / 10", GetRatingDescription(), (int)Rated);
-            }
+            lblRatingAdvanced.Label = Rated == TraktRateValue.unrate ? GetRatingDescription() : string.Format("({0}) {1} / 10", GetRatingDescription(), (int)Rated);
         }
 
         private void SetControlVisibility()
         {
             // mandatory controls
-            btnLove.Visible = !ShowAdvancedRatings;
-            btnHate.Visible = !ShowAdvancedRatings;
+            btnLove.Visible = false;
+            btnHate.Visible = false;
 
-            // skins may take a while to be updated
-            // introduced in v1.6.0, this also includes skin check
-            if (AdvancedRatingsSupported)
-            {
-                btnOneHeart.Visible = ShowAdvancedRatings;
-                btnTwoHeart.Visible = ShowAdvancedRatings;
-                btnThreeHeart.Visible = ShowAdvancedRatings;
-                btnFourHeart.Visible = ShowAdvancedRatings;
-                btnFiveHeart.Visible = ShowAdvancedRatings;
-                btnSixHeart.Visible = ShowAdvancedRatings;
-                btnSevenHeart.Visible = ShowAdvancedRatings;
-                btnEightHeart.Visible = ShowAdvancedRatings;
-                btnNineHeart.Visible = ShowAdvancedRatings;
-                btnTenHeart.Visible = ShowAdvancedRatings;
-            }
+            btnOneHeart.Visible = true;
+            btnTwoHeart.Visible = true;
+            btnThreeHeart.Visible = true;
+            btnFourHeart.Visible = true;
+            btnFiveHeart.Visible = true;
+            btnSixHeart.Visible = true;
+            btnSevenHeart.Visible = true;
+            btnEightHeart.Visible = true;
+            btnNineHeart.Visible = true;
+            btnTenHeart.Visible = true;
 
             // conditional controls
             if (lblRating != null)
-                lblRating.Visible = !ShowAdvancedRatings;
+                lblRating.Visible = false;
             if (lblRatingAdvanced != null)
-                lblRatingAdvanced.Visible = ShowAdvancedRatings;
+                lblRatingAdvanced.Visible = true;
         }
 
         private string GetRatingDescription()
@@ -449,7 +368,6 @@ namespace TraktPlugin.GUI
                 case TraktRateValue.unrate:
                     description = Translation.UnRate;
                     break;
-                case TraktRateValue.love:
                 case TraktRateValue.ten:
                     description = Translation.RateLove;
                     break;
@@ -477,25 +395,12 @@ namespace TraktPlugin.GUI
                 case TraktRateValue.two:
                     description = Translation.RateTwo;
                     break;
-                case TraktRateValue.hate:
                 case TraktRateValue.one:
                     description = Translation.RateHate;
                     break;
             }
 
             return description;
-        }
-
-        private void CheckSkinCompatibility()
-        {
-            // if one of the advanced buttons are not supported
-            // then its safe to say only simple ratings are supported
-            if (btnOneHeart == null)
-            {
-                ShowAdvancedRatings = false;
-            }
-            else
-                AdvancedRatingsSupported = true;
         }
 
         #endregion

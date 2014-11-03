@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -68,7 +68,7 @@ namespace TraktPlugin.GUI
             {
                 if (!UserProfiles.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _UserProfile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                    _UserProfile = TraktAPI.v1.TraktAPI.GetUserProfile(CurrentUser);
                     if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
                     GetUserProfileImage(_UserProfile);
                     UserProfiles.Add(CurrentUser, _UserProfile);

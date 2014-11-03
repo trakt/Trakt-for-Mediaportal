@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin.GUI
@@ -253,7 +253,7 @@ namespace TraktPlugin.GUI
 
                 // first create new list
                 TraktLogger.Info("Creating new '{0}' list '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
-                TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(copyParams.Destination);
+                TraktAddListResponse response = TraktAPI.v1.TraktAPI.ListAdd(copyParams.Destination);
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
                 if (response.Status == "success")
                 {
@@ -261,7 +261,7 @@ namespace TraktPlugin.GUI
                     copyParams.Destination.Slug = response.Slug;
 
                     // get items from other list
-                    TraktUserList userList = TraktAPI.TraktAPI.GetUserList(copyParams.Username, copyParams.Source.Slug);
+                    TraktUserList userList = TraktAPI.v1.TraktAPI.GetUserList(copyParams.Username, copyParams.Source.Slug);
                     // copy items to new list
                     List<TraktListItem> items = new List<TraktListItem>();
                     foreach (var item in userList.Items)
@@ -300,7 +300,7 @@ namespace TraktPlugin.GUI
                     copyParams.Destination.Items = items;
                     
                     // add items to the list
-                    TraktLogger.LogTraktResponse<TraktSyncResponse>(TraktAPI.TraktAPI.ListAddItems(copyParams.Destination));
+                    TraktLogger.LogTraktResponse<TraktSyncResponse>(TraktAPI.v1.TraktAPI.ListAddItems(copyParams.Destination));
                     if (response.Status == "success")
                     {
                         TraktLists.ClearCache(TraktSettings.Username);
@@ -334,7 +334,7 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Deleting list '{0}'", list.Name);
                 TraktList deleteList = new TraktList{ UserName = TraktSettings.Username, Password = TraktSettings.Password, Slug = list.Slug };
-                return TraktAPI.TraktAPI.ListDelete(deleteList);
+                return TraktAPI.v1.TraktAPI.ListDelete(deleteList);
             },
             delegate(bool success, object result)
             {
@@ -367,7 +367,7 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.TraktAPI.ListAdd(list);
+                return TraktAPI.v1.TraktAPI.ListAdd(list);
             },
             delegate(bool success, object result)
             {
@@ -400,7 +400,7 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.TraktAPI.ListUpdate(list);
+                return TraktAPI.v1.TraktAPI.ListUpdate(list);
             },
             delegate(bool success, object result)
             {

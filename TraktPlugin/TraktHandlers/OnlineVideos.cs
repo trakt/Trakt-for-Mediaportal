@@ -13,8 +13,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Player;
 using System.Threading;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -95,7 +95,7 @@ namespace TraktPlugin.TraktHandlers
                     if (scrobbleEpisodeData == null) return;
                     scrobbleEpisodeData.Duration = Convert.ToInt32(duration).ToString();
                     scrobbleEpisodeData.Progress = Convert.ToInt32(progress).ToString();
-                    response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.watching);
+                    response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.watching);
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace TraktPlugin.TraktHandlers
                     if (scrobbleMovieData == null) return;
                     scrobbleMovieData.Duration = Convert.ToInt32(duration).ToString();
                     scrobbleMovieData.Progress = Convert.ToInt32(progress).ToString();
-                    response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.watching);
+                    response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.watching);
                 }
 
                 TraktLogger.LogTraktResponse(response);
@@ -168,7 +168,7 @@ namespace TraktPlugin.TraktHandlers
                         if (scrobbleEpisodeData == null) return;
                         scrobbleEpisodeData.Duration = Convert.ToInt32(duration).ToString();
                         scrobbleEpisodeData.Progress = Convert.ToInt32(progress).ToString();
-                        response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.scrobble);
+                        response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.scrobble);
                     }
                     else
                     {
@@ -176,7 +176,7 @@ namespace TraktPlugin.TraktHandlers
                         if (scrobbleMovieData == null) return;
                         scrobbleMovieData.Duration = Convert.ToInt32(duration).ToString();
                         scrobbleMovieData.Progress = Convert.ToInt32(progress).ToString();
-                        response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.scrobble);
+                        response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.scrobble);
                     }
 
                     TraktLogger.LogTraktResponse(response);
@@ -296,7 +296,7 @@ namespace TraktPlugin.TraktHandlers
                         Password = TraktSettings.Password
                     };
                     // get the rating submitted to trakt
-                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {
@@ -310,7 +310,7 @@ namespace TraktPlugin.TraktHandlers
                         Password = TraktSettings.Password
                     };
                     // get the rating submitted to trakt
-                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
                 }
 
                 if (rating > 0)

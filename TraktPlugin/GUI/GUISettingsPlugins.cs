@@ -10,8 +10,8 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -174,12 +174,9 @@ namespace TraktPlugin.GUI
             TraktSettings.MyVideos = MyVideos;
             TraktSettings.MyFilms = MyFilms;
             TraktSettings.OnlineVideos = OnlineVideos;
-            TraktSettings.MyAnime = MyAnime;            
             if (btnMyRecordedTV != null) { TraktSettings.MyTVRecordings = MyRecordedTV; }
-            if (btnForTheRecordRecordings != null) { TraktSettings.ForTheRecordRecordings = ForTheRecordRecordings; }
             if (btnArgusRecordings != null) { TraktSettings.ArgusRecordings = ArgusRecordings; }
             if (btnMyLiveTV != null) { TraktSettings.MyTVLive = MyLiveTV; }
-            if (btnForTheRecordLiveTV != null) { TraktSettings.ForTheRecordTVLive = ForTheRecordLiveTV; }
             if (btnArgusLiveTV != null) { TraktSettings.ArgusTVLive = ArgusLiveTV; }
 
             TraktSettings.SaveSettings();
@@ -215,20 +212,10 @@ namespace TraktPlugin.GUI
                 PluginHandlersChanged = true;
                 PluginHandlersAdded = TraktSettings.OnlineVideos == -1;
             }
-            if (control == btnMyAnime)
-            {
-                PluginHandlersChanged = true;
-                PluginHandlersAdded = TraktSettings.MyAnime == -1;
-            }
             if (control == btnMyRecordedTV)
             {
                 PluginHandlersChanged = true;
                 PluginHandlersAdded = TraktSettings.MyTVRecordings == -1;
-            }
-            if (control == btnForTheRecordRecordings)
-            {
-                PluginHandlersChanged = true;
-                PluginHandlersAdded = TraktSettings.ForTheRecordRecordings == -1;
             }
             if (control == btnArgusRecordings)
             {
@@ -239,11 +226,6 @@ namespace TraktPlugin.GUI
             {
                 PluginHandlersChanged = true;
                 PluginHandlersAdded = TraktSettings.MyTVLive == -1;
-            }
-            if (control == btnForTheRecordLiveTV)
-            {
-                PluginHandlersChanged = true;
-                PluginHandlersAdded = TraktSettings.ForTheRecordTVLive == -1;
             }
             if (control == btnArgusLiveTV)
             {
@@ -265,12 +247,9 @@ namespace TraktPlugin.GUI
             MyVideos = TraktSettings.MyVideos;
             MyFilms = TraktSettings.MyFilms;
             OnlineVideos = TraktSettings.OnlineVideos;
-            MyAnime = TraktSettings.MyAnime;
             MyRecordedTV = TraktSettings.MyTVRecordings;
-            ForTheRecordRecordings = TraktSettings.ForTheRecordRecordings;
             ArgusRecordings = TraktSettings.ArgusRecordings;
             MyLiveTV = TraktSettings.MyTVLive;
-            ForTheRecordLiveTV = TraktSettings.ForTheRecordTVLive;
             ArgusLiveTV = TraktSettings.ArgusTVLive;
 
             try

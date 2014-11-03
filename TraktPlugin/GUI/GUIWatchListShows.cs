@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -84,7 +84,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListShows = TraktAPI.TraktAPI.GetWatchListShows(CurrentUser);
+                    _WatchListShows = TraktAPI.v1.TraktAPI.GetWatchListShows(CurrentUser);
                     if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
                     userWatchList.Add(CurrentUser, _WatchListShows);
                     LastRequest = DateTime.UtcNow;

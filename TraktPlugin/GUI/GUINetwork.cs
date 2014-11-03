@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -104,7 +104,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFriends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFriends = TraktAPI.TraktAPI.GetNetworkFriends();
+                    _TraktFriends = TraktAPI.v1.TraktAPI.GetNetworkFriends();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
@@ -119,7 +119,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFollowers == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFollowers = TraktAPI.TraktAPI.GetNetworkFollowers();
+                    _TraktFollowers = TraktAPI.v1.TraktAPI.GetNetworkFollowers();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
@@ -134,7 +134,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFollowing == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFollowing = TraktAPI.TraktAPI.GetNetworkFollowing();
+                    _TraktFollowing = TraktAPI.v1.TraktAPI.GetNetworkFollowing();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
@@ -630,7 +630,7 @@ namespace TraktPlugin.GUI
         {
             Thread approveFollowerThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.NetworkApprove(CreateNetworkData(user, followBack));
+                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkApprove(CreateNetworkData(user, followBack));
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
@@ -645,7 +645,7 @@ namespace TraktPlugin.GUI
         {
             Thread denyFollowerRequest = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.NetworkDeny(CreateNetworkData(user));
+                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkDeny(CreateNetworkData(user));
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
@@ -660,7 +660,7 @@ namespace TraktPlugin.GUI
         {
             Thread unfollowUserThread = new Thread(delegate(object obj)
             {
-                TraktResponse response = TraktAPI.TraktAPI.NetworkUnFollow(CreateNetworkData(user));
+                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkUnFollow(CreateNetworkData(user));
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
             })
             {
@@ -1222,7 +1222,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFollowerRequests == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFollowerRequests = TraktAPI.TraktAPI.GetNetworkRequests();
+                    _TraktFollowerRequests = TraktAPI.v1.TraktAPI.GetNetworkRequests();
                     LastRequest = DateTime.UtcNow;
                 }
                 return _TraktFollowerRequests;
@@ -1249,7 +1249,7 @@ namespace TraktPlugin.GUI
             {
                 var currUser = obj as TraktUser;
 
-                var response = TraktAPI.TraktAPI.NetworkFollow(CreateNetworkData(currUser));
+                var response = TraktAPI.v1.TraktAPI.NetworkFollow(CreateNetworkData(currUser));
                 TraktLogger.LogTraktResponse<TraktNetworkFollowResponse>(response);
 
                 // notify user if follow is pending approval by user

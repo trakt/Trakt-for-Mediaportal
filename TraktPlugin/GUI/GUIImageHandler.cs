@@ -9,7 +9,7 @@ using System.Text;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -88,34 +88,10 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Get a overlay for images that represent a users Advanced Rating score
         /// </summary>
-        /// <param name="rating">the movie, show or episodes advanced rating (backwards compatible with simple ratings)</param>
+        /// <param name="rating">the movie, show or episodes rating</param>
         internal static RatingOverlayImage GetRatingOverlay(int rating)
         {
-            RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-
-            if (!TraktSettings.ShowAdvancedRatingsDialog)
-            {
-                if (rating > 5)
-                    ratingOverlay = RatingOverlayImage.Love;
-                else if (rating >= 1)
-                    ratingOverlay = RatingOverlayImage.Hate;
-            }
-            else
-            {
-                // do extra check to confirm new skin images exist
-                // if not fall back to basic overlays
-                if (!File.Exists(GUIGraphicsContext.Skin + string.Format(@"\Media\traktHeart{0}.png", rating)))
-                {
-                    if (rating > 5)
-                        ratingOverlay = RatingOverlayImage.Love;
-                    else if (rating >= 1)
-                        ratingOverlay = RatingOverlayImage.Hate;
-                }
-                else
-                    ratingOverlay = (RatingOverlayImage)rating;
-            }
-
-            return ratingOverlay;
+            return (RatingOverlayImage)rating;
         }
 
         /// <summary>

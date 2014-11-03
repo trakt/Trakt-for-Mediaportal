@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -81,7 +81,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                    _TrendingMovies = TraktAPI.v1.TraktAPI.GetTrendingMovies();
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }

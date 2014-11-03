@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 using MediaPortal.Player;
 using MediaPortal.Configuration;
 using System.Reflection;
@@ -89,27 +89,28 @@ namespace TraktPlugin.TraktHandlers
 
                 #region Skipped Movies Check
                 // Remove Skipped Movies from previous Sync
-                if (TraktSettings.SkippedMovies != null)
-                {
-                    // allow movies to re-sync again after 7-days in the case user has addressed issue ie. edited movie or added to themoviedb.org
-                    if (TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch() > DateTime.UtcNow.Subtract(new TimeSpan(7, 0, 0, 0)))
-                    {
-                        if (TraktSettings.SkippedMovies.Movies != null && TraktSettings.SkippedMovies.Movies.Count > 0)
-                        {
-                            TraktLogger.Info("Skipping {0} movies due to invalid data or movies don't exist on http://themoviedb.org. Next check will be {1}.", TraktSettings.SkippedMovies.Movies.Count, TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch().Add(new TimeSpan(7, 0, 0, 0)));
-                            foreach (var movie in TraktSettings.SkippedMovies.Movies)
-                            {
-                                TraktLogger.Info("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
-                                MovieList.RemoveAll(m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (TraktSettings.SkippedMovies.Movies != null) TraktSettings.SkippedMovies.Movies.Clear();
-                        TraktSettings.SkippedMovies.LastSkippedSync = DateTime.UtcNow.ToEpoch();
-                    }
-                }
+                //TODO
+                //if (TraktSettings.SkippedMovies != null)
+                //{
+                //    // allow movies to re-sync again after 7-days in the case user has addressed issue ie. edited movie or added to themoviedb.org
+                //    if (TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch() > DateTime.UtcNow.Subtract(new TimeSpan(7, 0, 0, 0)))
+                //    {
+                //        if (TraktSettings.SkippedMovies.Movies != null && TraktSettings.SkippedMovies.Movies.Count > 0)
+                //        {
+                //            TraktLogger.Info("Skipping {0} movies due to invalid data or movies don't exist on http://themoviedb.org. Next check will be {1}.", TraktSettings.SkippedMovies.Movies.Count, TraktSettings.SkippedMovies.LastSkippedSync.FromEpoch().Add(new TimeSpan(7, 0, 0, 0)));
+                //            foreach (var movie in TraktSettings.SkippedMovies.Movies)
+                //            {
+                //                TraktLogger.Info("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                //                MovieList.RemoveAll(m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID));
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        if (TraktSettings.SkippedMovies.Movies != null) TraktSettings.SkippedMovies.Movies.Clear();
+                //        TraktSettings.SkippedMovies.LastSkippedSync = DateTime.UtcNow.ToEpoch();
+                //    }
+                //}
                 #endregion
 
                 #region Already Exists Movie Check
@@ -117,29 +118,30 @@ namespace TraktPlugin.TraktHandlers
                 // When we compare our local collection with trakt collection we have english only titles, so if no imdb/tmdb exists
                 // we need to fallback to title matching. When we sync aka names are sometimes accepted if defined on themoviedb.org so we need to 
                 // do this to revent syncing these movies every sync interval.
-                if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
-                {
-                    TraktLogger.Debug("Skipping {0} movies as they already exist in trakt library but failed local match previously.", TraktSettings.AlreadyExistMovies.Movies.Count.ToString());
-                    var movies = new List<TraktMovieSync.Movie>(TraktSettings.AlreadyExistMovies.Movies);
-                    foreach (var movie in movies)
-                    {
-                        Predicate<MFMovie> criteria = m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID);
-                        if (MovieList.Exists(criteria))
-                        {
-                            TraktLogger.Debug("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
-                            MovieList.RemoveAll(criteria);
-                        }
-                        else
-                        {
-                            // remove as we have now removed from our local collection or updated movie signature
-                            if (TraktSettings.MoviePluginCount == 1)
-                            {
-                                TraktLogger.Debug("Removing 'AlreadyExists' movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
-                                TraktSettings.AlreadyExistMovies.Movies.Remove(movie);
-                            }
-                        }
-                    }
-                }
+                //TODO
+                //if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
+                //{
+                //    TraktLogger.Debug("Skipping {0} movies as they already exist in trakt library but failed local match previously.", TraktSettings.AlreadyExistMovies.Movies.Count.ToString());
+                //    var movies = new List<TraktMovieSync.Movie>(TraktSettings.AlreadyExistMovies.Movies);
+                //    foreach (var movie in movies)
+                //    {
+                //        Predicate<MFMovie> criteria = m => (m.Title == movie.Title) && (m.Year.ToString() == movie.Year) && (m.IMDBNumber == movie.IMDBID);
+                //        if (MovieList.Exists(criteria))
+                //        {
+                //            TraktLogger.Debug("Skipping movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                //            MovieList.RemoveAll(criteria);
+                //        }
+                //        else
+                //        {
+                //            // remove as we have now removed from our local collection or updated movie signature
+                //            if (TraktSettings.MoviePluginCount == 1)
+                //            {
+                //                TraktLogger.Debug("Removing 'AlreadyExists' movie, Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                //                TraktSettings.AlreadyExistMovies.Movies.Remove(movie);
+                //            }
+                //        }
+                //    }
+                //}
                 #endregion
 
                 TraktLogger.Info("{0} movies available to sync in MyFilms database(s)", MovieList.Count.ToString());
@@ -151,7 +153,7 @@ namespace TraktPlugin.TraktHandlers
 
                 #region Get Movies from trakt
                 TraktLogger.Info("Getting user {0}'s movies from trakt", TraktSettings.Username);
-                IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
+                IEnumerable<TraktLibraryMovies> traktMoviesAll = TraktAPI.v1.TraktAPI.GetAllMoviesForUser(TraktSettings.Username);
                 if (traktMoviesAll == null)
                 {
                     SyncInProgress = false;
@@ -246,7 +248,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (moviesToSync.Count > 0)
                 {
-                    TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
+                    TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(CreateSyncData(moviesToSync), TraktSyncModes.library);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
                     TraktLogger.LogTraktResponse(response);
@@ -260,7 +262,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (watchedMoviesToSync.Count > 0)
                 {
-                    TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
+                    TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(CreateSyncData(watchedMoviesToSync), TraktSyncModes.seen);
                     BasicHandler.InsertSkippedMovies(response);
                     BasicHandler.InsertAlreadyExistMovies(response);
                     TraktLogger.LogTraktResponse(response);
@@ -271,7 +273,7 @@ namespace TraktPlugin.TraktHandlers
                 // only sync ratings if we are using Advanced Ratings
                 if (TraktSettings.SyncRatings)
                 {
-                    var traktRatedMovies = TraktAPI.TraktAPI.GetUserRatedMovies(TraktSettings.Username);
+                    var traktRatedMovies = TraktAPI.v1.TraktAPI.GetUserRatedMovies(TraktSettings.Username);
                     if (traktRatedMovies == null)
                         TraktLogger.Error("Error getting rated movies from trakt server.");
                     else
@@ -316,7 +318,7 @@ namespace TraktPlugin.TraktHandlers
                         if (ratedMoviesToSync.Count > 0)
                         {
                             ratedMoviesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for movie '{1} ({2})'", a.RatingUser, a.Title, a.Year));
-                            TraktResponse response = TraktAPI.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
+                            TraktResponse response = TraktAPI.v1.TraktAPI.RateMovies(CreateRatingMoviesData(ratedMoviesToSync));
                             TraktLogger.LogTraktResponse(response);
                         }
                     }
@@ -335,17 +337,18 @@ namespace TraktPlugin.TraktHandlers
 
                     if (NoLongerInOurCollection.Count > 0)
                     {
-                        if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
-                        {
-                            TraktLogger.Warning("DISABLING CLEAN LIBRARY!!!, there are trakt library movies that can't be determined to be local in collection.");
-                            TraktLogger.Warning("To fix this, check the 'already exist' entries in log, then check movies in local collection against this list and ensure IMDb id is set then run sync again.");
-                        }
-                        else
-                        {
-                            //Then remove from library
-                            TraktSyncResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
-                            TraktLogger.LogTraktResponse(response);
-                        }
+                        //TODO
+                        //if (TraktSettings.AlreadyExistMovies != null && TraktSettings.AlreadyExistMovies.Movies != null && TraktSettings.AlreadyExistMovies.Movies.Count > 0)
+                        //{
+                        //    TraktLogger.Warning("DISABLING CLEAN LIBRARY!!!, there are trakt library movies that can't be determined to be local in collection.");
+                        //    TraktLogger.Warning("To fix this, check the 'already exist' entries in log, then check movies in local collection against this list and ensure IMDb id is set then run sync again.");
+                        //}
+                        //else
+                        //{
+                        //    //Then remove from library
+                        //    TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(BasicHandler.CreateMovieSyncData(NoLongerInOurCollection), TraktSyncModes.unlibrary);
+                        //    TraktLogger.LogTraktResponse(response);
+                        //}
                     }
                 }
                 #endregion
@@ -404,7 +407,7 @@ namespace TraktPlugin.TraktHandlers
 
                     foreach (TraktUserList traktUserList in traktUserLists)
                     {
-                        TraktUserList traktUserListMovies = TraktAPI.TraktAPI.GetUserList(TraktSettings.Username, traktUserList.Slug);
+                        TraktUserList traktUserListMovies = TraktAPI.v1.TraktAPI.GetUserList(TraktSettings.Username, traktUserList.Slug);
                         if (traktUserListMovies == null) continue;
 
                         string userListName = Translation.List + ": " + traktUserList.Name;
@@ -532,7 +535,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Progress = Convert.ToInt32(progress).ToString();
 
                 // set watching status on trakt
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.watching);
+                TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.watching);
                 TraktLogger.LogTraktResponse(response);
             }), CurrentMovie, 3000, 900000);
             #endregion
@@ -708,7 +711,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnStartedMovie(MFMovie movie)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
@@ -719,7 +722,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnStoppedMovie(MFMovie movie)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
@@ -732,7 +735,7 @@ namespace TraktPlugin.TraktHandlers
                 Thread cancelWatching = new Thread(delegate()
                 {
                     TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                    TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                    TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -746,7 +749,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnWatchedMovie(MFMovie movie)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
             
             CurrentMovie = null;
 
@@ -770,7 +773,7 @@ namespace TraktPlugin.TraktHandlers
                     scrobbleData.Duration = g_Player.Duration > 0 ? Convert.ToInt32(g_Player.Duration / 60).ToString() : watchedMovie.Length.ToString();
                     scrobbleData.Progress = "100";
 
-                    var response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
+                    var response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.scrobble);
                     TraktLogger.LogTraktResponse(response);
                     // UpdateRecommendations();
                 })
@@ -791,7 +794,7 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("Received rating event from MyFilms");
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // don't do anything if movie is blocked
             if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
@@ -808,7 +811,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 MFMovie tMovie = o as MFMovie;
 
-                response = TraktAPI.TraktAPI.RateMovie(CreateRateData(tMovie, rating));
+                response = TraktAPI.v1.TraktAPI.RateMovie(CreateRateData(tMovie, rating));
 
                 TraktLogger.LogTraktResponse(response);
             })
@@ -824,7 +827,7 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("Received togglewatched event from My Films");
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // don't do anything if movie is blocked
             if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
@@ -836,7 +839,7 @@ namespace TraktPlugin.TraktHandlers
             Thread toggleWatchedThread = new Thread((o) =>
             {
                 MFMovie tMovie = o as MFMovie;
-                TraktResponse response = TraktAPI.TraktAPI.SyncMovieLibrary(CreateSyncData(tMovie), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(CreateSyncData(tMovie), watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -853,7 +856,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportComplete()
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             TraktLogger.Debug("My Films import complete, initiating online sync");
 
@@ -945,15 +948,16 @@ namespace TraktPlugin.TraktHandlers
                 };
 
                 // get the rating submitted to trakt
-                int rating = int.Parse(GUI.GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+                //TODO
+                //int rating = int.Parse(GUI.GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
 
-                if (rating > 0)
-                {
-                    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
-                    movieToRate.RatingUser = (float)rating;
-                    movieToRate.Username = TraktSettings.Username;
-                    movieToRate.Commit();
-                }
+                //if (rating > 0)
+                //{
+                //    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
+                //    movieToRate.RatingUser = (float)rating;
+                //    movieToRate.Username = TraktSettings.Username;
+                //    movieToRate.Commit();
+                //}
             })
             {
                 Name = "Rate",
@@ -971,7 +975,7 @@ namespace TraktPlugin.TraktHandlers
             List<MFMovie> movieListAll = (from MFMovie movie in myvideos select movie).ToList(); // Add tags also to blocked movies, as it is only local
             IEnumerable<TraktMovie> traktRecommendationMovies = null;
 
-            traktRecommendationMovies = TraktAPI.TraktAPI.GetRecommendedMovies();
+            traktRecommendationMovies = TraktAPI.v1.TraktAPI.GetRecommendedMovies();
             TraktLogger.Info("Retrieved {0} recommendations items from trakt", traktRecommendationMovies.Count());
             
             if (traktRecommendationMovies != null)

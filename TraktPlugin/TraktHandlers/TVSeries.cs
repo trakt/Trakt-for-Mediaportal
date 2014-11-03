@@ -8,8 +8,8 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 using WindowPlugins.GUITVSeries;
 
 namespace TraktPlugin.TraktHandlers
@@ -96,7 +96,7 @@ namespace TraktPlugin.TraktHandlers
                 #region Get online data
                 // get all episodes on trakt that are marked as in 'collection'
                 TraktLogger.Info("Getting user {0}'s 'library' episodes from trakt", TraktSettings.Username);
-                IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
+                IEnumerable<TraktLibraryShow> traktCollectionEpisodes = TraktAPI.v1.TraktAPI.GetLibraryEpisodesForUser(TraktSettings.Username);
                 if (traktCollectionEpisodes == null)
                 {
                     TraktLogger.Error("Error getting show collection from trakt server, cancelling sync.");
@@ -107,7 +107,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // get all episodes on trakt that are marked as 'seen' or 'watched'
                 TraktLogger.Info("Getting user {0}'s 'watched/seen' episodes from trakt", TraktSettings.Username);
-                IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
+                IEnumerable<TraktLibraryShow> traktWatchedEpisodes = TraktAPI.v1.TraktAPI.GetWatchedEpisodesForUser(TraktSettings.Username);
                 if (traktWatchedEpisodes == null)
                 {
                     TraktLogger.Error("Error getting shows watched from trakt server, cancelling sync.");
@@ -118,7 +118,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // get all episodes on trakt that are marked as 'unseen'
                 TraktLogger.Info("Getting user {0}'s 'unseen' episodes from trakt", TraktSettings.Username);
-                IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
+                IEnumerable<TraktLibraryShow> traktUnSeenEpisodes = TraktAPI.v1.TraktAPI.GetUnSeenEpisodesForUser(TraktSettings.Username);
                 if (traktUnSeenEpisodes == null)
                 {
                     TraktLogger.Error("Error getting shows unseen from trakt server, cancelling sync.");
@@ -253,7 +253,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     #region Episode Ratings
                     TraktLogger.Info("Getting rated episodes from trakt");
-                    var traktRatedEpisodes = TraktAPI.TraktAPI.GetUserRatedEpisodes(TraktSettings.Username);
+                    var traktRatedEpisodes = TraktAPI.v1.TraktAPI.GetUserRatedEpisodes(TraktSettings.Username);
                     if (traktRatedEpisodes == null)
                         TraktLogger.Error("Error getting rated episodes from trakt server.");
                     else
@@ -298,7 +298,7 @@ namespace TraktPlugin.TraktHandlers
                         if (ratedEpisodesToSync.Count > 0)
                         {
                             ratedEpisodesToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for episode '{1}'", a[DBOnlineEpisode.cMyRating], a.ToString()));
-                            TraktResponse response = TraktAPI.TraktAPI.RateEpisodes(CreateRatingEpisodesData(ratedEpisodesToSync));
+                            TraktResponse response = TraktAPI.v1.TraktAPI.RateEpisodes(CreateRatingEpisodesData(ratedEpisodesToSync));
                             TraktLogger.LogTraktResponse(response);
                         }
                     }
@@ -306,7 +306,7 @@ namespace TraktPlugin.TraktHandlers
 
                     #region Show Ratings
                     TraktLogger.Info("Getting rated shows from trakt");
-                    var traktRatedShows = TraktAPI.TraktAPI.GetUserRatedShows(TraktSettings.Username);
+                    var traktRatedShows = TraktAPI.v1.TraktAPI.GetUserRatedShows(TraktSettings.Username);
                     if (traktRatedShows == null)
                         TraktLogger.Error("Error getting rated shows from trakt server.");
                     else
@@ -342,7 +342,7 @@ namespace TraktPlugin.TraktHandlers
                         if (ratedShowsToSync.Count > 0)
                         {
                             ratedShowsToSync.ForEach(a => TraktLogger.Info("Importing rating '{0}/10' for show '{1}'", a[DBOnlineSeries.cMyRating], a.ToString()));
-                            TraktResponse response = TraktAPI.TraktAPI.RateSeries(CreateRatingShowsData(ratedShowsToSync));
+                            TraktResponse response = TraktAPI.v1.TraktAPI.RateSeries(CreateRatingShowsData(ratedShowsToSync));
                             TraktLogger.LogTraktResponse(response);
                         }
                     }
@@ -360,7 +360,7 @@ namespace TraktPlugin.TraktHandlers
                     {
                         TraktEpisodeSync syncData = GetEpisodesForTraktRemoval(series, localCollectionEpisodes.Where(e => e[DBOnlineEpisode.cSeriesID] == series.SeriesId).ToList());
                         if (syncData == null) continue;
-                        TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
+                        TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeLibrary(syncData, TraktSyncModes.unlibrary);
                         TraktLogger.LogTraktResponse(response);
                         Thread.Sleep(500);
                     }
@@ -435,7 +435,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Progress = Convert.ToInt32(progress).ToString();
 
                 // set watching status on trakt
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.watching);
+                TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.watching);
                 TraktLogger.LogTraktResponse(response);
             }), null, 3000, 900000);
             #endregion
@@ -916,7 +916,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktRateEpisode episodeRateData = CreateEpisodeRateData(episode);
                 if (episodeRateData == null) return;
-                TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(episodeRateData);
+                TraktRateResponse response = TraktAPI.v1.TraktAPI.RateEpisode(episodeRateData);
 
                 // check for any error and notify
                 TraktLogger.LogTraktResponse(response);
@@ -937,7 +937,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktRateSeries seriesRateData = CreateSeriesRateData(series);
                 if (seriesRateData == null) return;
-                TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(seriesRateData);
+                TraktRateResponse response = TraktAPI.v1.TraktAPI.RateSeries(seriesRateData);
 
                 // check for any error and notify
                 TraktLogger.LogTraktResponse(response);
@@ -970,7 +970,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("Synchronizing '{0}' episodes for series '{1}'.", mode.ToString(), series.ToString());
 
                 // upload to trakt
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), mode);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeLibrary(CreateSyncData(series, episodes), mode);
 
                 // check for any error and log result
                 TraktLogger.LogTraktResponse(response);
@@ -1074,33 +1074,33 @@ namespace TraktPlugin.TraktHandlers
                 };
 
                 // get the rating submitted to trakt
-                int rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                //TODOint rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
 
-                if (rating > 0)
-                {
-                    TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
+                //if (rating > 0)
+                //{
+                //    TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
                      
-                    epToRate[DBOnlineEpisode.cMyRating] = rating;
-                    if (epToRate[DBOnlineEpisode.cRatingCount] == 0)
-                    {
-                        // not really needed but nice touch
-                        // tvseries does not do this automatically on userrating insert
-                        // we could do one step further and re-calculate rating for any vote count
-                        epToRate[DBOnlineEpisode.cRatingCount] = 1;
-                        epToRate[DBOnlineEpisode.cRating] = rating;
-                    }
-                    // ensure we force watched flag otherwise
-                    // we will overwrite current state on facade with state before playback
-                    epToRate[DBOnlineEpisode.cWatched] = true;
-                    epToRate.Commit();
+                //    epToRate[DBOnlineEpisode.cMyRating] = rating;
+                //    if (epToRate[DBOnlineEpisode.cRatingCount] == 0)
+                //    {
+                //        // not really needed but nice touch
+                //        // tvseries does not do this automatically on userrating insert
+                //        // we could do one step further and re-calculate rating for any vote count
+                //        epToRate[DBOnlineEpisode.cRatingCount] = 1;
+                //        epToRate[DBOnlineEpisode.cRating] = rating;
+                //    }
+                //    // ensure we force watched flag otherwise
+                //    // we will overwrite current state on facade with state before playback
+                //    epToRate[DBOnlineEpisode.cWatched] = true;
+                //    epToRate.Commit();
 
-                    // update the facade holding the episode objects
-                    var listItem = FindEpisodeInFacade(episode);
-                    if (listItem != null)
-                    {
-                        listItem.TVTag = epToRate;
-                    }
-                }
+                //    // update the facade holding the episode objects
+                //    var listItem = FindEpisodeInFacade(episode);
+                //    if (listItem != null)
+                //    {
+                //        listItem.TVTag = epToRate;
+                //    }
+                //}
             })
             {
                 Name = "Rate",
@@ -1116,7 +1116,7 @@ namespace TraktPlugin.TraktHandlers
         {
             Thread.CurrentThread.Name = "LibrarySync";
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             TraktLogger.Debug("MP-TVSeries import complete, checking if sync required.");
 
@@ -1158,7 +1158,7 @@ namespace TraktPlugin.TraktHandlers
         }
         private void OnEpisodeWatched(DBEpisode episode, bool isPlaylist)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             DBEpisode currentEpisode = null;
             EpisodeWatching = false;
@@ -1199,7 +1199,7 @@ namespace TraktPlugin.TraktHandlers
                 scrobbleData.Duration = Convert.ToInt32(duration).ToString();
                 scrobbleData.Progress = "100";
 
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.scrobble);
+                TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.scrobble);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -1212,7 +1212,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeStarted(DBEpisode episode)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             TraktLogger.Info("Starting MP-TVSeries episode playback '{0}'", episode.ToString());
             EpisodeWatching = true;
@@ -1221,7 +1221,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnEpisodeStopped(DBEpisode episode)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             // Episode does not count as watched, we dont need to do anything.
             TraktLogger.Info("Stopped MP-TVSeries episode playback '{0}'", episode.ToString());
@@ -1232,7 +1232,7 @@ namespace TraktPlugin.TraktHandlers
             Thread cancelWatching = new Thread(delegate()
             {
                 TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -1245,7 +1245,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(DBTable item, string value)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             if (item is DBEpisode)
                 RateEpisode(item as DBEpisode);
@@ -1255,7 +1255,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(DBSeries series, List<DBEpisode> episodes, bool watched)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            //TODOif (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
             Thread toggleWatched = new Thread(delegate()
             {
@@ -1263,7 +1263,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktEpisodeSync episodeSyncData = CreateSyncData(series, episodes);
                 if (episodeSyncData == null) return;
-                TraktResponse response = TraktAPI.TraktAPI.SyncEpisodeLibrary(episodeSyncData, watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
+                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeLibrary(episodeSyncData, watched ? TraktSyncModes.seen : TraktSyncModes.unseen);
                 TraktLogger.LogTraktResponse(response);
             })
             {

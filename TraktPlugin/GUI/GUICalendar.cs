@@ -9,9 +9,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -123,7 +123,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarMyShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarMyShows = TraktAPI.TraktAPI.GetCalendarForUser(TraktSettings.Username, GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarMyShows = TraktAPI.v1.TraktAPI.GetCalendarForUser(TraktSettings.Username, GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -138,7 +138,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarPremieres == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarPremieres = TraktAPI.v1.TraktAPI.GetCalendarPremieres(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -153,7 +153,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarAllShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarAllShows = TraktAPI.v1.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }

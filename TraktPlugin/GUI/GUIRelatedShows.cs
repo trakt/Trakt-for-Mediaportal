@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -111,7 +111,7 @@ namespace TraktPlugin.GUI
             {
                 if (!dictRelatedShows.Keys.Contains(relatedShow.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
+                    _RelatedShows = TraktAPI.v1.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
                     if (dictRelatedShows.Keys.Contains(relatedShow.Slug)) dictRelatedShows.Remove(relatedShow.Slug);
                     dictRelatedShows.Add(relatedShow.Slug, _RelatedShows);
                     LastRequest = DateTime.UtcNow;

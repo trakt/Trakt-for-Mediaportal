@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MediaPortal.Player;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -78,7 +78,7 @@ namespace TraktPlugin.TraktHandlers
                     if (_traktWatchList == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         TraktLogger.Info("Retrieving current users watchlist from trakt.tv.");
-                        _traktWatchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                        _traktWatchList = TraktAPI.v1.TraktAPI.GetWatchListMovies(TraktSettings.Username);
                         watchListAge = DateTime.Now;
                     }
                     return _traktWatchList;
@@ -96,7 +96,7 @@ namespace TraktPlugin.TraktHandlers
                     if (_traktRecommendations == null || (DateTime.Now - recommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         TraktLogger.Info("Retrieving current users recommendations from trakt.tv.");
-                        _traktRecommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
+                        _traktRecommendations = TraktAPI.v1.TraktAPI.GetRecommendedMovies();
                         recommendationsAge = DateTime.Now;
                     }
                     return _traktRecommendations;
@@ -117,13 +117,13 @@ namespace TraktPlugin.TraktHandlers
 
                         // first get the users custom lists from trakt
                         TraktLogger.Info("Retrieving current users custom lists from trakt.tv.");
-                        var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+                        var userLists = TraktAPI.v1.TraktAPI.GetUserLists(TraktSettings.Username);
 
                         // get details of each list including items
                         foreach (var list in userLists)
                         {
                             TraktLogger.Info("Retrieving list details for '{0}' custom list from trakt.tv.", list.Name);
-                            var userList = TraktAPI.TraktAPI.GetUserList(TraktSettings.Username, list.Slug);
+                            var userList = TraktAPI.v1.TraktAPI.GetUserList(TraktSettings.Username, list.Slug);
 
                             if (userList == null || userList.Items == null)
                                 continue;
@@ -268,7 +268,7 @@ namespace TraktPlugin.TraktHandlers
                 IMDBID = imdb,
                 Title = title,
                 Year = year,
-                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
+                Rating = "7",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
@@ -282,7 +282,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Title = title,
                 SeriesID = tvdb,
-                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
+                Rating = "7",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
@@ -298,7 +298,7 @@ namespace TraktPlugin.TraktHandlers
                 SeriesID = tvdb,
                 Episode = episodeidx,
                 Season = seasonidx,
-                Rating = TraktSettings.ShowAdvancedRatingsDialog ? "7" : "10",
+                Rating = "7",
                 UserName = TraktSettings.Username,
                 Password = TraktSettings.Password
             };
@@ -458,7 +458,7 @@ namespace TraktPlugin.TraktHandlers
             scrobbleData.Duration = (duration < 15.0) ? "60" : Convert.ToInt32(duration).ToString();
             scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
-            TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, state);
+            TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, state);
             return TraktLogger.LogTraktResponse(response);
         }
 
@@ -484,7 +484,7 @@ namespace TraktPlugin.TraktHandlers
             scrobbleData.Duration = (duration < 10.0) ? "30" : Convert.ToInt32(duration).ToString();
             scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
 
-            TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
+            TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
             return TraktLogger.LogTraktResponse(response);
         }
 
@@ -526,21 +526,22 @@ namespace TraktPlugin.TraktHandlers
 
             foreach (var movie in response.SkippedMovies)
             {
-                if (TraktSettings.SkippedMovies == null)
-                    TraktSettings.SkippedMovies = new SyncMovieCheck();
+                //TODO
+                //if (TraktSettings.SkippedMovies == null)
+                //    TraktSettings.SkippedMovies = new SyncMovieCheck();
 
-                TraktLogger.Info("Inserting movie into skipped movie list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                //TraktLogger.Info("Inserting movie into skipped movie list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
 
-                if (TraktSettings.SkippedMovies.Movies != null)
-                {
-                    if (!TraktSettings.SkippedMovies.Movies.Contains(movie))
-                        TraktSettings.SkippedMovies.Movies.Add(movie);
-                }
-                else
-                {
-                    TraktSettings.SkippedMovies.Movies = new List<TraktMovieSync.Movie>();
-                    TraktSettings.SkippedMovies.Movies.Add(movie);
-                }
+                //if (TraktSettings.SkippedMovies.Movies != null)
+                //{
+                //    if (!TraktSettings.SkippedMovies.Movies.Contains(movie))
+                //        TraktSettings.SkippedMovies.Movies.Add(movie);
+                //}
+                //else
+                //{
+                //    TraktSettings.SkippedMovies.Movies = new List<TraktMovieSync.Movie>();
+                //    TraktSettings.SkippedMovies.Movies.Add(movie);
+                //}
             }
         }
 
@@ -554,21 +555,22 @@ namespace TraktPlugin.TraktHandlers
 
             foreach (var movie in response.AlreadyExistMovies)
             {
-                if (TraktSettings.AlreadyExistMovies == null)
-                    TraktSettings.AlreadyExistMovies = new SyncMovieCheck();
+                //TODO
+                //if (TraktSettings.AlreadyExistMovies == null)
+                //    TraktSettings.AlreadyExistMovies = new SyncMovieCheck();
 
-                TraktLogger.Info("Inserting movie into already-exist list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+                //TraktLogger.Info("Inserting movie into already-exist list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
 
-                if (TraktSettings.AlreadyExistMovies.Movies != null)
-                {
-                    if (!TraktSettings.AlreadyExistMovies.Movies.Contains(movie))
-                        TraktSettings.AlreadyExistMovies.Movies.Add(movie);
-                }
-                else
-                {
-                    TraktSettings.AlreadyExistMovies.Movies = new List<TraktMovieSync.Movie>();
-                    TraktSettings.AlreadyExistMovies.Movies.Add(movie);
-                }
+                //if (TraktSettings.AlreadyExistMovies.Movies != null)
+                //{
+                //    if (!TraktSettings.AlreadyExistMovies.Movies.Contains(movie))
+                //        TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+                //}
+                //else
+                //{
+                //    TraktSettings.AlreadyExistMovies.Movies = new List<TraktMovieSync.Movie>();
+                //    TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+                //}
             }
         }
     }

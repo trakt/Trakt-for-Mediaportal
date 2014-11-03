@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -350,7 +350,7 @@ namespace TraktPlugin.GUI
             else
                 title = string.Format("{0}-{1}", MovieInfo.Title, MovieInfo.Year).Replace(" ", "-");
 
-            return TraktAPI.TraktAPI.GetMovieShouts(title);
+            return TraktAPI.v1.TraktAPI.GetMovieShouts(title);
         }
 
         private IEnumerable<TraktShout> GetShowShouts()
@@ -363,7 +363,7 @@ namespace TraktPlugin.GUI
             else
                 title = ShowInfo.Title.Replace(" ", "-");
 
-            return TraktAPI.TraktAPI.GetShowShouts(title);
+            return TraktAPI.v1.TraktAPI.GetShowShouts(title);
         }
 
         private IEnumerable<TraktShout> GetEpisodeShouts()
@@ -376,7 +376,7 @@ namespace TraktPlugin.GUI
             else
                 title = EpisodeInfo.Title.Replace(" ", "-");
 
-            return TraktAPI.TraktAPI.GetEpisodeShouts(title, EpisodeInfo.SeasonIdx, EpisodeInfo.EpisodeIdx);
+            return TraktAPI.v1.TraktAPI.GetEpisodeShouts(title, EpisodeInfo.SeasonIdx, EpisodeInfo.EpisodeIdx);
         }
 
         private void SendShoutsToFacade(IEnumerable<TraktShout> shouts)

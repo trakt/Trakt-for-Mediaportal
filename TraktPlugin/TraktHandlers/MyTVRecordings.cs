@@ -9,8 +9,8 @@ using System.ComponentModel;
 using System.Threading;
 using MediaPortal.Player;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 using TvDatabase;
 
 namespace TraktPlugin.TraktHandlers
@@ -169,13 +169,13 @@ namespace TraktPlugin.TraktHandlers
                     if (videoInfo.Type == VideoType.Series)
                     {
                         TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                        TraktResponse response = TraktAPI.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                        TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
                         TraktLogger.LogTraktResponse(response);
                     }
                     else
                     {
                         TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                        TraktResponse response = TraktAPI.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
+                        TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
                         TraktLogger.LogTraktResponse(response);
                     }
                 })
@@ -235,7 +235,7 @@ namespace TraktPlugin.TraktHandlers
                         Password = TraktSettings.Password
                     };
                     // get the rating submitted to trakt
-                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
                 }
                 else if (itemToRate.Type == VideoType.Movie)
                 {
@@ -247,7 +247,7 @@ namespace TraktPlugin.TraktHandlers
                         Password = TraktSettings.Password
                     };
                     // get the rating submitted to trakt
-                    rating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
                 }
 
                 if (rating > 0)

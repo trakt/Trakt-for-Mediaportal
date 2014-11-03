@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktHandlers;
 using TraktPlugin.TraktAPI.DataStructures;
 
@@ -24,14 +25,14 @@ namespace TraktPlugin
     public class TraktPlugin : GUIWindow, ISetupForm
     {
         #region Private Variables
-        //List of all our TraktHandlers
+        // List of all our TraktHandlers
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
-        //Worker used for syncing libraries
+        // Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
         static Timer syncLibraryTimer;
-        //Settings Management from MPEI
+        // Settings Management from MPEI
         ExtensionSettings extensionSettings = new ExtensionSettings();
-        //Dashboard - Activity / Trending Items
+        // Dashboard - Activity / Trending Items
         TraktDashboard dashBoard = new TraktDashboard();
         #endregion
 
@@ -225,10 +226,10 @@ namespace TraktPlugin
             UnLoadPluginHandlers();
 
             // save dashboard data
-            TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
-            TraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
-            TraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
-            TraktSettings.LastStatistics = dashBoard.PreviousStatistics;
+            //TODOTraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
+            //TODOTraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
+            //TODOTraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
+            //TODOTraktSettings.LastStatistics = dashBoard.PreviousStatistics;
 
             // save settings
             TraktSettings.SaveSettings();
@@ -290,15 +291,6 @@ namespace TraktPlugin
             {
                 ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "OnlineVideos");
                 (item as TraktHandlers.OnlineVideos).DisposeEvents();
-                TraktHandlers.Remove(item);
-            }
-            #endregion
-
-            #region My Anime
-            if (TraktHandlers.Exists(p => p.Name == "My Anime"))
-            {
-                ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Anime");
-                (item as MyAnime).DisposeEvents();
                 TraktHandlers.Remove(item);
             }
             #endregion
@@ -443,25 +435,6 @@ namespace TraktPlugin
             }
             #endregion
 
-            #region My Anime
-            try
-            {
-                bool handlerExists = TraktHandlers.Exists(p => p.Name == "My Anime");
-                if (!handlerExists && TraktSettings.MyAnime != -1)
-                    TraktHandlers.Add(new TraktHandlers.MyAnime(TraktSettings.MyAnime));
-                else if (handlerExists && TraktSettings.MyAnime == -1)
-                {
-                    ITraktHandler item = TraktHandlers.FirstOrDefault(p => p.Name == "My Anime");
-                    (item as MyAnime).DisposeEvents();
-                    TraktHandlers.Remove(item);
-                }
-            }
-            catch (Exception)
-            {
-                TraktLogger.Error(errorMessage, "My Anime");
-            }
-            #endregion
-
             #region My TV Recordings
             try
             {
@@ -489,36 +462,6 @@ namespace TraktPlugin
             catch (Exception)
             {
                 TraktLogger.Error(errorMessage, "My TV Live");
-            }
-            #endregion
-
-            #region 4TR TV Recordings
-            try
-            {
-                bool handlerExists = TraktHandlers.Exists(p => p.Name == "4TR TV Recordings");
-                if (!handlerExists && TraktSettings.ForTheRecordRecordings != -1)
-                    TraktHandlers.Add(new ForTheRecordRecordings(TraktSettings.ForTheRecordRecordings));
-                else if (handlerExists && TraktSettings.ForTheRecordRecordings == -1)
-                    TraktHandlers.RemoveAll(p => p.Name == "4TR TV Recordings");
-            }
-            catch (Exception)
-            {
-                TraktLogger.Error(errorMessage, "4TR TV Recordings");
-            }
-            #endregion
-
-            #region 4TR TV Live
-            try
-            {
-                bool handlerExists = TraktHandlers.Exists(p => p.Name == "4TR TV Live");
-                if (!handlerExists && TraktSettings.ForTheRecordTVLive != -1)
-                    TraktHandlers.Add(new ForTheRecordTVLive(TraktSettings.ForTheRecordTVLive));
-                else if (handlerExists && TraktSettings.ForTheRecordTVLive == -1)
-                    TraktHandlers.RemoveAll(p => p.Name == "4TR TV Live");
-            }
-            catch (Exception)
-            {
-                TraktLogger.Error(errorMessage, "4TR TV Live");
             }
             #endregion
 
@@ -618,12 +561,12 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.CurrentThread.Name = "LibrarySync";
+            Thread.CurrentThread.Name = "Sync";
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
 
-            TraktLogger.Info("Library Sync Started for all enabled plugins.");
+            TraktLogger.Info("Library Sync started for all enabled plugins");
 
             // User could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
@@ -635,7 +578,7 @@ namespace TraktPlugin
                 }
                 catch (Exception ex)
                 {
-                    TraktLogger.Error("Error Synchronising library from '{0}' with error: '{1}'", traktHandler.Name, ex.Message);
+                    TraktLogger.Error("Error synchronising library from '{0}' with error: '{1}'", traktHandler.Name, ex.Message);
                 }
 
                 if (syncLibraryWorker.CancellationPending)
@@ -647,7 +590,7 @@ namespace TraktPlugin
                 
         #region MediaPortal Playback Hooks
 
-        // Various hooks into MediaPortals Video playback
+        // Various hooks into MediaPortal's Video playback
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
@@ -707,7 +650,7 @@ namespace TraktPlugin
                 //did language change?
                 if (Translation.CurrentLanguage != Translation.PreviousLanguage)
                 {
-                    TraktLogger.Info("Language Changed to '{0}' from GUI, initializing translations.", Translation.CurrentLanguage);
+                    TraktLogger.Info("Language Changed to '{0}' from GUI, initializing translations", Translation.CurrentLanguage);
                     Translation.Init();
                 }
             }
@@ -794,7 +737,7 @@ namespace TraktPlugin
                 {
                     if (TraktSettings.AccountStatus == ConnectionState.Connected)
                     {
-                        var followerRequests = GUINetwork.TraktFollowerRequests;
+                        var followerRequests = TraktCache.FollowerRequests;
                         TraktLogger.Info("Follower requests: {0}", followerRequests.Count().ToString());
                         if (followerRequests.Count() > 0)
                         {
@@ -1189,17 +1132,17 @@ namespace TraktPlugin
                 {
                     case "movie":
                         TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        GUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+                        //TODOGUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
                         break;
 
                     case "series":
                         TraktLogger.Info("Rating {0} '{1} [{2}]'", type, title, tvdb);
-                        GUIUtils.ShowRateDialog<TraktRateSeries>(BasicHandler.CreateShowRateData(title, tvdb));
+                        //TODOGUIUtils.ShowRateDialog<TraktRateSeries>(BasicHandler.CreateShowRateData(title, tvdb));
                         break;
 
                     case "episode":
                         TraktLogger.Info("Rating {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
-                        GUIUtils.ShowRateDialog<TraktRateEpisode>(BasicHandler.CreateEpisodeRateData(title, tvdb, season, episode));
+                        //TODOGUIUtils.ShowRateDialog<TraktRateEpisode>(BasicHandler.CreateEpisodeRateData(title, tvdb, season, episode));
                         break;
                 }
             }
@@ -1315,26 +1258,26 @@ namespace TraktPlugin
 
                 if (!TraktSettings.BlockedFilenames.Contains(filename) && !TraktSettings.BlockedFolders.Any(f => filename.ToLowerInvariant().Contains(f.ToLowerInvariant())))
                 {
-                    TraktLogger.Debug("Checking out Libraries for the filename: {0}", filename);
+                    TraktLogger.Debug("Searching through enabled plugin handlers for now playing media. Filename = '{0}'", filename);
                     foreach (ITraktHandler traktHandler in TraktHandlers)
                     {
                         try
                         {
                             if (traktHandler.Scrobble(filename))
                             {
-                                TraktLogger.Info("File was recognised by {0} and is now scrobbling", traktHandler.Name);
+                                TraktLogger.Debug("File was recognised by an enabled plugin handler and is now scrobbling. Plugin = '{0}'", traktHandler.Name);
                                 return;
                             }
                         }
                         catch
                         {
-                            TraktLogger.Error("Error getting scrobble state from '{0}'", traktHandler.Name);
+                            TraktLogger.Error("Error starting scrobble from plugin handler. Plugin = '{0}'", traktHandler.Name);
                         }
                     }
-                    TraktLogger.Info("File was not recognised in your enabled plugin libraries");
+                    TraktLogger.Info("File was not recognised in any enabled plugin handlers, no scrobble will occur");
                 }
                 else
-                    TraktLogger.Info("Filename was recognised as blocked by user");
+                    TraktLogger.Info("Filename was blocked by user, no scrobble will occur");
             })
             {
                 IsBackground = true,
@@ -1350,9 +1293,8 @@ namespace TraktPlugin
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            // User could change handlers during sync from Settings so assign new list
+            // user could change handlers during sync from Settings so assign new list
             List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
-            TraktLogger.Debug("Making sure that we aren't still scrobbling");
             foreach (ITraktHandler traktHandler in traktHandlers)
                 traktHandler.StopScrobble();
         }

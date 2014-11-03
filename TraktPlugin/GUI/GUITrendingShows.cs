@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                    _TrendingShows = TraktAPI.v1.TraktAPI.GetTrendingShows();
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }

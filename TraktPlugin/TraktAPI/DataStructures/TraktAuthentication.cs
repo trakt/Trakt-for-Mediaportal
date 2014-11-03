@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktAuthentication
     {
-        [DataMember(Name = "username")]
+        [DataMember(Name = "login")]
         public string Username { get; set; }
 
         [DataMember(Name = "password")]

@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -74,7 +74,7 @@ namespace TraktPlugin.GUI
 
                 if (!Episodes.Keys.Contains(Show.Tvdb + "-" + season) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _SeasonEpisodes = TraktAPI.TraktAPI.GetSeasonEpisodes(Show.Tvdb, season);
+                    _SeasonEpisodes = TraktAPI.v1.TraktAPI.GetSeasonEpisodes(Show.Tvdb, season);
                     if (Episodes.Keys.Contains(Show.Tvdb + "-" + season)) Episodes.Remove(Show.Tvdb + "-" + season);
                     Episodes.Add(Show.Tvdb + "-" + season, _SeasonEpisodes);
                     LastRequest = DateTime.UtcNow;

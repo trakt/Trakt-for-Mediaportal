@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin
 {
@@ -31,7 +31,7 @@ namespace TraktPlugin
         {
             if (!usersLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
-                userLists = TraktAPI.TraktAPI.GetUserLists(username);
+                userLists = TraktAPI.v1.TraktAPI.GetUserLists(username);
                 if (usersLists.Keys.Contains(username)) usersLists.Remove(username);
                 int i = 0; // retain online sort order if we update listitems later
                 foreach (var list in userLists) { list.SortOrder = i++; }
@@ -61,7 +61,7 @@ namespace TraktPlugin
                 int sortOrder = list.SortOrder;
 
                 // get list with list items               
-                list = TraktAPI.TraktAPI.GetUserList(username, slug);
+                list = TraktAPI.v1.TraktAPI.GetUserList(username, slug);
                 list.SortOrder = sortOrder;
 
                 // update cached result
@@ -120,7 +120,7 @@ namespace TraktPlugin
                 if (TraktLists.GetListDetailsFromUser(ref list))
                 {
                     TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
-                    TraktAddListResponse response = TraktAPI.TraktAPI.ListAdd(list);
+                    TraktAddListResponse response = TraktAPI.v1.TraktAPI.ListAdd(list);
                     TraktLogger.LogTraktResponse<TraktResponse>(response);
                     if (response.Status == "success")
                     {

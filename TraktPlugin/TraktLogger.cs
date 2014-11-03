@@ -144,51 +144,67 @@ namespace TraktPlugin
         /// <param name="response">The response object holding the message to log</param>
         internal static bool LogTraktResponse<T>(T response)
         {
+            if (response == null)
+            {
+                // we already log errors which would normally not be able to be deserialised
+                // currently the return value is only being used in livetv/recordings
+                return true;
+            }
+
             try
             {
-                if (response == null || (response as TraktResponse).Status == null)
-                {
-                    // server is probably temporarily unavailable
-                    // return true even though it failed, so we can try again
-                    // currently the return value is only being used in livetv/recordings
-                    TraktLogger.Error("Response from server was unexpected.");
-                    return true;
-                }
+                string formatString = string.Empty;
 
-                // check response error status
-                if ((response as TraktResponse).Status != "success")
+                // success
+                if (response is TraktSyncResponse)
                 {
-                    if ((response as TraktResponse).Error == "The remote server returned an error: (401) Unauthorized.")
+                    string itemsAdded = null;
+                    string itemsRemoved = null;
+                    string itemsExisting = null;
+                        
+                    var res = response as TraktSyncResponse;
+
+                    if (res.Added != null)
                     {
-                        TraktLogger.Error("401 Unauthorized, Please check your Username and Password");
+                        itemsAdded = string.Format("Movies Added = '{0}', Shows Added = '{1}', Seasons Added = '{2}', Episodes Added '{3}'. ", res.Added.Movies, res.Added.Shows, res.Added.Seasons, res.Added.Episodes);
+                        formatString += itemsAdded;
+                    }
+
+                    if (res.Deleted != null)
+                    {
+                        itemsRemoved = string.Format("Movies Removed = '{0}', Shows Removed = '{1}', Seasons Removed = '{2}', Episodes Removed '{3}'. ", res.Deleted.Movies, res.Deleted.Shows, res.Deleted.Seasons, res.Deleted.Episodes);
+                        formatString += itemsRemoved;
+                    }
+
+                    if (res.Existing != null)
+                    {
+                        itemsExisting = string.Format("Movies Already Exist = '{0}', Shows Already Exist = '{1}', Seasons Already Exist = '{2}', Episodes Already Exist '{3}'", res.Existing.Movies, res.Existing.Shows, res.Existing.Seasons, res.Existing.Episodes);
+                        formatString += itemsExisting;
+                    }
+
+                    TraktLogger.Info("Response from server: {0}", formatString);
+                }
+                else if (response is TraktScrobbleResponse)
+                {
+                    var res = response as TraktScrobbleResponse;
+
+                    if (res.Movie != null)
+                    {
+                        formatString = string.Format("Action = '{0}', Progress = '{1}%', Movie Title = '{2}', Year = '{3}', IMDb ID = '{4}', TMDb ID = '{5}', Trakt ID = '{6}'", res.Action, res.Progress, res.Movie.Title, res.Movie.Year.HasValue ? res.Movie.Year.ToString() : "<empty>", res.Movie.Ids.ImdbId ?? "<empty>", res.Movie.Ids.TmdbId.HasValue ? res.Movie.Ids.TmdbId.ToString() : "<empty>", res.Movie.Ids.Id.ToString());
                     }
                     else
-                        TraktLogger.Error((response as TraktResponse).Error);
+                    {
+                        formatString = string.Format("Action = '{0}', Progress = '{1}%', Episode Title = '{2} - {3}x{4} - {5}', IMDb ID = '{6}', TMDb ID = '{7}', TVDb ID = '{8}', Trakt ID = '{9}'", res.Action, res.Progress, res.Show.Title, res.Episode.Season, res.Episode.Number, res.Episode.Title ?? "<empty>", res.Episode.Ids.ImdbId ?? "<empty>", res.Episode.Ids.TmdbId.HasValue ? res.Episode.Ids.TmdbId.ToString() : "<empty>", res.Episode.Ids.TvdbId.HasValue ? res.Episode.Ids.TvdbId.ToString() : "<empty>", res.Episode.Ids.Id.ToString());
+                    }
 
-                    return false;
+                    TraktLogger.Info("Response: {0}", formatString);
                 }
-                else
-                {
-                    // success
-                    if (!string.IsNullOrEmpty((response as TraktResponse).Message))
-                    {
-                        TraktLogger.Info("Response: {0}", (response as TraktResponse).Message);
-                    }
-                    else
-                    {
-                        // no message returned on movie sync success
-                        if ((response is TraktSyncResponse))
-                        {
-                            string message = "Response: Items Inserted: {0}, Items Already Exist: {1}, Items Skipped: {2}";
-                            TraktLogger.Info(message, (response as TraktSyncResponse).Inserted, (response as TraktSyncResponse).AlreadyExist, (response as TraktSyncResponse).Skipped);
-                        }
-                    }
-                    return true;
-                }
+
+                return true;
             }
             catch (Exception)
             {
-                TraktLogger.Info("Response: {0}", "Failed to interpret response from server");
+                TraktLogger.Info("Response: Failed to interpret response from server");
                 return false;
             }
         }

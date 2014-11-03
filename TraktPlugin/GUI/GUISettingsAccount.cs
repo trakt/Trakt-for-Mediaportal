@@ -10,8 +10,8 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -177,7 +177,7 @@ namespace TraktPlugin.GUI
                         TraktAccount account = new TraktAccount
                         {
                             Username = this.Username,
-                            Password = this.Password.GetSha1(),
+                            Password = this.Password,
                             Email = this.Email
                         };
                         TestAccount(account);
@@ -259,7 +259,7 @@ namespace TraktPlugin.GUI
                     GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.CreatingAccount);
 
                 GUIWindowManager.Process();
-                response = TraktAPI.TraktAPI.CreateAccount(account);
+                response = TraktAPI.v1.TraktAPI.CreateAccount(account);
             }
             else
             {
@@ -267,7 +267,7 @@ namespace TraktPlugin.GUI
                     GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.SigningIntoAccount);
 
                 GUIWindowManager.Process();
-                response = TraktAPI.TraktAPI.TestAccount(account);
+                response = TraktAPI.v1.TraktAPI.TestAccount(account);
             }
 
             if (response.Status == "failure")
@@ -284,9 +284,9 @@ namespace TraktPlugin.GUI
                 TraktSettings.Password = account.Password;
                 if (!TraktSettings.UserLogins.Exists(u => u.Username == TraktSettings.Username))
                 {
-                    TraktSettings.UserLogins.Add(new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password });
+                    //TODOTraktSettings.UserLogins.Add(new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password });
                 }
-                TraktSettings.AccountStatus = ConnectionState.Connected;
+                //TODOTraktSettings.AccountStatus = ConnectionState.Connected;
                 HideAccountControls();
                 InitProperties();
 
@@ -386,7 +386,7 @@ namespace TraktPlugin.GUI
             // clear account settings
             TraktSettings.Username = string.Empty;
             TraktSettings.Password = string.Empty;
-            TraktSettings.AccountStatus = ConnectionState.Disconnected;
+            //TODOTraktSettings.AccountStatus = ConnectionState.Disconnected;
 
             InitProperties();
         }
@@ -403,16 +403,17 @@ namespace TraktPlugin.GUI
             // Set Disconnect button Label / or Hide it
             if (btnDisconnectAccount != null)
             {
-                if (TraktSettings.AccountStatus == ConnectionState.Connected)
-                {
-                    GUIControl.SetControlLabel(GetID, btnDisconnectAccount.GetID, string.Format(Translation.DisconnectAccount, TraktSettings.Username));
-                    btnDisconnectAccount.Visible = true;
-                }
-                else
-                {
-                    // Hide Control, no account to disconnect
-                    btnDisconnectAccount.Visible = false;
-                }
+                //TODO
+                //if (TraktSettings.AccountStatus == ConnectionState.Connected)
+                //{
+                //    GUIControl.SetControlLabel(GetID, btnDisconnectAccount.GetID, string.Format(Translation.DisconnectAccount, TraktSettings.Username));
+                //    btnDisconnectAccount.Visible = true;
+                //}
+                //else
+                //{
+                //    // Hide Control, no account to disconnect
+                //    btnDisconnectAccount.Visible = false;
+                //}
             }
         }
 

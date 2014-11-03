@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -115,7 +115,7 @@ namespace TraktPlugin.GUI
             {
                 if (!dictRelatedMovies.Keys.Contains(relatedMovie.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _RelatedMovies = TraktAPI.TraktAPI.GetRelatedMovies(relatedMovie.Slug, HideWatched);
+                    _RelatedMovies = TraktAPI.v1.TraktAPI.GetRelatedMovies(relatedMovie.Slug, HideWatched);
                     if (dictRelatedMovies.Keys.Contains(relatedMovie.Slug)) dictRelatedMovies.Remove(relatedMovie.Slug);
                     dictRelatedMovies.Add(relatedMovie.Slug, _RelatedMovies);
                     LastRequest = DateTime.UtcNow;

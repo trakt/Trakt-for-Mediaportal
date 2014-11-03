@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -221,7 +221,7 @@ namespace TraktPlugin.GUI
                     // search online
                     if (!IsMultiPersonSearch)
                     {
-                        People = TraktAPI.TraktAPI.SearchPeople(SearchTerm);
+                        People = TraktAPI.v1.TraktAPI.SearchPeople(SearchTerm);
                     }
                     else
                     {
@@ -232,7 +232,7 @@ namespace TraktPlugin.GUI
                         {
                             var tPersonSearch = new Thread((obj) =>
                             {
-                                var result = TraktAPI.TraktAPI.SearchPeople(obj as string, 1);
+                                var result = TraktAPI.v1.TraktAPI.SearchPeople(obj as string, 1);
                                 lock (sync)
                                 {
                                     if (People == null)

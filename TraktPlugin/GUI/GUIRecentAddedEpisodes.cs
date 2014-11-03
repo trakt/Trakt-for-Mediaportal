@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -88,11 +88,11 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentlyAddedEpisodes.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
+                    TraktActivity activity = TraktAPI.v1.TraktAPI.GetUserActivity
                     (
                         CurrentUser,
-                        new List<TraktAPI.ActivityType>() { TraktAPI.ActivityType.episode },
-                        new List<TraktAPI.ActivityAction>() { TraktAPI.ActivityAction.collection }
+                        new List<TraktAPI.v1.ActivityType>() { TraktAPI.v1.ActivityType.episode },
+                        new List<TraktAPI.v1.ActivityAction>() { TraktAPI.v1.ActivityAction.collection }
                     );
 
                     _RecentlyAddedEpisodes = activity.Activities;

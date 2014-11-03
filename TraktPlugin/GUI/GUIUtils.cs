@@ -5,6 +5,7 @@ using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
 using System.Threading;
 
 namespace TraktPlugin.GUI
@@ -17,7 +18,7 @@ namespace TraktPlugin.GUI
         private delegate int ShowMenuDialogDelegate(string heading, List<GUIListItem> items);
         private delegate List<MultiSelectionItem> ShowMultiSelectionDialogDelegate(string heading, List<MultiSelectionItem> items);
         private delegate void ShowTextDialogDelegate(string heading, string text);
-        private delegate string ShowRateDialogDelegate<T>(T rateObject);
+        private delegate int ShowRateDialogDelegate<T>(T rateObject);
         private delegate bool GetStringFromKeyboardDelegate(ref string strLine, bool isPassword);
 
         public static readonly string TraktLogo = GUIGraphicsContext.Skin + "\\Media\\Logos\\trakt.png";
@@ -420,15 +421,15 @@ namespace TraktPlugin.GUI
         }
 
         /// <summary>
-        /// Shows a Trakt Rate Dialog (Love/Hate) or 10-Heart based on settings
+        /// Shows a Trakt Rate Dialog
         /// </summary>        
         /// <param name="rateObject">Type of object being rated</param>
-        public static string ShowRateDialog<T>(T rateObject)
+        public static int ShowRateDialog<T>(T rateObject)
         {
             if (GUIGraphicsContext.form.InvokeRequired)
             {
                 ShowRateDialogDelegate<T> d = ShowRateDialog<T>;
-                return (string)GUIGraphicsContext.form.Invoke(d, rateObject);
+                return (int)GUIGraphicsContext.form.Invoke(d, rateObject);
             }
 
             TraktRateValue currentRating = TraktRateValue.unrate;
@@ -438,51 +439,48 @@ namespace TraktPlugin.GUI
             
             ratingDlg.SetHeading(Translation.RateHeading);
 
-            // show simple love/hate icons or 10-heart icons
-            ratingDlg.ShowAdvancedRatings = TraktSettings.ShowAdvancedRatingsDialog;
-
-            // if item is not rated, it will default to love
-            if (rateObject is TraktRateEpisode)
+            // if item is not rated, it will default to seven
+            if (rateObject is TraktSyncEpisodeRated)
             {
-                TraktRateEpisode item = rateObject as TraktRateEpisode;
-                ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Season, item.Episode));
-                if (ratingDlg.ShowAdvancedRatings)
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
-                else
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
+                var item = rateObject as TraktSyncEpisodeRated;
+                ratingDlg.SetLine(1, string.Format("{0}x{1} - {2}", item.Season, item.Number, item.Title));
+                ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
-            else if (rateObject is TraktRateSeries)
+            else if (rateObject is TraktSyncShowRated)
             {
-                TraktRateSeries item = rateObject as TraktRateSeries;
+                var item = rateObject as TraktSyncShowRated;
                 ratingDlg.SetLine(1, item.Title);
-                if (ratingDlg.ShowAdvancedRatings)
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
-                else
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
+                ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
+                
             }
             else
             {
-                TraktRateMovie item = rateObject as TraktRateMovie;
-                ratingDlg.SetLine(1, item.Title);
-                if (ratingDlg.ShowAdvancedRatings)
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
-                else
-                    ratingDlg.Rated = item.Rating == "0" || !item.Rating.IsNumber() ? TraktRateValue.ten : (TraktRateValue)Convert.ToInt32(item.Rating);
+                var item = rateObject as TraktSyncMovieRated;
+                ratingDlg.SetLine(1, item.Title);                
+                ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
             
             // show dialog
             ratingDlg.DoModal(ratingDlg.GetID);
             
-            if (!ratingDlg.IsSubmitted) return "-1";
+            if (!ratingDlg.IsSubmitted) return -1;
 
-            if (rateObject is TraktRateEpisode)
+            TraktSyncResponse response = null;
+            if (rateObject is TraktSyncEpisodeRated)
             {
-                TraktRateEpisode item = rateObject as TraktRateEpisode;
+                var item = rateObject as TraktSyncEpisodeRated;
                 currentRating = ratingDlg.Rated;
-                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                item.Rating = (int)currentRating;
                 Thread rateThread = new Thread(delegate(object obj)
                 {
-                    TraktRateResponse response = TraktAPI.TraktAPI.RateEpisode(item);
+                    if ((obj as TraktSyncEpisodeRated).Rating > 0)
+                    {
+                        response = TraktAPI.TraktAPI.AddEpisodeToRatings(obj as TraktSyncEpisodeRated);
+                    }
+                    else
+                    {
+                        response = TraktAPI.TraktAPI.RemoveEpisodeFromRatings(obj as TraktEpisode);
+                    }
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -491,14 +489,21 @@ namespace TraktPlugin.GUI
                 };
                 rateThread.Start(item);
             }
-            else if (rateObject is TraktRateSeries)
+            else if (rateObject is TraktSyncShowRated)
             {
-                TraktRateSeries item = rateObject as TraktRateSeries;
+                var item = rateObject as TraktSyncShowRated;
                 currentRating = ratingDlg.Rated;
-                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                item.Rating = (int)currentRating;
                 Thread rateThread = new Thread(delegate(object obj)
                 {
-                    TraktRateResponse response = TraktAPI.TraktAPI.RateSeries(item);
+                    if ((obj as TraktSyncShowRated).Rating > 0)
+                    {
+                        response = TraktAPI.TraktAPI.AddShowToRatings(obj as TraktSyncShowRated);
+                    }
+                    else
+                    {
+                        response = TraktAPI.TraktAPI.RemoveShowFromRatings(obj as TraktShow);
+                    }
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -509,12 +514,19 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                TraktRateMovie item = rateObject as TraktRateMovie;
+                var item = rateObject as TraktSyncMovieRated;
                 currentRating = ratingDlg.Rated;
-                item.Rating = (int)currentRating != 0 ? ((int)currentRating).ToString() : "unrate";
+                item.Rating = (int)currentRating;
                 Thread rateThread = new Thread(delegate(object obj)
                 {
-                    TraktRateResponse response = TraktAPI.TraktAPI.RateMovie(item);
+                    if ((obj as TraktSyncMovieRated).Rating > 0)
+                    {
+                        response = TraktAPI.TraktAPI.AddMovieToRatings(obj as TraktSyncMovieRated);
+                    }
+                    else
+                    {
+                        response = TraktAPI.TraktAPI.RemoveMovieFromRatings(obj as TraktMovie);
+                    }
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -524,11 +536,7 @@ namespace TraktPlugin.GUI
                 rateThread.Start(item);
             }
 
-            // return new rating (0 - 10)
-            // old love / hate enum values are deprecated
-            // if using basic ratings 1 = hate and 10 = love
-            // 0 is unrate
-            return ((int)currentRating).ToString();
+            return (int)currentRating;
         }
     }    
 }

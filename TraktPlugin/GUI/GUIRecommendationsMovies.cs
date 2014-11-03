@@ -12,8 +12,8 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -109,7 +109,7 @@ namespace TraktPlugin.GUI
                 {
                     SetRecommendationProperties();
                     if ((StartYear > EndYear) && EndYear != 0) StartYear = 0;
-                    _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies(TraktGenres.MovieGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
+                    _RecommendedMovies = TraktAPI.v1.TraktAPI.GetRecommendedMovies(TraktGenres.MovieGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
@@ -561,7 +561,7 @@ namespace TraktPlugin.GUI
                     Year = dismissMovie.Year
                 };
 
-                TraktResponse response = TraktAPI.TraktAPI.DismissMovieRecommendation(syncMovie);
+                TraktResponse response = TraktAPI.v1.TraktAPI.DismissMovieRecommendation(syncMovie);
                 TraktLogger.LogTraktResponse<TraktResponse>(response);
                 if (response != null && response.Status == "success")
                 {

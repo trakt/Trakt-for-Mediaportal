@@ -7,11 +7,11 @@ using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.v1;
+using TraktPlugin.TraktAPI.v1.DataStructures;
 using Trailers.Providers;
 using Trailers;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -209,16 +209,17 @@ namespace TraktPlugin.GUI
         /// </summary>
         public static bool CheckLogin(bool showPreviousWindow)
         {
-            if (TraktSettings.AccountStatus != TraktAPI.ConnectionState.Connected)
-            {
-                if (GUIUtils.ShowYesNoDialog(Translation.Login, Translation.NotLoggedIn, true))
-                {
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
-                    return false;
-                }
-                if (showPreviousWindow) GUIWindowManager.ShowPreviousWindow();
-                return false;
-            }
+            //TODO
+            //if (TraktSettings.AccountStatus != TraktAPI.v1.ConnectionState.Connected)
+            //{
+            //    if (GUIUtils.ShowYesNoDialog(Translation.Login, Translation.NotLoggedIn, true))
+            //    {
+            //        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
+            //        return false;
+            //    }
+            //    if (showPreviousWindow) GUIWindowManager.ShowPreviousWindow();
+            //    return false;
+            //}
             return true;
         }
         #endregion
@@ -331,11 +332,6 @@ namespace TraktPlugin.GUI
                 handled = TraktHandlers.TVSeries.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
             }
 
-            if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
-            {
-                handled = TraktHandlers.MyAnime.PlayEpisode(Convert.ToInt32(show.Tvdb), episode.Season, episode.Number);
-            }
-
             if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
@@ -372,12 +368,6 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            if (TraktHelper.IsMyAnimeAvailableAndEnabled && handled == false)
-            {
-                TraktLogger.Info("Checking if any episodes to watch in My Anime");
-                handled = TraktHandlers.MyAnime.PlayFirstUnwatchedEpisode(Convert.ToInt32(show.Tvdb));
-            }
-
             if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
                 TraktLogger.Info("No episodes matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
@@ -403,7 +393,7 @@ namespace TraktPlugin.GUI
             };
 
             int prevRating = movie.RatingAdvanced;
-            int newRating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
+            int newRating = 0;//TODO int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
@@ -485,7 +475,7 @@ namespace TraktPlugin.GUI
             };
 
             int prevRating = show.RatingAdvanced;
-            int newRating = int.Parse(GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject));
+            int newRating = 0;//TODO int.Parse(GUIUtils.ShowRateDialog<TraktRateSeries>(rateObject));
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
@@ -569,7 +559,7 @@ namespace TraktPlugin.GUI
             };
 
             int prevRating = episode.RatingAdvanced;
-            int newRating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+            int newRating = 0;//TODO int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
@@ -657,7 +647,7 @@ namespace TraktPlugin.GUI
                 {
                     var oShow = o as TraktShowSeen;
                     TraktLogger.Info("Marking {0} as seen", oShow.Title);
-                    var response = TraktAPI.TraktAPI.SyncShowAsSeen(oShow);
+                    var response = TraktAPI.v1.TraktAPI.SyncShowAsSeen(oShow);
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -689,7 +679,7 @@ namespace TraktPlugin.GUI
             {
                 var oSeason = o as TraktSeasonSeen;
                 TraktLogger.Info("Marking {0} season {1} as seen", oSeason.Title, oSeason.Season);
-                var response = TraktAPI.TraktAPI.SyncSeasonAsSeen(oSeason);
+                var response = TraktAPI.v1.TraktAPI.SyncSeasonAsSeen(oSeason);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -720,7 +710,7 @@ namespace TraktPlugin.GUI
             {
                 var oShow = o as TraktShowLibrary;
                 TraktLogger.Info("Adding {0} to library", oShow.Title);
-                var response = TraktAPI.TraktAPI.SyncShowAsLibrary(oShow);
+                var response = TraktAPI.v1.TraktAPI.SyncShowAsLibrary(oShow);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -752,7 +742,7 @@ namespace TraktPlugin.GUI
             {
                 var oSeason = o as TraktSeasonLibrary;
                 TraktLogger.Info("Adding {0} season {1} to library", oSeason.Title, oSeason.Season);
-                var response = TraktAPI.TraktAPI.SyncSeasonAsLibrary(oSeason);
+                var response = TraktAPI.v1.TraktAPI.SyncSeasonAsLibrary(oSeason);
                 TraktLogger.LogTraktResponse(response);
             })
             {
