@@ -321,6 +321,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktList.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktListDetail.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktListItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieRated.cs" />
@@ -336,6 +337,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktShow.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieCollected.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSyncAll.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodes.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesRated.cs" />
@@ -352,6 +354,9 @@
     <Compile Include="TraktAPI\DataStructures\TraktSyncShowsRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUser.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUserToken.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchlistEpisode.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchlistMovie.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktWatchlistShow.cs" />
     <Compile Include="TraktAPI\Enums\TraktEnums.cs" />
     <Compile Include="TraktAPI\Extensions\DateTimeExtensions.cs" />
     <Compile Include="TraktAPI\Extensions\JsonExtensions.cs" />

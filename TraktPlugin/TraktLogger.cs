@@ -166,23 +166,23 @@ namespace TraktPlugin
 
                     if (res.Added != null)
                     {
-                        itemsAdded = string.Format("Movies Added = '{0}', Shows Added = '{1}', Seasons Added = '{2}', Episodes Added '{3}'. ", res.Added.Movies, res.Added.Shows, res.Added.Seasons, res.Added.Episodes);
+                        itemsAdded = string.Format("Movies Added = '{0}', Shows Added = '{1}', Seasons Added = '{2}', Episodes Added = '{3}'. ", res.Added.Movies, res.Added.Shows, res.Added.Seasons, res.Added.Episodes);
                         formatString += itemsAdded;
                     }
 
                     if (res.Deleted != null)
                     {
-                        itemsRemoved = string.Format("Movies Removed = '{0}', Shows Removed = '{1}', Seasons Removed = '{2}', Episodes Removed '{3}'. ", res.Deleted.Movies, res.Deleted.Shows, res.Deleted.Seasons, res.Deleted.Episodes);
+                        itemsRemoved = string.Format("Movies Removed = '{0}', Shows Removed = '{1}', Seasons Removed = '{2}', Episodes Removed = '{3}'. ", res.Deleted.Movies, res.Deleted.Shows, res.Deleted.Seasons, res.Deleted.Episodes);
                         formatString += itemsRemoved;
                     }
 
                     if (res.Existing != null)
                     {
-                        itemsExisting = string.Format("Movies Already Exist = '{0}', Shows Already Exist = '{1}', Seasons Already Exist = '{2}', Episodes Already Exist '{3}'", res.Existing.Movies, res.Existing.Shows, res.Existing.Seasons, res.Existing.Episodes);
+                        itemsExisting = string.Format("Movies Already Exist = '{0}', Shows Already Exist = '{1}', Seasons Already Exist = '{2}', Episodes Already Exist = '{3}'", res.Existing.Movies, res.Existing.Shows, res.Existing.Seasons, res.Existing.Episodes);
                         formatString += itemsExisting;
                     }
 
-                    TraktLogger.Info("Response from server: {0}", formatString);
+                    TraktLogger.Info("Response: {0}", formatString);
                 }
                 else if (response is TraktScrobbleResponse)
                 {

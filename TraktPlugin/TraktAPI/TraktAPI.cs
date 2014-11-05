@@ -63,22 +63,6 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region User
-
-        /// <summary>
-        /// Gets a list of follower requests for the current user
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<TraktFollowerRequest> GetFollowerRequests()
-        {
-            var response = GetFromTrakt(TraktURIs.UserFollowerRequests);
-            return response.FromJSONArray<TraktFollowerRequest>();
-        }
-
-        #endregion
-
-        #region Sync
-
         #region GET Methods
 
         public static TraktLastSyncActivities GetLastSyncActivities()
@@ -104,6 +88,74 @@ namespace TraktPlugin.TraktAPI
             var response = GetFromTrakt(TraktURIs.SyncRatedMovies);
             return response.FromJSONArray<TraktMovieRated>();
         }
+
+        #region Recommendations
+
+        public static IEnumerable<TraktMovie> GetRecommendedMovies()
+        {
+            var response = GetFromTrakt(TraktURIs.RecommendedMovies);
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        public static IEnumerable<TraktShow> GetRecommendedShows()
+        {
+            var response = GetFromTrakt(TraktURIs.RecommendedShows);
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
+        #region User
+
+        /// <summary>
+        /// Gets a list of follower requests for the current user
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<TraktFollowerRequest> GetFollowerRequests()
+        {
+            var response = GetFromTrakt(TraktURIs.UserFollowerRequests);
+            return response.FromJSONArray<TraktFollowerRequest>();
+        }
+
+        #endregion
+
+        #region Lists
+
+        public static IEnumerable<TraktListDetail> GetUserLists(string username)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username));
+            return response.FromJSONArray<TraktListDetail>();
+        }
+
+        public static IEnumerable<TraktListItem> GetUserListItems(string username, string listId)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserListItems, username, listId));
+            return response.FromJSONArray<TraktListItem>();
+        }
+
+        #endregion
+
+        #region Watchlists
+
+        public static IEnumerable<TraktWatchListMovie> GetWatchListMovies(string username)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistMovies, username));
+            return response.FromJSONArray<TraktWatchListMovie>();
+        }
+
+        public static IEnumerable<TraktWatchListShow> GetWatchListShows(string username)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistShows, username));
+            return response.FromJSONArray<TraktWatchListShow>();
+        }
+
+        public static IEnumerable<TraktWatchListEpisode> GetWatchListEpisodes(string username)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username));
+            return response.FromJSONArray<TraktWatchListEpisode>();
+        }
+
+        #endregion
 
         #endregion
 
@@ -311,10 +363,6 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #endregion
-
-        #endregion
-
         #region Scrobble
 
         public static TraktScrobbleResponse StartMovieScrobble(TraktScrobbleMovie movie)
@@ -355,9 +403,44 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region Get / Post to trakt.tv
+        #endregion
 
-        public static string GetFromTrakt(string address)
+        #region DELETE Methods
+
+        #region Dismiss Recommendations
+
+        public static bool DismissRecommendedMovie(string movieId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedMovie, movieId));
+        }
+
+        public static bool DismissRecommendedShow(string showId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedShow, showId));
+        }
+
+        #endregion
+
+        #region Delete List
+
+        public static bool DeleteUserList(string username, string listId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DeleteList, username, listId));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Web Helpers
+
+        public static bool DeleteFromTrakt(string address)
+        {
+            var response = GetFromTrakt(address, "DELETE");
+            return response != null;
+        }
+
+        public static string GetFromTrakt(string address, string method = "GET")
         {
             if (OnDataSend != null)
                 OnDataSend(address, null);
@@ -365,7 +448,7 @@ namespace TraktPlugin.TraktAPI
             var request = WebRequest.Create(address) as HttpWebRequest;
 
             request.KeepAlive = true;
-            request.Method = "GET";
+            request.Method = method;
             request.ContentLength = 0;
             request.Timeout = 120000;
             request.ContentType = "application/json";

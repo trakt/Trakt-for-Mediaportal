@@ -19,7 +19,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Resolution { get; set; }
 
         [DataMember(Name = "audio")]
-        public string Audio { get; set; }
+        public string AudioCodec { get; set; }
+
+        [DataMember(Name = "audio_channels")]
+        public string AudioChannels { get; set; }
 
         [DataMember(Name = "3d")]
         public bool Is3D { get; set; }

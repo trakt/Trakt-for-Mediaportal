@@ -30,6 +30,16 @@ namespace TraktPlugin.TraktAPI
         public const string SyncWatchedMovies = "http://api.v2.trakt.tv/sync/watched/movies";
         public const string SyncRatedMovies = "http://api.v2.trakt.tv/sync/ratings/movies";
 
+        public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists";
+        public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items";
+
+        public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies";
+        public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows";
+        public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes";
+
+        public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies";
+        public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows";
+
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
         public const string SyncCollectionRemove = "http://api.v2.trakt.tv/sync/collection/remove";
@@ -43,6 +53,12 @@ namespace TraktPlugin.TraktAPI
         public const string ScrobbleStart = "http://api.v2.trakt.tv/scrobble/start";
         public const string ScrobblePause = "http://api.v2.trakt.tv/scrobble/pause";
         public const string ScrobbleStop = "http://api.v2.trakt.tv/scrobble/stop";
+
+        // DELETE
+        public const string DismissRecommendedMovie = "http://api.v2.trakt.tv/recommendations/movies/{0}";
+        public const string DismissRecommendedShow = "http://api.v2.trakt.tv/recommendations/shows/{0}";
+
+        public const string DeleteList = "http://api.v2.trakt.tv/users/{0}/lists/{1}";
 
         #endregion
     }

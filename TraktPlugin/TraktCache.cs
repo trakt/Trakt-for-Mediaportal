@@ -20,6 +20,12 @@ namespace TraktPlugin
         private static string cMoviesWatched = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Watched.json");
         private static string cMoviesRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Rated.json");
 
+        private static DateTime recommendationsAge;
+        private static DateTime watchListAge;
+        private static DateTime customListAge;
+
+        static Object syncLists = new object();
+
         static DateTime LastFollowerRequest = new DateTime();
 
         #region Sync
@@ -310,9 +316,119 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Lists
+
+        internal static IEnumerable<TraktWatchListMovie> TraktWatchListMovies
+        {
+            get
+            {
+                lock (syncLists)
+                {
+                    if (_traktWatchList == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    {
+                        TraktLogger.Info("Retrieving current users watchlist from trakt.tv");
+                        _traktWatchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                        watchListAge = DateTime.Now;
+                    }
+                    return _traktWatchList;
+                }
+            }
+        }
+        internal static IEnumerable<TraktWatchListMovie> _traktWatchList = null;
+
+        internal static IEnumerable<TraktMovie> TraktRecommendedMovies
+        {
+            get
+            {
+                lock (syncLists)
+                {
+                    if (_traktRecommendations == null || (DateTime.Now - recommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    {
+                        TraktLogger.Info("Retrieving current users recommendations from trakt.tv");
+                        _traktRecommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
+                        recommendationsAge = DateTime.Now;
+                    }
+                    return _traktRecommendations;
+                }
+            }
+        }
+        internal static IEnumerable<TraktMovie> _traktRecommendations = null;
+
+        internal static Dictionary<TraktListDetail, List<TraktListItem>> TraktCustomLists
+        {
+            get
+            {
+                lock (syncLists)
+                {
+                    if (_traktCustomLists == null || (DateTime.Now - customListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    {
+                        _traktCustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
+
+                        // first get the users custom lists from trakt
+                        TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
+                        var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+
+                        // get details of each list including items
+                        foreach (var list in userLists.Where(l => l.ItemCount > 0))
+                        {
+                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Id, list.Ids.Slug);
+                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Id.ToString());
+
+                            if (userList == null)
+                                continue;
+
+                            // add them to the cache
+                            _traktCustomLists.Add(list, userList.ToList());
+                        }
+                        customListAge = DateTime.Now;
+                    }
+                    return _traktCustomLists;
+                }
+            }
+        }
+        internal static Dictionary<TraktListDetail, List<TraktListItem>> _traktCustomLists = null;
+
+        internal static void ClearWatchlistCache()
+        {
+            lock (syncLists)
+            {
+                _traktWatchList = null;
+            }
+        }
+
+        #endregion
+
         #region Clear Cache
 
-        public static void ClearLastActivityCache()
+        internal static void ClearRecommendationsCache()
+        {
+            lock (syncLists)
+            {
+                _traktRecommendations = null;
+            }
+        }
+
+        internal static void ClearCustomListCache(string listName = null)
+        {
+            lock (syncLists)
+            {
+                // check if something to clear
+                if (_traktCustomLists == null) return;
+
+                // clear all lists
+                if (string.IsNullOrEmpty(listName))
+                {
+                    _traktCustomLists = null;
+                    return;
+                }
+
+                // clear selected list
+                var list = _traktCustomLists.FirstOrDefault(t => t.Key.Name == listName);
+                _traktCustomLists.Remove(list.Key);
+            }
+        }
+
+        internal static void ClearLastActivityCache()
         {
             _LastSyncActivities = null;
         }

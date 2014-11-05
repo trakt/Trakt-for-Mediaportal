@@ -304,8 +304,7 @@ namespace TraktPlugin.GUI
                     if (response.Status == "success")
                     {
                         TraktLists.ClearCache(TraktSettings.Username);
-
-                        BasicHandler.ClearCustomListCache();
+                        TraktCache.ClearCustomListCache();
 
                         // updated MovingPictures categories and filters menu
                         if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -416,7 +415,7 @@ namespace TraktPlugin.GUI
 
                         var thread = new Thread((o) =>
                         {
-                            BasicHandler.ClearCustomListCache();
+                            TraktCache.ClearCustomListCache();
 
                             // updated MovingPictures categories and filters menu
                             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
