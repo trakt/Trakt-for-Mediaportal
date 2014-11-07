@@ -324,17 +324,17 @@ namespace TraktPlugin
             {
                 lock (syncLists)
                 {
-                    if (_traktWatchList == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    if (_traktWatchListMovies == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         TraktLogger.Info("Retrieving current users watchlist from trakt.tv");
-                        _traktWatchList = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                        _traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
                         watchListAge = DateTime.Now;
                     }
-                    return _traktWatchList;
+                    return _traktWatchListMovies;
                 }
             }
         }
-        internal static IEnumerable<TraktWatchListMovie> _traktWatchList = null;
+        static IEnumerable<TraktWatchListMovie> _traktWatchListMovies = null;
 
         internal static IEnumerable<TraktMovie> TraktRecommendedMovies
         {
@@ -352,7 +352,7 @@ namespace TraktPlugin
                 }
             }
         }
-        internal static IEnumerable<TraktMovie> _traktRecommendations = null;
+        static IEnumerable<TraktMovie> _traktRecommendations = null;
 
         internal static Dictionary<TraktListDetail, List<TraktListItem>> TraktCustomLists
         {
@@ -386,13 +386,13 @@ namespace TraktPlugin
                 }
             }
         }
-        internal static Dictionary<TraktListDetail, List<TraktListItem>> _traktCustomLists = null;
+        static Dictionary<TraktListDetail, List<TraktListItem>> _traktCustomLists = null;
 
-        internal static void ClearWatchlistCache()
+        internal static void ClearWatchlistMoviesCache()
         {
             lock (syncLists)
             {
-                _traktWatchList = null;
+                _traktWatchListMovies = null;
             }
         }
 

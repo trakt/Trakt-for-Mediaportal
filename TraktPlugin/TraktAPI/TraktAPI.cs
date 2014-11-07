@@ -462,13 +462,18 @@ namespace TraktPlugin.TraktAPI
 
             try
             {
-                WebResponse response = (HttpWebResponse)request.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 if (response == null) return null;
 
                 Stream stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 string strResponse = reader.ReadToEnd();
 
+                if (method == "DELETE")
+                {
+                    strResponse = response.StatusCode.ToString();
+                }
+                
                 if (OnDataReceived != null)
                     OnDataReceived(strResponse);
 

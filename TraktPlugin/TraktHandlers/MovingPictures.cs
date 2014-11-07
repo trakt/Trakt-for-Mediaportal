@@ -59,7 +59,7 @@ namespace TraktPlugin.TraktHandlers
 
             // Get TMDb Data Provider
             tmdbSource = DBSourceInfo.GetAll().Find(s => s.ToString() == "themoviedb.org");
-
+            
             // Remove any blocked movies
             TraktLogger.Info("Removing blocked files and folders from sync movie list");
             collectedMovies.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())));
@@ -385,7 +385,7 @@ namespace TraktPlugin.TraktHandlers
                             // update local collection rating (5 Point Scale)
                             int rating = (int)(Math.Round(trm.Rated / 2.0, MidpointRounding.AwayFromZero));
 
-                            TraktLogger.Info("Adding movie rating from match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
+                            TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
                                               trm.Rated, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
 
                             localMovie.ActiveUserSettings.UserRating = rating;
@@ -1688,7 +1688,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             // clear the watchlist cache as it's now out of sync
-            TraktCache.ClearWatchlistCache();
+            TraktCache.ClearWatchlistMoviesCache();
         }
 
         /// <summary>
