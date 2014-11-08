@@ -757,6 +757,12 @@ namespace TraktPlugin.GUI
 
         #region Common Skin Properties
 
+        internal static string GetProperty(string property)
+        {
+            string propertyVal = GUIPropertyManager.GetProperty(property);
+            return propertyVal ?? string.Empty;
+        }
+
         internal static void SetProperty(string property, string value)
         {
             string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;

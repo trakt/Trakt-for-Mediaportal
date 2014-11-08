@@ -9,8 +9,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktMovieRated
     {
-        [DataMember(Name = "rated")]
-        public int Rated { get; set; }
+        [DataMember(Name = "rating")]
+        public int Rating { get; set; }
 
         [DataMember(Name = "rated_at")]
         public string RatedAt { get; set; }

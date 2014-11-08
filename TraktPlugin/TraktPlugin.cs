@@ -548,7 +548,7 @@ namespace TraktPlugin
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
                 Thread.CurrentThread.Name = "LibrarySync";
 
-            TraktLogger.Info("Library Sync Complete for all enabled plugins.");
+            TraktLogger.Info("Library Sync Complete for all enabled plugins");
 
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?

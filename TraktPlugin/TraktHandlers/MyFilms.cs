@@ -142,15 +142,15 @@ namespace TraktPlugin.TraktHandlers
                 //}
                 #endregion
 
-                TraktLogger.Info("Found {0} movies available to sync in MyFilms database", collectedMovies.Count);
+                TraktLogger.Info("Found {0} movies available to sync in My Films database", collectedMovies.Count);
 
                 // get the movies that we have watched
                 var watchedMovies = collectedMovies.Where(m => m.Watched == true).ToList();
-                TraktLogger.Info("Found {0} watched movies available to sync in MyFilms database", watchedMovies.Count);
+                TraktLogger.Info("Found {0} watched movies available to sync in My Films database", watchedMovies.Count);
 
                 // get the movies that we have rated/unrated
                 var ratedMovies = collectedMovies.Where(m => m.RatingUser > 0).ToList();
-                TraktLogger.Info("Found {0} rated movies available to sync in MyFilms database", ratedMovies.Count);
+                TraktLogger.Info("Found {0} rated movies available to sync in My Films database", ratedMovies.Count);
 
                 // clear the last time(s) we did anything online
                 TraktCache.ClearLastActivityCache();
@@ -403,12 +403,12 @@ namespace TraktPlugin.TraktHandlers
 
                         int currentRating = Convert.ToInt32(Math.Round(Convert.ToDecimal(localMovie.RatingUser), MidpointRounding.AwayFromZero));
 
-                        if (currentRating != trm.Rated)
+                        if (currentRating != trm.Rating)
                         {
                             TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-                                              trm.Rated, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
+                                              trm.Rating, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
 
-                            localMovie.RatingUser = trm.Rated;
+                            localMovie.RatingUser = trm.Rating;
                             localMovie.Username = TraktSettings.Username; 
                             localMovie.Commit();
                         }
@@ -418,14 +418,14 @@ namespace TraktPlugin.TraktHandlers
             }
 
             #region Trakt Category Tags
-            // Add tags also to blocked movies, as it is only local
+            // add tags also to blocked movies, as it is only local
             var allMovies = (from MFMovie movie in myvideos select movie).ToList(); 
             // get the movies that locally have trakt categories
             var categoryTraktList = allMovies.Where(m => m.CategoryTrakt.Count > 0).ToList();
 
             if (TraktSettings.MyFilmsCategories)
             {
-                TraktLogger.Info("Found {0} trakt-categorised movies available in MyFilms database", categoryTraktList.Count.ToString());
+                TraktLogger.Info("Found {0} trakt-categorised movies available in My Films database", categoryTraktList.Count.ToString());
 
                 #region Update Watchlist Tags
                 var traktWatchListMovies = TraktCache.TraktWatchListMovies;
@@ -438,12 +438,12 @@ namespace TraktPlugin.TraktHandlers
                     var cleanupList = allMovies.Where(m => m.CategoryTrakt.Contains(category)).ToList();
                     foreach (var trm in traktWatchListMovies)
                     {
-                        TraktLogger.Debug("Processing trakt watchlist movie. Title = '{0}', Year = '{1}' = IMDb ID '{2}'", trm.Movie.Title ?? "<empty>", trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>");
+                        TraktLogger.Debug("Processing trakt watchlist movie. Title = '{0}', Year = '{1}' = IMDb ID '{2}', TMDb ID = '{3}'", trm.Movie.Title ?? "<empty>", trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
                         foreach (var movie in allMovies.Where(m => MovieMatch(m, trm.Movie)))
                         {
                             if (!movie.CategoryTrakt.Contains(category))
                             {
-                                TraktLogger.Info("Inserting trakt category '{0}' for movie '{1} ({2})'", category, movie.Title, movie.Year);
+                                TraktLogger.Info("Inserting trakt category for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", category, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                                 movie.CategoryTrakt.Add(category);
                                 movie.Username = TraktSettings.Username;
                                 movie.Commit();
@@ -454,7 +454,7 @@ namespace TraktPlugin.TraktHandlers
                     // remove tag from remaining films
                     foreach (var movie in cleanupList)
                     {
-                        TraktLogger.Info("Removing trakt category '{0}' for movie '{1} ({2})'", category, movie.Title, movie.Year);
+                        TraktLogger.Info("Removing trakt category for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", category, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                         movie.CategoryTrakt.Remove(category);
                         movie.Username = TraktSettings.Username;
                         movie.Commit();
@@ -473,18 +473,18 @@ namespace TraktPlugin.TraktHandlers
                     {
                         string userListName = Translation.List + ": " + list.Key.Name;
                         var cleanupList = allMovies.Where(m => m.CategoryTrakt.Contains(userListName)).ToList();
-                        TraktLogger.Info("Processing trakt user list '{0}' as tag '{1}' with '{2}' items", list.Key.Name, userListName, list.Value.Count);
+                        TraktLogger.Info("Processing trakt user list. Name = '{0}', Tag = '{1}', Items = '{2}'", list.Key.Name, userListName, list.Value.Count);
 
                         // process 'movies' only 
                         foreach (var trm in list.Value.Where(m => m.Type == "movie"))
                         {
-                            TraktLogger.Debug("Processing trakt user list movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", trm.Movie.Title ?? "null", trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>");
+                            TraktLogger.Debug("Processing trakt user list movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", trm.Movie.Title ?? "null", trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
                             foreach (var movie in allMovies.Where(m => MovieMatch(m, trm.Movie)))
                             {
                                 if (!movie.CategoryTrakt.Contains(userListName))
                                 {
                                     // update local trakt category
-                                    TraktLogger.Info("Inserting trakt user list '{0}' for movie '{1} ({2})'", userListName, movie.Title, movie.Year);
+                                    TraktLogger.Info("Inserting trakt user list for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", userListName, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                                     movie.CategoryTrakt.Add(userListName);
                                     movie.Username = TraktSettings.Username;
                                     movie.Commit();
@@ -496,7 +496,7 @@ namespace TraktPlugin.TraktHandlers
                         // remove tag from remaining films
                         foreach (var movie in cleanupList)
                         {
-                            TraktLogger.Info("Removing trakt user list '{0}' for movie '{1} ({2})'", userListName, movie.Title, movie.Year);
+                            TraktLogger.Info("Removing trakt user list for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", userListName, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                             movie.CategoryTrakt.Remove(userListName);
                             movie.Username = TraktSettings.Username;
                             movie.Commit();
@@ -516,13 +516,13 @@ namespace TraktPlugin.TraktHandlers
                     var cleanupList = allMovies.Where(m => m.CategoryTrakt.Contains(category)).ToList();
                     foreach (var trm in traktRecommendationMovies)
                     {
-                        TraktLogger.Debug("Processing trakt recommendations movie. Title = '{0}', Year = '{1}' IMDb ID = '{2}'", trm.Title ?? "<empty>", trm.Year.HasValue ? trm.Year.ToString() : "<empty>", trm.Ids.ImdbId ?? "<empty>");
+                        TraktLogger.Debug("Processing trakt recommendations movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", trm.Title ?? "<empty>", trm.Year.HasValue ? trm.Year.ToString() : "<empty>", trm.Ids.ImdbId ?? "<empty>", trm.Ids.TmdbId.HasValue ? trm.Ids.TmdbId.ToString() : "<empty>");
                         foreach (var movie in allMovies.Where(m => MovieMatch(m, trm)))
                         {
                             if (!movie.CategoryTrakt.Contains(category))
                             {
                                 // update local trakt category
-                                TraktLogger.Info("Inserting trakt category '{0}' for movie '{1} ({2})'", category, movie.Title, movie.Year);
+                                TraktLogger.Info("Inserting trakt category for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", category, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                                 movie.CategoryTrakt.Add(category);
                                 movie.Username = TraktSettings.Username;
                                 movie.Commit();
@@ -534,7 +534,7 @@ namespace TraktPlugin.TraktHandlers
                     foreach (var movie in cleanupList)
                     {
                         // update local trakt category
-                        TraktLogger.Info("Removing trakt category '{0}' for movie '{1} ({2})'", category, movie.Title, movie.Year);
+                        TraktLogger.Info("Removing trakt category for movie. Category = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", category, movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                         movie.CategoryTrakt.Remove(category);
                         movie.Username = TraktSettings.Username;
                         movie.Commit();
@@ -546,7 +546,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (categoryTraktList.Count > 0)
                 {
-                    TraktLogger.Info("Clearing trakt-categorised movies from MyFilms database", categoryTraktList.Count.ToString());
+                    TraktLogger.Info("Clearing {0} trakt-categorised movies from My Films database", categoryTraktList.Count.ToString());
 
                     foreach (var movie in categoryTraktList)
                     {
@@ -569,13 +569,14 @@ namespace TraktPlugin.TraktHandlers
             if (CurrentMovie == null)
                 return false;
 
-            var scrobbleThread = new Thread(movieObj =>
+            var scrobbleData = CreateScrobbleData(CurrentMovie);
+            var scrobbleThread = new Thread(objScrobble =>
             {
-                var scrobbleMovie = movieObj as MFMovie;
-                if (scrobbleMovie == null) return;
+                var tScrobbleData = objScrobble as TraktScrobbleMovie;
+                if (tScrobbleData == null) return;
 
-                TraktLogger.Info("Sending start scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", scrobbleMovie.Title, scrobbleMovie.Year, scrobbleMovie.IMDBNumber ?? "<empty>", scrobbleMovie.TMDBNumber ?? "<empty>");
-                var response = TraktAPI.TraktAPI.StartMovieScrobble(CreateScrobbleData(scrobbleMovie));
+                TraktLogger.Info("Sending start scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.ImdbId ?? "<empty>", tScrobbleData.Movie.Ids.TmdbId.HasValue ? tScrobbleData.Movie.Ids.TmdbId.ToString() : "<empty>");
+                var response = TraktAPI.TraktAPI.StartMovieScrobble(tScrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -583,7 +584,7 @@ namespace TraktPlugin.TraktHandlers
                 IsBackground = true
             };
 
-            scrobbleThread.Start(CurrentMovie);
+            scrobbleThread.Start(scrobbleData);
 
             return true;
         }
@@ -655,7 +656,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
-                TraktLogger.Info("Starting My Films movie playback: '{0}'", movie.Title);
+                TraktLogger.Info("Starting My Films movie playback. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                 CurrentMovie = movie;
             }
         }
@@ -667,25 +668,24 @@ namespace TraktPlugin.TraktHandlers
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
-                TraktLogger.Info("Stopped My Films movie playback: '{0}'", movie.Title);
+                TraktLogger.Info("Stopped My Films movie playback. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
                 // stop scrobbling
-                var stopScrobble = new Thread(movieObj =>
+                var scrobbleData = CreateScrobbleData(movie);
+                var stopScrobble = new Thread(objScrobble =>
                 {
-                    var scrobbleMovie = movieObj as MFMovie;
-                    if (scrobbleMovie == null) return;
+                    var tScrobbleData = objScrobble as TraktScrobbleMovie;
+                    if (tScrobbleData == null) return;
 
-                    var scrobbleData = CreateScrobbleData(movie);
-                    
-                    var response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+                    var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
-                    Name = "CancelWatching"
+                    Name = "Scrobble"
                 };
 
-                stopScrobble.Start(movie);
+                stopScrobble.Start(scrobbleData);
             }
         }
 
@@ -696,36 +696,35 @@ namespace TraktPlugin.TraktHandlers
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
-                TraktLogger.Info("My Films movie considered watched: '{0}'", movie.Title);
+                TraktLogger.Info("My Films movie considered watched. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
+
+                // show trakt rating dialog
+                ShowRateDialog(movie);
+
+                // no longer need movie in recommendations or watchlist
+                RemoveMovieFromRecommendations(movie);
+                RemoveMovieFromWatchlist(movie);
 
                 // stop scrobbling
-                var stopScrobble = new Thread(movieObj =>
+                var scrobbleData = CreateScrobbleData(movie);
+                var stopScrobble = new Thread(objScrobble =>
                 {
-                    var scrobbleMovie = movieObj as MFMovie;
-                    if (scrobbleMovie == null) return;
-
-                    // no longer need movie in recommendations or watchlist
-                    RemoveMovieFromRecommendations(scrobbleMovie);
-                    RemoveMovieFromWatchlist(scrobbleMovie);
-
-                    var scrobbleData = CreateScrobbleData(movie);
+                    var tScrobbleData = objScrobble as TraktScrobbleMovie;
+                    if (tScrobbleData == null) return;
 
                     // check progress is enough to mark as watched online
-                    if (scrobbleData.Progress < 80)
-                        scrobbleData.Progress = 100;
+                    if (tScrobbleData.Progress < 80)
+                        tScrobbleData.Progress = 100;
 
-                    // show trakt rating dialog
-                    ShowRateDialog(scrobbleMovie);
-
-                    var response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+                    var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
                     IsBackground = true,
-                    Name = "CancelWatching"
+                    Name = "Scrobble"
                 };
 
-                stopScrobble.Start(CurrentMovie);
+                stopScrobble.Start(scrobbleData);
             }
         }
 
@@ -735,7 +734,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnRateItem(MFMovie movie, string value)
         {
-            TraktLogger.Info("Received rating event from MyFilms");
+            TraktLogger.Info("Received rating event from MyFilms. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -776,7 +775,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnToggleWatched(MFMovie movie, bool watched, int count)
         {
-            TraktLogger.Info("Received togglewatched event from My Films");
+            TraktLogger.Info("Received togglewatched event from My Films. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
@@ -805,6 +804,10 @@ namespace TraktPlugin.TraktHandlers
                 }
                 else
                 {
+                    // no longer need movie in recommendations or watchlist
+                    RemoveMovieFromRecommendations(tMovie);
+                    RemoveMovieFromWatchlist(tMovie);
+
                     var traktMovie = new TraktSyncMovieWatched
                     {
                         Ids = new TraktMovieId { ImdbId = tMovie.IMDBNumber, TmdbId = movie.TMDBNumber.ToNullableInt32() },
@@ -841,14 +844,14 @@ namespace TraktPlugin.TraktHandlers
                 while (SyncInProgress)
                 {
                     // only do one sync at a time
-                    TraktLogger.Debug("My Films sync still in progress, waiting to complete. Trying again in 60secs");
+                    TraktLogger.Debug("My Films sync still in progress, waiting to complete. Trying again in 60 secs");
                     Thread.Sleep(60000);
                 }
                 SyncLibrary();
             })
             {
                 IsBackground = true,
-                Name = "LibrarySync"
+                Name = "Sync"
             };
 
             syncThread.Start();
@@ -857,6 +860,7 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Other Public Methods
+
         public static bool FindMovie(string title, int year, string imdbid, ref int? movieid, ref string config)
         {
             // get all movies
@@ -874,6 +878,7 @@ namespace TraktPlugin.TraktHandlers
             config = movie.Config;
             return true;
         }
+
         #endregion
 
         #region Private Methods
@@ -905,11 +910,11 @@ namespace TraktPlugin.TraktHandlers
             if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled
             if (movie.RatingUser > 0) return;                       // already rated
 
-            TraktLogger.Debug("Showing rate dialog for '{0}'", movie.Title);
+            TraktLogger.Debug("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
-            new Thread((o) =>
+            var rateThread = new Thread((objMovie) =>
             {
-                MFMovie movieToRate = o as MFMovie;
+                MFMovie movieToRate = objMovie as MFMovie;
                 if (movieToRate == null) return;
 
                 var rateObject = new TraktSyncMovieRated
@@ -920,21 +925,29 @@ namespace TraktPlugin.TraktHandlers
                     RatedAt = DateTime.UtcNow.ToISO8601()
                 };
 
-                // get the rating submitted to trakt/
+                // get the rating submitted to trakt.tv
                 int rating = GUI.GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
 
                 if (rating > 0)
                 {
-                    TraktLogger.Debug("Rating {0} as {1}/10", movieToRate.Title, rating.ToString());
+                    TraktLogger.Debug("Rating {0} ({1}) as {2}/10", movieToRate.Title, movie.Year, rating.ToString());
                     movieToRate.RatingUser = (float)rating;
                     movieToRate.Username = TraktSettings.Username;
                     movieToRate.Commit();
+
+                    // update skin properties if movie is still selected
+                    if (GUICommon.GetProperty("#myfilms.user.mastertitle.value").Equals(movieToRate.Title))
+                    {
+                        GUICommon.SetProperty("#myfilms.user.rating.value", movieToRate.RatingUser.ToString());
+                    }
                 }
             })
             {
                 Name = "Rate",
                 IsBackground = true
-            }.Start(movie);
+            };
+            
+            rateThread.Start(movie);
         }
 
         /// <summary>
@@ -946,7 +959,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (movie.CategoryTrakt.Contains(Translation.Recommendations))
             {
-                TraktLogger.Info("Removing movie '{0} ({1})' from trakt reommendations", movie.Title, movie.Year);
+                TraktLogger.Info("Removing movie from trakt reommendations. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                 movie.CategoryTrakt.Remove(Translation.Recommendations);
                 movie.Username = TraktSettings.Username;
                 movie.Commit();
@@ -962,7 +975,7 @@ namespace TraktPlugin.TraktHandlers
 
             if (movie.CategoryTrakt.Contains(Translation.Recommendations))
             {
-                TraktLogger.Info("Removing movie '{0} ({1})' from trakt watchlist", movie.Title, movie.Year);
+                TraktLogger.Info("Removing movie from trakt watchlist. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
                 movie.CategoryTrakt.Remove(Translation.WatchList);
                 movie.Username = TraktSettings.Username;
                 movie.Commit();

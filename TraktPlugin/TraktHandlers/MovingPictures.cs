@@ -383,10 +383,10 @@ namespace TraktPlugin.TraktHandlers
                         if (localMovie.UserSettings.First().UserRating == 0)
                         {
                             // update local collection rating (5 Point Scale)
-                            int rating = (int)(Math.Round(trm.Rated / 2.0, MidpointRounding.AwayFromZero));
+                            int rating = (int)(Math.Round(trm.Rating / 2.0, MidpointRounding.AwayFromZero));
 
                             TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-                                              trm.Rated, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
+                                              trm.Rating, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.ImdbId ?? "<empty>", trm.Movie.Ids.TmdbId.HasValue ? trm.Movie.Ids.TmdbId.ToString() : "<empty>");
 
                             localMovie.ActiveUserSettings.UserRating = rating;
                             localMovie.Commit();
@@ -1152,7 +1152,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (rating > 0)
                 {
-                    TraktLogger.Info("Applying rating for movie. Rating = {0}/10, Title = '{1}', Year = '{2}', IMDB ID = '{3}', TMDb ID = '{4}'", rating,  movie.Title, movie.Year, movie.ImdbID ?? "<empty>", GetTmdbID(movie) ?? "<empty>");
+                    TraktLogger.Info("Applying rating for movie. Rating = '{0}/10', Title = '{1}', Year = '{2}', IMDB ID = '{3}', TMDb ID = '{4}'", rating,  movie.Title, movie.Year, movie.ImdbID ?? "<empty>", GetTmdbID(movie) ?? "<empty>");
                     movieToRate.ActiveUserSettings.UserRating = (int)(Math.Round(rating / 2.0, MidpointRounding.AwayFromZero));
 
                     // Publish to skin - same as how MovingPictures does it i.e. lose precision due to rounding
