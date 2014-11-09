@@ -376,6 +376,9 @@ namespace TraktPlugin.TraktHandlers
             return TraktLogger.LogTraktResponse(response);
         }
 
+        /// <summary>
+        /// Validates an IMDb ID
+        /// </summary>
         public static bool IsValidImdb(string id)
         {
             if (id == null || !id.StartsWith("tt", StringComparison.InvariantCultureIgnoreCase)) return false;

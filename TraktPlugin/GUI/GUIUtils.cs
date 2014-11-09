@@ -446,17 +446,24 @@ namespace TraktPlugin.GUI
                 ratingDlg.SetLine(1, string.Format("{0}x{1} - {2}", item.Season, item.Number, item.Title));
                 ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
+            else if (rateObject is TraktSyncEpisodeRatedEx)
+            {
+                // for when episode ids are not available we need to sync with both episode and show details
+                var item = rateObject as TraktSyncEpisodeRatedEx;
+                ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Seasons[0].Number, item.Seasons[0].Episodes[0].Number));
+                ratingDlg.Rated = item.Seasons[0].Episodes[0].Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Seasons[0].Episodes[0].Rating);
+            }
             else if (rateObject is TraktSyncShowRated)
             {
                 var item = rateObject as TraktSyncShowRated;
                 ratingDlg.SetLine(1, item.Title);
                 ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
-                
+
             }
             else
             {
                 var item = rateObject as TraktSyncMovieRated;
-                ratingDlg.SetLine(1, item.Title);                
+                ratingDlg.SetLine(1, item.Title);
                 ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
             
@@ -480,6 +487,30 @@ namespace TraktPlugin.GUI
                     else
                     {
                         response = TraktAPI.TraktAPI.RemoveEpisodeFromRatings(obj as TraktEpisode);
+                    }
+                    TraktLogger.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Rate"
+                };
+                rateThread.Start(item);
+            }
+            else if (rateObject is TraktSyncEpisodeRatedEx)
+            {
+                // for when episode ids are not available we need to sync with both episode and show details
+                var item = rateObject as TraktSyncEpisodeRatedEx;
+                currentRating = ratingDlg.Rated;
+                item.Seasons[0].Episodes[0].Rating = (int)currentRating;
+                Thread rateThread = new Thread(delegate(object obj)
+                {
+                    if ((obj as TraktSyncEpisodeRatedEx).Seasons[0].Episodes[0].Rating > 0)
+                    {
+                        response = TraktAPI.TraktAPI.AddEpisodeToRatingsEx(obj as TraktSyncEpisodeRatedEx);
+                    }
+                    else
+                    {
+                        response = TraktAPI.TraktAPI.RemoveEpisodeFromRatingsEx(obj as TraktSyncEpisodeRatedEx);
                     }
                     TraktLogger.LogTraktResponse(response);
                 })

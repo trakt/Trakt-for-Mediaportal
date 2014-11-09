@@ -273,12 +273,23 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddEpisodesToRatingsEx(TraktSyncEpisodesRatedEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncRatingsAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse RemoveEpisodesFromRatings(TraktSyncEpisodes episodes)
         {
             var response = PostToTrakt(TraktURIs.SyncRatingsRemove, episodes.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse RemoveEpisodesFromRatingsEx(TraktSyncEpisodesRatedEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncRatingsRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
         #endregion
 
         #region Rate Helper (Single)
@@ -307,6 +318,32 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveEpisodesFromRatings(episodes);
+        }
+
+        /// <summary>
+        /// Rate a single episode on trakt.tv (with show info)
+        /// </summary>
+        public static TraktSyncResponse AddEpisodeToRatingsEx(TraktSyncEpisodeRatedEx item)
+        {
+            var episodes = new TraktSyncEpisodesRatedEx
+            {
+                Shows = new List<TraktSyncEpisodeRatedEx>() { item }
+            };
+
+            return AddEpisodesToRatingsEx(episodes);
+        }
+
+        /// <summary>
+        /// UnRate a single episode on trakt.tv (with show info)
+        /// </summary>
+        public static TraktSyncResponse RemoveEpisodeFromRatingsEx(TraktSyncEpisodeRatedEx item)
+        {
+            var episodes = new TraktSyncEpisodesRatedEx
+            {
+                Shows = new List<TraktSyncEpisodeRatedEx>() { item }
+            };
+
+            return RemoveEpisodesFromRatingsEx(episodes);
         }
 
         /// <summary>

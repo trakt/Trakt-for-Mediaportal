@@ -338,9 +338,11 @@
     <Compile Include="TraktAPI\DataStructures\TraktShowId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncAll.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeRatedEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodes.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesRated.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesRatedEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncMovieCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncMovieRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncMovies.cs" />

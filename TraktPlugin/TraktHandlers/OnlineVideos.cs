@@ -13,16 +13,16 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Player;
 using System.Threading;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
     class OnlineVideos : ITraktHandler
     {
         GUIOnlineVideos ovObject = null;
-        ITrackingInfo currentVideo = null;
-        Timer TraktTimer = null;
+        ITrackingInfo CurrentVideo = null;
 
         #region Constructor
 
@@ -64,61 +64,26 @@ namespace TraktPlugin.TraktHandlers
 
         public bool Scrobble(string filename)
         {
-            if (currentVideo == null) return false;
+            if (CurrentVideo == null || !filename.StartsWith("http://"))
+                return false;
 
-            if (currentVideo.VideoKind == VideoKind.TvSeries)
-                TraktLogger.Info("Detected tv series '{0} - {1}x{2}' playing in OnlineVideos", currentVideo.Title, currentVideo.Season.ToString(), currentVideo.Episode.ToString());
-            else
-                TraktLogger.Info("Detected movie '{0}' playing in OnlineVideos", currentVideo.Title);
-
-            #region scrobble timer
-            TraktTimer = new Timer(new TimerCallback((stateInfo) =>
+            if (CurrentVideo.VideoKind == VideoKind.TvSeries)
             {
-                Thread.CurrentThread.Name = "Scrobble";
+                TraktLogger.Info("Detected tv series playing in OnlineVideos. Title = '{0} - {1}x{2}', IMDb ID = '{3}', TMDb ID = '{4}', TVDb ID = '{5}'", CurrentVideo.Title, CurrentVideo.Season.ToString(), CurrentVideo.Episode.ToString(), CurrentVideo.ID_IMDB ?? "<empty>", CurrentVideo.ID_TMDB ?? "<empty>", CurrentVideo.ID_TVDB ?? "<empty>");
+            }
+            else
+            {
+                TraktLogger.Info("Detected movie playing in OnlineVideos. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", CurrentVideo.Title, CurrentVideo.Year, CurrentVideo.ID_IMDB ?? "<empty>", CurrentVideo.ID_TMDB ?? "<empty>");
+            }
 
-                ITrackingInfo videoInfo = stateInfo as ITrackingInfo;
-
-                // get duration in minutes
-                double duration = g_Player.Duration / 60;
-                double progress = 0.0;
-
-                // get current progress of player
-                if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
-                    
-                TraktEpisodeScrobble scrobbleEpisodeData = null;
-                TraktMovieScrobble scrobbleMovieData = null;
-                TraktResponse response = null;
-
-                if (videoInfo.VideoKind == VideoKind.TvSeries)
-                {
-                    scrobbleEpisodeData = CreateEpisodeScrobbleData(videoInfo);
-                    if (scrobbleEpisodeData == null) return;
-                    scrobbleEpisodeData.Duration = Convert.ToInt32(duration).ToString();
-                    scrobbleEpisodeData.Progress = Convert.ToInt32(progress).ToString();
-                    response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.watching);
-                }
-                else
-                {
-                    scrobbleMovieData = CreateMovieScrobbleData(videoInfo);
-                    if (scrobbleMovieData == null) return;
-                    scrobbleMovieData.Duration = Convert.ToInt32(duration).ToString();
-                    scrobbleMovieData.Progress = Convert.ToInt32(progress).ToString();
-                    response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.watching);
-                }
-
-                TraktLogger.LogTraktResponse(response);
-            }), currentVideo, 3000, 900000);
-            #endregion
-
+            // scrobble from plugin event handler
             return true;
         }
 
         public void StopScrobble()
         {
-            currentVideo = null;
-
-            if (TraktTimer != null)
-                TraktTimer.Dispose();
+            // stop scrobble from plugin event handler
+            return;
         }
 
         #endregion
@@ -127,7 +92,7 @@ namespace TraktPlugin.TraktHandlers
 
         /// <summary>
         /// Event gets triggered on playback events in OnlineVideos
-        /// The TrackVideoPlayback event gets fired on Playback Start, Playback Ended
+        /// The TrackVideoPlayback event gets fired on Playback Start, Playback Ended (100%)
         /// and Playback Stopped (if percentage watched is greater than 0.8).
         /// </summary>
         private void TrackVideoPlayback(ITrackingInfo info, double percentPlayed)
@@ -135,58 +100,96 @@ namespace TraktPlugin.TraktHandlers
             if (info.VideoKind == VideoKind.Movie || info.VideoKind == VideoKind.TvSeries)
             {
                 // Started Playback
-                // Bug in OnlineVideos 0.31 reports incorrect percentage
-                if (percentPlayed > 1.0) percentPlayed = 1 / percentPlayed;
                 if (percentPlayed < 0.8)
                 {
-                    currentVideo = info;
-                    return;
-                }
+                    CurrentVideo = info;
 
-                // Show Rating Dialog
-                ShowRateDialog(info);
-
-                // Playback Ended or Stopped and Considered Watched
-                // TrackVideoPlayback event only gets fired on Stopped if > 80% watched
-                TraktLogger.Info("Playback of '{0}' is considered watched at {1:0.00}%", info.Title, (percentPlayed * 100).ToString());
-
-                Thread scrobbleThread = new Thread(delegate(object o)
-                {
-                    ITrackingInfo videoInfo = o as ITrackingInfo;
-                    
-                    // duration in minutes
-                    double duration = g_Player.Duration / 60;
-                    double progress = 100.0;
-
-                    TraktEpisodeScrobble scrobbleEpisodeData = null;
-                    TraktMovieScrobble scrobbleMovieData = null;
-                    TraktResponse response = null;
-
-                    if (videoInfo.VideoKind == VideoKind.TvSeries)
+                    // start scrobble
+                    if (info.VideoKind == VideoKind.TvSeries)
                     {
-                        scrobbleEpisodeData = CreateEpisodeScrobbleData(videoInfo);
-                        if (scrobbleEpisodeData == null) return;
-                        scrobbleEpisodeData.Duration = Convert.ToInt32(duration).ToString();
-                        scrobbleEpisodeData.Progress = Convert.ToInt32(progress).ToString();
-                        response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleEpisodeData, TraktScrobbleStates.scrobble);
+                        var scrobbleEpisodeData = CreateEpisodeScrobbleData(info, Math.Round(percentPlayed * 100, 2));
+
+                        var scrobbleThread = new Thread((objInfo) =>
+                        {
+                            var response = TraktAPI.TraktAPI.StartEpisodeScrobble(objInfo as TraktScrobbleEpisode);
+                            TraktLogger.LogTraktResponse(response);
+                        })
+                        {
+                            IsBackground = true,
+                            Name = "Scrobble"
+                        };
+
+                        scrobbleThread.Start(scrobbleEpisodeData);
                     }
                     else
                     {
-                        scrobbleMovieData = CreateMovieScrobbleData(videoInfo);
-                        if (scrobbleMovieData == null) return;
-                        scrobbleMovieData.Duration = Convert.ToInt32(duration).ToString();
-                        scrobbleMovieData.Progress = Convert.ToInt32(progress).ToString();
-                        response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleMovieData, TraktScrobbleStates.scrobble);
+                        var scrobbleMovieData = CreateMovieScrobbleData(info, Math.Round(percentPlayed * 100, 2));
+
+                        var scrobbleThread = new Thread((objInfo) =>
+                        {
+                            var response = TraktAPI.TraktAPI.StartMovieScrobble(objInfo as TraktScrobbleMovie);
+                            TraktLogger.LogTraktResponse(response);
+                        })
+                        {
+                            IsBackground = true,
+                            Name = "Scrobble"
+                        };
+
+                        scrobbleThread.Start(scrobbleMovieData);
                     }
+                    
+                    return;
+                }
 
-                    TraktLogger.LogTraktResponse(response);
-                })
+                CurrentVideo = null;
+
+                // Playback Ended or Stopped and Considered Watched
+                // TrackVideoPlayback event only gets fired on Stopped if > 80% watched
+                if (info.VideoKind == VideoKind.TvSeries)
                 {
-                    IsBackground = true,
-                    Name = "Scrobble"
-                };
+                    TraktLogger.Info("Playback of episode has ended and is considered watched. Progress = '{0}%', Title = '{1} - {2}x{3}', IMDb ID = '{4}', TMDb ID = '{5}', TVDb ID = '{6}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Season.ToString(), info.Episode.ToString(), info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>", info.ID_TVDB ?? "<empty>");
+                }
+                else
+                {
+                    TraktLogger.Info("Playback of movie has ended an is considered watched. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", info.Title, info.Year, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>");
+                }
 
-                scrobbleThread.Start(info);
+                // Show Rating Dialog after watched
+                ShowRateDialog(info);
+
+                // stop scrobble
+                if (info.VideoKind == VideoKind.TvSeries)
+                {
+                    var scrobbleEpisodeData = CreateEpisodeScrobbleData(info, Math.Round(percentPlayed * 100, 2));
+
+                    var scrobbleThread = new Thread((objInfo) =>
+                    {
+                        var response = TraktAPI.TraktAPI.StopEpisodeScrobble(objInfo as TraktScrobbleEpisode);
+                        TraktLogger.LogTraktResponse(response);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Scrobble"
+                    };
+
+                    scrobbleThread.Start(scrobbleEpisodeData);
+                }
+                else
+                {
+                    var scrobbleMovieData = CreateMovieScrobbleData(info, Math.Round(percentPlayed * 100, 2));
+
+                    var scrobbleThread = new Thread((objInfo) =>
+                    {
+                        var response = TraktAPI.TraktAPI.StopMovieScrobble(objInfo as TraktScrobbleMovie);
+                        TraktLogger.LogTraktResponse(response);
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "Scrobble"
+                    };
+
+                    scrobbleThread.Start(scrobbleMovieData);
+                }
             }
         }
         
@@ -194,67 +197,49 @@ namespace TraktPlugin.TraktHandlers
 
         #region Data Creators
 
-        private TraktEpisodeScrobble CreateEpisodeScrobbleData(ITrackingInfo info)
+        private TraktScrobbleEpisode CreateEpisodeScrobbleData(ITrackingInfo info, double progress = 0)
         {
-            try
+            var scrobbleData = new TraktScrobbleEpisode
             {
-                // create scrobble data
-                TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble
+                Episode = new TraktEpisode
                 {
+                    Number = (int)info.Episode,
+                    Season = (int)info.Season
+                },
+                Show = new TraktShow
+                {
+                    Ids = new TraktShowId { ImdbId = info.ID_IMDB, TmdbId = info.ID_TMDB.ToNullableInt32(), TvdbId = info.ID_TVDB.ToNullableInt32() },
                     Title = info.Title,
-                    Year = info.Year > 1900 ? info.Year.ToString() : null,
-                    Season = info.Season.ToString(),
-                    Episode = info.Episode.ToString(),
-                    SeriesID = info.ID_TVDB,
-                    IMDBID = info.ID_IMDB,
-                    PluginVersion = TraktSettings.Version,
-                    MediaCenter = "Mediaportal",
-                    MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
-                    MediaCenterBuildDate = String.Empty,
-                    UserName = TraktSettings.Username,
-                    Password = TraktSettings.Password
-                };
+                    Year = info.Year > 0 ? (int?)info.Year : null
+                },
+                AppDate = TraktSettings.BuildDate,
+                AppVersion = TraktSettings.Version,
+                Progress = progress
+            };
 
-                return scrobbleData;
-            }
-            catch (Exception e)
-            {
-                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
-                return null;
-            }
+            return scrobbleData;
         }
 
-        private TraktMovieScrobble CreateMovieScrobbleData(ITrackingInfo info)
+        private TraktScrobbleMovie CreateMovieScrobbleData(ITrackingInfo info, double progress = 0)
         {
-            try
+            var scrobbleData = new TraktScrobbleMovie
             {
-                // create scrobble data
-                TraktMovieScrobble scrobbleData = new TraktMovieScrobble
+                Movie = new TraktMovie
                 {
+                    Ids = new TraktMovieId { ImdbId = info.ID_IMDB, TmdbId = info.ID_TMDB.ToNullableInt32() },
                     Title = info.Title,
-                    Year = info.Year > 1900 ? info.Year.ToString() : null,
-                    IMDBID = info.ID_IMDB,
-                    TMDBID = info.ID_TMDB,
-                    PluginVersion = TraktSettings.Version,
-                    MediaCenter = "Mediaportal",
-                    MediaCenterVersion = Assembly.GetEntryAssembly().GetName().Version.ToString(),
-                    MediaCenterBuildDate = String.Empty,
-                    UserName = TraktSettings.Username,
-                    Password = TraktSettings.Password
-                };
-
-                return scrobbleData;
-            }
-            catch (Exception e)
-            {
-                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
-                return null;
-            }
+                    Year = (int)info.Year
+                },
+                AppDate = TraktSettings.BuildDate,
+                AppVersion = TraktSettings.Version,
+                Progress = progress
+            };
+            return scrobbleData;
         }
 
         #endregion
         
-        #region Other Public Methods
+        #region Public Methods
 
         public void DisposeEvents()
         {
@@ -266,6 +251,7 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Private Methods
+
         /// <summary>
         /// Shows the Rate Dialog after playback has ended
         /// </summary>
@@ -274,56 +260,65 @@ namespace TraktPlugin.TraktHandlers
         {            
             if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
 
-            TraktLogger.Debug("Showing rate dialog for '{0}'", videoInfo.Title);
-
-            new Thread((o) =>
+            var rateThread = new Thread((objInfo) =>
             {
-                ITrackingInfo itemToRate = o as ITrackingInfo;
+                var itemToRate = objInfo as ITrackingInfo;
                 if (itemToRate == null) return;
 
-                int rating = 0;
+                int rating = -1;
 
                 if (itemToRate.VideoKind == VideoKind.TvSeries)
                 {
-                    TraktRateEpisode rateObject = new TraktRateEpisode
+                    TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB ?? "<empty>", itemToRate.ID_TMDB ?? "<empty>", itemToRate.Episode, itemToRate.Season);
+
+                    // this gets complicated when the episode IDs are not available!
+                    var rateObject = new TraktSyncEpisodeRatedEx
                     {
-                        SeriesID = itemToRate.ID_TVDB,
+                        Ids = new TraktShowId { TvdbId = itemToRate.ID_TVDB.ToNullableInt32(), TmdbId = itemToRate.ID_TMDB.ToNullableInt32() },
                         Title = itemToRate.Title,
-                        Year = itemToRate.Year > 1900 ? itemToRate.Year.ToString() : null,
-                        Episode = itemToRate.Episode.ToString(),
-                        Season = itemToRate.Season.ToString(),
-                        UserName = TraktSettings.Username,
-                        Password = TraktSettings.Password
+                        Year = itemToRate.Year > 0 ? (int?)itemToRate.Year : null,
+                        Seasons = new List<TraktSyncEpisodeRatedEx.Season>
+                        {   
+                            new TraktSyncEpisodeRatedEx.Season 
+                            {
+                                Number = (int)itemToRate.Season,
+                                Episodes = new List<TraktSyncEpisodeRatedEx.Season.Episode>
+                                {
+                                    new TraktSyncEpisodeRatedEx.Season.Episode
+                                    {
+                                        Number = (int)itemToRate.Episode,
+                                        RatedAt = DateTime.UtcNow.ToISO8601()   
+                                    }
+                                }
+                            }
+                        }
                     };
                     // get the rating submitted to trakt
-                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
+                    rating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRatedEx>(rateObject);
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {
-                    TraktRateMovie rateObject = new TraktRateMovie
+                    TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB ?? "<empty>", itemToRate.ID_TMDB ?? "<empty>");
+
+                    var rateObject = new TraktSyncMovieRated
                     {
-                        IMDBID = itemToRate.ID_IMDB,
-                        TMDBID = itemToRate.ID_TMDB,
+                        Ids = new TraktMovieId { ImdbId = itemToRate.ID_IMDB, TmdbId = itemToRate.ID_TMDB.ToNullableInt32() },
                         Title = itemToRate.Title,
-                        Year = itemToRate.Year > 1900 ? itemToRate.Year.ToString() : null,
-                        UserName = TraktSettings.Username,
-                        Password = TraktSettings.Password
+                        Year = (int)itemToRate.Year,
+                        RatedAt = DateTime.UtcNow.ToISO8601()
                     };
                     // get the rating submitted to trakt
-                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
-                }
-
-                if (rating > 0)
-                {
-                    TraktLogger.Debug("Rating {0} as {1}/10", itemToRate.Title, rating.ToString());
-                    // note: no user rating field to set
+                    rating = GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
                 }
             })
             {
                 Name = "Rate",
                 IsBackground = true
-            }.Start(videoInfo);
+            };
+            
+            rateThread.Start(videoInfo);
         }
+
         #endregion
     }
 }
