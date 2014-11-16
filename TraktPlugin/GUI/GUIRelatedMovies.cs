@@ -27,7 +27,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperMovieImdbId(IMDbId))) return IMDbId;
+                if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperImdbId(IMDbId))) return IMDbId;
                 if (string.IsNullOrEmpty(Title)) return string.Empty;
                 return string.Format("{0} {1}", Title, Year).ToSlug();
             }

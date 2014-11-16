@@ -7,16 +7,13 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktEpisodeRated
+    public class TraktShowRated
     {
         [DataMember(Name = "rating")]
         public int Rating { get; set; }
 
         [DataMember(Name = "rated_at")]
         public string RatedAt { get; set; }
-
-        [DataMember(Name = "episode")]
-        public TraktEpisode Episode { get; set; }
 
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }

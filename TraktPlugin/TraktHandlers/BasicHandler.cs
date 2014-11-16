@@ -391,7 +391,7 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="id">current movie imdb id</param>
         /// <returns>correctly formatted id</returns>
-        public static string GetProperMovieImdbId(string id)
+        public static string GetProperImdbId(string id)
         {
             string imdbid = id;
 

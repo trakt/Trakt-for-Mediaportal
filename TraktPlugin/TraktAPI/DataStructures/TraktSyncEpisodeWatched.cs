@@ -7,12 +7,9 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktId
+    public class TraktSyncEpisodeWatched : TraktEpisode
     {
-        [DataMember(Name = "trakt")]
-        public int? Id { get; set; }
-
-        [DataMember(Name = "slug")]
-        public string Slug { get; set; }
+        [DataMember(Name = "watched_at")]
+        public string WatchedAt { get; set; }
     }
 }

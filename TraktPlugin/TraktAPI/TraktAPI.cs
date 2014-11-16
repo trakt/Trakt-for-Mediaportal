@@ -77,16 +77,40 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktMovieCollected>();
         }
 
+        public static IEnumerable<TraktEpisodeCollected> GetCollectedEpisodes()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncCollectionEpisodes);
+            return response.FromJSONArray<TraktEpisodeCollected>();
+        }
+
         public static IEnumerable<TraktMovieWatched> GetWatchedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedMovies);
             return response.FromJSONArray<TraktMovieWatched>();
         }
 
+        public static IEnumerable<TraktEpisodeWatched> GetWatchedEpisodes()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncWatchedEpisodes);
+            return response.FromJSONArray<TraktEpisodeWatched>();
+        }
+
         public static IEnumerable<TraktMovieRated> GetRatedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedMovies);
             return response.FromJSONArray<TraktMovieRated>();
+        }
+
+        public static IEnumerable<TraktEpisodeRated> GetRatedEpisodes()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncRatedEpisodes);
+            return response.FromJSONArray<TraktEpisodeRated>();
+        }
+
+        public static IEnumerable<TraktShowRated> GetRatedShows()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncRatedShows);
+            return response.FromJSONArray<TraktShowRated>();
         }
 
         #region Recommendations
@@ -175,6 +199,30 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddEpisodesToCollecton(TraktSyncEpisodesCollected episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddEpisodesToCollectonEx(TraktSyncEpisodesCollectedEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveEpisodesFromCollecton(TraktSyncEpisodes episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveEpisodesFromCollectonEx(TraktSyncEpisodesEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         #endregion
 
         #region Collection (Single)
@@ -212,6 +260,30 @@ namespace TraktPlugin.TraktAPI
         public static TraktSyncResponse RemoveMoviesFromWatchedHistory(TraktSyncMovies movies)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, movies.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddEpisodesToWatchedHistory(TraktSyncEpisodesWatched episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddEpisodesToWatchedHistoryEx(TraktSyncEpisodesWatchedEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveEpisodesFromWatchedHistory(TraktSyncEpisodes episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveEpisodesFromWatchedHistoryEx(TraktSyncEpisodesEx episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, episodes.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -290,6 +362,7 @@ namespace TraktPlugin.TraktAPI
             var response = PostToTrakt(TraktURIs.SyncRatingsRemove, episodes.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
+
         #endregion
 
         #region Rate Helper (Single)

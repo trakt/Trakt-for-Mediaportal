@@ -26,9 +26,15 @@ namespace TraktPlugin.TraktAPI
 
         // GET
         public const string SyncLastActivities = "http://api.v2.trakt.tv/sync/last_activities";
+        
         public const string SyncCollectionMovies = "http://api.v2.trakt.tv/sync/collection/movies";
         public const string SyncWatchedMovies = "http://api.v2.trakt.tv/sync/watched/movies";
         public const string SyncRatedMovies = "http://api.v2.trakt.tv/sync/ratings/movies";
+
+        public const string SyncCollectionEpisodes = "http://api.v2.trakt.tv/sync/collection/shows";
+        public const string SyncWatchedEpisodes = "http://api.v2.trakt.tv/sync/watched/shows";
+        public const string SyncRatedEpisodes = "http://api.v2.trakt.tv/sync/ratings/episodes";
+        public const string SyncRatedShows = "http://api.v2.trakt.tv/sync/ratings/shows";
 
         public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists";
         public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items";

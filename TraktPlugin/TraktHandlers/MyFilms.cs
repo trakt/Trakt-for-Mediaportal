@@ -871,7 +871,7 @@ namespace TraktPlugin.TraktHandlers
             List<MFMovie> movies = (from MFMovie m in myvideos select m).ToList();
 
             // try find a match
-            MFMovie movie = movies.Find(m => BasicHandler.GetProperMovieImdbId(m.IMDBNumber) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
+            MFMovie movie = movies.Find(m => BasicHandler.GetProperImdbId(m.IMDBNumber) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
             if (movie == null) return false;
 
             movieid = movie.ID;
@@ -886,9 +886,9 @@ namespace TraktPlugin.TraktHandlers
         private bool MovieMatch(MFMovie mfMovie, TraktMovie traktMovie)
         {
             // IMDb comparison
-            if (!string.IsNullOrEmpty(traktMovie.Ids.ImdbId) && !string.IsNullOrEmpty(BasicHandler.GetProperMovieImdbId(mfMovie.IMDBNumber)))
+            if (!string.IsNullOrEmpty(traktMovie.Ids.ImdbId) && !string.IsNullOrEmpty(BasicHandler.GetProperImdbId(mfMovie.IMDBNumber)))
             {
-                return string.Compare(BasicHandler.GetProperMovieImdbId(mfMovie.IMDBNumber), traktMovie.Ids.ImdbId, true) == 0;
+                return string.Compare(BasicHandler.GetProperImdbId(mfMovie.IMDBNumber), traktMovie.Ids.ImdbId, true) == 0;
             }
 
             // TMDb comparison

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using MediaPortal.Configuration;
 using TraktPlugin.TraktAPI;
@@ -19,6 +20,12 @@ namespace TraktPlugin
         private static string cMoviesCollected = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Collected.json");
         private static string cMoviesWatched = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Watched.json");
         private static string cMoviesRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Rated.json");
+
+        private static string cEpisodesCollected = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Collected.json");
+        private static string cEpisodesWatched = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Watched.json");
+        private static string cEpisodesRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Rated.json");
+        
+        private static string cShowsRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Shows\Rated.json");
 
         private static DateTime recommendationsAge;
         private static DateTime watchListAge;
@@ -64,7 +71,7 @@ namespace TraktPlugin
                                         Year = movie.Movie.Year
                                     };
 
-            return unwatchedMovies;
+            return unwatchedMovies ?? new List<TraktMovie>();
         }
 
         /// <summary>
@@ -237,6 +244,316 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktMovieRated> _RatedMovies = null;
+
+        /// <summary>
+        /// Get the users collected episodes from Trakt
+        /// </summary>
+        public static IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt()
+        {
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Episodes.Collection == TraktSettings.LastSyncActivities.Episodes.Collection)
+            {
+                var cachedItems = CollectedEpisodes;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Debug("TV episode collection cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Collection ?? "<empty>", lastSyncActivities.Episodes.Collection ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetCollectedEpisodes();
+            if (onlineItems != null)
+            {
+                // convert trakt structure to more flat heirarchy (more managable)
+                TraktLogger.Debug("Converting list of collected episodes from trakt to internal data structure");
+                var episodesCollected = new List<EpisodeCollected>();
+                foreach (var show in onlineItems)
+                {
+                    foreach (var season in show.Seasons)
+                    {
+                        foreach (var episode in season.Episodes)
+                        {
+                            episodesCollected.Add(new EpisodeCollected
+                            {
+                                ShowId = show.Show.Ids.Id,
+                                ShowTvdbId = show.Show.Ids.TvdbId,
+                                ShowImdbId = show.Show.Ids.ImdbId,
+                                ShowTitle = show.Show.Title,
+                                ShowYear = show.Show.Year,
+                                Number = episode.Number,
+                                Season = season.Number,
+                                CollectedAt = episode.CollectedAt
+                            });
+                        }
+                    }
+                }
+
+                _CollectedEpisodes = episodesCollected;
+
+                // save to local file cache
+                SaveFileCache(cEpisodesCollected, _CollectedEpisodes.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Episodes.Collection = lastSyncActivities.Episodes.Collection;
+            }
+
+            return _CollectedEpisodes;
+        }
+
+        /// <summary>
+        /// returns the cached users collected episodes on trakt.tv
+        /// </summary>
+        static IEnumerable<EpisodeCollected> CollectedEpisodes
+        {
+            get
+            {
+                if (_CollectedEpisodes == null)
+                {
+                    var persistedItems = LoadFileCache(cEpisodesCollected, null);
+                    if (persistedItems != null)
+                        _CollectedEpisodes = persistedItems.FromJSONArray<EpisodeCollected>();
+                }
+                return _CollectedEpisodes;
+            }
+        }
+        static IEnumerable<EpisodeCollected> _CollectedEpisodes = null;
+
+        /// <summary>
+        /// Get the users watched episodes from Trakt
+        /// </summary>
+        public static IEnumerable<EpisodeWatched> GetWatchedEpisodesFromTrakt()
+        {
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Movies == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Episodes.Watched == TraktSettings.LastSyncActivities.Episodes.Watched)
+            {
+                var cachedItems = WatchedEpisodes;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Debug("TV episode watched history cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watched ?? "<empty>", lastSyncActivities.Episodes.Watched ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetWatchedEpisodes();
+            if (onlineItems != null)
+            {
+                // convert trakt structure to more flat heirarchy (more managable)
+                TraktLogger.Debug("Converting list of watched episodes from trakt to internal data structure");
+                var episodesWatched = new List<EpisodeWatched>();
+                foreach (var show in onlineItems)
+                {
+                    foreach(var season in show.Seasons)
+                    {
+                        foreach(var episode in season.Episodes)
+                        {
+                            episodesWatched.Add( new EpisodeWatched
+                            {
+                                ShowId = show.Show.Ids.Id,
+                                ShowTvdbId = show.Show.Ids.TvdbId,
+                                ShowImdbId = show.Show.Ids.ImdbId,
+                                ShowTitle = show.Show.Title,
+                                ShowYear = show.Show.Year,
+                                Number = episode.Number,
+                                Season = season.Number,
+                                Plays = episode.Plays
+                            });
+                        }
+                    }
+                }
+
+                _WatchedEpisodes = episodesWatched;
+
+                // save to local file cache
+                SaveFileCache(cEpisodesWatched, _WatchedEpisodes.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Episodes.Watched = lastSyncActivities.Episodes.Watched;
+            }
+
+            return _WatchedEpisodes;
+        }
+
+        /// <summary>
+        /// Get the users unwatched episodes since last sync
+        /// This is something that has been previously watched but
+        /// now has been removed from the users watched history either
+        /// by toggling the watched state on a client or from online
+        /// </summary>
+        public static IEnumerable<Episode> GetUnWatchedEpisodesFromTrakt()
+        {
+            // trakt.tv does not provide an unwatched API
+            // There are plans after initial launch of v2 to have a re-watch API.
+
+            // First we need to get the previously cached watched episodes
+            var previouslyWatched = WatchedEpisodes;
+            if (previouslyWatched == null)
+                return new List<Episode>();
+
+            // now get the latest watched
+            var currentWatched = GetWatchedEpisodesFromTrakt();
+            if (currentWatched == null)
+                return new List<Episode>();
+
+            TraktLogger.Info("Comparing previous watched episodes against current watched episodes such that unwatched can be determined");
+
+            // anything not in the currentwatched that is previously watched
+            // must be unwatched now.
+            var unwatchedEpisodes = from episode in previouslyWatched
+                                    where !currentWatched.Any(e => e.ShowTvdbId == episode.ShowTvdbId &&
+                                                                   e.Number == episode.Number && 
+                                                                   e.Season == episode.Season)
+                                    select new Episode();
+
+            return unwatchedEpisodes ?? new List<TraktCache.Episode>();
+        }
+
+        /// <summary>
+        /// returns the cached users watched episodes on trakt.tv
+        /// </summary>
+        static IEnumerable<EpisodeWatched> WatchedEpisodes
+        {
+            get
+            {
+                if (_WatchedEpisodes == null)
+                {
+                    var persistedItems = LoadFileCache(cEpisodesWatched, null);
+                    if (persistedItems != null)
+                        _WatchedEpisodes = persistedItems.FromJSONArray<EpisodeWatched>();
+                }
+                return _WatchedEpisodes;
+            }
+        }
+        static IEnumerable<EpisodeWatched> _WatchedEpisodes = null;
+
+        /// <summary>
+        /// Get the users rated episodes from Trakt
+        /// </summary>
+        public static IEnumerable<TraktEpisodeRated> GetRatedEpisodesFromTrakt()
+        {
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Episodes.Rating == TraktSettings.LastSyncActivities.Episodes.Rating)
+            {
+                var cachedItems = RatedEpisodes;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Debug("TV episode ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Rating ?? "<empty>", lastSyncActivities.Episodes.Rating ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetRatedEpisodes();
+            if (onlineItems != null)
+            {
+                _RatedEpisodes = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(cEpisodesRated, _RatedEpisodes.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Episodes.Rating = lastSyncActivities.Episodes.Rating;
+            }
+
+            return onlineItems;
+        }
+
+        /// <summary>
+        /// returns the cached users rated episodes on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktEpisodeRated> RatedEpisodes
+        {
+            get
+            {
+                if (_RatedEpisodes == null)
+                {
+                    var persistedItems = LoadFileCache(cEpisodesRated, null);
+                    if (persistedItems != null)
+                        _RatedEpisodes = persistedItems.FromJSONArray<TraktEpisodeRated>();
+                }
+                return _RatedEpisodes;
+            }
+        }
+        static IEnumerable<TraktEpisodeRated> _RatedEpisodes = null;
+
+        /// <summary>
+        /// Get the users rated shows from Trakt
+        /// </summary>
+        public static IEnumerable<TraktShowRated> GetRatedShowsFromTrakt()
+        {
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Shows.Rating == TraktSettings.LastSyncActivities.Shows.Rating)
+            {
+                var cachedItems = RatedShows;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Debug("TV show ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Rating ?? "<empty>", lastSyncActivities.Shows.Rating ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetRatedShows();
+            if (onlineItems != null)
+            {
+                _RatedShows = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(cShowsRated, _RatedShows.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Shows.Rating = lastSyncActivities.Shows.Rating;
+            }
+
+            return onlineItems;
+        }
+
+        /// <summary>
+        /// returns the cached users rated shows on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktShowRated> RatedShows
+        {
+            get
+            {
+                if (_RatedShows == null)
+                {
+                    var persistedItems = LoadFileCache(cShowsRated, null);
+                    if (persistedItems != null)
+                        _RatedShows = persistedItems.FromJSONArray<TraktShowRated>();
+                }
+                return _RatedShows;
+            }
+        }
+        static IEnumerable<TraktShowRated> _RatedShows = null;
 
         /// <summary>
         /// Get last sync activities from trakt to see if we need to get an update on the various sync methods
@@ -434,5 +751,39 @@ namespace TraktPlugin
         }
 
         #endregion
+
+        // Data Structures needed for Cache
+        [DataContract]
+        public class Episode
+        {
+            [DataMember]
+            public int? ShowId { get; set; }
+            [DataMember]
+            public int? ShowTvdbId { get; set; }
+            [DataMember]
+            public string ShowImdbId { get; set; }
+            [DataMember]
+            public string ShowTitle { get; set; }
+            [DataMember]
+            public int? ShowYear { get; set; }
+            [DataMember]
+            public int Season { get; set; }
+            [DataMember]
+            public int Number { get; set; }
+        }
+
+        [DataContract]
+        public class EpisodeWatched : Episode
+        {
+            [DataMember]
+            public int Plays { get; set; }
+        }
+
+        [DataContract]
+        public class EpisodeCollected : Episode
+        {
+            [DataMember]
+            public string CollectedAt { get; set; }
+        }
     }
 }
