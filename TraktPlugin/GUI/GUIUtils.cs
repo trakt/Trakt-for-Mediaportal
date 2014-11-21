@@ -446,10 +446,10 @@ namespace TraktPlugin.GUI
                 ratingDlg.SetLine(1, string.Format("{0}x{1} - {2}", item.Season, item.Number, item.Title));
                 ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
             }
-            else if (rateObject is TraktSyncEpisodeRatedEx)
+            else if (rateObject is TraktSyncShowRatedEx)
             {
                 // for when episode ids are not available we need to sync with both episode and show details
-                var item = rateObject as TraktSyncEpisodeRatedEx;
+                var item = rateObject as TraktSyncShowRatedEx;
                 ratingDlg.SetLine(1, string.Format("{0} - {1}x{2}", item.Title, item.Seasons[0].Number, item.Seasons[0].Episodes[0].Number));
                 ratingDlg.Rated = item.Seasons[0].Episodes[0].Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Seasons[0].Episodes[0].Rating);
             }
@@ -496,21 +496,21 @@ namespace TraktPlugin.GUI
                 };
                 rateThread.Start(item);
             }
-            else if (rateObject is TraktSyncEpisodeRatedEx)
+            else if (rateObject is TraktSyncShowRatedEx)
             {
                 // for when episode ids are not available we need to sync with both episode and show details
-                var item = rateObject as TraktSyncEpisodeRatedEx;
+                var item = rateObject as TraktSyncShowRatedEx;
                 currentRating = ratingDlg.Rated;
                 item.Seasons[0].Episodes[0].Rating = (int)currentRating;
                 Thread rateThread = new Thread(delegate(object obj)
                 {
-                    if ((obj as TraktSyncEpisodeRatedEx).Seasons[0].Episodes[0].Rating > 0)
+                    if ((obj as TraktSyncShowRatedEx).Seasons[0].Episodes[0].Rating > 0)
                     {
-                        response = TraktAPI.TraktAPI.AddEpisodeToRatingsEx(obj as TraktSyncEpisodeRatedEx);
+                        response = TraktAPI.TraktAPI.AddEpisodeToRatingsEx(obj as TraktSyncShowRatedEx);
                     }
                     else
                     {
-                        response = TraktAPI.TraktAPI.RemoveEpisodeFromRatingsEx(obj as TraktSyncEpisodeRatedEx);
+                        response = TraktAPI.TraktAPI.RemoveEpisodeFromRatingsEx(obj as TraktSyncShowRatedEx);
                     }
                     TraktLogger.LogTraktResponse(response);
                 })

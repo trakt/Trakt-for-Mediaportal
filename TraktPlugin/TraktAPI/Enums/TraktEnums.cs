@@ -57,6 +57,7 @@ namespace TraktPlugin.TraktAPI.Enums
         aac,
         dts,
         dts_ma,
+        flac,
         ogg,
         wma,
         dolby_prologic,

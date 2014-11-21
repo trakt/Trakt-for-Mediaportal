@@ -74,42 +74,56 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktMovieCollected> GetCollectedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncCollectionMovies);
+            
+            if (response == null) return null;
             return response.FromJSONArray<TraktMovieCollected>();
         }
 
         public static IEnumerable<TraktEpisodeCollected> GetCollectedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncCollectionEpisodes);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeCollected>();
         }
 
         public static IEnumerable<TraktMovieWatched> GetWatchedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedMovies);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktMovieWatched>();
         }
 
         public static IEnumerable<TraktEpisodeWatched> GetWatchedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedEpisodes);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeWatched>();
         }
 
         public static IEnumerable<TraktMovieRated> GetRatedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedMovies);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktMovieRated>();
         }
 
         public static IEnumerable<TraktEpisodeRated> GetRatedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedEpisodes);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeRated>();
         }
 
         public static IEnumerable<TraktShowRated> GetRatedShows()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedShows);
+
+            if (response == null) return null;
             return response.FromJSONArray<TraktShowRated>();
         }
 
@@ -205,9 +219,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddEpisodesToCollectonEx(TraktSyncEpisodesCollectedEx episodes)
+        public static TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsCollectedEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -217,9 +231,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse RemoveEpisodesFromCollectonEx(TraktSyncEpisodesEx episodes)
+        public static TraktSyncResponse RemoveShowsFromCollectonEx(TraktSyncShowsEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncCollectionRemove, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncCollectionRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -269,9 +283,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddEpisodesToWatchedHistoryEx(TraktSyncEpisodesWatchedEx episodes)
+        public static TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsWatchedEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -281,9 +295,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse RemoveEpisodesFromWatchedHistoryEx(TraktSyncEpisodesEx episodes)
+        public static TraktSyncResponse RemoveShowsFromWatchedHistoryEx(TraktSyncShowsEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -345,9 +359,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddEpisodesToRatingsEx(TraktSyncEpisodesRatedEx episodes)
+        public static TraktSyncResponse AddShowsToRatingsEx(TraktSyncShowsRatedEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncRatingsAdd, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncRatingsAdd, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -357,9 +371,9 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse RemoveEpisodesFromRatingsEx(TraktSyncEpisodesRatedEx episodes)
+        public static TraktSyncResponse RemoveShowsFromRatingsEx(TraktSyncShowsRatedEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncRatingsRemove, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncRatingsRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -396,27 +410,27 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Rate a single episode on trakt.tv (with show info)
         /// </summary>
-        public static TraktSyncResponse AddEpisodeToRatingsEx(TraktSyncEpisodeRatedEx item)
+        public static TraktSyncResponse AddEpisodeToRatingsEx(TraktSyncShowRatedEx item)
         {
-            var episodes = new TraktSyncEpisodesRatedEx
+            var episodes = new TraktSyncShowsRatedEx
             {
-                Shows = new List<TraktSyncEpisodeRatedEx>() { item }
+                Shows = new List<TraktSyncShowRatedEx>() { item }
             };
 
-            return AddEpisodesToRatingsEx(episodes);
+            return AddShowsToRatingsEx(episodes);
         }
 
         /// <summary>
         /// UnRate a single episode on trakt.tv (with show info)
         /// </summary>
-        public static TraktSyncResponse RemoveEpisodeFromRatingsEx(TraktSyncEpisodeRatedEx item)
+        public static TraktSyncResponse RemoveEpisodeFromRatingsEx(TraktSyncShowRatedEx item)
         {
-            var episodes = new TraktSyncEpisodesRatedEx
+            var episodes = new TraktSyncShowsRatedEx
             {
-                Shows = new List<TraktSyncEpisodeRatedEx>() { item }
+                Shows = new List<TraktSyncShowRatedEx>() { item }
             };
 
-            return RemoveEpisodesFromRatingsEx(episodes);
+            return RemoveShowsFromRatingsEx(episodes);
         }
 
         /// <summary>

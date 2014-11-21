@@ -272,19 +272,19 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB ?? "<empty>", itemToRate.ID_TMDB ?? "<empty>", itemToRate.Episode, itemToRate.Season);
 
                     // this gets complicated when the episode IDs are not available!
-                    var rateObject = new TraktSyncEpisodeRatedEx
+                    var rateObject = new TraktSyncShowRatedEx
                     {
                         Ids = new TraktShowId { TvdbId = itemToRate.ID_TVDB.ToNullableInt32(), TmdbId = itemToRate.ID_TMDB.ToNullableInt32() },
                         Title = itemToRate.Title,
                         Year = itemToRate.Year > 0 ? (int?)itemToRate.Year : null,
-                        Seasons = new List<TraktSyncEpisodeRatedEx.Season>
+                        Seasons = new List<TraktSyncShowRatedEx.Season>
                         {   
-                            new TraktSyncEpisodeRatedEx.Season 
+                            new TraktSyncShowRatedEx.Season 
                             {
                                 Number = (int)itemToRate.Season,
-                                Episodes = new List<TraktSyncEpisodeRatedEx.Season.Episode>
+                                Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
                                 {
-                                    new TraktSyncEpisodeRatedEx.Season.Episode
+                                    new TraktSyncShowRatedEx.Season.Episode
                                     {
                                         Number = (int)itemToRate.Episode,
                                         RatedAt = DateTime.UtcNow.ToISO8601()   
@@ -294,7 +294,7 @@ namespace TraktPlugin.TraktHandlers
                         }
                     };
                     // get the rating submitted to trakt
-                    rating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRatedEx>(rateObject);
+                    rating = GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(rateObject);
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {

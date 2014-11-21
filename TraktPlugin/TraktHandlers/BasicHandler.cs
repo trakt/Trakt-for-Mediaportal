@@ -325,6 +325,19 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        static double GetPlayerProgress(VideoInfo videoInfo)
+        {
+            // get duration/position in minutes
+            double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
+            double position = g_Player.CurrentPosition / 60;
+            double progress = 0.0;
+
+            if (duration > 0.0)
+                progress = (position / duration) * 100.0;
+
+            return progress;
+        }
+
         /// <summary>
         /// Scrobbles a movie from a videoInfo object
         /// </summary>

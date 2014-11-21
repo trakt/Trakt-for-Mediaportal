@@ -414,11 +414,20 @@ namespace TraktPlugin
 
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
-            var unwatchedEpisodes = from episode in previouslyWatched
-                                    where !currentWatched.Any(e => e.ShowTvdbId == episode.ShowTvdbId &&
-                                                                   e.Number == episode.Number && 
-                                                                   e.Season == episode.Season)
-                                    select new Episode();
+            var unwatchedEpisodes = from pwe in previouslyWatched
+                                    where !currentWatched.Any(cwe => cwe.ShowId == pwe.ShowId &&
+                                                                     cwe.Number == pwe.Number &&
+                                                                     cwe.Season == pwe.Season)
+                                    select new Episode
+                                    {
+                                        ShowId = pwe.ShowId,
+                                        ShowTvdbId = pwe.ShowTvdbId,
+                                        ShowImdbId = pwe.ShowImdbId,
+                                        ShowTitle = pwe.ShowTitle,
+                                        ShowYear = pwe.ShowYear,
+                                        Season = pwe.Season,
+                                        Number = pwe.Number
+                                    };
 
             return unwatchedEpisodes ?? new List<TraktCache.Episode>();
         }
@@ -594,7 +603,7 @@ namespace TraktPlugin
 
         #region File IO
 
-        public static void SaveFileCache(string file, string value)
+        internal static void SaveFileCache(string file, string value)
         {
             TraktLogger.Debug("Saving file to disk. Filename = '{0}'", file);
 
@@ -609,7 +618,7 @@ namespace TraktPlugin
             }
         }
 
-        public static string LoadFileCache(string file, string defaultValue)
+        internal static string LoadFileCache(string file, string defaultValue)
         {
             TraktLogger.Debug("Loading file from disk. Filename = '{0}'", file);
 
@@ -752,7 +761,8 @@ namespace TraktPlugin
 
         #endregion
 
-        // Data Structures needed for Cache
+        #region Data Structures
+
         [DataContract]
         public class Episode
         {
@@ -785,5 +795,7 @@ namespace TraktPlugin
             [DataMember]
             public string CollectedAt { get; set; }
         }
+
+        #endregion
     }
 }

@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktSyncEpisodesRatedEx
+    public class TraktSyncShowsEx
     {
         [DataMember(Name = "shows")]
-        public List<TraktSyncEpisodeRatedEx> Shows { get; set; }
+        public List<TraktSyncShowEx> Shows { get; set; }
     }
 }

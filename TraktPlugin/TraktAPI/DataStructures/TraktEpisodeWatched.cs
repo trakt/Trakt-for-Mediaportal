@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public int Plays { get; set; }
 
         [DataMember(Name = "last_watched_at")]
-        public string CollectedAt { get; set; }
+        public string WatchedAt { get; set; }
 
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }

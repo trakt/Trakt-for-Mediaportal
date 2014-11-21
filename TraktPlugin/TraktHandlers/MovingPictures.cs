@@ -948,26 +948,28 @@ namespace TraktPlugin.TraktHandlers
             // if mediainfo not available don't do anything
             if (!firstMovie.HasMediaInfo) return null;
 
-            switch (firstMovie.AudioCodec)
+            switch (firstMovie.AudioCodec.ToLowerInvariant())
             {
-                case "TrueHD":
+                case "truehd":
                     return TraktAudio.dolby_truehd.ToString();
-                case "DTS":
+                case "dts":
                     return TraktAudio.dts.ToString();
-                case "DTSHD":
+                case "dtshd":
                     return TraktAudio.dts_ma.ToString();
-                case "AC3":
+                case "ac3":
                     return TraktAudio.dolby_digital.ToString();
-                case "AAC":
+                case "aac":
                     return TraktAudio.aac.ToString();
-                case "MP3":
+                case "mp2":
                     return TraktAudio.mp3.ToString();
-                case "PCM":
+                case "pcm":
                     return TraktAudio.lpcm.ToString();
-                case "OGG":
+                case "ogg":
                     return TraktAudio.ogg.ToString();
-                 case "WMA":
+                 case "wma":
                     return TraktAudio.wma.ToString();
+                case "flac":
+                    return TraktAudio.flac.ToString();
                 default:
                     return null;
             }
