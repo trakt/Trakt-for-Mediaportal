@@ -1949,7 +1949,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Watch List", title, year, imdbid);
-                    TraktHelper.AddMovieToWatchList(title, year, imdbid, true);
+                    TraktHelper.AddMovieToWatchList(title, year.ToNullableInt32(), imdbid, true);
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):

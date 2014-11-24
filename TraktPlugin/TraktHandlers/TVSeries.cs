@@ -152,12 +152,13 @@ namespace TraktPlugin.TraktHandlers
 
                 #region Get data from local database
 
-                TraktLogger.Info("Found {0} tv shows ignored for trakt.tv in tvseries database", IgnoredSeries.Count);
+                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows'", IgnoredSeries.Count);
 
                 // Get all episodes in database
                 SQLCondition conditions = new SQLCondition();
                 conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
                 conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
+                conditions.Add(new DBOnlineSeries(), DBOnlineSeries.cTraktIgnore, 1, SQLConditionType.NotEqual);
                 var localEpisodes = DBEpisode.Get(conditions, false);
 
                 TraktLogger.Info("Found {0} total episodes in tvseries database", localEpisodes.Count);
@@ -204,8 +205,13 @@ namespace TraktPlugin.TraktHandlers
                         if (IgnoredSeries.Exists(tvdbid => tvdbid == episode.ShowTvdbId))
                             continue;
 
+                        // try to filter out trakt list to minimise comparison hits
+                        // we always match on episode and season so filter out anything not matching db episode
+                        var filteredLocalWatchEpisodes = localWatchedEpisodes.Where(lwe => episode.Number == lwe[DBOnlineEpisode.cEpisodeIndex] &&
+                                                                                           episode.Season == lwe[DBOnlineEpisode.cSeasonIndex]);
+                        
                         // if we have the episode watched, mark it as unwatched
-                        var watchedEpisode = localWatchedEpisodes.FirstOrDefault(lwe => EpisodeMatch(lwe, episode));
+                        var watchedEpisode = filteredLocalWatchEpisodes.FirstOrDefault(lwe => EpisodeMatch(lwe, episode));
                         if (watchedEpisode == null || watchedEpisode[DBOnlineEpisode.cWatched] == false)
                             continue;
 
@@ -231,11 +237,13 @@ namespace TraktPlugin.TraktHandlers
                 {
                     foreach (var episode in localUnWatchedEpisodes)
                     {
-                        if (IgnoredSeries.Exists(tvdbid => tvdbid == episode[DBOnlineEpisode.cSeriesID]))
-                            continue;
+                        // try to filter out trakt list to minimise comparison hits
+                        // we always match on episode and season so filter out anything not matching db episode
+                        var filteredTraktWatchEpisodes = traktWatchedEpisodes.Where(twe => twe.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
+                                                                                           twe.Season == episode[DBOnlineEpisode.cSeasonIndex]);
 
                         // if we have the episode unwatched, mark it as watched
-                        var traktEpisode = traktWatchedEpisodes.FirstOrDefault(twe => EpisodeMatch(episode, twe));
+                        var traktEpisode = filteredTraktWatchEpisodes.FirstOrDefault(twe => EpisodeMatch(episode, twe));
 
                         if (traktEpisode == null)
                             continue;
@@ -245,6 +253,7 @@ namespace TraktPlugin.TraktHandlers
 
                         episode[DBOnlineEpisode.cWatched] = true;
                         episode[DBOnlineEpisode.cPlayCount] = traktEpisode.Plays;
+
                         if (string.IsNullOrEmpty(episode["LastWatchedDate"]))
                             episode["LastWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                         if (string.IsNullOrEmpty(episode["FirstWatchedDate"]))
@@ -271,11 +280,13 @@ namespace TraktPlugin.TraktHandlers
                     {
                         foreach (var episode in localNonRatedEpisodes)
                         {
-                            if (IgnoredSeries.Exists(tvdbid => tvdbid == episode[DBOnlineEpisode.cSeriesID]))
-                                continue;
+                            // try to filter out trakt list to minimise comparison hits
+                            // we always match on episode and season so filter out anything not matching db episode
+                            var filteredTraktRatedEpisodes = traktRatedEpisodes.Where(tre => tre.Episode.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
+                                                                                             tre.Episode.Season == episode[DBOnlineEpisode.cSeasonIndex]);
 
                             // if we have the episode unrated, rate it
-                            var traktEpisode = traktRatedEpisodes.FirstOrDefault(tre => EpisodeMatch(episode, tre.Episode, tre.Show));
+                            var traktEpisode = filteredTraktRatedEpisodes.FirstOrDefault(tre => EpisodeMatch(episode, tre.Episode, tre.Show));
                             if (traktEpisode == null)
                                 continue;
 
@@ -563,17 +574,17 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Stores a list of Series ignored by user for scrobble / sync
         /// </summary>
-        private List<int?> IgnoredSeries
+        public static List<int?> IgnoredSeries
         {
             get
             {
                 if (_IgnoredSeries == null)
                 {
                     var ignoredSeries = DBSeries.Get(new SQLCondition(new DBOnlineSeries(), DBOnlineSeries.cTraktIgnore, true, SQLConditionType.Equal));
-                    if (_IgnoredSeries == null)
+                    if (ignoredSeries == null)
                     {
-                        // return a empty list and try again next time
-                        return new List<int?>();
+                        // return a empty list
+                        _IgnoredSeries = new List<int?>();
                     }
                     else
                     {
@@ -583,7 +594,7 @@ namespace TraktPlugin.TraktHandlers
                 return _IgnoredSeries;
             }
         }
-        private List<int?> _IgnoredSeries = null;
+        static List<int?> _IgnoredSeries = null;
 
         #region Public Methods
 
@@ -900,10 +911,19 @@ namespace TraktPlugin.TraktHandlers
             var syncWatchedEpisodes = new TraktSyncShowsWatchedEx();
             syncWatchedEpisodes.Shows = new List<TraktSyncShowWatchedEx>();
            
-            foreach (var episode in localWatchedEpisodes)
+            // filter out any invalid episodes or ignored series by user
+            var episodes = localWatchedEpisodes.Where(lwe => lwe[DBOnlineEpisode.cEpisodeIndex] != "" && 
+                                                             lwe[DBOnlineEpisode.cEpisodeIndex] != "0").ToList();
+
+            foreach (var episode in episodes)
             {
+                // try to filter out trakt list to minimise comparison hits
+                // we always match on episode and season so filter out anything not matching db episode
+                var filteredTraktWatchedEpisodes = traktEpisodesWatched.Where(twe => twe.Number == episode[DBOnlineEpisode.cEpisodeIndex] && 
+                                                                                     twe.Season == episode[DBOnlineEpisode.cSeasonIndex]);
+
                 // check if not watched on trakt 
-                if (!traktEpisodesWatched.Any(twe => EpisodeMatch(episode, twe)))
+                if (!filteredTraktWatchedEpisodes.Any(twe => EpisodeMatch(episode, twe)))
                 {
                     // check if we already have the show added to our sync object
                     var syncShow = syncWatchedEpisodes.Shows.FirstOrDefault(swe => swe.Ids != null && swe.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
@@ -1004,10 +1024,23 @@ namespace TraktPlugin.TraktHandlers
             var syncCollectedEpisodes = new TraktSyncShowsCollectedEx();
             syncCollectedEpisodes.Shows = new List<TraktSyncShowCollectedEx>();
 
-            foreach (var episode in localCollectedEpisodes)
+            // filter out any invalid episodes or ignored series by user
+            var episodes = localCollectedEpisodes.Where(lce => lce[DBOnlineEpisode.cEpisodeIndex] != "" &&
+                                                               lce[DBOnlineEpisode.cEpisodeIndex] != "0").ToList();
+
+            foreach (var episode in episodes)
             {
+                // ignore any episodes that are invalid
+                if (episode[DBOnlineEpisode.cEpisodeIndex] == "" || episode[DBOnlineEpisode.cEpisodeIndex] == "0")
+                    continue;
+
+                // try to filter out trakt list to minimise comparison hits
+                // we always match on episode and season so filter out anything not matching db episode
+                var filteredTraktCollectedEpisodes = traktEpisodesCollected.Where(tce => tce.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
+                                                                                         tce.Season == episode[DBOnlineEpisode.cSeasonIndex]);
+
                 // check if not collected on trakt
-                if (!traktEpisodesCollected.Any(tce => EpisodeMatch(episode, tce)))
+                if (!filteredTraktCollectedEpisodes.Any(tce => EpisodeMatch(episode, tce)))
                 {
                     // check if we already have the show added to our sync object
                     var syncShow = syncCollectedEpisodes.Shows.FirstOrDefault(sce => sce.Ids != null && sce.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
@@ -1109,10 +1142,23 @@ namespace TraktPlugin.TraktHandlers
             var syncRatedEpisodes = new TraktSyncShowsRatedEx();
             syncRatedEpisodes.Shows = new List<TraktSyncShowRatedEx>();
 
-            foreach (var episode in localRatedEpisodes)
+            // filter out any invalid episodes or ignored series by user
+            var episodes = localRatedEpisodes.Where(lre => lre[DBOnlineEpisode.cEpisodeIndex] != "" &&
+                                                           lre[DBOnlineEpisode.cEpisodeIndex] != "0").ToList();
+
+            foreach (var episode in episodes)
             {
+                // ignore any episodes that are invalid
+                if (episode[DBOnlineEpisode.cEpisodeIndex] == "" || episode[DBOnlineEpisode.cEpisodeIndex] == "0")
+                    continue;
+
+                // try to filter out trakt list to minimise comparison hits
+                // we always match on episode and season so filter out anything not matching db episode
+                var filteredTraktRatedEpisodes = traktEpisodesRated.Where(tre => tre.Episode.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
+                                                                                 tre.Episode.Season == episode[DBOnlineEpisode.cSeasonIndex]);
+
                 // check if not rated on trakt
-                if (!traktEpisodesRated.Any(tre => EpisodeMatch(episode, tre.Episode, tre.Show)))
+                if (!filteredTraktRatedEpisodes.Any(tre => EpisodeMatch(episode, tre.Episode, tre.Show)))
                 {
                     // check if we already have the show added to our sync object
                     var syncShow = syncRatedEpisodes.Shows.FirstOrDefault(sre => sre.Ids != null && sre.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
@@ -1459,9 +1505,6 @@ namespace TraktPlugin.TraktHandlers
 
         private bool EpisodeMatch(DBEpisode localEpisode, TraktCache.Episode onlineEpisode)
         {
-            if (localEpisode[DBOnlineEpisode.cEpisodeIndex] <= 0)
-                return false;
-
             if (onlineEpisode.ShowTvdbId != null && onlineEpisode.ShowTvdbId > 0)
             {
                 return localEpisode[DBOnlineEpisode.cSeriesID] == onlineEpisode.ShowTvdbId &&
@@ -1482,7 +1525,7 @@ namespace TraktPlugin.TraktHandlers
                 var show = Helper.getCorrespondingSeries(localEpisode[DBOnlineEpisode.cSeriesID]);
                 if (show == null) return false;
 
-                return show[DBOnlineSeries.cPrettyName].ToString().ToLowerInvariant() == (onlineEpisode.ShowTitle ?? string.Empty).ToLowerInvariant() &&
+                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cPrettyName], onlineEpisode.ShowTitle, show.Year.ToNullableInt32()) &&
                        show.Year.ToNullableInt32() == onlineEpisode.ShowYear &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
@@ -1491,14 +1534,19 @@ namespace TraktPlugin.TraktHandlers
 
         private bool EpisodeMatch(DBEpisode localEpisode, TraktEpisode onlineEpisode, TraktShow onlineShow)
         {
-            if (localEpisode[DBOnlineEpisode.cEpisodeIndex] <= 0)
-                return false;
+            // episode ids are unreliable on themoviedb.org, they seem to be wrong for quite a few episodes!
 
-            if (onlineEpisode.Ids.TvdbId != null && onlineEpisode.Ids.TvdbId > 0)
-            {
-                return localEpisode[DBOnlineEpisode.cID] == onlineEpisode.Ids.TvdbId;
-            }
-            else if (onlineShow.Ids.TvdbId != null && onlineShow.Ids.TvdbId > 0)
+            //if (onlineEpisode.Ids.TvdbId != null && onlineEpisode.Ids.TvdbId > 0)
+            //{
+            //    return localEpisode[DBOnlineEpisode.cID] == onlineEpisode.Ids.TvdbId;
+            //}
+
+            //else if (BasicHandler.IsValidImdb(onlineEpisode.Ids.ImdbId) && BasicHandler.IsValidImdb(localEpisode[DBOnlineEpisode.cIMDBID]))
+            //{
+            //    return BasicHandler.GetProperImdbId(localEpisode[DBOnlineEpisode.cIMDBID]) == onlineEpisode.Ids.ImdbId;
+            //}
+
+            if (onlineShow.Ids.TvdbId != null && onlineShow.Ids.TvdbId > 0)
             {
                 return localEpisode[DBOnlineEpisode.cSeriesID] == onlineShow.Ids.TvdbId &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
@@ -1513,16 +1561,12 @@ namespace TraktPlugin.TraktHandlers
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
             }
-            else if (BasicHandler.IsValidImdb(onlineEpisode.Ids.ImdbId) && BasicHandler.IsValidImdb(localEpisode[DBOnlineEpisode.cIMDBID]))
-            {
-                return BasicHandler.GetProperImdbId(localEpisode[DBOnlineEpisode.cIMDBID]) == onlineEpisode.Ids.ImdbId;
-            }
             else
             {
                 var show = Helper.getCorrespondingSeries(localEpisode[DBOnlineEpisode.cSeriesID]);
                 if (show == null) return false;
 
-                return show[DBOnlineSeries.cPrettyName].ToString().ToLowerInvariant() == (onlineShow.Title ?? string.Empty).ToLowerInvariant() &&
+                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cPrettyName], onlineShow.Title, onlineShow.Year) &&
                        show.Year.ToNullableInt32() == onlineShow.Year &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
@@ -1541,7 +1585,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                return localShow[DBOnlineSeries.cPrettyName].ToString().ToLowerInvariant() == (onlineShow.Title ?? string.Empty).ToLowerInvariant() &&
+                return BasicHandler.IsTitleMatch(localShow[DBOnlineSeries.cPrettyName], onlineShow.Title, onlineShow.Year) &&
                        localShow.Year.ToNullableInt32() == onlineShow.Year;
             }
         }

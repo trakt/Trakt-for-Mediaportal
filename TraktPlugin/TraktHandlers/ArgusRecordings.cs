@@ -19,8 +19,9 @@ namespace TraktPlugin.TraktHandlers
     class ArgusTVRecordings : ITraktHandler
     {
         #region Variables
-        Timer TraktTimer;
+
         VideoInfo CurrentRecording = null;
+
         #endregion
 
         #region Constructor
@@ -64,7 +65,7 @@ namespace TraktPlugin.TraktHandlers
             // get year from title if available, some EPG entries contain this
             string title = null;
             string year = null;
-            GetTitleAndYear(recording, out title, out year);
+            BasicHandler.GetTitleAndYear(recording.Title, out title, out year);
 
             CurrentRecording = new VideoInfo
             {
@@ -77,191 +78,47 @@ namespace TraktPlugin.TraktHandlers
             };
 
             if (CurrentRecording.Type == VideoType.Series)
-                TraktLogger.Info("Detected tv-series '{0}' playing in Argus TV-Recordings", CurrentRecording.ToString());
-            else
-                TraktLogger.Info("Detected movie '{0}' playing in Argus TV-Recordings", CurrentRecording.ToString());
-
-            #region scrobble timer
-            TraktTimer = new Timer(new TimerCallback((stateInfo) =>
             {
-                Thread.CurrentThread.Name = "Scrobble";
+                TraktLogger.Info("Detected tv show playing in Argus TV Recordings. Title = '{0}'", CurrentRecording.ToString());
+            }
+            else
+            {
+                TraktLogger.Info("Detected movie playing in Argus TV Recordings. Title = '{0}'", CurrentRecording.ToString());
+            }
 
-                VideoInfo videoInfo = stateInfo as VideoInfo;
-
-                // maybe the program does not exist on trakt
-                // ignore in future if it failed previously
-                if (videoInfo.IsScrobbling)
-                {
-                    if (videoInfo.Type == VideoType.Series)
-                    {
-                        videoInfo.IsScrobbling = BasicHandler.ScrobbleEpisode(videoInfo, TraktScrobbleStates.watching);
-                    }
-                    else
-                    {
-                        videoInfo.IsScrobbling = BasicHandler.ScrobbleMovie(videoInfo, TraktScrobbleStates.watching);
-                    }
-
-                    if (videoInfo.Equals(CurrentRecording))
-                        CurrentRecording.IsScrobbling = videoInfo.IsScrobbling;
-                }
-
-            }), CurrentRecording, 3000, 900000);
-            #endregion
+            BasicHandler.StartScrobble(CurrentRecording);
 
             return true;
         }
 
         public void StopScrobble()
         {
-            if (TraktTimer != null)
-                TraktTimer.Dispose();
-
             if (CurrentRecording == null) return;
 
             // get current progress of player
+            bool watched = false;
             double progress = 0.0;
-            if (g_Player.Duration > 0.0) progress = (g_Player.CurrentPosition / g_Player.Duration) * 100.0;
+            if (g_Player.Duration > 0.0)
+                progress = Math.Round((g_Player.CurrentPosition / g_Player.Duration) * 100.0, 2);
 
-            TraktLogger.Debug("Current Position: {0}, Duration: {1}", g_Player.CurrentPosition.ToString(), g_Player.Duration.ToString());
-            TraktLogger.Debug(string.Format("Percentage of '{0}' watched is {1}%", CurrentRecording.Title, progress > 100.0 ? "100" : progress.ToString("N2")));
+            TraktLogger.Info("Video recording has stopped, checking progress. Title = '{0}', Current Position = '{1}', Duration = '{2}', Progress = '{3}%'",
+                               CurrentRecording.Title, g_Player.CurrentPosition.ToString(), g_Player.Duration.ToString(), progress > 100.0 ? "100" : progress.ToString());
 
             // if recording is at least 80% complete, consider watched
             // consider watched with invalid progress as well, we should never be exactly 0.0
-            if ((progress == 0.0 || progress >= 80.0) && CurrentRecording.IsScrobbling)
+            if (progress == 0.0 || progress >= 80.0)
             {
+                watched = true;
+
                 // Show rate dialog
-                ShowRateDialog(CurrentRecording);
-
-                #region scrobble
-                Thread scrobbleRecording = new Thread(delegate(object obj)
-                {
-                    VideoInfo videoInfo = obj as VideoInfo;
-                    if (videoInfo == null) return;
-
-                    TraktLogger.Info("Playback of '{0}' in Argus tv-recording is considered watched.", videoInfo.ToString());
-
-                    if (videoInfo.Type == VideoType.Series)
-                    {
-                        BasicHandler.ScrobbleEpisode(videoInfo, TraktScrobbleStates.scrobble);
-                    }
-                    else
-                    {
-                        BasicHandler.ScrobbleMovie(videoInfo, TraktScrobbleStates.scrobble);
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "Scrobble"
-                };
-
-                scrobbleRecording.Start(CurrentRecording);
-                #endregion
+                BasicHandler.ShowRateDialog(CurrentRecording);
             }
-            else
-            {
-                #region cancel watching
-                TraktLogger.Info("Stopped playback of Argus tv-recording '{0}'", CurrentRecording.ToString());
 
-                Thread cancelWatching = new Thread(delegate(object obj)
-                {
-                    VideoInfo videoInfo = obj as VideoInfo;
-                    if (videoInfo == null) return;
-
-                    if (videoInfo.Type == VideoType.Series)
-                    {
-                        TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                        TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                        TraktLogger.LogTraktResponse(response);
-                    }
-                    else
-                    {
-                        TraktMovieScrobble scrobbleData = new TraktMovieScrobble { UserName = TraktSettings.Username, Password = TraktSettings.Password };
-                        TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, TraktScrobbleStates.cancelwatching);
-                        TraktLogger.LogTraktResponse(response);
-                    }
-                })
-                {
-                    IsBackground = true,
-                    Name = "CancelWatching"
-                };
-
-                cancelWatching.Start(CurrentRecording);
-                #endregion
-            }
+            BasicHandler.StopScrobble(CurrentRecording, watched);
 
             CurrentRecording = null;
         }
 
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Gets the title and year from a recording title
-        /// Title should be in the form 'title (year)' or 'title [year]'
-        /// </summary>
-        private void GetTitleAndYear(Recording info, out string title, out string year)
-        {
-            Match regMatch = Regex.Match(info.Title, @"^(?<title>.+?)(?:\s*[\(\[](?<year>\d{4})[\]\)])?$");
-            title = regMatch.Groups["title"].Value;
-            year = regMatch.Groups["year"].Value;
-        }
-
-        /// <summary>
-        /// Shows the Rate Dialog after playback has ended
-        /// </summary>
-        /// <param name="episode">The item being rated</param>
-        private void ShowRateDialog(VideoInfo videoInfo)
-        {
-            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
-
-            TraktLogger.Debug("Showing rate dialog for '{0}'", videoInfo.Title);
-
-            new Thread((o) =>
-            {
-                VideoInfo itemToRate = o as VideoInfo;
-                if (itemToRate == null) return;
-
-                int rating = 0;
-
-                if (itemToRate.Type == VideoType.Series)
-                {
-                    TraktRateEpisode rateObject = new TraktRateEpisode
-                    {
-                        Title = itemToRate.Title,
-                        Year = itemToRate.Year,
-                        Episode = itemToRate.EpisodeIdx,
-                        Season = itemToRate.SeasonIdx,
-                        UserName = TraktSettings.Username,
-                        Password = TraktSettings.Password
-                    };
-                    // get the rating submitted to trakt
-                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateEpisode>(rateObject));
-                }
-                else if (itemToRate.Type == VideoType.Movie)
-                {
-                    TraktRateMovie rateObject = new TraktRateMovie
-                    {
-                        Title = itemToRate.Title,
-                        Year = itemToRate.Year,
-                        UserName = TraktSettings.Username,
-                        Password = TraktSettings.Password
-                    };
-                    // get the rating submitted to trakt
-                    //TODOrating = int.Parse(GUIUtils.ShowRateDialog<TraktRateMovie>(rateObject));
-                }
-
-                if (rating > 0)
-                {
-                    TraktLogger.Debug("Rating {0} as {1}/10", itemToRate.Title, rating.ToString());
-                    // note: no user rating field to set
-                }
-            })
-            {
-                Name = "Rate",
-                IsBackground = true
-            }.Start(videoInfo);
-        }
         #endregion
     }
 }

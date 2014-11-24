@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using MediaPortal.Player;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using System.Threading;
+using TraktPlugin.GUI;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -25,7 +29,7 @@ namespace TraktPlugin.TraktHandlers
         public double Runtime { get; set; }
         public bool IsScrobbling { get; set; }
 
-        #region overrides
+        #region Overrides
         public override string ToString()
         {
             if (this.Type == VideoType.Series)
@@ -62,270 +66,56 @@ namespace TraktPlugin.TraktHandlers
     public class BasicHandler
     {
         /// <summary>
-        /// Creates Sync Data based on a List of TraktLibraryMovies objects
+        /// Creates data object for episode scrobbling
         /// </summary>
-        /// <param name="Movies">The movies to base the object on</param>
-        /// <returns>The Trakt Sync data to send</returns>
-        public static TraktMovieSync CreateMovieSyncData(List<TraktLibraryMovies> Movies)
+        internal static TraktScrobbleEpisode CreateEpisodeScrobbleData(VideoInfo info)
         {
-            string username = TraktSettings.Username;
-            string password = TraktSettings.Password;
-
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return null;
-
-            List<TraktMovieSync.Movie> moviesList = (from m in Movies
-                                                     select new TraktMovieSync.Movie
-                                                     {
-                                                         IMDBID = m.IMDBID,
-                                                         Title = m.Title,
-                                                         Year = m.Year.ToString()
-                                                     }).ToList();
-
-            TraktMovieSync syncData = new TraktMovieSync
+            // create scrobble data
+            var scrobbleData = new TraktScrobbleEpisode
             {
-                UserName = username,
-                Password = password,
-                MovieList = moviesList
-            };
-            return syncData;
-        }
-
-        public static TraktMovieSync CreateMovieSyncData(string title, string year)
-        {
-            return CreateMovieSyncData(title, year, null);
-        }
-
-        public static TraktMovieSync CreateMovieSyncData(string title, string year, string imdb)
-        {
-            return CreateMovieSyncData(title, year, imdb, null);
-        }
-
-        /// <summary>
-        /// Creates Sync Data based on a single movie
-        /// </summary>
-        /// <param name="title">Movie Title</param>
-        /// <param name="year">Movie Year</param>
-        /// <param name="imdb">IMDb Id of movie</param>
-        /// <returns>The Trakt Sync data to send</returns>
-        public static TraktMovieSync CreateMovieSyncData(string title, string year, string imdb, string tmdb)
-        {
-            List<TraktMovieSync.Movie> movies = new List<TraktMovieSync.Movie>();
-
-            TraktMovieSync.Movie syncMovie = new TraktMovieSync.Movie
-            {
-                Title = title,
-                Year = year,
-                IMDBID = imdb,
-                TMDBID = tmdb
-            };
-            movies.Add(syncMovie);
-
-            TraktMovieSync syncData = new TraktMovieSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                MovieList = movies
-            };
-
-            return syncData;
-        }
-
-        /// <summary>
-        /// Creates Movie Rate Data object
-        /// </summary>
-        /// <param name="title">Title of Movie</param>
-        /// <param name="year">Year of Movie</param>
-        /// <returns>Rate Data Object</returns>
-        public static TraktRateMovie CreateMovieRateData(string title, string year)
-        {
-            return CreateMovieRateData(title, year, null);
-        }
-
-        /// <summary>
-        /// Creates Movie Rate Data object
-        /// </summary>
-        /// <param name="title">Title of Movie</param>
-        /// <param name="year">Year of Movie</param>
-        /// <param name="imdb">IMDb ID of movie</param>
-        /// <returns>Rate Data Object</returns>
-        public static TraktRateMovie CreateMovieRateData(string title, string year, string imdb)
-        {
-            TraktRateMovie rateObject = new TraktRateMovie
-            {
-                IMDBID = imdb,
-                Title = title,
-                Year = year,
-                Rating = "7",
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return rateObject;
-        }
-
-        public static TraktRateSeries CreateShowRateData(string title, string tvdb)
-        {
-            TraktRateSeries rateObject = new TraktRateSeries
-            {
-                Title = title,
-                SeriesID = tvdb,
-                Rating = "7",
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return rateObject;
-        }
-
-        public static TraktRateEpisode CreateEpisodeRateData(string title, string tvdb, string seasonidx, string episodeidx)
-        {
-            TraktRateEpisode rateObject = new TraktRateEpisode
-            {
-                Title = title,
-                SeriesID = tvdb,
-                Episode = episodeidx,
-                Season = seasonidx,
-                Rating = "7",
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return rateObject;
-        }
-
-        /// <summary>
-        /// Creates Sync Data based on a TraktLibraryShows object
-        /// </summary>
-        /// <param name="show">The show to base the object on</param>
-        /// <returns>The Trakt Sync data to send</returns>
-        public static TraktEpisodeSync CreateEpisodeSyncData(TraktLibraryShow show)
-        {
-            TraktEpisodeSync syncData = new TraktEpisodeSync
-            {
-                SeriesID = show.SeriesId,
-                Title = show.Title,
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            var episodes = new List<TraktEpisodeSync.Episode>();
-
-            foreach(var season in show.Seasons)
-            {
-                foreach (var episode in season.Episodes)
-                {
-                    episodes.Add(new TraktEpisodeSync.Episode
-                                     {
-                                         EpisodeIndex = episode.ToString(),
-                                         SeasonIndex = season.Season.ToString()
-                                     });
-                }
-            }
-
-            syncData.EpisodeList = episodes;
-
-            return syncData;
-        }
-
-        public static TraktEpisodeSync CreateEpisodeSyncData(string title, string year, string tvdbid, string seasonidx, string episodeidx)
-        {
-            TraktEpisodeSync syncData = new TraktEpisodeSync
-            {
-                SeriesID = tvdbid,
-                Title = title,
-                EpisodeList = new List<TraktEpisodeSync.Episode>{ new TraktEpisodeSync.Episode { EpisodeIndex = episodeidx, SeasonIndex = seasonidx } },
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password
-            };
-
-            return syncData;
-        }
-
-        public static TraktShowSync CreateShowSyncData(string title, string year)
-        {
-            return CreateShowSyncData(title, year, null);
-        }
-
-        public static TraktShowSync CreateShowSyncData(string title, string year, string imdb)
-        {
-            if (string.IsNullOrEmpty(imdb) && (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(year))) return null;
-
-            List<TraktShowSync.Show> shows = new List<TraktShowSync.Show>();
-
-            TraktShowSync.Show syncShow = new TraktShowSync.Show
-            {
-                Title = title,
-                Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year),
-                TVDBID = imdb.StartsWith("tt") ? null : imdb
-            };
-            shows.Add(syncShow);
-
-            TraktShowSync syncData = new TraktShowSync
-            {
-                UserName = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                Shows = shows
-            };
-
-            return syncData;
-        }
-
-        public static TraktEpisodeScrobble CreateEpisodeScrobbleData(VideoInfo info)
-        {
-            try
-            {
-                // create scrobble data
-                TraktEpisodeScrobble scrobbleData = new TraktEpisodeScrobble
+                Show = new TraktShow
                 {
                     Title = info.Title,
-                    Year = info.Year,
-                    Season = info.SeasonIdx,
-                    Episode = info.EpisodeIdx,
-                    PluginVersion = TraktSettings.Version,
-                    MediaCenter = "Mediaportal",
-                    MediaCenterVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString(),
-                    MediaCenterBuildDate = String.Empty,
-                    UserName = TraktSettings.Username,
-                    Password = TraktSettings.Password
-                };
+                    Year = info.Year.ToNullableInt32()
+                },
+                Episode = new TraktEpisode
+                {
+                    Number = int.Parse(info.EpisodeIdx),
+                    Season = int.Parse(info.SeasonIdx)
+                },
+                Progress = GetPlayerProgress(info),
+                AppDate = TraktSettings.BuildDate,
+                AppVersion = TraktSettings.Version
+            };
 
-                return scrobbleData;
-            }
-            catch (Exception e)
-            {
-                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
-                return null;
-            }
+            return scrobbleData;
         }
 
-        public static TraktMovieScrobble CreateMovieScrobbleData(VideoInfo info)
+        /// <summary>
+        /// Creates data object for movie scrobbling
+        /// </summary>
+        internal static TraktScrobbleMovie CreateMovieScrobbleData(VideoInfo info)
         {
-            try
+            // create scrobble data
+            var scrobbleData = new TraktScrobbleMovie
             {
-                // create scrobble data
-                TraktMovieScrobble scrobbleData = new TraktMovieScrobble
+                Movie = new TraktMovie
                 {
                     Title = info.Title,
-                    Year = info.Year,
-                    PluginVersion = TraktSettings.Version,
-                    MediaCenter = "Mediaportal",
-                    MediaCenterVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString(),
-                    MediaCenterBuildDate = String.Empty,
-                    UserName = TraktSettings.Username,
-                    Password = TraktSettings.Password
-                };
+                    Year = info.Year.ToNullableInt32()
+                },
+                Progress = GetPlayerProgress(info),
+                AppDate = TraktSettings.BuildDate,
+                AppVersion = TraktSettings.Version
+            };
 
-                return scrobbleData;
-            }
-            catch (Exception e)
-            {
-                TraktLogger.Error("Error creating scrobble data: {0}", e.Message);
-                return null;
-            }
+            return scrobbleData;
         }
 
-        static double GetPlayerProgress(VideoInfo videoInfo)
+        /// <summary>
+        /// Gets the Progress of the current video being played
+        /// </summary>
+        internal double GetPlayerProgress(VideoInfo videoInfo)
         {
             // get duration/position in minutes
             double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
@@ -335,64 +125,209 @@ namespace TraktPlugin.TraktHandlers
             if (duration > 0.0)
                 progress = (position / duration) * 100.0;
 
-            return progress;
+            return Math.Round(progress, 2);
         }
 
         /// <summary>
-        /// Scrobbles a movie from a videoInfo object
+        /// Starts scrobbling on trakt.tv
         /// </summary>
         /// <returns>returns true if successfully scrobbled</returns>
-        public static bool ScrobbleMovie(VideoInfo videoInfo, TraktScrobbleStates state)
+        internal static void StartScrobble(VideoInfo videoInfo)
         {
-            TraktMovieScrobble scrobbleData = CreateMovieScrobbleData(videoInfo);
-            if (scrobbleData == null) return false;
+            var scrobbleThread = new Thread((objVideoInfo) =>
+            {
+                var info = objVideoInfo as VideoInfo;
 
-            // get duration/position in minutes
-            double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
-            double position = g_Player.CurrentPosition / 60;
-            double progress = 0.0;
+                if (info.Type == VideoType.Series)
+                {
+                    StartScrobbleEpisode(info);
+                }
+                else
+                {
+                    StartScrobbleMovie(info);
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "Scrobble"
+            };
 
-            if (duration > 0.0) progress = (position / duration) * 100.0;
-
-            // sometimes with recordings/timeshifting we can get inaccurate player properties
-            // adjust if duration is less than a typical movie
-            scrobbleData.Duration = (duration < 15.0) ? "60" : Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
-
-            TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleMovieState(scrobbleData, state);
-            return TraktLogger.LogTraktResponse(response);
+            scrobbleThread.Start(videoInfo);
         }
 
         /// <summary>
-        /// Scrobbles a episode from a videoInfo object
+        /// Stops scrobbing a movie on trakt.tv
+        /// </summary>
+        /// <param name="watched">Determines if we should force watched on stop</param>
+        internal static void StopScrobble(VideoInfo videoInfo, bool watched = false)
+        {
+            var scrobbleThread = new Thread((objVideoInfo) =>
+            {
+                var info = objVideoInfo as VideoInfo;
+                if (info == null) return;
+
+                if (info.Type == VideoType.Series)
+                {
+                    StopScrobbleEpisode(info, watched);
+                }
+                else
+                {
+                    StopScrobbleMovie(info, watched);
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "Scrobble"
+            };
+
+            scrobbleThread.Start(videoInfo);
+        }
+
+        /// <summary>
+        /// Starts scrobbling a movie from a videoInfo object
         /// </summary>
         /// <returns>returns true if successfully scrobbled</returns>
-        public static bool ScrobbleEpisode(VideoInfo videoInfo, TraktScrobbleStates state)
+        internal static bool StartScrobbleMovie(VideoInfo videoInfo)
         {
             // get scrobble data to send to api
-            TraktEpisodeScrobble scrobbleData = CreateEpisodeScrobbleData(videoInfo);
+            var scrobbleData = CreateMovieScrobbleData(videoInfo);
             if (scrobbleData == null) return false;
 
-            // get duration/position in minutes
-            double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;
-            double position = g_Player.CurrentPosition / 60;
-            double progress = 0.0;
-
-            if (duration > 0.0) progress = (position / duration) * 100.0;
-
-            // sometimes with recordings/timeshifting we can get invalid player properties
-            // adjust if duration is less than a typical episode
-            scrobbleData.Duration = (duration < 10.0) ? "30" : Convert.ToInt32(duration).ToString();
-            scrobbleData.Progress = (state == TraktScrobbleStates.scrobble) ? "100" : Convert.ToInt32(progress).ToString();
-
-            TraktResponse response = TraktAPI.v1.TraktAPI.ScrobbleEpisodeState(scrobbleData, state);
+            var response = TraktAPI.TraktAPI.StartMovieScrobble(scrobbleData);
             return TraktLogger.LogTraktResponse(response);
+        }
+
+        /// <summary>
+        /// Stops scrobbing a movie on trakt.tv
+        /// </summary>
+        /// <param name="watched">Determines if we should force watched on stop</param>
+        internal static bool StopScrobbleMovie(VideoInfo videoInfo, bool watched = false)
+        {
+            // get scrobble data to send to api
+            var scrobbleData = CreateMovieScrobbleData(videoInfo);
+            if (scrobbleData == null) return false;
+
+            // force watched
+            if (watched && scrobbleData.Progress < 80)
+                scrobbleData.Progress = 100;
+
+            var response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+            return TraktLogger.LogTraktResponse(response);
+        }
+
+        /// <summary>
+        /// Starts scrobbling an episode on trakt.tv
+        /// </summary>
+        /// <returns>returns true if successfully scrobbled</returns>
+        internal static bool StartScrobbleEpisode(VideoInfo videoInfo)
+        {
+            // get scrobble data to send to api
+            var scrobbleData = CreateEpisodeScrobbleData(videoInfo);
+            if (scrobbleData == null) return false;
+
+            var response = TraktAPI.TraktAPI.StartEpisodeScrobble(scrobbleData);
+            return TraktLogger.LogTraktResponse(response);
+        }
+
+        /// <summary>
+        /// Stops scrobbing an episode on trakt.tv
+        /// </summary>
+        /// <param name="watched">Determines if we should force watched on stop</param>
+        internal static bool StopScrobbleEpisode(VideoInfo videoInfo, bool watched = false)
+        {
+            // get scrobble data to send to api
+            var scrobbleData = CreateEpisodeScrobbleData(videoInfo);
+            if (scrobbleData == null) return false;
+
+            // force watched
+            if (watched && scrobbleData.Progress < 80)
+                scrobbleData.Progress = 100;
+
+            var response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
+            return TraktLogger.LogTraktResponse(response);
+        }
+
+        /// <summary>
+        /// Shows the Rate Dialog after playback has ended
+        /// </summary>
+        /// <param name="episode">The item being rated</param>
+        internal static void ShowRateDialog(VideoInfo videoInfo)
+        {
+            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+
+            TraktLogger.Debug("Showing rate dialog for '{0}'", videoInfo.Title);
+
+            var rateThread = new System.Threading.Thread((o) =>
+            {
+                var itemToRate = o as VideoInfo;
+                if (itemToRate == null) return;
+
+                int rating = 0;
+
+                if (itemToRate.Type == VideoType.Series)
+                {
+                    var rateObject = new TraktSyncEpisodeRated
+                    {
+                        Title = itemToRate.Title,
+                        Season = int.Parse(itemToRate.SeasonIdx),
+                        Number = int.Parse(itemToRate.EpisodeIdx),
+                        RatedAt = DateTime.UtcNow.ToISO8601()
+                    };
+                    // get the rating submitted to trakt
+                    rating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
+                }
+                else if (itemToRate.Type == VideoType.Movie)
+                {
+                    var rateObject = new TraktSyncMovieRated
+                    {
+                        Title = itemToRate.Title,
+                        Year = itemToRate.Year.ToNullableInt32(),
+                        RatedAt = DateTime.UtcNow.ToISO8601()
+                    };
+
+                    // get the rating submitted to trakt
+                    rating = GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
+                }
+
+                if (rating > 0)
+                {
+                    TraktLogger.Debug("Rating {0} as {1}/10", itemToRate.Title, rating.ToString());
+                }
+            })
+            {
+                Name = "Rate",
+                IsBackground = true
+            };
+            
+            rateThread.Start(videoInfo);
+        }
+
+        /// <summary>
+        /// Compares two titles of an episode/movie, excluding any year component in the title
+        /// </summary>
+        /// <param name="title">Title</param>
+        /// <param name="otherTitle">Title to compare</param>
+        /// <param name="year">Year if included in one of the titles</param>
+        /// <returns>True or False if the normalised titles match</returns>
+        internal static bool IsTitleMatch(string title, string otherTitle, int? year)
+        {
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(otherTitle))
+                return false;
+
+            if (year != null)
+            {
+                // remove year from title 
+                title = title.Replace(string.Format("({0})", year), string.Empty).Trim();
+                otherTitle = otherTitle.Replace(string.Format("({0})", year), string.Empty).Trim();
+            }
+
+            return title.ToLowerInvariant() == otherTitle.ToLowerInvariant();
         }
 
         /// <summary>
         /// Validates an IMDb ID
         /// </summary>
-        public static bool IsValidImdb(string id)
+        internal static bool IsValidImdb(string id)
         {
             if (id == null || !id.StartsWith("tt", StringComparison.InvariantCultureIgnoreCase)) return false;
             if (id.Length != 9) return false;
@@ -404,7 +339,7 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         /// <param name="id">current movie imdb id</param>
         /// <returns>correctly formatted id</returns>
-        public static string GetProperImdbId(string id)
+        internal static string GetProperImdbId(string id)
         {
             string imdbid = id;
 
@@ -421,61 +356,73 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
+        /// Gets the Title and Year from a combined title+year string
+        /// Title should be in the form 'Title (Year)' or 'Title [Year]'
+        /// </summary>
+        internal static void GetTitleAndYear(string inputTitle, out string title, out string year)
+        {
+            Match regMatch = Regex.Match(inputTitle, @"^(?<title>.+?)(?:\s*[\(\[](?<year>\d{4})[\]\)])?$");
+            title = regMatch.Groups["title"].Value;
+            year = regMatch.Groups["year"].Value;
+        }
+
+        /// <summary>
         /// Saves any movies that return as 'skipped' from library sync calls
         /// </summary>
         /// <param name="response">Trakt Sync Movie Response</param>
-        public static void InsertSkippedMovies(TraktSyncResponse response)
+        internal static void InsertSkippedMovies(TraktSyncResponse response)
         {
-            if (response == null || response.SkippedMovies == null) return;
+            //TODO
+            //if (response == null || response.SkippedMovies == null) return;
 
-            foreach (var movie in response.SkippedMovies)
-            {
-                //TODO
-                //if (TraktSettings.SkippedMovies == null)
-                //    TraktSettings.SkippedMovies = new SyncMovieCheck();
+            //foreach (var movie in response.SkippedMovies)
+            //{
+            //    if (TraktSettings.SkippedMovies == null)
+            //        TraktSettings.SkippedMovies = new SyncMovieCheck();
 
-                //TraktLogger.Info("Inserting movie into skipped movie list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+            //    TraktLogger.Info("Inserting movie into skipped movie list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
 
-                //if (TraktSettings.SkippedMovies.Movies != null)
-                //{
-                //    if (!TraktSettings.SkippedMovies.Movies.Contains(movie))
-                //        TraktSettings.SkippedMovies.Movies.Add(movie);
-                //}
-                //else
-                //{
-                //    TraktSettings.SkippedMovies.Movies = new List<TraktMovieSync.Movie>();
-                //    TraktSettings.SkippedMovies.Movies.Add(movie);
-                //}
-            }
+            //    if (TraktSettings.SkippedMovies.Movies != null)
+            //    {
+            //        if (!TraktSettings.SkippedMovies.Movies.Contains(movie))
+            //            TraktSettings.SkippedMovies.Movies.Add(movie);
+            //    }
+            //    else
+            //    {
+            //        TraktSettings.SkippedMovies.Movies = new List<TraktMovieSync.Movie>();
+            //        TraktSettings.SkippedMovies.Movies.Add(movie);
+            //    }
+            //}
         }
 
         /// <summary>
         /// Saves any movies that return as 'already_exists' from library sync calls
         /// </summary>
         /// <param name="response">Trakt Sync Movie Response</param>
-        public static void InsertAlreadyExistMovies(TraktSyncResponse response)
+        internal static void InsertAlreadyExistMovies(TraktSyncResponse response)
         {
-            if (response == null || response.AlreadyExistMovies == null) return;
+            //TODO
+            //if (response == null || response.AlreadyExistMovies == null) return;
 
-            foreach (var movie in response.AlreadyExistMovies)
-            {
-                //TODO
-                //if (TraktSettings.AlreadyExistMovies == null)
-                //    TraktSettings.AlreadyExistMovies = new SyncMovieCheck();
+            //foreach (var movie in response.AlreadyExistMovies)
+            //{
+                
+            //    if (TraktSettings.AlreadyExistMovies == null)
+            //        TraktSettings.AlreadyExistMovies = new SyncMovieCheck();
 
-                //TraktLogger.Info("Inserting movie into already-exist list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
+            //    TraktLogger.Info("Inserting movie into already-exist list: Title: {0}, Year: {1}, IMDb: {2}", movie.Title, movie.Year, movie.IMDBID);
 
-                //if (TraktSettings.AlreadyExistMovies.Movies != null)
-                //{
-                //    if (!TraktSettings.AlreadyExistMovies.Movies.Contains(movie))
-                //        TraktSettings.AlreadyExistMovies.Movies.Add(movie);
-                //}
-                //else
-                //{
-                //    TraktSettings.AlreadyExistMovies.Movies = new List<TraktMovieSync.Movie>();
-                //    TraktSettings.AlreadyExistMovies.Movies.Add(movie);
-                //}
-            }
+            //    if (TraktSettings.AlreadyExistMovies.Movies != null)
+            //    {
+            //        if (!TraktSettings.AlreadyExistMovies.Movies.Contains(movie))
+            //            TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+            //    }
+            //    else
+            //    {
+            //        TraktSettings.AlreadyExistMovies.Movies = new List<TraktMovieSync.Movie>();
+            //        TraktSettings.AlreadyExistMovies.Movies.Add(movie);
+            //    }
+            //}
         }
     }
 }

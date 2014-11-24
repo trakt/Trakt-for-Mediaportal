@@ -65,11 +65,17 @@ namespace TraktPlugin.TraktAPI
 
         #region GET Methods
 
+        #region Sync
+
         public static TraktLastSyncActivities GetLastSyncActivities()
         {
             var response = GetFromTrakt(TraktURIs.SyncLastActivities);
             return response.FromJSON<TraktLastSyncActivities>();
         }
+
+        #endregion
+
+        #region Collection
 
         public static IEnumerable<TraktMovieCollected> GetCollectedMovies()
         {
@@ -87,6 +93,10 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktEpisodeCollected>();
         }
 
+        #endregion
+
+        #region Watched History
+
         public static IEnumerable<TraktMovieWatched> GetWatchedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedMovies);
@@ -102,6 +112,10 @@ namespace TraktPlugin.TraktAPI
             if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeWatched>();
         }
+
+        #endregion
+
+        #region Ratings
 
         public static IEnumerable<TraktMovieRated> GetRatedMovies()
         {
@@ -126,6 +140,8 @@ namespace TraktPlugin.TraktAPI
             if (response == null) return null;
             return response.FromJSONArray<TraktShowRated>();
         }
+
+        #endregion
 
         #region Recommendations
 
@@ -379,7 +395,7 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region Rate Helper (Single)
+        #region Ratings (Single)
 
         /// <summary>
         /// Rate a single episode on trakt.tv
@@ -523,6 +539,110 @@ namespace TraktPlugin.TraktAPI
         {
             var response = PostToTrakt(TraktURIs.ScrobbleStop, episode.ToJSON());
             return response.FromJSON<TraktScrobbleResponse>();
+        }
+
+        #endregion
+
+        #region Watchlist
+
+        public static TraktSyncResponse AddMoviesToWatchlist(TraktSyncMovies movies)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, movies.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveMoviesFromWatchlist(TraktSyncMovies movies)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, movies.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddShowsToWatchlist(TraktSyncShows shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveShowsFromWatchlist(TraktSyncShows shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddEpisodesToWatchlist(TraktSyncEpisodes episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveEpisodesFromWatchlist(TraktSyncEpisodes episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        #endregion
+
+        #region Watchlist (Single)
+
+        public static TraktSyncResponse AddMovieToWatchlist(TraktMovie movie)
+        {
+            var movies = new TraktSyncMovies
+            {
+                Movies = new List<TraktMovie>() { movie }
+            };
+
+            return AddMoviesToWatchlist(movies);
+        }
+
+        public static TraktSyncResponse RemoveMovieFromWatchlist(TraktMovie movie)
+        {
+            var movies = new TraktSyncMovies
+            {
+                Movies = new List<TraktMovie>() { movie }
+            };
+
+            return RemoveMoviesFromWatchlist(movies);
+        }
+
+        public static TraktSyncResponse AddShowToWatchlist(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return AddShowsToWatchlist(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromWatchlist(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return RemoveShowsFromWatchlist(shows);
+        }
+
+        public static TraktSyncResponse AddEpisodeToWatchlist(TraktEpisode episode)
+        {
+            var episodes = new TraktSyncEpisodes
+            {
+                Episodes = new List<TraktEpisode>() { episode }
+            };
+
+            return AddEpisodesToWatchlist(episodes);
+        }
+
+        public static TraktSyncResponse RemoveMovieFromWatchlist(TraktEpisode episode)
+        {
+            var episodes = new TraktSyncEpisodes
+            {
+                Episodes = new List<TraktEpisode>() { episode }
+            };
+
+            return RemoveEpisodesFromWatchlist(episodes);
         }
 
         #endregion

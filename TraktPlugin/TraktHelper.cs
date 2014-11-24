@@ -9,14 +9,15 @@ using MediaPortal.Profile;
 using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktHandlers;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin
 {
     public class TraktHelper
     {
         #region Plugin Helpers
+
         public static bool IsPluginEnabled(string name)
         {
             using (Settings xmlreader = new MPSettings())
@@ -88,15 +89,16 @@ namespace TraktPlugin
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Trailers.dll")) && IsPluginEnabled("Trailers");
             }
         }
+
         #endregion
 
-        #region API Helpers
+        #region Public API Helpers
 
         #region Movie Watchlist
 
-        public static void AddMovieToWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
+        public static void AddMovieToWatchList(TraktMovie movie, bool updatePluginFilters)
         {
-            AddMovieToWatchList(movie.Title, movie.Year, movie.IMDBID, updateMovingPicturesFilters);
+            AddMovieToWatchList(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, updatePluginFilters);
         }
 
         public static void AddMovieToWatchList(string title, string year)
@@ -109,133 +111,194 @@ namespace TraktPlugin
             AddMovieToWatchList(title, year, imdbid, false);
         }
 
-        public static void AddMovieToWatchList(string title, string year, bool updateMovingPicturesFilters)
+        public static void AddMovieToWatchList(string title, string year, bool updatePluginFilters)
         {
-            AddMovieToWatchList(title, year, null, updateMovingPicturesFilters);
+            AddMovieToWatchList(title, year, null, updatePluginFilters);
         }
 
-        public static void AddMovieToWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
+        public static void AddMovieToWatchList(string title, string year, string imdbid, bool updatePluginFilters)
         {
-            AddMovieToWatchList(title, year, imdbid, null, updateMovingPicturesFilters);
+            AddMovieToWatchList(title, year.ToNullableInt32(), imdbid, null, updatePluginFilters);
         }
 
-        /// <summary>
-        /// Adds a movie to the current users Watch List
-        /// </summary>
-        /// <param name="title">title of movie</param>
-        /// <param name="year">year of movie</param>
-        /// <param name="imdbid">imdbid of movie</param>
-        /// <param name="updateMovingPicturesFilters">set to true if movingpictures categories/filters should also be updated</param>
-        public static void AddMovieToWatchList(string title, string year, string imdbid, string tmdb, bool updateMovingPicturesFilters)
+        public static void AddMovieToWatchList(string title, int? year, string imdbid, int? tmdbid, bool updatePluginFilters)
+        {
+            AddMovieToWatchList(title, year, imdbid, tmdbid, null, updatePluginFilters);
+        }
+
+        public static void AddMovieToWatchList(string title, int? year, string imdbid, int? tmdbid, int? traktid, bool updatePluginFilters)
         {
             if (!GUICommon.CheckLogin(false)) return;
 
-            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid, tmdb);
-            if (syncObject == null) return;
-
-            Thread syncThread = new Thread(delegate(object obj)
+            var movie = new TraktMovie
             {
-                TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.watchlist);
-                if (response == null || response.Status != "success") return;
-                if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
+                Ids = new TraktMovieId
                 {
-                    // Update Categories & Filters menu(s)                    
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid
+                },
+                Title = title,
+                Year = year
+            };
+            
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddMovieToWatchlist(objSyncData as TraktMovie);
+                if (response == null) return;
+
+                if (updatePluginFilters && IsMovingPicturesAvailableAndEnabled)
+                {
+                    // update categories & filters menu in MovingPictures              
                     MovingPictures.AddMovieCriteriaToWatchlistNode(imdbid);
                 }
                 GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
             {
                 IsBackground = true,
-                Name = "AddWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(movie);
         }
 
         public static void RemoveMovieFromWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
         {
-            RemoveMovieFromWatchList(movie.Title, movie.Year, movie.IMDBID, updateMovingPicturesFilters);
+            RemoveMovieFromWatchList(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, updateMovingPicturesFilters);
         }
-        public static void RemoveMovieFromWatchList(string title, string year, string imdbid, bool updateMovingPicturesFilters)
+
+        public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, bool updateMovingPicturesFilters)
+        {
+            RemoveMovieFromWatchList(title, year, imdbid, null, null, updateMovingPicturesFilters);
+        }
+
+        public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, int? tmdbid, int? traktid, bool updatePluginFilters)
         {
             if (!GUICommon.CheckLogin(false)) return;
 
-            TraktMovieSync syncObject = BasicHandler.CreateMovieSyncData(title, year, imdbid);
-            if (syncObject == null) return;
-
-            Thread syncThread = new Thread(delegate(object obj)
+            var movie = new TraktMovie
             {
-                TraktSyncResponse response = TraktAPI.v1.TraktAPI.SyncMovieLibrary(obj as TraktMovieSync, TraktSyncModes.unwatchlist);
-                if (response == null || response.Status != "success") return;
-                if (updateMovingPicturesFilters && IsMovingPicturesAvailableAndEnabled)
+                Ids = new TraktMovieId
                 {
-                    // Update Categories & Filters
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid
+                },
+                Title = title,
+                Year = year
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveMovieFromWatchlist(objSyncData as TraktMovie);
+                if (response == null) return;
+
+                if (updatePluginFilters && IsMovingPicturesAvailableAndEnabled)
+                {
+                    // update categories & filters menu in MovingPictures              
                     MovingPictures.RemoveMovieCriteriaFromWatchlistNode(imdbid);
                 }
                 GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
             {
                 IsBackground = true,
-                Name = "RemoveWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(movie);
         }
+
         #endregion
 
         #region Show WatchList
+
         public static void AddShowToWatchList(TraktShow show)
         {
-            AddShowToWatchList(show.Title, show.Year.ToString(), show.Tvdb);
+            AddShowToWatchList(show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id);
         }
+
         public static void AddShowToWatchList(string title, string year, string tvdbid)
         {
-            TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
-            if (syncObject == null) return;
+            AddShowToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, null, null);
+        }
 
-            Thread syncThread = new Thread(delegate(object obj)
+        public static void AddShowToWatchList(string title, int? year, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            var show = new TraktShow
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.watchlist);
-                if (response == null || response.Status != "success") return;
-                GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
+                Ids = new TraktShowId
+                {
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid,
+                    TvdbId = tvdbid
+                },
+                Title = title,
+                Year = year
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddShowToWatchlist(objSyncData as TraktShow);
             })
             {
                 IsBackground = true,
-                Name = "AddWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(show);
         }
 
         public static void RemoveShowFromWatchList(TraktShow show)
         {
-            RemoveShowFromWatchList(show.Title, show.Year.ToString(), show.Tvdb);
+            RemoveShowFromWatchList(show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id);
         }
+
         public static void RemoveShowFromWatchList(string title, string year, string tvdbid)
         {
-            TraktShowSync syncObject = BasicHandler.CreateShowSyncData(title, year, tvdbid);
-            if (syncObject == null) return;
+            RemoveShowFromWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, null, null);
+        }
 
-            Thread syncThread = new Thread(delegate(object obj)
+        public static void RemoveShowFromWatchList(string title, int? year, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            var show = new TraktShow
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.SyncShowWatchList((obj as TraktShowSync), TraktSyncModes.unwatchlist);
-                if (response == null || response.Status != "success") return;
-                GUI.GUIWatchListShows.ClearCache(TraktSettings.Username);
+                Ids = new TraktShowId
+                {
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid,
+                    TvdbId = tvdbid
+                },
+                Title = title,
+                Year = year
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveShowFromWatchlist(objSyncData as TraktShow);
             })
             {
                 IsBackground = true,
-                Name = "RemoveWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(show);
         }
+
         #endregion
 
         #region Episode WatchList
+
         public static void AddEpisodeToWatchList(TraktShow show, TraktEpisode episode)
         {
             AddEpisodeToWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
         }
+
         public static void AddEpisodeToWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -258,6 +321,7 @@ namespace TraktPlugin
         {
             RemoveEpisodeFromWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
         }
+
         public static void RemoveEpisodeFromWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
         {
             TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
@@ -275,6 +339,7 @@ namespace TraktPlugin
 
             syncThread.Start(syncObject);
         }
+
         #endregion
 
         #region Add/Remove Movie in List
