@@ -20,14 +20,16 @@ namespace TraktPlugin.GUI
     public class RelatedMovie
     {
         public string Title { get; set; }
-        public int Year { get; set; }
-        public string IMDbId { get; set; }
+        public int? Year { get; set; }
+        public string ImdbId { get; set; }
+        public int? TmdbId { get; set; }
+        public int? TraktId { get; set; }
 
         public string Slug
         {
             get
             {
-                if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperImdbId(IMDbId))) return IMDbId;
+                if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperImdbId(ImdbId))) return ImdbId;
                 if (string.IsNullOrEmpty(Title)) return string.Empty;
                 return string.Format("{0} {1}", Title, Year).ToSlug();
             }
@@ -423,7 +425,7 @@ namespace TraktPlugin.GUI
                     RelatedMovie relMovie = new RelatedMovie
                     {
                         Title = selectedMovie.Title,
-                        IMDbId = selectedMovie.IMDBID,
+                        ImdbId = selectedMovie.IMDBID,
                         Year = Convert.ToInt32(selectedMovie.Year)
                     };
                     relatedMovie = relMovie;
@@ -522,7 +524,7 @@ namespace TraktPlugin.GUI
 
             if (movies.Count() == 0)
             {
-                string title = string.IsNullOrEmpty(relatedMovie.Title) ? relatedMovie.IMDbId : relatedMovie.Title;
+                string title = string.IsNullOrEmpty(relatedMovie.Title) ? relatedMovie.ImdbId : relatedMovie.Title;
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedMovies, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
@@ -580,7 +582,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;
 
             // set context property
-            string title = string.IsNullOrEmpty(relatedMovie.Title) ? relatedMovie.IMDbId : relatedMovie.Title;
+            string title = string.IsNullOrEmpty(relatedMovie.Title) ? relatedMovie.ImdbId : relatedMovie.Title;
             GUIUtils.SetProperty("#Trakt.Related.Movie", title);
 
             // hide watched

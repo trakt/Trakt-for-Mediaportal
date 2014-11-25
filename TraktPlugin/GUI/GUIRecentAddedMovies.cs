@@ -378,7 +378,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Related):
                     RelatedMovie relatedMovie = new RelatedMovie();
-                    relatedMovie.IMDbId = selectedMovie.IMDBID;
+                    relatedMovie.ImdbId = selectedMovie.IMDBID;
                     relatedMovie.Title = selectedMovie.Title;
                     GUIRelatedMovies.relatedMovie = relatedMovie;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);

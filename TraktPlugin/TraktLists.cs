@@ -25,7 +25,7 @@ namespace TraktPlugin
         #region Public Methods
 
         /// <summary>
-        /// Get a list of custom lists created by a user
+        /// Get custom lists created by a user
         /// </summary>
         public static IEnumerable<TraktUserList> GetListsForUser(string username)
         {
@@ -191,7 +191,8 @@ namespace TraktPlugin
 
         public static void ClearCache(string username)
         {
-            if (usersLists.ContainsKey(username)) usersLists.Remove(username);
+            if (usersLists.ContainsKey(username))
+                usersLists.Remove(username);
         }
 
         #endregion

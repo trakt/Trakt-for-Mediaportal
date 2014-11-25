@@ -211,6 +211,34 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Movies
+
+        #region Related
+
+        public static IEnumerable<TraktMovie> GetRelatedMovies(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedMovies, id));
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Shows
+
+        #region Related
+
+        public static IEnumerable<TraktShow> GetRelatedShows(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
+        #endregion
+
         #endregion
 
         #region POST Methods
@@ -635,7 +663,7 @@ namespace TraktPlugin.TraktAPI
             return AddEpisodesToWatchlist(episodes);
         }
 
-        public static TraktSyncResponse RemoveMovieFromWatchlist(TraktEpisode episode)
+        public static TraktSyncResponse RemoveEpisodeFromWatchlist(TraktEpisode episode)
         {
             var episodes = new TraktSyncEpisodes
             {

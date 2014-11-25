@@ -483,7 +483,7 @@ namespace TraktPlugin.GUI
                     if (SelectedType == TraktItemType.movie)
                     {
                         RelatedMovie relatedMovie = new RelatedMovie();
-                        relatedMovie.IMDbId = userListItem.Movie.IMDBID;
+                        relatedMovie.ImdbId = userListItem.Movie.IMDBID;
                         relatedMovie.Title = userListItem.Movie.Title;
                         GUIRelatedMovies.relatedMovie = relatedMovie;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
@@ -493,7 +493,7 @@ namespace TraktPlugin.GUI
                         //series, season & episode
                         RelatedShow relatedShow = new RelatedShow();
                         relatedShow.Title = userListItem.Show.Title;
-                        relatedShow.TVDbId = userListItem.Show.Tvdb;
+                        relatedShow.TvdbId = userListItem.Show.Tvdb;
                         GUIRelatedShows.relatedShow = relatedShow;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
                     }

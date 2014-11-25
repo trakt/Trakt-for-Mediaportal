@@ -19,13 +19,15 @@ namespace TraktPlugin.GUI
     public class RelatedShow
     {
         public string Title { get; set; }
-        public string TVDbId { get; set; }
+        public int? TvdbId { get; set; }
+        public int? TmdbId { get; set; }
+        public int? TraktId { get; set; }
 
         public string Slug
         {
             get
             {
-                if (!string.IsNullOrEmpty(TVDbId)) return TVDbId;
+                if (!string.IsNullOrEmpty(TvdbId)) return TvdbId;
                 if (string.IsNullOrEmpty(Title)) return string.Empty;
                 return Title.ToSlug();
             }
@@ -391,7 +393,7 @@ namespace TraktPlugin.GUI
                     RelatedShow relShow = new RelatedShow
                     {
                         Title = selectedShow.Title,
-                        TVDbId = selectedShow.Tvdb
+                        TvdbId = selectedShow.Tvdb
                     };
                     relatedShow = relShow;
                     LoadRelatedShows();
@@ -473,7 +475,7 @@ namespace TraktPlugin.GUI
 
             if (shows.Count() == 0)
             {
-                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TVDbId : relatedShow.Title;
+                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId : relatedShow.Title;
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedShows, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
@@ -525,7 +527,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;
 
             // set context property
-            string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TVDbId : relatedShow.Title;
+            string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId : relatedShow.Title;
             GUIUtils.SetProperty("#Trakt.Related.Show", title);
 
             // hide watched

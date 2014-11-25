@@ -294,138 +294,166 @@ namespace TraktPlugin
 
         #region Episode WatchList
 
-        public static void AddEpisodeToWatchList(TraktShow show, TraktEpisode episode)
+        public static void AddEpisodeToWatchList(TraktEpisode episode)
         {
-            AddEpisodeToWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+            AddEpisodeToWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
-        public static void AddEpisodeToWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        public static void AddEpisodeToWatchList(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
-            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
-            if (syncObject == null) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
-            Thread syncThread = new Thread(delegate(object obj)
+            var episode = new TraktEpisode
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.watchlist);
-                if (response == null || response.Status != "success") return;
+                Ids = new TraktEpisodeId
+                {
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid,
+                    TvdbId = tvdbid
+                },
+                Title = title,
+                Season = season,
+                Number = number
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddEpisodeToWatchlist(objSyncData as TraktEpisode);
             })
             {
                 IsBackground = true,
-                Name = "AddWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(episode);
         }
 
-        public static void RemoveEpisodeFromWatchList(TraktShow show, TraktEpisode episode)
+        public static void RemoveEpisodeFromWatchList(TraktEpisode episode)
         {
-            RemoveEpisodeFromWatchList(show.Title, show.Year.ToString(), show.Tvdb, episode.Season.ToString(), episode.Number.ToString());
+            RemoveEpisodeFromWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
-        public static void RemoveEpisodeFromWatchList(string title, string year, string tvdbid, string seasonidx, string episodeidx)
+        public static void RemoveEpisodeFromWatchList(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
-            TraktEpisodeSync syncObject = BasicHandler.CreateEpisodeSyncData(title, year, tvdbid, seasonidx, episodeidx);
-            if (syncObject == null) return;
+            if (!GUICommon.CheckLogin(false)) return;
 
-            Thread syncThread = new Thread(delegate(object obj)
+            var episode = new TraktEpisode
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.SyncEpisodeWatchList((obj as TraktEpisodeSync), TraktSyncModes.unwatchlist);
-                if (response == null || response.Status != "success") return;
+                Ids = new TraktEpisodeId
+                {
+                    Id = traktid,
+                    ImdbId = imdbid,
+                    TmdbId = tmdbid,
+                    TvdbId = tvdbid
+                },
+                Title = title,
+                Season = season,
+                Number = number
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveEpisodeFromWatchlist(objSyncData as TraktEpisode);
             })
             {
                 IsBackground = true,
-                Name = "RemoveWatchList"
+                Name = "Watchlist"
             };
 
-            syncThread.Start(syncObject);
+            syncThread.Start(episode);
         }
 
         #endregion
 
         #region Add/Remove Movie in List
+
         public static void AddRemoveMovieInUserList(TraktMovie movie, bool remove)
         {
-            AddRemoveMovieInUserList(TraktSettings.Username, movie.Title, movie.Year, movie.IMDBID, remove);
+            AddRemoveMovieInUserList(TraktSettings.Username, movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, remove);
         }
 
         public static void AddRemoveMovieInUserList(string title, string year, string imdbid, bool remove)
         {
-            AddRemoveMovieInUserList(TraktSettings.Username, title, year, imdbid, remove);
+            AddRemoveMovieInUserList(TraktSettings.Username, title, year.ToNullableInt32(), imdbid, null, null, remove);
         }
 
-        public static void AddRemoveMovieInUserList(string username, string title, string year, string imdbid, bool remove)
+        public static void AddRemoveMovieInUserList(string username, string title, int? year, string imdbid, int? tmdbid, int? traktid, bool remove)
         {
-            if (!GUICommon.CheckLogin(false)) return;
+            // TODO
+            //if (!GUICommon.CheckLogin(false)) return;
 
-            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-            {
-                return TraktLists.GetListsForUser(username);
-            },
-            delegate(bool success, object result)
-            {
-                if (success)
-                {
-                    IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
+            //GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            //{
+            //    return TraktLists.GetListsForUser(username);
+            //},
+            //delegate(bool success, object result)
+            //{
+            //    if (success)
+            //    {
+            //        IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
 
-                    // get slug of lists selected
-                    List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
-                    if (slugs == null || slugs.Count == 0) return;
+            //        // get slug of lists selected
+            //        List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
+            //        if (slugs == null || slugs.Count == 0) return;
 
-                    TraktListItem item = new TraktListItem
-                    {
-                        Type = TraktItemType.movie.ToString(),
-                        Title = title,
-                        Year = Convert.ToInt32(year),
-                        ImdbId = imdbid
-                    };
+            //        TraktListItem item = new TraktListItem
+            //        {
+            //            Type = TraktItemType.movie.ToString(),
+            //            Title = title,
+            //            Year = Convert.ToInt32(year),
+            //            ImdbId = imdbid
+            //        };
 
-                    AddRemoveItemInList(slugs, item, remove);
-                }
-            }, Translation.GettingLists, true);
+            //        AddRemoveItemInList(slugs, item, remove);
+            //    }
+            //}, Translation.GettingLists, true);
         }
 
         #endregion
 
         #region Add/Remove Show in List
+
         public static void AddRemoveShowInUserList(TraktShow show, bool remove)
         {
-            AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year.ToString(), show.Tvdb, remove);
+            AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id, remove);
         }
 
         public static void AddRemoveShowInUserList(string title, string year, string tvdbid, bool remove)
         {
-            AddRemoveShowInUserList(TraktSettings.Username, title, year, tvdbid, remove);
+            AddRemoveShowInUserList(TraktSettings.Username, title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, null, null, remove);
         }
 
-        public static void AddRemoveShowInUserList(string username, string title, string year, string tvdbid, bool remove)
+        public static void AddRemoveShowInUserList(string username, string title, int? year, int? tvdbid, string imdbid, int? tmdbid, int? traktid, bool remove)
         {
-            if (!GUICommon.CheckLogin(false)) return;
+            //TODO
+            //if (!GUICommon.CheckLogin(false)) return;
 
-            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-            {
-                return TraktLists.GetListsForUser(username);
-            },
-            delegate(bool success, object result)
-            {
-                if (success)
-                {
-                    IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
+            //GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            //{
+            //    return TraktLists.GetListsForUser(username);
+            //},
+            //delegate(bool success, object result)
+            //{
+            //    if (success)
+            //    {
+            //        IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
 
-                    // get slug of lists selected
-                    List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
-                    if (slugs == null || slugs.Count == 0) return;
+            //        // get slug of lists selected
+            //        List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
+            //        if (slugs == null || slugs.Count == 0) return;
 
-                    TraktListItem item = new TraktListItem
-                    {
-                        Type = TraktItemType.show.ToString(),
-                        Title = title,
-                        Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year),
-                        TvdbId = tvdbid
-                    };
+            //        TraktListItem item = new TraktListItem
+            //        {
+            //            Type = TraktItemType.show.ToString(),
+            //            Title = title,
+            //            Year = string.IsNullOrEmpty(year) ? 0 : Convert.ToInt32(year),
+            //            TvdbId = tvdbid
+            //        };
 
-                    AddRemoveItemInList(slugs, item, remove);
-                }
-            }, Translation.GettingLists, true);
+            //        AddRemoveItemInList(slugs, item, remove);
+            //    }
+            //}, Translation.GettingLists, true);
         }
 
         #endregion
@@ -434,95 +462,106 @@ namespace TraktPlugin
 
         public static void AddRemoveSeasonInUserList(string title, string year, string season, string tvdbid, bool remove)
         {
-            AddRemoveSeasonInUserList(TraktSettings.Username, title, year, season, tvdbid, remove);
+            //TODO
+            //AddRemoveSeasonInUserList(TraktSettings.Username, title, year, season, tvdbid, remove);
         }
 
         public static void AddRemoveSeasonInUserList(string username, string title, string year, string season, string tvdbid, bool remove)
         {
-            if (!GUICommon.CheckLogin(false)) return;
+            //TODO
+            //if (!GUICommon.CheckLogin(false)) return;
 
-            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-            {
-                return TraktLists.GetListsForUser(username);
-            },
-            delegate(bool success, object result)
-            {
-                if (success)
-                {
-                    IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
+            //GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            //{
+            //    return TraktLists.GetListsForUser(username);
+            //},
+            //delegate(bool success, object result)
+            //{
+            //    if (success)
+            //    {
+            //        IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
 
-                    // get slug of lists selected
-                    List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
-                    if (slugs == null || slugs.Count == 0) return;
+            //        // get slug of lists selected
+            //        List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
+            //        if (slugs == null || slugs.Count == 0) return;
 
-                    TraktListItem item = new TraktListItem
-                    {
-                        Type = TraktItemType.season.ToString(),
-                        Title = title,
-                        Year = Convert.ToInt32(year),
-                        Season = Convert.ToInt32(season),
-                        TvdbId = tvdbid
-                    };
+            //        TraktListItem item = new TraktListItem
+            //        {
+            //            Type = TraktItemType.season.ToString(),
+            //            Title = title,
+            //            Year = Convert.ToInt32(year),
+            //            Season = Convert.ToInt32(season),
+            //            TvdbId = tvdbid
+            //        };
 
-                    AddRemoveItemInList(slugs, item, remove);
-                }
-            }, Translation.GettingLists, true);
+            //        AddRemoveItemInList(slugs, item, remove);
+            //    }
+            //}, Translation.GettingLists, true);
         }
 
         #endregion
 
         #region Add/Remove Episode in List
-        public static void AddRemoveEpisodeInUserList(TraktShow show, TraktEpisode episode, bool remove)
+
+        public static void AddRemoveEpisodeInUserList(TraktEpisode episode, bool remove)
         {
-            AddRemoveEpisodeInUserList(TraktSettings.Username, show.Title, show.Year.ToString(), episode.Season.ToString(), episode.Number.ToString(), show.Tvdb, remove);
+            AddRemoveEpisodeInUserList(TraktSettings.Username, episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id, remove);
         }
 
-        public static void AddRemoveEpisodeInUserList(string title, string year, string season, string episode, string tvdbid, bool remove)
+        public static void AddRemoveEpisodeInUserList(string username, string title, int season, int number, string tvdbid, bool remove)
         {
-            AddRemoveEpisodeInUserList(TraktSettings.Username, title, year, season, episode, tvdbid, remove);
+            AddRemoveEpisodeInUserList(TraktSettings.Username, title, season, number, tvdbid.ToNullableInt32(), null, null, null, remove);
         }
 
-        public static void AddRemoveEpisodeInUserList(string username, string title, string year, string season, string episode, string tvdbid, bool remove)
+        public static void AddRemoveEpisodeInUserList(string username, string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid, bool remove)
         {
-            if (!GUICommon.CheckLogin(false)) return;
+            //TODO
+            //if (!GUICommon.CheckLogin(false)) return;
 
-            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
-            {
-                return TraktLists.GetListsForUser(username);
-            },
-            delegate(bool success, object result)
-            {
-                if (success)
-                {
-                    IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
+            //GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            //{
+            //    return TraktLists.GetListsForUser(username);
+            //},
+            //delegate(bool success, object result)
+            //{
+            //    if (success)
+            //    {
+            //        IEnumerable<TraktUserList> customlists = result as IEnumerable<TraktUserList>;
 
-                    // get slug of lists selected
-                    List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
-                    if (slugs == null || slugs.Count == 0) return;
+            //        // get slug of lists selected
+            //        List<string> slugs = TraktLists.GetUserListSelections(customlists.ToList());
+            //        if (slugs == null || slugs.Count == 0) return;
 
-                    TraktListItem item = new TraktListItem
-                    {
-                        Type = TraktItemType.episode.ToString(),
-                        Title = title,
-                        Year = Convert.ToInt32(year),
-                        Season = Convert.ToInt32(season),
-                        Episode = Convert.ToInt32(episode),
-                        TvdbId = tvdbid
-                    };
+            //        TraktListItem item = new TraktListItem
+            //        {
+            //            Type = TraktItemType.episode.ToString(),
+            //            Title = title,
+            //            Year = Convert.ToInt32(year),
+            //            Season = Convert.ToInt32(season),
+            //            Episode = Convert.ToInt32(episode),
+            //            TvdbId = tvdbid
+            //        };
 
-                    AddRemoveItemInList(slugs, item, remove);
-                }
-            }, Translation.GettingLists, true);
+            //        AddRemoveItemInList(slugs, item, remove);
+            //    }
+            //}, Translation.GettingLists, true);
         }
 
         #endregion
 
         #region Related Movies
+
         public static void ShowRelatedMovies(TraktMovie movie)
         {
-            ShowRelatedMovies(movie.IMDBID, movie.Title, movie.Year);
+            ShowRelatedMovies(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
         }
-        public static void ShowRelatedMovies(string imdbid, string title, string year)
+
+        public static void ShowRelatedMovies(string title, string year, string imdbid)
+        {
+            ShowRelatedMovies(title, year.ToNullableInt32(), imdbid, null, null);
+        }
+
+        public static void ShowRelatedMovies(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Movies.xml"))
             {
@@ -533,21 +572,31 @@ namespace TraktPlugin
            
             RelatedMovie relatedMovie = new RelatedMovie
             {
-                IMDbId = imdbid,
+                ImdbId = imdbid,
+                TmdbId = tmdbid,
+                TraktId = traktid,
                 Title = title,
-                Year = Convert.ToInt32(string.IsNullOrEmpty(year) ? "0" : year)
+                Year = year
             };
             GUIRelatedMovies.relatedMovie = relatedMovie;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
         }
+
         #endregion
 
         #region Related Shows
+
         public static void ShowRelatedShows(TraktShow show)
         {
-            ShowRelatedShows(show.Tvdb, show.Title);
+            ShowRelatedShows(show.Title, show.Ids.TvdbId, show.Ids.TmdbId, show.Ids.Id);
         }
-        public static void ShowRelatedShows(string tvdbid, string title)
+
+        public static void ShowRelatedShows(string title, string tvdbid)
+        {
+            ShowRelatedShows(title, tvdbid.ToNullableInt32(), null, null);
+        }
+
+        public static void ShowRelatedShows(string title, int? tvdbid, int? tmdbid, int? traktid)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Related.Shows.xml"))
             {
@@ -558,12 +607,15 @@ namespace TraktPlugin
 
             RelatedShow relatedShow = new RelatedShow
             {
-                TVDbId = tvdbid,
+                TvdbId = tvdbid,
+                TmdbId = tmdbid,
+                TraktId = traktid,
                 Title = title                
             };
             GUIRelatedShows.relatedShow = relatedShow;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
         }
+
         #endregion
 
         #region Movie Shouts
@@ -866,60 +918,61 @@ namespace TraktPlugin
 
         internal static void AddRemoveItemInList(List<string> slugs, List<TraktListItem> items, bool remove)
         {
-            Thread listThread = new Thread(delegate(object obj)
-            {
-                foreach (var slug in slugs)
-                {
-                    TraktList list = new TraktList
-                    {
-                        UserName = TraktSettings.Username,
-                        Password = TraktSettings.Password,
-                        Slug = slug,
-                        Items = items
-                    };
+            // TODO
+            //Thread listThread = new Thread(delegate(object obj)
+            //{
+            //    foreach (var slug in slugs)
+            //    {
+            //        TraktList list = new TraktList
+            //        {
+            //            UserName = TraktSettings.Username,
+            //            Password = TraktSettings.Password,
+            //            Slug = slug,
+            //            Items = items
+            //        };
 
-                    TraktSyncResponse response = null;
-                    if (!remove)
-                    {
-                        response = TraktAPI.v1.TraktAPI.ListAddItems(list);
-                    }
-                    else
-                    {
-                        response = TraktAPI.v1.TraktAPI.ListDeleteItems(list);
-                    }
+            //        TraktSyncResponse response = null;
+            //        if (!remove)
+            //        {
+            //            response = TraktAPI.v1.TraktAPI.ListAddItems(list);
+            //        }
+            //        else
+            //        {
+            //            response = TraktAPI.v1.TraktAPI.ListDeleteItems(list);
+            //        }
 
-                    TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
-                    if (response.Status == "success")
-                    {
-                        // clear current items in any lists
-                        // list items will be refreshed online if we try to request them
-                        TraktLists.ClearItemsInList(TraktSettings.Username, slug);                                               
+            //        TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+            //        if (response.Status == "success")
+            //        {
+            //            // clear current items in any lists
+            //            // list items will be refreshed online if we try to request them
+            //            TraktLists.ClearItemsInList(TraktSettings.Username, slug);                                               
 
-                        // update MovingPictures Categories and Filters menu
-                        if (IsMovingPicturesAvailableAndEnabled)
-                        {
-                            // we need the name of the list so get list from slug first
-                            var userList = TraktLists.GetListForUser(TraktSettings.Username, slug);
-                            if (userList == null) continue;
+            //            // update MovingPictures Categories and Filters menu
+            //            if (IsMovingPicturesAvailableAndEnabled)
+            //            {
+            //                // we need the name of the list so get list from slug first
+            //                var userList = TraktLists.GetListForUser(TraktSettings.Username, slug);
+            //                if (userList == null) continue;
 
-                            if (remove)
-                            {
-                                MovingPictures.RemoveMovieCriteriaFromCustomlistNode(userList.Name, items.First().ImdbId);
-                            }
-                            else
-                            {
-                                MovingPictures.AddMovieCriteriaToCustomlistNode(userList.Name, items.First().ImdbId);
-                            }
-                        }
-                    }
-                }
-            })
-            {
-                Name = remove ? "RemoveList" : "AddList",
-                IsBackground = true
-            };
+            //                if (remove)
+            //                {
+            //                    MovingPictures.RemoveMovieCriteriaFromCustomlistNode(userList.Name, items.First().ImdbId);
+            //                }
+            //                else
+            //                {
+            //                    MovingPictures.AddMovieCriteriaToCustomlistNode(userList.Name, items.First().ImdbId);
+            //                }
+            //            }
+            //        }
+            //    }
+            //})
+            //{
+            //    Name = remove ? "RemoveList" : "AddList",
+            //    IsBackground = true
+            //};
 
-            listThread.Start();
+            //listThread.Start();
         }
 
         #endregion
