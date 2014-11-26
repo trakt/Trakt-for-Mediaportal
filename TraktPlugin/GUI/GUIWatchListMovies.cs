@@ -521,13 +521,13 @@ namespace TraktPlugin.GUI
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByWatchListMovies.Field, TraktSettings.SortByWatchListMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<TraktImage>();
+            var movieImages = new List<GUIImage>();
 
             // Add each movie
             foreach (var movie in movieList)
             {
                 // add image for download
-                var images = new TraktImage { MovieImages = movie.Images };
+                var images = new GUIImage { MovieImages = movie.Images };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.WatchedListMovies);

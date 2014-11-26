@@ -290,12 +290,12 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var seasonImages = new List<TraktImage>();
+            var seasonImages = new List<GUIImage>();
 
             foreach (var season in seasons)
             {
                 // add image for download
-                var images = new TraktImage { SeasonImages = season.Images, ShowImages = Show.Images };
+                var images = new GUIImage { SeasonImages = season.Images, ShowImages = Show.Images };
                 seasonImages.Add(images);
 
                 string itemLabel = season.Season == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Season.ToString());

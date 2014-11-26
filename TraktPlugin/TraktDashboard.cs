@@ -235,10 +235,10 @@ namespace TraktPlugin
                 PublishActivityProperties(activities);
                 
                 // download images
-                var avatarImages = new List<TraktImage>();
+                var avatarImages = new List<GUIImage>();
                 foreach (var activity in activities.Activities.Take(TraktSkinSettings.DashboardActivityPropertiesMaxItems))
                 {
-                    avatarImages.Add(new TraktImage { Avatar = activity.User.Avatar });
+                    avatarImages.Add(new GUIImage { Avatar = activity.User.Avatar });
                 }
                 GUIUserListItem.GetImages(avatarImages);
             }
@@ -309,7 +309,7 @@ namespace TraktPlugin
 
             int itemId = 0;
             int PreviousSelectedIdx = -1;
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each activity item to the facade
             foreach (var activity in activities.Activities.Distinct().OrderByDescending(a => a.Timestamp))
@@ -326,7 +326,7 @@ namespace TraktPlugin
                 string avatarImage = GetAvatarImage(activity);
 
                 // add image to download
-                var images = new TraktImage { Avatar = activity.User.Avatar };
+                var images = new GUIImage { Avatar = activity.User.Avatar };
                 if (avatarImage == "defaultTraktUser.png") userImages.Add(images);
                     
                 item.Label2 = activity.Timestamp.FromEpoch().ToLocalTime().ToShortTimeString();
@@ -464,10 +464,10 @@ namespace TraktPlugin
                     PublishMovieProperties(trendingMovies);
 
                     // download images
-                    var movieImages = new List<TraktImage>();
+                    var movieImages = new List<GUIImage>();
                     foreach (var movie in trendingMovies)
                     {
-                        movieImages.Add(new TraktImage { MovieImages = movie.Images });
+                        movieImages.Add(new GUIImage { MovieImages = movie.Images });
                     }
                     GUIMovieListItem.GetImages(movieImages);
                 }
@@ -581,7 +581,7 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            var movieImages = new List<TraktImage>();
+            var movieImages = new List<GUIImage>();
 
             // filter movies
             if (TraktSettings.FilterTrendingOnDashboard)
@@ -591,7 +591,7 @@ namespace TraktPlugin
             foreach (var movie in movies.Take(trendingSettings.FacadeMaxItems))
             {
                 // add image for download
-                var images = new TraktImage { MovieImages = movie.Images };
+                var images = new GUIImage { MovieImages = movie.Images };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(movie.Title, GUIWindowManager.ActiveWindow);
@@ -689,10 +689,10 @@ namespace TraktPlugin
                     PublishShowProperties(trendingShows);
 
                     // download images
-                    var showImages = new List<TraktImage>();
+                    var showImages = new List<GUIImage>();
                     foreach (var show in trendingShows)
                     {
-                        showImages.Add(new TraktImage { ShowImages = show.Images });
+                        showImages.Add(new GUIImage { ShowImages = show.Images });
                     }
                     GUIShowListItem.GetImages(showImages);
                 }
@@ -808,7 +808,7 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            var showImages = new List<TraktImage>();
+            var showImages = new List<GUIImage>();
 
             // filter shows
             if (TraktSettings.FilterTrendingOnDashboard)
@@ -818,7 +818,7 @@ namespace TraktPlugin
             foreach (var show in shows.Take(trendingSettings.FacadeMaxItems))
             {
                 // add image for download
-                var images = new TraktImage { ShowImages = show.Images };
+                var images = new GUIImage { ShowImages = show.Images };
                 showImages.Add(images);
 
                 var item = new GUIShowListItem(show.Title, GUIWindowManager.ActiveWindow);

@@ -448,13 +448,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var movieImages = new List<TraktImage>();
+            var movieImages = new List<GUIImage>();
 
             // Add each movie
             foreach (var movie in movies)
             {
                 // add image for download
-                var images = new TraktImage { MovieImages = movie.Images };
+                var images = new GUIImage { MovieImages = movie.Images };
                 movieImages.Add(images);
 
                 GUIMovieListItem item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.SearchMovies);

@@ -223,6 +223,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Comments
+
+        public static IEnumerable<TraktComment> GetMovieComments(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.MovieComments, id));
+            return response.FromJSONArray<TraktComment>();
+        }
+
+        #endregion
+
         #endregion
 
         #region Shows
@@ -233,6 +243,16 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
             return response.FromJSONArray<TraktShow>();
+        }
+
+        #endregion
+
+        #region Comments
+
+        public static IEnumerable<TraktComment> GetShowComments(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowComments, id));
+            return response.FromJSONArray<TraktComment>();
         }
 
         #endregion

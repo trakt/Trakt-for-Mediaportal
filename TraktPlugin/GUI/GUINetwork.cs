@@ -868,13 +868,13 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each friend to the list
             foreach (var friend in friends.OrderBy(f => f.ApprovedDate))
             {
                 // add image to download
-                var images = new TraktImage { Avatar = friend.Avatar };
+                var images = new GUIImage { Avatar = friend.Avatar };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
@@ -955,13 +955,13 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each user to the list
             foreach (var user in following.OrderBy(f => f.ApprovedDate))
             {
                 // add image to download
-                var images = new TraktImage { Avatar = user.Avatar };
+                var images = new GUIImage { Avatar = user.Avatar };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
@@ -1041,13 +1041,13 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each user to the list
             foreach (var user in followers.OrderBy(f => f.ApprovedDate))
             {
                 // add image to download
-                var images = new TraktImage { Avatar = user.Avatar };
+                var images = new GUIImage { Avatar = user.Avatar };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
@@ -1127,13 +1127,13 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each user to the list
             foreach (var user in requests.OrderBy(r => r.RequestDate))
             {
                 // add image to download
-                var images = new TraktImage { Avatar = user.Avatar };
+                var images = new GUIImage { Avatar = user.Avatar };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);

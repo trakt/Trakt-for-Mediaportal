@@ -438,13 +438,13 @@ namespace TraktPlugin.GUI
             showList.Sort(new GUIListItemShowSorter(TraktSettings.SortByWatchListShows.Field, TraktSettings.SortByWatchListShows.Direction));
 
             int itemId = 0;
-            var showImages = new List<TraktImage>();
+            var showImages = new List<GUIImage>();
 
             // Add each show
             foreach (var show in showList)
             {
                 // add image for download
-                var images = new TraktImage { ShowImages = show.Images };
+                var images = new GUIImage { ShowImages = show.Images };
                 showImages.Add(images);
 
                 GUIShowListItem item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.WatchedListShows);

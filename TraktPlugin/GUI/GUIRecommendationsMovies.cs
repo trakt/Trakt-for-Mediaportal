@@ -669,7 +669,7 @@ namespace TraktPlugin.GUI
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByRecommendedMovies.Field, TraktSettings.SortByRecommendedMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<TraktImage>();
+            var movieImages = new List<GUIImage>();
 
             // Add each movie
             foreach (var movie in movieList)
@@ -677,7 +677,7 @@ namespace TraktPlugin.GUI
                 var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.RecommendationsMovies);
 
                 // add image for download
-                var image = new TraktImage { MovieImages = movie.Images };
+                var image = new GUIImage { MovieImages = movie.Images };
                 movieImages.Add(image);
 
                 item.Label2 = movie.Year;

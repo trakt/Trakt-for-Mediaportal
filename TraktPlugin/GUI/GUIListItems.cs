@@ -511,9 +511,9 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Shouts):
                     GUIShouts.ShoutType = (GUIShouts.ShoutTypeEnum)Enum.Parse(typeof(GUIShouts.ShoutTypeEnum), SelectedType.ToString(), true);
                     if (SelectedType == TraktItemType.movie)
-                        GUIShouts.MovieInfo = new MovieShout { IMDbId = userListItem.ImdbId, TMDbId = userListItem.Movie.TMDBID, Title = userListItem.Title, Year = userListItem.Year };
+                        GUIShouts.MovieInfo = new MovieShout { ImdbId = userListItem.ImdbId, TmdbId = userListItem.Movie.TMDBID, Title = userListItem.Title, Year = userListItem.Year };
                     else if (SelectedType == TraktItemType.show)
-                        GUIShouts.ShowInfo = new ShowShout { IMDbId = userListItem.ImdbId, TVDbId = userListItem.Show.Tvdb, Title = userListItem.Title };
+                        GUIShouts.ShowInfo = new ShowShout { IMDbId = userListItem.ImdbId, TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title };
                     else
                         GUIShouts.EpisodeInfo = new EpisodeShout { IMDbId = userListItem.ImdbId, TVDbId = userListItem.Show.Tvdb, Title = userListItem.Title, SeasonIdx = userListItem.SeasonNumber, EpisodeIdx = userListItem.EpisodeNumber };
                     GUIShouts.Fanart = SelectedType == TraktItemType.movie ? userListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart) : userListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
@@ -714,7 +714,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 1;
-            var listImages = new List<TraktImage>();
+            var listImages = new List<GUIImage>();
             
             // Add each list item
             foreach (var listItem in list.Items.Where(l => !string.IsNullOrEmpty(l.Title)))
@@ -780,9 +780,9 @@ namespace TraktPlugin.GUI
             return retValue;
         }
 
-        private TraktImage GetTraktImage(TraktUserListItem listItem)
+        private GUIImage GetTraktImage(TraktUserListItem listItem)
         {
-            TraktImage images = new TraktImage();
+            GUIImage images = new GUIImage();
 
             switch (listItem.Type)
             {

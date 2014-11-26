@@ -382,14 +382,14 @@ namespace TraktPlugin.GUI
             showList.Sort(new GUIListItemShowSorter(TraktSettings.SortByTrendingShows.Field, TraktSettings.SortByTrendingShows.Direction));
 
             int itemId = 0;
-            var showImages = new List<TraktImage>();
+            var showImages = new List<GUIImage>();
 
             foreach (var show in showList)
             {
                 var item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.TrendingShows);
 
                 // add image for download
-                var image = new TraktImage { ShowImages = show.Images };
+                var image = new GUIImage { ShowImages = show.Images };
                 showImages.Add(image);
 
                 item.Label2 = show.Year.ToString();

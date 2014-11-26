@@ -361,7 +361,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemCount = 0;
-            var showImages = new List<TraktImage>();
+            var showImages = new List<GUIImage>();
 
             // Add each show and underlying episodes
             // Should we do facade levels (Series,Season,Episodes)?
@@ -370,7 +370,7 @@ namespace TraktPlugin.GUI
                 foreach (var episode in show.Episodes)
                 {
                     // add image for download
-                    var images = new TraktImage
+                    var images = new GUIImage
                     {
                         EpisodeImages = episode.Images,
                         ShowImages = show.Images

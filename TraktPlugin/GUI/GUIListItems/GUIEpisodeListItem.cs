@@ -26,7 +26,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public TraktImage Images
+        public GUIImage Images
         {
             get { return _Images; }
             set
@@ -35,13 +35,13 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is TraktImage && e.PropertyName == "Screen")
-                        SetImageToGui((s as TraktImage).EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage));
-                    if (s is TraktImage && e.PropertyName == "Fanart")
+                    if (s is GUIImage && e.PropertyName == "Screen")
+                        SetImageToGui((s as GUIImage).EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage));
+                    if (s is GUIImage && e.PropertyName == "Fanart")
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected TraktImage _Images;
+        } protected GUIImage _Images;
 
         public string Date { get; set; }
         public string SelectedIndex { get; set; }
@@ -57,7 +57,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<TraktImage> itemsWithThumbs)
+        internal static void GetImages(List<GUIImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -67,7 +67,7 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<TraktImage>();
+                var groupList = new List<GUIImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
@@ -83,7 +83,7 @@ namespace TraktPlugin.GUI
 
                 new Thread(delegate(object o)
                 {
-                    var items = (List<TraktImage>)o;
+                    var items = (List<GUIImage>)o;
                     foreach (var item in items)
                     {
                         #region Episode Image

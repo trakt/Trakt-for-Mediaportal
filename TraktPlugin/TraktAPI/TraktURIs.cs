@@ -49,6 +49,9 @@ namespace TraktPlugin.TraktAPI
         public const string RelatedMovies = "http://api.v2.trakt.tv/movies/{0}/related";
         public const string RelatedShows = "http://api.v2.trakt.tv/shows/{0}/related";
 
+        public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments";
+        public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments";
+
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
         public const string SyncCollectionRemove = "http://api.v2.trakt.tv/sync/collection/remove";

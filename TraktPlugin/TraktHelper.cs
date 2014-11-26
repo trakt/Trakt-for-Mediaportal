@@ -619,23 +619,33 @@ namespace TraktPlugin
         #endregion
 
         #region Movie Shouts
+
+        public static void ShowMovieShouts(TraktMovieSummary movie)
+        {
+            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id, false, movie.Images.Fanart, null);
+        }
+
         public static void ShowMovieShouts(TraktMovie movie)
         {
-            ShowMovieShouts(movie.IMDBID, movie.Title, movie.Year, movie.Watched, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), movie.Images.Fanart);
+            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id ,false, null, null);
         }
-        public static void ShowMovieShouts(string imdb, string title, string year, string fanart)
+
+        public static void ShowMovieShouts(string imdbid, string title, string year, string fanart)
         {
-            ShowMovieShouts(imdb, title, year, fanart, null);
+            ShowMovieShouts(title, year, imdbid, fanart, null);
         }
-        public static void ShowMovieShouts(string imdb, string title, string year, bool isWatched, string fanart)
+
+        public static void ShowMovieShouts(string title, string year, string imdbid, bool isWatched, string fanart)
         {
-            ShowMovieShouts(imdb, title, year, false, fanart, null);
+            ShowMovieShouts(title, year.ToNullableInt32(), imdbid, null, false, fanart, null);
         }
-        public static void ShowMovieShouts(string imdb, string title, string year, string fanart, string onlineFanart = null)
+
+        public static void ShowMovieShouts(string title, string imdbid, string year, string fanart, string onlineFanart = null)
         {
-            ShowMovieShouts(imdb, title, year, false, fanart, onlineFanart);
+            ShowMovieShouts(title, year.ToNullableInt32(), imdbid, null, false, fanart, onlineFanart);
         }
-        public static void ShowMovieShouts(string imdb, string title, string year, bool isWatched, string fanart, string onlineFanart)
+
+        public static void ShowMovieShouts(string title, int? year, string imdbid, int? traktid,  bool isWatched, string fanart, string onlineFanart)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -646,7 +656,7 @@ namespace TraktPlugin
 
             MovieShout movieInfo = new MovieShout
             {
-                IMDbId = imdb,
+                ImdbId = imdbid,
                 Title = title,
                 Year = year
             };
@@ -657,6 +667,7 @@ namespace TraktPlugin
             GUIShouts.IsWatched = isWatched;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
+
         #endregion
 
         #region Show Shouts
@@ -675,7 +686,7 @@ namespace TraktPlugin
 
             ShowShout seriesInfo = new ShowShout
             {
-                TVDbId = tvdb,
+                TvdbId = tvdb,
                 Title = title,
             };
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;

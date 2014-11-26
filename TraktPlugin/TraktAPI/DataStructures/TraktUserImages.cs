@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktUserImage
+    public class TraktUserImages
     {
         [DataMember(Name = "avatar")]
         public TraktImage Avatar { get; set; }

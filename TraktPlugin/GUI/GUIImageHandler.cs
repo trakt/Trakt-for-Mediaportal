@@ -9,7 +9,7 @@ using System.Text;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -50,10 +50,18 @@ namespace TraktPlugin.GUI
     {
         MoviePoster,
         MovieFanart,
+        MovieLogo,
+        MovieClearArt,
+        MovieBanner,
+        MovieThumb,
         ShowPoster,
         ShowBanner,
         ShowFanart,
+        ShowLogo,
+        ShowClearArt,
+        ShowThumb,
         SeasonPoster,
+        SeasonThumb,
         EpisodeImage,
         Avatar,
         Headshot
@@ -62,14 +70,14 @@ namespace TraktPlugin.GUI
     /// <summary>
     /// This object will typically hold images used in facade list items and window backgrounds
     /// </summary>
-    public class TraktImage : INotifyPropertyChanged
+    public class GUIImage : INotifyPropertyChanged
     {
-        public TraktEpisode.ShowImages EpisodeImages { get; set; }
-        public TraktShow.ShowImages ShowImages { get; set; }
-        public TraktMovie.MovieImages MovieImages { get; set; }
-        public TraktSeason.SeasonImages SeasonImages { get; set; }
-        public TraktPerson.PersonImages PoepleImages { get; set; }
-        public string Avatar { get; set; }
+        public TraktEpisodeImages EpisodeImages { get; set; }
+        public TraktShowImages ShowImages { get; set; }
+        public TraktMovieImages MovieImages { get; set; }
+        public TraktSeasonImages SeasonImages { get; set; }
+        public TraktPersonImages PoepleImages { get; set; }
+        public TraktUserImages UserImages { get; set; }
 
         /// <summary>
         /// raise event when property changes so we can know when a artwork
@@ -100,26 +108,7 @@ namespace TraktPlugin.GUI
         internal static RatingOverlayImage GetRatingOverlay(TraktShout.UserRating userRating)
         {
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-
-            if (userRating.AdvancedRating == 0 && userRating.Rating != "false")
-            {
-                if (userRating.Rating == "love") ratingOverlay = RatingOverlayImage.Love;
-                if (userRating.Rating == "hate") ratingOverlay = RatingOverlayImage.Hate;
-            }
-            else if (userRating.AdvancedRating > 0)
-            {
-                // do extra check to confirm new skin images exist
-                // if not fall back to basic overlays
-                if (!File.Exists(GUIGraphicsContext.Skin + string.Format(@"\Media\traktHeart{0}.png", userRating.AdvancedRating)))
-                {
-                    if (userRating.AdvancedRating > 5)
-                        ratingOverlay = RatingOverlayImage.Love;
-                    else if (userRating.AdvancedRating >= 1)
-                        ratingOverlay = RatingOverlayImage.Hate;
-                }
-                else
-                    ratingOverlay = (RatingOverlayImage)userRating.AdvancedRating;
-            }
+            ratingOverlay = (RatingOverlayImage)userRating.AdvancedRating;
 
             return ratingOverlay;
         }
@@ -130,15 +119,12 @@ namespace TraktPlugin.GUI
         /// <param name="url">The online URL of the trakt image</param>
         /// <param name="type">The Type of image to get</param>
         /// <returns>Retruns the local filename of the image</returns>
-        public static string LocalImageFilename(this string url, ArtworkType type)
+        public static string LocalImageFilename(this TraktImage image, ArtworkType type)
         {
-            if (string.IsNullOrEmpty(url)) return string.Empty;
+            if (image == null) return string.Empty;
 
+            string filename = string.Empty;
             string folder = string.Empty;
-
-            // clean image url
-            if (url.Contains("jpg?") && !url.Contains("gravatar"))
-                url = url.Replace("jpg?", string.Empty) + ".jpg";
 
             switch (type)
             {
@@ -155,7 +141,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ArtworkType.MoviePoster:
-                    url = url.ToSmallPoster();
+                    filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Posters");
                     break;
 
@@ -183,7 +169,21 @@ namespace TraktPlugin.GUI
                     break;
             }
 
-            return Path.Combine(folder, Path.GetFileName(new Uri(url).LocalPath));;
+            return Path.Combine(folder, Path.GetFileName(new Uri(url).LocalPath));
+        }
+
+        /// <summary>
+        /// Cleans a uri such that a friendly file system name can be derived
+        /// </summary>
+        public static string ToClearUrl(this string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return string.Empty;
+
+            if (url.Contains("jpg?") && !url.Contains("gravatar"))
+                url = url.Replace("jpg?", string.Empty) + ".jpg";
+
+            return url;
         }
 
         /// <summary>

@@ -313,6 +313,7 @@
     <Compile Include="TraktAPI.v1\DataStructures\TraktUser.cs" />
     <Compile Include="TraktAPI.v1\DataStructures\TraktUserListItem.cs" />
     <Compile Include="TraktAPI.v1\DataStructures\TraktWriter.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeId.cs" />
@@ -379,7 +380,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktSyncShows.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncShowsRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUser.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUserImage.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktUserImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktUserToken.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchlistEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktWatchlistMovie.cs" />

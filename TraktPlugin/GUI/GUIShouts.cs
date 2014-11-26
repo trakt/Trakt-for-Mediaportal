@@ -343,10 +343,10 @@ namespace TraktPlugin.GUI
         private IEnumerable<TraktShout> GetMovieShouts()
         {
             string title = string.Empty;
-            if (!string.IsNullOrEmpty(MovieInfo.IMDbId))
-                title = MovieInfo.IMDbId;
-            else if(!string.IsNullOrEmpty(MovieInfo.TMDbId))
-                title = MovieInfo.TMDbId;
+            if (!string.IsNullOrEmpty(MovieInfo.ImdbId))
+                title = MovieInfo.ImdbId;
+            else if(!string.IsNullOrEmpty(MovieInfo.TmdbId))
+                title = MovieInfo.TmdbId;
             else
                 title = string.Format("{0}-{1}", MovieInfo.Title, MovieInfo.Year).Replace(" ", "-");
 
@@ -356,8 +356,8 @@ namespace TraktPlugin.GUI
         private IEnumerable<TraktShout> GetShowShouts()
         {
             string title = string.Empty;
-            if (!string.IsNullOrEmpty(ShowInfo.TVDbId))
-                title = ShowInfo.TVDbId;
+            if (!string.IsNullOrEmpty(ShowInfo.TvdbId))
+                title = ShowInfo.TvdbId;
             else if (!string.IsNullOrEmpty(ShowInfo.IMDbId))
                 title = ShowInfo.IMDbId;
             else
@@ -415,13 +415,13 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Shouts : Translation.Shout));            
 
             int id = 0;
-            var userImages = new List<TraktImage>();
+            var userImages = new List<GUIImage>();
 
             // Add each user that shouted to the list
             foreach (var shout in shouts)
             {
                 // add image to download
-                var images = new TraktImage { Avatar = shout.User.Avatar };
+                var images = new GUIImage { Avatar = shout.User.Avatar };
                 userImages.Add(images);
 
                 var shoutItem = new GUIUserListItem(shout.User.Username, (int)TraktGUIWindows.Shouts);
@@ -528,25 +528,29 @@ namespace TraktPlugin.GUI
     public class MovieShout
     {
         public string Title { get; set; }
-        public string Year { get; set; }
-        public string IMDbId { get; set; }
-        public string TMDbId { get; set; }
+        public int? Year { get; set; }
+        public string ImdbId { get; set; }
+        public int? TmdbId { get; set; }
+        public int? TraktId { get; set; }
     }
 
     public class ShowShout
     {
         public string Title { get; set; }
-        public string IMDbId { get; set; }
-        public string TVDbId { get; set; }
+        public string ImdbId { get; set; }
+        public int? TvdbId { get; set; }
+        public int? TmdbId { get; set; }
+        public int? TraktId { get; set; }
     }
 
     public class EpisodeShout
     {
         public string Title { get; set; }
-        public string IMDbId { get; set; }
-        public string TVDbId { get; set; }
-        public string SeasonIdx { get; set; }
-        public string EpisodeIdx { get; set; }
+        public string ImdbId { get; set; }
+        public int? TvdbId { get; set; }
+        public int? TmdbId { get; set; }
+        public int SeasonIdx { get; set; }
+        public int EpisodeIdx { get; set; }
 
         public override string ToString()
         {
