@@ -17,23 +17,23 @@ namespace TraktPlugin
     /// </summary>
     public static class TraktCache
     {
-        private static string cMoviesCollected = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Collected.json");
-        private static string cMoviesWatched = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Watched.json");
-        private static string cMoviesRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Rated.json");
-
-        private static string cEpisodesCollected = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Collected.json");
-        private static string cEpisodesWatched = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Watched.json");
-        private static string cEpisodesRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Rated.json");
-        
-        private static string cShowsRated = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Shows\Rated.json");
-
-        private static DateTime recommendationsAge;
-        private static DateTime watchListAge;
-        private static DateTime customListAge;
-
         static Object syncLists = new object();
 
-        static DateTime LastFollowerRequest = new DateTime();
+        private static string MoviesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Collected.json");
+        private static string MoviesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Watched.json");
+        private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Rated.json");
+
+        private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Collected.json");
+        private static string EpisodesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Watched.json");
+        private static string EpisodesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Rated.json");
+
+        private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Shows\Rated.json");
+
+        private static DateTime RecommendationsAge;
+        private static DateTime WatchListAge;
+        private static DateTime CustomListAge;
+
+        private static DateTime LastFollowerRequest = new DateTime();
 
         #region Sync
 
@@ -104,7 +104,7 @@ namespace TraktPlugin
                 _WatchedMovies = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(cMoviesWatched, _WatchedMovies.ToJSON());
+                SaveFileCache(MoviesWatchedFile, _WatchedMovies.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Movies.Watched = lastSyncActivities.Movies.Watched;
@@ -122,7 +122,7 @@ namespace TraktPlugin
             {
                 if (_WatchedMovies == null)
                 {
-                    var persistedItems = LoadFileCache(cMoviesWatched, null);
+                    var persistedItems = LoadFileCache(MoviesWatchedFile, null);
                     if (persistedItems != null)
                         _WatchedMovies = persistedItems.FromJSONArray<TraktMovieWatched>();
                 }
@@ -161,7 +161,7 @@ namespace TraktPlugin
                 _CollectedMovies = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(cMoviesCollected, _CollectedMovies.ToJSON());
+                SaveFileCache(MoviesCollectedFile, _CollectedMovies.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Movies.Collection = lastSyncActivities.Movies.Collection;
@@ -179,7 +179,7 @@ namespace TraktPlugin
             {
                 if (_CollectedMovies == null)
                 {
-                    var persistedItems = LoadFileCache(cMoviesCollected, null);
+                    var persistedItems = LoadFileCache(MoviesCollectedFile, null);
                     if (persistedItems != null)
                         _CollectedMovies = persistedItems.FromJSONArray<TraktMovieCollected>();
                 }
@@ -218,7 +218,7 @@ namespace TraktPlugin
                 _RatedMovies = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(cMoviesRated, _RatedMovies.ToJSON());
+                SaveFileCache(MoviesRatedFile, _RatedMovies.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Movies.Rating = lastSyncActivities.Movies.Rating;
@@ -236,7 +236,7 @@ namespace TraktPlugin
             {
                 if (_RatedMovies == null)
                 {
-                    var persistedItems = LoadFileCache(cMoviesRated, null);
+                    var persistedItems = LoadFileCache(MoviesRatedFile, null);
                     if (persistedItems != null)
                         _RatedMovies = persistedItems.FromJSONArray<TraktMovieRated>();
                 }
@@ -299,7 +299,7 @@ namespace TraktPlugin
                 _CollectedEpisodes = episodesCollected;
 
                 // save to local file cache
-                SaveFileCache(cEpisodesCollected, _CollectedEpisodes.ToJSON());
+                SaveFileCache(EpisodesCollectedFile, _CollectedEpisodes.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Episodes.Collection = lastSyncActivities.Episodes.Collection;
@@ -317,7 +317,7 @@ namespace TraktPlugin
             {
                 if (_CollectedEpisodes == null)
                 {
-                    var persistedItems = LoadFileCache(cEpisodesCollected, null);
+                    var persistedItems = LoadFileCache(EpisodesCollectedFile, null);
                     if (persistedItems != null)
                         _CollectedEpisodes = persistedItems.FromJSONArray<EpisodeCollected>();
                 }
@@ -380,7 +380,7 @@ namespace TraktPlugin
                 _WatchedEpisodes = episodesWatched;
 
                 // save to local file cache
-                SaveFileCache(cEpisodesWatched, _WatchedEpisodes.ToJSON());
+                SaveFileCache(EpisodesWatchedFile, _WatchedEpisodes.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Episodes.Watched = lastSyncActivities.Episodes.Watched;
@@ -441,7 +441,7 @@ namespace TraktPlugin
             {
                 if (_WatchedEpisodes == null)
                 {
-                    var persistedItems = LoadFileCache(cEpisodesWatched, null);
+                    var persistedItems = LoadFileCache(EpisodesWatchedFile, null);
                     if (persistedItems != null)
                         _WatchedEpisodes = persistedItems.FromJSONArray<EpisodeWatched>();
                 }
@@ -480,7 +480,7 @@ namespace TraktPlugin
                 _RatedEpisodes = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(cEpisodesRated, _RatedEpisodes.ToJSON());
+                SaveFileCache(EpisodesRatedFile, _RatedEpisodes.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Episodes.Rating = lastSyncActivities.Episodes.Rating;
@@ -498,7 +498,7 @@ namespace TraktPlugin
             {
                 if (_RatedEpisodes == null)
                 {
-                    var persistedItems = LoadFileCache(cEpisodesRated, null);
+                    var persistedItems = LoadFileCache(EpisodesRatedFile, null);
                     if (persistedItems != null)
                         _RatedEpisodes = persistedItems.FromJSONArray<TraktEpisodeRated>();
                 }
@@ -537,7 +537,7 @@ namespace TraktPlugin
                 _RatedShows = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(cShowsRated, _RatedShows.ToJSON());
+                SaveFileCache(ShowsRatedFile, _RatedShows.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Shows.Rating = lastSyncActivities.Shows.Rating;
@@ -555,7 +555,7 @@ namespace TraktPlugin
             {
                 if (_RatedShows == null)
                 {
-                    var persistedItems = LoadFileCache(cShowsRated, null);
+                    var persistedItems = LoadFileCache(ShowsRatedFile, null);
                     if (persistedItems != null)
                         _RatedShows = persistedItems.FromJSONArray<TraktShowRated>();
                 }
@@ -650,11 +650,11 @@ namespace TraktPlugin
             {
                 lock (syncLists)
                 {
-                    if (_traktWatchListMovies == null || (DateTime.Now - watchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    if (_traktWatchListMovies == null || (DateTime.Now - WatchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         TraktLogger.Info("Retrieving current users watchlist from trakt.tv");
                         _traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-                        watchListAge = DateTime.Now;
+                        WatchListAge = DateTime.Now;
                     }
                     return _traktWatchListMovies;
                 }
@@ -668,11 +668,11 @@ namespace TraktPlugin
             {
                 lock (syncLists)
                 {
-                    if (_traktRecommendations == null || (DateTime.Now - recommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    if (_traktRecommendations == null || (DateTime.Now - RecommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         TraktLogger.Info("Retrieving current users recommendations from trakt.tv");
                         _traktRecommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
-                        recommendationsAge = DateTime.Now;
+                        RecommendationsAge = DateTime.Now;
                     }
                     return _traktRecommendations;
                 }
@@ -686,7 +686,7 @@ namespace TraktPlugin
             {
                 lock (syncLists)
                 {
-                    if (_traktCustomLists == null || (DateTime.Now - customListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    if (_traktCustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                     {
                         _traktCustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
 
@@ -706,13 +706,123 @@ namespace TraktPlugin
                             // add them to the cache
                             _traktCustomLists.Add(list, userList.ToList());
                         }
-                        customListAge = DateTime.Now;
+                        CustomListAge = DateTime.Now;
                     }
                     return _traktCustomLists;
                 }
             }
         }
         static Dictionary<TraktListDetail, List<TraktListItem>> _traktCustomLists = null;
+
+        #endregion
+
+        #region User Data
+
+        public static bool IsWatched(this TraktMovie movie)
+        {
+            if (WatchedMovies != null)
+                return false;
+
+            return WatchedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
+        }
+
+        public static bool IsCollected(this TraktMovie movie)
+        {
+            if (CollectedMovies != null)
+                return false;
+
+            return CollectedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
+        }
+
+        public static bool IsWatchlisted(this TraktMovie movie)
+        {
+            // TODO
+            return false;
+        }
+
+        public static int? UserRating(this TraktMovie movie)
+        {
+            if (RatedMovies != null)
+                return null;
+
+            var ratedMovie = RatedMovies.FirstOrDefault(m => m.Movie.Ids.Id == movie.Ids.Id);
+            if (ratedMovie == null)
+                return null;
+
+            return ratedMovie.Rating;
+        }
+
+        public static bool IsWatched(this TraktShow show)
+        {
+            // TODO
+            return false;
+        }
+
+        public static bool IsCollected(this TraktShow show)
+        {
+            // TODO
+            return false;
+        }
+
+        public static bool IsWatchlisted(this TraktShow show)
+        {
+            // TODO
+            return false;
+        }
+
+        public static int? UserRating(this TraktShow show)
+        {
+            if (RatedShows != null)
+                return null;
+
+            var ratedShow = RatedShows.FirstOrDefault(s => s.Show.Ids.Id == show.Ids.Id);
+            if (ratedShow == null)
+                return null;
+
+            return ratedShow.Rating;
+        }
+
+        public static bool IsWatched(this TraktEpisode episode, TraktShow show)
+        {
+            if (WatchedEpisodes != null)
+                return false;
+
+            return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
+                                            e.Season == episode.Season &&
+                                            e.Number == episode.Number);
+        }
+
+        public static bool IsCollected(this TraktEpisode episode, TraktShow show)
+        {
+            if (CollectedEpisodes != null)
+                return false;
+
+            return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
+                                              e.Season == episode.Season &&
+                                              e.Number == episode.Number);
+        }
+
+        public static bool IsWatchlisted(this TraktEpisode episode)
+        {
+            // TODO
+            return false;
+        }
+
+        public static int? UserRating(this TraktEpisode episode)
+        {
+            if (RatedEpisodes != null)
+                return null;
+
+            var ratedEpisode = RatedEpisodes.FirstOrDefault(e => e.Episode.Ids.Id == episode.Ids.Id);
+            if (ratedEpisode == null)
+                return null;
+
+            return ratedEpisode.Rating;
+        }
+
+        #endregion
+
+        #region Clear Cache
 
         internal static void ClearWatchlistMoviesCache()
         {
@@ -721,10 +831,6 @@ namespace TraktPlugin
                 _traktWatchListMovies = null;
             }
         }
-
-        #endregion
-
-        #region Clear Cache
 
         internal static void ClearRecommendationsCache()
         {

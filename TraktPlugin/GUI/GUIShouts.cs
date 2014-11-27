@@ -549,6 +549,7 @@ namespace TraktPlugin.GUI
         public string ImdbId { get; set; }
         public int? TvdbId { get; set; }
         public int? TmdbId { get; set; }
+        public int? TraktId { get; set; }
         public int SeasonIdx { get; set; }
         public int EpisodeIdx { get; set; }
 

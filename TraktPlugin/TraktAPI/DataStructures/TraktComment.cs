@@ -27,9 +27,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "review")]
         public bool IsReview { get; set; }
 
-        [DataMember(Name = "review")]
-        public bool IsReview { get; set; }
-
         [DataMember(Name = "replies")]
         public int Replies { get; set; }
 

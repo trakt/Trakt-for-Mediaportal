@@ -89,7 +89,7 @@ namespace TraktPlugin.GUI
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.MovieImages.Poster.ToSmallPoster();
+                        string remoteThumb = item.MovieImages.Poster.ThumbSize;
                         string localThumb = item.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -107,7 +107,7 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = item.MovieImages.Fanart.ToSmallFanart();
+                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.MovieImages.Fanart.FullSize : item.MovieImages.Fanart.MediumSize;
                         string localFanart = item.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
@@ -143,24 +143,24 @@ namespace TraktPlugin.GUI
             // don't show watchlist overlay in personal watchlist window
             if (WindowID == (int)TraktGUIWindows.WatchedListMovies)
             {
-                if ((GUIWatchListMovies.CurrentUser != TraktSettings.Username) && movie.InWatchList)
+                if ((GUIWatchListMovies.CurrentUser != TraktSettings.Username) && movie.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                else if (movie.Watched)
+                else if (movie.IsWatched())
                     mainOverlay = MainOverlayImage.Seenit;
             }
             else
             {
-                if (movie.InWatchList)
+                if (movie.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                else if (movie.Watched)
+                else if (movie.IsWatched())
                     mainOverlay = MainOverlayImage.Seenit;
             }
 
             // add additional overlay if applicable
-            if (movie.InCollection)
+            if (movie.IsCollected())
                 mainOverlay |= MainOverlayImage.Library;
 
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.UserRating());
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

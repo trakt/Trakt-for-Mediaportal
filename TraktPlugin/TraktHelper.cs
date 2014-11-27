@@ -622,12 +622,7 @@ namespace TraktPlugin
 
         public static void ShowMovieShouts(TraktMovieSummary movie)
         {
-            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id, false, movie.Images.Fanart, null);
-        }
-
-        public static void ShowMovieShouts(TraktMovie movie)
-        {
-            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id ,false, null, null);
+            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
         }
 
         public static void ShowMovieShouts(string imdbid, string title, string year, string fanart)
@@ -645,7 +640,7 @@ namespace TraktPlugin
             ShowMovieShouts(title, year.ToNullableInt32(), imdbid, null, false, fanart, onlineFanart);
         }
 
-        public static void ShowMovieShouts(string title, int? year, string imdbid, int? traktid,  bool isWatched, string fanart, string onlineFanart)
+        public static void ShowMovieShouts(string title, int? year, string imdbid, int? traktid, bool isWatched, string fanart, string onlineFanart)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -671,11 +666,13 @@ namespace TraktPlugin
         #endregion
 
         #region Show Shouts
-        public static void ShowTVShowShouts(TraktShow show)
+
+        public static void ShowTVShowShouts(TraktShowSummary show)
         {
-            ShowTVShowShouts(show.Tvdb, show.Title, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), show.Images.Fanart);
+            ShowTVShowShouts(show.Title, show.Ids.TvdbId, show.Ids.Id, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
         }
-        public static void ShowTVShowShouts(string tvdb, string title, string fanart, string onlineFanart = null)
+
+        public static void ShowTVShowShouts(string title, int? tvdbid, int? traktid, bool isWatched, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -686,27 +683,33 @@ namespace TraktPlugin
 
             ShowShout seriesInfo = new ShowShout
             {
-                TvdbId = tvdb,
+                TvdbId = tvdbid,
+                TraktId = traktid,
                 Title = title,
             };
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.show;
             GUIShouts.ShowInfo = seriesInfo;
             GUIShouts.Fanart = fanart;
+            GUIShouts.IsWatched = isWatched;
             GUIShouts.OnlineFanart = onlineFanart;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
+
         #endregion
 
         #region Episode Shouts
-        public static void ShowEpisodeShouts(TraktShow show, TraktEpisode episode)
+
+        public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)
         {
-            ShowEpisodeShouts(show.Tvdb, show.Title, episode.Season.ToString(), episode.Number.ToString(), episode.Watched, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), show.Images.Fanart);
+            ShowEpisodeShouts(show.Title, show.Ids.TvdbId, show.Ids.Id, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
         }
-        public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, string fanart, string onlineFanart = null)
+
+        public static void ShowEpisodeShouts(string title, string tvdbid, string season, string episode, string fanart, string onlineFanart = null)
         {
-            ShowEpisodeShouts(tvdb, title, season, episode, false, fanart, onlineFanart);
+            ShowEpisodeShouts(title, tvdbid.ToNullableInt32(), null, int.Parse(season), int.Parse(episode), false, fanart, onlineFanart);
         }
-        public static void ShowEpisodeShouts(string tvdb, string title, string season, string episode, bool isWatched, string fanart, string onlineFanart = null)
+
+        public static void ShowEpisodeShouts(string title, int? tvdbid, int? traktid, int season, int episode, bool isWatched, string fanart, string onlineFanart = null)
         {
             if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
             {
@@ -717,11 +720,13 @@ namespace TraktPlugin
 
             EpisodeShout episodeInfo = new EpisodeShout
             {
-                TVDbId = tvdb,
+                TvdbId = tvdbid,
+                TraktId = traktid,
                 Title = title,
                 SeasonIdx = season,
                 EpisodeIdx = episode
             };
+
             GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.episode;
             GUIShouts.EpisodeInfo = episodeInfo;
             GUIShouts.Fanart = fanart;
@@ -729,6 +734,7 @@ namespace TraktPlugin
             GUIShouts.IsWatched = isWatched;
             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
         }
+
         #endregion
 
         #region Movie Watched/UnWatched

@@ -259,6 +259,20 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Episodes
+
+        #region Comments
+
+        public static IEnumerable<TraktComment> GetEpisodeComments(string id, int season, int episode)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.EpisodeComments, id, season, episode));
+            return response.FromJSONArray<TraktComment>();
+        }
+
+        #endregion
+
+        #endregion
+
         #endregion
 
         #region POST Methods

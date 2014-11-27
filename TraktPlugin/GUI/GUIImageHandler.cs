@@ -94,21 +94,16 @@ namespace TraktPlugin.GUI
     public static class GUIImageHandler
     {
         /// <summary>
-        /// Get a overlay for images that represent a users Advanced Rating score
+        /// Get a overlay for images that represent a users rating
         /// </summary>
-        /// <param name="rating">the movie, show or episodes rating</param>
-        internal static RatingOverlayImage GetRatingOverlay(int rating)
-        {
-            return (RatingOverlayImage)rating;
-        }
-
-        /// <summary>
-        /// Returns a user rating overlay to display on a user shout
-        /// </summary>
-        internal static RatingOverlayImage GetRatingOverlay(TraktShout.UserRating userRating)
+        internal static RatingOverlayImage GetRatingOverlay(double? userRating)
         {
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
-            ratingOverlay = (RatingOverlayImage)userRating.AdvancedRating;
+            
+            if (userRating != null)
+            {
+                ratingOverlay = (RatingOverlayImage)userRating;
+            }
 
             return ratingOverlay;
         }
@@ -129,14 +124,17 @@ namespace TraktPlugin.GUI
             switch (type)
             {
                 case ArtworkType.Avatar:
+                    filename = image.FullSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
                     break;
 
                 case ArtworkType.Headshot:
+                    filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\People");
                     break;
 
                 case ArtworkType.SeasonPoster:
+                    filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Seasons");
                     break;
 
@@ -146,30 +144,37 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ArtworkType.MovieFanart:
-                    url = url.ToSmallFanart();
+                    filename = TraktSettings.DownloadFullSizeFanart ? image.FullSize.ToClearUrl() : image.MediumSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Fanart");
                     break;
 
                 case ArtworkType.ShowPoster:
-                    url = url.ToSmallPoster();
+                    filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Posters");
                     break;
 
                 case ArtworkType.ShowBanner:
+                    filename = image.FullSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Banners");
                     break;
 
+                case ArtworkType.MovieBanner:
+                    filename = image.FullSize.ToClearUrl();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Banners");
+                    break;
+
                 case ArtworkType.ShowFanart:
-                    url = url.ToSmallFanart();
+                    filename = TraktSettings.DownloadFullSizeFanart ? image.FullSize.ToClearUrl() : image.MediumSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Fanart");
                     break;
 
                 case ArtworkType.EpisodeImage:
+                    filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Episodes");
                     break;
             }
 
-            return Path.Combine(folder, Path.GetFileName(new Uri(url).LocalPath));
+            return Path.Combine(folder, Path.GetFileName(new Uri(filename).LocalPath));
         }
 
         /// <summary>
@@ -265,14 +270,14 @@ namespace TraktPlugin.GUI
                 Directory.CreateDirectory(Path.GetDirectoryName(localFile));
                 if (!File.Exists(localFile))
                 {
-                    TraktLogger.Debug("Downloading new image from: {0}", url);
+                    TraktLogger.Debug("Downloading new image. Url = '{0}', Filename = '{1}'", url, localFile);
                     webClient.DownloadFile(url, localFile);
                 }
                 return true;
             }
             catch (Exception)
             {
-                TraktLogger.Warning("Image download failed from '{0}' to '{1}'", url, localFile);
+                TraktLogger.Warning("Image download failed. Url = '{0}', Filename = '{1}'", url, localFile);
                 try { if (File.Exists(localFile)) File.Delete(localFile); } catch { }
                 return false;
             }
@@ -316,7 +321,7 @@ namespace TraktPlugin.GUI
             catch
             {
                 // Most likely a Zero Byte file but not always
-                TraktLogger.Warning("Fast loading of texture {0} failed - trying safe fallback now", file);
+                TraktLogger.Warning("Fast loading of texture '{0}' failed - trying safe fallback now", file);
                 try { img = Image.FromFile(file); } catch { }
             }
 

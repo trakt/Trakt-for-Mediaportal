@@ -51,6 +51,7 @@ namespace TraktPlugin.TraktAPI
 
         public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments";
         public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments";
+        public const string EpisodeComments = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments";
 
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
