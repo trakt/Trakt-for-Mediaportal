@@ -14,6 +14,7 @@ using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktHandlers;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin
 {
@@ -71,7 +72,7 @@ namespace TraktPlugin
         /// <returns>The Description</returns>
         public string Description()
         {
-            return "Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.";
+            return "Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favourites, your friends, and the community, trakt recommends other TV shows and movies.";
         }
 
         /// <summary>
@@ -154,7 +155,7 @@ namespace TraktPlugin
         /// </summary>
         public override bool Init()
         {
-            TraktLogger.Info("Starting Trakt v{0}", TraktSettings.Version);
+            TraktLogger.Info("Starting Trakt plugin. Version = '{0}', Date = '{1}'", TraktSettings.Version, TraktSettings.BuildDate);
 
             TraktSettings.PerformMaintenance();
             TraktSettings.LoadSettings();
@@ -165,7 +166,7 @@ namespace TraktPlugin
             // Sync Libaries now and periodically
             syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength);
             
-            TraktLogger.Debug("Adding Mediaportal Hooks");
+            TraktLogger.Debug("Adding MediaPortal event handlers");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
             g_Player.PlayBackStarted += new g_Player.StartedHandler(g_Player_PlayBackStarted);
@@ -205,20 +206,21 @@ namespace TraktPlugin
         {
             if (syncLibraryWorker != null)
             {
-                TraktLogger.Debug("Stopping Sync if running");
+                TraktLogger.Debug("Stopping any plugins currently syncing library");
                 syncLibraryWorker.CancelAsync();
             }
 
-            TraktLogger.Debug("Removing Mediaportal Hooks");
+            TraktLogger.Debug("Removing MediaPortal event handlers");
             g_Player.PlayBackChanged -= g_Player_PlayBackChanged;
             g_Player.PlayBackEnded -= g_Player_PlayBackEnded;
             g_Player.PlayBackStarted -= g_Player_PlayBackStarted;
             g_Player.PlayBackStopped -= g_Player_PlayBackStopped;
+
             GUIWindowManager.OnDeActivateWindow -= GUIWindowManager_OnDeActivateWindow;
             GUIWindowManager.OnActivateWindow -= GUIWindowManager_OnActivateWindow;
             GUIWindowManager.Receivers -= GUIWindowManager_Receivers;
 
-            TraktLogger.Debug("Stopping all possible Scrobblings");
+            TraktLogger.Debug("Stopping any plugins currently scrobbling");
             foreach (ITraktHandler traktHandler in TraktHandlers)
                 traktHandler.StopScrobble();
 
@@ -234,7 +236,7 @@ namespace TraktPlugin
             // save settings
             TraktSettings.SaveSettings();
 
-            TraktLogger.Info("Goodbye");
+            TraktLogger.Info("Plugin has successfully unloaded");
             base.DeInit();
         }
 
@@ -341,7 +343,7 @@ namespace TraktPlugin
         private void LoadPluginHandlers()
         {
             TraktLogger.Debug("Loading Plugin Handlers");
-            string errorMessage = "Tried to load {0} but failed, check minimum requirements are met!";
+            string errorMessage = "Tried to load plugin handler '{0}' but failed, check minimum requirements have been met!";
             
             #region MovingPictures
             try
@@ -497,11 +499,11 @@ namespace TraktPlugin
 
             if (TraktHandlers.Count == 0)
             {
-                TraktLogger.Info("No Plugin Handlers configured!");
+                TraktLogger.Info("There are no Plugin Handlers configured!");
             }
             else
             {
-                TraktLogger.Debug("Sorting Plugin Handlers by Priority");
+                TraktLogger.Debug("Sorting Plugin Handlers by priority");
                 TraktHandlers.Sort(delegate(ITraktHandler t1, ITraktHandler t2) { return t1.Priority.CompareTo(t2.Priority); });
             }
         }
@@ -546,9 +548,9 @@ namespace TraktPlugin
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
-                Thread.CurrentThread.Name = "LibrarySync";
+                Thread.CurrentThread.Name = "Sync";
 
-            TraktLogger.Info("Library Sync Complete for all enabled plugins");
+            TraktLogger.Info("Library Sync complete for all enabled plugins");
 
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?
@@ -578,7 +580,7 @@ namespace TraktPlugin
                 }
                 catch (Exception ex)
                 {
-                    TraktLogger.Error("Error synchronising library from '{0}' with error: '{1}'", traktHandler.Name, ex.Message);
+                    TraktLogger.Error("Error synchronising library. Plugin = '{0}', Error = '{1}'", traktHandler.Name, ex.Message);
                 }
 
                 if (syncLibraryWorker.CancellationPending)
@@ -589,8 +591,6 @@ namespace TraktPlugin
         #endregion
                 
         #region MediaPortal Playback Hooks
-
-        // Various hooks into MediaPortal's Video playback
 
         private void g_Player_PlayBackStarted(g_Player.MediaType type, string filename)
         {
@@ -643,14 +643,14 @@ namespace TraktPlugin
                 // did skin change?
                 if (TraktSkinSettings.CurrentSkin != TraktSkinSettings.PreviousSkin)
                 {
-                    TraktLogger.Info("Skin Change detected in GUI, reloading skin settings");
+                    TraktLogger.Info("Skin change detected in GUI, reloading skin settings");
                     TraktSkinSettings.Init();
                 }
 
-                //did language change?
+                // did language change?
                 if (Translation.CurrentLanguage != Translation.PreviousLanguage)
                 {
-                    TraktLogger.Info("Language Changed to '{0}' from GUI, initializing translations", Translation.CurrentLanguage);
+                    TraktLogger.Info("Language Changed to '{0}' from GUI, re-initializing translations", Translation.CurrentLanguage);
                     Translation.Init();
                 }
             }
@@ -733,12 +733,12 @@ namespace TraktPlugin
             if (TraktSettings.GetFollowerRequestsOnStartup && !FollowerRequestsChecked)
             {
                 FollowerRequestsChecked = true;
-                Thread followerReqThread = new Thread(delegate(object obj)
+                var followerReqThread = new Thread((o) =>
                 {
                     if (TraktSettings.AccountStatus == ConnectionState.Connected)
                     {
                         var followerRequests = TraktCache.FollowerRequests;
-                        TraktLogger.Info("Follower requests: {0}", followerRequests.Count().ToString());
+                        TraktLogger.Info("Found {0} follower requests for user", followerRequests.Count());
                         if (followerRequests.Count() > 0)
                         {
                             Thread.Sleep(10000);
@@ -748,7 +748,7 @@ namespace TraktPlugin
                 })
                 {
                     IsBackground = true,
-                    Name = "GetFollowReq"
+                    Name = "FollowReq"
                 };
 
                 followerReqThread.Start();
@@ -756,6 +756,7 @@ namespace TraktPlugin
             #endregion
 
             #region Dashboard Start
+
             if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
             {
                 dashBoard.StartActivityPolling();
@@ -782,6 +783,7 @@ namespace TraktPlugin
             {
                 dashBoard.StopTrendingShowsPolling();
             }
+
             #endregion
 
             if (windowID == (int)ExternalPluginWindows.MPEISettings)
@@ -802,12 +804,13 @@ namespace TraktPlugin
             bool validRelatedItem = false;
             bool validTraktMenuItem = false;
             bool validSearchItem = false;
-            bool updateMovPicsFiltersAndCats = false;
+            bool updatePluginFilters = false;
             string title = string.Empty;
             string year = string.Empty;
-            string imdb = string.Empty;
-            string tmdb = string.Empty;
-            string tvdb = string.Empty;
+            string imdbid = string.Empty;
+            string tmdbid = string.Empty;
+            string showtvdbid = string.Empty;
+            string epTvdbId = string.Empty;
             string season = string.Empty;
             string episode = string.Empty;
             string fanart = string.Empty;
@@ -838,13 +841,13 @@ namespace TraktPlugin
                                         {
                                             // IMDb site exposes IMDb ID, use this to get a better match on trakt
                                             // this property is new, check for null in case user hasn't updated site
-                                            imdb = GUIPropertyManager.GetProperty("#OnlineVideos.Details.IMDbId");
-                                            if (imdb == null) imdb = string.Empty;
+                                            imdbid = GUIPropertyManager.GetProperty("#OnlineVideos.Details.IMDbId");
+                                            if (imdbid == null) imdbid = string.Empty;
 
                                             // could be a TV Show
                                             type = GUIPropertyManager.GetProperty("#OnlineVideos.Details.Type").ToLowerInvariant();
                                         }
-                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt"))
+                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdbid.StartsWith("tt"))
                                         {
                                             if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
                                             if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
@@ -875,13 +878,13 @@ namespace TraktPlugin
                                             year = releaseDate.Year.ToString();
                                         }
                                                                                
-                                        imdb = GUIPropertyManager.GetProperty("#st_imdb");
-                                        if (imdb == null) imdb = string.Empty;
+                                        imdbid = GUIPropertyManager.GetProperty("#st_imdb");
+                                        if (imdbid == null) imdbid = string.Empty;
 
-                                        tmdb = GUIPropertyManager.GetProperty("#st_tmdb");
-                                        if (tmdb == null) imdb = string.Empty;
+                                        tmdbid = GUIPropertyManager.GetProperty("#st_tmdb");
+                                        if (tmdbid == null) imdbid = string.Empty;
 
-                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdb.StartsWith("tt") || !string.IsNullOrEmpty(tmdb))
+                                        if ((!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)) || imdbid.StartsWith("tt") || !string.IsNullOrEmpty(tmdbid))
                                         {
                                             if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
                                             if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
@@ -907,7 +910,7 @@ namespace TraktPlugin
                                     type = "movie";
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
                                     year = GUIPropertyManager.GetProperty("#year").Trim();
-                                    imdb = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
+                                    imdbid = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
                                   
                                     MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
                                     if (fanart.ToLowerInvariant().Equals("unknown"))
@@ -948,7 +951,7 @@ namespace TraktPlugin
                                         }
                                     }
 
-                                    if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    if (!string.IsNullOrEmpty(imdbid) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
                                         if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
@@ -976,10 +979,10 @@ namespace TraktPlugin
                                 case ((int)ExternalPluginControls.SearchBy):
                                 case ((int)ExternalPluginControls.TraktMenu):
                                     type = "movie";
-                                    updateMovPicsFiltersAndCats = true;
+                                    updatePluginFilters = true;
                                     title = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.title").Trim();
                                     year = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.year").Trim();
-                                    imdb = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
+                                    imdbid = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.imdb_id").Trim();
                                     fanart = GUIPropertyManager.GetProperty("#MovingPictures.SelectedMovie.backdropfullpath").Trim();
                                     isWatched = GUIPropertyManager.GetProperty("#MovingPictures.UserMovieSettings.watched").Trim() != "0";
 
@@ -989,11 +992,11 @@ namespace TraktPlugin
                                     {
                                         int? movieID = null;
                                         int iYear = 0; int.TryParse(year, out iYear);
-                                        if (MovingPictures.FindMovieID(title, iYear, imdb, ref movieID))
+                                        if (MovingPictures.FindMovieID(title, iYear, imdbid, ref movieID))
                                             MovingPictures.GetMoviePersonInfo(movieID, out searchPeople);
                                     }
                                     
-                                    if (!string.IsNullOrEmpty(imdb) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
+                                    if (!string.IsNullOrEmpty(imdbid) || (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(year)))
                                     {
                                         if (message.SenderControlId == (int)ExternalPluginControls.WatchList) validWatchListItem = true;
                                         if (message.SenderControlId == (int)ExternalPluginControls.CustomList) validCustomListItem = true;
@@ -1031,13 +1034,13 @@ namespace TraktPlugin
                                         {
                                             case TVSeries.SelectedType.Episode:
                                                 type = "episode";
-                                                validItem = TVSeries.GetEpisodeInfo(obj, out title, out tvdb, out season, out episode, out isWatched);
+                                                validItem = TVSeries.GetEpisodeInfo(obj, out title, out year, out showtvdbid, out epTvdbId, out season, out episode, out isWatched);
                                                 validItem |= TVSeries.GetEpisodePersonInfo(obj, out searchPeople);
                                                 break;
 
                                             case TVSeries.SelectedType.Series:
                                                 type = "series";
-                                                validItem =  TVSeries.GetSeriesInfo(obj, out title, out tvdb);
+                                                validItem =  TVSeries.GetSeriesInfo(obj, out title, out year, out showtvdbid);
                                                 validItem |= TVSeries.GetSeriesPersonInfo(obj, out searchPeople);
                                                 break;
 
@@ -1079,24 +1082,24 @@ namespace TraktPlugin
                 {
                     if (GUIUtils.ShowYesNoDialog(Translation.WatchList, string.Format("{0}\n{1} ({2})", Translation.AddThisItemToWatchList, title, year), true))
                     {
-                        TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Watch List", title, year, imdb);
-                        TraktHelper.AddMovieToWatchList(title, year, imdb, tmdb, updateMovPicsFiltersAndCats);
+                        TraktLogger.Info("Adding movie to Watchlist. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
+                        TraktHelper.AddMovieToWatchList(title, year.ToNullableInt32(), imdbid.ToNullIfEmpty(), tmdbid.ToNullableInt32(), updatePluginFilters);
                     }
                 }
                 else if (type == "show")
                 {
                     if (GUIUtils.ShowYesNoDialog(Translation.WatchList, Translation.AddShowToWatchList, true))
                     {
-                        TraktLogger.Info("Adding show '{0}' to Watch List", title);
-                        TraktHelper.AddShowToWatchList(title, year, tvdb);
+                        TraktLogger.Info("Adding show to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                        TraktHelper.AddShowToWatchList(title, year.ToNullableInt32(), showtvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), tmdbid.ToNullableInt32(), null);
                     }
                 }
                 else if (type == "episode")
                 {
                     if (GUIUtils.ShowYesNoDialog(Translation.WatchList, Translation.AddEpisodeToWatchList, true))
                     {
-                        TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Watch List", title, season, episode);
-                        TraktHelper.AddEpisodeToWatchList(title, year, tvdb, season, episode);
+                        TraktLogger.Info("Adding episode to Watchlist. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode TVDb ID = '{4}'", title, year, season, episode, epTvdbId);
+                        TraktHelper.AddEpisodeToWatchList(null, season.ToInt(), episode.ToInt(), epTvdbId.ToNullableInt32(), null, null, null);
                     }
                 }
             }
@@ -1107,18 +1110,18 @@ namespace TraktPlugin
             {
                 if (type == "movie")
                 {
-                    TraktLogger.Info("Adding movie '{0} ({1}) [{2}]' to Custom List", title, year, imdb);
-                    TraktHelper.AddRemoveMovieInUserList(title, year, imdb, false);
+                    TraktLogger.Info("Adding movie to Custom List. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
+                    TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
                 }
                 else if (type == "show")
                 {
-                    TraktLogger.Info("Adding show '{0}' to Custom List", title);
-                    TraktHelper.AddRemoveShowInUserList(title, year, tvdb, false);
+                    TraktLogger.Info("Adding show to Custom List. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                    TraktHelper.AddRemoveShowInUserList(title, year, showtvdbid, false);
                 }
                 else if (type == "episode")
                 {
-                    TraktLogger.Info("Adding episode '{0} - {1}x{2}' to Custom List", title, season, episode);
-                    TraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdb, false);
+                    TraktLogger.Info("Adding episode to Custom List. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode TVDb ID = '{4}'", title, year, season, episode, epTvdbId);
+                    TraktHelper.AddRemoveEpisodeInUserList(null, season.ToInt(), episode.ToInt(), epTvdbId, false);
                 }
             }
             #endregion
@@ -1131,18 +1134,34 @@ namespace TraktPlugin
                 switch (type)
                 {
                     case "movie":
-                        TraktLogger.Info("Rating {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        //TODOGUIUtils.ShowRateDialog<TraktRateMovie>(BasicHandler.CreateMovieRateData(title, year, imdb));
+                        TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
+                        GUIUtils.ShowRateDialog<TraktSyncMovieRated>(new TraktSyncMovieRated
+                        {
+                            Ids = new TraktMovieId { ImdbId = imdbid.ToNullIfEmpty(), TmdbId = tmdbid.ToNullableInt32() },
+                            Title = title,
+                            Year = year.ToNullableInt32()
+                        });
                         break;
 
                     case "series":
-                        TraktLogger.Info("Rating {0} '{1} [{2}]'", type, title, tvdb);
-                        //TODOGUIUtils.ShowRateDialog<TraktRateSeries>(BasicHandler.CreateShowRateData(title, tvdb));
+                        TraktLogger.Info("Showing rate dialog for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                        GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
+                        {
+                            Ids = new TraktShowId { TvdbId = showtvdbid.ToNullableInt32(), ImdbId = imdbid.ToNullIfEmpty() },
+                            Title = title,
+                            Year = year.ToNullableInt32()
+                        });
                         break;
 
                     case "episode":
-                        TraktLogger.Info("Rating {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
-                        //TODOGUIUtils.ShowRateDialog<TraktRateEpisode>(BasicHandler.CreateEpisodeRateData(title, tvdb, season, episode));
+                        TraktLogger.Info("Showing rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode TVDb ID = '{4}'", title, year, season, episode, epTvdbId);
+                        GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(new TraktSyncEpisodeRated
+                        {
+                            Ids = new TraktEpisodeId { TvdbId = showtvdbid.ToNullableInt32() },
+                            Number = episode.ToInt(),
+                            Season = season.ToInt(),
+                            RatedAt = DateTime.UtcNow.ToISO8601()
+                        });
                         break;
                 }
             }
@@ -1158,20 +1177,20 @@ namespace TraktPlugin
                 {
                     #region movie
                     case "movie":
-                        TraktLogger.Info("Searching Shouts for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        TraktHelper.ShowMovieShouts(imdb, title, year, isWatched, fanart);
+                        TraktLogger.Info("Displaying Shouts for {0}. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
+                        TraktHelper.ShowMovieShouts(imdbid, title, year, isWatched, fanart);
                         break;
                     #endregion
                     #region episode
                     case "episode":
-                        TraktLogger.Info("Searching Shouts for {0} '{1} - {2}x{3} [{4}]'", type, title, season, episode, tvdb);
-                        TraktHelper.ShowEpisodeShouts(tvdb, title, season, episode, isWatched, fanart);
+                        TraktLogger.Info("Displaying Shouts for {0}. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                        TraktHelper.ShowEpisodeShouts(title, showtvdbid, season, episode, isWatched, fanart);
                         break;
                     #endregion
                     #region series
                     case "series":
-                        TraktLogger.Info("Searching Shouts for {0} '{1} [{2}]'", type, title, tvdb);
-                        TraktHelper.ShowTVShowShouts(tvdb, title, fanart);
+                        TraktLogger.Info("Displaying Shouts for {0}. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                        TraktHelper.ShowTVShowShouts(title, showtvdbid.ToNullableInt32(), null, isWatched, fanart);
                         break;
                     #endregion
                 }
@@ -1186,14 +1205,14 @@ namespace TraktPlugin
                 {
                     #region movie
                     case "movie":
-                        TraktLogger.Info("Show Related Movies for {0} '{1} ({2}) [{3}]'", type, title, year, imdb);
-                        TraktHelper.ShowRelatedMovies(imdb, title, year);
+                        TraktLogger.Info("Displaying Related Movies for {0}. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
+                        TraktHelper.ShowRelatedMovies(imdbid, title, year);
                         break;
                     #endregion
                     #region series
                     case "series":
-                        TraktLogger.Info("Showing Related Shows for {0} '{1} [{2}]'", type, title, tvdb);
-                        TraktHelper.ShowRelatedShows(tvdb, title);
+                        TraktLogger.Info("Displaying Related Shows for {0}. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
+                        TraktHelper.ShowRelatedShows(showtvdbid, title);
                         break;
                     #endregion
                 }
@@ -1208,15 +1227,15 @@ namespace TraktPlugin
                 switch (type)
                 {
                     case "movie":
-                        GUICommon.ShowTraktExtMovieMenu(title, year, imdb, isWatched, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtMovieMenu(title, year, imdbid, isWatched, fanart, searchPeople, false);
                         break;
 
                     case "series":
-                        GUICommon.ShowTraktExtTVShowMenu(title, year, tvdb, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtTVShowMenu(title, year, showtvdbid, fanart, searchPeople, false);
                         break;
 
                     case "episode":
-                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, tvdb, isWatched, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtEpisodeMenu(title, year, season, episode, showtvdbid, isWatched, fanart, searchPeople, false);
                         break;
                 }
             }

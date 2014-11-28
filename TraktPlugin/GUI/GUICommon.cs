@@ -7,11 +7,12 @@ using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktAPI.Extensions;
 using Trailers.Providers;
 using Trailers;
-using TraktPlugin.TraktAPI.v1.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -209,17 +210,16 @@ namespace TraktPlugin.GUI
         /// </summary>
         public static bool CheckLogin(bool showPreviousWindow)
         {
-            //TODO
-            //if (TraktSettings.AccountStatus != TraktAPI.v1.ConnectionState.Connected)
-            //{
-            //    if (GUIUtils.ShowYesNoDialog(Translation.Login, Translation.NotLoggedIn, true))
-            //    {
-            //        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
-            //        return false;
-            //    }
-            //    if (showPreviousWindow) GUIWindowManager.ShowPreviousWindow();
-            //    return false;
-            //}
+            if (TraktSettings.AccountStatus != ConnectionState.Connected)
+            {
+                if (GUIUtils.ShowYesNoDialog(Translation.Login, Translation.NotLoggedIn, true))
+                {
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
+                    return false;
+                }
+                if (showPreviousWindow) GUIWindowManager.ShowPreviousWindow();
+                return false;
+            }
             return true;
         }
         #endregion
@@ -234,7 +234,7 @@ namespace TraktPlugin.GUI
         {
             if (movie == null) return;
 
-            TraktLogger.Info("Attempting to play movie: {0} ({1}) [{2}]", movie.Title, movie.Year, movie.IMDBID);
+            TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", movie.Title, movie.Year.ToLogString(), movie.Ids.ImdbId.ToLogString());
             bool handled = false;
 
             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -244,11 +244,11 @@ namespace TraktPlugin.GUI
 
                 // Find Movie ID in MovingPictures
                 // Movie List is now cached internally in MovingPictures so it will be fast
-                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref movieid);
+                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref movieid);
 
                 if (movieExists)
                 {
-                    TraktLogger.Info("Found movie in MovingPictures with movieId '{0}'", movieid.ToString());
+                    TraktLogger.Info("Found movie in MovingPictures with movie ID '{0}'", movieid.ToString());
                     if (jumpTo)
                     {
                         string loadingParameter = string.Format("movieid:{0}", movieid);
@@ -268,7 +268,7 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Checking if any movie to watch in My Videos");
                 IMDBMovie imdbMovie = null;
-                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref imdbMovie))
+                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref imdbMovie))
                 {
                     // Open My Videos Video Info view so user can play movie
                     if (jumpTo)
@@ -291,7 +291,7 @@ namespace TraktPlugin.GUI
                 TraktLogger.Info("Checking if any movie to watch in My Films");
                 int? movieid = null;
                 string config = null;
-                if (TraktHandlers.MyFilmsHandler.FindMovie(movie.Title, int.Parse(movie.Year), movie.IMDBID, ref movieid, ref config))
+                if (TraktHandlers.MyFilmsHandler.FindMovie(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref movieid, ref config))
                 {
                     // Open My Films Details view so user can play movie
                     if (jumpTo)
@@ -301,7 +301,7 @@ namespace TraktPlugin.GUI
                     }
                     else
                     {
-                        // TraktHandlers.MyFilms.PlayMovie(config, movieid); // ToDo: Add Player Class to MyFilms
+                        // TraktHandlers.MyFilms.PlayMovie(config, movieid); // TODO: Add Player Class to MyFilms
                         string loadingParameter = string.Format("config:{0}|movieid:{1}|play:{2}", config, movieid, "true");
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyFilms, loadingParameter);
                     }
@@ -311,7 +311,7 @@ namespace TraktPlugin.GUI
 
             if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
             {
-                TraktLogger.Info("No movies matched in local plugin databases! Attempting to search/play trailer(s) from Trailers Plugin.");
+                TraktLogger.Info("There were no movies found in local plugin databases. Attempting to search and/or play trailer(s) from the Trailers plugin");
                 ShowMovieTrailersPluginMenu(movie);
                 handled = true;
             }            
@@ -964,9 +964,9 @@ namespace TraktPlugin.GUI
             #endregion
         }
 
-        internal static void SetShoutProperties(TraktShout shout, bool isWatched = false)
+        internal static void SetShoutProperties(TraktComment shout, bool isWatched = false)
         {
-            GUIUtils.SetProperty("#Trakt.Shout.Inserted", shout.InsertedDate.FromEpoch().ToLongDateString());
+            GUIUtils.SetProperty("#Trakt.Shout.Inserted", shout.CreatedAt.ToLongDateString());
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", shout.Spoiler.ToString());
             GUIUtils.SetProperty("#Trakt.Shout.UserAdvancedRating", shout.UserRatings.AdvancedRating.ToString());
             GUIUtils.SetProperty("#Trakt.Shout.UserRating", shout.UserRatings.Rating.ToString());

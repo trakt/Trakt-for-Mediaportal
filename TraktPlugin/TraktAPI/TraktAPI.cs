@@ -319,7 +319,7 @@ namespace TraktPlugin.TraktAPI
 
         #region Collection (Single)
 
-        public static TraktSyncResponse AddMovieToCollecton(TraktSyncMovieCollected movie)
+        public static TraktSyncResponse AddMovieToCollection(TraktSyncMovieCollected movie)
         {
             var movies = new TraktSyncMoviesCollected
             {
@@ -329,7 +329,7 @@ namespace TraktPlugin.TraktAPI
             return AddMoviesToCollecton(movies);
         }
 
-        public static TraktSyncResponse RemoveMovieFromCollecton(TraktMovie movie)
+        public static TraktSyncResponse RemoveMovieFromCollection(TraktMovie movie)
         {
             var movies = new TraktSyncMovies
             {
@@ -337,6 +337,26 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveMoviesFromCollecton(movies);
+        }
+
+        public static TraktSyncResponse AddEpisodeToCollection(TraktSyncEpisodeCollected episode)
+        {
+            var episodes = new TraktSyncEpisodesCollected
+            {
+                Episodes = new List<TraktSyncEpisodeCollected>() { episode }
+            };
+
+            return AddEpisodesToCollecton(episodes);
+        }
+
+        public static TraktSyncResponse RemoveEpisodeFromCollection(TraktEpisode episode)
+        {
+            var episodes = new TraktSyncEpisodes
+            {
+                Episodes = new List<TraktEpisode>() { episode }
+            };
+
+            return RemoveEpisodesFromCollecton(episodes);
         }
 
         #endregion
@@ -401,6 +421,26 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveMoviesFromWatchedHistory(movies);
+        }
+
+        public static TraktSyncResponse AddEpisodeToWatchedHistory(TraktSyncEpisodeWatched episode)
+        {
+            var episodes = new TraktSyncEpisodesWatched
+            {
+                Episodes = new List<TraktSyncEpisodeWatched>() { episode }
+            };
+
+            return AddEpisodesToWatchedHistory(episodes);
+        }
+
+        public static TraktSyncResponse RemoveEpisodeFromWatchedHistory(TraktEpisode episode)
+        {
+            var episodes = new TraktSyncEpisodes
+            {
+                Episodes = new List<TraktEpisode>() { episode }
+            };
+
+            return RemoveEpisodesFromWatchedHistory(episodes);
         }
 
         #endregion

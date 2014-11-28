@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -27,7 +27,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!string.IsNullOrEmpty(TvdbId)) return TvdbId;
+                if (TvdbId != null) return TvdbId.ToString();
                 if (string.IsNullOrEmpty(Title)) return string.Empty;
                 return Title.ToSlug();
             }
@@ -475,7 +475,7 @@ namespace TraktPlugin.GUI
 
             if (shows.Count() == 0)
             {
-                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId : relatedShow.Title;
+                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId.ToLogString() : relatedShow.Title;
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedShows, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;

@@ -22,6 +22,23 @@ namespace TraktPlugin
             return double.TryParse(number, out retValue);
         }
 
+        public static int ToInt(this string number)
+        {
+            int i = 0;
+            int.TryParse(number, out i);
+            return i;
+        }
+
+        public static string ToLogString(this string text)
+        {
+            return string.IsNullOrEmpty(text) ? "<empty>" : text;
+        }
+
+        public static string ToLogString(this int? number)
+        {
+            return number.HasValue ? "<empty>" : number.ToString();
+        }
+
         public static string StripHTML(this string htmlString)
         {
             if (string.IsNullOrEmpty(htmlString)) return string.Empty;
@@ -62,11 +79,16 @@ namespace TraktPlugin
             return ends + text + ends;
         }
 
-        public static int? ToNullableInt32(this string s)
+        public static int? ToNullableInt32(this string text)
         {
             int i;
-            if (Int32.TryParse(s, out i)) return i;
+            if (Int32.TryParse(text, out i)) return i;
             return null;
+        }
+
+        public static string ToNullIfEmpty(this string text)
+        {
+            return string.IsNullOrEmpty(text) ? null : text;
         }
     }
 }

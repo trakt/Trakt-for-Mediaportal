@@ -652,7 +652,7 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktLogger.Info("Removing movie from trakt.tv collection, Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.ImdbID ?? "<empty>", GetTmdbID(movie) ?? "<empty>");
 
-                var response = TraktAPI.TraktAPI.RemoveMovieFromCollecton(traktMovie);
+                var response = TraktAPI.TraktAPI.RemoveMovieFromCollection(traktMovie);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -840,7 +840,7 @@ namespace TraktPlugin.TraktHandlers
                                             traktMovie.Title, traktMovie.Year.HasValue ? traktMovie.Year.ToString() : "<empty>", traktMovie.Ids.ImdbId ?? "<empty>", traktMovie.Ids.TmdbId.HasValue ? traktMovie.Ids.TmdbId.ToString() : "<empty>",
                                             traktMovie.CollectedAt, traktMovie.MediaType ?? "<empty>", traktMovie.Resolution ?? "<empty>", traktMovie.AudioCodec ?? "<empty>", traktMovie.AudioChannels ?? "<empty>");
 
-                        var response = TraktAPI.TraktAPI.AddMovieToCollecton(traktMovie);
+                        var response = TraktAPI.TraktAPI.AddMovieToCollection(traktMovie);
                         TraktLogger.LogTraktResponse(response);
                     })
                     {
@@ -1244,7 +1244,7 @@ namespace TraktPlugin.TraktHandlers
             DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperImdbId(m.ImdbID) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
             if (movie == null)
             {
-                TraktLogger.Info("Found no movies for {0} ({1})", title, year);
+                TraktLogger.Info("Found no movies for search criteria. Title = '{0}', Year = '{1}", title, year);
                 return false;
             }
 

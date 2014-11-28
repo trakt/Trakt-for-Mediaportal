@@ -415,7 +415,7 @@ namespace TraktPlugin.TraktHandlers
                                               TvdbId = show[DBSeries.cID],
                                               ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                                           },
-                                          Title = show[DBOnlineSeries.cPrettyName],
+                                          Title = show[DBOnlineSeries.cOriginalName],
                                           Year = show.Year.ToNullableInt32(),
                                           Rating = show[DBOnlineSeries.cMyRating],
                                           RatedAt = DateTime.UtcNow.ToISO8601(),
@@ -534,7 +534,7 @@ namespace TraktPlugin.TraktHandlers
                         FirstEpisodeWatched = true;
 
                         TraktLogger.Info("Sending start scrobble of second part of episode to trakt.tv. Show Title = '{0}', Season = '{1}', Episode = '{2}', Episode Title = '{3}', Show TVDb ID = '{4}', Episode TVDb ID = '{5}'",
-                                    show[DBOnlineSeries.cPrettyName], episodes[1][DBOnlineEpisode.cSeasonIndex], episodes[1][DBOnlineEpisode.cEpisodeIndex], episodes[1][DBOnlineEpisode.cEpisodeName], episodes[1][DBOnlineEpisode.cSeriesID], episodes[1][DBOnlineEpisode.cID]);
+                                    show[DBOnlineSeries.cOriginalName], episodes[1][DBOnlineEpisode.cSeasonIndex], episodes[1][DBOnlineEpisode.cEpisodeIndex], episodes[1][DBOnlineEpisode.cEpisodeName], episodes[1][DBOnlineEpisode.cSeriesID], episodes[1][DBOnlineEpisode.cID]);
 
                         scrobbleData = CreateScrobbleData(episodes[1], progress);
                         if (scrobbleData == null) return;
@@ -547,7 +547,7 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 TraktLogger.Info("Sending start scrobble of episode to trakt.tv. Show Title = '{0}', Season = '{1}', Episode = '{2}', Episode Title = '{3}', Show TVDb ID = '{4}', Episode TVDb ID = '{5}'",
-                                    show[DBOnlineSeries.cPrettyName], scrobbleEpisode[DBOnlineEpisode.cSeasonIndex], scrobbleEpisode[DBOnlineEpisode.cEpisodeIndex], scrobbleEpisode[DBOnlineEpisode.cEpisodeName], scrobbleEpisode[DBOnlineEpisode.cSeriesID], scrobbleEpisode[DBOnlineEpisode.cID]);
+                                    show[DBOnlineSeries.cOriginalName], scrobbleEpisode[DBOnlineEpisode.cSeasonIndex], scrobbleEpisode[DBOnlineEpisode.cEpisodeIndex], scrobbleEpisode[DBOnlineEpisode.cEpisodeName], scrobbleEpisode[DBOnlineEpisode.cSeriesID], scrobbleEpisode[DBOnlineEpisode.cID]);
 
                 scrobbleData = CreateScrobbleData(scrobbleEpisode, progress);
                 if (scrobbleData == null) return;
@@ -704,24 +704,28 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Get Episode Info for selected object
         /// </summary>        
-        public static bool GetEpisodeInfo(Object obj, out string title, out string tvdb, out string seasonidx, out string episodeidx, out bool isWatched)
+        public static bool GetEpisodeInfo(Object obj, out string title, out string year, out string showTvdbId, out string epTvdbId, out string seasonidx, out string episodeidx, out bool isWatched)
         {
             title = string.Empty;
-            tvdb = string.Empty;
+            year = string.Empty;
+            showTvdbId = string.Empty;
+            epTvdbId = string.Empty;
             seasonidx = string.Empty;
             episodeidx = string.Empty;
             isWatched = false;
 
             if (obj == null) return false;
 
-            DBEpisode episode = obj as DBEpisode;
+            var episode = obj as DBEpisode;
             if (episode == null) return false;
 
-            DBSeries series = Helper.getCorrespondingSeries(episode[DBOnlineEpisode.cSeriesID]);
+            var series = Helper.getCorrespondingSeries(episode[DBOnlineEpisode.cSeriesID]);
             if (series == null) return false;
 
             title = series[DBOnlineSeries.cOriginalName];
-            tvdb = series[DBSeries.cID];
+            year = series.Year;
+            showTvdbId = series[DBSeries.cID];
+            epTvdbId = episode[DBOnlineEpisode.cID];
             seasonidx = episode[DBOnlineEpisode.cSeasonIndex];
             episodeidx = episode[DBOnlineEpisode.cEpisodeIndex];
             isWatched = episode[DBOnlineEpisode.cWatched];
@@ -759,17 +763,19 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Get Series Info for selected object
         /// </summary>
-        public static bool GetSeriesInfo(Object obj, out string title, out string tvdb)
+        public static bool GetSeriesInfo(Object obj, out string title, out string year, out string tvdb)
         {
             title = string.Empty;
+            year = string.Empty;
             tvdb = string.Empty;
        
             if (obj == null) return false;
 
-            DBSeries series = obj as DBSeries;
+            var series = obj as DBSeries;
             if (series == null) return false;
 
             title = series[DBOnlineSeries.cOriginalName];
+            year = series.Year;
             tvdb = series[DBSeries.cID];
            
             return true;
@@ -941,7 +947,7 @@ namespace TraktPlugin.TraktHandlers
                                 TvdbId = show[DBSeries.cID],
                                 ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
-                            Title = show[DBOnlineSeries.cPrettyName],
+                            Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
                         };
                         
@@ -1058,7 +1064,7 @@ namespace TraktPlugin.TraktHandlers
                                 TvdbId = show[DBSeries.cID],
                                 ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
-                            Title = show[DBOnlineSeries.cPrettyName],
+                            Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
                         };
 
@@ -1176,7 +1182,7 @@ namespace TraktPlugin.TraktHandlers
                                 TvdbId = show[DBSeries.cID],
                                 ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
-                            Title = show[DBOnlineSeries.cPrettyName],
+                            Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
                         };
 
@@ -1344,7 +1350,7 @@ namespace TraktPlugin.TraktHandlers
                         TvdbId = show[DBSeries.cID],
                         ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32()
                 },
                 Progress = Math.Round(progress, 2),
@@ -1525,7 +1531,7 @@ namespace TraktPlugin.TraktHandlers
                 var show = Helper.getCorrespondingSeries(localEpisode[DBOnlineEpisode.cSeriesID]);
                 if (show == null) return false;
 
-                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cPrettyName], onlineEpisode.ShowTitle, show.Year.ToNullableInt32()) &&
+                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cOriginalName], onlineEpisode.ShowTitle, show.Year.ToNullableInt32()) &&
                        show.Year.ToNullableInt32() == onlineEpisode.ShowYear &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
@@ -1566,7 +1572,7 @@ namespace TraktPlugin.TraktHandlers
                 var show = Helper.getCorrespondingSeries(localEpisode[DBOnlineEpisode.cSeriesID]);
                 if (show == null) return false;
 
-                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cPrettyName], onlineShow.Title, onlineShow.Year) &&
+                return BasicHandler.IsTitleMatch(show[DBOnlineSeries.cOriginalName], onlineShow.Title, onlineShow.Year) &&
                        show.Year.ToNullableInt32() == onlineShow.Year &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
@@ -1585,7 +1591,7 @@ namespace TraktPlugin.TraktHandlers
             }
             else
             {
-                return BasicHandler.IsTitleMatch(localShow[DBOnlineSeries.cPrettyName], onlineShow.Title, onlineShow.Year) &&
+                return BasicHandler.IsTitleMatch(localShow[DBOnlineSeries.cOriginalName], onlineShow.Title, onlineShow.Year) &&
                        localShow.Year.ToNullableInt32() == onlineShow.Year;
             }
         }
@@ -1601,14 +1607,14 @@ namespace TraktPlugin.TraktHandlers
                 if (show == null || show[DBOnlineSeries.cTraktIgnore]) return;
 
                 TraktLogger.Info("Received a Rate Episode event from tvseries. Show Title = '{0}', Show Year = '{1}', Season = '{2}', Episode = '{3}', Episode Title = '{4}', Show TVDb ID = '{5}', Episode TVDb ID = '{6}'",
-                                    show[DBOnlineSeries.cPrettyName], show.Year ?? "<empty>", episode[DBOnlineEpisode.cSeasonIndex], episode[DBOnlineEpisode.cEpisodeIndex], episode[DBOnlineEpisode.cEpisodeName], episode[DBOnlineEpisode.cSeriesID], episode[DBOnlineEpisode.cID]);
+                                    show[DBOnlineSeries.cOriginalName], show.Year ?? "<empty>", episode[DBOnlineEpisode.cSeasonIndex], episode[DBOnlineEpisode.cEpisodeIndex], episode[DBOnlineEpisode.cEpisodeName], episode[DBOnlineEpisode.cSeriesID], episode[DBOnlineEpisode.cID]);
 
                 // send show data as well in case tvdb ids are not available on trakt server
                 // TraktSyncEpisodeRated object is good if we could trust trakt having the tvdb ids.
                 // trakt is more likely to have a show tvdb id than a episode tvdb id
                 var episodeRateData = new TraktSyncShowRatedEx
                 {
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     { 
@@ -1653,7 +1659,7 @@ namespace TraktPlugin.TraktHandlers
                 var rateShow = objShow as DBSeries;
                 if (rateShow == null) return;
 
-                TraktLogger.Info("Received a Rate Show event from tvseries. Show Title = '{0}', Show Year = '{1}', Show TVDb ID = '{2}'", show[DBOnlineSeries.cPrettyName], show.Year, show[DBSeries.cID]);
+                TraktLogger.Info("Received a Rate Show event from tvseries. Show Title = '{0}', Show Year = '{1}', Show TVDb ID = '{2}'", show[DBOnlineSeries.cOriginalName], show.Year, show[DBSeries.cID]);
 
                 var showRateData = new TraktSyncShowRated
                 {
@@ -1662,7 +1668,7 @@ namespace TraktPlugin.TraktHandlers
                         TvdbId = show[DBSeries.cID],
                         ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
                     Rating = show[DBOnlineSeries.cMyRating],
                     RatedAt = DateTime.UtcNow.ToISO8601()
@@ -1688,7 +1694,7 @@ namespace TraktPlugin.TraktHandlers
                 // trakt is more likely to have a show tvdb id than a episode tvdb id
                 var showEpisodes = new TraktSyncShowWatchedEx
                 {
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
@@ -1756,7 +1762,7 @@ namespace TraktPlugin.TraktHandlers
                 // trakt is more likely to have a show tvdb id than a episode tvdb id
                 var showEpisodes = new TraktSyncShowEx
                 {
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
@@ -1836,7 +1842,7 @@ namespace TraktPlugin.TraktHandlers
 
                 var episodeRateData = new TraktSyncShowRatedEx
                 {
-                    Title = show[DBOnlineSeries.cPrettyName],
+                    Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
@@ -2081,8 +2087,8 @@ namespace TraktPlugin.TraktHandlers
         private void OnToggleWatched(DBSeries show, List<DBEpisode> episodes, bool watched)
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
-            
-            TraktLogger.Info("Received a Toggle Watched event from tvseries. Show Title = '{0}', Episodes = '{1}', Watched = '{2}'", show[DBOnlineSeries.cPrettyName], episodes.Count, watched.ToString());
+
+            TraktLogger.Info("Received a Toggle Watched event from tvseries. Show Title = '{0}', Episodes = '{1}', Watched = '{2}'", show[DBOnlineSeries.cOriginalName], episodes.Count, watched.ToString());
             
             if (show[DBOnlineSeries.cTraktIgnore]) return;
 
