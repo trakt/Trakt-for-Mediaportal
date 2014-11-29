@@ -49,10 +49,20 @@ namespace TraktPlugin.TraktAPI
         public const string RelatedMovies = "http://api.v2.trakt.tv/movies/{0}/related";
         public const string RelatedShows = "http://api.v2.trakt.tv/shows/{0}/related";
 
+        public const string TrendingMovies = "http://api.v2.trakt.tv/movies/trending";
+        public const string TrendingShows = "http://api.v2.trakt.tv/shows/trending";
+
         public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments";
         public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments";
         public const string EpisodeComments = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments";
 
+        public const string SearchMovies = "http://api.v2.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}";
+        public const string SearchShows = "http://api.v2.trakt.tv/search?query={0}&type=show&page={1}&limit={2}";
+        public const string SearchEpisodes = "http://api.v2.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}";
+        public const string SearchPeople = "http://api.v2.trakt.tv/search?query={0}&type=person&page={1}&limit={2}";
+        public const string SearchUsers = "http://api.v2.trakt.tv/search?query={0}&type=user&page={1}&limit={2}"; // not implemented!
+        public const string SearchLists = "http://api.v2.trakt.tv/search?query={0}&type=list&page={1}&limit={2}";
+        
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
         public const string SyncCollectionRemove = "http://api.v2.trakt.tv/sync/collection/remove";

@@ -19,7 +19,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public AirDate Airs { get; set; }
 
         [DataMember(Name = "runtime")]
-        public int? runtime { get; set; }
+        public int? Runtime { get; set; }
 
         [DataMember(Name = "certification")]
         public string Certification { get; set; }
@@ -32,6 +32,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "updated_at")]
         public string UpdatedAt { get; set; }
+
+        [DataMember(Name = "overview")]
+        public string Overview { get; set; }
 
         [DataMember(Name = "trailer")]
         public string Trailer { get; set; }

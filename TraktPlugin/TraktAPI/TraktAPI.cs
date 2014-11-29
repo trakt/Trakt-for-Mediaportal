@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Web;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktAPI
@@ -191,22 +194,22 @@ namespace TraktPlugin.TraktAPI
 
         #region Watchlists
 
-        public static IEnumerable<TraktWatchListMovie> GetWatchListMovies(string username)
+        public static IEnumerable<TraktMovieWatchList> GetWatchListMovies(string username)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistMovies, username));
-            return response.FromJSONArray<TraktWatchListMovie>();
+            return response.FromJSONArray<TraktMovieWatchList>();
         }
 
-        public static IEnumerable<TraktWatchListShow> GetWatchListShows(string username)
+        public static IEnumerable<TraktShowWatchList> GetWatchListShows(string username)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistShows, username));
-            return response.FromJSONArray<TraktWatchListShow>();
+            return response.FromJSONArray<TraktShowWatchList>();
         }
 
-        public static IEnumerable<TraktWatchListEpisode> GetWatchListEpisodes(string username)
+        public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username));
-            return response.FromJSONArray<TraktWatchListEpisode>();
+            return response.FromJSONArray<TraktEpisodeWatchList>();
         }
 
         #endregion
@@ -233,15 +236,25 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Trending
+
+        public static IEnumerable<TraktMovieTrending> GetTrendingMovies(bool extendedInfo = true)
+        {
+            var response = GetFromTrakt(TraktURIs.TrendingMovies, extendedInfo);
+            return response.FromJSONArray<TraktMovieTrending>();
+        }
+
+        #endregion
+
         #endregion
 
         #region Shows
 
         #region Related
 
-        public static IEnumerable<TraktShow> GetRelatedShows(string id)
+        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id, bool extendedInfo = true)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id), extendedInfo);
             return response.FromJSONArray<TraktShow>();
         }
 
@@ -253,6 +266,16 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(string.Format(TraktURIs.ShowComments, id));
             return response.FromJSONArray<TraktComment>();
+        }
+
+        #endregion
+
+        #region Trending
+
+        public static IEnumerable<TraktShowTrending> GetTrendingShows(bool extendedInfo = true)
+        {
+            var response = GetFromTrakt(TraktURIs.TrendingShows, extendedInfo);
+            return response.FromJSONArray<TraktShowTrending>();
         }
 
         #endregion
@@ -275,6 +298,261 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Activity TODO
+
+        public static TraktActivity GetFriendActivity()
+        {
+            return GetFriendActivity(null, null, false);
+        }
+        public static TraktActivity GetFriendActivity(bool includeMe)
+        {
+            return GetFriendActivity(null, null, includeMe);
+        }
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, bool includeMe)
+        {
+            return GetFriendActivity(types, actions, 0, 0, includeMe);
+        }
+        public static TraktActivity GetFriendActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end, bool includeMe)
+        {
+            //// get comma seperated list of types and actions (if more than one)
+            //string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            //string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            //string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+            //string apiUrl = includeMe ? TraktURIs.ActivityFriendsMe : TraktURIs.ActivityFriends;
+
+            //string activity = Transmit(string.Format(apiUrl, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            //return activity.FromJSON<TraktActivity>();
+            return null;
+        }
+
+        public static TraktActivity GetFollowingActivity()
+        {
+            return GetFollowingActivity(null, null);
+        }
+        public static TraktActivity GetFollowingActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetFollowingActivity(types, actions, 0, 0);
+        }
+        public static TraktActivity GetFollowingActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            //// get comma seperated list of types and actions (if more than one)
+            //string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            //string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            //string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            //string activity = Transmit(string.Format(TraktURIs.ActivityFollowing, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            //return activity.FromJSON<TraktActivity>();
+            return null;
+        }
+
+        public static TraktActivity GetFollowersActivity()
+        {
+            return GetFollowersActivity(null, null);
+        }
+        public static TraktActivity GetFollowersActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetFollowersActivity(types, actions, 0, 0);
+        }
+        public static TraktActivity GetFollowersActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            //// get comma seperated list of types and actions (if more than one)
+            //string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            //string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            //string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            //string activity = Transmit(string.Format(TraktURIs.ActivityFollowers, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            //return activity.FromJSON<TraktActivity>();
+            return null;
+        }
+
+        public static TraktActivity GetCommunityActivity()
+        {
+            return GetCommunityActivity(null, null);
+        }
+        public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions)
+        {
+            return GetCommunityActivity(types, actions, 0, 0);
+        }
+        public static TraktActivity GetCommunityActivity(List<ActivityType> types, List<ActivityAction> actions, long start, long end)
+        {
+            //// get comma seperated list of types and actions (if more than one)
+            //string activityTypes = types == null ? "all" : string.Join(",", types.Select(t => t.ToString()).ToArray());
+            //string activityActions = actions == null ? "all" : string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            //string startEnd = (start == 0 || end == 0) ? string.Empty : string.Format("/{0}/{1}", start, end);
+
+            //string activity = Transmit(string.Format(TraktURIs.ActivityCommunity, activityTypes, activityActions, startEnd), GetUserAuthentication());
+            //return activity.FromJSON<TraktActivity>();
+            return null;
+        }
+
+        public static TraktActivity GetUserActivity(string username, List<ActivityType> types, List<ActivityAction> actions)
+        {
+            //// get comma seperated list of types and actions (if more than one)
+            //string activityTypes = string.Join(",", types.Select(t => t.ToString()).ToArray());
+            //string activityActions = string.Join(",", actions.Select(a => a.ToString()).ToArray());
+
+            //string activity = Transmit(string.Format(TraktURIs.ActivityUser, username, activityTypes, activityActions), GetUserAuthentication());
+            //return activity.FromJSON<TraktActivity>();
+            return null;
+        }
+
+        #endregion
+
+        #region Search
+
+        /// <summary>
+        /// Search from one or more types, movies, episodes, shows etc...
+        /// </summary>
+        /// <param name="searchTerm">string to search for</param>
+        /// <param name="types">a list of search types</param>
+        /// <returns>returns results from multiple search types</returns>
+        public static TraktSearchResult Search(string searchTerm, HashSet<SearchType> types, int maxResults)
+        {
+            // collect all the results from each type in this list
+            TraktSearchResult results = new TraktSearchResult();
+
+            // run all search types in parallel
+            List<Thread> threads = new List<Thread>();
+
+            foreach (var type in types)
+            {
+                switch (type)
+                {
+                    case SearchType.movies:
+                        var tMovieSearch = new Thread(obj => { results.Movies = SearchMovies(obj as string, maxResults); });
+                        tMovieSearch.Start(searchTerm);
+                        tMovieSearch.Name = "Search";
+                        threads.Add(tMovieSearch);
+                        break;
+
+                    case SearchType.shows:
+                        var tShowSearch = new Thread(obj => { results.Shows = SearchShows(obj as string, maxResults); });
+                        tShowSearch.Start(searchTerm);
+                        tShowSearch.Name = "Search";
+                        threads.Add(tShowSearch);
+                        break;
+
+                    case SearchType.episodes:
+                        var tEpisodeSearch = new Thread(obj => { results.Episodes = SearchEpisodes(obj as string, maxResults); });
+                        tEpisodeSearch.Start(searchTerm);
+                        tEpisodeSearch.Name = "Search";
+                        threads.Add(tEpisodeSearch);
+                        break;
+
+                    case SearchType.people:
+                        var tPeopleSearch = new Thread(obj => { results.People = SearchPeople(obj as string, maxResults); });
+                        tPeopleSearch.Start(searchTerm);
+                        tPeopleSearch.Name = "Search";
+                        threads.Add(tPeopleSearch);
+                        break;
+
+                    case SearchType.users:
+                        var tUserSearch = new Thread(obj => { results.Users = SearchUsers(obj as string, maxResults); });
+                        tUserSearch.Start(searchTerm);
+                        tUserSearch.Name = "Search";
+                        threads.Add(tUserSearch);
+                        break;
+
+                    case SearchType.lists:
+                        var tListSearch = new Thread(obj => { results.Lists = SearchLists(obj as string, maxResults); });
+                        tListSearch.Start(searchTerm);
+                        tListSearch.Name = "Search";
+                        threads.Add(tListSearch);
+                        break;
+                }
+            }
+
+            // wait until all search results are back
+            threads.ForEach(t => t.Join());
+
+            // now we have everything we need
+            return results;
+        }
+
+        /// <summary>
+        /// Returns a list of users found using search term
+        /// </summary>
+        public static IEnumerable<TraktUser> SearchForUsers(string searchTerm)
+        {
+            return SearchUsers(searchTerm, 30);
+        }
+        public static IEnumerable<TraktUser> SearchUsers(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktUser>();
+        }
+
+        /// <summary>
+        /// Returns a list of movies found using search term
+        /// </summary>
+        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
+        {
+            return SearchMovies(searchTerm, 30);
+        }
+        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktMovie>();
+        }
+
+        /// <summary>
+        /// Returns a list of shows found using search term
+        /// </summary>
+        public static IEnumerable<TraktShow> SearchShows(string searchTerm)
+        {
+            return SearchShows(searchTerm, 30);
+        }
+        public static IEnumerable<TraktShow> SearchShows(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktShow>();
+        }
+
+        /// <summary>
+        /// Returns a list of episodes found using search term
+        /// </summary>
+        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm)
+        {
+            return SearchEpisodes(searchTerm, 30);
+        }
+        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktEpisodeSummary>();
+        }
+
+        /// <summary>
+        /// Returns a list of people found using search term
+        /// </summary>
+        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm)
+        {
+            return SearchPeople(searchTerm, 30);
+        }
+        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchPeople, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktPersonSummary>();
+        }
+
+        /// <summary>
+        /// Returns a list of lists found using search term
+        /// </summary>
+        public static IEnumerable<TraktList> SearchLists(string searchTerm)
+        {
+            return SearchLists(searchTerm, 30);
+        }
+        public static IEnumerable<TraktList> SearchLists(string searchTerm, int maxResults)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchLists, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktList>();
+        }
+
+        #endregion
+
         #region POST Methods
 
         #region Collection
@@ -291,15 +569,27 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddEpisodesToCollecton(TraktSyncEpisodesCollected episodes)
+        public static TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsEx shows)
         {
-            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, episodes.ToJSON());
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsCollectedEx shows)
+        public static TraktSyncResponse AddShowsToCollecton(TraktSyncShows shows)
         {
             var response = PostToTrakt(TraktURIs.SyncCollectionAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveShowsFromCollecton(TraktSyncShows shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddEpisodesToCollecton(TraktSyncEpisodesCollected episodes)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, episodes.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -309,6 +599,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsCollectedEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncCollectionAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+        
         public static TraktSyncResponse RemoveShowsFromCollectonEx(TraktSyncShowsEx shows)
         {
             var response = PostToTrakt(TraktURIs.SyncCollectionRemove, shows.ToJSON());
@@ -337,6 +633,46 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveMoviesFromCollecton(movies);
+        }
+
+        public static TraktSyncResponse AddShowToCollection(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return AddShowsToCollecton(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromCollection(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return RemoveShowsFromCollecton(shows);
+        }
+
+        public static TraktSyncResponse AddShowToCollectionEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return AddShowsToCollectonEx(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromCollectionEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return RemoveShowsFromCollectonEx(shows);
         }
 
         public static TraktSyncResponse AddEpisodeToCollection(TraktSyncEpisodeCollected episode)
@@ -375,21 +711,33 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddShowsToWatchedHistory(TraktSyncShows shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveShowsFromWatchedHistory(TraktSyncShows shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse AddEpisodesToWatchedHistory(TraktSyncEpisodesWatched episodes)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, episodes.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
-        public static TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsWatchedEx shows)
-        {
-            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, shows.ToJSON());
-            return response.FromJSON<TraktSyncResponse>();
-        }
-
         public static TraktSyncResponse RemoveEpisodesFromWatchedHistory(TraktSyncEpisodes episodes)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, episodes.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
@@ -421,6 +769,46 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveMoviesFromWatchedHistory(movies);
+        }
+
+        public static TraktSyncResponse AddShowToWatchedHistory(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return AddShowsToWatchedHistory(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromWatchedHistory(TraktShow show)
+        {
+            var shows = new TraktSyncShows
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return RemoveShowsFromWatchedHistory(shows);
+        }
+
+        public static TraktSyncResponse AddShowToWatchedHistoryEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return AddShowsToWatchedHistoryEx(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromWatchedHistoryEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return RemoveShowsFromWatchedHistoryEx(shows);
         }
 
         public static TraktSyncResponse AddEpisodeToWatchedHistory(TraktSyncEpisodeWatched episode)
@@ -782,12 +1170,15 @@ namespace TraktPlugin.TraktAPI
 
         public static bool DeleteFromTrakt(string address)
         {
-            var response = GetFromTrakt(address, "DELETE");
+            var response = GetFromTrakt(address, false, "DELETE");
             return response != null;
         }
 
-        public static string GetFromTrakt(string address, string method = "GET")
+        public static string GetFromTrakt(string address, bool extendedInfo = false, string method = "GET")
         {
+            if (extendedInfo)
+                address += "?extended=full,images";
+
             if (OnDataSend != null)
                 OnDataSend(address, null);
 

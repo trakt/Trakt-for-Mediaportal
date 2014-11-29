@@ -138,6 +138,7 @@ namespace TraktPlugin.TraktAPI.Enums
         shows = 2,
         episodes = 4,
         people = 8,
-        users = 16
+        users = 16,
+        lists = 32
     }
 }

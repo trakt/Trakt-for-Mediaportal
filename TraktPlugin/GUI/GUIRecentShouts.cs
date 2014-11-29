@@ -12,9 +12,10 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -87,11 +88,11 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentShouts.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    TraktActivity activity = TraktAPI.v1.TraktAPI.GetUserActivity
+                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
                     (
                         CurrentUser,
-                        new List<TraktAPI.v1.ActivityType>() { TraktAPI.v1.ActivityType.all },
-                        new List<TraktAPI.v1.ActivityAction>() { TraktAPI.v1.ActivityAction.review, TraktAPI.v1.ActivityAction.shout }
+                        new List<ActivityType>() { ActivityType.all },
+                        new List<ActivityAction>() { ActivityAction.review, ActivityAction.shout }
                     );
 
                     _RecentlyShouts = activity.Activities;
@@ -270,7 +271,7 @@ namespace TraktPlugin.GUI
                     if (selectedActivity.Movie != null)
                         TraktHelper.AddRemoveMovieInUserList(selectedActivity.Movie, false);
                     else if (selectedActivity.Episode != null)
-                        TraktHelper.AddRemoveEpisodeInUserList(selectedActivity.Show, selectedActivity.Episode, false);
+                        TraktHelper.AddRemoveEpisodeInUserList(selectedActivity.Episode, false);
                     else
                         TraktHelper.AddRemoveShowInUserList(selectedActivity.Show, false);
                     break;
@@ -279,7 +280,7 @@ namespace TraktPlugin.GUI
                     if (selectedActivity.Movie != null)
                         TraktHelper.AddMovieToWatchList(selectedActivity.Movie, true);
                     else if (selectedActivity.Episode != null)
-                        TraktHelper.AddEpisodeToWatchList(selectedActivity.Show, selectedActivity.Episode);
+                        TraktHelper.AddEpisodeToWatchList(selectedActivity.Episode);
                     else
                         TraktHelper.AddShowToWatchList(selectedActivity.Show);
                     break;
@@ -297,7 +298,7 @@ namespace TraktPlugin.GUI
                     if (selectedActivity.Movie != null)
                         GUICommon.RateMovie(selectedActivity.Movie);
                     else if (selectedActivity.Episode != null)
-                        GUICommon.RateEpisode(selectedActivity.Show, selectedActivity.Episode);
+                        GUICommon.RateEpisode(selectedActivity.Episode);
                     else
                         GUICommon.RateShow(selectedActivity.Show);
                     break;
@@ -506,8 +507,8 @@ namespace TraktPlugin.GUI
             else
             {
                 GUICommon.SetShowProperties(activity.Show);
-                if (activity.Episode != null) 
-                    GUICommon.SetEpisodeProperties(activity.Episode);
+                if (activity.Episode != null)
+                    GUICommon.SetEpisodeProperties(activity.Show, activity.Episode);
             }
         }
 

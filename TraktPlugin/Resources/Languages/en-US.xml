@@ -56,6 +56,7 @@
   <string name="BirthPlace">Birth Place</string>
   <!--C-->
   <string name="Cancel">Cancel</string>
+  <string name="Canceled">Cancelled</string>
   <string name="Calendar">Calendar</string>
   <string name="CalendarMyShows">My Shows</string>
   <string name="CalendarPremieres">Premieres</string>
@@ -217,6 +218,7 @@
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Include Me in Friends Activity</string>
   <string name="Inserted">Inserted</string>
+  <string name="InProduction">In Production</string>
   <string name="Item">Item</string>
   <string name="Items">Items</string>
   <!--J-->
@@ -347,6 +349,7 @@
   <string name="Reply">Reply</string>
   <string name="Replies">Replies</string>
   <string name="Requests">Requests</string>
+  <string name="ReturningSeries">Returning Series</string>
   <string name="Runtime">Runtime</string>
   <!--S-->
   <string name="Score">Score</string>

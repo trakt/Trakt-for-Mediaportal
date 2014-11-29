@@ -742,7 +742,7 @@ namespace TraktPlugin
 
         public static void AddMovieToWatchHistory(TraktMovie movie)
         {
-            MarkMovieAsWatched(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            AddMovieToWatchHistory(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
         }
 
         public static void AddMovieToWatchHistory(string title, int? year, string imdbid, int? tmdbid, int? traktid)
@@ -769,7 +769,7 @@ namespace TraktPlugin
 
         public static void RemoveMovieFromWatchHistory(TraktMovie movie)
         {
-            MarkMovieAsUnWatched(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            RemoveMovieFromWatchHistory(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
         }
 
         public static void RemoveMovieFromWatchHistory(string title, int? year, string imdbid, int? tmdbid, int? traktid)
@@ -800,7 +800,7 @@ namespace TraktPlugin
 
         public static void AddEpisodeToWatchedHistory(TraktEpisode episode)
         {
-            MarkEpisodeAsWatched(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            AddEpisodeToWatchedHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
         public static void AddEpisodeToWatchedHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -834,7 +834,7 @@ namespace TraktPlugin
 
         public static void RemoveEpisodeFromWatchedHistory(TraktEpisode episode)
         {
-            MarkEpisodeAsUnWatched(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            RemoveEpisodeFromWatchedHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
         public static void RemoveEpisodeFromWatchedHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)

@@ -15,14 +15,6 @@ using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin
 {
-    public enum ActivityType
-    {
-        episode,
-        list,
-        movie,
-        show
-    }
-
     public enum ActivityView
     {
         community,
@@ -1104,11 +1096,11 @@ namespace TraktPlugin
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkShowAsSeen(selectedShow);
+                    GUICommon.MarkShowAsWatched(selectedShow);
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
-                    GUICommon.AddShowToLibrary(selectedShow);
+                    GUICommon.AddShowToCollection(selectedShow);
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):

@@ -41,7 +41,7 @@ namespace TraktPlugin.GUI
             {
                 if (translations == null)
                 {
-                    translations = new Dictionary<string, string>();
+                    translations = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
                     Type transType = typeof(Translation);
                     FieldInfo[] fields = transType.GetFields(BindingFlags.Public | BindingFlags.Static);
                     foreach (FieldInfo field in fields)
@@ -268,6 +268,7 @@ namespace TraktPlugin.GUI
 
         // C
         public static string Cancel = "Cancel";
+        public static string Canceled = "Cancelled";
         public static string Calendar = "Calendar";
         public static string CalendarMyShows = "My Shows";
         public static string CalendarPremieres = "Premieres";
@@ -435,6 +436,7 @@ namespace TraktPlugin.GUI
         // I
         public static string IncludeMeInFriendsActivity = "Include Me in Friends Activity";
         public static string Inserted = "Inserted";
+        public static string InProduction = "In Production";
         public static string Item = "Item";
         public static string Items = "Items";        
 
@@ -573,6 +575,7 @@ namespace TraktPlugin.GUI
         public static string Reply = "Reply";
         public static string Replies = "Replies";
         public static string Requests = "Requests";
+        public static string ReturningSeries = "Returning Series";
         public static string Runtime = "Runtime";
 
         // S

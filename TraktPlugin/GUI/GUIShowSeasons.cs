@@ -222,7 +222,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkSeasonAsSeen(Show, selectedSeason.Season);
+                    GUICommon.MarkSeasonAsWatched(Show, selectedSeason.Season);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):

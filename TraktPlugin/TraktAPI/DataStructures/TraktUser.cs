@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Username { get; set; }
 
         [DataMember(Name = "name")]
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
         [DataMember(Name = "vip")]
         public bool IsVip { get; set; }

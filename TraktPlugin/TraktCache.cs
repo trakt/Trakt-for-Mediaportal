@@ -644,7 +644,7 @@ namespace TraktPlugin
 
         #region Lists
 
-        internal static IEnumerable<TraktWatchListMovie> TraktWatchListMovies
+        internal static IEnumerable<TraktMovieWatchList> TraktWatchListMovies
         {
             get
             {
@@ -660,7 +660,7 @@ namespace TraktPlugin
                 }
             }
         }
-        static IEnumerable<TraktWatchListMovie> _traktWatchListMovies = null;
+        static IEnumerable<TraktMovieWatchList> _traktWatchListMovies = null;
 
         internal static IEnumerable<TraktMovie> TraktRecommendedMovies
         {
@@ -718,9 +718,11 @@ namespace TraktPlugin
 
         #region User Data
 
+        #region Movies
+
         public static bool IsWatched(this TraktMovie movie)
         {
-            if (WatchedMovies != null)
+            if (WatchedMovies == null)
                 return false;
 
             return WatchedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
@@ -728,7 +730,7 @@ namespace TraktPlugin
 
         public static bool IsCollected(this TraktMovie movie)
         {
-            if (CollectedMovies != null)
+            if (CollectedMovies == null)
                 return false;
 
             return CollectedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
@@ -742,7 +744,7 @@ namespace TraktPlugin
 
         public static int? UserRating(this TraktMovie movie)
         {
-            if (RatedMovies != null)
+            if (RatedMovies == null)
                 return null;
 
             var ratedMovie = RatedMovies.FirstOrDefault(m => m.Movie.Ids.Id == movie.Ids.Id);
@@ -751,6 +753,22 @@ namespace TraktPlugin
 
             return ratedMovie.Rating;
         }
+
+        public static int Plays(this TraktMovie movie)
+        {
+            if (WatchedMovies == null)
+                return 0;
+
+            var watchedMovie = WatchedMovies.FirstOrDefault(m => m.Movie.Ids.Id == movie.Ids.Id);
+            if (watchedMovie == null)
+                return 0;
+
+            return watchedMovie.Plays;
+        }
+
+        #endregion
+
+        #region Shows
 
         public static bool IsWatched(this TraktShow show)
         {
@@ -772,7 +790,7 @@ namespace TraktPlugin
 
         public static int? UserRating(this TraktShow show)
         {
-            if (RatedShows != null)
+            if (RatedShows == null)
                 return null;
 
             var ratedShow = RatedShows.FirstOrDefault(s => s.Show.Ids.Id == show.Ids.Id);
@@ -782,9 +800,19 @@ namespace TraktPlugin
             return ratedShow.Rating;
         }
 
+        public static int Plays(this TraktShow show)
+        {
+            //TODO
+            return 0;
+        }
+
+        #endregion
+
+        #region Episodes
+
         public static bool IsWatched(this TraktEpisode episode, TraktShow show)
         {
-            if (WatchedEpisodes != null)
+            if (WatchedEpisodes == null)
                 return false;
 
             return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
@@ -794,7 +822,7 @@ namespace TraktPlugin
 
         public static bool IsCollected(this TraktEpisode episode, TraktShow show)
         {
-            if (CollectedEpisodes != null)
+            if (CollectedEpisodes == null)
                 return false;
 
             return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
@@ -810,7 +838,7 @@ namespace TraktPlugin
 
         public static int? UserRating(this TraktEpisode episode)
         {
-            if (RatedEpisodes != null)
+            if (RatedEpisodes == null)
                 return null;
 
             var ratedEpisode = RatedEpisodes.FirstOrDefault(e => e.Episode.Ids.Id == episode.Ids.Id);
@@ -819,6 +847,23 @@ namespace TraktPlugin
 
             return ratedEpisode.Rating;
         }
+
+        public static int Plays(this TraktEpisode episode, TraktShow show)
+        {
+            if (WatchedEpisodes == null)
+                return 0;
+
+            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => e.ShowId == show.Ids.Id &&
+                                                                     e.Season == episode.Season &&
+                                                                     e.Number == episode.Number);
+            if (watchedEpisode == null)
+                return 0;
+
+            return watchedEpisode.Plays;
+
+        }
+
+        #endregion
 
         #endregion
 

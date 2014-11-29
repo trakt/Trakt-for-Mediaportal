@@ -356,11 +356,11 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkShowAsSeen(selectedShow);
+                    GUICommon.MarkShowAsWatched(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    GUICommon.AddShowToLibrary(selectedShow);
+                    GUICommon.AddShowToCollection(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
@@ -527,7 +527,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;
 
             // set context property
-            string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId : relatedShow.Title;
+            string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId.ToString() : relatedShow.Title;
             GUIUtils.SetProperty("#Trakt.Related.Show", title);
 
             // hide watched

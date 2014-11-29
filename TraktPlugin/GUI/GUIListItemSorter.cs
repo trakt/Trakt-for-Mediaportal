@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -21,7 +22,7 @@ namespace TraktPlugin.GUI
     #endregion
 
     #region Movie Sorter
-    public class GUIListItemMovieSorter : IComparer<TraktTrendingMovie>, IComparer<TraktMovie>, IComparer<TraktWatchListMovie>
+    public class GUIListItemMovieSorter : IComparer<TraktMovieTrending>, IComparer<TraktMovieSummary>, IComparer<TraktMovieWatchList>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -32,7 +33,7 @@ namespace TraktPlugin.GUI
             _sortDirection = sortDirection;
         }
 
-        public int Compare(TraktMovie movieX, TraktMovie movieY)
+        public int Compare(TraktMovieSummary movieX, TraktMovieSummary movieY)
         {
             try
             {
@@ -41,24 +42,25 @@ namespace TraktPlugin.GUI
                 switch (_sortField)
                 {
                     case SortingFields.ReleaseDate:
-                        rtn = movieX.Released.CompareTo(movieY.Released);
+                        rtn = movieX.Released.FromISO8601().CompareTo(movieY.Released.FromISO8601());
                         break;
 
                     case SortingFields.Score:
-                        rtn = movieX.Ratings.Percentage.CompareTo(movieY.Ratings.Percentage);
+                        rtn = movieX.Rating.GetValueOrDefault(0).CompareTo(movieY.Rating.GetValueOrDefault(0));
                         if (rtn == 0)
                         {
                             // if same score compare votes
-                            rtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
+                            //TODOrtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
                         }
                         break;
 
                     case SortingFields.Votes:
-                        rtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
+                        rtn = 0;
+                        //TODOrtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
                         break;
 
                     case SortingFields.Runtime:
-                        rtn = movieX.Runtime.CompareTo(movieY.Runtime);
+                        rtn = movieX.Runtime.GetValueOrDefault(0).CompareTo(movieY.Runtime.GetValueOrDefault(0));
                         break;
 
                     // default to the title field
@@ -83,7 +85,7 @@ namespace TraktPlugin.GUI
             }
         }
 
-        public int Compare(TraktTrendingMovie movieX, TraktTrendingMovie movieY)
+        public int Compare(TraktMovieTrending movieX, TraktMovieTrending movieY)
         {
             if (_sortField == SortingFields.PeopleWatching)
             {
@@ -94,27 +96,36 @@ namespace TraktPlugin.GUI
                 return rtn;
             }
 
-            return Compare(movieX as TraktMovie, movieY as TraktMovie);
+            return Compare(movieX as TraktMovieSummary, movieY as TraktMovieSummary);
         }
 
-        public int Compare(TraktWatchListMovie movieX, TraktWatchListMovie movieY)
+        public int Compare(TraktMovieWatchList movieX, TraktMovieWatchList movieY)
         {
             if (_sortField == SortingFields.WatchListInserted)
             {
-                int rtn = movieX.Inserted.CompareTo(movieY.Inserted);
+                int rtn = movieX.ListedAt.FromISO8601().CompareTo(movieY.ListedAt.FromISO8601());
                 if (_sortDirection == SortingDirections.Descending)
                     rtn = -rtn;
 
                 return rtn;
             }
 
-            return Compare(movieX as TraktMovie, movieY as TraktMovie);
+            return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
         }
+
+        #region IComparer<TraktWatchListMovie> Members
+
+        int IComparer<TraktMovieWatchList>.Compare(TraktMovieWatchList x, TraktMovieWatchList y)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
     #endregion
 
     #region Show Sorter
-    public class GUIListItemShowSorter : IComparer<TraktTrendingShow>, IComparer<TraktShow>, IComparer<TraktWatchListShow>
+    public class GUIListItemShowSorter : IComparer<TraktShowTrending>, IComparer<TraktShowSummary>, IComparer<TraktShowWatchList>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -125,7 +136,7 @@ namespace TraktPlugin.GUI
             _sortDirection = sortDirection;
         }
 
-        public int Compare(TraktShow showX, TraktShow showY)
+        public int Compare(TraktShowSummary showX, TraktShowSummary showY)
         {
             try
             {
@@ -134,24 +145,25 @@ namespace TraktPlugin.GUI
                 switch (_sortField)
                 {
                     case SortingFields.ReleaseDate:
-                        rtn = showX.FirstAired.CompareTo(showY.FirstAired);
+                        rtn = showX.FirstAired.FromISO8601().CompareTo(showY.FirstAired.FromISO8601());
                         break;
 
                     case SortingFields.Score:
-                        rtn = showX.Ratings.Percentage.CompareTo(showY.Ratings.Percentage);
+                        rtn = showX.Rating.GetValueOrDefault(0).CompareTo(showY.Rating.GetValueOrDefault(0));
                         if (rtn == 0)
                         {
                             // if same score compare votes
-                            rtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
+                            //TODOrtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
                         }
                         break;
 
                     case SortingFields.Votes:
-                        rtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
+                        rtn = 0;
+                        //TODOrtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
                         break;
 
                     case SortingFields.Runtime:
-                        rtn = showX.Runtime.CompareTo(showY.Runtime);
+                        rtn = showX.Runtime.GetValueOrDefault(0).CompareTo(showY.Runtime.GetValueOrDefault(0));
                         break;
 
                     // default to the title field
@@ -176,7 +188,7 @@ namespace TraktPlugin.GUI
             }
         }
 
-        public int Compare(TraktTrendingShow showX, TraktTrendingShow showY)
+        public int Compare(TraktShowTrending showX, TraktShowTrending showY)
         {
             if (_sortField == SortingFields.PeopleWatching)
             {
@@ -187,21 +199,21 @@ namespace TraktPlugin.GUI
                 return rtn;
             }
 
-            return Compare(showX as TraktShow, showY as TraktShow);
+            return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
         }
 
-        public int Compare(TraktWatchListShow showX, TraktWatchListShow showY)
+        public int Compare(TraktShowWatchList showX, TraktShowWatchList showY)
         {
             if (_sortField == SortingFields.WatchListInserted)
             {
-                int rtn = showX.Inserted.CompareTo(showY.Inserted);
+                int rtn = showX.ListedAt.FromISO8601().CompareTo(showY.ListedAt.FromISO8601());
                 if (_sortDirection == SortingDirections.Descending)
                     rtn = -rtn;
 
                 return rtn;
             }
 
-            return Compare(showX as TraktShow, showY as TraktShow);
+            return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
         }
     }
     #endregion

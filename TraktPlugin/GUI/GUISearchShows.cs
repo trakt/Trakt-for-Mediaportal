@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -206,7 +206,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -232,7 +232,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
 
             // Add/Remove Watch List            
-            if (!selectedShow.InWatchList)
+            if (!selectedShow.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
@@ -304,29 +304,29 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkShowAsSeen(selectedShow);
+                    GUICommon.MarkShowAsWatched(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    GUICommon.AddShowToLibrary(selectedShow);
+                    GUICommon.AddShowToCollection(selectedShow);
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedShow);
-                    selectedShow.InWatchList = true;
+                    //TODOselectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
-                    selectedShow.InWatchList = false;
+                    //TODOselectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    TraktHelper.AddRemoveShowInUserList(selectedShow, false);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
@@ -377,7 +377,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
             GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow, jumpTo);
         }
 
@@ -392,7 +392,7 @@ namespace TraktPlugin.GUI
                 if (Shows == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    Shows = TraktAPI.v1.TraktAPI.SearchShows(SearchTerm);
+                    Shows = TraktAPI.TraktAPI.SearchShows(SearchTerm);
                 }
                 return Shows;
             },

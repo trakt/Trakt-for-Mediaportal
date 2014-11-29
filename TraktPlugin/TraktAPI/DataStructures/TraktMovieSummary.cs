@@ -22,7 +22,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Released { get; set; }
 
         [DataMember(Name = "runtime")]
-        public int? runtime { get; set; }
+        public int? Runtime { get; set; }
+
+        [DataMember(Name = "trailer")]
+        public string Trailer { get; set; }
 
         [DataMember(Name = "updated_at")]
         public string UpdatedAt { get; set; }

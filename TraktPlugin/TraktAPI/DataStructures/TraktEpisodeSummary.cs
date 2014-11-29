@@ -21,6 +21,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "updated_at")]
         public string UpdatedAt { get; set; }
 
+        [DataMember(Name = "overview")]
+        public string Overview { get; set; }
+
         [DataMember(Name = "rating")]
         public double? Rating { get; set; }
 

@@ -10,9 +10,9 @@ using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -74,20 +74,20 @@ namespace TraktPlugin.GUI
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
 
-        IEnumerable<TraktTrendingShow> TrendingShows
+        IEnumerable<TraktShowTrending> TrendingShows
         {
             get
             {
                 if (_TrendingShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingShows = TraktAPI.v1.TraktAPI.GetTrendingShows();
+                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows();
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
                 return _TrendingShows;
             }
         }
-        private IEnumerable<TraktTrendingShow> _TrendingShows = null;
+        private IEnumerable<TraktShowTrending> _TrendingShows = null;
         
         #endregion
 
@@ -151,8 +151,8 @@ namespace TraktPlugin.GUI
                         {
                             GUIListItem selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
-                            TraktTrendingShow selectedShow = (TraktTrendingShow)selectedItem.TVTag;
-                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
+                            var selectedShow = (TraktShowTrending)selectedItem.TVTag;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.Show.ToJSON());
                         }
                     }
                     break;
@@ -233,7 +233,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktTrendingShow;
+            var selectedShow = selectedItem.TVTag as TraktShowTrending;
             if (selectedShow == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -242,7 +242,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow, false);
+            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedShow.Show, false);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -251,8 +251,8 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)TrendingContextMenuItem.AddToWatchList):
-                    TraktHelper.AddShowToWatchList(selectedShow);
-                    selectedShow.InWatchList = true;
+                    TraktHelper.AddShowToWatchList(selectedShow.Show);
+                    //TODOselectedShow.Show.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingShowsHideWatchlisted) LoadTrendingShows();
@@ -263,24 +263,24 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkShowAsSeen(selectedShow);
+                    GUICommon.MarkShowAsWatched(selectedShow.Show);
                     if (TraktSettings.TrendingShowsHideWatched) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
-                    GUICommon.AddShowToLibrary(selectedShow);
+                    GUICommon.AddShowToCollection(selectedShow.Show);
                     if (TraktSettings.TrendingShowsHideCollected) LoadTrendingShows();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
-                    TraktHelper.RemoveShowFromWatchList(selectedShow);
-                    selectedShow.InWatchList = false;
+                    TraktHelper.RemoveShowFromWatchList(selectedShow.Show);
+                    //TODOselectedShow.Show.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    TraktHelper.AddRemoveShowInUserList(selectedShow.Show, false);
                     break;
 
                 case ((int)TrendingContextMenuItem.Filters):
@@ -292,19 +292,19 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.Related):
-                    TraktHelper.ShowRelatedShows(selectedShow);
+                    TraktHelper.ShowRelatedShows(selectedShow.Show);
                     break;
 
                 case ((int)TrendingContextMenuItem.Trailers):
-                    GUICommon.ShowTVShowTrailersMenu(selectedShow);
+                    GUICommon.ShowTVShowTrailersMenu(selectedShow.Show);
                     break;
 
                 case ((int)TrendingContextMenuItem.Shouts):
-                    TraktHelper.ShowTVShowShouts(selectedShow);
+                    TraktHelper.ShowTVShowShouts(selectedShow.Show);
                     break;
 
                 case ((int)TrendingContextMenuItem.Rate):
-                    GUICommon.RateShow(selectedShow);
+                    GUICommon.RateShow(selectedShow.Show);
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingShowsHideRated) LoadTrendingShows();
@@ -315,12 +315,12 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchWithMpNZB):
-                    string loadingParam = string.Format("search:{0}", selectedShow.Title);
+                    string loadingParam = string.Format("search:{0}", selectedShow.Show.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchTorrent):
-                    string loadPar = selectedShow.Title;
+                    string loadPar = selectedShow.Show.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
 
@@ -340,8 +340,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
-            GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow, jumpTo);
+            var selectedShow = selectedItem.TVTag as TraktShowTrending;
+            GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow.Show, jumpTo);
         }
 
         private void LoadTrendingShows()
@@ -356,13 +356,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktTrendingShow> shows = result as IEnumerable<TraktTrendingShow>;
+                    var shows = result as IEnumerable<TraktShowTrending>;
                     SendTrendingShowsToFacade(shows);
                 }
             }, Translation.GettingTrendingShows, true);
         }
 
-        private void SendTrendingShowsToFacade(IEnumerable<TraktTrendingShow> shows)
+        private void SendTrendingShowsToFacade(IEnumerable<TraktShowTrending> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -386,13 +386,13 @@ namespace TraktPlugin.GUI
 
             foreach (var show in showList)
             {
-                var item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.TrendingShows);
+                var item = new GUIShowListItem(show.Show.Title, (int)TraktGUIWindows.TrendingShows);
 
                 // add image for download
-                var image = new GUIImage { ShowImages = show.Images };
+                var image = new GUIImage { ShowImages = show.Show.Images };
                 showImages.Add(image);
 
-                item.Label2 = show.Year.ToString();
+                item.Label2 = show.Show.Year.ToString();
                 item.TVTag = show;
                 item.Images = image;
                 item.ItemId = Int32.MaxValue - itemId;                
@@ -480,20 +480,20 @@ namespace TraktPlugin.GUI
             GUICommon.ClearShowProperties();
         }
 
-        private void PublishShowSkinProperties(TraktTrendingShow show)
+        private void PublishShowSkinProperties(TraktShowTrending show)
         {
             GUICommon.SetProperty("#Trakt.Show.Watchers", show.Watchers.ToString());
             GUICommon.SetProperty("#Trakt.Show.Watchers.Extra", show.Watchers > 1 ? string.Format(Translation.PeopleWatching, show.Watchers) : Translation.PersonWatching);
-            GUICommon.SetShowProperties(show);
+            GUICommon.SetShowProperties(show.Show);
         }
 
         private void OnShowSelected(GUIListItem item, GUIControl parent)
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            var show = item.TVTag as TraktTrendingShow;
+            var show = item.TVTag as TraktShowTrending;
             PublishShowSkinProperties(show);
-            GUIImageHandler.LoadFanart(backdrop, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, show.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }
         #endregion
     }
