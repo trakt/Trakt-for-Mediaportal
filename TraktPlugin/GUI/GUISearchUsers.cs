@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using MediaPortal.Video.Database;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -52,7 +52,7 @@ namespace TraktPlugin.GUI
         #region Public Variables
 
         public static string SearchTerm { get; set; }
-        public static IEnumerable<TraktUser> Users { get; set; }
+        public static IEnumerable<TraktUserSummary> Users { get; set; }
 
         #endregion
 
@@ -125,10 +125,10 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        var selectedUser = Facade.SelectedListItem.TVTag as TraktUser;
+                        var selectedUser = Facade.SelectedListItem.TVTag as TraktUserSummary;
                         if (selectedUser == null) break;
 
-                        if (!selectedUser.Protected)
+                        if (!selectedUser.IsPrivate)
                         {
                             GUIUserProfile.CurrentUser = selectedUser.Username;
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
@@ -184,7 +184,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedUser = selectedItem.TVTag as TraktUser;
+            var selectedUser = selectedItem.TVTag as TraktUserSummary;
             if (selectedUser == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -205,7 +205,7 @@ namespace TraktPlugin.GUI
             }
 
             // User Profile
-            if (!selectedUser.Protected)
+            if (!selectedUser.IsPrivate)
             {
                 listItem = new GUIListItem(Translation.UserProfile);
                 dlg.Add(listItem);
@@ -260,7 +260,11 @@ namespace TraktPlugin.GUI
                 if (Users == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    Users = TraktAPI.v1.TraktAPI.SearchForUsers(SearchTerm);
+                    var searchResults = TraktAPI.TraktAPI.SearchForUsers(SearchTerm);
+                    if (searchResults != null)
+                    {
+                        Users = searchResults.Select(s => s.User);
+                    }
                 }
                 return Users;
             },
@@ -268,13 +272,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    var users = result as IEnumerable<TraktUser>;
+                    var users = result as IEnumerable<TraktUserSummary>;
                     SendSearchResultsToFacade(users);
                 }
             }, Translation.GettingSearchResults, true);
         }
 
-        private void SendSearchResultsToFacade(IEnumerable<TraktUser> users)
+        private void SendSearchResultsToFacade(IEnumerable<TraktUserSummary> users)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -294,7 +298,7 @@ namespace TraktPlugin.GUI
             foreach (var user in users)
             {
                 // add image to download
-                var images = new GUIImage { Avatar = user.Avatar };
+                var images = new GUIImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var item = new GUIUserListItem(user.Username, (int)TraktGUIWindows.SearchUsers);
@@ -357,7 +361,7 @@ namespace TraktPlugin.GUI
             GUICommon.ClearUserProperties();
         }
 
-        private void PublishSkinProperties(TraktUser user)
+        private void PublishSkinProperties(TraktUserSummary user)
         {
             GUICommon.SetUserProperties(user);
         }
@@ -366,7 +370,7 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            var user = item.TVTag as TraktUser;
+            var user = item.TVTag as TraktUserSummary;
             PublishSkinProperties(user);
         }
         #endregion

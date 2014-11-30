@@ -141,4 +141,14 @@ namespace TraktPlugin.TraktAPI.Enums
         users = 16,
         lists = 32
     }
+
+    /// <summary>
+    /// Extended info parameter used on GET requests
+    /// </summary>
+    public enum ExtendedInfo
+    {
+        min,
+        images,
+        full
+    }
 }

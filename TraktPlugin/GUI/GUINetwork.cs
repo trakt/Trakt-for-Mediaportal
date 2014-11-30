@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -94,24 +86,24 @@ namespace TraktPlugin.GUI
         static ViewLevel CurrentViewLevel { get; set; }
         View CurrentView { get; set; }
         ActivityType SelectedActivity { get; set; }
-        TraktUser CurrentSelectedUser { get; set; }
+        TraktUserSummary CurrentSelectedUser { get; set; }
         int PreviousUserSelectedIndex = 0;
         int PreviousActivityTypeSelectedIndex = 0;
 
-        IEnumerable<TraktNetworkUser> TraktFriends
+        IEnumerable<TraktNetworkFriend> TraktFriends
         {
             get
             {
                 if (_TraktFriends == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFriends = TraktAPI.v1.TraktAPI.GetNetworkFriends();
+                    _TraktFriends = TraktAPI.TraktAPI.GetNetworkFriends();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
                 return _TraktFriends;
             }
-        }
-        static IEnumerable<TraktNetworkUser> _TraktFriends = null;
+        } 
+        static IEnumerable<TraktNetworkFriend> _TraktFriends = null;
 
         IEnumerable<TraktNetworkUser> TraktFollowers
         {
@@ -119,7 +111,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFollowers == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFollowers = TraktAPI.v1.TraktAPI.GetNetworkFollowers();
+                    _TraktFollowers = TraktAPI.TraktAPI.GetNetworkFollowers();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
@@ -134,7 +126,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TraktFollowing == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TraktFollowing = TraktAPI.v1.TraktAPI.GetNetworkFollowing();
+                    _TraktFollowing = TraktAPI.TraktAPI.GetNetworkFollowing();
                     LastRequest = DateTime.UtcNow;
                     PreviousUserSelectedIndex = 0;
                 }
@@ -225,7 +217,7 @@ namespace TraktPlugin.GUI
                                 }
                                 else
                                 {
-                                    if (!CurrentSelectedUser.Protected || CurrentView == View.Friends)
+                                    if (!CurrentSelectedUser.IsPrivate || CurrentView == View.Friends)
                                     {
                                         LoadActivityTypes();
                                     }
@@ -442,10 +434,11 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.ApproveFollowerMessage, selectedItem.Label), true))
                     {
                         // follower approved, send to trakt
-                        ApproveFollowerRequest(selectedItem.TVTag as TraktUser);
+                        int id = (selectedItem.TVTag as TraktFollowerRequest).Id;
+                        ApproveFollowerRequest(id);
 
                         // remove follower from requests, we have approved already
-                        _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
+                        TraktCache.FollowerRequests = TraktCache.FollowerRequests.Except(TraktCache.FollowerRequests.Where(f => f.Id == id));
 
                         // clear followers cache
                         _TraktFollowers = null;
@@ -460,10 +453,10 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.ApproveFollowerAndFollowBackMessage, selectedItem.Label), true))
                     {
                         // follower approved, send to trakt with follow back 
-                        ApproveFollowerRequest(selectedItem.TVTag as TraktUser, true);
+                        ApproveFollowerRequest((selectedItem.TVTag as TraktFollowerRequest).Id, true);
 
                         // remove follower from requests, we have approved already
-                        _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
+                        TraktCache.FollowerRequests = TraktCache.FollowerRequests.Except(TraktCache.FollowerRequests.Where(f => f.User.Username == selectedItem.Label));
 
                         // clear respective caches
                         _TraktFollowers = null;
@@ -481,7 +474,7 @@ namespace TraktPlugin.GUI
                         // follower denied, remove user from pending requests
                         DenyFollowerRequest(selectedItem.TVTag as TraktUser);
 
-                        _TraktFollowerRequests = _TraktFollowerRequests.Except(_TraktFollowerRequests.Where(f => f.Username == selectedItem.Label));
+                        TraktCache.FollowerRequests = TraktCache.FollowerRequests.Except(TraktCache.FollowerRequests.Where(f => f.User.Username == selectedItem.Label));
 
                         // Re-Load list
                         LoadView();
@@ -531,29 +524,6 @@ namespace TraktPlugin.GUI
 
             if (viewButton != null)
                 viewButton.Label = Translation.View + ": " + GetViewTypeName(CurrentView);
-        }
-
-        private static TraktNetwork CreateNetworkData(TraktUser user)
-        {
-            TraktNetwork network = new TraktNetwork
-            {
-                Username = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                User = user.Username
-            };
-            return network;
-        }
-
-        private TraktNetworkApprove CreateNetworkData(TraktUser user, bool followBack)
-        {
-            TraktNetworkApprove network = new TraktNetworkApprove
-            {
-                Username = TraktSettings.Username,
-                Password = TraktSettings.Password,
-                User = user.Username,
-                FollowBack = followBack
-            };
-            return network;
         }
 
         private void SearchForUser()
@@ -626,42 +596,40 @@ namespace TraktPlugin.GUI
             LoadView();
         }
 
-        private void ApproveFollowerRequest(TraktUser user, bool followBack = false)
+        private void ApproveFollowerRequest(int id, bool followBack = false)
         {
-            Thread approveFollowerThread = new Thread(delegate(object obj)
+            var approveFollowerThread = new Thread(objId =>
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkApprove(CreateNetworkData(user, followBack));
-                TraktLogger.LogTraktResponse<TraktResponse>(response);
+                var response = TraktAPI.TraktAPI.NetworkApproveFollower((int)objId);
+                TraktLogger.LogTraktResponse<TraktNetworkUser>(response);
             })
             {
                 IsBackground = true,
-                Name = "FollowerRequest"
+                Name = "FollowerReq"
             };
 
-            approveFollowerThread.Start(user);
+            approveFollowerThread.Start(id);
         }
 
-        private void DenyFollowerRequest(TraktUser user)
+        private void DenyFollowerRequest(int id)
         {
-            Thread denyFollowerRequest = new Thread(delegate(object obj)
+            var denyFollowerRequest = new Thread(objId =>
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkDeny(CreateNetworkData(user));
-                TraktLogger.LogTraktResponse<TraktResponse>(response);
+                TraktAPI.TraktAPI.NetworkDenyFollower((int)objId);
             })
             {
                 IsBackground = true,
-                Name = "DenyFollowerRequest"
+                Name = "FollowerReq"
             };
 
-            denyFollowerRequest.Start(user);
+            denyFollowerRequest.Start(id);
         }
 
         private void UnfollowUser(TraktUser user)
         {
-            Thread unfollowUserThread = new Thread(delegate(object obj)
+            var unfollowUserThread = new Thread(objUser =>
             {
-                TraktResponse response = TraktAPI.v1.TraktAPI.NetworkUnFollow(CreateNetworkData(user));
-                TraktLogger.LogTraktResponse<TraktResponse>(response);
+                TraktAPI.TraktAPI.NetworkUnFollowUser((objUser as TraktUser).Username);
             })
             {
                 IsBackground = true,
@@ -716,7 +684,7 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            string avatar = CurrentSelectedUser.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            string avatar = CurrentSelectedUser.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             // add each type to the list
             var item = new GUIUserListItem(Translation.UserProfile, (int)TraktGUIWindows.Network);
@@ -834,13 +802,13 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     // Get Friend List from Result Handler
-                    IEnumerable<TraktNetworkUser> friends = result as IEnumerable<TraktNetworkUser>;
+                    IEnumerable<TraktNetworkFriend> friends = result as IEnumerable<TraktNetworkFriend>;
                     SendFriendsToFacade(friends);
                 }
             }, Translation.GettingFriendsList, true);
         }
 
-        private void SendFriendsToFacade(IEnumerable<TraktNetworkUser> friends)
+        private void SendFriendsToFacade(IEnumerable<TraktNetworkFriend> friends)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -871,15 +839,15 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUIImage>();
 
             // Add each friend to the list
-            foreach (var friend in friends.OrderBy(f => f.ApprovedDate))
+            foreach (var friend in friends.OrderBy(f => f.FriendsAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { Avatar = friend.Avatar };
+                var images = new GUIImage { UserImages = friend.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = friend.ApprovedDate.FromEpoch().ToShortDateString();
+                userItem.Label2 = friend.FriendsAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
                 userItem.TVTag = friend;
                 userItem.ItemId = id++;
@@ -958,15 +926,15 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUIImage>();
 
             // Add each user to the list
-            foreach (var user in following.OrderBy(f => f.ApprovedDate))
+            foreach (var user in following.OrderBy(f => f.FollowedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { Avatar = user.Avatar };
+                var images = new GUIImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
+                userItem.Label2 = user.FollowedAt.FromISO8601().ToShortDateString();
                 userItem.TVTag = user;
                 userItem.Images = images;
                 userItem.ItemId = id++;
@@ -1044,15 +1012,15 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUIImage>();
 
             // Add each user to the list
-            foreach (var user in followers.OrderBy(f => f.ApprovedDate))
+            foreach (var user in followers.OrderBy(f => f.FollowedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { Avatar = user.Avatar };
+                var images = new GUIImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.ApprovedDate.FromEpoch().ToShortDateString();
+                userItem.Label2 = user.FollowedAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
                 userItem.TVTag = user;
                 userItem.ItemId = id++;
@@ -1087,20 +1055,20 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktFollowerRequests;
+                return TraktCache.FollowerRequests;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
                     // Get Request List from Result Handler
-                    IEnumerable<TraktNetworkReqUser> requests = result as IEnumerable<TraktNetworkReqUser>;
+                    var requests = result as IEnumerable<TraktFollowerRequest>;
                     SendFollowerRequestsToFacade(requests);
                 }
             }, Translation.GettingFollowerRequests, true);
         }
 
-        private void SendFollowerRequestsToFacade(IEnumerable<TraktNetworkReqUser> requests)
+        private void SendFollowerRequestsToFacade(IEnumerable<TraktFollowerRequest> requests)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -1130,15 +1098,15 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUIImage>();
 
             // Add each user to the list
-            foreach (var user in requests.OrderBy(r => r.RequestDate))
+            foreach (var user in requests.OrderBy(r => r.RequestedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { Avatar = user.Avatar };
+                var images = new GUIImage { UserImages = user.User.Images };
                 userImages.Add(images);
 
-                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
+                var userItem = new GUIUserListItem(user.User.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.RequestDate.FromEpoch().ToShortDateString();
+                userItem.Label2 = user.RequestedAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
                 userItem.TVTag = user;
                 userItem.ItemId = id++;
@@ -1171,14 +1139,14 @@ namespace TraktPlugin.GUI
             GUICommon.ClearUserProperties();
         }
 
-        private void PublishUserSkinProperties(TraktUser user)
+        private void PublishUserSkinProperties(TraktUserSummary user)
         {
             GUICommon.SetUserProperties(user);
         }
 
         private void OnUserSelected(GUIListItem item, GUIControl parent)
         {
-            CurrentSelectedUser = item.TVTag as TraktUser;
+            CurrentSelectedUser = item.TVTag as TraktUserSummary;
             PublishUserSkinProperties(CurrentSelectedUser);
 
             // reset selected indicies
@@ -1213,25 +1181,7 @@ namespace TraktPlugin.GUI
             PreviousActivityTypeSelectedIndex = Facade.SelectedListItemIndex;
         }
         #endregion
-
-        #region Public Static Properties
-
-        public static IEnumerable<TraktNetworkReqUser> TraktFollowerRequests
-        {
-            get
-            {
-                if (_TraktFollowerRequests == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
-                {
-                    _TraktFollowerRequests = TraktAPI.v1.TraktAPI.GetNetworkRequests();
-                    LastRequest = DateTime.UtcNow;
-                }
-                return _TraktFollowerRequests;
-            }
-        }
-        static IEnumerable<TraktNetworkReqUser> _TraktFollowerRequests = null;
-
-        #endregion
-
+        
         #region Public Static Methods
 
         internal static void ClearCache()
@@ -1239,21 +1189,22 @@ namespace TraktPlugin.GUI
             _TraktFriends = null;
             _TraktFollowers = null;
             _TraktFollowing = null;
-            _TraktFollowerRequests = null;
+            TraktCache.FollowerRequests = null;
             CurrentViewLevel = ViewLevel.Network;
         }
 
         internal static void FollowUser(TraktUser user)
         {
-            Thread followUserThread = new Thread(delegate(object obj)
+            var followUserThread = new Thread(obj =>
             {
                 var currUser = obj as TraktUser;
 
-                var response = TraktAPI.v1.TraktAPI.NetworkFollow(CreateNetworkData(currUser));
-                TraktLogger.LogTraktResponse<TraktNetworkFollowResponse>(response);
+                var response = TraktAPI.TraktAPI.NetworkFollowUser(currUser.Username);
+                TraktLogger.LogTraktResponse<TraktNetworkApproval>(response);
 
                 // notify user if follow is pending approval by user
-                if (response.Pending)
+                // approved date will be null if user is marked as private
+                if (response != null && response.ApprovedAt == null)
                 {
                     GUIUtils.ShowNotifyDialog(Translation.Follow, string.Format(Translation.FollowPendingApproval, currUser.Username));
                 }

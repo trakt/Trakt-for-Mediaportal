@@ -148,9 +148,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Recommendations
 
-        public static IEnumerable<TraktMovie> GetRecommendedMovies()
+        public static IEnumerable<TraktMovie> GetRecommendedMovies(string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(TraktURIs.RecommendedMovies);
+            var response = GetFromTrakt(string.Format(TraktURIs.RecommendedMovies, extendedInfoParams));
             return response.FromJSONArray<TraktMovie>();
         }
 
@@ -174,19 +174,81 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktFollowerRequest>();
         }
 
+        /// <summary>
+        /// Returns a list of Friends for current user
+        /// Friends are a two-way relationship ie. both following each other
+        /// </summary>
+        public static IEnumerable<TraktNetworkFriend> GetNetworkFriends()
+        {
+            return GetNetworkFriends(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkFriend> GetNetworkFriends(string user)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFriends, user));
+            return response.FromJSONArray<TraktNetworkFriend>();
+        }
+
+        /// <summary>
+        /// Returns a list of people the current user follows
+        /// </summary>
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing()
+        {
+            return GetNetworkFollowing(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing(string user)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowing, user));
+            return response.FromJSONArray<TraktNetworkUser>();
+        }
+
+        /// <summary>
+        /// Returns a list of people that follow the current user
+        /// </summary>
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers()
+        {
+            return GetNetworkFollowers(TraktSettings.Username);
+        }
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers(string user)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowers, user));
+            return response.FromJSONArray<TraktNetworkUser>();
+        }
+
+        public static TraktNetworkUser NetworkApproveFollower(int id)
+        {
+            string response = PostToTrakt(string.Format(TraktURIs.NetworkFollowRequest, id), string.Empty);
+            return response.FromJSON<TraktNetworkUser>();
+        }
+
+        public static bool NetworkDenyFollower(int id)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.NetworkFollowRequest, id));
+        }
+
+        public static TraktNetworkApproval NetworkFollowUser(string username)
+        {
+            string response = PostToTrakt(string.Format(TraktURIs.NetworkFollowUser, username), string.Empty);
+            return response.FromJSON<TraktNetworkApproval>();
+        }
+
+        public static bool NetworkUnFollowUser(string username)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.NetworkFollowUser, username));
+        }
+
         #endregion
 
         #region Lists
-
-        public static IEnumerable<TraktListDetail> GetUserLists(string username)
+        
+        public static IEnumerable<TraktListDetail> GetUserLists(string username, string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username, extendedInfoParams));
             return response.FromJSONArray<TraktListDetail>();
         }
 
-        public static IEnumerable<TraktListItem> GetUserListItems(string username, string listId)
+        public static IEnumerable<TraktListItem> GetUserListItems(string username, string listId, string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserListItems, username, listId));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserListItems, username, listId, extendedInfoParams));
             return response.FromJSONArray<TraktListItem>();
         }
 
@@ -194,9 +256,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Watchlists
 
-        public static IEnumerable<TraktMovieWatchList> GetWatchListMovies(string username)
+        public static IEnumerable<TraktMovieWatchList> GetWatchListMovies(string username, string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistMovies, username));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistMovies, username, extendedInfoParams));
             return response.FromJSONArray<TraktMovieWatchList>();
         }
 
@@ -238,9 +300,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktMovieTrending> GetTrendingMovies(bool extendedInfo = true)
+        public static IEnumerable<TraktMovieTrending> GetTrendingMovies()
         {
-            var response = GetFromTrakt(TraktURIs.TrendingMovies, extendedInfo);
+            var response = GetFromTrakt(TraktURIs.TrendingMovies);
             return response.FromJSONArray<TraktMovieTrending>();
         }
 
@@ -252,10 +314,10 @@ namespace TraktPlugin.TraktAPI
 
         #region Related
 
-        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id, bool extendedInfo = true)
+        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id), extendedInfo);
-            return response.FromJSONArray<TraktShow>();
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
+            return response.FromJSONArray<TraktShowSummary>();
         }
 
         #endregion
@@ -272,9 +334,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktShowTrending> GetTrendingShows(bool extendedInfo = true)
+        public static IEnumerable<TraktShowTrending> GetTrendingShows()
         {
-            var response = GetFromTrakt(TraktURIs.TrendingShows, extendedInfo);
+            var response = GetFromTrakt(TraktURIs.TrendingShows);
             return response.FromJSONArray<TraktShowTrending>();
         }
 
@@ -404,16 +466,18 @@ namespace TraktPlugin.TraktAPI
 
         #region Search
 
+        static readonly Object searchLock = new Object();
+
         /// <summary>
         /// Search from one or more types, movies, episodes, shows etc...
         /// </summary>
         /// <param name="searchTerm">string to search for</param>
         /// <param name="types">a list of search types</param>
         /// <returns>returns results from multiple search types</returns>
-        public static TraktSearchResult Search(string searchTerm, HashSet<SearchType> types, int maxResults)
+        public static IEnumerable<TraktSearchResult> Search(string searchTerm, HashSet<SearchType> types, int maxResults)
         {
             // collect all the results from each type in this list
-            TraktSearchResult results = new TraktSearchResult();
+            List<TraktSearchResult> results = new List<TraktSearchResult>();
 
             // run all search types in parallel
             List<Thread> threads = new List<Thread>();
@@ -423,42 +487,89 @@ namespace TraktPlugin.TraktAPI
                 switch (type)
                 {
                     case SearchType.movies:
-                        var tMovieSearch = new Thread(obj => { results.Movies = SearchMovies(obj as string, maxResults); });
+                        var tMovieSearch = new Thread(obj => 
+                        { 
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                            }
+
+                        });
                         tMovieSearch.Start(searchTerm);
                         tMovieSearch.Name = "Search";
                         threads.Add(tMovieSearch);
                         break;
 
                     case SearchType.shows:
-                        var tShowSearch = new Thread(obj => { results.Shows = SearchShows(obj as string, maxResults); });
+                        var tShowSearch = new Thread(obj =>
+                        {
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
+                            }
+                        });
                         tShowSearch.Start(searchTerm);
                         tShowSearch.Name = "Search";
                         threads.Add(tShowSearch);
                         break;
 
                     case SearchType.episodes:
-                        var tEpisodeSearch = new Thread(obj => { results.Episodes = SearchEpisodes(obj as string, maxResults); });
+                        var tEpisodeSearch = new Thread(obj =>
+                        {
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                            }
+                        });
                         tEpisodeSearch.Start(searchTerm);
                         tEpisodeSearch.Name = "Search";
                         threads.Add(tEpisodeSearch);
                         break;
 
                     case SearchType.people:
-                        var tPeopleSearch = new Thread(obj => { results.People = SearchPeople(obj as string, maxResults); });
+                        var tPeopleSearch = new Thread(obj =>
+                        {
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                            }
+                        });
                         tPeopleSearch.Start(searchTerm);
                         tPeopleSearch.Name = "Search";
                         threads.Add(tPeopleSearch);
                         break;
 
                     case SearchType.users:
-                        var tUserSearch = new Thread(obj => { results.Users = SearchUsers(obj as string, maxResults); });
+                        var tUserSearch = new Thread(obj =>
+                        {
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                            }
+                        });
                         tUserSearch.Start(searchTerm);
                         tUserSearch.Name = "Search";
                         threads.Add(tUserSearch);
                         break;
 
                     case SearchType.lists:
-                        var tListSearch = new Thread(obj => { results.Lists = SearchLists(obj as string, maxResults); });
+                        var tListSearch = new Thread(obj =>
+                        {
+                            var response = SearchMovies(obj as string, maxResults);
+                            lock (searchLock)
+                            {
+                                results.AddRange(response);
+                            }
+                        });
                         tListSearch.Start(searchTerm);
                         tListSearch.Name = "Search";
                         threads.Add(tListSearch);
@@ -476,79 +587,79 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns a list of users found using search term
         /// </summary>
-        public static IEnumerable<TraktUser> SearchForUsers(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchForUsers(string searchTerm)
         {
             return SearchUsers(searchTerm, 30);
         }
-        public static IEnumerable<TraktUser> SearchUsers(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchUsers(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchUsers, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktUser>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
         /// Returns a list of movies found using search term
         /// </summary>
-        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchMovies(string searchTerm)
         {
             return SearchMovies(searchTerm, 30);
         }
-        public static IEnumerable<TraktMovie> SearchMovies(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchMovies(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchMovies, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktMovie>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
         /// Returns a list of shows found using search term
         /// </summary>
-        public static IEnumerable<TraktShow> SearchShows(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchShows(string searchTerm)
         {
             return SearchShows(searchTerm, 30);
         }
-        public static IEnumerable<TraktShow> SearchShows(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchShows(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchShows, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktShow>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
         /// Returns a list of episodes found using search term
         /// </summary>
-        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchEpisodes(string searchTerm)
         {
             return SearchEpisodes(searchTerm, 30);
         }
-        public static IEnumerable<TraktEpisodeSummary> SearchEpisodes(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchEpisodes(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchEpisodes, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktEpisodeSummary>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
         /// Returns a list of people found using search term
         /// </summary>
-        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchPeople(string searchTerm)
         {
             return SearchPeople(searchTerm, 30);
         }
-        public static IEnumerable<TraktPersonSummary> SearchPeople(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchPeople(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchPeople, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktPersonSummary>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
         /// Returns a list of lists found using search term
         /// </summary>
-        public static IEnumerable<TraktList> SearchLists(string searchTerm)
+        public static IEnumerable<TraktSearchResult> SearchLists(string searchTerm)
         {
             return SearchLists(searchTerm, 30);
         }
-        public static IEnumerable<TraktList> SearchLists(string searchTerm, int maxResults)
+        public static IEnumerable<TraktSearchResult> SearchLists(string searchTerm, int maxResults)
         {
             string response = GetFromTrakt(string.Format(TraktURIs.SearchLists, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
-            return response.FromJSONArray<TraktList>();
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         #endregion
@@ -1170,15 +1281,12 @@ namespace TraktPlugin.TraktAPI
 
         public static bool DeleteFromTrakt(string address)
         {
-            var response = GetFromTrakt(address, false, "DELETE");
+            var response = GetFromTrakt(address, "DELETE");
             return response != null;
         }
 
-        public static string GetFromTrakt(string address, bool extendedInfo = false, string method = "GET")
+        public static string GetFromTrakt(string address, string method = "GET")
         {
-            if (extendedInfo)
-                address += "?extended=full,images";
-
             if (OnDataSend != null)
                 OnDataSend(address, null);
 

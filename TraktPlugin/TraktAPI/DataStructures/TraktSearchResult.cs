@@ -6,34 +6,31 @@ using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
-    /// <summary>
-    /// this class is used to combine multiple search results
-    /// </summary>
+    [DataContract]
     public class TraktSearchResult
     {
-        public IEnumerable<TraktMovieSummary> Movies = null;
-        public IEnumerable<TraktShowSummary> Shows = null;
-        public IEnumerable<TraktEpisodeSummary> Episodes = null;
-        public IEnumerable<TraktPersonSummary> People = null;
-        public IEnumerable<TraktUserSummary> Users = null;
-        public IEnumerable<TraktList> Lists = null;
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
 
-        public int Count
-        {
-            get
-            {
-                int retValue = 0;
+        [DataMember(Name = "score")]
+        public double Score { get; set; }
 
-                if (Movies != null) retValue += Movies.Count();
-                if (Shows != null) retValue += Shows.Count();
-                if (Episodes != null) retValue += Episodes.Count();
-                if (People != null) retValue += People.Count();
-                if (Users != null) retValue += Users.Count();
-                if (Lists != null) retValue += Lists.Count();
+        [DataMember(Name = "movie")]
+        public TraktMovieSummary Movie { get; set; }
 
-                return retValue;
+        [DataMember(Name = "show")]
+        public TraktShowSummary Show { get; set; }
 
-            }
-        }
+        [DataMember(Name = "episode")]
+        public TraktEpisodeSummary Episode { get; set; }
+
+        [DataMember(Name = "person")]
+        public TraktPersonSummary Person { get; set; }
+
+        [DataMember(Name = "user")]
+        public TraktUserSummary User { get; set; }
+
+        [DataMember(Name = "list")]
+        public TraktList List { get; set; }
     }
 }

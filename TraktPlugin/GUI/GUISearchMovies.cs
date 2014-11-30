@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using MediaPortal.Video.Database;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -74,7 +74,7 @@ namespace TraktPlugin.GUI
         #region Public Variables
 
         public static string SearchTerm { get; set; }
-        public static IEnumerable<TraktMovie> Movies { get; set; }
+        public static IEnumerable<TraktMovieSummary> Movies { get; set; }
 
         #endregion
 
@@ -194,7 +194,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedMovie = selectedItem.TVTag as TraktMovie;
+            var selectedMovie = selectedItem.TVTag as TraktMovieSummary;
             if (selectedMovie == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -206,7 +206,7 @@ namespace TraktPlugin.GUI
             GUIListItem listItem = null;
 
             // Mark As Watched
-            if (!selectedMovie.Watched)
+            if (!selectedMovie.IsWatched())
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
@@ -214,7 +214,7 @@ namespace TraktPlugin.GUI
             }
 
             // Mark As UnWatched
-            if (selectedMovie.Watched)
+            if (selectedMovie.IsWatched())
             {
                 listItem = new GUIListItem(Translation.MarkAsUnWatched);
                 dlg.Add(listItem);
@@ -222,7 +222,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add/Remove Watch List            
-            if (!selectedMovie.InWatchList)
+            if (!selectedMovie.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
@@ -243,14 +243,14 @@ namespace TraktPlugin.GUI
             // Add to Library
             // Don't allow if it will be removed again on next sync
             // movie could be part of a DVD collection
-            if (!selectedMovie.InCollection && !TraktSettings.KeepTraktLibraryClean)
+            if (!selectedMovie.IsCollected() && !TraktSettings.KeepTraktLibraryClean)
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
             }
 
-            if (selectedMovie.InCollection)
+            if (selectedMovie.IsCollected())
             {
                 listItem = new GUIListItem(Translation.RemoveFromLibrary);
                 dlg.Add(listItem);
@@ -285,7 +285,7 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
-            if (!selectedMovie.InCollection && TraktHelper.IsMpNZBAvailableAndEnabled)
+            if (!selectedMovie.IsCollected() && TraktHelper.IsMpNZBAvailableAndEnabled)
             {
                 // Search for movie with mpNZB
                 listItem = new GUIListItem(Translation.SearchWithMpNZB);
@@ -293,7 +293,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.SearchWithMpNZB;
             }
 
-            if (!selectedMovie.InCollection && TraktHelper.IsMyTorrentsAvailableAndEnabled)
+            if (!selectedMovie.IsCollected() && TraktHelper.IsMyTorrentsAvailableAndEnabled)
             {
                 // Search for movie with MyTorrents
                 listItem = new GUIListItem(Translation.SearchTorrent);
@@ -308,17 +308,17 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    TraktHelper.MarkMovieAsWatched(selectedMovie);
-                    if (selectedMovie.Plays == 0) selectedMovie.Plays = 1;
-                    selectedMovie.Watched = true;
+                    TraktHelper.AddMovieToWatchHistory(selectedMovie);
+                    if (selectedMovie.Plays() == 0) //TODOselectedMovie.Plays = 1;
+                    //TODOselectedMovie.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.MarkMovieAsUnWatched(selectedMovie);
-                    selectedMovie.Watched = false;
+                    TraktHelper.RemoveMovieFromWatchHistory(selectedMovie);
+                    //TODOselectedMovie.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -326,32 +326,32 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
-                    selectedMovie.InWatchList = true;
+                    //TODOselectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
-                    selectedMovie.InWatchList = false;
+                    //TODOselectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveMovieInUserList(selectedMovie.Title, selectedMovie.Year, selectedMovie.IMDBID, false);
+                    TraktHelper.AddRemoveMovieInUserList(selectedMovie, false);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    TraktHelper.AddMovieToLibrary(selectedMovie);
-                    selectedMovie.InCollection = true;
+                    TraktHelper.AddMovieToCollection(selectedMovie);
+                    //TODOselectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    TraktHelper.RemoveMovieFromLibrary(selectedMovie);
-                    selectedMovie.InCollection = false;
+                    TraktHelper.RemoveMovieFromCollection(selectedMovie);
+                    //TODOselectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
@@ -403,7 +403,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedMovie = selectedItem.TVTag as TraktMovie;
+            var selectedMovie = selectedItem.TVTag as TraktMovieSummary;
             if (selectedMovie == null) return;
 
             GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
@@ -420,7 +420,11 @@ namespace TraktPlugin.GUI
                 if (Movies == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    Movies = TraktAPI.v1.TraktAPI.SearchMovies(SearchTerm);
+                    var searchResult = TraktAPI.TraktAPI.SearchMovies(SearchTerm);
+                    if (searchResult != null)
+                    {
+                        Movies = searchResult.Select(s => s.Movie);
+                    }
                 }
                 return Movies;
             },
@@ -428,13 +432,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktMovie> movies = result as IEnumerable<TraktMovie>;
+                    var movies = result as IEnumerable<TraktMovieSummary>;
                     SendSearchResultsToFacade(movies);
                 }
             }, Translation.GettingSearchResults, true);
         }
 
-        private void SendSearchResultsToFacade(IEnumerable<TraktMovie> movies)
+        private void SendSearchResultsToFacade(IEnumerable<TraktMovieSummary> movies)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -459,10 +463,10 @@ namespace TraktPlugin.GUI
 
                 GUIMovieListItem item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.SearchMovies);
 
-                item.Label2 = movie.Year == "0" ? "----" : movie.Year;
+                item.Label2 = movie.Year == null ? "----" : movie.Year.ToString();
                 item.TVTag = movie;
                 item.Images = images;
-                item.IsPlayed = movie.Watched;
+                item.IsPlayed = movie.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -524,7 +528,7 @@ namespace TraktPlugin.GUI
             GUICommon.ClearMovieProperties();
         }
 
-        private void PublishMovieSkinProperties(TraktMovie movie)
+        private void PublishMovieSkinProperties(TraktMovieSummary movie)
         {
             GUICommon.SetMovieProperties(movie);
         }
@@ -533,7 +537,7 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            TraktMovie movie = item.TVTag as TraktMovie;
+            var movie = item.TVTag as TraktMovieSummary;
             PublishMovieSkinProperties(movie);
             GUIImageHandler.LoadFanart(backdrop, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
         }

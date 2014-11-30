@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using MediaPortal.Configuration;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 
@@ -595,6 +594,10 @@ namespace TraktPlugin
                     LastFollowerRequest = DateTime.UtcNow;
                 }
                 return _FollowerRequests;
+            }
+            set
+            {
+                _FollowerRequests = value;
             }
         }
         static IEnumerable<TraktFollowerRequest> _FollowerRequests = null;

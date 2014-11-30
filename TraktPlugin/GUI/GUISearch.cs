@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using MediaPortal.Video.Database;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -42,6 +43,9 @@ namespace TraktPlugin.GUI
         [SkinControl(7)]
         protected GUICheckButton userSearchButton = null;
 
+        [SkinControl(8)]
+        protected GUICheckButton listSearchButton = null;
+
         #endregion
 
         #region Enums
@@ -62,9 +66,9 @@ namespace TraktPlugin.GUI
         HashSet<SearchType> SearchTypes = new HashSet<SearchType>();
         string SearchTerm = null;
         DateTime LastRequest = new DateTime();
-        Dictionary<string, TraktSearchResult> searchCache = new Dictionary<string, TraktSearchResult>();
+        Dictionary<string, IEnumerable<TraktSearchResult>> searchCache = new Dictionary<string, IEnumerable<TraktSearchResult>>();
 
-        TraktSearchResult SearchResults
+        IEnumerable<TraktSearchResult> SearchResults
         {
             get
             {
@@ -72,7 +76,7 @@ namespace TraktPlugin.GUI
 
                 if (!searchCache.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _SearchResults = TraktAPI.v1.TraktAPI.Search(SearchTerm, SearchTypes, TraktSettings.MaxSearchResults);
+                    _SearchResults = TraktAPI.TraktAPI.Search(SearchTerm, SearchTypes, TraktSettings.MaxSearchResults);
                     if (searchCache.Keys.Contains(key)) searchCache.Remove(key);
                     searchCache.Add(key, _SearchResults);
                     LastRequest = DateTime.UtcNow;
@@ -81,12 +85,11 @@ namespace TraktPlugin.GUI
                 return searchCache[key];
             }
         }
-        TraktSearchResult _SearchResults = null;
+        IEnumerable<TraktSearchResult> _SearchResults = null;
         #endregion
 
         #region Public Properties
 
-        
         #endregion
 
         #region Base Overrides
@@ -128,6 +131,7 @@ namespace TraktPlugin.GUI
             if (episodeSearchButton.Selected) searchTypes |= SearchType.episodes;
             if (peopleSearchButton.Selected) searchTypes |= SearchType.people;
             if (userSearchButton.Selected) searchTypes |= SearchType.users;
+            if (listSearchButton.Selected) searchTypes |= SearchType.lists;
 
             TraktSettings.SearchTypes = (int)searchTypes;
 
@@ -232,41 +236,19 @@ namespace TraktPlugin.GUI
                 case SearchType.users:
                     listName = Translation.Users;
                     break;
+
+                case SearchType.lists:
+                    listName = Translation.Lists;
+                    break;
             }
 
             return listName;
         }
 
-        private int GetSearchResultCount(TraktSearchResult searchResults, SearchType type)
+        private int GetSearchResultCount(IEnumerable<TraktSearchResult> searchResults, SearchType type)
         {
             if (searchResults == null) return 0;
-
-            int retValue = 0;
-
-            switch (type)
-            {
-                case SearchType.movies:
-                    if (searchResults.Movies != null) retValue = searchResults.Movies.Count();
-                    break;
-
-                case SearchType.shows:
-                    if (searchResults.Shows != null) retValue = searchResults.Shows.Count();
-                    break;
-
-                case SearchType.episodes:
-                    if (searchResults.Episodes != null) retValue = searchResults.Episodes.Count();
-                    break;
-
-                case SearchType.people:
-                    if (searchResults.People != null) retValue = searchResults.People.Count();
-                    break;
-
-                case SearchType.users:
-                    if (searchResults.Users != null) retValue = searchResults.Users.Count();
-                    break;
-            }
-
-            return retValue;
+            return searchResults.Where(s => s.Type == type.ToString()).Count();
         }
 
         private void SetSearchTypes()
@@ -278,6 +260,7 @@ namespace TraktPlugin.GUI
             if (episodeSearchButton.Selected) SearchTypes.Add(SearchType.episodes);
             if (peopleSearchButton.Selected) SearchTypes.Add(SearchType.people);
             if (userSearchButton.Selected) SearchTypes.Add(SearchType.users);
+            if (listSearchButton.Selected) SearchTypes.Add(SearchType.lists);
         }
 
         private int GetSearchTypesID()
@@ -307,17 +290,17 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    SendSearchResultsToFacade(result as TraktSearchResult);
+                    SendSearchResultsToFacade(result as IEnumerable<TraktSearchResult>);
                 }
             }, Translation.GettingSearchResults, true);
         }
 
-        private void SendSearchResultsToFacade(TraktSearchResult searchResults)
+        private void SendSearchResultsToFacade(IEnumerable<TraktSearchResult> searchResults)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (searchResults == null || searchResults.Count == 0)
+            if (searchResults == null || searchResults.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoSearchResultsFound);
                 return;
@@ -368,43 +351,53 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", SearchTypes.Count.ToString(), Translation.SearchTypes));
         }
 
-        private void SendSearchResultsToWindow(TraktSearchResult searchResults)
+        private void SendSearchResultsToWindow(IEnumerable<TraktSearchResult> searchResults)
         {
             switch (SelectedSearchType)
             {
                 case SearchType.movies:
-                    if (SearchResults.Movies.Count() == 0) break;
+                    if (GetSearchResultCount(searchResults, SearchType.movies) == 0) break;
                     GUISearchMovies.SearchTerm = SearchTerm;
-                    GUISearchMovies.Movies = SearchResults.Movies;
+                    GUISearchMovies.Movies = SearchResults.Where(s => s.Type == SearchType.movies.ToString()).Select(m => m.Movie);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchMovies);
                     break;
 
                 case SearchType.shows:
-                    if (SearchResults.Shows.Count() == 0) break;
+                    if (GetSearchResultCount(searchResults, SearchType.shows) == 0) break;
                     GUISearchShows.SearchTerm = SearchTerm;
-                    GUISearchShows.Shows = SearchResults.Shows;
+                    GUISearchShows.Shows = SearchResults.Where(s => s.Type == SearchType.shows.ToString()).Select(m => m.Show);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchShows);
                     break;
 
                 case SearchType.episodes:
-                    if (SearchResults.Episodes.Count() == 0) break;
+                    if (GetSearchResultCount(searchResults, SearchType.episodes) == 0) break;
                     GUISearchEpisodes.SearchTerm = SearchTerm;
-                    GUISearchEpisodes.Episodes = SearchResults.Episodes;
+                    GUISearchEpisodes.Episodes = SearchResults.Where(s => s.Type == SearchType.episodes.ToString())
+                                                              .Select(e => new TraktEpisodeSummaryEx
+                                                                          {
+                                                                              Episode = e.Episode,
+                                                                              Show = e.Show
+                                                                          });
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchEpisodes);
                     break;
 
                 case SearchType.people:
-                    if (SearchResults.People.Count() == 0) break;
+                    if (GetSearchResultCount(searchResults, SearchType.people) == 0) break;
                     GUISearchPeople.SearchTerm = SearchTerm;
-                    GUISearchPeople.People = SearchResults.People;
+                    GUISearchPeople.People = SearchResults.Where(s => s.Type == SearchType.people.ToString()).Select(m => m.Person);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople);
                     break;
 
                 case SearchType.users:
-                    if (SearchResults.Users.Count() == 0) break;
+                    if (GetSearchResultCount(searchResults, SearchType.users) == 0) break;
                     GUISearchUsers.SearchTerm = SearchTerm;
-                    GUISearchUsers.Users = SearchResults.Users;
+                    GUISearchUsers.Users = SearchResults.Where(s => s.Type == SearchType.users.ToString()).Select(m => m.User);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchUsers);
+                    break;
+
+                case SearchType.lists:
+                    if (GetSearchResultCount(searchResults, SearchType.lists) == 0) break;
+                    //TODO
                     break;
             }
         }

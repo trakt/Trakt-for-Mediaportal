@@ -871,10 +871,10 @@ namespace TraktPlugin
 
         public static void AddMovieToCollection(TraktMovie movie)
         {
-            AddMovieToLibrary(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            AddMovieToCollection(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
         }
 
-        public static void AddMovieToLibrary(string title, int? year, string imdbid, int? tmdbid, int? traktid)
+        public static void AddMovieToCollection(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
             var movie = new TraktSyncMovieCollected
             {

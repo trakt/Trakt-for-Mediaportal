@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using MediaPortal.Video.Database;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -221,7 +221,11 @@ namespace TraktPlugin.GUI
                     // search online
                     if (!IsMultiPersonSearch)
                     {
-                        People = TraktAPI.v1.TraktAPI.SearchPeople(SearchTerm);
+                        var searchResults = TraktAPI.TraktAPI.SearchPeople(SearchTerm);
+                        if (searchResults != null)
+                        {
+                            People = searchResults.Select(s => s.Person);
+                        }
                     }
                     else
                     {
@@ -232,13 +236,16 @@ namespace TraktPlugin.GUI
                         {
                             var tPersonSearch = new Thread((obj) =>
                             {
-                                var result = TraktAPI.v1.TraktAPI.SearchPeople(obj as string, 1);
+                                var searchResults = TraktAPI.TraktAPI.SearchPeople(obj as string, 1);
                                 lock (sync)
                                 {
-                                    if (People == null)
-                                        People = result;
-                                    else
-                                        People = People.Union(result);
+                                    if (searchResults != null)
+                                    {
+                                        if (People == null)
+                                            People = searchResults.Select(s => s.Person);
+                                        else
+                                            People = People.Union(searchResults.Select(s => s.Person));
+                                    }
                                 }
                             });
 

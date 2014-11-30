@@ -321,6 +321,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFollowerRequest.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktImage.cs" />
@@ -336,6 +337,9 @@
     <Compile Include="TraktAPI\DataStructures\TraktMovieRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieWatched.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkApproval.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkFriend.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktNetworkUser.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPerson.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonImages.cs" />

@@ -76,7 +76,7 @@ namespace TraktPlugin.GUI
         #region Public Variables
 
         public static string SearchTerm { get; set; }
-        public static IEnumerable<TraktShow> Shows { get; set; }
+        public static IEnumerable<TraktShowSummary> Shows { get; set; }
 
         #endregion
 
@@ -157,7 +157,7 @@ namespace TraktPlugin.GUI
                         {
                             GUIListItem selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
-                            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
+                            var selectedShow = (TraktShowSummary)selectedItem.TVTag;
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
                         }
                     }
@@ -392,7 +392,11 @@ namespace TraktPlugin.GUI
                 if (Shows == null && !string.IsNullOrEmpty(SearchTerm))
                 {
                     // search online
-                    Shows = TraktAPI.TraktAPI.SearchShows(SearchTerm);
+                    var searchResult = TraktAPI.TraktAPI.SearchShows(SearchTerm);
+                    if (searchResult != null)
+                    {
+                        Shows = searchResult.Select(s => s.Show);
+                    }
                 }
                 return Shows;
             },
@@ -400,13 +404,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
+                    var shows = result as IEnumerable<TraktShowSummary>;
                     SendSearchResultsToFacade(shows);
                 }
             }, Translation.GettingSearchResults, true);
         }
 
-        private void SendSearchResultsToFacade(IEnumerable<TraktShow> shows)
+        private void SendSearchResultsToFacade(IEnumerable<TraktShowSummary> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -434,7 +438,7 @@ namespace TraktPlugin.GUI
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
                 item.Images = images;
-                item.IsPlayed = show.Watched;
+                item.IsPlayed = show.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -496,7 +500,7 @@ namespace TraktPlugin.GUI
             GUICommon.ClearShowProperties();
         }
 
-        private void PublishShowSkinProperties(TraktShow show)
+        private void PublishShowSkinProperties(TraktShowSummary show)
         {
             GUICommon.SetShowProperties(show);
         }
@@ -505,7 +509,7 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            var show = item.TVTag as TraktShow;
+            var show = item.TVTag as TraktShowSummary;
             PublishShowSkinProperties(show);
             GUIImageHandler.LoadFanart(backdrop, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }

@@ -18,7 +18,7 @@ namespace TraktPlugin.TraktAPI
 
         #region User
 
-        public const string UserFollowerRequests = "http://api.v2.trakt.tv/user/requests";
+        public const string UserFollowerRequests = "http://api.v2.trakt.tv/user/requests?extended=full,images";
 
         #endregion
 
@@ -36,33 +36,40 @@ namespace TraktPlugin.TraktAPI
         public const string SyncRatedEpisodes = "http://api.v2.trakt.tv/sync/ratings/episodes";
         public const string SyncRatedShows = "http://api.v2.trakt.tv/sync/ratings/shows";
 
-        public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists";
-        public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items";
+        public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists?extended={0}";
+        public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items?extended={0}";
 
-        public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies";
-        public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows";
-        public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes";
+        public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies?extended={0}";
+        public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows?extended=full,images";
+        public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes?extended=full,images";
 
-        public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies";
-        public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows";
+        public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies?extended={0}";
+        public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows?extended=full,images";
 
-        public const string RelatedMovies = "http://api.v2.trakt.tv/movies/{0}/related";
-        public const string RelatedShows = "http://api.v2.trakt.tv/shows/{0}/related";
+        public const string RelatedMovies = "http://api.v2.trakt.tv/movies/{0}/related?extended=full,images";
+        public const string RelatedShows = "http://api.v2.trakt.tv/shows/{0}/related?extended=full,images";
 
-        public const string TrendingMovies = "http://api.v2.trakt.tv/movies/trending";
-        public const string TrendingShows = "http://api.v2.trakt.tv/shows/trending";
+        public const string TrendingMovies = "http://api.v2.trakt.tv/movies/trending?extended=full,images";
+        public const string TrendingShows = "http://api.v2.trakt.tv/shows/trending?extended=full,images";
 
-        public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments";
-        public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments";
-        public const string EpisodeComments = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments";
+        public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments?extended=full,images";
+        public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments?extended=full,images";
+        public const string EpisodeComments = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images";
 
-        public const string SearchMovies = "http://api.v2.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}";
-        public const string SearchShows = "http://api.v2.trakt.tv/search?query={0}&type=show&page={1}&limit={2}";
-        public const string SearchEpisodes = "http://api.v2.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}";
-        public const string SearchPeople = "http://api.v2.trakt.tv/search?query={0}&type=person&page={1}&limit={2}";
-        public const string SearchUsers = "http://api.v2.trakt.tv/search?query={0}&type=user&page={1}&limit={2}"; // not implemented!
-        public const string SearchLists = "http://api.v2.trakt.tv/search?query={0}&type=list&page={1}&limit={2}";
+        public const string SearchMovies = "http://api.v2.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}?extended=full,images";
+        public const string SearchShows = "http://api.v2.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full,images";
+        public const string SearchEpisodes = "http://api.v2.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}?extended=full,images";
+        public const string SearchPeople = "http://api.v2.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full,images";
+        public const string SearchUsers = "http://api.v2.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images"; // not implemented!
+        public const string SearchLists = "http://api.v2.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full,images";
         
+        public const string NetworkFriends = "http://api.v2.trakt.tv/users/{0}/friends?extended=full,images";
+        public const string NetworkFollowers = "http://api.v2.trakt.tv/users/{0}/followers?extended=full,images";
+        public const string NetworkFollowing = "http://api.v2.trakt.tv/users/{0}/following?extended=full,images";
+
+        public const string NetworkFollowRequest = "http://api.v2.trakt.tv/users/requests/{0}";
+        public const string NetworkFollowUser = "http://api.v2.trakt.tv/users/{0}/follow";
+
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
         public const string SyncCollectionRemove = "http://api.v2.trakt.tv/sync/collection/remove";
