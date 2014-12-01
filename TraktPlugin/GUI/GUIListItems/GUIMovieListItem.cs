@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI.DataStructures;

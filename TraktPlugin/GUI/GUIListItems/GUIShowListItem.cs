@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -87,7 +86,7 @@ namespace TraktPlugin.GUI
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.ShowImages.Poster.ToSmallPoster();
+                        string remoteThumb = item.ShowImages.Poster.ThumbSize;
                         string localThumb = item.ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -105,7 +104,7 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = item.ShowImages.Fanart.ToSmallFanart();
+                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
                         string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
@@ -135,26 +134,26 @@ namespace TraktPlugin.GUI
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
             // determine the overlays to add to poster
-            TraktShow show = TVTag as TraktShow;
-            MainOverlayImage mainOverlay = MainOverlayImage.None;
+            var show = TVTag as TraktShowSummary;
+            var mainOverlay = MainOverlayImage.None;
 
             // don't show watchlist overlay in personal watchlist window
             if (WindowID == (int)TraktGUIWindows.WatchedListShows)
             {
-                if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && show.InWatchList)
+                if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
                 //else if (show.Watched)
                 //    mainOverlay = MainOverlayImage.Seenit;
             }
             else
             {
-                if (show.InWatchList)
+                if (show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
                 //else if (show.Watched)
                 //    mainOverlay = MainOverlayImage.Seenit;
             }
 
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.UserRating());
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

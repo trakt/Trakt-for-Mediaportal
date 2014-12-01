@@ -19,7 +19,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public TraktMovie Movie { get; set; }
 
         [DataMember(Name = "show")]
-        public TraktShow Show { get; set; }
+        public TraktShowSummary Show { get; set; }
 
         [DataMember(Name = "season")]
         public TraktSeason Season { get; set; }

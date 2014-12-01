@@ -154,10 +154,10 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktMovie>();
         }
 
-        public static IEnumerable<TraktShow> GetRecommendedShows()
+        public static IEnumerable<TraktShowSummary> GetRecommendedShows()
         {
             var response = GetFromTrakt(TraktURIs.RecommendedShows);
-            return response.FromJSONArray<TraktShow>();
+            return response.FromJSONArray<TraktShowSummary>();
         }
 
         #endregion
@@ -280,10 +280,10 @@ namespace TraktPlugin.TraktAPI
 
         #region Related
 
-        public static IEnumerable<TraktMovie> GetRelatedMovies(string id)
+        public static IEnumerable<TraktMovieSummary> GetRelatedMovies(string id, bool hideWatched = false)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.RelatedMovies, id));
-            return response.FromJSONArray<TraktMovie>();
+            return response.FromJSONArray<TraktMovieSummary>();
         }
 
         #endregion
@@ -314,7 +314,7 @@ namespace TraktPlugin.TraktAPI
 
         #region Related
 
-        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id)
+        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id, bool hideWatched = false)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
             return response.FromJSONArray<TraktShowSummary>();

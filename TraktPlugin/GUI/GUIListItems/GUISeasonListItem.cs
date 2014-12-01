@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -78,16 +75,16 @@ namespace TraktPlugin.GUI
                     return y.CompareTo(x);
                 });
 
-                new Thread(delegate(object o)
+                new Thread(obj =>
                 {
-                    var items = (List<GUIImage>)o;
+                    var items = (List<GUIImage>)obj;
                     foreach (var item in items)
                     {
                         #region Season Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.SeasonImages.Poster;
+                        string remoteThumb = item.SeasonImages.Poster.FullSize;
                         string localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -105,7 +102,7 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = item.ShowImages.Fanart.ToSmallFanart();
+                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
                         string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))

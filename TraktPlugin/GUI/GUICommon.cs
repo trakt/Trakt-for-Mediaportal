@@ -1113,7 +1113,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.PosterImageFilename", string.Empty);
         }
 
-        internal static void SetSeasonProperties(TraktShow show, TraktSeasonSummary season)
+        internal static void SetSeasonProperties(TraktShowSummary show, TraktSeasonSummary season)
         {
             SetProperty("#Trakt.Season.TmdbId", season.Ids.TmdbId);
             SetProperty("#Trakt.Season.TvdbId", season.Ids.TvdbId);
@@ -1456,7 +1456,7 @@ namespace TraktPlugin.GUI
 
         }
 
-        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show, bool dashboard)
+        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShowSummary show, bool dashboard)
         {
             GUIListItem listItem = null;
 

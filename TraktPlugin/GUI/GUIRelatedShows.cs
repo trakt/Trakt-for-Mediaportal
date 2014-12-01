@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -27,8 +20,12 @@ namespace TraktPlugin.GUI
         {
             get
             {
+                if (TraktId != null) return TraktId.ToString();
+                if (TmdbId != null) return TmdbId.ToString();
                 if (TvdbId != null) return TvdbId.ToString();
+
                 if (string.IsNullOrEmpty(Title)) return string.Empty;
+
                 return Title.ToSlug();
             }
         }
@@ -103,17 +100,18 @@ namespace TraktPlugin.GUI
         private ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
-        Dictionary<string, IEnumerable<TraktShow>> dictRelatedShows = new Dictionary<string, IEnumerable<TraktShow>>();
+        Dictionary<string, IEnumerable<TraktShowSummary>> dictRelatedShows = new Dictionary<string, IEnumerable<TraktShowSummary>>();
         bool HideWatched = false;
         bool RelationChanged = false;
 
-        IEnumerable<TraktShow> RelatedShows
+        IEnumerable<TraktShowSummary> RelatedShows
         {
             get
             {
                 if (!dictRelatedShows.Keys.Contains(relatedShow.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _RelatedShows = TraktAPI.v1.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
+                    // TODO Hide Watched (Not Implemented on Server)
+                    _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
                     if (dictRelatedShows.Keys.Contains(relatedShow.Slug)) dictRelatedShows.Remove(relatedShow.Slug);
                     dictRelatedShows.Add(relatedShow.Slug, _RelatedShows);
                     LastRequest = DateTime.UtcNow;
@@ -122,7 +120,7 @@ namespace TraktPlugin.GUI
                 return _RelatedShows;
             }
         }
-        private IEnumerable<TraktShow> _RelatedShows = null;
+        private IEnumerable<TraktShowSummary> _RelatedShows = null;
 
         #endregion
 
@@ -197,7 +195,8 @@ namespace TraktPlugin.GUI
                         {
                             GUIListItem selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
-                            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
+
+                            var selectedShow = (TraktShowSummary)selectedItem.TVTag;
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
                         }
                     }
@@ -246,7 +245,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = (TraktShow)selectedItem.TVTag;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
+            if (selectedShow == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -277,7 +277,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
 
             // Add/Remove Watch List            
-            if (!selectedShow.InWatchList)
+            if (!selectedShow.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
@@ -291,7 +291,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add to Custom List
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
@@ -365,20 +365,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedShow);
-                    selectedShow.InWatchList = true;
+                    //TODOselectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
-                    selectedShow.InWatchList = false;
+                    //TODOselectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    TraktHelper.AddRemoveShowInUserList(selectedShow, false);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
@@ -390,10 +390,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Related):
-                    RelatedShow relShow = new RelatedShow
+                    var relShow = new RelatedShow
                     {
-                        Title = selectedShow.Title,
-                        TvdbId = selectedShow.Tvdb
+                        TraktId = selectedShow.Ids.Id,
+                        TmdbId = selectedShow.Ids.TmdbId,
+                        TvdbId = selectedShow.Ids.TvdbId,
+                        Title = selectedShow.Title
+                        
                     };
                     relatedShow = relShow;
                     LoadRelatedShows();
@@ -437,7 +440,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
             GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow, jumpTo);
         }
 
@@ -462,20 +465,20 @@ namespace TraktPlugin.GUI
 
                 if (success)
                 {
-                    IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
+                    IEnumerable<TraktShowSummary> shows = result as IEnumerable<TraktShowSummary>;
                     SendRelatedShowsToFacade(shows);
                 }
             }, Translation.GettingRelatedShows, true);
         }
 
-        private void SendRelatedShowsToFacade(IEnumerable<TraktShow> shows)
+        private void SendRelatedShowsToFacade(IEnumerable<TraktShowSummary> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             if (shows.Count() == 0)
             {
-                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.TvdbId.ToLogString() : relatedShow.Title;
+                string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.Slug : relatedShow.Title;
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedShows, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
@@ -558,7 +561,7 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            var selectedShow = item.TVTag as TraktShow;
+            var selectedShow = item.TVTag as TraktShowSummary;
             GUICommon.SetShowProperties(selectedShow);
 
             GUIImageHandler.LoadFanart(backdrop, selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));

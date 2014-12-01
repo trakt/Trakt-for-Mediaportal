@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -42,7 +39,7 @@ namespace TraktPlugin.GUI
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is GUIImage && e.PropertyName == "Avatar")
-                        SetImageToGui((s as GUIImage).Avatar.LocalImageFilename(ArtworkType.Avatar));
+                        SetImageToGui((s as GUIImage).UserImages.Avatar.LocalImageFilename(ArtworkType.Avatar));
                 };
             }
         }
@@ -81,13 +78,13 @@ namespace TraktPlugin.GUI
                     foreach (var item in items)
                     {
                         #region Avatar
-                        if (item.Avatar != null)
+                        if (item.UserImages.Avatar != null)
                         {
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            string remoteThumb = item.Avatar;
-                            string localThumb = item.Avatar.LocalImageFilename(ArtworkType.Avatar);
+                            string remoteThumb = item.UserImages.Avatar.FullSize;
+                            string localThumb = item.UserImages.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
@@ -118,32 +115,33 @@ namespace TraktPlugin.GUI
 
             // check if this user item is a shout
             // we may need to apply a rating overlay to the avatar
-            if (TVTag is TraktShout)
+            if (TVTag is TraktComment)
             {
-                var shout = TVTag as TraktShout;
+                //TODO - UserRating not Implemented on API
+                //var shout = TVTag as TraktComment;
 
-                // add a rating overlay if user has rated item
-                var ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRatings);
+                //// add a rating overlay if user has rated item
+                //var ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRatings);
 
-                // get a reference to a MediaPortal Texture Identifier
-                string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-                string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+                //// get a reference to a MediaPortal Texture Identifier
+                //string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+                //string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
-                // build memory image, resize avatar as they come in different sizes sometimes
-                Image memoryImage = null;
-                if (ratingOverlay != RatingOverlayImage.None)
-                {
-                    memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
-                    if (memoryImage == null) return;
+                //// build memory image, resize avatar as they come in different sizes sometimes
+                //Image memoryImage = null;
+                //if (ratingOverlay != RatingOverlayImage.None)
+                //{
+                //    memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
+                //    if (memoryImage == null) return;
 
-                    // load texture into facade item
-                    if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                    {
-                        ThumbnailImage = texture;
-                        IconImage = texture;
-                        IconImageBig = texture;
-                    }
-                }
+                //    // load texture into facade item
+                //    if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                //    {
+                //        ThumbnailImage = texture;
+                //        IconImage = texture;
+                //        IconImageBig = texture;
+                //    }
+                //}
             }
             else
             {

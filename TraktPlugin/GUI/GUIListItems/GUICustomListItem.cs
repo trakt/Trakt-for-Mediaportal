@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -41,7 +38,7 @@ namespace TraktPlugin.GUI
                         SetImageToGui((s as GUIImage).ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster));
                     // re-size season posters to same as series/movie posters
                     if (s is GUIImage && e.PropertyName == "Season")
-                        SetImageToGui((s as GUIImage).ShowImages.Season.LocalImageFilename(ArtworkType.SeasonPoster), new Size(300, 434));
+                        SetImageToGui((s as GUIImage).SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster), new Size(300, 434));
                     if (s is GUIImage && e.PropertyName == "Fanart")
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
@@ -91,7 +88,7 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            remoteThumb = item.ShowImages.Poster.ToSmallPoster();
+                            remoteThumb = item.ShowImages.Poster.ThumbSize;
                             localThumb = item.ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -108,8 +105,8 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            remoteThumb = item.ShowImages.Season;
-                            localThumb = item.ShowImages.Season.LocalImageFilename(ArtworkType.SeasonPoster);
+                            remoteThumb = item.SeasonImages.Poster.ThumbSize;
+                            localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
@@ -126,7 +123,7 @@ namespace TraktPlugin.GUI
                             if (StopDownload) break;
                             if (!TraktSettings.DownloadFanart) continue;
 
-                            string remoteFanart = item.ShowImages.Fanart.ToSmallFanart();
+                            string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
                             string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
 
                             if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
@@ -148,7 +145,7 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            remoteThumb = item.MovieImages.Poster.ToSmallPoster();
+                            remoteThumb = item.MovieImages.Poster.ThumbSize;
                             localThumb = item.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -166,7 +163,7 @@ namespace TraktPlugin.GUI
                             if (StopDownload) break;
                             if (!TraktSettings.DownloadFanart) continue;
 
-                            string remoteFanart = item.MovieImages.Fanart.ToSmallFanart();
+                            string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.MovieImages.Fanart.FullSize : item.MovieImages.Fanart.MediumSize;
                             string localFanart = item.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
 
                             if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
@@ -206,46 +203,47 @@ namespace TraktPlugin.GUI
             var mainOverlay = MainOverlayImage.None;
             var ratingOverlay = RatingOverlayImage.None;
 
-            if (TVTag is TraktUserListItem)
-            {
-                var listItem = TVTag as TraktUserListItem;
-                if (listItem == null) return;
+            //TODO
+            //if (TVTag is TraktListItem)
+            //{
+            //    var listItem = TVTag as TraktListItem;
+            //    if (listItem == null) return;
 
-                if (listItem.InWatchList)
-                    mainOverlay = MainOverlayImage.Watchlist;
-                else if (listItem.Watched)
-                    mainOverlay = MainOverlayImage.Seenit;
+            //    if (listItem.InWatchList)
+            //        mainOverlay = MainOverlayImage.Watchlist;
+            //    else if (listItem.Watched)
+            //        mainOverlay = MainOverlayImage.Seenit;
 
-                // add additional overlay if applicable
-                if (listItem.InCollection)
-                    mainOverlay |= MainOverlayImage.Library;
+            //    // add additional overlay if applicable
+            //    if (listItem.InCollection)
+            //        mainOverlay |= MainOverlayImage.Library;
 
-                ratingOverlay = GUIImageHandler.GetRatingOverlay(listItem.RatingAdvanced);
-            }
-            else if (TVTag is TraktActivity.Activity)
-            {
-                var activity = TVTag as TraktActivity.Activity;
-                if (activity == null) return;
+            //    ratingOverlay = GUIImageHandler.GetRatingOverlay(listItem.RatingAdvanced);
+            //}
+            //else if (TVTag is TraktActivity.Activity)
+            //{
+            //    var activity = TVTag as TraktActivity.Activity;
+            //    if (activity == null) return;
 
-                var movie = activity.Movie;
-                var show = activity.Show;
+            //    var movie = activity.Movie;
+            //    var show = activity.Show;
 
-                if (movie != null && movie.InWatchList)
-                    mainOverlay = MainOverlayImage.Watchlist;
-                else if (show != null && show.InWatchList)
-                    mainOverlay = MainOverlayImage.Watchlist;
-                else if (movie != null && movie.Watched)
-                    mainOverlay = MainOverlayImage.Seenit;
+            //    if (movie != null && movie.InWatchList)
+            //        mainOverlay = MainOverlayImage.Watchlist;
+            //    else if (show != null && show.InWatchList)
+            //        mainOverlay = MainOverlayImage.Watchlist;
+            //    else if (movie != null && movie.Watched)
+            //        mainOverlay = MainOverlayImage.Seenit;
 
-                // add additional overlay if applicable
-                if (movie != null && movie.InCollection)
-                    mainOverlay |= MainOverlayImage.Library;
+            //    // add additional overlay if applicable
+            //    if (movie != null && movie.InCollection)
+            //        mainOverlay |= MainOverlayImage.Library;
 
-                if (movie != null)
-                    ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
-                else
-                    ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
-            }
+            //    if (movie != null)
+            //        ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
+            //    else
+            //        ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
+            //}
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

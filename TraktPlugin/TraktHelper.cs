@@ -242,7 +242,7 @@ namespace TraktPlugin
 
             var syncThread = new Thread((objSyncData) =>
             {
-                var response = TraktAPI.TraktAPI.AddShowToWatchlist(objSyncData as TraktShow);
+                var response = TraktAPI.TraktAPI.AddShowToWatchlist(objSyncData as TraktShowSummary);
             })
             {
                 IsBackground = true,
@@ -252,7 +252,7 @@ namespace TraktPlugin
             syncThread.Start(show);
         }
 
-        public static void RemoveShowFromWatchList(TraktShow show)
+        public static void RemoveShowFromWatchList(TraktShowSummary show)
         {
             RemoveShowFromWatchList(show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id);
         }
@@ -266,7 +266,7 @@ namespace TraktPlugin
         {
             if (!GUICommon.CheckLogin(false)) return;
 
-            var show = new TraktShow
+            var show = new TraktShowSummary
             {
                 Ids = new TraktShowId
                 {
@@ -281,7 +281,7 @@ namespace TraktPlugin
 
             var syncThread = new Thread((objSyncData) =>
             {
-                var response = TraktAPI.TraktAPI.RemoveShowFromWatchlist(objSyncData as TraktShow);
+                var response = TraktAPI.TraktAPI.RemoveShowFromWatchlist(objSyncData as TraktShowSummary);
             })
             {
                 IsBackground = true,
@@ -415,7 +415,7 @@ namespace TraktPlugin
 
         #region Add/Remove Show in List
 
-        public static void AddRemoveShowInUserList(TraktShow show, bool remove)
+        public static void AddRemoveShowInUserList(TraktShowSummary show, bool remove)
         {
             AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id, remove);
         }
@@ -587,7 +587,7 @@ namespace TraktPlugin
 
         #region Related Shows
 
-        public static void ShowRelatedShows(TraktShow show)
+        public static void ShowRelatedShows(TraktShowSummary show)
         {
             ShowRelatedShows(show.Title, show.Ids.TvdbId, show.Ids.TmdbId, show.Ids.Id);
         }

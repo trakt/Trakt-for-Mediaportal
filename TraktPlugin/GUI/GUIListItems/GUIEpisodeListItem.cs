@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -36,7 +35,7 @@ namespace TraktPlugin.GUI
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is GUIImage && e.PropertyName == "Screen")
-                        SetImageToGui((s as GUIImage).EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage));
+                        SetImageToGui((s as GUIImage).EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
                     if (s is GUIImage && e.PropertyName == "Fanart")
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
@@ -76,8 +75,8 @@ namespace TraktPlugin.GUI
                 // sort images so that images that already exist are displayed first
                 groupList.Sort((s1, s2) =>
                 {
-                    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
-                    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
+                    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
+                    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
                     return y.CompareTo(x);
                 });
 
@@ -90,8 +89,8 @@ namespace TraktPlugin.GUI
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.EpisodeImages.Screen;
-                        string localThumb = item.EpisodeImages.Screen.LocalImageFilename(ArtworkType.EpisodeImage);
+                        string remoteThumb = item.EpisodeImages.ScreenShot.ThumbSize;
+                        string localThumb = item.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
@@ -108,7 +107,7 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = item.ShowImages.Fanart.ToSmallFanart();
+                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
                         string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))

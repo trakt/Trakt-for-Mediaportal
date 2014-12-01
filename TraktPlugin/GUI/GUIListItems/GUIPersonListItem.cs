@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -35,8 +31,8 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUIImage && e.PropertyName == "Headshot")
-                        SetImageToGui((s as GUIImage).PoepleImages.Headshot.LocalImageFilename(ArtworkType.Headshot));
+                    if (s is GUIImage && e.PropertyName == "HeadShot")
+                        SetImageToGui((s as GUIImage).PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot));
                 };
             }
         }
@@ -80,15 +76,15 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            string remoteThumb = item.PoepleImages.Headshot;
-                            string localThumb = item.PoepleImages.Headshot.LocalImageFilename(ArtworkType.Headshot);
+                            string remoteThumb = item.PoepleImages.HeadShot.FullSize;
+                            string localThumb = item.PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
                                 if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                                 {
                                     // notify that image has been downloaded
-                                    item.NotifyPropertyChanged("Headshot");
+                                    item.NotifyPropertyChanged("HeadShot");
                                 }
                             }
                         }
