@@ -12,6 +12,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "rating")]
         public double? Rating { get; set; }
 
+        [DataMember(Name = "episode_count")]
+        public int EpisodeCount { get; set; }
+
+        [DataMember(Name = "overview")]
+        public string Overview { get; set; }
+
         [DataMember(Name = "images")]
         public TraktSeasonImages Images { get; set; }
     }

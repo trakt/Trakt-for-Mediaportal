@@ -45,6 +45,9 @@ namespace TraktPlugin.GUI
         public string Date { get; set; }
         public string SelectedIndex { get; set; }
 
+        public TraktEpisode Episode { get; set; }
+        public TraktShow Show { get; set; }
+
         /// <summary>
         /// Set this to true to stop downloading any images
         /// e.g. when exiting the window
@@ -136,31 +139,33 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
+            if (Show == null || Episode == null)
+                return;
+
             // determine the overlay to add to poster
-            var episode = TVTag as TraktEpisodeSummary;
             MainOverlayImage mainOverlay = MainOverlayImage.None;
 
             // don't show watchlist overlay in personal watchlist window
             if (WindowID == (int)TraktGUIWindows.WatchedListEpisodes)
             {
-                if ((GUIWatchListEpisodes.CurrentUser != TraktSettings.Username) && episode.Episode.InWatchList)
+                if ((GUIWatchListEpisodes.CurrentUser != TraktSettings.Username) && Episode.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                else if (episode.Episode.Watched)
+                else if (Episode.IsWatched(Show))
                     mainOverlay = MainOverlayImage.Seenit;
             }
             else
             {
-                if (episode.Episode.InWatchList)
+                if (Episode.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                else if (episode.Episode.Watched)
+                else if (Episode.IsWatched(Show))
                     mainOverlay = MainOverlayImage.Seenit;
             }
 
             // add additional overlay if applicable
-            if (episode.Episode.InCollection)
+            if (Episode.IsCollected(Show))
                 mainOverlay |= MainOverlayImage.Library;
 
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(episode.Episode.RatingAdvanced);
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Episode.UserRating());
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -55,25 +49,25 @@ namespace TraktPlugin.GUI
         private Layout CurrentLayout { get; set; }
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
-        TraktShow Show = null;
-        Dictionary<string, IEnumerable<TraktShowSeason>> Shows = new Dictionary<string, IEnumerable<TraktShowSeason>>();
+        TraktShowSummary Show = null;
+        Dictionary<string, IEnumerable<TraktSeasonSummary>> Shows = new Dictionary<string, IEnumerable<TraktSeasonSummary>>();
 
-        IEnumerable<TraktShowSeason> ShowSeasons
+        IEnumerable<TraktSeason> ShowSeasons
         {
             get
             {
-                if (!Shows.Keys.Contains(Show.Tvdb) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!Shows.Keys.Contains(Show.Ids.Id.ToString()) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _ShowSeasons = TraktAPI.v1.TraktAPI.GetShowSeasons(Show.Tvdb);
-                    if (Shows.Keys.Contains(Show.Tvdb)) Shows.Remove(Show.Tvdb);
-                    Shows.Add(Show.Tvdb, _ShowSeasons);
+                    _ShowSeasons = TraktAPI.TraktAPI.GetShowSeasons(Show.Ids.Id.ToString());
+                    if (Shows.Keys.Contains(Show.Ids.Id.ToString())) Shows.Remove(Show.Ids.Id.ToString());
+                    Shows.Add(Show.Ids.Id.ToString(), _ShowSeasons);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return Shows[Show.Tvdb];
+                return Shows[Show.Ids.Id.ToString()];
             }
         }
-        private IEnumerable<TraktShowSeason> _ShowSeasons = null;
+        private IEnumerable<TraktSeasonSummary> _ShowSeasons = null;
 
         #endregion
 
@@ -139,7 +133,7 @@ namespace TraktPlugin.GUI
                         var selectedItem = this.Facade.SelectedListItem;
                         if (selectedItem == null) return;
 
-                        var selectedSeason = selectedItem.TVTag as TraktShowSeason;
+                        var selectedSeason = selectedItem.TVTag as TraktSeasonSummary;
                         if (selectedSeason == null) return;
 
                         // create loading parameter for episode listing
@@ -168,7 +162,7 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedSeason = selectedItem.TVTag as TraktShowSeason;
+            var selectedSeason = selectedItem.TVTag as TraktSeasonSummary;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -197,7 +191,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
 
             // Add to Custom List
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
@@ -218,19 +212,19 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.Trailers):
-                    GUICommon.ShowTVSeasonTrailersPluginMenu(Show, selectedSeason.Season);
+                    GUICommon.ShowTVSeasonTrailersPluginMenu(Show, selectedSeason.Number);
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    GUICommon.MarkSeasonAsWatched(Show, selectedSeason.Season);
+                    GUICommon.MarkSeasonAsWatched(Show, selectedSeason.Number);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    GUICommon.AddSeasonToLibrary(Show, selectedSeason.Season);
+                    GUICommon.AddSeasonToLibrary(Show, selectedSeason.Number);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveSeasonInUserList(Show.Title, Show.Year.ToString(), selectedSeason.Season.ToString() ,Show.Tvdb, false);
+                    TraktHelper.AddRemoveSeasonInUserList(Show, selectedSeason, false);
                     break;
 
                 case ((int)ContextMenuItem.Sort):
@@ -265,13 +259,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktShowSeason> seasons = result as IEnumerable<TraktShowSeason>;
+                    var seasons = result as IEnumerable<TraktSeasonSummary>;
                     SendShowSeasonsToFacade(seasons);
                 }
             }, Translation.GettingShowSeasons, true);
         }
 
-        private void SendShowSeasonsToFacade(IEnumerable<TraktShowSeason> seasons)
+        private void SendShowSeasonsToFacade(IEnumerable<TraktSeasonSummary> seasons)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -286,7 +280,7 @@ namespace TraktPlugin.GUI
             // sort ascending or descending order
             if (TraktSettings.SortSeasonsAscending)
             {
-                seasons = seasons.OrderBy(s => s.Season);
+                seasons = seasons.OrderBy(s => s.Number);
             }
 
             int itemId = 0;
@@ -298,11 +292,13 @@ namespace TraktPlugin.GUI
                 var images = new GUIImage { SeasonImages = season.Images, ShowImages = Show.Images };
                 seasonImages.Add(images);
 
-                string itemLabel = season.Season == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Season.ToString());
+                string itemLabel = season.Number == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Number.ToString());
                 var item = new GUISeasonListItem(itemLabel, (int)TraktGUIWindows.ShowSeasons);
 
                 item.Label2 = string.Format("{0} {1}", season.EpisodeCount, Translation.Episodes);
                 item.TVTag = season;
+                item.Show = Show;
+                item.Season = season;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -333,14 +329,15 @@ namespace TraktPlugin.GUI
             if (_loadParameter == null)
             {
                 // maybe re-loading, so check previous window id
-                if (Show != null && !string.IsNullOrEmpty(Show.Tvdb))
+                if (Show != null && Show.Ids.Id != null)
                     return true;
 
                 return false;
             }
             
-            Show = _loadParameter.FromJSON<TraktShow>();
-            if (Show == null || string.IsNullOrEmpty(Show.Tvdb)) return false;
+            Show = _loadParameter.FromJSON<TraktShowSummary>();
+            if (Show == null || Show.Ids.Id == null)
+                return false;
             
             return true;
         }
@@ -368,21 +365,21 @@ namespace TraktPlugin.GUI
             GUICommon.ClearSeasonProperties();
         }
 
-        private void PublishShowSkinProperties(TraktShow show)
+        private void PublishShowSkinProperties(TraktShowSummary show)
         {
             GUICommon.SetShowProperties(show);
         }
 
-        private void PublishSeasonSkinProperties(TraktShowSeason season)
+        private void PublishSeasonSkinProperties(TraktSeasonSummary season)
         {
-            GUICommon.SetSeasonProperties(season);
+            GUICommon.SetSeasonProperties(Show, season);
         }
 
         private void OnSeasonSelected(GUIListItem item, GUIControl parent)
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            var season = item.TVTag as TraktShowSeason;
+            var season = item.TVTag as TraktSeasonSummary;
             PublishSeasonSkinProperties(season);
         }
         #endregion

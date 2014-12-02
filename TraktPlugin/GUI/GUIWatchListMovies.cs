@@ -525,6 +525,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = watchlistItem.Movie.Year == null ? "----" : watchlistItem.Movie.Year.ToString();
                 item.TVTag = watchlistItem;
+                item.Movie = watchlistItem.Movie;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IsPlayed = watchlistItem.Movie.IsWatched();

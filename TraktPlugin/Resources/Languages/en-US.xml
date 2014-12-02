@@ -178,6 +178,7 @@
   <string name="GetFollowerRequestsOnStartup">Get Follower Requests on Startup</string>
   <string name="GettingActivity">GettingActivity</string>
   <string name="GettingCalendar">Getting Calendar</string>
+  <string name="GettingEpisodes">Getting Episodes</string>
   <string name="GettingFriendsList">Getting Friends List</string>
   <string name="GettingFollowingList">Getting Following List</string>
   <string name="GettingFollowerList">Getting Follower List</string>

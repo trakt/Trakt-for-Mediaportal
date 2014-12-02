@@ -322,6 +322,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Seasons
+
+        public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowSeasons, id));
+            return response.FromJSONArray<TraktSeasonSummary>();
+        }
+
+        #endregion
+
         #region Comments
 
         public static IEnumerable<TraktComment> GetShowComments(string id)
@@ -352,6 +362,16 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(string.Format(TraktURIs.EpisodeComments, id, season, episode));
             return response.FromJSONArray<TraktComment>();
+        }
+
+        #endregion
+
+        #region Season Episodes
+
+        public static IEnumerable<TraktEpisodeSummary> GetSeasonEpisodes(string showId, string seasonId)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.SeasonEpisodes, showId, seasonId));
+            return response.FromJSONArray<TraktEpisodeSummary>();
         }
 
         #endregion

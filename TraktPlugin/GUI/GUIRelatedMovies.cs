@@ -547,6 +547,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = movie.Year == null ? "----" : movie.Year.ToString();
                 item.TVTag = movie;
+                item.Movie = movie;
                 item.Images = image;
                 item.IsPlayed = movie.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;

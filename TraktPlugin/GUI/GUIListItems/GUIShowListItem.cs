@@ -22,6 +22,8 @@ namespace TraktPlugin.GUI
             this.WindowID = windowID;
         }
 
+        public TraktShow Show { get; set; }
+
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
@@ -131,29 +133,28 @@ namespace TraktPlugin.GUI
         /// <param name="imageFilePath">Filename of image</param>
         protected void SetImageToGui(string imageFilePath)
         {
-            if (string.IsNullOrEmpty(imageFilePath)) return;
+            if (string.IsNullOrEmpty(imageFilePath) || Show == null) return;
 
             // determine the overlays to add to poster
-            var show = TVTag as TraktShowSummary;
             var mainOverlay = MainOverlayImage.None;
 
             // don't show watchlist overlay in personal watchlist window
             if (WindowID == (int)TraktGUIWindows.WatchedListShows)
             {
-                if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && show.IsWatchlisted())
+                if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && Show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
                 //else if (show.Watched)
                 //    mainOverlay = MainOverlayImage.Seenit;
             }
             else
             {
-                if (show.IsWatchlisted())
+                if (Show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
                 //else if (show.Watched)
                 //    mainOverlay = MainOverlayImage.Seenit;
             }
 
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(show.UserRating());
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Show.UserRating());
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

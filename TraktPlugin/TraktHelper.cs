@@ -461,6 +461,12 @@ namespace TraktPlugin
 
         #region Add/Remove Season in List
 
+        public static void AddRemoveSeasonInUserList(TraktShow show, TraktSeason season, bool remove)
+        {
+            //TODO
+            //AddRemoveSeasonInUserList(TraktSettings.Username, title, year, season, tvdbid, remove);
+        }
+
         public static void AddRemoveSeasonInUserList(string title, string year, string season, string tvdbid, bool remove)
         {
             //TODO

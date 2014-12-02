@@ -1123,7 +1123,8 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
             //TODOSetProperty("#Trakt.Season.Rating", season.UserRating());
             SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
-            //TODOSetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
+            SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
+            SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
             //TODO
             //SetProperty("#Trakt.Season.Ratings.Icon", (season.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             //SetProperty("#Trakt.Season.Ratings.HatedCount", season.Ratings.HatedCount.ToString());

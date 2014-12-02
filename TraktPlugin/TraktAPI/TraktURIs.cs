@@ -70,6 +70,9 @@ namespace TraktPlugin.TraktAPI
         public const string NetworkFollowRequest = "http://api.v2.trakt.tv/users/requests/{0}";
         public const string NetworkFollowUser = "http://api.v2.trakt.tv/users/{0}/follow";
 
+        public const string ShowSeasons = "http://api.v2.trakt.tv/shows/{0}/seasons?extended=full,images";
+        public const string SeasonEpisodes = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
+
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";
         public const string SyncCollectionRemove = "http://api.v2.trakt.tv/sync/collection/remove";

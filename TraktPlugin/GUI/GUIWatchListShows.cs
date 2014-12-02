@@ -445,6 +445,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = listItem.Show.Year.ToString();
                 item.TVTag = listItem;
+                item.TVTag = listItem.Show;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);

@@ -488,6 +488,8 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = episodeSummary.Show.Year.ToString();
                 item.TVTag = episodeSummary;
+                item.Episode = episodeSummary.Episode;
+                item.Show = episodeSummary.Show;
                 item.Images = images;
                 item.IsPlayed = episodeSummary.Episode.IsWatched(episodeSummary.Show);
                 item.ItemId = Int32.MaxValue - itemId;

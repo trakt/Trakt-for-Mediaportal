@@ -494,9 +494,11 @@ namespace TraktPlugin.GUI
                 // add image for download
                 var images = new GUIImage { ShowImages = show.Images };
                 showImages.Add(images);
-
+                
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
+                item.Show = show;
+                item.Show = show;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);

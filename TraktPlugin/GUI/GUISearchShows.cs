@@ -437,6 +437,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
+                item.Show = show;
                 item.Images = images;
                 item.IsPlayed = show.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;

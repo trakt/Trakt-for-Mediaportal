@@ -394,6 +394,7 @@ namespace TraktPlugin.GUI
         public static string GetFollowerRequestsOnStartup = "Get Follower Requests on Startup";
         public static string GettingActivity = "Getting Activity";
         public static string GettingCalendar = "Getting Calendar";
+        public static string GettingEpisodes = "Getting Episodes";
         public static string GettingFriendsList = "Getting Friends List";
         public static string GettingFriendsRequests = "Getting Friends Requests";
         public static string GettingFollowerRequests = "Getting Follower Requests";

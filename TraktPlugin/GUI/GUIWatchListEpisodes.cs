@@ -373,6 +373,8 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = watchlistItem.Episode.FirstAired.FromISO8601().ToShortDateString();
                 item.TVTag = watchlistItem;
+                item.Episode = watchlistItem.Episode;
+                item.Show = watchlistItem.Show;
                 item.Date = watchlistItem.ListedAt.FromISO8601().ToShortDateString();
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemCount;
