@@ -148,10 +148,10 @@ namespace TraktPlugin.TraktAPI
 
         #region Recommendations
 
-        public static IEnumerable<TraktMovie> GetRecommendedMovies(string extendedInfoParams = "min")
+        public static IEnumerable<TraktMovieSummary> GetRecommendedMovies(string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.RecommendedMovies, extendedInfoParams));
-            return response.FromJSONArray<TraktMovie>();
+            return response.FromJSONArray<TraktMovieSummary>();
         }
 
         public static IEnumerable<TraktShowSummary> GetRecommendedShows()
@@ -300,9 +300,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktMovieTrending> GetTrendingMovies()
+        public static IEnumerable<TraktMovieTrending> GetTrendingMovies(int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(TraktURIs.TrendingMovies);
+            var response = GetFromTrakt(string.Format(TraktURIs.TrendingMovies, page, maxItems));
             return response.FromJSONArray<TraktMovieTrending>();
         }
 
@@ -344,9 +344,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktShowTrending> GetTrendingShows()
+        public static IEnumerable<TraktShowTrending> GetTrendingShows(int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(TraktURIs.TrendingShows);
+            var response = GetFromTrakt(string.Format(TraktURIs.TrendingShows, page, maxItems));
             return response.FromJSONArray<TraktShowTrending>();
         }
 

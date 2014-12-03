@@ -304,10 +304,12 @@ namespace TraktPlugin.GUI
         public static string DeleteList = "Delete List";
         public static string DeleteListItem = "Delete List Item";
         public static string DeletingList = "Deleting List";
+        public static string Dead = "Dead";
         public static string Deny = "Deny";
         public static string DenyFollowRequest = "Deny Follow Request from user {0}?";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
+        public static string Died = "Died";
         public static string Director = "Director";
         public static string Directors = "Directors";
         public static string DisconnectAccount = "Disconnect Account: {0}";
@@ -703,7 +705,7 @@ namespace TraktPlugin.GUI
         public static string UpdatingFiltersMenuMovingPics = "Updating Filters Menu in MovingPictures.";
         public static string UpdatingFiltersMenuMovingPicsWarning = "You can't remove trakt from the filters menu whilst they're still being updated!";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
-        public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed from\nfrom the 'Friends' view.";
+        public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed\nfrom the 'Friends' view.";
         public static string UserProfile = "User Profile";        
 
         // V

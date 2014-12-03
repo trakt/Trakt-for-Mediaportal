@@ -324,7 +324,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    TraktHelper.AddEpisodeToWatchedHistory(selectedEpisode);
+                    TraktHelper.AddEpisodeToWatchHistory(selectedEpisode);
                     if (selectedEpisode.Plays(selectedShow) == 0) //TODOselectedEpisode.Plays = 1;
                     //TODOselectedEpisode.Watched = true;
                     selectedItem.IsPlayed = true;
@@ -333,7 +333,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.AddEpisodeToWatchedHistory(selectedEpisode);
+                    TraktHelper.AddEpisodeToWatchHistory(selectedEpisode);
                     //TODOselectedEpisode.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnEpisodeSelected(selectedItem, Facade);

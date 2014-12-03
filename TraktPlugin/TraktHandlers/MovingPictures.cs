@@ -1626,7 +1626,7 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movieId">IMDb movie ID used for the criteria</param>
         static void AddMovieCriteriaToNode(DBNode<DBMovieInfo> node, string movieId)
         {
-            if (node == null || string.IsNullOrEmpty(movieId)) return;
+            if (node == null || !BasicHandler.IsValidImdb(movieId)) return;
 
             // check existing filter exists
             if (!node.HasFilter) return;
@@ -1648,7 +1648,10 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movie">The movie to remove from the nodes criteria filter</param>
         /// <param name="rootNode">The node that the criteria filter belongs to</param>
         static void RemoveMovieCriteriaFromNode(DBNode<DBMovieInfo> node, string movieId)
-        {   
+        {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             if (!node.HasFilter || string.IsNullOrEmpty(movieId)) return;
 
             // find critera match in the nodes filter and then remove
@@ -1671,6 +1674,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movie">IMDb movie ID used for the criteria</param>
         internal static void RemoveMovieCriteriaFromWatchlistNode(string movieId)
         {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             // remove from categories menu
             if (TraktSettings.MovingPicturesCategories && TraktCategoriesMenuExists)
             {
@@ -1703,6 +1709,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movieId">IMDb movie ID used for the criteria</param>
         internal static void AddMovieCriteriaToWatchlistNode(string movieId)
         {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             // add to categories menu
             if (TraktSettings.MovingPicturesCategories && TraktCategoriesMenuExists)
             {
@@ -1735,6 +1744,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="movie">IMDb movie ID used for the criteria</param>
         internal static void RemoveMovieCriteriaFromRecommendationsNode(string movieId)
         {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             // remove from categories menu
             if (TraktSettings.MovingPicturesCategories && TraktCategoriesMenuExists)
             {
@@ -1768,6 +1780,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="listName">Name of list to add to</param>
         internal static void AddMovieCriteriaToCustomlistNode(string listName, string movieId)
         {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             // add to categories menu
             if (TraktSettings.MovingPicturesCategories && TraktCategoriesMenuExists)
             {
@@ -1801,6 +1816,9 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="listName">Name of list to remove from</param>
         internal static void RemoveMovieCriteriaFromCustomlistNode(string listName, string movieId)
         {
+            if (!BasicHandler.IsValidImdb(movieId))
+                return;
+
             // remove from categories menu
             if (TraktSettings.MovingPicturesCategories && TraktCategoriesMenuExists)
             {

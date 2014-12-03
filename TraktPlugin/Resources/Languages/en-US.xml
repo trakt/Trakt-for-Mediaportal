@@ -88,6 +88,7 @@
   <string name="DateOneWeekAgo">1 Week Ago</string>
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string name="DateOneMonthAgo">1 Month Ago</string>
+  <string name="Death">Death</string>
   <string name="Deny">Deny</string>
   <string name="DenyFollowRequest">Deny Follow Request from user {0}?</string>
   <string name="DeleteList">Delete List</string>
@@ -95,6 +96,7 @@
   <string name="DeletingList">Deleting List</string>
   <string name="DeleteFriend">Delete Friend</string>
   <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
+  <string name="Died">Died</string>
   <string name="Director">Director</string>
   <string name="Directors">Directors</string>
   <string name="DisconnectAccount">Disconnect Account: {0}</string>
@@ -197,15 +199,15 @@
   <string name="GettingTrendingShows">Getting Trending Shows</string>
   <string name="GettingRecommendedMovies">Getting Recommended Movies</string>
   <string name="GettingRecommendedShows">Getting Recommended Shows</string>
-  <string name="GettingWatchListMovies">Getting Watch List Movies</string>
-  <string name="GettingWatchListShows">Getting Watch List Shows</string>
-  <string name="GettingWatchListEpisodes">Getting Watch List Episodes</string>
+  <string name="GettingWatchListMovies">Getting Watchlist Movies</string>
+  <string name="GettingWatchListShows">Getting Watchlist Shows</string>
+  <string name="GettingWatchListEpisodes">Getting Watchlist Episodes</string>
   <string name="GettingRelatedMovies">Getting Related Movies</string>
   <string name="GettingRelatedShows">Getting Related Shows</string>
   <string name="GettingTrailerUrls">Getting Trailer Urls</string>
   <string name="GettingUserProfile">Getting User Profile</string>
-  <string name="GuestStar">Gueststar</string>
-  <string name="GuestStars">GuestStars</string>
+  <string name="GuestStar">Guest Star</string>
+  <string name="GuestStars">Guest Stars</string>
   <!--H-->
   <string name="Hate">Hate</string>
   <string name="Hated">Hated</string>
@@ -215,7 +217,7 @@
   <string name="HideWatched">Hide Watched</string>
   <string name="HideWatchlisted">Hide Watchlisted</string>
   <string name="HideSpoilers">Hide Spoilers</string>
-  <string name="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from menu.</string>
+  <string name="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from the menu.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Include Me in Friends Activity</string>
   <string name="Inserted">Inserted</string>
@@ -251,7 +253,7 @@
   <string name="Network">Network</string>
   <string name="NextEpisode">Next Episode</string>
   <string name="NextWeek">Next Week</string>
-  <string name="NoActivities">No Activity Found.</string>
+  <string name="NoActivities">No activity found.</string>
   <string name="NoPersonBiography">There is no biography entered for this person.</string>
   <string name="NoEpisodesInSeason">No Episodes are available in Season.</string>
   <string name="NoEpisodeSummary">Episode summary is currently not available.</string>
@@ -263,21 +265,21 @@
   <string name="NoFollowersTaunt">You have no followers!</string>
   <string name="NoFollowerReqTaunt">You have no follower requests!</string>
   <string name="NoFollowingTaunt">You are not following anyone!</string>
-  <string name="NoTrendingMovies">No Movies current being watched!</string>
-  <string name="NoTrendingShows">No Shows current being watched!</string>
-  <string name="NoMovieRecommendations">No Movie Recommendations Found!</string>
-  <string name="NoShowRecommendations">No Show Recommendations Found!</string>
-  <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
-  <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
-  <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
+  <string name="NoTrendingMovies">No movies current being watched!</string>
+  <string name="NoTrendingShows">No shows current being watched!</string>
+  <string name="NoMovieRecommendations">No movie recommendations found!</string>
+  <string name="NoShowRecommendations">No show recommendations found!</string>
+  <string name="NoShowWatchList">{0} has no shows in watchlist!</string>
+  <string name="NoMovieWatchList">{0} has no movies in watchlist!</string>
+  <string name="NoEpisodeWatchList">{0} has no episodes in watchlist!</string>
   <string name="NoSearchTypesSelected">You must first select one or more search types\nbefore performing an online search.</string>
-  <string name="NoShoutsForItem">No Shouts for {0}!</string>
+  <string name="NoShoutsForItem">No shouts for {0}!</string>
   <string name="NoPeopleToSearch">There are no people to search by.</string>
   <string name="NoPluginsEnabled">You have defined no plugins in configuration.\nWould you like to configure plugins now?</string>
   <string name="NotLoggedIn">You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?</string>
-  <string name="NoSearchResultsFound">No Search Results Found</string>
-  <string name="NoSeasonsForShow">No Seasons found for show!</string>
-  <string name="NoMovingPictures">Moving Pictures is Not Installed or Enabled</string>
+  <string name="NoSearchResultsFound">No search results found</string>
+  <string name="NoSeasonsForShow">No seasons found for show!</string>
+  <string name="NoMovingPictures">Moving Pictures is not installed or enabled</string>
   <string name="NoListsFound">No lists found, would you like to\ncreate a list now?</string>
   <string name="NoUserLists">{0} has not created any lists!</string>
   <string name="NoListItemsFound">No items found in this list!</string>
@@ -343,9 +345,9 @@
   <string name="Released">Released</string>
   <string name="ReleaseDate">Release Date</string>
   <string name="RemoveFromLibrary">Remove from Library</string>
-  <string name="RemoveFromWatchList">Remove from Watch List</string>
-  <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
-  <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
+  <string name="RemoveFromWatchList">Remove from Watchlist</string>
+  <string name="RemoveShowFromWatchList">Remove Show from Watchlist</string>
+  <string name="RemoveEpisodeFromWatchList">Remove Episode from Watchlist</string>
   <string name="RemoveFromList">Remove from List...</string>
   <string name="Reply">Reply</string>
   <string name="Replies">Replies</string>
@@ -379,13 +381,13 @@
   <string name="Settings">Settings</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
-  <string name="ShowTVShowsInWatchlist">Show TV Shows in Watch List</string>
+  <string name="ShowTVShowsInWatchlist">Show TV Shows in Watchlist</string>
   <string name="ShowSpoilers">Show Spoilers</string>
   <string name="ShowFriendActivity">Show Friend Activity</string>
   <string name="ShowCommunityActivity">Show Community Activity</string>
   <string name="SigningIntoAccount">Signing Into Account...</string>
   <string name="SkinPluginsOutOfDate">Error loading window, skin is out of date!\nExit MediaPortal and enter Configuration to\nenable plugins handlers.</string>
-  <string name="SkinOutOfDate">This feature is not available for your\nskin. See if update is Available.</string>
+  <string name="SkinOutOfDate">This feature is not available for your\nskin. See if update is available.</string>
   <string name="StartDate">Start Date</string>
   <string name="Synchronize">Synchronize</string>
   <string name="SynchronizeNow">New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?</string>
@@ -474,7 +476,7 @@
   <string name="UpdatingFiltersMenuMovingPics">Updating Filters Menu in MovingPictures.</string>
   <string name="UpdatingFiltersMenuMovingPicsWarning">You can\'t remove trakt from the filters menu whilst they\'re still being updated!</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
-  <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed from\nfrom the \'Friends\' view.</string>
+  <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>
   <!--V-->
   <string name="View">View</string>

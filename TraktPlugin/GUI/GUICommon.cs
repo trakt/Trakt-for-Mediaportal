@@ -1457,7 +1457,7 @@ namespace TraktPlugin.GUI
 
         }
 
-        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShowSummary show, bool dashboard)
+        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show, bool dashboard)
         {
             GUIListItem listItem = null;
 

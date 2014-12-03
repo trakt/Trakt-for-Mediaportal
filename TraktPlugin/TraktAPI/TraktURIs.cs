@@ -49,8 +49,8 @@ namespace TraktPlugin.TraktAPI
         public const string RelatedMovies = "http://api.v2.trakt.tv/movies/{0}/related?extended=full,images";
         public const string RelatedShows = "http://api.v2.trakt.tv/shows/{0}/related?extended=full,images";
 
-        public const string TrendingMovies = "http://api.v2.trakt.tv/movies/trending?extended=full,images";
-        public const string TrendingShows = "http://api.v2.trakt.tv/shows/trending?extended=full,images";
+        public const string TrendingMovies = "http://api.v2.trakt.tv/movies/trending?extended=full,images&page={0}&limit={1}";
+        public const string TrendingShows = "http://api.v2.trakt.tv/shows/trending?extended=full,images&page={0}&limit={1}";
 
         public const string MovieComments = "http://api.v2.trakt.tv/movies/{0}/comments?extended=full,images";
         public const string ShowComments = "http://api.v2.trakt.tv/shows/{0}/comments?extended=full,images";

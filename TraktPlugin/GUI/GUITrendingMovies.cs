@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -75,20 +66,20 @@ namespace TraktPlugin.GUI
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
 
-        IEnumerable<TraktTrendingMovie> TrendingMovies
+        IEnumerable<TraktMovieTrending> TrendingMovies
         {
             get
             {
                 if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingMovies = TraktAPI.v1.TraktAPI.GetTrendingMovies();
+                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
                 return _TrendingMovies;
             }
         }
-        private IEnumerable<TraktTrendingMovie> _TrendingMovies = null;
+        private IEnumerable<TraktMovieTrending> _TrendingMovies = null;
 
         #endregion
 
@@ -221,8 +212,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
             
-            var selectedMovie = selectedItem.TVTag as TraktTrendingMovie;
-            if (selectedMovie == null) return;
+            var selectedTrendingItem = selectedItem.TVTag as TraktMovieTrending;
+            if (selectedTrendingItem == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -230,7 +221,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedMovie, false);
+            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, false);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -239,9 +230,9 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
-                    TraktHelper.MarkMovieAsWatched(selectedMovie);
-                    if (selectedMovie.Plays == 0) selectedMovie.Plays = 1;
-                    selectedMovie.Watched = true;
+                    TraktHelper.AddMovieToWatchHistory(selectedTrendingItem.Movie);
+                    if (selectedTrendingItem.Movie.Plays() == 0) //TODOselectedTrendingItem.Plays = 1;
+                    //TODOselectedTrendingItem.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -249,53 +240,53 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.MarkMovieAsUnWatched(selectedMovie);
-                    selectedMovie.Watched = false;
+                    TraktHelper.RemoveMovieFromWatchHistory(selectedTrendingItem.Movie);
+                    //TODOselectedTrendingItem.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToWatchList):
-                    TraktHelper.AddMovieToWatchList(selectedMovie, true);
-                    selectedMovie.InWatchList = true;
+                    TraktHelper.AddMovieToWatchList(selectedTrendingItem.Movie, true);
+                    //TODOselectedTrendingItem.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
-                    TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
-                    selectedMovie.InWatchList = false;
+                    TraktHelper.RemoveMovieFromWatchList(selectedTrendingItem.Movie, true);
+                    //TODOselectedTrendingItem.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveMovieInUserList(selectedMovie, false);                    
+                    TraktHelper.AddRemoveMovieInUserList(selectedTrendingItem.Movie, false);                    
                     break;
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
-                    TraktHelper.AddMovieToLibrary(selectedMovie);
-                    selectedMovie.InCollection = true;
+                    TraktHelper.AddMovieToCollection(selectedTrendingItem.Movie);
+                    //TODOselectedTrendingItem.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies();
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromLibrary):
-                    TraktHelper.RemoveMovieFromLibrary(selectedMovie);
-                    selectedMovie.InCollection = false;
+                    TraktHelper.RemoveMovieFromCollection(selectedTrendingItem.Movie);
+                    //TODOselectedTrendingItem.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)TrendingContextMenuItem.Related):
-                    TraktHelper.ShowRelatedMovies(selectedMovie);
+                    TraktHelper.ShowRelatedMovies(selectedTrendingItem.Movie);
                     break;
 
                 case ((int)TrendingContextMenuItem.Rate):
-                    GUICommon.RateMovie(selectedMovie);
+                    GUICommon.RateMovie(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies();
@@ -310,11 +301,11 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.Shouts):
-                    TraktHelper.ShowMovieShouts(selectedMovie);
+                    TraktHelper.ShowMovieShouts(selectedTrendingItem.Movie);
                     break;
 
                 case ((int)TrendingContextMenuItem.Trailers):
-                    GUICommon.ShowMovieTrailersMenu(selectedMovie);
+                    GUICommon.ShowMovieTrailersMenu(selectedTrendingItem.Movie);
                     break;
 
                 case ((int)TrendingContextMenuItem.ChangeLayout):
@@ -322,12 +313,12 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchWithMpNZB):
-                    string loadingParam = string.Format("search:{0}", selectedMovie.Title);
+                    string loadingParam = string.Format("search:{0}", selectedTrendingItem.Movie.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
                 case ((int)TrendingContextMenuItem.SearchTorrent):
-                    string loadPar = selectedMovie.Title;
+                    string loadPar = selectedTrendingItem.Movie.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
 
@@ -347,10 +338,10 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedMovie = selectedItem.TVTag as TraktMovie;
-            if (selectedMovie == null) return;
+            var selectedTrendingItem = selectedItem.TVTag as TraktMovieTrending;
+            if (selectedTrendingItem == null) return;
 
-            GUICommon.CheckAndPlayMovie(jumpTo, selectedMovie);
+            GUICommon.CheckAndPlayMovie(jumpTo, selectedTrendingItem.Movie);
         }
 
         private void LoadTrendingMovies()
@@ -365,18 +356,18 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktTrendingMovie> movies = result as IEnumerable<TraktTrendingMovie>;
+                    var movies = result as IEnumerable<TraktMovieTrending>;
                     SendTrendingMoviesToFacade(movies);
                 }
             }, Translation.GettingTrendingMovies, true);
         }
 
-        private void SendTrendingMoviesToFacade(IEnumerable<TraktTrendingMovie> movies)
+        private void SendTrendingMoviesToFacade(IEnumerable<TraktMovieTrending> trendingItems)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (movies.Count() == 0)
+            if (trendingItems.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingMovies);
                 GUIWindowManager.ShowPreviousWindow();
@@ -384,28 +375,29 @@ namespace TraktPlugin.GUI
             }
 
             // filter movies
-            movies = GUICommon.FilterTrendingMovies(movies);
+            trendingItems = GUICommon.FilterTrendingMovies(trendingItems);
 
             // sort movies
-            var movieList = movies.Where(m => !string.IsNullOrEmpty(m.Title)).ToList();
-            movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
+            var filteredTrendingList = trendingItems.Where(m => !string.IsNullOrEmpty(m.Movie.Title)).ToList();
+            filteredTrendingList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
 
             int itemId = 0;
             var movieImages = new List<GUIImage>();
 
             // Add each movie mark remote if not in collection            
-            foreach (var movie in movieList)
+            foreach (var trendingItem in filteredTrendingList)
             {
                 // add image for download
-                var images = new GUIImage { MovieImages = movie.Images };
+                var images = new GUIImage { MovieImages = trendingItem.Movie.Images };
                 movieImages.Add(images);
 
-                var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.TrendingMovies);
+                var item = new GUIMovieListItem(trendingItem.Movie.Title, (int)TraktGUIWindows.TrendingMovies);
 
-                item.Label2 = movie.Year == "0" ? "----" : movie.Year;
-                item.TVTag = movie;
+                item.Label2 = trendingItem.Movie.Year == null ? "----" : trendingItem.Movie.Year.ToString();
+                item.TVTag = trendingItem;
+                item.Movie = trendingItem.Movie;
                 item.Images = images;
-                item.IsPlayed = movie.Watched;
+                item.IsPlayed = trendingItem.Movie.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;
                 // movie in collection doesnt nessararily mean
                 // that the movie is locally available on this computer
@@ -427,10 +419,10 @@ namespace TraktPlugin.GUI
             Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", movies.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", movies.Count().ToString(), movies.Count() > 1 ? Translation.Movies : Translation.Movie));
-            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", movies.Sum(m => m.Watchers).ToString());
-            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, movies.Sum(m => m.Watchers).ToString(), movies.Count().ToString()));
+            GUIUtils.SetProperty("#itemcount", trendingItems.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", trendingItems.Count().ToString(), trendingItems.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.Sum(t => t.Watchers).ToString());
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, trendingItems.Sum(t => t.Watchers).ToString(), trendingItems.Count().ToString()));
 
             // Download movie images Async and set to facade
             GUIMovieListItem.GetImages(movieImages);
@@ -496,20 +488,21 @@ namespace TraktPlugin.GUI
             GUICommon.ClearMovieProperties();
         }
 
-        private void PublishMovieSkinProperties(TraktTrendingMovie movie)
+        private void PublishMovieSkinProperties(TraktMovieTrending trendingItem)
         {
-            GUICommon.SetProperty("#Trakt.Movie.Watchers", movie.Watchers.ToString());
-            GUICommon.SetProperty("#Trakt.Movie.Watchers.Extra", movie.Watchers > 1 ? string.Format(Translation.PeopleWatching, movie.Watchers) : Translation.PersonWatching);
-            GUICommon.SetMovieProperties(movie);
+            GUICommon.SetProperty("#Trakt.Movie.Watchers", trendingItem.Watchers.ToString());
+            GUICommon.SetProperty("#Trakt.Movie.Watchers.Extra", trendingItem.Watchers > 1 ? string.Format(Translation.PeopleWatching, trendingItem.Watchers) : Translation.PersonWatching);
+
+            GUICommon.SetMovieProperties(trendingItem.Movie);
         }
 
         private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
-            
-            var movie = item.TVTag as TraktTrendingMovie;
-            PublishMovieSkinProperties(movie);
-            GUIImageHandler.LoadFanart(backdrop, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+
+            var trendingItem = item.TVTag as TraktMovieTrending;
+            PublishMovieSkinProperties(trendingItem);
+            GUIImageHandler.LoadFanart(backdrop, trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
         }
         #endregion
     }

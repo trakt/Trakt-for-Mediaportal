@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -98,7 +92,7 @@ namespace TraktPlugin.GUI
         ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
 
-        IEnumerable<TraktShow> RecommendedShows
+        IEnumerable<TraktShowSummary> RecommendedShows
         {
             get
             {
@@ -106,14 +100,15 @@ namespace TraktPlugin.GUI
                 {
                     SetRecommendationProperties();
                     if ((StartYear > EndYear) && EndYear != 0) StartYear = 0;
-                    _RecommendedShows = TraktAPI.v1.TraktAPI.GetRecommendedShows(TraktGenres.ShowGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
+                    //TODO_RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows(TraktGenres.ShowGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
+                    _RecommendedShows = TraktAPI.TraktAPI.GetRecommendedShows();
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
                 return _RecommendedShows;
             }
         }
-        static IEnumerable<TraktShow> _RecommendedShows = null;
+        static IEnumerable<TraktShowSummary> _RecommendedShows = null;
 
         #endregion
 
@@ -191,7 +186,10 @@ namespace TraktPlugin.GUI
                         {
                             GUIListItem selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
-                            TraktShow selectedShow = (TraktShow)selectedItem.TVTag;
+
+                            var selectedShow = selectedItem.TVTag as TraktShowSummary;
+                            if (selectedShow == null) return;
+
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedShow.ToJSON());
                         }
                     }
@@ -291,7 +289,7 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
             if (selectedShow == null) return;
 
             IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -311,8 +309,8 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
 
-            // Add/Remove Watch List            
-            if (!selectedShow.InWatchList)
+            // Add/Remove Watchlist            
+            if (!selectedShow.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
@@ -325,7 +323,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromWatchList;
             }
 
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
@@ -383,7 +381,7 @@ namespace TraktPlugin.GUI
                     DismissRecommendation(selectedShow);
                     if (_RecommendedShows.Count() > 1)
                     {
-                        var showsToExcept = new List<TraktShow>();
+                        var showsToExcept = new List<TraktShowSummary>();
                         showsToExcept.Add(selectedShow);
                         _RecommendedShows = RecommendedShows.Except(showsToExcept);
                     }
@@ -403,20 +401,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedShow);
-                    selectedShow.InWatchList = true;
+                    //TODOselectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
-                    selectedShow.InWatchList = false;
+                    //TODOselectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveShowInUserList(selectedShow.Title, selectedShow.Year.ToString(), selectedShow.Tvdb, false);
+                    TraktHelper.AddRemoveShowInUserList(selectedShow, false);
                     break;
 
                 case ((int)ContextMenuItem.Related):
@@ -438,7 +436,7 @@ namespace TraktPlugin.GUI
                         // remove from recommendations
                         if (_RecommendedShows.Count() > 1)
                         {
-                            var showsToExcept = new List<TraktShow>();
+                            var showsToExcept = new List<TraktShowSummary>();
                             showsToExcept.Add(selectedShow);
                             _RecommendedShows = RecommendedShows.Except(showsToExcept);
                         }
@@ -492,7 +490,9 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShow = selectedItem.TVTag as TraktShow;
+            var selectedShow = selectedItem.TVTag as TraktShowSummary;
+            if (selectedShow == null) return;
+
             GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedShow, jumpTo);
         }
 
@@ -502,18 +502,7 @@ namespace TraktPlugin.GUI
             {
                 TraktShow dismissShow = obj as TraktShow;
 
-                TraktShowSlug syncShow = new TraktShowSlug
-                {
-                    UserName = TraktSettings.Username,
-                    Password = TraktSettings.Password,
-                    IMDbId = dismissShow.Imdb,
-                    TVDbId = dismissShow.Tvdb,
-                    Title = dismissShow.Title,
-                    Year = dismissShow.Year.ToString()
-                };
-
-                TraktResponse response = TraktAPI.v1.TraktAPI.DismissShowRecommendation(syncShow);
-                TraktLogger.LogTraktResponse<TraktResponse>(response);
+                var response = TraktAPI.TraktAPI.DismissRecommendedShow(dismissShow.Ids.Id.ToString());
             })
             {
                 IsBackground = true,
@@ -525,7 +514,7 @@ namespace TraktPlugin.GUI
         
         private void ShowGenreMenu()
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(TraktGenres.ItemName(CurrentGenre));
 
@@ -579,13 +568,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktShow> shows = result as IEnumerable<TraktShow>;
+                    var shows = result as IEnumerable<TraktShowSummary>;
                     SendRecommendedShowsToFacade(shows);
                 }
             }, Translation.GettingRecommendedShows, true);
         }
 
-        private void SendRecommendedShowsToFacade(IEnumerable<TraktShow> shows)
+        private void SendRecommendedShowsToFacade(IEnumerable<TraktShowSummary> shows)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -627,6 +616,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = show.Year.ToString();
                 item.TVTag = show;
+                item.Show = show;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -731,7 +721,7 @@ namespace TraktPlugin.GUI
             GUICommon.ClearShowProperties();
         }
 
-        private void PublishShowSkinProperties(TraktShow show)
+        private void PublishShowSkinProperties(TraktShowSummary show)
         {
             GUICommon.SetShowProperties(show);
         }
@@ -740,7 +730,9 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            TraktShow show = item.TVTag as TraktShow;
+            var show = item.TVTag as TraktShowSummary;
+            if (show == null) return;
+
             PublishShowSkinProperties(show);
             GUIImageHandler.LoadFanart(backdrop, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }

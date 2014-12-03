@@ -804,7 +804,7 @@ namespace TraktPlugin
 
         #region Episode Watched History
 
-        public static void AddEpisodeToWatchedHistory(TraktEpisode episode)
+        public static void AddEpisodeToWatchHistory(TraktEpisode episode)
         {
             AddEpisodeToWatchedHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
