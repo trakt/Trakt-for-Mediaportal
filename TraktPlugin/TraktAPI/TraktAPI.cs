@@ -872,6 +872,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsWatchedEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchedHistoryAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse RemoveShowsFromWatchedHistoryEx(TraktSyncShowsEx shows)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchedHistoryRemove, shows.ToJSON());

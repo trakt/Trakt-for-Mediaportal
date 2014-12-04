@@ -471,13 +471,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUIImage>();
+            var showImages = new List<GUITraktImage>();
 
             // Add each show
             foreach (var episodeSummary in episodes)
             {
                 // add images for download
-                var images = new GUIImage
+                var images = new GUITraktImage
                 {
                     EpisodeImages = episodeSummary.Episode.Images,
                     ShowImages = episodeSummary.Show.Images

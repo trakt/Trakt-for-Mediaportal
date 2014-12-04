@@ -284,13 +284,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var personImages = new List<GUIImage>();
+            var personImages = new List<GUITraktImage>();
 
             // Add each movie
             foreach (var person in people)
             {
                 // add image for download
-                var images = new GUIImage { PoepleImages = person.Images };
+                var images = new GUITraktImage { PoepleImages = person.Images };
                 personImages.Add(images);
 
                 var item = new GUIPersonListItem(person.Name.Trim(), (int)TraktGUIWindows.SearchPeople);

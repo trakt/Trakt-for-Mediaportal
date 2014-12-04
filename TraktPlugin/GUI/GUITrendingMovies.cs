@@ -382,13 +382,13 @@ namespace TraktPlugin.GUI
             filteredTrendingList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<GUIImage>();
+            var movieImages = new List<GUITraktImage>();
 
             // Add each movie mark remote if not in collection            
             foreach (var trendingItem in filteredTrendingList)
             {
                 // add image for download
-                var images = new GUIImage { MovieImages = trendingItem.Movie.Images };
+                var images = new GUITraktImage { MovieImages = trendingItem.Movie.Images };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(trendingItem.Movie.Title, (int)TraktGUIWindows.TrendingMovies);

@@ -27,7 +27,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public GUIImage Images
+        public GUITraktImage Images
         {
             get { return _Images; }
             set
@@ -36,13 +36,13 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUIImage && e.PropertyName == "Poster")
-                        SetImageToGui((s as GUIImage).ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster));
-                    if (s is GUIImage && e.PropertyName == "Fanart")
+                    if (s is GUITraktImage && e.PropertyName == "Poster")
+                        SetImageToGui((s as GUITraktImage).ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster));
+                    if (s is GUITraktImage && e.PropertyName == "Fanart")
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected GUIImage _Images;
+        } protected GUITraktImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images
@@ -55,7 +55,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUIImage> itemsWithThumbs)
+        internal static void GetImages(List<GUITraktImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -65,7 +65,7 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<GUIImage>();
+                var groupList = new List<GUITraktImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
@@ -81,7 +81,7 @@ namespace TraktPlugin.GUI
 
                 new Thread(delegate(object o)
                 {
-                    var items = (List<GUIImage>)o;
+                    var items = (List<GUITraktImage>)o;
                     foreach (var item in items)
                     {
                         #region Poster

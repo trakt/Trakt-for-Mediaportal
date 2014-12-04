@@ -34,6 +34,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public int Likes { get; set; }
 
         [DataMember(Name = "user")]
-        public TraktUser User { get; set; }
+        public TraktUserSummary User { get; set; }
     }
 }

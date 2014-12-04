@@ -534,7 +534,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var movieImages = new List<GUIImage>();
+            var movieImages = new List<GUITraktImage>();
 
             // Add each movie
             foreach (var movie in movies.Where(m => !string.IsNullOrEmpty(m.Title)))
@@ -542,7 +542,7 @@ namespace TraktPlugin.GUI
                 var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.RelatedMovies);
 
                 // add image for download
-                var image = new GUIImage { MovieImages = movie.Images };
+                var image = new GUITraktImage { MovieImages = movie.Images };
                 movieImages.Add(image);
 
                 item.Label2 = movie.Year == null ? "----" : movie.Year.ToString();

@@ -485,14 +485,14 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUIImage>();
+            var showImages = new List<GUITraktImage>();
 
             foreach (var show in shows)
             {
                 var item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.RelatedShows);
 
                 // add image for download
-                var images = new GUIImage { ShowImages = show.Images };
+                var images = new GUITraktImage { ShowImages = show.Images };
                 showImages.Add(images);
                 
                 item.Label2 = show.Year.ToString();

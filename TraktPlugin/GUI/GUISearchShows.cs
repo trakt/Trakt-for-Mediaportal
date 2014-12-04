@@ -424,13 +424,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUIImage>();
+            var showImages = new List<GUITraktImage>();
 
             // Add each show
             foreach (var show in shows)
             {
                 // add image for download
-                var images = new GUIImage { ShowImages = show.Images };
+                var images = new GUITraktImage { ShowImages = show.Images };
                 showImages.Add(images);
 
                 GUIShowListItem item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.SearchShows);

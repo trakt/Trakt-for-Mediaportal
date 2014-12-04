@@ -378,7 +378,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var shoutImages = new List<GUIImage>();
+            var shoutImages = new List<GUITraktImage>();
 
             // Add each item added
             foreach (var activity in activities)
@@ -389,7 +389,7 @@ namespace TraktPlugin.GUI
                 var item = new GUICustomListItem(GUICommon.GetActivityListItemTitle(activity), (int)TraktGUIWindows.RecentShouts);
 
                 // add images for download
-                var images = new GUIImage
+                var images = new GUITraktImage
                 {
                     ShowImages = activity.Show != null ? activity.Show.Images : null,
                     MovieImages = activity.Movie != null ? activity.Movie.Images : null

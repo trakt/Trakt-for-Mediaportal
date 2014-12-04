@@ -464,7 +464,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var movieImages = new List<GUIImage>();
+            var movieImages = new List<GUITraktImage>();
 
             // Add each item watched
             foreach (var activity in activities)
@@ -474,7 +474,7 @@ namespace TraktPlugin.GUI
                     continue;
 
                 // add image for download
-                var images = new GUIImage { MovieImages = activity.Movie.Images };
+                var images = new GUITraktImage { MovieImages = activity.Movie.Images };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(activity.Movie.Title, (int)TraktGUIWindows.RecentWatchedMovies);

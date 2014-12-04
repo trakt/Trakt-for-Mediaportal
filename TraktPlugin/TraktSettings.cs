@@ -74,9 +74,9 @@ namespace TraktPlugin
         public static bool HideSpoilersOnShouts { get; set; }
         public static bool SyncRatings { get; set; }
         public static bool ShowRateDialogOnWatched { get; set; }
-        //TODOpublic static TraktActivity LastActivityLoad { get; set; }
-        //TODOpublic static IEnumerable<TraktTrendingMovie> LastTrendingMovies { get; set; }
-        //TODOpublic static IEnumerable<TraktTrendingShow> LastTrendingShows { get; set; }
+        public static TraktActivity LastActivityLoad { get; set; }
+        public static IEnumerable<TraktMovieTrending> LastTrendingMovies { get; set; }
+        public static IEnumerable<TraktShowTrending> LastTrendingShows { get; set; }
         public static int DashboardActivityPollInterval { get; set; }
         public static int DashboardTrendingPollInterval { get; set; }
         public static int DashboardLoadDelay { get; set; }
@@ -545,9 +545,9 @@ namespace TraktPlugin
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
 
             TraktLogger.Info("Loading Persisted File Cache");
-            //TODOLastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
-            //TODOLastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktTrendingMovie>();
-            //TODOLastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktTrendingShow>();
+            LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
+            LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktMovieTrending>();
+            LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktShowTrending>();
             //TODOLastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserProfile.Statistics>();
         }
 
@@ -665,9 +665,9 @@ namespace TraktPlugin
             Settings.SaveCache();
 
             TraktLogger.Info("Saving Persistent File Cache");
-            //TODOTraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
-            //TODOTraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktTrendingShow>()).ToList().ToJSON());
-            //TODOTraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktTrendingMovie>()).ToList().ToJSON());
+            TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
+            TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
+            TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
             //TODOTraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
         }
 
@@ -707,35 +707,10 @@ namespace TraktPlugin
                     switch (currentSettingsVersion)
                     {
                         case 0:
-                            #region upgrade dashboard persisted cache
-                            //TODOvar lastActivityLoad = xmlreader.GetValueAsString(cTrakt, cLastActivityLoad, "{}").FromJSON<TraktActivity>();
-                            //TODOif (lastActivityLoad != null && lastActivityLoad.Activities != null && lastActivityLoad.Activities.Count > 0)
-                            //TODO{
-                            //TODO    SaveFileCache(cLastActivityFileCache, lastActivityLoad.ToJSON());
-                            //TODO}
                             xmlreader.RemoveEntry(cTrakt, cLastActivityLoad);
-
-                            //TODOvar lastTrendingMovies = xmlreader.GetValueAsString(cTrakt, cLastTrendingMovies, "{}").FromJSONArray<TraktTrendingMovie>();
-                            //TODOif (lastTrendingMovies != null && lastTrendingMovies.Count() > 0)
-                            //TODO{
-                            //TODO    SaveFileCache(cLastTrendingMovieFileCache, lastTrendingMovies.ToJSON());
-                            //TODO}
                             xmlreader.RemoveEntry(cTrakt, cLastTrendingMovies);
-
-                            //TODOvar lastTrendingShows = xmlreader.GetValueAsString(cTrakt, cLastTrendingShows, "{}").FromJSONArray<TraktTrendingShow>();
-                            //TODOif (lastTrendingShows != null && lastTrendingShows.Count() > 0)
-                            //TODO{
-                            //TODO    SaveFileCache(cLastTrendingShowFileCache, lastTrendingShows.ToJSON());
-                            //TODO}
                             xmlreader.RemoveEntry(cTrakt, cLastTrendingShows);
-
-                            //TODOvar lastStatistics = xmlreader.GetValueAsString(cTrakt, cLastStatistics, null).FromJSON<TraktUserProfile.Statistics>();
-                            //TODOif (lastStatistics != null && lastStatistics.Episodes != null && lastStatistics.Movies != null && lastStatistics.Shows != null)
-                            //TODO{
-                            //TODO    SaveFileCache(cLastStatisticsFileCache, lastStatistics.ToJSON());
-                            //TODO}
                             xmlreader.RemoveEntry(cTrakt, cLastStatistics);
-                            #endregion
                             currentSettingsVersion++;
                             break;
 

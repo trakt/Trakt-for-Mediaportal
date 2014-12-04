@@ -774,7 +774,7 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
            
             int itemCount = 0;
-            List<GUIImage> showImages = new List<GUIImage>();
+            List<GUITraktImage> showImages = new List<GUITraktImage>();
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
@@ -807,7 +807,7 @@ namespace TraktPlugin.GUI
                         GUIEpisodeListItem episodeItem = new GUIEpisodeListItem(episode.ToString(), (int)TraktGUIWindows.Calendar);
 
                         // add image for download
-                        GUIImage images = new GUIImage
+                        GUITraktImage images = new GUITraktImage
                         {
                             EpisodeImages = episode.Episode.Images,
                             ShowImages = episode.Show.Images

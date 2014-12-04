@@ -452,13 +452,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var movieImages = new List<GUIImage>();
+            var movieImages = new List<GUITraktImage>();
 
             // Add each movie
             foreach (var movie in movies)
             {
                 // add image for download
-                var images = new GUIImage { MovieImages = movie.Images };
+                var images = new GUITraktImage { MovieImages = movie.Images };
                 movieImages.Add(images);
 
                 GUIMovieListItem item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.SearchMovies);

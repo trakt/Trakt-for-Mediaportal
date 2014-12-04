@@ -70,7 +70,7 @@ namespace TraktPlugin.GUI
     /// <summary>
     /// This object will typically hold images used in facade list items and window backgrounds
     /// </summary>
-    public class GUIImage : INotifyPropertyChanged
+    public class GUITraktImage : INotifyPropertyChanged
     {
         public TraktEpisodeImages EpisodeImages { get; set; }
         public TraktShowImages ShowImages { get; set; }

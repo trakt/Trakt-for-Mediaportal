@@ -355,14 +355,14 @@ namespace TraktPlugin.GUI
             }
 
             int itemCount = 0;
-            var showImages = new List<GUIImage>();
+            var showImages = new List<GUITraktImage>();
 
             // Add each show and underlying episodes
             // Should we do facade levels (Series,Season,Episodes)?
             foreach (var watchlistItem in episodeWatchlist)
             {
                 // add image for download
-                var images = new GUIImage
+                var images = new GUITraktImage
                 {
                     EpisodeImages = watchlistItem.Episode.Images,
                     ShowImages = watchlistItem.Show.Images

@@ -472,7 +472,7 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.FollowerRequest, string.Format(Translation.DenyFollowRequest, selectedItem.Label), true))
                     {
                         // follower denied, remove user from pending requests
-                        DenyFollowerRequest(selectedItem.TVTag as TraktUser);
+                        DenyFollowerRequest((selectedItem.TVTag as TraktFollowerRequest).Id);
 
                         TraktCache.FollowerRequests = TraktCache.FollowerRequests.Except(TraktCache.FollowerRequests.Where(f => f.User.Username == selectedItem.Label));
 
@@ -836,13 +836,13 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
-            var userImages = new List<GUIImage>();
+            var userImages = new List<GUITraktImage>();
 
             // Add each friend to the list
             foreach (var friend in friends.OrderBy(f => f.FriendsAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { UserImages = friend.Images };
+                var images = new GUITraktImage { UserImages = friend.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
@@ -923,13 +923,13 @@ namespace TraktPlugin.GUI
 
             int id = 0;
 
-            var userImages = new List<GUIImage>();
+            var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
             foreach (var user in following.OrderBy(f => f.FollowedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { UserImages = user.Images };
+                var images = new GUITraktImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
@@ -1009,13 +1009,13 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
-            var userImages = new List<GUIImage>();
+            var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
             foreach (var user in followers.OrderBy(f => f.FollowedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { UserImages = user.Images };
+                var images = new GUITraktImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
@@ -1095,13 +1095,13 @@ namespace TraktPlugin.GUI
             }
 
             int id = 0;
-            var userImages = new List<GUIImage>();
+            var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
             foreach (var user in requests.OrderBy(r => r.RequestedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUIImage { UserImages = user.User.Images };
+                var images = new GUITraktImage { UserImages = user.User.Images };
                 userImages.Add(images);
 
                 var userItem = new GUIUserListItem(user.User.Username, (int)TraktGUIWindows.Network);

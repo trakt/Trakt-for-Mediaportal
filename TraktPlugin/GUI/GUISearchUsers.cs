@@ -292,13 +292,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var userImages = new List<GUIImage>();
+            var userImages = new List<GUITraktImage>();
 
             // Add each user
             foreach (var user in users)
             {
                 // add image to download
-                var images = new GUIImage { UserImages = user.Images };
+                var images = new GUITraktImage { UserImages = user.Images };
                 userImages.Add(images);
 
                 var item = new GUIUserListItem(user.Username, (int)TraktGUIWindows.SearchUsers);

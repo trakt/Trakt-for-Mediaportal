@@ -96,7 +96,7 @@ namespace TraktPlugin.GUI
                 return rtn;
             }
 
-            return Compare(movieX as TraktMovieSummary, movieY as TraktMovieSummary);
+            return Compare(movieX.Movie, movieY.Movie);
         }
 
         public int Compare(TraktMovieWatchList movieX, TraktMovieWatchList movieY)
@@ -113,14 +113,6 @@ namespace TraktPlugin.GUI
             return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
         }
 
-        #region IComparer<TraktWatchListMovie> Members
-
-        int IComparer<TraktMovieWatchList>.Compare(TraktMovieWatchList x, TraktMovieWatchList y)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
     #endregion
 

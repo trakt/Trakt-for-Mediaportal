@@ -476,7 +476,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUIImage>();
+            var showImages = new List<GUITraktImage>();
 
             // Add each item watched
             foreach (var activity in activities)
@@ -493,7 +493,7 @@ namespace TraktPlugin.GUI
                 var item = new GUIEpisodeListItem(episodeSummary.ToString(), (int)TraktGUIWindows.RecentWatchedEpisodes);
 
                 // add images for download
-                var images = new GUIImage
+                var images = new GUITraktImage
                 {
                     EpisodeImages = activity.Episode.Images,
                     ShowImages = activity.Show.Images

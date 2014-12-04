@@ -1005,13 +1005,13 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Shout.Id", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
+            GUIUtils.SetProperty("#Trakt.Shout.Review", "false");
+            GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.UserRating", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Shout.IsReview", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Shout.Type", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Type", string.Empty);            
             GUIUtils.SetProperty("#Trakt.Shout.Likes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Replies", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
         }
 
         internal static void SetShoutProperties(TraktComment shout, bool isWatched = false)
@@ -1019,7 +1019,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Shout.Id", shout.Id);
             SetProperty("#Trakt.Shout.Inserted", shout.CreatedAt.FromISO8601().ToLongDateString());
             SetProperty("#Trakt.Shout.Spoiler", shout.IsSpoiler);
-            SetProperty("#Trakt.Shout.IsReview", shout.IsReview);
+            SetProperty("#Trakt.Shout.Review", shout.IsReview);
             SetProperty("#Trakt.Shout.Type", shout.IsReview ? "review" : "shout");
             SetProperty("#Trakt.Shout.Likes", shout.Likes);
             SetProperty("#Trakt.Shout.Replies", shout.Replies);
@@ -1031,7 +1031,6 @@ namespace TraktPlugin.GUI
             else
                 SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Comment.RemapHighOrderChars()).StripHTML());
         }
-
 
         internal static void ClearMovieProperties()
         {

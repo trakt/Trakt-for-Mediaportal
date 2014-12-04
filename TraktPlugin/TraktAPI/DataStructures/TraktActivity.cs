@@ -48,7 +48,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public long Id { get; set; }
 
             [DataMember(Name = "timestamp")]
-            public long Timestamp { get; set; }
+            public string Timestamp { get; set; }
 
             [DataMember(Name = "when")]
             public TraktWhen When { get; set; }

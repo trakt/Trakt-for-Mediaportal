@@ -714,7 +714,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 1;
-            var listImages = new List<GUIImage>();
+            var listImages = new List<GUITraktImage>();
             
             // Add each list item
             foreach (var listItem in list.Items.Where(l => !string.IsNullOrEmpty(l.Title)))
@@ -780,9 +780,9 @@ namespace TraktPlugin.GUI
             return retValue;
         }
 
-        private GUIImage GetTraktImage(TraktUserListItem listItem)
+        private GUITraktImage GetTraktImage(TraktUserListItem listItem)
         {
-            GUIImage images = new GUIImage();
+            GUITraktImage images = new GUITraktImage();
 
             switch (listItem.Type)
             {

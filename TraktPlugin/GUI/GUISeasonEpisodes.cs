@@ -408,7 +408,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetShowProperties(Show);
 
             int itemCount = 0;
-            var episodeImages = new List<GUIImage>();
+            var episodeImages = new List<GUITraktImage>();
 
             foreach (var episode in episodes)
             {
@@ -416,7 +416,7 @@ namespace TraktPlugin.GUI
                 string itemLabel = string.Format("{0}. {1}", episode.Number.ToString(), string.IsNullOrEmpty(episode.Title) ? Translation.Episode + " " + episode.Number.ToString() : episode.Title);
 
                 // add image for download
-                var images = new GUIImage
+                var images = new GUITraktImage
                 {
                     EpisodeImages = episode.Images,
                     ShowImages = Show.Images
