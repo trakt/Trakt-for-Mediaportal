@@ -806,10 +806,10 @@ namespace TraktPlugin
 
         public static void AddEpisodeToWatchHistory(TraktEpisode episode)
         {
-            AddEpisodeToWatchedHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            AddEpisodeToWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
-        public static void AddEpisodeToWatchedHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        public static void AddEpisodeToWatchHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
             var episode = new TraktSyncEpisodeWatched
             {
@@ -838,12 +838,12 @@ namespace TraktPlugin
             syncThread.Start(episode);
         }
 
-        public static void RemoveEpisodeFromWatchedHistory(TraktEpisode episode)
+        public static void RemoveEpisodeFromWatchHistory(TraktEpisode episode)
         {
-            RemoveEpisodeFromWatchedHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            RemoveEpisodeFromWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
         }
 
-        public static void RemoveEpisodeFromWatchedHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        public static void RemoveEpisodeFromWatchHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
             var episode = new TraktEpisode
             {

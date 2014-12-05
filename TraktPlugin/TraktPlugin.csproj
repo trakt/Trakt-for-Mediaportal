@@ -116,26 +116,6 @@
       <HintPath>..\Externals\Dialogs.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ForTheRecord.Entities, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
-      <HintPath>..\Externals\ForTheRecord.Entities.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ForTheRecord.ServiceAgents, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
-      <HintPath>..\Externals\ForTheRecord.ServiceAgents.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ForTheRecord.ServiceContracts, Version=1.6.1.0, Culture=neutral, PublicKeyToken=a9a5dfc20b8d6175, processorArchitecture=MSIL">
-      <HintPath>..\Externals\ForTheRecord.ServiceContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ForTheRecord.UI.MediaPortal, Version=1.5.0.1, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\Externals\ForTheRecord.UI.MediaPortal.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Gentle.Common">
       <HintPath>..\Externals\Gentle.Common.dll</HintPath>
       <Private>False</Private>
@@ -163,6 +143,10 @@
     <Reference Include="MyFilms">
       <HintPath>..\Externals\MyFilms.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Externals\Newtonsoft.Json.dll</HintPath>
+      <Aliases>nsoft</Aliases>
     </Reference>
     <Reference Include="OnlineVideos">
       <HintPath>..\Externals\OnlineVideos.dll</HintPath>
@@ -314,6 +298,7 @@
     <Compile Include="TraktAPI.v1\DataStructures\TraktUserListItem.cs" />
     <Compile Include="TraktAPI.v1\DataStructures\TraktWriter.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />

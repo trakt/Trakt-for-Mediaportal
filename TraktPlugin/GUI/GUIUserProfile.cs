@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -60,15 +51,15 @@ namespace TraktPlugin.GUI
         static DateTime LastRequest = new DateTime();
         ActivityType SelectedActivity { get; set; }
         static int PreviousActivityTypeSelectedIndex = 0;
-        static Dictionary<string, TraktUserProfile> UserProfiles = new Dictionary<string, TraktUserProfile>();
+        static Dictionary<string, TraktUserSummary> UserProfiles = new Dictionary<string, TraktUserSummary>();
 
-        static TraktUserProfile UserProfile
+        static TraktUserSummary UserProfile
         {
             get
             {
                 if (!UserProfiles.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _UserProfile = TraktAPI.v1.TraktAPI.GetUserProfile(CurrentUser);
+                    _UserProfile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
                     if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
                     GetUserProfileImage(_UserProfile);
                     UserProfiles.Add(CurrentUser, _UserProfile);
@@ -78,7 +69,7 @@ namespace TraktPlugin.GUI
                 return UserProfiles[CurrentUser];
             }
         }
-        static TraktUserProfile _UserProfile = null;
+        static TraktUserSummary _UserProfile = null;
 
         #endregion
 
@@ -217,7 +208,9 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // load profile for user
-            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
+            if (string.IsNullOrEmpty(CurrentUser))
+                CurrentUser = TraktSettings.Username;
+
             // this property will be the same as the standard username property
             // with one exception, it will get set immediately upon page load
             GUICommon.SetProperty("#Trakt.UserProfile.CurrentUser", CurrentUser);
@@ -234,7 +227,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     // Get UserProfile from Result Handler
-                    TraktUserProfile userProfile = result as TraktUserProfile;
+                    var userProfile = result as TraktUserSummary;
                     
                     // Publish User Profile Properties
                     PublishSkinProperties(userProfile);
@@ -250,7 +243,7 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            string avatar = UserProfile.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            string avatar = UserProfile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             // add each type to the list           
             var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
@@ -344,10 +337,10 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
         }
 
-        static void GetUserProfileImage(TraktUserProfile userProfile)
+        static void GetUserProfileImage(TraktUserSummary userProfile)
         {
-            string url = userProfile.Avatar;
-            string localFile = userProfile.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            string url = userProfile.Images.Avatar.FullSize;
+            string localFile = userProfile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             GUIImageHandler.DownloadImage(url, localFile);
         }
@@ -357,8 +350,8 @@ namespace TraktPlugin.GUI
             GUICommon.ClearUserProperties();
             GUICommon.ClearStatisticProperties();
         }
-        
-        private void PublishSkinProperties(TraktUserProfile userProfile)
+
+        private void PublishSkinProperties(TraktUserSummary userProfile)
         {
             if (userProfile == null) return;
 
@@ -366,7 +359,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetUserProperties(userProfile);
 
             // Publish Statistics
-            GUICommon.SetStatisticProperties(userProfile.Stats);
+            //TODOGUICommon.SetStatisticProperties(userProfile.Stats);
         }
 
         private void OnActivityTypeSelected(GUIListItem item, GUIControl parent)

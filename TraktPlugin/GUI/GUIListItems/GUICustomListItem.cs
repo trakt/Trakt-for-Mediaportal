@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -19,6 +20,12 @@ namespace TraktPlugin.GUI
         {
             this.WindowID = windowID;
         }
+
+        public TraktMovie Movie { get; set; }
+        public TraktShow Show { get; set; }
+        public TraktEpisode Episode { get; set; }
+        public TraktSeason Season { get; set; }
+        public TraktPerson Person { get; set; }
 
         /// <summary>
         /// Images attached to a gui list item

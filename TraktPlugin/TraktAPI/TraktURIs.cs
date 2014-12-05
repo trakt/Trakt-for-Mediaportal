@@ -43,6 +43,8 @@ namespace TraktPlugin.TraktAPI
         public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows?extended=full,images";
         public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes?extended=full,images";
 
+        public const string UserProfile = "http://api.v2.trakt.tv/users/{0}?extended={0}";
+
         public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows?extended=full,images";
 
@@ -72,6 +74,10 @@ namespace TraktPlugin.TraktAPI
 
         public const string ShowSeasons = "http://api.v2.trakt.tv/shows/{0}/seasons?extended=full,images";
         public const string SeasonEpisodes = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
+
+        public const string CalendarShows = "http://api.v2.trakt.tv/calendars/shows/{0}/{1}?extended=full,images";
+        public const string CalendarPremieres = "http://api.v2.trakt.tv/calendars/shows/premieres/{0}/{1}?extended=full,images";
+        public const string CalendarNewPremieres = "http://api.v2.trakt.tv/calendars/shows/new/{0}/{1}?extended=full,images";
 
         // POST
         public const string SyncCollectionAdd = "http://api.v2.trakt.tv/sync/collection";

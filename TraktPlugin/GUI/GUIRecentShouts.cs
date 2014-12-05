@@ -356,7 +356,7 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktActivity.Activity> activities = result as IEnumerable<TraktActivity.Activity>;
+                    var activities = result as IEnumerable<TraktActivity.Activity>;
                     SendRecentShoutsToFacade(activities);
                 }
             }, Translation.GettingUserRecentShouts, true);
@@ -397,8 +397,11 @@ namespace TraktPlugin.GUI
                 shoutImages.Add(images);
 
                 // add user shout date as second label
-                item.Label2 = activity.Timestamp.FromEpoch().ToShortDateString();
+                item.Label2 = activity.Timestamp.FromISO8601().ToShortDateString();
                 item.TVTag = activity;
+                item.Episode = activity.Episode;
+                item.Show = activity.Show;
+                item.Movie = activity.Movie;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -488,7 +491,7 @@ namespace TraktPlugin.GUI
             if (activity.Shout == null && activity.Review == null) return;
 
             GUIUtils.SetProperty("#Trakt.Shout.Type", activity.Type);
-            GUICommon.SetProperty("#Trakt.Shout.Date", activity.Timestamp.FromEpoch().ToShortDateString());
+            GUICommon.SetProperty("#Trakt.Shout.Date", activity.Timestamp.FromISO8601().ToShortDateString());
 
             // set shout/review properties
             GUIUtils.SetProperty("#Trakt.Shout.Text", activity.Shout != null ? GetActivityShoutText(activity) : GetActivityReviewText(activity));

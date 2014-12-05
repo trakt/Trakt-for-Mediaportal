@@ -115,7 +115,7 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Gets the Progress of the current video being played
         /// </summary>
-        internal double GetPlayerProgress(VideoInfo videoInfo)
+        internal static double GetPlayerProgress(VideoInfo videoInfo)
         {
             // get duration/position in minutes
             double duration = videoInfo.Runtime > 0.0 ? videoInfo.Runtime : g_Player.Duration / 60;

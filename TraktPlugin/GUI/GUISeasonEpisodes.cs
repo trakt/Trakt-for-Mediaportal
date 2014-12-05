@@ -290,7 +290,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.RemoveEpisodeFromWatchedHistory(selectedEpisode);
+                    TraktHelper.RemoveEpisodeFromWatchHistory(selectedEpisode);
                     //TODOselectedEpisode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);

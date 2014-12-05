@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -117,50 +111,51 @@ namespace TraktPlugin.GUI
 
         #region Private Properties
 
-        IEnumerable<TraktCalendar> TraktCalendarMyShows
+        Dictionary<string, IEnumerable<TraktCalendar>> TraktCalendarShows
         {
             get
             {
-                if (_CalendarMyShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (_CalendarShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarMyShows = TraktAPI.v1.TraktAPI.GetCalendarForUser(TraktSettings.Username, GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
-                return _CalendarMyShows;
+                return _CalendarShows;
             }
         }
-        static IEnumerable<TraktCalendar> _CalendarMyShows = null;
+        static Dictionary<string, IEnumerable<TraktCalendar>> _CalendarShows = null;
 
-        IEnumerable<TraktCalendar> TraktCalendarPremieres
+        Dictionary<string, IEnumerable<TraktCalendar>> TraktCalendarPremieres
         {
             get
             {
                 if (_CalendarPremieres == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarPremieres = TraktAPI.v1.TraktAPI.GetCalendarPremieres(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarPremieres = TraktAPI.TraktAPI.GetCalendarPremieres(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
                 return _CalendarPremieres;
             }
         }
-        private IEnumerable<TraktCalendar> _CalendarPremieres = null;
+        private Dictionary<string, IEnumerable<TraktCalendar>> _CalendarPremieres = null;
 
-        IEnumerable<TraktCalendar> TraktCalendarAllShows
+        Dictionary<string, IEnumerable<TraktCalendar>> TraktCalendarAllShows
         {
             get
             {
                 if (_CalendarAllShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarAllShows = TraktAPI.v1.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    //TODO - Dont send OAuth so as it does not filter by 'own' shows
+                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
                 return _CalendarAllShows;
             }
         }
-        private IEnumerable<TraktCalendar> _CalendarAllShows = null;
+        private Dictionary<string, IEnumerable<TraktCalendar>> _CalendarAllShows = null;
 
         #endregion
 
@@ -202,7 +197,7 @@ namespace TraktPlugin.GUI
             switch (CurrentCalendar)
             {
                 case CalendarType.MyShows:
-                    if (_CalendarMyShows != null) PreviousCalendarDayCount = _CalendarMyShows.Count();
+                    if (_CalendarShows != null) PreviousCalendarDayCount = _CalendarShows.Count();
                     break;
 
                 case CalendarType.Premieres:
@@ -244,12 +239,12 @@ namespace TraktPlugin.GUI
                             {
                                 case CalendarType.MyShows:
                                     // previous call may have timedout
-                                    if (_CalendarMyShows != null)
+                                    if (_CalendarShows != null)
                                     {
-                                        PreviousCalendarDayCount = _CalendarMyShows.Count();
+                                        PreviousCalendarDayCount = _CalendarShows.Count();
                                         PreviousSelectedIndex = Facade.SelectedListItemIndex;
                                         CurrentWeekDays += 7;
-                                        _CalendarMyShows = null;
+                                        _CalendarShows = null;
                                     }
                                     break;
 
@@ -335,17 +330,17 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var episodeItem = Facade.SelectedListItem.TVTag as TraktEpisodeSummary;
-            if (episodeItem == null) return;
+            var calendarItem = Facade.SelectedListItem.TVTag as TraktCalendar;
+            if (calendarItem == null) return;
 
             // Create Views Menu Item
-            GUIListItem listItem = new GUIListItem(Translation.ChangeView);
+            var listItem = new GUIListItem(Translation.ChangeView);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.View;
 
@@ -370,7 +365,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Mark As Watched
-            if (!episodeItem.Episode.Watched)
+            if (!calendarItem.Episode.IsWatched(calendarItem.Show))
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
@@ -378,7 +373,7 @@ namespace TraktPlugin.GUI
             }
 
             // Mark As UnWatched
-            if (episodeItem.Episode.Watched)
+            if (calendarItem.Episode.IsWatched(calendarItem.Show))
             {
                 listItem = new GUIListItem(Translation.MarkAsUnWatched);
                 dlg.Add(listItem);
@@ -386,7 +381,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add/Remove Show Watch List
-            if (!episodeItem.Show.InWatchList)
+            if (!calendarItem.Show.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddShowToWatchList);
                 dlg.Add(listItem);
@@ -400,7 +395,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add/Remove Episode Watch List
-            if (!episodeItem.Episode.InWatchList)
+            if (!calendarItem.Episode.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddEpisodeToWatchList);
                 dlg.Add(listItem);
@@ -429,7 +424,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
             // Add/Remove Libary
-            if (!episodeItem.Episode.InCollection)
+            if (!calendarItem.Episode.IsCollected(calendarItem.Show))
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
@@ -476,94 +471,94 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, episodeItem.Show.ToJSON());
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, calendarItem.Show.ToJSON());
                     break;
 
                 case ((int)ContextMenuItem.Related):
-                    TraktHelper.ShowRelatedShows(episodeItem.Show);
+                    TraktHelper.ShowRelatedShows(calendarItem.Show);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    TraktHelper.ShowEpisodeShouts(episodeItem.Show, episodeItem.Episode);
+                    TraktHelper.ShowEpisodeShouts(calendarItem.Show, calendarItem.Episode);
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    GUICommon.RateEpisode(episodeItem.Show, episodeItem.Episode);
+                    GUICommon.RateEpisode(calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    TraktHelper.MarkEpisodeAsWatched(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.Watched = true;
+                    TraktHelper.AddEpisodeToWatchHistory(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.Watched = true;
                     Facade.SelectedListItem.IsPlayed = true;
-                    if (episodeItem.Episode.Plays == 0) episodeItem.Episode.Plays = 1;
+                    if (calendarItem.Episode.Plays(calendarItem.Show) == 0) //TODOcalendarItem.Episode.Plays = 1;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.MarkEpisodeAsUnWatched(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.Watched = false;
+                    TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.Watched = false;
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddShowToWatchList):
-                    TraktHelper.AddShowToWatchList(episodeItem.Show);
-                    episodeItem.Show.InWatchList = true;
+                    TraktHelper.AddShowToWatchList(calendarItem.Show);
+                    //TODOcalendarItem.Show.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddEpisodeToWatchList):
-                    TraktHelper.AddEpisodeToWatchList(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.InWatchList = true;
+                    TraktHelper.AddEpisodeToWatchList(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveShowFromWatchList):
-                    TraktHelper.RemoveShowFromWatchList(episodeItem.Show);
-                    episodeItem.Show.InWatchList = false;
+                    TraktHelper.RemoveShowFromWatchList(calendarItem.Show);
+                    //TODOcalendarItem.Show.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveEpisodeFromWatchList):
-                    TraktHelper.RemoveEpisodeFromWatchList(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.InWatchList = false;
+                    TraktHelper.RemoveEpisodeFromWatchList(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddEpisodeToList):
-                    TraktHelper.AddRemoveEpisodeInUserList(episodeItem.Show.Title, episodeItem.Show.Year.ToString(), episodeItem.Episode.Season.ToString(), episodeItem.Episode.Number.ToString(), episodeItem.Show.Tvdb, false);                    
+                    TraktHelper.AddRemoveEpisodeInUserList(calendarItem.Episode, false);                    
                     break;
 
                 case ((int)ContextMenuItem.AddShowToList):
-                    TraktHelper.AddRemoveShowInUserList(episodeItem.Show.Title, episodeItem.Show.Year.ToString(), episodeItem.Show.Tvdb, false);
+                    TraktHelper.AddRemoveShowInUserList(calendarItem.Show, false);
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    TraktHelper.AddEpisodeToLibrary(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.InCollection = true;
+                    TraktHelper.AddEpisodeToCollection(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.InCollection = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    TraktHelper.RemoveEpisodeFromLibrary(episodeItem.Show, episodeItem.Episode);
-                    episodeItem.Episode.InCollection = false;
+                    TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
+                    //TODOcalendarItem.Episode.InCollection = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    if (episodeItem != null) GUICommon.ShowTVShowTrailersMenu(episodeItem.Show, episodeItem.Episode);
+                    if (calendarItem != null) GUICommon.ShowTVShowTrailersMenu(calendarItem.Show, calendarItem.Episode);
                     break;
 
                 case ((int)ContextMenuItem.WatchlistFilter):
@@ -585,18 +580,18 @@ namespace TraktPlugin.GUI
 
         private void CheckAndPlayEpisode()
         {
-            GUIListItem selectedItem = Facade.SelectedListItem as GUIListItem;
+            var selectedItem = Facade.SelectedListItem as GUIListItem;
             if (selectedItem == null) return;
 
-            var episode = selectedItem.TVTag as TraktEpisodeSummary;
-            if (episode == null) return;
+            var calendarItem = selectedItem.TVTag as TraktCalendar;
+            if (calendarItem == null) return;
 
-            GUICommon.CheckAndPlayEpisode(episode.Show, episode.Episode);
+            GUICommon.CheckAndPlayEpisode(calendarItem.Show, calendarItem.Episode);
         }
 
         private void ShowStartDateMenu()
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -629,7 +624,7 @@ namespace TraktPlugin.GUI
             CurrentWeekDays = 7;
             PreviousSelectedIndex = 0;
             PreviousCalendarDayCount = 0;
-            _CalendarMyShows = null;
+            _CalendarShows = null;
             _CalendarPremieres = null;
             _CalendarAllShows = null;
 
@@ -671,7 +666,7 @@ namespace TraktPlugin.GUI
             CurrentWeekDays = 7;
             PreviousSelectedIndex = 0;
             PreviousCalendarDayCount = 0;
-            _CalendarMyShows = null;
+            _CalendarShows = null;
             _CalendarPremieres = null;
             _CalendarAllShows = null;
 
@@ -720,14 +715,14 @@ namespace TraktPlugin.GUI
             }
         }
 
-        private IEnumerable<TraktCalendar> GetCalendar()
+        private Dictionary<string, IEnumerable<TraktCalendar>> GetCalendar()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
             switch (CurrentCalendar)
             {
                 case CalendarType.MyShows:
-                    return TraktCalendarMyShows;
+                    return TraktCalendarShows;
 
                 case CalendarType.Premieres:
                     return TraktCalendarPremieres;
@@ -736,7 +731,7 @@ namespace TraktPlugin.GUI
                     return TraktCalendarAllShows;
 
                 default:
-                    return TraktCalendarMyShows;
+                    return TraktCalendarShows;
             }
         }
 
@@ -750,20 +745,20 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktCalendar> calendar = result as IEnumerable<TraktCalendar>;
+                    var calendar = result as Dictionary<string, IEnumerable<TraktCalendar>>;
                     SendCalendarToFacade(calendar);
                 }
             }, Translation.GettingCalendar, true);
         }
 
-        private void SendCalendarToFacade(IEnumerable<TraktCalendar> calendar)
+        private void SendCalendarToFacade(Dictionary<string, IEnumerable<TraktCalendar>> calendar)
         {
             // check if we got a bad response
             if (calendar.Count() < PreviousCalendarDayCount)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.ErrorCalendar);
                 // set defaults
-                _CalendarMyShows = null;
+                _CalendarShows = null;
                 _CalendarPremieres = null;
                 _CalendarAllShows = null;
                 LastRequest = new DateTime();
@@ -774,27 +769,27 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
            
             int itemCount = 0;
-            List<GUITraktImage> showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITraktImage>();
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
             foreach (var day in calendar)
             {                 
                 // apply watch list filter
-                var episodes = day.Episodes;
+                var episodesInDay = day.Value;
                 if (CurrentCalendar == CalendarType.MyShows)
                 {
                     if (TraktSettings.CalendarHideTVShowsInWatchList)
                     {
-                        episodes = day.Episodes.Where(e => !e.Show.InWatchList).ToList();
+                        episodesInDay = day.Value.Where(e => !e.Show.IsWatchlisted()).ToList();
                     }
                 }
 
-                if (episodes.Count > 0)
+                if (episodesInDay.Count() > 0)
                 {
                     // add day header
-                    GUIListItem item = new GUIListItem();
-                    item.Label3 = GetDayHeader(DateTime.Parse(day.Date));
+                    var item = new GUIListItem();
+                    item.Label3 = GetDayHeader(day.Key.FromISO8601());
                     item.IconImage = "defaultTraktCalendar.png";
                     item.IconImageBig = "defaultTraktCalendarBig.png";
                     item.ThumbnailImage = "defaultTraktCalendarBig.png";
@@ -802,26 +797,26 @@ namespace TraktPlugin.GUI
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
                  
-                    foreach (var episode in episodes)
+                    foreach (var calendarItem in episodesInDay)
                     {
-                        GUIEpisodeListItem episodeItem = new GUIEpisodeListItem(episode.ToString(), (int)TraktGUIWindows.Calendar);
+                        var episodeItem = new GUIEpisodeListItem(calendarItem.ToString(), (int)TraktGUIWindows.Calendar);
 
                         // add image for download
-                        GUITraktImage images = new GUITraktImage
+                        var images = new GUITraktImage
                         {
-                            EpisodeImages = episode.Episode.Images,
-                            ShowImages = episode.Show.Images
+                            EpisodeImages = calendarItem.Episode.Images,
+                            ShowImages = calendarItem.Show.Images
                         };
                         showImages.Add(images);
 
                         // extended skin properties
-                        episodeItem.Date = DateTime.Parse(day.Date).ToLongDateString();
+                        episodeItem.Date = DateTime.Parse(day.Key).ToLongDateString();
                         episodeItem.SelectedIndex = (itemCount + 1).ToString();
                         
                         episodeItem.Images = images;
-                        episodeItem.TVTag = episode;
+                        episodeItem.TVTag = calendarItem;
                         episodeItem.ItemId = Int32.MaxValue - itemCount;
-                        episodeItem.IsPlayed = episode.Episode.Watched;
+                        episodeItem.IsPlayed = calendarItem.Episode.IsWatched(calendarItem.Show);
                         episodeItem.IconImage = "defaultTraktEpisode.png";
                         episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
                         episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
@@ -928,10 +923,10 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", (item as GUIEpisodeListItem).Date);
             GUICommon.SetProperty("#selectedindex", (item as GUIEpisodeListItem).SelectedIndex);
 
-            var episode = item.TVTag as TraktEpisodeSummary;
-            PublishEpisodeSkinProperties(episode);
+            var calendarItem = item.TVTag as TraktCalendar;
+            PublishCalendarSkinProperties(calendarItem);
 
-            GUIImageHandler.LoadFanart(backdrop, episode.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }
 
         private void InitProperties()
@@ -992,17 +987,17 @@ namespace TraktPlugin.GUI
             switch (CurrentStartDate)
             {
                 case StartDates.Today:
-                    return DateTime.Now.Subtract(new TimeSpan(0, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(0, 0, 0, 0));
                 case StartDates.Yesterday:
-                    return DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(1, 0, 0, 0));
                 case StartDates.OneWeekAgo:
-                    return DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(7, 0, 0, 0));
                 case StartDates.TwoWeeksAgo:
-                    return DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(14, 0, 0, 0));
                 case StartDates.OneMonthAgo:
-                    return DateTime.Now.Subtract(new TimeSpan(31, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(31, 0, 0, 0));
                 default:
-                    return DateTime.Now.Subtract(new TimeSpan(0, 0, 0, 0));
+                    return DateTime.UtcNow.Subtract(new TimeSpan(0, 0, 0, 0));
             }
         }
 
@@ -1052,10 +1047,10 @@ namespace TraktPlugin.GUI
             GUICommon.ClearEpisodeProperties();
         }
 
-        private void PublishEpisodeSkinProperties(TraktEpisodeSummary episode)
+        private void PublishCalendarSkinProperties(TraktCalendar calendarItem)
         {
-            GUICommon.SetShowProperties(episode.Show);
-            GUICommon.SetEpisodeProperties(episode.Episode);
+            GUICommon.SetShowProperties(calendarItem.Show);
+            GUICommon.SetEpisodeProperties(calendarItem.Show, calendarItem.Episode);
         }
         #endregion
 
@@ -1063,7 +1058,7 @@ namespace TraktPlugin.GUI
 
         public static void ClearCache()
         {
-            _CalendarMyShows = null;
+            _CalendarShows = null;
         }
 
         #endregion

@@ -1,9 +1,12 @@
-﻿using System;
+﻿extern alias nsoft;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization.Json;
+using nsoft::Newtonsoft.Json; //OnlineVideos has this namespace
 
 namespace TraktPlugin.TraktAPI.Extensions
 {
@@ -21,7 +24,7 @@ namespace TraktPlugin.TraktAPI.Extensions
         public static IEnumerable<T> FromJSONArray<T>(this string jsonArray)
         {
             if (string.IsNullOrEmpty(jsonArray)) return new List<T>();
-
+            
             try
             {
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonArray)))
@@ -42,6 +45,23 @@ namespace TraktPlugin.TraktAPI.Extensions
             catch (Exception)
             {
                 return new List<T>();
+            }
+        }
+
+        /// <summary>
+        /// Creates a Dictionary based on the JSON string
+        /// </summary>
+        public static T FromJSONDictionary<T>(this string json)
+        {
+            if (string.IsNullOrEmpty(json)) return default(T);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch
+            {
+                return default(T);
             }
         }
 

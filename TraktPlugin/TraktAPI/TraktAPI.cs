@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -163,6 +162,12 @@ namespace TraktPlugin.TraktAPI
         #endregion
 
         #region User
+
+        public static TraktUserSummary GetUserProfile(string user)
+        {
+            var response = GetFromTrakt(TraktURIs.UserProfile);
+            return response.FromJSON<TraktUserSummary>();
+        }
 
         /// <summary>
         /// Gets a list of follower requests for the current user
@@ -351,6 +356,48 @@ namespace TraktPlugin.TraktAPI
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns list of episodes in the Calendar
+        /// </summary>
+        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows()
+        {
+            // 7-Days from Today
+            DateTime dateNow = DateTime.UtcNow;
+            return GetCalendarShows(dateNow.ToString("yyyyMMdd"), "7");
+        }
+
+        /// <summary>
+        /// Returns list of episodes in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in form yyyyMMdd</param>
+        /// <param name="days">Number of days to return in calendar</param>
+        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows(string startDate, string days)
+        {
+            string userCalendar = GetFromTrakt(string.Format(TraktURIs.CalendarShows, startDate, days));
+            return userCalendar.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+        }
+
+        /// <summary>
+        /// Returns list of episodes in the Premieres Calendar
+        /// </summary>
+        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarPremieres()
+        {
+            // 7-Days from Today
+            DateTime dateNow = DateTime.UtcNow;
+            return GetCalendarPremieres(dateNow.ToString("yyyyMMdd"), "7");
+        }
+
+        /// <summary>
+        /// Returns list of episodes in the Premieres Calendar
+        /// </summary>        
+        /// <param name="startDate">Start Date of calendar in form yyyyMMdd</param>
+        /// <param name="days">Number of days to return in calendar</param>
+        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarPremieres(string startDate, string days)
+        {
+            string premieres = GetFromTrakt(string.Format(TraktURIs.CalendarPremieres, startDate, days));
+            return premieres.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+        }
 
         #endregion
 
