@@ -257,6 +257,24 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktListItem>();
         }
 
+        public static TraktListDetail CreateCustomList(TraktList list, string username)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserListAdd, username), list.ToJSON());
+            return response.FromJSON<TraktListDetail>();
+        }
+
+        public static TraktListDetail UpdateCustomList(TraktListDetail list, string username)
+        {
+            var response = ReplaceOnTrakt(string.Format(TraktURIs.UserListEdit, username), list.ToJSON());
+            return response.FromJSON<TraktListDetail>();
+        }
+
+        public static TraktSyncResponse AddItemsToList(string username, string id, TraktSyncAll items)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserListItemsAdd, username, id), items.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         #endregion
 
         #region Watchlists
@@ -357,6 +375,8 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Calendar
+
         /// <summary>
         /// Returns list of episodes in the Calendar
         /// </summary>
@@ -398,6 +418,8 @@ namespace TraktPlugin.TraktAPI
             string premieres = GetFromTrakt(string.Format(TraktURIs.CalendarPremieres, startDate, days));
             return premieres.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
         }
+
+        #endregion
 
         #endregion
 
@@ -1352,13 +1374,18 @@ namespace TraktPlugin.TraktAPI
 
         #region Web Helpers
 
-        public static bool DeleteFromTrakt(string address)
+        static string ReplaceOnTrakt(string address, string postData)
+        {
+            return PostToTrakt(address, postData, true, "PUT");            
+        }
+
+        static bool DeleteFromTrakt(string address)
         {
             var response = GetFromTrakt(address, "DELETE");
             return response != null;
         }
 
-        public static string GetFromTrakt(string address, string method = "GET")
+        static string GetFromTrakt(string address, string method = "GET")
         {
             if (OnDataSend != null)
                 OnDataSend(address, null);
@@ -1417,7 +1444,7 @@ namespace TraktPlugin.TraktAPI
             }
         }
 
-        public static string PostToTrakt(string address, string postData, bool logRequest = true)
+        static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST")
         {
             if (OnDataSend != null && logRequest)
                 OnDataSend(address, postData);
@@ -1427,7 +1454,7 @@ namespace TraktPlugin.TraktAPI
             var request = WebRequest.Create(address) as HttpWebRequest;
             request.KeepAlive = true;
 
-            request.Method = "POST";
+            request.Method = method;
             request.ContentLength = data.Length;
             request.Timeout = 120000;
             request.ContentType = "application/json";
@@ -1450,7 +1477,7 @@ namespace TraktPlugin.TraktAPI
                 if (response == null) return null;
 
                 Stream responseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
+                var reader = new StreamReader(responseStream);
                 string strResponse = reader.ReadToEnd();
 
                 if (OnDataReceived != null)

@@ -9,11 +9,14 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktSeasonId
     {
+        [DataMember(Name = "trakt")]
+        public int Id { get; set; }
+
         [DataMember(Name = "tmdb")]
-        public int TmdbId { get; set; }
+        public int? TmdbId { get; set; }
 
         [DataMember(Name = "tvdb")]
-        public int TvdbId { get; set; }
+        public int? TvdbId { get; set; }
 
         [DataMember(Name = "tvrage")]
         public int? TvRageId { get; set; }

@@ -880,6 +880,38 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.VIP", user.IsVip.ToString().ToLower());
         }
 
+        internal static void ClearListProperties()
+        {
+            GUIUtils.SetProperty("#Trakt.List.Name", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Description", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Privacy", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Slug", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Url", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.AllowShouts", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.ShowNumbers", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.UpdatedAt", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.ItemCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Likes", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Id", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Slug", string.Empty);
+        }
+
+        internal static void SetListProperties(TraktListDetail list, string username)
+        {
+            SetProperty("#Trakt.List.Name", list.Name);
+            SetProperty("#Trakt.List.Description", list.Description);
+            SetProperty("#Trakt.List.Privacy", list.Privacy);
+            SetProperty("#Trakt.List.Slug", list.Ids.Slug);
+            SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", username, list.Ids.Id));
+            SetProperty("#Trakt.List.AllowShouts", list.AllowComments);
+            SetProperty("#Trakt.List.ShowNumbers", list.DisplayNumbers);
+            SetProperty("#Trakt.List.UpdatedAt", list.UpdatedAt.FromISO8601().ToShortDateString());
+            SetProperty("#Trakt.List.ItemCount", list.ItemCount);
+            SetProperty("#Trakt.List.Likes", list.Likes);
+            SetProperty("#Trakt.List.Id", list.Ids.Id);
+            SetProperty("#Trakt.List.Slug", list.Ids.Slug);
+        }
+
         internal static void ClearStatisticProperties()
         {
             #region Friends Statistics

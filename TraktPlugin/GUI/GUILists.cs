@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Extensions;
 using TraktPlugin.TraktHandlers;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -49,7 +42,7 @@ namespace TraktPlugin.GUI
 
         bool StopDownload { get; set; }
         static int PreviousSelectedIndex { get; set; }
-        IEnumerable<TraktUserList> Lists { get; set; }
+        IEnumerable<TraktListDetail> Lists { get; set; }
 
         #endregion
 
@@ -79,7 +72,7 @@ namespace TraktPlugin.GUI
             base.OnPageLoad();
 
             // Clear GUI Properties
-            ClearProperties();
+            GUICommon.ClearListProperties();
 
             // Requires Login
             if (!GUICommon.CheckLogin()) return;
@@ -95,7 +88,7 @@ namespace TraktPlugin.GUI
         {
             StopDownload = true;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
-            ClearProperties();
+            GUICommon.ClearListProperties();
 
             base.OnPageDestroy(new_windowId);
         }
@@ -112,10 +105,13 @@ namespace TraktPlugin.GUI
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
                         GUIListItem selectedItem = this.Facade.SelectedListItem;
-                        if (selectedItem == null) return;                                                
+                        if (selectedItem == null) return;
+
+                        var selectedList = selectedItem.TVTag as TraktListDetail;
+                        if (selectedList == null) return;
 
                         // Load current selected list
-                        GUIListItems.CurrentList = (TraktUserList)selectedItem.TVTag;
+                        GUIListItems.CurrentList = selectedList;
                         GUIListItems.CurrentUser = CurrentUser;
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ListItems);
                     }
@@ -149,9 +145,10 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            TraktUserList selectedList = (TraktUserList)selectedItem.TVTag;
+            var selectedList = selectedItem.TVTag as TraktListDetail;
+            if (selectedItem == null) return;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -185,30 +182,33 @@ namespace TraktPlugin.GUI
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
-
-            TraktList currentList = new TraktList
+            
+            var currentList = new TraktListDetail
             {
+                Ids = selectedList.Ids,
                 Name = selectedList.Name,
                 Description = selectedList.Description,
                 Privacy = selectedList.Privacy,
-                Slug = selectedList.Slug,
-                ShowNumbers = selectedList.ShowNumbers,
-                AllowShouts = selectedList.AllowShouts
+                AllowComments = selectedList.AllowComments,
+                DisplayNumbers = selectedList.DisplayNumbers,
+                ItemCount = selectedList.ItemCount,
+                Likes = selectedList.Likes,
+                UpdatedAt = selectedList.UpdatedAt
             };
 
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.Create):
-                    TraktList list = new TraktList();
+                    var list = new TraktListDetail();
                     if (TraktLists.GetListDetailsFromUser(ref list))
                     {
-                        if (Lists.ToList().Exists(l => l.Name == list.Name))
+                        if (Lists.Any(l => l.Name == list.Name))
                         {
                             // list with that name already exists
                             GUIUtils.ShowNotifyDialog(Translation.Lists, Translation.ListNameAlreadyExists);
                             return;
                         }
-                        TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
+                        TraktLogger.Info("Creating new list for user online. Privacy = '{0}', Name = '{1}'", list.Privacy, list.Name);
                         CreateList(list);
                     }
                     break;
@@ -220,7 +220,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Edit):                    
                     if (TraktLists.GetListDetailsFromUser(ref currentList))
                     {
-                        TraktLogger.Info("Editing list '{0}'", currentList.Slug);
+                        TraktLogger.Info("Editing list. Name = '{0}', Id = '{1}'", currentList.Name);
                         EditList(currentList);
                     }
                     break;
@@ -243,67 +243,74 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void CopyList(TraktUserList sourceList, TraktList newList)
+        private void CopyList(TraktListDetail sourceList, TraktListDetail newList)
         {
-            CopyList copyList = new CopyList { Username = CurrentUser, Source = sourceList, Destination = newList };
+            var copyList = new CopyList { Username = CurrentUser, Source = sourceList, Destination = newList };
             
-            Thread copyThread = new Thread(delegate(object obj)
+            var copyThread = new Thread((obj) =>
             {
-                CopyList copyParams = obj as CopyList;
+                var copyParams = obj as CopyList;
 
                 // first create new list
-                TraktLogger.Info("Creating new '{0}' list '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
-                TraktAddListResponse response = TraktAPI.v1.TraktAPI.ListAdd(copyParams.Destination);
-                TraktLogger.LogTraktResponse<TraktResponse>(response);
-                if (response.Status == "success")
+                TraktLogger.Info("Creating new list online. Privacy = '{0}', Name = '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
+                var response = TraktAPI.TraktAPI.CreateCustomList(copyParams.Destination, TraktSettings.Username);
+                if (response != null)
                 {
-                    // update with offical slug
-                    copyParams.Destination.Slug = response.Slug;
-
                     // get items from other list
-                    TraktUserList userList = TraktAPI.v1.TraktAPI.GetUserList(copyParams.Username, copyParams.Source.Slug);
+                    var userListItems = TraktAPI.TraktAPI.GetUserListItems(copyParams.Username, copyParams.Source.Ids.Id.ToString(), "min");
+
                     // copy items to new list
-                    List<TraktListItem> items = new List<TraktListItem>();
-                    foreach (var item in userList.Items)
+                    var itemsToAdd = new TraktSyncAll();
+                    foreach (var item in userListItems)
                     {
-                        TraktListItem listItem = new TraktListItem();
+                        var listItem = new TraktListItem();
                         listItem.Type = item.Type;
 
                         switch (item.Type)
                         {
                             case "movie":
-                                listItem.Title = item.Movie.Title;
-                                listItem.Year = Convert.ToInt32(item.Movie.Year);
-                                listItem.ImdbId = item.Movie.IMDBID;
+                                if (itemsToAdd.Movies == null)
+                                    itemsToAdd.Movies = new List<TraktMovie>();
+
+                                itemsToAdd.Movies.Add(item.Movie);
                                 break;
+
                             case "show":
-                                listItem.Title = item.Show.Title;
-                                listItem.Year = item.Show.Year;
-                                listItem.TvdbId = item.Show.Tvdb;
+                                if (itemsToAdd.Shows == null)
+                                    itemsToAdd.Shows = new List<TraktShow>();
+
+                                itemsToAdd.Shows.Add(item.Show);
                                 break;
+
                             case "season":
-                                listItem.Title = item.Show.Title;
-                                listItem.Year = item.Show.Year;
-                                listItem.TvdbId = item.Show.Tvdb;
-                                listItem.Season = Convert.ToInt32(item.SeasonNumber);
+                                if (itemsToAdd.Seasons == null)
+                                    itemsToAdd.Seasons = new List<TraktSeason>();
+
+                                itemsToAdd.Seasons.Add(item.Season);
                                 break;
+
                             case "episode":
-                                listItem.Title = item.Show.Title;
-                                listItem.Year = item.Show.Year;
-                                listItem.TvdbId = item.Show.Tvdb;
-                                listItem.Season = Convert.ToInt32(item.SeasonNumber);
-                                listItem.Episode = Convert.ToInt32(item.EpisodeNumber);
+                                if (itemsToAdd.Episodes == null)
+                                    itemsToAdd.Episodes = new List<TraktEpisode>();
+                            
+                                itemsToAdd.Episodes.Add(item.Episode);
+                                break;
+
+                            case "person":
+                                if (itemsToAdd.People == null)
+                                    itemsToAdd.People = new List<TraktPerson>();
+
+                                itemsToAdd.People.Add(item.Person);
                                 break;
                         }
-                        items.Add(listItem);
                     }
-                    copyParams.Destination.Items = items;
                     
                     // add items to the list
-                    TraktLogger.LogTraktResponse<TraktSyncResponse>(TraktAPI.v1.TraktAPI.ListAddItems(copyParams.Destination));
-                    if (response.Status == "success")
+                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList(TraktSettings.Username, response.Ids.Id.ToString(), itemsToAdd);
+
+                    if (ItemsAddedResponse != null)
                     {
-                        TraktLists.ClearCache(TraktSettings.Username);
+                        TraktLists.ClearListCache(TraktSettings.Username);
                         TraktCache.ClearCustomListCache();
 
                         // updated MovingPictures categories and filters menu
@@ -322,7 +329,7 @@ namespace TraktPlugin.GUI
             copyThread.Start(copyList);
         }
 
-        private void DeleteList(TraktUserList list)
+        private void DeleteList(TraktListDetail list)
         {
             if (!GUIUtils.ShowYesNoDialog(Translation.Lists, Translation.ConfirmDeleteList, false))
             {
@@ -331,17 +338,14 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                TraktLogger.Info("Deleting list '{0}'", list.Name);
-                TraktList deleteList = new TraktList{ UserName = TraktSettings.Username, Password = TraktSettings.Password, Slug = list.Slug };
-                return TraktAPI.v1.TraktAPI.ListDelete(deleteList);
+                TraktLogger.Info("Deleting list from online. Name = '{0}', Id = '{1}'", list.Name, list.Ids.Id);
+                return TraktAPI.TraktAPI.DeleteUserList(TraktSettings.Username, list.Ids.Id.ToString());
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    TraktResponse response = result as TraktResponse;
-                    TraktLogger.LogTraktResponse<TraktResponse>(response);
-                    if (response.Status == "success")
+                    if ((result as bool?) == true)
                     {
                         // remove from MovingPictures categories and filters menu
                         if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -351,12 +355,12 @@ namespace TraktPlugin.GUI
                         }
 
                         // reload with new list
-                        TraktLists.ClearCache(TraktSettings.Username);
+                        TraktLists.ClearListCache(TraktSettings.Username);
                         LoadLists();
                     }
                     else
                     {
-                        GUIUtils.ShowNotifyDialog(Translation.Lists, response.Error);
+                        GUIUtils.ShowNotifyDialog(Translation.Lists, Translation.FailedDeleteList);
                     }
                 }
             }, Translation.DeletingList, true);
@@ -366,15 +370,14 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.v1.TraktAPI.ListAdd(list);
+                return TraktAPI.TraktAPI.CreateCustomList(list, TraktSettings.Username);
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    TraktResponse response = result as TraktResponse;
-                    TraktLogger.LogTraktResponse<TraktResponse>(response);
-                    if (response.Status == "success")
+                    var response = result as TraktListDetail;
+                    if (response != null)
                     {
                         // add to MovingPictures categories and filters menu
                         if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -384,33 +387,32 @@ namespace TraktPlugin.GUI
                         }
 
                         // reload with new list
-                        TraktLists.ClearCache(TraktSettings.Username);
+                        TraktLists.ClearListCache(TraktSettings.Username);
                         LoadLists();
                     }
                     else
                     {
-                        GUIUtils.ShowNotifyDialog(Translation.Lists, response.Error);
+                        GUIUtils.ShowNotifyDialog(Translation.Lists, Translation.FailedCreateList);
                     }
                 }
             }, Translation.CreatingList, true);
         }
 
-        private void EditList(TraktList list) 
+        private void EditList(TraktListDetail list) 
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.v1.TraktAPI.ListUpdate(list);
+                return TraktAPI.TraktAPI.UpdateCustomList(list, TraktSettings.Username);
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    TraktResponse response = result as TraktResponse;
-                    TraktLogger.LogTraktResponse<TraktResponse>(response);
-                    if (response.Status == "success")
+                    var response = result as TraktListDetail;
+                    if (response == null)
                     {
                         // reload with new list
-                        TraktLists.ClearCache(TraktSettings.Username);
+                        TraktLists.ClearListCache(TraktSettings.Username);
                         LoadLists();
 
                         var thread = new Thread((o) =>
@@ -432,7 +434,7 @@ namespace TraktPlugin.GUI
                     }
                     else
                     {
-                        GUIUtils.ShowNotifyDialog(Translation.Lists, response.Error);
+                        GUIUtils.ShowNotifyDialog(Translation.Lists, Translation.FailedUpdateList);
                     }
                 }
             }, Translation.EditingList, true);
@@ -450,13 +452,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    Lists = result as IEnumerable<TraktUserList>;
+                    Lists = result as IEnumerable<TraktListDetail>;
                     SendListsToFacade(Lists);
                 }
             }, Translation.GettingLists, true);
         }
 
-        private void SendListsToFacade(IEnumerable<TraktUserList> lists)
+        private void SendListsToFacade(IEnumerable<TraktListDetail> lists)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -477,10 +479,11 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ShowPreviousWindow();
                     return;
                 }
-                TraktList list = new TraktList();
+
+                var list = new TraktListDetail();
                 if (TraktLists.GetListDetailsFromUser(ref list))
                 {
-                    TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
+                    TraktLogger.Info("Creating new list online. Privacy = '{0}', Name = '{1}'", list.Privacy, list.Name);
                     CreateList(list);
                 }
                 return;
@@ -491,7 +494,7 @@ namespace TraktPlugin.GUI
             // Add each list
             foreach (var list in lists)
             {
-                GUIListItem item = new GUIListItem(list.Name);
+                var item = new GUIListItem(list.Name);
 
                 item.Label2 = TraktLists.GetPrivacyLevelTranslation(list.Privacy);
                 item.TVTag = list;
@@ -519,45 +522,19 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", lists.Count().ToString(), lists.Count() > 1 ? Translation.Lists : Translation.List));
         }
 
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
-        }
-
         private void InitProperties()
         {
             // set current user to logged in user if not set
-            if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
-            SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
+            if (string.IsNullOrEmpty(CurrentUser))
+                CurrentUser = TraktSettings.Username;
+            
+            GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
-
-        private void ClearProperties()
-        {
-            SetProperty("#Trakt.List.Name", string.Empty);
-            SetProperty("#Trakt.List.Description", string.Empty);
-            SetProperty("#Trakt.List.Privacy", string.Empty);
-            SetProperty("#Trakt.List.Slug", string.Empty);
-            SetProperty("#Trakt.List.Url", string.Empty);
-            SetProperty("#Trakt.List.AllowShouts", string.Empty);
-            SetProperty("#Trakt.List.ShowNumbers", string.Empty);
-        }
-
-        private void PublishListSkinProperties(TraktUserList list)
-        {
-            SetProperty("#Trakt.List.Name", list.Name);
-            SetProperty("#Trakt.List.Description", list.Description);
-            SetProperty("#Trakt.List.Privacy", list.Privacy);
-            SetProperty("#Trakt.List.Slug", list.Slug);
-            SetProperty("#Trakt.List.Url", list.Url);
-            SetProperty("#Trakt.List.AllowShouts", list.AllowShouts.ToString());
-            SetProperty("#Trakt.List.ShowNumbers", list.ShowNumbers.ToString());
-        }
-
+                
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
-            TraktUserList list = item.TVTag as TraktUserList;
-            PublishListSkinProperties(list);
+            var list = item.TVTag as TraktListDetail;
+            GUICommon.SetListProperties(list, CurrentUser);
         }
 
         #endregion
@@ -566,7 +543,7 @@ namespace TraktPlugin.GUI
     internal class CopyList
     {
         public string Username { get; set; }
-        public TraktUserList Source { get; set; }
-        public TraktList Destination { get; set; }
+        public TraktListDetail Source { get; set; }
+        public TraktListDetail Destination { get; set; }
     }
 }

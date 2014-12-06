@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace TraktPlugin.TraktAPI
 {
     /// <summary>
@@ -38,6 +34,12 @@ namespace TraktPlugin.TraktAPI
 
         public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists?extended={0}";
         public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items?extended={0}";
+        
+        public const string UserListAdd = "http://api.v2.trakt.tv/users/{0}/lists";
+        public const string UserListEdit = "http://api.v2.trakt.tv/users/{0}/lists/{1}";
+
+        public const string UserListItemsAdd = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items";
+        public const string UserListItemsDelete = "http://api.v2.trakt.tv/users/{0}/lists/{1}/remove";
 
         public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies?extended={0}";
         public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows?extended=full,images";

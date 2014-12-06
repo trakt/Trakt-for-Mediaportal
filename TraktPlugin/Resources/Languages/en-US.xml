@@ -28,11 +28,11 @@
   <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>
-  <string name="AddToLibrary">Add to Library</string>
+  <string name="AddToLibrary">Add to Collection</string>
   <string name="AddToList">Add to List...</string>
-  <string name="AddToWatchList">Add to Watch List</string>
-  <string name="AddShowToWatchList">Add Show to Watch List</string>
-  <string name="AddEpisodeToWatchList">Add Episode to Watch List</string>
+  <string name="AddToWatchList">Add to Watchlist</string>
+  <string name="AddShowToWatchList">Add Show to Watchlist</string>
+  <string name="AddEpisodeToWatchList">Add Episode to Watchlist</string>
   <string name="AddShowToList">Add Show to List</string>
   <string name="AddEpisodeToList">Add Episode to List</string>
   <string name="AddThisItemToWatchList">Add this item to your watch list?</string>
@@ -114,9 +114,12 @@
   <string name="Episode">Episode</string>
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
-  <string name="ErrorCalendar">Error getting calendar.</string>
+  <string name="ErrorCalendar">Error getting calendar</string>
   <string name="ExecutiveProducer">Executive Producer</string>
   <!--F-->
+  <string name="FailedCreateList">Failed to create list online</string>
+  <string name="FailedDeleteList">Failed to delete list from online</string>
+  <string name="FailedUpdateList">Failed to update list online</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
   <string name="Follow">Follow</string>
@@ -127,12 +130,12 @@
   <string name="FollowUser">Follow User</string>
   <string name="Friend">Friend</string>
   <string name="Friends">Friends</string>
-  <string name="FriendsAndMe">Friends And Me</string>
+  <string name="FriendsAndMe">Friends and Me</string>
   <string name="FriendActivity">Friend Activity</string>
   <string name="FriendRequest">Friend Request</string>
   <string name="FollowerRequest">Follower Request</string>
   <string name="FollowerRequests">Follower Requests</string>
-  <string name="FollowPendingApproval">Follow request has been sent to {0} and is pending approval.</string>
+  <string name="FollowPendingApproval">Follow request has been sent to {0} and is pending approval</string>
   <string name="FriendRequestMessage">You have {0} friend requests, approve or deny from friends window</string>
   <string name="FollowerRequestMessage">You have {0} follower requests, approve or deny from network window</string>
   <string name="FullName">Full Name</string>
@@ -344,7 +347,7 @@
   <string name="RelatedShows">Related Shows</string>
   <string name="Released">Released</string>
   <string name="ReleaseDate">Release Date</string>
-  <string name="RemoveFromLibrary">Remove from Library</string>
+  <string name="RemoveFromLibrary">Remove from Collection</string>
   <string name="RemoveFromWatchList">Remove from Watchlist</string>
   <string name="RemoveShowFromWatchList">Remove Show from Watchlist</string>
   <string name="RemoveEpisodeFromWatchList">Remove Episode from Watchlist</string>

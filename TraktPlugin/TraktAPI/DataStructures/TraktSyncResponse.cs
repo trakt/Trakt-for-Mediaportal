@@ -32,6 +32,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "episodes")]
             public int Episodes { get; set; }
+
+            [DataMember(Name = "people")]
+            public int People { get; set; }
         }
 
         [DataMember(Name = "not_found")]
@@ -48,6 +51,12 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "episodes")]
             public List<TraktEpisode> Episodes { get; set; }
+
+            [DataMember(Name = "seasons")]
+            public List<TraktSeason> Seasons { get; set; }
+
+            [DataMember(Name = "people")]
+            public List<TraktPerson> People { get; set; }
         }
     }
 }

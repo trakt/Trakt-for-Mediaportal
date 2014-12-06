@@ -16,18 +16,18 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Type { get; set; }
 
         [DataMember(Name = "movie")]
-        public TraktMovie Movie { get; set; }
+        public TraktMovieSummary Movie { get; set; }
 
         [DataMember(Name = "show")]
         public TraktShowSummary Show { get; set; }
 
         [DataMember(Name = "season")]
-        public TraktSeason Season { get; set; }
+        public TraktSeasonSummary Season { get; set; }
 
         [DataMember(Name = "episode")]
-        public TraktEpisode Episode { get; set; }
+        public TraktEpisodeSummary Episode { get; set; }
 
         [DataMember(Name = "person")]
-        public TraktPerson Person { get; set; }
+        public TraktPersonSummary Person { get; set; }
     }
 }

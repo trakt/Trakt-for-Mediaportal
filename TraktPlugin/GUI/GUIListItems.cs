@@ -12,9 +12,10 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
-using TraktPlugin.TraktAPI.v1.Extensions;
+using TraktPlugin.TraktAPI;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -79,8 +80,9 @@ namespace TraktPlugin.GUI
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         TraktItemType SelectedType { get; set; }
-        string PreviousSlug { get; set; }
+        int PreviousSlug { get; set; }
         int PreviousSelectedIndex = 0;
+        List<TraktListItem> CurrentListItems { get; set; }
 
         #endregion
 
@@ -155,24 +157,24 @@ namespace TraktPlugin.GUI
                             var selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
 
-                            var userListItem = selectedItem.TVTag as TraktUserListItem;
-                            if (userListItem == null) return;
+                            var listItem = selectedItem.TVTag as TraktListItem;
+                            if (listItem == null) return;
 
-                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, userListItem.Show.ToJSON());
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, listItem.Show.ToJSON());
                         }
                         else if (SelectedType == TraktItemType.season)
                         {
                             var selectedItem = this.Facade.SelectedListItem;
                             if (selectedItem == null) return;
 
-                            var userListItem = selectedItem.TVTag as TraktUserListItem;
-                            if (userListItem == null) return;
+                            var listItem = selectedItem.TVTag as TraktListItem;
+                            if (listItem == null) return;
 
                             // create loading parameter for episode listing
                             var loadingParam = new SeasonLoadingParameter
                             {
-                                Season = new TraktShowSeason { Season = int.Parse(userListItem.SeasonNumber) },
-                                Show = userListItem.Show
+                                Season = listItem.Season,
+                                Show = listItem.Show
                             };
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
                         }
@@ -216,8 +218,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var userListItem = selectedItem.TVTag as TraktUserListItem;
-            if (userListItem == null) return;
+            var selectedListItem = selectedItem.TVTag as TraktListItem;
+            if (selectedListItem == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -230,7 +232,7 @@ namespace TraktPlugin.GUI
             if (SelectedType == TraktItemType.movie || SelectedType == TraktItemType.episode)
             {
                 // Mark As Watched
-                if (!userListItem.Watched)
+                if (!selectedListItem.IsWatched())
                 {
                     listItem = new GUIListItem(Translation.MarkAsWatched);
                     dlg.Add(listItem);
@@ -238,7 +240,7 @@ namespace TraktPlugin.GUI
                 }
 
                 // Mark As UnWatched
-                if (userListItem.Watched)
+                if (selectedListItem.IsWatched())
                 {
                     listItem = new GUIListItem(Translation.MarkAsUnWatched);
                     dlg.Add(listItem);
@@ -246,10 +248,10 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            if (SelectedType != TraktItemType.season)
+            if (SelectedType != TraktItemType.season && SelectedType != TraktItemType.person)
             {
                 // Add/Remove Watch List
-                if (!userListItem.InWatchList)
+                if (!selectedListItem.IsWatchlisted())
                 {
                     listItem = new GUIListItem(Translation.AddToWatchList);
                     dlg.Add(listItem);
@@ -268,7 +270,7 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
-            // Remove from Custom list (Only if current user is the active user)
+            // Remove from Custom list (only if current user is the active user)
             if (TraktSettings.Username == CurrentUser)
             {
                 listItem = new GUIListItem(Translation.RemoveFromList);
@@ -278,17 +280,17 @@ namespace TraktPlugin.GUI
 
             if (SelectedType == TraktItemType.movie || SelectedType == TraktItemType.episode)
             {
-                // Add to Library
+                // Add to Collection
                 // Don't allow if it will be removed again on next sync
                 // movie could be part of a DVD collection
-                if (!userListItem.InCollection && !TraktSettings.KeepTraktLibraryClean)
+                if (!selectedListItem.IsCollected() && !TraktSettings.KeepTraktLibraryClean)
                 {
                     listItem = new GUIListItem(Translation.AddToLibrary);
                     dlg.Add(listItem);
                     listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
                 }
 
-                if (userListItem.InCollection)
+                if (selectedListItem.IsCollected())
                 {
                     listItem = new GUIListItem(Translation.RemoveFromLibrary);
                     dlg.Add(listItem);
@@ -297,11 +299,14 @@ namespace TraktPlugin.GUI
             }
 
             // Related Movies/Shows
-            listItem = new GUIListItem(SelectedType == TraktItemType.movie ? Translation.RelatedMovies : Translation.RelatedShows + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Related;
+            if (SelectedType != TraktItemType.person)
+            {
+                listItem = new GUIListItem(SelectedType == TraktItemType.movie ? Translation.RelatedMovies : Translation.RelatedShows + "...");
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Related;
+            }
 
-            if (SelectedType != TraktItemType.season)
+            if (SelectedType != TraktItemType.season && SelectedType != TraktItemType.person)
             {
                 // Rate
                 listItem = new GUIListItem(Translation.Rate + "...");
@@ -315,17 +320,20 @@ namespace TraktPlugin.GUI
             }
             
             // Trailers
-            if (TraktHelper.IsTrailersAvailableAndEnabled)
+            if (SelectedType != TraktItemType.person)
             {
-                listItem = new GUIListItem(Translation.Trailers);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Trailers;
+                if (TraktHelper.IsTrailersAvailableAndEnabled)
+                {
+                    listItem = new GUIListItem(Translation.Trailers);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.Trailers;
+                }
             }
 
             // Search with mpNZB
             if (TraktHelper.IsMpNZBAvailableAndEnabled)
             {
-                if ((userListItem.Movie != null && !userListItem.Movie.InCollection) || userListItem.Episode != null)
+                if ((selectedListItem.Movie != null && !selectedListItem.Movie.IsCollected()) || selectedListItem.Episode != null)
                 {
                     listItem = new GUIListItem(Translation.SearchWithMpNZB);
                     dlg.Add(listItem);
@@ -336,7 +344,7 @@ namespace TraktPlugin.GUI
             // Search with MyTorrents
             if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
             {
-                if ((userListItem.Movie != null && !userListItem.Movie.InCollection) || userListItem.Episode != null)
+                if ((selectedListItem.Movie != null && !selectedListItem.Movie.IsCollected()) || selectedListItem.Episode != null)
                 {
                     listItem = new GUIListItem(Translation.SearchTorrent);
                     dlg.Add(listItem);
@@ -356,9 +364,9 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    MarkItemAsWatched(userListItem);
-                    if (userListItem.Plays == 0) userListItem.Plays = 1;
-                    userListItem.Watched = true;
+                    AddItemToWatchedHistory(selectedListItem);
+                    if (selectedListItem.Plays() == 0) //TODOselectedListItem.Plays = 1;
+                        //TODOselectedListItem.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
@@ -368,8 +376,8 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    MarkItemAsUnWatched(userListItem);
-                    userListItem.Watched = false;
+                    RemoveItemFromWatchedHistory(selectedListItem);
+                    //TODOselectedListItem.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
@@ -379,75 +387,64 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
-                    AddItemToWatchList(userListItem);
-                    userListItem.InWatchList = true;
+                    AddItemToWatchList(selectedListItem);
+                    //TODOselectedListItem.InWatchList = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
+
                     GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemoveItemFromWatchList(userListItem);
-                    userListItem.InWatchList = false;
+                    RemoveItemFromWatchList(selectedListItem);
+                    //TODOselectedListItem.InWatchList = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
                     else
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("ShowPoster");
+
                     GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
                     if (SelectedType == TraktItemType.movie)
-                        TraktHelper.AddRemoveMovieInUserList(userListItem.Title, userListItem.Year, userListItem.ImdbId, false);
+                        TraktHelper.AddRemoveMovieInUserList(selectedListItem.Movie, false);
                     else if (SelectedType == TraktItemType.show)
-                        TraktHelper.AddRemoveShowInUserList(userListItem.Title, userListItem.Year, userListItem.Show.Tvdb, false);
+                        TraktHelper.AddRemoveShowInUserList(selectedListItem.Show, false);
                     else if (SelectedType == TraktItemType.season)
-                        TraktHelper.AddRemoveSeasonInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.Show.Tvdb, false);
+                        TraktHelper.AddRemoveSeasonInUserList(selectedListItem.Show, selectedListItem.Season, false);
                     else if (SelectedType == TraktItemType.episode)
-                        TraktHelper.AddRemoveEpisodeInUserList(userListItem.Title, userListItem.Year, userListItem.SeasonNumber, userListItem.EpisodeNumber, userListItem.Show.Tvdb, false);
+                        TraktHelper.AddRemoveEpisodeInUserList(selectedListItem.Episode, false);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromList):
                     if (!GUIUtils.ShowYesNoDialog(Translation.DeleteListItem, Translation.ConfirmDeleteListItem)) break;
 
                     // Only do remove from current list
-                    // We could do same as Add (ie remove from multile lists) but typically you only remove from the current list
-                    if (SelectedType == TraktItemType.movie)
-                    {
-                        TraktListItem item = new TraktListItem { Type = "movie", ImdbId = userListItem.ImdbId, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year) };
-                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
-                    }
-                    else if (SelectedType == TraktItemType.show)
-                    {
-                        TraktListItem item = new TraktListItem { Type = "show", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year) };
-                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
-                    }
-                    else if (SelectedType == TraktItemType.season)
-                    {
-                        TraktListItem item = new TraktListItem { Type = "season", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year), Season = Convert.ToInt32(userListItem.SeasonNumber) };
-                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
-                    }
-                    else if (SelectedType == TraktItemType.episode)
-                    {
-                        TraktListItem item = new TraktListItem { Type = "episode", TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title, Year = Convert.ToInt32(userListItem.Year), Season = Convert.ToInt32(userListItem.SeasonNumber), Episode = Convert.ToInt32(userListItem.EpisodeNumber) };
-                        TraktHelper.AddRemoveItemInList(CurrentList.Slug, item, true);
-                    }
+                    // We could do same as Add (ie remove from multiple lists) but typically you only remove from the current list
+                    TraktHelper.AddRemoveItemInList(CurrentList.Ids.Id.ToString(), selectedListItem, true);
+
+                    // clear the list item cache
+                    TraktLists.ClearListItemCache(CurrentUser, CurrentList.Ids.Id.ToString());
+
+                    // remove item from collection
+                    CurrentListItems.RemoveAll(l => ListItemMatch(l, selectedListItem));
+
+                    // clear the cache
+                    TraktLists.ClearListItemCache(TraktSettings.Username, CurrentList.Ids.Id.ToString());
 
                     // Remove from view
                     if (Facade.Count > 1)
                     {
                         PreviousSelectedIndex = Facade.SelectedListItemIndex;
-                        CurrentList.Items.Remove(userListItem);
-                        SendListItemsToFacade(CurrentList);
+                        SendListItemsToFacade(CurrentListItems);
                     }
                     else
                     {
-                        CurrentList.Items.Remove(userListItem);
-
                         // no more items left
                         GUIControl.ClearControl(GetID, Facade.GetID);
                         ClearProperties();
@@ -460,8 +457,8 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
-                    AddItemToLibrary(userListItem);
-                    userListItem.InCollection = true;
+                    AddItemToCollection(selectedListItem);
+                    //TODOselectedListItem.InCollection = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -470,8 +467,8 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    RemoveItemFromLibrary(userListItem);
-                    userListItem.InCollection = false;
+                    RemoveItemFromCollection(selectedListItem);
+                    //TODOselectedListItem.InCollection = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -482,25 +479,17 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Related):
                     if (SelectedType == TraktItemType.movie)
                     {
-                        RelatedMovie relatedMovie = new RelatedMovie();
-                        relatedMovie.ImdbId = userListItem.Movie.IMDBID;
-                        relatedMovie.Title = userListItem.Movie.Title;
-                        GUIRelatedMovies.relatedMovie = relatedMovie;
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedMovies);
+                        TraktHelper.ShowRelatedMovies(selectedListItem.Movie);
                     }
                     else
                     {
                         //series, season & episode
-                        RelatedShow relatedShow = new RelatedShow();
-                        relatedShow.Title = userListItem.Show.Title;
-                        relatedShow.TvdbId = userListItem.Show.Tvdb;
-                        GUIRelatedShows.relatedShow = relatedShow;
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RelatedShows);
+                        TraktHelper.ShowRelatedShows(selectedListItem.Show);
                     }
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    RateItem(userListItem);
+                    RateItem(selectedListItem);
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -509,57 +498,51 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    GUIShouts.ShoutType = (GUIShouts.ShoutTypeEnum)Enum.Parse(typeof(GUIShouts.ShoutTypeEnum), SelectedType.ToString(), true);
                     if (SelectedType == TraktItemType.movie)
-                        GUIShouts.MovieInfo = new MovieShout { ImdbId = userListItem.ImdbId, TmdbId = userListItem.Movie.TMDBID, Title = userListItem.Title, Year = userListItem.Year };
+                        TraktHelper.ShowMovieShouts(selectedListItem.Movie);
                     else if (SelectedType == TraktItemType.show)
-                        GUIShouts.ShowInfo = new ShowShout { IMDbId = userListItem.ImdbId, TvdbId = userListItem.Show.Tvdb, Title = userListItem.Title };
+                        TraktHelper.ShowTVShowShouts(selectedListItem.Show);
                     else
-                        GUIShouts.EpisodeInfo = new EpisodeShout { IMDbId = userListItem.ImdbId, TVDbId = userListItem.Show.Tvdb, Title = userListItem.Title, SeasonIdx = userListItem.SeasonNumber, EpisodeIdx = userListItem.EpisodeNumber };
-                    GUIShouts.Fanart = SelectedType == TraktItemType.movie ? userListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart) : userListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+                        TraktHelper.ShowEpisodeShouts(selectedListItem.Show, selectedListItem.Episode);
                     break;
                 
                 case ((int)ContextMenuItem.Trailers):
                     if (SelectedType == TraktItemType.movie)
                     {
-                        GUICommon.ShowMovieTrailersMenu(userListItem.Movie);
+                        GUICommon.ShowMovieTrailersMenu(selectedListItem.Movie);
                     }
                     else if (SelectedType == TraktItemType.episode)
                     {
-                        userListItem.Episode.Season = Convert.ToInt32(userListItem.SeasonNumber);
-                        userListItem.Episode.Number = Convert.ToInt32(userListItem.EpisodeNumber);
-
-                        GUICommon.ShowTVShowTrailersMenu(userListItem.Show, userListItem.Episode);
+                        GUICommon.ShowTVShowTrailersMenu(selectedListItem.Show, selectedListItem.Episode);
                     }
                     else if (SelectedType == TraktItemType.season && TraktHelper.IsTrailersAvailableAndEnabled)
                     {
-                        GUICommon.ShowTVSeasonTrailersPluginMenu(userListItem.Show, int.Parse(userListItem.SeasonNumber));
+                        GUICommon.ShowTVSeasonTrailersPluginMenu(selectedListItem.Show, selectedListItem.Season.Number);
                     }
                     break;
 
                 case ((int)ContextMenuItem.SearchWithMpNZB):
                     string loadingParam = String.Empty;
-                    if (userListItem.Movie != null)
+                    if (selectedListItem.Movie != null)
                     {
-                        loadingParam = string.Format("search:{0}", userListItem.Movie.Title);
+                        loadingParam = string.Format("search:{0}", selectedListItem.Movie.Title);
                     }
-                    else if (userListItem.Episode != null)
+                    else if (selectedListItem.Episode != null)
                     {
-                        loadingParam = string.Format("search:{0} S{1}E{2}", userListItem.Show.Title, userListItem.Episode.Season.ToString("D2"), userListItem.Episode.Number.ToString("D2"));
+                        loadingParam = string.Format("search:{0} S{1}E{2}", selectedListItem.Show.Title, selectedListItem.Episode.Season.ToString("D2"), selectedListItem.Episode.Number.ToString("D2"));
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
                 case ((int)ContextMenuItem.SearchTorrent):
                     string loadPar = String.Empty;
-                    if (userListItem.Movie != null)
+                    if (selectedListItem.Movie != null)
                     {
-                        loadPar = userListItem.Movie.Title;
+                        loadPar = selectedListItem.Movie.Title;
                     }
-                    else if (userListItem.Episode != null)
+                    else if (selectedListItem.Episode != null)
                     {
-                        loadPar = string.Format("{0} S{1}E{2}", userListItem.Show.Title, userListItem.Episode.Season.ToString("D2"), userListItem.Episode.Number.ToString("D2"));
+                        loadPar = string.Format("{0} S{1}E{2}", selectedListItem.Show.Title, selectedListItem.Episode.Season.ToString("D2"), selectedListItem.Episode.Number.ToString("D2"));
                     }
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
@@ -579,27 +562,49 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
+        private bool ListItemMatch(TraktListItem currentItem, TraktListItem itemToMatch)
+        {
+            switch (itemToMatch.Type)
+            {
+                case "movie":
+                    if (currentItem.Movie == null) return false;
+                    return currentItem.Movie.Ids.Id == itemToMatch.Movie.Ids.Id;
+                
+                case "show":
+                    if (currentItem.Show == null) return false;
+                    return currentItem.Show.Ids.Id == itemToMatch.Show.Ids.Id;
+
+                case "season":
+                    if (currentItem.Season == null) return false;
+                    return currentItem.Season.Ids.Id == itemToMatch.Season.Ids.Id;
+
+                case "episode":
+                    if (currentItem.Episode == null) return false;
+                    return currentItem.Episode.Ids.Id == itemToMatch.Episode.Ids.Id;
+
+                case "person":
+                    if (currentItem.Person == null) return false;
+                    return currentItem.Person.Ids.Id == itemToMatch.Person.Ids.Id;
+            }
+
+            return false;
+        }
+
         private void CheckAndPlayEpisode(bool jumpTo)
         {
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var userListItem = selectedItem.TVTag as TraktUserListItem;
+            var userListItem = selectedItem.TVTag as TraktListItem;
             if (userListItem == null) return;
 
-            int seriesid = Convert.ToInt32(userListItem.Show.Tvdb);
-            string searchterm = string.IsNullOrEmpty(userListItem.Show.Imdb) ? userListItem.Show.Title : userListItem.Show.Imdb;
-
             // if its a show/season, play first unwatched
-            if (SelectedType != TraktItemType.episode)
+            if (SelectedType == TraktItemType.season || SelectedType == TraktItemType.show)
             {
                 GUICommon.CheckAndPlayFirstUnwatchedEpisode(userListItem.Show, jumpTo);
             }
-            else
+            else if (SelectedType == TraktItemType.episode)
             {
-                userListItem.Episode.Season = Convert.ToInt32(userListItem.SeasonNumber);
-                userListItem.Episode.Number = Convert.ToInt32(userListItem.EpisodeNumber);
-
                 GUICommon.CheckAndPlayEpisode(userListItem.Show, userListItem.Episode);
             }
         }
@@ -609,78 +614,72 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var userListItem = selectedItem.TVTag as TraktUserListItem;
+            var userListItem = selectedItem.TVTag as TraktListItem;
             if (userListItem == null || userListItem.Movie == null) return;
 
             GUICommon.CheckAndPlayMovie(jumpTo, userListItem.Movie);
         }
 
-        private void AddItemToWatchList(TraktUserListItem item)
+        private void AddItemToWatchList(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
                 TraktHelper.AddMovieToWatchList(item.Movie, true);
             else if (SelectedType == TraktItemType.show)
                 TraktHelper.AddShowToWatchList(item.Show);
-            else
-                TraktHelper.AddEpisodeToWatchList(item.Show, item.Episode);
+            else if (SelectedType == TraktItemType.episode)
+                TraktHelper.AddEpisodeToWatchList(item.Episode);
         }
 
-        private void RemoveItemFromWatchList(TraktUserListItem item)
+        private void RemoveItemFromWatchList(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
                 TraktHelper.RemoveMovieFromWatchList(item.Movie, true);
             else if (SelectedType == TraktItemType.show)
                 TraktHelper.RemoveShowFromWatchList(item.Show);
-            else
-                TraktHelper.RemoveEpisodeFromWatchList(item.Show, item.Episode);
-        }
-
-        private void MarkItemAsWatched(TraktUserListItem item)
-        {
-            if (SelectedType == TraktItemType.movie)
-                TraktHelper.MarkMovieAsWatched(item.Movie);
-            else
-                TraktHelper.MarkEpisodeAsWatched(item.Show, item.Episode);
-        }
-
-        private void MarkItemAsUnWatched(TraktUserListItem item)
-        {
-            if (SelectedType == TraktItemType.movie)
-                TraktHelper.MarkMovieAsWatched(item.Movie);
-            else
-                TraktHelper.MarkEpisodeAsWatched(item.Show, item.Episode);
-        }
-
-        private void AddItemToLibrary(TraktUserListItem item)
-        {
-            if (SelectedType == TraktItemType.movie)
-                TraktHelper.AddMovieToLibrary(item.Movie);
-            else
-                TraktHelper.AddEpisodeToLibrary(item.Show, item.Episode);
-        }
-
-        private void RemoveItemFromLibrary(TraktUserListItem item)
-        {
-            if (SelectedType == TraktItemType.movie)
-                TraktHelper.RemoveMovieFromLibrary(item.Movie);
-            else
-                TraktHelper.RemoveEpisodeFromLibrary(item.Show, item.Episode);
-        }
-
-        private void RateItem(TraktUserListItem item)
-        {
-            if (SelectedType == TraktItemType.movie)
-            {
-                GUICommon.RateMovie(item.Movie);
-            }
-            else if (SelectedType == TraktItemType.show)
-            {
-                GUICommon.RateShow(item.Show);
-            }
             else if (SelectedType == TraktItemType.episode)
-            {
-                GUICommon.RateEpisode(item.Show, item.Episode);
-            }
+                TraktHelper.RemoveEpisodeFromWatchList(item.Episode);
+        }
+
+        private void AddItemToWatchedHistory(TraktListItem item)
+        {
+            if (SelectedType == TraktItemType.movie)
+                TraktHelper.AddMovieToWatchHistory(item.Movie);
+            else if (SelectedType == TraktItemType.episode) 
+                TraktHelper.AddEpisodeToWatchHistory(item.Episode);
+        }
+
+        private void RemoveItemFromWatchedHistory(TraktListItem item)
+        {
+            if (SelectedType == TraktItemType.movie)
+                TraktHelper.RemoveMovieFromWatchHistory(item.Movie);
+            else if (SelectedType == TraktItemType.episode) 
+                TraktHelper.RemoveEpisodeFromWatchHistory(item.Episode);
+        }
+
+        private void AddItemToCollection(TraktListItem item)
+        {
+            if (SelectedType == TraktItemType.movie)
+                TraktHelper.AddMovieToCollection(item.Movie);
+            else if (SelectedType == TraktItemType.episode) 
+                TraktHelper.AddEpisodeToCollection(item.Episode);
+        }
+
+        private void RemoveItemFromCollection(TraktListItem item)
+        {
+            if (SelectedType == TraktItemType.movie)
+                TraktHelper.RemoveMovieFromCollection(item.Movie);
+            else if (SelectedType == TraktItemType.episode) 
+                TraktHelper.RemoveEpisodeFromCollection(item.Episode);
+        }
+
+        private void RateItem(TraktListItem item)
+        {
+            if (SelectedType == TraktItemType.movie)
+                GUICommon.RateMovie(item.Movie);
+            else if (SelectedType == TraktItemType.show)
+                GUICommon.RateShow(item.Show);
+            else if (SelectedType == TraktItemType.episode)
+                GUICommon.RateEpisode(item.Episode);
         }
 
         private void LoadListItems()
@@ -689,24 +688,27 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktLists.GetListForUser(CurrentUser, CurrentList.Slug);
+                var listItems = TraktLists.GetListItemsForUser(CurrentUser, (int)CurrentList.Ids.Id);
+                return listItems;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    CurrentList = result as TraktUserList;
-                    SendListItemsToFacade(CurrentList);
+                    var userListItems = result as IEnumerable<TraktListItem>;
+                    SendListItemsToFacade(userListItems);
+
+                    CurrentListItems = userListItems.ToList();
                 }
             }, Translation.GettingListItems, true);
         }
 
-        private void SendListItemsToFacade(TraktUserList list)
+        private void SendListItemsToFacade(IEnumerable<TraktListItem> listItems)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (list.Items == null || list.Items.Count() == 0)
+            if (listItems == null || listItems.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoListItemsFound);
                 GUIWindowManager.ShowPreviousWindow();
@@ -717,20 +719,26 @@ namespace TraktPlugin.GUI
             var listImages = new List<GUITraktImage>();
             
             // Add each list item
-            foreach (var listItem in list.Items.Where(l => !string.IsNullOrEmpty(l.Title)))
+            foreach (var listItem in listItems)
             {
                 // add image for download
                 var images = GetTraktImage(listItem);
                 listImages.Add(images);
 
-                string itemName = list.ShowNumbers ? string.Format("{0}. {1}", itemId, GetListItemName(listItem)) : GetListItemName(listItem);
+                string itemName = CurrentList.DisplayNumbers ? string.Format("{0}. {1}", itemId, GetListItemLabel(listItem)) : GetListItemLabel(listItem);
 
                 var item = new GUICustomListItem(itemName, (int)TraktGUIWindows.ListItems);
                 
-                item.Label2 = listItem.Year;
+                item.Label2 = GetListItemSecondLabel(listItem);
                 item.TVTag = listItem;
+                item.Type = (TraktItemType)Enum.Parse(typeof(TraktItemType), listItem.Type, true);
+                item.Movie = listItem.Movie;
+                item.Show = listItem.Show;
+                item.Episode = listItem.Episode;
+                item.Season = listItem.Season;
+                item.Person = listItem.Person;
                 item.Images = images;
-                item.IsPlayed = listItem.Watched;
+                item.IsPlayed = listItem.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
@@ -748,14 +756,14 @@ namespace TraktPlugin.GUI
             Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", list.Items.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", list.Items.Count().ToString(), list.Items.Count() > 1 ? Translation.Items : Translation.Item));
+            GUIUtils.SetProperty("#itemcount", listItems.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", listItems.Count().ToString(), listItems.Count() > 1 ? Translation.Items : Translation.Item));
 
             // Download images Async and set to facade
             GUICustomListItem.GetImages(listImages);
         }
 
-        private string GetListItemName(TraktUserListItem listItem)
+        private string GetListItemLabel(TraktListItem listItem)
         {
             string retValue = string.Empty;
 
@@ -770,19 +778,52 @@ namespace TraktPlugin.GUI
                     break;
 
                 case "season":
-                    retValue = string.Format("{0} {1} {2}", listItem.Show.Title, GUI.Translation.Season, listItem.SeasonNumber);
+                    retValue = string.Format("{0} {1} {2}", listItem.Show.Title, GUI.Translation.Season, listItem.Season.Number);
                     break;
 
                 case "episode":
-                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.SeasonNumber, listItem.EpisodeNumber, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
+                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.Season.Number, listItem.Episode.Number, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
+                    break;
+
+                case "person":
+                    retValue = listItem.Person.Name;
                     break;
             }
             return retValue;
         }
 
-        private GUITraktImage GetTraktImage(TraktUserListItem listItem)
+        private string GetListItemSecondLabel(TraktListItem listItem)
         {
-            GUITraktImage images = new GUITraktImage();
+            string retValue = string.Empty;
+
+            switch (listItem.Type)
+            {
+                case "movie":
+                    retValue = listItem.Movie.Year == null ? "----" : listItem.Movie.Year.ToString();
+                    break;
+
+                case "show":
+                    retValue = listItem.Show.Year == null ? "----" : listItem.Show.Year.ToString();
+                    break;
+
+                case "season":
+                    retValue = string.Format("{0} {1}", listItem.Season.EpisodeCount, Translation.Episodes);
+                    break;
+
+                case "episode":
+                    retValue = listItem.Episode.FirstAired.FromISO8601().ToShortDateString();
+                    break;
+
+                case "person":
+                    retValue = listItem.Person.Birthday;
+                    break;
+            }
+            return retValue;
+        }
+
+        private GUITraktImage GetTraktImage(TraktListItem listItem)
+        {
+            var images = new GUITraktImage();
 
             switch (listItem.Type)
             {
@@ -795,22 +836,21 @@ namespace TraktPlugin.GUI
                 case "episode":
                     images.ShowImages = listItem.Show.Images;
                     break;
+                case "person":
+                    images.PoepleImages = listItem.Person.Images;
+                    break;
             }
             return images;
         }
 
         private void InitProperties()
         {
-            GUIUtils.SetProperty("#Trakt.List.Username", CurrentUser);
-            GUIUtils.SetProperty("#Trakt.List.Slug", CurrentList.Slug);
-            GUIUtils.SetProperty("#Trakt.List.Name", CurrentList.Name);
-            GUIUtils.SetProperty("#Trakt.List.Description", CurrentList.Description);
-            GUIUtils.SetProperty("#Trakt.List.Privacy", CurrentList.Privacy);
-            GUIUtils.SetProperty("#Trakt.List.Url", CurrentList.Url);
+            GUICommon.SetListProperties(CurrentList, CurrentUser);
 
-            if (PreviousSlug != CurrentList.Slug)
+            if (PreviousSlug != CurrentList.Ids.Id)
                 PreviousSelectedIndex = 0;
-            PreviousSlug = CurrentList.Slug;
+
+            PreviousSlug = (int)CurrentList.Ids.Id;
 
             // Fanart
             backdrop.GUIImageOne = FanartBackground;
@@ -829,36 +869,39 @@ namespace TraktPlugin.GUI
             GUICommon.ClearShowProperties();
             GUICommon.ClearSeasonProperties();
             GUICommon.ClearEpisodeProperties();
+            GUICommon.ClearPersonProperties();
         }
 
-        private void PublishEpisodeSkinProperties(TraktUserListItem item)
+        private void PublishEpisodeSkinProperties(TraktListItem item)
         {
             if (item == null || item.Episode == null) return;
-            GUICommon.SetEpisodeProperties(item.Episode);
 
-            // workaround API not having episode number set
-            // can be removed later when fixed
-            GUICommon.SetProperty("#Trakt.Episode.Number", item.EpisodeNumber);
-
-            PublishSeasonSkinProperties(item);
-        }
-
-        private void PublishSeasonSkinProperties(TraktUserListItem item)
-        {
-            if (item == null) return;
-            GUICommon.SetProperty("#Trakt.Season.Number", item.SeasonNumber);
+            GUICommon.SetProperty("#Trakt.Season.Number", item.Episode.Season);
+            GUICommon.SetEpisodeProperties(item.Show, item.Episode);
+            
             PublishShowSkinProperties(item);
         }
 
-        private void PublishShowSkinProperties(TraktUserListItem item)
+        private void PublishSeasonSkinProperties(TraktListItem item)
+        {
+            if (item == null || item.Season == null) return;
+
+            GUICommon.SetSeasonProperties(item.Show, item.Season);
+
+            PublishShowSkinProperties(item);
+        }
+
+        private void PublishShowSkinProperties(TraktListItem item)
         {
             if (item == null || item.Show == null) return;
+
             GUICommon.SetShowProperties(item.Show);
         }
 
-        private void PublishMovieSkinProperties(TraktUserListItem item)
+        private void PublishMovieSkinProperties(TraktListItem item)
         {
             if (item == null || item.Movie == null) return;
+
             GUICommon.SetMovieProperties(item.Movie);
         }
 
@@ -866,7 +909,7 @@ namespace TraktPlugin.GUI
         {
             if (item == null) return;
 
-            TraktUserListItem listItem = item.TVTag as TraktUserListItem;
+            var listItem = item.TVTag as TraktListItem;
             if (listItem == null) return;
 
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
@@ -878,16 +921,19 @@ namespace TraktPlugin.GUI
                     PublishMovieSkinProperties(listItem);
                     GUIImageHandler.LoadFanart(backdrop, listItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
                     break;
+
                 case "show":
                     SelectedType = TraktItemType.show;
                     PublishShowSkinProperties(listItem);
                     GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
                     break;
+
                 case "season":
                     SelectedType = TraktItemType.season;
                     PublishSeasonSkinProperties(listItem);
                     GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
                     break;
+
                 case "episode":
                     SelectedType = TraktItemType.episode;
                     PublishEpisodeSkinProperties(listItem);
@@ -900,7 +946,7 @@ namespace TraktPlugin.GUI
 
         #region Public Properties
 
-        public static TraktUserList CurrentList { get; set; }
+        public static TraktListDetail CurrentList { get; set; }
         public static string CurrentUser { get; set; }
 
         #endregion

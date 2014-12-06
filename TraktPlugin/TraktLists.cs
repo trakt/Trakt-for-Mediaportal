@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MediaPortal.GUI.Library;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI.v1.DataStructures;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -13,8 +12,8 @@ namespace TraktPlugin
         #region Variables
 
         static DateTime LastRequest = new DateTime();
-        static Dictionary<string, IEnumerable<TraktUserList>> usersLists = new Dictionary<string, IEnumerable<TraktUserList>>();        
-        static IEnumerable<TraktUserList> userLists = null;        
+        static Dictionary<string, IEnumerable<TraktListDetail>> UserLists = new Dictionary<string, IEnumerable<TraktListDetail>>();
+        static Dictionary<string, IEnumerable<TraktListItem>> UserListItems = new Dictionary<string, IEnumerable<TraktListItem>>();
 
         #endregion
 
@@ -27,87 +26,71 @@ namespace TraktPlugin
         /// <summary>
         /// Get custom lists created by a user
         /// </summary>
-        public static IEnumerable<TraktUserList> GetListsForUser(string username)
+        public static IEnumerable<TraktListDetail> GetListsForUser(string username)
         {
-            if (!usersLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            if (!UserLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
-                userLists = TraktAPI.v1.TraktAPI.GetUserLists(username);
-                if (usersLists.Keys.Contains(username)) usersLists.Remove(username);
-                int i = 0; // retain online sort order if we update listitems later
-                foreach (var list in userLists) { list.SortOrder = i++; }
-                usersLists.Add(username, userLists);
+                // get all lists for user
+                var userLists = TraktAPI.TraktAPI.GetUserLists(username);
+                if (userLists == null) return null;
+
+                // remove any cached list for user
+                if (UserLists.Keys.Contains(username))
+                    UserLists.Remove(username);
+
+                UserLists.Add(username, userLists);
                 LastRequest = DateTime.UtcNow;
             }
-            return usersLists[username].OrderBy(s => s.SortOrder);
+            return UserLists[username];
         }
 
         /// <summary> 
-        /// Get list for user
+        /// Get list items for user
         /// </summary>
-        public static TraktUserList GetListForUser(string username, string slug)
+        public static IEnumerable<TraktListItem> GetListItemsForUser(string username, int id)
         {
-            bool getUpdates = LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0));
+            string key = username + ":" + id;
 
-            IEnumerable<TraktUserList> lists = GetListsForUser(username);
-            TraktUserList list = lists.FirstOrDefault(l => l.Slug == slug);
-
-            // lists api doesn't return items so check if have them yet
-            if (list.Items == null || getUpdates)
+            // use the username:id to cache items in a users list
+            if (!UserListItems.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
-                // remove old list from cache
-                lists = lists.Where(l => l.Slug != slug);
-                
-                // remember sort order
-                int sortOrder = list.SortOrder;
+                // get list items               
+                var listItems = TraktAPI.TraktAPI.GetUserListItems(username, id.ToString());
+                if (listItems == null) return null;
 
-                // get list with list items               
-                list = TraktAPI.v1.TraktAPI.GetUserList(username, slug);
-                list.SortOrder = sortOrder;
+                // remove any cached items for user
+                if (UserListItems.Keys.Contains(key))
+                    UserListItems.Remove(key);
 
-                // update cached result
-                lists = lists.Concat(new[] { list });
-                usersLists[username] = lists;
-                LastRequest = DateTime.UtcNow;
+                // add to list items cache
+                UserListItems.Add(key, listItems);
             }
-
-            return list;
+            return UserListItems[key];
         }
 
         /// <summary>
         /// Temporarily clears all items in a list
         /// Next time list contents will be refereshed online
         /// </summary>
-        public static void ClearItemsInList(string username, string slug)
+        public static void ClearItemsInList(string username, int id)
         {
             // if we are adding to the current active list, then this is invalid and we dont care
             // if we are removing from the current list, we already take care of this ourselves
             // in all other cases we should clear
-            if (GUIListItems.CurrentList != null && GUIListItems.CurrentList.Slug == slug && GUIListItems.CurrentUser == username)
+            if (GUIListItems.CurrentList != null && GUIListItems.CurrentList.Ids.Id == id && GUIListItems.CurrentUser == username)
                 return;
 
-            IEnumerable<TraktUserList> lists = GetListsForUser(username);
-            TraktUserList list = lists.FirstOrDefault(l => l.Slug == slug);
-            
-            // nothing to do
-            if (list.Items == null) return;
+            var listItems = GetListItemsForUser(username, id);
+            if (listItems == null) return;
 
-            // remove old list from cache
-            lists = lists.Where(l => l.Slug != slug);
-
-            // remove items from current list
-            list.Items = null;
-
-            // update cached result
-            lists = lists.Concat(new[] { list });
-            usersLists[username] = lists;
+            // remove items
+            UserListItems.Remove(username + ":" + id);
         }
 
         /// <summary>
         /// Get the slugs for each list selected by a user in the Multi-Select dialog
         /// </summary>
-        /// <param name="username">username of user</param>
-        /// <param name="lists">List of lists created by user</param>
-        public static List<string> GetUserListSelections(List<TraktUserList> lists)
+        public static List<string> GetUserListSelections(List<TraktListDetail> lists)
         {
             if (lists.Count == 0)
             {
@@ -116,16 +99,15 @@ namespace TraktPlugin
                     // nothing to do, return
                     return null;
                 }
-                TraktList list = new TraktList();
+                var list = new TraktListDetail();
                 if (TraktLists.GetListDetailsFromUser(ref list))
                 {
-                    TraktLogger.Info("Creating new '{0}' list '{1}'", list.Privacy, list.Name);
-                    TraktAddListResponse response = TraktAPI.v1.TraktAPI.ListAdd(list);
-                    TraktLogger.LogTraktResponse<TraktResponse>(response);
-                    if (response.Status == "success")
+                    TraktLogger.Info("Creating new list for user online. Privacy = '{0}', Name = '{1}'", list.Privacy, list.Name);
+                    var response = TraktAPI.TraktAPI.CreateCustomList(list, TraktSettings.Username);
+                    if (response != null)
                     {
-                        ClearCache(TraktSettings.Username);
-                        return new List<string> { response.Slug };
+                        ClearListCache(TraktSettings.Username);
+                        return new List<string> { response.Ids.Id.ToString() };
                     }
                 }
                   return null;
@@ -134,7 +116,7 @@ namespace TraktPlugin
             List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.SelectLists, GetMultiSelectItems(lists));
             if (selectedItems == null) return null;
 
-            List<string> slugs = new List<string>();
+            var slugs = new List<string>();
             foreach (var item in selectedItems.Where(l => l.Selected == true))
             {
                 slugs.Add(item.ItemID);
@@ -147,12 +129,10 @@ namespace TraktPlugin
         /// </summary>
         /// <param name="list">returns list details</param>
         /// <returns>true if list details completed</returns>
-        public static bool GetListDetailsFromUser(ref TraktList list)
+        public static bool GetListDetailsFromUser(ref TraktListDetail list)
         {
-            list.UserName = TraktSettings.Username;
-            list.Password = TraktSettings.Password;
-
-            bool editing = !string.IsNullOrEmpty(list.Slug);
+            // the list will have ids if it exists online
+            bool editing = list.Ids != null;
 
             // Show Keyboard for Name of list
             string name = editing ? list.Name : string.Empty;
@@ -162,8 +142,8 @@ namespace TraktPlugin
             // Skip Description and get Privacy...this requires a custom dialog as
             // virtual keyboard does not allow very much text for longer descriptions.
             // We may create a custom dialog for this in future
-            List<GUIListItem> items = new List<GUIListItem>();
-            GUIListItem item = new GUIListItem();
+            var items = new List<GUIListItem>();
+            var item = new GUIListItem();
             int selectedItem = 0;
 
             // Public
@@ -189,25 +169,31 @@ namespace TraktPlugin
             return true;
         }
 
-        public static void ClearCache(string username)
+        public static void ClearListCache(string username)
         {
-            if (usersLists.ContainsKey(username))
-                usersLists.Remove(username);
+            if (UserLists.ContainsKey(username))
+                UserLists.Remove(username);
+        }
+
+        public static void ClearListItemCache(string username, string id)
+        {
+            if (UserListItems.ContainsKey(username + ":" + id))
+                UserListItems.Remove(username);
         }
 
         #endregion
 
         #region Private\Internal Methods
 
-        static List<MultiSelectionItem> GetMultiSelectItems(List<TraktUserList> lists)
+        static List<MultiSelectionItem> GetMultiSelectItems(List<TraktListDetail> lists)
         {
-            List<MultiSelectionItem> result = new List<MultiSelectionItem>();
+            var result = new List<MultiSelectionItem>();
             
             foreach (var list in lists)
             {
-                MultiSelectionItem multiSelectionItem = new MultiSelectionItem
+                var multiSelectionItem = new MultiSelectionItem
                 {
-                    ItemID = list.Slug,
+                    ItemID = list.Ids.Id.ToString(),
                     ItemTitle = list.Name,
                     ItemTitle2 = GetPrivacyLevelTranslation(list.Privacy),
                     Selected = false,

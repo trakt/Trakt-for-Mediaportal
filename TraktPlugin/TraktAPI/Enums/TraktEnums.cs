@@ -85,6 +85,18 @@ namespace TraktPlugin.TraktAPI.Enums
     }
 
     /// <summary>
+    /// List of Item Types
+    /// </summary>
+    public enum TraktItemType
+    {
+        episode,
+        season,
+        show,
+        movie,
+        person
+    }
+
+    /// <summary>
     /// Privacy Level for Lists
     /// </summary>
     public enum ListPrivacyLevel

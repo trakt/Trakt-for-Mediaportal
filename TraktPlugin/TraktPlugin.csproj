@@ -513,6 +513,7 @@
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />
     <Content Include="Resources\Images\trakt_invert.png" />
+    <Content Include="Resources\Languages\ar.xml" />
     <Content Include="Resources\Languages\bg.xml" />
     <Content Include="Resources\Languages\ca.xml" />
     <Content Include="Resources\Languages\cs.xml" />
@@ -548,6 +549,7 @@
     <Content Include="Resources\Languages\pl.xml" />
     <Content Include="Resources\Languages\pt-BR.xml" />
     <Content Include="Resources\Languages\pt.xml" />
+    <Content Include="Resources\Languages\ro.xml" />
     <Content Include="Resources\Languages\ru.xml" />
     <Content Include="Resources\Languages\sk.xml" />
     <Content Include="Resources\Languages\sl.xml" />

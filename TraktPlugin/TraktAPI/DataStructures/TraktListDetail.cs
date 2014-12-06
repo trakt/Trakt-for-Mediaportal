@@ -15,6 +15,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "item_count")]
         public int ItemCount { get; set; }
 
+        [DataMember(Name = "likes")]
+        public int Likes { get; set; }
+
         [DataMember(Name = "ids")]
         public TraktId Ids { get; set; }
     }

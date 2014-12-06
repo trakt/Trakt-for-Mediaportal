@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
 
 namespace TraktPlugin.GUI
 {
@@ -21,6 +22,7 @@ namespace TraktPlugin.GUI
             this.WindowID = windowID;
         }
 
+        public TraktItemType Type { get; set; }
         public TraktMovie Movie { get; set; }
         public TraktShow Show { get; set; }
         public TraktEpisode Episode { get; set; }
@@ -88,7 +90,7 @@ namespace TraktPlugin.GUI
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
 
-                        #region Shows
+                        #region Shows, Seasons and Episodes
                         if (item.ShowImages != null)
                         {
                             #region Show Poster

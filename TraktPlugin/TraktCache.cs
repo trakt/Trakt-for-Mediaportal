@@ -815,7 +815,7 @@ namespace TraktPlugin
 
         public static bool IsWatched(this TraktEpisode episode, TraktShow show)
         {
-            if (WatchedEpisodes == null)
+            if (WatchedEpisodes == null && show == null)
                 return false;
 
             return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
@@ -867,6 +867,52 @@ namespace TraktPlugin
         }
 
         #endregion
+
+        #endregion
+
+        #region Lists
+
+        public static int Plays(this TraktListItem item)
+        {
+            if (item.Type == "movie" && item.Movie != null)
+                return item.Movie.Plays();
+            else if (item.Type == "episode" && item.Episode != null)
+                return item.Episode.Plays(item.Show);
+
+            return 0;
+        }
+
+        public static bool IsWatched(this TraktListItem item)
+        {
+            if (item.Type == "movie" && item.Movie != null)
+                return item.Movie.IsWatched();
+            else if (item.Type == "episode" && item.Episode != null)
+                return item.Episode.IsWatched(item.Show);
+
+            return false;
+        }
+
+        public static bool IsCollected(this TraktListItem item)
+        {
+            if (item.Type == "movie" && item.Movie != null)
+                return item.Movie.IsCollected();
+            else if (item.Type == "episode" && item.Episode != null)
+                return item.Episode.IsCollected(item.Show);
+
+            return false;
+        }
+
+        public static bool IsWatchlisted(this TraktListItem item)
+        {
+            if (item.Type == "movie" && item.Movie != null)
+                return item.Movie.IsWatchlisted();
+            else if (item.Type == "show" && item.Show != null)
+                return item.Show.IsWatchlisted();
+            else if (item.Type == "episode" && item.Episode != null)
+                return item.Episode.IsWatchlisted();
+
+            return false;
+        }
 
         #endregion
 

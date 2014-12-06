@@ -238,11 +238,11 @@ namespace TraktPlugin.GUI
         public static string ActivityShouts = "{0} shouted on {1}";
         public static string Activities = "Activities";
         public static string AddFriend = "Add Friend...";
-        public static string AddToLibrary = "Add to Library";
+        public static string AddToLibrary = "Add to Collection";
         public static string AddToList = "Add to List...";
-        public static string AddToWatchList = "Add to WatchList";
-        public static string AddShowToWatchList = "Add Show to WatchList";
-        public static string AddEpisodeToWatchList = "Add Episode to WatchList";
+        public static string AddToWatchList = "Add to Watchlist";
+        public static string AddShowToWatchList = "Add Show to Watchlist";
+        public static string AddEpisodeToWatchList = "Add Episode to Watchlist";
         public static string AddShowToList = "Add Show to List";
         public static string AddEpisodeToList = "Add Episode to List";
         public static string AddThisItemToWatchList = "Add this item to your watchlist?";
@@ -328,10 +328,13 @@ namespace TraktPlugin.GUI
         public static string Episode = "Episode";
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
-        public static string ErrorCalendar = "Error getting calendar.";
-        public static string ExecutiveProducer = "Executive Producer.";
+        public static string ErrorCalendar = "Error getting calendar";
+        public static string ExecutiveProducer = "Executive Producer";
 
         // F
+        public static string FailedCreateList = "Failed to create list from online";
+        public static string FailedDeleteList = "Failed to delete list from online";
+        public static string FailedUpdateList = "Failed to update list online";
         public static string Filters = "Filters";
         public static string FirstAired = "First Aired";
         public static string Follow = "Follow";
@@ -340,10 +343,10 @@ namespace TraktPlugin.GUI
         public static string Followers = "Followers";
         public static string Following = "Following";
         public static string FollowUser = "Follow User";
-        public static string FollowPendingApproval = "Follow request has been sent to {0} and is pending approval.";
+        public static string FollowPendingApproval = "Follow request has been sent to {0} and is pending approval";
         public static string Friend = "Friend";
         public static string Friends = "Friends";
-        public static string FriendsAndMe = "Friends And Me";
+        public static string FriendsAndMe = "Friends and Me";
         public static string FriendActivity = "Friend Activity";
         public static string FriendRequest = "Friend Request";
         public static string FollowerRequest = "Follower Request";
@@ -570,10 +573,10 @@ namespace TraktPlugin.GUI
         public static string RecentAddedMovies = "Recently Added Movies";
         public static string RecentAddedEpisodes = "Recently Added Episodes";
         public static string RecentShouts = "Recent Shouts";
-        public static string RemoveFromLibrary = "Remove from Library";
-        public static string RemoveFromWatchList = "Remove from WatchList";
-        public static string RemoveShowFromWatchList = "Remove Show from WatchList";
-        public static string RemoveEpisodeFromWatchList = "Remove Episode from WatchList";
+        public static string RemoveFromLibrary = "Remove from Collection";
+        public static string RemoveFromWatchList = "Remove from Watchlist";
+        public static string RemoveShowFromWatchList = "Remove Show from Watchlist";
+        public static string RemoveEpisodeFromWatchList = "Remove Episode from Watchlist";
         public static string RemoveFromList = "Remove from List...";
         public static string Reply = "Reply";
         public static string Replies = "Replies";

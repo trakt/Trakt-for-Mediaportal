@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.Configuration;
-using MediaPortal.Profile;
 using MediaPortal.GUI.Library;
+using MediaPortal.Profile;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktHandlers;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin
 {
