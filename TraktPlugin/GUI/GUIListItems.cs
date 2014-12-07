@@ -250,7 +250,7 @@ namespace TraktPlugin.GUI
 
             if (SelectedType != TraktItemType.season && SelectedType != TraktItemType.person)
             {
-                // Add/Remove Watch List
+                // Add/Remove Watchlist
                 if (!selectedListItem.IsWatchlisted())
                 {
                     listItem = new GUIListItem(Translation.AddToWatchList);
@@ -416,7 +416,7 @@ namespace TraktPlugin.GUI
                     else if (SelectedType == TraktItemType.show)
                         TraktHelper.AddRemoveShowInUserList(selectedListItem.Show, false);
                     else if (SelectedType == TraktItemType.season)
-                        TraktHelper.AddRemoveSeasonInUserList(selectedListItem.Show, selectedListItem.Season, false);
+                        TraktHelper.AddRemoveSeasonInUserList(selectedListItem.Season, false);
                     else if (SelectedType == TraktItemType.episode)
                         TraktHelper.AddRemoveEpisodeInUserList(selectedListItem.Episode, false);
                     break;
@@ -426,7 +426,7 @@ namespace TraktPlugin.GUI
 
                     // Only do remove from current list
                     // We could do same as Add (ie remove from multiple lists) but typically you only remove from the current list
-                    TraktHelper.AddRemoveItemInList(CurrentList.Ids.Id.ToString(), selectedListItem, true);
+                    TraktHelper.AddRemoveItemInList((int)CurrentList.Ids.Id, GetSyncItems(selectedListItem), true);
 
                     // clear the list item cache
                     TraktLists.ClearListItemCache(CurrentUser, CurrentList.Ids.Id.ToString());
@@ -561,6 +561,61 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private TraktSyncAll GetSyncItems(TraktListItem listItem)
+        {
+            var syncItems = new TraktSyncAll();
+
+            switch (listItem.Type)
+            {
+                case "movie":
+                    var movie = new TraktMovie
+                    {
+                        Ids = new TraktMovieId { Id = listItem.Movie.Ids.Id }
+                    };
+                    syncItems.Movies = new List<TraktMovie>();
+                    syncItems.Movies.Add(movie);
+                    break;
+
+                case "show":
+                    var show = new TraktShow
+                    {
+                        Ids = new TraktShowId { Id = listItem.Show.Ids.Id }
+                    };
+                    syncItems.Shows = new List<TraktShow>();
+                    syncItems.Shows.Add(show);
+                    break;
+
+                case "season":
+                    var season = new TraktSeason
+                    {
+                        Ids = new TraktSeasonId { Id = listItem.Season.Ids.Id }
+                    };
+                    syncItems.Seasons = new List<TraktSeason>();
+                    syncItems.Seasons.Add(season);
+                    break;
+
+                case "episode":
+                    var episode = new TraktEpisode
+                    {
+                        Ids = new TraktEpisodeId { Id = listItem.Episode.Ids.Id }
+                    };
+                    syncItems.Episodes = new List<TraktEpisode>();
+                    syncItems.Episodes.Add(episode);
+                    break;
+
+                case "person":
+                    var person = new TraktPerson
+                    {
+                        Ids = new TraktPersonId { Id = listItem.Person.Ids.Id }
+                    };
+                    syncItems.People = new List<TraktPerson>();
+                    syncItems.People.Add(person);
+                    break;
+            }
+
+            return syncItems;
+        }
 
         private bool ListItemMatch(TraktListItem currentItem, TraktListItem itemToMatch)
         {
@@ -782,7 +837,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case "episode":
-                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.Season.Number, listItem.Episode.Number, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
+                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.Episode.Number, listItem.Episode.Number, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
                     break;
 
                 case "person":
@@ -845,6 +900,7 @@ namespace TraktPlugin.GUI
 
         private void InitProperties()
         {
+            GUICommon.SetProperty("#Trakt.List.Username", CurrentUser);
             GUICommon.SetListProperties(CurrentList, CurrentUser);
 
             if (PreviousSlug != CurrentList.Ids.Id)

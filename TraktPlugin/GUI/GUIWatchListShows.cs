@@ -303,7 +303,7 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedWatchlistItem.ToJSON());
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedWatchlistItem.Show.ToJSON());
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
@@ -445,7 +445,7 @@ namespace TraktPlugin.GUI
 
                 item.Label2 = listItem.Show.Year.ToString();
                 item.TVTag = listItem;
-                item.TVTag = listItem.Show;
+                item.Show = listItem.Show;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -481,7 +481,7 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
 
-            // load Watch list for user
+            // load Watchlist for user
             if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
             GUICommon.SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 

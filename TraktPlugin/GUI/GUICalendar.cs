@@ -380,7 +380,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
-            // Add/Remove Show Watch List
+            // Add/Remove Show Watchlist
             if (!calendarItem.Show.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddShowToWatchList);
@@ -394,7 +394,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveShowFromWatchList;
             }
 
-            // Add/Remove Episode Watch List
+            // Add/Remove Episode Watchlist
             if (!calendarItem.Episode.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddEpisodeToWatchList);
@@ -444,7 +444,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
 
-            // Watch List Filter
+            // Watchlist Filter
             if (CurrentCalendar == CalendarType.MyShows)
             {
                 if (TraktSettings.CalendarHideTVShowsInWatchList)
@@ -775,7 +775,7 @@ namespace TraktPlugin.GUI
             // Use Label3 of facade for Day/Group Idenitfier
             foreach (var day in calendar)
             {                 
-                // apply watch list filter
+                // apply watchlist filter
                 var episodesInDay = day.Value;
                 if (CurrentCalendar == CalendarType.MyShows)
                 {

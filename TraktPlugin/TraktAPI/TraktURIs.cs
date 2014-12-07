@@ -32,20 +32,20 @@ namespace TraktPlugin.TraktAPI
         public const string SyncRatedEpisodes = "http://api.v2.trakt.tv/sync/ratings/episodes";
         public const string SyncRatedShows = "http://api.v2.trakt.tv/sync/ratings/shows";
 
-        public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists?extended={0}";
-        public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items?extended={0}";
+        public const string UserLists = "http://api.v2.trakt.tv/users/{0}/lists";
+        public const string UserListItems = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items?extended={2}";
         
         public const string UserListAdd = "http://api.v2.trakt.tv/users/{0}/lists";
         public const string UserListEdit = "http://api.v2.trakt.tv/users/{0}/lists/{1}";
 
         public const string UserListItemsAdd = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items";
-        public const string UserListItemsDelete = "http://api.v2.trakt.tv/users/{0}/lists/{1}/remove";
+        public const string UserListItemsRemove = "http://api.v2.trakt.tv/users/{0}/lists/{1}/items/remove";
 
-        public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies?extended={0}";
+        public const string UserWatchlistMovies = "http://api.v2.trakt.tv/users/{0}/watchlist/movies?extended={1}";
         public const string UserWatchlistShows = "http://api.v2.trakt.tv/users/{0}/watchlist/shows?extended=full,images";
         public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes?extended=full,images";
 
-        public const string UserProfile = "http://api.v2.trakt.tv/users/{0}?extended={0}";
+        public const string UserProfile = "http://api.v2.trakt.tv/users/{0}?extended=full,images";
 
         public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows?extended=full,images";

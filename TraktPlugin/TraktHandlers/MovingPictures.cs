@@ -992,9 +992,20 @@ namespace TraktPlugin.TraktHandlers
                 case "7.1":                    
                 case "6.1":
                 case "5.1":
+                case "4.1":
+                case "3.1":
+                case "2.1":
                     return firstMovie.AudioChannels;
                 case "7":
                     return "6.1";
+                case "6":
+                    return "5.1";
+                case "5":
+                    return "5.0";
+                case "4":
+                    return "4.0";
+                case "3":
+                    return "2.1";
                 case "stereo":
                     return "2.0";
                 case "mono":

@@ -10,7 +10,7 @@ namespace TraktPlugin.TraktAPI.Extensions
         public static int ToPercentage(this double? value)
         {
             if (value == null) return 0;
-            return Convert.ToInt16(value * 100);
+            return Convert.ToInt16(value * 10);
         }
     }
 }

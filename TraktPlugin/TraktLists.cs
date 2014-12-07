@@ -55,7 +55,7 @@ namespace TraktPlugin
             if (!UserListItems.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 // get list items               
-                var listItems = TraktAPI.TraktAPI.GetUserListItems(username, id.ToString());
+                var listItems = TraktAPI.TraktAPI.GetUserListItems(username, id.ToString(), "full,images");
                 if (listItems == null) return null;
 
                 // remove any cached items for user
@@ -88,9 +88,9 @@ namespace TraktPlugin
         }
 
         /// <summary>
-        /// Get the slugs for each list selected by a user in the Multi-Select dialog
+        /// Get the ids for each list selected by a user in the Multi-Select dialog
         /// </summary>
-        public static List<string> GetUserListSelections(List<TraktListDetail> lists)
+        public static List<int> GetUserListSelections(List<TraktListDetail> lists)
         {
             if (lists.Count == 0)
             {
@@ -107,7 +107,7 @@ namespace TraktPlugin
                     if (response != null)
                     {
                         ClearListCache(TraktSettings.Username);
-                        return new List<string> { response.Ids.Id.ToString() };
+                        return new List<int> { (int)response.Ids.Id };
                     }
                 }
                   return null;
@@ -116,12 +116,12 @@ namespace TraktPlugin
             List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.SelectLists, GetMultiSelectItems(lists));
             if (selectedItems == null) return null;
 
-            var slugs = new List<string>();
+            var listIds = new List<int>();
             foreach (var item in selectedItems.Where(l => l.Selected == true))
             {
-                slugs.Add(item.ItemID);
+                listIds.Add(int.Parse(item.ItemID));
             }
-            return slugs;
+            return listIds;
         }
 
         /// <summary>

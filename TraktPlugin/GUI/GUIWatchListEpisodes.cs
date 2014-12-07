@@ -413,7 +413,7 @@ namespace TraktPlugin.GUI
 
             RemovingWatchListItem = false;
 
-            // load Watch list for user
+            // load Watchlist for user
             if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
             GUICommon.SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 

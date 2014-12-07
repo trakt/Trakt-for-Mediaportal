@@ -152,14 +152,16 @@ namespace TraktPlugin.TraktHandlers
 
                 #region Get data from local database
 
-                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows'", IgnoredSeries.Count);
+                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows set by user'", IgnoredSeries.Count);
 
                 // Get all episodes in database
                 SQLCondition conditions = new SQLCondition();
                 conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cSeriesID, 0, SQLConditionType.GreaterThan);
                 conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
-                conditions.Add(new DBOnlineSeries(), DBOnlineSeries.cTraktIgnore, 1, SQLConditionType.NotEqual);
                 var localEpisodes = DBEpisode.Get(conditions, false);
+
+                // filter out the ignored shows
+                localEpisodes.RemoveAll(e => IgnoredSeries.Contains(e[DBOnlineSeries.cID]));
 
                 TraktLogger.Info("Found {0} total episodes in tvseries database", localEpisodes.Count);
 
@@ -1464,6 +1466,12 @@ namespace TraktPlugin.TraktHandlers
                     return "6.1";
                 case "6":
                     return "5.1";
+                case "5":
+                    return "5.0";
+                case "4":
+                    return "4.0";
+                case "3":
+                    return "2.1";
                 case "2":
                     return "2.0";
                 case "1":

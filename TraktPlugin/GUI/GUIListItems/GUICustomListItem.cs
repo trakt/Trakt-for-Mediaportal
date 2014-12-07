@@ -90,7 +90,7 @@ namespace TraktPlugin.GUI
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
 
-                        #region Shows, Seasons and Episodes
+                        #region Shows
                         if (item.ShowImages != null)
                         {
                             #region Show Poster
@@ -110,23 +110,6 @@ namespace TraktPlugin.GUI
                             }
                             #endregion
 
-                            #region Show Season Poster
-                            // stop download if we have exited window
-                            if (StopDownload) break;
-
-                            remoteThumb = item.SeasonImages.Poster.ThumbSize;
-                            localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
-
-                            if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                            {
-                                if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                                {
-                                    // notify that image has been downloaded
-                                    item.NotifyPropertyChanged("Season");
-                                }
-                            }
-                            #endregion
-
                             #region Fanart
                             // stop download if we have exited window
                             if (StopDownload) break;
@@ -141,6 +124,28 @@ namespace TraktPlugin.GUI
                                 {
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("Fanart");
+                                }
+                            }
+                            #endregion
+                        }
+                        #endregion
+
+                        #region Seasons
+                        if (item.SeasonImages != null)
+                        {
+                            #region Show Season Poster
+                            // stop download if we have exited window
+                            if (StopDownload) break;
+
+                            remoteThumb = item.SeasonImages.Poster.ThumbSize;
+                            localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+
+                            if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
+                            {
+                                if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                                {
+                                    // notify that image has been downloaded
+                                    item.NotifyPropertyChanged("Season");
                                 }
                             }
                             #endregion

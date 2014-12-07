@@ -303,7 +303,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
             }
 
-            // Add/Remove Watch List            
+            // Add/Remove Watchlist            
             if (!selectedMovie.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);

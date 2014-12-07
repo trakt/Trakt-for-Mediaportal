@@ -35,7 +35,7 @@
   <string name="AddEpisodeToWatchList">Add Episode to Watchlist</string>
   <string name="AddShowToList">Add Show to List</string>
   <string name="AddEpisodeToList">Add Episode to List</string>
-  <string name="AddThisItemToWatchList">Add this item to your watch list?</string>
+  <string name="AddThisItemToWatchList">Add this item to your watchlist?</string>
   <string name="Age">Age</string>
   <string name="AirDate">Air Date</string>
   <string name="AirDay">Air Day</string>
@@ -214,7 +214,7 @@
   <!--H-->
   <string name="Hate">Hate</string>
   <string name="Hated">Hated</string>
-  <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
+  <string name="HideTVShowsInWatchlist">Hide TV Shows in Watchlist</string>
   <string name="HideCollected">Hide Collected</string>
   <string name="HideRated">Hide Rated</string>
   <string name="HideWatched">Hide Watched</string>
@@ -488,16 +488,16 @@
   <string name="ValidPassword">You must enter a valid password!</string>
   <string name="ValidEmail">You must enter a valid email!</string>
   <!--W-->
-  <string name="WatchList">Watch List</string>
+  <string name="WatchList">Watchlist</string>
   <string name="Watched">Watched</string>
   <string name="WatchedMovies">Watched Movies</string>
   <string name="WatchedEpisodes">Watched Episodes</string>
   <string name="WatchedShows">Watched Shows</string>
   <string name="Watchers">Watchers</string>
   <string name="Watching">Watching</string>
-  <string name="WatchListMovies">Movie Watch List</string>
-  <string name="WatchListShows">Show Watch List</string>
-  <string name="WatchListEpisodes">Episode Watch List</string>
+  <string name="WatchListMovies">Movie Watchlist</string>
+  <string name="WatchListShows">Show Watchlist</string>
+  <string name="WatchListEpisodes">Episode Watchlist</string>
   <string name="Writer">Writer</string>
   <string name="Writers">Writers</string>
   <!--Y-->

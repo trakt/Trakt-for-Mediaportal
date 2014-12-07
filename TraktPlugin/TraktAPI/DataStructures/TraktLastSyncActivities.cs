@@ -9,6 +9,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktLastSyncActivities
     {
+        [DataMember(Name = "all")]
+        public string All { get; set; }
+
         [DataMember(Name = "movies")]
         public MovieActivities Movies { get; set; }
 
@@ -29,6 +32,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
+
+            [DataMember(Name = "paused_at")]
+            public string PausedAt { get; set; }
         }
 
         [DataMember(Name = "episodes")]
@@ -51,6 +57,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
+
+            [DataMember(Name = "paused_at")]
+            public string PausedAt { get; set; }
         }
 
         [DataMember(Name = "shows")]

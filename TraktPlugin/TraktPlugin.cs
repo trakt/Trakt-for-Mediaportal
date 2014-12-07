@@ -1118,7 +1118,15 @@ namespace TraktPlugin
                 else if (type == "episode")
                 {
                     TraktLogger.Info("Adding episode to Custom List. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode TVDb ID = '{4}'", title, year, season, episode, epTvdbId);
-                    TraktHelper.AddRemoveEpisodeInUserList(null, season.ToInt(), episode.ToInt(), epTvdbId, false);
+                    TraktHelper.AddRemoveEpisodeInUserList(new TraktEpisode
+                    {
+                        Ids = new TraktEpisodeId
+                        {
+                            TvdbId = epTvdbId.ToNullableInt32()
+                        },
+                        Number = episode.ToInt(),
+                        Season = season.ToInt()
+                    }, false);
                 }
             }
             #endregion

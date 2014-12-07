@@ -136,13 +136,17 @@ namespace TraktPlugin.GUI
                         var selectedSeason = selectedItem.TVTag as TraktSeasonSummary;
                         if (selectedSeason == null) return;
 
-                        // create loading parameter for episode listing
-                        var loadingParam = new SeasonLoadingParameter
+                        // don't bother loading seasons view if there is no episodes to display
+                        if (selectedSeason.EpisodeCount > 0)
                         {
-                            Season = selectedSeason,
-                            Show = Show
-                        };
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
+                            // create loading parameter for episode listing
+                            var loadingParam = new SeasonLoadingParameter
+                            {
+                                Season = selectedSeason,
+                                Show = Show
+                            };
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
+                        }
                     }
                     break;
 
@@ -224,7 +228,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
-                    TraktHelper.AddRemoveSeasonInUserList(Show, selectedSeason, false);
+                    TraktHelper.AddRemoveSeasonInUserList(selectedSeason, false);
                     break;
 
                 case ((int)ContextMenuItem.Sort):
@@ -280,7 +284,7 @@ namespace TraktPlugin.GUI
             // sort ascending or descending order
             if (TraktSettings.SortSeasonsAscending)
             {
-                seasons = seasons.OrderBy(s => s.Number);
+                seasons = seasons.OrderBy(s => s.Number).ToList();
             }
 
             int itemId = 0;

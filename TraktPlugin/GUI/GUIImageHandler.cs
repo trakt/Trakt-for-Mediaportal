@@ -174,6 +174,9 @@ namespace TraktPlugin.GUI
                     break;
             }
 
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
             return Path.Combine(folder, Path.GetFileName(new Uri(filename).LocalPath));
         }
 

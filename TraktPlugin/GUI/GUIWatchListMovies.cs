@@ -219,7 +219,7 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            // only allow removal if viewing your own watch list
+            // only allow removal if viewing your own watchlist
             if (CurrentUser == TraktSettings.Username)
             {
                 listItem = new GUIListItem(Translation.RemoveFromWatchList);
@@ -562,7 +562,7 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
 
-            // load Watch list for user
+            // load Watchlist for user
             if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
             GUICommon.SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 

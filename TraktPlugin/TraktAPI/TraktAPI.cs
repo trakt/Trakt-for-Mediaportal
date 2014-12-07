@@ -165,7 +165,7 @@ namespace TraktPlugin.TraktAPI
 
         public static TraktUserSummary GetUserProfile(string user)
         {
-            var response = GetFromTrakt(TraktURIs.UserProfile);
+            var response = GetFromTrakt(string.Format(TraktURIs.UserProfile, user));
             return response.FromJSON<TraktUserSummary>();
         }
 
@@ -245,9 +245,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Lists
         
-        public static IEnumerable<TraktListDetail> GetUserLists(string username, string extendedInfoParams = "min")
+        public static IEnumerable<TraktListDetail> GetUserLists(string username)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username, extendedInfoParams));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username));
             return response.FromJSONArray<TraktListDetail>();
         }
 
@@ -272,6 +272,12 @@ namespace TraktPlugin.TraktAPI
         public static TraktSyncResponse AddItemsToList(string username, string id, TraktSyncAll items)
         {
             var response = PostToTrakt(string.Format(TraktURIs.UserListItemsAdd, username, id), items.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveItemsFromList(string username, string id, TraktSyncAll items)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserListItemsRemove, username, id), items.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 

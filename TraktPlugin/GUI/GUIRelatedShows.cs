@@ -276,7 +276,7 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToLibrary;
 
-            // Add/Remove Watch List            
+            // Add/Remove Watchlist            
             if (!selectedShow.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);

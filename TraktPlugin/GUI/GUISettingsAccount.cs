@@ -291,7 +291,7 @@ namespace TraktPlugin.GUI
                 InitProperties();
 
                 // clear caches
-                // watch lists are stored by user so dont need clearing.
+                // watchlists are stored by user so dont need clearing.
                 GUINetwork.ClearCache();
                 GUICalendar.ClearCache();
                 GUIRecommendationsMovies.ClearCache();

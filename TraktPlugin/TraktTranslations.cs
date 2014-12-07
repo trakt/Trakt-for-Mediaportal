@@ -418,9 +418,9 @@ namespace TraktPlugin.GUI
         public static string GettingRecommendedShows = "Getting Recommended Shows";
         public static string GettingShouts = "Getting Shouts";
         public static string GettingShowSeasons = "Getting Show Seasons";
-        public static string GettingWatchListMovies = "Getting Watch List Movies";
-        public static string GettingWatchListShows = "Getting Watch List Shows";
-        public static string GettingWatchListEpisodes = "Getting Watch List Episodes";
+        public static string GettingWatchListMovies = "Getting Watchlist Movies";
+        public static string GettingWatchListShows = "Getting Watchlist Shows";
+        public static string GettingWatchListEpisodes = "Getting Watchlist Episodes";
         public static string GettingRelatedMovies = "Getting Related Movies";
         public static string GettingRelatedShows = "Getting Related Shows";
         public static string GettingTrailerUrls = "Getting Trailer Urls";
@@ -431,7 +431,7 @@ namespace TraktPlugin.GUI
         // H
         public static string Hate = "Hate";
         public static string Hated = "Hated";
-        public static string HideTVShowsInWatchlist = "Hide TV Shows in Watch List";
+        public static string HideTVShowsInWatchlist = "Hide TV Shows in Watchlist";
         public static string HideCollected = "Hide Collected";
         public static string HideWatched = "Hide Watched";
         public static string HideRated = "Hide Rated";
@@ -495,9 +495,9 @@ namespace TraktPlugin.GUI
         public static string NoTrendingShows = "No Shows current being watched!";
         public static string NoMovieRecommendations = "No Movie Recommendations Found!";
         public static string NoShowRecommendations = "No Show Recommendations Found!";
-        public static string NoMovieWatchList = "{0} has no movies in Watch List!";
-        public static string NoShowWatchList = "{0} has no shows in Watch List!";
-        public static string NoEpisodeWatchList = "{0} has no episodes in Watch List!";
+        public static string NoMovieWatchList = "{0} has no movies in Watchlist!";
+        public static string NoShowWatchList = "{0} has no shows in Watchlist!";
+        public static string NoEpisodeWatchList = "{0} has no episodes in Watchlist!";
         public static string NoSearchTypesSelected = "You must first select one or more search types\nbefore performing an online search.";
         public static string NoShoutsForItem = "No Shouts for {0}!";
         public static string NoPeopleToSearch = "There are no people to search by.";
@@ -719,15 +719,15 @@ namespace TraktPlugin.GUI
         public static string ValidEmail = "You must enter a valid email!";
 
         // W
-        public static string WatchList = "Watch List";
+        public static string WatchList = "Watchlist";
         public static string Watched = "Watched";
         public static string WatchedMovies = "Watched Movies";
         public static string WatchedEpisodes = "Watched Episodes";
         public static string Watchers = "Watchers";
         public static string Watching = "Watching";
-        public static string WatchListMovies = "Movie Watch List";
-        public static string WatchListShows = "Show Watch List";
-        public static string WatchListEpisodes = "Episode Watch List";
+        public static string WatchListMovies = "Movie Watchlist";
+        public static string WatchListShows = "Show Watchlist";
+        public static string WatchListEpisodes = "Episode Watchlist";
         public static string Writer = "Writer";
         public static string Writers = "Writers";
 

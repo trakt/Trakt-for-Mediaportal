@@ -238,6 +238,8 @@ namespace TraktPlugin
         }
         private void PublishActivityProperties(TraktActivity activity)
         {
+            if (activity == null) return;
+
             var activities = activity.Activities;
             if (activities == null) return;
 

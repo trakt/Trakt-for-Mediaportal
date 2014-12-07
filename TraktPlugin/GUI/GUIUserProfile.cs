@@ -60,7 +60,10 @@ namespace TraktPlugin.GUI
                 if (!UserProfiles.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     _UserProfile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
-                    if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
+                    
+                    if (UserProfiles.Keys.Contains(CurrentUser))
+                        UserProfiles.Remove(CurrentUser);
+
                     GetUserProfileImage(_UserProfile);
                     UserProfiles.Add(CurrentUser, _UserProfile);
                     LastRequest = DateTime.UtcNow;
