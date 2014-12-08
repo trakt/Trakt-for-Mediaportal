@@ -827,7 +827,7 @@ namespace TraktPlugin
 
                 item.Label2 = trendingItem.Show.Year.ToString();
                 item.TVTag = trendingItem;
-                item.TVTag = trendingItem.Show;
+                item.Show = trendingItem.Show;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -1103,7 +1103,7 @@ namespace TraktPlugin
                     break;
 
                 case ((int)TrendingContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedTrendingItem.ToJSON());
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedTrendingItem.Show.ToJSON());
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
@@ -1781,6 +1781,7 @@ namespace TraktPlugin
                             if (facade == null) return;
 
                             var trendingItem = facade.SelectedListItem.TVTag as TraktShowTrending;
+                            if (trendingItem == null) return;
 
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, trendingItem.Show.ToJSON());
                         }

@@ -400,7 +400,7 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.FollowUser):
                     if (GUIUtils.ShowYesNoDialog(Translation.Network, string.Format(Translation.SendFollowRequest, selectedItem.Label), true))
                     {
-                        FollowUser(selectedItem.TVTag as TraktUser);
+                        FollowUser(CurrentSelectedUser);
                         selectedItem.IsFollowed = true;
                         _TraktFollowing = null;
                         _TraktFriends = null;
@@ -416,13 +416,14 @@ namespace TraktPlugin.GUI
                     if (GUIUtils.ShowYesNoDialog(Translation.UnFollow, string.Format(Translation.UnFollowMessage, selectedItem.Label)))
                     {
                         // Unfollow user
-                        UnfollowUser(selectedItem.TVTag as TraktUser);
+                        var follower = selectedItem.TVTag as TraktNetworkUser;
+                        UnfollowUser(follower.User);
 
                         // Clear Cache - remove user from relavent lists
                         if (CurrentView == View.Following)
-                            _TraktFollowing = _TraktFollowing.Except(_TraktFollowing.Where(f => f.Username == selectedItem.Label));
+                            _TraktFollowing = _TraktFollowing.Except(_TraktFollowing.Where(f => f.User.Username == selectedItem.Label));
                         else if (CurrentView == View.Friends)
-                            _TraktFriends = _TraktFriends.Except(_TraktFriends.Where(f => f.Username == selectedItem.Label));
+                            _TraktFriends = _TraktFriends.Except(_TraktFriends.Where(f => f.User.Username == selectedItem.Label));
 
                         // Re-Load list
                         LoadView();
@@ -558,7 +559,7 @@ namespace TraktPlugin.GUI
 
         private void ShowViewMenu()
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
 
             dlg.Reset();
@@ -566,11 +567,11 @@ namespace TraktPlugin.GUI
 
             foreach (int value in Enum.GetValues(typeof(View)))
             {
-                View type = (View)Enum.Parse(typeof(View), value.ToString());
+                var type = (View)Enum.Parse(typeof(View), value.ToString());
                 string label = GetViewTypeName(type);
 
                 // Create new item
-                GUIListItem listItem = new GUIListItem(label);
+                var listItem = new GUIListItem(label);
                 listItem.ItemId = value;
 
                 // Set selected if current
@@ -802,7 +803,7 @@ namespace TraktPlugin.GUI
                 if (success)
                 {
                     // Get Friend List from Result Handler
-                    IEnumerable<TraktNetworkFriend> friends = result as IEnumerable<TraktNetworkFriend>;
+                    var friends = result as IEnumerable<TraktNetworkFriend>;
                     SendFriendsToFacade(friends);
                 }
             }, Translation.GettingFriendsList, true);
@@ -842,14 +843,15 @@ namespace TraktPlugin.GUI
             foreach (var friend in friends.OrderBy(f => f.FriendsAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUITraktImage { UserImages = friend.Images };
+                var images = new GUITraktImage { UserImages = friend.User.Images };
                 userImages.Add(images);
 
-                var userItem = new GUIUserListItem(friend.Username, (int)TraktGUIWindows.Network);
+                var userItem = new GUIUserListItem(friend.User.Username, (int)TraktGUIWindows.Network);
 
                 userItem.Label2 = friend.FriendsAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
                 userItem.TVTag = friend;
+                userItem.User = friend.User;
                 userItem.ItemId = id++;
                 userItem.IsFriend = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -926,16 +928,17 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
-            foreach (var user in following.OrderBy(f => f.FollowedAt.FromISO8601()))
+            foreach (var followee in following.OrderBy(f => f.FollowedAt.FromISO8601()).ToList())
             {
                 // add image to download
-                var images = new GUITraktImage { UserImages = user.Images };
+                var images = new GUITraktImage { UserImages = followee.User.Images };
                 userImages.Add(images);
 
-                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
+                var userItem = new GUIUserListItem(followee.User.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.FollowedAt.FromISO8601().ToShortDateString();
-                userItem.TVTag = user;
+                userItem.Label2 = followee.FollowedAt.FromISO8601().ToShortDateString();
+                userItem.TVTag = followee;
+                userItem.User = followee.User;
                 userItem.Images = images;
                 userItem.ItemId = id++;
                 userItem.IsFollowed = true;
@@ -1012,17 +1015,18 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
-            foreach (var user in followers.OrderBy(f => f.FollowedAt.FromISO8601()))
+            foreach (var follower in followers.OrderBy(f => f.FollowedAt.FromISO8601()).ToList())
             {
                 // add image to download
-                var images = new GUITraktImage { UserImages = user.Images };
+                var images = new GUITraktImage { UserImages = follower.User.Images };
                 userImages.Add(images);
 
-                var userItem = new GUIUserListItem(user.Username, (int)TraktGUIWindows.Network);
+                var userItem = new GUIUserListItem(follower.User.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.FollowedAt.FromISO8601().ToShortDateString();
+                userItem.Label2 = follower.FollowedAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
-                userItem.TVTag = user;
+                userItem.TVTag = follower;
+                userItem.User = follower.User;
                 userItem.ItemId = id++;
                 userItem.IsFollower = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -1098,17 +1102,18 @@ namespace TraktPlugin.GUI
             var userImages = new List<GUITraktImage>();
 
             // Add each user to the list
-            foreach (var user in requests.OrderBy(r => r.RequestedAt.FromISO8601()))
+            foreach (var request in requests.OrderBy(r => r.RequestedAt.FromISO8601()))
             {
                 // add image to download
-                var images = new GUITraktImage { UserImages = user.User.Images };
+                var images = new GUITraktImage { UserImages = request.User.Images };
                 userImages.Add(images);
 
-                var userItem = new GUIUserListItem(user.User.Username, (int)TraktGUIWindows.Network);
+                var userItem = new GUIUserListItem(request.User.Username, (int)TraktGUIWindows.Network);
 
-                userItem.Label2 = user.RequestedAt.FromISO8601().ToShortDateString();
+                userItem.Label2 = request.RequestedAt.FromISO8601().ToShortDateString();
                 userItem.Images = images;
-                userItem.TVTag = user;
+                userItem.TVTag = request;
+                userItem.User = request.User;
                 userItem.ItemId = id++;
                 userItem.IsFollowerRequest = true;
                 userItem.IconImage = "defaultTraktUser.png";
@@ -1146,7 +1151,25 @@ namespace TraktPlugin.GUI
 
         private void OnUserSelected(GUIListItem item, GUIControl parent)
         {
-            CurrentSelectedUser = item.TVTag as TraktUserSummary;
+            if (CurrentView == View.Friends)
+            {
+                var friend = item.TVTag as TraktNetworkFriend;
+                GUICommon.SetProperty("#Trakt.Network.FriendsAt", friend.FriendsAt.FromISO8601().ToLongDateString());
+                CurrentSelectedUser = friend.User;
+            }
+            else if (CurrentView == View.Requests)
+            {
+                var request = item.TVTag as TraktFollowerRequest;
+                GUICommon.SetProperty("#Trakt.Network.RequestAt", request.RequestedAt.FromISO8601().ToLongDateString());
+                CurrentSelectedUser = request.User;
+            }
+            else
+            {
+                var follower = item.TVTag as TraktNetworkUser;
+                GUICommon.SetProperty("#Trakt.Network.RequestAt", follower.FollowedAt.FromISO8601().ToLongDateString());
+                CurrentSelectedUser = follower.User;
+            }
+            
             PublishUserSkinProperties(CurrentSelectedUser);
 
             // reset selected indicies

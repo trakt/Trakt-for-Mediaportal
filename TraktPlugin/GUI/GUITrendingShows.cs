@@ -262,7 +262,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TrendingContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedTrendingItem.ToJSON());
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedTrendingItem.Show.ToJSON());
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsWatched):

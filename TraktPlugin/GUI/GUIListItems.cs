@@ -589,7 +589,13 @@ namespace TraktPlugin.GUI
                 case "season":
                     var season = new TraktSeason
                     {
-                        Ids = new TraktSeasonId { Id = listItem.Season.Ids.Id }
+                        Ids = new TraktSeasonId
+                        { 
+                            Id = listItem.Season.Ids.Id,
+                            TmdbId = listItem.Season.Ids.TmdbId,
+                            TvRageId = listItem.Season.Ids.TvRageId,
+                            TvdbId = listItem.Season.Ids.TvdbId
+                        }
                     };
                     syncItems.Seasons = new List<TraktSeason>();
                     syncItems.Seasons.Add(season);

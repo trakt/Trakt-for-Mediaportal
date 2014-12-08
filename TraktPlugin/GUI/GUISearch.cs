@@ -260,7 +260,7 @@ namespace TraktPlugin.GUI
             if (episodeSearchButton.Selected) SearchTypes.Add(SearchType.episodes);
             if (peopleSearchButton.Selected) SearchTypes.Add(SearchType.people);
             if (userSearchButton.Selected) SearchTypes.Add(SearchType.users);
-            if (listSearchButton.Selected) SearchTypes.Add(SearchType.lists);
+            //TODOif (listSearchButton.Selected) SearchTypes.Add(SearchType.lists);
         }
 
         private int GetSearchTypesID()
