@@ -157,5 +157,18 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, controlId, index, 0, null));
             }
         }
+
+        /// <summary>
+        /// Checks if a GUICheckButton control is selected (checked)
+        /// This is also safe if control is not implemented by skin in which case false is returned
+        /// </summary>
+        /// <param name="self">the control to check</param>
+        /// <returns>true if selected/checked</returns>
+        public static bool IsSelected(this GUICheckButton self)
+        {
+            // check if skin implements control
+            if (self == null) return false;
+            return self.Selected;
+        }
     }
 }

@@ -40,7 +40,8 @@ namespace TraktPlugin.TraktAPI
         public const string UserWatchlistEpisodes = "http://api.v2.trakt.tv/users/{0}/watchlist/episodes?extended=full,images";
 
         public const string UserProfile = "http://api.v2.trakt.tv/users/{0}?extended=full,images";
-        public const string UserFollowerRequests = "http://api.v2.trakt.tv/user/requests?extended=full,images";
+        public const string UserFollowerRequests = "http://api.v2.trakt.tv/users/requests?extended=full,images";
+        public const string UserStats = "http://api.v2.trakt.tv/users/{0}/stats";
 
         public const string RecommendedMovies = "http://api.v2.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "http://api.v2.trakt.tv/recommendations/shows?extended=full,images";

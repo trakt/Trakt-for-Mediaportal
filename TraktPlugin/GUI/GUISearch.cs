@@ -126,12 +126,12 @@ namespace TraktPlugin.GUI
 
             // save selected search types
             SearchType searchTypes = SearchType.none;
-            if (movieSearchButton.Selected) searchTypes |= SearchType.movies;
-            if (showSearchButton.Selected) searchTypes |= SearchType.shows;
-            if (episodeSearchButton.Selected) searchTypes |= SearchType.episodes;
-            if (peopleSearchButton.Selected) searchTypes |= SearchType.people;
-            if (userSearchButton.Selected) searchTypes |= SearchType.users;
-            if (listSearchButton.Selected) searchTypes |= SearchType.lists;
+            if (movieSearchButton.IsSelected()) searchTypes |= SearchType.movies;
+            if (showSearchButton.IsSelected()) searchTypes |= SearchType.shows;
+            if (episodeSearchButton.IsSelected()) searchTypes |= SearchType.episodes;
+            if (peopleSearchButton.IsSelected()) searchTypes |= SearchType.people;
+            if (userSearchButton.IsSelected()) searchTypes |= SearchType.users;
+            if (listSearchButton.IsSelected()) searchTypes |= SearchType.lists;
 
             TraktSettings.SearchTypes = (int)searchTypes;
 
@@ -210,7 +210,41 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
-        
+
+        private string GetSingluarNameFromType(SearchType type)
+        {
+            string typeName = string.Empty;
+
+            switch (type)
+            {
+                case SearchType.movies:
+                    typeName = "movie";
+                    break;
+
+                case SearchType.shows:
+                    typeName = "show";
+                    break;
+
+                case SearchType.episodes:
+                    typeName = "episode";
+                    break;
+
+                case SearchType.people:
+                    typeName = "person";
+                    break;
+
+                case SearchType.users:
+                    typeName = "user";
+                    break;
+
+                case SearchType.lists:
+                    typeName = "list";
+                    break;
+            }
+
+            return typeName;
+        }
+
         private string GetSearchListName(SearchType type)
         {
             string listName = string.Empty;
@@ -248,19 +282,19 @@ namespace TraktPlugin.GUI
         private int GetSearchResultCount(IEnumerable<TraktSearchResult> searchResults, SearchType type)
         {
             if (searchResults == null) return 0;
-            return searchResults.Where(s => s.Type == type.ToString()).Count();
+            return searchResults.Where(s => s.Type == GetSingluarNameFromType(type)).Count();
         }
 
         private void SetSearchTypes()
         {
             SearchTypes.Clear();
 
-            if (movieSearchButton.Selected) SearchTypes.Add(SearchType.movies);
-            if (showSearchButton.Selected) SearchTypes.Add(SearchType.shows);
-            if (episodeSearchButton.Selected) SearchTypes.Add(SearchType.episodes);
-            if (peopleSearchButton.Selected) SearchTypes.Add(SearchType.people);
-            if (userSearchButton.Selected) SearchTypes.Add(SearchType.users);
-            //TODOif (listSearchButton.Selected) SearchTypes.Add(SearchType.lists);
+            if (movieSearchButton.IsSelected()) SearchTypes.Add(SearchType.movies);
+            if (showSearchButton.IsSelected()) SearchTypes.Add(SearchType.shows);
+            if (episodeSearchButton.IsSelected()) SearchTypes.Add(SearchType.episodes);
+            if (peopleSearchButton.IsSelected()) SearchTypes.Add(SearchType.people);
+            if (userSearchButton.IsSelected()) SearchTypes.Add(SearchType.users);
+            if (listSearchButton.IsSelected()) SearchTypes.Add(SearchType.lists);
         }
 
         private int GetSearchTypesID()
@@ -358,21 +392,21 @@ namespace TraktPlugin.GUI
                 case SearchType.movies:
                     if (GetSearchResultCount(searchResults, SearchType.movies) == 0) break;
                     GUISearchMovies.SearchTerm = SearchTerm;
-                    GUISearchMovies.Movies = SearchResults.Where(s => s.Type == SearchType.movies.ToString()).Select(m => m.Movie);
+                    GUISearchMovies.Movies = SearchResults.Where(s => s.Type == GetSingluarNameFromType(SearchType.movies)).Select(m => m.Movie);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchMovies);
                     break;
 
                 case SearchType.shows:
                     if (GetSearchResultCount(searchResults, SearchType.shows) == 0) break;
                     GUISearchShows.SearchTerm = SearchTerm;
-                    GUISearchShows.Shows = SearchResults.Where(s => s.Type == SearchType.shows.ToString()).Select(m => m.Show);
+                    GUISearchShows.Shows = SearchResults.Where(s => s.Type == GetSingluarNameFromType(SearchType.shows)).Select(m => m.Show);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchShows);
                     break;
 
                 case SearchType.episodes:
                     if (GetSearchResultCount(searchResults, SearchType.episodes) == 0) break;
                     GUISearchEpisodes.SearchTerm = SearchTerm;
-                    GUISearchEpisodes.Episodes = SearchResults.Where(s => s.Type == SearchType.episodes.ToString())
+                    GUISearchEpisodes.Episodes = SearchResults.Where(s => s.Type == GetSingluarNameFromType(SearchType.episodes))
                                                               .Select(e => new TraktEpisodeSummaryEx
                                                                           {
                                                                               Episode = e.Episode,
@@ -384,14 +418,14 @@ namespace TraktPlugin.GUI
                 case SearchType.people:
                     if (GetSearchResultCount(searchResults, SearchType.people) == 0) break;
                     GUISearchPeople.SearchTerm = SearchTerm;
-                    GUISearchPeople.People = SearchResults.Where(s => s.Type == SearchType.people.ToString()).Select(m => m.Person);
+                    GUISearchPeople.People = SearchResults.Where(s => s.Type == GetSingluarNameFromType(SearchType.people)).Select(m => m.Person);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople);
                     break;
 
                 case SearchType.users:
                     if (GetSearchResultCount(searchResults, SearchType.users) == 0) break;
                     GUISearchUsers.SearchTerm = SearchTerm;
-                    GUISearchUsers.Users = SearchResults.Where(s => s.Type == SearchType.users.ToString()).Select(m => m.User);
+                    GUISearchUsers.Users = SearchResults.Where(s => s.Type == GetSingluarNameFromType(SearchType.users)).Select(m => m.User);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchUsers);
                     break;
 

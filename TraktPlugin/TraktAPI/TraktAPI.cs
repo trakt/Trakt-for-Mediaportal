@@ -163,6 +163,12 @@ namespace TraktPlugin.TraktAPI
 
         #region User
 
+        public static TraktUserStatistics GetUserStatistics(string user)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserStats, user));
+            return response.FromJSON<TraktUserStatistics>();
+        }
+
         public static TraktUserSummary GetUserProfile(string user)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserProfile, user));
@@ -564,6 +570,7 @@ namespace TraktPlugin.TraktAPI
         static readonly Object searchLock = new Object();
 
         /// <summary>
+        /// //TODO switch over to comma-seperate types in a single search
         /// Search from one or more types, movies, episodes, shows etc...
         /// </summary>
         /// <param name="searchTerm">string to search for</param>
@@ -599,14 +606,10 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.shows:
                         var tShowSearch = new Thread(obj =>
                         {
-                            var response = SearchMovies(obj as string, maxResults);
+                            var response = SearchShows(obj as string, maxResults);
                             lock (searchLock)
                             {
                                 results.AddRange(response);
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
                             }
                         });
                         tShowSearch.Start(searchTerm);
@@ -617,7 +620,7 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.episodes:
                         var tEpisodeSearch = new Thread(obj =>
                         {
-                            var response = SearchMovies(obj as string, maxResults);
+                            var response = SearchEpisodes(obj as string, maxResults);
                             lock (searchLock)
                             {
                                 results.AddRange(response);
@@ -631,7 +634,7 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.people:
                         var tPeopleSearch = new Thread(obj =>
                         {
-                            var response = SearchMovies(obj as string, maxResults);
+                            var response = SearchPeople(obj as string, maxResults);
                             lock (searchLock)
                             {
                                 results.AddRange(response);
@@ -645,7 +648,7 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.users:
                         var tUserSearch = new Thread(obj =>
                         {
-                            var response = SearchMovies(obj as string, maxResults);
+                            var response = SearchUsers(obj as string, maxResults);
                             lock (searchLock)
                             {
                                 results.AddRange(response);
@@ -659,7 +662,7 @@ namespace TraktPlugin.TraktAPI
                     case SearchType.lists:
                         var tListSearch = new Thread(obj =>
                         {
-                            var response = SearchMovies(obj as string, maxResults);
+                            var response = SearchLists(obj as string, maxResults);
                             lock (searchLock)
                             {
                                 results.AddRange(response);

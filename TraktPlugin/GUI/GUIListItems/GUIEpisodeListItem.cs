@@ -78,8 +78,8 @@ namespace TraktPlugin.GUI
                 // sort images so that images that already exist are displayed first
                 groupList.Sort((s1, s2) =>
                 {
-                    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
-                    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart)));
+                    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s1.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
+                    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s2.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
                     return y.CompareTo(x);
                 });
 
@@ -108,7 +108,7 @@ namespace TraktPlugin.GUI
                         #region Fanart
                         // stop download if we have exited window
                         if (StopDownload) break;
-                        if (!TraktSettings.DownloadFanart) continue;
+                        if (!TraktSettings.DownloadFanart || item.ShowImages == null) continue;
 
                         string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
                         string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);

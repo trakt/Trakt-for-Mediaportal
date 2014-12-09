@@ -565,7 +565,11 @@ namespace TraktPlugin.GUI
 
             var episodeSummary = item.TVTag as TraktEpisodeSummaryEx;
             PublishSkinProperties(episodeSummary);
-            GUIImageHandler.LoadFanart(backdrop, episodeSummary.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+
+            if (episodeSummary.Show.Images != null)
+            {
+                GUIImageHandler.LoadFanart(backdrop, episodeSummary.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            }
         }
 
         #endregion
