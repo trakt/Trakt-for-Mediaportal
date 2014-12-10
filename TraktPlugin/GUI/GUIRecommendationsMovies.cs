@@ -546,10 +546,10 @@ namespace TraktPlugin.GUI
             {
                 TraktMovie dismissMovie = obj as TraktMovie;
 
-                var response = TraktAPI.TraktAPI.DismissRecommendedMovie(dismissMovie.Ids.Id.ToString());
+                var response = TraktAPI.TraktAPI.DismissRecommendedMovie(dismissMovie.Ids.Trakt.ToString());
                 if (response)
                 {
-                    TraktHandlers.MovingPictures.RemoveMovieCriteriaFromRecommendationsNode(movie.Ids.ImdbId);
+                    TraktHandlers.MovingPictures.RemoveMovieCriteriaFromRecommendationsNode(movie.Ids.Imdb);
                 }
             })
             {

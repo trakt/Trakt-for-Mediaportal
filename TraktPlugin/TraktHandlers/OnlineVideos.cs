@@ -208,7 +208,7 @@ namespace TraktPlugin.TraktHandlers
                 },
                 Show = new TraktShow
                 {
-                    Ids = new TraktShowId { ImdbId = info.ID_IMDB, TmdbId = info.ID_TMDB.ToNullableInt32(), TvdbId = info.ID_TVDB.ToNullableInt32() },
+                    Ids = new TraktShowId { Imdb = info.ID_IMDB, Tmdb = info.ID_TMDB.ToNullableInt32(), Tvdb = info.ID_TVDB.ToNullableInt32() },
                     Title = info.Title,
                     Year = info.Year > 0 ? (int?)info.Year : null
                 },
@@ -226,7 +226,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Movie = new TraktMovie
                 {
-                    Ids = new TraktMovieId { ImdbId = info.ID_IMDB, TmdbId = info.ID_TMDB.ToNullableInt32() },
+                    Ids = new TraktMovieId { Imdb = info.ID_IMDB, Tmdb = info.ID_TMDB.ToNullableInt32() },
                     Title = info.Title,
                     Year = (int)info.Year
                 },
@@ -274,7 +274,7 @@ namespace TraktPlugin.TraktHandlers
                     // this gets complicated when the episode IDs are not available!
                     var rateObject = new TraktSyncShowRatedEx
                     {
-                        Ids = new TraktShowId { TvdbId = itemToRate.ID_TVDB.ToNullableInt32(), TmdbId = itemToRate.ID_TMDB.ToNullableInt32() },
+                        Ids = new TraktShowId { Tvdb = itemToRate.ID_TVDB.ToNullableInt32(), Tmdb = itemToRate.ID_TMDB.ToNullableInt32() },
                         Title = itemToRate.Title,
                         Year = itemToRate.Year > 0 ? (int?)itemToRate.Year : null,
                         Seasons = new List<TraktSyncShowRatedEx.Season>
@@ -302,7 +302,7 @@ namespace TraktPlugin.TraktHandlers
 
                     var rateObject = new TraktSyncMovieRated
                     {
-                        Ids = new TraktMovieId { ImdbId = itemToRate.ID_IMDB, TmdbId = itemToRate.ID_TMDB.ToNullableInt32() },
+                        Ids = new TraktMovieId { Imdb = itemToRate.ID_IMDB, Tmdb = itemToRate.ID_TMDB.ToNullableInt32() },
                         Title = itemToRate.Title,
                         Year = (int)itemToRate.Year,
                         RatedAt = DateTime.UtcNow.ToISO8601()

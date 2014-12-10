@@ -392,9 +392,9 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Related):
                     var relShow = new RelatedShow
                     {
-                        TraktId = selectedShow.Ids.Id,
-                        TmdbId = selectedShow.Ids.TmdbId,
-                        TvdbId = selectedShow.Ids.TvdbId,
+                        TraktId = selectedShow.Ids.Trakt,
+                        TmdbId = selectedShow.Ids.Tmdb,
+                        TvdbId = selectedShow.Ids.Tvdb,
                         Title = selectedShow.Title
                         
                     };

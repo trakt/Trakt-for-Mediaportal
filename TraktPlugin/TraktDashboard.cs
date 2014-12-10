@@ -488,9 +488,9 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), trendingItem.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), trendingItem.Watchers > 1 ? string.Format(Translation.PeopleWatching, trendingItem.Watchers) : Translation.PersonWatching);
 
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Id", i), trendingItem.Movie.Ids.Id);
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.TmdbId", i), trendingItem.Movie.Ids.TmdbId);
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.ImdbId", i), trendingItem.Movie.Ids.ImdbId);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Id", i), trendingItem.Movie.Ids.Trakt);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.TmdbId", i), trendingItem.Movie.Ids.Tmdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.ImdbId", i), trendingItem.Movie.Ids.Imdb);
                 //TODOGUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), trendingItem.Certification);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.IsNullOrEmpty(trendingItem.Movie.Overview) ? Translation.NoMovieSummary : trendingItem.Movie.Overview);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), trendingItem.Movie.Released.FromISO8601().ToShortDateString());
@@ -716,11 +716,11 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), trendingItem.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), trendingItem.Watchers > 1 ? string.Format(Translation.PeopleWatching, trendingItem.Watchers) : Translation.PersonWatching);
 
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Id", i), trendingItem.Show.Ids.ImdbId);
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.ImdbId", i), trendingItem.Show.Ids.ImdbId);
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TmdbId", i), trendingItem.Show.Ids.TmdbId);
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvdbId", i), trendingItem.Show.Ids.TvdbId);
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvRageId", i), trendingItem.Show.Ids.TvRageId);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Id", i), trendingItem.Show.Ids.Imdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.ImdbId", i), trendingItem.Show.Ids.Imdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TmdbId", i), trendingItem.Show.Ids.Tmdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvdbId", i), trendingItem.Show.Ids.Tvdb);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.TvRageId", i), trendingItem.Show.Ids.TvRage);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Title", i), trendingItem.Show.Title);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Url", i), string.Format("http://trakt.tv/shows/{0}", trendingItem.Show.Ids.Slug));
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.AirDay", i), trendingItem.Show.Airs.Day);

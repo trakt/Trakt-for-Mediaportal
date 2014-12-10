@@ -424,9 +424,9 @@ namespace TraktPlugin.GUI
                     {
                         Title = selectedMovie.Title,
                         Year = selectedMovie.Year,
-                        TraktId = selectedMovie.Ids.Id,
-                        TmdbId = selectedMovie.Ids.TmdbId,
-                        ImdbId = selectedMovie.Ids.ImdbId
+                        TraktId = selectedMovie.Ids.Trakt,
+                        TmdbId = selectedMovie.Ids.Tmdb,
+                        ImdbId = selectedMovie.Ids.Imdb
                     };
                     relatedMovie = relMovie;
                     GUIUtils.SetProperty("#Trakt.Related.Movie", relMovie.Title);

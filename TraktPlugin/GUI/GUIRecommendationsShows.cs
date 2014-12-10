@@ -502,7 +502,7 @@ namespace TraktPlugin.GUI
             {
                 TraktShow dismissShow = obj as TraktShow;
 
-                var response = TraktAPI.TraktAPI.DismissRecommendedShow(dismissShow.Ids.Id.ToString());
+                var response = TraktAPI.TraktAPI.DismissRecommendedShow(dismissShow.Ids.Trakt.ToString());
             })
             {
                 IsBackground = true,

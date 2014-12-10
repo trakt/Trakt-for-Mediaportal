@@ -10,7 +10,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktId
     {
         [DataMember(Name = "trakt")]
-        public int? Id { get; set; }
+        public int? Trakt { get; set; }
 
         [DataMember(Name = "slug")]
         public string Slug { get; set; }

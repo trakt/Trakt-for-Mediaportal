@@ -10,15 +10,15 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktSeasonId
     {
         [DataMember(Name = "trakt")]
-        public int Id { get; set; }
+        public int? Trakt { get; set; }
 
         [DataMember(Name = "tmdb")]
-        public int? TmdbId { get; set; }
+        public int? Tmdb { get; set; }
 
         [DataMember(Name = "tvdb")]
-        public int? TvdbId { get; set; }
+        public int? Tvdb { get; set; }
 
         [DataMember(Name = "tvrage")]
-        public int? TvRageId { get; set; }
+        public int? TvRage { get; set; }
     }
 }

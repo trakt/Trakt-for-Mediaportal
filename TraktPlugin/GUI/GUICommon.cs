@@ -235,7 +235,7 @@ namespace TraktPlugin.GUI
         {
             if (movie == null) return;
 
-            TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", movie.Title, movie.Year.ToLogString(), movie.Ids.ImdbId.ToLogString());
+            TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", movie.Title, movie.Year.ToLogString(), movie.Ids.Imdb.ToLogString());
             bool handled = false;
 
             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -245,7 +245,7 @@ namespace TraktPlugin.GUI
 
                 // Find Movie ID in MovingPictures
                 // Movie List is now cached internally in MovingPictures so it will be fast
-                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref movieid);
+                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref movieid);
 
                 if (movieExists)
                 {
@@ -269,7 +269,7 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Checking if any movie to watch in My Videos");
                 IMDBMovie imdbMovie = null;
-                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref imdbMovie))
+                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref imdbMovie))
                 {
                     // Open My Videos Video Info view so user can play movie
                     if (jumpTo)
@@ -292,7 +292,7 @@ namespace TraktPlugin.GUI
                 TraktLogger.Info("Checking if any movie to watch in My Films");
                 int? movieid = null;
                 string config = null;
-                if (TraktHandlers.MyFilmsHandler.FindMovie(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.ImdbId, ref movieid, ref config))
+                if (TraktHandlers.MyFilmsHandler.FindMovie(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref movieid, ref config))
                 {
                     // Open My Films Details view so user can play movie
                     if (jumpTo)
@@ -330,7 +330,7 @@ namespace TraktPlugin.GUI
             if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
             {
                 // Play episode if it exists
-                handled = TraktHandlers.TVSeries.PlayEpisode(show.Ids.TvdbId.GetValueOrDefault(), episode.Season, episode.Number);
+                handled = TraktHandlers.TVSeries.PlayEpisode(show.Ids.Tvdb.GetValueOrDefault(), episode.Season, episode.Number);
             }
 
             if (TraktHelper.IsTrailersAvailableAndEnabled && handled == false)
@@ -345,7 +345,7 @@ namespace TraktPlugin.GUI
         {
             if (show == null) return;
 
-            TraktLogger.Info("Attempting to play episodes for tv show. TVDb ID = '{0}', IMDb ID = '{1}'", show.Ids.TvdbId.ToLogString(), show.Ids.ImdbId.ToLogString());
+            TraktLogger.Info("Attempting to play episodes for tv show. TVDb ID = '{0}', IMDb ID = '{1}'", show.Ids.Tvdb.ToLogString(), show.Ids.Imdb.ToLogString());
             bool handled = false;
 
             // check if plugin is installed and enabled
@@ -354,9 +354,9 @@ namespace TraktPlugin.GUI
                 if (jumpTo)
                 {
                     TraktLogger.Info("Looking for tv shows in MP-TVSeries database");
-                    if (TraktHandlers.TVSeries.SeriesExists(show.Ids.TvdbId.GetValueOrDefault()))
+                    if (TraktHandlers.TVSeries.SeriesExists(show.Ids.Tvdb.GetValueOrDefault()))
                     {
-                        string loadingParameter = string.Format("seriesid:{0}", show.Ids.TvdbId.GetValueOrDefault());
+                        string loadingParameter = string.Format("seriesid:{0}", show.Ids.Tvdb.GetValueOrDefault());
                         GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.TVSeries, loadingParameter);
                         handled = true;
                     }
@@ -365,7 +365,7 @@ namespace TraktPlugin.GUI
                 {
                     // Play episode if it exists
                     TraktLogger.Info("Checking if any episodes to watch in MP-TVSeries");
-                    handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(show.Ids.TvdbId.GetValueOrDefault());
+                    handled = TraktHandlers.TVSeries.PlayFirstUnwatchedEpisode(show.Ids.Tvdb.GetValueOrDefault());
                 }
             }
 
@@ -386,9 +386,9 @@ namespace TraktPlugin.GUI
             {
                 Ids = new TraktMovieId
                 { 
-                    Id = movie.Ids.Id,
-                    ImdbId = movie.Ids.ImdbId.ToNullIfEmpty(),
-                    TmdbId = movie.Ids.TmdbId
+                    Trakt = movie.Ids.Trakt,
+                    Imdb = movie.Ids.Imdb.ToNullIfEmpty(),
+                    Tmdb = movie.Ids.Tmdb
                 },
                 Title = movie.Title,
                 Year = movie.Year,
@@ -474,11 +474,11 @@ namespace TraktPlugin.GUI
             {
                 Ids = new TraktShowId
                 {
-                    Id = show.Ids.Id,
-                    ImdbId = show.Ids.ImdbId.ToNullIfEmpty(),
-                    TmdbId = show.Ids.TmdbId,
-                    TvRageId = show.Ids.TvRageId,
-                    TvdbId = show.Ids.TvdbId
+                    Trakt = show.Ids.Trakt,
+                    Imdb = show.Ids.Imdb.ToNullIfEmpty(),
+                    Tmdb = show.Ids.Tmdb,
+                    TvRage = show.Ids.TvRage,
+                    Tvdb = show.Ids.Tvdb
                 },
                 Title = show.Title,
                 Year = show.Year,
@@ -564,11 +564,11 @@ namespace TraktPlugin.GUI
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = episode.Ids.Id,
-                    ImdbId = episode.Ids.ImdbId.ToNullIfEmpty(),
-                    TmdbId = episode.Ids.TmdbId,
-                    TvdbId = episode.Ids.TvdbId,
-                    TvRageId = episode.Ids.TvRageId
+                    Trakt = episode.Ids.Trakt,
+                    Imdb = episode.Ids.Imdb.ToNullIfEmpty(),
+                    Tmdb = episode.Ids.Tmdb,
+                    Tvdb = episode.Ids.Tvdb,
+                    TvRage = episode.Ids.TvRage
                 },
                 Title = episode.Title,
                 Season = episode.Season,
@@ -662,18 +662,18 @@ namespace TraktPlugin.GUI
                 {
                     Ids = new TraktShowId
                     {
-                        Id = objShow.Ids.Id,
-                        ImdbId = objShow.Ids.ImdbId.ToNullIfEmpty(),
-                        TmdbId = objShow.Ids.TmdbId,
-                        TvdbId = objShow.Ids.TvdbId,
-                        TvRageId = objShow.Ids.TvRageId
+                        Trakt = objShow.Ids.Trakt,
+                        Imdb = objShow.Ids.Imdb.ToNullIfEmpty(),
+                        Tmdb = objShow.Ids.Tmdb,
+                        Tvdb = objShow.Ids.Tvdb,
+                        TvRage = objShow.Ids.TvRage
                     },
                     Title = show.Title,
                     Year = show.Year
                 };
 
                 TraktLogger.Info("Adding all episodes from show to trakt.tv watched history. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TVDb ID = '{3}', TMDb ID = '{4}'", 
-                                    show.Title, show.Year.ToLogString(), show.Ids.ImdbId.ToLogString(), show.Ids.TvdbId.ToLogString(), show.Ids.TmdbId.ToLogString());
+                                    show.Title, show.Year.ToLogString(), show.Ids.Imdb.ToLogString(), show.Ids.Tvdb.ToLogString(), show.Ids.Tmdb.ToLogString());
 
                 var response = TraktAPI.TraktAPI.AddShowToWatchedHistory(syncData);
                 TraktLogger.LogTraktResponse(response);
@@ -700,11 +700,11 @@ namespace TraktPlugin.GUI
                 {
                     Ids = new TraktShowId
                     {
-                        Id = objShow.Ids.Id,
-                        ImdbId = objShow.Ids.ImdbId.ToNullIfEmpty(),
-                        TmdbId = objShow.Ids.TmdbId,
-                        TvdbId = objShow.Ids.TvdbId,
-                        TvRageId = objShow.Ids.TvRageId
+                        Trakt = objShow.Ids.Trakt,
+                        Imdb = objShow.Ids.Imdb.ToNullIfEmpty(),
+                        Tmdb = objShow.Ids.Tmdb,
+                        Tvdb = objShow.Ids.Tvdb,
+                        TvRage = objShow.Ids.TvRage
                     },
                     Title = show.Title,
                     Year = show.Year,
@@ -718,7 +718,7 @@ namespace TraktPlugin.GUI
                 syncData.Seasons.Add(seasonObj);
 
                 TraktLogger.Info("Adding all episodes in season from show to trakt.tv watched history. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TVDb ID = '{3}', TMDb ID = '{4}', Season = '{5}'", 
-                                    show.Title, show.Year.ToLogString(), show.Ids.ImdbId.ToLogString(), show.Ids.TvdbId.ToLogString(), show.Ids.TmdbId.ToLogString(), season);
+                                    show.Title, show.Year.ToLogString(), show.Ids.Imdb.ToLogString(), show.Ids.Tvdb.ToLogString(), show.Ids.Tmdb.ToLogString(), season);
 
                 var response = TraktAPI.TraktAPI.AddShowToWatchedHistoryEx(syncData);
                 TraktLogger.LogTraktResponse(response);
@@ -745,18 +745,18 @@ namespace TraktPlugin.GUI
                 {
                     Ids = new TraktShowId
                     {
-                        Id = objShow.Ids.Id,
-                        ImdbId = objShow.Ids.ImdbId.ToNullIfEmpty(),
-                        TmdbId = objShow.Ids.TmdbId,
-                        TvdbId = objShow.Ids.TvdbId,
-                        TvRageId = objShow.Ids.TvRageId
+                        Trakt = objShow.Ids.Trakt,
+                        Imdb = objShow.Ids.Imdb.ToNullIfEmpty(),
+                        Tmdb = objShow.Ids.Tmdb,
+                        Tvdb = objShow.Ids.Tvdb,
+                        TvRage = objShow.Ids.TvRage
                     },
                     Title = show.Title,
                     Year = show.Year
                 };
 
                 TraktLogger.Info("Adding all episodes from show to trakt.tv collection. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TVDb ID = '{3}', TMDb ID = '{4}'",
-                                    show.Title, show.Year.ToLogString(), show.Ids.ImdbId.ToLogString(), show.Ids.TvdbId.ToLogString(), show.Ids.TmdbId.ToLogString());
+                                    show.Title, show.Year.ToLogString(), show.Ids.Imdb.ToLogString(), show.Ids.Tvdb.ToLogString(), show.Ids.Tmdb.ToLogString());
 
                 var response = TraktAPI.TraktAPI.AddShowToCollection(syncData);
                 TraktLogger.LogTraktResponse(response);
@@ -783,11 +783,11 @@ namespace TraktPlugin.GUI
                 {
                     Ids = new TraktShowId
                     {
-                        Id = objShow.Ids.Id,
-                        ImdbId = objShow.Ids.ImdbId.ToNullIfEmpty(),
-                        TmdbId = objShow.Ids.TmdbId,
-                        TvdbId = objShow.Ids.TvdbId,
-                        TvRageId = objShow.Ids.TvRageId
+                        Trakt = objShow.Ids.Trakt,
+                        Imdb = objShow.Ids.Imdb.ToNullIfEmpty(),
+                        Tmdb = objShow.Ids.Tmdb,
+                        Tvdb = objShow.Ids.Tvdb,
+                        TvRage = objShow.Ids.TvRage
                     },
                     Title = show.Title,
                     Year = show.Year,
@@ -801,7 +801,7 @@ namespace TraktPlugin.GUI
                 syncData.Seasons.Add(seasonObj);
 
                 TraktLogger.Info("Adding all episodes in season from show to trakt.tv collection. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TVDb ID = '{3}', TMDb ID = '{4}', Season = '{5}'",
-                                    show.Title, show.Year.ToLogString(), show.Ids.ImdbId.ToLogString(), show.Ids.TvdbId.ToLogString(), show.Ids.TmdbId.ToLogString(), season);
+                                    show.Title, show.Year.ToLogString(), show.Ids.Imdb.ToLogString(), show.Ids.Tvdb.ToLogString(), show.Ids.Tmdb.ToLogString(), season);
 
                 var response = TraktAPI.TraktAPI.AddShowToCollectionEx(syncData);
                 TraktLogger.LogTraktResponse(response);
@@ -902,13 +902,13 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.Description", list.Description);
             SetProperty("#Trakt.List.Privacy", list.Privacy);
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
-            SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", username, list.Ids.Id));
+            SetProperty("#Trakt.List.Url", string.Format("http://trakt.tv/users/{0}/lists/{1}", username, list.Ids.Trakt));
             SetProperty("#Trakt.List.AllowShouts", list.AllowComments);
             SetProperty("#Trakt.List.ShowNumbers", list.DisplayNumbers);
             SetProperty("#Trakt.List.UpdatedAt", list.UpdatedAt.FromISO8601().ToShortDateString());
             SetProperty("#Trakt.List.ItemCount", list.ItemCount);
             SetProperty("#Trakt.List.Likes", list.Likes);
-            SetProperty("#Trakt.List.Id", list.Ids.Id);
+            SetProperty("#Trakt.List.Id", list.Ids.Trakt);
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
         }
 
@@ -1098,9 +1098,9 @@ namespace TraktPlugin.GUI
         {
             if (movie == null) return;
 
-            SetProperty("#Trakt.Movie.Id", movie.Ids.Id);
-            SetProperty("#Trakt.Movie.ImdbId", movie.Ids.ImdbId);
-            SetProperty("#Trakt.Movie.TmdbId", movie.Ids.TmdbId);
+            SetProperty("#Trakt.Movie.Id", movie.Ids.Trakt);
+            SetProperty("#Trakt.Movie.ImdbId", movie.Ids.Imdb);
+            SetProperty("#Trakt.Movie.TmdbId", movie.Ids.Tmdb);
             SetProperty("#Trakt.Movie.Slug", movie.Ids.Slug);
             //TODOSetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
@@ -1146,9 +1146,9 @@ namespace TraktPlugin.GUI
 
         internal static void SetSeasonProperties(TraktShowSummary show, TraktSeasonSummary season)
         {
-            SetProperty("#Trakt.Season.TmdbId", season.Ids.TmdbId);
-            SetProperty("#Trakt.Season.TvdbId", season.Ids.TvdbId);
-            SetProperty("#Trakt.Season.TvRageId", season.Ids.TvRageId);
+            SetProperty("#Trakt.Season.TmdbId", season.Ids.Tmdb);
+            SetProperty("#Trakt.Season.TvdbId", season.Ids.Tvdb);
+            SetProperty("#Trakt.Season.TvRageId", season.Ids.TvRage);
             SetProperty("#Trakt.Season.Number", season.Number);            
             SetProperty("#Trakt.Season.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}", show.Ids.Slug, season.Number));
             SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
@@ -1203,11 +1203,11 @@ namespace TraktPlugin.GUI
         {
             if (show == null) return;
 
-            SetProperty("#Trakt.Show.Id", show.Ids.Id);
-            SetProperty("#Trakt.Show.ImdbId", show.Ids.ImdbId);
-            SetProperty("#Trakt.Show.TvdbId", show.Ids.TvdbId);
-            SetProperty("#Trakt.Show.TmdbId", show.Ids.TmdbId);
-            SetProperty("#Trakt.Show.TvRageId", show.Ids.TvRageId);
+            SetProperty("#Trakt.Show.Id", show.Ids.Trakt);
+            SetProperty("#Trakt.Show.ImdbId", show.Ids.Imdb);
+            SetProperty("#Trakt.Show.TvdbId", show.Ids.Tvdb);
+            SetProperty("#Trakt.Show.TmdbId", show.Ids.Tmdb);
+            SetProperty("#Trakt.Show.TvRageId", show.Ids.TvRage);
             SetProperty("#Trakt.Show.Title", show.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Url", string.Format("http://trakt.tv/shows/{0}", show.Ids.Slug));
             if (show.Airs != null)
@@ -1280,10 +1280,10 @@ namespace TraktPlugin.GUI
 
             SetProperty("#Trakt.Episode.Number", episode.Number);
             SetProperty("#Trakt.Episode.Season", episode.Season);
-            SetProperty("#Trakt.Episode.Id", episode.Ids.Id);
-            SetProperty("#Trakt.Episode.TvdbId", episode.Ids.TvdbId);
-            SetProperty("#Trakt.Episode.ImdbId", episode.Ids.ImdbId);
-            SetProperty("#Trakt.Episode.TmdbId", episode.Ids.ImdbId);
+            SetProperty("#Trakt.Episode.Id", episode.Ids.Trakt);
+            SetProperty("#Trakt.Episode.TvdbId", episode.Ids.Tvdb);
+            SetProperty("#Trakt.Episode.ImdbId", episode.Ids.Imdb);
+            SetProperty("#Trakt.Episode.TmdbId", episode.Ids.Imdb);
             if (episode.FirstAired != null)
             {
                 SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromISO8601().ToShortDateString());
@@ -1325,7 +1325,7 @@ namespace TraktPlugin.GUI
         
         internal static void SetPersonProperties(TraktPersonSummary person)
         {
-            SetProperty("#Trakt.Person.Id", person.Ids.Id);
+            SetProperty("#Trakt.Person.Id", person.Ids.Trakt);
             SetProperty("#Trakt.Person.ImdbId", person.Ids.ImdbId);
             SetProperty("#Trakt.Person.TmdbId", person.Ids.TmdbId);
             SetProperty("#Trakt.Person.Name", person.Name);
@@ -1796,8 +1796,8 @@ namespace TraktPlugin.GUI
         {
             var trailerItem = new MediaItem
             {
-                IMDb = movie.Ids.ImdbId.ToNullIfEmpty(),
-                TMDb = movie.Ids.TmdbId.ToString(),
+                IMDb = movie.Ids.Imdb.ToNullIfEmpty(),
+                TMDb = movie.Ids.Tmdb.ToString(),
                 Plot = movie.Overview,
                 Poster = movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster),
                 Title = movie.Title,
@@ -1823,10 +1823,10 @@ namespace TraktPlugin.GUI
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Show,
-                IMDb = show.Ids.ImdbId.ToNullIfEmpty(),
-                TVDb = show.Ids.TvdbId.ToString(),
-                TVRage = show.Ids.TvRageId.ToString(),
-                TMDb = show.Ids.TmdbId.ToString(),
+                IMDb = show.Ids.Imdb.ToNullIfEmpty(),
+                TVDb = show.Ids.Tvdb.ToString(),
+                TVRage = show.Ids.TvRage.ToString(),
+                TMDb = show.Ids.Tmdb.ToString(),
                 Plot = show.Overview,
                 Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
                 Title = show.Title,                
@@ -1856,10 +1856,10 @@ namespace TraktPlugin.GUI
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Season,
-                IMDb = show.Ids.ImdbId.ToNullIfEmpty(),
-                TMDb = show.Ids.TmdbId.ToString(),
-                TVDb = show.Ids.TvdbId.ToString(),
-                TVRage = show.Ids.TvRageId.ToString(),
+                IMDb = show.Ids.Imdb.ToNullIfEmpty(),
+                TMDb = show.Ids.Tmdb.ToString(),
+                TVDb = show.Ids.Tvdb.ToString(),
+                TVRage = show.Ids.TvRage.ToString(),
                 Plot = show.Overview,
                 Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
                 Title = show.Title,
@@ -1877,10 +1877,10 @@ namespace TraktPlugin.GUI
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Episode,
-                IMDb = show.Ids.ImdbId.ToNullIfEmpty(),
-                TMDb = show.Ids.TmdbId.ToString(),
-                TVDb = show.Ids.TvdbId.ToString(),
-                TVRage = show.Ids.TvRageId.ToString(),
+                IMDb = show.Ids.Imdb.ToNullIfEmpty(),
+                TMDb = show.Ids.Tmdb.ToString(),
+                TVDb = show.Ids.Tvdb.ToString(),
+                TVRage = show.Ids.TvRage.ToString(),
                 Plot = show.Overview,
                 Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
                 Title = show.Title,
@@ -2092,7 +2092,7 @@ namespace TraktPlugin.GUI
                     TraktLogger.Info("Displaying rate dialog for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
                     GUIUtils.ShowRateDialog<TraktSyncMovieRated>(new TraktSyncMovieRated
                         {
-                            Ids = new TraktMovieId { ImdbId = imdbid.ToNullIfEmpty() },
+                            Ids = new TraktMovieId { Imdb = imdbid.ToNullIfEmpty() },
                             Title = title,
                             Year = year.ToNullableInt32()
                         });
@@ -2237,7 +2237,7 @@ namespace TraktPlugin.GUI
                     TraktLogger.Info("Displaying rate dialog for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
                     GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
                     {
-                        Ids = new TraktShowId { TvdbId = tvdbid.ToNullableInt32() },
+                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32() },
                         Title = title,
                         Year = year.ToNullableInt32()
                     });
@@ -2559,7 +2559,7 @@ namespace TraktPlugin.GUI
                 showsToFilter = showsToFilter.Where(t => !t.Show.IsWatchlisted());
 
             if (TraktSettings.TrendingShowsHideCollected)
-                showsToFilter = showsToFilter.Where(t => !TraktSettings.ShowsInCollection.Contains(t.Show.Ids.TvdbId.ToString()));
+                showsToFilter = showsToFilter.Where(t => !TraktSettings.ShowsInCollection.Contains(t.Show.Ids.Tvdb.ToString()));
 
             if (TraktSettings.TrendingShowsHideRated)
                 showsToFilter = showsToFilter.Where(t => t.Show.UserRating() != null);

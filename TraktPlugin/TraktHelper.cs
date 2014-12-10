@@ -97,7 +97,7 @@ namespace TraktPlugin
 
         public static void AddMovieToWatchList(TraktMovie movie, bool updatePluginFilters)
         {
-            AddMovieToWatchList(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, updatePluginFilters);
+            AddMovieToWatchList(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt, updatePluginFilters);
         }
 
         public static void AddMovieToWatchList(string title, string year)
@@ -133,9 +133,9 @@ namespace TraktPlugin
             {
                 Ids = new TraktMovieId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid
                 },
                 Title = title,
                 Year = year
@@ -163,7 +163,7 @@ namespace TraktPlugin
 
         public static void RemoveMovieFromWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
         {
-            RemoveMovieFromWatchList(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, updateMovingPicturesFilters);
+            RemoveMovieFromWatchList(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt, updateMovingPicturesFilters);
         }
 
         public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, bool updateMovingPicturesFilters)
@@ -179,9 +179,9 @@ namespace TraktPlugin
             {
                 Ids = new TraktMovieId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid
                 },
                 Title = title,
                 Year = year
@@ -213,7 +213,7 @@ namespace TraktPlugin
 
         public static void AddShowToWatchList(TraktShow show)
         {
-            AddShowToWatchList(show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id);
+            AddShowToWatchList(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Imdb, show.Ids.Tmdb, show.Ids.Trakt);
         }
 
         public static void AddShowToWatchList(string title, string year, string tvdbid)
@@ -229,10 +229,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktShowId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Year = year
@@ -252,7 +252,7 @@ namespace TraktPlugin
 
         public static void RemoveShowFromWatchList(TraktShow show)
         {
-            RemoveShowFromWatchList(show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id);
+            RemoveShowFromWatchList(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Imdb, show.Ids.Tmdb, show.Ids.Trakt);
         }
 
         public static void RemoveShowFromWatchList(string title, string year, string tvdbid)
@@ -268,10 +268,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktShowId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Year = year
@@ -295,7 +295,7 @@ namespace TraktPlugin
 
         public static void AddEpisodeToWatchList(TraktEpisode episode)
         {
-            AddEpisodeToWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            AddEpisodeToWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void AddEpisodeToWatchList(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -306,10 +306,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -330,7 +330,7 @@ namespace TraktPlugin
 
         public static void RemoveEpisodeFromWatchList(TraktEpisode episode)
         {
-            RemoveEpisodeFromWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            RemoveEpisodeFromWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void RemoveEpisodeFromWatchList(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -341,10 +341,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -369,7 +369,7 @@ namespace TraktPlugin
 
         public static void AddRemoveMovieInUserList(TraktMovie movie, bool remove)
         {
-            AddRemoveMovieInUserList(TraktSettings.Username, movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id, remove);
+            AddRemoveMovieInUserList(TraktSettings.Username, movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt, remove);
         }
 
         public static void AddRemoveMovieInUserList(string title, string year, string imdbid, bool remove)
@@ -404,9 +404,9 @@ namespace TraktPlugin
                             {
                                 Ids = new TraktMovieId
                                 {
-                                    Id = traktid,
-                                    ImdbId = imdbid,
-                                    TmdbId = tmdbid
+                                    Trakt = traktid,
+                                    Imdb = imdbid,
+                                    Tmdb = tmdbid
                                 },
                                 Title = title,
                                 Year = year
@@ -425,7 +425,7 @@ namespace TraktPlugin
 
         public static void AddRemoveShowInUserList(TraktShowSummary show, bool remove)
         {
-            AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year, show.Ids.TvdbId, show.Ids.ImdbId, show.Ids.TmdbId, show.Ids.Id, remove);
+            AddRemoveShowInUserList(TraktSettings.Username, show.Title, show.Year, show.Ids.Tvdb, show.Ids.Imdb, show.Ids.Tmdb, show.Ids.Trakt, remove);
         }
 
         public static void AddRemoveShowInUserList(string title, string year, string tvdbid, bool remove)
@@ -460,10 +460,10 @@ namespace TraktPlugin
                             {
                                 Ids = new TraktShowId
                                 {
-                                    Id = traktid,
-                                    ImdbId = imdbid,
-                                    TmdbId = tmdbid,
-                                    TvdbId = tvdbid
+                                    Trakt = traktid,
+                                    Imdb = imdbid,
+                                    Tmdb = tmdbid,
+                                    Tvdb = tvdbid
                                 },
                                 Title = title,
                                 Year = year
@@ -505,7 +505,7 @@ namespace TraktPlugin
                         { 
                             new TraktSeason
                             {
-                                Ids = new TraktSeasonId { Id = season.Ids.Id }
+                                Ids = new TraktSeasonId { Trakt = season.Ids.Trakt }
                             }
                         }
                     };
@@ -544,7 +544,7 @@ namespace TraktPlugin
                         {
                             new TraktEpisode
                             {
-                                Ids = new TraktEpisodeId { Id = episode.Ids.Id }
+                                Ids = new TraktEpisodeId { Trakt = episode.Ids.Trakt }
                             }
                         }
                     };
@@ -560,7 +560,7 @@ namespace TraktPlugin
 
         public static void ShowRelatedMovies(TraktMovie movie)
         {
-            ShowRelatedMovies(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            ShowRelatedMovies(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt);
         }
 
         public static void ShowRelatedMovies(string title, string year, string imdbid)
@@ -595,7 +595,7 @@ namespace TraktPlugin
 
         public static void ShowRelatedShows(TraktShowSummary show)
         {
-            ShowRelatedShows(show.Title, show.Ids.TvdbId, show.Ids.TmdbId, show.Ids.Id);
+            ShowRelatedShows(show.Title, show.Ids.Tvdb, show.Ids.Tmdb, show.Ids.Trakt);
         }
 
         public static void ShowRelatedShows(string title, string tvdbid)
@@ -629,7 +629,7 @@ namespace TraktPlugin
 
         public static void ShowMovieShouts(TraktMovieSummary movie)
         {
-            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.Id, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
+            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
         }
 
         public static void ShowMovieShouts(string imdbid, string title, string year, string fanart)
@@ -676,7 +676,7 @@ namespace TraktPlugin
 
         public static void ShowTVShowShouts(TraktShowSummary show)
         {
-            ShowTVShowShouts(show.Title, show.Ids.TvdbId, show.Ids.Id, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            ShowTVShowShouts(show.Title, show.Ids.Tvdb, show.Ids.Trakt, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
         }
 
         public static void ShowTVShowShouts(string title, int? tvdbid, int? traktid, bool isWatched, string fanart, string onlineFanart = null)
@@ -708,7 +708,7 @@ namespace TraktPlugin
 
         public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)
         {
-            ShowEpisodeShouts(show.Title, show.Ids.TvdbId, show.Ids.Id, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            ShowEpisodeShouts(show.Title, show.Ids.Tvdb, show.Ids.Trakt, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
         }
 
         public static void ShowEpisodeShouts(string title, string tvdbid, string season, string episode, bool isWatched, string fanart, string onlineFanart = null)
@@ -748,14 +748,14 @@ namespace TraktPlugin
 
         public static void AddMovieToWatchHistory(TraktMovie movie)
         {
-            AddMovieToWatchHistory(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            AddMovieToWatchHistory(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt);
         }
 
         public static void AddMovieToWatchHistory(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
             var movie = new TraktSyncMovieWatched
             {
-                Ids = new TraktMovieId { ImdbId = imdbid, TmdbId = tmdbid, Id = traktid },
+                Ids = new TraktMovieId { Imdb = imdbid, Tmdb = tmdbid, Trakt = traktid },
                 Title = title,
                 Year = year,
                 WatchedAt = DateTime.UtcNow.ToISO8601()
@@ -775,14 +775,14 @@ namespace TraktPlugin
 
         public static void RemoveMovieFromWatchHistory(TraktMovie movie)
         {
-            RemoveMovieFromWatchHistory(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            RemoveMovieFromWatchHistory(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt);
         }
 
         public static void RemoveMovieFromWatchHistory(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
             var movie = new TraktMovie
             {
-                Ids = new TraktMovieId { ImdbId = imdbid, TmdbId = tmdbid, Id = traktid },
+                Ids = new TraktMovieId { Imdb = imdbid, Tmdb = tmdbid, Trakt = traktid },
                 Title = title,
                 Year = year
             };
@@ -806,7 +806,7 @@ namespace TraktPlugin
 
         public static void AddEpisodeToWatchHistory(TraktEpisode episode)
         {
-            AddEpisodeToWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            AddEpisodeToWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void AddEpisodeToWatchHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -815,10 +815,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -840,7 +840,7 @@ namespace TraktPlugin
 
         public static void RemoveEpisodeFromWatchHistory(TraktEpisode episode)
         {
-            RemoveEpisodeFromWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            RemoveEpisodeFromWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void RemoveEpisodeFromWatchHistory(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -849,10 +849,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -877,7 +877,7 @@ namespace TraktPlugin
 
         public static void AddMovieToCollection(TraktMovie movie)
         {
-            AddMovieToCollection(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            AddMovieToCollection(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt);
         }
 
         public static void AddMovieToCollection(string title, int? year, string imdbid, int? tmdbid, int? traktid)
@@ -886,9 +886,9 @@ namespace TraktPlugin
             {
                 Ids = new TraktMovieId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid
                 },
                 Title = title,
                 Year = year
@@ -908,7 +908,7 @@ namespace TraktPlugin
 
         public static void RemoveMovieFromCollection(TraktMovie movie)
         {
-            RemoveMovieFromLibrary(movie.Title, movie.Year, movie.Ids.ImdbId, movie.Ids.TmdbId, movie.Ids.Id);
+            RemoveMovieFromLibrary(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt);
         }
 
         public static void RemoveMovieFromLibrary(string title, int? year, string imdbid, int? tmdbid, int? traktid)
@@ -917,9 +917,9 @@ namespace TraktPlugin
             {
                 Ids = new TraktMovieId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid
                 },
                 Title = title,
                 Year = year
@@ -943,7 +943,7 @@ namespace TraktPlugin
 
         public static void AddEpisodeToCollection(TraktEpisode episode)
         {
-            AddEpisodeToCollection(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            AddEpisodeToCollection(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void AddEpisodeToCollection(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -952,10 +952,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -976,7 +976,7 @@ namespace TraktPlugin
 
         public static void RemoveEpisodeFromCollection(TraktEpisode episode)
         {
-            RemoveEpisodeFromCollection(episode.Title, episode.Season, episode.Number, episode.Ids.TvdbId, episode.Ids.ImdbId, episode.Ids.TmdbId, episode.Ids.Id);
+            RemoveEpisodeFromCollection(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
         }
 
         public static void RemoveEpisodeFromCollection(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
@@ -985,10 +985,10 @@ namespace TraktPlugin
             {
                 Ids = new TraktEpisodeId
                 {
-                    Id = traktid,
-                    ImdbId = imdbid,
-                    TmdbId = tmdbid,
-                    TvdbId = tvdbid
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
                 },
                 Title = title,
                 Season = season,
@@ -1050,16 +1050,16 @@ namespace TraktPlugin
                             if (userLists == null) continue;
 
                             // get the list
-                            var userList = userLists.FirstOrDefault(l => l.Ids.Id == listId);
+                            var userList = userLists.FirstOrDefault(l => l.Ids.Trakt == listId);
                             if (userList == null) continue;
                             
                             if (remove)
                             {
-                                MovingPictures.RemoveMovieCriteriaFromCustomlistNode(userList.Name, items.Movies.First().Ids.ImdbId);
+                                MovingPictures.RemoveMovieCriteriaFromCustomlistNode(userList.Name, items.Movies.First().Ids.Imdb);
                             }
                             else
                             {
-                                MovingPictures.AddMovieCriteriaToCustomlistNode(userList.Name, items.Movies.First().Ids.ImdbId);
+                                MovingPictures.AddMovieCriteriaToCustomlistNode(userList.Name, items.Movies.First().Ids.Imdb);
                             }
                         }
                     }

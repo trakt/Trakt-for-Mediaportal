@@ -176,7 +176,7 @@ namespace TraktPlugin.TraktHandlers
                         if (localMovie == null) continue;
 
                         TraktLogger.Info("Marking movie as unwatched in local database, movie is not watched on trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
-                                          movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.ImdbId ?? "<empty>", movie.Ids.TmdbId.HasValue ? movie.Ids.TmdbId.ToString() : "<empty>");
+                                          movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.Imdb ?? "<empty>", movie.Ids.Tmdb.HasValue ? movie.Ids.Tmdb.ToString() : "<empty>");
 
                         localMovie.Watched = 0;
                         IMDBMovie details = localMovie;
@@ -215,7 +215,7 @@ namespace TraktPlugin.TraktHandlers
                         if (!localIsWatched || iWatchedCount < twm.Plays)
                         {
                             TraktLogger.Info("Updating local movie watched state / play count to match trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-                                              twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>", twm.Movie.Ids.ImdbId ?? "<empty>", twm.Movie.Ids.TmdbId.HasValue ? twm.Movie.Ids.TmdbId.ToString() : "<empty>");
+                                              twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>", twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
 
                             if (localMovie.DateWatched == "0001-01-01 00:00:00")
                             {
@@ -248,7 +248,7 @@ namespace TraktPlugin.TraktHandlers
                                      where !traktWatchedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                      select new TraktSyncMovieWatched
                                      {
-                                         Ids = new TraktMovieId { ImdbId = movie.IMDBNumber },
+                                         Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
                                          Title = movie.Title,
                                          Year = movie.Year,
                                          WatchedAt = GetLastDateWatched(movie),
@@ -267,7 +267,7 @@ namespace TraktPlugin.TraktHandlers
                         var pagedMovies = syncWatchedMovies.Skip(i * pageSize).Take(pageSize).ToList();
 
                         pagedMovies.ForEach(s => TraktLogger.Info("Adding movie to trakt.tv watched history. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Date Watched = '{4}'",
-                                                                         s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.ImdbId ?? "<empty>", s.Ids.TmdbId.HasValue ? s.Ids.TmdbId.ToString() : "<empty>", s.WatchedAt));
+                                                                         s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>", s.WatchedAt));
 
                         var response = TraktAPI.TraktAPI.AddMoviesToWatchedHistory(new TraktSyncMoviesWatched { Movies = pagedMovies });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
@@ -294,7 +294,7 @@ namespace TraktPlugin.TraktHandlers
                                        where !traktCollectedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                        select new TraktSyncMovieCollected
                                        {
-                                           Ids = new TraktMovieId { ImdbId = movie.IMDBNumber },
+                                           Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
                                            Title = movie.Title,
                                            Year = movie.Year,
                                            CollectedAt = movie.DateAdded.ToISO8601(),
@@ -318,7 +318,7 @@ namespace TraktPlugin.TraktHandlers
                         var pagedMovies = syncCollectedMovies.Skip(i * pageSize).Take(pageSize).ToList();
 
                         pagedMovies.ForEach(s => TraktLogger.Info("Adding movie to trakt.tv collection. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Date Added = '{4}', MediaType = '{5}', Resolution = '{6}', Audio Codec = '{7}', Audio Channels = '{8}'",
-                                                                    s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.ImdbId ?? "<empty>", s.Ids.TmdbId.HasValue ? s.Ids.TmdbId.ToString() : "<empty>",
+                                                                    s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>",
                                                                     s.CollectedAt, s.MediaType ?? "<empty>", s.Resolution ?? "<empty>", s.AudioCodec ?? "<empty>", s.AudioChannels ?? "<empty>"));
 
                         var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
@@ -351,7 +351,7 @@ namespace TraktPlugin.TraktHandlers
                             var pagedMovies = syncUnCollectedMovies.Skip(i * pageSize).Take(pageSize).ToList();
 
                             pagedMovies.ForEach(s => TraktLogger.Info("Removing movie from trakt.tv collection, movie no longer exists locally. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
-                                                                        s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.ImdbId ?? "<empty>", s.Ids.TmdbId.HasValue ? s.Ids.TmdbId.ToString() : "<empty>"));
+                                                                        s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>"));
 
                             var response = TraktAPI.TraktAPI.RemoveMoviesFromCollecton(new TraktSyncMovies { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
@@ -386,7 +386,7 @@ namespace TraktPlugin.TraktHandlers
                 var tScrobbleData = objScrobble as TraktScrobbleMovie;
                 if (tScrobbleData == null) return;
 
-                TraktLogger.Info("Sending start scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.ImdbId ?? "<empty>");
+                TraktLogger.Info("Sending start scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
                 var response = TraktAPI.TraktAPI.StartMovieScrobble(tScrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
@@ -418,7 +418,7 @@ namespace TraktPlugin.TraktHandlers
                 var tScrobbleData = objScrobble as TraktScrobbleMovie;
                 if (tScrobbleData == null) return;
 
-                TraktLogger.Info("Sending stop scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.ImdbId ?? "<empty>");
+                TraktLogger.Info("Sending stop scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
                 var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
@@ -589,7 +589,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Movie = new TraktMovie
                 {
-                    Ids = new TraktMovieId { ImdbId = movie.IMDBNumber },
+                    Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
                     Title = movie.Title,
                     Year = movie.Year
                 },
@@ -629,9 +629,9 @@ namespace TraktPlugin.TraktHandlers
         private bool MovieMatch(IMDBMovie localMovie, TraktMovie traktMovie)
         {
             // IMDb comparison
-            if (!string.IsNullOrEmpty(traktMovie.Ids.ImdbId) && !string.IsNullOrEmpty(BasicHandler.GetProperImdbId(localMovie.IMDBNumber)))
+            if (!string.IsNullOrEmpty(traktMovie.Ids.Imdb) && !string.IsNullOrEmpty(BasicHandler.GetProperImdbId(localMovie.IMDBNumber)))
             {
-                return string.Compare(BasicHandler.GetProperImdbId(localMovie.IMDBNumber), traktMovie.Ids.ImdbId, true) == 0;
+                return string.Compare(BasicHandler.GetProperImdbId(localMovie.IMDBNumber), traktMovie.Ids.Imdb, true) == 0;
             }
 
             // Title & Year comparison
@@ -656,7 +656,7 @@ namespace TraktPlugin.TraktHandlers
 
                 var rateObject = new TraktSyncMovieRated
                 {
-                    Ids = new TraktMovieId { ImdbId = movieToRate.IMDBNumber },
+                    Ids = new TraktMovieId { Imdb = movieToRate.IMDBNumber },
                     Title = movieToRate.Title,
                     Year = movieToRate.Year,
                     RatedAt = DateTime.UtcNow.ToISO8601(),

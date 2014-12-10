@@ -56,15 +56,15 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!Shows.Keys.Contains(Show.Ids.Id.ToString()) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!Shows.Keys.Contains(Show.Ids.Trakt.ToString()) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _ShowSeasons = TraktAPI.TraktAPI.GetShowSeasons(Show.Ids.Id.ToString());
-                    if (Shows.Keys.Contains(Show.Ids.Id.ToString())) Shows.Remove(Show.Ids.Id.ToString());
-                    Shows.Add(Show.Ids.Id.ToString(), _ShowSeasons);
+                    _ShowSeasons = TraktAPI.TraktAPI.GetShowSeasons(Show.Ids.Trakt.ToString());
+                    if (Shows.Keys.Contains(Show.Ids.Trakt.ToString())) Shows.Remove(Show.Ids.Trakt.ToString());
+                    Shows.Add(Show.Ids.Trakt.ToString(), _ShowSeasons);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return Shows[Show.Ids.Id.ToString()];
+                return Shows[Show.Ids.Trakt.ToString()];
             }
         }
         private IEnumerable<TraktSeasonSummary> _ShowSeasons = null;
@@ -333,14 +333,14 @@ namespace TraktPlugin.GUI
             if (_loadParameter == null)
             {
                 // maybe re-loading, so check previous window id
-                if (Show != null && Show.Ids.Id != null)
+                if (Show != null && Show.Ids.Trakt != null)
                     return true;
 
                 return false;
             }
             
             Show = _loadParameter.FromJSON<TraktShowSummary>();
-            if (Show == null || Show.Ids.Id == null)
+            if (Show == null || Show.Ids.Trakt == null)
                 return false;
             
             return true;

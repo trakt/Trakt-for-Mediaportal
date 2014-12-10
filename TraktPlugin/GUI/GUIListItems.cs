@@ -426,16 +426,16 @@ namespace TraktPlugin.GUI
 
                     // Only do remove from current list
                     // We could do same as Add (ie remove from multiple lists) but typically you only remove from the current list
-                    TraktHelper.AddRemoveItemInList((int)CurrentList.Ids.Id, GetSyncItems(selectedListItem), true);
+                    TraktHelper.AddRemoveItemInList((int)CurrentList.Ids.Trakt, GetSyncItems(selectedListItem), true);
 
                     // clear the list item cache
-                    TraktLists.ClearListItemCache(CurrentUser, CurrentList.Ids.Id.ToString());
+                    TraktLists.ClearListItemCache(CurrentUser, CurrentList.Ids.Trakt.ToString());
 
                     // remove item from collection
                     CurrentListItems.RemoveAll(l => ListItemMatch(l, selectedListItem));
 
                     // clear the cache
-                    TraktLists.ClearListItemCache(TraktSettings.Username, CurrentList.Ids.Id.ToString());
+                    TraktLists.ClearListItemCache(TraktSettings.Username, CurrentList.Ids.Trakt.ToString());
 
                     // Remove from view
                     if (Facade.Count > 1)
@@ -571,7 +571,7 @@ namespace TraktPlugin.GUI
                 case "movie":
                     var movie = new TraktMovie
                     {
-                        Ids = new TraktMovieId { Id = listItem.Movie.Ids.Id }
+                        Ids = new TraktMovieId { Trakt = listItem.Movie.Ids.Trakt }
                     };
                     syncItems.Movies = new List<TraktMovie>();
                     syncItems.Movies.Add(movie);
@@ -580,7 +580,7 @@ namespace TraktPlugin.GUI
                 case "show":
                     var show = new TraktShow
                     {
-                        Ids = new TraktShowId { Id = listItem.Show.Ids.Id }
+                        Ids = new TraktShowId { Trakt = listItem.Show.Ids.Trakt }
                     };
                     syncItems.Shows = new List<TraktShow>();
                     syncItems.Shows.Add(show);
@@ -589,7 +589,7 @@ namespace TraktPlugin.GUI
                 case "season":
                     var season = new TraktSeason
                     {
-                        Ids = new TraktSeasonId { Id = listItem.Season.Ids.Id }
+                        Ids = new TraktSeasonId { Trakt = listItem.Season.Ids.Trakt }
                     };
                     syncItems.Seasons = new List<TraktSeason>();
                     syncItems.Seasons.Add(season);
@@ -598,7 +598,7 @@ namespace TraktPlugin.GUI
                 case "episode":
                     var episode = new TraktEpisode
                     {
-                        Ids = new TraktEpisodeId { Id = listItem.Episode.Ids.Id }
+                        Ids = new TraktEpisodeId { Trakt = listItem.Episode.Ids.Trakt }
                     };
                     syncItems.Episodes = new List<TraktEpisode>();
                     syncItems.Episodes.Add(episode);
@@ -607,7 +607,7 @@ namespace TraktPlugin.GUI
                 case "person":
                     var person = new TraktPerson
                     {
-                        Ids = new TraktPersonId { Id = listItem.Person.Ids.Id }
+                        Ids = new TraktPersonId { Trakt = listItem.Person.Ids.Trakt }
                     };
                     syncItems.People = new List<TraktPerson>();
                     syncItems.People.Add(person);
@@ -623,23 +623,23 @@ namespace TraktPlugin.GUI
             {
                 case "movie":
                     if (currentItem.Movie == null) return false;
-                    return currentItem.Movie.Ids.Id == itemToMatch.Movie.Ids.Id;
+                    return currentItem.Movie.Ids.Trakt == itemToMatch.Movie.Ids.Trakt;
                 
                 case "show":
                     if (currentItem.Show == null) return false;
-                    return currentItem.Show.Ids.Id == itemToMatch.Show.Ids.Id;
+                    return currentItem.Show.Ids.Trakt == itemToMatch.Show.Ids.Trakt;
 
                 case "season":
                     if (currentItem.Season == null) return false;
-                    return currentItem.Season.Ids.Id == itemToMatch.Season.Ids.Id;
+                    return currentItem.Season.Ids.Trakt == itemToMatch.Season.Ids.Trakt;
 
                 case "episode":
                     if (currentItem.Episode == null) return false;
-                    return currentItem.Episode.Ids.Id == itemToMatch.Episode.Ids.Id;
+                    return currentItem.Episode.Ids.Trakt == itemToMatch.Episode.Ids.Trakt;
 
                 case "person":
                     if (currentItem.Person == null) return false;
-                    return currentItem.Person.Ids.Id == itemToMatch.Person.Ids.Id;
+                    return currentItem.Person.Ids.Trakt == itemToMatch.Person.Ids.Trakt;
             }
 
             return false;
@@ -743,7 +743,7 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                var listItems = TraktLists.GetListItemsForUser(CurrentUser, (int)CurrentList.Ids.Id);
+                var listItems = TraktLists.GetListItemsForUser(CurrentUser, (int)CurrentList.Ids.Trakt);
                 return listItems;
             },
             delegate(bool success, object result)
@@ -903,10 +903,10 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.List.Username", CurrentUser);
             GUICommon.SetListProperties(CurrentList, CurrentUser);
 
-            if (PreviousSlug != CurrentList.Ids.Id)
+            if (PreviousSlug != CurrentList.Ids.Trakt)
                 PreviousSelectedIndex = 0;
 
-            PreviousSlug = (int)CurrentList.Ids.Id;
+            PreviousSlug = (int)CurrentList.Ids.Trakt;
 
             // Fanart
             backdrop.GUIImageOne = FanartBackground;

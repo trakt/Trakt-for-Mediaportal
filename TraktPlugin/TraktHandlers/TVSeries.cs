@@ -294,7 +294,7 @@ namespace TraktPlugin.TraktHandlers
 
                             // update local collection rating
                             TraktLogger.Info("Inserting rating for tv episode in local database, episode is rated on trakt.tv. Rating = '{0}/10', Title = '{1}', Year = '{2}' Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Episode TVDb ID = '{7}'",
-                                traktEpisode.Rating, traktEpisode.Show.Title, traktEpisode.Show.Year.HasValue ? traktEpisode.Show.Year.ToString() : "<empty>", traktEpisode.Episode.Season, traktEpisode.Episode.Number, traktEpisode.Show.Ids.TvdbId.HasValue ? traktEpisode.Show.Ids.TvdbId.ToString() : "<empty>", traktEpisode.Show.Ids.ImdbId ?? "<empty>", traktEpisode.Episode.Ids.TvdbId.HasValue ? traktEpisode.Episode.Ids.TvdbId.ToString() : "<empty>");
+                                traktEpisode.Rating, traktEpisode.Show.Title, traktEpisode.Show.Year.HasValue ? traktEpisode.Show.Year.ToString() : "<empty>", traktEpisode.Episode.Season, traktEpisode.Episode.Number, traktEpisode.Show.Ids.Tvdb.HasValue ? traktEpisode.Show.Ids.Tvdb.ToString() : "<empty>", traktEpisode.Show.Ids.Imdb ?? "<empty>", traktEpisode.Episode.Ids.Tvdb.HasValue ? traktEpisode.Episode.Ids.Tvdb.ToString() : "<empty>");
 
                             // we could potentially use the RatedAt date to insert a DateWatched if empty or less than
                             episode[DBOnlineEpisode.cMyRating] = traktEpisode.Rating;
@@ -319,7 +319,7 @@ namespace TraktPlugin.TraktHandlers
 
                             // update local collection rating
                             TraktLogger.Info("Inserting rating for tv show in local database, show is rated on trakt.tv. Rating = '{0}/10', Title = '{1}', Year = '{1}', Show TVDb ID = '{2}'",
-                                traktShow.Rating, traktShow.Show.Title, traktShow.Show.Year.HasValue ? traktShow.Show.Year.ToString() : "<empty>" , traktShow.Show.Ids.TvdbId.HasValue ? traktShow.Show.Ids.TvdbId.ToString() : "<empty>");
+                                traktShow.Rating, traktShow.Show.Title, traktShow.Show.Year.HasValue ? traktShow.Show.Year.ToString() : "<empty>" , traktShow.Show.Ids.Tvdb.HasValue ? traktShow.Show.Ids.Tvdb.ToString() : "<empty>");
 
                             show[DBOnlineSeries.cMyRating] = traktShow.Rating;
                             show.Commit();
@@ -341,7 +341,7 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var show in syncWatchedShows.Shows)
                 {
                     TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode watched history, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.TvdbId, show.Ids.ImdbId ?? "<empty>");
+                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
                     
                     // only sync one show at a time regardless of batch size in settings
                     var pagedShows = new List<TraktSyncShowWatchedEx>();
@@ -364,7 +364,7 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var show in syncCollectedShows.Shows)
                 {
                     TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode collection, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.TvdbId, show.Ids.ImdbId ?? "<empty>");
+                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
 
                     // only sync one show at a time regardless of batch size in settings
                     var pagedShows = new List<TraktSyncShowCollectedEx>();
@@ -391,7 +391,7 @@ namespace TraktPlugin.TraktHandlers
                     foreach (var show in syncRatedShowsEx.Shows)
                     {
                         TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode ratings, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.TvdbId, show.Ids.ImdbId ?? "<empty>");
+                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
 
                         // only sync one show at a time regardless of batch size in settings
                         var pagedShows = new List<TraktSyncShowRatedEx>();
@@ -414,8 +414,8 @@ namespace TraktPlugin.TraktHandlers
                                       {
                                           Ids = new TraktShowId
                                           { 
-                                              TvdbId = show[DBSeries.cID],
-                                              ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                                              Tvdb = show[DBSeries.cID],
+                                              Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                                           },
                                           Title = show[DBOnlineSeries.cOriginalName],
                                           Year = show.Year.ToNullableInt32(),
@@ -458,7 +458,7 @@ namespace TraktPlugin.TraktHandlers
                     foreach (var show in syncRemovedShows.Shows)
                     {
                         TraktLogger.Info("Removing tv show [{0}/{1}] from trakt.tv episode collection, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.TvdbId, show.Ids.ImdbId ?? "<empty>");
+                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
 
                         // only sync one show at a time regardless of batch size in settings
                         var pagedShows = new List<TraktSyncShowEx>();
@@ -896,8 +896,8 @@ namespace TraktPlugin.TraktHandlers
                                          {
                                              Ids = new TraktEpisodeId
                                              {
-                                                 TvdbId = episode[DBOnlineEpisode.cID],
-                                                 ImdbId = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
+                                                 Tvdb = episode[DBOnlineEpisode.cID],
+                                                 Imdb = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
                                              },
                                              Number = episode[DBOnlineEpisode.cEpisodeIndex],
                                              Season = episode[DBOnlineEpisode.cSeasonIndex],
@@ -934,7 +934,7 @@ namespace TraktPlugin.TraktHandlers
                 if (!filteredTraktWatchedEpisodes.Any(twe => EpisodeMatch(episode, twe)))
                 {
                     // check if we already have the show added to our sync object
-                    var syncShow = syncWatchedEpisodes.Shows.FirstOrDefault(swe => swe.Ids != null && swe.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
+                    var syncShow = syncWatchedEpisodes.Shows.FirstOrDefault(swe => swe.Ids != null && swe.Ids.Tvdb == episode[DBOnlineEpisode.cSeriesID]);
                     if (syncShow == null)
                     {
                         // get show data from episode
@@ -946,8 +946,8 @@ namespace TraktPlugin.TraktHandlers
                         {
                             Ids = new TraktShowId
                             {
-                                TvdbId = show[DBSeries.cID],
-                                ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                                Tvdb = show[DBSeries.cID],
+                                Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
                             Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
@@ -1004,8 +1004,8 @@ namespace TraktPlugin.TraktHandlers
                                            {
                                                Ids = new TraktEpisodeId
                                                {
-                                                   TvdbId = episode[DBOnlineEpisode.cID],
-                                                   ImdbId = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
+                                                   Tvdb = episode[DBOnlineEpisode.cID],
+                                                   Imdb = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
                                                },
                                                Number = episode[DBOnlineEpisode.cEpisodeIndex],
                                                Season = episode[DBOnlineEpisode.cSeasonIndex],
@@ -1051,7 +1051,7 @@ namespace TraktPlugin.TraktHandlers
                 if (!filteredTraktCollectedEpisodes.Any(tce => EpisodeMatch(episode, tce)))
                 {
                     // check if we already have the show added to our sync object
-                    var syncShow = syncCollectedEpisodes.Shows.FirstOrDefault(sce => sce.Ids != null && sce.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
+                    var syncShow = syncCollectedEpisodes.Shows.FirstOrDefault(sce => sce.Ids != null && sce.Ids.Tvdb == episode[DBOnlineEpisode.cSeriesID]);
                     if (syncShow == null)
                     {
                         // get show data from episode
@@ -1063,8 +1063,8 @@ namespace TraktPlugin.TraktHandlers
                         {
                             Ids = new TraktShowId
                             {
-                                TvdbId = show[DBSeries.cID],
-                                ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                                Tvdb = show[DBSeries.cID],
+                                Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
                             Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
@@ -1126,8 +1126,8 @@ namespace TraktPlugin.TraktHandlers
                                        {
                                            Ids = new TraktEpisodeId
                                            {
-                                               TvdbId = episode[DBOnlineEpisode.cID],
-                                               ImdbId = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
+                                               Tvdb = episode[DBOnlineEpisode.cID],
+                                               Imdb = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
                                            },
                                            Number = episode[DBOnlineEpisode.cEpisodeIndex],
                                            Season = episode[DBOnlineEpisode.cSeasonIndex],
@@ -1169,7 +1169,7 @@ namespace TraktPlugin.TraktHandlers
                 if (!filteredTraktRatedEpisodes.Any(tre => EpisodeMatch(episode, tre.Episode, tre.Show)))
                 {
                     // check if we already have the show added to our sync object
-                    var syncShow = syncRatedEpisodes.Shows.FirstOrDefault(sre => sre.Ids != null && sre.Ids.TvdbId == episode[DBOnlineEpisode.cSeriesID]);
+                    var syncShow = syncRatedEpisodes.Shows.FirstOrDefault(sre => sre.Ids != null && sre.Ids.Tvdb == episode[DBOnlineEpisode.cSeriesID]);
                     if (syncShow == null)
                     {
                         // get show data from episode
@@ -1181,8 +1181,8 @@ namespace TraktPlugin.TraktHandlers
                         {
                             Ids = new TraktShowId
                             {
-                                TvdbId = show[DBSeries.cID],
-                                ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                                Tvdb = show[DBSeries.cID],
+                                Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                             },
                             Title = show[DBOnlineSeries.cOriginalName],
                             Year = show.Year.ToNullableInt32()
@@ -1242,7 +1242,7 @@ namespace TraktPlugin.TraktHandlers
                                              {
                                                  Ids = new TraktEpisodeId
                                                  {
-                                                     TvdbId = localCollectedEpisodes.First(lce => EpisodeMatch(lce, episode))[DBOnlineEpisode.cID]
+                                                     Tvdb = localCollectedEpisodes.First(lce => EpisodeMatch(lce, episode))[DBOnlineEpisode.cID]
                                                  }
                                              });                                            
 
@@ -1266,7 +1266,7 @@ namespace TraktPlugin.TraktHandlers
                 if (!localCollectedEpisodes.Any(lce => EpisodeMatch(lce, episode)))
                 {
                     // check if we already have the show added to our sync object
-                    var syncShow = syncUnCollectedEpisodes.Shows.FirstOrDefault(suce => suce.Ids != null && suce.Ids.Id == episode.ShowId);
+                    var syncShow = syncUnCollectedEpisodes.Shows.FirstOrDefault(suce => suce.Ids != null && suce.Ids.Trakt == episode.ShowId);
                     if (syncShow == null)
                     {
                         // get show data from episode and create new show
@@ -1274,9 +1274,9 @@ namespace TraktPlugin.TraktHandlers
                         {
                             Ids = new TraktShowId
                             {
-                                Id = episode.ShowId,
-                                ImdbId = episode.ShowImdbId,
-                                TvdbId = episode.ShowTvdbId
+                                Trakt = episode.ShowId,
+                                Imdb = episode.ShowImdbId,
+                                Tvdb = episode.ShowTvdbId
                             },
                             Title = episode.ShowTitle,
                             Year = episode.ShowYear
@@ -1338,8 +1338,8 @@ namespace TraktPlugin.TraktHandlers
                 {
                     Ids = new TraktEpisodeId
                     { 
-                        TvdbId = episode[DBOnlineEpisode.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
+                        Tvdb = episode[DBOnlineEpisode.cID],
+                        Imdb = BasicHandler.GetProperImdbId(episode[DBOnlineEpisode.cIMDBID])
                     },
                     Title = episode[DBOnlineEpisode.cEpisodeName],
                     Season = episode[DBOnlineEpisode.cSeasonIndex],
@@ -1349,8 +1349,8 @@ namespace TraktPlugin.TraktHandlers
                 {
                     Ids = new TraktShowId
                     {
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
                     Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32()
@@ -1560,18 +1560,18 @@ namespace TraktPlugin.TraktHandlers
             //    return BasicHandler.GetProperImdbId(localEpisode[DBOnlineEpisode.cIMDBID]) == onlineEpisode.Ids.ImdbId;
             //}
 
-            if (onlineShow.Ids.TvdbId != null && onlineShow.Ids.TvdbId > 0)
+            if (onlineShow.Ids.Tvdb != null && onlineShow.Ids.Tvdb > 0)
             {
-                return localEpisode[DBOnlineEpisode.cSeriesID] == onlineShow.Ids.TvdbId &&
+                return localEpisode[DBOnlineEpisode.cSeriesID] == onlineShow.Ids.Tvdb &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
             }
-            else if (BasicHandler.IsValidImdb(onlineShow.Ids.ImdbId))
+            else if (BasicHandler.IsValidImdb(onlineShow.Ids.Imdb))
             {
                 var show = Helper.getCorrespondingSeries(localEpisode[DBOnlineEpisode.cSeriesID]);
                 if (show == null) return false;
 
-                return BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID]) == onlineShow.Ids.ImdbId &&
+                return BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID]) == onlineShow.Ids.Imdb &&
                        localEpisode[DBOnlineEpisode.cSeasonIndex] == onlineEpisode.Season &&
                        localEpisode[DBOnlineEpisode.cEpisodeIndex] == onlineEpisode.Number;
             }
@@ -1589,13 +1589,13 @@ namespace TraktPlugin.TraktHandlers
 
         private bool ShowMatch(DBSeries localShow, TraktShow onlineShow)
         {
-            if (onlineShow.Ids.TvdbId != null && onlineShow.Ids.TvdbId > 0)
+            if (onlineShow.Ids.Tvdb != null && onlineShow.Ids.Tvdb > 0)
             {
-                return localShow[DBSeries.cID] == onlineShow.Ids.TvdbId;
+                return localShow[DBSeries.cID] == onlineShow.Ids.Tvdb;
             }
-            else if (BasicHandler.IsValidImdb(onlineShow.Ids.ImdbId) && BasicHandler.IsValidImdb(localShow[DBOnlineSeries.cIMDBID]))
+            else if (BasicHandler.IsValidImdb(onlineShow.Ids.Imdb) && BasicHandler.IsValidImdb(localShow[DBOnlineSeries.cIMDBID]))
             {
-                return localShow[DBOnlineSeries.cIMDBID] == onlineShow.Ids.ImdbId;
+                return localShow[DBOnlineSeries.cIMDBID] == onlineShow.Ids.Imdb;
             }
             else
             {
@@ -1626,8 +1626,8 @@ namespace TraktPlugin.TraktHandlers
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     { 
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
                     Seasons = new List<TraktSyncShowRatedEx.Season>
                     {
@@ -1673,8 +1673,8 @@ namespace TraktPlugin.TraktHandlers
                 {
                     Ids = new TraktShowId
                     {
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
                     Title = show[DBOnlineSeries.cOriginalName],
                     Year = show.Year.ToNullableInt32(),
@@ -1706,8 +1706,8 @@ namespace TraktPlugin.TraktHandlers
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     }
                 };
 
@@ -1774,8 +1774,8 @@ namespace TraktPlugin.TraktHandlers
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     }
                 };
 
@@ -1854,8 +1854,8 @@ namespace TraktPlugin.TraktHandlers
                     Year = show.Year.ToNullableInt32(),
                     Ids = new TraktShowId
                     {
-                        TvdbId = show[DBSeries.cID],
-                        ImdbId = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                        Tvdb = show[DBSeries.cID],
+                        Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
                     },
                     Seasons = new List<TraktSyncShowRatedEx.Season>
                     {

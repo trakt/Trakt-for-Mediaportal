@@ -1122,7 +1122,7 @@ namespace TraktPlugin
                     {
                         Ids = new TraktEpisodeId
                         {
-                            TvdbId = epTvdbId.ToNullableInt32()
+                            Tvdb = epTvdbId.ToNullableInt32()
                         },
                         Number = episode.ToInt(),
                         Season = season.ToInt()
@@ -1142,7 +1142,7 @@ namespace TraktPlugin
                         TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
                         GUIUtils.ShowRateDialog<TraktSyncMovieRated>(new TraktSyncMovieRated
                         {
-                            Ids = new TraktMovieId { ImdbId = imdbid.ToNullIfEmpty(), TmdbId = tmdbid.ToNullableInt32() },
+                            Ids = new TraktMovieId { Imdb = imdbid.ToNullIfEmpty(), Tmdb = tmdbid.ToNullableInt32() },
                             Title = title,
                             Year = year.ToNullableInt32()
                         });
@@ -1152,7 +1152,7 @@ namespace TraktPlugin
                         TraktLogger.Info("Showing rate dialog for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
                         GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
                         {
-                            Ids = new TraktShowId { TvdbId = showtvdbid.ToNullableInt32(), ImdbId = imdbid.ToNullIfEmpty() },
+                            Ids = new TraktShowId { Tvdb = showtvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                             Title = title,
                             Year = year.ToNullableInt32()
                         });
@@ -1162,7 +1162,7 @@ namespace TraktPlugin
                         TraktLogger.Info("Showing rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode TVDb ID = '{4}'", title, year, season, episode, epTvdbId);
                         GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(new TraktSyncEpisodeRated
                         {
-                            Ids = new TraktEpisodeId { TvdbId = showtvdbid.ToNullableInt32() },
+                            Ids = new TraktEpisodeId { Tvdb = showtvdbid.ToNullableInt32() },
                             Number = episode.ToInt(),
                             Season = season.ToInt(),
                             RatedAt = DateTime.UtcNow.ToISO8601()

@@ -72,15 +72,15 @@ namespace TraktPlugin.GUI
             {
                 string season = Season.Number.ToString();
 
-                if (!Episodes.Keys.Contains(Show.Ids.Id.ToString() + "-" + season) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!Episodes.Keys.Contains(Show.Ids.Trakt.ToString() + "-" + season) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _SeasonEpisodes = TraktAPI.TraktAPI.GetSeasonEpisodes(Show.Ids.Id.ToString(), season);
-                    if (Episodes.Keys.Contains(Show.Ids.Id.ToString() + "-" + season)) Episodes.Remove(Show.Ids.Id.ToString() + "-" + season);
-                    Episodes.Add(Show.Ids.Id.ToString() + "-" + season, _SeasonEpisodes);
+                    _SeasonEpisodes = TraktAPI.TraktAPI.GetSeasonEpisodes(Show.Ids.Trakt.ToString(), season);
+                    if (Episodes.Keys.Contains(Show.Ids.Trakt.ToString() + "-" + season)) Episodes.Remove(Show.Ids.Trakt.ToString() + "-" + season);
+                    Episodes.Add(Show.Ids.Trakt.ToString() + "-" + season, _SeasonEpisodes);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return Episodes[Show.Ids.Id.ToString() + "-" + season];
+                return Episodes[Show.Ids.Trakt.ToString() + "-" + season];
             }
         }
         private IEnumerable<TraktEpisodeSummary> _SeasonEpisodes = null;
@@ -464,7 +464,7 @@ namespace TraktPlugin.GUI
             if (_loadParameter == null)
             {
                 // maybe re-loading, so check previous window id
-                if (Show != null && Show.Ids.Id != null && Season != null)
+                if (Show != null && Show.Ids.Trakt != null && Season != null)
                     return true;
 
                 return false;
@@ -482,7 +482,7 @@ namespace TraktPlugin.GUI
 
             Show = loadingParam.Show;
             Season = loadingParam.Season;
-            if (Show == null || Show.Ids.Id == null || Season == null)
+            if (Show == null || Show.Ids.Trakt == null || Season == null)
                 return false;
             
             return true;

@@ -10,9 +10,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktMovieId : TraktId
     {
         [DataMember(Name = "imdb")]
-        public string ImdbId { get; set; }
+        public string Imdb { get; set; }
 
         [DataMember(Name = "tmdb")]
-        public int? TmdbId { get; set; }
+        public int? Tmdb { get; set; }
     }
 }

@@ -257,7 +257,7 @@ namespace TraktPlugin.GUI
                 if (response != null)
                 {
                     // get items from other list
-                    var userListItems = TraktAPI.TraktAPI.GetUserListItems(copyParams.Username, copyParams.Source.Ids.Id.ToString(), "min");
+                    var userListItems = TraktAPI.TraktAPI.GetUserListItems(copyParams.Username, copyParams.Source.Ids.Trakt.ToString(), "min");
 
                     // copy items to new list
                     var itemsToAdd = new TraktSyncAll();
@@ -306,7 +306,7 @@ namespace TraktPlugin.GUI
                     }
                     
                     // add items to the list
-                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList(TraktSettings.Username, response.Ids.Id.ToString(), itemsToAdd);
+                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList(TraktSettings.Username, response.Ids.Trakt.ToString(), itemsToAdd);
 
                     if (ItemsAddedResponse != null)
                     {
@@ -338,8 +338,8 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                TraktLogger.Info("Deleting list from online. Name = '{0}', Id = '{1}'", list.Name, list.Ids.Id);
-                return TraktAPI.TraktAPI.DeleteUserList(TraktSettings.Username, list.Ids.Id.ToString());
+                TraktLogger.Info("Deleting list from online. Name = '{0}', Id = '{1}'", list.Name, list.Ids.Trakt);
+                return TraktAPI.TraktAPI.DeleteUserList(TraktSettings.Username, list.Ids.Trakt.ToString());
             },
             delegate(bool success, object result)
             {

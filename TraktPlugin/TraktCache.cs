@@ -62,7 +62,7 @@ namespace TraktPlugin
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
             var unwatchedMovies =   from movie in previouslyWatched
-                                    where !currentWatched.Any(m => m.Movie.Ids.Id == movie.Movie.Ids.Id)
+                                    where !currentWatched.Any(m => m.Movie.Ids.Trakt == movie.Movie.Ids.Trakt)
                                     select new TraktMovie
                                     {
                                         Ids = movie.Movie.Ids,
@@ -282,9 +282,9 @@ namespace TraktPlugin
                         {
                             episodesCollected.Add(new EpisodeCollected
                             {
-                                ShowId = show.Show.Ids.Id,
-                                ShowTvdbId = show.Show.Ids.TvdbId,
-                                ShowImdbId = show.Show.Ids.ImdbId,
+                                ShowId = show.Show.Ids.Trakt,
+                                ShowTvdbId = show.Show.Ids.Tvdb,
+                                ShowImdbId = show.Show.Ids.Imdb,
                                 ShowTitle = show.Show.Title,
                                 ShowYear = show.Show.Year,
                                 Number = episode.Number,
@@ -363,9 +363,9 @@ namespace TraktPlugin
                         {
                             episodesWatched.Add( new EpisodeWatched
                             {
-                                ShowId = show.Show.Ids.Id,
-                                ShowTvdbId = show.Show.Ids.TvdbId,
-                                ShowImdbId = show.Show.Ids.ImdbId,
+                                ShowId = show.Show.Ids.Trakt,
+                                ShowTvdbId = show.Show.Ids.Tvdb,
+                                ShowImdbId = show.Show.Ids.Imdb,
                                 ShowTitle = show.Show.Title,
                                 ShowYear = show.Show.Year,
                                 Number = episode.Number,
@@ -700,8 +700,8 @@ namespace TraktPlugin
                         // get details of each list including items
                         foreach (var list in userLists.Where(l => l.ItemCount > 0))
                         {
-                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Id, list.Ids.Slug);
-                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Id.ToString());
+                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug);
+                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
 
                             if (userList == null)
                                 continue;
@@ -728,7 +728,7 @@ namespace TraktPlugin
             if (WatchedMovies == null)
                 return false;
 
-            return WatchedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
+            return WatchedMovies.Any(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
         }
 
         public static bool IsCollected(this TraktMovie movie)
@@ -736,7 +736,7 @@ namespace TraktPlugin
             if (CollectedMovies == null)
                 return false;
 
-            return CollectedMovies.Any(m => m.Movie.Ids.Id == movie.Ids.Id);
+            return CollectedMovies.Any(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
         }
 
         public static bool IsWatchlisted(this TraktMovie movie)
@@ -750,7 +750,7 @@ namespace TraktPlugin
             if (RatedMovies == null)
                 return null;
 
-            var ratedMovie = RatedMovies.FirstOrDefault(m => m.Movie.Ids.Id == movie.Ids.Id);
+            var ratedMovie = RatedMovies.FirstOrDefault(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
             if (ratedMovie == null)
                 return null;
 
@@ -762,7 +762,7 @@ namespace TraktPlugin
             if (WatchedMovies == null)
                 return 0;
 
-            var watchedMovie = WatchedMovies.FirstOrDefault(m => m.Movie.Ids.Id == movie.Ids.Id);
+            var watchedMovie = WatchedMovies.FirstOrDefault(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
             if (watchedMovie == null)
                 return 0;
 
@@ -796,7 +796,7 @@ namespace TraktPlugin
             if (RatedShows == null)
                 return null;
 
-            var ratedShow = RatedShows.FirstOrDefault(s => s.Show.Ids.Id == show.Ids.Id);
+            var ratedShow = RatedShows.FirstOrDefault(s => s.Show.Ids.Trakt == show.Ids.Trakt);
             if (ratedShow == null)
                 return null;
 
@@ -818,7 +818,7 @@ namespace TraktPlugin
             if (WatchedEpisodes == null && show == null)
                 return false;
 
-            return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
+            return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
                                             e.Season == episode.Season &&
                                             e.Number == episode.Number);
         }
@@ -828,7 +828,7 @@ namespace TraktPlugin
             if (CollectedEpisodes == null)
                 return false;
 
-            return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Id &&
+            return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
                                               e.Season == episode.Season &&
                                               e.Number == episode.Number);
         }
@@ -844,7 +844,7 @@ namespace TraktPlugin
             if (RatedEpisodes == null)
                 return null;
 
-            var ratedEpisode = RatedEpisodes.FirstOrDefault(e => e.Episode.Ids.Id == episode.Ids.Id);
+            var ratedEpisode = RatedEpisodes.FirstOrDefault(e => e.Episode.Ids.Trakt == episode.Ids.Trakt);
             if (ratedEpisode == null)
                 return null;
 
@@ -856,7 +856,7 @@ namespace TraktPlugin
             if (WatchedEpisodes == null)
                 return 0;
 
-            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => e.ShowId == show.Ids.Id &&
+            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => e.ShowId == show.Ids.Trakt &&
                                                                      e.Season == episode.Season &&
                                                                      e.Number == episode.Number);
             if (watchedEpisode == null)

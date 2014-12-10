@@ -77,7 +77,7 @@ namespace TraktPlugin
             // if we are adding to the current active list, then this is invalid and we dont care
             // if we are removing from the current list, we already take care of this ourselves
             // in all other cases we should clear
-            if (GUIListItems.CurrentList != null && GUIListItems.CurrentList.Ids.Id == id && GUIListItems.CurrentUser == username)
+            if (GUIListItems.CurrentList != null && GUIListItems.CurrentList.Ids.Trakt == id && GUIListItems.CurrentUser == username)
                 return;
 
             var listItems = GetListItemsForUser(username, id);
@@ -107,7 +107,7 @@ namespace TraktPlugin
                     if (response != null)
                     {
                         ClearListCache(TraktSettings.Username);
-                        return new List<int> { (int)response.Ids.Id };
+                        return new List<int> { (int)response.Ids.Trakt };
                     }
                 }
                   return null;
@@ -193,7 +193,7 @@ namespace TraktPlugin
             {
                 var multiSelectionItem = new MultiSelectionItem
                 {
-                    ItemID = list.Ids.Id.ToString(),
+                    ItemID = list.Ids.Trakt.ToString(),
                     ItemTitle = list.Name,
                     ItemTitle2 = GetPrivacyLevelTranslation(list.Privacy),
                     Selected = false,
