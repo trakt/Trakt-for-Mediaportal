@@ -51,28 +51,35 @@ namespace TraktPlugin.GUI
         static DateTime LastRequest = new DateTime();
         ActivityType SelectedActivity { get; set; }
         static int PreviousActivityTypeSelectedIndex = 0;
-        static Dictionary<string, TraktUserSummary> UserProfiles = new Dictionary<string, TraktUserSummary>();
+        static Dictionary<string, TraktUserSummaryEx> Users = new Dictionary<string, TraktUserSummaryEx>();
 
-        static TraktUserSummary UserProfile
+        static TraktUserSummaryEx User
         {
             get
             {
-                if (!UserProfiles.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!Users.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _UserProfile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
-                    
-                    if (UserProfiles.Keys.Contains(CurrentUser))
-                        UserProfiles.Remove(CurrentUser);
+                    var profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                    var statistics = TraktAPI.TraktAPI.GetUserStatistics(CurrentUser);
+
+                    if (Users.Keys.Contains(CurrentUser))
+                        Users.Remove(CurrentUser);
+
+                    _UserProfile = new TraktUserSummaryEx
+                    {
+                        Profile = profile,
+                        Statistics = statistics
+                    };
 
                     GetUserProfileImage(_UserProfile);
-                    UserProfiles.Add(CurrentUser, _UserProfile);
+                    Users.Add(CurrentUser, _UserProfile);
                     LastRequest = DateTime.UtcNow;
                     PreviousActivityTypeSelectedIndex = 0;
                 }
-                return UserProfiles[CurrentUser];
+                return Users[CurrentUser];
             }
         }
-        static TraktUserSummary _UserProfile = null;
+        static TraktUserSummaryEx _UserProfile = null;
 
         #endregion
 
@@ -176,7 +183,7 @@ namespace TraktPlugin.GUI
 
                 case (4):
                     GUIControl.FocusControl(GetID, Facade.GetID);
-                    if (UserProfiles.Keys.Contains(CurrentUser)) UserProfiles.Remove(CurrentUser);
+                    if (Users.Keys.Contains(CurrentUser)) Users.Remove(CurrentUser);
                     LoadUserProfile();
                     break;
             }
@@ -223,17 +230,17 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return UserProfile;
+                return User;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
                     // Get UserProfile from Result Handler
-                    var userProfile = result as TraktUserSummary;
+                    var user = result as TraktUserSummaryEx;
                     
                     // Publish User Profile Properties
-                    PublishSkinProperties(userProfile);
+                    PublishSkinProperties(user);
 
                     // Load Activity Facade
                     LoadActivityTypes();
@@ -246,7 +253,7 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            string avatar = UserProfile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            string avatar = User.Profile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             // add each type to the list           
             var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
@@ -340,10 +347,10 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", Facade.Count.ToString(), GUILocalizeStrings.Get(507)));
         }
 
-        static void GetUserProfileImage(TraktUserSummary userProfile)
+        static void GetUserProfileImage(TraktUserSummaryEx user)
         {
-            string url = userProfile.Images.Avatar.FullSize;
-            string localFile = userProfile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            string url = user.Profile.Images.Avatar.FullSize;
+            string localFile = user.Profile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             GUIImageHandler.DownloadImage(url, localFile);
         }
@@ -354,15 +361,15 @@ namespace TraktPlugin.GUI
             GUICommon.ClearStatisticProperties();
         }
 
-        private void PublishSkinProperties(TraktUserSummary userProfile)
+        private void PublishSkinProperties(TraktUserSummaryEx user)
         {
-            if (userProfile == null) return;
+            if (user == null) return;
 
             // Publish User Properties
-            GUICommon.SetUserProperties(userProfile);
+            GUICommon.SetUserProperties(user.Profile);
 
             // Publish Statistics
-            //TODOGUICommon.SetStatisticProperties(userProfile.Stats);
+            GUICommon.SetStatisticProperties(user.Statistics);
         }
 
         private void OnActivityTypeSelected(GUIListItem item, GUIControl parent)
@@ -396,5 +403,11 @@ namespace TraktPlugin.GUI
         public static string CurrentUser { get; set; }
 
         #endregion
+    }
+
+    internal class TraktUserSummaryEx
+    {
+        public TraktUserSummary Profile { get; set; }
+        public TraktUserStatistics Statistics { get; set; }
     }
 }

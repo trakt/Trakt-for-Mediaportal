@@ -15,26 +15,90 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "shows")]
         public ShowStats Shows { get; set; }
 
+        [DataMember(Name = "seasons")]
+        public SeasonStats Seasons { get; set; }
+
         [DataMember(Name = "episodes")]
         public EpisodeStats Episodes { get; set; }
 
+        [DataMember(Name = "network")]
+        public NetworkStats Network { get; set; }
+
         [DataContract]
-        public class Stats
+        public class MovieStats
         {
-            [DataMember(Name = "watched")]
-            public int Watched { get; set; }
+            [DataMember(Name = "plays")]
+            public int Plays { get; set; }
 
             [DataMember(Name = "collected")]
             public int Collected { get; set; }
+
+            [DataMember(Name = "watched")]
+            public int Watched { get; set; }
+
+            [DataMember(Name = "ratings")]
+            public int Ratings { get; set; }
+
+            [DataMember(Name = "comments")]
+            public int Comments { get; set; }
         }
 
         [DataContract]
-        public class MovieStats : Stats { }
+        public class ShowStats
+        {
+            [DataMember(Name = "collected")]
+            public int Collected { get; set; }
+
+            [DataMember(Name = "watched")]
+            public int Watched { get; set; }
+
+            [DataMember(Name = "ratings")]
+            public int Ratings { get; set; }
+
+            [DataMember(Name = "comments")]
+            public int Comments { get; set; }
+        }
 
         [DataContract]
-        public class ShowStats : Stats { }
+        public class SeasonStats
+        {
+            [DataMember(Name = "ratings")]
+            public int Ratings { get; set; }
+
+            [DataMember(Name = "comments")]
+            public int Comments { get; set; }
+        }
 
         [DataContract]
-        public class EpisodeStats : Stats { }
+        public class EpisodeStats
+        {
+            [DataMember(Name = "plays")]
+            public int Plays { get; set; }
+
+            [DataMember(Name = "collected")]
+            public int Collected { get; set; }
+
+            [DataMember(Name = "watched")]
+            public int Watched { get; set; }
+
+            [DataMember(Name = "ratings")]
+            public int Ratings { get; set; }
+
+            [DataMember(Name = "comments")]
+            public int Comments { get; set; }
+        }
+
+        [DataContract]
+        public class NetworkStats
+        {
+            [DataMember(Name = "friends")]
+            public int Friends { get; set; }
+
+            [DataMember(Name = "followers")]
+            public int Followers { get; set; }
+
+            [DataMember(Name = "following")]
+            public int Following { get; set; }
+        }
     }
 }

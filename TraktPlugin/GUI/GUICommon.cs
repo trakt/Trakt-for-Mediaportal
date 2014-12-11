@@ -916,6 +916,8 @@ namespace TraktPlugin.GUI
         {
             #region Friends Statistics
             GUIUtils.SetProperty("#Trakt.Statistics.Friends", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Followers", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Following", string.Empty);
             #endregion
 
             #region Shows Statistics
@@ -931,6 +933,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Checkins", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.CheckinsUnique", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Collection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Ratings", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Hated", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Loved", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Scrobbles", string.Empty);
@@ -938,6 +941,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Seen", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Shouts", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.UnWatched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedElseWhere", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedTrakt", string.Empty);
@@ -949,6 +953,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Checkins", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.CheckinsUnique", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Collection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Movies.Ratings", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Hated", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Library", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Loved", string.Empty);
@@ -957,6 +962,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Seen", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Shouts", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.UnWatched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Movies.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedElseWhere", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedTrakt", string.Empty);
@@ -969,68 +975,74 @@ namespace TraktPlugin.GUI
         {
             if (stats == null) return;
 
-            //TODO
-            //#region Friends Statistics
-            //if (stats.Friends != null)
-            //{
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Friends", stats.Friends);
-            //}
-            //#endregion
+            #region Friends Statistics
+            if (stats.Network != null)
+            {
+                SetProperty("#Trakt.Statistics.Friends", stats.Network.Friends);
+                SetProperty("#Trakt.Statistics.Followers", stats.Network.Followers);
+                SetProperty("#Trakt.Statistics.Following", stats.Network.Following);
+            }
+            #endregion
 
-            //#region Shows Statistics
-            //if (stats.Shows != null)
-            //{
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Library", stats.Shows.Library);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Watched", stats.Shows.Watched);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Collection", stats.Shows.Collection);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Shouts", stats.Shows.Shouts);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Loved", stats.Shows.Loved);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Shows.Hated", stats.Shows.Hated);
-            //}
-            //#endregion
+            #region Shows Statistics
+            if (stats.Shows != null)
+            {
+                SetProperty("#Trakt.Statistics.Shows.Library", stats.Shows.Collected + stats.Shows.Watched + stats.Shows.Ratings);
+                SetProperty("#Trakt.Statistics.Shows.Watched", stats.Shows.Watched);
+                SetProperty("#Trakt.Statistics.Shows.Collection", stats.Shows.Collected);
+                SetProperty("#Trakt.Statistics.Shows.Shouts", stats.Shows.Comments);
+                SetProperty("#Trakt.Statistics.Shows.Loved", stats.Shows.Ratings);
+                //SetProperty("#Trakt.Statistics.Shows.Hated", stats.Shows.Ratings);
+                SetProperty("#Trakt.Statistics.Shows.Ratings", stats.Shows.Ratings);
+            }
+            #endregion
 
-            //#region Episodes Statistics
-            //if (stats.Episodes != null)
-            //{
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Checkins", stats.Episodes.Checkins);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.CheckinsUnique", stats.Episodes.CheckinsUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Collection", stats.Episodes.Collection);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Hated", stats.Episodes.Hated);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Loved", stats.Episodes.Loved);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Scrobbles", stats.Episodes.Scrobbles);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.ScrobblesUnique", stats.Episodes.ScrobblesUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Seen", stats.Episodes.Seen);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Shouts", stats.Episodes.Shouts);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.UnWatched", stats.Episodes.UnWatched);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.Watched", stats.Episodes.Watched);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedElseWhere", stats.Episodes.WatchedElseWhere);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedTrakt", stats.Episodes.WatchedTrakt);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedTraktUnique", stats.Episodes.WatchedTraktUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Episodes.WatchedUnique", stats.Episodes.WatchedUnique);
-            //}
-            //#endregion
+            #region Episodes Statistics
+            if (stats.Episodes != null)
+            {
+                //SetProperty("#Trakt.Statistics.Episodes.Checkins", stats.Episodes.Checkins);
+                //SetProperty("#Trakt.Statistics.Episodes.CheckinsUnique", stats.Episodes.CheckinsUnique);
+                SetProperty("#Trakt.Statistics.Episodes.Collection", stats.Episodes.Collected);
+                //SetProperty("#Trakt.Statistics.Episodes.Hated", stats.Episodes.Ratings);
+                SetProperty("#Trakt.Statistics.Episodes.Loved", stats.Episodes.Ratings);
+                SetProperty("#Trakt.Statistics.Episodes.Ratings", stats.Episodes.Ratings);
+                //SetProperty("#Trakt.Statistics.Episodes.Scrobbles", stats.Episodes.Scrobbles);
+                //SetProperty("#Trakt.Statistics.Episodes.ScrobblesUnique", stats.Episodes.ScrobblesUnique);
+                //SetProperty("#Trakt.Statistics.Episodes.Seen", stats.Episodes.Seen);
+                SetProperty("#Trakt.Statistics.Episodes.Shouts", stats.Episodes.Comments);
+                //SetProperty("#Trakt.Statistics.Episodes.UnWatched", stats.Episodes.UnWatched);
+                SetProperty("#Trakt.Statistics.Episodes.Plays", stats.Episodes.Plays);
+                SetProperty("#Trakt.Statistics.Episodes.Watched", stats.Episodes.Plays);
+                //SetProperty("#Trakt.Statistics.Episodes.WatchedElseWhere", stats.Episodes.WatchedElseWhere);
+                //SetProperty("#Trakt.Statistics.Episodes.WatchedTrakt", stats.Episodes.WatchedTrakt);
+                //SetProperty("#Trakt.Statistics.Episodes.WatchedTraktUnique", stats.Episodes.WatchedTraktUnique);
+                SetProperty("#Trakt.Statistics.Episodes.WatchedUnique", stats.Episodes.Watched);
+            }
+            #endregion
 
-            //#region Movies Statistics
-            //if (stats.Movies != null)
-            //{
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Checkins", stats.Movies.Checkins);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.CheckinsUnique", stats.Movies.CheckinsUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Collection", stats.Movies.Collection);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Hated", stats.Movies.Hated);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Library", stats.Movies.Library);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Loved", stats.Movies.Loved);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Scrobbles", stats.Movies.Scrobbles);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.ScrobblesUnique", stats.Movies.ScrobblesUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Seen", stats.Movies.Seen);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Shouts", stats.Movies.Shouts);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.UnWatched", stats.Movies.UnWatched);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.Watched", stats.Movies.Watched);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedElseWhere", stats.Movies.WatchedElseWhere);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedTrakt", stats.Movies.WatchedTrakt);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedTraktUnique", stats.Movies.WatchedTraktUnique);
-            //    GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedUnique", stats.Movies.WatchedUnique);
-            //}
-            //#endregion
+            #region Movies Statistics
+            if (stats.Movies != null)
+            {
+                //SetProperty("#Trakt.Statistics.Movies.Checkins", stats.Movies.Checkins);
+                //SetProperty("#Trakt.Statistics.Movies.CheckinsUnique", stats.Movies.CheckinsUnique);
+                SetProperty("#Trakt.Statistics.Movies.Collection", stats.Movies.Collected);
+                //SetProperty("#Trakt.Statistics.Movies.Hated", stats.Movies.Hated);
+                //SetProperty("#Trakt.Statistics.Movies.Library", stats.Movies.Library);
+                SetProperty("#Trakt.Statistics.Movies.Ratings", stats.Movies.Ratings);
+                SetProperty("#Trakt.Statistics.Movies.Loved", stats.Movies.Ratings);
+                //SetProperty("#Trakt.Statistics.Movies.Scrobbles", stats.Movies.Scrobbles);
+                //SetProperty("#Trakt.Statistics.Movies.ScrobblesUnique", stats.Movies.ScrobblesUnique);
+                //SetProperty("#Trakt.Statistics.Movies.Seen", stats.Movies.Seen);
+                SetProperty("#Trakt.Statistics.Movies.Shouts", stats.Movies.Comments);
+                //SetProperty("#Trakt.Statistics.Movies.UnWatched", stats.Movies.UnWatched);
+                SetProperty("#Trakt.Statistics.Movies.Plays", stats.Movies.Plays);
+                SetProperty("#Trakt.Statistics.Movies.Watched", stats.Movies.Plays);
+                //SetProperty("#Trakt.Statistics.Movies.WatchedElseWhere", stats.Movies.WatchedElseWhere);
+                //SetProperty("#Trakt.Statistics.Movies.WatchedTrakt", stats.Movies.WatchedTrakt);
+                //SetProperty("#Trakt.Statistics.Movies.WatchedTraktUnique", stats.Movies.WatchedTraktUnique);
+                SetProperty("#Trakt.Statistics.Movies.WatchedUnique", stats.Movies.Watched);
+            }
+            #endregion
         }
 
         internal static void ClearShoutProperties()

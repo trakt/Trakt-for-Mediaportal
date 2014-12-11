@@ -148,6 +148,11 @@ namespace TraktPlugin.GUI
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Fanart");
                     break;
 
+                case ArtworkType.MovieBanner:
+                    filename = image.FullSize.ToClearUrl();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Banners");
+                    break;
+
                 case ArtworkType.ShowPoster:
                     filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Posters");
@@ -156,11 +161,6 @@ namespace TraktPlugin.GUI
                 case ArtworkType.ShowBanner:
                     filename = image.FullSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Shows\Banners");
-                    break;
-
-                case ArtworkType.MovieBanner:
-                    filename = image.FullSize.ToClearUrl();
-                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Movies\Banners");
                     break;
 
                 case ArtworkType.ShowFanart:
