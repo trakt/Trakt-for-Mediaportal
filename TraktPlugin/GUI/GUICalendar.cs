@@ -815,6 +815,8 @@ namespace TraktPlugin.GUI
                         
                         episodeItem.Images = images;
                         episodeItem.TVTag = calendarItem;
+                        episodeItem.Episode = calendarItem.Episode;
+                        episodeItem.Show = calendarItem.Show;
                         episodeItem.ItemId = Int32.MaxValue - itemCount;
                         episodeItem.IsPlayed = calendarItem.Episode.IsWatched(calendarItem.Show);
                         episodeItem.IconImage = "defaultTraktEpisode.png";

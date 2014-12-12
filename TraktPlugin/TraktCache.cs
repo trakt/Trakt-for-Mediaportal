@@ -914,6 +914,18 @@ namespace TraktPlugin
             return false;
         }
 
+        public static int? UserRating(this TraktListItem item)
+        {
+            if (item.Type == "movie" && item.Movie != null)
+                return item.Movie.UserRating();
+            else if (item.Type == "show" && item.Show != null)
+                return item.Show.UserRating();
+            else if (item.Type == "episode" && item.Episode != null)
+                return item.Episode.UserRating();
+
+            return null;
+        }
+
         #endregion
 
         #region Clear Cache

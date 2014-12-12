@@ -217,23 +217,23 @@ namespace TraktPlugin.GUI
             var mainOverlay = MainOverlayImage.None;
             var ratingOverlay = RatingOverlayImage.None;
 
+            if (TVTag is TraktListItem)
+            {
+                var listItem = TVTag as TraktListItem;
+                if (listItem == null) return;
+
+                if (listItem.IsWatchlisted())
+                    mainOverlay = MainOverlayImage.Watchlist;
+                else if (listItem.IsWatched())
+                    mainOverlay = MainOverlayImage.Seenit;
+
+                // add additional overlay if applicable
+                if (listItem.IsCollected())
+                    mainOverlay |= MainOverlayImage.Library;
+
+                ratingOverlay = GUIImageHandler.GetRatingOverlay(listItem.UserRating());
+            }
             //TODO
-            //if (TVTag is TraktListItem)
-            //{
-            //    var listItem = TVTag as TraktListItem;
-            //    if (listItem == null) return;
-
-            //    if (listItem.InWatchList)
-            //        mainOverlay = MainOverlayImage.Watchlist;
-            //    else if (listItem.Watched)
-            //        mainOverlay = MainOverlayImage.Seenit;
-
-            //    // add additional overlay if applicable
-            //    if (listItem.InCollection)
-            //        mainOverlay |= MainOverlayImage.Library;
-
-            //    ratingOverlay = GUIImageHandler.GetRatingOverlay(listItem.RatingAdvanced);
-            //}
             //else if (TVTag is TraktActivity.Activity)
             //{
             //    var activity = TVTag as TraktActivity.Activity;
