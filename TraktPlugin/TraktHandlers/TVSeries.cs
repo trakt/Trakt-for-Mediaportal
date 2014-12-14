@@ -88,68 +88,88 @@ namespace TraktPlugin.TraktHandlers
             // of any series that syncback watched flags
             var seriesToUpdateEpisodeCounts = new HashSet<int>();
 
-            // optional do library sync
-            if (TraktSettings.SyncLibrary)
+            #region Get online data from trakt.tv
+
+            #region Collection
+
+            // get all episodes on trakt that are marked as in 'collection'
+            TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
+            var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt();
+            if (traktCollectedEpisodes == null)
             {
-                #region Get online data from trakt.tv
+                TraktLogger.Error("Error getting tv episode collection from trakt.tv server, cancelling sync");
+                SyncInProgress = false;
+                return;
+            }
+            TraktLogger.Info("Found {0} tv episodes in trakt.tv collection", traktCollectedEpisodes.Count());
 
-                // get all episodes on trakt that are marked as in 'collection'
-                TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
-                var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt();
-                if (traktCollectedEpisodes == null)
+            #endregion
+
+            #region Ratings
+
+            // get all episode and show ratings
+            var traktRatedEpisodes = new List<TraktEpisodeRated>();
+            var traktRatedShows = new List<TraktShowRated>();
+            if (TraktSettings.SyncRatings)
+            {
+                #region Episodes
+
+                TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
+                var tempEpisodeRatings = TraktCache.GetRatedEpisodesFromTrakt();
+                if (traktRatedEpisodes == null)
                 {
-                    TraktLogger.Error("Error getting tv episode collection from trakt.tv server, cancelling sync");
+                    TraktLogger.Error("Error getting rated episodes from trakt.tv server, cancelling sync");
                     SyncInProgress = false;
                     return;
                 }
-                TraktLogger.Info("Found {0} tv episodes in trakt.tv collection", traktCollectedEpisodes.Count());
-
-                // get all episodes on trakt that are marked as 'unseen'
-                TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
-                var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt();
-                TraktLogger.Info("Found {0} unwatched tv episodes in trakt library", traktUnWatchedEpisodes.Count());
-
-                // get all episodes on trakt that are marked as 'seen' or 'watched'
-                TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
-                var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt();
-                if (traktWatchedEpisodes == null)
-                {
-                    TraktLogger.Error("Error getting tv shows watched from trakt.tv server, cancelling sync");
-                    SyncInProgress = false;
-                    return;
-                }
-                TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
-
-                // get all episode and show ratings
-                var traktRatedEpisodes = new List<TraktEpisodeRated>();
-                var traktRatedShows = new List<TraktShowRated>();
-                if (TraktSettings.SyncRatings)
-                {
-                    TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
-                    var tempEpisodeRatings = TraktCache.GetRatedEpisodesFromTrakt();
-                    if (traktRatedEpisodes == null)
-                    {
-                        TraktLogger.Error("Error getting rated episodes from trakt.tv server, cancelling sync");
-                        SyncInProgress = false;
-                        return;
-                    }
-                    traktRatedEpisodes.AddRange(tempEpisodeRatings);
-                    TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
-
-                    TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
-                    var tempShowRatings = TraktCache.GetRatedShowsFromTrakt();
-                    if (traktRatedEpisodes == null)
-                    {
-                        TraktLogger.Error("Error getting rated shows from trakt.tv server, cancelling sync");
-                        SyncInProgress = false;
-                        return;
-                    }
-                    traktRatedShows.AddRange(tempShowRatings);
-                    TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
-                }
+                traktRatedEpisodes.AddRange(tempEpisodeRatings);
+                TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
 
                 #endregion
 
+                #region Shows
+
+                TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
+                var tempShowRatings = TraktCache.GetRatedShowsFromTrakt();
+                if (traktRatedEpisodes == null)
+                {
+                    TraktLogger.Error("Error getting rated shows from trakt.tv server, cancelling sync");
+                    SyncInProgress = false;
+                    return;
+                }
+                traktRatedShows.AddRange(tempShowRatings);
+                TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
+
+                #endregion
+            }
+
+            #endregion
+
+            #region UnWatched / Watched
+
+            // get all episodes on trakt that are marked as 'unseen'
+            TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
+            var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt();
+            TraktLogger.Info("Found {0} unwatched tv episodes in trakt library", traktUnWatchedEpisodes.Count());
+
+            // get all episodes on trakt that are marked as 'seen' or 'watched'
+            TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
+            var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt();
+            if (traktWatchedEpisodes == null)
+            {
+                TraktLogger.Error("Error getting tv shows watched from trakt.tv server, cancelling sync");
+                SyncInProgress = false;
+                return;
+            }
+            TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
+
+            #endregion
+
+            #endregion
+
+            // optionally do library sync
+            if (TraktSettings.SyncLibrary)
+            {
                 #region Get data from local database
 
                 TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows set by user'", IgnoredSeries.Count);

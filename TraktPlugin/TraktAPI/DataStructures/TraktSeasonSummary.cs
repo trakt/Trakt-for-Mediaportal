@@ -12,6 +12,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "rating")]
         public double? Rating { get; set; }
 
+        [DataMember(Name = "votes")]
+        public int Votes { get; set; }
+
         [DataMember(Name = "episode_count")]
         public int EpisodeCount { get; set; }
 

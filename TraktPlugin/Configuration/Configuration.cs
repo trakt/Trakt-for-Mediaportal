@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Security.Cryptography;
 using MediaPortal.Configuration;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin
 {
@@ -246,7 +240,7 @@ namespace TraktPlugin
         private void libraryClearer_DoWork(object sender, DoWorkEventArgs e)
         {
             ProgressDialog pd = new ProgressDialog(this.Handle);
-            ClearLibrary(TraktAPI.v1.TraktClearingModes.all, pd, (bool)e.Argument);
+            //TODOClearLibrary(TraktAPI.v1.TraktClearingModes.all, pd, (bool)e.Argument);
         }
 
         private void btnTVSeriesRestrictions_Click(object sender, EventArgs e)
@@ -311,12 +305,12 @@ namespace TraktPlugin
         }
 
         /// <summary>
-        /// Clears our library on Trakt as best as the api lets us
+        /// //TODOClears our library on Trakt as best as the api lets us
         /// </summary>
         /// <param name="mode">What to remove from Trakt</param>
-        private void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog, bool clearSeen)
-        {
-            //TODO
+        //private void ClearLibrary(TraktClearingModes mode, ProgressDialog progressDialog, bool clearSeen)
+        //{
+            
             //progressDialog.Title = "Clearing Library";
             //progressDialog.CancelMessage = "Attempting to Cancel";
             //progressDialog.Maximum = 100;
@@ -418,6 +412,6 @@ namespace TraktPlugin
             //}
             //progressDialog.Value = 100;
             //progressDialog.CloseDialog();
-        }
+        //}
     }
 }

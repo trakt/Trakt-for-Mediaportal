@@ -74,7 +74,59 @@ namespace TraktPlugin.TraktHandlers
             SyncInProgress = true;
 
             ArrayList myvideos = new ArrayList();
-            
+
+            #region Get online data from trakt.tv
+
+            #region Get unwatched movies from trakt.tv
+            TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
+            var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
+            TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", (traktUnWatchedMovies ?? new List<TraktMovie>()).Count());
+            #endregion
+
+            #region Get watched movies from trakt.tv
+            TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
+            var traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
+            if (traktWatchedMovies == null)
+            {
+                SyncInProgress = false;
+                TraktLogger.Error("Error getting watched movies from trakt server, cancelling sync");
+                return;
+            }
+            TraktLogger.Info("There are {0} watched movies in trakt.tv library", traktWatchedMovies.Count().ToString());
+            #endregion
+
+            #region Get collected movies from trakt.tv
+            TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
+            var traktCollectedMovies = TraktCache.GetCollectedMoviesFromTrakt();
+            if (traktCollectedMovies == null)
+            {
+                SyncInProgress = false;
+                TraktLogger.Error("Error getting collected movies from trakt server, cancelling sync");
+                return;
+            }
+            TraktLogger.Info("There are {0} collected movies in trakt.tv library", traktCollectedMovies.Count());
+            #endregion
+
+            #region Get rated movies from trakt.tv
+            var traktRatedMovies = new List<TraktMovieRated>();
+            if (TraktSettings.SyncRatings)
+            {
+                TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
+                var temp = TraktCache.GetRatedMoviesFromTrakt();
+                if (traktRatedMovies == null)
+                {
+                    SyncInProgress = false;
+                    TraktLogger.Error("Error getting rated movies from trakt server, cancelling sync");
+                    return;
+                }
+                traktRatedMovies.AddRange(temp);
+                TraktLogger.Info("There are {0} rated movies in trakt.tv library", traktRatedMovies.Count);
+            }
+            #endregion
+
+            #endregion
+
+            // optionally do library sync
             if (TraktSettings.SyncLibrary)
             {
                 // get all movies
@@ -154,13 +206,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // clear the last time(s) we did anything online
                 TraktCache.ClearLastActivityCache();
-
-                #region Get unwatched movies from trakt.tv
-                TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
-                var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
-                TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", (traktUnWatchedMovies ?? new List<TraktMovie>()).Count());
-                #endregion
-
+                
                 #region Mark movies as unwatched in local database
                 if (traktUnWatchedMovies != null && traktUnWatchedMovies.Count() > 0)
                 {
@@ -180,18 +226,6 @@ namespace TraktPlugin.TraktHandlers
                     // update watched set
                     watchedMovies = collectedMovies.Where(m => m.Watched == true).ToList();
                 }
-                #endregion
-
-                #region Get watched movies from trakt.tv
-                TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
-                var traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
-                if (traktWatchedMovies == null)
-                {
-                    SyncInProgress = false;
-                    TraktLogger.Error("Error getting watched movies from trakt server, cancelling sync");
-                    return;
-                }
-                TraktLogger.Info("There are {0} watched movies in trakt.tv library", traktWatchedMovies.Count().ToString());
                 #endregion
 
                 #region Mark movies as watched in local database
@@ -249,18 +283,6 @@ namespace TraktPlugin.TraktHandlers
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
                     }
                 }
-                #endregion
-
-                #region Get collected movies from trakt.tv
-                TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
-                var traktCollectedMovies = TraktCache.GetCollectedMoviesFromTrakt();
-                if (traktCollectedMovies == null)
-                {
-                    SyncInProgress = false;
-                    TraktLogger.Error("Error getting collected movies from trakt server, cancelling sync");
-                    return;
-                }
-                TraktLogger.Info("There are {0} collected movies in trakt.tv library", traktCollectedMovies.Count());
                 #endregion
 
                 #region Add movies to collection at trakt.tv
@@ -334,23 +356,6 @@ namespace TraktPlugin.TraktHandlers
                             TraktLogger.LogTraktResponse(response);
                         }
                     }
-                }
-                #endregion
-
-                #region Get rated movies from trakt.tv
-                var traktRatedMovies = new List<TraktMovieRated>();
-                if (TraktSettings.SyncRatings)
-                {
-                    TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
-                    var temp = TraktCache.GetRatedMoviesFromTrakt();
-                    if (traktRatedMovies == null)
-                    {
-                        SyncInProgress = false;
-                        TraktLogger.Error("Error getting rated movies from trakt server, cancelling sync");
-                        return;
-                    }
-                    traktRatedMovies.AddRange(temp);
-                    TraktLogger.Info("There are {0} rated movies in trakt.tv library", traktRatedMovies.Count);
                 }
                 #endregion
 

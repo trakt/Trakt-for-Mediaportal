@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
-using MediaPortal.Util;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -126,7 +119,7 @@ namespace TraktPlugin.GUI
                     {
                         GUIControl.SetControlLabel(GetID, btnUsername.GetID, this.Username);
                         GUIControl.SetControlLabel(GetID, btnPassword.GetID, GetMaskedPassword(this.Password));
-                        TraktAccount account = new TraktAccount
+                        var account = new TraktAuthentication
                         {
                             Username = this.Username,
                             Password = this.Password
@@ -174,11 +167,11 @@ namespace TraktPlugin.GUI
                 case ((int)SkinControls.Ok):
                     if (ValidateFields())
                     {
-                        TraktAccount account = new TraktAccount
+                        var account = new TraktAuthentication
                         {
                             Username = this.Username,
                             Password = this.Password,
-                            Email = this.Email
+                            //TODOEmail = this.Email
                         };
                         TestAccount(account);
                     }
@@ -250,16 +243,17 @@ namespace TraktPlugin.GUI
             return maskedPassword;
         }
 
-        private void TestAccount(TraktAccount account)
+        private void TestAccount(TraktAuthentication account)
         {
-            TraktResponse response = null;
+            TraktUserToken response = null;
             if (NewAccount)
             {
-                if (lblTestConnect != null)
-                    GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.CreatingAccount);
+                //TODO
+                //if (lblTestConnect != null)
+                //    GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.CreatingAccount);
 
-                GUIWindowManager.Process();
-                response = TraktAPI.v1.TraktAPI.CreateAccount(account);
+                //GUIWindowManager.Process();
+                //response = TraktAPI.v1.TraktAPI.CreateAccount(account);
             }
             else
             {
@@ -267,26 +261,28 @@ namespace TraktPlugin.GUI
                     GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.SigningIntoAccount);
 
                 GUIWindowManager.Process();
-                response = TraktAPI.v1.TraktAPI.TestAccount(account);
+                response = TraktAPI.TraktAPI.Login(account.ToJSON());
             }
 
-            if (response.Status == "failure")
+            if (response == null || string.IsNullOrEmpty(response.Token))
             {
-                string errorMessage = string.IsNullOrEmpty(response.Error) ? response.Message : response.Error;
-                GUIUtils.ShowNotifyDialog(Translation.Error, errorMessage);
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.FailedLogin);
                 if (lblTestConnect != null)
                     GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, string.Empty);
             }
             else
             {
+                // Save User Token
+                TraktAPI.TraktAPI.UserToken = response.Token;
+
                 // Save New Account Settings
                 TraktSettings.Username = account.Username;
                 TraktSettings.Password = account.Password;
                 if (!TraktSettings.UserLogins.Exists(u => u.Username == TraktSettings.Username))
                 {
-                    //TODOTraktSettings.UserLogins.Add(new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password });
+                    TraktSettings.UserLogins.Add(new TraktAuthentication { Username = TraktSettings.Username, Password = TraktSettings.Password });
                 }
-                //TODOTraktSettings.AccountStatus = ConnectionState.Connected;
+                TraktSettings.AccountStatus = ConnectionState.Connected;
                 HideAccountControls();
                 InitProperties();
 
@@ -296,6 +292,9 @@ namespace TraktPlugin.GUI
                 GUICalendar.ClearCache();
                 GUIRecommendationsMovies.ClearCache();
                 GUIRecommendationsShows.ClearCache();
+
+                // clear any stored user data
+                TraktCache.ClearSyncCache();
             }
         }
 
@@ -386,9 +385,19 @@ namespace TraktPlugin.GUI
             // clear account settings
             TraktSettings.Username = string.Empty;
             TraktSettings.Password = string.Empty;
-            //TODOTraktSettings.AccountStatus = ConnectionState.Disconnected;
+            TraktSettings.AccountStatus = ConnectionState.Disconnected;
 
             InitProperties();
+
+            // clear caches
+            // watchlists are stored by user so dont need clearing.
+            GUINetwork.ClearCache();
+            GUICalendar.ClearCache();
+            GUIRecommendationsMovies.ClearCache();
+            GUIRecommendationsShows.ClearCache();
+
+            // clear any stored user data
+            TraktCache.ClearSyncCache();
         }
 
         private void InitProperties()
@@ -403,17 +412,16 @@ namespace TraktPlugin.GUI
             // Set Disconnect button Label / or Hide it
             if (btnDisconnectAccount != null)
             {
-                //TODO
-                //if (TraktSettings.AccountStatus == ConnectionState.Connected)
-                //{
-                //    GUIControl.SetControlLabel(GetID, btnDisconnectAccount.GetID, string.Format(Translation.DisconnectAccount, TraktSettings.Username));
-                //    btnDisconnectAccount.Visible = true;
-                //}
-                //else
-                //{
-                //    // Hide Control, no account to disconnect
-                //    btnDisconnectAccount.Visible = false;
-                //}
+                if (TraktSettings.AccountStatus == ConnectionState.Connected)
+                {
+                    GUIControl.SetControlLabel(GetID, btnDisconnectAccount.GetID, string.Format(Translation.DisconnectAccount, TraktSettings.Username));
+                    btnDisconnectAccount.Visible = true;
+                }
+                else
+                {
+                    // Hide Control, no account to disconnect
+                    btnDisconnectAccount.Visible = false;
+                }
             }
         }
 

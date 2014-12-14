@@ -225,10 +225,10 @@ namespace TraktPlugin
             UnLoadPluginHandlers();
 
             // save dashboard data
-            //TODOTraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
-            //TODOTraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
-            //TODOTraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
-            //TODOTraktSettings.LastStatistics = dashBoard.PreviousStatistics;
+            TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
+            TraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
+            TraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
+            TraktSettings.LastStatistics = dashBoard.PreviousStatistics;
 
             // save settings
             TraktSettings.SaveSettings();

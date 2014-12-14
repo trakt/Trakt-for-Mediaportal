@@ -334,6 +334,7 @@ namespace TraktPlugin.GUI
         // F
         public static string FailedCreateList = "Failed to create list from online";
         public static string FailedDeleteList = "Failed to delete list from online";
+        public static string FailedLogin = "Failed to login to trakt.tv, check username and password in settings";
         public static string FailedUpdateList = "Failed to update list online";
         public static string Filters = "Filters";
         public static string FirstAired = "First Aired";

@@ -80,7 +80,7 @@ namespace TraktPlugin
         public static int DashboardActivityPollInterval { get; set; }
         public static int DashboardTrendingPollInterval { get; set; }
         public static int DashboardLoadDelay { get; set; }
-        //TODOpublic static TraktUserProfile.Statistics LastStatistics { get; set; }
+        public static TraktUserStatistics LastStatistics { get; set; }
         public static bool DashboardMovieTrendingActive { get; set; }
         public static string MovieRecommendationGenre { get; set; }
         public static bool MovieRecommendationHideCollected { get; set; }
@@ -131,11 +131,11 @@ namespace TraktPlugin
 
         #region Constants
         public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
-
-        private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\Activity.json");
+        
+        private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
+        private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserStatistics.json");
         private static string cLastTrendingMovieFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingMovies.json");
-        private static string cLastTrendingShowFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingShows.json");
-        private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\UserStatistics.json");
+        private static string cLastTrendingShowFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingShows.json");        
 
         private const string cTrakt = "Trakt";
         private const string cSettingsVersion = "SettingsVersion";
@@ -382,7 +382,7 @@ namespace TraktPlugin
 
                         if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
                         {
-                            TraktLogger.Info("Username and/or Password is empty in settings!");
+                            TraktLogger.Info("Unable to login to trakt.tv, username and/or password is empty");
                             return ConnectionState.Disconnected;
                         }
 
@@ -392,7 +392,7 @@ namespace TraktPlugin
                             // set the user token for all future requests
                             TraktAPI.TraktAPI.UserToken = response.Token;
 
-                            TraktLogger.Info("User {0} signed into trakt", TraktSettings.Username);
+                            TraktLogger.Info("User {0} successfully signed into trakt.tv", TraktSettings.Username);
                             _AccountStatus = ConnectionState.Connected;
 
                             if (!UserLogins.Exists(u => u.Username == Username))
@@ -402,7 +402,7 @@ namespace TraktPlugin
                         }
                         else
                         {
-                            TraktLogger.Info("Username and/or Password is Invalid!");
+                            TraktLogger.Info(Translation.FailedLogin);
                             _AccountStatus = ConnectionState.Invalid;
                         }
                     }
@@ -430,7 +430,7 @@ namespace TraktPlugin
             TraktLogger.Info("Loading Local Settings");
 
             // initialise API settings
-            TraktAPI.v1.TraktAPI.UserAgent = UserAgent;
+            TraktAPI.TraktAPI.UserAgent = UserAgent;
 
             using (Settings xmlreader = new MPSettings())
             {
@@ -548,7 +548,7 @@ namespace TraktPlugin
             LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
             LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktMovieTrending>();
             LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktShowTrending>();
-            //TODOLastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserProfile.Statistics>();
+            LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
         }
 
         /// <summary>
@@ -668,7 +668,7 @@ namespace TraktPlugin
             TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
             TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
             TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
-            //TODOTraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
+            TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
         }
 
         /// <summary>

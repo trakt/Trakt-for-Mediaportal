@@ -48,9 +48,12 @@ namespace TraktPlugin.TraktAPI
         /// Login to trakt and to request a user token for all subsequent requests
         /// </summary>
         /// <returns></returns>
-        public static TraktUserToken Login()
+        public static TraktUserToken Login(string loginData = null)
         {
-            var response = PostToTrakt(TraktURIs.Login, GetUserLogin(), false);
+            // clear User Token if set
+            UserToken = null;
+
+            var response = PostToTrakt(TraktURIs.Login, loginData ?? GetUserLogin(), false);
             return response.FromJSON<TraktUserToken>();
         }
 
@@ -1472,8 +1475,13 @@ namespace TraktPlugin.TraktAPI
             // add required headers for authorisation
             request.Headers.Add("trakt-api-version", "2");
             request.Headers.Add("trakt-api-key", ApplicationId);
-            request.Headers.Add("trakt-user-login", Username);
-            request.Headers.Add("trakt-user-token", UserToken);
+            
+            // if we're logging in, we don't need to add these headers
+            if (!string.IsNullOrEmpty(UserToken))
+            {
+                request.Headers.Add("trakt-user-login", Username);
+                request.Headers.Add("trakt-user-token", UserToken);
+            }
 
             try
             {

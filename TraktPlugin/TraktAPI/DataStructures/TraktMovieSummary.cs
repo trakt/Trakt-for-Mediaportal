@@ -36,6 +36,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "rating")]
         public double? Rating { get; set; }
 
+        [DataMember(Name = "votes")]
+        public int Votes { get; set; }
+
         [DataMember(Name = "language")]
         public string Language { get; set; }
 

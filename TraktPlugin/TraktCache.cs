@@ -18,15 +18,15 @@ namespace TraktPlugin
     {
         static Object syncLists = new object();
 
-        private static string MoviesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Collected.json");
-        private static string MoviesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Watched.json");
-        private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Movies\Rated.json");
+        private static string MoviesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Collected.json");
+        private static string MoviesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Watched.json");
+        private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Rated.json");
 
-        private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Collected.json");
-        private static string EpisodesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Watched.json");
-        private static string EpisodesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Episodes\Rated.json");
+        private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Collected.json");
+        private static string EpisodesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watched.json");
+        private static string EpisodesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Rated.json");
 
-        private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Library\Shows\Rated.json");
+        private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
         private static DateTime RecommendationsAge;
         private static DateTime WatchListAge;
@@ -35,6 +35,8 @@ namespace TraktPlugin
         private static DateTime LastFollowerRequest = new DateTime();
 
         #region Sync
+
+        #region Movies
 
         /// <summary>
         /// Get the users unwatched movies since last sync
@@ -243,6 +245,10 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktMovieRated> _RatedMovies = null;
+
+        #endregion
+
+        #region Episodes
 
         /// <summary>
         /// Get the users collected episodes from Trakt
@@ -506,6 +512,10 @@ namespace TraktPlugin
         }
         static IEnumerable<TraktEpisodeRated> _RatedEpisodes = null;
 
+        #endregion
+
+        #region Shows
+
         /// <summary>
         /// Get the users rated shows from Trakt
         /// </summary>
@@ -563,6 +573,8 @@ namespace TraktPlugin
         }
         static IEnumerable<TraktShowRated> _RatedShows = null;
 
+        #endregion
+
         /// <summary>
         /// Get last sync activities from trakt to see if we need to get an update on the various sync methods
         /// This should be done atleast once before a local/online sync
@@ -608,35 +620,47 @@ namespace TraktPlugin
 
         internal static void SaveFileCache(string file, string value)
         {
-            TraktLogger.Debug("Saving file to disk. Filename = '{0}'", file);
+            if (file.Contains("{username}") &&  string.IsNullOrEmpty(TraktSettings.Username))
+                return;
+
+            // add username to filename
+            string filename = file.Replace("{username}", TraktSettings.Username);
+
+            TraktLogger.Debug("Saving file to disk. Filename = '{0}'", filename);
 
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(file));
-                File.WriteAllText(file, value, Encoding.UTF8);
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                File.WriteAllText(filename, value, Encoding.UTF8);
             }
             catch (Exception e)
             {
-                TraktLogger.Error(string.Format("Error saving file. Filename = '{0}', Error = '{1}'", file, e.Message));
+                TraktLogger.Error(string.Format("Error saving file. Filename = '{0}', Error = '{1}'", filename, e.Message));
             }
         }
 
         internal static string LoadFileCache(string file, string defaultValue)
         {
-            TraktLogger.Debug("Loading file from disk. Filename = '{0}'", file);
+            if (file.Contains("{username}") && string.IsNullOrEmpty(TraktSettings.Username))
+                return null;
+
+            // add username to filename
+            string filename = file.Replace("{username}", TraktSettings.Username);
+
+            TraktLogger.Debug("Loading file from disk. Filename = '{0}'", filename);
 
             string returnValue = defaultValue;
 
             try
             {
-                if (File.Exists(file))
+                if (File.Exists(filename))
                 {
-                    returnValue = File.ReadAllText(file, Encoding.UTF8);
+                    returnValue = File.ReadAllText(filename, Encoding.UTF8);
                 }
             }
             catch (Exception e)
             {
-                TraktLogger.Error(string.Format("Error loading file from disk. Filename = '{0}', Error = '{1}'", file, e.Message));
+                TraktLogger.Error(string.Format("Error loading file from disk. Filename = '{0}', Error = '{1}'", filename, e.Message));
                 return defaultValue;
             }
 
@@ -815,7 +839,7 @@ namespace TraktPlugin
 
         public static bool IsWatched(this TraktEpisode episode, TraktShow show)
         {
-            if (WatchedEpisodes == null && show == null)
+            if (WatchedEpisodes == null || show == null)
                 return false;
 
             return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
@@ -825,7 +849,7 @@ namespace TraktPlugin
 
         public static bool IsCollected(this TraktEpisode episode, TraktShow show)
         {
-            if (CollectedEpisodes == null)
+            if (CollectedEpisodes == null || show == null)
                 return false;
 
             return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
@@ -853,7 +877,7 @@ namespace TraktPlugin
 
         public static int Plays(this TraktEpisode episode, TraktShow show)
         {
-            if (WatchedEpisodes == null)
+            if (WatchedEpisodes == null || show == null)
                 return 0;
 
             var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => e.ShowId == show.Ids.Trakt &&
@@ -969,6 +993,19 @@ namespace TraktPlugin
         internal static void ClearLastActivityCache()
         {
             _LastSyncActivities = null;
+        }
+
+        internal static void ClearSyncCache()
+        {
+            _RatedEpisodes = null;
+            _RatedMovies = null;
+            _RatedShows = null;
+
+            _CollectedEpisodes = null;
+            _CollectedMovies = null;
+
+            _WatchedEpisodes = null;
+            _WatchedMovies = null;
         }
 
         #endregion

@@ -119,6 +119,7 @@
   <!--F-->
   <string name="FailedCreateList">Failed to create list online</string>
   <string name="FailedDeleteList">Failed to delete list from online</string>
+  <string name="FailedLogin">Failed to login to trakt.tv, check username and password in settings</string>
   <string name="FailedUpdateList">Failed to update list online</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>

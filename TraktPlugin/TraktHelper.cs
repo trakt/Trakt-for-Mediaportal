@@ -882,6 +882,8 @@ namespace TraktPlugin
 
         public static void AddMovieToCollection(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var movie = new TraktSyncMovieCollected
             {
                 Ids = new TraktMovieId
@@ -913,6 +915,8 @@ namespace TraktPlugin
 
         public static void RemoveMovieFromLibrary(string title, int? year, string imdbid, int? tmdbid, int? traktid)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var movie = new TraktMovie
             {
                 Ids = new TraktMovieId
@@ -948,6 +952,8 @@ namespace TraktPlugin
 
         public static void AddEpisodeToCollection(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var episode = new TraktSyncEpisodeCollected
             {
                 Ids = new TraktEpisodeId
@@ -981,6 +987,8 @@ namespace TraktPlugin
 
         public static void RemoveEpisodeFromCollection(string title, int season, int number, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var episode = new TraktEpisode
             {
                 Ids = new TraktEpisodeId

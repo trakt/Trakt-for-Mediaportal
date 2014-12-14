@@ -375,7 +375,7 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            GUIDialogText dlgText = (GUIDialogText)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_TEXT);
+            var dlgText = (GUIDialogText)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_TEXT);
 
             dlgText.Reset();
             dlgText.SetHeading(heading);
@@ -426,6 +426,9 @@ namespace TraktPlugin.GUI
         /// <param name="rateObject">Type of object being rated</param>
         public static int ShowRateDialog<T>(T rateObject)
         {
+            if (!GUICommon.CheckLogin(false))
+                return -1;
+
             if (GUIGraphicsContext.form.InvokeRequired)
             {
                 ShowRateDialogDelegate<T> d = ShowRateDialog<T>;
@@ -434,7 +437,7 @@ namespace TraktPlugin.GUI
 
             TraktRateValue currentRating = TraktRateValue.unrate;
 
-            GUIRateDialog ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);
+            var ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);
             ratingDlg.Reset();
             
             ratingDlg.SetHeading(Translation.RateHeading);

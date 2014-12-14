@@ -88,7 +88,7 @@ namespace TraktPlugin.GUI
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.SeasonImages.Poster.FullSize;
+                        string remoteThumb = item.SeasonImages.Poster.ThumbSize;
                         string localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))

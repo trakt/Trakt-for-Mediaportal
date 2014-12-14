@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
-using TraktPlugin;
-using TraktPlugin.TraktAPI;
+using Trailers.Providers;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
-using Trailers.Providers;
-using Trailers;
 
 namespace TraktPlugin.GUI
 {
@@ -654,6 +650,8 @@ namespace TraktPlugin.GUI
 
         public static void MarkShowAsWatched(TraktShow show)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var seenThread = new Thread(obj =>
             {
                 var objShow = obj as TraktShow;
@@ -692,6 +690,8 @@ namespace TraktPlugin.GUI
 
         public static void MarkSeasonAsWatched(TraktShow show, int season)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var seenThread = new Thread(obj =>
             {
                 var objShow = obj as TraktShow;
@@ -737,6 +737,8 @@ namespace TraktPlugin.GUI
 
         public static void AddShowToCollection(TraktShow show)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var collectionThread = new Thread(obj =>
             {
                 var objShow = obj as TraktShow;
@@ -775,6 +777,8 @@ namespace TraktPlugin.GUI
 
         public static void AddSeasonToLibrary(TraktShow show, int season)
         {
+            if (!GUICommon.CheckLogin(false)) return;
+
             var seenThread = new Thread(obj =>
             {
                 var objShow = obj as TraktShow;
@@ -1132,11 +1136,12 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Watched", movie.IsWatched());
             SetProperty("#Trakt.Movie.Rating", movie.UserRating());
             SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Rating.ToPercentage());
+            SetProperty("#Trakt.Movie.Ratings.Votes", movie.Votes);
+            SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Rating >= 6) ? "love" : "hate");
             //TODO
             //SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             //SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
             //SetProperty("#Trakt.Movie.Ratings.LovedCount", movie.Ratings.LovedCount.ToString());
-            //SetProperty("#Trakt.Movie.Ratings.Votes", movie.Ratings.Votes.ToString());
         }
 
         internal static void ClearSeasonProperties()
@@ -1164,15 +1169,16 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.Number", season.Number);            
             SetProperty("#Trakt.Season.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}", show.Ids.Slug, season.Number));
             SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
-            //TODOSetProperty("#Trakt.Season.Rating", season.UserRating());
-            SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
             SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
             SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
+            //TODOSetProperty("#Trakt.Season.Rating", season.UserRating());
+            SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
+            SetProperty("#Trakt.Season.Ratings.Votes", season.Votes);
+            SetProperty("#Trakt.Season.Ratings.Icon", (season.Rating >= 6) ? "love" : "hate");
             //TODO
             //SetProperty("#Trakt.Season.Ratings.Icon", (season.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
             //SetProperty("#Trakt.Season.Ratings.HatedCount", season.Ratings.HatedCount.ToString());
             //SetProperty("#Trakt.Season.Ratings.LovedCount", season.Ratings.LovedCount.ToString());
-            //SetProperty("#Trakt.Season.Ratings.Votes", season.Ratings.Votes.ToString());
         }
 
         internal static void ClearShowProperties()
@@ -1244,11 +1250,12 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Plays", show.Plays());
             SetProperty("#Trakt.Show.Rating", show.UserRating());
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Rating.ToPercentage());
+            SetProperty("#Trakt.Show.Ratings.Votes", show.Votes);
+            SetProperty("#Trakt.Show.Ratings.Icon", (show.Rating > 6) ? "love" : "hate");
             //TODO
             //SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
             //SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
-            //SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());            
-            //SetProperty("#Trakt.Show.Ratings.Votes", show.Ratings.Votes.ToString());
+            //SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
             if (show.Images != null)
             {
                 SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
@@ -1310,13 +1317,14 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.InCollection", episode.IsCollected(show));
             SetProperty("#Trakt.Episode.Plays", episode.Plays(show));
             SetProperty("#Trakt.Episode.Watched", episode.IsWatched(show));
-            SetProperty("#Trakt.Episode.Rating", episode.UserRating());            
+            SetProperty("#Trakt.Episode.Rating", episode.UserRating());
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
+            SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
+            SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");
             //TODO
             //SetProperty("#Trakt.Episode.Ratings.Icon", ((episode.Ratings != null) && (episode.Ratings.LovedCount > episode.Ratings.HatedCount)) ? "love" : "hate");
             //SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Ratings != null ? episode.Ratings.HatedCount.ToString() : "0");
-            //SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings != null ? episode.Ratings.LovedCount.ToString() : "0");            
-            //SetProperty("#Trakt.Episode.Ratings.Votes", episode.Ratings != null ? episode.Ratings.Votes.ToString() : "0");
+            //SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings != null ? episode.Ratings.LovedCount.ToString() : "0");
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
         }
 
@@ -2033,7 +2041,7 @@ namespace TraktPlugin.GUI
         }
         public static bool ShowTraktExtMovieMenu(string title, string year, string imdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
@@ -2557,7 +2565,7 @@ namespace TraktPlugin.GUI
                 moviesToFilter = moviesToFilter.Where(t => !t.Movie.IsCollected());
 
             if (TraktSettings.TrendingMoviesHideRated)
-                moviesToFilter = moviesToFilter.Where(t => t.Movie.UserRating() != null);
+                moviesToFilter = moviesToFilter.Where(t => t.Movie.UserRating() == null);
 
             return moviesToFilter;
         }
@@ -2574,7 +2582,7 @@ namespace TraktPlugin.GUI
                 showsToFilter = showsToFilter.Where(t => !TraktSettings.ShowsInCollection.Contains(t.Show.Ids.Tvdb.ToString()));
 
             if (TraktSettings.TrendingShowsHideRated)
-                showsToFilter = showsToFilter.Where(t => t.Show.UserRating() != null);
+                showsToFilter = showsToFilter.Where(t => t.Show.UserRating() == null);
 
             return showsToFilter;
         }

@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.ComponentModel;
 using System.Threading;
 using MediaPortal.Player;
-using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.v1;
-using TraktPlugin.TraktAPI.v1.DataStructures;
 using TvDatabase; 
 using TvPlugin;
 

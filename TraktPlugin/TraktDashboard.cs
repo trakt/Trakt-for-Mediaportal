@@ -114,21 +114,20 @@ namespace TraktPlugin
         {
             Thread.CurrentThread.Name = "DashStats";
 
-            // initial publish from persisted settings
-            //TODO
-            //if (TraktSettings.LastStatistics != null)
-            //{
-            //    GUICommon.SetStatisticProperties(TraktSettings.LastStatistics);
-            //    TraktSettings.LastStatistics = null;
-            //}
+            // initial publish from persisted settings            
+            if (TraktSettings.LastStatistics != null)
+            {
+                GUICommon.SetStatisticProperties(TraktSettings.LastStatistics);
+                TraktSettings.LastStatistics = null;
+            }
 
             // retrieve statistics from online
-            //var userProfile = TraktAPI.TraktAPI.GetUserProfile(TraktSettings.Username);
-            //if (userProfile != null)
-            //{
-            //    GUICommon.SetStatisticProperties(userProfile.Stats);
-            //    PreviousStatistics = userProfile.Stats;
-            //}
+            var userStats = TraktAPI.TraktAPI.GetUserStatistics(TraktSettings.Username);
+            if (userStats != null)
+            {
+                GUICommon.SetStatisticProperties(userStats);
+                PreviousStatistics = userStats;
+            }
         }
 
         private void ClearSelectedActivityProperties()
@@ -508,12 +507,13 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Plays", i), trendingItem.Movie.Plays());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watched", i), trendingItem.Movie.IsWatched().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Rating", i), trendingItem.Movie.UserRating());
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), trendingItem.Movie.Votes);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (trendingItem.Movie.Rating >= 6) ? "love" : "hate");
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), trendingItem.Movie.Rating.ToPercentage());
                 //TODO
                 //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (trendingItem.Movie.Ratings.LovedCount > trendingItem.Ratings.HatedCount) ? "love" : "hate");
                 //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.HatedCount", i), trendingItem.Movie.Ratings.HatedCount.ToString());
                 //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.LovedCount", i), trendingItem.Movie.Ratings.LovedCount.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), trendingItem.Movie.Ratings.Percentage.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), trendingItem.Movie.Ratings.Votes.ToString());
             }
         }
 
@@ -738,12 +738,13 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), trendingItem.Show.IsWatched().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), trendingItem.Show.Plays());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), trendingItem.Show.UserRating());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Votes);
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Rating >= 6) ? "love" : "hate");
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), trendingItem.Show.Rating.ToPercentage());
                 //TODO
                 //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Ratings.LovedCount > trendingItem.Show.Ratings.HatedCount) ? "love" : "hate");
                 //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.HatedCount", i), trendingItem.Show.Ratings.HatedCount.ToString());
                 //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.LovedCount", i), trendingItem.Show.Ratings.LovedCount.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), trendingItem.Show.Ratings.Percentage.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Ratings.Votes.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), trendingItem.Show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), trendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
             }
@@ -1589,7 +1590,7 @@ namespace TraktPlugin
         public TraktActivity PreviousActivity { get; set; }
         public IEnumerable<TraktMovieTrending> PreviousTrendingMovies { get; set; }
         public IEnumerable<TraktShowTrending> PreviousTrendingShows { get; set; }
-        //TODOpublic TraktUserProfile.Statistics PreviousStatistics { get; set; }        
+        public TraktUserStatistics PreviousStatistics { get; set; }        
 
         #endregion
 
