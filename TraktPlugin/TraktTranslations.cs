@@ -14,8 +14,8 @@ namespace TraktPlugin.GUI
     public static class Translation
     {
         #region Private variables
-        
-        private static Dictionary<string, string> translations;
+
+        private static Dictionary<string, string> translations = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         private static Regex translateExpr = new Regex(@"\$\{([^\}]+)\}");
         private static string path = string.Empty;
 
@@ -471,6 +471,8 @@ namespace TraktPlugin.GUI
         public static string MarkAsWatched = "Mark as Watched";
         public static string MarkAsUnWatched = "Mark as UnWatched";
         public static string Me = "Me";
+        public static string Minutes = "Minutes";
+        public static string Minute = "Minute";
         public static string Movie = "Movie";
         public static string Movies = "Movies";
         public static string MultiSelectDialog = "Multi-Select Dialog";

@@ -60,6 +60,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "genres")]
         public List<string> Genres { get; set; }
 
+        [DataMember(Name = "aired_episodes")]
+        public int AiredEpisodes { get; set; }
+
         [DataContract]
         public class AirDate
         {

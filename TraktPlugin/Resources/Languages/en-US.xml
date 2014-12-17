@@ -249,6 +249,8 @@
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
   <string name="Me">Me</string>
+  <string name="Minutes">Minutes</string>
+  <string name="Minute">Minute</string>
   <string name="Movie">Movie</string>
   <string name="Movies">Movies</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>

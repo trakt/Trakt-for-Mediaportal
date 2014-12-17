@@ -40,20 +40,11 @@ namespace TraktPlugin.GUI
         [SkinControl((int)SkinControls.OnlineVideos)]
         protected GUICheckButton btnOnlineVideos = null;
 
-        [SkinControl((int)SkinControls.MyAnime)]
-        protected GUICheckButton btnMyAnime = null;
-
         [SkinControl((int)SkinControls.MyRecordedTV)]
         protected GUICheckButton btnMyRecordedTV = null;
 
-        [SkinControl((int)SkinControls.ForTheRecordRecordings)]
-        protected GUICheckButton btnForTheRecordRecordings = null;
-
         [SkinControl((int)SkinControls.MyLiveTV)]
         protected GUICheckButton btnMyLiveTV = null;
-
-        [SkinControl((int)SkinControls.ForTheRecordLiveTV)]
-        protected GUICheckButton btnForTheRecordLiveTV = null;
 
         [SkinControl((int)SkinControls.ArgusRecordings)]
         protected GUICheckButton btnArgusRecordings = null;
@@ -129,19 +120,15 @@ namespace TraktPlugin.GUI
             if (!btnMyVideos.Selected) MyVideos = -1;
             if (!btnMyFilms.Selected) MyFilms = -1;
             if (!btnOnlineVideos.Selected) OnlineVideos = -1;
-            if (!btnMyAnime.Selected) MyAnime = -1;
-            if (btnMyRecordedTV != null) { if (!btnMyRecordedTV.Selected) MyRecordedTV = -1; }
-            if (btnForTheRecordRecordings != null) { if (!btnForTheRecordRecordings.Selected) ForTheRecordRecordings = -1; }
-            if (btnArgusRecordings != null) { if (!btnArgusRecordings.Selected) ArgusRecordings = -1; }
-            if (btnMyLiveTV != null) { if (!btnMyLiveTV.Selected) MyLiveTV = -1; }
-            if (btnForTheRecordLiveTV != null) { if (!btnForTheRecordLiveTV.Selected) ForTheRecordLiveTV = -1; }
-            if (btnArgusLiveTV != null) { if (!btnArgusLiveTV.Selected) ArgusLiveTV = -1; }
+            if (!btnMyRecordedTV.Selected) MyRecordedTV = -1;
+            if (!btnArgusRecordings.IsSelected()) ArgusRecordings = -1;
+            if (!btnMyLiveTV.IsSelected()) MyLiveTV = -1;
+            if (!btnArgusLiveTV.IsSelected()) ArgusLiveTV = -1;
 
             // enable plugins
             int i = 1;
-            int[] intArray = new int[12] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos,
-                                          MyAnime, MyRecordedTV, ForTheRecordRecordings, MyLiveTV, 
-                                          ForTheRecordLiveTV, ArgusLiveTV, ArgusRecordings };
+            int[] intArray = new int[9] { TVSeries, MovingPictures, MyVideos, MyFilms, OnlineVideos,
+                                           MyRecordedTV, MyLiveTV, ArgusLiveTV, ArgusRecordings };
             Array.Sort(intArray);
 
             // keep existing sort order
@@ -149,14 +136,11 @@ namespace TraktPlugin.GUI
             if (btnMovingPictures.Selected && MovingPictures < 0) { MovingPictures = intArray.Max() + i; i++; }
             if (btnMyVideos.Selected && MyVideos < 0) { MyVideos = intArray.Max() + i; i++; }
             if (btnMyFilms.Selected && MyFilms < 0) { MyFilms = intArray.Max() + i; i++; }
-            if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }
-            if (btnMyAnime.Selected && MyAnime < 0) { MyAnime = intArray.Max() + i; i++; }
-            if (btnMyRecordedTV != null) { if (btnMyRecordedTV.Selected && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; } }
-            if (btnForTheRecordRecordings != null) { if (btnForTheRecordRecordings.Selected && ForTheRecordRecordings < 0) { ForTheRecordRecordings = intArray.Max() + i; i++; } }
-            if (btnArgusRecordings != null) { if (btnArgusRecordings.Selected && ArgusRecordings < 0) { ArgusRecordings = intArray.Max() + i; i++; } }
-            if (btnMyLiveTV != null) { if (btnMyLiveTV.Selected && MyLiveTV < 0) { MyLiveTV = intArray.Max() + i; i++; } }
-            if (btnForTheRecordLiveTV != null) { if (btnForTheRecordLiveTV.Selected && ForTheRecordLiveTV < 0) { ForTheRecordLiveTV = intArray.Max() + i; i++; } }
-            if (btnArgusLiveTV != null) { if (btnArgusLiveTV.Selected && ArgusLiveTV < 0) { ArgusLiveTV = intArray.Max() + i; i++; } }
+            if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }            
+            if (btnMyRecordedTV.IsSelected() && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; }
+            if (btnArgusRecordings.IsSelected() && ArgusRecordings < 0) { ArgusRecordings = intArray.Max() + i; i++; }
+            if (btnMyLiveTV.IsSelected() && MyLiveTV < 0) { MyLiveTV = intArray.Max() + i; i++; }
+            if (btnArgusLiveTV.IsSelected() && ArgusLiveTV < 0) { ArgusLiveTV = intArray.Max() + i; i++; }
 
             // save settings
             TraktSettings.TVSeries = TVSeries;
@@ -249,13 +233,10 @@ namespace TraktPlugin.GUI
                 if (MyVideos >= 0) btnMyVideos.Selected = true;
                 if (MyFilms >= 0) btnMyFilms.Selected = true;
                 if (OnlineVideos >= 0) btnOnlineVideos.Selected = true;
-                if (MyAnime >= 0) btnMyAnime.Selected = true;
-                if (btnMyRecordedTV != null) { if (MyRecordedTV >= 0) btnMyRecordedTV.Selected = true; }
-                if (btnForTheRecordRecordings != null) { if (ForTheRecordRecordings >= 0) btnForTheRecordRecordings.Selected = true; }
-                if (btnArgusRecordings != null) { if (ArgusRecordings >= 0) btnArgusRecordings.Selected = true; }
-                if (btnMyLiveTV != null) { if (MyLiveTV >= 0) btnMyLiveTV.Selected = true; }
-                if (btnForTheRecordLiveTV != null) { if (ForTheRecordLiveTV >= 0) btnForTheRecordLiveTV.Selected = true; }
-                if (btnArgusLiveTV != null) { if (ArgusLiveTV >= 0) btnArgusLiveTV.Selected = true; }
+                if (MyRecordedTV >= 0) btnMyRecordedTV.Selected = true;
+                if (ArgusRecordings >= 0) btnArgusRecordings.Selected = true;
+                if (MyLiveTV >= 0) btnMyLiveTV.Selected = true;
+                if (ArgusLiveTV >= 0) btnArgusLiveTV.Selected = true;
             }
             catch
             {

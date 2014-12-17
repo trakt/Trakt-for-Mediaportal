@@ -75,6 +75,24 @@ namespace TraktPlugin
             return GUI.Translation.GetByName(string.Format("Genre{0}", genreKey));
         }
 
+        public static List<string> Translate(List<string> genreKeys)
+        {
+            if (genreKeys == null)
+                return null;
+
+            List<string> translatedGenres = new List<string>();
+            
+            foreach (var genre in genreKeys)
+            {
+                var genreKey = ShowGenres.Union(MovieGenres).FirstOrDefault(g => g.Value == genre);
+                if (genreKey.Key == null) continue;
+
+                translatedGenres.Add(GUI.Translation.GetByName(string.Format("Genre{0}", genreKey.Key)));
+            }
+
+            return translatedGenres;
+        }
+
         public static string ItemName(string genreKey)
         {
             return string.Format(GUI.Translation.GenreItem, Translate(genreKey));

@@ -1087,6 +1087,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Slug", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Imdb", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Certification", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Language", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Released", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Runtime", string.Empty);
@@ -1121,13 +1122,14 @@ namespace TraktPlugin.GUI
             //TODOSetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Released", movie.Released);
+            SetProperty("#Trakt.Movie.Language", movie.Language);
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime);
             SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
             SetProperty("#Trakt.Movie.Title", movie.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Trailer", movie.Trailer);
             SetProperty("#Trakt.Movie.Url", string.Format("http://trakt.tv/movies/{0}", movie.Ids.Slug));
             SetProperty("#Trakt.Movie.Year", movie.Year);
-            SetProperty("#Trakt.Movie.Genres", movie.Genres);
+            SetProperty("#Trakt.Movie.Genres", TraktGenres.Translate(movie.Genres));
             SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
             SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
             SetProperty("#Trakt.Movie.InCollection", movie.IsCollected());
@@ -1205,6 +1207,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AiredEpisodes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
@@ -1231,12 +1234,13 @@ namespace TraktPlugin.GUI
             if (show.Airs != null)
             {
                 SetProperty("#Trakt.Show.AirDay", show.Airs.Day);
+                SetProperty("#Trakt.Show.AirDayLocalized", show.Airs.Day); //TODO
                 SetProperty("#Trakt.Show.AirTime", show.Airs.Time);
                 SetProperty("#Trakt.Show.AirTimezone", show.Airs.Timezone);
                 SetProperty("#Trakt.Show.AirTimeLocalized", show.Airs.Time); //TODO
             }
             SetProperty("#Trakt.Show.Certification", show.Certification);
-            SetProperty("#Trakt.Show.Country", show.Country);
+            SetProperty("#Trakt.Show.Country", show.Country.ToCountryName());
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromISO8601().ToShortDateString());
             SetProperty("#Trakt.Show.Network", show.Network);
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
@@ -1244,9 +1248,10 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Year", show.Year);
             SetProperty("#Trakt.Show.Status", show.Status);
             SetProperty("#Trakt.Show.TranslatedStatus", (show.Status ?? "").Replace(" " ,"").Translate());
-            SetProperty("#Trakt.Show.Genres", show.Genres);
+            SetProperty("#Trakt.Show.Genres", TraktGenres.Translate(show.Genres));
             SetProperty("#Trakt.Show.InWatchList", show.IsWatchlisted());
             SetProperty("#Trakt.Show.Watched", show.IsWatched());
+            SetProperty("#Trakt.Show.AiredEpisodes", show.AiredEpisodes);
             SetProperty("#Trakt.Show.Plays", show.Plays());
             SetProperty("#Trakt.Show.Rating", show.UserRating());
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Rating.ToPercentage());

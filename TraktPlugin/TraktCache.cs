@@ -647,14 +647,13 @@ namespace TraktPlugin
             // add username to filename
             string filename = file.Replace("{username}", TraktSettings.Username);
 
-            TraktLogger.Debug("Loading file from disk. Filename = '{0}'", filename);
-
             string returnValue = defaultValue;
 
             try
             {
                 if (File.Exists(filename))
                 {
+                    TraktLogger.Debug("Loading file from disk. Filename = '{0}'", filename);
                     returnValue = File.ReadAllText(filename, Encoding.UTF8);
                 }
             }

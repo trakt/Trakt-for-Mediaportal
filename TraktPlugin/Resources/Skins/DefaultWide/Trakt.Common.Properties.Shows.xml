@@ -114,7 +114,7 @@
       <posX>729</posX>
       <posY>294</posY>
       <width>320</width>
-      <label>#(iif(eq(#Trakt.Show.AirDay,'N/A'),'#Trakt.Show.AirTime','#Trakt.Show.AirDay #Trakt.Show.AirTime')) #(iif(eq(#Trakt.Show.Status,'N/A'),'','(#Trakt.Show.Status)'))</label>
+      <label>#(iif(eq(#Trakt.Show.AirDay,'N/A'),'#Trakt.Show.AirTime','#Trakt.Show.AirDay #Trakt.Show.AirTime')) #(iif(eq(#Trakt.Show.TranslatedStatus,'N/A'),'','(#Trakt.Show.TranslatedStatus)'))</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>

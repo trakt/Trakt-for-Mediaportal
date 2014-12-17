@@ -282,7 +282,11 @@ namespace TraktPlugin.GUI
             }
 
             // sort ascending or descending order
-            if (TraktSettings.SortSeasonsAscending)
+            if (!TraktSettings.SortSeasonsAscending)
+            {
+                seasons = seasons.OrderByDescending(s => s.Number).ToList();
+            }
+            else
             {
                 seasons = seasons.OrderBy(s => s.Number).ToList();
             }
@@ -290,7 +294,8 @@ namespace TraktPlugin.GUI
             int itemId = 0;
             var seasonImages = new List<GUITraktImage>();
 
-            foreach (var season in seasons)
+            // skip over any seasons with no episodes
+            foreach (var season in seasons.Where(s => s.EpisodeCount > 0))
             {
                 // add image for download
                 var images = new GUITraktImage { SeasonImages = season.Images, ShowImages = Show.Images };

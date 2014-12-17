@@ -50,13 +50,13 @@ namespace TraktPlugin.GUI
                         if (rtn == 0)
                         {
                             // if same score compare votes
-                            //TODOrtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
+                            rtn = movieX.Votes.CompareTo(movieY.Votes);
                         }
                         break;
 
                     case SortingFields.Votes:
                         rtn = 0;
-                        //TODOrtn = movieX.Ratings.Votes.CompareTo(movieY.Ratings.Votes);
+                        rtn = movieX.Votes.CompareTo(movieY.Votes);
                         break;
 
                     case SortingFields.Runtime:
@@ -145,13 +145,13 @@ namespace TraktPlugin.GUI
                         if (rtn == 0)
                         {
                             // if same score compare votes
-                            //TODOrtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
+                            rtn = showX.Votes.CompareTo(showY.Votes);
                         }
                         break;
 
                     case SortingFields.Votes:
                         rtn = 0;
-                        //TODOrtn = showX.Ratings.Votes.CompareTo(showY.Ratings.Votes);
+                        rtn = showX.Votes.CompareTo(showY.Votes);
                         break;
 
                     case SortingFields.Runtime:

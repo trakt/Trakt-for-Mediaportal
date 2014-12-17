@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using MediaPortal.Configuration;
+using System.Threading;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
-using System.Threading;
 
 namespace TraktPlugin.GUI
 {
