@@ -399,7 +399,7 @@ namespace TraktPlugin.TraktAPI
         {
             // 7-Days from Today
             DateTime dateNow = DateTime.UtcNow;
-            return GetCalendarShows(dateNow.ToString("yyyyMMdd"), "7");
+            return GetCalendarShows(dateNow.ToString("yyyyMMdd"), "7", false);
         }
 
         /// <summary>
@@ -407,10 +407,11 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         /// <param name="startDate">Start Date of calendar in form yyyyMMdd</param>
         /// <param name="days">Number of days to return in calendar</param>
-        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows(string startDate, string days)
+        /// <param name="userCalendar">Set to true to get the calendar filtered by users shows in library</param>
+        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows(string startDate, string days, bool userCalendar)
         {
-            string userCalendar = GetFromTrakt(string.Format(TraktURIs.CalendarShows, startDate, days));
-            return userCalendar.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarShows, startDate, days), "GET", userCalendar);
+            return calendar.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
         }
 
         /// <summary>
@@ -1397,7 +1398,7 @@ namespace TraktPlugin.TraktAPI
             return response != null;
         }
 
-        static string GetFromTrakt(string address, string method = "GET")
+        static string GetFromTrakt(string address, string method = "GET", bool sendOAuth = true)
         {
             if (OnDataSend != null)
                 OnDataSend(address, null);
@@ -1414,8 +1415,14 @@ namespace TraktPlugin.TraktAPI
             // add required headers for authorisation
             request.Headers.Add("trakt-api-version", "2");
             request.Headers.Add("trakt-api-key", ApplicationId);
-            request.Headers.Add("trakt-user-login", Username);
-            request.Headers.Add("trakt-user-token", UserToken ?? string.Empty);
+
+            // some methods we may want to get all data and not filtered by user data
+            // e.g. Calendar - All Shows
+            if (sendOAuth)
+            {
+                request.Headers.Add("trakt-user-login", Username ?? string.Empty);
+                request.Headers.Add("trakt-user-token", UserToken ?? string.Empty);
+            }
 
             try
             {

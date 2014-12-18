@@ -28,6 +28,8 @@
   <string name="GenreAll">Все</string>
   <string name="GenreMusic">Музыка</string>
   <string name="GenreNews">Новости</string>
+  <string name="GuestStar">Приглашенная звезда</string>
+  <string name="GuestStars">Приглашенные звезды</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -36,6 +38,7 @@
   <string name="List">Отображение списка</string>
   <!--M-->
   <string name="MarkAsWatched">Отметить как просмотренный</string>
+  <string name="Minutes">Минуты</string>
   <string name="Movie">Фильм</string>
   <string name="Movies">Фильмы</string>
   <!--N-->
@@ -84,7 +87,6 @@
   <!--V-->
   <string name="Votes">Голоса</string>
   <!--W-->
-  <string name="WatchList">Список просмотра</string>
   <string name="Watched">Просмотрен</string>
   <string name="Writer">Автор</string>
   <string name="Writers">Авторы</string>

@@ -433,7 +433,9 @@
   <ItemGroup>
     <None Include="Resources\Images\list-remove.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\Skins\Titan\Media\Logos\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />
@@ -478,6 +480,7 @@
     <Content Include="Resources\Languages\ru.xml" />
     <Content Include="Resources\Languages\sk.xml" />
     <Content Include="Resources\Languages\sl.xml" />
+    <Content Include="Resources\Languages\sq.xml" />
     <Content Include="Resources\Languages\sr.xml" />
     <Content Include="Resources\Languages\sv.xml" />
     <Content Include="Resources\Languages\tr.xml" />

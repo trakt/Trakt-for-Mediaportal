@@ -13,21 +13,15 @@
   <string name="ActivityWatched">{0} obejrzane {1}</string>
   <string name="Activities">Aktywności</string>
   <string name="AddFriend">Dodaj przyjaciela...</string>
-  <string name="AddToLibrary">Dodaj do biblioteki</string>
   <string name="AddToList">Dodaj do listy...</string>
-  <string name="AddToWatchList">Dodaj do listy monitorowania</string>
-  <string name="AddShowToWatchList">Dodaj występ do listy monitorowania</string>
-  <string name="AddEpisodeToWatchList">Dodaj odcinek do listy monitorowania</string>
   <string name="AddShowToList">Dodaj występ do listy</string>
   <string name="AddEpisodeToList">Dodaj odcinek do listy</string>
-  <string name="AddThisItemToWatchList">Dodać ten element do listy monitorowania?</string>
   <string name="Age">Wiek</string>
   <string name="AirDate">Data emisji</string>
   <string name="AirDay">Dzień emisji</string>
   <string name="AirTime">Czas emisji</string>
   <string name="Approve">Zatwierdź</string>
   <string name="ApprovedDate">Data zatwierdzenia</string>
-  <string name="ApproveFriendMessage">Chcesz dodać użytkownika {0}\ndo listy przyjaciół?</string>
   <string name="AdvancedSettings">Ustawienia zaawansowane</string>
   <!--B-->
   <string name="Biography">Biografia</string>
@@ -55,8 +49,6 @@
   <string name="CreateList">Utwórz nową listę...</string>
   <string name="Community">Społeczność</string>
   <string name="CommunityActivity">Aktywność społeczności</string>
-  <string name="ConfirmDeleteList">Czy na pewno usunąć tą listę?</string>
-  <string name="ConfirmDeleteListItem">Czy na pewno usunąć ten element z listy?</string>
   <string name="CopyList">Kopiuj listę...</string>
   <!--D-->
   <string name="DateToday">Dzisiaj</string>
@@ -69,7 +61,6 @@
   <string name="DeleteListItem">Usuń element z listy</string>
   <string name="DeletingList">Usuwanie listy</string>
   <string name="DeleteFriend">Usuwanie przyjaciela</string>
-  <string name="DeleteFriendMessage">Czy na pewno usunąć {0}\nz listy przyjaciół?</string>
   <string name="Director">Reżyser</string>
   <string name="Directors">Reżyserzy</string>
   <string name="DisconnectAccount">Odłącz konto: {0}</string>
@@ -84,7 +75,6 @@
   <string name="Episode">Odcinek</string>
   <string name="Episodes">Odcinków</string>
   <string name="Error">Błąd Takt</string>
-  <string name="ErrorCalendar">Błąd pobierania kalendarza.</string>
   <!--F-->
   <string name="Filters">Filtry</string>
   <string name="FirstAired">Pierwsza emisja</string>
@@ -140,8 +130,9 @@
   <string name="GettingRelatedMovies">Pobieranie powiązanych filmów</string>
   <string name="GettingRelatedShows">Pobieranie powiązanych programów</string>
   <string name="GettingUserProfile">Pobieranie profilu użytkownika</string>
+  <string name="GuestStar">Gość odcinka</string>
+  <string name="GuestStars">Goście odcinka</string>
   <!--H-->
-  <string name="HideTVShowsInWatchlist">Ukryj programy TV na liście monitorowania</string>
   <string name="HideCollected">Ukryj zebrane</string>
   <string name="HideRated">Ukryj ocenione</string>
   <string name="HideWatched">Ukryj obejrzane</string>
@@ -167,6 +158,7 @@
   <!--M-->
   <string name="MarkAsWatched">Oznacz jako obejrzany</string>
   <string name="Me">Ja</string>
+  <string name="Minutes">Minuty</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmy</string>
   <string name="MultiSelectDialog">Okno wielokrotnego wyboru</string>
@@ -175,7 +167,6 @@
   <string name="Network">Sieć</string>
   <string name="NextEpisode">Następny odcinek</string>
   <string name="NextWeek">Następny tydzień</string>
-  <string name="NoActivities">Brak aktywności.</string>
   <string name="NoEpisodesInSeason">Brak odcinków w sezonie.</string>
   <string name="NoEpisodesThisWeek">Brak odcinków w tym tygodniu</string>
   <string name="NoFriends">Nie ma przyjaciół!</string>
@@ -223,10 +214,6 @@
   <string name="RelatedShows">Związane programy</string>
   <string name="Released">Wydane</string>
   <string name="ReleaseDate">Data wydania</string>
-  <string name="RemoveFromLibrary">Usuń z biblioteki</string>
-  <string name="RemoveFromWatchList">Usuń z listy monitorowania</string>
-  <string name="RemoveShowFromWatchList">Usuń program z listy monitorowania</string>
-  <string name="RemoveEpisodeFromWatchList">Usuń odcinek z listy monitorowania</string>
   <string name="RemoveFromList">Usuń z listy...</string>
   <string name="Reply">Odpowiedz</string>
   <string name="Replies">Odpowiedzi</string>
@@ -284,7 +271,6 @@
   <string name="ValidPassword">Prawidłowe hasło jest wymagane!</string>
   <string name="ValidEmail">Prawidłowy adres email jest wymagany!</string>
   <!--W-->
-  <string name="WatchList">Lista oczekiwanych</string>
   <string name="Watched">Obejrzany</string>
   <string name="WatchedMovies">Obejrzanych filmów</string>
   <string name="WatchedEpisodes">Obejrzanych odcinków</string>

@@ -15,7 +15,6 @@
   <string name="Age">Aldur</string>
   <string name="Approve">Samþykkja</string>
   <string name="ApprovedDate">Dags. samþykktar</string>
-  <string name="ApproveFriendMessage">Viltu bæta notenda {0} sem vin?</string>
   <!--B-->
   <string name="BufferingTrailer">Stiklur í biðminni</string>
   <string name="Biography">Ævisaga</string>
@@ -91,6 +90,8 @@
   <string name="GettingRelatedMovies">Sæki svipaðar kvikmyndir</string>
   <string name="GettingRelatedShows">Sæki svipaða sjónvarpsþætti</string>
   <string name="GettingTrailerUrls">Sæki vefslóð stiklu</string>
+  <string name="GuestStar">Gestaleikari</string>
+  <string name="GuestStars">Gestaleikarar</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -103,6 +104,7 @@
   <!--M-->
   <string name="MarkAsWatched">Merkja séða</string>
   <string name="MarkAsUnWatched">Merkja óséða</string>
+  <string name="Minutes">mínútur</string>
   <string name="Movie">Kvikmynd</string>
   <string name="Movies">Kvikmyndir</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
@@ -113,9 +115,6 @@
   <string name="NoEpisodesThisWeek">Engir þættir í þessari viku</string>
   <string name="NoFriends">Engir vinir!</string>
   <string name="NoFriendsTaunt">Þú átt enga vini!</string>
-  <string name="NoTrendingShows">Ekki verið að horfa á neinn sjónvarpsþátt!</string>
-  <string name="NoSearchResultsFound">Fundust engar leitarniðurstöður</string>
-  <string name="NoMovingPictures">MovingPictures er ekki uppsett eða óvirkt</string>
   <string name="NoUserLists">{0} hefur ekki búið til neinn lista!</string>
   <string name="NoListItemsFound">Engin atriði fundust í þessum lista!</string>
   <string name="NoRelatedMovies">Engar svipaðar kvikmyndir fyrir {0} fundust!</string>
@@ -156,7 +155,6 @@
   <string name="RelatedShows">Svipaðir sjónvarpsþættir</string>
   <string name="Released">Útgefið</string>
   <string name="ReleaseDate">Útgáfudagsetning</string>
-  <string name="RemoveFromLibrary">Eyða úr safni</string>
   <string name="RemoveFromList">Eyða úr lista...</string>
   <string name="Runtime">Sýningart:</string>
   <!--S-->

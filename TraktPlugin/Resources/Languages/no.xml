@@ -24,21 +24,15 @@
   <string name="ActivityShouts">{0} ropte ut til {1}</string>
   <string name="Activities">Aktiviteter</string>
   <string name="AddFriend">Add Friend...</string>
-  <string name="AddToLibrary">Legg til i biblioteket</string>
   <string name="AddToList">Legg til i liste...</string>
-  <string name="AddToWatchList">Legg til i ønsker å se</string>
-  <string name="AddShowToWatchList">Add Show to Watch List</string>
-  <string name="AddEpisodeToWatchList">Add Episode to Watch List</string>
   <string name="AddShowToList">Legg serie til i liste...</string>
   <string name="AddEpisodeToList">Legg episode til i liste...</string>
-  <string name="AddThisItemToWatchList">Add this item to your watch list?</string>
   <string name="Age">Age</string>
   <string name="AirDate">Dato</string>
   <string name="AirDay">Dag</string>
   <string name="AirTime">Klokkeslett</string>
   <string name="Approve">Approve</string>
   <string name="ApprovedDate">Approved Date</string>
-  <string name="ApproveFriendMessage">Would you like to add user {0}\nas a friend?</string>
   <string name="AdvancedSettings">Avanserte innstillinger</string>
   <!--B-->
   <string name="BufferingTrailer">Bufrer forhåndsvisning</string>
@@ -65,8 +59,6 @@
   <string name="CreateList">Opprett ny liste...</string>
   <string name="Community">Samfunn</string>
   <string name="CommunityActivity">Samfunns aktiviteter</string>
-  <string name="ConfirmDeleteList">Er du sikker på at du vil slette⏎ denne listen?</string>
-  <string name="ConfirmDeleteListItem">Er du sikker på at du vil slette⏎ dette objektet fra listen?</string>
   <string name="CopyList">Kopier liste...</string>
   <!--D-->
   <string name="DateToday">I dag</string>
@@ -79,7 +71,6 @@
   <string name="DeleteListItem">Slett liste objekt</string>
   <string name="DeletingList">Sletter liste</string>
   <string name="DeleteFriend">Delete Friend</string>
-  <string name="DeleteFriendMessage">Are you sure you want to delete\n{0} as a friend?</string>
   <string name="Director">Regissør</string>
   <string name="Directors">Regissører</string>
   <string name="DisconnectAccount">Koble fra konto: {0}</string>
@@ -95,7 +86,6 @@
   <string name="Episode">Episode</string>
   <string name="Episodes">Episoder</string>
   <string name="Error">Feil med Trakt</string>
-  <string name="ErrorCalendar">Feil ved henting av kalender.</string>
   <!--F-->
   <string name="Filters">Filtre</string>
   <string name="FirstAired">Først sendt</string>
@@ -159,16 +149,14 @@
   <string name="GettingTrendingShows">Henter populære serier</string>
   <string name="GettingRecommendedMovies">Henter anbefalte filmer</string>
   <string name="GettingRecommendedShows">Henter anbefalte serier</string>
-  <string name="GettingWatchListMovies">Henter liste med sette filmer</string>
-  <string name="GettingWatchListShows">Henter liste med sette serier</string>
-  <string name="GettingWatchListEpisodes">Henter liste med sette episoder</string>
   <string name="GettingRelatedMovies">Henter relaterte filmer</string>
   <string name="GettingRelatedShows">Henter relaterte serier</string>
   <string name="GettingTrailerUrls">Henter trailer URLer</string>
+  <string name="GuestStar">Gjest</string>
+  <string name="GuestStars">Gjester</string>
   <!--H-->
   <string name="Hate">Hater</string>
   <string name="Hated">Hatet</string>
-  <string name="HideTVShowsInWatchlist">Hide TV Shows in Watch List</string>
   <string name="HideCollected">Skjul samlet</string>
   <string name="HideWatched">Skjul sette</string>
   <string name="HideWatchlisted">Skjul visningsliste</string>
@@ -195,28 +183,19 @@
   <!--M-->
   <string name="MarkAsWatched">Marker som sett</string>
   <string name="MarkAsUnWatched">Marker som usett</string>
+  <string name="Minutes">Minutter</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
   <!--N-->
   <string name="Name">Navn</string>
   <string name="Network">Kanal</string>
   <string name="NextWeek">Neste uke</string>
-  <string name="NoActivities">Ingen aktivitet funnet</string>
   <string name="NoEpisodeSummary">Episode oppsummering ikke tigjengelig.</string>
   <string name="NoEpisodesThisWeek">Ingen episode denne uke</string>
   <string name="NoMovieSummary">Film oppsummering ikke tigjengelig.</string>
   <string name="NoShowSummary">Serie oppsummering ikke tigjengelig.</string>
   <string name="NoFriends">Ingen venner!</string>
   <string name="NoFriendsTaunt">Du har ingen venner!</string>
-  <string name="NoTrendingMovies">Ingen filmer blir vises for øyeblikket!</string>
-  <string name="NoTrendingShows">Ingen serier vises for øyeblikket!</string>
-  <string name="NoShowWatchList">{0} has no shows in Watch List!</string>
-  <string name="NoMovieWatchList">{0} has no movies in Watch List!</string>
-  <string name="NoEpisodeWatchList">{0} has no episodes in Watch List!</string>
-  <string name="NoShoutsForItem">No Shouts for {0}!</string>
-  <string name="NoPluginsEnabled">Du har ikke konfigurert tillegget i innstillinger.\nVil du konfigurere tillegget nå?</string>
-  <string name="NotLoggedIn">Du må være logget inn for å vise dette området.\nVil du bli med eller logge inn\npå trakt.tv nå?</string>
-  <string name="NoSearchResultsFound">No Search Results Found</string>
   <string name="No">Nei</string>
   <!--O-->
   <string name="OK">Ok</string>
@@ -253,10 +232,6 @@
   <string name="RecommendedShows">Anbefalte serier</string>
   <string name="Released">Utgitt</string>
   <string name="ReleaseDate">Utgivelsesdato</string>
-  <string name="RemoveFromLibrary">Fjern fra biblioteket</string>
-  <string name="RemoveFromWatchList">Fjern fra sett listen</string>
-  <string name="RemoveShowFromWatchList">Remove Show from Watch List</string>
-  <string name="RemoveEpisodeFromWatchList">Remove Episode from Watch List</string>
   <string name="Runtime">Varighet</string>
   <!--S-->
   <string name="Score">Vurdering</string>
@@ -301,14 +276,10 @@
   <string name="ValidPassword">Du må skrive inn et gyldig passord!</string>
   <string name="ValidEmail">Du må skrive inn en gyldig epost!</string>
   <!--W-->
-  <string name="WatchList">Visningsliste</string>
   <string name="Watched">Sett</string>
   <string name="WatchedMovies">Sette filmer</string>
   <string name="WatchedShows">Sette serier</string>
   <string name="Watching">Ser på nå</string>
-  <string name="WatchListMovies">Liste over filmer å se</string>
-  <string name="WatchListShows">Liste over serier å se</string>
-  <string name="WatchListEpisodes">Liste over episoder å se</string>
   <string name="Writer">Manus</string>
   <string name="Writers">Forfattere</string>
   <!--Y-->

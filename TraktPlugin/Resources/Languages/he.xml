@@ -21,6 +21,8 @@
   <!--G-->
   <string name="Genre">ז\'אנר</string>
   <string name="GenreAll">הכל</string>
+  <string name="GuestStar">כוכב אורח</string>
+  <string name="GuestStars">כוכבים אורחים</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -29,6 +31,7 @@
   <string name="List">רשימה</string>
   <!--M-->
   <string name="MarkAsWatched">סמן כנצפה</string>
+  <string name="Minutes">דקות</string>
   <string name="Movie">סרט</string>
   <string name="Movies">סרטים</string>
   <!--N-->

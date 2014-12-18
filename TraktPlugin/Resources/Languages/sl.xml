@@ -25,21 +25,15 @@
   <string name="ActivityShouts">{0} kričala na {1}</string>
   <string name="Activities">Aktivnosti</string>
   <string name="AddFriend">Dodaj prijatelja...</string>
-  <string name="AddToLibrary">Dodaj v zbirko</string>
   <string name="AddToList">Dodaj na seznam...</string>
-  <string name="AddToWatchList">Dodaj na seznam gledanja</string>
-  <string name="AddShowToWatchList">Dodaj oddajo na seznam gledanja</string>
-  <string name="AddEpisodeToWatchList">Dodaj epizodo na seznam gledanja</string>
   <string name="AddShowToList">Dodaj oddajo na seznam</string>
   <string name="AddEpisodeToList">Dodaj epizodo na seznam</string>
-  <string name="AddThisItemToWatchList">Dodam ta element na seznam gledanja?</string>
   <string name="Age">Starost</string>
   <string name="AirDate">Datum predvajanja</string>
   <string name="AirDay">Dan predvajanja</string>
   <string name="AirTime">Čas predvajanja</string>
   <string name="Approve">Odobri</string>
   <string name="ApprovedDate">Datum odobritve</string>
-  <string name="ApproveFriendMessage">Želite dodati uporabnika {0}\nkot prijatelja?</string>
   <string name="AdvancedSettings">Napredne nastavitve</string>
   <!--B-->
   <string name="BufferingTrailer">Medpomnjenje trailerja</string>
@@ -68,8 +62,6 @@
   <string name="CreateList">Ustvarjanje novega seznama...</string>
   <string name="Community">Skupnost</string>
   <string name="CommunityActivity">Aktivnost skupnosti</string>
-  <string name="ConfirmDeleteList">Ste prepričani, da želite izbrisati\nta seznam?</string>
-  <string name="ConfirmDeleteListItem">Ste prepričani, da želite izbrisati\nta element s seznama?</string>
   <string name="CopyList">Kopiraj seznam...</string>
   <!--D-->
   <string name="DateToday">Danes</string>
@@ -82,7 +74,6 @@
   <string name="DeleteListItem">Izbriši element seznama</string>
   <string name="DeletingList">Brisanje seznama</string>
   <string name="DeleteFriend">Izbriši prijatelja</string>
-  <string name="DeleteFriendMessage">Ali ste prepričani, da želite izbrisati\n{0} kot prijatelja?</string>
   <string name="Director">Režiser</string>
   <string name="Directors">Režiserji</string>
   <string name="DisconnectAccount">Prekini račun: {0}</string>
@@ -98,7 +89,6 @@
   <string name="Episode">Epizoda</string>
   <string name="Episodes">Epizode</string>
   <string name="Error">Napaka Trakta</string>
-  <string name="ErrorCalendar">Napaka pridobivanja koledarja.</string>
   <!--F-->
   <string name="Filters">Filtri</string>
   <string name="FirstAired">Prvič predvajano</string>
@@ -163,22 +153,19 @@
   <string name="GettingTrendingShows">Pridobivanje trend oddaj</string>
   <string name="GettingRecommendedMovies">Pridobivanje priporočenih filmov</string>
   <string name="GettingRecommendedShows">Pridobivanje priporočenih oddaj</string>
-  <string name="GettingWatchListMovies">Pridobivanje seznamov gledanih filmov</string>
-  <string name="GettingWatchListShows">Pridobivanje seznamov gledanih oddaj</string>
-  <string name="GettingWatchListEpisodes">Pridobivanje seznamov gledanih epizod</string>
   <string name="GettingRelatedMovies">Pridobivanje sorodnih filmov</string>
   <string name="GettingRelatedShows">Pridobivanje sorodnih oddaj</string>
   <string name="GettingTrailerUrls">Pridobivanje Url-jev trailerjev</string>
+  <string name="GuestStar">Gostujoči</string>
+  <string name="GuestStars">Gostujoči</string>
   <!--H-->
   <string name="Hate">Sovražim</string>
   <string name="Hated">Osovraženo</string>
-  <string name="HideTVShowsInWatchlist">Skrij TV oddaje v seznamu gledanih</string>
   <string name="HideCollected">Skrij zbrane</string>
   <string name="HideRated">Skrij ocenjene</string>
   <string name="HideWatched">Skrij gledane</string>
   <string name="HideWatchlisted">Skrij Watchlisted</string>
   <string name="HideSpoilers">Skrij Spoilerje</string>
-  <string name="HiddenToPreventSpoilers">Ta krik je bil skrit za preprečitev spoilerjev, to lahko spremenite v izbirnem meniju.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Vključi me v aktivnost prijateljev</string>
   <string name="Inserted">Vstavljeno</string>
@@ -204,6 +191,7 @@
   <!--M-->
   <string name="MarkAsWatched">Označi kot gledano</string>
   <string name="MarkAsUnWatched">Označi kot neogledano</string>
+  <string name="Minutes">Minut</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmov</string>
   <string name="MultiSelectDialog">Multi-izbira</string>
@@ -212,7 +200,6 @@
   <string name="Network">Omrežje</string>
   <string name="NextEpisode">Naslednja epizoda</string>
   <string name="NextWeek">Naslednji teden</string>
-  <string name="NoActivities">Ni najdenih aktivnosti.</string>
   <string name="NoEpisodesInSeason">V sezoni ni na voljo epizod.</string>
   <string name="NoEpisodeSummary">Povzetek epizod ni na voljo.</string>
   <string name="NoEpisodesThisWeek">Ta teden ni epizod</string>
@@ -220,20 +207,6 @@
   <string name="NoShowSummary">Povzetek oddaje trenutno ni na voljo.</string>
   <string name="NoFriends">Ni prijateljev!</string>
   <string name="NoFriendsTaunt">Nimaš prijateljev!</string>
-  <string name="NoTrendingMovies">Trenutno se ne gledajo filmi!</string>
-  <string name="NoTrendingShows">Trenutno se ne gledajo oddaje!</string>
-  <string name="NoMovieRecommendations">Ni najdenih predlogov filmov!</string>
-  <string name="NoShowRecommendations">Ni najdenih predlogov oddaj!</string>
-  <string name="NoShowWatchList">{0} nima oddaj v seznamu gledanja!</string>
-  <string name="NoMovieWatchList">{0} nima filmov v seznamu gledanja!</string>
-  <string name="NoEpisodeWatchList">{0} nima epizod v seznamu gledanja!</string>
-  <string name="NoShoutsForItem">Ni krikov za {0}!</string>
-  <string name="NoPluginsEnabled">Ni definiranih vtičnikov v nastavitvah.\nAli želite nastaviti vtičnike sedaj?</string>
-  <string name="NotLoggedIn">Do tega območja ne morete dostopati brez\nda ste prijavljeni. Se želite registrirati ali prijaviti\nv trakt.tv sedaj?</string>
-  <string name="NoSearchResultsFound">Ni najdenih rezultatov iskanja</string>
-  <string name="NoSeasonsForShow">Za oddajo ni najdenih sezon!</string>
-  <string name="NoMovingPictures">Moving Pictures ni nameščen ali omogočen</string>
-  <string name="NoListsFound">Ni najdenih seznamov, ali želite \nustvariti seznam sedaj?</string>
   <string name="NoUserLists">{0} ni ustvaril nobenih seznamov!</string>
   <string name="NoListItemsFound">Ni najdenih elementov v tem seznamu!</string>
   <string name="NoRelatedMovies">Ni najdenih sorodnih filmov za {0}!</string>
@@ -288,10 +261,6 @@
   <string name="RelatedShows">Sorodne oddaje</string>
   <string name="Released">Izdano</string>
   <string name="ReleaseDate">Datum izida</string>
-  <string name="RemoveFromLibrary">Odstrani iz knjižnice</string>
-  <string name="RemoveFromWatchList">Odstrani iz seznama gledanih</string>
-  <string name="RemoveShowFromWatchList">Odstrani oddajo iz seznama gledanih</string>
-  <string name="RemoveEpisodeFromWatchList">Odstrani oddajo iz seznama gledanih</string>
   <string name="RemoveFromList">Odstrani s seznama...</string>
   <string name="Reply">Odgovori</string>
   <string name="Replies">Odgovori</string>
@@ -314,16 +283,12 @@
   <string name="Settings">Nastavitve</string>
   <string name="Shout">Krik</string>
   <string name="Shouts">Kriki</string>
-  <string name="ShowTVShowsInWatchlist">Prikaži TV oddaje z seznamu ogledov</string>
   <string name="ShowSpoilers">Prikaži Spoilerje</string>
   <string name="ShowFriendActivity">Prikaži aktivnosti prijateljev</string>
   <string name="ShowCommunityActivity">Prikaži aktivnosti skupnosti</string>
   <string name="SigningIntoAccount">Prijavljanje v račun...</string>
-  <string name="SkinPluginsOutOfDate">Napaka nalaganja okna, preobleka je zastarela!\nZaprite MediaPortal in pojdite v konfiguracijo za\nvklop upravljalca vtičnikov.</string>
-  <string name="SkinOutOfDate">Ta funkcija ni na voljo za tvojo\npreobleko. Preverite, če je na voljo posodobitev.</string>
   <string name="StartDate">Datum začetka</string>
   <string name="Synchronize">Sinhroniziraj</string>
-  <string name="SynchronizeNow">Dodani so bili novi upravljalci vtičnikov.\nAli želite sedaj sinhronizirati \nvaše knjižnice?</string>
   <string name="ShowRateDialogOnWatched">Prikaži pogovorno okno oceni na gledanem elementu</string>
   <string name="ShowSeasonInfo">Informacije sezone...</string>
   <string name="ShowWatched">Gledana oddaja</string>
@@ -396,16 +361,12 @@
   <string name="ValidPassword">Vnesti morate veljavno geslo!</string>
   <string name="ValidEmail">Vnesti morate veljaven e-mail!</string>
   <!--W-->
-  <string name="WatchList">Seznam gledanih</string>
   <string name="Watched">Gledani</string>
   <string name="WatchedMovies">Gledani filmi</string>
   <string name="WatchedEpisodes">Gledane epizode</string>
   <string name="WatchedShows">Gledane oddaje</string>
   <string name="Watchers">Gledalci</string>
   <string name="Watching">Gledajo</string>
-  <string name="WatchListMovies">Seznam gledanih filmov</string>
-  <string name="WatchListShows">Seznam gledanih oddaj</string>
-  <string name="WatchListEpisodes">Seznam gledanih epizod</string>
   <string name="Writer">Scenarij</string>
   <string name="Writers">Scenarij</string>
   <!--Y-->

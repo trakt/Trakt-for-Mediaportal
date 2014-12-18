@@ -25,6 +25,8 @@
   <!--G-->
   <string name="Genre">Žánr</string>
   <string name="GenreAll">Vše</string>
+  <string name="GuestStar">Guest Star</string>
+  <string name="GuestStars">Guest Stars</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -33,6 +35,7 @@
   <string name="List">Seznam</string>
   <!--M-->
   <string name="MarkAsWatched">Označit za zhlédnuté</string>
+  <string name="Minutes">Minut</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmy</string>
   <string name="MultiSelectDialog">Dialog více voleb</string>
@@ -76,7 +79,6 @@
   <!--U-->
   <!--V-->
   <!--W-->
-  <string name="WatchList">Fronta</string>
   <string name="Watched">Zhlédnuto</string>
   <string name="Writer">Scénárista</string>
   <string name="Writers">Scénáristé</string>

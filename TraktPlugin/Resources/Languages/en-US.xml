@@ -76,6 +76,7 @@
   <string name="CreatingFilters">Creating Filters</string>
   <string name="CreatingList">Creating List</string>
   <string name="CreateList">Create a new List...</string>
+  <string name="CreateAccountWebsite">Sorry, this feature is no longer\navailable. Please use the website\nto create an account.</string>
   <string name="Community">Community</string>
   <string name="CommunityActivity">Community Activity</string>
   <string name="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
@@ -473,7 +474,7 @@
   <string name="Username">Username</string>
   <string name="UnAuthorized">Authentication failed, please check username and password in settings.</string>
   <string name="UnFollow">UnFollow</string>
-  <string name="UnFollowMessage">Are you sure you want to unfollow\nuser {0}?</string>
+  <string name="UnFollowMessage">Are you sure you no longer want\nto follow user {0}?</string>
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Updating Categories</string>
   <string name="UpdatingCategoriesMenuMovingPics">Updating Categories Menu in MovingPictures.</string>

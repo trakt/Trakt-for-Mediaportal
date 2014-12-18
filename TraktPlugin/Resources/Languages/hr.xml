@@ -37,6 +37,8 @@
   <string name="GenreNews">Vijesti</string>
   <string name="GenreThriller">Triler</string>
   <string name="GenreWar">Ratni</string>
+  <string name="GuestStar">Gostujuća uloga</string>
+  <string name="GuestStars">Gostujuće uloge</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -45,11 +47,11 @@
   <string name="List">Popis</string>
   <!--M-->
   <string name="MarkAsWatched">Označite kao pogledano</string>
+  <string name="Minutes">Minuta</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmova</string>
   <!--N-->
   <string name="Network">TV Mreža</string>
-  <string name="NoSearchResultsFound">Nema pronađenih rezultata! Pokušajte izmijeniti vašu pretragu.</string>
   <string name="No">Ne</string>
   <!--O-->
   <string name="OK">U redu</string>
@@ -95,7 +97,6 @@
   <!--V-->
   <string name="Votes">Glasova</string>
   <!--W-->
-  <string name="WatchList">Popis za gledanje</string>
   <string name="Watched">Pogledano</string>
   <string name="Writer">Scenarij</string>
   <string name="Writers">Scenarij</string>

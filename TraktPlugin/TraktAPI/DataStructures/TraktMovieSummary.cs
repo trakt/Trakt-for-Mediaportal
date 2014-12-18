@@ -33,6 +33,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "homepage")]
         public string Homepage { get; set; }
 
+        [DataMember(Name = "certification")]
+        public string Certification { get; set; }
+
         [DataMember(Name = "rating")]
         public double? Rating { get; set; }
 

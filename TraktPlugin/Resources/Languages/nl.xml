@@ -28,14 +28,13 @@
   <string name="ActivityShouts">{0} stemde op {1}</string>
   <string name="Activities">Activiteiten</string>
   <string name="AddFriend">Vriend toevoegen</string>
-  <string name="AddToLibrary">Voeg toe aan bibliotheek</string>
+  <string name="AddToLibrary">Voeg toe aan collectie</string>
   <string name="AddToList">Voeg toe aan lijst</string>
-  <string name="AddToWatchList">Voeg toe aan kijklijst</string>
-  <string name="AddShowToWatchList">Voeg serie toe aan kijklijstVerberg</string>
-  <string name="AddEpisodeToWatchList">Voeg aflevering toe aan kijklijst</string>
+  <string name="AddToWatchList">Voeg toe aan kijk lijst</string>
+  <string name="AddShowToWatchList">Voeg serie toe aan kijk lijst</string>
+  <string name="AddEpisodeToWatchList">Voeg aflevering toe aan kijk lijst</string>
   <string name="AddShowToList">Voeg serie toe aan lijst</string>
   <string name="AddEpisodeToList">Voeg aflevering toe aan lijst</string>
-  <string name="AddThisItemToWatchList">Wil je dit item toevoegen aan lijst?</string>
   <string name="Age">Leeftijd</string>
   <string name="AirDate">Datum uitgezonden</string>
   <string name="AirDay">Dag uitgezonden</string>
@@ -43,9 +42,9 @@
   <string name="Approve">Goedkeuren</string>
   <string name="ApproveAndFollowBack">Goedkeuren en gaan volgen</string>
   <string name="ApprovedDate">Datum goedgekeurd</string>
-  <string name="ApproveFriendMessage">Wil je gebruiker {0}\ntoevoegen als vriend?</string>
-  <string name="ApproveFollowerMessage">Vind je het leuk als gebruiker {0}\nje gaat volgen?</string>
-  <string name="ApproveFollowerAndFollowBackMessage">Wil je toestaan dat gebruiker {0} je volgt\nen dat jij deze gebruiker gaat volgen?</string>
+  <string name="ApproveFriendMessage">Wil je gebruiker {0} as toevoegen als vriend?</string>
+  <string name="ApproveFollowerMessage">Vind je het leuk als gebruiker {0} je gaat volgen?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Wil je toestaan dat gebruiker {0} je volgt en dat jij deze gebruiker gaat volgen?</string>
   <string name="AdvancedSettings">Geavanceerde instellingen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer bufferen</string>
@@ -56,6 +55,7 @@
   <string name="BirthPlace">Geboorteplaats</string>
   <!--C-->
   <string name="Cancel">Annuleren</string>
+  <string name="Canceled">Geannuleerd</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mijn series</string>
   <string name="CalendarPremieres">Premières</string>
@@ -77,8 +77,8 @@
   <string name="CreateList">Creëer een nieuwe lijst</string>
   <string name="Community">Gemeenschap</string>
   <string name="CommunityActivity">Gemeenschaps activiteit</string>
-  <string name="ConfirmDeleteList">Weet je zeker dat je \ndeze lijst wilt verwijderen?</string>
-  <string name="ConfirmDeleteListItem">Weet je zeker dat je \ndit item wilt verwijderen van de lijst?</string>
+  <string name="ConfirmDeleteList">Weet je zeker dat je deze lijst wilt verwijderen?</string>
+  <string name="ConfirmDeleteListItem">Weet je zeker dat je dit item wilt verwijderen van de lijst?</string>
   <string name="Continuing">Lopend</string>
   <string name="CopyList">Kopiëer lijst...</string>
   <!--D-->
@@ -87,13 +87,15 @@
   <string name="DateOneWeekAgo">1 week geleden</string>
   <string name="DateTwoWeeksAgo">2 week geleden</string>
   <string name="DateOneMonthAgo">1 maand geleden</string>
+  <string name="Death">Dood</string>
   <string name="Deny">Negeer</string>
   <string name="DenyFollowRequest">Negeer volgverzoek van gebruiker {0}?</string>
   <string name="DeleteList">Verwijder lijst</string>
   <string name="DeleteListItem">Verwijder lijst item</string>
   <string name="DeletingList">Lijst verwijderen</string>
   <string name="DeleteFriend">Verwijder vriend</string>
-  <string name="DeleteFriendMessage">Weet je zeker dat je \n{0} wilt verwijderen als vriend?</string>
+  <string name="DeleteFriendMessage">Weet je zeker dat je {0} wilt verwijderen als vriend?</string>
+  <string name="Died">Overleden</string>
   <string name="Director">Regisseur</string>
   <string name="Directors">Regisseurs</string>
   <string name="DisconnectAccount">Account: {0} loskoppelen</string>
@@ -111,9 +113,12 @@
   <string name="Episode">Aflevering</string>
   <string name="Episodes">Afleveringen</string>
   <string name="Error">Trakt fout</string>
-  <string name="ErrorCalendar">Fout tijdens het ophalen van kalender</string>
+  <string name="ErrorCalendar">Fout tijdens het verkrijgen van kalender</string>
   <string name="ExecutiveProducer">Uitvoerend producent</string>
   <!--F-->
+  <string name="FailedCreateList">Fout tijdens maken online lijst</string>
+  <string name="FailedDeleteList">Fout tijdens verwijderen online lijst</string>
+  <string name="FailedUpdateList">Fout tijdens update online lijst</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">Eerste uitzending</string>
   <string name="Follow">Volg</string>
@@ -129,7 +134,7 @@
   <string name="FriendRequest">Vriend verzoek</string>
   <string name="FollowerRequest">Volgerverzoek</string>
   <string name="FollowerRequests">Volgerverzoeken</string>
-  <string name="FollowPendingApproval">Volgverzoek is verstuurd naar {0} en wacht op goedkeuring.</string>
+  <string name="FollowPendingApproval">Volg verzoek is verstuurd naar {0} en wacht op goedkeuring.</string>
   <string name="FriendRequestMessage">Je hebt {0} vriendschap verzoeken, goedkeuren of negeren van vrienden scherm</string>
   <string name="FollowerRequestMessage">Je hebt {0} volgverzoeken, goedkeuren of negeren via netwerk scherm</string>
   <string name="FullName">Volledige naam</string>
@@ -177,6 +182,7 @@
   <string name="GetFollowerRequestsOnStartup">Krijg volgverzoeken tijdens opstarten</string>
   <string name="GettingActivity">Activiteiten ophalen</string>
   <string name="GettingCalendar">Kalender ophalen</string>
+  <string name="GettingEpisodes">Verkrijg afleveringen</string>
   <string name="GettingFriendsList">Vrienden lijst ophalen</string>
   <string name="GettingFollowingList">Ophalen volglijst</string>
   <string name="GettingFollowerList">Ophalen volgerslijst</string>
@@ -195,19 +201,18 @@
   <string name="GettingTrendingShows">Populaire series ophalen</string>
   <string name="GettingRecommendedMovies">Aanbevolen films ophalen</string>
   <string name="GettingRecommendedShows">Aanbevolen series ophalen</string>
-  <string name="GettingWatchListMovies">Kijklijst van films ophalen</string>
-  <string name="GettingWatchListShows">Kijklijst van series ophalen</string>
-  <string name="GettingWatchListEpisodes">Kijklijst van afleveringen ophalen</string>
+  <string name="GettingWatchListMovies">Verkrijg kijk lijst films</string>
+  <string name="GettingWatchListShows">Verkrijg kijk lijst series</string>
+  <string name="GettingWatchListEpisodes">Verkrijg kijk lijst afleveringen</string>
   <string name="GettingRelatedMovies">Gerelateerde films ophalen</string>
   <string name="GettingRelatedShows">Gerelateerde series ophalen</string>
   <string name="GettingTrailerUrls">Ophalen trailer url\'s</string>
   <string name="GettingUserProfile">Ophalen gebruikersprofiel</string>
-  <string name="GuestStar">Gast</string>
-  <string name="GuestStars">Gasten</string>
+  <string name="GuestStar">Gastrol</string>
+  <string name="GuestStars">Gastrollen</string>
   <!--H-->
   <string name="Hate">Haat</string>
   <string name="Hated">Gehaat</string>
-  <string name="HideTVShowsInWatchlist">Verberg TV serie in kijklijst</string>
   <string name="HideCollected">Verberg verzameld</string>
   <string name="HideRated">Gewaardeerde verbergen</string>
   <string name="HideWatched">Verberg bekeken</string>
@@ -217,6 +222,7 @@
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Voeg me toe aan de activiteit van vrienden</string>
   <string name="Inserted">Geplaatst</string>
+  <string name="InProduction">In productie</string>
   <string name="Item">Item</string>
   <string name="Items">Items</string>
   <!--J-->
@@ -240,6 +246,7 @@
   <string name="MarkAsWatched">Markeer als bekeken</string>
   <string name="MarkAsUnWatched">Markeer als onbekeken</string>
   <string name="Me">Mij</string>
+  <string name="Minutes">Minuten</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
@@ -264,17 +271,17 @@
   <string name="NoTrendingShows">Er worden op dit moment geen series bekeken!</string>
   <string name="NoMovieRecommendations">Geen aanbevolen films gevonden!</string>
   <string name="NoShowRecommendations">Geen aanbevolen series gevonden!</string>
-  <string name="NoShowWatchList">{0} heeft geen series in kijklijst</string>
-  <string name="NoMovieWatchList">{0} heeft geen films in kijklijst</string>
-  <string name="NoEpisodeWatchList">{0} heeft geen afleveringen in kijklijst</string>
-  <string name="NoSearchTypesSelected">Je moet eerst één of meer zoektermen selecteren\nvoordat je online zoekt.</string>
+  <string name="NoShowWatchList">{0} heeft geen series in kijk lijst</string>
+  <string name="NoMovieWatchList">{0} heeft geen films in kijk lijst</string>
+  <string name="NoEpisodeWatchList">{0} heft geen afleveringen in kijk lijst</string>
+  <string name="NoSearchTypesSelected">Je moet eerst één of meer zoektermen selecteren voordat je online zoekt.</string>
   <string name="NoShoutsForItem">Geen stemmen voor {0}!</string>
   <string name="NoPeopleToSearch">Er zijn geen personen om te zoeken.</string>
   <string name="NoPluginsEnabled">Je hebt geen plugins ingesteld in de configuratie. Wil je de plugins nu configureren?</string>
   <string name="NotLoggedIn">Je hebt geen toegang tot deze gegevens zonder te zijn ingelogd. Wil je nu inloggen of registreren?</string>
   <string name="NoSearchResultsFound">Geen zoekresultaten gevonden</string>
   <string name="NoSeasonsForShow">Geen seizoen gevonden voor serie!</string>
-  <string name="NoMovingPictures">Moving Pictures is niet geïnstalleerd of ingeschakeld</string>
+  <string name="NoMovingPictures">Moving Pictures niet in geïnstalleerd of uitgeschakeld</string>
   <string name="NoListsFound">Geen lijst gevonden, wil je een lijst creëren?</string>
   <string name="NoUserLists">{0} heeft geen lijst gecreëerd!</string>
   <string name="NoListItemsFound">Geen items gevonden in deze lijst!</string>
@@ -339,14 +346,15 @@
   <string name="RelatedShows">Gerelateerde series</string>
   <string name="Released">Uitgekomen</string>
   <string name="ReleaseDate">Release datum</string>
-  <string name="RemoveFromLibrary">Verwijder uit bibliotheek</string>
-  <string name="RemoveFromWatchList">Verwijder uit kijklijst</string>
-  <string name="RemoveShowFromWatchList">Verwijder serie uit kijklijst</string>
-  <string name="RemoveEpisodeFromWatchList">Verwijder aflevering uit kijklijst</string>
+  <string name="RemoveFromLibrary">Verwijder uit collectie</string>
+  <string name="RemoveFromWatchList">Verwijder van kijk lijst</string>
+  <string name="RemoveShowFromWatchList">Verwijder serie uit kijk lijst</string>
+  <string name="RemoveEpisodeFromWatchList">Verwijder aflevering uit kijk lijst</string>
   <string name="RemoveFromList">Verwijder uit lijst</string>
   <string name="Reply">Antwoorden</string>
   <string name="Replies">Reacties</string>
   <string name="Requests">Verzoeken</string>
+  <string name="ReturningSeries">Terugkerende serie</string>
   <string name="Runtime">Speelduur</string>
   <!--S-->
   <string name="Score">Score</string>
@@ -380,8 +388,8 @@
   <string name="ShowFriendActivity">Vriend activiteit weergeven</string>
   <string name="ShowCommunityActivity">Gemeenschap activiteit weergeven</string>
   <string name="SigningIntoAccount">Aanmelden van Account...</string>
-  <string name="SkinPluginsOutOfDate">Fout tijdens laden van scherm, skin is te oud!\nVerlaat MediaPortal en open configuratie om \nplugins handlers in te schakelen.</string>
-  <string name="SkinOutOfDate">Deze optie is niet beschikbaar voor de gebuikte skin. Controlleer of er een update beschikbaar is.</string>
+  <string name="SkinPluginsOutOfDate">Fout tijdens laden venster, skin is verouderd! Sluit MediaPortal en open Configuratie om plugins handlers in te schakelen.</string>
+  <string name="SkinOutOfDate">Deze optie is niet beschikbaar voor de gebuikte skin. Bekijk of er een update beschikbaar is.</string>
   <string name="StartDate">Start datum</string>
   <string name="Synchronize">Synchroniseren</string>
   <string name="SynchronizeNow">Er is een nieuwe plugin toegevoegd. Wil je deze Synchroniseren met je bibliotheek?</string>
@@ -470,7 +478,7 @@
   <string name="UpdatingFiltersMenuMovingPics">MovingPictures Filters Menu aan het bijwerken.</string>
   <string name="UpdatingFiltersMenuMovingPicsWarning">Je kan Trakt niet verwijderen van het Filters menu terwijl deze bijgewerkt word!</string>
   <string name="UnableToPlayTrailer">Afspelen trailer niet mogelijk</string>
-  <string name="UserIsProtected">De huidige gebruiker is beschermt!\nBeschermde gebruikers kunnen alleen\nbekeken worden in het \'Vrienden\' scherm</string>
+  <string name="UserIsProtected">De huidige gebruiker is beschermt! Beschermde gebruikers kunnen alleen bekeken worden in het \'Vrienden\' scherm</string>
   <string name="UserProfile">Gebruikersprofiel</string>
   <!--V-->
   <string name="View">Bekijk</string>
@@ -479,16 +487,12 @@
   <string name="ValidPassword">Je moet een correct wachtwoord invoeren!</string>
   <string name="ValidEmail">Je moet een correct Email adres invoeren!</string>
   <!--W-->
-  <string name="WatchList">Kijklijst</string>
   <string name="Watched">Bekeken</string>
   <string name="WatchedMovies">Bekeken films</string>
   <string name="WatchedEpisodes">Bekeken afleveringen</string>
   <string name="WatchedShows">Bekeken series</string>
   <string name="Watchers">Kijkers</string>
   <string name="Watching">Kijken</string>
-  <string name="WatchListMovies">Kijklijst films</string>
-  <string name="WatchListShows">Kijklijst series</string>
-  <string name="WatchListEpisodes">Kijklijst afleveringen</string>
   <string name="Writer">Schrijver</string>
   <string name="Writers">Schrijvers</string>
   <!--Y-->

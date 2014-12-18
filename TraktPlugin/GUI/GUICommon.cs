@@ -1105,8 +1105,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Movie.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Movie.Ratings.LovedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Ratings.Votes", string.Empty);
         }
@@ -1119,10 +1117,10 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.ImdbId", movie.Ids.Imdb);
             SetProperty("#Trakt.Movie.TmdbId", movie.Ids.Tmdb);
             SetProperty("#Trakt.Movie.Slug", movie.Ids.Slug);
-            //TODOSetProperty("#Trakt.Movie.Certification", movie.Certification);
+            SetProperty("#Trakt.Movie.Certification", movie.Certification);
             SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Released", movie.Released);
-            SetProperty("#Trakt.Movie.Language", movie.Language);
+            SetProperty("#Trakt.Movie.Language", Translation.GetLanguageFromISOCode(movie.Language));
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime);
             SetProperty("#Trakt.Movie.Tagline", movie.Tagline);
             SetProperty("#Trakt.Movie.Title", movie.Title.RemapHighOrderChars());
@@ -1140,10 +1138,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Rating.ToPercentage());
             SetProperty("#Trakt.Movie.Ratings.Votes", movie.Votes);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Rating >= 6) ? "love" : "hate");
-            //TODO
-            //SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
-            //SetProperty("#Trakt.Movie.Ratings.HatedCount", movie.Ratings.HatedCount.ToString());
-            //SetProperty("#Trakt.Movie.Ratings.LovedCount", movie.Ratings.LovedCount.ToString());
         }
 
         internal static void ClearSeasonProperties()
@@ -1155,8 +1149,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Season.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Season.Ratings.LovedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Url", string.Empty);
@@ -1177,10 +1169,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
             SetProperty("#Trakt.Season.Ratings.Votes", season.Votes);
             SetProperty("#Trakt.Season.Ratings.Icon", (season.Rating >= 6) ? "love" : "hate");
-            //TODO
-            //SetProperty("#Trakt.Season.Ratings.Icon", (season.Ratings.LovedCount > movie.Ratings.HatedCount) ? "love" : "hate");
-            //SetProperty("#Trakt.Season.Ratings.HatedCount", season.Ratings.HatedCount.ToString());
-            //SetProperty("#Trakt.Season.Ratings.LovedCount", season.Ratings.LovedCount.ToString());
         }
 
         internal static void ClearShowProperties()
@@ -1211,8 +1199,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Icon", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.HatedCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.Ratings.LovedCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Percentage", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Ratings.Votes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FanartImageFilename", string.Empty);
@@ -1257,10 +1243,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Rating.ToPercentage());
             SetProperty("#Trakt.Show.Ratings.Votes", show.Votes);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Rating > 6) ? "love" : "hate");
-            //TODO
-            //SetProperty("#Trakt.Show.Ratings.Icon", (show.Ratings.LovedCount > show.Ratings.HatedCount) ? "love" : "hate");
-            //SetProperty("#Trakt.Show.Ratings.HatedCount", show.Ratings.HatedCount.ToString());
-            //SetProperty("#Trakt.Show.Ratings.LovedCount", show.Ratings.LovedCount.ToString());
             if (show.Images != null)
             {
                 SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
@@ -1326,10 +1308,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");
-            //TODO
-            //SetProperty("#Trakt.Episode.Ratings.Icon", ((episode.Ratings != null) && (episode.Ratings.LovedCount > episode.Ratings.HatedCount)) ? "love" : "hate");
-            //SetProperty("#Trakt.Episode.Ratings.HatedCount", episode.Ratings != null ? episode.Ratings.HatedCount.ToString() : "0");
-            //SetProperty("#Trakt.Episode.Ratings.LovedCount", episode.Ratings != null ? episode.Ratings.LovedCount.ToString() : "0");
             SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
         }
 

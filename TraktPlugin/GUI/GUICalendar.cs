@@ -117,7 +117,7 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _CalendarShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    _CalendarShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward(), true);
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }
@@ -147,8 +147,8 @@ namespace TraktPlugin.GUI
             {
                 if (_CalendarAllShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    //TODO - Dont send OAuth so as it does not filter by 'own' shows
-                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    // Dont send OAuth so as it does not filter by 'own' shows
+                    _CalendarAllShows = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward(), false);
                     LastRequest = DateTime.UtcNow;
                     IsCached = false;
                 }

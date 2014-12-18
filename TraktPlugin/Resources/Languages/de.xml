@@ -10,7 +10,8 @@
   <string name="ActivityFriendsDesc">Aktivitäten Ihrer Freunde:</string>
   <string name="ActivityFriendsAndMeDesc">Schau nach was bei dir und deinen Freunden los ist...</string>
   <string name="ActivityCommunityDesc">Aktivitäten der Gemeinschaft:</string>
-  <string name="ActivityFollowersDesc">Schau nach was bei deinen Followern los ist...\n</string>
+  <string name="ActivityFollowersDesc">Schau nach was bei deinen Followern los ist...
+</string>
   <string name="ActivityFollowingDesc">Was geht bei den Leuten, denen du folgst...</string>
   <string name="ActivityWatching">{0} schaut gerade {1}</string>
   <string name="ActivityWatched">{0} hat {1} angesehen</string>
@@ -28,14 +29,9 @@
   <string name="ActivityShouts">{0} shouted nach {1}</string>
   <string name="Activities">Aktivitäten</string>
   <string name="AddFriend">Freund hinzufügen...</string>
-  <string name="AddToLibrary">Zur Bibliothek hinzufügen</string>
   <string name="AddToList">Zu Trakt-Liste hinzufügen</string>
-  <string name="AddToWatchList">Zur Beobachtungsliste hinzufügen</string>
-  <string name="AddShowToWatchList">Serie zu Beaobachtungsliste hinzufügen</string>
-  <string name="AddEpisodeToWatchList">Episode zu Beaobachtungsliste hinzufügen</string>
   <string name="AddShowToList">Serie zu Trakt-Liste hinzufügen</string>
   <string name="AddEpisodeToList">Episode zu Trakt-Liste hinzufügen</string>
-  <string name="AddThisItemToWatchList">Dieses Element zur Beobachtungsliste hinzufügen?</string>
   <string name="Age">Alter</string>
   <string name="AirDate">Sendedatum</string>
   <string name="AirDay">Sendetag</string>
@@ -43,9 +39,9 @@
   <string name="Approve">Bestätigung</string>
   <string name="ApproveAndFollowBack">Bestätigen und ebenfalls folgen</string>
   <string name="ApprovedDate">Bestätigtes Datum</string>
-  <string name="ApproveFriendMessage">Möchten Sie {0}\nals Freund hinzufügen?</string>
-  <string name="ApproveFollowerMessage">Möchten Sie, dass Benutzer {0} Ihnen folgt?</string>
-  <string name="ApproveFollowerAndFollowBackMessage">Möchten Sie {0}\nerlauben, Ihnen zu folgen und ihm ebenso folgen?</string>
+  <string name="ApproveFriendMessage">Willst du {0}\nals Freund hinzufügen?</string>
+  <string name="ApproveFollowerMessage">Willst du {0}\nerlauben dir zu folgen?</string>
+  <string name="ApproveFollowerAndFollowBackMessage">Willst du {0} erlauben\ndir zu folgen und du ihm/ihr?</string>
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
@@ -77,8 +73,8 @@
   <string name="CreateList">Neue Liste erstellen</string>
   <string name="Community">Gemeinschaft</string>
   <string name="CommunityActivity">Aktivitäten der Gemeinschaft</string>
-  <string name="ConfirmDeleteList">Soll diese Liste wirklich\ngelöscht werden?</string>
-  <string name="ConfirmDeleteListItem">Soll dieses Element wirklich\naus der Liste gelöscht werden?</string>
+  <string name="ConfirmDeleteList">Bist du dir sicher, dass du\n diese Liste löschen willst?</string>
+  <string name="ConfirmDeleteListItem">Willst du diesen Eintrag wirklich\naus der Liste löschen?</string>
   <string name="Continuing">Wird fortgesetzt</string>
   <string name="CopyList">Liste kopieren</string>
   <!--D-->
@@ -93,7 +89,7 @@
   <string name="DeleteListItem">Listen-Element löschen</string>
   <string name="DeletingList">Liste wird gelöscht</string>
   <string name="DeleteFriend">Freund löschen</string>
-  <string name="DeleteFriendMessage">Möchten Sie wirklich den Freund\n{0} löschen?</string>
+  <string name="DeleteFriendMessage">Willst du {0} wirklich\naus deinen Freunden löschen?</string>
   <string name="Director">Regisseur</string>
   <string name="Directors">Regisseure</string>
   <string name="DisconnectAccount">Account trennen: {0}</string>
@@ -111,7 +107,6 @@
   <string name="Episode">Folge</string>
   <string name="Episodes">Episoden</string>
   <string name="Error">Trakt Fehler</string>
-  <string name="ErrorCalendar">Fehler beim Abrufen des Kalenders</string>
   <string name="ExecutiveProducer">Ausführender Produzent</string>
   <!--F-->
   <string name="Filters">Filter</string>
@@ -124,12 +119,10 @@
   <string name="FollowUser">Benutzer folgen</string>
   <string name="Friend">Freund</string>
   <string name="Friends">Freunde</string>
-  <string name="FriendsAndMe">Meine Freunde und ich</string>
   <string name="FriendActivity">Freund-Aktivität</string>
   <string name="FriendRequest">Freund-Anfrage</string>
   <string name="FollowerRequest">Folgen-Anfrage</string>
   <string name="FollowerRequests">Folgen-Anfragen</string>
-  <string name="FollowPendingApproval">Folgen-Anfrage wurde an {0} gesendet und wartet auf Bestätigung.</string>
   <string name="FriendRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Freund-Fenster</string>
   <string name="FollowerRequestMessage">Sie haben {0} Freund-Anfrage(n) - annehmen oder ablehnen im Netzwerk-Fenster</string>
   <string name="FullName">Vollständiger Name</string>
@@ -195,9 +188,6 @@
   <string name="GettingTrendingShows">Liste der populären Serien wird abgerufen</string>
   <string name="GettingRecommendedMovies">Vorgeschlagene Filme werden abgerufen</string>
   <string name="GettingRecommendedShows">Vorgeschlagene Serien werden abgerufen</string>
-  <string name="GettingWatchListMovies">Beobachtungsliste Filme wird abgerufen</string>
-  <string name="GettingWatchListShows">Beobachtungsliste Serien wird abgerufen</string>
-  <string name="GettingWatchListEpisodes">Beobachtungsliste Episoden wird abgerufen</string>
   <string name="GettingRelatedMovies">Ähnliche Filme werden abgerufen</string>
   <string name="GettingRelatedShows">Ähnliche Shows werden abgerufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
@@ -207,13 +197,11 @@
   <!--H-->
   <string name="Hate">Hass</string>
   <string name="Hated">Verhasst</string>
-  <string name="HideTVShowsInWatchlist">Keine TV-Serien in Beobachtungsliste anzeigen</string>
   <string name="HideCollected">Sammlungen ausblenden</string>
   <string name="HideRated">Verstecke bewertete</string>
   <string name="HideWatched">Gesehene ausblenden</string>
   <string name="HideWatchlisted">Beobachtete ausblenden</string>
   <string name="HideSpoilers">Spoiler ausblenden</string>
-  <string name="HiddenToPreventSpoilers">Dieser Shout wurde wegen Spoiler ausgeblendet, Sie können diese Option im Menü ändern.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Mich in Freund-Aktivitäten einbeziehen</string>
   <string name="Inserted">Eingefügt</string>
@@ -240,6 +228,7 @@
   <string name="MarkAsWatched">Als gesehen markieren</string>
   <string name="MarkAsUnWatched">Als ungesehen markieren</string>
   <string name="Me">Ich</string>
+  <string name="Minutes">Minuten</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filme</string>
   <string name="MultiSelectDialog">Multi-Auswahl-Dialog</string>
@@ -248,7 +237,6 @@
   <string name="Network">Netzwerk</string>
   <string name="NextEpisode">Nächste Episode</string>
   <string name="NextWeek">Nächste Woche</string>
-  <string name="NoActivities">Keine Aktivitäten gefunden</string>
   <string name="NoPersonBiography">Für diese Person gibt es keine Biografie</string>
   <string name="NoEpisodesInSeason">Keine Episoden in dieser Staffelverfügbar</string>
   <string name="NoEpisodeSummary">Keine Episodenbeschreibung verfügbar</string>
@@ -260,22 +248,11 @@
   <string name="NoFollowersTaunt">Sie haben keine Folger!</string>
   <string name="NoFollowerReqTaunt">Sie haben keine Folger-Anfragen!</string>
   <string name="NoFollowingTaunt">Sie folgen niemandem!</string>
-  <string name="NoTrendingMovies">Zur Zeit werden keine Filme angeschaut!</string>
-  <string name="NoTrendingShows">Zur Zeit werden keine Serien angeschaut!</string>
-  <string name="NoMovieRecommendations">Keine Film Vorschläge gefunden!</string>
-  <string name="NoShowRecommendations">Keine Serien Vorschläge gefunden!</string>
-  <string name="NoShowWatchList">{0} hat keine Serien in seiner Beobachtungsliste!</string>
-  <string name="NoMovieWatchList">{0} hat keine Filme in seiner Beobachtungsliste!</string>
-  <string name="NoEpisodeWatchList">{0} hat keine Episoden in seiner Beobachtungsliste!</string>
-  <string name="NoSearchTypesSelected">Sie müssen zunächst einen oder mehrere⏎\nSuchtypen aktivieren, bevor Sie eine Suche⏎\nausführen können</string>
-  <string name="NoShoutsForItem">Keine Shouts für {0}!</string>
+  <string name="NoSearchTypesSelected">Du musst erst einen oder mehr Suchtypen wählen,\nbevor du online suchst.</string>
   <string name="NoPeopleToSearch">Keine Personen für Suche gefunden</string>
-  <string name="NoPluginsEnabled">Du hast keine Plugins in den Einstellungen definiert.\nMöchtest du nun Plugins einstellen?</string>
-  <string name="NotLoggedIn">Du kannst auf diese Funktion nicht zugreifen ohne\neingeloggt zu sein. Möchtest du nun einen Account erstellen oder dich \nin trakt.tv einloggen ?</string>
-  <string name="NoSearchResultsFound">Keine Suchergebnisse gefunden</string>
-  <string name="NoSeasonsForShow">Keine Staffel für diese Serie gefunden!</string>
-  <string name="NoMovingPictures">MovingPictures ist nicht installiert oder aktiviert</string>
-  <string name="NoListsFound">Keine Listen gefunden.\nMöchten Sie jetzt eine Liste erstellen?</string>
+  <string name="NoPluginsEnabled">Du hast keine Plugins konfiguriert.\nWillst du dies jetzt tun?</string>
+  <string name="NotLoggedIn">Für diesen Bereich musst du angemeldet sein.\nWillst du dich jetzt\nregistrieren oder anmelden?</string>
+  <string name="NoListsFound">Keine Listen gefunden.\nWillst du jetzt eine erstellen?</string>
   <string name="NoUserLists">{0} hat noch keine Listen erstellt!</string>
   <string name="NoListItemsFound">Diese Liste enthält keine Elemente!</string>
   <string name="NoRelatedMovies">Keine Filme ähnlich {0} gefunden!</string>
@@ -339,10 +316,6 @@
   <string name="RelatedShows">Ähnliche Serien</string>
   <string name="Released">Erschienen</string>
   <string name="ReleaseDate">Veröffentlicht</string>
-  <string name="RemoveFromLibrary">Aus Bibliothek löschen</string>
-  <string name="RemoveFromWatchList">Aus Beobachtungsliste löschen</string>
-  <string name="RemoveShowFromWatchList">Serie aus Beobachtungsliste löschen</string>
-  <string name="RemoveEpisodeFromWatchList">Episode aus Beobachtungsliste löschen</string>
   <string name="RemoveFromList">Aus Liste löschen</string>
   <string name="Reply">antworten</string>
   <string name="Replies">Anworten</string>
@@ -375,16 +348,14 @@
   <string name="Settings">Einstellungen</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
-  <string name="ShowTVShowsInWatchlist">TV-Serien in Beobachtungsliste anzeigen</string>
   <string name="ShowSpoilers">Spoiler anzeigen</string>
   <string name="ShowFriendActivity">Freund-Aktivitäten anzeigen</string>
   <string name="ShowCommunityActivity">Gemeinschaft-Aktivitäten anzeigen</string>
   <string name="SigningIntoAccount">Anmelden...</string>
-  <string name="SkinPluginsOutOfDate">Fehler beim Laden des Fensters - \nIhr Skin ist veraltet!\nBeenden Sie MediaPortal und \nrufen Sie die Konfiguration auf,\num die Plugins Handler zu aktivieren.</string>
-  <string name="SkinOutOfDate">Diese Funktion wird von Ihrem Skin nicht\nunterstützt. Bitte suchen Sie ein Update.</string>
+  <string name="SkinPluginsOutOfDate">Fehler beim Laden des Fensters, das Skin ist veraltet!\nSchließe MediaPortal und gehe in die Configuration\num Plugin Handler zu aktivieren.</string>
   <string name="StartDate">Start-Datum</string>
   <string name="Synchronize">Synchronisieren</string>
-  <string name="SynchronizeNow">Neue Plugin Handler wurden hinzugefügt.\nMöchten Sie jetzt Ihre\nBibliotheken synchronisieren?</string>
+  <string name="SynchronizeNow">Neue Plugin Handler wurden hinzugefügt.\nWillst du deine Bibliotheken aktualisieren?</string>
   <string name="ShowRateDialogOnWatched">Bewertungsdialog für gesehenes Element anzeigen</string>
   <string name="ShowSeasonInfo">Staffel-Information...</string>
   <string name="ShowWatched">Gesehene anzeigen</string>
@@ -461,7 +432,7 @@
   <string name="Username">Benutzername</string>
   <string name="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
   <string name="UnFollow">Nicht mehr folgen</string>
-  <string name="UnFollowMessage">Sind Sie sicher, dass Sie Benutzer\n {0} nicht mehr folgen wollen?</string>
+  <string name="UnFollowMessage">Bist du sicher, dass du {0}\nnicht mehr folgen willst?</string>
   <string name="UnRate">Bewertung zurücknehmen</string>
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingCategoriesMenuMovingPics">Aktualsiere die Kategorien in MovingPictures</string>
@@ -470,7 +441,6 @@
   <string name="UpdatingFiltersMenuMovingPics">Aktualisiere das Filter-Menü in MovingPictures</string>
   <string name="UpdatingFiltersMenuMovingPicsWarning">Die Trakt-Filter lassen sich nicht aus dem Menü entfernen, solange sie noch aktualisiert werden!</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
-  <string name="UserIsProtected">Dieser Teilnehmer ist geschützt. \nDiese kannst du nur in der Freunde-Ansicht\naufrufen.</string>
   <string name="UserProfile">Benutzerprofil</string>
   <!--V-->
   <string name="View">Ansehen</string>
@@ -479,16 +449,12 @@
   <string name="ValidPassword">Bitte ein gültiges Passwort eingeben!</string>
   <string name="ValidEmail">Bitte eine gültige Email eingeben!</string>
   <!--W-->
-  <string name="WatchList">Beobachtungsliste</string>
   <string name="Watched">Gesehen</string>
   <string name="WatchedMovies">Gesehene Filme</string>
   <string name="WatchedEpisodes">Gesehene Episoden</string>
   <string name="WatchedShows">Gesehene Serien</string>
   <string name="Watchers">Zuschauer</string>
   <string name="Watching">Schaut gerade</string>
-  <string name="WatchListMovies">Beobachtungsliste Filme</string>
-  <string name="WatchListShows">Beobachtungsliste Serien</string>
-  <string name="WatchListEpisodes">Beobachtungsliste Episoden</string>
   <string name="Writer">Autor</string>
   <string name="Writers">Autoren</string>
   <!--Y-->

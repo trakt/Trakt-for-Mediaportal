@@ -25,21 +25,15 @@
   <string name="ActivityShouts">{0} giudicati su {1}</string>
   <string name="Activities">Attività</string>
   <string name="AddFriend">Aggiungi Amico...</string>
-  <string name="AddToLibrary">Aggiungi nella Libreria</string>
   <string name="AddToList">Aggiungi nella Lista...</string>
-  <string name="AddToWatchList">Aggiungi nella Lista da Vedere</string>
-  <string name="AddShowToWatchList">Aggiungi Serie nella Lista da Vedere</string>
-  <string name="AddEpisodeToWatchList">Aggiungi Episodio nella Lista da Vedere</string>
   <string name="AddShowToList">Aggiungi Serie nella Lista</string>
   <string name="AddEpisodeToList">Aggiungi Episodio nella Lista</string>
-  <string name="AddThisItemToWatchList">Aggiungere questo elemento nella tua lista da vedere?</string>
   <string name="Age">Età</string>
   <string name="AirDate">Data Uscita</string>
   <string name="AirDay">Giorno Uscita</string>
   <string name="AirTime">Ora Uscita</string>
   <string name="Approve">Approva</string>
   <string name="ApprovedDate">Data Approvazione</string>
-  <string name="ApproveFriendMessage">Vuoi aggiungere l\'utente {0}\nagli amici?</string>
   <string name="AdvancedSettings">Impostazioni Avanzate</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
@@ -67,8 +61,6 @@
   <string name="CreateList">Crea una nuova Lista...</string>
   <string name="Community">Comunità</string>
   <string name="CommunityActivity">Attività Comunità</string>
-  <string name="ConfirmDeleteList">Vuoi davvero cancellare\nquesta lista?</string>
-  <string name="ConfirmDeleteListItem">Vuoi davvero cancellare\nquesto elemento dalla lista?</string>
   <string name="CopyList">Copia Lista...</string>
   <!--D-->
   <string name="DateToday">Oggi</string>
@@ -81,7 +73,6 @@
   <string name="DeleteListItem">Cancella Elemento Lista</string>
   <string name="DeletingList">Cancellazione Lista</string>
   <string name="DeleteFriend">Cancella Amico</string>
-  <string name="DeleteFriendMessage">Vuoi davvero cancellare\n{0} dagli Amici?</string>
   <string name="Director">Regista</string>
   <string name="Directors">Registi</string>
   <string name="DisconnectAccount">Disconnetti Account: {0}</string>
@@ -97,7 +88,6 @@
   <string name="Episode">Episodio</string>
   <string name="Episodes">Episodi</string>
   <string name="Error">Errore Trakt</string>
-  <string name="ErrorCalendar">Errore recupero calendario.</string>
   <!--F-->
   <string name="Filters">Filtri</string>
   <string name="FirstAired">Trasmesso la prima volta</string>
@@ -161,21 +151,18 @@
   <string name="GettingTrendingShows">Ricezione Serie di  Tendenza</string>
   <string name="GettingRecommendedMovies">Ricezione Film Consigliati</string>
   <string name="GettingRecommendedShows">Ricezione Serie Consigliate</string>
-  <string name="GettingWatchListMovies">Ricezione Liste Film da Vedere</string>
-  <string name="GettingWatchListShows">Ricezione Liste Serie da Vedere</string>
-  <string name="GettingWatchListEpisodes">Ricezione Liste Episodi da Vedere</string>
   <string name="GettingRelatedMovies">Ricezione Film Correlati</string>
   <string name="GettingRelatedShows">Ricezione Serie Correlate</string>
   <string name="GettingTrailerUrls">Ricezione URLs Trailer</string>
+  <string name="GuestStar">Guest Star</string>
+  <string name="GuestStars">Guest Stars</string>
   <!--H-->
   <string name="Hate">Non mi Piace</string>
   <string name="Hated">Non mi è Piaciuto</string>
-  <string name="HideTVShowsInWatchlist">Nascondi Serie TV nella Lista da Vedere</string>
   <string name="HideCollected">Nascondi Collezionati</string>
   <string name="HideWatched">Nascondi Visti</string>
   <string name="HideWatchlisted">Nascondi Elenco Visti</string>
   <string name="HideSpoilers">Nascondi Anticipazioni Trama</string>
-  <string name="HiddenToPreventSpoilers">Questo giudizio è stato nascosto per prevenire anticipazioni della trama, puoi cambiare questa opzione dal menù.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Includimi nelle Attività degli Amici</string>
   <string name="Inserted">Inserito</string>
@@ -201,6 +188,7 @@
   <!--M-->
   <string name="MarkAsWatched">Marca come visto</string>
   <string name="MarkAsUnWatched">Marca come Non Visto</string>
+  <string name="Minutes">Minuti</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
   <string name="MultiSelectDialog">Finestra di Selezione Multipla</string>
@@ -209,7 +197,6 @@
   <string name="Network">Rete</string>
   <string name="NextEpisode">Prossimo Episodio</string>
   <string name="NextWeek">Prossima Settimana</string>
-  <string name="NoActivities">Nessuna Attività Trovata.</string>
   <string name="NoEpisodesInSeason">Nessun Episodio disponibile nella Stagione.</string>
   <string name="NoEpisodeSummary">Sommario Episodi al momento non disponibile.</string>
   <string name="NoEpisodesThisWeek">Nessun episodio in questa settimana</string>
@@ -217,20 +204,6 @@
   <string name="NoShowSummary">Sommario Serie al momento non disponibile.</string>
   <string name="NoFriends">Nessun Amico!</string>
   <string name="NoFriendsTaunt">Non hai Amici!</string>
-  <string name="NoTrendingMovies">Nessun Film in visione ora!</string>
-  <string name="NoTrendingShows">Nessuna Serie in visione ora!</string>
-  <string name="NoMovieRecommendations">Nessun Film Consigliato Trovato!</string>
-  <string name="NoShowRecommendations">Nessuna Serie Consigliata Trovata!</string>
-  <string name="NoShowWatchList">{0} non ha serie nella Lista da Vedere!</string>
-  <string name="NoMovieWatchList">{0} non ha film nella Lista da Vedere!</string>
-  <string name="NoEpisodeWatchList">{0} non ha episodi nella Lista da Vedere!</string>
-  <string name="NoShoutsForItem">Nessun Giudizio per {0}!</string>
-  <string name="NoPluginsEnabled">Non hai definito nessun plugin nella configurazione.\nVuoi configurare i plugin adesso?</string>
-  <string name="NotLoggedIn">Non puoi accedere a questa area senza essere\ncollegato. Vuoi Registrarti o Accedere\na trakt.tv adesso?</string>
-  <string name="NoSearchResultsFound">Nessun Risultato Trovato</string>
-  <string name="NoSeasonsForShow">Nessuna Stagione trovata per la serie!</string>
-  <string name="NoMovingPictures">Moving Pictures Non è Installato o Abilitato</string>
-  <string name="NoListsFound">Nessuna lista trovata, Vuoi creare\nuna lista adesso?</string>
   <string name="NoUserLists">{0} non ha alcuna lista!</string>
   <string name="NoListItemsFound">Nessun elemento trovato in questa lista!</string>
   <string name="NoRelatedMovies">Nessun Film correlato trovato per {0}!</string>
@@ -285,10 +258,6 @@
   <string name="RelatedShows">Serie Correlate</string>
   <string name="Released">Rilasciato</string>
   <string name="ReleaseDate">Data di Uscita</string>
-  <string name="RemoveFromLibrary">Rimuovi dalla Libreria</string>
-  <string name="RemoveFromWatchList">Rimuovi dalla Lista da Vedere</string>
-  <string name="RemoveShowFromWatchList">Rimuovi Serie dalla Lista da Vedere</string>
-  <string name="RemoveEpisodeFromWatchList">Rimuovi Episodio dalla Lista da Vedere</string>
   <string name="RemoveFromList">Rimuovi dalla Lista...</string>
   <string name="Reply">Risposta</string>
   <string name="Replies">Risposte</string>
@@ -311,16 +280,12 @@
   <string name="Settings">Impostazioni</string>
   <string name="Shout">Giudizio</string>
   <string name="Shouts">Giudizi</string>
-  <string name="ShowTVShowsInWatchlist">Visualizza Serie TV nella Lista da Vedere</string>
   <string name="ShowSpoilers">Visualizza Anticipazioni Trama</string>
   <string name="ShowFriendActivity">Visualizza Attività Amici</string>
   <string name="ShowCommunityActivity">Visualizza Attività Comunità</string>
   <string name="SigningIntoAccount">Registrazione nell\'Account...</string>
-  <string name="SkinPluginsOutOfDate">Errore caricamento finestra, la skin non è aggiornata!\nEsci da MediaPortal ed entra nella Configurazione per\nabilitare i gestori dei plugin.</string>
-  <string name="SkinOutOfDate">Questa caratteristica non è disponibile per la tua\nskin. Controlla se è disponibile un Aggiornamento.</string>
   <string name="StartDate">Data Inizio</string>
   <string name="Synchronize">Sincronizza</string>
-  <string name="SynchronizeNow">Nuovo Gestore Plugin aggiunto .\nVuoi Sincronizzare le tue\nlibrerie adesso?</string>
   <string name="ShowRateDialogOnWatched">Visualizza finestra valutazione per l\'elemento visto</string>
   <string name="ShowSeasonInfo">Informazioni Stagione...</string>
   <string name="ShowWatched">Visualizza Visti</string>
@@ -388,16 +353,12 @@
   <string name="ValidPassword">Devi immetter una password valida!</string>
   <string name="ValidEmail">Devi immettere una email valida!</string>
   <!--W-->
-  <string name="WatchList">Lista da vedere</string>
   <string name="Watched">Visto</string>
   <string name="WatchedMovies">Film Visti</string>
   <string name="WatchedEpisodes">Episodi Visti</string>
   <string name="WatchedShows">Serie Viste</string>
   <string name="Watchers">Spettatori</string>
   <string name="Watching">In Visione</string>
-  <string name="WatchListMovies">Lista Film da Vedere</string>
-  <string name="WatchListShows">Lista Serie da Vedere</string>
-  <string name="WatchListEpisodes">Lista Episodi da Vedere</string>
   <string name="Writer">Sceneggiatore</string>
   <string name="Writers">Sceneggiatori</string>
   <!--Y-->

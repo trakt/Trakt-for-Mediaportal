@@ -22,6 +22,8 @@
   <!--G-->
   <string name="Genre">장르</string>
   <string name="GenreAll">전부</string>
+  <string name="GuestStar">게스트 스타</string>
+  <string name="GuestStars">게스트 스타</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -30,6 +32,7 @@
   <string name="List">리스트</string>
   <!--M-->
   <string name="MarkAsWatched">시청으로 표시</string>
+  <string name="Minutes">분</string>
   <string name="Movie">영화</string>
   <string name="Movies">영화</string>
   <!--N-->

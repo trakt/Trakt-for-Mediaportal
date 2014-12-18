@@ -22,6 +22,8 @@
   <!--G-->
   <string name="Genre">Sjanger</string>
   <string name="GenreAll">Alle</string>
+  <string name="GuestStar">Gjest</string>
+  <string name="GuestStars">Gjester</string>
   <!--H-->
   <!--I-->
   <!--J-->
@@ -29,6 +31,7 @@
   <!--L-->
   <string name="List">Liste</string>
   <!--M-->
+  <string name="Minutes">Minutter</string>
   <!--N-->
   <string name="Network">Kanal</string>
   <string name="No">Nei</string>
@@ -61,7 +64,6 @@
   <!--U-->
   <!--V-->
   <!--W-->
-  <string name="WatchList">Visningsliste</string>
   <string name="Watched">Sett</string>
   <string name="Writer">Manus</string>
   <string name="Writers">Forfattere</string>

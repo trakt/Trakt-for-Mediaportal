@@ -25,14 +25,9 @@
   <string name="ActivityShouts">{0} vykríkol na {1}</string>
   <string name="Activities">Aktivity</string>
   <string name="AddFriend">Pridať priateľa...</string>
-  <string name="AddToLibrary">Pridať do knižnice</string>
   <string name="AddToList">Zaradiť do zoznamu...</string>
-  <string name="AddToWatchList">Pridať do watchlistu</string>
-  <string name="AddShowToWatchList">Pridať reláciu do watchlistu</string>
-  <string name="AddEpisodeToWatchList">Pridať epizódu do watchlistu</string>
   <string name="AddShowToList">Pridať reláciu do zoznamu</string>
   <string name="AddEpisodeToList">Pridať epizódu do zoznamu</string>
-  <string name="AddThisItemToWatchList">Pridať položku do watchlistu?</string>
   <string name="Age">Vek</string>
   <string name="AirDate">Vysielané</string>
   <string name="AirDay">Deň vysielania</string>
@@ -97,7 +92,6 @@
   <string name="Episode">Epizóda</string>
   <string name="Episodes">Epizódy</string>
   <string name="Error">Trakt chyba</string>
-  <string name="ErrorCalendar">Chyba načítania kalendára.</string>
   <string name="ExecutiveProducer">Výkonný producent</string>
   <!--F-->
   <string name="Filters">Filtre</string>
@@ -148,6 +142,8 @@
   <string name="GenreWar">Vojnový</string>
   <string name="GenreWestern">Western</string>
   <string name="GettingTrailerUrls">Načítam URL traileru</string>
+  <string name="GuestStar">Guest Star</string>
+  <string name="GuestStars">Guest Stars</string>
   <!--H-->
   <!--I-->
   <string name="Inserted">Vložené</string>
@@ -171,6 +167,7 @@
   <string name="MarkAsWatched">Označiť film ktorý som videl</string>
   <string name="MarkAsUnWatched">Označiť film ktorý som nevidel</string>
   <string name="Me">Ja</string>
+  <string name="Minutes">Minút</string>
   <string name="Movie">Film</string>
   <string name="Movies">filmov</string>
   <string name="MultiSelectDialog">Dialóg s multi-výberom</string>
@@ -179,10 +176,8 @@
   <string name="Network">Sieť</string>
   <string name="NextEpisode">Ďalšia epizóda</string>
   <string name="NextWeek">Budúci týždeň</string>
-  <string name="NoActivities">Aktivita sa nenašla.</string>
   <string name="NoFriends">Bez priateľov.</string>
   <string name="NoFriendsTaunt">Nemáte v systéme priateľov.</string>
-  <string name="NoSearchResultsFound">Žiadne záznamy neboli nájdené! Skúste zmeniť vyhľadávaciu podmienku.</string>
   <string name="No">Nie</string>
   <!--O-->
   <string name="Off">Vyp.</string>
@@ -264,16 +259,12 @@
   <string name="ValidPassword">Musíte zadať platné heslo!</string>
   <string name="ValidEmail">Musíte zadať platný e-mail!</string>
   <!--W-->
-  <string name="WatchList">Zoznam</string>
   <string name="Watched">Videné</string>
   <string name="WatchedMovies">Videné Filmy</string>
   <string name="WatchedEpisodes">Videné Epizódy</string>
   <string name="WatchedShows">Videné relácie</string>
   <string name="Watchers">Pozorovatelia</string>
   <string name="Watching">Pozerám</string>
-  <string name="WatchListMovies">Zoznam Filmov</string>
-  <string name="WatchListShows">Zobraz Zoznam Epizód</string>
-  <string name="WatchListEpisodes">Zoznam Epizód</string>
   <string name="Writer">Scénárista</string>
   <string name="Writers">Scénáristi</string>
   <!--Y-->

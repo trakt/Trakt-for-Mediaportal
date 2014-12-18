@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Text.RegularExpressions;
@@ -15,6 +16,7 @@ namespace TraktPlugin.GUI
     {
         #region Private variables
 
+        
         private static Dictionary<string, string> translations = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         private static Regex translateExpr = new Regex(@"\$\{([^\}]+)\}");
         private static string path = string.Empty;
@@ -95,6 +97,33 @@ namespace TraktPlugin.GUI
                 GUIUtils.SetProperty("#Trakt.Translation." + name + ".Label", Translation.Strings[name]);
             }
         }
+
+        public static string GetLanguageFromISOCode(string isoCode)
+        {
+            if (string.IsNullOrEmpty(isoCode))
+                return null;
+
+            string languageName = string.Empty;
+            if (_LanguageNames == null)
+            {
+                _LanguageNames = new Dictionary<string, string>();
+                var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures);
+
+                foreach (var culture in cultures)
+                {
+                    string iso_639_1 = culture.TwoLetterISOLanguageName;
+
+                    if (!_LanguageNames.ContainsKey(iso_639_1))
+                    {
+                        _LanguageNames.Add(culture.TwoLetterISOLanguageName, culture.NativeName);
+                    }
+                }
+            }
+
+            _LanguageNames.TryGetValue(isoCode, out languageName);
+            return languageName;
+        }
+        static Dictionary<string, string> _LanguageNames = null;
 
         public static int LoadTranslations(string lang)
         {
@@ -288,6 +317,7 @@ namespace TraktPlugin.GUI
         public static string CreatingFilters = "Creating Filters";
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
+        public static string CreateAccountWebsite = "Sorry, this feature is no longer\navailable. Please use the website\nto create an account.";
         public static string Community = "Community";
         public static string CommunityActivity = "Community Activity";
         public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
@@ -702,7 +732,7 @@ namespace TraktPlugin.GUI
         public static string Username = "Username";
         public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
         public static string UnFollow = "UnFollow";
-        public static string UnFollowMessage = "Are you sure you want to unfollow\nuser {0}?";
+        public static string UnFollowMessage = "Are you sure you no longer want\nto follow user {0}?";
         public static string UnRate = "UnRate";
         public static string UpdatingCategories = "Updating Categories";
         public static string UpdatingCategoriesMenuMovingPics = "Updating Categories Menu in MovingPictures.";
