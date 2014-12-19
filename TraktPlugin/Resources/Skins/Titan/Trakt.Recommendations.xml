@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+	<id>87261</id>
+	<defaultcontrol>88882</defaultcontrol>
+	<allowoverlay>no</allowoverlay>
+	<define>#header.label:Trakt</define>
+    <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+	<controls>
+  <import>Trakt.Common.Background.xml</import>
+  <import>Trakt.xml</import>
+  <import>common.time.xml</import>
+	<control>
+		<type>label</type>
+		<id>1</id>
+		<posX>685</posX>
+		<posY>225</posY>
+		<width>500</width>
+		<label>#Trakt.Translation.Recommendations.Label</label>
+		<textcolor>00b7ff</textcolor>
+		<font>TitanLight20</font>
+	</control>
+	<control>
+		<description>buttons</description>
+		<type>group</type>
+		<posX>655</posX>
+		<posY>321</posY>
+    <layout>StackLayout(7, Vertical, true)</layout>
+		
+  <control Style="SettingsButtonLarge">
+			<type>button</type>
+			<description>Recommended Movies</description>
+			<id>88882</id>
+			<label>#Trakt.Translation.RecommendedMovies.Label</label>
+			<hyperlink>87263</hyperlink>
+      <onleft>12</onleft>
+      <onright>88882</onright>
+      <onup>88883</onup>
+		</control>
+		
+  <control Style="SettingsButtonLarge">
+			<description>Recommended Shows</description>
+			<type>button</type>
+			<id>88883</id>
+			<label>#Trakt.Translation.RecommendedShows.Label</label>
+			<hyperlink>87262</hyperlink>
+      <onleft>12</onleft>
+      <onright>88883</onright>
+      <ondown>88882</ondown>
+		</control>
+  </control>
+  
+		<import>common.overlay.xml</import>
+	</controls>
+</window>

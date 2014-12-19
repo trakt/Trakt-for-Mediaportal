@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87272</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#header.label:#Trakt.Translation.AccountSetup.Label</define>
+  <define>#header.hover:hover_trakt.png</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9997</define>
+  <controls>
+    <import>Trakt.Common.Background.xml</import>
+    <import>Trakt.Common.xml</import>
+  <control>
+   	<id>0</id>
+    <type>label</type>
+    <posX>144</posX>
+    <posY>38</posY>
+    <width>855</width>
+    <font>TitanLight22</font>
+    <textcolor>ffffff</textcolor>
+    <label>#header.label</label>
+		<align>left</align>
+  </control>
+      
+	<control>
+  	<id>0</id>
+    <type>label</type>
+    <posX>1848</posX>
+    <posY>36</posY>
+    <width>555</width>
+    <font>TitanLight22</font>
+    <textcolor>ffffff</textcolor>
+    <label>#time</label>
+		<align>right</align>
+  </control>
+
+	<control>
+		<type>label</type>
+		<id>1</id>
+		<posX>685</posX>
+		<posY>225</posY>
+		<width>500</width>
+		<label>#Trakt.Translation.GeneralSettings.Label</label>
+		<textcolor>00b7ff</textcolor>
+		<font>TitanLight20</font>
+	</control>
+	
+	<control>
+		<description>buttons</description>
+		<type>group</type>
+		<posX>655</posX>
+		<posY>321</posY>
+    <layout>StackLayout(7, Vertical, true)</layout>
+      <visible>!string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Create New Account</description>
+        <id>2</id>
+        <label>#Trakt.Translation.CreateNewAccount.Label</label>
+        <onup>17</onup>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Login to Existing Account</description>
+        <type>button</type>
+        <id>3</id>
+        <label>#Trakt.Translation.LoginExistingAccount.Label</label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Disconnect Current Account</description>
+        <type>button</type>
+        <id>4</id>
+        <label>
+        </label>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+    </control>
+    <import>Trakt.AccountDialog.xml</import>
+  </controls>
+</window>

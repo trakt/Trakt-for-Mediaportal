@@ -293,6 +293,13 @@
               <ZipFileName>Installer{CopyFile}\{8f4f7864-911e-4c3c-9dc4-97a832f67423}-ar.xml</ZipFileName>
               <DestinationFilename>%Language%\Trakt\ar.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Languages\sq.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c1abd248-83dc-4354-84f0-ea6614746af6}-sq.xml</ZipFileName>
+              <DestinationFilename>%Language%\Trakt\sq.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -300,7 +307,7 @@
         <ParentGroup />
         <DisplayName>Default Skin</DisplayName>
         <DefaulChecked>true</DefaulChecked>
-        <Description>DefaultSkin for Trakt Plugin.</Description>
+        <Description>Default Skin for Trakt Plugin.</Description>
         <Files>
           <Items>
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
@@ -1851,6 +1858,702 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
           <Items />
         </Files>
       </GroupItem>
+      <GroupItem Name="Titan">
+        <ParentGroup />
+        <DisplayName>Titan Skin</DisplayName>
+        <DefaulChecked>true</DefaulChecked>
+        <Description>Titan Skin for Trakt Plugin.</Description>
+        <Files>
+          <Items>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\DialogMultiSelect.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6589655a-4f28-459e-9814-37c68de2de9c}-DialogMultiSelect.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\DialogMultiSelect.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.AccountDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8493ef59-11b5-4956-aa3c-2fe15e53d384}-Trakt.AccountDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.AccountDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Calendar.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{60bad610-3ba3-42ff-804a-07f61e938e79}-Trakt.Calendar.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Calendar.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Background.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{13905f8e-fce0-496e-95bc-c1543d27a9ae}-Trakt.Common.Background.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Background.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ec32fdab-86c4-47bf-8959-31d9c7f0d8e5}-Trakt.Common.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Fanart.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{abebb614-3286-4cea-8392-b8aca90caae2}-Trakt.Common.Fanart.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Fanart.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bdc0fd37-9a87-467f-a751-fd46d002c85d}-Trakt.Common.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.People.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7a21733e-0f90-4452-b103-f5304e1bdcb0}-Trakt.Common.People.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.People.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7a2759dc-0f92-4f62-b744-6fb0a9a67633}-Trakt.Common.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Users.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4be595be-6583-4661-a5f3-166c6ff0b3e6}-Trakt.Common.Users.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.Users.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ce09937f-8ee6-467d-9db7-da8bc91cff0b}-Trakt.Common.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Common.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Dashboard.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2cee44a3-a9db-43c7-b3d4-16a318e0c517}-Trakt.Dashboard.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Dashboard.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.List.Items.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a1fb6c08-d5d5-41d3-a440-d6d172748310}-Trakt.List.Items.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.List.Items.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Lists.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d81c335d-545f-42a2-9014-fc851a6c3a89}-Trakt.Lists.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Lists.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Network.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b88972d0-94ba-45d2-99b4-b0e7f18ab505}-Trakt.Network.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Network.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RateDialog.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{884e24a5-ea7b-4f1c-a244-b8e1470ff0cc}-Trakt.RateDialog.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RateDialog.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentAdded.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{025c38bc-9f12-4eef-8cb7-7fa5ea2d992d}-Trakt.RecentAdded.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RecentAdded.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentAdded.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2652ae2e-b234-4e8b-9ec6-27cbf5d3e13d}-Trakt.RecentAdded.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RecentAdded.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentShouts.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6f2530ba-4a71-4f43-a719-5f8c04a605ac}-Trakt.RecentShouts.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RecentShouts.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentWatched.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cafd3d82-6fa0-423d-8197-40050ba41fa6}-Trakt.RecentWatched.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RecentWatched.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentWatched.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f788ba1a-f65a-44f3-b2a9-4fd3c93a48a7}-Trakt.RecentWatched.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.RecentWatched.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f79f927a-37f4-4f2c-ac6d-e4c24e675e11}-Trakt.Recommendations.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ad8c867d-add8-4d53-88b5-e7e2157b2c47}-Trakt.Recommendations.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2a6e73a7-c652-486f-81db-4187762adbc8}-Trakt.Recommendations.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Related.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{19723a97-3522-4a40-8577-19bc077a2ca4}-Trakt.Related.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Related.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Related.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{771860c3-6755-4ede-8fb4-e16e2e946990}-Trakt.Related.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Related.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c5d9a4af-5c98-44f5-9717-36608b7847c3}-Trakt.Search.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{055218bb-99ab-4415-bb86-9a9b59c3fa36}-Trakt.Search.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.People.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4065d1d7-761f-40d7-ba30-e6b473e14b9f}-Trakt.Search.People.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.People.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{61354a20-4c2d-43fb-af20-abd42a55420f}-Trakt.Search.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Users.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{709488c8-0faf-45e7-868d-64a62cb13052}-Trakt.Search.Users.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.Users.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7e57c646-8e87-4087-93ea-1de97184191f}-Trakt.Search.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Search.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Season.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{52a2458e-d755-4107-9b4f-fafe17f47fb7}-Trakt.Season.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Season.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.Account.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{bdd40e00-f180-42f0-8700-d24f6e1125fb}-Trakt.Settings.Account.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Settings.Account.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.General.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d4752118-802a-4c72-a39e-dca85af01882}-Trakt.Settings.General.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Settings.General.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.Plugins.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7c2b5595-28a8-4657-9092-5aafcfad54ec}-Trakt.Settings.Plugins.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Settings.Plugins.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{df328288-1fcf-40d1-a2b3-cfd9d1f0e607}-Trakt.Settings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Settings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Shouts.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{854e5374-7e49-4e94-89bf-805d9193dc3d}-Trakt.Shouts.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Shouts.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Show.Seasons.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{47439d81-1de3-4247-8f25-a7182137dc3a}-Trakt.Show.Seasons.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Show.Seasons.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.SkinSettings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cab849e1-d38c-4e3d-bb02-3ded2fd70c16}-Trakt.SkinSettings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.SkinSettings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1d6e762f-8743-4556-a47c-591b9cf12802}-Trakt.Trending.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Trending.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3af4eae4-27ec-40ce-a13d-a3b2626b5634}-Trakt.Trending.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Trending.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6eef6b5d-a503-407a-acba-4374751e73bc}-Trakt.Trending.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Trending.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.UserProfile.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{56053b1d-227c-419e-92a6-a662111ada94}-Trakt.UserProfile.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.UserProfile.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Episodes.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0ce42749-8c15-408d-a42b-6e3bdb904f85}-Trakt.WatchList.Episodes.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Episodes.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4da9346c-a031-4107-9b94-6dbc914c3d94}-Trakt.WatchList.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{74ba2305-642e-43f8-ae3c-28775bc12afe}-Trakt.WatchList.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7df67e64-9d6e-46c4-b97c-0df760242275}-Trakt.WatchList.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.WatchList.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{215d1e4a-34d7-48f3-9395-173a1a12bd9b}-Trakt.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktEpisode.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3eb1cfad-9b71-4715-b690-82ea2c23470c}-defaultTraktEpisode.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktEpisode.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktEpisodeBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{35bd83ec-2f07-4a52-9828-371d67d52b41}-defaultTraktEpisodeBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktPoster.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{614002f3-e592-474a-8eac-87ce26bf1660}-defaultTraktPoster.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktPoster.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktPosterBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{190f6e1d-88b6-4936-9724-8b2eb1f10103}-defaultTraktPosterBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktPosterBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktUser.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b8d86384-c0a2-4758-926d-c88b4950057b}-defaultTraktUser.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktUser.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktUserBig.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5d405c16-1524-49a5-80da-a68a1abec3f0}-defaultTraktUserBig.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\defaultTraktUserBig.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\hate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{44564a2b-dd5f-4ea2-9628-e42cd08b6176}-hate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\hate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8cb0eb7f-e069-4cb3-ba1e-33f93f37e031}-heart-1.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1f652312-c6c3-4b41-81f3-ec8e19ce506f}-heart-10.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9a2df764-f855-408e-8d45-251c0ad75557}-heart-2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d11ab73e-c461-4c43-8dc2-1565acffa333}-heart-3.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a846917c-7e1c-4640-b913-dbf826963ed5}-heart-4.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c2f52d10-1d8a-4fdb-8095-7c37a22acdad}-heart-5.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f414af4a-2787-4e93-bd2c-ea97a3071aee}-heart-6.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2c4369bd-b9ca-403f-8287-7f01eddc4c22}-heart-7.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{966686bd-0565-490d-acef-7c753a4f3eb5}-heart-8.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5288171c-4555-4eeb-834a-ff495cf2dfc4}-heart-9.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-9.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-off.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{7d474f5a-763b-479c-89d2-7211eb7561cc}-heart-off.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\heart-off.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\hover_trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{02b137b2-c9ca-4292-a8a6-4209b5ce02a8}-hover_trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\hover_trakt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityCollected.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{11185d5d-9f4b-44ae-a318-5c5c6f9b91f0}-traktActivityCollected.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityCollected.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityHate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{514c2f5a-5c9f-423f-9418-48af0b8a414d}-traktActivityHate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityHate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityList.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{04979603-2042-4aae-8650-119157cd040c}-traktActivityList.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityList.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLove.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f4d2ca77-b285-4c5f-b099-6b1494cca3a7}-traktActivityLove.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityLove.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityShout.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5cd0949a-b34f-4244-813a-e7b9c37c0e98}-traktActivityShout.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityShout.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatched.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f93755a3-6bc6-44d8-935d-4fee548f4ca7}-traktActivityWatched.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityWatched.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatching.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{67725418-2af4-4980-b058-71980164dae6}-traktActivityWatching.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityWatching.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatchlist.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5eb1943c-b85f-4ef5-9a7e-6796a457cfb4}-traktActivityWatchlist.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityWatchlist.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktCollectionIcon.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{72797c67-a792-4b1b-91b4-c4f1b9996429}-traktCollectionIcon.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktCollectionIcon.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHate.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{1d5506af-ac9d-417c-b723-31301c222ef9}-traktHate.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHate.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart1.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5a2b7e63-7b8b-4dcb-9d59-ac96ddfbf2dc}-traktHeart1.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart1.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart10.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fd70629f-8cc0-4af5-aa54-0715f61051b6}-traktHeart10.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart10.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{024785a0-0aeb-4337-8fb7-30a5af0aaaed}-traktHeart2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart2.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart3.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a7421588-f39c-4aba-a05b-8e55f6adde26}-traktHeart3.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart3.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart4.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d5546f93-3b96-416a-b308-209c57c9959f}-traktHeart4.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart4.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart5.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{061956fb-6bd6-45af-b3cb-da55e7125d0f}-traktHeart5.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart5.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart6.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9769e8b7-050f-4e0e-8002-4c46bea9981d}-traktHeart6.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart6.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart7.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ca3020b1-7618-455a-a812-3d389020e572}-traktHeart7.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart7.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart8.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{ecb33913-f1b7-4581-ad41-1a6a12bc505c}-traktHeart8.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart8.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart9.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{68c07acb-edc2-402d-baf8-866b6ec9f193}-traktHeart9.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktHeart9.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8531545f-7d29-4aa4-b93a-7b86472eadad}-traktLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktLove.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{33fd87f6-3921-41fa-af79-41fdf1916776}-traktLove.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktLove.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextWeek.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b4ba5928-b31b-403c-9488-7ef660cfc820}-traktNextWeek.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktNextWeek.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktSeenIt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{96e2da71-7335-4157-8df7-4f0176ed478a}-traktSeenIt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktSeenIt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktSeenItLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{010db9b2-6a81-4ded-907d-25c135f859b1}-traktSeenItLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktSeenItLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktVIP.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{34fd3fff-70ab-4a88-9d6e-0f5ce2e143ec}-traktVIP.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktVIP.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchedIcon.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8a2bc738-b57e-47f2-b07a-a750861f0aed}-traktWatchedIcon.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktWatchedIcon.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchList.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{766ed053-f622-4229-96ee-b84f86cbc46a}-traktWatchList.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktWatchList.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchListLibrary.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d9e1fcd1-72f9-42ab-8936-6938a320d3af}-traktWatchListLibrary.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktWatchListLibrary.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\Logos\trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{6b82f66c-486d-45c7-bb13-2997e851b796}-trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\Logos\trakt.png</DestinationFilename>
+            </FileItem>
+          </Items>
+        </Files>
+      </GroupItem>
     </Items>
   </Groups>
   <Sections>
@@ -2135,21 +2838,7 @@ Click Next to continue or Cancel to exit Setup.
     </Items>
   </Dependencies>
   <PluginDependencies>
-    <Items>
-      <PluginDependencyItem AssemblyName="TraktPlugin.dll">
-        <CompatibleVersion>
-          <Items>
-            <CompatibleVersionItem>
-              <MinRequiredVersion>1.6.100.0</MinRequiredVersion>
-              <DesignedForVersion>1.6.100.0</DesignedForVersion>
-            </CompatibleVersionItem>
-          </Items>
-        </CompatibleVersion>
-        <SubSystemsUsed>
-          <Items />
-        </SubSystemsUsed>
-      </PluginDependencyItem>
-    </Items>
+    <Items />
   </PluginDependencies>
   <GeneralInfo>
     <Name>Trakt for MediaPortal</Name>
@@ -2159,21 +2848,20 @@ Click Next to continue or Cancel to exit Setup.
     <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
     <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
-      <Major>4</Major>
+      <Major>5</Major>
       <Minor>0</Minor>
-      <Build>3</Build>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added Custom List syncing from trakt.tv to MovingPictures categories and filters menu. This is in addition to syncing of Recommendations and Watchlist which can be enabled from Settings.
-* Added a 'Change View' menu item to the Activity Dashboard context menu, this allows you to select between five different views including two new ones: 'Community', 'Followers', 'Following', 'Friends' and 'Friends And Me'.
-* Removed trailers handling from trakt plugin, instead will now hand control over to the Trailers plugin.
+    <VersionDescription>* Added support for trakt API v2.
+* Added Titan skin file to installation package.
 * Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2014-05-31T10:00:00</ReleaseDate>
+    <ReleaseDate>2014-12-19T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -2484,6 +3172,13 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\ar.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{8f4f7864-911e-4c3c-9dc4-97a832f67423}-ar.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\ar.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Languages\sq.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c1abd248-83dc-4354-84f0-ea6614746af6}-sq.xml</ZipFileName>
+        <DestinationFilename>%Language%\Trakt\sq.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -3990,18 +4685,704 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{c6b63df1-cc77-48fe-9df3-b88e3fd5eaa6}-extension_settings.xml</ZipFileName>
         <DestinationFilename>%Config%\Trakt\extension_settings.xml</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\DialogMultiSelect.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6589655a-4f28-459e-9814-37c68de2de9c}-DialogMultiSelect.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\DialogMultiSelect.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.AccountDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8493ef59-11b5-4956-aa3c-2fe15e53d384}-Trakt.AccountDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.AccountDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Calendar.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{60bad610-3ba3-42ff-804a-07f61e938e79}-Trakt.Calendar.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Calendar.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Background.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{13905f8e-fce0-496e-95bc-c1543d27a9ae}-Trakt.Common.Background.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Background.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ec32fdab-86c4-47bf-8959-31d9c7f0d8e5}-Trakt.Common.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Fanart.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{abebb614-3286-4cea-8392-b8aca90caae2}-Trakt.Common.Fanart.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Fanart.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bdc0fd37-9a87-467f-a751-fd46d002c85d}-Trakt.Common.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.People.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7a21733e-0f90-4452-b103-f5304e1bdcb0}-Trakt.Common.People.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.People.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7a2759dc-0f92-4f62-b744-6fb0a9a67633}-Trakt.Common.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.Users.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4be595be-6583-4661-a5f3-166c6ff0b3e6}-Trakt.Common.Users.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.Users.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Common.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ce09937f-8ee6-467d-9db7-da8bc91cff0b}-Trakt.Common.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Common.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Dashboard.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2cee44a3-a9db-43c7-b3d4-16a318e0c517}-Trakt.Dashboard.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Dashboard.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.List.Items.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a1fb6c08-d5d5-41d3-a440-d6d172748310}-Trakt.List.Items.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.List.Items.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Lists.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d81c335d-545f-42a2-9014-fc851a6c3a89}-Trakt.Lists.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Lists.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Network.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b88972d0-94ba-45d2-99b4-b0e7f18ab505}-Trakt.Network.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Network.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RateDialog.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{884e24a5-ea7b-4f1c-a244-b8e1470ff0cc}-Trakt.RateDialog.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RateDialog.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentAdded.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{025c38bc-9f12-4eef-8cb7-7fa5ea2d992d}-Trakt.RecentAdded.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RecentAdded.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentAdded.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2652ae2e-b234-4e8b-9ec6-27cbf5d3e13d}-Trakt.RecentAdded.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RecentAdded.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentShouts.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6f2530ba-4a71-4f43-a719-5f8c04a605ac}-Trakt.RecentShouts.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RecentShouts.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentWatched.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cafd3d82-6fa0-423d-8197-40050ba41fa6}-Trakt.RecentWatched.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RecentWatched.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.RecentWatched.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f788ba1a-f65a-44f3-b2a9-4fd3c93a48a7}-Trakt.RecentWatched.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.RecentWatched.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f79f927a-37f4-4f2c-ac6d-e4c24e675e11}-Trakt.Recommendations.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ad8c867d-add8-4d53-88b5-e7e2157b2c47}-Trakt.Recommendations.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Recommendations.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2a6e73a7-c652-486f-81db-4187762adbc8}-Trakt.Recommendations.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Recommendations.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Related.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{19723a97-3522-4a40-8577-19bc077a2ca4}-Trakt.Related.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Related.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Related.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{771860c3-6755-4ede-8fb4-e16e2e946990}-Trakt.Related.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Related.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c5d9a4af-5c98-44f5-9717-36608b7847c3}-Trakt.Search.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{055218bb-99ab-4415-bb86-9a9b59c3fa36}-Trakt.Search.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.People.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4065d1d7-761f-40d7-ba30-e6b473e14b9f}-Trakt.Search.People.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.People.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{61354a20-4c2d-43fb-af20-abd42a55420f}-Trakt.Search.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.Users.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{709488c8-0faf-45e7-868d-64a62cb13052}-Trakt.Search.Users.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.Users.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Search.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7e57c646-8e87-4087-93ea-1de97184191f}-Trakt.Search.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Search.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Season.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{52a2458e-d755-4107-9b4f-fafe17f47fb7}-Trakt.Season.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Season.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.Account.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{bdd40e00-f180-42f0-8700-d24f6e1125fb}-Trakt.Settings.Account.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Settings.Account.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.General.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d4752118-802a-4c72-a39e-dca85af01882}-Trakt.Settings.General.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Settings.General.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.Plugins.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7c2b5595-28a8-4657-9092-5aafcfad54ec}-Trakt.Settings.Plugins.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Settings.Plugins.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Settings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{df328288-1fcf-40d1-a2b3-cfd9d1f0e607}-Trakt.Settings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Settings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Shouts.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{854e5374-7e49-4e94-89bf-805d9193dc3d}-Trakt.Shouts.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Shouts.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Show.Seasons.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{47439d81-1de3-4247-8f25-a7182137dc3a}-Trakt.Show.Seasons.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Show.Seasons.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.SkinSettings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cab849e1-d38c-4e3d-bb02-3ded2fd70c16}-Trakt.SkinSettings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.SkinSettings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1d6e762f-8743-4556-a47c-591b9cf12802}-Trakt.Trending.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Trending.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3af4eae4-27ec-40ce-a13d-a3b2626b5634}-Trakt.Trending.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Trending.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Trending.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6eef6b5d-a503-407a-acba-4374751e73bc}-Trakt.Trending.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Trending.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.UserProfile.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{56053b1d-227c-419e-92a6-a662111ada94}-Trakt.UserProfile.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.UserProfile.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Episodes.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0ce42749-8c15-408d-a42b-6e3bdb904f85}-Trakt.WatchList.Episodes.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Episodes.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4da9346c-a031-4107-9b94-6dbc914c3d94}-Trakt.WatchList.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{74ba2305-642e-43f8-ae3c-28775bc12afe}-Trakt.WatchList.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.WatchList.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.WatchList.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7df67e64-9d6e-46c4-b97c-0df760242275}-Trakt.WatchList.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.WatchList.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{215d1e4a-34d7-48f3-9395-173a1a12bd9b}-Trakt.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktEpisode.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3eb1cfad-9b71-4715-b690-82ea2c23470c}-defaultTraktEpisode.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktEpisode.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktEpisodeBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{35bd83ec-2f07-4a52-9828-371d67d52b41}-defaultTraktEpisodeBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktEpisodeBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktPoster.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{614002f3-e592-474a-8eac-87ce26bf1660}-defaultTraktPoster.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktPoster.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktPosterBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{190f6e1d-88b6-4936-9724-8b2eb1f10103}-defaultTraktPosterBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktPosterBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktUser.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b8d86384-c0a2-4758-926d-c88b4950057b}-defaultTraktUser.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktUser.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\defaultTraktUserBig.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5d405c16-1524-49a5-80da-a68a1abec3f0}-defaultTraktUserBig.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\defaultTraktUserBig.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\hate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{44564a2b-dd5f-4ea2-9628-e42cd08b6176}-hate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\hate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8cb0eb7f-e069-4cb3-ba1e-33f93f37e031}-heart-1.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1f652312-c6c3-4b41-81f3-ec8e19ce506f}-heart-10.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9a2df764-f855-408e-8d45-251c0ad75557}-heart-2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d11ab73e-c461-4c43-8dc2-1565acffa333}-heart-3.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a846917c-7e1c-4640-b913-dbf826963ed5}-heart-4.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c2f52d10-1d8a-4fdb-8095-7c37a22acdad}-heart-5.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f414af4a-2787-4e93-bd2c-ea97a3071aee}-heart-6.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2c4369bd-b9ca-403f-8287-7f01eddc4c22}-heart-7.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{966686bd-0565-490d-acef-7c753a4f3eb5}-heart-8.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5288171c-4555-4eeb-834a-ff495cf2dfc4}-heart-9.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\heart-off.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{7d474f5a-763b-479c-89d2-7211eb7561cc}-heart-off.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\heart-off.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\hover_trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{02b137b2-c9ca-4292-a8a6-4209b5ce02a8}-hover_trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\hover_trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityCollected.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{11185d5d-9f4b-44ae-a318-5c5c6f9b91f0}-traktActivityCollected.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityCollected.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityHate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{514c2f5a-5c9f-423f-9418-48af0b8a414d}-traktActivityHate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityHate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityList.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{04979603-2042-4aae-8650-119157cd040c}-traktActivityList.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityList.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLove.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f4d2ca77-b285-4c5f-b099-6b1494cca3a7}-traktActivityLove.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityLove.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityShout.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5cd0949a-b34f-4244-813a-e7b9c37c0e98}-traktActivityShout.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityShout.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatched.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f93755a3-6bc6-44d8-935d-4fee548f4ca7}-traktActivityWatched.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityWatched.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatching.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{67725418-2af4-4980-b058-71980164dae6}-traktActivityWatching.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityWatching.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityWatchlist.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5eb1943c-b85f-4ef5-9a7e-6796a457cfb4}-traktActivityWatchlist.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityWatchlist.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktCollectionIcon.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{72797c67-a792-4b1b-91b4-c4f1b9996429}-traktCollectionIcon.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktCollectionIcon.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHate.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{1d5506af-ac9d-417c-b723-31301c222ef9}-traktHate.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHate.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart1.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5a2b7e63-7b8b-4dcb-9d59-ac96ddfbf2dc}-traktHeart1.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart1.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart10.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fd70629f-8cc0-4af5-aa54-0715f61051b6}-traktHeart10.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart10.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{024785a0-0aeb-4337-8fb7-30a5af0aaaed}-traktHeart2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart2.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart3.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a7421588-f39c-4aba-a05b-8e55f6adde26}-traktHeart3.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart3.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart4.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d5546f93-3b96-416a-b308-209c57c9959f}-traktHeart4.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart4.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart5.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{061956fb-6bd6-45af-b3cb-da55e7125d0f}-traktHeart5.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart5.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart6.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9769e8b7-050f-4e0e-8002-4c46bea9981d}-traktHeart6.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart6.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart7.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ca3020b1-7618-455a-a812-3d389020e572}-traktHeart7.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart7.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart8.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{ecb33913-f1b7-4581-ad41-1a6a12bc505c}-traktHeart8.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart8.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktHeart9.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{68c07acb-edc2-402d-baf8-866b6ec9f193}-traktHeart9.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktHeart9.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8531545f-7d29-4aa4-b93a-7b86472eadad}-traktLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktLove.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{33fd87f6-3921-41fa-af79-41fdf1916776}-traktLove.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktLove.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextWeek.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b4ba5928-b31b-403c-9488-7ef660cfc820}-traktNextWeek.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktNextWeek.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktSeenIt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{96e2da71-7335-4157-8df7-4f0176ed478a}-traktSeenIt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktSeenIt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktSeenItLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{010db9b2-6a81-4ded-907d-25c135f859b1}-traktSeenItLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktSeenItLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktVIP.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{34fd3fff-70ab-4a88-9d6e-0f5ce2e143ec}-traktVIP.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktVIP.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchedIcon.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8a2bc738-b57e-47f2-b07a-a750861f0aed}-traktWatchedIcon.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktWatchedIcon.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchList.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{766ed053-f622-4229-96ee-b84f86cbc46a}-traktWatchList.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktWatchList.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktWatchListLibrary.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d9e1fcd1-72f9-42ab-8936-6938a320d3af}-traktWatchListLibrary.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktWatchListLibrary.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\Logos\trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{6b82f66c-486d-45c7-bb13-2997e851b796}-trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\Logos\trakt.png</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{a5a5c547-205a-4515-8907-d73e7b85e9ef}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{b1264eef-d707-4e0d-a55a-2e7729d68d7e}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{54e8afd9-501a-48fd-a738-209b5caf43a9}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{9d74c2d0-047d-4bf3-b7fa-38e1994bfaa5}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
@@ -4036,6 +5417,16 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <DestinationFilename>%Skin%\DefaultWide</DestinationFilename>
         <Folder>..\TraktPlugin\Resources\Skins\DefaultWide</Folder>
         <Group>DefaultWideSkin</Group>
+        <Recursive>true</Recursive>
+      </FolderGroup>
+      <FolderGroup InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName />
+        <ZipFileName>Installer{CopyFile}\{43ca43f6-b0ad-42dc-af48-1af6865e83b5}-</ZipFileName>
+        <DestinationFilename>%Skin%\Titan</DestinationFilename>
+        <Folder>..\TraktPlugin\Resources\Skins\Titan</Folder>
+        <Group>Titan</Group>
         <Recursive>true</Recursive>
       </FolderGroup>
     </FolderGroups>

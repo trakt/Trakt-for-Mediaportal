@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+	<controls>   
+  
+	<control>
+		<id>0</id>
+		<type>image</type>
+		<posX>66</posX>
+		<posY>34</posY>
+		<width>68</width>
+		<height>60</height>
+		<texture>icon_plugin.png</texture>
+  </control>
+    <import>common.time.xml</import>
+	<control>
+		<description>panel</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>10</posX>
+		<posY>145</posY>
+		<width>1903</width>
+		<height>897</height>
+		<texture>panel_trakt.png</texture>
+	</control>
+
+	<import>common.time.xml</import>
+	<control>
+		<description>button group</description>
+		<type>group</type>
+		<posX>122</posX>
+		<posY>246</posY>
+		<layout>StackLayout(7, Vertical, true)</layout>
+    <control Style="SettingsButton">
+			<description>User Profile</description>
+			<type>button</type>
+			<id>9990</id>
+			<label>#Trakt.Translation.Profile.Label</label>
+			<hyperlink>87400</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+      <onup>9998</onup>
+		</control>
+    <control Style="SettingsButton">
+			<description>Trakt Calendar</description>
+			<type>button</type>
+			<id>9991</id>
+			<label>#Trakt.Translation.Calendar.Label</label>
+			<hyperlink>87259</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+      <onup>9997</onup>
+		</control>
+    <control Style="SettingsButton">
+			<description>Network</description>
+			<type>button</type>
+			<id>9992</id>
+			<label>#Trakt.Translation.Network.Label</label>
+			<hyperlink>87283</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+		</control>
+    <control Style="SettingsButton">
+			<description>Recommendations</description>
+			<type>button</type>
+			<id>9993</id>
+			<label>#Trakt.Translation.Recommendations.Label</label>
+			<hyperlink>87261</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+		</control>
+    <control Style="SettingsButton">
+			<description>Trending</description>
+			<type>button</type>
+			<id>9994</id>
+			<label>#Trakt.Translation.Trending.Label</label>
+			<hyperlink>87264</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+		</control>
+    <control Style="SettingsButton">
+			<description>Watch List</description>
+			<type>button</type>
+			<id>9995</id>
+			<label>#Trakt.Translation.WatchList.Label</label>
+			<hyperlink>87267</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+		</control>
+    <control Style="SettingsButton">
+			<description>Lists</description>
+			<type>button</type>
+			<id>9996</id>
+			<label>#Trakt.Translation.Lists.Label</label>
+			<hyperlink>87275</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+		</control>
+    <control Style="SettingsButton">
+			<description>Settings</description>
+			<type>button</type>
+			<id>9997</id>
+			<label>#Trakt.Translation.Settings.Label</label>
+			<hyperlink>87271</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+      <ondown>9998</ondown>
+		</control>
+    <control Style="SettingsButton">
+			<description>Search</description>
+			<type>button</type>
+			<id>9998</id>
+			<label>#Trakt.Translation.Search.Label</label>
+			<hyperlink>874001</hyperlink>
+			<onleft>#defaultcontrol</onleft>
+      <ondown>9991</ondown>
+		</control>
+	</control>
+	</controls>
+</window>

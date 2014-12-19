@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87271</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <define>#header.label:#Trakt.Translation.Settings.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onright:9997</define>
+  <controls>
+    <import>Trakt.Common.Background.xml</import>
+    <import>Trakt.Common.xml</import>
+  <control>
+   	<id>0</id>
+    <type>label</type>
+    <posX>144</posX>
+    <posY>38</posY>
+    <width>855</width>
+    <font>TitanLight22</font>
+    <textcolor>ffffff</textcolor>
+    <label>#header.label</label>
+		<align>left</align>
+  </control>
+      
+	<control>
+  	<id>0</id>
+    <type>label</type>
+    <posX>1848</posX>
+    <posY>36</posY>
+    <width>555</width>
+    <font>TitanLight22</font>
+    <textcolor>ffffff</textcolor>
+    <label>#time</label>
+		<align>right</align>
+  </control>
+
+	<control>
+		<type>label</type>
+		<id>1</id>
+		<posX>685</posX>
+		<posY>225</posY>
+		<width>500</width>
+		<label>#Trakt.Translation.Settings.Label</label>
+		<textcolor>00b7ff</textcolor>
+		<font>TitanLight20</font>
+	</control>
+
+	<control>
+		<description>buttons</description>
+		<type>group</type>
+		<posX>655</posX>
+		<posY>321</posY>
+    <layout>StackLayout(7, Vertical, true)</layout>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Account Setup</description>
+        <id>2</id>
+        <onup>17</onup>
+        <label>#Trakt.Translation.AccountSetup.Label</label>
+        <hyperlink>87272</hyperlink>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Plugin Setup</description>
+        <id>3</id>
+        <label>#Trakt.Translation.Plugins.Label</label>
+        <hyperlink>87273</hyperlink>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>General Settings</description>
+        <id>4</id>
+        <label>#Trakt.Translation.General.Label</label>
+        <hyperlink>87274</hyperlink>
+        <onright>#defaultcontrol.onright</onright>
+        <ondown>1000</ondown>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>MPEICONFIGURE:a9c3845a_8718_4712_85cc_26f56520bb9a</description>
+        <id>1000</id>
+        <label>#Trakt.Translation.AdvancedSettings.Label</label>
+        <onright>#defaultcontrol.onright</onright>
+        <ondown>2</ondown>
+        <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.isinstalled, true)</visible>
+      </control>
+    </control>
+  </controls>
+</window>

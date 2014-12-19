@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+<id>874001</id>
+<defaultcontrol>50</defaultcontrol>
+<allowoverlay>no</allowoverlay>
+<define>#header.label:#Trakt.Translation.Search.Label</define>
+<define>#header.hover:#(iif(#skin.background.useHover, 'hover_trakt.png', 'background.png'))</define>			
+<controls>
+	
+	<control>
+		<description>BACKGROUND</description>
+		<id>0</id>
+		<type>image</type>
+    <posX>0</posX>
+    <posY>0</posY>
+    <width>1920</width>
+    <height>1080</height>
+		<texture>#header.hover</texture>
+    <shouldCache>true</shouldCache>		
+	</control>
+
+	<control>
+		<description>background listview</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>0</posX>
+    <posY>0</posY>
+		<width>1920</width>
+		<height>1080</height>
+		<texture>fanart_overlay.png</texture>
+		<visible>skin.hassetting(#skin.background.useHover)</visible>		
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control>
+
+	<control>
+		<description>panel</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>10</posX>
+		<posY>145</posY>
+		<width>1903</width>
+		<height>897</height>
+		<texture>panel_trakt.png</texture>
+		 <animation effect="fade" time="250">WindowClose</animation>
+	</control>
+    <control>
+  	 <id>0</id>
+  	 <type>image</type>
+  	 <posX>66</posX>
+  	 <posY>34</posY>
+  	 <width>68</width>
+  	 <height>60</height>
+  	 <texture>icon_plugin.png</texture>
+		 <animation effect="fade" time="250">WindowOpen</animation>
+		 <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+			<posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+  	<control Style="smallTitle">
+  		<description>Selected item Label</description>
+  		<type>fadelabel</type>
+  		<id>1</id>
+  		<posX>395</posX>
+  		<posY>1015</posY>
+      <label>#selecteditem</label>
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+	<control>
+		<type>label</type>
+		<id>1</id>
+		<posX>685</posX>
+		<posY>225</posY>
+		<width>800</width>
+		<label>#Trakt.Search.SearchTerm</label>
+		<textcolor>00b7ff</textcolor>
+		<font>TitanLight20</font>
+	</control>
+    <control>
+      <description>group element</description>
+      <type>group</type>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <control>
+        <type>facadeview</type>
+        <id>50</id>
+				<control>
+					<description>Activity List</description>
+					<type>listcontrol</type>
+					<id>50</id>
+		<posX>655</posX>
+		<posY>321</posY>
+					<height>700</height>
+					<width>1137</width>
+					<onleft>2</onleft>
+					<onright>50</onright>
+					<scrollOffset>1</scrollOffset>
+					<itemWidth>40</itemWidth>
+					<itemHeight>40</itemHeight>
+					<IconXOff>-2000</IconXOff>
+					<IconYOff>7</IconYOff>
+					<PinIconXOff>0</PinIconXOff>
+					<PinIconYOff>0</PinIconYOff>
+					<PinIconWidth>50</PinIconWidth>
+					<PinIconHeight>50</PinIconHeight>					
+    <textXOff>-18</textXOff>
+    <textYOff>11</textYOff>
+					<textXOff2>1110</textXOff2>
+					<textYOff2>11</textYOff2>
+					<textXOff3>0</textXOff3>
+					<textYOff3>11</textYOff3>
+					<font>font12</font>
+					<font2>font2</font2>
+					<font3>font2</font3>
+					    <textcolor>ff000000</textcolor>
+    <textcolorNoFocus>ffffffff</textcolorNoFocus>
+					<textcolor2>FFFFFFFF</textcolor2>
+					<textcolor3>FFFFFFFF</textcolor3>
+					<keepaspectratio>yes</keepaspectratio>
+          <spinPosX>1828</spinPosX>
+          <spinPosY>1000</spinPosY>
+<textureHeight>58</textureHeight>
+    <textureFocus>settings_button_large_focus.png</textureFocus>
+    <textureNoFocus>settings_button_large_nofocus.png</textureNoFocus>
+					<spinWidth>50</spinWidth>
+					<spinHeight>37</spinHeight>
+					<suffix>|</suffix>
+					<dimColor>FFFFFFFF</dimColor>
+					<unfocusedAlpha>255</unfocusedAlpha>
+					<spaceBetweenItems>7</spaceBetweenItems>
+				</control>
+      </control>
+    </control>
+	<control>
+		<description>buttons</description>
+		<type>group</type>
+		<posX>122</posX>
+		<posY>246</posY>
+		<layout>StackLayout(7, Vertical, true)</layout>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <control Style="SettingsButton">
+        <description>Search...</description>
+        <type>button</type>
+        <id>2</id>
+        <label>#Trakt.Translation.Search.Label...</label>
+        <ondown>11</ondown>
+        <onup>7</onup>
+        <onright>50</onright>
+        <onleft>2</onleft>
+        <ondown>3</ondown>
+      </control>
+      <control Style="SettingsCheckButton">
+        <description>Movies</description>
+        <type>checkbutton</type>
+        <id>3</id>
+        <label>#Trakt.Translation.Movies.Label</label>
+        <onleft>3</onleft>
+        <onright>50</onright>
+        <ondown>4</ondown>
+      </control>
+      <control Style="SettingsCheckButton">
+        <description>Shows</description>
+        <type>checkbutton</type>
+        <id>4</id>
+        <label>#Trakt.Translation.TVShows.Label</label>
+        <onleft>4</onleft>
+        <onright>50</onright>
+        <ondown>5</ondown>
+      </control>
+      <control Style="SettingsCheckButton">
+        <description>Episodes</description>
+        <type>checkbutton</type>
+        <id>5</id>
+        <label>#Trakt.Translation.Episodes.Label</label>
+        <onleft>5</onleft>
+        <onright>50</onright>
+        <ondown>6</ondown>
+      </control>
+      <control Style="SettingsCheckButton">
+        <description>People</description>
+        <type>checkbutton</type>
+        <id>6</id>
+        <label>#Trakt.Translation.People.Label</label>
+        <onleft>6</onleft>
+        <onright>50</onright>
+        <ondown>7</ondown>
+      </control>
+      <control Style="SettingsCheckButton">
+        <description>Users</description>
+        <type>checkbutton</type>
+        <id>7</id>
+        <label>#Trakt.Translation.Users.Label</label>
+        <onleft>7</onleft>
+        <onright>50</onright>
+        <ondown>2</ondown>
+      </control>
+    </control>
+    <import>common.overlay.xml</import>
+    <import>common.time.xml</import>
+  </controls>
+</window>

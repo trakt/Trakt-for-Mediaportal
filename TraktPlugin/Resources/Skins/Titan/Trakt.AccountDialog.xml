@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+	<!-- #Trakt.Settings.Account.Dialog.Visible is true when account controls are visible -->
+        <animation effect="fade" time="250">WindowClose</animation>
+	<controls>
+		<control>
+			<description>Selected Index Label</description>
+			<type>label</type>
+			<id>10</id>
+     		<posX>685</posX>
+    		<posY>372</posY>
+			<width>1220</width>
+			<label></label>
+     		<textcolor>85cffe</textcolor>
+    		<font>fontB14</font>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+		<control>
+			<description>Username Label</description>
+			<type>label</type>
+			<id>0</id>
+    		<posX>715</posX>
+    		<posY>441</posY>
+			<label>#Trakt.Translation.Username.Label</label>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)+!control.hastext(11)</visible>
+		</control>
+		<control Style="SettingsButtonLarge">
+			<description>Username Button</description>
+			<type>button</type>
+			<id>11</id>
+			<label></label>
+    		<posX>685</posX>
+    		<posY>430</posY>
+				<ondown>12</ondown>
+				<onleft>11</onleft>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+		<control>
+			<description>Password Label</description>
+			<type>label</type>
+			<id>0</id>
+    		<posX>715</posX>
+    		<posY>506</posY>
+			<label>#Trakt.Translation.Password.Label</label>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)+!control.hastext(12)</visible>
+		</control>
+		<control Style="SettingsButtonLarge">
+			<description>Password Button</description>
+			<type>button</type>
+			<id>12</id>
+			<label></label>
+    		<posX>685</posX>
+    		<posY>495</posY>
+				<onleft>12</onleft>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+		<!-- Only Visible for Create New User -->
+		<control>
+			<description>Email Label</description>
+			<type>label</type>
+			<id>0</id>
+    		<posX>715</posX>
+    		<posY>571</posY>
+			<label>#Trakt.Translation.Email.Label</label>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)+string.equals(#Trakt.Settings.Account.Dialog.NewUser,true)+!control.hastext(13)</visible>
+		</control>
+		<control Style="SettingsButtonLarge">
+			<description>Email Button</description>
+			<type>button</type>
+			<id>13</id>
+			<label></label>
+    		<posX>685</posX>
+    		<posY>560</posY>
+				<onleft>13</onleft>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)+string.equals(#Trakt.Settings.Account.Dialog.NewUser,true)</visible>
+		</control>
+		<control Style="SettingsButton">
+			<description>Create\Login Button</description>
+			<type>button</type>
+			<id>15</id>
+			<label></label>
+    		<posX>685</posX>
+    		<posY>634</posY>
+				<ondown>11</ondown>
+				<onleft>15</onleft>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+		<control Style="SettingsButton">
+			<description>Cancel Button</description>
+			<type>button</type>
+			<id>16</id>
+			<label>#Trakt.Translation.Cancel.Label</label>
+    		<posX>1136</posX>
+    		<posY>634</posY>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+		<control>
+			<description>Test Connection</description>
+			<type>label</type>
+			<id>17</id>
+			<posX>685</posX>
+			<posY>665</posY>
+			<label></label>
+			<visible>string.equals(#Trakt.Settings.Account.Dialog.Visible,true)</visible>
+		</control>
+	</controls>
+</window>

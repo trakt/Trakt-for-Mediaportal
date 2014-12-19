@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+	<id>87288</id>
+	<defaultcontrol>50</defaultcontrol>
+	<allowoverlay>yes</allowoverlay>
+	<define>#header.label:#Trakt.Translation.Shouts.Label</define>
+  <define>#Fanart.1:#Trakt.RecentShouts.Fanart.1</define>
+  <define>#Fanart.2:#Trakt.RecentShouts.Fanart.2</define>
+	<define>#header.hover:background.png</define>
+  <controls>
+    <control>
+      <description>DEFAULT BACKGROUND</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>#header.hover</texture>
+      <shouldCache>true</shouldCache>
+    </control>
+		<import>Trakt.Common.Fanart.xml</import>  
+    <!--            :: BACKGROUNDS ::           	 -->
+  	<control>
+  		<description>background listview</description>
+  		<type>image</type>
+  		<id>0</id>
+  		<posX>0</posX>
+  		<posY>0</posY>
+  		<width>1920</width>
+  		<height>1080</height>
+  		<texture>fanart_overlay.png</texture>
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+  	</control>
+  	<control>
+  		<description>background listview</description>
+  		<type>image</type>
+  		<id>0</id>
+  		<posX>10</posX>
+  		<posY>252</posY>
+  		<width>1903</width>
+  		<height>790</height>
+  		<texture>panel_list.png</texture>
+  		<visible>facadeview.list + Control.IsVisible(50)</visible>
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+  	</control>	
+    <control>
+			<id>0</id>
+			<type>image</type>
+			<posX>66</posX>
+			<posY>34</posY>
+			<width>61</width>
+			<height>60</height>
+			<texture>icon_plugin.png</texture>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control> 
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt / #Trakt.RecentShouts.CurrentUser</label>
+      <id>0</id>
+  	  <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+		<control Style="smallTitle">
+			<description>Selected item Label</description>
+			<type>fadelabel</type>
+			<id>1</id>
+			<posX>395</posX>
+			<posY>1015</posY>
+			<label>#selecteditem</label>
+			<visible>control.isvisible(50)</visible>
+			<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+			<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+		</control>
+  	<!--            :: Count ::            -->
+    <control>
+      <description>Moviecount</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Shouts.Label: #itemcount</label>
+      <id>0</id>
+  	  <posX>96</posX>
+      <posY>998</posY>
+      <align>left</align>
+      <font>TitanLight12</font>
+      <textcolor>000000</textcolor>
+    	<visible>[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow] + control.isvisible(50)</visible>
+    	<animation effect="fade" time="250">WindowOpen</animation>
+    	<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+	<!--            :: Listview Lines ::            -->
+    <control>
+      <description>List Lines</description>
+      <type>image</type>
+      <id>1</id>
+			<posX>1222</posX>
+			<posY>385</posY>
+      <width>607</width>
+      <height>506</height>
+      <texture>list_lines.png</texture>
+      <visible>facadeview.list + control.isvisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>	
+    <control>
+      <description>group element</description>
+      <type>group</type>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+			<control>
+				<type>facadeview</type>
+				<id>50</id>
+				<control>
+					<description>Movie List</description>
+					<type>listcontrol</type>
+					<id>50</id>
+					<onleft>2</onleft>
+					<onright>2</onright>
+					<scrollOffset>1</scrollOffset>
+					<posX>1165</posX>
+					<posY>331</posY>
+					<height>700</height>
+					<width>698</width>
+					<textXOff>44</textXOff>
+					<textXOff2>650</textXOff2>
+					<PinIconXOff>2000</PinIconXOff>
+					<textureHeight>54</textureHeight>
+					<textureFocus>listcontrol_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<dimColor>ffffffff</dimColor>
+					<spinPosX>1828</spinPosX>
+					<spinPosY>1000</spinPosY>
+				</control>
+      </control>
+    </control>
+    <!--            :: HIDDEN MENU ::           	 -->
+		<control>
+			<id>1</id>
+			<type>image</type>
+			<posX>0</posX>
+			<posY>440</posY>
+			<width>64</width>
+			<height>199</height>
+			<texture>hiddenmenu_tab.png</texture>
+			<visible>Control.HasFocus(50) + !string.contains(#Titan.HiddenMenu, false)</visible>
+			<animation effect="slide" start="-60,0" end="0,0" tween="quadratic" easing="in" time="250" delay="400">WindowOpen</animation>
+			<animation effect="slide" start="0,0" end="-60,0" tween="quadratic" easing="in" time="250" delay="100">WindowClose</animation>
+		</control>	
+		<control>
+			<type>actiongroup</type>
+			<description>action menu</description>
+			<defaultcontrol>3</defaultcontrol>
+			<onexit>50</onexit>
+			<dimColor>00ffffff</dimColor>
+			<buttonX>0</buttonX>
+			<buttonY>0</buttonY>
+			<buttonwidth>521</buttonwidth>
+			<buttonheight>1080</buttonheight>
+			<control>
+				<type>image</type>
+				<id>0</id>
+				<width>1920</width>
+				<height>1080</height>
+				<texture>semi_trans_back_hidden_menu.png</texture>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="450">visible</animation>
+				<animation effect="fade" time="400">hidden</animation>
+			</control>
+			<control>
+				<type>image</type>
+				<id>0</id>
+				<posY>0</posY>
+				<posX>0</posX>
+				<width>612</width>
+				<height>1074</height>
+				<texture>menu_bg.png</texture>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="0">WindowClose</animation>
+				<animation effect="slide" start="-150,0" time="100">visible</animation>
+				<animation effect="fade" time="50">visible</animation>
+				<animation effect="fade" time="0">hidden</animation>
+			</control>
+			<control>
+				<type>image</type>
+				<id>0</id>
+				<posY>236</posY>
+				<posX>116</posX>
+				<width>369</width>
+				<height>1</height>
+				<texture>hiddenmenu_separator.png</texture>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="0">WindowClose</animation>
+				<animation effect="slide" start="-150,0" time="100">visible</animation>
+				<animation effect="fade" time="50">visible</animation>
+				<animation effect="fade" time="0">hidden</animation>
+			</control>
+			<control>
+				<description>Menu label</description>
+				<type>label</type>
+				<id>1</id>
+				<posX>116</posX>
+				<posY>100</posY>
+				<label>924</label>
+				<font>fontB16</font>
+				<textcolor>393939</textcolor>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="0">WindowClose</animation>
+				<animation effect="slide" start="-150,0" time="100">visible</animation>
+				<animation effect="fade" time="50">visible</animation>
+				<animation effect="fade" time="0">hidden</animation>
+			</control>
+			<control>
+				<description>Jump to label</description>
+				<type>label</type>
+				<id>1</id>
+				<posX>116</posX>
+				<posY>248</posY>
+				<label>1065</label>
+				<font>fontB12</font>
+				<textcolor>393939</textcolor>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="0">WindowClose</animation>
+				<animation effect="slide" start="-150,0" time="100">visible</animation>
+				<animation effect="fade" time="50">visible</animation>
+				<animation effect="fade" time="0">hidden</animation>
+			</control>
+			<control>
+				<type>group</type>
+				<description>group element</description>
+				<visible>!Control.HasFocus(50)+control.isvisible(50)</visible>
+				<animation effect="fade" time="0">WindowClose</animation>
+				<animation effect="slide" start="-150,0" time="100">visible</animation>
+				<animation effect="fade" time="50">visible</animation>
+				<animation effect="fade" time="0">hidden</animation>
+				<posX>53</posX>
+				<posY>155</posY>
+				<layout>StackLayout(0, Vertical, true)</layout>	
+				<control>
+					<description>Change Layout</description>
+					<type>checkbutton</type>
+					<id>2</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>69</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+					<label>-</label>
+					<onup>66612</onup>
+					<ondown>66610</ondown>
+					<onright>50</onright>
+				</control>
+				<control>
+					<description>Empty button</description>
+					<type>button</type>
+					<id>0</id>
+					<textureFocus>-</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>69</height>
+					<label>-</label>
+					<visible>true</visible>
+				</control>	
+				<control>
+					<description>MovingPictures</description>
+					<id>66610</id>
+					<type>button</type>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>69</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+					<label>Moving Pictures</label>
+					<hyperlink>96742</hyperlink>
+					<onright>50</onright>
+					<onup>2</onup>
+					<ondown>66611</ondown>
+				</control>
+				<control>
+					<description>My Videos</description>
+					<type>button</type>
+					<id>66611</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>69</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+					<label>100006</label>
+					<onright>50</onright>
+					<hyperlink>6</hyperlink>
+					<ondown>66612</ondown>
+					<onup>66610</onup>
+				</control>
+				<control>
+					<description>MP-TVSeries</description>
+					<type>button</type>
+					<id>66612</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>69</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+					<label>MP-TVSeries</label>
+					<hyperlink>9811</hyperlink>
+					<ondown>2</ondown>
+					<onup>66611</onup>
+					<onright>50</onright>
+				</control>
+			</control>
+		</control>
+		<control>
+			<description>Poster shadow</description>
+			<type>image</type>
+			<id>1</id>
+			<posX>105</posX>
+			<posY>347</posY>
+			<width>429</width>
+			<height>613</height>
+			<texture>list_poster_shadow.png</texture>
+			<visible>facadeview.list+Control.IsVisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+		<control>
+			<description>Default Cover Art</description>
+			<type>image</type>
+			<id>0</id>
+			<posX>123</posX>
+			<posY>360</posY>
+			<width>379</width>
+			<height>563</height>
+			<texture>defaultVideoBig.png</texture>
+			<visible>facadeview.list + Control.IsVisible(50) + !Control.HasThumb(60)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+		<control>
+			<description>Cover Art</description>
+			<type>image</type>
+			<id>60</id>
+			<posX>123</posX>
+			<posY>360</posY>
+			<width>379</width>
+			<height>563</height>
+			<texture>#selectedthumb</texture>
+			<visible>facadeview.list+Control.IsVisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+		<control Style="InfoLabel">
+			<description>User Label</description>
+			<type>fadelabel</type>
+			<label>#Trakt.Translation.User.Label</label>
+			<posX>565</posX>
+			<posY>343</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Username,)</visible>			
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoValueSmall">
+			<description>User</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.User.Username</label>
+			<posX>798</posX>
+			<posY>343</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Username,)</visible>			
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoLabel">
+			<description>Fullname Label</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.Translation.FullName.Label</label>
+			<posX>565</posX>
+			<posY>379</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.FullName,)</visible>	
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoValueSmall">
+			<description>Fullname</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.User.FullName</label>
+			<posX>798</posX>
+			<posY>379</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.FullName,)</visible>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>   
+		<control Style="InfoLabel">
+			<description>Location</description>
+			<type>fadelabel</type>
+			<label>#Trakt.Translation.Location.Label</label>
+			<id>0</id>
+			<posX>565</posX>
+			<posY>415</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Location,)</visible>			
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoValueSmall">
+			<description>Location</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.User.Location</label>
+			<posX>798</posX>
+			<posY>415</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Location,)</visible>			
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoLabel">
+			<description>Gender Label</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.Translation.Gender.Label</label>
+			<posX>565</posX>
+			<posY>451</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Gender,)</visible>			
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>
+		<control Style="InfoValueSmall">
+			<description>Gender</description>
+			<id>0</id>
+			<type>fadelabel</type>
+			<label>#Trakt.User.Gender</label>
+			<posX>798</posX>
+			<posY>451</posY>
+			<visible>facadeview.list+!string.equals(#Trakt.User.Gender,)</visible>				
+    	<animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+    	<animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    	<animation effect="fade" start="0" end="100" time="300" delay="350" reversible="false">visible</animation>
+		</control>   
+    <control>
+      <description>Shout</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+			<posX>568</posX>
+			<posY>538</posY>
+			<width>555</width>
+			<height>410</height>
+      <seperator>----------------------------------------------------------------------------------------------------</seperator>
+      <label>#Trakt.Shout.Text</label>
+			<visible>facadeview.list+Control.IsVisible(50)</visible>			
+      <scrollStartDelaySec>12</scrollStartDelaySec>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+		<!--            :: List Scrolling Popup ::            -->
+    <control>
+      <description>listscroller bg</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>210</posX>
+      <posY>542</posY>
+      <width>211</width>
+      <height>211</height>
+      <texture>listscroller_bg.png</texture>
+      <visible>facadeview.list+string.contains(#scrolling.up,yes)|string.contains(#scrolling.down,yes)</visible>
+      <animation effect="fade" time="250">Visible</animation>
+      <animation effect="fade" time="0">Hidden</animation>
+    </control>
+    <control>
+      <type>label</type>
+      <id>1</id>
+      <posX>265</posX>
+      <posY>602</posY>
+      <width>96</width>
+      <height>96</height>
+      <font>TitanLight32</font>
+      <textcolor>ff000000</textcolor>
+      <label>#selecteditem.scrolllabel</label>
+      <visible>facadeview.list+string.contains(#scrolling.up,yes)|string.contains(#scrolling.down,yes)</visible>
+      <align>center</align>
+      <valign>middle</valign>
+      <animation effect="fade" time="250">Visible</animation>
+      <animation effect="fade" time="0">Hidden</animation>
+    </control>  
+		<import>common.overlay.xml</import>
+  </controls>
+</window>

@@ -1,0 +1,116 @@
+<window>
+  <controls>
+		<control>
+			<description>Poster shadow</description>
+			<type>image</type>
+			<id>1</id>
+			<posX>105</posX>
+			<posY>243</posY>
+			<width>429</width>
+			<height>613</height>
+			<texture>list_poster_shadow.png</texture>
+			<visible>facadeview.list+Control.IsVisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+		<control>
+			<description>Default Cover Art</description>
+			<type>image</type>
+			<id>0</id>
+			<posX>123</posX>
+			<posY>256</posY>
+			<width>379</width>
+			<height>563</height>
+			<texture>defaultVideoBig.png</texture>
+			<visible>facadeview.list + Control.IsVisible(50) + !Control.HasThumb(60)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+		<control>
+			<description>Cover Art</description>
+			<type>image</type>
+			<id>60</id>
+			<posX>123</posX>
+			<posY>256</posY>
+			<width>379</width>
+			<height>563</height>
+			<texture>#selectedthumb</texture>
+			<visible>facadeview.list+Control.IsVisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+    <control Style="InfoLabel">
+      <description>Name</description>
+      <type>label</type>
+      <label>#Trakt.Person.Name</label>
+      <id>0</id>
+      <posX>566</posX>
+      <posY>252</posY>
+      <font>font14</font>
+			<width>490</width>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Birthplace label</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Born.Label</label>
+      <id>0</id>
+      <width>260</width>
+      <posX>566</posX>
+      <posY>308</posY>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Birthplace value</description>
+      <type>fadelabel</type>
+      <label>#Trakt.Person.Birthplace</label>
+      <id>0</id>
+			<width>280</width>
+      <posX>798</posX>
+      <posY>308</posY>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
+    </control>
+    <control Style="InfoLabel">
+      <description>Birthday label</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <id>0</id>
+      <width>260</width>
+      <posX>566</posX>
+      <posY>346</posY>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Birthday value</description>
+      <type>fadelabel</type>
+      <label>#Trakt.Person.Birthday</label>
+      <id>0</id>
+			<width>280</width>
+      <posX>798</posX>
+      <posY>346</posY>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
+    </control>
+    <control>
+      <description>User About</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+		  <posX>568</posX>
+		  <posY>397</posY>
+		  <width>525</width>
+		  <height>480</height>
+		  <lineSpacing>0.92</lineSpacing>
+      <label>#Trakt.Person.Biography</label>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250" delay="0">WindowOpen</animation>
+    </control>
+  </controls>
+</window>

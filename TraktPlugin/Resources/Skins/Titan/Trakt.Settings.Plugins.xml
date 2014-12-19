@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87273</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#header.label:#Trakt.Translation.Plugins.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9997</define>
+  <controls>
+    <import>Trakt.Common.Background.xml</import>
+    <import>Trakt.Common.xml</import>
+		<import>common.time.xml</import>
+		<control>
+			<description>Current View</description>
+			<type>label</type>
+			<label>Trakt</label>
+			<id>0</id>
+			<posX>144</posX>
+			<posY>94</posY>
+			<align>left</align>
+			<textcolor>FFFFFFFF</textcolor>
+			<font>TitanLight12</font>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+	<control>
+		<description>buttons</description>
+		<type>group</type>
+		<posX>655</posX>
+		<posY>246</posY>
+    <layout>StackLayout(7, Vertical, true)</layout>
+      <control Style="SettingsCheckButtonLarge">
+        <description>MP-TVSeries</description>
+        <type>checkbutton</type>
+        <id>2</id>
+        <label>MP-TVSeries</label>
+        <onright>2</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>17</onup>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>MovingPictures</description>
+        <type>checkbutton</type>
+        <id>3</id>
+        <label>MovingPictures</label>
+        <onright>3</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>My Videos</description>
+        <type>checkbutton</type>
+        <id>4</id>
+        <label>My Videos</label>
+        <onright>4</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>My Films</description>
+        <type>checkbutton</type>
+        <id>5</id>
+        <label>My Films</label>
+        <onright>5</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>Online Videos</description>
+        <type>checkbutton</type>
+        <id>6</id>
+        <label>Online Videos</label>
+        <onright>6</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>My TV Recordings</description>
+        <type>checkbutton</type>
+        <id>8</id>
+        <label>My TV Recordings</label>
+        <onright>8</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>Argus TV Recordings</description>
+        <type>checkbutton</type>
+        <id>12</id>
+				<width>1137</width>
+				<height>58</height>
+        <label>Argus TV Recordings</label>
+        <onright>12</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>My TV Live</description>
+        <type>checkbutton</type>
+        <id>10</id>
+        <label>My TV Live</label>
+        <onright>10</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>Argus TV Live</description>
+        <type>checkbutton</type>
+        <id>13</id>
+        <label>Argus TV Live</label>
+        <onright>13</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
+      </control>
+    </control>
+  </controls>
+</window>

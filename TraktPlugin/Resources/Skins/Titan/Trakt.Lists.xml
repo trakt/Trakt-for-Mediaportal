@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87275</id>
+  <defaultcontrol>50</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+	<define>#header.hover:background.png</define>
+  <define>#header.label:#Trakt.Translation.Lists.Label</define> 
+  <controls>
+  
+    <!--            :: BACKGROUNDS ::           	 -->
+
+    <import>Trakt.Common.Background.xml</import>
+	
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt / #Trakt.Lists.CurrentUser</label>
+      <id>0</id>
+			<posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+	<control Style="smallTitle">
+		<description>Selected item Label</description>
+		<type>fadelabel</type>
+		<id>1</id>
+		<posX>395</posX>
+		<posY>1015</posY>
+        <label>#selecteditem</label>
+		<visible>facadeview.list+control.isvisible(50)</visible>
+        <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+        <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    </control>
+ 
+	<control>
+		<description>background listview</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>0</posX>
+        <posY>0</posY>
+		<width>1920</width>
+		<height>1080</height>
+		<texture>fanart_overlay.png</texture>		
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control>
+	
+	<control>
+		<description>background listview</description>
+		<type>image</type>
+		<id>0</id>
+		<posX>10</posX>
+		<posY>252</posY>
+		<width>1903</width>
+		<height>790</height>
+		<texture>panel_list_music.png</texture>
+		<visible>facadeview.list + Control.IsVisible(50)</visible>
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control> 
+    <control>
+			<id>0</id>
+			<type>image</type>
+			<posX>66</posX>
+			<posY>34</posY>
+			<width>61</width>
+			<height>60</height>
+			<texture>icon_plugin.png</texture>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control> 
+    <import>common.time.xml</import>
+	<!--            :: Count ::            -->
+	
+    <control>
+      <description>Listcount</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Lists.Label: #itemcount</label>
+      <id>0</id>
+	  	<posX>96</posX>
+      <posY>998</posY>
+      <align>left</align>
+      <font>TitanLight12</font>
+      <textcolor>000000</textcolor>
+	  <visible>facadeview.list + control.isvisible(50)</visible>
+	  <animation effect="fade" time="250">WindowOpen</animation>
+	  <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+	
+ 	<!--            :: Listview Lines ::            -->
+
+    <control>
+        <description>List Lines</description>
+        <type>image</type>
+        <id>1</id>
+		<posX>800</posX>
+		<posY>385</posY>
+    <width>1029</width>
+    <height>506</height>
+    <texture>list_lines_wide.png</texture>
+		<visible>control.isvisible(50)</visible>
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+	
+	<control>
+		<description>group element</description>
+			<type>group</type>
+		  <animation effect="fade" time="250">WindowOpen</animation>
+		  <animation effect="fade" time="250">WindowClose</animation>
+		<control>
+			<type>facadeview</type>
+			<id>50</id>
+				<control>
+					<description>listcontrol</description>
+					<type>listcontrol</type>
+					<id>50</id>
+					<onleft>2</onleft>
+					<onright>50</onright>
+					<scrollOffset>1</scrollOffset>
+					<posX>745</posX>
+				  <posY>331</posY>
+					<width>1113</width>
+					<height>700</height>
+					<textXOff>50</textXOff>
+					<dimColor>ffffffff</dimColor>
+					<textureFocus>listcontrol_item_selected_wide.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+	        <spinPosX>1828</spinPosX>
+	        <spinPosY>1000</spinPosY>
+				</control>
+      </control>
+    </control>
+	
+ 	<control>
+		<description>Summary (list)</description>
+		<type>textboxscrollup</type>
+		<id>0</id>
+		<posX>100</posX>
+		<posY>338</posY>
+		<width>590</width>
+		<height>620</height>
+        <label>#Trakt.List.Description</label>
+		<seperator>---------------------------------------------------------------------------------------------------------</seperator>
+		<onleft>1026</onleft>
+		<onright>1026</onright>
+		<onup>1026</onup>
+		<ondown>1026</ondown>
+		<lineSpacing>0.92</lineSpacing>
+        <visible>!string.equals(#Trakt.List.Description,N/A)</visible>
+		<animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="250">WindowClose</animation>
+	</control>	
+  </controls>
+</window>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>874005</id>
+  <defaultcontrol>50</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+	<define>#header.hover:background.png</define>
+	<define>#header.label:#Trakt.Translation.People.Label</define>
+  <controls>
+    <control>
+      <id>1</id>
+      <description>Background Image</description>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>#header.hover</texture>
+    </control>
+  	<control>
+  		<description>background listview</description>
+  		<type>image</type>
+  		<id>0</id>
+  		<posX>0</posX>
+      <posY>0</posY>
+  		<width>1920</width>
+  		<height>1080</height>
+  		<texture>fanart_overlay.png</texture>	
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+  	</control>
+		<control>
+			<description>Panel</description>
+			<type>image</type>
+			<id>0</id>
+			<posX>10</posX>
+			<posY>145</posY>
+			<width>1903</width>
+			<height>897</height>
+			<texture>panel_trakt_profile.png</texture>   
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+		</control>
+	  <!--            :: Listview Lines ::            -->
+    <control>
+    	<description>List Lines</description>
+      <type>image</type>
+      <id>1</id>
+			<posX>1196</posX>
+			<posY>273</posY>
+      <width>633</width>
+      <height>618</height>
+      <texture>list_lines_trakt.png</texture>
+      <visible>facadeview.list + control.isvisible(50)</visible>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+  	 <id>0</id>
+  	 <type>image</type>
+  	 <posX>66</posX>
+  	 <posY>34</posY>
+  	 <width>68</width>
+  	 <height>60</height>
+  	 <texture>icon_plugin.png</texture>
+		 <animation effect="fade" time="250">WindowOpen</animation>
+		 <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt / #Trakt.Search.SearchTerm</label>
+      <id>0</id>
+			<posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+  	<control Style="smallTitle">
+  		<description>Selected item Label</description>
+  		<type>fadelabel</type>
+  		<id>1</id>
+  		<posX>395</posX>
+  		<posY>1015</posY>
+      <label>#selecteditem</label>
+  		<animation effect="fade" time="250">WindowOpen</animation>
+  		<animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>group element</description>
+      <type>group</type>
+			<animation effect="fade" time="250">WindowOpen</animation>
+			<animation effect="fade" time="250">WindowClose</animation>
+      <control>
+        <type>facadeview</type>
+        <id>50</id>
+        <control>
+          <description>listcontrol</description>
+          <type>listcontrol</type>
+          <id>50</id>
+          <posX>1094</posX>
+          <posY>219</posY>
+					<height>800</height>
+					<width>780</width>
+					<textureFocus>listcontrol_item_selected_trakt.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<textureHeight>54</textureHeight>
+          <onleft>4</onleft>
+          <onright>4</onright>
+          <itemWidth>48</itemWidth>
+          <itemHeight>48</itemHeight>
+          <IconXOff>25</IconXOff>
+          <IconYOff>3</IconYOff>
+          <PinIconXOff>680</PinIconXOff>
+          <PinIconYOff>2</PinIconYOff>
+          <PinIconWidth>48</PinIconWidth>
+          <PinIconHeight>48</PinIconHeight>
+          <textXOff>42</textXOff>
+          <textYOff>8</textYOff>
+          <textXOff2>730</textXOff2>
+          <textYOff2>8</textYOff2>
+          <textXOff3>112</textXOff3>
+          <textYOff3>15</textYOff3>
+          <spinPosX>1762</spinPosX>
+          <spinPosY>1021</spinPosY>
+          <spinAlign>Right</spinAlign>
+        </control>
+      </control>
+    </control> 
+    <!--            :: HIDDEN MENU ::           	 -->
+  	<control>
+  		<id>1</id>
+  		<type>image</type>
+  		<posX>0</posX>
+  		<posY>440</posY>
+  		<width>64</width>
+  		<height>199</height>
+  		<texture>hiddenmenu_tab.png</texture>
+  		<visible>Control.HasFocus(50) + !string.contains(#Titan.HiddenMenu, false)</visible>
+  		<animation effect="slide" start="-60,0" end="0,0" tween="quadratic" easing="in" time="250" delay="400">WindowOpen</animation>
+  		<animation effect="slide" start="0,0" end="-60,0" tween="quadratic" easing="in" time="250" delay="100">WindowClose</animation>
+  	</control>
+  	<control>
+  		<type>actiongroup</type>
+  		<description>action menu</description>
+  		<defaultcontrol>3</defaultcontrol>
+  		<onexit>50</onexit>
+  		<dimColor>00ffffff</dimColor>
+  		<buttonX>0</buttonX>
+  		<buttonY>0</buttonY>
+  		<buttonwidth>521</buttonwidth>
+  		<buttonheight>1080</buttonheight>
+  		<control>
+  			<type>image</type>
+  			<id>0</id>
+  			<width>1920</width>
+  			<height>1080</height>
+  			<texture>semi_trans_back_hidden_menu.png</texture>
+  			<visible>!Control.HasFocus(50)</visible>
+  			<animation effect="fade" time="450">visible</animation>
+  			<animation effect="fade" time="400">hidden</animation>
+  		</control>
+  		<control>
+  			<type>image</type>
+  			<id>0</id>
+  			<posY>0</posY>
+  			<posX>0</posX>
+  			<width>612</width>
+  			<height>1074</height>
+  			<texture>menu_bg.png</texture>
+  			<visible>!Control.HasFocus(50)</visible>
+      	<animation effect="fade" time="0">WindowClose</animation>
+      	<animation effect="slide" start="-150,0" time="100">visible</animation>
+      	<animation effect="fade" time="50">visible</animation>
+      	<animation effect="fade" time="0">hidden</animation>
+  		</control>
+  		<control>
+  			<description>Menu label</description>
+  			<type>label</type>
+  			<id>1</id>
+  			<posX>116</posX>
+  			<posY>100</posY>
+  			<label>924</label>
+  			<font>fontB16</font>
+  			<textcolor>393939</textcolor>
+  			<visible>!Control.HasFocus(50)</visible>
+      	<animation effect="fade" time="0">WindowClose</animation>
+      	<animation effect="slide" start="-150,0" time="100">visible</animation>
+      	<animation effect="fade" time="50">visible</animation>
+      	<animation effect="fade" time="0">hidden</animation>
+      </control>
+      <control>
+        <type>group</type>
+        <description>group element</description>
+ 			  <visible>!Control.HasFocus(50)</visible>
+    		<animation effect="fade" time="0">WindowClose</animation>
+    		<animation effect="slide" start="-150,0" time="100">visible</animation>
+    		<animation effect="fade" time="50">visible</animation>
+    		<animation effect="fade" time="0">hidden</animation>
+        <posX>53</posX>
+        <posY>155</posY>
+        <layout>StackLayout(0, Vertical, true)</layout>	
+        <control>
+          <description>Switch View</description>
+          <type>button</type>
+          <id>2</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>64</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+          <label>-</label>
+          <onup>4</onup>
+		      <ondown>3</ondown>
+          <onleft>50</onleft>
+        </control>
+		    <control>
+          <description>Search User</description>
+          <type>button</type>
+          <id>3</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>64</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+          <label>#Trakt.Translation.Search.Label</label>
+          <onup>2</onup>
+          <onleft>50</onleft>
+		      <ondown>4</ondown>
+        </control>
+		    <control>
+          <description>Refresh</description>
+          <type>button</type>
+          <id>4</id>
+					<textureFocus>hiddenmenu_item_selected.png</textureFocus>
+					<textureNoFocus>-</textureNoFocus>
+					<width>499</width>
+					<height>64</height>
+					<textXOff>62</textXOff>
+					<textYOff>16</textYOff>
+          <label>#Trakt.Translation.Refresh.Label</label>
+          <onup>3</onup>
+          <onleft>50</onleft>
+		      <ondown>2</ondown>
+        </control>
+      </control>
+    </control>
+		<import>Trakt.Common.People.xml</import>
+    <import>common.overlay.xml</import>
+  </controls>
+</window>
