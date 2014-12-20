@@ -43,7 +43,7 @@ namespace TraktPlugin
         public static string ToCountryName(this string twoLetterCode)
         {
             // check length of code is two letters
-            if (twoLetterCode.Length != 2)
+            if (string.IsNullOrEmpty(twoLetterCode))
                 return null;
 
             var regionInfo = new RegionInfo(twoLetterCode);

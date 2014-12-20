@@ -39,6 +39,7 @@
   <string name="Age">Age</string>
   <string name="AirDate">Air Date</string>
   <string name="AirDay">Air Day</string>
+  <string name="AiredEpisodes">Aired Episodes</string>
   <string name="AirTime">Air Time</string>
   <string name="Approve">Approve</string>
   <string name="ApproveAndFollowBack">Approve and Follow Back</string>
@@ -143,6 +144,8 @@
   <string name="FullName">Full Name</string>
   <!--G-->
   <string name="Gender">Gender</string>
+  <string name="GenderMale">Male</string>
+  <string name="GenderFemale">Female</string>
   <string name="General">General</string>
   <string name="GeneralSettings">General Settings</string>
   <string name="Genre">Genre</string>
@@ -234,6 +237,8 @@
   <string name="Joined">Joined</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Language</string>
+  <string name="Languages">Languages</string>
   <string name="Location">Location</string>
   <string name="Layout">Layout</string>
   <string name="Like">Like</string>
@@ -272,8 +277,8 @@
   <string name="NoFollowersTaunt">You have no followers!</string>
   <string name="NoFollowerReqTaunt">You have no follower requests!</string>
   <string name="NoFollowingTaunt">You are not following anyone!</string>
-  <string name="NoTrendingMovies">No movies current being watched!</string>
-  <string name="NoTrendingShows">No shows current being watched!</string>
+  <string name="NoTrendingMovies">No movies currently being watched!</string>
+  <string name="NoTrendingShows">No shows currently being watched!</string>
   <string name="NoMovieRecommendations">No movie recommendations found!</string>
   <string name="NoShowRecommendations">No show recommendations found!</string>
   <string name="NoShowWatchList">{0} has no shows in watchlist!</string>

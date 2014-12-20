@@ -185,6 +185,9 @@ namespace TraktPlugin.GUI
 
         public static string GetByName(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return string.Empty;
+
             if (!Strings.ContainsKey(name))
                 return name;
 
@@ -266,6 +269,7 @@ namespace TraktPlugin.GUI
         public static string ActivityReview = "{0} reviewed {1}";
         public static string ActivityShouts = "{0} shouted on {1}";
         public static string Activities = "Activities";
+        public static string AiredEpisodes = "Aired Episodes";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Collection";
         public static string AddToList = "Add to List...";
@@ -388,6 +392,8 @@ namespace TraktPlugin.GUI
 
         // G
         public static string Gender = "Gender";
+        public static string GenderMale = "Male";
+        public static string GenderFemale = "Female";
         public static string General = "General";
         public static string GeneralSettings = "General Settings";
         public static string Genre = "Genre";
@@ -484,6 +490,8 @@ namespace TraktPlugin.GUI
         // K
 
         // L
+        public static string Language = "Language";
+        public static string Languages = "Languages";
         public static string Location = "Location";
         public static string Layout = "Layout";
         public static string Like = "Like";
@@ -524,8 +532,8 @@ namespace TraktPlugin.GUI
         public static string NoFollowersTaunt = "You have no followers!";
         public static string NoFollowingTaunt = "You are not following anyone!";
         public static string NoFollowerReqTaunt = "You have no follower requests!";
-        public static string NoTrendingMovies = "No Movies current being watched!";
-        public static string NoTrendingShows = "No Shows current being watched!";
+        public static string NoTrendingMovies = "No Movies currently being watched!";
+        public static string NoTrendingShows = "No Shows currently being watched!";
         public static string NoMovieRecommendations = "No Movie Recommendations Found!";
         public static string NoShowRecommendations = "No Show Recommendations Found!";
         public static string NoMovieWatchList = "{0} has no movies in Watchlist!";
@@ -535,9 +543,9 @@ namespace TraktPlugin.GUI
         public static string NoShoutsForItem = "No Shouts for {0}!";
         public static string NoPeopleToSearch = "There are no people to search by.";
         public static string NoPluginsEnabled = "You have defined no plugins in configuration.\nWould you like to configure plugins now?";
-        public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to Signup or Login\nto trakt.tv now?";
+        public static string NotLoggedIn = "You can not access this area without being\nlogged in. Would you like to signup or login\nto trakt.tv now?";
         public static string NoSearchResultsFound = "No Search Results Found";
-        public static string NoMovingPictures = "Moving Pictures is Not Installed or Enabled";
+        public static string NoMovingPictures = "Moving Pictures is not installed or enabled";
         public static string NoListsFound = "No Lists Found, would you like to\ncreate a list now?";
         public static string NoUserLists = "{0} has not created any lists!";
         public static string NoListItemsFound = "No items found in this list!";

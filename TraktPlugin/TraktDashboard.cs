@@ -490,7 +490,8 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Id", i), trendingItem.Movie.Ids.Trakt);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.TmdbId", i), trendingItem.Movie.Ids.Tmdb);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.ImdbId", i), trendingItem.Movie.Ids.Imdb);
-                //TODOGUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), trendingItem.Certification);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), trendingItem.Movie.Certification);
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Language", i), Translation.GetLanguageFromISOCode(trendingItem.Movie.Language));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.IsNullOrEmpty(trendingItem.Movie.Overview) ? Translation.NoMovieSummary : trendingItem.Movie.Overview);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), trendingItem.Movie.Released.FromISO8601().ToShortDateString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Runtime", i), trendingItem.Movie.Runtime.ToString());
@@ -499,7 +500,7 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Trailer", i), trendingItem.Movie.Trailer);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), string.Format("http://trakt.tv/movies/{0}", trendingItem.Movie.Ids.Slug));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), trendingItem.Movie.Year.ToString());
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", trendingItem.Movie.Genres.ToArray()));
+                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", TraktGenres.Translate(trendingItem.Movie.Genres)));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), trendingItem.Movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InCollection", i), trendingItem.Movie.IsCollected().ToString());
@@ -510,10 +511,6 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), trendingItem.Movie.Votes);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (trendingItem.Movie.Rating >= 6) ? "love" : "hate");
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), trendingItem.Movie.Rating.ToPercentage());
-                //TODO
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (trendingItem.Movie.Ratings.LovedCount > trendingItem.Ratings.HatedCount) ? "love" : "hate");
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.HatedCount", i), trendingItem.Movie.Ratings.HatedCount.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.LovedCount", i), trendingItem.Movie.Ratings.LovedCount.ToString());
             }
         }
 
@@ -528,6 +525,7 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.ImdbId", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.TmdbId", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Certification", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Language", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Overview", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Released", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Runtime", i), string.Empty);
@@ -546,8 +544,6 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Rating", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.RatingAdvanced", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), string.Empty);
-                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.HatedCount", i), string.Empty);
-                GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.LovedCount", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), string.Empty);
             }
@@ -733,7 +729,7 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Overview", i), string.IsNullOrEmpty(trendingItem.Show.Overview) ? Translation.NoShowSummary : trendingItem.Show.Overview);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Runtime", i), trendingItem.Show.Runtime.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Year", i), trendingItem.Show.Year.ToString());
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Join(", ", trendingItem.Show.Genres.ToArray()));
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Join(", ", TraktGenres.Translate(trendingItem.Show.Genres)));
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), trendingItem.Show.IsWatchlisted().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), trendingItem.Show.IsWatched().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), trendingItem.Show.Plays());
@@ -741,10 +737,6 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Votes);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Rating >= 6) ? "love" : "hate");
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), trendingItem.Show.Rating.ToPercentage());
-                //TODO
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Ratings.LovedCount > trendingItem.Show.Ratings.HatedCount) ? "love" : "hate");
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.HatedCount", i), trendingItem.Show.Ratings.HatedCount.ToString());
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.LovedCount", i), trendingItem.Show.Ratings.LovedCount.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), trendingItem.Show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), trendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
             }
@@ -781,8 +773,6 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.RatingAdvanced", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), string.Empty);
-                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.HatedCount", i), string.Empty);
-                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.LovedCount", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), string.Empty);

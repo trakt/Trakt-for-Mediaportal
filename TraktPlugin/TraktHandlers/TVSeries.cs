@@ -98,11 +98,11 @@ namespace TraktPlugin.TraktHandlers
             if (traktCollectedEpisodes == null)
             {
                 TraktLogger.Error("Error getting tv episode collection from trakt.tv server, cancelling sync");
-                SyncInProgress = false;
-                return;
             }
-            TraktLogger.Info("Found {0} tv episodes in trakt.tv collection", traktCollectedEpisodes.Count());
-
+            else
+            {
+                TraktLogger.Info("Found {0} tv episodes in trakt.tv collection", traktCollectedEpisodes.Count());
+            }
             #endregion
 
             #region Ratings
@@ -119,12 +119,13 @@ namespace TraktPlugin.TraktHandlers
                 if (traktRatedEpisodes == null)
                 {
                     TraktLogger.Error("Error getting rated episodes from trakt.tv server, cancelling sync");
-                    SyncInProgress = false;
-                    return;
+                    traktRatedEpisodes = null;
                 }
-                traktRatedEpisodes.AddRange(tempEpisodeRatings);
-                TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
-
+                else
+                {
+                    traktRatedEpisodes.AddRange(tempEpisodeRatings);
+                    TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
+                }
                 #endregion
 
                 #region Shows
@@ -134,11 +135,13 @@ namespace TraktPlugin.TraktHandlers
                 if (traktRatedEpisodes == null)
                 {
                     TraktLogger.Error("Error getting rated shows from trakt.tv server, cancelling sync");
-                    SyncInProgress = false;
-                    return;
+                    traktRatedShows = null;
                 }
-                traktRatedShows.AddRange(tempShowRatings);
-                TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
+                else
+                {
+                    traktRatedShows.AddRange(tempShowRatings);
+                    TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
+                }
 
                 #endregion
             }
@@ -158,10 +161,11 @@ namespace TraktPlugin.TraktHandlers
             if (traktWatchedEpisodes == null)
             {
                 TraktLogger.Error("Error getting tv shows watched from trakt.tv server, cancelling sync");
-                SyncInProgress = false;
-                return;
             }
-            TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
+            else
+            {
+                TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
+            }
 
             #endregion
 
@@ -172,7 +176,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 #region Get data from local database
 
-                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows set by user'", IgnoredSeries.Count);
+                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows set by user", IgnoredSeries.Count);
 
                 // Get all episodes in database
                 SQLCondition conditions = new SQLCondition();
@@ -220,7 +224,7 @@ namespace TraktPlugin.TraktHandlers
                 #region Mark episodes as unwatched in local database
 
                 TraktLogger.Info("Start sync of tv episode unwatched state to local database");
-                if (traktUnWatchedEpisodes.Count() > 0)
+                if (traktUnWatchedEpisodes != null && traktUnWatchedEpisodes.Count() > 0)
                 {
                     foreach (var episode in traktUnWatchedEpisodes)
                     {
@@ -255,7 +259,7 @@ namespace TraktPlugin.TraktHandlers
                 #region Mark episodes as watched in local database
 
                 TraktLogger.Info("Start sync of tv episode watched state to local database");
-                if (traktWatchedEpisodes.Count() > 0)
+                if (traktWatchedEpisodes != null && traktWatchedEpisodes.Count() > 0)
                 {
                     foreach (var episode in localUnWatchedEpisodes)
                     {
@@ -298,7 +302,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     #region Episodes
                     TraktLogger.Info("Start sync of tv episode ratings to local database");
-                    if (traktRatedEpisodes.Count > 0)
+                    if (traktRatedEpisodes != null && traktRatedEpisodes.Count > 0)
                     {
                         foreach (var episode in localNonRatedEpisodes)
                         {
@@ -325,7 +329,7 @@ namespace TraktPlugin.TraktHandlers
 
                     #region Shows
                     TraktLogger.Info("Start sync of tv show ratings to local database");
-                    if (traktRatedShows.Count > 0)
+                    if (traktRatedShows != null && traktRatedShows.Count > 0)
                     {
                         foreach (var show in localNonRatedShows) 
                         {
@@ -351,49 +355,52 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 #region Add episodes to watched history at trakt.tv
-
-                var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes.ToList());
-
-                TraktLogger.Info("Found {0} local tv shows with watched episodes to add to trakt.tv watched history", syncWatchedShows.Shows.Count);
-
+                int showCount = 0;
                 int iSyncCounter = 0;
-                int showCount = syncWatchedShows.Shows.Count;
-                foreach (var show in syncWatchedShows.Shows)
+                if (traktWatchedEpisodes != null)
                 {
-                    TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode watched history, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
-                    
-                    // only sync one show at a time regardless of batch size in settings
-                    var pagedShows = new List<TraktSyncShowWatchedEx>();
-                    pagedShows.Add(show);
+                    var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes.ToList());
 
-                    var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(new TraktSyncShowsWatchedEx { Shows = pagedShows });
-                    TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                    TraktLogger.Info("Found {0} local tv shows with watched episodes to add to trakt.tv watched history", syncWatchedShows.Shows.Count);
+
+                    showCount = syncWatchedShows.Shows.Count;
+                    foreach (var show in syncWatchedShows.Shows)
+                    {
+                        TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode watched history, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
+                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
+
+                        // only sync one show at a time regardless of batch size in settings
+                        var pagedShows = new List<TraktSyncShowWatchedEx>();
+                        pagedShows.Add(show);
+
+                        var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(new TraktSyncShowsWatchedEx { Shows = pagedShows });
+                        TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                    }
                 }
-
                 #endregion
 
                 #region Add episodes to collection at trakt.tv
-
-                var syncCollectedShows = GetCollectedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes.ToList());
-
-                TraktLogger.Info("Found {0} local tv shows with collected episodes to add to trakt.tv collection", syncCollectedShows.Shows.Count);
-
-                iSyncCounter = 0;
-                showCount = syncCollectedShows.Shows.Count;
-                foreach (var show in syncCollectedShows.Shows)
+                if (traktCollectedEpisodes != null)
                 {
-                    TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode collection, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                        ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
+                    var syncCollectedShows = GetCollectedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes.ToList());
 
-                    // only sync one show at a time regardless of batch size in settings
-                    var pagedShows = new List<TraktSyncShowCollectedEx>();
-                    pagedShows.Add(show);
+                    TraktLogger.Info("Found {0} local tv shows with collected episodes to add to trakt.tv collection", syncCollectedShows.Shows.Count);
 
-                    var response = TraktAPI.TraktAPI.AddShowsToCollectonEx(new TraktSyncShowsCollectedEx { Shows = pagedShows });
-                    TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                    iSyncCounter = 0;
+                    showCount = syncCollectedShows.Shows.Count;
+                    foreach (var show in syncCollectedShows.Shows)
+                    {
+                        TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode collection, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
+                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
+
+                        // only sync one show at a time regardless of batch size in settings
+                        var pagedShows = new List<TraktSyncShowCollectedEx>();
+                        pagedShows.Add(show);
+
+                        var response = TraktAPI.TraktAPI.AddShowsToCollectonEx(new TraktSyncShowsCollectedEx { Shows = pagedShows });
+                        TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                    }
                 }
-
                 #endregion
 
                 #region Add episode/show ratings to trakt.tv
@@ -401,65 +408,67 @@ namespace TraktPlugin.TraktHandlers
                 if (TraktSettings.SyncRatings)
                 {
                     #region Episodes
-
-                    var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes);
-
-                    TraktLogger.Info("Found {0} local tv shows with rated episodes to add to trakt.tv ratings", syncRatedShowsEx.Shows.Count);
-
-                    iSyncCounter = 0;
-                    showCount = syncRatedShowsEx.Shows.Count;
-                    foreach (var show in syncRatedShowsEx.Shows)
+                    if (traktRatedEpisodes != null)
                     {
-                        TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode ratings, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                                            ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
+                        var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes);
 
-                        // only sync one show at a time regardless of batch size in settings
-                        var pagedShows = new List<TraktSyncShowRatedEx>();
-                        pagedShows.Add(show);
+                        TraktLogger.Info("Found {0} local tv shows with rated episodes to add to trakt.tv ratings", syncRatedShowsEx.Shows.Count);
 
-                        var response = TraktAPI.TraktAPI.AddShowsToRatingsEx(new TraktSyncShowsRatedEx { Shows = pagedShows });
-                        TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                        iSyncCounter = 0;
+                        showCount = syncRatedShowsEx.Shows.Count;
+                        foreach (var show in syncRatedShowsEx.Shows)
+                        {
+                            TraktLogger.Info("Adding tv show [{0}/{1}] to trakt.tv episode ratings, Show Title = '{2}', Show Year = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
+                                                ++iSyncCounter, showCount, show.Title, show.Year.HasValue ? show.Year.ToString() : "<empty>", show.Ids.Tvdb, show.Ids.Imdb ?? "<empty>");
+
+                            // only sync one show at a time regardless of batch size in settings
+                            var pagedShows = new List<TraktSyncShowRatedEx>();
+                            pagedShows.Add(show);
+
+                            var response = TraktAPI.TraktAPI.AddShowsToRatingsEx(new TraktSyncShowsRatedEx { Shows = pagedShows });
+                            TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+                        }
                     }
-
                     #endregion
 
                     #region Shows
-
-                    var syncRatedShows = new List<TraktSyncShowRated>();
-                    TraktLogger.Info("Finding local tv shows to add to trakt.tv ratings");
-
-                    syncRatedShows = (from show in localRatedShows
-                                      where !traktRatedShows.ToList().Exists(trs => ShowMatch(show, trs.Show))
-                                      select new TraktSyncShowRated
-                                      {
-                                          Ids = new TraktShowId
-                                          { 
-                                              Tvdb = show[DBSeries.cID],
-                                              Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
-                                          },
-                                          Title = show[DBOnlineSeries.cOriginalName],
-                                          Year = show.Year.ToNullableInt32(),
-                                          Rating = show[DBOnlineSeries.cMyRating],
-                                          RatedAt = DateTime.UtcNow.ToISO8601(),
-                                      }).ToList();
-
-                    TraktLogger.Info("Found {0} local tv shows rated to add to trakt.tv ratings", syncRatedShows.Count);
-
-                    if (syncRatedShows.Count > 0)
+                    if (traktRatedShows != null)
                     {
-                        int pageSize = TraktSettings.SyncBatchSize;
-                        int pages = (int)Math.Ceiling((double)syncRatedShows.Count / pageSize);
-                        for (int i = 0; i < pages; i++)
+                        var syncRatedShows = new List<TraktSyncShowRated>();
+                        TraktLogger.Info("Finding local tv shows to add to trakt.tv ratings");
+
+                        syncRatedShows = (from show in localRatedShows
+                                          where !traktRatedShows.ToList().Exists(trs => ShowMatch(show, trs.Show))
+                                          select new TraktSyncShowRated
+                                          {
+                                              Ids = new TraktShowId
+                                              {
+                                                  Tvdb = show[DBSeries.cID],
+                                                  Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                                              },
+                                              Title = show[DBOnlineSeries.cOriginalName],
+                                              Year = show.Year.ToNullableInt32(),
+                                              Rating = show[DBOnlineSeries.cMyRating],
+                                              RatedAt = DateTime.UtcNow.ToISO8601(),
+                                          }).ToList();
+
+                        TraktLogger.Info("Found {0} local tv shows rated to add to trakt.tv ratings", syncRatedShows.Count);
+
+                        if (syncRatedShows.Count > 0)
                         {
-                            TraktLogger.Info("Adding shows [{0}/{1}] to trakt.tv ratings", i + 1, pages);
+                            int pageSize = TraktSettings.SyncBatchSize;
+                            int pages = (int)Math.Ceiling((double)syncRatedShows.Count / pageSize);
+                            for (int i = 0; i < pages; i++)
+                            {
+                                TraktLogger.Info("Adding shows [{0}/{1}] to trakt.tv ratings", i + 1, pages);
 
-                            var pagedShows = syncRatedShows.Skip(i * pageSize).Take(pageSize).ToList();
+                                var pagedShows = syncRatedShows.Skip(i * pageSize).Take(pageSize).ToList();
 
-                            var response = TraktAPI.TraktAPI.AddShowsToRatings(new TraktSyncShowsRated { Shows = pagedShows });
-                            TraktLogger.LogTraktResponse(response);
+                                var response = TraktAPI.TraktAPI.AddShowsToRatings(new TraktSyncShowsRated { Shows = pagedShows });
+                                TraktLogger.LogTraktResponse(response);
+                            }
                         }
                     }
-
                     #endregion
                 }
 
@@ -467,7 +476,7 @@ namespace TraktPlugin.TraktHandlers
 
                 #region Remove episodes no longer in collection from trakt.tv
 
-                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1)
+                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1 && traktCollectedEpisodes != null)
                 {
                     var syncRemovedShows = GetRemovedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes.ToList());
 
@@ -503,11 +512,14 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
                 
                 #region Cache tv shows in online collection
-                TraktLogger.Debug("Caching tv shows in trakt.tv collection");
-                TraktSettings.ShowsInCollection = traktCollectedEpisodes.Where(e => e.ShowTvdbId != null)
-                                                                         .Select(e => e.ShowTvdbId.ToString())
-                                                                         .Distinct()
-                                                                         .ToList();
+                if (traktCollectedEpisodes != null)
+                {
+                    TraktLogger.Debug("Caching tv shows in trakt.tv collection");
+                    TraktSettings.ShowsInCollection = traktCollectedEpisodes.Where(e => e.ShowTvdbId != null)
+                                                                             .Select(e => e.ShowTvdbId.ToString())
+                                                                             .Distinct()
+                                                                             .ToList();
+                }
                 #endregion
             }
 
@@ -1947,14 +1959,14 @@ namespace TraktPlugin.TraktHandlers
             if (newEpisodeAdded)
             {
                 // sync again
-                Thread syncThread = new Thread(delegate()
+                var syncThread = new Thread(obj =>
                 {
-                    TraktLogger.Info("New Episodes added in TVSeries, starting sync");
+                    TraktLogger.Info("New episodes added in MP-TVSeries, starting sync");
 
                     while (SyncInProgress)
                     {
                         // only do one sync at a time
-                        TraktLogger.Debug("MP-TVSeries sync still in progress. Trying again in 60secs");
+                        TraktLogger.Debug("MP-TVSeries sync still in progress, trying again in 60 secs");
                         Thread.Sleep(60000);
                     }
                     SyncLibrary();

@@ -875,7 +875,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
             SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
             SetProperty("#Trakt.User.FullName", user.FullName);
-            SetProperty("#Trakt.User.Gender", user.Gender);
+            SetProperty("#Trakt.User.Gender", Translation.GetByName(string.Format("Gender{0}", user.Gender)));
             SetProperty("#Trakt.User.JoinDate", user.JoinedAt.FromISO8601().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);
             SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());
@@ -991,12 +991,12 @@ namespace TraktPlugin.GUI
             #region Shows Statistics
             if (stats.Shows != null)
             {
-                SetProperty("#Trakt.Statistics.Shows.Library", stats.Shows.Collected + stats.Shows.Watched + stats.Shows.Ratings);
-                SetProperty("#Trakt.Statistics.Shows.Watched", stats.Shows.Watched);
+                SetProperty("#Trakt.Statistics.Shows.Library", stats.Shows.Collected);
                 SetProperty("#Trakt.Statistics.Shows.Collection", stats.Shows.Collected);
+                SetProperty("#Trakt.Statistics.Shows.Watched", stats.Shows.Watched);
                 SetProperty("#Trakt.Statistics.Shows.Shouts", stats.Shows.Comments);
-                SetProperty("#Trakt.Statistics.Shows.Loved", stats.Shows.Ratings);
-                //SetProperty("#Trakt.Statistics.Shows.Hated", stats.Shows.Ratings);
+                SetProperty("#Trakt.Statistics.Shows.Loved", stats.Shows.Ratings); //TODO
+                SetProperty("#Trakt.Statistics.Shows.Hated", "0"); //TODO
                 SetProperty("#Trakt.Statistics.Shows.Ratings", stats.Shows.Ratings);
             }
             #endregion
@@ -1006,9 +1006,10 @@ namespace TraktPlugin.GUI
             {
                 //SetProperty("#Trakt.Statistics.Episodes.Checkins", stats.Episodes.Checkins);
                 //SetProperty("#Trakt.Statistics.Episodes.CheckinsUnique", stats.Episodes.CheckinsUnique);
+                SetProperty("#Trakt.Statistics.Episodes.Library", stats.Episodes.Collected);
                 SetProperty("#Trakt.Statistics.Episodes.Collection", stats.Episodes.Collected);
-                //SetProperty("#Trakt.Statistics.Episodes.Hated", stats.Episodes.Ratings);
-                SetProperty("#Trakt.Statistics.Episodes.Loved", stats.Episodes.Ratings);
+                SetProperty("#Trakt.Statistics.Episodes.Hated", "0"); //TODO
+                SetProperty("#Trakt.Statistics.Episodes.Loved", stats.Episodes.Ratings); //TODO
                 SetProperty("#Trakt.Statistics.Episodes.Ratings", stats.Episodes.Ratings);
                 //SetProperty("#Trakt.Statistics.Episodes.Scrobbles", stats.Episodes.Scrobbles);
                 //SetProperty("#Trakt.Statistics.Episodes.ScrobblesUnique", stats.Episodes.ScrobblesUnique);
@@ -1030,10 +1031,10 @@ namespace TraktPlugin.GUI
                 //SetProperty("#Trakt.Statistics.Movies.Checkins", stats.Movies.Checkins);
                 //SetProperty("#Trakt.Statistics.Movies.CheckinsUnique", stats.Movies.CheckinsUnique);
                 SetProperty("#Trakt.Statistics.Movies.Collection", stats.Movies.Collected);
-                //SetProperty("#Trakt.Statistics.Movies.Hated", stats.Movies.Hated);
-                //SetProperty("#Trakt.Statistics.Movies.Library", stats.Movies.Library);
+                SetProperty("#Trakt.Statistics.Movies.Library", stats.Movies.Collected);
                 SetProperty("#Trakt.Statistics.Movies.Ratings", stats.Movies.Ratings);
-                SetProperty("#Trakt.Statistics.Movies.Loved", stats.Movies.Ratings);
+                SetProperty("#Trakt.Statistics.Movies.Loved", stats.Movies.Ratings); //TODO
+                SetProperty("#Trakt.Statistics.Movies.Hated", "0"); //TODO
                 //SetProperty("#Trakt.Statistics.Movies.Scrobbles", stats.Movies.Scrobbles);
                 //SetProperty("#Trakt.Statistics.Movies.ScrobblesUnique", stats.Movies.ScrobblesUnique);
                 //SetProperty("#Trakt.Statistics.Movies.Seen", stats.Movies.Seen);

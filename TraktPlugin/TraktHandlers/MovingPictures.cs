@@ -826,6 +826,9 @@ namespace TraktPlugin.TraktHandlers
                 {
                     var syncThread = new Thread((objMovie) =>
                     {
+                        // wait for import to be 100% complete including MediaInfo
+                        Thread.Sleep(30000);
+
                         var tMovie = objMovie as DBMovieInfo;
 
                         var traktMovie = new TraktSyncMovieCollected
@@ -864,7 +867,7 @@ namespace TraktPlugin.TraktHandlers
 
         #endregion
         
-        #region DataCreators
+        #region Data Creators
 
         /// <summary>
         /// Checks if the movie is 3D or not
