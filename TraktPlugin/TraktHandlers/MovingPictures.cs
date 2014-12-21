@@ -1891,7 +1891,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             // now we're ready to create all the child-nodes for the recommendations, watchlist and custom lists
-            var recommendations = TraktCache.TraktRecommendedMovies;
+            var recommendations = TraktCache.GetRecommendedMoviesFromTrakt();
             if (recommendations != null && (syncLists & SyncListType.Recommendations) != 0)
             {
                 TraktLogger.Info("Found {0} recommended movies on trakt.tv", recommendations.Count());
@@ -1902,8 +1902,8 @@ namespace TraktPlugin.TraktHandlers
                 AddMoviesCriteriaToNode(recommendationsNode, recommendations.Select(m => m.Ids.Imdb));
             }
 
-            var watchlist = TraktCache.TraktWatchListMovies;
-            if (TraktCache.TraktWatchListMovies != null && (syncLists & SyncListType.Watchlist) != 0)
+            var watchlist = TraktCache.GetWatchlistedMoviesFromTrakt();
+            if (watchlist != null && (syncLists & SyncListType.Watchlist) != 0)
             {
                 TraktLogger.Info("Found {0} watchlist movies on trakt.tv", watchlist.Count());
                 var watchListNode = CreateNode(TraktCategoriesMenuRootNode, GUI.Translation.WatchList);
@@ -1913,7 +1913,7 @@ namespace TraktPlugin.TraktHandlers
                 AddMoviesCriteriaToNode(watchListNode, watchlist.Select(m => m.Movie.Ids.Imdb));
             }
 
-            var customLists = TraktCache.TraktCustomLists;
+            var customLists = TraktCache.CustomLists;
             if (customLists != null && (syncLists & SyncListType.CustomList) != 0)
             {
                 TraktLogger.Info("Found {0} custom lists on trakt.tv", customLists.Count());
@@ -1938,7 +1938,7 @@ namespace TraktPlugin.TraktHandlers
                         node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations))
                         continue;
 
-                    if (!TraktCache.TraktCustomLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))
+                    if (!TraktCache.CustomLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))
                     {
                         TraktLogger.Info("Removing node '{0}' from categories menu as custom list no longer exists online", node.Name);
                         RemoveNode(TraktCategoriesMenuRootNode, node.Name);
@@ -1962,7 +1962,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             // now we're ready to create all the sub-nodes for the recommendations, watchlist and custom lists
-            var recommendations = TraktCache.TraktRecommendedMovies;
+            var recommendations = TraktCache.GetRecommendedMoviesFromTrakt();
             if (recommendations != null && (syncLists & SyncListType.Recommendations) != 0)
             {
                 TraktLogger.Info("Found {0} recommended movies on trakt.tv", recommendations.Count());
@@ -1973,8 +1973,8 @@ namespace TraktPlugin.TraktHandlers
                 AddMoviesCriteriaToNode(recommendationsNode, recommendations.Select(m => m.Ids.Imdb));
             }
 
-            var watchlist = TraktCache.TraktWatchListMovies;
-            if (TraktCache.TraktWatchListMovies != null && (syncLists & SyncListType.Watchlist) != 0)
+            var watchlist = TraktCache.GetWatchlistedMoviesFromTrakt();
+            if (watchlist != null && (syncLists & SyncListType.Watchlist) != 0)
             {
                 TraktLogger.Info("Found {0} watchlist movies on trakt.tv", watchlist.Count());
                 var watchListNode = CreateNode(TraktFiltersMenuRootNode, GUI.Translation.WatchList);
@@ -1984,12 +1984,12 @@ namespace TraktPlugin.TraktHandlers
                 AddMoviesCriteriaToNode(watchListNode, watchlist.Select(m => m.Movie.Ids.Imdb));
             }
 
-            var customLists = TraktCache.TraktCustomLists;
+            var customLists = TraktCache.CustomLists;
             if (customLists != null && (syncLists & SyncListType.CustomList) != 0)
             {
                 TraktLogger.Info("Found {0} custom lists on trakt.tv", customLists.Count());
 
-                foreach (var list in TraktCache.TraktCustomLists)
+                foreach (var list in TraktCache.CustomLists)
                 {
                     string listName = list.Key.Name;
                     List<TraktListItem> listItems = list.Value;
@@ -2009,7 +2009,7 @@ namespace TraktPlugin.TraktHandlers
                         node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations))
                         continue;
 
-                    if (!TraktCache.TraktCustomLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))
+                    if (!TraktCache.CustomLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))
                     {
                         TraktLogger.Info("Removing node '{0}' from filters menu as custom list no longer exists online", node.Name);
                         RemoveNode(TraktFiltersMenuRootNode, node.Name);

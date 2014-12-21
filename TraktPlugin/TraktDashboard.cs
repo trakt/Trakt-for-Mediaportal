@@ -730,8 +730,9 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Runtime", i), trendingItem.Show.Runtime.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Year", i), trendingItem.Show.Year.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Join(", ", TraktGenres.Translate(trendingItem.Show.Genres)));
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), trendingItem.Show.IsWatchlisted().ToString());
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), trendingItem.Show.IsWatched().ToString());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), trendingItem.Show.IsWatchlisted());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), trendingItem.Show.IsWatched());
+                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.InCollection", i), trendingItem.Show.IsCollected());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), trendingItem.Show.Plays());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), trendingItem.Show.UserRating());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Votes);
@@ -769,12 +770,14 @@ namespace TraktPlugin
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Genres", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.InWatchList", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Watched", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.InCollection", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Plays", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Rating", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.RatingAdvanced", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), string.Empty);
+                GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), string.Empty);
                 GUIUtils.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), string.Empty);
             }
         }

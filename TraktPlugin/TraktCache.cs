@@ -18,18 +18,23 @@ namespace TraktPlugin
     {
         static Object syncLists = new object();
 
+        private static string MoviesWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Watchlisted.json");
+        private static string MoviesRecommendedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Recommended.json");
         private static string MoviesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Collected.json");
         private static string MoviesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Watched.json");
         private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Rated.json");
 
+        private static string EpisodesWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watchlisted.json");
         private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Collected.json");
         private static string EpisodesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watched.json");
         private static string EpisodesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Rated.json");
 
+        private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
-        private static DateTime RecommendationsAge;
-        private static DateTime WatchListAge;
+        private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\CustomList.json");
+
+        private static DateTime MovieRecommendationsAge;
         private static DateTime CustomListAge;
 
         private static DateTime LastFollowerRequest = new DateTime();
@@ -514,6 +519,11 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Seasons
+
+
+        #endregion
+
         #region Shows
 
         /// <summary>
@@ -525,7 +535,7 @@ namespace TraktPlugin
             var lastSyncActivities = LastSyncActivities;
 
             // something bad happened e.g. site not available
-            if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
+            if (lastSyncActivities == null || lastSyncActivities.Shows == null)
                 return null;
 
             // check the last time we have against the online time
@@ -572,6 +582,282 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktShowRated> _RatedShows = null;
+
+        #endregion
+
+        #region Lists
+
+        #region Movies
+
+        public static IEnumerable<TraktMovieWatchList> GetWatchlistedMoviesFromTrakt()
+        {
+            lock (syncLists)
+            {
+                // get the last time we did anything to our library online
+                var lastSyncActivities = LastSyncActivities;
+
+                // something bad happened e.g. site not available
+                if (lastSyncActivities == null || lastSyncActivities.Movies.Watchlist == null)
+                    return null;
+
+                // check the last time we have against the online time
+                // if the times are the same try to load from cache
+                if (lastSyncActivities.Movies.Watchlist == TraktSettings.LastSyncActivities.Movies.Watchlist)
+                {
+                    var cachedItems = WatchListMovies;
+                    if (cachedItems != null)
+                        return cachedItems;
+                }
+
+                TraktLogger.Debug("Movie watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watchlist ?? "<empty>", lastSyncActivities.Movies.Watchlist ?? "<empty>");
+
+                // we get from online, local cache is not up to date
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                if (onlineItems != null)
+                {
+                    _WatchListMovies = onlineItems;
+
+                    // save to local file cache
+                    SaveFileCache(MoviesWatchlistedFile, _WatchListMovies.ToJSON());
+
+                    // save new activity time for next time
+                    TraktSettings.LastSyncActivities.Movies.Watchlist = lastSyncActivities.Movies.Watchlist;
+                }
+                return onlineItems;
+            }
+        }
+
+        static IEnumerable<TraktMovieWatchList> WatchListMovies
+        {
+            get
+            {
+                if (_WatchListMovies == null)
+                {
+                    var persistedItems = LoadFileCache(MoviesWatchlistedFile, null);
+                    if (persistedItems != null)
+                        _WatchListMovies = persistedItems.FromJSONArray<TraktMovieWatchList>();
+                }
+                return _WatchListMovies;
+            }
+        }
+        static IEnumerable<TraktMovieWatchList> _WatchListMovies = null;
+
+        public static IEnumerable<TraktMovie> GetRecommendedMoviesFromTrakt()
+        {
+            lock (syncLists)
+            {
+                // check the last time we have retrieved the watchlist
+                // if the time is recent, try to load from cache
+                if ((DateTime.Now - MovieRecommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                {
+                    var cachedItems = RecommendedMovies;
+                    if (cachedItems != null)
+                        return cachedItems;
+                }
+
+                TraktLogger.Debug("Recommended movies cache is out of date, retrieving updated list");
+
+                // we get from online, local cache is not up to date
+                var onlineItems = TraktAPI.TraktAPI.GetRecommendedMovies();
+                if (onlineItems != null)
+                {
+                    _Recommendations = onlineItems;
+
+                    // save to local file cache
+                    SaveFileCache(MoviesRecommendedFile, _Recommendations.ToJSON());
+
+                    // save retrieve data to compare next time
+                    MovieRecommendationsAge = DateTime.Now;
+                }
+                return onlineItems;
+            }
+        }
+
+        static IEnumerable<TraktMovie> RecommendedMovies
+        {
+            get
+            {
+                if (_Recommendations == null)
+                {
+                    var persistedItems = LoadFileCache(MoviesRecommendedFile, null);
+                    if (persistedItems != null)
+                        _Recommendations = persistedItems.FromJSONArray<TraktMovie>();
+                }
+                return _Recommendations;
+            }
+        }
+        static IEnumerable<TraktMovie> _Recommendations = null;
+
+        #endregion
+
+        #region Shows
+
+        /// <summary>
+        /// Get the users watchlisted shows from Trakt
+        /// </summary>
+        public static IEnumerable<TraktShowWatchList> GetWatchlistedShowsFromTrakt()
+        {
+            lock (syncLists)
+            {
+                // get the last time we did anything to our library online
+                var lastSyncActivities = LastSyncActivities;
+
+                // something bad happened e.g. site not available
+                if (lastSyncActivities == null || lastSyncActivities.Shows.Watchlist == null)
+                    return null;
+
+                // check the last time we have against the online time
+                // if the times are the same try to load from cache
+                if (lastSyncActivities.Shows.Watchlist == TraktSettings.LastSyncActivities.Shows.Watchlist)
+                {
+                    var cachedItems = WatchListShows;
+                    if (cachedItems != null)
+                        return cachedItems;
+                }
+
+                TraktLogger.Debug("TV show watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Watchlist ?? "<empty>", lastSyncActivities.Shows.Watchlist ?? "<empty>");
+
+                // we get from online, local cache is not up to date
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListShows(TraktSettings.Username);
+                if (onlineItems != null)
+                {
+                    _WatchListShows = onlineItems;
+
+                    // save to local file cache
+                    SaveFileCache(ShowsWatchlistedFile, _WatchListShows.ToJSON());
+
+                    // save new activity time for next time
+                    TraktSettings.LastSyncActivities.Shows.Watchlist = lastSyncActivities.Shows.Watchlist;
+                }
+                return onlineItems;
+            }
+        }
+
+        /// <summary>
+        /// Returns the cached users watchlisted shows on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktShowWatchList> WatchListShows
+        {
+            get
+            {
+                if (_WatchListShows == null)
+                {
+                    var persistedItems = LoadFileCache(ShowsWatchlistedFile, null);
+                    if (persistedItems != null)
+                        _WatchListShows = persistedItems.FromJSONArray<TraktShowWatchList>();
+                }
+                return _WatchListShows;
+            }
+        }
+        static IEnumerable<TraktShowWatchList> _WatchListShows = null;
+
+        #endregion
+
+        #region Seasons
+
+       
+        #endregion
+
+        #region Episodes
+
+        /// <summary>
+        /// Get the users watchlisted episodes from Trakt
+        /// </summary>
+        public static IEnumerable<TraktEpisodeWatchList> GetWatchlistedEpisodesFromTrakt()
+        {
+            lock (syncLists)
+            {
+                // get the last time we did anything to our library online
+                var lastSyncActivities = LastSyncActivities;
+
+                // something bad happened e.g. site not available
+                if (lastSyncActivities == null || lastSyncActivities.Episodes.Watchlist == null)
+                    return null;
+
+                // check the last time we have against the online time
+                // if the times are the same try to load from cache
+                if (lastSyncActivities.Episodes.Watchlist == TraktSettings.LastSyncActivities.Episodes.Watchlist)
+                {
+                    var cachedItems = WatchListEpisodes;
+                    if (cachedItems != null)
+                        return cachedItems;
+                }
+
+                TraktLogger.Debug("TV episode watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watchlist ?? "<empty>", lastSyncActivities.Episodes.Watchlist ?? "<empty>");
+
+                // we get from online, local cache is not up to date
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
+                if (onlineItems != null)
+                {
+                    _WatchListEpisodes = onlineItems;
+
+                    // save to local file cache
+                    SaveFileCache(ShowsWatchlistedFile, _WatchListEpisodes.ToJSON());
+
+                    // save new activity time for next time
+                    TraktSettings.LastSyncActivities.Episodes.Watchlist = lastSyncActivities.Episodes.Watchlist;
+                }
+                return onlineItems;
+            }
+        }
+
+        /// <summary>
+        /// Returns the cached users watchlisted episodes on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktEpisodeWatchList> WatchListEpisodes
+        {
+            get
+            {
+                if (_WatchListEpisodes == null)
+                {
+                    var persistedItems = LoadFileCache(EpisodesWatchlistedFile, null);
+                    if (persistedItems != null)
+                        _WatchListEpisodes = persistedItems.FromJSONArray<TraktEpisodeWatchList>();
+                }
+                return _WatchListEpisodes;
+            }
+        }
+        static IEnumerable<TraktEpisodeWatchList> _WatchListEpisodes = null;
+
+        #endregion
+
+        #region Custom
+
+        internal static Dictionary<TraktListDetail, List<TraktListItem>> CustomLists
+        {
+            get
+            {
+                lock (syncLists)
+                {
+                    if (_CustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    {
+                        _CustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
+
+                        // first get the users custom lists from trakt
+                        TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
+                        var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+
+                        // get details of each list including items
+                        foreach (var list in userLists.Where(l => l.ItemCount > 0))
+                        {
+                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug);
+                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
+
+                            if (userList == null)
+                                continue;
+
+                            // add them to the cache
+                            _CustomLists.Add(list, userList.ToList());
+                        }
+                        CustomListAge = DateTime.Now;
+                    }
+                    return _CustomLists;
+                }
+            }
+        }
+        static Dictionary<TraktListDetail, List<TraktListItem>> _CustomLists = null;
+
+        #endregion
 
         #endregion
 
@@ -668,80 +954,6 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Lists
-
-        internal static IEnumerable<TraktMovieWatchList> TraktWatchListMovies
-        {
-            get
-            {
-                lock (syncLists)
-                {
-                    if (_traktWatchListMovies == null || (DateTime.Now - WatchListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
-                    {
-                        TraktLogger.Info("Retrieving current users watchlist from trakt.tv");
-                        _traktWatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
-                        WatchListAge = DateTime.Now;
-                    }
-                    return _traktWatchListMovies;
-                }
-            }
-        }
-        static IEnumerable<TraktMovieWatchList> _traktWatchListMovies = null;
-
-        internal static IEnumerable<TraktMovie> TraktRecommendedMovies
-        {
-            get
-            {
-                lock (syncLists)
-                {
-                    if (_traktRecommendations == null || (DateTime.Now - RecommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
-                    {
-                        TraktLogger.Info("Retrieving current users recommendations from trakt.tv");
-                        _traktRecommendations = TraktAPI.TraktAPI.GetRecommendedMovies();
-                        RecommendationsAge = DateTime.Now;
-                    }
-                    return _traktRecommendations;
-                }
-            }
-        }
-        static IEnumerable<TraktMovie> _traktRecommendations = null;
-
-        internal static Dictionary<TraktListDetail, List<TraktListItem>> TraktCustomLists
-        {
-            get
-            {
-                lock (syncLists)
-                {
-                    if (_traktCustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
-                    {
-                        _traktCustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
-
-                        // first get the users custom lists from trakt
-                        TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
-                        var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
-
-                        // get details of each list including items
-                        foreach (var list in userLists.Where(l => l.ItemCount > 0))
-                        {
-                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug);
-                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
-
-                            if (userList == null)
-                                continue;
-
-                            // add them to the cache
-                            _traktCustomLists.Add(list, userList.ToList());
-                        }
-                        CustomListAge = DateTime.Now;
-                    }
-                    return _traktCustomLists;
-                }
-            }
-        }
-        static Dictionary<TraktListDetail, List<TraktListItem>> _traktCustomLists = null;
-
-        #endregion
-
         #region User Data
 
         #region Movies
@@ -764,8 +976,10 @@ namespace TraktPlugin
 
         public static bool IsWatchlisted(this TraktMovie movie)
         {
-            // TODO
-            return false;
+            if (WatchListMovies == null)
+                return false;
+
+            return WatchListMovies.Any(w => w.Movie.Ids.Trakt == movie.Ids.Trakt);
         }
 
         public static int? UserRating(this TraktMovie movie)
@@ -796,22 +1010,42 @@ namespace TraktPlugin
 
         #region Shows
 
-        public static bool IsWatched(this TraktShow show)
+        public static bool IsWatched(this TraktShowSummary show)
         {
-            // TODO
-            return false;
+            if (show.AiredEpisodes == 0)
+                return false;
+
+            var watchedEpisodes = TraktCache.WatchedEpisodes;
+            if (watchedEpisodes == null)
+                return false;
+
+            // check that the shows aired episode count >= episodes watched in show
+            // trakt does not include specials in count, nor should we
+            int watchedEpisodeCount = watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season != 0).Count();
+            return watchedEpisodeCount >= show.AiredEpisodes;
         }
 
-        public static bool IsCollected(this TraktShow show)
+        public static bool IsCollected(this TraktShowSummary show)
         {
-            // TODO
-            return false;
+            if (show.AiredEpisodes == 0)
+                return false;
+
+            var collectedEpisodes = TraktCache.CollectedEpisodes;
+            if (collectedEpisodes == null)
+                return false;
+
+            // check that the shows aired episode count >= episodes collected in show
+            // trakt does not include specials in count, nor should we
+            int collectedEpisodeCount = collectedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season != 0).Count();
+            return collectedEpisodeCount >= show.AiredEpisodes;
         }
 
         public static bool IsWatchlisted(this TraktShow show)
         {
-            // TODO
-            return false;
+            if (WatchListShows == null)
+                return false;
+
+            return WatchListShows.Any(w => w.Show.Ids.Trakt == show.Ids.Trakt);
         }
 
         public static int? UserRating(this TraktShow show)
@@ -828,8 +1062,68 @@ namespace TraktPlugin
 
         public static int Plays(this TraktShow show)
         {
+            var watchedEpisodes = TraktCache.WatchedEpisodes;
+            if (watchedEpisodes == null)
+                return 0;
+
+            // sum up all the plays per episode in show
+            return watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt).Sum(e => e.Plays);
+        }
+
+        #endregion
+
+        #region Seasons
+
+        public static bool IsWatchlisted(this TraktSeasonSummary season, TraktShowSummary show)
+        {
             //TODO
-            return 0;
+            return false;
+        }
+
+        public static bool IsWatched(this TraktSeasonSummary season, TraktShowSummary show)
+        {
+            if (season.EpisodeCount == 0)
+                return false;
+
+            var watchedEpisodes = TraktCache.WatchedEpisodes;
+            if (watchedEpisodes == null)
+                return false;
+
+            // check that the seasons aired episode count >= episodes watched in season
+            // trakt does not include specials in count, nor should we
+            int watchedEpisodeCount = watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Count();
+            return watchedEpisodeCount >= season.EpisodeCount;
+        }
+
+        public static bool IsCollected(this TraktSeasonSummary season, TraktShowSummary show)
+        {
+            if (season.EpisodeCount == 0)
+                return false;
+
+            var collectedEpisodes = TraktCache.CollectedEpisodes;
+            if (collectedEpisodes == null)
+                return false;
+
+            // check that the seasons aired episode count >= episodes watched in season
+            // trakt does not include specials in count, nor should we
+            int collectedEpisodeCount = collectedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Count();
+            return collectedEpisodeCount >= season.EpisodeCount;
+        }
+
+        public static int? UserRating(this TraktSeasonSummary season)
+        {
+            //TODO
+            return null;
+        }
+
+        public static int Plays(this TraktSeasonSummary season, TraktShowSummary show)
+        {
+            var watchedEpisodes = TraktCache.WatchedEpisodes;
+            if (watchedEpisodes == null)
+                return 0;
+
+            // sum up all the plays per episode in season
+            return watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Sum(e => e.Plays);
         }
 
         #endregion
@@ -858,8 +1152,10 @@ namespace TraktPlugin
 
         public static bool IsWatchlisted(this TraktEpisode episode)
         {
-            // TODO
-            return false;
+            if (WatchListEpisodes == null)
+                return false;
+
+            return WatchListEpisodes.Any(w => w.Episode.Ids.Trakt == episode.Ids.Trakt);
         }
 
         public static int? UserRating(this TraktEpisode episode)
@@ -891,14 +1187,14 @@ namespace TraktPlugin
 
         #endregion
 
-        #endregion
-
         #region Lists
 
         public static int Plays(this TraktListItem item)
         {
             if (item.Type == "movie" && item.Movie != null)
                 return item.Movie.Plays();
+            if (item.Type == "show" && item.Movie != null)
+                return item.Show.Plays();
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.Plays(item.Show);
 
@@ -909,6 +1205,8 @@ namespace TraktPlugin
         {
             if (item.Type == "movie" && item.Movie != null)
                 return item.Movie.IsWatched();
+            if (item.Type == "show" && item.Movie != null)
+                return item.Show.IsWatched();
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.IsWatched(item.Show);
 
@@ -919,6 +1217,8 @@ namespace TraktPlugin
         {
             if (item.Type == "movie" && item.Movie != null)
                 return item.Movie.IsCollected();
+            if (item.Type == "show" && item.Show != null)
+                return item.Show.IsCollected();
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.IsCollected(item.Show);
 
@@ -951,13 +1251,15 @@ namespace TraktPlugin
 
         #endregion
 
+        #endregion
+
         #region Clear Cache
 
         internal static void ClearWatchlistMoviesCache()
         {
             lock (syncLists)
             {
-                _traktWatchListMovies = null;
+                _WatchListMovies = null;
             }
         }
 
@@ -965,7 +1267,7 @@ namespace TraktPlugin
         {
             lock (syncLists)
             {
-                _traktRecommendations = null;
+                _Recommendations = null;
             }
         }
 
@@ -974,18 +1276,18 @@ namespace TraktPlugin
             lock (syncLists)
             {
                 // check if something to clear
-                if (_traktCustomLists == null) return;
+                if (_CustomLists == null) return;
 
                 // clear all lists
                 if (string.IsNullOrEmpty(listName))
                 {
-                    _traktCustomLists = null;
+                    _CustomLists = null;
                     return;
                 }
 
                 // clear selected list
-                var list = _traktCustomLists.FirstOrDefault(t => t.Key.Name == listName);
-                _traktCustomLists.Remove(list.Key);
+                var list = _CustomLists.FirstOrDefault(t => t.Key.Name == listName);
+                _CustomLists.Remove(list.Key);
             }
         }
 

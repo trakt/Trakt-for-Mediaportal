@@ -433,7 +433,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("Found {0} trakt-categorised movies available in My Films database", categoryTraktList.Count.ToString());
 
                 #region Update Watchlist Tags
-                var traktWatchListMovies = TraktCache.TraktWatchListMovies;
+                var traktWatchListMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
 
                 if (traktWatchListMovies != null)
                 {
@@ -468,7 +468,7 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 #region Update Custom List Tags
-                var traktUserLists = TraktCache.TraktCustomLists;
+                var traktUserLists = TraktCache.CustomLists;
 
                 if (traktUserLists != null)
                 {
@@ -511,7 +511,7 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 #region Update Recommendation Tags
-                var traktRecommendationMovies = TraktCache.TraktRecommendedMovies;
+                var traktRecommendationMovies = TraktCache.GetRecommendedMoviesFromTrakt();
 
                 if (traktRecommendationMovies != null)
                 {

@@ -1183,7 +1183,7 @@ namespace TraktPlugin
                     #region movie
                     case "movie":
                         TraktLogger.Info("Displaying Shouts for {0}. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
-                        TraktHelper.ShowMovieShouts(imdbid, title, year, isWatched, fanart);
+                        TraktHelper.ShowMovieShouts(title, year, imdbid, isWatched, fanart);
                         break;
                     #endregion
                     #region episode
@@ -1211,13 +1211,13 @@ namespace TraktPlugin
                     #region movie
                     case "movie":
                         TraktLogger.Info("Displaying Related Movies for {0}. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year, imdbid);
-                        TraktHelper.ShowRelatedMovies(imdbid, title, year);
+                        TraktHelper.ShowRelatedMovies(title, year, imdbid);
                         break;
                     #endregion
                     #region series
                     case "series":
                         TraktLogger.Info("Displaying Related Shows for {0}. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year, showtvdbid);
-                        TraktHelper.ShowRelatedShows(showtvdbid, title);
+                        TraktHelper.ShowRelatedShows(title, showtvdbid);
                         break;
                     #endregion
                 }

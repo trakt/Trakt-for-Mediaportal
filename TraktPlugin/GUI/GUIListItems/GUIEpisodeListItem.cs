@@ -171,7 +171,7 @@ namespace TraktPlugin.GUI
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
             string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
-            // build memory image, resize thumbnail incase its a fanart
+            // build memory image, resize thumbnail in case its a fanart
             Image memoryImage = null;
             if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
             {

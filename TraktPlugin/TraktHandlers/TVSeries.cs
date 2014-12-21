@@ -97,7 +97,7 @@ namespace TraktPlugin.TraktHandlers
             var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt();
             if (traktCollectedEpisodes == null)
             {
-                TraktLogger.Error("Error getting tv episode collection from trakt.tv server, cancelling sync");
+                TraktLogger.Error("Error getting tv episode collection from trakt.tv server");
             }
             else
             {
@@ -107,44 +107,35 @@ namespace TraktPlugin.TraktHandlers
 
             #region Ratings
 
-            // get all episode and show ratings
-            var traktRatedEpisodes = new List<TraktEpisodeRated>();
-            var traktRatedShows = new List<TraktShowRated>();
-            if (TraktSettings.SyncRatings)
+            #region Episodes
+
+            TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
+            var traktRatedEpisodes = TraktCache.GetRatedEpisodesFromTrakt();
+            if (traktRatedEpisodes == null)
             {
-                #region Episodes
-
-                TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
-                var tempEpisodeRatings = TraktCache.GetRatedEpisodesFromTrakt();
-                if (traktRatedEpisodes == null)
-                {
-                    TraktLogger.Error("Error getting rated episodes from trakt.tv server, cancelling sync");
-                    traktRatedEpisodes = null;
-                }
-                else
-                {
-                    traktRatedEpisodes.AddRange(tempEpisodeRatings);
-                    TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
-                }
-                #endregion
-
-                #region Shows
-
-                TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
-                var tempShowRatings = TraktCache.GetRatedShowsFromTrakt();
-                if (traktRatedEpisodes == null)
-                {
-                    TraktLogger.Error("Error getting rated shows from trakt.tv server, cancelling sync");
-                    traktRatedShows = null;
-                }
-                else
-                {
-                    traktRatedShows.AddRange(tempShowRatings);
-                    TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
-                }
-
-                #endregion
+                TraktLogger.Error("Error getting rated episodes from trakt.tv server");
             }
+            else
+            {
+                TraktLogger.Info("Found {0} rated tv episodes in trakt.tv library", traktRatedEpisodes.Count());
+            }
+
+            #endregion
+
+            #region Shows
+
+            TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
+            var traktRatedShows = TraktCache.GetRatedShowsFromTrakt();
+            if (traktRatedEpisodes == null)
+            {
+                TraktLogger.Error("Error getting rated shows from trakt.tv server");
+            }
+            else
+            {
+                TraktLogger.Info("Found {0} rated tv shows in trakt.tv library", traktRatedShows.Count());
+            }
+
+            #endregion
 
             #endregion
 
@@ -160,12 +151,46 @@ namespace TraktPlugin.TraktHandlers
             var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt();
             if (traktWatchedEpisodes == null)
             {
-                TraktLogger.Error("Error getting tv shows watched from trakt.tv server, cancelling sync");
+                TraktLogger.Error("Error getting tv shows watched from trakt.tv server");
             }
             else
             {
                 TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
             }
+
+            #endregion
+
+            #region Watchlist
+
+            #region Shows
+
+            TraktLogger.Info("Getting user {0}'s watchlisted shows from trakt.tv", TraktSettings.Username);
+            var traktWatchlistedShows = TraktCache.GetWatchlistedShowsFromTrakt();
+            if (traktWatchlistedShows == null)
+            {
+                TraktLogger.Error("Error getting watchlisted shows from trakt.tv server");
+            }
+            else
+            {
+                TraktLogger.Info("Found {0} watchlisted tv shows in trakt.tv library", traktWatchlistedShows.Count());
+            }
+
+            #endregion
+
+            #region Episodes
+
+            TraktLogger.Info("Getting user {0}'s watchlisted episodes from trakt.tv", TraktSettings.Username);
+            var traktWatchlistedEpisodes = TraktCache.GetWatchlistedEpisodesFromTrakt();
+            if (traktWatchlistedEpisodes == null)
+            {
+                TraktLogger.Error("Error getting watchlisted episodes from trakt.tv server");
+            }
+            else
+            {
+                TraktLogger.Info("Found {0} watchlisted tv episodes in trakt.tv library", traktWatchlistedEpisodes.Count());
+            }
+
+            #endregion
 
             #endregion
 
@@ -302,7 +327,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     #region Episodes
                     TraktLogger.Info("Start sync of tv episode ratings to local database");
-                    if (traktRatedEpisodes != null && traktRatedEpisodes.Count > 0)
+                    if (traktRatedEpisodes != null && traktRatedEpisodes.Count() > 0)
                     {
                         foreach (var episode in localNonRatedEpisodes)
                         {
@@ -329,7 +354,7 @@ namespace TraktPlugin.TraktHandlers
 
                     #region Shows
                     TraktLogger.Info("Start sync of tv show ratings to local database");
-                    if (traktRatedShows != null && traktRatedShows.Count > 0)
+                    if (traktRatedShows != null && traktRatedShows.Count() > 0)
                     {
                         foreach (var show in localNonRatedShows) 
                         {
@@ -410,7 +435,7 @@ namespace TraktPlugin.TraktHandlers
                     #region Episodes
                     if (traktRatedEpisodes != null)
                     {
-                        var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes);
+                        var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes.ToList());
 
                         TraktLogger.Info("Found {0} local tv shows with rated episodes to add to trakt.tv ratings", syncRatedShowsEx.Shows.Count);
 

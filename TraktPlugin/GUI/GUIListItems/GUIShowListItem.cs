@@ -22,7 +22,7 @@ namespace TraktPlugin.GUI
             this.WindowID = windowID;
         }
 
-        public TraktShow Show { get; set; }
+        public TraktShowSummary Show { get; set; }
 
         /// <summary>
         /// Images attached to a gui list item
@@ -143,16 +143,20 @@ namespace TraktPlugin.GUI
             {
                 if ((GUIWatchListShows.CurrentUser != TraktSettings.Username) && Show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                //else if (show.Watched)
-                //    mainOverlay = MainOverlayImage.Seenit;
+                else if (Show.IsWatched())
+                    mainOverlay = MainOverlayImage.Seenit;
             }
             else
             {
                 if (Show.IsWatchlisted())
                     mainOverlay = MainOverlayImage.Watchlist;
-                //else if (show.Watched)
-                //    mainOverlay = MainOverlayImage.Seenit;
+                else if (Show.IsWatched())
+                    mainOverlay = MainOverlayImage.Seenit;
             }
+
+            // add additional overlay if applicable
+            if (Show.IsCollected())
+                mainOverlay |= MainOverlayImage.Library;
 
             RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Show.UserRating());
 

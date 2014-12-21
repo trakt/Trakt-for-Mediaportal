@@ -1148,6 +1148,10 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.TvRageId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Watched", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Icon", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Percentage", string.Empty);
@@ -1166,7 +1170,11 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
             SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
             SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
-            //TODOSetProperty("#Trakt.Season.Rating", season.UserRating());
+            SetProperty("#Trakt.Season.Watched", season.IsWatched(show));
+            SetProperty("#Trakt.Season.Plays", season.Plays(show));
+            SetProperty("#Trakt.Season.InCollection", season.IsCollected(show));
+            SetProperty("#Trakt.Season.InWatchList", season.IsWatchlisted(show));
+            SetProperty("#Trakt.Season.Rating", season.UserRating());
             SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
             SetProperty("#Trakt.Season.Ratings.Votes", season.Votes);
             SetProperty("#Trakt.Season.Ratings.Icon", (season.Rating >= 6) ? "love" : "hate");
@@ -1195,6 +1203,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Status", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AiredEpisodes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Plays", string.Empty);
@@ -1237,6 +1246,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.TranslatedStatus", (show.Status ?? "").Replace(" " ,"").Translate());
             SetProperty("#Trakt.Show.Genres", TraktGenres.Translate(show.Genres));
             SetProperty("#Trakt.Show.InWatchList", show.IsWatchlisted());
+            SetProperty("#Trakt.Show.InCollection", show.IsCollected());
             SetProperty("#Trakt.Show.Watched", show.IsWatched());
             SetProperty("#Trakt.Show.AiredEpisodes", show.AiredEpisodes);
             SetProperty("#Trakt.Show.Plays", show.Plays());
@@ -2379,34 +2389,37 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
-                    //TODO
-                    //GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(new TraktSyncShowRatedEx
-                    //{
-                    //    Ids = new TraktShowId { TvdbId = tvdbid.ToNullableInt32() },
-                    //    Title = title,
-                    //    Year = year.ToNullableInt32(),
-                    //    Seasons = new List<TraktSyncShowRatedEx.Season>()
-                    //                        .Add(new TraktSyncShowRatedEx.Season
-                    //                        {
-                    //                            Number = season.ToInt(),
-                    //                            Episodes = new List<TraktSyncShowRatedEx.Season.Episode>()
-                    //                                .Add( new TraktSyncShowRatedEx.Season.Episode
-                    //                                {
-                    //                                    Number = episode.ToInt(),
-                    //                                    RatedAt = DateTime.UtcNow.ToISO8601()
-                    //                                })
-                    //                        })
-                    //});
+                    GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(new TraktSyncShowRatedEx
+                    {
+                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32() },
+                        Title = title,
+                        Year = year.ToNullableInt32(),
+                        Seasons = new List<TraktSyncShowRatedEx.Season>
+                                      {
+                                          new TraktSyncShowRatedEx.Season
+                                              {
+                                                Number = season.ToInt(),
+                                                Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
+                                                               {
+                                                                    new TraktSyncShowRatedEx.Season.Episode
+                                                                    {
+                                                                        Number = episode.ToInt(),
+                                                                        RatedAt = DateTime.UtcNow.ToISO8601()
+                                                                    }
+                                                               }
+                                            }
+                                    }
+                    });
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
                     TraktLogger.Info("Displaying Shouts for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
-                    //TODOTraktHelper.ShowEpisodeShouts(tvdbid, title, season, episode, isWatched, fanart);
+                    TraktHelper.ShowEpisodeShouts(title, tvdbid, season, episode, isWatched, fanart);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding tv episode to Watchlist. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
-                    //TODOTraktHelper.AddEpisodeToWatchList(title, season.ToInt(), episode.ToInt(), tvdbid.ToNullableInt32(), null, null, null);
+                    TraktHelper.AddEpisodeToWatchList(title, season.ToInt(), episode.ToInt(), tvdbid.ToNullableInt32(), null, null, null);
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):
