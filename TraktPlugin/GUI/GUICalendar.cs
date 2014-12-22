@@ -896,7 +896,7 @@ namespace TraktPlugin.GUI
                 // go through underlying episodes
                 // and convert to localised date
                 var episodesInDay = day.Value;
-                foreach (var calendarItem in episodesInDay)
+                foreach (var calendarItem in episodesInDay.OrderBy(e => e.AirsAt.FromISO8601()))
                 {
                     string localDate = calendarItem.AirsAt.FromISO8601().ToLocalTime().ToString("yyyy-MM-dd");
 
@@ -909,7 +909,7 @@ namespace TraktPlugin.GUI
 
                     // add new item to day / sort by air time
                     currentItemsInDay.Add(calendarItem);
-                    result[localDate] = currentItemsInDay.OrderBy(e => e.AirsAt.FromISO8601()).ToList();
+                    result[localDate] = currentItemsInDay;
                 }
             }
 

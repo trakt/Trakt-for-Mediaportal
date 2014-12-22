@@ -265,42 +265,42 @@ namespace TraktPlugin.GUI
                     {
                         var listItem = new TraktListItem();
                         listItem.Type = item.Type;
-
+                        
                         switch (item.Type)
                         {
                             case "movie":
                                 if (itemsToAdd.Movies == null)
                                     itemsToAdd.Movies = new List<TraktMovie>();
 
-                                itemsToAdd.Movies.Add(item.Movie);
+                                itemsToAdd.Movies.Add(new TraktMovie { Ids = item.Movie.Ids });
                                 break;
 
                             case "show":
                                 if (itemsToAdd.Shows == null)
                                     itemsToAdd.Shows = new List<TraktShow>();
 
-                                itemsToAdd.Shows.Add(item.Show);
+                                itemsToAdd.Shows.Add(new TraktShow { Ids = item.Show.Ids });
                                 break;
 
                             case "season":
                                 if (itemsToAdd.Seasons == null)
                                     itemsToAdd.Seasons = new List<TraktSeason>();
 
-                                itemsToAdd.Seasons.Add(item.Season);
+                                itemsToAdd.Seasons.Add(new TraktSeason { Ids = item.Season.Ids });
                                 break;
 
                             case "episode":
                                 if (itemsToAdd.Episodes == null)
                                     itemsToAdd.Episodes = new List<TraktEpisode>();
-                            
-                                itemsToAdd.Episodes.Add(item.Episode);
+
+                                itemsToAdd.Episodes.Add(new TraktEpisode { Ids = item.Episode.Ids });
                                 break;
 
                             case "person":
                                 if (itemsToAdd.People == null)
                                     itemsToAdd.People = new List<TraktPerson>();
 
-                                itemsToAdd.People.Add(item.Person);
+                                itemsToAdd.People.Add(new TraktPerson { Ids = item.Person.Ids });
                                 break;
                         }
                     }

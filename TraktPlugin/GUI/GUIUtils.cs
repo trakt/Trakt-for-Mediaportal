@@ -479,7 +479,7 @@ namespace TraktPlugin.GUI
                 var item = rateObject as TraktSyncEpisodeRated;
                 currentRating = ratingDlg.Rated;
                 item.Rating = (int)currentRating;
-                Thread rateThread = new Thread(delegate(object obj)
+                var rateThread = new Thread((obj) =>
                 {
                     if ((obj as TraktSyncEpisodeRated).Rating > 0)
                     {
@@ -503,7 +503,7 @@ namespace TraktPlugin.GUI
                 var item = rateObject as TraktSyncShowRatedEx;
                 currentRating = ratingDlg.Rated;
                 item.Seasons[0].Episodes[0].Rating = (int)currentRating;
-                Thread rateThread = new Thread(delegate(object obj)
+                var rateThread = new Thread((obj) =>
                 {
                     if ((obj as TraktSyncShowRatedEx).Seasons[0].Episodes[0].Rating > 0)
                     {
@@ -526,7 +526,7 @@ namespace TraktPlugin.GUI
                 var item = rateObject as TraktSyncShowRated;
                 currentRating = ratingDlg.Rated;
                 item.Rating = (int)currentRating;
-                Thread rateThread = new Thread(delegate(object obj)
+                var rateThread = new Thread((obj) =>
                 {
                     if ((obj as TraktSyncShowRated).Rating > 0)
                     {
@@ -549,7 +549,7 @@ namespace TraktPlugin.GUI
                 var item = rateObject as TraktSyncMovieRated;
                 currentRating = ratingDlg.Rated;
                 item.Rating = (int)currentRating;
-                Thread rateThread = new Thread(delegate(object obj)
+                var rateThread = new Thread((obj) =>
                 {
                     if ((obj as TraktSyncMovieRated).Rating > 0)
                     {

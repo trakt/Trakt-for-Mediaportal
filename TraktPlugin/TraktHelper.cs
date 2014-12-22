@@ -544,7 +544,7 @@ namespace TraktPlugin
                         {
                             new TraktEpisode
                             {
-                                Ids = new TraktEpisodeId { Trakt = episode.Ids.Trakt }
+                                Ids = episode.Ids
                             }
                         }
                     };

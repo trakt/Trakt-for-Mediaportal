@@ -1255,14 +1255,6 @@ namespace TraktPlugin
 
         #region Clear Cache
 
-        internal static void ClearWatchlistMoviesCache()
-        {
-            lock (syncLists)
-            {
-                _WatchListMovies = null;
-            }
-        }
-
         internal static void ClearRecommendationsCache()
         {
             lock (syncLists)
@@ -1287,7 +1279,10 @@ namespace TraktPlugin
 
                 // clear selected list
                 var list = _CustomLists.FirstOrDefault(t => t.Key.Name == listName);
-                _CustomLists.Remove(list.Key);
+                if (list.Key != null)
+                {
+                    _CustomLists.Remove(list.Key);
+                }
             }
         }
 
@@ -1307,6 +1302,124 @@ namespace TraktPlugin
 
             _WatchedEpisodes = null;
             _WatchedMovies = null;
+        }
+
+        #endregion
+
+        #region Add To Cache
+
+        #region Movies
+
+        internal static void AddMovieToWatchedHistory(TraktMovie movie)
+        {
+            var watchedMovies = _WatchedMovies.ToList();
+
+            watchedMovies.Add(new TraktMovieWatched
+            {
+                LastWatchedAt = DateTime.UtcNow.ToISO8601(),
+                Movie = new TraktMovie
+                {
+                    Ids = movie.Ids,
+                    Title = movie.Title,
+                    Year = movie.Year
+                },
+                Plays = 1
+            });
+
+            _WatchedMovies = watchedMovies;
+        }
+
+        internal static void AddMovieToWatchlist(TraktMovie movie)
+        {
+            var watchlistMovies = _WatchListMovies.ToList();
+
+            watchlistMovies.Add(new TraktMovieWatchList
+            {
+                ListedAt = DateTime.UtcNow.ToISO8601(),
+                Movie = new TraktMovieSummary
+                {
+                    Ids = movie.Ids,
+                    Title = movie.Title,
+                    Year = movie.Year
+                }
+            });
+
+            _WatchListMovies = watchlistMovies;
+        }
+
+        internal static void AddMovieToCollection(TraktMovie movie)
+        {
+            var collectedMovies = _CollectedMovies.ToList();
+
+            collectedMovies.Add(new TraktMovieCollected
+            {
+                CollectedAt = DateTime.UtcNow.ToISO8601(),
+                Movie = new TraktMovieSummary
+                {
+                    Ids = movie.Ids,
+                    Title = movie.Title,
+                    Year = movie.Year
+                }
+            });
+
+            _CollectedMovies = collectedMovies;
+        }
+
+        internal static void AddMovieToRatings(TraktMovie movie, int rating)
+        {
+            var ratedMovies = _RatedMovies.ToList();
+
+            ratedMovies.Add(new TraktMovieRated
+            {
+                RatedAt = DateTime.UtcNow.ToISO8601(),
+                Rating = rating,
+                Movie = new TraktMovieSummary
+                {
+                    Ids = movie.Ids,
+                    Title = movie.Title,
+                    Year = movie.Year
+                }
+            });
+
+            _RatedMovies = ratedMovies;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Remove From Cache
+
+        internal static void RemoveMovieFromWatchedHistory(TraktMovie movie)
+        {
+            var watchedMovies = _WatchedMovies.ToList();
+            watchedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+
+            _WatchedMovies = watchedMovies;
+        }
+
+        internal static void RemoveMovieFromWatchlist(TraktMovie movie)
+        {
+            var watchlistMovies = _WatchListMovies.ToList();
+            watchlistMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+
+            _WatchListMovies = watchlistMovies;
+        }
+
+        internal static void RemoveMovieFromCollection(TraktMovie movie)
+        {
+            var collectedMovies = _CollectedMovies.ToList();
+            collectedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+
+            _CollectedMovies = collectedMovies;
+        }
+
+        internal static void RemoveMovieFromRatings(TraktMovie movie)
+        {
+            var ratedMovies = _RatedMovies.ToList();
+            ratedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+
+            _RatedMovies = ratedMovies;
         }
 
         #endregion

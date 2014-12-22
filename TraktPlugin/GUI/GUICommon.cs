@@ -376,7 +376,7 @@ namespace TraktPlugin.GUI
 
         #region Rate Movie
 
-        internal static bool RateMovie(TraktMovie movie)
+        internal static bool RateMovie(TraktMovieSummary movie)
         {
             var rateObject = new TraktSyncMovieRated
             {
@@ -393,71 +393,46 @@ namespace TraktPlugin.GUI
 
             int? prevRating = movie.UserRating();
             int newRating = 0;
-            
-            GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
+
+            newRating = GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
             // update skin properties to reflect changes
-            // This is not really needed but saves waiting for response
-            // from server to calculate fields...we can do it ourselves
+            if (prevRating == newRating)
+                return false;
 
-            if (prevRating != newRating)
+            if (prevRating == 0)
             {
-                // TODO
-                //movie.RatingAdvanced = newRating;
-
-                //// if not rated previously bump up the votes
-                //if (prevRating == 0)
-                //{
-                //    movie.Ratings.Votes++;
-                //    if (movie.RatingAdvanced > 5)
-                //    {
-                //        movie.Rating = "love";
-                //        movie.Ratings.LovedCount++;
-                //    }
-                //    else
-                //    {
-                //        movie.Rating = "hate";
-                //        movie.Ratings.HatedCount++;
-                //    }
-                //}
-
-                //if (prevRating != 0 && prevRating > 5 && newRating <= 5)
-                //{
-                //    movie.Rating = "hate";
-                //    movie.Ratings.LovedCount--;
-                //    movie.Ratings.HatedCount++;
-                //}
-
-                //if (prevRating != 0 && prevRating <= 5 && newRating > 5)
-                //{
-                //    movie.Rating = "love";
-                //    movie.Ratings.LovedCount++;
-                //    movie.Ratings.HatedCount--;
-                //}
-
-                //if (newRating == 0)
-                //{
-                //    if (prevRating <= 5) movie.Ratings.HatedCount++;
-                //    movie.Ratings.Votes--;
-                //    movie.Rating = "false";
-                //}
-
-                //// Could be in-accurate, best guess
-                //if (prevRating == 0)
-                //{
-                //    movie.Ratings.Percentage = (int)Math.Round(((movie.Ratings.Percentage * (movie.Ratings.Votes - 1)) + (10 * newRating)) / (float)movie.Ratings.Votes);
-                //}
-                //else
-                //{
-                //    movie.Ratings.Percentage = (int)Math.Round(((movie.Ratings.Percentage * (movie.Ratings.Votes)) + (10 * newRating) - (10 * prevRating)) / (float)movie.Ratings.Votes);
-                //}
-
-                return true;
+                // add to ratings
+                TraktCache.AddMovieToRatings(movie, newRating);
+                movie.Votes++;
+            }
+            else if (newRating == 0)
+            {
+                // remove from ratings
+                TraktCache.RemoveMovieFromRatings(movie);
+                movie.Votes--;
+            }
+            else
+            {
+                // rating changed, remove then add
+                TraktCache.RemoveMovieFromRatings(movie);
+                TraktCache.AddMovieToRatings(movie, newRating);
             }
 
-            return false;
+            // update ratings until next online update
+            // if we have the ratings distribution we could calculate correctly
+            if (movie.Votes == 0)
+            {
+                movie.Rating = 0;
+            }
+            else if (movie.Votes == 1 && newRating > 0)
+            {
+                movie.Rating = newRating;
+            }
+
+            return true;
         }
 
         #endregion
@@ -979,7 +954,7 @@ namespace TraktPlugin.GUI
         {
             if (stats == null) return;
 
-            #region Friends Statistics
+            #region Network Statistics
             if (stats.Network != null)
             {
                 SetProperty("#Trakt.Statistics.Friends", stats.Network.Friends);
@@ -2128,7 +2103,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Related):
                     TraktLogger.Info("Displaying Related Movies for. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
-                    TraktHelper.ShowRelatedMovies(imdbid, title, year);
+                    TraktHelper.ShowRelatedMovies(title, year, imdbid);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):
@@ -2185,7 +2160,7 @@ namespace TraktPlugin.GUI
         }
         public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, SearchPeople people, bool showAll)
         {
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
@@ -2273,7 +2248,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Related):
                     TraktLogger.Info("Displaying Related shows for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
-                    TraktHelper.ShowRelatedShows(tvdbid, title);
+                    TraktHelper.ShowRelatedShows(title, tvdbid);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):
@@ -2322,6 +2297,14 @@ namespace TraktPlugin.GUI
         }
         #endregion
 
+        #region Seasons
+        //TODO: Add support for Season related items e.g. Rate,List,Watchlist...
+        public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
+        {
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, people, showAll);
+        }
+        #endregion
+
         #region Episodes
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string fanart)
         {
@@ -2336,6 +2319,10 @@ namespace TraktPlugin.GUI
             return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, false, fanart, people, showAll);
         }
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
+        {
+            return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, null, isWatched, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string episodetvdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -2397,7 +2384,18 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)TraktMenuItems.Rate):
-                    TraktLogger.Info("Displaying rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
+                    TraktLogger.Info("Displaying rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show ID = '{4}', Episode ID = '{5}'", title, year.ToLogString(), season, episode, tvdbid.ToLogString(), episodetvdbid.ToLogString());
+                    //GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(new TraktSyncEpisodeRated
+                    //    {
+                    //        Ids = new TraktEpisodeId
+                    //        {
+                    //            Tvdb = episodetvdbid.ToNullableInt32()
+                    //        },
+                    //        RatedAt = DateTime.UtcNow.ToISO8601(),
+                    //        Season = season.ToInt(),
+                    //        Number = episode.ToInt()
+                    //    });
+                    
                     GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(new TraktSyncShowRatedEx
                     {
                         Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32() },
@@ -2432,8 +2430,11 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):
-                    TraktLogger.Info("Adding tv episode to Custom List. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
-                    //TODOTraktHelper.AddRemoveEpisodeInUserList(title, year, season, episode, tvdbid, false);
+                    TraktLogger.Info("Adding tv episode to Custom List. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Episode ID = '{4}'", title, year.ToLogString(), season, episode, episodetvdbid.ToLogString());
+                    if (string.IsNullOrEmpty(episodetvdbid))
+                    {
+                        TraktHelper.AddRemoveEpisodeInUserList(new TraktEpisode { Ids = new TraktEpisodeId { Tvdb = episodetvdbid.ToNullableInt32() } }, false);
+                    }
                     break;
 
                 case ((int)TraktMenuItems.SearchBy):
