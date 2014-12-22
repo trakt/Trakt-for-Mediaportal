@@ -343,7 +343,7 @@
       <description>Runtime</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Episode.Runtime mins</label>
+      <label>#Trakt.Episode.Runtime #Trakt.Translation.Minutes.Label</label>
       <posX>768</posX>
       <posY>315</posY>
       <width>300</width>
@@ -381,7 +381,7 @@
       <id>0</id>
       <posX>565</posX>
       <posY>391</posY>
-      <visible>!string.equals(#Trakt.Show.AirTime,)+[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow]</visible>
+      <visible>!string.equals(#Trakt.Episode.FirstAiredLocalizedTime,)+[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -389,11 +389,11 @@
       <description>Airs</description>
       <id>0</id>
       <type>fadelabel</type>
-      <label>#Trakt.Show.AirTime</label>
+      <label>#Trakt.Episode.FirstAiredLocalizedTime</label>
       <posX>768</posX>
       <posY>391</posY>
       <width>300</width>
-      <visible>!string.equals(#Trakt.Show.AirTime,)+[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow]</visible>
+      <visible>!string.equals(#Trakt.Episode.FirstAiredLocalizedTime,)+[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

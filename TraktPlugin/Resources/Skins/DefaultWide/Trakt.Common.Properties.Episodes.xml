@@ -109,28 +109,16 @@
       <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>
     </control>
     <control>
-      <description>Series Airs</description>
+      <description>Episode Airs</description>
       <type>label</type>
       <id>1</id>
       <posX>729</posX>
       <posY>294</posY>
       <width>280</width>
-      <label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
+      <label>#Trakt.Episode.FirstAiredLocalizedDayOfWeek #Trakt.Episode.FirstAiredLocalizedTime</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)+string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
-    </control>
-		<control>
-      <description>Series Airs</description>
-      <type>label</type>
-      <id>1</id>
-      <posX>729</posX>
-      <posY>294</posY>
-      <width>280</width>
-      <label>#Trakt.Episode.FirstAiredLocalizedDayOfWeek #Trakt.Show.AirTimeLocalized</label>
-      <font>font12</font>
-      <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAiredLocalizedTime,)</visible>
     </control>
     <control>
       <description>Series Network txt</description>
@@ -197,7 +185,7 @@
       <posX>729</posX>
       <posY>426</posY>
       <width>280</width>
-      <label>#Trakt.Show.Runtime mins</label>
+      <label>#Trakt.Show.Runtime #Trakt.Translation.Minutes.Label</label>
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>

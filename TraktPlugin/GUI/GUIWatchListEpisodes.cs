@@ -371,7 +371,7 @@ namespace TraktPlugin.GUI
 
                 var item = new GUIEpisodeListItem(watchlistItem.ToString(), (int)TraktGUIWindows.WatchedListEpisodes);
 
-                item.Label2 = watchlistItem.Episode.FirstAired.FromISO8601().ToShortDateString();
+                item.Label2 = watchlistItem.Episode.FirstAired == null ? " " : watchlistItem.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString();
                 item.TVTag = watchlistItem;
                 item.Episode = watchlistItem.Episode;
                 item.Show = watchlistItem.Show;

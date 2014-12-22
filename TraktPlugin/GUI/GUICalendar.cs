@@ -739,19 +739,22 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return GetCalendar();
+                var calendar = GetCalendar();
+
+                // convert the days (dictionary 'key') of the result to a localised day
+                return ConvertDaysInCalendarToLocalisedDays(calendar);
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    var calendar = result as Dictionary<string, IEnumerable<TraktCalendar>>;
+                    var calendar = result as Dictionary<string, List<TraktCalendar>>;
                     SendCalendarToFacade(calendar);
                 }
             }, Translation.GettingCalendar, true);
         }
 
-        private void SendCalendarToFacade(Dictionary<string, IEnumerable<TraktCalendar>> calendar)
+        private void SendCalendarToFacade(Dictionary<string, List<TraktCalendar>> calendar)
         {
             // check if we got a bad response
             if (calendar.Count() < PreviousCalendarDayCount)
@@ -875,6 +878,42 @@ namespace TraktPlugin.GUI
 
             // Download episode images Async and set to facade
             GUIEpisodeListItem.GetImages(showImages);
+        }
+
+        /// <summary>
+        /// Converts each day in the calendar dictionary key to a localised day
+        /// Some underlying episodes could be from multiple days as they span a UTC day not a local day
+        /// </summary>
+        private Dictionary<string, List<TraktCalendar>> ConvertDaysInCalendarToLocalisedDays(Dictionary<string, IEnumerable<TraktCalendar>> calendar)
+        {
+            var result = new Dictionary<string, List<TraktCalendar>>();
+
+            if (calendar == null)
+                return result;
+
+            foreach (var day in calendar)
+            {
+                // go through underlying episodes
+                // and convert to localised date
+                var episodesInDay = day.Value;
+                foreach (var calendarItem in episodesInDay)
+                {
+                    string localDate = calendarItem.AirsAt.FromISO8601().ToLocalTime().ToString("yyyy-MM-dd");
+
+                    // add new item and/or add to existing day in calendar
+                    if (!result.ContainsKey(localDate))
+                        result.Add(localDate, new List<TraktCalendar>());
+
+                    // get current episodes in day
+                    var currentItemsInDay = result[localDate];
+
+                    // add new item to day / sort by air time
+                    currentItemsInDay.Add(calendarItem);
+                    result[localDate] = currentItemsInDay.OrderBy(e => e.AirsAt.FromISO8601()).ToList();
+                }
+            }
+
+            return result;
         }
 
         private string GetDayHeader(DateTime dateTime)

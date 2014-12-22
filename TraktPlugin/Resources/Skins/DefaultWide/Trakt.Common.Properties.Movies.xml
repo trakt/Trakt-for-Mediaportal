@@ -186,7 +186,7 @@
       <posX>729</posX>
       <posY>426</posY>
       <width>280</width>
-      <label>#Trakt.Movie.Runtime mins</label>
+      <label>#Trakt.Movie.Runtime #Trakt.Translation.Minutes.Label</label>
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>

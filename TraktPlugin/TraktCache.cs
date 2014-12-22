@@ -792,7 +792,7 @@ namespace TraktPlugin
                     _WatchListEpisodes = onlineItems;
 
                     // save to local file cache
-                    SaveFileCache(ShowsWatchlistedFile, _WatchListEpisodes.ToJSON());
+                    SaveFileCache(EpisodesWatchlistedFile, _WatchListEpisodes.ToJSON());
 
                     // save new activity time for next time
                     TraktSettings.LastSyncActivities.Episodes.Watchlist = lastSyncActivities.Episodes.Watchlist;

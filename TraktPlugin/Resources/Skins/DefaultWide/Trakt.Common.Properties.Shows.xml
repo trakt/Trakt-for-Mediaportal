@@ -101,23 +101,23 @@
       <id>1</id>
       <posX>729</posX>
       <posY>275</posY>
-      <label>#Trakt.Translation.AirTime.Label</label>
+      <label>#Trakt.Translation.FirstAired.Label</label>
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.FirstAiredLocalized,)</visible>
     </control>
     <control>
-      <description>Airs</description>
+      <description>FirstAired</description>
       <type>label</type>
       <id>1</id>
       <posX>729</posX>
       <posY>294</posY>
       <width>320</width>
-      <label>#(iif(eq(#Trakt.Show.AirDay,'N/A'),'#Trakt.Show.AirTime','#Trakt.Show.AirDay #Trakt.Show.AirTime')) #(iif(eq(#Trakt.Show.TranslatedStatus,'N/A'),'','(#Trakt.Show.TranslatedStatus)'))</label>
+      <label>#Trakt.Show.FirstAiredLocalized (#Trakt.Show.TranslatedStatus)</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.FirstAiredLocalized,)</visible>
     </control>
     <control>
       <description>Show Network txt</description>
@@ -184,7 +184,7 @@
       <posX>729</posX>
       <posY>426</posY>
       <width>280</width>
-      <label>#Trakt.Show.Runtime mins</label>
+      <label>#Trakt.Show.Runtime #Trakt.Translation.Minutes.Label</label>
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>

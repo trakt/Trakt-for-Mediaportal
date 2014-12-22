@@ -1188,11 +1188,14 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.TmdbId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.TvRageId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Language", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AirDay", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirDayLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AirTime", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Show.AirTimezone", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AirTimeLocalized", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirTimezone", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.AirTimezoneWindows", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
@@ -1226,18 +1229,21 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.TmdbId", show.Ids.Tmdb);
             SetProperty("#Trakt.Show.TvRageId", show.Ids.TvRage);
             SetProperty("#Trakt.Show.Title", show.Title.RemapHighOrderChars());
+            SetProperty("#Trakt.Show.Language", Translation.GetLanguageFromISOCode(show.Language));
             SetProperty("#Trakt.Show.Url", string.Format("http://trakt.tv/shows/{0}", show.Ids.Slug));
             if (show.Airs != null)
             {
-                SetProperty("#Trakt.Show.AirDay", show.Airs.Day);
-                SetProperty("#Trakt.Show.AirDayLocalized", show.Airs.Day); //TODO
-                SetProperty("#Trakt.Show.AirTime", show.Airs.Time);
+                SetProperty("#Trakt.Show.AirDay", show.FirstAired.FromISO8601().ToLocalisedDayOfWeek());
+                SetProperty("#Trakt.Show.AirDayLocalized", show.FirstAired.FromISO8601().ToLocalTime().ToLocalisedDayOfWeek());
+                SetProperty("#Trakt.Show.AirTime", show.FirstAired.FromISO8601().ToShortTimeString());
+                SetProperty("#Trakt.Show.AirTimeLocalized", show.FirstAired.FromISO8601().ToLocalTime().ToShortTimeString());
                 SetProperty("#Trakt.Show.AirTimezone", show.Airs.Timezone);
-                SetProperty("#Trakt.Show.AirTimeLocalized", show.Airs.Time); //TODO
+                SetProperty("#Trakt.Show.AirTimezoneWindows", show.Airs.Timezone.OlsenToWindowsTimezone());
             }
             SetProperty("#Trakt.Show.Certification", show.Certification);
             SetProperty("#Trakt.Show.Country", show.Country.ToCountryName());
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromISO8601().ToShortDateString());
+            SetProperty("#Trakt.Show.FirstAiredLocalized", show.FirstAired.FromISO8601().ToLocalTime().ToShortDateString());
             SetProperty("#Trakt.Show.Network", show.Network);
             SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Runtime", show.Runtime);
@@ -1274,6 +1280,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalizedTime", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Title", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Overview", string.Empty);
@@ -1295,17 +1302,19 @@ namespace TraktPlugin.GUI
         {
             if (episode == null) return;
 
-            SetProperty("#Trakt.Episode.Number", episode.Number);
-            SetProperty("#Trakt.Episode.Season", episode.Season);
             SetProperty("#Trakt.Episode.Id", episode.Ids.Trakt);
             SetProperty("#Trakt.Episode.TvdbId", episode.Ids.Tvdb);
             SetProperty("#Trakt.Episode.ImdbId", episode.Ids.Imdb);
             SetProperty("#Trakt.Episode.TmdbId", episode.Ids.Imdb);
+            SetProperty("#Trakt.Episode.Number", episode.Number);
+            SetProperty("#Trakt.Episode.Season", episode.Season);
             if (episode.FirstAired != null)
             {
+                // FirsAired is converted to UTC from original countrys timezaone on trakt
                 SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromISO8601().ToShortDateString());
-                SetProperty("#Trakt.Episode.FirstAiredLocalized", episode.FirstAired.FromISO8601().ToShortDateString()); //TODO
-                SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", episode.FirstAired.FromISO8601().DayOfWeek.ToString()); //TODO
+                SetProperty("#Trakt.Episode.FirstAiredLocalized", episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString());
+                SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", episode.FirstAired.FromISO8601().ToLocalTime().ToLocalisedDayOfWeek());
+                SetProperty("#Trakt.Episode.FirstAiredLocalizedTime", episode.FirstAired.FromISO8601().ToLocalTime().ToShortTimeString());
             }
             SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Number.ToString()) : episode.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Episode.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}/episodes/{2}", show.Ids.Slug, episode.Season, episode.Number));

@@ -426,7 +426,7 @@ namespace TraktPlugin.GUI
 
                 var item = new GUIEpisodeListItem(itemLabel, (int)TraktGUIWindows.SeasonEpisodes);
 
-                item.Label2 = episode.FirstAired == null ? " " : episode.FirstAired.FromISO8601().ToShortDateString();
+                item.Label2 = episode.FirstAired == null ? " " : episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString();
                 item.TVTag = episode;
                 item.Show = Show;
                 item.Episode = episode;

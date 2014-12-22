@@ -60,12 +60,12 @@
 	<!--            :: LISTVIEW ::            -->
 
   <control Style="InfoLabel">
-	  <description>Released Label</description>
+	  <description>AirTime Label</description>
 		<type>label</type>
 		<label>#Trakt.Translation.AirTime.Label</label>
 		<posX>565</posX>
 		<posY>343</posY>
-		<visible>facadeview.list+!string.equals(#Trakt.Show.Released,)</visible>
+		<visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)</visible>
 		<animation effect="fade" time="250">WindowOpen</animation>
 		<animation effect="fade" time="250">WindowClose</animation>
 	</control>
@@ -74,10 +74,10 @@
 	  <description>Released</description>
 		<id>0</id>
 		<type>label</type>
-		<label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
+		<label>#Trakt.Show.AirDayLocalized #Trakt.Show.AirTimeLocalized</label>
 		<posX>798</posX>
 		<posY>343</posY>
-		<visible>facadeview.list+!string.equals(#Trakt.Show.Released,)</visible>
+		<visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)</visible>
 		<animation effect="fade" time="250">WindowOpen</animation>
 		<animation effect="fade" time="250">WindowClose</animation>
   </control> 
@@ -98,7 +98,7 @@
 	  <description>Runtime</description>
 		<id>0</id>
 		<type>label</type>
-		<label>#Trakt.Show.Runtime min</label>
+		<label>#Trakt.Show.Runtime #Trakt.Translation.Minutes.Label</label>
 		<posX>798</posX>
 		<posY>379</posY>
 		<visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)</visible>
@@ -233,13 +233,13 @@
 	</control>
 	
 	<control Style="InfoLabel">
-		<description>Release Date Label</description>
+		<description>AirTime Label</description>
 		<type>label</type>
 		<id>0</id>
 		<posX>118</posX>
 		<posY>445</posY>
 		<label>#Trakt.Translation.AirTime.Label</label>
-		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Released,)</visible>
+		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.AirDayLocalized,)</visible>
 		<animation effect="fade" time="250">WindowOpen</animation>
 		<animation effect="fade" time="250">WindowClose</animation>
 	</control>
@@ -248,10 +248,10 @@
 		<description>Release Date Value</description>
 		<type>label</type>
 		<id>0</id>
-		<label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
+		<label>#Trakt.Show.AirDayLocalized #Trakt.Show.AirTimeLocalized</label>
 		<posX>350</posX>
 		<posY>445</posY>
-		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Released,)</visible>
+		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.AirDayLocalized,)</visible>
 		<animation effect="fade" time="250">WindowOpen</animation>
 		<animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -274,7 +274,7 @@
 		<id>0</id>
 		<posX>350</posX>
 		<posY>481</posY>
-		<label>#Trakt.Show.Runtime min</label>
+		<label>#Trakt.Show.Runtime #Trakt.Translation.Minutes.Label</label>
 		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Runtime,)</visible>
 		<animation effect="fade" time="250">WindowOpen</animation>
 		<animation effect="fade" time="250">WindowClose</animation>

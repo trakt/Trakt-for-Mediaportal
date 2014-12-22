@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using TraktPlugin.Properties;
 
 namespace TraktPlugin.TraktAPI.Extensions
 {
@@ -65,6 +67,28 @@ namespace TraktPlugin.TraktAPI.Extensions
             }
 
             return new DateTime();
+        }
+
+        /// <summary>
+        /// Returns the corresponding Olsen timezone e.g. 'Atlantic/Canary' into a Windows timezone e.g. 'GMT Standard Time'
+        /// </summary>
+        public static string OlsenToWindowsTimezone(this string olsenTimezone)
+        {
+            if (_timezoneMappings == null)
+            {
+                _timezoneMappings = Resources.OlsenToWindows.FromJSONDictionary<Dictionary<string, string>>();
+            }
+
+            string windowsTimezone;
+            _timezoneMappings.TryGetValue(olsenTimezone, out windowsTimezone);
+
+            return windowsTimezone;
+        }
+        static Dictionary<string, string> _timezoneMappings = null;
+
+        public static string ToLocalisedDayOfWeek(this DateTime date)
+        {
+            return DateTimeFormatInfo.CurrentInfo.GetDayName(date.DayOfWeek);
         }
     }
 }

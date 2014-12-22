@@ -79,7 +79,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         }
 
         [DataMember(Name = "seasons")]
-        public SeasonActivities Season { get; set; }
+        public SeasonActivities Seasons { get; set; }
 
         [DataContract]
         public class SeasonActivities
@@ -89,6 +89,29 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
+        }
+
+        [DataMember(Name = "comments")]
+        public CommentActivities Comments { get; set; }
+
+        [DataContract]
+        public class CommentActivities
+        {
+            [DataMember(Name = "liked_at")]
+            public string LikedAt { get; set; }
+        }
+
+        [DataMember(Name = "lists")]
+        public ListActivities Lists { get; set; }
+
+        [DataContract]
+        public class ListActivities
+        {
+            [DataMember(Name = "liked_at")]
+            public string LikedAt { get; set; }
+
+            [DataMember(Name = "updated_at")]
+            public string UpdatedAt { get; set; }
         }
     }
 }

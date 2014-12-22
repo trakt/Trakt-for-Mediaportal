@@ -281,7 +281,7 @@
       <posX>729</posX>
       <posY>426</posY>
       <width>280</width>
-      <label>#Trakt.Movie.Runtime mins</label>
+      <label>#Trakt.Movie.Runtime #Trakt.Translation.Minutes.Label</label>
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>
@@ -406,7 +406,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
     </control>
     <control>
       <description>Airs</description>
@@ -415,10 +415,10 @@
       <posX>729</posX>
       <posY>294</posY>
       <width>280</width>
-      <label>#Trakt.Show.AirDay #Trakt.Show.AirTime</label>
+      <label>#Trakt.Show.AirDayLocalized #Trakt.Show.AirTimeLocalized</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDay,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
     </control>
     <control>
       <description>Show Network txt</description>
@@ -485,7 +485,7 @@
       <posX>729</posX>
       <posY>426</posY>
       <width>280</width>
-      <label>#Trakt.Show.Runtime mins</label>
+      <label>#Trakt.Show.Runtime #Trakt.Translation.Minutes.Label</label>
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>
