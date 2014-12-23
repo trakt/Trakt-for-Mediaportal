@@ -386,7 +386,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes.ToList());
 
-                    TraktLogger.Info("Found {0} local tv shows with watched episodes to add to trakt.tv watched history", syncWatchedShows.Shows.Count);
+                    TraktLogger.Info("Found {0} local tv shows with watched episodes to add to trakt.tv watched history", syncWatchedShows.Shows.Count);                    
 
                     showCount = syncWatchedShows.Shows.Count;
                     foreach (var show in syncWatchedShows.Shows)
@@ -397,6 +397,9 @@ namespace TraktPlugin.TraktHandlers
                         // only sync one show at a time regardless of batch size in settings
                         var pagedShows = new List<TraktSyncShowWatchedEx>();
                         pagedShows.Add(show);
+                
+                        // update local cache
+                        TraktCache.AddEpisodesToWatchHistory(show);
 
                         var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(new TraktSyncShowsWatchedEx { Shows = pagedShows });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
@@ -421,6 +424,9 @@ namespace TraktPlugin.TraktHandlers
                         // only sync one show at a time regardless of batch size in settings
                         var pagedShows = new List<TraktSyncShowCollectedEx>();
                         pagedShows.Add(show);
+
+                        // update local cache
+                        TraktCache.AddEpisodesToCollection(show);
 
                         var response = TraktAPI.TraktAPI.AddShowsToCollectonEx(new TraktSyncShowsCollectedEx { Shows = pagedShows });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
@@ -449,6 +455,9 @@ namespace TraktPlugin.TraktHandlers
                             // only sync one show at a time regardless of batch size in settings
                             var pagedShows = new List<TraktSyncShowRatedEx>();
                             pagedShows.Add(show);
+
+                            // update local cache
+                            TraktCache.AddEpisodesToRatings(show);
 
                             var response = TraktAPI.TraktAPI.AddShowsToRatingsEx(new TraktSyncShowsRatedEx { Shows = pagedShows });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
@@ -481,6 +490,9 @@ namespace TraktPlugin.TraktHandlers
 
                         if (syncRatedShows.Count > 0)
                         {
+                            // update local cache
+                            TraktCache.AddShowsToRatings(syncRatedShows);
+
                             int pageSize = TraktSettings.SyncBatchSize;
                             int pages = (int)Math.Ceiling((double)syncRatedShows.Count / pageSize);
                             for (int i = 0; i < pages; i++)
@@ -517,6 +529,9 @@ namespace TraktPlugin.TraktHandlers
                         // only sync one show at a time regardless of batch size in settings
                         var pagedShows = new List<TraktSyncShowEx>();
                         pagedShows.Add(show);
+
+                        // update local cache
+                        TraktCache.RemoveEpisodesFromCollection(show);
 
                         var response = TraktAPI.TraktAPI.RemoveShowsFromCollectonEx(new TraktSyncShowsEx { Shows = pagedShows });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
@@ -1704,6 +1719,30 @@ namespace TraktPlugin.TraktHandlers
                     }
                 };
 
+                // update local cache
+                TraktCache.AddEpisodeToRatings
+                    (
+                        new TraktShow
+                        {
+                            Ids = new TraktShowId
+                            {
+                                Tvdb = show[DBSeries.cID],
+                                Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                            }
+                        },
+                        new TraktEpisode
+                        {
+                            Ids = new TraktEpisodeId
+                            {
+                                Tvdb = episode[DBOnlineEpisode.cID],
+                                Imdb = episode[DBOnlineEpisode.cIMDBID].ToString().ToNullIfEmpty()
+                            },
+                            Number = episode[DBOnlineEpisode.cEpisodeIndex],
+                            Season = episode[DBOnlineEpisode.cSeasonIndex]
+                        },
+                        episode[DBOnlineEpisode.cMyRating]
+                    );
+
                 var response = TraktAPI.TraktAPI.AddEpisodeToRatingsEx(episodeRateData);
                 TraktLogger.LogTraktResponse(response);
             })
@@ -1738,6 +1777,9 @@ namespace TraktPlugin.TraktHandlers
                     Rating = show[DBOnlineSeries.cMyRating],
                     RatedAt = DateTime.UtcNow.ToISO8601()
                 };
+
+                // update local cache
+                TraktCache.AddShowToRatings(showRateData, showRateData.Rating);
 
                 var response = TraktAPI.TraktAPI.AddShowToRatings(showRateData);
                 TraktLogger.LogTraktResponse(response);
@@ -1807,6 +1849,9 @@ namespace TraktPlugin.TraktHandlers
                     Shows = new List<TraktSyncShowWatchedEx> { showEpisodes }
                 };
 
+                // update local cache
+                TraktCache.AddEpisodesToWatchHistory(showEpisodes);
+
                 var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(showSync);
                 TraktLogger.LogTraktResponse(response);
             })
@@ -1872,6 +1917,9 @@ namespace TraktPlugin.TraktHandlers
                 {
                     Shows = new List<TraktSyncShowEx> { showEpisodes }
                 };
+
+                // update local cache
+                TraktCache.RemoveEpisodesFromWatchHistory(showEpisodes);
 
                 var response = TraktAPI.TraktAPI.RemoveShowsFromWatchedHistoryEx(showSync);
                 TraktLogger.LogTraktResponse(response);
@@ -1939,6 +1987,29 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktLogger.Debug("Rating {0} as {1}/10", epToRate.ToString(), rating.ToString());
 
+                    // update local cache
+                    TraktCache.AddEpisodeToRatings
+                    (
+                        new TraktShow
+                        {
+                            Ids = new TraktShowId
+                            {
+                                Tvdb = show[DBSeries.cID],
+                                Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
+                            }
+                        },
+                        new TraktEpisode
+                        {
+                            Ids = new TraktEpisodeId
+                            {
+                                Tvdb = episode[DBOnlineEpisode.cID],
+                                Imdb = episode[DBOnlineEpisode.cIMDBID].ToString().ToNullIfEmpty()
+                            },
+                            Number = episode[DBOnlineEpisode.cEpisodeIndex],
+                            Season = episode[DBOnlineEpisode.cSeasonIndex]
+                        }, rating
+                    );
+
                     epToRate[DBOnlineEpisode.cMyRating] = rating;
                     if (epToRate[DBOnlineEpisode.cRatingCount] == 0)
                     {
@@ -1959,6 +2030,20 @@ namespace TraktPlugin.TraktHandlers
                     {
                         listItem.TVTag = epToRate;
                     }
+                }
+                else if(rating == 0)
+                {
+                    TraktCache.RemoveEpisodeFromRatings
+                    (
+                        new TraktEpisode
+                        {
+                            Ids = new TraktEpisodeId
+                            {
+                                Tvdb = episode[DBOnlineEpisode.cID],
+                                Imdb = episode[DBOnlineEpisode.cIMDBID].ToString().ToNullIfEmpty()
+                            }
+                        }
+                    );
                 }
             })
             {

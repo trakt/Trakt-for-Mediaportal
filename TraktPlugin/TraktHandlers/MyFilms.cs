@@ -280,6 +280,9 @@ namespace TraktPlugin.TraktHandlers
 
                     if (syncWatchedMovies.Count > 0)
                     {
+                        // update internal cache
+                        TraktCache.AddMoviesToWatchHistory(syncWatchedMovies);
+
                         int pageSize = TraktSettings.SyncBatchSize;
                         int pages = (int)Math.Ceiling((double)syncWatchedMovies.Count / pageSize);
                         for (int i = 0; i < pages; i++)
@@ -323,6 +326,9 @@ namespace TraktPlugin.TraktHandlers
 
                     if (syncCollectedMovies.Count > 0)
                     {
+                        // update internal cache
+                        TraktCache.AddMoviesToCollection(syncCollectedMovies);
+
                         int pageSize = TraktSettings.SyncBatchSize;
                         int pages = (int)Math.Ceiling((double)syncCollectedMovies.Count / pageSize);
                         for (int i = 0; i < pages; i++)
@@ -336,39 +342,6 @@ namespace TraktPlugin.TraktHandlers
                                                                         s.CollectedAt, s.MediaType ?? "<empty>", s.Resolution ?? "<empty>", s.AudioCodec ?? "<empty>", s.AudioChannels ?? "<empty>"));
 
                             var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
-                            TraktLogger.LogTraktResponse(response);
-                        }
-                    }
-                }
-                #endregion
-
-                #region Remove movies no longer in collection from trakt.tv
-                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1 && traktCollectedMovies != null)
-                {
-                    var syncUnCollectedMovies = new List<TraktMovie>();
-                    TraktLogger.Info("Finding movies to remove from trakt.tv collection");
-
-                    // workout what movies that are in trakt collection that are not in local collection
-                    syncUnCollectedMovies = (from tcm in traktCollectedMovies
-                                             where !collectedMovies.Exists(c => MovieMatch(c, tcm.Movie))
-                                             select new TraktMovie { Ids = tcm.Movie.Ids }).ToList();
-
-                    TraktLogger.Info("Removing {0} movies from trakt.tv collection", syncUnCollectedMovies.Count);
-
-                    if (syncUnCollectedMovies.Count > 0)
-                    {
-                        int pageSize = TraktSettings.SyncBatchSize;
-                        int pages = (int)Math.Ceiling((double)syncUnCollectedMovies.Count / pageSize);
-                        for (int i = 0; i < pages; i++)
-                        {
-                            TraktLogger.Info("Removing movies [{0}/{1}] from trakt.tv collection", i + 1, pages);
-
-                            var pagedMovies = syncUnCollectedMovies.Skip(i * pageSize).Take(pageSize).ToList();
-
-                            pagedMovies.ForEach(s => TraktLogger.Info("Removing movie from trakt.tv collection, movie no longer exists locally. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
-                                                                        s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>"));
-
-                            var response = TraktAPI.TraktAPI.RemoveMoviesFromCollecton(new TraktSyncMovies { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
                         }
                     }
@@ -396,6 +369,9 @@ namespace TraktPlugin.TraktHandlers
 
                     if (syncRatedMovies.Count > 0)
                     {
+                        // update local cache
+                        TraktCache.AddMoviesToRatings(syncRatedMovies);
+
                         int pageSize = TraktSettings.SyncBatchSize;
                         int pages = (int)Math.Ceiling((double)syncRatedMovies.Count / pageSize);
                         for (int i = 0; i < pages; i++)
@@ -432,6 +408,42 @@ namespace TraktPlugin.TraktHandlers
                             localMovie.RatingUser = trm.Rating;
                             localMovie.Username = TraktSettings.Username; 
                             localMovie.Commit();
+                        }
+                    }
+                }
+                #endregion
+
+                #region Remove movies no longer in collection from trakt.tv
+                if (TraktSettings.KeepTraktLibraryClean && TraktSettings.MoviePluginCount == 1 && traktCollectedMovies != null)
+                {
+                    var syncUnCollectedMovies = new List<TraktMovie>();
+                    TraktLogger.Info("Finding movies to remove from trakt.tv collection");
+
+                    // workout what movies that are in trakt collection that are not in local collection
+                    syncUnCollectedMovies = (from tcm in traktCollectedMovies
+                                             where !collectedMovies.Exists(c => MovieMatch(c, tcm.Movie))
+                                             select new TraktMovie { Ids = tcm.Movie.Ids }).ToList();
+
+                    TraktLogger.Info("Removing {0} movies from trakt.tv collection", syncUnCollectedMovies.Count);
+
+                    if (syncUnCollectedMovies.Count > 0)
+                    {
+                        // update local cache
+                        TraktCache.RemoveMoviesFromCollection(syncUnCollectedMovies);
+
+                        int pageSize = TraktSettings.SyncBatchSize;
+                        int pages = (int)Math.Ceiling((double)syncUnCollectedMovies.Count / pageSize);
+                        for (int i = 0; i < pages; i++)
+                        {
+                            TraktLogger.Info("Removing movies [{0}/{1}] from trakt.tv collection", i + 1, pages);
+
+                            var pagedMovies = syncUnCollectedMovies.Skip(i * pageSize).Take(pageSize).ToList();
+
+                            pagedMovies.ForEach(s => TraktLogger.Info("Removing movie from trakt.tv collection, movie no longer exists locally. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
+                                                                        s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>"));
+
+                            var response = TraktAPI.TraktAPI.RemoveMoviesFromCollecton(new TraktSyncMovies { Movies = pagedMovies });
+                            TraktLogger.LogTraktResponse(response);
                         }
                     }
                 }
@@ -736,6 +748,12 @@ namespace TraktPlugin.TraktHandlers
                     if (tScrobbleData.Progress < 80)
                         tScrobbleData.Progress = 100;
 
+                    // update local cache
+                    if (tScrobbleData.Progress > 80)
+                    {
+                        TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
+                    }
+
                     var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
                 })
@@ -781,6 +799,12 @@ namespace TraktPlugin.TraktHandlers
                     RatedAt = DateTime.UtcNow.ToISO8601()
                 };
 
+                // update local cache
+                if (rating > 0)
+                {
+                    TraktCache.AddMovieToRatings(rateMovie, rating);
+                }
+
                 var response = TraktAPI.TraktAPI.AddMovieToRatings(rateMovie);
 
                 TraktLogger.LogTraktResponse(response);
@@ -808,7 +832,7 @@ namespace TraktPlugin.TraktHandlers
 
             var toggleWatchedThread = new Thread((o) =>
             {
-                MFMovie tMovie = o as MFMovie;
+                var tMovie = o as MFMovie;
 
                 if (!watched)
                 {
@@ -818,6 +842,9 @@ namespace TraktPlugin.TraktHandlers
                         Title = tMovie.Title,
                         Year = tMovie.Year
                     };
+
+                    // update local cache
+                    TraktCache.RemoveMovieFromWatchHistory(traktMovie);
 
                     var response = TraktAPI.TraktAPI.RemoveMovieFromWatchedHistory(traktMovie);
                     TraktLogger.LogTraktResponse(response);
@@ -835,6 +862,9 @@ namespace TraktPlugin.TraktHandlers
                         Year = tMovie.Year,
                         WatchedAt = DateTime.UtcNow.ToISO8601()
                     };
+
+                    // update local cache
+                    TraktCache.AddMovieToWatchHistory(traktMovie);
 
                     var response = TraktAPI.TraktAPI.AddMovieToWatchedHistory(traktMovie);
                     TraktLogger.LogTraktResponse(response);
@@ -859,7 +889,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Debug("My Films import complete, initiating online sync");
 
             // sync again
-            Thread syncThread = new Thread(delegate()
+            var syncThread = new Thread(() =>
             {
                 while (SyncInProgress)
                 {
@@ -879,7 +909,7 @@ namespace TraktPlugin.TraktHandlers
       
         #endregion
 
-        #region Other Public Methods
+        #region Misc Public Methods
 
         public static bool FindMovie(string title, int year, string imdbid, ref int? movieid, ref string config)
         {
