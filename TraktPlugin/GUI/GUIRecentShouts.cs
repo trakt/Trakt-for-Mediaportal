@@ -289,7 +289,7 @@ namespace TraktPlugin.GUI
                     if (selectedActivity.Movie != null)
                         GUICommon.RateMovie(selectedActivity.Movie);
                     else if (selectedActivity.Episode != null)
-                        GUICommon.RateEpisode(selectedActivity.Episode);
+                        GUICommon.RateEpisode(selectedActivity.Show, selectedActivity.Episode);
                     else
                         GUICommon.RateShow(selectedActivity.Show);
                     break;

@@ -74,6 +74,9 @@ namespace TraktPlugin.TraktAPI.Extensions
         /// </summary>
         public static string OlsenToWindowsTimezone(this string olsenTimezone)
         {
+            if (olsenTimezone == null)
+                return null;
+
             if (_timezoneMappings == null)
             {
                 _timezoneMappings = Resources.OlsenToWindows.FromJSONDictionary<Dictionary<string, string>>();

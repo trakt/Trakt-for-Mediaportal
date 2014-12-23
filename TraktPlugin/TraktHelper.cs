@@ -159,6 +159,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.AddMovieToWatchlist(movie);
         }
 
         public static void RemoveMovieFromWatchList(TraktMovie movie, bool updateMovingPicturesFilters)
@@ -205,6 +207,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.RemoveMovieFromWatchlist(movie);
         }
 
         #endregion
@@ -248,6 +252,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(show);
+
+            TraktCache.AddShowToWatchlist(show);
         }
 
         public static void RemoveShowFromWatchList(TraktShow show)
@@ -287,6 +293,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(show);
+
+            TraktCache.RemoveShowFromWatchlist(show);
         }
 
         #endregion
@@ -361,6 +369,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(episode);
+
+            TraktCache.RemoveEpisodeFromWatchlist(episode);
         }
 
         #endregion
@@ -771,6 +781,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.AddMovieToWatchHistory(movie);
         }
 
         public static void RemoveMovieFromWatchHistory(TraktMovie movie)
@@ -798,6 +810,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.RemoveMovieFromWatchHistory(movie);
         }
 
         #endregion
@@ -906,6 +920,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.AddMovieToCollection(movie);
         }
 
         public static void RemoveMovieFromCollection(TraktMovie movie)
@@ -939,6 +955,8 @@ namespace TraktPlugin
             };
 
             syncThread.Start(movie);
+
+            TraktCache.RemoveMovieFromCollection(movie);
         }
 
         #endregion

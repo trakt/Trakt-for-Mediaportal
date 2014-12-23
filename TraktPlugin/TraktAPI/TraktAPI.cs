@@ -1126,7 +1126,7 @@ namespace TraktPlugin.TraktAPI
         {
             var episodes = new TraktSyncEpisodes
             {
-                Episodes = new List<TraktEpisode>() { episode }
+                Episodes = new List<TraktEpisode>() { new TraktEpisode { Ids = episode.Ids } }
             };
 
             return RemoveEpisodesFromRatings(episodes);
@@ -1178,7 +1178,7 @@ namespace TraktPlugin.TraktAPI
         {
             var shows = new TraktSyncShows
             {
-                Shows = new List<TraktShow>() { show }
+                Shows = new List<TraktShow>() { new TraktShow { Ids = show.Ids } }
             };
 
             return RemoveShowsFromRatings(shows);
@@ -1204,7 +1204,7 @@ namespace TraktPlugin.TraktAPI
         {
             var movies = new TraktSyncMovies
             {
-                Movies = new List<TraktMovie>() { movie }
+                Movies = new List<TraktMovie>() { new TraktMovie { Ids = movie.Ids } }
             };
 
             return RemoveMoviesFromRatings(movies);

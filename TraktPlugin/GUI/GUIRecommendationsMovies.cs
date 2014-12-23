@@ -429,14 +429,12 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedMovie, true);
-                    //TODOselectedMovie.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedMovie, true);
-                    //TODOselectedMovie.InWatchList = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
@@ -447,14 +445,12 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     TraktHelper.AddMovieToCollection(selectedMovie);
-                    //TODOselectedMovie.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromCollection(selectedMovie);
-                    //TODOselectedMovie.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;

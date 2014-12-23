@@ -483,23 +483,22 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    GUICommon.RateEpisode(calendarItem.Episode);
+                    GUICommon.RateEpisode(calendarItem.Show, calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     TraktHelper.AddEpisodeToWatchHistory(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.Watched = true;
+                    TraktCache.AddEpisodeToWatchHistory(calendarItem.Show, calendarItem.Episode);
                     Facade.SelectedListItem.IsPlayed = true;
-                    if (calendarItem.Episode.Plays(calendarItem.Show) == 0) //TODOcalendarItem.Episode.Plays = 1;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.Watched = false;
+                    TraktCache.RemoveEpisodeFromCollection(calendarItem.Show, calendarItem.Episode);
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
@@ -507,29 +506,26 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddShowToWatchList):
                     TraktHelper.AddShowToWatchList(calendarItem.Show);
-                    //TODOcalendarItem.Show.InWatchList = true;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.AddEpisodeToWatchList):
                     TraktHelper.AddEpisodeToWatchList(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.InWatchList = true;
+                    TraktCache.AddEpisodeToWatchlist(calendarItem.Show, calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveShowFromWatchList):
-                    TraktHelper.RemoveShowFromWatchList(calendarItem.Show);
-                    //TODOcalendarItem.Show.InWatchList = false;
+                    TraktHelper.RemoveShowFromWatchList(calendarItem.Show);                    
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
                     break;
 
                 case ((int)ContextMenuItem.RemoveEpisodeFromWatchList):
                     TraktHelper.RemoveEpisodeFromWatchList(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.InWatchList = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     GUIWatchListShows.ClearCache(TraktSettings.Username);
@@ -545,14 +541,14 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     TraktHelper.AddEpisodeToCollection(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.InCollection = true;
+                    TraktCache.AddEpisodeToCollection(calendarItem.Show, calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
-                    //TODOcalendarItem.Episode.InCollection = false;
+                    TraktCache.RemoveEpisodeFromCollection(calendarItem.Show, calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;

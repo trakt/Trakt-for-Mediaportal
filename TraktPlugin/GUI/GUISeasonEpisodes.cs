@@ -282,16 +282,15 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     TraktHelper.AddEpisodeToWatchHistory(selectedEpisode);
-                    //TODOselectedEpisode.Watched = true;
+                    TraktCache.AddEpisodeToWatchHistory(Show, selectedEpisode);
                     Facade.SelectedListItem.IsPlayed = true;
-                    if (selectedEpisode.Plays(Show) == 0) //TODOselectedEpisode.Plays = 1;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveEpisodeFromWatchHistory(selectedEpisode);
-                    //TODOselectedEpisode.Watched = false;
+                    TraktCache.RemoveEpisodeFromWatchHistory(Show, selectedEpisode);
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
@@ -299,34 +298,33 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     TraktHelper.AddEpisodeToCollection(selectedEpisode);
-                    //TODOselectedEpisode.InCollection = true;
+                    TraktCache.AddEpisodeToCollection(Show, selectedEpisode);
                     OnEpisodeSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveEpisodeFromCollection(selectedEpisode);
-                    //TODOselectedEpisode.InCollection = false;
+                    TraktCache.RemoveEpisodeFromCollection(Show, selectedEpisode);
                     OnEpisodeSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddEpisodeToWatchList(selectedEpisode);
-                    //TODOselectedEpisode.InWatchList = true;
+                    TraktCache.AddEpisodeToWatchlist(Show, selectedEpisode);
                     OnEpisodeSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveEpisodeFromWatchList(selectedEpisode);
-                    //TODOselectedEpisode.InWatchList = false;
                     OnEpisodeSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    GUICommon.RateEpisode(selectedEpisode);
+                    GUICommon.RateEpisode(Show, selectedEpisode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
                     break;

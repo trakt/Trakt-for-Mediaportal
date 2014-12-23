@@ -231,7 +231,6 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TrendingContextMenuItem.MarkAsWatched):
                     TraktHelper.AddMovieToWatchHistory(selectedTrendingItem.Movie);
-                    TraktCache.AddMovieToWatchedHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -240,7 +239,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveMovieFromWatchHistory(selectedTrendingItem.Movie);
-                    TraktCache.RemoveMovieFromWatchedHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -248,7 +246,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedTrendingItem.Movie, true);
-                    TraktCache.AddMovieToWatchlist(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies();
@@ -256,7 +253,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedTrendingItem.Movie, true);
-                    TraktCache.RemoveMovieFromWatchlist(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
@@ -267,7 +263,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.AddToLibrary):
                     TraktHelper.AddMovieToCollection(selectedTrendingItem.Movie);
-                    TraktCache.AddMovieToCollection(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies();
@@ -275,7 +270,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromCollection(selectedTrendingItem.Movie);
-                    TraktCache.RemoveMovieFromCollection(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;

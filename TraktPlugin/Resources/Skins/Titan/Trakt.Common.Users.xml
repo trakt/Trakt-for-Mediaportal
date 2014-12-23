@@ -11,8 +11,8 @@
       <keepaspectratio>yes</keepaspectratio>
       <zoom>yes</zoom>
       <texture>#selectedthumb</texture>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoLabel">
       <description>Username</description>
@@ -22,9 +22,9 @@
       <posX>566</posX>
       <posY>252</posY>
       <font>font14</font>
-			<width>490</width>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <width>490</width>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoLabel">
       <description>FullName label</description>
@@ -34,8 +34,8 @@
       <width>260</width>
       <posX>566</posX>
       <posY>308</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.FullName,N/A)+!string.equals(#Trakt.User.FullName,)</visible>
     </control>
     <control Style="InfoValueSmall">
@@ -46,8 +46,8 @@
       <width>250</width>
       <posX>838</posX>
       <posY>308</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.FullName,N/A)</visible>
     </control>
     <control Style="InfoLabel">
@@ -58,8 +58,8 @@
       <width>260</width>
       <posX>566</posX>
       <posY>346</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Gender,N/A)+!string.equals(#Trakt.User.Gender,)</visible>
     </control>
     <control Style="InfoValueSmall">
@@ -70,11 +70,11 @@
       <width>250</width>
       <posX>838</posX>
       <posY>346</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Gender,N/A)</visible>
     </control>
-     <control Style="InfoLabel">
+    <control Style="InfoLabel">
       <description>Location label</description>
       <type>label</type>
       <label>#Trakt.Translation.Location.Label</label>
@@ -82,8 +82,8 @@
       <width>260</width>
       <posX>566</posX>
       <posY>384</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Location,N/A)+!string.equals(#Trakt.User.Location,)</visible>
     </control>
     <control Style="InfoValueSmall">
@@ -94,8 +94,8 @@
       <width>250</width>
       <posX>838</posX>
       <posY>384</posY>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Location,N/A)+!string.equals(#Trakt.User.Location,)</visible>
     </control>
     <control Style="InfoLabel">
@@ -106,8 +106,8 @@
       <posX>566</posX>
       <posY>422</posY>
       <width>225</width>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Protected,)</visible>
     </control>
     <control Style="InfoValueSmall">
@@ -118,8 +118,8 @@
       <posX>838</posX>
       <posY>422</posY>
       <width>345</width>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>!string.equals(#Trakt.User.Protected,)</visible>
     </control>
     <control Style="InfoValueSmall">
@@ -131,19 +131,19 @@
       <width>108</width>
       <height>63</height>
       <texture>traktVIP.png</texture>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <visible>string.equals(#Trakt.User.VIP,true)</visible>
     </control>
     <control>
       <description>User About</description>
       <type>textboxscrollup</type>
       <id>0</id>
-		  <posX>568</posX>
-		  <posY>578</posY>
-		  <width>525</width>
-		  <height>480</height>
-		  <lineSpacing>0.92</lineSpacing>
+      <posX>568</posX>
+      <posY>578</posY>
+      <width>525</width>
+      <height>480</height>
+      <lineSpacing>0.92</lineSpacing>
       <label>#Trakt.User.About</label>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>

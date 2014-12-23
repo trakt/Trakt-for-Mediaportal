@@ -401,14 +401,12 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedShow);
-                    //TODOselectedShow.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedShow);
-                    //TODOselectedShow.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;

@@ -1302,6 +1302,10 @@ namespace TraktPlugin
 
             _WatchedEpisodes = null;
             _WatchedMovies = null;
+
+            _WatchListMovies = null;
+            _WatchListShows = null;
+            _WatchListEpisodes = null;
         }
 
         #endregion
@@ -1310,7 +1314,7 @@ namespace TraktPlugin
 
         #region Movies
 
-        internal static void AddMovieToWatchedHistory(TraktMovie movie)
+        internal static void AddMovieToWatchHistory(TraktMovie movie)
         {
             var watchedMovies = _WatchedMovies.ToList();
 
@@ -1386,14 +1390,150 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Shows
+
+        internal static void AddShowToWatchedHistory(TraktShow show, List<TraktEpisode> episodes)
+        {
+            return;
+        }
+
+        internal static void AddShowToWatchlist(TraktShow show)
+        {
+            var watchlistShows = _WatchListShows.ToList();
+
+            watchlistShows.Add(new TraktShowWatchList
+            {
+                ListedAt = DateTime.UtcNow.ToISO8601(),
+                Show = new TraktShowSummary
+                {
+                    Ids = show.Ids,
+                    Title = show.Title,
+                    Year = show.Year
+                }
+            });
+
+            _WatchListShows = watchlistShows;
+        }
+
+        internal static void AddShowToCollection(TraktShow show, List<TraktEpisode> episodes)
+        {
+            return;
+        }
+
+        internal static void AddShowToRatings(TraktShow show, int rating)
+        {
+            var ratedShows = _RatedShows.ToList();
+
+            ratedShows.Add(new TraktShowRated
+            {
+                RatedAt = DateTime.UtcNow.ToISO8601(),
+                Rating = rating,
+                Show = new TraktShowSummary
+                {
+                    Ids = show.Ids,
+                    Title = show.Title,
+                    Year = show.Year
+                }
+            });
+
+            _RatedShows = ratedShows;
+        }
+
+        #endregion
+
+        #region Episodes
+
+        internal static void AddEpisodeToWatchHistory(TraktShow show,  TraktEpisode episode)
+        {
+            var watchedEpisodes = _WatchedEpisodes.ToList();
+
+            watchedEpisodes.Add(new EpisodeWatched
+            {
+                Number = episode.Number,
+                Season = episode.Season,
+                ShowId = show.Ids.Trakt,
+                ShowImdbId = show.Ids.Imdb,
+                ShowTvdbId = show.Ids.Tvdb,
+                ShowTitle = show.Title,
+                ShowYear = show.Year,
+                Plays = 1
+            });
+
+            _WatchedEpisodes = watchedEpisodes;
+        }
+
+        internal static void AddEpisodeToWatchlist(TraktShowSummary show, TraktEpisodeSummary episode)
+        {
+            var watchlistEpisodes = _WatchListEpisodes.ToList();
+
+            watchlistEpisodes.Add(new TraktEpisodeWatchList
+            {
+                ListedAt = DateTime.UtcNow.ToISO8601(),
+                Show = show,
+                Episode = episode
+            });
+
+            _WatchListEpisodes = watchlistEpisodes;
+        }
+
+        internal static void AddEpisodeToCollection(TraktShow show, TraktEpisode episode)
+        {
+            var collectedEpisodes = _CollectedEpisodes.ToList();
+
+            collectedEpisodes.Add(new EpisodeCollected
+            {
+                Number = episode.Number,
+                Season = episode.Season,
+                ShowId = show.Ids.Trakt,
+                ShowImdbId = show.Ids.Imdb,
+                ShowTvdbId = show.Ids.Tvdb,
+                ShowTitle = show.Title,
+                ShowYear = show.Year
+            });
+
+            _CollectedEpisodes = collectedEpisodes;
+        }
+
+        internal static void AddEpisodeToRatings(TraktShow show, TraktEpisode episode, int rating)
+        {
+            var ratedEpisodes = _RatedEpisodes.ToList();
+
+            ratedEpisodes.Add(new TraktEpisodeRated
+            {
+                RatedAt = DateTime.UtcNow.ToISO8601(),
+                Rating = rating,
+                Show = new TraktShow
+                {
+                    Ids = show.Ids,
+                    Title = show.Title,
+                    Year = show.Year
+                },
+                Episode = new TraktEpisode
+                {
+                    Ids = episode.Ids,
+                    Number = episode.Number,
+                    Season = episode.Season,
+                    Title = episode.Title
+                }
+            });
+
+            _RatedEpisodes = ratedEpisodes;
+        }
+
+        #endregion
+
         #endregion
 
         #region Remove From Cache
 
-        internal static void RemoveMovieFromWatchedHistory(TraktMovie movie)
+        #region Movies
+
+        internal static void RemoveMovieFromWatchHistory(TraktMovie movie)
         {
             var watchedMovies = _WatchedMovies.ToList();
-            watchedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+            watchedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt || 
+                                         h.Movie.Ids.Imdb == movie.Ids.Imdb ||
+                                         h.Movie.Ids.Tmdb == movie.Ids.Tmdb);
 
             _WatchedMovies = watchedMovies;
         }
@@ -1401,7 +1541,9 @@ namespace TraktPlugin
         internal static void RemoveMovieFromWatchlist(TraktMovie movie)
         {
             var watchlistMovies = _WatchListMovies.ToList();
-            watchlistMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+            watchlistMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt ||
+                                           h.Movie.Ids.Imdb == movie.Ids.Imdb ||
+                                           h.Movie.Ids.Tmdb == movie.Ids.Tmdb);
 
             _WatchListMovies = watchlistMovies;
         }
@@ -1409,7 +1551,9 @@ namespace TraktPlugin
         internal static void RemoveMovieFromCollection(TraktMovie movie)
         {
             var collectedMovies = _CollectedMovies.ToList();
-            collectedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+            collectedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt ||
+                                           h.Movie.Ids.Imdb == movie.Ids.Imdb ||
+                                           h.Movie.Ids.Tmdb == movie.Ids.Tmdb);
 
             _CollectedMovies = collectedMovies;
         }
@@ -1417,10 +1561,98 @@ namespace TraktPlugin
         internal static void RemoveMovieFromRatings(TraktMovie movie)
         {
             var ratedMovies = _RatedMovies.ToList();
-            ratedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt);
+            ratedMovies.RemoveAll(h => h.Movie.Ids.Trakt == movie.Ids.Trakt ||
+                                       h.Movie.Ids.Imdb == movie.Ids.Imdb ||
+                                       h.Movie.Ids.Tmdb == movie.Ids.Tmdb);
 
             _RatedMovies = ratedMovies;
         }
+
+        #endregion
+
+        #region Shows
+
+        internal static void RemoveShowFromWatchedHistory(TraktShow show)
+        {
+            var watchedEpisodes = _WatchedEpisodes.ToList();
+            watchedEpisodes.RemoveAll(h => h.ShowId == show.Ids.Trakt ||
+                                           h.ShowImdbId == show.Ids.Imdb ||
+                                           h.ShowTvdbId == show.Ids.Tvdb);
+
+            _WatchedEpisodes = watchedEpisodes;
+        }
+
+        internal static void RemoveShowFromWatchlist(TraktShow show)
+        {
+            var watchlistShows = _WatchListShows.ToList();
+            watchlistShows.RemoveAll(h => h.Show.Ids.Trakt == show.Ids.Trakt ||
+                                          h.Show.Ids.Imdb == show.Ids.Imdb ||
+                                          h.Show.Ids.Tvdb == show.Ids.Tvdb);
+
+            _WatchListShows = watchlistShows;
+        }
+
+        internal static void RemoveShowFromCollection(TraktShow show)
+        {
+            var collectedEpisodes = _CollectedEpisodes.ToList();
+            collectedEpisodes.RemoveAll(h => h.ShowId == show.Ids.Trakt ||
+                                             h.ShowImdbId == show.Ids.Imdb ||
+                                             h.ShowTvdbId == show.Ids.Tvdb);
+
+            _CollectedEpisodes = collectedEpisodes;
+        }
+
+        internal static void RemoveShowFromRatings(TraktShow show)
+        {
+            var ratedShows = _RatedShows.ToList();
+            ratedShows.RemoveAll(h => h.Show.Ids.Trakt == show.Ids.Trakt ||
+                                      h.Show.Ids.Imdb == show.Ids.Imdb ||
+                                      h.Show.Ids.Tvdb == show.Ids.Tvdb);
+
+            _RatedShows = ratedShows;
+        }
+
+        #endregion
+
+        #region Episodes
+
+        internal static void RemoveEpisodeFromWatchHistory(TraktShow show, TraktEpisode episode)
+        {
+            var watchedEpisodes = _WatchedEpisodes.ToList();
+            watchedEpisodes.RemoveAll(h => h.ShowId == show.Ids.Trakt && h.Season == episode.Season && h.Number == episode.Number);
+
+            _WatchedEpisodes = watchedEpisodes;
+        }
+
+        internal static void RemoveEpisodeFromWatchlist(TraktEpisode episode)
+        {
+            var watchlistEpisodes = _WatchListEpisodes.ToList();
+            watchlistEpisodes.RemoveAll(h => h.Episode.Ids.Trakt == episode.Ids.Trakt ||
+                                             h.Episode.Ids.Imdb == episode.Ids.Imdb ||
+                                             h.Episode.Ids.Tvdb == episode.Ids.Tvdb);
+
+            _WatchListEpisodes = watchlistEpisodes;
+        }
+
+        internal static void RemoveEpisodeFromCollection(TraktShow show, TraktEpisode episode)
+        {
+            var collectedEpisodes = _CollectedEpisodes.ToList();
+            collectedEpisodes.RemoveAll(h => h.ShowId == show.Ids.Trakt && h.Season == episode.Season && h.Number == episode.Number);
+
+            _CollectedEpisodes = collectedEpisodes;
+        }
+
+        internal static void RemoveEpisodeFromRatings(TraktEpisode episode)
+        {
+            var ratedEpisodes = _RatedEpisodes.ToList();
+            ratedEpisodes.RemoveAll(h => h.Episode.Ids.Trakt == episode.Ids.Trakt ||
+                                         h.Episode.Ids.Imdb == episode.Ids.Imdb ||
+                                         h.Episode.Ids.Tvdb == episode.Ids.Tvdb);
+
+            _RatedEpisodes = ratedEpisodes;
+        }
+
+        #endregion
 
         #endregion
 

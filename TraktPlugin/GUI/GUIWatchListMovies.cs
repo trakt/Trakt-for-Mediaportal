@@ -326,8 +326,6 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToWatchHistory(selectedWatchlistItem.Movie);
                     if (CurrentUser != TraktSettings.Username)
                     {
-                        if (selectedWatchlistItem.Movie.Plays() == 0) //TODOselectedWatchlistItem.Plays = 1;
-                        //TODOselectedWatchlistItem.Watched = true;
                         selectedItem.IsPlayed = true;
                         OnMovieSelected(selectedItem, Facade);
                         (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -364,7 +362,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveMovieFromWatchHistory(selectedWatchlistItem.Movie);
-                    //TODOselectedWatchlistItem.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
@@ -372,7 +369,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedWatchlistItem.Movie, true);
-                    //TODOselectedWatchlistItem.InWatchList = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
@@ -413,7 +409,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     TraktHelper.AddMovieToCollection(selectedWatchlistItem.Movie);
-                    //TODOselectedWatchlistItem.InCollection = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);
@@ -421,7 +416,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromCollection(selectedWatchlistItem.Movie);
-                    //TODOselectedWatchlistItem.InCollection = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (CurrentUser != TraktSettings.Username) GUIWatchListMovies.ClearCache(TraktSettings.Username);

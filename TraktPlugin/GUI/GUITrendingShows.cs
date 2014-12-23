@@ -255,7 +255,6 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TrendingContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedTrendingItem.Show);
-                    //TODOselectedShow.Show.InWatchList = true;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingShowsHideWatchlisted) LoadTrendingShows();
@@ -277,7 +276,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedTrendingItem.Show);
-                    //TODOselectedShow.Show.InWatchList = false;
                     OnShowSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;

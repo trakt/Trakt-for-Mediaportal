@@ -171,7 +171,7 @@ namespace TraktPlugin.GUI
                         {
                             Username = this.Username,
                             Password = this.Password,
-                            //TODOEmail = this.Email
+                            //Email = this.Email
                         };
                         TestAccount(account);
                     }
@@ -248,7 +248,7 @@ namespace TraktPlugin.GUI
             TraktUserToken response = null;
             if (NewAccount)
             {
-                //TODO
+                // No longer supported with v2 API.
                 //if (lblTestConnect != null)
                 //    GUIControl.SetControlLabel(GetID, lblTestConnect.GetID, Translation.CreatingAccount);
 

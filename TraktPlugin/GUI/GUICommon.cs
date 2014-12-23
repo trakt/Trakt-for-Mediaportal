@@ -402,7 +402,7 @@ namespace TraktPlugin.GUI
             if (prevRating == newRating)
                 return false;
 
-            if (prevRating == 0)
+            if (prevRating == null || prevRating == 0)
             {
                 // add to ratings
                 TraktCache.AddMovieToRatings(movie, newRating);
@@ -439,7 +439,7 @@ namespace TraktPlugin.GUI
 
         #region Rate Show
 
-        internal static bool RateShow(TraktShow show)
+        internal static bool RateShow(TraktShowSummary show)
         {
             var rateObject = new TraktSyncShowRated
             {
@@ -459,77 +459,52 @@ namespace TraktPlugin.GUI
             int? prevRating = show.UserRating();
             int newRating = 0;
 
-            GUIUtils.ShowRateDialog<TraktSyncShowRated>(rateObject);
+            newRating = GUIUtils.ShowRateDialog<TraktSyncShowRated>(rateObject);
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
             // update skin properties to reflect changes
-            // This is not really needed but saves waiting for response
-            // from server to calculate fields...we can do it ourselves
+            if (prevRating == newRating)
+                return false;
 
-            if (prevRating != newRating)
+            if (prevRating == null || prevRating == 0)
             {
-                //TODO
-                //show.RatingAdvanced = newRating;
-
-                //// if not rated previously bump up the votes
-                //if (prevRating == 0)
-                //{
-                //    show.Ratings.Votes++;
-                //    if (show.RatingAdvanced > 5)
-                //    {
-                //        show.Rating = "love";
-                //        show.Ratings.LovedCount++;
-                //    }
-                //    else
-                //    {
-                //        show.Rating = "hate";
-                //        show.Ratings.HatedCount++;
-                //    }
-                //}
-
-                //if (prevRating != 0 && prevRating > 5 && newRating <= 5)
-                //{
-                //    show.Rating = "hate";
-                //    show.Ratings.LovedCount--;
-                //    show.Ratings.HatedCount++;
-                //}
-
-                //if (prevRating != 0 && prevRating <= 5 && newRating > 5)
-                //{
-                //    show.Rating = "love";
-                //    show.Ratings.LovedCount++;
-                //    show.Ratings.HatedCount--;
-                //}
-
-                //if (newRating == 0)
-                //{
-                //    if (prevRating <= 5) show.Ratings.HatedCount++;
-                //    show.Ratings.Votes--;
-                //    show.Rating = "false";
-                //}
-
-                //// Could be in-accurate, best guess
-                //if (prevRating == 0)
-                //{
-                //    show.Ratings.Percentage = (int)Math.Round(((show.Ratings.Percentage * (show.Ratings.Votes - 1)) + (10 * newRating)) / (float)show.Ratings.Votes);
-                //}
-                //else
-                //{
-                //    show.Ratings.Percentage = (int)Math.Round(((show.Ratings.Percentage * (show.Ratings.Votes)) + (10 * newRating) - (10 * prevRating)) / (float)show.Ratings.Votes);
-                //}
-
-                return true;
+                // add to ratings
+                TraktCache.AddShowToRatings(show, newRating);
+                show.Votes++;
+            }
+            else if (newRating == 0)
+            {
+                // remove from ratings
+                TraktCache.RemoveShowFromRatings(show);
+                show.Votes--;
+            }
+            else
+            {
+                // rating changed, remove then add
+                TraktCache.RemoveShowFromRatings(show);
+                TraktCache.AddShowToRatings(show, newRating);
             }
 
-            return false;
+            // update ratings until next online update
+            // if we have the ratings distribution we could calculate correctly
+            if (show.Votes == 0)
+            {
+                show.Rating = 0;
+            }
+            else if (show.Votes == 1 && newRating > 0)
+            {
+                show.Rating = newRating;
+            }
+
+            return true;
         }
 
         #endregion
 
         #region Rate Episode
 
-        internal static bool RateEpisode(TraktEpisode episode)
+        internal static bool RateEpisode(TraktShowSummary show, TraktEpisodeSummary episode)
         {
             var rateObject = new TraktSyncEpisodeRated
             {
@@ -550,73 +525,45 @@ namespace TraktPlugin.GUI
             int? prevRating = episode.UserRating();
             int newRating = 0;
 
-            GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
+            newRating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
             // update skin properties to reflect changes
-            // This is not really needed but saves waiting for response
-            // from server to calculate fields...we can do it ourselves
+            if (prevRating == newRating)
+                return false;
 
-            if (prevRating != newRating)
+            if (prevRating == null || prevRating == 0)
             {
-                //TODO
-                //episode.RatingAdvanced = newRating;
-
-                //if (episode.Ratings == null)
-                //    episode.Ratings = new TraktRatings();
-
-                //// if not rated previously bump up the votes
-                //if (prevRating == 0)
-                //{
-                //    episode.Ratings.Votes++;
-                //    if (episode.RatingAdvanced > 5)
-                //    {
-                //        episode.Rating = "love";
-                //        episode.Ratings.LovedCount++;
-                //    }
-                //    else
-                //    {
-                //        episode.Rating = "hate";
-                //        episode.Ratings.HatedCount++;
-                //    }
-                //}
-
-                //if (prevRating != 0 && prevRating > 5 && newRating <= 5)
-                //{
-                //    episode.Rating = "hate";
-                //    episode.Ratings.LovedCount--;
-                //    episode.Ratings.HatedCount++;
-                //}
-
-                //if (prevRating != 0 && prevRating <= 5 && newRating > 5)
-                //{
-                //    episode.Rating = "love";
-                //    episode.Ratings.LovedCount++;
-                //    episode.Ratings.HatedCount--;
-                //}
-
-                //if (newRating == 0)
-                //{
-                //    if (prevRating <= 5) show.Ratings.HatedCount++;
-                //    episode.Ratings.Votes--;
-                //    episode.Rating = "false";
-                //}
-
-                //// Could be in-accurate, best guess
-                //if (prevRating == 0)
-                //{
-                //    episode.Ratings.Percentage = (int)Math.Round(((show.Ratings.Percentage * (show.Ratings.Votes - 1)) + (10 * newRating)) / (float)show.Ratings.Votes);
-                //}
-                //else
-                //{
-                //    episode.Ratings.Percentage = (int)Math.Round(((show.Ratings.Percentage * (show.Ratings.Votes)) + (10 * newRating) - (10 * prevRating)) / (float)show.Ratings.Votes);
-                //}
-
-                return true;
+                // add to ratings
+                TraktCache.AddEpisodeToRatings(show, episode, newRating);
+                episode.Votes++;
+            }
+            else if (newRating == 0)
+            {
+                // remove from ratings
+                TraktCache.RemoveEpisodeFromRatings(episode);
+                episode.Votes--;
+            }
+            else
+            {
+                // rating changed, remove then add
+                TraktCache.RemoveEpisodeFromRatings(episode);
+                TraktCache.AddEpisodeToRatings(show, episode, newRating);
             }
 
-            return false;
+            // update ratings until next online update
+            // if we have the ratings distribution we could calculate correctly
+            if (episode.Votes == 0)
+            {
+                episode.Rating = 0;
+            }
+            else if (episode.Votes == 1 && newRating > 0)
+            {
+                episode.Rating = newRating;
+            }
+
+            return true;
         }
 
         #endregion
@@ -850,7 +797,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
             SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
             SetProperty("#Trakt.User.FullName", user.FullName);
-            SetProperty("#Trakt.User.Gender", Translation.GetByName(string.Format("Gender{0}", user.Gender)));
+            SetProperty("#Trakt.User.Gender", string.IsNullOrEmpty(user.Gender) ? null : Translation.GetByName(string.Format("Gender{0}", user.Gender)));
             SetProperty("#Trakt.User.JoinDate", user.JoinedAt.FromISO8601().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);
             SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());

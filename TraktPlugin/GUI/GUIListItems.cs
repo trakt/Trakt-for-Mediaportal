@@ -365,8 +365,6 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.MarkAsWatched):
                     AddItemToWatchedHistory(selectedListItem);
-                    if (selectedListItem.Plays() == 0) //TODOselectedListItem.Plays = 1;
-                        //TODOselectedListItem.Watched = true;
                     selectedItem.IsPlayed = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
@@ -377,7 +375,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
                     RemoveItemFromWatchedHistory(selectedListItem);
-                    //TODOselectedListItem.Watched = false;
                     selectedItem.IsPlayed = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
@@ -388,7 +385,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchList):
                     AddItemToWatchList(selectedListItem);
-                    //TODOselectedListItem.InWatchList = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -400,7 +396,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.RemoveFromWatchList):
                     RemoveItemFromWatchList(selectedListItem);
-                    //TODOselectedListItem.InWatchList = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -458,7 +453,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     AddItemToCollection(selectedListItem);
-                    //TODOselectedListItem.InCollection = true;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -468,7 +462,6 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
                     RemoveItemFromCollection(selectedListItem);
-                    //TODOselectedListItem.InCollection = false;
                     OnItemSelected(selectedItem, Facade);
                     if (SelectedType == TraktItemType.movie)
                         (Facade.SelectedListItem as GUICustomListItem).Images.NotifyPropertyChanged("MoviePoster");
@@ -678,53 +671,86 @@ namespace TraktPlugin.GUI
         private void AddItemToWatchList(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.AddMovieToWatchList(item.Movie, true);
+            }
             else if (SelectedType == TraktItemType.show)
+            {
                 TraktHelper.AddShowToWatchList(item.Show);
+            }
             else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.AddEpisodeToWatchList(item.Episode);
+                TraktCache.AddEpisodeToWatchlist(item.Show, item.Episode);
+            }
         }
 
         private void RemoveItemFromWatchList(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.RemoveMovieFromWatchList(item.Movie, true);
+            }
             else if (SelectedType == TraktItemType.show)
+            {
                 TraktHelper.RemoveShowFromWatchList(item.Show);
+            }
             else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.RemoveEpisodeFromWatchList(item.Episode);
+            }
         }
 
         private void AddItemToWatchedHistory(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.AddMovieToWatchHistory(item.Movie);
-            else if (SelectedType == TraktItemType.episode) 
+            }
+            else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.AddEpisodeToWatchHistory(item.Episode);
+                TraktCache.AddEpisodeToWatchHistory(item.Show, item.Episode);
+            }
         }
 
         private void RemoveItemFromWatchedHistory(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.RemoveMovieFromWatchHistory(item.Movie);
-            else if (SelectedType == TraktItemType.episode) 
+            }
+            else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.RemoveEpisodeFromWatchHistory(item.Episode);
+                TraktCache.RemoveEpisodeFromWatchHistory(item.Show, item.Episode);
+            }
         }
 
         private void AddItemToCollection(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.AddMovieToCollection(item.Movie);
-            else if (SelectedType == TraktItemType.episode) 
+            }
+            else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.AddEpisodeToCollection(item.Episode);
+                TraktCache.AddEpisodeToCollection(item.Show, item.Episode);
+            }
         }
 
         private void RemoveItemFromCollection(TraktListItem item)
         {
             if (SelectedType == TraktItemType.movie)
+            {
                 TraktHelper.RemoveMovieFromCollection(item.Movie);
-            else if (SelectedType == TraktItemType.episode) 
+            }
+            else if (SelectedType == TraktItemType.episode)
+            {
                 TraktHelper.RemoveEpisodeFromCollection(item.Episode);
+                TraktCache.RemoveEpisodeFromCollection(item.Show, item.Episode);
+            }
         }
 
         private void RateItem(TraktListItem item)
@@ -734,7 +760,7 @@ namespace TraktPlugin.GUI
             else if (SelectedType == TraktItemType.show)
                 GUICommon.RateShow(item.Show);
             else if (SelectedType == TraktItemType.episode)
-                GUICommon.RateEpisode(item.Episode);
+                GUICommon.RateEpisode(item.Show, item.Episode);
         }
 
         private void LoadListItems()
@@ -837,7 +863,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case "episode":
-                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.Episode.Number, listItem.Episode.Number, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
+                    retValue = string.Format("{0} - {1}x{2}{3}", listItem.Show.Title, listItem.Episode.Season, listItem.Episode.Number, string.IsNullOrEmpty(listItem.Episode.Title) ? string.Empty : " - " + listItem.Episode.Title);
                     break;
 
                 case "person":
