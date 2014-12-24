@@ -648,7 +648,7 @@ namespace TraktPlugin
             {
                 // check the last time we have retrieved the watchlist
                 // if the time is recent, try to load from cache
-                if ((DateTime.Now - MovieRecommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                if (_RecommendedMovies != null && (DateTime.Now - MovieRecommendationsAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
                     var cachedItems = RecommendedMovies;
                     if (cachedItems != null)
@@ -661,10 +661,10 @@ namespace TraktPlugin
                 var onlineItems = TraktAPI.TraktAPI.GetRecommendedMovies();
                 if (onlineItems != null)
                 {
-                    _Recommendations = onlineItems;
+                    _RecommendedMovies = onlineItems;
 
                     // save to local file cache
-                    SaveFileCache(MoviesRecommendedFile, _Recommendations.ToJSON());
+                    SaveFileCache(MoviesRecommendedFile, _RecommendedMovies.ToJSON());
 
                     // save retrieve data to compare next time
                     MovieRecommendationsAge = DateTime.Now;
@@ -677,16 +677,16 @@ namespace TraktPlugin
         {
             get
             {
-                if (_Recommendations == null)
+                if (_RecommendedMovies == null)
                 {
                     var persistedItems = LoadFileCache(MoviesRecommendedFile, null);
                     if (persistedItems != null)
-                        _Recommendations = persistedItems.FromJSONArray<TraktMovie>();
+                        _RecommendedMovies = persistedItems.FromJSONArray<TraktMovie>();
                 }
-                return _Recommendations;
+                return _RecommendedMovies;
             }
         }
-        static IEnumerable<TraktMovie> _Recommendations = null;
+        static IEnumerable<TraktMovie> _RecommendedMovies = null;
 
         #endregion
 
@@ -861,6 +861,7 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Last Activity
         /// <summary>
         /// Get last sync activities from trakt to see if we need to get an update on the various sync methods
         /// This should be done atleast once before a local/online sync
@@ -877,6 +878,7 @@ namespace TraktPlugin
             }
         }
         static TraktLastSyncActivities _LastSyncActivities = null;
+        #endregion
 
         #endregion
 
@@ -954,7 +956,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region User Data
+        #region Get User Data
 
         #region Movies
 
@@ -963,7 +965,9 @@ namespace TraktPlugin
             if (WatchedMovies == null)
                 return false;
 
-            return WatchedMovies.Any(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
+            return WatchedMovies.Any(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                          ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                          ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
         }
 
         public static bool IsCollected(this TraktMovie movie)
@@ -971,7 +975,9 @@ namespace TraktPlugin
             if (CollectedMovies == null)
                 return false;
 
-            return CollectedMovies.Any(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
+            return CollectedMovies.Any(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                            ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                            ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
         }
 
         public static bool IsWatchlisted(this TraktMovie movie)
@@ -979,7 +985,9 @@ namespace TraktPlugin
             if (WatchListMovies == null)
                 return false;
 
-            return WatchListMovies.Any(w => w.Movie.Ids.Trakt == movie.Ids.Trakt);
+            return WatchListMovies.Any(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                            ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                            ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
         }
 
         public static int? UserRating(this TraktMovie movie)
@@ -987,7 +995,9 @@ namespace TraktPlugin
             if (RatedMovies == null)
                 return null;
 
-            var ratedMovie = RatedMovies.FirstOrDefault(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
+            var ratedMovie = RatedMovies.FirstOrDefault(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                                             ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                                             ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
             if (ratedMovie == null)
                 return null;
 
@@ -999,7 +1009,9 @@ namespace TraktPlugin
             if (WatchedMovies == null)
                 return 0;
 
-            var watchedMovie = WatchedMovies.FirstOrDefault(m => m.Movie.Ids.Trakt == movie.Ids.Trakt);
+            var watchedMovie = WatchedMovies.FirstOrDefault(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                                                 ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                                                 ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
             if (watchedMovie == null)
                 return 0;
 
@@ -1021,7 +1033,8 @@ namespace TraktPlugin
 
             // check that the shows aired episode count >= episodes watched in show
             // trakt does not include specials in count, nor should we
-            int watchedEpisodeCount = watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season != 0).Count();
+            int watchedEpisodeCount = watchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) && 
+                                                                    e.Season != 0).Count();
             return watchedEpisodeCount >= show.AiredEpisodes;
         }
 
@@ -1036,7 +1049,8 @@ namespace TraktPlugin
 
             // check that the shows aired episode count >= episodes collected in show
             // trakt does not include specials in count, nor should we
-            int collectedEpisodeCount = collectedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season != 0).Count();
+            int collectedEpisodeCount = collectedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                                        e.Season != 0).Count();
             return collectedEpisodeCount >= show.AiredEpisodes;
         }
 
@@ -1045,7 +1059,7 @@ namespace TraktPlugin
             if (WatchListShows == null)
                 return false;
 
-            return WatchListShows.Any(w => w.Show.Ids.Trakt == show.Ids.Trakt);
+            return WatchListShows.Any(s => (((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) || ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null)));
         }
 
         public static int? UserRating(this TraktShow show)
@@ -1053,7 +1067,7 @@ namespace TraktPlugin
             if (RatedShows == null)
                 return null;
 
-            var ratedShow = RatedShows.FirstOrDefault(s => s.Show.Ids.Trakt == show.Ids.Trakt);
+            var ratedShow = RatedShows.FirstOrDefault(s => (((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) || ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null)));
             if (ratedShow == null)
                 return null;
 
@@ -1067,7 +1081,7 @@ namespace TraktPlugin
                 return 0;
 
             // sum up all the plays per episode in show
-            return watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt).Sum(e => e.Plays);
+            return watchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || (e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)).Sum(e => e.Plays);
         }
 
         #endregion
@@ -1091,7 +1105,8 @@ namespace TraktPlugin
 
             // check that the seasons aired episode count >= episodes watched in season
             // trakt does not include specials in count, nor should we
-            int watchedEpisodeCount = watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Count();
+            int watchedEpisodeCount = watchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                                    e.Season == season.Number).Count();
             return watchedEpisodeCount >= season.EpisodeCount;
         }
 
@@ -1106,7 +1121,8 @@ namespace TraktPlugin
 
             // check that the seasons aired episode count >= episodes watched in season
             // trakt does not include specials in count, nor should we
-            int collectedEpisodeCount = collectedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Count();
+            int collectedEpisodeCount = collectedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                                        e.Season == season.Number).Count();
             return collectedEpisodeCount >= season.EpisodeCount;
         }
 
@@ -1135,9 +1151,9 @@ namespace TraktPlugin
             if (WatchedEpisodes == null || show == null)
                 return false;
 
-            return WatchedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
-                                            e.Season == episode.Season &&
-                                            e.Number == episode.Number);
+            return WatchedEpisodes.Any(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                               e.Season == episode.Season &&
+                                               e.Number == episode.Number);
         }
 
         public static bool IsCollected(this TraktEpisode episode, TraktShow show)
@@ -1145,9 +1161,9 @@ namespace TraktPlugin
             if (CollectedEpisodes == null || show == null)
                 return false;
 
-            return CollectedEpisodes.Any(e => e.ShowId == show.Ids.Trakt &&
-                                              e.Season == episode.Season &&
-                                              e.Number == episode.Number);
+            return CollectedEpisodes.Any(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                 e.Season == episode.Season &&
+                                                 e.Number == episode.Number);
         }
 
         public static bool IsWatchlisted(this TraktEpisode episode)
@@ -1158,12 +1174,15 @@ namespace TraktPlugin
             return WatchListEpisodes.Any(w => w.Episode.Ids.Trakt == episode.Ids.Trakt);
         }
 
-        public static int? UserRating(this TraktEpisode episode)
+        public static int? UserRating(this TraktEpisode episode, TraktShow show)
         {
             if (RatedEpisodes == null)
                 return null;
 
-            var ratedEpisode = RatedEpisodes.FirstOrDefault(e => e.Episode.Ids.Trakt == episode.Ids.Trakt);
+            // either match by episode id or if not available in cache (which could occur when added by sync caching) by show id and episode/season numbers
+            var ratedEpisode = RatedEpisodes.FirstOrDefault(re => ((re.Episode.Ids.Trakt == episode.Ids.Trakt) && re.Episode.Ids.Trakt != null) ||
+                                                                 (((re.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null) && 
+                                                                    re.Episode.Season == episode.Season && re.Episode.Number == episode.Number));
             if (ratedEpisode == null)
                 return null;
 
@@ -1175,14 +1194,13 @@ namespace TraktPlugin
             if (WatchedEpisodes == null || show == null)
                 return 0;
 
-            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => e.ShowId == show.Ids.Trakt &&
-                                                                     e.Season == episode.Season &&
-                                                                     e.Number == episode.Number);
+            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                                        e.Season == episode.Season &&
+                                                                        e.Number == episode.Number);
             if (watchedEpisode == null)
                 return 0;
 
             return watchedEpisode.Plays;
-
         }
 
         #endregion
@@ -1244,7 +1262,7 @@ namespace TraktPlugin
             else if (item.Type == "show" && item.Show != null)
                 return item.Show.UserRating();
             else if (item.Type == "episode" && item.Episode != null)
-                return item.Episode.UserRating();
+                return item.Episode.UserRating(item.Show);
 
             return null;
         }
@@ -1259,7 +1277,7 @@ namespace TraktPlugin
         {
             lock (syncLists)
             {
-                _Recommendations = null;
+                _RecommendedMovies = null;
             }
         }
 
@@ -1717,9 +1735,9 @@ namespace TraktPlugin
                 return;
 
             var watchedMovies = _WatchedMovies.ToList();
-            watchedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) || 
-                                         ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                         ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
+            watchedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                         ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                         ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
 
             _WatchedMovies = watchedMovies;
         }
@@ -1730,9 +1748,9 @@ namespace TraktPlugin
                 return;
 
             var watchlistMovies = _WatchListMovies.ToList();
-            watchlistMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) ||
-                                           ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                           ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
+            watchlistMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                           ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                           ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
 
             _WatchListMovies = watchlistMovies;
         }
@@ -1751,9 +1769,9 @@ namespace TraktPlugin
                 return;
 
             var collectedMovies = _CollectedMovies.ToList();
-            collectedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) ||
-                                           ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                           ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
+            collectedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                           ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                           ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
 
             _CollectedMovies = collectedMovies;
         }
@@ -1764,9 +1782,9 @@ namespace TraktPlugin
                 return;
 
             var ratedMovies = _RatedMovies.ToList();
-            ratedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) ||
-                                       ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                       ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
+            ratedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                       ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                       ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
 
             _RatedMovies = ratedMovies;
         }
@@ -1781,9 +1799,9 @@ namespace TraktPlugin
                 return;
 
             var watchedEpisodes = _WatchedEpisodes.ToList();
-            watchedEpisodes.RemoveAll(s => s.ShowId == show.Ids.Trakt ||
-                                           s.ShowImdbId == show.Ids.Imdb ||
-                                           s.ShowTvdbId == show.Ids.Tvdb);
+            watchedEpisodes.RemoveAll(s => ((s.ShowId == show.Ids.Trakt) && s.ShowId != null) ||
+                                           ((s.ShowImdbId == show.Ids.Imdb) && s.ShowImdbId.ToNullIfEmpty() != null) ||
+                                           ((s.ShowTvdbId == show.Ids.Tvdb) && s.ShowTvdbId != null));
 
             _WatchedEpisodes = watchedEpisodes;
         }
@@ -1794,9 +1812,9 @@ namespace TraktPlugin
                 return;
 
             var watchlistShows = _WatchListShows.ToList();
-            watchlistShows.RemoveAll(s => ((s.Show.Ids.Trakt == show.Ids.Trakt) && show.Ids.Trakt != null) ||
-                                          ((s.Show.Ids.Imdb == show.Ids.Imdb) && show.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                          ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null));
+            watchlistShows.RemoveAll(s => ((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) ||
+                                          ((s.Show.Ids.Imdb == show.Ids.Imdb) && s.Show.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                          ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && s.Show.Ids.Tvdb != null));
 
             _WatchListShows = watchlistShows;
         }
@@ -1807,9 +1825,9 @@ namespace TraktPlugin
                 return;
 
             var collectedEpisodes = _CollectedEpisodes.ToList();
-            collectedEpisodes.RemoveAll(s => s.ShowId == show.Ids.Trakt ||
-                                             s.ShowImdbId == show.Ids.Imdb ||
-                                             s.ShowTvdbId == show.Ids.Tvdb);
+            collectedEpisodes.RemoveAll(s => ((s.ShowId == show.Ids.Trakt) && s.ShowId != null) ||
+                                             ((s.ShowImdbId == show.Ids.Imdb) && s.ShowImdbId.ToNullIfEmpty() != null) ||
+                                             ((s.ShowTvdbId == show.Ids.Tvdb) && s.ShowTvdbId != null));
 
             _CollectedEpisodes = collectedEpisodes;
         }
@@ -1820,9 +1838,9 @@ namespace TraktPlugin
                 return;
 
             var ratedShows = _RatedShows.ToList();
-            ratedShows.RemoveAll(s => ((s.Show.Ids.Trakt == show.Ids.Trakt) && show.Ids.Trakt != null) ||
-                                      ((s.Show.Ids.Imdb == show.Ids.Imdb) && show.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                      ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null));
+            ratedShows.RemoveAll(s => ((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) ||
+                                      ((s.Show.Ids.Imdb == show.Ids.Imdb) && s.Show.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                      ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && s.Show.Ids.Tvdb != null));
 
             _RatedShows = ratedShows;
         }
@@ -1852,7 +1870,7 @@ namespace TraktPlugin
                 return;
 
             var watchedEpisodes = _WatchedEpisodes.ToList();
-            watchedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && show.Ids.Trakt != null) || ((e.ShowId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&                                            
+            watchedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)) &&                                            
                                               e.Season == episode.Season && 
                                               e.Number == episode.Number);
 
@@ -1893,7 +1911,7 @@ namespace TraktPlugin
                 return;
 
             var collectedEpisodes = _CollectedEpisodes.ToList();
-            collectedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && show.Ids.Trakt != null) || ((e.ShowId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+            collectedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)) &&
                                                 e.Season == episode.Season &&
                                                 e.Number == episode.Number);
 
@@ -1906,9 +1924,9 @@ namespace TraktPlugin
                 return;
 
             var ratedEpisodes = _RatedEpisodes.ToList();
-            ratedEpisodes.RemoveAll(e => ((e.Episode.Ids.Trakt == episode.Ids.Trakt) && episode.Ids.Trakt != null) ||
-                                         ((e.Episode.Ids.Imdb == episode.Ids.Imdb) && episode.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                         ((e.Episode.Ids.Tvdb == episode.Ids.Tvdb) && episode.Ids.Tvdb != null));
+            ratedEpisodes.RemoveAll(e => ((e.Episode.Ids.Trakt == episode.Ids.Trakt) && e.Episode.Ids.Trakt != null) ||
+                                         ((e.Episode.Ids.Imdb == episode.Ids.Imdb) && e.Episode.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                         ((e.Episode.Ids.Tvdb == episode.Ids.Tvdb) && e.Episode.Ids.Tvdb != null));
 
             _RatedEpisodes = ratedEpisodes;
         }

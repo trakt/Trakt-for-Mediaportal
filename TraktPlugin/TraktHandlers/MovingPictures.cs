@@ -174,7 +174,7 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get watchlisted movies from trakt.tv
             TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
-            var traktWatchlistedMovies = TraktCache.GetWatchedMoviesFromTrakt();
+            var traktWatchlistedMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
             if (traktWatchlistedMovies == null)
             {
                 TraktLogger.Error("Error getting watchlisted movies from trakt server");

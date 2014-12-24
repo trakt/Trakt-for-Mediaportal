@@ -295,6 +295,7 @@
           <height>69</height>
           <textureFocus>hiddenmenu_item_selected.png</textureFocus>
           <textureNoFocus>-</textureNoFocus>
+          <textcolorNoFocus>ff393939</textcolorNoFocus>
           <label>-</label>
           <onup>3</onup>
           <ondown>66610</ondown>

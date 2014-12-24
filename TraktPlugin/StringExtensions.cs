@@ -60,7 +60,8 @@ namespace TraktPlugin
 
         public static string RemapHighOrderChars(this string input)
         {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
 
             // hack to remap high order unicode characters with a low order equivalents
             // for now, this allows better usage of clipping. This can be removed, once the skin engine can properly render unicode without falling back to sprites

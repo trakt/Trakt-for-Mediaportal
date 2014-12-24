@@ -546,9 +546,9 @@ namespace TraktPlugin
 
             TraktLogger.Info("Loading Persisted File Cache");
             LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
+            LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
             LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktMovieTrending>();
             LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktShowTrending>();
-            LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
         }
 
         /// <summary>
@@ -666,9 +666,9 @@ namespace TraktPlugin
 
             TraktLogger.Info("Saving Persistent File Cache");
             TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
+            TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
             TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
             TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
-            TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
         }
 
         /// <summary>

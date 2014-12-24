@@ -201,7 +201,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 #region Get data from local database
 
-                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv shows set by user", IgnoredSeries.Count);
+                TraktLogger.Info("Getting local episodes from tvseries database, Ignoring {0} tv show(s) set by user", IgnoredSeries.Count);
 
                 // Get all episodes in database
                 SQLCondition conditions = new SQLCondition();
@@ -210,7 +210,7 @@ namespace TraktPlugin.TraktHandlers
                 var localEpisodes = DBEpisode.Get(conditions, false);
 
                 // filter out the ignored shows
-                localEpisodes.RemoveAll(e => IgnoredSeries.Contains(e[DBOnlineSeries.cID]));
+                localEpisodes.RemoveAll(e => IgnoredSeries.Contains(e[DBOnlineEpisode.cSeriesID]));
 
                 TraktLogger.Info("Found {0} total episodes in tvseries database", localEpisodes.Count);
 

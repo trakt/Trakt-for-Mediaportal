@@ -522,7 +522,7 @@ namespace TraktPlugin.GUI
                 RatedAt = DateTime.UtcNow.ToISO8601()
             };
 
-            int? prevRating = episode.UserRating();
+            int? prevRating = episode.UserRating(show);
             int newRating = 0;
 
             newRating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
@@ -792,18 +792,21 @@ namespace TraktPlugin.GUI
         
         internal static void SetUserProperties(TraktUserSummary user)
         {
+            SetProperty("#Trakt.User.Username", user.Username);
+            SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());
+            SetProperty("#Trakt.User.VIP", user.IsVip.ToString().ToLower());
             SetProperty("#Trakt.User.About", user.About.RemapHighOrderChars());
             SetProperty("#Trakt.User.Age", user.Age.ToString());
-            SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
-            SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
+            if (user.Images != null)
+            {
+                SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
+                SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
+            }
             SetProperty("#Trakt.User.FullName", user.FullName);
             SetProperty("#Trakt.User.Gender", string.IsNullOrEmpty(user.Gender) ? null : Translation.GetByName(string.Format("Gender{0}", user.Gender)));
             SetProperty("#Trakt.User.JoinDate", user.JoinedAt.FromISO8601().ToLongDateString());
-            SetProperty("#Trakt.User.Location", user.Location);
-            SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());
+            SetProperty("#Trakt.User.Location", user.Location);            
             SetProperty("#Trakt.User.Url", string.Format("http://trakt.tv/users/{0}", user.Username));
-            SetProperty("#Trakt.User.Username", user.Username);
-            SetProperty("#Trakt.User.VIP", user.IsVip.ToString().ToLower());
         }
 
         internal static void ClearListProperties()
@@ -1246,7 +1249,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.InCollection", episode.IsCollected(show));
             SetProperty("#Trakt.Episode.Plays", episode.Plays(show));
             SetProperty("#Trakt.Episode.Watched", episode.IsWatched(show));
-            SetProperty("#Trakt.Episode.Rating", episode.UserRating());
+            SetProperty("#Trakt.Episode.Rating", episode.UserRating(show));
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");

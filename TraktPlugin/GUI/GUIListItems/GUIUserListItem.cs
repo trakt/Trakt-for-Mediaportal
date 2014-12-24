@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
                     foreach (var item in items)
                     {
                         #region Avatar
-                        if (item.UserImages.Avatar != null)
+                        if (item.UserImages != null && item.UserImages.Avatar != null)
                         {
                             // stop download if we have exited window
                             if (StopDownload) break;
