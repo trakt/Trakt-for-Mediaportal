@@ -73,11 +73,14 @@
         <spinColor>FFFFFFFF</spinColor>
         <textXOff>35</textXOff>
         <textYOff>16</textYOff>
-        <textcolor>FFFFFFFF</textcolor>
-        <textcolor2>FFFFFFFF</textcolor2>
-        <textcolorNoFocus>FF393939</textcolorNoFocus>
-        <textcolor2NoFocus>FF393939</textcolor2NoFocus>
-        <selectedColor>FF000000</selectedColor>
+        <selectedColor>FF00B7FF</selectedColor>
+        <selectedColor2>FF00B7FF</selectedColor2>
+        <textcolor>ff000000</textcolor>
+        <textcolor2>ff000000</textcolor2>
+        <textcolor3>ff000000</textcolor3>
+        <colordiffuse>ffffffff</colordiffuse>
+        <remoteColor>FFFC7B19</remoteColor>
+        <downloadColor>fffc7b19</downloadColor>
         <textureFocus>context_item_selected.png</textureFocus>
         <textureNoFocus>-</textureNoFocus>
         <textureHeight>69</textureHeight>

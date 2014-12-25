@@ -209,10 +209,12 @@ namespace TraktPlugin.TraktHandlers
                 conditions.Add(new DBOnlineEpisode(), DBOnlineEpisode.cHidden, 0, SQLConditionType.Equal);
                 var localEpisodes = DBEpisode.Get(conditions, false);
 
+                int episodeCount = localEpisodes.Count;
+
                 // filter out the ignored shows
                 localEpisodes.RemoveAll(e => IgnoredSeries.Contains(e[DBOnlineEpisode.cSeriesID]));
 
-                TraktLogger.Info("Found {0} total episodes in tvseries database", localEpisodes.Count);
+                TraktLogger.Info("Found {0} total episodes in tvseries database{1}", episodeCount, IgnoredSeries.Count > 0 ? string.Format(" and {0} ignored episodes", episodeCount - localEpisodes.Count) : "");
 
                 // Get episodes of files that we have locally
                 var localCollectedEpisodes = localEpisodes.Where(e => !string.IsNullOrEmpty(e[DBEpisode.cFilename].ToString())).ToList();
@@ -1347,7 +1349,7 @@ namespace TraktPlugin.TraktHandlers
                             Ids = new TraktShowId
                             {
                                 Trakt = episode.ShowId,
-                                Imdb = episode.ShowImdbId,
+                                Imdb = episode.ShowImdbId.ToNullIfEmpty(),
                                 Tvdb = episode.ShowTvdbId
                             },
                             Title = episode.ShowTitle,
@@ -2108,6 +2110,7 @@ namespace TraktPlugin.TraktHandlers
 
             EpisodeWatching = false;
 
+            TraktLogger.Info("Playback of MP-TVSeries episode stopped and considered watched. Title = '{0}', PlayList Item = '{1}'", episode.ToString(), isPlaylist);
             double progress = GetPlayerProgress(episode);
 
             // purely defensive check against bad progress reading
@@ -2150,6 +2153,9 @@ namespace TraktPlugin.TraktHandlers
                 // prompt to rate episode
                 ShowRateDialog(stoppedEpisode, isPlaylist);
 
+                // update local cache
+                TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
+
                 var response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
@@ -2165,7 +2171,7 @@ namespace TraktPlugin.TraktHandlers
         {
             if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 
-            TraktLogger.Info("Starting MP-TVSeries episode playback. Title = '{0}'", episode.ToString());
+            TraktLogger.Info("Playback of MP-TVSeries episode started. Title = '{0}'", episode.ToString());
             EpisodeWatching = true;
             CurrentEpisode = episode;
         }
@@ -2177,7 +2183,7 @@ namespace TraktPlugin.TraktHandlers
             // episode does not count as watched
             // if it's a double episode we need to double check the progress to determine
             // if the first episode should be marked as watched
-            TraktLogger.Info("Stopped MP-TVSeries episode playback. Title = '{0}'", episode.ToString());
+            TraktLogger.Info("Playback of MP-TVSeries episode stopped. Title = '{0}'", episode.ToString());
             EpisodeWatching = false;
 
             double progress = GetPlayerProgress(episode);
@@ -2192,12 +2198,17 @@ namespace TraktPlugin.TraktHandlers
                     // first episode can be marked as watched
                     if (!FirstEpisodeWatched)
                     {
+                        TraktLogger.Info("Marking first episode of double episode as watched, Progress = '{0}%'", progress);
+
                         // fake progress so it's marked as watched online
                         var scrobbleData = CreateScrobbleData(stoppedEpisode, 100);
                         if (scrobbleData == null) return;
 
                         // prompt to rate episode
                         ShowRateDialog(stoppedEpisode, false);
+
+                        // update local cache
+                        TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
 
                         TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
                         return;

@@ -55,6 +55,8 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -167,6 +169,8 @@
             // 
             // gbMisc
             // 
+            this.gbMisc.Controls.Add(this.textBox1);
+            this.gbMisc.Controls.Add(this.label1);
             this.gbMisc.Controls.Add(this.cbSyncRatings);
             this.gbMisc.Controls.Add(this.cbSyncLibrary);
             this.gbMisc.Controls.Add(this.cbMyFilmsCategories);
@@ -178,7 +182,7 @@
             this.gbMisc.Controls.Add(this.cbKeepInSync);
             this.gbMisc.Location = new System.Drawing.Point(12, 304);
             this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(322, 210);
+            this.gbMisc.Size = new System.Drawing.Size(322, 254);
             this.gbMisc.TabIndex = 3;
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
@@ -190,7 +194,7 @@
             this.cbSyncRatings.Name = "cbSyncRatings";
             this.cbSyncRatings.Size = new System.Drawing.Size(123, 17);
             this.cbSyncRatings.TabIndex = 7;
-            this.cbSyncRatings.Text = "Synchronise Ratings";
+            this.cbSyncRatings.Text = "S&ynchronise Ratings";
             this.ttpConfig.SetToolTip(this.cbSyncRatings, resources.GetString("cbSyncRatings.ToolTip"));
             this.cbSyncRatings.UseVisualStyleBackColor = true;
             this.cbSyncRatings.CheckedChanged += new System.EventHandler(this.cbSyncRatings_CheckedChanged);
@@ -202,7 +206,7 @@
             this.cbSyncLibrary.Name = "cbSyncLibrary";
             this.cbSyncLibrary.Size = new System.Drawing.Size(120, 17);
             this.cbSyncLibrary.TabIndex = 6;
-            this.cbSyncLibrary.Text = "Enable Library Sync";
+            this.cbSyncLibrary.Text = "Enable &Library Sync";
             this.ttpConfig.SetToolTip(this.cbSyncLibrary, "Enable this setting to synchronise your collection and watched states to and from" +
         " trakt.tv. \r\nIf disabled, only scrobbling will be active.");
             this.cbSyncLibrary.UseVisualStyleBackColor = true;
@@ -269,11 +273,12 @@
             // 
             // btnClearLibrary
             // 
-            this.btnClearLibrary.Location = new System.Drawing.Point(9, 172);
+            this.btnClearLibrary.Enabled = false;
+            this.btnClearLibrary.Location = new System.Drawing.Point(7, 172);
             this.btnClearLibrary.Name = "btnClearLibrary";
-            this.btnClearLibrary.Size = new System.Drawing.Size(275, 23);
+            this.btnClearLibrary.Size = new System.Drawing.Size(307, 23);
             this.btnClearLibrary.TabIndex = 0;
-            this.btnClearLibrary.Text = "&Clear Trakt Library";
+            this.btnClearLibrary.Text = "&Delete all user data from trakt.tv";
             this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
         "arked as watched or rated online.");
             this.btnClearLibrary.UseVisualStyleBackColor = true;
@@ -284,16 +289,16 @@
             this.cbKeepInSync.AutoSize = true;
             this.cbKeepInSync.Location = new System.Drawing.Point(9, 149);
             this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(204, 17);
+            this.cbKeepInSync.Size = new System.Drawing.Size(278, 17);
             this.cbKeepInSync.TabIndex = 8;
-            this.cbKeepInSync.Text = "&Keep Library/Collection clean on trakt";
+            this.cbKeepInSync.Text = "&Remove Collected items if no longer in local database";
             this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(259, 520);
+            this.btnOK.Location = new System.Drawing.Point(259, 562);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -342,11 +347,34 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(9, 202);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Note:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(51, 201);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(258, 42);
+            this.textBox1.TabIndex = 10;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = "more options can be found in the GUI Advanced Settings section. The Extensions pl" +
+    "ugin must also be installed.";
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 548);
+            this.ClientSize = new System.Drawing.Size(346, 592);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbMisc);
@@ -395,5 +423,7 @@
         private System.Windows.Forms.CheckBox cbMyFilmsCategories;
         private System.Windows.Forms.CheckBox cbSyncLibrary;
         private System.Windows.Forms.CheckBox cbSyncRatings;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }

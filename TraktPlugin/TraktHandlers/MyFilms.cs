@@ -422,7 +422,12 @@ namespace TraktPlugin.TraktHandlers
                     // workout what movies that are in trakt collection that are not in local collection
                     syncUnCollectedMovies = (from tcm in traktCollectedMovies
                                              where !collectedMovies.Exists(c => MovieMatch(c, tcm.Movie))
-                                             select new TraktMovie { Ids = tcm.Movie.Ids }).ToList();
+                                             select new TraktMovie
+                                             {
+                                                 Ids = tcm.Movie.Ids,
+                                                 Title = tcm.Movie.Title,
+                                                 Year = tcm.Movie.Year
+                                             }).ToList();
 
                     TraktLogger.Info("Removing {0} movies from trakt.tv collection", syncUnCollectedMovies.Count);
 

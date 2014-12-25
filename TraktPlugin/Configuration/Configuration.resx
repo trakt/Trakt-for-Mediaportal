@@ -141,6 +141,9 @@ your local library. Items that you have marked as watched or rated online will s
 library, this only affects your collection.
 
 Note: this will not clear items that have been watched or rated, the site will always keep a history
-of this unless you manually take that action.</value>
+of this unless you manually take that action.
+
+The plugin will not enable this feature if you have multiple movie plugins enabled e.g. My Films
+MovingPictures and My Videos.</value>
   </data>
 </root>

@@ -168,9 +168,13 @@ namespace TraktPlugin
             RemoveMovieFromWatchList(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Tmdb, movie.Ids.Trakt, updateMovingPicturesFilters);
         }
 
-        public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, bool updateMovingPicturesFilters)
+        public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, int? tmdbid, bool updateMovingPicturesFilters)
         {
             RemoveMovieFromWatchList(title, year, imdbid, null, null, updateMovingPicturesFilters);
+
+            // clear gui watchlist cache if removing from external source
+            // we already handle internal removal for self
+            GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
         }
 
         public static void RemoveMovieFromWatchList(string title, int? year, string imdbid, int? tmdbid, int? traktid, bool updatePluginFilters)
@@ -199,7 +203,6 @@ namespace TraktPlugin
                     // update categories & filters menu in MovingPictures              
                     MovingPictures.RemoveMovieCriteriaFromWatchlistNode(imdbid);
                 }
-                GUI.GUIWatchListMovies.ClearCache(TraktSettings.Username);
             })
             {
                 IsBackground = true,
