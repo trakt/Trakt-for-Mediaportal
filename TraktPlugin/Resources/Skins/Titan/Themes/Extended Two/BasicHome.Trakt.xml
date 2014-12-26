@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window>
+  <controls>
+    <control>
+      <description>GROUP: Trakt</description>
+      <type>group</type>
+      <dimColor>0xffffffff</dimColor>
+      <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+      <animation effect="fade" start="0" end="100" time="250" delay="550">visible</animation>
+      <animation effect="fade" start="100" end="0" time="0">hidden</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+      <control>
+        <description>LATEST MEDIA BACKGROUND</description>
+        <type>image</type>
+        <id>0</id>
+        <posX>8</posX>
+        <posY>309</posY>
+        <width>1907</width>
+        <height>329</height>
+        <texture>BasicHomeLatestBG.png</texture>
+      </control>
+      <control>
+        <description>Trending Movies label</description>
+        <type>label</type>
+        <id>0</id>
+        <posX>87</posX>
+        <posY>389</posY>
+        <width>590</width>
+        <label>#Trakt.Translation.TrendingMovies.Label</label>
+        <font>TitanLight20</font>
+        <textcolor>FFFFFFFF</textcolor>
+      </control>
+      <control>
+        <description>Trending Series label</description>
+        <type>label</type>
+        <id>0</id>
+        <posX>1474</posX>
+        <posY>389</posY>
+        <width>590</width>
+        <label>#Trakt.Translation.TrendingShows.Label</label>
+        <font>TitanLight20</font>
+        <textcolor>FFFFFFFF</textcolor>
+      </control>
+      <control>
+        <description>Trending Movies</description>
+        <type>facadeview</type>
+        <id>98302</id>
+        <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+        <control>
+          <type>filmstrip</type>
+          <dimColor>ffffffff</dimColor>
+          <id>98302</id>
+          <onup>98301</onup>
+          <onleft>98302</onleft>
+          <ondown>98302</ondown>
+          <onright>98301</onright>
+          <posX>500</posX>
+          <posY>355</posY>
+          <width>500</width>
+          <height>220</height>
+          <thumbWidth>135</thumbWidth>
+          <thumbHeight>192</thumbHeight>
+          <thumbPosX>25</thumbPosX>
+          <thumbPosY>25</thumbPosY>
+          <itemWidth>146</itemWidth>
+          <itemHeight>192</itemHeight>
+          <textureWidth>184</textureWidth>
+          <textureHeight>242</textureHeight>
+          <textYOff>-2000</textYOff>
+          <imageFolderFocus>-</imageFolderFocus>
+          <frame>-</frame>
+          <frameFocus>thumb_focus.png</frameFocus>
+          <background>-</background>
+          <thumbs></thumbs>
+          <showFrame>yes</showFrame>
+          <showFolder>no</showFolder>
+          <showBackGround>no</showBackGround>
+          <showInfoImage>no</showInfoImage>
+          <scrollbarBackground>-</scrollbarBackground>
+          <scrollbarLeft>-</scrollbarLeft>
+          <scrollbarRight>-</scrollbarRight>
+          <scrollbarWidth>717</scrollbarWidth>
+          <scrollbarHeight>8</scrollbarHeight>
+          <scrollbarYOff>375</scrollbarYOff>
+          <keepaspectratio>no</keepaspectratio>
+          <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+        </control>
+      </control>
+      <control>
+        <description>Trending Shows</description>
+        <type>facadeview</type>
+        <id>98301</id>
+        <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+        <control>
+          <type>filmstrip</type>
+          <dimColor>ffffffff</dimColor>
+          <id>98301</id>
+          <onup>98301</onup>
+          <onleft>98302</onleft>
+          <onright>98301</onright>
+          <posX>983</posX>
+          <posY>355</posY>
+          <width>500</width>
+          <height>220</height>
+          <thumbWidth>135</thumbWidth>
+          <thumbHeight>192</thumbHeight>
+          <thumbPosX>25</thumbPosX>
+          <thumbPosY>25</thumbPosY>
+          <itemWidth>146</itemWidth>
+          <itemHeight>192</itemHeight>
+          <textureWidth>184</textureWidth>
+          <textureHeight>242</textureHeight>
+          <textYOff>-2000</textYOff>
+          <imageFolderFocus>-</imageFolderFocus>
+          <frame>-</frame>
+          <frameFocus>thumb_focus.png</frameFocus>
+          <background>-</background>
+          <thumbs></thumbs>
+          <showFrame>yes</showFrame>
+          <showFolder>no</showFolder>
+          <showBackGround>no</showBackGround>
+          <showInfoImage>no</showInfoImage>
+          <scrollbarBackground>-</scrollbarBackground>
+          <scrollbarLeft>-</scrollbarLeft>
+          <scrollbarRight>-</scrollbarRight>
+          <scrollbarWidth>717</scrollbarWidth>
+          <scrollbarHeight>8</scrollbarHeight>
+          <scrollbarYOff>375</scrollbarYOff>
+          <keepaspectratio>no</keepaspectratio>
+          <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+        </control>
+      </control>
+      <!--            :: Movie Titles ::            -->
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>87</posX>
+        <posY>455</posY>
+        <width>380</width>
+        <label>#Trakt.Movie.0.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>87</posX>
+        <posY>493</posY>
+        <width>380</width>
+        <label>#Trakt.Movie.1.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>87</posX>
+        <posY>531</posY>
+        <width>380</width>
+        <label>#Trakt.Movie.2.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+      <!--            :: Series Titles ::            -->
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>1474</posX>
+        <posY>455</posY>
+        <width>380</width>
+        <label>#Trakt.Show.0.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>1474</posX>
+        <posY>493</posY>
+        <width>380</width>
+        <label>#Trakt.Show.1.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+      <control>
+        <type>fadelabel</type>
+        <id>1</id>
+        <posX>1474</posX>
+        <posY>531</posY>
+        <width>380</width>
+        <label>#Trakt.Show.2.Title</label>
+        <textcolor>000000</textcolor>
+        <font>font12</font>
+      </control>
+    </control>
+  </controls>
+</window>

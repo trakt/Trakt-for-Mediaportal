@@ -15,7 +15,14 @@
               <UpdateOption>AlwaysOverwrite</UpdateOption>
               <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.dll</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
-              <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
+              <DestinationFilename>%Base%\TraktPlugin.dll</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\Externals\Newtonsoft.Json.dll</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{51951c7d-8f7a-47c9-9cb2-8ba759a5e44d}-Newtonsoft.Json.dll</ZipFileName>
+              <DestinationFilename>%Plugins%\Windows\Newtonsoft.Json.dll</DestinationFilename>
             </FileItem>
           </Items>
         </Files>
@@ -2551,6 +2558,13 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{6b82f66c-486d-45c7-bb13-2997e851b796}-trakt.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Media\Logos\trakt.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktUserProfile.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{09a9cb0a-32ad-4132-92d1-4138f51f662d}-traktUserProfile.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktUserProfile.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2905,7 +2919,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{0b27deae-de56-414c-b912-32221b6ef752}-TraktPlugin.dll</ZipFileName>
-        <DestinationFilename>%Plugins%\Windows\TraktPlugin.dll</DestinationFilename>
+        <DestinationFilename>%Base%\TraktPlugin.dll</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\Externals\Newtonsoft.Json.dll</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{51951c7d-8f7a-47c9-9cb2-8ba759a5e44d}-Newtonsoft.Json.dll</ZipFileName>
+        <DestinationFilename>%Plugins%\Windows\Newtonsoft.Json.dll</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -5371,18 +5392,25 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{6b82f66c-486d-45c7-bb13-2997e851b796}-trakt.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Media\Logos\trakt.png</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktUserProfile.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{09a9cb0a-32ad-4132-92d1-4138f51f662d}-traktUserProfile.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktUserProfile.png</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{b1264eef-d707-4e0d-a55a-2e7729d68d7e}-InstallSideImage.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{a43bfffe-bccf-4a0d-b62f-ced67c38bb1d}-InstallSideImage.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{9d74c2d0-047d-4bf3-b7fa-38e1994bfaa5}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{9ebb9843-8498-4d11-81e7-b7ae5d3cdfc7}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>

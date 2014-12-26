@@ -46,7 +46,7 @@ namespace TraktPlugin.GUI
         public static void Init()
         {
             // Import Skin Settings
-            string xmlSkinSettings = GUIGraphicsContext.Skin + @"\Trakt.SkinSettings.xml";
+            string xmlSkinSettings = TraktHelper.GetThemedSkinFile(SkinThemeType.File, "Trakt.SkinSettings.xml");
             Load(xmlSkinSettings);
 
             // Remember last skin used incase we need to reload

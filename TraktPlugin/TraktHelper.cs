@@ -13,8 +13,53 @@ using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin
 {
+    public enum SkinThemeType
+    {
+        File,
+        Image
+    }
+
     public class TraktHelper
     {
+        #region Skin Helpers
+
+        public static string GetCurrrentSkinTheme()
+        {
+            if (GUIThemeManager.CurrentThemeIsDefault)
+                return null;
+
+            return GUIThemeManager.CurrentTheme;
+        }
+
+        public static string GetThemedSkinFile(SkinThemeType type, string filename)
+        {
+            string originalFile = string.Empty;
+            string themedFile = string.Empty;
+
+            if (type == SkinThemeType.Image)
+                originalFile = GUIGraphicsContext.Skin + "\\Media\\" + filename;
+            else
+                originalFile = GUIGraphicsContext.Skin + "\\" + filename;
+
+            string currentTheme = GetCurrrentSkinTheme();
+
+            if (string.IsNullOrEmpty(currentTheme))
+                return originalFile;
+
+            if (type == SkinThemeType.Image)
+                themedFile = GUIGraphicsContext.Skin + "\\Themes\\" + currentTheme + "\\Media\\" + filename;
+            else
+                themedFile = GUIGraphicsContext.Skin + "\\Themes\\" + currentTheme + "\\" + filename;
+
+            // if the theme does not contain file return original
+            if (!File.Exists(themedFile))
+                return originalFile;
+
+            return themedFile;
+        }
+
+        #endregion
+
         #region Plugin Helpers
 
         public static bool IsPluginEnabled(string name)

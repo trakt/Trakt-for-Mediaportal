@@ -240,7 +240,7 @@ namespace TraktPlugin.GUI
                 {
                     try
                     {
-                        _defaultPosterExists = File.Exists(GUIGraphicsContext.Skin + @"\Media\defaultTraktPoster.png");
+                        _defaultPosterExists = File.Exists(TraktHelper.GetThemedSkinFile(SkinThemeType.Image, "defaultTraktPoster.png"));
                     }
                     catch
                     {
@@ -367,14 +367,14 @@ namespace TraktPlugin.GUI
             Bitmap poster = size.IsEmpty ? new Bitmap(image) : new Bitmap(image, size);
             Graphics gph = Graphics.FromImage(poster);
 
-            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));
+            string mainOverlayImage = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, string.Format("trakt{0}.png", mainType.ToString().Replace(", ", string.Empty)));
             if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
                 Bitmap newPoster = new Bitmap(GUIImageHandler.LoadImage(mainOverlayImage));
                 gph.DrawImage(newPoster, TraktSkinSettings.PosterMainOverlayPosX, TraktSkinSettings.PosterMainOverlayPosY);
             }
 
-            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            string ratingOverlayImage = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, string.Format("trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType)));
             if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
             {
                 Bitmap newPoster = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));
@@ -401,14 +401,14 @@ namespace TraktPlugin.GUI
             Bitmap thumb = new Bitmap(image, size);
             Graphics gph = Graphics.FromImage(thumb);
 
-            string mainOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", mainType.ToString().Replace(", ", string.Empty));
+            string mainOverlayImage = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, string.Format("trakt{0}.png", mainType.ToString().Replace(", ", string.Empty)));
             if (mainType != MainOverlayImage.None && File.Exists(mainOverlayImage))
             {
                 Bitmap newThumb = new Bitmap(GUIImageHandler.LoadImage(mainOverlayImage));
                 gph.DrawImage(newThumb, TraktSkinSettings.EpisodeThumbMainOverlayPosX, TraktSkinSettings.EpisodeThumbMainOverlayPosY);
             }
 
-            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            string ratingOverlayImage = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, string.Format("trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType)));
             if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
             {
                 Bitmap newThumb = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));
@@ -435,7 +435,7 @@ namespace TraktPlugin.GUI
             Bitmap avatar = size.IsEmpty ? new Bitmap(image) : new Bitmap(image, size);
             Graphics gph = Graphics.FromImage(avatar);
 
-            string ratingOverlayImage = GUIGraphicsContext.Skin + string.Format(@"\Media\trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType));
+            string ratingOverlayImage = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, string.Format("trakt{0}.png", Enum.GetName(typeof(RatingOverlayImage), ratingType)));
             if (ratingType != RatingOverlayImage.None && File.Exists(ratingOverlayImage))
             {
                 Bitmap newAvatar = new Bitmap(GUIImageHandler.LoadImage(ratingOverlayImage));

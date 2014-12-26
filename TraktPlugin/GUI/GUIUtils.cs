@@ -19,7 +19,7 @@ namespace TraktPlugin.GUI
         private delegate int ShowRateDialogDelegate<T>(T rateObject);
         private delegate bool GetStringFromKeyboardDelegate(ref string strLine, bool isPassword);
 
-        public static readonly string TraktLogo = GUIGraphicsContext.Skin + "\\Media\\Logos\\trakt.png";
+        public static readonly string TraktLogo = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, "Logos\\trakt.png");
 
         public static string PluginName()
         {
