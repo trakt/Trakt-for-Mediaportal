@@ -340,7 +340,7 @@ namespace TraktPlugin.GUI
             }
 
             // Related Movies
-            listItem = new GUIListItem(Translation.RelatedMovies + "...");
+            listItem = new GUIListItem(Translation.RelatedMovies);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Related;
 
@@ -350,7 +350,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
+            listItem = new GUIListItem(Translation.Shouts);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 

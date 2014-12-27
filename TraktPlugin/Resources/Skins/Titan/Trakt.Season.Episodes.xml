@@ -201,7 +201,7 @@
         <type>facadeview</type>
         <id>50</id>
         <control>
-          <description>Movie List</description>
+          <description>Episode List</description>
           <type>listcontrol</type>
           <id>50</id>
           <onleft>2</onleft>
@@ -219,6 +219,7 @@
           <dimColor>ffffffff</dimColor>
           <spinPosX>1828</spinPosX>
           <spinPosY>1000</spinPosY>
+          <explicitlyEnableScrollLabel>no</explicitlyEnableScrollLabel>
         </control>
 
         <control>

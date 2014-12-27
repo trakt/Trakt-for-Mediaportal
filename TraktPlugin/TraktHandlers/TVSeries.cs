@@ -1473,7 +1473,7 @@ namespace TraktPlugin.TraktHandlers
             int videoWidth = episode[DBEpisode.cVideoWidth];
             int videoHeight = episode[DBEpisode.cVideoHeight];
 
-            if ((videoWidth <= 3840 || videoWidth > 3000) || videoHeight == 2160)
+            if ((videoWidth <= 3840 && videoWidth > 3000) || videoHeight == 2160)
                 return TraktResolution.uhd_4k.ToString();
 
             if ((videoWidth <= 1920 && videoWidth > 1800) || videoHeight == 1080)

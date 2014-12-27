@@ -496,9 +496,10 @@ namespace TraktPlugin.GUI
             {
                 var item = new GUIListItem(list.Name);
 
-                item.Label2 = TraktLists.GetPrivacyLevelTranslation(list.Privacy);
+                item.Label2 = string.Format("{0} {1}", list.ItemCount, list.ItemCount != 1 ? Translation.Items : Translation.Item);
                 item.TVTag = list;
                 item.ItemId = Int32.MaxValue - itemId;
+                item.PinImage = TraktLists.GetPrivacyLevelIcon(list.Privacy);
                 item.IconImage = "defaultFolder.png";
                 item.IconImageBig = "defaultFolderBig.png";
                 item.ThumbnailImage = "defaultFolderBig.png";

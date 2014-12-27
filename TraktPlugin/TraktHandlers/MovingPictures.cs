@@ -1387,6 +1387,7 @@ namespace TraktPlugin.TraktHandlers
             if (MovingPicturesCore.Settings.ContainsKey(setting))
             {
                 MovingPicturesCore.Settings[setting].Value = value;
+                MovingPicturesCore.Settings[setting].Commit();
             }
         }
 

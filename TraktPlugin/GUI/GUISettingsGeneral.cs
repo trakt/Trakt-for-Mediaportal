@@ -116,7 +116,7 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // Set States
-            if (btnDownloadFanart !=null) btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
+            btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
             if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
             if (btnGetFollowerRequests != null) btnGetFollowerRequests.Selected = TraktSettings.GetFollowerRequestsOnStartup;
             if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Selected = TraktSettings.MovingPicturesCategories;

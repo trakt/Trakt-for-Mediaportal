@@ -276,7 +276,8 @@ namespace TraktPlugin
             {
                 facade.Clear();
 
-                GUIListItem item = new GUIListItem(Translation.NoActivities);
+                //TODOvar item = new GUIListItem(Translation.NoActivities);
+                var item = new GUIListItem(Translation.FeatureNotAvailable);
                 facade.Add(item);
                 facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
                 ClearSelectedActivityProperties();

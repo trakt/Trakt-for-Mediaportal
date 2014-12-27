@@ -402,7 +402,7 @@ namespace TraktPlugin.GUI
                             title = ShowInfo.Title;
                             break;
                         case ShoutTypeEnum.episode:
-                            title = string.Format(EpisodeInfo.ToString());
+                            title = EpisodeInfo.ToString();
                             break;
                     }
                     ClearProperties();
@@ -461,12 +461,6 @@ namespace TraktPlugin.GUI
 
             // Download avatars Async and set to facade            
             GUIUserListItem.GetImages(userImages);
-        }
-
-        private void SetProperty(string property, string value)
-        {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
-            GUIUtils.SetProperty(property, propertyValue);
         }
 
         private void InitProperties()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
@@ -119,31 +120,36 @@ namespace TraktPlugin.GUI
             // we may need to apply a rating overlay to the avatar
             if (TVTag is TraktComment)
             {
-                //TODO - UserRating not Implemented on API
-                //var shout = TVTag as TraktComment;
+                var shout = TVTag as TraktComment;
 
-                //// add a rating overlay if user has rated item
-                //var ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRatings);
+                // add a rating overlay if user has rated item
+                var ratingOverlay = GUIImageHandler.GetRatingOverlay(shout.UserRating);
 
-                //// get a reference to a MediaPortal Texture Identifier
-                //string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
-                //string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+                // get a reference to a MediaPortal Texture Identifier
+                string suffix = Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+                string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
 
-                //// build memory image, resize avatar as they come in different sizes sometimes
-                //Image memoryImage = null;
-                //if (ratingOverlay != RatingOverlayImage.None)
-                //{
-                //    memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
-                //    if (memoryImage == null) return;
+                // build memory image, resize avatar as they come in different sizes sometimes
+                Image memoryImage = null;
+                if (ratingOverlay != RatingOverlayImage.None)
+                {
+                    memoryImage = GUIImageHandler.DrawOverlayOnAvatar(imageFilePath, ratingOverlay, new Size(140, 140));
+                    if (memoryImage == null) return;
 
-                //    // load texture into facade item
-                //    if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
-                //    {
-                //        ThumbnailImage = texture;
-                //        IconImage = texture;
-                //        IconImageBig = texture;
-                //    }
-                //}
+                    // load texture into facade item
+                    if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                    {
+                        ThumbnailImage = texture;
+                        IconImage = texture;
+                        IconImageBig = texture;
+                    }
+                }
+                else
+                {
+                    ThumbnailImage = imageFilePath;
+                    IconImage = imageFilePath;
+                    IconImageBig = imageFilePath;
+                }
             }
             else
             {

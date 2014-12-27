@@ -38,7 +38,7 @@
       <posX>105</posX>
       <posY>347</posY>
       <width>429</width>
-      <height>263</height>
+      <height>251</height>
       <texture>tvseries_thumb_shadow.png</texture>
       <visible>facadeview.list</visible>
       <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>

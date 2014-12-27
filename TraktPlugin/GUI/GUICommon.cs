@@ -752,19 +752,19 @@ namespace TraktPlugin.GUI
 
         internal static void SetProperty(string property, string value)
         {
-            string propertyValue = string.IsNullOrEmpty(value) ? "N/A" : value;
+            string propertyValue = string.IsNullOrEmpty(value) ? "--" : value;
             GUIUtils.SetProperty(property, propertyValue);
         }
 
         internal static void SetProperty(string property, List<string> value)
         {
-            string propertyValue = value == null ? "N/A" : string.Join(", ", value.ToArray());
+            string propertyValue = value == null ? "--" : string.Join(", ", value.ToArray());
             GUIUtils.SetProperty(property, propertyValue);
         }
 
         internal static void SetProperty(string property, int? value)
         {
-            string propertyValue = value == null ? "N/A" : value.ToString();
+            string propertyValue = value == null ? "--" : value.ToString();
             GUIUtils.SetProperty(property, propertyValue);
         }
 

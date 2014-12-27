@@ -124,12 +124,27 @@
       <valign>middle</valign>
       <animation effect="fade" time="250">Visible</animation>
       <animation effect="fade" time="0">Hidden</animation>
+    </control>        
+
+    <control>
+      <description>Episode Count</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Episodes.Label: #itemcount</label>
+      <id>0</id>
+      <posX>96</posX>
+      <posY>998</posY>
+      <align>left</align>
+      <font>TitanLight12</font>
+      <textcolor>000000</textcolor>
+      <visible>[facadeview.list | facadeview.smallicons | facadeview.largeicons | facadeview.filmstrip | facadeview.coverflow] + control.isvisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
-    <!--            :: Count ::            -->
+    
     <control>
       <description>Item Count</description>
       <type>label</type>
-      <label>#Trakt.Translation.Calendar.Label: #itemcount  /  #Trakt.CurrentView</label>
+      <label>#Trakt.CurrentView</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>

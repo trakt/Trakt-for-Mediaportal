@@ -355,7 +355,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
 
             // Related Shows
-            listItem = new GUIListItem(Translation.RelatedShows + "...");
+            listItem = new GUIListItem(Translation.RelatedShows);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Related;
 
@@ -419,7 +419,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.AddEpisodeToList;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts + "...");
+            listItem = new GUIListItem(Translation.Shouts);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 

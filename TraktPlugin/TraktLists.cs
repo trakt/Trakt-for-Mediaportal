@@ -219,6 +219,13 @@ namespace TraktPlugin
             return Translation.Public;
         }
 
+        internal static string GetPrivacyLevelIcon(string privacyLevel)
+        {
+            if (privacyLevel == "private") return "traktPrivate.png";
+            if (privacyLevel == "friends") return "traktFriends.png";
+            return "traktPublic.png";
+        }
+
         #endregion
 
     }

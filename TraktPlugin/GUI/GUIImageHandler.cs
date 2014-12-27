@@ -96,7 +96,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Get a overlay for images that represent a users rating
         /// </summary>
-        internal static RatingOverlayImage GetRatingOverlay(double? userRating)
+        internal static RatingOverlayImage GetRatingOverlay(int? userRating)
         {
             RatingOverlayImage ratingOverlay = RatingOverlayImage.None;
             
@@ -188,35 +188,23 @@ namespace TraktPlugin.GUI
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
-            if (url.Contains("jpg?") && !url.Contains("gravatar"))
+            // remove the file-extension from the midstring and add it to the end where it belongs         
+            if (url.Contains("jpg?"))
                 url = url.Replace("jpg?", string.Empty) + ".jpg";
+            if (url.Contains("png?"))
+                url = url.Replace("png?", string.Empty) + ".png";
+
+            // if a gravatar
+            if (url.Contains("gravatar"))
+            {
+                // grab the hash only (first param) and get rid of the extra parameters
+                int defaultParam = url.IndexOf('?', 0);
+                url = url.Substring(0, defaultParam) + ".jpg";
+            }
 
             return url;
         }
 
-        /// <summary>
-        /// Get the url/filename for the smaller version of the fanart
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static string ToSmallFanart(this string url)
-        {
-            // if user wants full fanart or if there is no fanart online return the raw value
-            if (TraktSettings.DownloadFullSizeFanart || url.EndsWith("-940.jpg")) return url;
-            return url.Replace(".jpg", "-940.jpg");
-        }
-
-        /// <summary>
-        /// Get the url/filename for the smaller version of the poster
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static string ToSmallPoster(this string url)
-        {
-            // if there is no poster online return the raw value
-            if (url.EndsWith("-300.jpg")) return url;
-            return url.Replace(".jpg", "-300.jpg");
-        }
         /// <summary>
         /// Returns the default Poster to display in the facade
         /// </summary>
@@ -263,11 +251,6 @@ namespace TraktPlugin.GUI
             WebClient webClient = new WebClient();
             webClient.Headers.Add("user-agent", TraktSettings.UserAgent);
 
-            // Ignore Image placeholders (series/movies with no artwork)
-            // use skins default images instead
-            if (url.Contains("poster-small") || url.Contains("fanart-summary")) return false;
-            if (url.Contains("poster-dark") || url.Contains("fanart-dark") || url.Contains("episode-dark")) return false;
-
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(localFile));
@@ -298,7 +281,7 @@ namespace TraktPlugin.GUI
             // Activate Backdrop in Image Swapper
             if (!backdrop.Active) backdrop.Active = true;
 
-            if (string.IsNullOrEmpty(filename) || filename.Contains("fanart-summary") || filename.Contains("fanart-dark") || !File.Exists(filename))
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                 filename = string.Empty;
 
             // Assign Fanart filename to Image Loader

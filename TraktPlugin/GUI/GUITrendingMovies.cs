@@ -72,7 +72,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, 1000);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
@@ -368,10 +368,9 @@ namespace TraktPlugin.GUI
             }
 
             // filter movies
-            trendingItems = GUICommon.FilterTrendingMovies(trendingItems);
+            var filteredTrendingList = GUICommon.FilterTrendingMovies(trendingItems).Where(m => !string.IsNullOrEmpty(m.Movie.Title)).ToList();
 
             // sort movies
-            var filteredTrendingList = trendingItems.Where(m => !string.IsNullOrEmpty(m.Movie.Title)).ToList();
             filteredTrendingList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
 
             int itemId = 0;
@@ -412,8 +411,8 @@ namespace TraktPlugin.GUI
             Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", trendingItems.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", trendingItems.Count().ToString(), trendingItems.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#itemcount", filteredTrendingList.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), trendingItems.Count() > 1 ? Translation.Movies : Translation.Movie));
             GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.Sum(t => t.Watchers).ToString());
             GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, trendingItems.Sum(t => t.Watchers).ToString(), trendingItems.Count().ToString()));
 

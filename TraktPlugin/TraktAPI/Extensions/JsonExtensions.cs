@@ -18,13 +18,10 @@ namespace TraktPlugin.TraktAPI.Extensions
         /// <summary>
         /// Creates a list based on a JSON Array
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="jsonArray"></param>
-        /// <returns></returns>
         public static IEnumerable<T> FromJSONArray<T>(this string jsonArray)
         {
             if (string.IsNullOrEmpty(jsonArray)) return new List<T>();
-            
+
             try
             {
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonArray)))
@@ -53,7 +50,7 @@ namespace TraktPlugin.TraktAPI.Extensions
         /// </summary>
         public static T FromJSONDictionary<T>(this string json)
         {
-            if (string.IsNullOrEmpty(json)) return default(T);
+            if (string.IsNullOrEmpty(json)) return default(T);            
 
             try
             {

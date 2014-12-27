@@ -301,7 +301,7 @@ namespace TraktPlugin.GUI
             // Related Movies/Shows
             if (SelectedType != TraktItemType.person)
             {
-                listItem = new GUIListItem(SelectedType == TraktItemType.movie ? Translation.RelatedMovies : Translation.RelatedShows + "...");
+                listItem = new GUIListItem(SelectedType == TraktItemType.movie ? Translation.RelatedMovies : Translation.RelatedShows);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Related;
             }
@@ -314,7 +314,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Rate;
 
                 // Shouts
-                listItem = new GUIListItem(Translation.Shouts + "...");
+                listItem = new GUIListItem(Translation.Shouts);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Shouts;
             }

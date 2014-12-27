@@ -134,28 +134,33 @@ namespace TraktPlugin.GUI
                         switch (SelectedActivity)
                         {
                             case (ActivityType.RecentWatchedMovies):
-                                GUIRecentWatchedMovies.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
+                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                                //TODOGUIRecentWatchedMovies.CurrentUser = CurrentUser;
+                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
                                 break;
 
                             case (ActivityType.RecentWatchedEpisodes):
-                                GUIRecentWatchedEpisodes.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedEpisodes);
+                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                                //TODOGUIRecentWatchedEpisodes.CurrentUser = CurrentUser;
+                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedEpisodes);
                                 break;
 
                             case (ActivityType.RecentAddedEpisodes):
-                                GUIRecentAddedEpisodes.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedEpisodes);
+                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                                //TODOGUIRecentAddedEpisodes.CurrentUser = CurrentUser;
+                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedEpisodes);
                                 break;
 
                             case (ActivityType.RecentAddedMovies):
-                                GUIRecentAddedMovies.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedMovies);
+                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                                //TODOGUIRecentAddedMovies.CurrentUser = CurrentUser;
+                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedMovies);
                                 break;
 
                             case (ActivityType.RecentShouts):
-                                GUIRecentShouts.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
+                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                                //TODOGUIRecentShouts.CurrentUser = CurrentUser;
+                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
                                 break;
 
                             case (ActivityType.MovieWatchList):

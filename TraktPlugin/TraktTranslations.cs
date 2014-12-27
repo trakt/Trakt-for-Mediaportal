@@ -322,6 +322,8 @@ namespace TraktPlugin.GUI
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
         public static string CreateAccountWebsite = "Sorry, this feature is no longer\navailable. Please use the website\nto create an account.";
+        public static string Comment = "Comment";
+        public static string Comments = "Comments";
         public static string Community = "Community";
         public static string CommunityActivity = "Community Activity";
         public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
@@ -370,6 +372,7 @@ namespace TraktPlugin.GUI
         public static string FailedDeleteList = "Failed to delete list from online";
         public static string FailedLogin = "Failed to login to trakt.tv, check username and password in settings";
         public static string FailedUpdateList = "Failed to update list online";
+        public static string FeatureNotAvailable = "Sorry, this feature is currently not available";
         public static string Filters = "Filters";
         public static string FirstAired = "First Aired";
         public static string Follow = "Follow";
@@ -481,7 +484,7 @@ namespace TraktPlugin.GUI
         public static string Inserted = "Inserted";
         public static string InProduction = "In Production";
         public static string Item = "Item";
-        public static string Items = "Items";        
+        public static string Items = "Items";
 
         // J
         public static string JoinDate = "Join Date";
@@ -652,6 +655,8 @@ namespace TraktPlugin.GUI
         public static string Settings = "Settings";
         public static string Shout = "Shout";
         public static string Shouts = "Shouts";
+        public static string Show = "Show";
+        public static string Shows = "Shows";
         public static string ShowTVShowsInWatchlist = "Show TV Shows in WatchList";
         public static string ShowSpoilers = "Show Spoilers";
         public static string ShowFriendActivity = "Show Friend Activity";

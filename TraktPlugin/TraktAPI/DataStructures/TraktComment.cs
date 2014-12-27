@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public int Id { get; set; }
 
         [DataMember(Name = "parent_id")]
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
@@ -32,6 +32,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "likes")]
         public int Likes { get; set; }
+
+        [DataMember(Name = "user_rating")]
+        public int? UserRating { get; set; }
 
         [DataMember(Name = "user")]
         public TraktUserSummary User { get; set; }

@@ -453,7 +453,7 @@ namespace TraktPlugin
                 //TODOAlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
                 SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
-                SyncStartDelay = xmlreader.GetValueAsInt(cTrakt, cSyncStartDelay, 0);
+                SyncStartDelay = xmlreader.GetValueAsInt(cTrakt, cSyncStartDelay, 5000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
                 TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
                 RecommendedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecommendedMoviesDefaultLayout, 0);
@@ -473,18 +473,18 @@ namespace TraktPlugin
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
                 WebRequestTimeout = xmlreader.GetValueAsInt(cTrakt, cWebRequestTimeout, 30000);
-                GetFollowerRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, true);
+                GetFollowerRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, false);
                 MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
                 MovingPicturesFilters = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesFilters, false);
                 CalendarHideTVShowsInWatchList = xmlreader.GetValueAsBool(cTrakt, cCalendarHideTVShowsInWatchList, false);
                 HideWatchedRelatedMovies = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedMovies, false);
                 HideWatchedRelatedShows = xmlreader.GetValueAsBool(cTrakt, cHideWatchedRelatedShows, false);
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);                
-                SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, false);
-                ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, false);
+                SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, true);
+                ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, true);
                 DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
                 DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
-                DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 500);
+                DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 200);
                 DashboardMovieTrendingActive = xmlreader.GetValueAsBool(cTrakt, cDashboardMovieTrendingActive, false);
                 MovieRecommendationGenre = xmlreader.GetValueAsString(cTrakt, cMovieRecommendationGenre, "All");
                 MovieRecommendationHideCollected = xmlreader.GetValueAsBool(cTrakt, cMovieRecommendationHideCollected, false);
@@ -507,7 +507,7 @@ namespace TraktPlugin
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
                 MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
-                ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, true);
+                ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, false);
                 TrendingMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatched, false);
                 TrendingMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, false);
                 TrendingMoviesHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideCollected, false);
@@ -549,6 +549,9 @@ namespace TraktPlugin
             LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
             LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktMovieTrending>();
             LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktShowTrending>();
+
+            // correct any settings in internal plugins if needed
+            UpdateInternalPluginSettings();
         }
 
         /// <summary>
@@ -679,10 +682,10 @@ namespace TraktPlugin
             // disable internal plugin rate dialogs if we show trakt dialog
             if (TraktSettings.ShowRateDialogOnWatched)
             {
-                if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
+                if (TraktHelper.IsMovingPicturesAvailableAndEnabled && MovingPictures >= 0)
                     TraktHandlers.MovingPictures.UpdateSettingAsBool("auto_prompt_for_rating", false);
 
-                if (TraktHelper.IsMPTVSeriesAvailableAndEnabled)
+                if (TraktHelper.IsMPTVSeriesAvailableAndEnabled && TVSeries >= 0)
                     TraktHandlers.TVSeries.UpdateSettingAsBool("askToRate", false);
             }
         }

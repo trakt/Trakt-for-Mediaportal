@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows(1, 1000);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
@@ -378,10 +378,9 @@ namespace TraktPlugin.GUI
             }
 
             // filter shows
-            trendingItems = GUICommon.FilterTrendingShows(trendingItems);
+            var filteredTrendingList = GUICommon.FilterTrendingShows(trendingItems).ToList();
 
             // sort shows
-            var filteredTrendingList = trendingItems.ToList();
             filteredTrendingList.Sort(new GUIListItemShowSorter(TraktSettings.SortByTrendingShows.Field, TraktSettings.SortByTrendingShows.Direction));
 
             int itemId = 0;
@@ -416,8 +415,8 @@ namespace TraktPlugin.GUI
             Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", trendingItems.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", trendingItems.Count().ToString(), trendingItems.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
+            GUIUtils.SetProperty("#itemcount", filteredTrendingList.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), trendingItems.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
             GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.Sum(t => t.Watchers).ToString());
             GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingTVShowsPeople, trendingItems.Sum(t => t.Watchers).ToString(), trendingItems.Count().ToString()));
 

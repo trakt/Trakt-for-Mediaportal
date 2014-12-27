@@ -94,12 +94,13 @@
 
     <import>common.time.xml</import>
     <control>
-      <description>Current View</description>
+      <description>Watchers</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.Trending.Description</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>
+      <width>1100</width>
       <align>left</align>
       <textcolor>FFFFFFFF</textcolor>
       <font>TitanLight12</font>
@@ -110,7 +111,7 @@
     <!--            :: Count ::            -->
 
     <control>
-      <description>Moviecount</description>
+      <description>Show Count</description>
       <type>label</type>
       <label>#Trakt.Translation.Series.Label: #itemcount</label>
       <id>0</id>

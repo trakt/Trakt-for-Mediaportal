@@ -78,6 +78,8 @@
   <string name="CreatingList">Creating List</string>
   <string name="CreateList">Create a new List...</string>
   <string name="CreateAccountWebsite">Sorry, this feature is no longer\navailable. Please use the website\nto create an account.</string>
+  <string name="Comment">Comment</string>
+  <string name="Comments">Comments</string>
   <string name="Community">Community</string>
   <string name="CommunityActivity">Community Activity</string>
   <string name="ConfirmDeleteList">Are you sure you want to delete\nthis list?</string>
@@ -123,6 +125,7 @@
   <string name="FailedDeleteList">Failed to delete list from online</string>
   <string name="FailedLogin">Failed to login to trakt.tv, check username and password in settings</string>
   <string name="FailedUpdateList">Failed to update list online</string>
+  <string name="FeatureNotAvailable">Sorry, this feature is currently not available</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
   <string name="Follow">Follow</string>
@@ -393,6 +396,8 @@
   <string name="Settings">Settings</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
+  <string name="Show">Show</string>
+  <string name="Shows">Shows</string>
   <string name="ShowTVShowsInWatchlist">Show TV Shows in Watchlist</string>
   <string name="ShowSpoilers">Show Spoilers</string>
   <string name="ShowFriendActivity">Show Friend Activity</string>

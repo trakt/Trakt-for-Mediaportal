@@ -41,6 +41,8 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.cbSyncRatings = new System.Windows.Forms.CheckBox();
             this.cbSyncLibrary = new System.Windows.Forms.CheckBox();
             this.cbMyFilmsCategories = new System.Windows.Forms.CheckBox();
@@ -55,8 +57,6 @@
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -187,6 +187,29 @@
             this.gbMisc.TabStop = false;
             this.gbMisc.Text = "Misc";
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(51, 201);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(258, 42);
+            this.textBox1.TabIndex = 10;
+            this.textBox1.TabStop = false;
+            this.textBox1.Text = "more options can be found in the GUI Advanced Settings section. The Extensions pl" +
+    "ugin must also be installed.";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(9, 202);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Note:";
+            // 
             // cbSyncRatings
             // 
             this.cbSyncRatings.AutoSize = true;
@@ -261,9 +284,12 @@
             this.cbTraktSyncLength.FormattingEnabled = true;
             this.cbTraktSyncLength.Items.AddRange(new object[] {
             "1",
+            "3",
             "6",
             "12",
-            "24"});
+            "24",
+            "48",
+            "72"});
             this.cbTraktSyncLength.Location = new System.Drawing.Point(9, 18);
             this.cbTraktSyncLength.Name = "cbTraktSyncLength";
             this.cbTraktSyncLength.Size = new System.Drawing.Size(52, 21);
@@ -346,29 +372,6 @@
             this.btnMovieRestrictions.Text = "&Movies...";
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 202);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Note:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(51, 201);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(258, 42);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.TabStop = false;
-            this.textBox1.Text = "more options can be found in the GUI Advanced Settings section. The Extensions pl" +
-    "ugin must also be installed.";
             // 
             // Configuration
             // 
