@@ -99,14 +99,14 @@ namespace TraktPlugin.GUI
                         catch (ThreadAbortException)
                         {
                             if (!abortedByUser) 
-                                TraktLogger.Info("Timeout waiting for results.");
+                                TraktLogger.Info("Timeout waiting for results");
                             
                             Thread.ResetAbort();
                         }
                         catch (Exception threadException)
                         {
                             _CurrentError = threadException;
-                            TraktLogger.Info(threadException.ToString());
+                            TraktLogger.Warning(threadException.ToString());
                             _CurrentTaskSuccess = false;
                         }
                         timeoutTimer.Stop();
@@ -151,7 +151,7 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                TraktLogger.Info("Another thread tried to execute a task in background.");
+                TraktLogger.Warning("Another thread tried to execute a task in background");
                 return false;
             }
         }

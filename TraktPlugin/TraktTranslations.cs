@@ -604,6 +604,8 @@ namespace TraktPlugin.GUI
         public static string RateSeven = "Good";
         public static string RateEight = "Great";
         public static string RateNine = "Superb";
+        public static string RecentShouts = "Recent Shouts";
+        public static string RecentComments = "Recent Comments";
         public static string Recommendations = "Recommendations";
         public static string RecommendedMovies = "Recommended Movies";
         public static string RecommendedShows = "Recommended Shows";
@@ -615,8 +617,7 @@ namespace TraktPlugin.GUI
         public static string RecentWatchedMovies = "Recently Watched Movies";
         public static string RecentWatchedEpisodes = "Recently Watched Episodes";
         public static string RecentAddedMovies = "Recently Added Movies";
-        public static string RecentAddedEpisodes = "Recently Added Episodes";
-        public static string RecentShouts = "Recent Shouts";
+        public static string RecentAddedEpisodes = "Recently Added Episodes";        
         public static string RemoveFromLibrary = "Remove from Collection";
         public static string RemoveFromWatchList = "Remove from Watchlist";
         public static string RemoveShowFromWatchList = "Remove Show from Watchlist";

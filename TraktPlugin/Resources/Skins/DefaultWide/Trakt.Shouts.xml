@@ -46,7 +46,7 @@
       <width>866</width>
       <font>font11</font>
       <textcolor>ff6FAFE1</textcolor>
-      <label>#Trakt.Translation.Shouts.Label | #Trakt.Shout.CurrentItem</label>
+      <label>#Trakt.Translation.Comments.Label | #Trakt.Shout.CurrentItem</label>
       <align>left</align>
     </control>
     <control>

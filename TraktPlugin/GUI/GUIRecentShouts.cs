@@ -416,7 +416,7 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", activities.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Shout : Translation.Shouts));
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Shout : Translation.Comments));
 
             // Download images Async and set to facade
             GUICustomListItem.GetImages(shoutImages);

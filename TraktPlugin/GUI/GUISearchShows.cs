@@ -268,7 +268,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts);
+            listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 

@@ -416,7 +416,7 @@ namespace TraktPlugin.GUI
             }
 
             GUIUtils.SetProperty("#itemcount", shouts.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Shouts : Translation.Shout));            
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Comments : Translation.Shout));            
 
             int id = 0;
             var userImages = new List<GUITraktImage>();

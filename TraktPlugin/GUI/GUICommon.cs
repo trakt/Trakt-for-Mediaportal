@@ -1312,7 +1312,7 @@ namespace TraktPlugin.GUI
             listItems.Add(listItem);
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts);
+            listItem = new GUIListItem(Translation.Comments);
             listItem.ItemId = (int)ActivityContextMenuItem.Shouts;
             listItems.Add(listItem);
 
@@ -1407,7 +1407,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts);
+            listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
 
@@ -1509,7 +1509,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)TrendingContextMenuItem.Rate;
 
             // Shouts
-            listItem = new GUIListItem(Translation.Shouts);
+            listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
 
@@ -1973,7 +1973,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Shouts);
+            GUIListItem pItem = new GUIListItem(Translation.Comments);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 
@@ -2114,7 +2114,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUIListItem pItem = new GUIListItem(Translation.Shouts);
+            GUIListItem pItem = new GUIListItem(Translation.Comments);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 
@@ -2278,7 +2278,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var pItem = new GUIListItem(Translation.Shouts);
+            var pItem = new GUIListItem(Translation.Comments);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 

@@ -6,13 +6,7 @@ namespace TraktPlugin.TraktAPI
     /// </summary>
     public static class TraktURIs
     {
-        #region Authentication
-
         public const string Login = "http://api.v2.trakt.tv/auth/login";
-
-        #endregion
-        
-        #region Sync
 
         // GET
         public const string SyncLastActivities = "http://api.v2.trakt.tv/sync/last_activities";
@@ -70,6 +64,11 @@ namespace TraktPlugin.TraktAPI
         public const string NetworkFollowRequest = "http://api.v2.trakt.tv/users/requests/{0}";
         public const string NetworkFollowUser = "http://api.v2.trakt.tv/users/{0}/follow";
 
+        public const string ShowSummary = "http://api.v2.trakt.tv/shows/{0}?extended=full,images";
+        public const string MovieSummary = "http://api.v2.trakt.tv/movies/{0}?extended=full,images";
+        public const string EpisodeSummary = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}?extended=full,images";
+        public const string PersonSummary = "http://api.v2.trakt.tv/people/{0}?extended=full,images";
+
         public const string ShowSeasons = "http://api.v2.trakt.tv/shows/{0}/seasons?extended=full,images";
         public const string SeasonEpisodes = "http://api.v2.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
 
@@ -97,6 +96,5 @@ namespace TraktPlugin.TraktAPI
 
         public const string DeleteList = "http://api.v2.trakt.tv/users/{0}/lists/{1}";
 
-        #endregion
     }
 }

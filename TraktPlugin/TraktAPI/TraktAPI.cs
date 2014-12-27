@@ -360,6 +360,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Summary
+
+        public static TraktShowSummary GetShowSummary(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowSummary, id));
+            return response.FromJSON<TraktShowSummary>();
+        }
+
+        #endregion
+
         #region Seasons
 
         public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id)

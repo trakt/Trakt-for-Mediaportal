@@ -297,7 +297,7 @@ namespace TraktPlugin.GUI
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
 
-            item = new GUIUserListItem(Translation.RecentShouts, (int)TraktGUIWindows.Network);
+            item = new GUIUserListItem(Translation.RecentComments, (int)TraktGUIWindows.Network);
             item.IconImage = avatar;
             item.IconImageBig = avatar;
             item.ThumbnailImage = avatar;
