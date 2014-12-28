@@ -997,7 +997,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Shout.Type", shout.IsReview ? "review" : "shout");
             SetProperty("#Trakt.Shout.Likes", shout.Likes);
             SetProperty("#Trakt.Shout.Replies", shout.Replies);
-            //TODOSetProperty("#Trakt.Shout.UserRating", shout.UserRatings.Rating);
+            SetProperty("#Trakt.Shout.UserRating", shout.UserRating);
 
             // don't hide spoilers if watched
             if (TraktSettings.HideSpoilersOnShouts && shout.IsSpoiler && !isWatched)

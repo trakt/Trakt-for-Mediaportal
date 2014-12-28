@@ -97,7 +97,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoLabel">
-      <description>Number of People Watching</description>
+      <description>Rating Label</description>
       <type>fadelabel</type>
       <label>#Trakt.Translation.Rating.Label</label>
       <id>0</id>
@@ -154,7 +154,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoLabel">
-      <description>Watchers Label</description>
+      <description>Genres Label</description>
       <id>0</id>
       <type>label</type>
       <label>#Trakt.Translation.Genre.Label</label>
@@ -165,7 +165,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoValueSmall">
-      <description>Watchers</description>
+      <description>Genres</description>
       <id>0</id>
       <type>label</type>
       <label>#Trakt.Movie.Genres</label>
@@ -256,21 +256,8 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
-    <!--
-		<control Style="InfoLabel">
-			<description>Genre Label</description>
-			<type>label</type>
-			<id>0</id>
-			<posX>118</posX>
-			<posY>516</posY>
-			<label>#Trakt.Translation.Rating.Label</label>
-			<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Ratings.Percentage,)</visible>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
-		</control>
-		-->
     <control Style="InfoValueWide">
-      <description>Genre Value</description>
+      <description>Rating/Votes Value</description>
       <type>fadelabel</type>
       <id>0</id>
       <posX>168</posX>
@@ -316,7 +303,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoLabel">
-      <description>Watchers Label</description>
+      <description>Genres Label</description>
       <id>0</id>
       <type>label</type>
       <label>#Trakt.Translation.Genre.Label</label>
@@ -327,7 +314,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control Style="InfoValueSmall">
-      <description>Watchers</description>
+      <description>Genres</description>
       <id>0</id>
       <type>label</type>
       <label>#Trakt.Movie.Genres</label>

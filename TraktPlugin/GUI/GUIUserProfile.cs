@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -59,8 +60,34 @@ namespace TraktPlugin.GUI
             {
                 if (!Users.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    var profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
-                    var statistics = TraktAPI.TraktAPI.GetUserStatistics(CurrentUser);
+                    var profile = new TraktUserSummary();
+                    var statistics = new TraktUserStatistics();
+                    var threads = new List<Thread>();
+
+                    var profileThread = new Thread(() =>
+                    {
+                        profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                    })
+                    {
+                        Name = "Profile"
+                    };
+                    
+                    var statsThread = new Thread(() =>
+                    {
+                        statistics = TraktAPI.TraktAPI.GetUserStatistics(CurrentUser);
+                    })
+                    {
+                        Name = "Stats"
+                    };
+
+                    profileThread.Start();
+                    statsThread.Start();
+
+                    threads.Add(profileThread);
+                    threads.Add(statsThread);
+
+                    // wait for threads to complete
+                    threads.ForEach(t => t.Join());
 
                     if (Users.Keys.Contains(CurrentUser))
                         Users.Remove(CurrentUser);

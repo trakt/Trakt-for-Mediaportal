@@ -3,7 +3,7 @@
   <id>87280</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
-  <define>#header.label:Trakt #Trakt.Translation.Shouts.Label</define>
+  <define>#Trakt.Translation.Comments.Label</define>
   <controls>
 
     <control>
@@ -72,9 +72,9 @@
     </control>
     <import>common.time.xml</import>
     <control>
-      <description>Current View</description>
+      <description>Item being commented on</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.Shout.CurrentItem</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>
@@ -139,9 +139,9 @@
 
     <!--            :: Count ::            -->
     <control>
-      <description>Shout Sount</description>
+      <description>Comment Count</description>
       <type>label</type>
-      <label>#Trakt.Translation.Shouts.Label: #itemcount</label>
+      <label>#Trakt.Translation.Comments.Label: #itemcount</label>
       <id>0</id>
       <posX>96</posX>
       <posY>998</posY>

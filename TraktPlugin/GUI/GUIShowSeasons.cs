@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -257,7 +258,25 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return ShowSeasons;
+                IEnumerable<TraktSeason> seasons = null;
+                var threads = new List<Thread>();
+
+                var t1 = new Thread(() => { seasons = ShowSeasons; });
+                var t2 = new Thread(() => GetShowDetail());
+
+                t1.Start();
+                t1.Name = "Seasons";
+
+                t2.Start();
+                t2.Name = "Summary";
+
+                threads.Add(t1);
+                threads.Add(t2);
+
+                // wait until all results are back
+                threads.ForEach(t => t.Join());
+
+                return seasons;
             },
             delegate(bool success, object result)
             {
@@ -267,6 +286,24 @@ namespace TraktPlugin.GUI
                     SendShowSeasonsToFacade(seasons);
                 }
             }, Translation.GettingShowSeasons, true);
+        }
+
+        private void GetShowDetail()
+        {
+            // check if we need to fetch the show detail as well
+            // currently the season API does not give back any show 
+            // summary info except for images
+            if (Show.UpdatedAt == null)
+            {
+                var showSummary = TraktAPI.TraktAPI.GetShowSummary(Show.Ids.Trakt.ToString());
+                if (showSummary != null)
+                {
+                    Show = showSummary;
+
+                    // Load Show Properties
+                    PublishShowSkinProperties(Show);
+                }
+            }
         }
 
         private void SendShowSeasonsToFacade(IEnumerable<TraktSeasonSummary> seasons)
@@ -310,6 +347,7 @@ namespace TraktPlugin.GUI
                 item.Season = season;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
+                item.IsPlayed = season.IsWatched(Show);
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
                 item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();

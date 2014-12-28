@@ -24,10 +24,12 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            Like,
+            Unlike,
             Create,
             Delete,
             Edit,
-            Copy
+            Copy            
         }
 
         #endregion

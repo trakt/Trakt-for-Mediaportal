@@ -100,7 +100,7 @@
     <control>
       <description>Current View</description>
       <type>label</type>
-      <label>Trakt / #Trakt.Search.SearchTerm</label>
+      <label>#Trakt.Search.SearchTerm</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>

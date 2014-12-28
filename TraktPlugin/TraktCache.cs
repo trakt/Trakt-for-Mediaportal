@@ -1213,6 +1213,8 @@ namespace TraktPlugin
                 return item.Movie.Plays();
             if (item.Type == "show" && item.Movie != null)
                 return item.Show.Plays();
+            if (item.Type == "season" && item.Season != null)
+                return item.Season.Plays(item.Show);
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.Plays(item.Show);
 
@@ -1225,6 +1227,8 @@ namespace TraktPlugin
                 return item.Movie.IsWatched();
             if (item.Type == "show" && item.Movie != null)
                 return item.Show.IsWatched();
+            if (item.Type == "season" && item.Season != null)
+                return item.Season.IsWatched(item.Show);
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.IsWatched(item.Show);
 
@@ -1237,6 +1241,8 @@ namespace TraktPlugin
                 return item.Movie.IsCollected();
             if (item.Type == "show" && item.Show != null)
                 return item.Show.IsCollected();
+            if (item.Type == "season" && item.Season != null)
+                return item.Season.IsCollected(item.Show);
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.IsCollected(item.Show);
 
@@ -1249,6 +1255,8 @@ namespace TraktPlugin
                 return item.Movie.IsWatchlisted();
             else if (item.Type == "show" && item.Show != null)
                 return item.Show.IsWatchlisted();
+            if (item.Type == "season" && item.Season != null)
+                return item.Season.IsWatchlisted(item.Show);
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.IsWatchlisted();
 
@@ -1261,6 +1269,8 @@ namespace TraktPlugin
                 return item.Movie.UserRating();
             else if (item.Type == "show" && item.Show != null)
                 return item.Show.UserRating();
+            else if (item.Type == "season" && item.Season != null)
+                return item.Season.UserRating();
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.UserRating(item.Show);
 

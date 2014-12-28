@@ -38,12 +38,15 @@ namespace TraktPlugin.TraktAPI.Extensions
         /// <param name="dt">DateTime as string</param>
         /// <param name="hourShift">Number of hours to shift original time</param>
         /// <returns>ISO8601 Timestamp</returns>
-        public static string ToISO8601(this string dt, double hourShift = 0)
+        public static string ToISO8601(this string dt, double hourShift = 0, bool isLocal = false)
         {
             DateTime date;
             if (DateTime.TryParse(dt, out date))
             {
-                return date.AddHours(hourShift).ToString("yyyy-MM-ddTHH:mm:ssZ");
+                if (isLocal)
+                    return date.AddHours(hourShift).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+                else
+                    return date.AddHours(hourShift).ToString("yyyy-MM-ddTHH:mm:ssZ");
             }
 
             return DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
@@ -92,6 +95,26 @@ namespace TraktPlugin.TraktAPI.Extensions
         public static string ToLocalisedDayOfWeek(this DateTime date)
         {
             return DateTimeFormatInfo.CurrentInfo.GetDayName(date.DayOfWeek);
+        }
+
+        public static string ToPrettyTime(this TimeSpan span)
+        {
+            if (span.TotalDays >= 1)
+            {
+                return string.Format("{0} day{1}, {2} hour{3} and {4} minute{5}", span.Days, span.Days > 1 ? "s" : "", span.Hours, span.Hours != 1 ? "s" : "", span.Minutes, span.Minutes != 1 ? "s" : "");
+            }
+            else if (span.TotalHours >= 1)
+            {
+                return string.Format("{0} hour{1}, {2} minute{3} and {4} second{5}", span.Hours, span.Hours > 1 ? "s" : "", span.Minutes, span.Minutes != 1 ? "s" : "", span.Seconds, span.Seconds != 1 ? "s" : "");
+            }
+            else if (span.TotalMinutes >= 1)
+            {
+                return string.Format("{0} minute{1} and {2} second{3}", span.Minutes, span.Minutes > 1 ? "s" : "", span.Seconds, span.Seconds != 1 ? "s" : "");
+            }
+            else
+            {
+                return string.Format("{0} seconds", Math.Round(span.TotalSeconds, 3));
+            }
         }
     }
 }

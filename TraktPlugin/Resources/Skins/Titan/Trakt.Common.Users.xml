@@ -36,7 +36,7 @@
       <posY>308</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.FullName,N/A)+!string.equals(#Trakt.User.FullName,)</visible>
+      <visible>!string.equals(#Trakt.User.FullName,)</visible>
     </control>
     <control Style="InfoValueSmall">
       <description>FullName value</description>
@@ -48,7 +48,6 @@
       <posY>308</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.FullName,N/A)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Gender label</description>
@@ -60,7 +59,7 @@
       <posY>346</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.Gender,N/A)+!string.equals(#Trakt.User.Gender,)</visible>
+      <visible>!string.equals(#Trakt.User.Gender,)</visible>
     </control>
     <control Style="InfoValueSmall">
       <description>Gender value</description>
@@ -72,7 +71,6 @@
       <posY>346</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.Gender,N/A)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Location label</description>
@@ -84,7 +82,7 @@
       <posY>384</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.Location,N/A)+!string.equals(#Trakt.User.Location,)</visible>
+      <visible>!string.equals(#Trakt.User.Location,)</visible>
     </control>
     <control Style="InfoValueSmall">
       <description>Location value</description>
@@ -96,7 +94,7 @@
       <posY>384</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.User.Location,N/A)+!string.equals(#Trakt.User.Location,)</visible>
+      <visible>!string.equals(#Trakt.User.Location,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Protected</description>
@@ -147,7 +145,7 @@
       <label>#Trakt.User.About</label>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <animation effect="fade" time="250" delay="0">WindowOpen</animation>
-      <visible>!string.equals(#Trakt.User.About,)+!string.equals(#Trakt.User.About,N/A)</visible>
+      <visible>!string.equals(#Trakt.User.About,)+!string.equals(#Trakt.User.About,--)</visible>
     </control>
   </controls>
 </window>

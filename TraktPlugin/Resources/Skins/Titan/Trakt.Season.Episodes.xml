@@ -113,9 +113,9 @@
 
     <import>common.time.xml</import>
     <control>
-      <description>Current View</description>
+      <description>Current Show</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.Show.Title</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>

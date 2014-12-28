@@ -95,20 +95,7 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <import>common.time.xml</import>
-    <!--            :: List Scrolling Popup ::            -->
-    <control>
-      <description>listscroller bg</description>
-      <type>image</type>
-      <id>1</id>
-      <posX>210</posX>
-      <posY>542</posY>
-      <width>211</width>
-      <height>211</height>
-      <texture>listscroller_bg.png</texture>
-      <visible>facadeview.list+string.contains(#scrolling.up,yes)|string.contains(#scrolling.down,yes)</visible>
-      <animation effect="fade" time="250">Visible</animation>
-      <animation effect="fade" time="0">Hidden</animation>
-    </control>
+   
     <control>
       <type>label</type>
       <id>1</id>
@@ -188,15 +175,17 @@
         <textXOff>44</textXOff>
         <textXOff2>620</textXOff2>
         <textXOff3>54</textXOff3>
-        <textcolor>FF85CFFF</textcolor>
-        <textcolor2>FF85CFFF</textcolor2>
-        <textcolor3>FFFFFFFF</textcolor3>
+        <textcolor>FFFFFFFF</textcolor>
+        <textcolor2>FFFFFFFF</textcolor2>
+        <textcolor3>FF85CFFF</textcolor3>
+        <font3>fontB12</font3>
         <textureHeight>54</textureHeight>
         <textureFocus>listcontrol_item_selected_trakt.png</textureFocus>
         <textureNoFocus>-</textureNoFocus>
         <dimColor>ffffffff</dimColor>
         <spinPosX>1828</spinPosX>
         <spinPosY>1000</spinPosY>
+        <explicitlyEnableScrollLabel>no</explicitlyEnableScrollLabel>
       </control>
     </control>
     <!--            :: HIDDEN MENU ::           	 -->

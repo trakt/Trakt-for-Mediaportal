@@ -36,10 +36,22 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
+                    var traktImage = s as GUITraktImage;
                     if (s is GUITraktImage && e.PropertyName == "Poster")
-                        SetImageToGui((s as GUITraktImage).SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
+                    {
+                        if (traktImage.SeasonImages.Poster != null && traktImage.SeasonImages.Poster.ThumbSize != null)
+                        {
+                            SetImageToGui(traktImage.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
+                        }
+                        else
+                        {
+                            SetImageToGui(traktImage.ShowImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
+                        }
+                    }
                     if (s is GUITraktImage && e.PropertyName == "Fanart")
+                    {
                         this.UpdateItemIfSelected(WindowID, ItemId);
+                    }
                 };
             }
         } protected GUITraktImage _Images;
@@ -87,9 +99,21 @@ namespace TraktPlugin.GUI
                         #region Season Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
+                        
+                        string remoteThumb = string.Empty;
+                        string localThumb = string.Empty;
 
-                        string remoteThumb = item.SeasonImages.Poster.ThumbSize;
-                        string localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+                        if (item.SeasonImages.Poster.ThumbSize != null)
+                        {
+                            remoteThumb = item.SeasonImages.Poster.ThumbSize;
+                            localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+                        }
+                        else
+                        {
+                            // use show image if season poster not available
+                            remoteThumb = item.ShowImages.Poster.ThumbSize;
+                            localThumb = item.ShowImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+                        }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {

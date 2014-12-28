@@ -11,5 +11,17 @@ namespace TraktPlugin.TraktAPI.Extensions
         {
             return source.Concat(tail);
         }
+
+        /// <summary>
+        /// avoid null reference exception for IEnumerables that are null
+        /// before converting to a list
+        /// </summary>
+        public static List<T> ToNullableList<T>(this IEnumerable<T> source)
+        {
+            if (source == null)
+                return null;
+
+            return source.ToList();
+        }
     }
 }

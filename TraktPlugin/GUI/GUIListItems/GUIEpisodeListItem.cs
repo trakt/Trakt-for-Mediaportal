@@ -35,9 +35,21 @@ namespace TraktPlugin.GUI
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is GUITraktImage && e.PropertyName == "Screen")
-                        SetImageToGui((s as GUITraktImage).EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
+                    {
+                        var traktImage = s as GUITraktImage;
+                        if (traktImage.EpisodeImages.ScreenShot != null && traktImage.EpisodeImages.ScreenShot.ThumbSize != null)
+                        {
+                            SetImageToGui(traktImage.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
+                        }
+                        else
+                        {
+                            SetImageToGui(traktImage.ShowImages.Fanart.LocalImageFilename(ArtworkType.EpisodeImage));
+                        }
+                    }
                     if (s is GUITraktImage && e.PropertyName == "Fanart")
+                    {
                         this.UpdateItemIfSelected(WindowID, ItemId);
+                    }
                 };
             }
         } protected GUITraktImage _Images;
@@ -92,8 +104,20 @@ namespace TraktPlugin.GUI
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.EpisodeImages.ScreenShot.ThumbSize;
-                        string localThumb = item.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage);
+                        string remoteThumb = string.Empty;
+                        string localThumb = string.Empty;
+
+                        if (item.EpisodeImages.ScreenShot.ThumbSize != null)
+                        {
+                            remoteThumb = item.EpisodeImages.ScreenShot.ThumbSize;
+                            localThumb = item.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage);
+                        }
+                        else
+                        {
+                            // use fanart for episode image
+                            remoteThumb = item.ShowImages.Fanart.ThumbSize;
+                            localThumb = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.EpisodeImage);
+                        }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {

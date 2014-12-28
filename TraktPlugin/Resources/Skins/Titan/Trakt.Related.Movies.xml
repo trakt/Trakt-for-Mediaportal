@@ -106,10 +106,11 @@
     </control>
 
     <import>common.time.xml</import>
+    
     <control>
-      <description>Current View</description>
+      <description>Movie Relation</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.Related.Movie</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>

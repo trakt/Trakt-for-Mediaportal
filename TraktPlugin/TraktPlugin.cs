@@ -32,6 +32,7 @@ namespace TraktPlugin
         ExtensionSettings extensionSettings = new ExtensionSettings();
         // Dashboard - Activity / Trending Items
         TraktDashboard dashBoard = new TraktDashboard();
+        DateTime SyncStartTime = new DateTime();
         #endregion
 
         #region ISetupFrom
@@ -547,7 +548,7 @@ namespace TraktPlugin
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
                 Thread.CurrentThread.Name = "Sync";
 
-            TraktLogger.Info("Library Sync complete for all enabled plugins");
+            TraktLogger.Info("Library Sync complete for all enabled plugins, Time Taken = '{0}'", DateTime.Now.Subtract(SyncStartTime).ToPrettyTime());
 
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?
@@ -564,6 +565,8 @@ namespace TraktPlugin
 
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
+
+            SyncStartTime = DateTime.Now;
 
             TraktLogger.Info("Library Sync started for all enabled plugins");
 

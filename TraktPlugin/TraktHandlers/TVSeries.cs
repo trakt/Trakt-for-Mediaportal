@@ -94,7 +94,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get all episodes on trakt that are marked as in 'collection'
             TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
-            var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt();
+            var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt().ToNullableList();
             if (traktCollectedEpisodes == null)
             {
                 TraktLogger.Error("Error getting tv episode collection from trakt.tv server");
@@ -110,7 +110,7 @@ namespace TraktPlugin.TraktHandlers
             #region Episodes
 
             TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
-            var traktRatedEpisodes = TraktCache.GetRatedEpisodesFromTrakt();
+            var traktRatedEpisodes = TraktCache.GetRatedEpisodesFromTrakt().ToNullableList();
             if (traktRatedEpisodes == null)
             {
                 TraktLogger.Error("Error getting rated episodes from trakt.tv server");
@@ -125,7 +125,7 @@ namespace TraktPlugin.TraktHandlers
             #region Shows
 
             TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
-            var traktRatedShows = TraktCache.GetRatedShowsFromTrakt();
+            var traktRatedShows = TraktCache.GetRatedShowsFromTrakt().ToNullableList();
             if (traktRatedEpisodes == null)
             {
                 TraktLogger.Error("Error getting rated shows from trakt.tv server");
@@ -143,12 +143,12 @@ namespace TraktPlugin.TraktHandlers
 
             // get all episodes on trakt that are marked as 'unseen'
             TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
-            var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt();
+            var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList();
             TraktLogger.Info("Found {0} unwatched tv episodes in trakt library", traktUnWatchedEpisodes.Count());
 
             // get all episodes on trakt that are marked as 'seen' or 'watched'
             TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
-            var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt();
+            var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt().ToNullableList();
             if (traktWatchedEpisodes == null)
             {
                 TraktLogger.Error("Error getting tv shows watched from trakt.tv server");
@@ -224,7 +224,7 @@ namespace TraktPlugin.TraktHandlers
                 // Get watched episodes of files that we have locally or are remote
                 // user could of deleted episode from disk but still have reference to it in database           
                 var localWatchedEpisodes = localEpisodes.Where(e => e[DBOnlineEpisode.cWatched] > 0).ToList();
-                var localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes);
+                var localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes).ToList();
 
                 TraktLogger.Info("Found {0} episodes watched in tvseries database", localWatchedEpisodes.Count);
 
@@ -386,7 +386,7 @@ namespace TraktPlugin.TraktHandlers
                 int iSyncCounter = 0;
                 if (traktWatchedEpisodes != null)
                 {
-                    var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes.ToList());
+                    var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes);
 
                     TraktLogger.Info("Found {0} local tv shows with watched episodes to add to trakt.tv watched history", syncWatchedShows.Shows.Count);                    
 
@@ -412,7 +412,7 @@ namespace TraktPlugin.TraktHandlers
                 #region Add episodes to collection at trakt.tv
                 if (traktCollectedEpisodes != null)
                 {
-                    var syncCollectedShows = GetCollectedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes.ToList());
+                    var syncCollectedShows = GetCollectedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes);
 
                     TraktLogger.Info("Found {0} local tv shows with collected episodes to add to trakt.tv collection", syncCollectedShows.Shows.Count);
 
@@ -443,7 +443,7 @@ namespace TraktPlugin.TraktHandlers
                     #region Episodes
                     if (traktRatedEpisodes != null)
                     {
-                        var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes.ToList());
+                        var syncRatedShowsEx = GetRatedEpisodesForSyncEx(localRatedEpisodes, traktRatedEpisodes);
 
                         TraktLogger.Info("Found {0} local tv shows with rated episodes to add to trakt.tv ratings", syncRatedShowsEx.Shows.Count);
 
@@ -517,7 +517,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (TraktSettings.KeepTraktLibraryClean && TraktSettings.TvShowPluginCount == 1 && traktCollectedEpisodes != null)
                 {
-                    var syncRemovedShows = GetRemovedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes.ToList());
+                    var syncRemovedShows = GetRemovedShowsForSyncEx(localCollectedEpisodes, traktCollectedEpisodes);
 
                     TraktLogger.Info("Found {0} local tv shows with episodes to remove from trakt.tv collection", syncRemovedShows.Shows.Count);
 
@@ -1084,7 +1084,7 @@ namespace TraktPlugin.TraktHandlers
                                                Number = episode[DBOnlineEpisode.cEpisodeIndex],
                                                Season = episode[DBOnlineEpisode.cSeasonIndex],
                                                Title = episode[DBOnlineEpisode.cEpisodeName],
-                                               CollectedAt = episode[DBEpisode.cFileDateAdded].ToString().ToISO8601(),
+                                               CollectedAt = episode[DBEpisode.cFileDateAdded].ToString().ToISO8601(0, true),
                                                MediaType = GetEpisodeMediaType(episode),
                                                Resolution = GetEpisodeResolution(episode),
                                                AudioCodec = GetEpisodeAudioCodec(episode),
@@ -1112,10 +1112,6 @@ namespace TraktPlugin.TraktHandlers
 
             foreach (var episode in episodes)
             {
-                // ignore any episodes that are invalid
-                if (episode[DBOnlineEpisode.cEpisodeIndex] == "" || episode[DBOnlineEpisode.cEpisodeIndex] == "0")
-                    continue;
-
                 // try to filter out trakt list to minimise comparison hits
                 // we always match on episode and season so filter out anything not matching db episode
                 var filteredTraktCollectedEpisodes = traktEpisodesCollected.Where(tce => tce.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
@@ -1172,7 +1168,7 @@ namespace TraktPlugin.TraktHandlers
                     syncSeason.Episodes.Add(new TraktSyncShowCollectedEx.Season.Episode
                     {
                         Number = episode[DBOnlineEpisode.cEpisodeIndex],
-                        CollectedAt = episode[DBEpisode.cFileDateAdded].ToString().ToISO8601(),
+                        CollectedAt = episode[DBEpisode.cFileDateAdded].ToString().ToISO8601(0, true),
                         MediaType = GetEpisodeMediaType(episode),
                         Resolution = GetEpisodeResolution(episode),
                         AudioCodec = GetEpisodeAudioCodec(episode),
@@ -1230,10 +1226,6 @@ namespace TraktPlugin.TraktHandlers
 
             foreach (var episode in episodes)
             {
-                // ignore any episodes that are invalid
-                if (episode[DBOnlineEpisode.cEpisodeIndex] == "" || episode[DBOnlineEpisode.cEpisodeIndex] == "0")
-                    continue;
-
                 // try to filter out trakt list to minimise comparison hits
                 // we always match on episode and season so filter out anything not matching db episode
                 var filteredTraktRatedEpisodes = traktEpisodesRated.Where(tre => tre.Episode.Number == episode[DBOnlineEpisode.cEpisodeIndex] &&
@@ -1564,7 +1556,7 @@ namespace TraktPlugin.TraktHandlers
             string retValue = DateTime.UtcNow.ToISO8601();
 
             // note: use string rather than constant as we can then support 
-            // older version of tvseries plugin which don't have this field
+            // older version of tvseries plugin which doesn't have this field
             // FirstWatchedDate is best for syncing if available
             if (!string.IsNullOrEmpty(episode["FirstWatchedDate"]))
             {

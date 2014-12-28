@@ -32,6 +32,8 @@ namespace TraktPlugin.GUI
          
         enum ContextMenuItem
         {
+            Like,
+            Unlike,
             Shout,
             Spoilers,
             NextEpisode,

@@ -100,7 +100,7 @@
     <control>
       <description>Current View</description>
       <type>label</type>
-      <label>Trakt / #Trakt.Search.SearchTerm</label>
+      <label>#Trakt.Search.SearchTerm</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>
@@ -142,7 +142,7 @@
     </control>
     <!--            :: Count ::            -->
     <control>
-      <description>Moviecount</description>
+      <description>Show Count</description>
       <type>label</type>
       <label>#Trakt.Translation.Series.Label: #itemcount</label>
       <id>0</id>

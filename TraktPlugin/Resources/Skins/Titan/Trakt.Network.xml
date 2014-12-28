@@ -75,7 +75,7 @@
     <control>
       <description>Current View</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.CurrentView</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>
@@ -85,6 +85,22 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+    <!--            :: Count ::            -->
+    <control>
+      <description>Comment Count</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Users.Label: #itemcount</label>
+      <id>0</id>
+      <posX>96</posX>
+      <posY>998</posY>
+      <align>left</align>
+      <font>TitanLight12</font>
+      <textcolor>000000</textcolor>
+      <visible>string.equals(#Trakt.View.Level,Network)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
     <control Style="smallTitle">
       <description>Selected item Label</description>
       <type>fadelabel</type>

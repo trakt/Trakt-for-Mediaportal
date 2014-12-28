@@ -157,9 +157,9 @@
 
     <import>common.time.xml</import>
     <control>
-      <description>Current View</description>
+      <description>Current Show</description>
       <type>label</type>
-      <label>Trakt</label>
+      <label>#Trakt.Show.Title</label>
       <id>0</id>
       <posX>144</posX>
       <posY>94</posY>
@@ -578,7 +578,7 @@
       <id>0</id>
       <posX>565</posX>
       <posY>415</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Season.Ratings.Percentage,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -587,7 +587,7 @@
       <description>Numeric Rating</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Season.Ratings.Percentage% (#Trakt.Season.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
       <posX>843</posX>
       <posY>415</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
@@ -603,7 +603,7 @@
       <height>36</height>
       <posX>798</posX>
       <posY>415</posY>
-      <texture>#Trakt.Show.Ratings.Icon.png</texture>
+      <texture>#Trakt.Season.Ratings.Icon.png</texture>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Icon,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -634,14 +634,14 @@
     </control>
 
     <control>
-      <description>Summary (list)</description>
+      <description>Season Summary if available, otherwise Show summary is displayed</description>
       <type>textboxscrollup</type>
       <id>0</id>
       <posX>568</posX>
       <posY>501</posY>
       <width>555</width>
-      <height>480</height>
-      <label>#Trakt.Show.Overview</label>
+      <height>415</height>
+      <label>#Trakt.Season.Overview</label>
       <seperator>---------------------------------------------------------------------------------------------------------</seperator>
       <onleft>1026</onleft>
       <onright>1026</onright>
@@ -728,7 +728,7 @@
       <posX>1038</posX>
       <posY>471</posY>
       <label>#Trakt.Translation.Rating.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Season.Ratings.Percentage,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -739,7 +739,7 @@
       <id>0</id>
       <posX>1315</posX>
       <posY>471</posY>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Season.Ratings.Percentage% (#Trakt.Season.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -753,8 +753,8 @@
       <height>36</height>
       <posX>1270</posX>
       <posY>471</posY>
-      <texture>#Trakt.Show.Ratings.Icon.png</texture>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Icon,)</visible>
+      <texture>#Trakt.Season.Ratings.Icon.png</texture>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Season.Ratings.Icon,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -784,14 +784,14 @@
     </control>
 
     <control>
-      <description>Summary (list)</description>
+      <description>Season Summary if available, otherwise Show summary is displayed</description>
       <type>textboxscrollup</type>
       <id>0</id>
       <posX>1040</posX>
       <posY>592</posY>
       <width>790</width>
       <height>335</height>
-      <label>#Trakt.Show.Overview</label>
+      <label>#Trakt.Season.Overview</label>
       <seperator>---------------------------------------------------------------------------------------------------------</seperator>
       <onleft>1026</onleft>
       <onright>1026</onright>

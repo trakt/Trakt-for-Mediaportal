@@ -162,6 +162,21 @@
     </control>
 
     <import>common.time.xml</import>
+    
+    <control>
+      <description>Show Relation</description>
+      <type>label</type>
+      <label>#Trakt.Related.Show</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
     <!--            :: Count ::            -->
 
     <control>

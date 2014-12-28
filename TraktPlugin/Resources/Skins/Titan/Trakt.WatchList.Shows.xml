@@ -98,9 +98,9 @@
     </control>
 		<import>common.time.xml</import>
 		<control>
-			<description>Current View</description>
+			<description>Current User</description>
 			<type>label</type>
-			<label>Trakt</label>
+			<label>#Trakt.WatchList.CurrentUser</label>
 			<id>0</id>
 			<posX>144</posX>
 			<posY>94</posY>
