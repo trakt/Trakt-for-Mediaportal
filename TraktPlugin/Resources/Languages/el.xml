@@ -29,6 +29,8 @@
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="Language">Γλώσσα</string>
+  <string name="Languages">Γλώσσες</string>
   <string name="List">Λίστα</string>
   <!--M-->
   <string name="MarkAsWatched">Σημείωση ως προβληθείσας</string>

@@ -117,6 +117,7 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get watchlisted movies from trakt.tv
             // not used in MyVideos sync but could be used externally
+            TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
             var traktWatchListMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
             if (traktWatchListMovies == null)
             {

@@ -39,6 +39,7 @@
   <string name="Age">Ålder</string>
   <string name="AirDate">Först visat</string>
   <string name="AirDay">Veckodag</string>
+  <string name="AiredEpisodes">Sända avsnitt</string>
   <string name="AirTime">Tid</string>
   <string name="Approve">Godkänn</string>
   <string name="ApproveAndFollowBack">Godkänn och följ i min tur honom/henne</string>
@@ -78,6 +79,9 @@ föjer dig?</string>
   <string name="CreatingFilters">Skapar filter</string>
   <string name="CreatingList">Skapar lista</string>
   <string name="CreateList">Skapa en ny lista...</string>
+  <string name="CreateAccountWebsite">Tyvärr, den här funktionen finns inte\n längre. Gå till hemsidan\noch skapa ett konto.</string>
+  <string name="Comment">Kommentar</string>
+  <string name="Comments">Kommentarer</string>
   <string name="Community">Community</string>
   <string name="CommunityActivity">Community-aktivitet</string>
   <string name="ConfirmDeleteList">Är det säkert att du vill radera
@@ -126,6 +130,7 @@ detta objekt från den här listan?</string>
   <string name="FailedDeleteList">Misslyckades med att ta bort listan online</string>
   <string name="FailedLogin">Misslyckades med att logga in på Trakt.tv. Kontrollera ditt användarnamn och lösenord i inställningarna</string>
   <string name="FailedUpdateList">Misslyckades med att uppdatera listan online</string>
+  <string name="FeatureNotAvailable">Tyvärr, den här funktionen är inte tillgänglig</string>
   <string name="Filters">Filter</string>
   <string name="FirstAired">Först visad</string>
   <string name="Follow">Följ</string>
@@ -147,6 +152,8 @@ detta objekt från den här listan?</string>
   <string name="FullName">Fullständigt namn</string>
   <!--G-->
   <string name="Gender">Kön</string>
+  <string name="GenderMale">Man</string>
+  <string name="GenderFemale">Kvinna</string>
   <string name="General">Allmänt</string>
   <string name="GeneralSettings">Allmänna inställningar</string>
   <string name="Genre">Genre</string>
@@ -238,6 +245,8 @@ detta objekt från den här listan?</string>
   <string name="Joined">Gick med</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Språk</string>
+  <string name="Languages">Språk</string>
   <string name="Location">Plats</string>
   <string name="Layout">Layout</string>
   <string name="Like">Gilla</string>
@@ -255,6 +264,7 @@ detta objekt från den här listan?</string>
   <string name="MarkAsUnWatched">Ta bort markering som sedd</string>
   <string name="Me">Jag</string>
   <string name="Minutes">Minuter</string>
+  <string name="Minute">Minut</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
   <string name="MultiSelectDialog">Flervalsdialog</string>
@@ -275,8 +285,8 @@ detta objekt från den här listan?</string>
   <string name="NoFollowersTaunt">Du har inga följare</string>
   <string name="NoFollowerReqTaunt">Du har inga begärda följare</string>
   <string name="NoFollowingTaunt">Du följer inte någon</string>
-  <string name="NoTrendingMovies">Ingen tittar på film just nu.</string>
-  <string name="NoTrendingShows">Ingen tittar på TV-program just nu.</string>
+  <string name="NoTrendingMovies">Just nu tittar ingen på film!</string>
+  <string name="NoTrendingShows">Just nu tittar ingen på TV-program!</string>
   <string name="NoMovieRecommendations">Hittade inga rekommenderade filmer</string>
   <string name="NoShowRecommendations">Hittade inga rekommenderade TV-program</string>
   <string name="NoShowWatchList">{0} saknar TV-program i sin Watch List!</string>
@@ -349,6 +359,7 @@ en lista nu?</string>
   <string name="RecentWatchedMovies">Nyligen sedda filmer</string>
   <string name="RecentAddedEpisodes">Nyligen tillagda avsnitt</string>
   <string name="RecentAddedMovies">Senaste filmerna</string>
+  <string name="RecentComments">Senaste kommentarer</string>
   <string name="RecentShouts">Senaste shouts</string>
   <string name="Recommendations">Rekommendationer</string>
   <string name="RecommendedMovies">Rekommenderade filmer</string>
@@ -395,6 +406,8 @@ en lista nu?</string>
   <string name="Settings">Inställningar</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
+  <string name="Show">TV-program</string>
+  <string name="Shows">TV-program</string>
   <string name="ShowTVShowsInWatchlist">Visa TV-program i Watch List</string>
   <string name="ShowSpoilers">Visa Spoilers</string>
   <string name="ShowFriendActivity">Visa vänners aktiviteter</string>
@@ -486,7 +499,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="Username">Användarnamn</string>
   <string name="UnAuthorized">Inloggning misslyckades, var vänlig se över användarnamn och lösenord i inställningarna.</string>
   <string name="UnFollow">Sluta följa</string>
-  <string name="UnFollowMessage">Är du säker på att du vill sluta följa {0}?</string>
+  <string name="UnFollowMessage">Är du säker på att du inte vill följa {0}?</string>
   <string name="UnRate">Märk som ej betygsatt</string>
   <string name="UpdatingCategories">Uppdaterar kategorier</string>
   <string name="UpdatingCategoriesMenuMovingPics">Uppdaterar kategoriemenyn i MovingPictures.</string>

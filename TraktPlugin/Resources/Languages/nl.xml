@@ -230,6 +230,8 @@
   <string name="Joined">Geregistreerd</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Taal</string>
+  <string name="Languages">Talen</string>
   <string name="Location">Locatie</string>
   <string name="Layout">Lay-out</string>
   <string name="Like">Vindt leuk</string>
@@ -267,8 +269,6 @@
   <string name="NoFollowersTaunt">Je hebt geen volgers!</string>
   <string name="NoFollowerReqTaunt">Je hebt geen volgverzoeken!</string>
   <string name="NoFollowingTaunt">Je volgt niemand!</string>
-  <string name="NoTrendingMovies">Er worden op dit moment geen films bekeken!</string>
-  <string name="NoTrendingShows">Er worden op dit moment geen series bekeken!</string>
   <string name="NoMovieRecommendations">Geen aanbevolen films gevonden!</string>
   <string name="NoShowRecommendations">Geen aanbevolen series gevonden!</string>
   <string name="NoShowWatchList">{0} heeft geen series in kijk lijst</string>
@@ -469,7 +469,6 @@
   <string name="Username">Gebruikersnaam</string>
   <string name="UnAuthorized">Authenticatie mislukt, controlleer gebruikersnaam en wachtwoord.</string>
   <string name="UnFollow">Niet meer volgen</string>
-  <string name="UnFollowMessage">Weet je zeker dat je gebruiker {0} niet meer wilt volgen?</string>
   <string name="UnRate">Beoordeling intrekken</string>
   <string name="UpdatingCategories">Categorieën updaten</string>
   <string name="UpdatingCategoriesMenuMovingPics">MovingPictures Categorie Menu aan het bijwerken.</string>

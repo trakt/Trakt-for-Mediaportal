@@ -170,6 +170,8 @@
   <string name="Joined">Blitt med</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Språk</string>
+  <string name="Languages">Språk</string>
   <string name="Location">Lokasjon</string>
   <string name="Layout">Utseende</string>
   <string name="List">Liste</string>

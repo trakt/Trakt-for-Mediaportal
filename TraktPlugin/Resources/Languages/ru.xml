@@ -35,6 +35,7 @@
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="Language">Язык</string>
   <string name="List">Отображение списка</string>
   <!--M-->
   <string name="MarkAsWatched">Отметить как просмотренный</string>

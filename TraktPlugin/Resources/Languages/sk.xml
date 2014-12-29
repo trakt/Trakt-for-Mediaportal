@@ -154,6 +154,8 @@
   <string name="Joined">Pripojil sa</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Jazyk</string>
+  <string name="Languages">Jazyky</string>
   <string name="Location">Lokalita</string>
   <string name="Layout">Rozloženie</string>
   <string name="Like">Páči sa</string>

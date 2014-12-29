@@ -32,6 +32,8 @@
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="Language">Jazyk</string>
+  <string name="Languages">Jazyky</string>
   <string name="List">Seznam</string>
   <!--M-->
   <string name="MarkAsWatched">Označit za zhlédnuté</string>

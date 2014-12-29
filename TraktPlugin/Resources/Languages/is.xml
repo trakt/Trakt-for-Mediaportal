@@ -97,6 +97,8 @@
   <!--J-->
   <!--K-->
   <!--L-->
+  <string name="Language">Tungumál</string>
+  <string name="Languages">Tungumál</string>
   <string name="List">Listi</string>
   <string name="Lists">Listar</string>
   <string name="LoggedIn">Innskráður</string>

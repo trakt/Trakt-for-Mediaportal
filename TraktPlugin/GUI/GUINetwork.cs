@@ -62,7 +62,7 @@ namespace TraktPlugin.GUI
             RecentWatchedMovies,
             RecentAddedEpisodes,
             RecentAddedMovies,
-            RecentShouts,
+            RecentComments,
             EpisodeWatchList,
             RatedMovies,
             RatedShows,
@@ -193,8 +193,9 @@ namespace TraktPlugin.GUI
                     break;
 
                 case (3):
-                    GUIControl.FocusControl(GetID, Facade.GetID);
-                    SearchForUser();
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                    //TODOGUIControl.FocusControl(GetID, Facade.GetID);
+                    //TODOSearchForUser();
                     break;
 
                 case (4):
@@ -261,7 +262,7 @@ namespace TraktPlugin.GUI
                                         //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentAddedMovies);
                                         break;
 
-                                    case (ActivityType.RecentShouts):
+                                    case (ActivityType.RecentComments):
                                         GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                                         //TODOGUIRecentShouts.CurrentUser = CurrentSelectedUser.Username;
                                         //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
@@ -1194,8 +1195,8 @@ namespace TraktPlugin.GUI
                 SelectedActivity = ActivityType.RecentAddedEpisodes;
             else if (item.Label == Translation.RecentAddedMovies)
                 SelectedActivity = ActivityType.RecentAddedMovies;
-            else if (item.Label == Translation.RecentShouts)
-                SelectedActivity = ActivityType.RecentShouts;
+            else if (item.Label == Translation.RecentComments)
+                SelectedActivity = ActivityType.RecentComments;
             else if (item.Label == Translation.WatchListMovies)
                 SelectedActivity = ActivityType.MovieWatchList;
             else if (item.Label == Translation.WatchListShows)

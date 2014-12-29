@@ -212,6 +212,8 @@
   <string name="Joined">Beigetreten</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Sprache</string>
+  <string name="Languages">Sprachen</string>
   <string name="Location">Ort</string>
   <string name="Layout">Layout</string>
   <string name="Like">Gefällt Mir</string>
@@ -432,7 +434,6 @@
   <string name="Username">Benutzername</string>
   <string name="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
   <string name="UnFollow">Nicht mehr folgen</string>
-  <string name="UnFollowMessage">Bist du sicher, dass du {0}\nnicht mehr folgen willst?</string>
   <string name="UnRate">Bewertung zurücknehmen</string>
   <string name="UpdatingCategories">Kategorien werden aktualisiert</string>
   <string name="UpdatingCategoriesMenuMovingPics">Aktualsiere die Kategorien in MovingPictures</string>

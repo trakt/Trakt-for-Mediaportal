@@ -39,6 +39,7 @@
   <string name="Age">Edad</string>
   <string name="AirDate">Fecha de Emisión</string>
   <string name="AirDay">Día de Emisión</string>
+  <string name="AiredEpisodes">Episodios en el aire</string>
   <string name="AirTime">Hora de Emisión</string>
   <string name="Approve">Aprobar</string>
   <string name="ApproveAndFollowBack">Aprobar y seguir de nuevo</string>
@@ -76,6 +77,7 @@
   <string name="CreatingFilters">Creando Filtros</string>
   <string name="CreatingList">Creando Lista</string>
   <string name="CreateList">Crear una nueva Lista...</string>
+  <string name="CreateAccountWebsite">Lo siento, esta opción ya no está\ndisponible. Por favor usa la web\npara crear una cuenta.</string>
   <string name="Community">Comunidad</string>
   <string name="CommunityActivity">Actividad de la Comunidad</string>
   <string name="ConfirmDeleteList">¿Estás seguro de querer borrar\nesta lista?</string>
@@ -142,6 +144,8 @@
   <string name="FullName">Nombre Completo</string>
   <!--G-->
   <string name="Gender">Género</string>
+  <string name="GenderMale">Masculino</string>
+  <string name="GenderFemale">Femenino</string>
   <string name="General">General</string>
   <string name="GeneralSettings">Configuración General</string>
   <string name="Genre">Género</string>
@@ -233,6 +237,8 @@
   <string name="Joined">Ingresó</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Idioma</string>
+  <string name="Languages">Idiomas</string>
   <string name="Location">Localización</string>
   <string name="Layout">Distribición</string>
   <string name="Like">Gustar</string>
@@ -250,6 +256,7 @@
   <string name="MarkAsUnWatched">Marcar como No Visto</string>
   <string name="Me">Yo</string>
   <string name="Minutes">Minutos</string>
+  <string name="Minute">Minuto</string>
   <string name="Movie">Película</string>
   <string name="Movies">Películas</string>
   <string name="MultiSelectDialog">Diálogo Multi-Selección</string>
@@ -270,8 +277,8 @@
   <string name="NoFollowersTaunt">¡No tienes seguidores!</string>
   <string name="NoFollowerReqTaunt">¡No tienes solicitudes de seguidores!</string>
   <string name="NoFollowingTaunt">¡No estás siguiendo a nadie!</string>
-  <string name="NoTrendingMovies">¡No hay películas que se estén viendo ahora!</string>
-  <string name="NoTrendingShows">¡No hay programas que se estén viendo ahora!</string>
+  <string name="NoTrendingMovies">¡Actualmente no se está viendo ninguna película!</string>
+  <string name="NoTrendingShows">¡Actualmente no se está viendo ningún programa!</string>
   <string name="NoMovieRecommendations">¡No se encontraron recomendaciones de películas!</string>
   <string name="NoShowRecommendations">¡No se encontraron recomendaciones de programas!</string>
   <string name="NoShowWatchList">¡{0} no tiene programas en lista de seguimiento!</string>
@@ -472,7 +479,7 @@
   <string name="Username">Nombre</string>
   <string name="UnAuthorized">Error de Autenticación, por favor comprueba el usuario y la contraseña en Opciones.</string>
   <string name="UnFollow">DejarDeSeguir</string>
-  <string name="UnFollowMessage">¿Estás seguro de querer dejar de seguir\na {0}?</string>
+  <string name="UnFollowMessage">¿Está seguro de no querer\nseguir más al usuario {0}?</string>
   <string name="UnRate">NoEvaluado</string>
   <string name="UpdatingCategories">Actualizando Categorías</string>
   <string name="UpdatingCategoriesMenuMovingPics">Actualizando Menú Categorías en MovingPictures</string>

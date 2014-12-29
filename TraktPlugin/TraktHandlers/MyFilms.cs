@@ -123,6 +123,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get watchlisted movies from trakt.tv
+            TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
             var traktWatchListMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
             if (traktWatchListMovies == null)
             {
@@ -488,6 +489,7 @@ namespace TraktPlugin.TraktHandlers
                             cleanupList.Remove(movie);
                         }
                     }
+
                     // remove tag from remaining films
                     foreach (var movie in cleanupList)
                     {

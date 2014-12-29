@@ -147,6 +147,8 @@
   <string name="Joined">Dołączono</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Język</string>
+  <string name="Languages">Języki</string>
   <string name="Location">Lokalizacja</string>
   <string name="Layout">Układ</string>
   <string name="List">Lista</string>

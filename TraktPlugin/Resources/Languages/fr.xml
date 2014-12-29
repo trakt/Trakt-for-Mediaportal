@@ -232,6 +232,8 @@
   <string name="Joined">Inscrit</string>
   <!--K-->
   <!--L-->
+  <string name="Language">Langue</string>
+  <string name="Languages">Langues</string>
   <string name="Location">Emplacement</string>
   <string name="Layout">Mise en page</string>
   <string name="Like">Apprécie</string>
@@ -269,8 +271,6 @@
   <string name="NoFollowersTaunt">Vous n\'avez aucun abonné </string>
   <string name="NoFollowerReqTaunt">Vous n\'avez aucune requête d\'abonné</string>
   <string name="NoFollowingTaunt">Vous n’êtes abonné chez personne</string>
-  <string name="NoTrendingMovies">Aucun Films actuellement regardé!</string>
-  <string name="NoTrendingShows">Aucune série actuellement regardée!</string>
   <string name="NoMovieRecommendations">Aucun film recommandé trouvé !</string>
   <string name="NoShowRecommendations">Aucun série recommandée trouvée !</string>
   <string name="NoShowWatchList">{0} N\'a aucune série dans la liste!</string>
@@ -470,7 +470,6 @@
   <string name="Username">Nom d\'utilisateur</string>
   <string name="UnAuthorized">L\'authentification a échoué, SVP vérifier le nom d\'utilisateur et le mot de passe dans les paramètres.</string>
   <string name="UnFollow">Se désabonner</string>
-  <string name="UnFollowMessage">Etes-vous sûr que vous voulez désabonner\nl\'utilisateur {0}?</string>
   <string name="UnRate">Non évalué</string>
   <string name="UpdatingCategories">Mise à jour des catégories</string>
   <string name="UpdatingCategoriesMenuMovingPics">Mise à jour du menu des catégories dans Moving Pictures.</string>
