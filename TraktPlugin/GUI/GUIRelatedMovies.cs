@@ -22,7 +22,8 @@ namespace TraktPlugin.GUI
             get
             {
                 if (TraktId != null) return TraktId.ToString();
-                if (TmdbId != null) return TmdbId.ToString();
+                // TODO: Find trakt id from other IDs
+                //if (TmdbId != null) return TmdbId.ToString();
 
                 if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperImdbId(ImdbId))) return ImdbId;
                 if (string.IsNullOrEmpty(Title)) return string.Empty;

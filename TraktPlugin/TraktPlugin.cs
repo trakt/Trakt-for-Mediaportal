@@ -1239,7 +1239,7 @@ namespace TraktPlugin
                         break;
 
                     case "series":
-                        GUICommon.ShowTraktExtTVShowMenu(title, year, showtvdbid, fanart, searchPeople, false);
+                        GUICommon.ShowTraktExtTVShowMenu(title, year, showtvdbid, imdbid, fanart, searchPeople, false);
                         break;
 
                     case "episode":

@@ -339,12 +339,13 @@ namespace TraktPlugin.GUI
             string title = string.Empty;
             if (MovieInfo.TraktId != null)
                 title = MovieInfo.TraktId.ToString();
-            else if (MovieInfo.TmdbId != null)
-                title = MovieInfo.TmdbId.ToString();
+            // TODO: Find trakt id from other integer IDs
+            //else if (MovieInfo.TmdbId != null)
+            //    title = MovieInfo.TmdbId.ToString();
             if (!string.IsNullOrEmpty(MovieInfo.ImdbId))
                 title = MovieInfo.ImdbId;
             else
-                title = string.Format("{0}-{1}", MovieInfo.Title, MovieInfo.Year).Replace(" ", "-");
+                title = string.Format("{0} {1}", MovieInfo.Title, MovieInfo.Year).ToSlug();
 
             return TraktAPI.TraktAPI.GetMovieComments(title);
         }
@@ -354,15 +355,22 @@ namespace TraktPlugin.GUI
             string title = string.Empty;
 
             if (ShowInfo.TraktId != null)
+            {
                 title = ShowInfo.TraktId.ToString();
-            else if (ShowInfo.TmdbId != null)
-                title = ShowInfo.TmdbId.ToString();
-            else if (ShowInfo.TvdbId != null)
-                title = ShowInfo.TvdbId.ToString();
+            }
+            // TODO: Find trakt id from other integer IDs
+            //else if (ShowInfo.TmdbId != null)
+            //    title = ShowInfo.TmdbId.ToString();
+            //else if (ShowInfo.TvdbId != null)
+            //    title = ShowInfo.TvdbId.ToString();
             else if (!string.IsNullOrEmpty(ShowInfo.ImdbId))
+            {
                 title = ShowInfo.ImdbId;
+            }
             else
-                title = ShowInfo.Title.Replace(" ", "-");
+            {
+                title = ShowInfo.Title.StripYear(ShowInfo.Year).ToSlug();
+            }
 
             return TraktAPI.TraktAPI.GetShowComments(title);
         }
@@ -372,15 +380,22 @@ namespace TraktPlugin.GUI
             string title = string.Empty;
 
             if (EpisodeInfo.TraktId != null)
+            {
                 title = EpisodeInfo.TraktId.ToString();
-            else if (EpisodeInfo.TmdbId != null)
-                title = EpisodeInfo.TmdbId.ToString();
-            else if (EpisodeInfo.TvdbId != null)
-                title = EpisodeInfo.TvdbId.ToString();
+            }
+            // TODO: Find trakt id from other integer IDs
+            //else if (EpisodeInfo.TmdbId != null)
+            //    title = EpisodeInfo.TmdbId.ToString();
+            //else if (EpisodeInfo.TvdbId != null)
+            //    title = EpisodeInfo.TvdbId.ToString();
             else if (!string.IsNullOrEmpty(EpisodeInfo.ImdbId))
+            {
                 title = EpisodeInfo.ImdbId;
+            }
             else
-                title = EpisodeInfo.Title.Replace(" ", "-");
+            {
+                title = EpisodeInfo.Title.StripYear(EpisodeInfo.Year).ToSlug();
+            }
 
             return TraktAPI.TraktAPI.GetEpisodeComments(title, EpisodeInfo.SeasonIdx, EpisodeInfo.EpisodeIdx);
         }
@@ -531,6 +546,7 @@ namespace TraktPlugin.GUI
     public class ShowShout
     {
         public string Title { get; set; }
+        public int? Year { get; set; }
         public string ImdbId { get; set; }
         public int? TvdbId { get; set; }
         public int? TmdbId { get; set; }
@@ -540,6 +556,7 @@ namespace TraktPlugin.GUI
     public class EpisodeShout
     {
         public string Title { get; set; }
+        public int? Year { get; set; }
         public string ImdbId { get; set; }
         public int? TvdbId { get; set; }
         public int? TmdbId { get; set; }

@@ -12,21 +12,26 @@ namespace TraktPlugin.GUI
     public class RelatedShow
     {
         public string Title { get; set; }
+        public int? Year { get; set; }
         public int? TvdbId { get; set; }
         public int? TmdbId { get; set; }
         public int? TraktId { get; set; }
+        public string ImdbId { get; set; }
 
         public string Slug
         {
             get
             {
                 if (TraktId != null) return TraktId.ToString();
-                if (TmdbId != null) return TmdbId.ToString();
-                if (TvdbId != null) return TvdbId.ToString();
+                if (ImdbId != null) return ImdbId;
+                // TODO: Find trakt id from other IDs
+                //if (TmdbId != null) return TmdbId.ToString();
+                //if (TvdbId != null) return TvdbId.ToString();
 
-                if (string.IsNullOrEmpty(Title)) return string.Empty;
+                if (!string.IsNullOrEmpty(TraktHandlers.BasicHandler.GetProperImdbId(ImdbId)))
+                    return ImdbId;
 
-                return Title.ToSlug();
+                return Title.StripYear(Year).ToSlug();
             }
         }
     }
@@ -393,7 +398,8 @@ namespace TraktPlugin.GUI
                         TraktId = selectedShow.Ids.Trakt,
                         TmdbId = selectedShow.Ids.Tmdb,
                         TvdbId = selectedShow.Ids.Tvdb,
-                        Title = selectedShow.Title
+                        Title = selectedShow.Title,
+                        Year = selectedShow.Year
                         
                     };
                     relatedShow = relShow;

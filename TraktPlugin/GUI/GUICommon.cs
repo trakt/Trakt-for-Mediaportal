@@ -2100,15 +2100,20 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Shows
+        
         public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart)
         {
             return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, false);
         }
         public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, bool showAll)
         {
-            return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, null, showAll);
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, null, fanart, null, showAll);
         }
         public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string fanart, SearchPeople people, bool showAll)
+        {
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, null, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtTVShowMenu(string title, string year, string tvdbid, string imdbid, string fanart, SearchPeople people, bool showAll)
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -2185,25 +2190,25 @@ namespace TraktPlugin.GUI
                     TraktLogger.Info("Displaying rate dialog for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
                     GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
                     {
-                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32() },
+                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                         Title = title,
                         Year = year.ToNullableInt32()
                     });
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
-                    TraktLogger.Info("Displaying Shouts for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
-                    TraktHelper.ShowTVShowShouts(title, tvdbid.ToNullableInt32(), null, false, fanart);
+                    TraktLogger.Info("Displaying Shouts for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}', IMDb ID = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), imdbid.ToLogString());
+                    TraktHelper.ShowTVShowShouts(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, imdbid, false, fanart);
                     break;
 
                 case ((int)TraktMenuItems.Related):
                     TraktLogger.Info("Displaying Related shows for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
-                    TraktHelper.ShowRelatedShows(title, tvdbid);
+                    TraktHelper.ShowRelatedShows(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding tv show to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
-                    TraktHelper.AddShowToWatchList(title, year, tvdbid);
+                    TraktHelper.AddShowToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):
@@ -2251,7 +2256,11 @@ namespace TraktPlugin.GUI
         //TODO: Add support for Season related items e.g. Rate,List,Watchlist...
         public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
         {
-            return ShowTraktExtTVShowMenu(title, year, tvdbid, fanart, people, showAll);
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, null, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string imdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
+        {
+            return ShowTraktExtTVShowMenu(title, year, tvdbid, imdbid, fanart, people, showAll);
         }
         #endregion
 
@@ -2273,6 +2282,10 @@ namespace TraktPlugin.GUI
             return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, null, isWatched, fanart, people, showAll);
         }
         public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string episodetvdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
+        {
+            return ShowTraktExtEpisodeMenu(title, year, season, episode, tvdbid, null, episodetvdbid, isWatched, fanart, people, showAll);
+        }
+        public static bool ShowTraktExtEpisodeMenu(string title, string year, string season, string episode, string tvdbid, string imdbid, string episodetvdbid, bool isWatched, string fanart, SearchPeople people, bool showAll)
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
@@ -2348,7 +2361,7 @@ namespace TraktPlugin.GUI
                     
                     GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(new TraktSyncShowRatedEx
                     {
-                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32() },
+                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                         Title = title,
                         Year = year.ToNullableInt32(),
                         Seasons = new List<TraktSyncShowRatedEx.Season>
@@ -2371,7 +2384,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.Shouts):
                     TraktLogger.Info("Displaying Shouts for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}'", title, year.ToLogString(), season, episode);
-                    TraktHelper.ShowEpisodeShouts(title, tvdbid, season, episode, isWatched, fanart);
+                    TraktHelper.ShowEpisodeShouts(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, imdbid.ToNullIfEmpty(), season.ToInt(), episode.ToInt(), isWatched, fanart);
                     break;
 
                 case ((int)TraktMenuItems.AddToWatchList):

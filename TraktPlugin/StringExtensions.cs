@@ -40,6 +40,18 @@ namespace TraktPlugin
             return number.HasValue ? "<empty>" : number.ToString();
         }
 
+        /// <summary>
+        /// Strips the title of a year if it exists
+        /// </summary>        
+        public static string StripYear(this string title, int? year)
+        {
+            if (year == null)
+                return title;
+            
+            // e.g. ShowTitle (2000) ==> ShowTitle
+            return title.Replace(string.Format(" ({0})", year), string.Empty);
+        }
+
         public static string ToCountryName(this string twoLetterCode)
         {
             // check length of code is two letters
