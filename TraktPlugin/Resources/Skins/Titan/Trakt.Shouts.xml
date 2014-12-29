@@ -3,7 +3,7 @@
   <id>87280</id>
   <defaultcontrol>50</defaultcontrol>
   <allowoverlay>yes</allowoverlay>
-  <define>#Trakt.Translation.Comments.Label</define>
+  <define>#header.label:#Trakt.Translation.Comments.Label</define>
   <controls>
 
     <control>

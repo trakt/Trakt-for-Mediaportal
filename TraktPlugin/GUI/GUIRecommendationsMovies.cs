@@ -191,52 +191,67 @@ namespace TraktPlugin.GUI
 
                 // Genre Button
                 case (3):
-                    ShowGenreMenu();
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //ShowGenreMenu();
+                    //break;
                 
                 // Hide Collected Toggle Button
                 case (4):
-                    HideCollected = hideCollectedButton.Selected;
-                    ReloadRecommendations();
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //HideCollected = hideCollectedButton.Selected;
+                    //ReloadRecommendations();
+                    //break;
 
                 // Hide Watchlisted Toggle Button
                 case (5):
-                    HideWatchlisted = hideWatchlistedButton.Selected;
-                    ReloadRecommendations();
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //HideWatchlisted = hideWatchlistedButton.Selected;
+                    //ReloadRecommendations();
+                    //break;
 
                 // Start Year Button
                 case (6):
-                    string startYear = StartYear.ToString();
-                    if (startYear == "0") startYear = "1888";
-                    if (GUIUtils.GetStringFromKeyboard(ref startYear))
-                    {
-                        int result;
-                        if (startYear.Length == 4 && int.TryParse(startYear, out result) && !startYear.Equals(StartYear.ToString()))
-                        {
-                            StartYear = result;
-                            GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
-                            ReloadRecommendations();
-                        }
-                    }
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //string startYear = StartYear.ToString();
+                    //if (startYear == "0") startYear = "1888";
+                    //if (GUIUtils.GetStringFromKeyboard(ref startYear))
+                    //{
+                    //    int result;
+                    //    if (startYear.Length == 4 && int.TryParse(startYear, out result) && !startYear.Equals(StartYear.ToString()))
+                    //    {
+                    //        StartYear = result;
+                    //        GUIControl.SetControlLabel(GetID, startYearButton.GetID, GetStartYearTitle(StartYear));
+                    //        ReloadRecommendations();
+                    //    }
+                    //}
+                    //break;
 
                 // End Year Button
                 case (7):
-                    string endYear = EndYear.ToString();
-                    if (endYear == "0") endYear = DateTime.Now.AddYears(3).Year.ToString();
-                    if (GUIUtils.GetStringFromKeyboard(ref endYear))
-                    {
-                        int result;
-                        if (endYear.Length == 4 && int.TryParse(endYear, out result) && !endYear.Equals(EndYear.ToString()))
-                        {
-                            EndYear = result;
-                            GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
-                            ReloadRecommendations();
-                        }
-                    }
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //string endYear = EndYear.ToString();
+                    //if (endYear == "0") endYear = DateTime.Now.AddYears(3).Year.ToString();
+                    //if (GUIUtils.GetStringFromKeyboard(ref endYear))
+                    //{
+                    //    int result;
+                    //    if (endYear.Length == 4 && int.TryParse(endYear, out result) && !endYear.Equals(EndYear.ToString()))
+                    //    {
+                    //        EndYear = result;
+                    //        GUIControl.SetControlLabel(GetID, endYearButton.GetID, GetEndYearTitle(EndYear));
+                    //        ReloadRecommendations();
+                    //    }
+                    //}
+                    //break;
 
                 // Sort Button
                 case (8):

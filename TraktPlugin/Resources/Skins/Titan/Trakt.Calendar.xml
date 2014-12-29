@@ -177,7 +177,7 @@
         <textXOff3>54</textXOff3>
         <textcolor>FFFFFFFF</textcolor>
         <textcolor2>FFFFFFFF</textcolor2>
-        <textcolor3>FF85CFFF</textcolor3>
+        <textcolor3>FF00b7ff</textcolor3>
         <font3>fontB12</font3>
         <textureHeight>54</textureHeight>
         <textureFocus>listcontrol_item_selected_trakt.png</textureFocus>

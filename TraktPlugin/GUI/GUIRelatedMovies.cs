@@ -202,11 +202,14 @@ namespace TraktPlugin.GUI
                 
                 // Hide Watched Button
                 case (3):
-                    HideWatched = hideWatchedButton.Selected;
-                    dictRelatedMovies.Remove(relatedMovie.Slug);
-                    LoadRelatedMovies();
-                    GUIControl.FocusControl((int)TraktGUIWindows.RelatedMovies, Facade.GetID);
+                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
                     break;
+                    //TODO
+                    //HideWatched = hideWatchedButton.Selected;
+                    //dictRelatedMovies.Remove(relatedMovie.Slug);
+                    //LoadRelatedMovies();
+                    //GUIControl.FocusControl((int)TraktGUIWindows.RelatedMovies, Facade.GetID);
+                    //break;
 
                 default:
                     break;

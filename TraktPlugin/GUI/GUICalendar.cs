@@ -497,8 +497,8 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
-                    TraktCache.RemoveEpisodeFromCollection(calendarItem.Show, calendarItem.Episode);
+                    TraktHelper.RemoveEpisodeFromWatchHistory(calendarItem.Episode);
+                    TraktCache.RemoveEpisodeFromWatchHistory(calendarItem.Show, calendarItem.Episode);
                     Facade.SelectedListItem.IsPlayed = false;
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
