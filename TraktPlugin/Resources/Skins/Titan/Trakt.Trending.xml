@@ -3,37 +3,28 @@
   <id>87264</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-  <define>#header.label:#Trakt.Translation.Trending.Label</define>
   <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <define>#header.label:#Trakt.Translation.Trending.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onright:9994</define>
+  <define>#defaultcontrol.onleft:9994</define>
   <controls>
-
     <import>Trakt.Common.Background.xml</import>
-    <import>Trakt.xml</import>
-
+    <import>Trakt.Common.xml</import>
+    <import>common.time.xml</import>
     <control>
-      <id>0</id>
+      <description>Current View</description>
       <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
       <posX>144</posX>
-      <posY>38</posY>
-      <width>855</width>
-      <font>TitanLight22</font>
-      <textcolor>ffffff</textcolor>
-      <label>#header.label</label>
+      <posY>94</posY>
       <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
-
-    <control>
-      <id>0</id>
-      <type>label</type>
-      <posX>1848</posX>
-      <posY>36</posY>
-      <width>555</width>
-      <font>TitanLight22</font>
-      <textcolor>ffffff</textcolor>
-      <label>#time</label>
-      <align>right</align>
-    </control>
-
     <control>
       <type>label</type>
       <id>1</id>
@@ -43,40 +34,38 @@
       <label>#Trakt.Translation.Trending.Label</label>
       <textcolor>00b7ff</textcolor>
       <font>TitanLight20</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
-
-
     <control>
       <description>buttons</description>
       <type>group</type>
       <posX>655</posX>
       <posY>321</posY>
       <layout>StackLayout(7, Vertical, true)</layout>
-
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <control Style="SettingsButtonLarge">
         <type>button</type>
         <description>Trending Movies</description>
         <id>2</id>
         <label>#Trakt.Translation.TrendingMovies.Label</label>
         <hyperlink>87266</hyperlink>
-        <onleft>13</onleft>
-        <onright>2</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
         <onup>3</onup>
       </control>
-
       <control Style="SettingsButtonLarge">
         <description>Trending Shows</description>
         <type>button</type>
         <id>3</id>
         <label>#Trakt.Translation.TrendingShows.Label</label>
         <hyperlink>87265</hyperlink>
-        <onleft>13</onleft>
-        <onright>3</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
         <ondown>2</ondown>
       </control>
-
     </control>
-
     <import>common.overlay.xml</import>
   </controls>
 </window>

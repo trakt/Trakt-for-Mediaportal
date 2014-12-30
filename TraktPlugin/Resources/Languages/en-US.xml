@@ -87,6 +87,7 @@
   <string name="Continuing">Continuing</string>
   <string name="CopyList">Copy List...</string>
   <!--D-->
+  <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Today</string>
   <string name="DateYesterday">Yesterday</string>
   <string name="DateOneWeekAgo">1 Week Ago</string>

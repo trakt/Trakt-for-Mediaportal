@@ -6,7 +6,7 @@
   <define>#Fanart.1:#Trakt.Calendar.Fanart.1</define>
   <define>#Fanart.2:#Trakt.Calendar.Fanart.2</define>
   <define>#header.hover:background.png</define>
-  <define>#header.label:Trakt #Trakt.Translation.Calendar.Label</define>
+  <define>#header.label:#Trakt.Translation.Calendar.Label</define>
   <controls>
     <control>
       <description>DEFAULT BACKGROUND</description>

@@ -1,14 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
   <id>87261</id>
-  <defaultcontrol>88882</defaultcontrol>
+  <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-  <define>#header.label:#Trakt.Translation.Recommendations.Label</define>
   <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <define>#header.label:#Trakt.Translation.Recommendations.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onright:9993</define>
+  <define>#defaultcontrol.onleft:9993</define>
   <controls>
     <import>Trakt.Common.Background.xml</import>
-    <import>Trakt.xml</import>
+    <import>Trakt.Common.xml</import>
     <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
     <control>
       <type>label</type>
       <id>1</id>
@@ -18,6 +34,8 @@
       <label>#Trakt.Translation.Recommendations.Label</label>
       <textcolor>00b7ff</textcolor>
       <font>TitanLight20</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control>
       <description>buttons</description>
@@ -25,30 +43,29 @@
       <posX>655</posX>
       <posY>321</posY>
       <layout>StackLayout(7, Vertical, true)</layout>
-
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
       <control Style="SettingsButtonLarge">
         <type>button</type>
         <description>Recommended Movies</description>
-        <id>88882</id>
+        <id>2</id>
         <label>#Trakt.Translation.RecommendedMovies.Label</label>
         <hyperlink>87263</hyperlink>
-        <onleft>12</onleft>
-        <onright>88882</onright>
-        <onup>88883</onup>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+        <onup>3</onup>
       </control>
-
       <control Style="SettingsButtonLarge">
         <description>Recommended Shows</description>
         <type>button</type>
-        <id>88883</id>
+        <id>3</id>
         <label>#Trakt.Translation.RecommendedShows.Label</label>
         <hyperlink>87262</hyperlink>
-        <onleft>12</onleft>
-        <onright>88883</onright>
-        <ondown>88882</ondown>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+        <ondown>2</ondown>
       </control>
     </control>
-
     <import>common.overlay.xml</import>
   </controls>
 </window>

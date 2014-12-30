@@ -10,26 +10,26 @@
   <controls>
     <import>Trakt.Common.Background.xml</import>
     <import>Trakt.Common.xml</import>
-		<import>common.time.xml</import>
-		<control>
-			<description>Current View</description>
-			<type>label</type>
-			<label>Trakt</label>
-			<id>0</id>
-			<posX>144</posX>
-			<posY>94</posY>
-			<align>left</align>
-			<textcolor>FFFFFFFF</textcolor>
-			<font>TitanLight12</font>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
-		</control>
-	<control>
-		<description>buttons</description>
-		<type>group</type>
-		<posX>655</posX>
-		<posY>246</posY>
-    <layout>StackLayout(7, Vertical, true)</layout>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>buttons</description>
+      <type>group</type>
+      <posX>655</posX>
+      <posY>246</posY>
+      <layout>StackLayout(7, Vertical, true)</layout>
       <control Style="SettingsCheckButtonLarge">
         <description>Download Fanart</description>
         <type>checkbutton</type>

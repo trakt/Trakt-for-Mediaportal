@@ -1,62 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-	<id>87267</id>
-	<defaultcontrol>88882</defaultcontrol>
-	<allowoverlay>no</allowoverlay>
-	<define>#header.label:Trakt</define>
-    <rememberLastFocusedControl>yes</rememberLastFocusedControl>
-	<controls>
-	
+  <id>87267</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <define>#header.label:#Trakt.Translation.WatchList.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onright:9995</define>
+  <define>#defaultcontrol.onleft:9995</define>
+  <controls>
     <import>Trakt.Common.Background.xml</import>
-    <import>Trakt.xml</import>
-	
-		<import>common.time.xml</import>
-
-	<control>
-		<type>label</type>
-		<id>1</id>
-		<posX>685</posX>
-		<posY>225</posY>
-		<width>500</width>
-		<label>#Trakt.Translation.WatchList.Label</label>
-		<textcolor>00b7ff</textcolor>
-		<font>TitanLight20</font>
-	</control>
-	<control>
-		<description>buttons</description>
-		<type>group</type>
-		<posX>655</posX>
-		<posY>321</posY>
-		<dimColor>ffffffff</dimColor>
-    <layout>StackLayout(7, Vertical, true)</layout>
-		
-	  	<control Style="SettingsButtonLarge">
-				<type>button</type>
-				<description>Watch List Movies</description>
-				<id>88882</id>
-				<label>#Trakt.Translation.WatchListMovies.Label</label>
-				<hyperlink>87270</hyperlink>
-	      <onup>88884</onup>
-			</control>
-  
-			<control Style="SettingsButtonLarge">
-				<description>Watch List Shows</description>
-				<type>button</type>
-				<id>88883</id>
-				<label>#Trakt.Translation.WatchListShows.Label</label>
-				<hyperlink>87268</hyperlink>
-			</control>
-		
-	  	<control Style="SettingsButtonLarge">
-				<description>Watch List Episodes</description>
-				<type>button</type>
-				<id>88884</id>
-				<label>#Trakt.Translation.WatchListEpisodes.Label</label>
-				<hyperlink>87269</hyperlink>
-	      <ondown>2</ondown>
-			</control>
- </control>
- 
-		<import>common.overlay.xml</import>
-	</controls>
+    <import>Trakt.Common.xml</import>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <type>label</type>
+      <id>1</id>
+      <posX>685</posX>
+      <posY>225</posY>
+      <width>500</width>
+      <label>#Trakt.Translation.WatchList.Label</label>
+      <textcolor>00b7ff</textcolor>
+      <font>TitanLight20</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>buttons</description>
+      <type>group</type>
+      <posX>655</posX>
+      <posY>321</posY>
+      <dimColor>ffffffff</dimColor>
+      <layout>StackLayout(7, Vertical, true)</layout>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Watch List Movies</description>
+        <id>2</id>
+        <label>#Trakt.Translation.WatchListMovies.Label</label>
+        <hyperlink>87270</hyperlink>
+        <onup>4</onup>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Watch List Shows</description>
+        <type>button</type>
+        <id>3</id>
+        <label>#Trakt.Translation.WatchListShows.Label</label>
+        <hyperlink>87268</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Watch List Episodes</description>
+        <type>button</type>
+        <id>4</id>
+        <label>#Trakt.Translation.WatchListEpisodes.Label</label>
+        <hyperlink>87269</hyperlink>
+        <ondown>2</ondown>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+    </control>
+    <import>common.overlay.xml</import>
+  </controls>
 </window>

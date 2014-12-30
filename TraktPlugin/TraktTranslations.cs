@@ -332,6 +332,7 @@ namespace TraktPlugin.GUI
         public static string CopyList = "Copy List...";
 
         // D
+        public static string Dashboard = "Dashboard";
         public static string DateToday = "Today";
         public static string DateYesterday = "Yesterday";
         public static string DateOneWeekAgo = "1 Week Ago";
