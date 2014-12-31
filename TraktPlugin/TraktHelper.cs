@@ -6,6 +6,7 @@ using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;

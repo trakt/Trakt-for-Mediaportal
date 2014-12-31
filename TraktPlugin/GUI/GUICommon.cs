@@ -7,6 +7,7 @@ using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
 using Trailers.Providers;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
@@ -2549,7 +2550,7 @@ namespace TraktPlugin.GUI
                 showsToFilter = showsToFilter.Where(t => !t.Show.IsWatchlisted());
 
             if (TraktSettings.TrendingShowsHideCollected)
-                showsToFilter = showsToFilter.Where(t => !TraktSettings.ShowsInCollection.Contains(t.Show.Ids.Tvdb.ToString()));
+                showsToFilter = showsToFilter.Where(t => !t.Show.IsCollected());
 
             if (TraktSettings.TrendingShowsHideRated)
                 showsToFilter = showsToFilter.Where(t => t.Show.UserRating() == null);

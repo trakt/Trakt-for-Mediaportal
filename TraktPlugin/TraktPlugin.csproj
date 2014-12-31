@@ -270,8 +270,8 @@
     <Compile Include="GUI\GUIImageHandler.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />
     <Compile Include="GUI\GUIWatchListShows.cs" />
-    <Compile Include="SecurityExtensions.cs" />
-    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Extensions\SecurityExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace TraktPlugin
+namespace TraktPlugin.Extensions
 {
     public static class StringExtensions
     {

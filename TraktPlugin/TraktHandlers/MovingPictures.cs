@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using Cornerstone.Database;
-using Cornerstone.Database.CustomTypes;
+using Cornerstone.Database.Tables;
+using MediaPortal.Player;
 using MediaPortal.Plugins.MovingPictures;
-using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
 using MediaPortal.Plugins.MovingPictures.Database;
+using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
 using MediaPortal.Plugins.MovingPictures.MainUI;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
-using System.Timers;
-using MediaPortal.Player;
-using System.Reflection;
-using System.ComponentModel;
-using System.Threading;
-using Cornerstone.Database.Tables;
 
 namespace TraktPlugin.TraktHandlers
 {

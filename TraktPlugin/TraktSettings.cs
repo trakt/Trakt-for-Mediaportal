@@ -112,7 +112,6 @@ namespace TraktPlugin
         public static bool TrendingShowsHideWatchlisted { get; set; }
         public static bool TrendingShowsHideCollected { get; set; }
         public static bool TrendingShowsHideRated { get; set; }
-        public static List<string> ShowsInCollection { get; set; }
         public static int DefaultNetworkView { get; set; }
         public static int RecentWatchedMoviesDefaultLayout { get; set; }
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
@@ -229,7 +228,6 @@ namespace TraktPlugin
         private const string cTrendingShowsHideWatchlisted = "TrendingShowsHideWatchlisted";
         private const string cTrendingShowsHideCollected = "TrendingShowsHideCollected";
         private const string cTrendingShowsHideRated = "TrendingShowsHideRated";
-        private const string cShowsInCollection = "ShowsInCollection";
         private const string cDefaultNetworkView = "DefaultNetworkView";
         private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
@@ -516,7 +514,6 @@ namespace TraktPlugin
                 TrendingShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, false);
                 TrendingShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideCollected, false);
                 TrendingShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cTrendingShowsHideRated, false);
-                ShowsInCollection = xmlreader.GetValueAsString(cTrakt, cShowsInCollection, "").FromJSONArray<string>().ToList();
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
                 RecentWatchedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedMoviesDefaultLayout, 0);
                 RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
@@ -643,7 +640,6 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideWatchlisted, TrendingShowsHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideCollected, TrendingShowsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cTrendingShowsHideRated, TrendingShowsHideRated);
-                xmlwriter.SetValue(cTrakt, cShowsInCollection, ShowsInCollection.ToJSON());
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedMoviesDefaultLayout, RecentWatchedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);
@@ -747,8 +743,8 @@ namespace TraktPlugin
                             xmlreader.RemoveEntry(cTrakt, "MyAnime");
 
                             // Clear existing passwords as they're no longer hashed in new API v2
-                            xmlreader.RemoveEntry(cTrakt, "Password");
-                            xmlreader.RemoveEntry(cTrakt, "UserLogins");
+                            xmlreader.RemoveEntry(cTrakt, cPassword);
+                            xmlreader.RemoveEntry(cTrakt, cUserLogins);
 
                             // Remove Advanced Rating setting, there is only one now
                             xmlreader.RemoveEntry(cTrakt, "ShowAdvancedRatingsDialog");
@@ -757,6 +753,17 @@ namespace TraktPlugin
                             xmlreader.RemoveEntry(cTrakt, "SkippedMovies");
                             xmlreader.RemoveEntry(cTrakt, "AlreadyExistMovies");
 
+                            // Remove old show collection cache
+                            xmlreader.RemoveEntry(cTrakt, "ShowsInCollection");
+
+                            // Reset some defaults
+                            xmlreader.RemoveEntry(cTrakt, cSyncRatings);
+                            xmlreader.RemoveEntry(cTrakt, cDashboardActivityPollInterval);
+                            xmlreader.RemoveEntry(cTrakt, cDashboardTrendingPollInterval);
+                            xmlreader.RemoveEntry(cTrakt, cDashboardLoadDelay);
+                            xmlreader.RemoveEntry(cTrakt, cShowRateDlgForPlaylists);
+                            xmlreader.RemoveEntry(cTrakt, cSearchTypes);
+
                             // Remove any persisted data that has changed with with new API v2
                             try
                             {
@@ -764,11 +771,19 @@ namespace TraktPlugin
                                 if (File.Exists(cLastTrendingShowFileCache)) File.Delete(cLastTrendingShowFileCache);
                                 if (File.Exists(cLastTrendingShowFileCache)) File.Delete(cLastTrendingShowFileCache);
                                 if (File.Exists(cLastStatisticsFileCache)) File.Delete(cLastStatisticsFileCache);
+
+                                // Remove old artwork - filenames have changed
+                                string imagePath = Config.GetFolder(Config.Dir.Thumbs) + "\\Trakt";
+                                if (Directory.Exists(imagePath))
+                                {
+                                    Directory.Delete(imagePath);
+                                }
                             }
                             catch (Exception e)
                             {
                                 TraktLogger.Error("Failed to remove v1 API persisted data from disk, Reason = '{0}'", e.Message);
                             }
+
                             currentSettingsVersion++;
                             break;
                     }

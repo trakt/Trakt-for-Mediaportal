@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI
 {
     public static class TraktAPI
     {
-        private const string ApplicationId = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
+        private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
 
         #region Web Events
 

@@ -7,6 +7,7 @@ using MediaPortal.GUI.Library;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -550,17 +551,6 @@ namespace TraktPlugin.TraktHandlers
 
                     TraktLogger.Info("Updating episode counts in local database for series. Title = '{0}', Year = '{1}', Show TVDb ID = '{2}'", series.ToString(), series.Year ?? "<empty>", series[DBSeries.cID]);
                     DBSeries.UpdateEpisodeCounts(series);
-                }
-                #endregion
-                
-                #region Cache tv shows in online collection
-                if (traktCollectedEpisodes != null)
-                {
-                    TraktLogger.Debug("Caching tv shows in trakt.tv collection");
-                    TraktSettings.ShowsInCollection = traktCollectedEpisodes.Where(e => e.ShowTvdbId != null)
-                                                                             .Select(e => e.ShowTvdbId.ToString())
-                                                                             .Distinct()
-                                                                             .ToList();
                 }
                 #endregion
             }

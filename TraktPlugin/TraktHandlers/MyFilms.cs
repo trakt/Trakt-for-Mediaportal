@@ -4,19 +4,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
+using MediaPortal.Configuration;
+using MediaPortal.Player;
+using MyFilmsPlugin.MyFilms;
+using MyFilmsPlugin.MyFilms.MyFilmsGUI;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
-using MediaPortal.Player;
-using MediaPortal.Configuration;
-using System.Reflection;
-using System.ComponentModel;
-using MyFilmsPlugin.MyFilms;
-using MyFilmsPlugin.MyFilms.MyFilmsGUI;
-using System.Threading;
 
 namespace TraktPlugin.TraktHandlers
 {
