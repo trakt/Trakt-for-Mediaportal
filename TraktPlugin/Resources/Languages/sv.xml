@@ -91,6 +91,7 @@ detta objekt från den här listan?</string>
   <string name="Continuing">Fortsätter</string>
   <string name="CopyList">Kopiera lista...</string>
   <!--D-->
+  <string name="Dashboard">Instrumentpanel</string>
   <string name="DateToday">Idag</string>
   <string name="DateYesterday">Igår</string>
   <string name="DateOneWeekAgo">1 vecka sedan</string>
@@ -403,6 +404,7 @@ en lista nu?</string>
   <string name="SelectUser">Välj användare</string>
   <string name="Series">Serier</string>
   <string name="SeriesPlural">Serie</string>
+  <string name="SetPassword">Du har inte satt ditt lösenord, vill du\nsätta det nu?</string>
   <string name="Settings">Inställningar</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>
