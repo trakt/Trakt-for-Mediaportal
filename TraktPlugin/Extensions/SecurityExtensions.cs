@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.Extensions
 {
@@ -19,7 +20,7 @@ namespace TraktPlugin.Extensions
         {
             if (string.IsNullOrEmpty(stringToEncrypt))
             {
-                throw new ArgumentException("An empty string value cannot be encrypted.");
+                return string.Empty;
             }
 
             if (string.IsNullOrEmpty(key))
@@ -33,7 +34,7 @@ namespace TraktPlugin.Extensions
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(cspp);
             rsa.PersistKeyInCsp = true;
 
-            byte[] bytes = rsa.Encrypt(System.Text.UTF8Encoding.UTF8.GetBytes(stringToEncrypt), true);
+            byte[] bytes = rsa.Encrypt(UTF8Encoding.UTF8.GetBytes(stringToEncrypt), true);
 
             return BitConverter.ToString(bytes);
         }
@@ -51,7 +52,7 @@ namespace TraktPlugin.Extensions
 
             if (string.IsNullOrEmpty(stringToDecrypt))
             {
-                throw new ArgumentException("An empty string value cannot be encrypted.");
+                return string.Empty;
             }
 
             if (string.IsNullOrEmpty(key))
@@ -70,15 +71,44 @@ namespace TraktPlugin.Extensions
                 string[] decryptArray = stringToDecrypt.Split(new string[] { "-" }, StringSplitOptions.None);
                 byte[] decryptByteArray = Array.ConvertAll<string, byte>(decryptArray, (s => Convert.ToByte(byte.Parse(s, System.Globalization.NumberStyles.HexNumber))));
 
-
                 byte[] bytes = rsa.Decrypt(decryptByteArray, true);
 
-                result = System.Text.UTF8Encoding.UTF8.GetString(bytes);
+                result = UTF8Encoding.UTF8.GetString(bytes);
 
             }
             finally
             {
                 // no need for further processing
+            }
+
+            return result;
+        }
+
+        public static List<TraktAuthentication> Decrypt(this List<TraktAuthentication> logins, string key)
+        {
+            if (logins == null || logins.Count == 0)
+                return logins;
+
+            var result = new List<TraktAuthentication>();
+
+            foreach (var login in logins)
+            {
+                result.Add(new TraktAuthentication { Username = login.Username, Password = login.Password.Decrypt(key) });
+            }
+
+            return result;
+        }
+
+        public static List<TraktAuthentication> Encrypt(this List<TraktAuthentication> logins, string key)
+        {
+            if (logins == null || logins.Count == 0)
+                return logins;
+
+            var result = new List<TraktAuthentication>();
+
+            foreach (var login in logins)
+            {
+                result.Add(new TraktAuthentication { Username = login.Username, Password = login.Password.Encrypt(key) });
             }
 
             return result;

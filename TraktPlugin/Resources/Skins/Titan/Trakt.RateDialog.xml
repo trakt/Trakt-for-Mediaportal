@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-	<id>87300</id>
-	<defaultcontrol>2</defaultcontrol>
-	<allowoverlay>yes</allowoverlay>
-	<controls>
-		<import>common.dialog.xml</import>
-		<control>
+  <id>87300</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>yes</allowoverlay>
+  <controls>
+    <import>common.dialog.xml</import>
+    <control>
       <description>UnRate (invisible)</description>
       <type>button</type>
       <id>99</id>
@@ -15,50 +15,50 @@
       <textureFocus>-</textureFocus>
       <textureNoFocus>-</textureNoFocus>
     </control>
-		<!-- Love / Hate Dialog -->
-		<control>
-			<description>Love</description>
-			<type>button</type>
-			<id>100</id>
-			<posX>680</posX>
-			<posY>745</posY>
-			<width>50</width>
-			<height>36</height>
-			<onup>1001</onup>
-			<textureFocus>rate.love.on.png</textureFocus>
-			<textureNoFocus>rate.love.off.png</textureNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
-			</control>
-		<control>
-			<description>Hate</description>
-			<type>button</type>
-			<id>101</id>
-			<posX>740</posX>
-			<posY>745</posY>
-			<width>50</width>
-			<height>36</height>
-			<onup>102</onup>
-			<textureFocus>rate.hate.on.png</textureFocus>
-			<textureNoFocus>rate.hate.off.png</textureNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
-		</control>
-		<control>
-			<description>Rating Description</description>
-			<type>label</type>
-			<id>10</id>
-			<posX>680</posX>
-			<posY>811</posY>
-			<width>630</width>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
-		</control>
-		<!-- 10 Heart Dialog -->
-		<control>
+    <!-- Love / Hate Dialog -->
+    <control>
+      <description>Love</description>
+      <type>button</type>
+      <id>100</id>
+      <posX>680</posX>
+      <posY>745</posY>
+      <width>50</width>
+      <height>36</height>
+      <onup>1001</onup>
+      <textureFocus>rate.love.on.png</textureFocus>
+      <textureNoFocus>rate.love.off.png</textureNoFocus>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
+    </control>
+    <control>
+      <description>Hate</description>
+      <type>button</type>
+      <id>101</id>
+      <posX>740</posX>
+      <posY>745</posY>
+      <width>50</width>
+      <height>36</height>
+      <onup>102</onup>
+      <textureFocus>rate.hate.on.png</textureFocus>
+      <textureNoFocus>rate.hate.off.png</textureNoFocus>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
+    </control>
+    <control>
+      <description>Rating Description</description>
+      <type>label</type>
+      <id>10</id>
+      <posX>680</posX>
+      <posY>811</posY>
+      <width>630</width>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
+    </control>
+    <!-- 10 Heart Dialog -->
+    <control>
       <description>1 Heart</description>
       <type>checkmark</type>
       <id>1001</id>
@@ -69,9 +69,9 @@
       <onup>1002</onup>
       <textureCheckmark>heart-1.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>2 Heart</description>
@@ -84,9 +84,9 @@
       <onup>1003</onup>
       <textureCheckmark>heart-2.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>3 Heart</description>
@@ -99,9 +99,9 @@
       <onup>1004</onup>
       <textureCheckmark>heart-3.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>4 Heart</description>
@@ -114,9 +114,9 @@
       <onup>1005</onup>
       <textureCheckmark>heart-4.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>5 Heart</description>
@@ -129,9 +129,9 @@
       <onup>1006</onup>
       <textureCheckmark>heart-5.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>6 Heart</description>
@@ -144,9 +144,9 @@
       <onup>1007</onup>
       <textureCheckmark>heart-6.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>7 Heart</description>
@@ -159,9 +159,9 @@
       <onup>1008</onup>
       <textureCheckmark>heart-7.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>8 Heart</description>
@@ -174,9 +174,9 @@
       <onup>1009</onup>
       <textureCheckmark>heart-8.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>9 Heart</description>
@@ -189,9 +189,9 @@
       <onup>1010</onup>
       <textureCheckmark>heart-9.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>10 Heart</description>
@@ -203,9 +203,9 @@
       <height>30</height>
       <textureCheckmark>heart-10.png</textureCheckmark>
       <textureCheckmarkNoFocus>heart-off.png</textureCheckmarkNoFocus>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
     <control>
       <description>Rating Description</description>
@@ -214,12 +214,12 @@
       <posX>575</posX>
       <posY>811</posY>
       <width>768</width>
-			<font>fontB12</font>
+      <font>fontB12</font>
       <textcolor>ff393939</textcolor>
       <align>center</align>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
-			<animation effect="fade" time="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="slide" start="0,150" end="0,0" tween="quadratic" easing="in" time="200" delay="0">WindowOpen</animation>
+      <animation effect="fade" time="0">WindowClose</animation>
     </control>
-	</controls>
+  </controls>
 </window>

@@ -395,6 +395,7 @@
   <string name="SelectUser">Select User</string>
   <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
+  <string name="SetPassword">Your trakt password is not set, would\nyou like to set it now?</string>
   <string name="Settings">Settings</string>
   <string name="Shout">Shout</string>
   <string name="Shouts">Shouts</string>

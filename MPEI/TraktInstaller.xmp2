@@ -2565,6 +2565,34 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{09a9cb0a-32ad-4132-92d1-4138f51f662d}-traktUserProfile.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Media\traktUserProfile.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\basichome_button_trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{76c9f485-c425-44f5-95d4-ea3f0b581d1c}-basichome_button_trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\basichome_button_trakt.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\BasicHome.Trakt.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{90dc92b3-3bea-4d8d-8373-950c87e648eb}-BasicHome.Trakt.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Themes\Extended Two\BasicHome.Trakt.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\Trakt.SkinSettings.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c5bfc076-3c03-44bb-be36-3bf17fe263f7}-Trakt.SkinSettings.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Trakt.SkinSettings.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{28eb0e34-904a-4178-896b-7edb0e9c52bf}-Trakt.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -5398,6 +5426,34 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktUserProfile.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{09a9cb0a-32ad-4132-92d1-4138f51f662d}-traktUserProfile.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Media\traktUserProfile.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\basichome_button_trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{76c9f485-c425-44f5-95d4-ea3f0b581d1c}-basichome_button_trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\basichome_button_trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\BasicHome.Trakt.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{90dc92b3-3bea-4d8d-8373-950c87e648eb}-BasicHome.Trakt.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Themes\Extended Two\BasicHome.Trakt.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\Trakt.SkinSettings.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c5bfc076-3c03-44bb-be36-3bf17fe263f7}-Trakt.SkinSettings.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Trakt.SkinSettings.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{28eb0e34-904a-4178-896b-7edb0e9c52bf}-Trakt.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />

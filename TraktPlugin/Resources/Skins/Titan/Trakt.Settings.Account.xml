@@ -36,7 +36,8 @@
         <description>Create New Account</description>
         <id>2</id>
         <label>#Trakt.Translation.CreateNewAccount.Label</label>
-        <onup>17</onup>
+        <onup>4</onup>
+        <ondown>3</ondown>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control Style="SettingsButtonLarge">
@@ -45,14 +46,17 @@
         <id>3</id>
         <label>#Trakt.Translation.LoginExistingAccount.Label</label>
         <onleft>#defaultcontrol.onleft</onleft>
+        <onup>2</onup>
+        <ondown>4</ondown>
       </control>
       <control Style="SettingsButtonLarge">
         <description>Disconnect Current Account</description>
         <type>button</type>
         <id>4</id>
-        <label>
-        </label>
+        <label />
         <onleft>#defaultcontrol.onleft</onleft>
+        <onup>3</onup>
+        <ondown>2</ondown>
       </control>
     </control>
     <import>Trakt.AccountDialog.xml</import>

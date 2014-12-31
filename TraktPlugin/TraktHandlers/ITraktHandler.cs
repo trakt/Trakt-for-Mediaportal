@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace TraktPlugin
+namespace TraktPlugin.TraktHandlers
 {
     /// <summary>
     /// Handles Trakt Functions for a particular library

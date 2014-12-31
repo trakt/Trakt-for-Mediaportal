@@ -1371,7 +1371,7 @@ namespace TraktPlugin
             var existingWatchedMovie = watchedMovies.FirstOrDefault(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) ||
                                                                          ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
                                                                          ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
-
+            
             // if it exists already, increment the play count only
             if (existingWatchedMovie != null)
             {
@@ -1391,6 +1391,9 @@ namespace TraktPlugin
             });
 
             _WatchedMovies = watchedMovies;
+
+            // now remove from watchlist since it will be removed from online in this case
+            RemoveMovieFromWatchlist(movie);
         }
 
         internal static void AddMovieToWatchlist(TraktMovie movie)
@@ -1593,7 +1596,7 @@ namespace TraktPlugin
             _WatchedEpisodes = watchedEpisodes;
         }
 
-        internal static void AddEpisodeToWatchHistory(TraktShow show,  TraktEpisode episode)
+        internal static void AddEpisodeToWatchHistory(TraktShow show, TraktEpisode episode)
         {
             var watchedEpisodes = (_WatchedEpisodes ?? new List<EpisodeWatched>()).ToList();
 
@@ -1610,6 +1613,10 @@ namespace TraktPlugin
             });
 
             _WatchedEpisodes = watchedEpisodes;
+
+            // now remove from watchlist since it will be removed from online in this case
+            RemoveEpisodeFromWatchlist(episode);
+            RemoveShowFromWatchlist(show);
         }
 
         internal static void AddEpisodeToWatchlist(TraktShowSummary show, TraktEpisodeSummary episode)

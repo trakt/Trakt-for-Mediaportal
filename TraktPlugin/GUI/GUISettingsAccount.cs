@@ -132,6 +132,7 @@ namespace TraktPlugin.GUI
                     string username = Username;
                     if (GUIUtils.GetStringFromKeyboard(ref username))
                     {
+                        GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.HasUsername", "true");                        
                         if (!username.Equals(Username))
                         {
                             Username = username;
@@ -144,6 +145,7 @@ namespace TraktPlugin.GUI
                     string password = Password;
                     if (GUIUtils.GetStringFromKeyboard(ref password, true))
                     {
+                        GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.HasPassword", "true");
                         if (!password.Equals(Password))
                         {
                             Password = password;
@@ -361,25 +363,28 @@ namespace TraktPlugin.GUI
         private void ShowAccountControls(bool newUser)
         {
             // trakt v2 API no longer supports this unless using the OAuth workflow
-            GUIUtils.ShowOKDialog(Translation.CreateAccount, Translation.CreateAccountWebsite);
-            return;
+            if (newUser)
+            {
+                GUIUtils.ShowOKDialog(Translation.CreateAccount, Translation.CreateAccountWebsite);
+                return;
+            }
 
             // set conditions so skins can show controls for account login/creation
             // there were issues when trying to invoke a virtual keyboard from a dialog
             // ie. (dialog from with-in another dialog) hence the reason why 
             // we are re-using existing window to show controls.
-            //GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.Visible", "true");
-            //GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.NewUser", newUser.ToString().ToLowerInvariant());
-            //GUIWindowManager.Process();
+            GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.Visible", "true");
+            GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.NewUser", newUser.ToString().ToLowerInvariant());
+            GUIWindowManager.Process();
 
-            //if (btnUsername != null)
-            //    GUIControl.FocusControl(GetID, btnUsername.GetID);
-            //if (btnOk != null)
-            //    GUIControl.SetControlLabel(GetID, btnOk.GetID, newUser ? Translation.Create : Translation.Login);
-            //if (lblTitle != null)
-            //    GUIControl.SetControlLabel(GetID, lblTitle.GetID, newUser ? Translation.CreateAccount : Translation.Login);
+            if (btnUsername != null)
+                GUIControl.FocusControl(GetID, btnUsername.GetID);
+            if (btnOk != null)
+                GUIControl.SetControlLabel(GetID, btnOk.GetID, newUser ? Translation.Create : Translation.Login);
+            if (lblTitle != null)
+                GUIControl.SetControlLabel(GetID, lblTitle.GetID, newUser ? Translation.CreateAccount : Translation.Login);
 
-            //NewAccount = newUser;
+            NewAccount = newUser;
         }
 
         private void DisconnectAccount()
@@ -410,6 +415,8 @@ namespace TraktPlugin.GUI
             Password = string.Empty;
             Email = string.Empty;
 
+            GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.HasUsername", "false");
+            GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.HasPassword", "false");
             GUIUtils.SetProperty("#Trakt.Settings.Account.Dialog.Visible", "false");
             GUIWindowManager.Process();
 

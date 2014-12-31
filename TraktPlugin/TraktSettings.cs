@@ -8,6 +8,7 @@ using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -130,7 +131,7 @@ namespace TraktPlugin
 
         #region Constants
         public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
-        
+
         private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
         private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserStatistics.json");
         private static string cLastTrendingMovieFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingMovies.json");
@@ -433,8 +434,8 @@ namespace TraktPlugin
             using (Settings xmlreader = new MPSettings())
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
-                Password = xmlreader.GetValueAsString(cTrakt, cPassword, "");
-                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList();
+                Password = xmlreader.GetValueAsString(cTrakt, cPassword, "").Decrypt(cGuid);
+                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid);
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 MyVideos = xmlreader.GetValueAsInt(cTrakt, cMyVideos, -1);
@@ -561,8 +562,8 @@ namespace TraktPlugin
             {
                 xmlwriter.SetValue(cTrakt, cSettingsVersion, SettingsVersion);
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
-                xmlwriter.SetValue(cTrakt, cPassword, Password);
-                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.ToJSON());
+                xmlwriter.SetValue(cTrakt, cPassword, Password.Encrypt(cGuid));
+                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.Encrypt(cGuid).ToJSON());
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
                 xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValue(cTrakt, cMyVideos, MyVideos);
@@ -776,7 +777,7 @@ namespace TraktPlugin
                                 string imagePath = Config.GetFolder(Config.Dir.Thumbs) + "\\Trakt";
                                 if (Directory.Exists(imagePath))
                                 {
-                                    Directory.Delete(imagePath);
+                                    Directory.Delete(imagePath, true);
                                 }
                             }
                             catch (Exception e)

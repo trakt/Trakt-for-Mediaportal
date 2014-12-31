@@ -9,26 +9,26 @@
   <controls>
     <import>Trakt.Common.Background.xml</import>
     <import>Trakt.Common.xml</import>
-		<import>common.time.xml</import>
-		<control>
-			<description>Current View</description>
-			<type>label</type>
-			<label>Trakt</label>
-			<id>0</id>
-			<posX>144</posX>
-			<posY>94</posY>
-			<align>left</align>
-			<textcolor>FFFFFFFF</textcolor>
-			<font>TitanLight12</font>
-			<animation effect="fade" time="250">WindowOpen</animation>
-			<animation effect="fade" time="250">WindowClose</animation>
-		</control>
-	<control>
-		<description>buttons</description>
-		<type>group</type>
-		<posX>655</posX>
-		<posY>246</posY>
-    <layout>StackLayout(7, Vertical, true)</layout>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>buttons</description>
+      <type>group</type>
+      <posX>655</posX>
+      <posY>246</posY>
+      <layout>StackLayout(7, Vertical, true)</layout>
       <control Style="SettingsCheckButtonLarge">
         <description>MP-TVSeries</description>
         <type>checkbutton</type>
@@ -82,8 +82,8 @@
         <description>Argus TV Recordings</description>
         <type>checkbutton</type>
         <id>12</id>
-				<width>1137</width>
-				<height>58</height>
+        <width>1137</width>
+        <height>58</height>
         <label>Argus TV Recordings</label>
         <onright>12</onright>
         <onleft>#defaultcontrol.onleft</onleft>

@@ -653,7 +653,8 @@ namespace TraktPlugin.GUI
         public static string SelectLists = "Select Lists";
         public static string SelectUser = "Select User";
         public static string Series = "Series";
-        public static string SeriesPlural = "Series";        
+        public static string SeriesPlural = "Series";
+        public static string SetPassword = "Your trakt password is not set, would\nyou like to set it now?";
         public static string Settings = "Settings";
         public static string Shout = "Shout";
         public static string Shouts = "Shouts";

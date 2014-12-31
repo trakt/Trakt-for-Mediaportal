@@ -380,7 +380,7 @@
     <Compile Include="GUI\GUITrending.cs" />
     <Compile Include="GUI\GUIUtils.cs" />
     <Compile Include="GUI\GUIWatchList.cs" />
-    <Compile Include="ITraktHandler.cs" />
+    <Compile Include="TraktHandlers\ITraktHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -434,9 +434,7 @@
   <ItemGroup>
     <None Include="Resources\Images\list-remove.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Skins\Titan\Media\Logos\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />
@@ -702,6 +700,109 @@
     <Content Include="Resources\Skins\Default\Trakt.WatchList.Shows.xml" />
     <Content Include="Resources\Skins\Default\Trakt.WatchList.xml" />
     <Content Include="Resources\Skins\Default\Trakt.xml" />
+    <Content Include="Resources\Skins\Titan\DialogMultiSelect.xml" />
+    <Content Include="Resources\Skins\Titan\Media\basichome_button_trakt.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktEpisode.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktEpisodeBig.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktPoster.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktPosterBig.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktUser.png" />
+    <Content Include="Resources\Skins\Titan\Media\defaultTraktUserBig.png" />
+    <Content Include="Resources\Skins\Titan\Media\hate.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-1.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-10.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-2.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-3.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-4.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-5.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-6.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-7.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-8.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-9.png" />
+    <Content Include="Resources\Skins\Titan\Media\heart-off.png" />
+    <Content Include="Resources\Skins\Titan\Media\hover_trakt.png" />
+    <Content Include="Resources\Skins\Titan\Media\Logos\trakt.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityCollected.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityHate.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityList.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityLove.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityShout.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityWatched.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityWatching.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktActivityWatchlist.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktCollectionIcon.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHate.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart1.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart10.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart2.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart3.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart4.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart5.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart6.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart7.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart8.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktHeart9.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktLibrary.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktLove.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktNextWeek.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktSeenIt.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktSeenItLibrary.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktUserProfile.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktVIP.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktWatchedIcon.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktWatchList.png" />
+    <Content Include="Resources\Skins\Titan\Media\traktWatchListLibrary.png" />
+    <Content Include="Resources\Skins\Titan\Themes\Extended Two\BasicHome.Trakt.xml" />
+    <Content Include="Resources\Skins\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png" />
+    <Content Include="Resources\Skins\Titan\Themes\Extended Two\Trakt.SkinSettings.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.AccountDialog.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Calendar.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Background.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Fanart.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.People.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.Users.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Common.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Dashboard.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.List.Items.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Lists.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Network.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RateDialog.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RecentAdded.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RecentAdded.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RecentShouts.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RecentWatched.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.RecentWatched.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Recommendations.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Recommendations.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Recommendations.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Related.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Related.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.People.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.Users.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Search.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Season.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Settings.Account.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Settings.General.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Settings.Plugins.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Settings.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Shouts.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Show.Seasons.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.SkinSettings.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Trending.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Trending.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Trending.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.UserProfile.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.WatchList.Episodes.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.WatchList.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.WatchList.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.WatchList.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

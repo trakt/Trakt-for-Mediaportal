@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-	<controls>	
+  <controls>
     <control>
       <description>Fanart Background #1</description>
       <type>image</type>
@@ -25,5 +25,5 @@
       <animation effect="fade" time="300">visible</animation>
       <animation effect="fade" time="300" delay="300">hidden</animation>
     </control>
-	</controls>
+  </controls>
 </window>
