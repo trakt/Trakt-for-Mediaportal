@@ -2618,7 +2618,7 @@ Click Next to continue or Cancel to exit Setup.
               <Description />
             </SectionParam>
             <SectionParam Name="Left part image">
-              <Value>..\TraktPlugin\Resources\Images\InstallSideImage.png</Value>
+              <Value />
               <ValueType>File</ValueType>
               <Description />
             </SectionParam>
@@ -2777,7 +2777,7 @@ Click Next to continue or Cancel to exit Setup.
               <Description />
             </SectionParam>
             <SectionParam Name="Left part image">
-              <Value>..\TraktPlugin\Resources\Images\InstallSideImage.png</Value>
+              <Value />
               <ValueType>File</ValueType>
               <Description />
             </SectionParam>
@@ -5458,15 +5458,8 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
-        <LocalFileName>..\TraktPlugin\Resources\Images\InstallSideImage.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{a43bfffe-bccf-4a0d-b62f-ced67c38bb1d}-InstallSideImage.png</ZipFileName>
-        <DestinationFilename />
-      </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
-        <Param1 />
-        <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{9ebb9843-8498-4d11-81e7-b7ae5d3cdfc7}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{a84628da-5031-4bb9-ba8e-2c43a6de332c}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
