@@ -82,7 +82,16 @@ namespace TraktPlugin.Extensions
             if (string.IsNullOrEmpty(twoLetterCode))
                 return null;
 
-            var regionInfo = new RegionInfo(twoLetterCode);
+            RegionInfo regionInfo = null;
+            try
+            {
+                regionInfo = new RegionInfo(twoLetterCode);
+            }
+            catch (ArgumentException ex)
+            {
+                TraktLogger.Warning("Failed to convert two letter country code to country name. Two Letter Code = '{0}', Error = '{1}'", twoLetterCode, ex.Message);
+                return twoLetterCode;
+            }
             return regionInfo.DisplayName;
         }
 
