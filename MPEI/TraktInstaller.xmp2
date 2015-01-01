@@ -2749,7 +2749,7 @@ Click Next to continue or Cancel to exit Setup.
                     <Description>Global Id of the extension package - it will be downloaded when no file is set.</Description>
                   </SectionParam>
                   <SectionParam Name="Extension Version">
-                    <Value>1.1.1.0</Value>
+                    <Value>1.1.5.0</Value>
                     <ValueType>String</ValueType>
                     <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
                   </SectionParam>
@@ -2898,12 +2898,31 @@ Click Next to continue or Cancel to exit Setup.
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added support for trakt API v2.
-* Added Titan skin file to installation package.
-* Updated translations from Transifex.</VersionDescription>
+    <VersionDescription>* Added support for trakt API v2. Everything that the plugin supports that the API allows has been done, everything else is marked as not ready in the GUI such as:
+** Network Activity on the Dashboard.
+** Filtering on Reommended Movies and Shows.
+** Filtering in Related Movies and Shows.
+** Most Recents in your Networks UserProfile.
+** User creation (login is still available).
+** Search for Users.
+** Search by Movie, Show, Episode and Person only returns limited fields. Unlikely to return, may need to re-think skin design to remove fields and only have thumbnails. Will provide details view for these objects when 'clicked' soon to fill the gap.
+* Added support for Skin Themes, can now include seperate skin files, images, settings etc per theme.
+* Added Titan skin file to installation package.  Added seperate skin settings for Extended Two theme as it has a trending dashboard on BasicHome.
+* Many improvements and bug fixes on Titan skin files.
+* Renamed 'Shouts' to 'Comments'.
+* Renamed 'Watch List' to 'Watchlist', you may need to clean up trakt categories in external plugins using old name.
+* Removed MyAnime and 4TR plugin handlers, skinners should remove corresponding buttons in Settings/Plugins.
+* Rate dialog is only a 10-Heart scale now as per website.
+* All cached images will be removed from disk after upgrade. Filenames are no longer the same so can't be re-used.
+* Temporarily disabled config button to delete your library online (will come back after I re-design).
+* Updated translations from Transifex.
+
+As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.
+
+</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2014-12-19T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-01-01T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
