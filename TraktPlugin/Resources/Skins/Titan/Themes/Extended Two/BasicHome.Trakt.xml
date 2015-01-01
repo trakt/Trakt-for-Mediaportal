@@ -5,7 +5,7 @@
       <description>GROUP: Trakt</description>
       <type>group</type>
       <dimColor>0xffffffff</dimColor>
-      <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)]</visible>
+      <visible>string.equals(#recentMedia, Trakt) + ![control.isvisible(601) | control.isvisible(501)] + ![Control.HasFocus(551) | Control.HasFocus(552) | Control.HasFocus(553) | Control.HasFocus(554) | Control.HasFocus(555) | Control.HasFocus(651) | Control.HasFocus(652) | Control.HasFocus(653) | Control.HasFocus(654) | Control.HasFocus(655) | Control.HasFocus(12) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(99999)] + !string.equals(#Trakt.Movie.0.Title,)</visible>
       <animation effect="fade" start="0" end="100" time="250" delay="550">visible</animation>
       <animation effect="fade" start="100" end="0" time="0">hidden</animation>
       <animation effect="fade" time="250">WindowOpen</animation>
