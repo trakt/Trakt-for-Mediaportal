@@ -93,6 +93,7 @@
   <string name="DateOneWeekAgo">1 Week Ago</string>
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string name="DateOneMonthAgo">1 Month Ago</string>
+  <string name="Dead">Dead</string>
   <string name="Death">Death</string>
   <string name="Deny">Deny</string>
   <string name="DenyFollowRequest">Deny Follow Request from user {0}?</string>
