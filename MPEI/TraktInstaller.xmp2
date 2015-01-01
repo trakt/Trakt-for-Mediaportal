@@ -2892,7 +2892,7 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>5</Major>
       <Minor>0</Minor>
-      <Build>1</Build>
+      <Build>2</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.

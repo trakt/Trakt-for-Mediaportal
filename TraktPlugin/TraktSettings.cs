@@ -22,7 +22,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 4;
+        static int SettingsVersion = 5;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -770,7 +770,7 @@ namespace TraktPlugin
                             {
                                 if (File.Exists(cLastActivityFileCache)) File.Delete(cLastActivityFileCache);
                                 if (File.Exists(cLastTrendingShowFileCache)) File.Delete(cLastTrendingShowFileCache);
-                                if (File.Exists(cLastTrendingShowFileCache)) File.Delete(cLastTrendingShowFileCache);
+                                if (File.Exists(cLastTrendingMovieFileCache)) File.Delete(cLastTrendingMovieFileCache);
                                 if (File.Exists(cLastStatisticsFileCache)) File.Delete(cLastStatisticsFileCache);
 
                                 // Remove old artwork - filenames have changed
@@ -785,6 +785,23 @@ namespace TraktPlugin
                                 TraktLogger.Error("Failed to remove v1 API persisted data from disk, Reason = '{0}'", e.Message);
                             }
 
+                            currentSettingsVersion++;
+                            break;
+
+                        case 4:
+                            try
+                            {
+                                // Fix bad upgrade from previous release
+                                string dashboardPersistence = Config.GetFolder(Config.Dir.Config) + "\\Trakt\\Dashboard";
+                                if (Directory.Exists(dashboardPersistence))
+                                {
+                                    Directory.Delete(dashboardPersistence, true);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                TraktLogger.Error("Failed to remove v1 API persisted data from disk, Reason = '{0}'", e.Message);
+                            }
                             currentSettingsVersion++;
                             break;
                     }
