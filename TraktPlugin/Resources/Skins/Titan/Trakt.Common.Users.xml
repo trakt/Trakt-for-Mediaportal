@@ -137,10 +137,10 @@
       <description>User About</description>
       <type>textboxscrollup</type>
       <id>0</id>
-      <posX>568</posX>
-      <posY>578</posY>
-      <width>525</width>
-      <height>480</height>
+      <posX>120</posX>
+      <posY>655</posY>
+      <width>970</width>
+      <height>280</height>
       <lineSpacing>0.92</lineSpacing>
       <label>#Trakt.User.About</label>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
