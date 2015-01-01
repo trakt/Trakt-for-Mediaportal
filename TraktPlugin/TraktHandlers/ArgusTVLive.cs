@@ -3,6 +3,7 @@ using System.Threading;
 using ArgusTV.DataContracts;
 using ArgusTV.UI.MediaPortal;
 using MediaPortal.Player;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -181,6 +182,8 @@ namespace TraktPlugin.TraktHandlers
                     StartTime = program.StartTime,
                     Runtime = GetRuntime(program)
                 };
+
+                TraktLogger.Info("Current program details. Title='{0}', Year='{1}', Season='{2}', Episode='{3}', StartTime='{4}', Runtime='{5}'", videoInfo.Title, videoInfo.Year.ToLogString(), videoInfo.SeasonIdx.ToLogString(), videoInfo.EpisodeIdx.ToString(), videoInfo.StartTime == null ? "<empty>" : videoInfo.StartTime.ToString(), videoInfo.Runtime);
             }
 
             return videoInfo;

@@ -3,6 +3,7 @@ using System.Threading;
 using MediaPortal.Player;
 using TvDatabase; 
 using TvPlugin;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -164,7 +165,7 @@ namespace TraktPlugin.TraktHandlers
                 string title = null;
                 string year = null;
                 BasicHandler.GetTitleAndYear(program.Title, out title, out year);
-
+                
                 videoInfo = new VideoInfo
                 {
                     Type = !string.IsNullOrEmpty(program.EpisodeNum) || !string.IsNullOrEmpty(program.SeriesNum) ? VideoType.Series : VideoType.Movie,
@@ -175,6 +176,8 @@ namespace TraktPlugin.TraktHandlers
                     StartTime = program.StartTime,
                     Runtime = GetRuntime(program)
                 };
+
+                TraktLogger.Info("Current program details. Title='{0}', Year='{1}', Season='{2}', Episode='{3}', StartTime='{4}', Runtime='{5}'", videoInfo.Title, videoInfo.Year.ToLogString(), videoInfo.SeasonIdx.ToLogString(), videoInfo.EpisodeIdx.ToString(), videoInfo.StartTime == null ? "<empty>" : videoInfo.StartTime.ToString(), videoInfo.Runtime);
             }
 
             return videoInfo;

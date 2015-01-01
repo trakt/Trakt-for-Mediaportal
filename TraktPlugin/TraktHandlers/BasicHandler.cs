@@ -77,8 +77,8 @@ namespace TraktPlugin.TraktHandlers
                 },
                 Episode = new TraktEpisode
                 {
-                    Number = int.Parse(info.EpisodeIdx),
-                    Season = int.Parse(info.SeasonIdx)
+                    Number = info.EpisodeIdx.ToInt(),
+                    Season = info.SeasonIdx.ToInt()
                 },
                 Progress = GetPlayerProgress(info),
                 AppDate = TraktSettings.BuildDate,
@@ -266,8 +266,8 @@ namespace TraktPlugin.TraktHandlers
                     var rateObject = new TraktSyncEpisodeRated
                     {
                         Title = itemToRate.Title,
-                        Season = int.Parse(itemToRate.SeasonIdx),
-                        Number = int.Parse(itemToRate.EpisodeIdx),
+                        Season = itemToRate.SeasonIdx.ToInt(),
+                        Number = itemToRate.EpisodeIdx.ToInt(),
                         RatedAt = DateTime.UtcNow.ToISO8601()
                     };
                     // get the rating submitted to trakt
