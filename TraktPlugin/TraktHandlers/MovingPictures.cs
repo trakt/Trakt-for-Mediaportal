@@ -377,7 +377,7 @@ namespace TraktPlugin.TraktHandlers
                         var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, trm.Movie));
                         if (localMovie == null) continue;
 
-                        if (localMovie.UserSettings.First().UserRating == 0)
+                        if (localMovie.UserSettings.First().UserRating == null || localMovie.UserSettings.First().UserRating == 0)
                         {
                             // update local collection rating (5 Point Scale)
                             int rating = (int)(Math.Round(trm.Rating / 2.0, MidpointRounding.AwayFromZero));
