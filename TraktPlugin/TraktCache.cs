@@ -1762,7 +1762,7 @@ namespace TraktPlugin
 
         internal static void RemoveMovieFromWatchlist(TraktMovie movie)
         {
-            if (_WatchedMovies == null)
+            if (_WatchListMovies == null)
                 return;
 
             var watchlistMovies = _WatchListMovies.ToList();
@@ -1897,7 +1897,7 @@ namespace TraktPlugin
 
         internal static void RemoveEpisodeFromWatchlist(TraktEpisode episode)
         {
-            if (_WatchedEpisodes == null)
+            if (_WatchListEpisodes == null)
                 return;
 
             var watchlistEpisodes = _WatchListEpisodes.ToList();
