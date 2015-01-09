@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Cornerstone.Database;
 using Cornerstone.Database.Tables;
+using MediaPortal.Configuration;
 using MediaPortal.Player;
 using MediaPortal.Plugins.MovingPictures;
 using MediaPortal.Plugins.MovingPictures.Database;
@@ -32,6 +35,20 @@ namespace TraktPlugin.TraktHandlers
 
         public MovingPictures(int priority)
         {
+            // check if plugin exists otherwise plugin could accidently get added to list
+            string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MovingPictures.dll");
+            if (!File.Exists(pluginFilename))
+            {
+                throw new FileNotFoundException("Plugin not found!");
+            }
+            else
+            {
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
+                string version = fvi.ProductVersion;
+                if (new Version(version) < new Version(1, 7, 0, 0))
+                    throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
+            }
+
             Priority = priority;
             TraktLogger.Debug("Adding Hooks to Moving Pictures Database");
             MovingPicturesCore.DatabaseManager.ObjectInserted += new DatabaseManager.ObjectAffectedDelegate(DatabaseManager_ObjectInserted);
