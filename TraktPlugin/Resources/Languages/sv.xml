@@ -91,12 +91,13 @@ detta objekt från den här listan?</string>
   <string name="Continuing">Fortsätter</string>
   <string name="CopyList">Kopiera lista...</string>
   <!--D-->
-  <string name="Dashboard">Instrumentpanel</string>
+  <string name="Dashboard">Översiktstavla</string>
   <string name="DateToday">Idag</string>
   <string name="DateYesterday">Igår</string>
   <string name="DateOneWeekAgo">1 vecka sedan</string>
   <string name="DateTwoWeeksAgo">2 veckor sedan</string>
   <string name="DateOneMonthAgo">1 månad sedan</string>
+  <string name="Dead">Död</string>
   <string name="Death">Död</string>
   <string name="Deny">Neka</string>
   <string name="DenyFollowRequest">Godkänn inte att användaren {0} följer dig</string>

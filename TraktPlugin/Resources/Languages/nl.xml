@@ -35,9 +35,11 @@
   <string name="AddEpisodeToWatchList">Voeg aflevering toe aan kijk lijst</string>
   <string name="AddShowToList">Voeg serie toe aan lijst</string>
   <string name="AddEpisodeToList">Voeg aflevering toe aan lijst</string>
+  <string name="AddThisItemToWatchList">Wil je dit item toevoegen aan lijst?</string>
   <string name="Age">Leeftijd</string>
   <string name="AirDate">Datum uitgezonden</string>
   <string name="AirDay">Dag uitgezonden</string>
+  <string name="AiredEpisodes">Uitgezonden afleveringen</string>
   <string name="AirTime">Tijd uitgezonden</string>
   <string name="Approve">Goedkeuren</string>
   <string name="ApproveAndFollowBack">Goedkeuren en gaan volgen</string>
@@ -75,6 +77,9 @@
   <string name="CreatingFilters">Filters creëeren</string>
   <string name="CreatingList">Lijst creëeren</string>
   <string name="CreateList">Creëer een nieuwe lijst</string>
+  <string name="CreateAccountWebsite">Sorry, deze optie is niet langer beschikbaar. Gebruik de website om een account te maken.</string>
+  <string name="Comment">Commentaar</string>
+  <string name="Comments">Commentaren</string>
   <string name="Community">Gemeenschap</string>
   <string name="CommunityActivity">Gemeenschaps activiteit</string>
   <string name="ConfirmDeleteList">Weet je zeker dat je deze lijst wilt verwijderen?</string>
@@ -82,11 +87,13 @@
   <string name="Continuing">Lopend</string>
   <string name="CopyList">Kopiëer lijst...</string>
   <!--D-->
+  <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Vandaag</string>
   <string name="DateYesterday">Gisteren</string>
   <string name="DateOneWeekAgo">1 week geleden</string>
   <string name="DateTwoWeeksAgo">2 week geleden</string>
   <string name="DateOneMonthAgo">1 maand geleden</string>
+  <string name="Dead">Dood</string>
   <string name="Death">Dood</string>
   <string name="Deny">Negeer</string>
   <string name="DenyFollowRequest">Negeer volgverzoek van gebruiker {0}?</string>
@@ -118,7 +125,9 @@
   <!--F-->
   <string name="FailedCreateList">Fout tijdens maken online lijst</string>
   <string name="FailedDeleteList">Fout tijdens verwijderen online lijst</string>
+  <string name="FailedLogin">Login op trakt.tv mislukt, controlleer gebruikersnaam en wachtwoord.</string>
   <string name="FailedUpdateList">Fout tijdens update online lijst</string>
+  <string name="FeatureNotAvailable">Sorry, deze optie is momenteel niet beschikbaar.</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">Eerste uitzending</string>
   <string name="Follow">Volg</string>
@@ -140,6 +149,8 @@
   <string name="FullName">Volledige naam</string>
   <!--G-->
   <string name="Gender">Geslacht</string>
+  <string name="GenderMale">Man</string>
+  <string name="GenderFemale">Vrouw</string>
   <string name="General">Algemeen</string>
   <string name="GeneralSettings">Algemene instellingen</string>
   <string name="Genre">Genre</string>
@@ -213,6 +224,7 @@
   <!--H-->
   <string name="Hate">Haat</string>
   <string name="Hated">Gehaat</string>
+  <string name="HideTVShowsInWatchlist">Verberg TV serie in kijk lijst</string>
   <string name="HideCollected">Verberg verzameld</string>
   <string name="HideRated">Gewaardeerde verbergen</string>
   <string name="HideWatched">Verberg bekeken</string>
@@ -249,6 +261,7 @@
   <string name="MarkAsUnWatched">Markeer als onbekeken</string>
   <string name="Me">Mij</string>
   <string name="Minutes">Minuten</string>
+  <string name="Minute">Minuut</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
@@ -269,6 +282,8 @@
   <string name="NoFollowersTaunt">Je hebt geen volgers!</string>
   <string name="NoFollowerReqTaunt">Je hebt geen volgverzoeken!</string>
   <string name="NoFollowingTaunt">Je volgt niemand!</string>
+  <string name="NoTrendingMovies">Er worden op dit moment geen films bekeken!</string>
+  <string name="NoTrendingShows">Er worden op dit moment geen series bekeken!</string>
   <string name="NoMovieRecommendations">Geen aanbevolen films gevonden!</string>
   <string name="NoShowRecommendations">Geen aanbevolen series gevonden!</string>
   <string name="NoShowWatchList">{0} heeft geen series in kijk lijst</string>
@@ -337,6 +352,7 @@
   <string name="RecentWatchedMovies">Recent bekeken films</string>
   <string name="RecentAddedEpisodes">Recent toegevoegde afleveringen</string>
   <string name="RecentAddedMovies">Recent toegevoegde films</string>
+  <string name="RecentComments">Recente commentaren</string>
   <string name="RecentShouts">Recente stemmen</string>
   <string name="Recommendations">Aanbevelingen</string>
   <string name="RecommendedMovies">Aanbevolen films</string>
@@ -380,9 +396,12 @@
   <string name="SelectUser">Selecteer gebruiker</string>
   <string name="Series">Series</string>
   <string name="SeriesPlural">Series</string>
+  <string name="SetPassword">Je Trakt wachtwoord is niet ingesteld, wil\n je dit nu doen?</string>
   <string name="Settings">Instellingen</string>
   <string name="Shout">Stem</string>
   <string name="Shouts">Stemmen</string>
+  <string name="Show">TV Show</string>
+  <string name="Shows">TV Shows</string>
   <string name="ShowTVShowsInWatchlist">Toon TV series in kijk lijst</string>
   <string name="ShowSpoilers">Toon spoilers</string>
   <string name="ShowFriendActivity">Vriend activiteit weergeven</string>
@@ -469,6 +488,7 @@
   <string name="Username">Gebruikersnaam</string>
   <string name="UnAuthorized">Authenticatie mislukt, controlleer gebruikersnaam en wachtwoord.</string>
   <string name="UnFollow">Niet meer volgen</string>
+  <string name="UnFollowMessage">Are you sure you want to unfollow user {0}?</string>
   <string name="UnRate">Beoordeling intrekken</string>
   <string name="UpdatingCategories">Categorieën updaten</string>
   <string name="UpdatingCategoriesMenuMovingPics">MovingPictures Categorie Menu aan het bijwerken.</string>
@@ -486,12 +506,16 @@
   <string name="ValidPassword">Je moet een correct wachtwoord invoeren!</string>
   <string name="ValidEmail">Je moet een correct Email adres invoeren!</string>
   <!--W-->
+  <string name="WatchList">Kijklijst</string>
   <string name="Watched">Bekeken</string>
   <string name="WatchedMovies">Bekeken films</string>
   <string name="WatchedEpisodes">Bekeken afleveringen</string>
   <string name="WatchedShows">Bekeken series</string>
   <string name="Watchers">Kijkers</string>
   <string name="Watching">Kijken</string>
+  <string name="WatchListMovies">Film kijklijst</string>
+  <string name="WatchListShows">TV series kijklijst</string>
+  <string name="WatchListEpisodes">Aflevering kijklijst</string>
   <string name="Writer">Schrijver</string>
   <string name="Writers">Schrijvers</string>
   <!--Y-->

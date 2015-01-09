@@ -78,6 +78,8 @@
   <string name="CreatingList">Creando Lista</string>
   <string name="CreateList">Crear una nueva Lista...</string>
   <string name="CreateAccountWebsite">Lo siento, esta opción ya no está\ndisponible. Por favor usa la web\npara crear una cuenta.</string>
+  <string name="Comment">Comentario</string>
+  <string name="Comments">Comentarios</string>
   <string name="Community">Comunidad</string>
   <string name="CommunityActivity">Actividad de la Comunidad</string>
   <string name="ConfirmDeleteList">¿Estás seguro de querer borrar\nesta lista?</string>
@@ -85,11 +87,13 @@
   <string name="Continuing">Emitiéndose</string>
   <string name="CopyList">Copiar Lista...</string>
   <!--D-->
+  <string name="Dashboard">Menú</string>
   <string name="DateToday">Hoy</string>
   <string name="DateYesterday">Ayer</string>
   <string name="DateOneWeekAgo">Hace 1 Semana</string>
   <string name="DateTwoWeeksAgo">Hace 2 Semanas</string>
   <string name="DateOneMonthAgo">Hace 1 Mes</string>
+  <string name="Dead">Muerte</string>
   <string name="Death">Fallecimiento</string>
   <string name="Deny">Rechazar</string>
   <string name="DenyFollowRequest">¿Denegar Solicitud de Seguimiento del usuario {0}?</string>
@@ -123,6 +127,7 @@
   <string name="FailedDeleteList">Error al borrar lista online</string>
   <string name="FailedLogin">Error al iniciar sesión en trakt.tv, comprueba nombre de usuario y contraseña en la configuración</string>
   <string name="FailedUpdateList">Error al actualizar lista online</string>
+  <string name="FeatureNotAvailable">Lo siento, esta opción no está disponible</string>
   <string name="Filters">Filtros</string>
   <string name="FirstAired">Primera Emisión</string>
   <string name="Follow">Seguir</string>
@@ -347,6 +352,7 @@
   <string name="RecentWatchedMovies">Películas vistas recientemente</string>
   <string name="RecentAddedEpisodes">Episodios Añadidos Recientemente</string>
   <string name="RecentAddedMovies">Películas añadidas recientemente</string>
+  <string name="RecentComments">Comentarios Recientes</string>
   <string name="RecentShouts">Comentarios Recientes</string>
   <string name="Recommendations">Recomendaciones</string>
   <string name="RecommendedMovies">Películas Recomendadas</string>
@@ -390,9 +396,12 @@
   <string name="SelectUser">Selecciona Usuario</string>
   <string name="Series">Serie</string>
   <string name="SeriesPlural">Series</string>
+  <string name="SetPassword">No se ha configurado tu contraseña de trakt, ¿quieres\n configurarla ahora?</string>
   <string name="Settings">Configuración</string>
   <string name="Shout">Comentario</string>
   <string name="Shouts">Comentarios</string>
+  <string name="Show">Programa</string>
+  <string name="Shows">Programas</string>
   <string name="ShowTVShowsInWatchlist">Mostrar Programas TV en Lista de Seguimiento</string>
   <string name="ShowSpoilers">Mostrar Spoilers</string>
   <string name="ShowFriendActivity">Mostar Actividad de Amigo</string>
