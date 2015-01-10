@@ -268,7 +268,7 @@ namespace TraktPlugin.TraktHandlers
                                          where !traktWatchedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                          select new TraktSyncMovieWatched
                                          {
-                                             Ids = new TraktMovieId { Imdb = movie.IMDBNumber, Tmdb = movie.TMDBNumber.ToNullableInt32() },
+                                             Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty(), Tmdb = movie.TMDBNumber.ToNullableInt32() },
                                              Title = movie.Title,
                                              Year = movie.Year,
                                              WatchedAt = DateTime.UtcNow.ToISO8601(),
@@ -309,7 +309,7 @@ namespace TraktPlugin.TraktHandlers
                                            where !traktCollectedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                            select new TraktSyncMovieCollected
                                            {
-                                               Ids = new TraktMovieId { Imdb = movie.IMDBNumber, Tmdb = movie.TMDBNumber.ToNullableInt32() },
+                                               Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty(), Tmdb = movie.TMDBNumber.ToNullableInt32() },
                                                Title = movie.Title,
                                                Year = movie.Year,
                                                CollectedAt = movie.DateAdded.ToISO8601(),
@@ -356,7 +356,7 @@ namespace TraktPlugin.TraktHandlers
                                        where !traktRatedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                        select new TraktSyncMovieRated
                                        {
-                                           Ids = new TraktMovieId { Imdb = movie.IMDBNumber, Tmdb = movie.TMDBNumber.ToNullableInt32() },
+                                           Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty(), Tmdb = movie.TMDBNumber.ToNullableInt32() },
                                            Title = movie.Title,
                                            Year = movie.Year,
                                            Rating = Convert.ToInt32(Math.Round(Convert.ToDecimal(movie.RatingUser), MidpointRounding.AwayFromZero)),
