@@ -17,6 +17,7 @@ using MediaPortal.Configuration;
 using MediaPortal.Video.Database;
 using System.Threading;
 using System.IO;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -298,7 +299,7 @@ namespace TraktPlugin.TraktHandlers
                                          where !traktWatchedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                          select new TraktSyncMovieWatched
                                          {
-                                             Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
+                                             Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty() },
                                              Title = movie.Title,
                                              Year = movie.Year,
                                              WatchedAt = GetLastDateWatched(movie),
@@ -339,7 +340,7 @@ namespace TraktPlugin.TraktHandlers
                                            where !traktCollectedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
                                            select new TraktSyncMovieCollected
                                            {
-                                               Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
+                                               Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty() },
                                                Title = movie.Title,
                                                Year = movie.Year,
                                                CollectedAt = movie.DateAdded.ToISO8601(),
