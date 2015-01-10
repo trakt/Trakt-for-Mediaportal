@@ -25,7 +25,7 @@ namespace TraktPlugin.Extensions
 
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException("Cannot encrypt using an empty key. Please supply an encryption key.");
+                throw new ArgumentException("Cannot encrypt using an empty key. Please supply an encryption key!");
             }
 
             CspParameters cspp = new CspParameters();
@@ -57,7 +57,7 @@ namespace TraktPlugin.Extensions
 
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentException("Cannot decrypt using an empty key. Please supply a decryption key.");
+                throw new ArgumentException("Cannot decrypt using an empty key. Please supply a decryption key!");
             }
 
             try
@@ -68,17 +68,18 @@ namespace TraktPlugin.Extensions
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(cspp);
                 rsa.PersistKeyInCsp = true;
 
+                var byteConverter = new UnicodeEncoding();
+                
                 string[] decryptArray = stringToDecrypt.Split(new string[] { "-" }, StringSplitOptions.None);
                 byte[] decryptByteArray = Array.ConvertAll<string, byte>(decryptArray, (s => Convert.ToByte(byte.Parse(s, System.Globalization.NumberStyles.HexNumber))));
 
                 byte[] bytes = rsa.Decrypt(decryptByteArray, true);
 
                 result = UTF8Encoding.UTF8.GetString(bytes);
-
-            }
-            finally
+            }                
+            catch(Exception ex)
             {
-                // no need for further processing
+                TraktLogger.Error("Failed to decyrpt password, Reason = '{0}'", ex.Message);
             }
 
             return result;
