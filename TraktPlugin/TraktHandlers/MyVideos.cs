@@ -2,22 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
+using System.Threading;
+using MediaPortal.Configuration;
+using MediaPortal.Player;
+using MediaPortal.Playlists;
+using MediaPortal.Video.Database;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
-using MediaPortal.Player;
-using MediaPortal.Playlists;
-using System.Reflection;
-using System.ComponentModel;
-using MediaPortal.Configuration;
-using MediaPortal.Video.Database;
-using System.Threading;
-using System.IO;
-using TraktPlugin.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -720,7 +715,7 @@ namespace TraktPlugin.TraktHandlers
 
                 var rateObject = new TraktSyncMovieRated
                 {
-                    Ids = new TraktMovieId { Imdb = movieToRate.IMDBNumber },
+                    Ids = new TraktMovieId { Imdb = movieToRate.IMDBNumber.ToNullIfEmpty() },
                     Title = movieToRate.Title,
                     Year = movieToRate.Year,
                     RatedAt = DateTime.UtcNow.ToISO8601(),

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MediaPortal.Dialogs;
+﻿using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
-using System.ComponentModel;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.Enums;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {

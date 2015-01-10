@@ -973,7 +973,7 @@ namespace TraktPlugin.TraktHandlers
 
                 var rateObject = new TraktSyncMovieRated
                 {
-                    Ids = new TraktMovieId { Imdb = movieToRate.IMDBNumber, Tmdb = movie.TMDBNumber.ToNullableInt32() },
+                    Ids = new TraktMovieId { Imdb = movieToRate.IMDBNumber.ToNullIfEmpty(), Tmdb = movie.TMDBNumber.ToNullableInt32() },
                     Title = movieToRate.Title,
                     Year = movieToRate.Year,
                     RatedAt = DateTime.UtcNow.ToISO8601()
