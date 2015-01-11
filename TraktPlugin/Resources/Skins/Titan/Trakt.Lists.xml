@@ -187,7 +187,7 @@
       <posX>100</posX>
       <posY>480</posY>
       <width>590</width>
-      <height>620</height>
+      <height>480</height>
       <label>#Trakt.List.Description</label>
       <seperator>---------------------------------------------------------------------------------------------------------</seperator>
       <onleft>1026</onleft>
