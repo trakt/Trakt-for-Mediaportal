@@ -122,7 +122,7 @@
       <description>Numeric Rating</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Show.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Show.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <posX>843</posX>
       <posY>415</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
@@ -305,12 +305,12 @@
     </control>
     
     <control Style="InfoValueWide">
-      <description>Genre Value</description>
+      <description>Rating Value</description>
       <type>fadelabel</type>
       <id>0</id>
       <posX>168</posX>
       <posY>399</posY>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Show.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Show.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>

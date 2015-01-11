@@ -662,7 +662,7 @@
       <id>0</id>
       <posX>843</posX>
       <posY>415</posY>
-      <label>#Trakt.Movie.Ratings.Percentage% (#Trakt.Movie.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Movie.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Movie.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,movie)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -674,7 +674,7 @@
       <id>0</id>
       <posX>843</posX>
       <posY>415</posY>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Show.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Show.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Percentage,)+[string.equals(#Trakt.List.ItemType,show)|string.equals(#Trakt.List.ItemType,season)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -686,7 +686,7 @@
       <id>0</id>
       <posX>843</posX>
       <posY>415</posY>
-      <label>#Trakt.Episode.Ratings.Percentage% (#Trakt.Episode.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Episode.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Episode.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,episode)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -1086,7 +1086,7 @@
       <id>0</id>
       <posX>1315</posX>
       <posY>471</posY>
-      <label>#Trakt.Movie.Ratings.Percentage% (#Trakt.Movie.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Movie.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Movie.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,movie)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -1098,7 +1098,7 @@
       <id>0</id>
       <posX>1315</posX>
       <posY>471</posY>
-      <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Show.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Show.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,show)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -1110,7 +1110,7 @@
       <id>0</id>
       <posX>1315</posX>
       <posY>471</posY>
-      <label>#Trakt.Season.Ratings.Percentage% (#Trakt.Season.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Season.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#Trakt.Season.Ratings.Votes))) #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Season.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,season)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -1122,7 +1122,7 @@
       <id>0</id>
       <posX>1315</posX>
       <posY>471</posY>
-      <label>#Trakt.Episode.Ratings.Percentage% (#Trakt.Episode.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
+      <label>#Trakt.Episode.Ratings.Percentage% (#(string.format('{0:#,0}', cint(#(string.format('{0:#,0}', cint(#Trakt.Episode.Ratings.Votes)))))) #Trakt.Translation.Votes.Label)</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Episode.Ratings.Percentage,)+string.equals(#Trakt.List.ItemType,episode)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
