@@ -753,7 +753,7 @@ namespace TraktPlugin.GUI
         private void SendCalendarToFacade(Dictionary<string, List<TraktCalendar>> calendar)
         {
             // check if we got a bad response
-            if (calendar.Count() < PreviousCalendarDayCount)
+            if (!IsCached && (calendar.Count() < PreviousCalendarDayCount))
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.ErrorCalendar);
                 // set defaults
