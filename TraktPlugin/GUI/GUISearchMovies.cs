@@ -236,7 +236,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add to Custom list
-            listItem = new GUIListItem(Translation.AddToList + "...");
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
