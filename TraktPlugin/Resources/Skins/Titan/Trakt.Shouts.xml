@@ -524,7 +524,7 @@
       <posX>121</posX>
       <posY>650</posY>
       <width>880</width>
-      <height>480</height>
+      <height>290</height>
       <seperator>----------------------------------------------------------------------------------------------------</seperator>
       <label>#Trakt.Shout.Text</label>
       <visible>facadeview.list+Control.IsVisible(50)</visible>
