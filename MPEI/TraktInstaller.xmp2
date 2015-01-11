@@ -2593,6 +2593,48 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{28eb0e34-904a-4178-896b-7edb0e9c52bf}-Trakt.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\BasicHomeSubBG.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{007cf417-c7d9-485d-b809-e153a324dbb8}-BasicHomeSubBG.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\BasicHomeSubBG.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\fanart_overlay.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3f7b5404-351a-4464-a276-58eae60c8dfd}-fanart_overlay.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\fanart_overlay.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\icon_plugin.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2314fb73-2d8e-4f74-a5e4-9db4bf1445f0}-icon_plugin.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\icon_plugin.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\list_lines.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fbf4ccf3-0b52-4980-a6d3-78a2da82bef4}-list_lines.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\list_lines.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\panel_list.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0b28c5e3-9462-4d28-bd71-f5599cc23394}-panel_list.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\panel_list.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\panel_tvseries_widebanner.6x2.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d38f5939-1fd6-4fd5-9f9c-124cbce38270}-panel_tvseries_widebanner.6x2.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\panel_tvseries_widebanner.6x2.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2899,8 +2941,21 @@ Click Next to continue or Cancel to exit Setup.
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Fixed a crash that could occur after watching an episode or movie from your favourte plugins.
-* Fixed syncing of movie ratings from online into MovingPictures.
+    <VersionDescription>* Request for 1000 items in Comments GUI for shows, movies and episodes . New API only returns 10 items per page by default. Later I will add support to sort by most popular comments which will require a larger set of items to be useful.
+* Fixes and improvements to Titan skin:
+** Fixed ratings in the Episodes GUI. It was showing TV-Show ratings for every episode.
+** Fixed SpinButton position in Comments GUI.
+** Fixed 'comment' height in Comments GUI.
+** Fixed list description height in Lists GUI.
+** Pretty formatting for 'vote' count where ratings are displayed.
+** Added 'Watchers' label to Trending Shows and Movies GUI (List and Icon layouts).
+** Added some missing images needed in various GUI windows.
+* Fixed missing 'Titan Skin' entry in MPEI installer where features are selected for install. User can now choose not to install it.
+* Fixed a bug where an error would be shown after returning back to the Calendar GUI.
+* Improved syncing from Movie plugins where IMDb was an empty string in a users local database, will be sent as null now. 
+* Added error checking and logging when password fails to decrypt from persisted settings.
+* Updated minimum requirements for MovingPictures to v1.7.0.
+* Updated minimum requirements for My Films to v6.1.1.3136 (Test DLL).
 * Updated translations from Transifex.
 
 As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.
@@ -2908,7 +2963,7 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
 </VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-01-10T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-01-11T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -5459,6 +5514,48 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{28eb0e34-904a-4178-896b-7edb0e9c52bf}-Trakt.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Themes\Extended Two\Media\BasicHomeImages\Trakt.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\BasicHomeSubBG.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{007cf417-c7d9-485d-b809-e153a324dbb8}-BasicHomeSubBG.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\BasicHomeSubBG.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\fanart_overlay.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3f7b5404-351a-4464-a276-58eae60c8dfd}-fanart_overlay.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\fanart_overlay.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\icon_plugin.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2314fb73-2d8e-4f74-a5e4-9db4bf1445f0}-icon_plugin.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\icon_plugin.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\list_lines.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fbf4ccf3-0b52-4980-a6d3-78a2da82bef4}-list_lines.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\list_lines.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\panel_list.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0b28c5e3-9462-4d28-bd71-f5599cc23394}-panel_list.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\panel_list.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\panel_tvseries_widebanner.6x2.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d38f5939-1fd6-4fd5-9f9c-124cbce38270}-panel_tvseries_widebanner.6x2.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\panel_tvseries_widebanner.6x2.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
