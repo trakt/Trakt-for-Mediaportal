@@ -160,7 +160,7 @@
       <label>#Trakt.Translation.Genre.Label</label>
       <posX>565</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+!window.istopmost(87266)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -171,7 +171,29 @@
       <label>#Trakt.Movie.Genres</label>
       <posX>798</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+!window.istopmost(87266)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Watchers Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Watchers.Label</label>
+      <posX>565</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Watchers,)+window.istopmost(87266)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Watchers</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Movie.Watchers.Extra</label>
+      <posX>798</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Watchers,)+window.istopmost(87266)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -286,7 +308,7 @@
       <type>label</type>
       <label>#Trakt.Translation.Certification.Label</label>
       <posX>118</posX>
-      <posY>554</posY>
+      <posY>516</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Certification,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -297,7 +319,7 @@
       <type>label</type>
       <label>#Trakt.Movie.Certification</label>
       <posX>350</posX>
-      <posY>554</posY>
+      <posY>516</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Certification,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -308,7 +330,7 @@
       <type>label</type>
       <label>#Trakt.Translation.Genre.Label</label>
       <posX>118</posX>
-      <posY>516</posY>
+      <posY>554</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Genres,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -319,8 +341,30 @@
       <type>label</type>
       <label>#Trakt.Movie.Genres</label>
       <posX>350</posX>
-      <posY>516</posY>
+      <posY>554</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Genres,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Watchers Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Watchers.Label</label>
+      <posX>118</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Watchers,)+window.istopmost(87266)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Watchers</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Movie.Watchers.Extra</label>
+      <posX>350</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Watchers,)+window.istopmost(87266)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

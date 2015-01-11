@@ -169,13 +169,37 @@
     </control>
 
     <control Style="InfoLabel">
-      <description>Watchers Label</description>
+      <description>Genre Label</description>
       <id>0</id>
       <type>label</type>
       <label>#Trakt.Translation.Genre.Label</label>
       <posX>565</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!window.istopmost(87265)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoValueSmall">
+      <description>Genre</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Show.Genres</label>
+      <posX>798</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!window.istopmost(87265)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoLabel">
+      <description>Watchers Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Watchers.Label</label>
+      <posX>565</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Watchers,)+window.istopmost(87265)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -184,10 +208,10 @@
       <description>Watchers</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Show.Genres</label>
+      <label>#Trakt.Show.Watchers.Extra</label>
       <posX>798</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Watchers,)+window.istopmost(87265)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -279,19 +303,7 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
-    <!--
-	<control Style="InfoLabel">
-		<description>Genre Label</description>
-		<type>label</type>
-		<id>0</id>
-		<posX>118</posX>
-		<posY>516</posY>
-		<label>#Trakt.Translation.Rating.Label</label>
-		<visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Ratings.Percentage,)</visible>
-		<animation effect="fade" time="250">WindowOpen</animation>
-		<animation effect="fade" time="250">WindowClose</animation>
-  </control>
-	-->
+    
     <control Style="InfoValueWide">
       <description>Genre Value</description>
       <type>fadelabel</type>
@@ -324,7 +336,7 @@
       <type>label</type>
       <label>#Trakt.Translation.Certification.Label</label>
       <posX>118</posX>
-      <posY>554</posY>
+      <posY>516</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -336,8 +348,32 @@
       <type>label</type>
       <label>#Trakt.Show.Certification</label>
       <posX>350</posX>
-      <posY>554</posY>
+      <posY>516</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoLabel">
+      <description>Genre Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Genre.Label</label>
+      <posX>118</posX>
+      <posY>554</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Genres,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoValueSmall">
+      <description>Genres</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Show.Genres</label>
+      <posX>350</posX>
+      <posY>554</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Genres,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -346,10 +382,10 @@
       <description>Watchers Label</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Translation.Genre.Label</label>
+      <label>#Trakt.Translation.Watchers.Label</label>
       <posX>118</posX>
-      <posY>516</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Genres,)</visible>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Watchers,)+window.istopmost(87265)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -358,14 +394,14 @@
       <description>Watchers</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Show.Genres</label>
+      <label>#Trakt.Show.Watchers.Extra</label>
       <posX>350</posX>
-      <posY>516</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Genres,)</visible>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Watchers,)+window.istopmost(87265)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
-
+    
     <control>
       <description>Summary (list)</description>
       <type>textboxscrollup</type>
