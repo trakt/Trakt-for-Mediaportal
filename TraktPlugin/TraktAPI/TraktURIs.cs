@@ -46,9 +46,9 @@ namespace TraktPlugin.TraktAPI
         public const string TrendingMovies = "http://api.trakt.tv/movies/trending?extended=full,images&page={0}&limit={1}";
         public const string TrendingShows = "http://api.trakt.tv/shows/trending?extended=full,images&page={0}&limit={1}";
 
-        public const string MovieComments = "http://api.trakt.tv/movies/{0}/comments?extended=full,images";
-        public const string ShowComments = "http://api.trakt.tv/shows/{0}/comments?extended=full,images";
-        public const string EpisodeComments = "http://api.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images";
+        public const string MovieComments = "http://api.trakt.tv/movies/{0}/comments?extended=full,images&page={1}&limit={2}";
+        public const string ShowComments = "http://api.trakt.tv/shows/{0}/comments?extended=full,images&page={1}&limit={2}";
+        public const string EpisodeComments = "http://api.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images&page={3}&limit={4}";
 
         public const string SearchMovies = "http://api.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}?extended=full,images";
         public const string SearchShows = "http://api.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full,images";
@@ -56,7 +56,7 @@ namespace TraktPlugin.TraktAPI
         public const string SearchPeople = "http://api.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full,images";
         public const string SearchUsers = "http://api.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images"; // not implemented!
         public const string SearchLists = "http://api.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full,images";
-        
+
         public const string NetworkFriends = "http://api.trakt.tv/users/{0}/friends?extended=full,images";
         public const string NetworkFollowers = "http://api.trakt.tv/users/{0}/followers?extended=full,images";
         public const string NetworkFollowing = "http://api.trakt.tv/users/{0}/following?extended=full,images";

@@ -328,9 +328,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Comments
 
-        public static IEnumerable<TraktComment> GetMovieComments(string id)
+        public static IEnumerable<TraktComment> GetMovieComments(string id, int page = 1, int maxItems = 1000)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.MovieComments, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.MovieComments, id, page, maxItems));
             return response.FromJSONArray<TraktComment>();
         }
 
@@ -382,9 +382,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Comments
 
-        public static IEnumerable<TraktComment> GetShowComments(string id)
+        public static IEnumerable<TraktComment> GetShowComments(string id, int page = 1, int maxItems = 1000)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.ShowComments, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowComments, id, page, maxItems));
             return response.FromJSONArray<TraktComment>();
         }
 
@@ -453,9 +453,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Comments
 
-        public static IEnumerable<TraktComment> GetEpisodeComments(string id, int season, int episode)
+        public static IEnumerable<TraktComment> GetEpisodeComments(string id, int season, int episode, int page = 1, int maxItems = 1000)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.EpisodeComments, id, season, episode));
+            var response = GetFromTrakt(string.Format(TraktURIs.EpisodeComments, id, season, episode, page, maxItems));
             return response.FromJSONArray<TraktComment>();
         }
 
