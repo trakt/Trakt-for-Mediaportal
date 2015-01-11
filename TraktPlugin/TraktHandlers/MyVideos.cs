@@ -648,7 +648,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Movie = new TraktMovie
                 {
-                    Ids = new TraktMovieId { Imdb = movie.IMDBNumber },
+                    Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty() },
                     Title = movie.Title,
                     Year = movie.Year
                 },

@@ -653,7 +653,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Movie = new TraktMovie
                 {
-                    Ids = new TraktMovieId { Imdb = movie.IMDBNumber, Tmdb = movie.TMDBNumber.ToNullableInt32() },
+                    Ids = new TraktMovieId { Imdb = movie.IMDBNumber.ToNullIfEmpty(), Tmdb = movie.TMDBNumber.ToNullableInt32() },
                     Title = movie.Title,
                     Year = movie.Year
                 },
