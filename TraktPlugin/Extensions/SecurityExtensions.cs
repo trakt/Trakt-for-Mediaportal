@@ -23,6 +23,9 @@ namespace TraktPlugin.Extensions
 
         public static string Encrypt(this string plainText, string passPhrase)
         {
+            if (string.IsNullOrEmpty(plainText))
+                return plainText;
+
             try
             {
                 byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -57,6 +60,9 @@ namespace TraktPlugin.Extensions
 
         public static string Decrypt(this string cipherText, string passPhrase)
         {
+            if (string.IsNullOrEmpty(cipherText))
+                return cipherText;
+
             try
             {
                 byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
