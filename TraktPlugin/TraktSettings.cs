@@ -22,7 +22,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 5;
+        static int SettingsVersion = 6;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -434,8 +434,8 @@ namespace TraktPlugin
             using (Settings xmlreader = new MPSettings())
             {
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
-                Password = xmlreader.GetValueAsString(cTrakt, cPassword, "").Decrypt(cGuid);
-                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid);
+                Password = xmlreader.GetValueAsString(cTrakt, cPassword, "").Decrypt(cGuid + System.Environment.MachineName);
+                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid + System.Environment.MachineName);
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 MyVideos = xmlreader.GetValueAsInt(cTrakt, cMyVideos, -1);
@@ -562,8 +562,8 @@ namespace TraktPlugin
             {
                 xmlwriter.SetValue(cTrakt, cSettingsVersion, SettingsVersion);
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
-                xmlwriter.SetValue(cTrakt, cPassword, Password.Encrypt(cGuid));
-                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.Encrypt(cGuid).ToJSON());
+                xmlwriter.SetValue(cTrakt, cPassword, Password.Encrypt(cGuid + System.Environment.MachineName));
+                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.Encrypt(cGuid + System.Environment.MachineName).ToJSON());
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
                 xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValue(cTrakt, cMyVideos, MyVideos);
@@ -802,6 +802,13 @@ namespace TraktPlugin
                             {
                                 TraktLogger.Error("Failed to remove v1 API persisted data from disk, Reason = '{0}'", e.Message);
                             }
+                            currentSettingsVersion++;
+                            break;
+
+                        case 5:
+                            // Clear existing passwords, change of encryption/decryption technique
+                            xmlreader.RemoveEntry(cTrakt, cPassword);
+                            xmlreader.RemoveEntry(cTrakt, cUserLogins);
                             currentSettingsVersion++;
                             break;
                     }
