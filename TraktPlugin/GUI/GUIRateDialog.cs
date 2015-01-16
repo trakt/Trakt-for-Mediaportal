@@ -1,7 +1,8 @@
 ﻿using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktAPI;
 using Action = MediaPortal.GUI.Library.Action;
+using System;
 
 namespace TraktPlugin.GUI
 {
@@ -45,13 +46,13 @@ namespace TraktPlugin.GUI
         [SkinControlAttribute(1010)]
         protected GUICheckMarkControl btnTenHeart = null;
 
-        bool AdvancedRatingsSupported { get; set; }
-
         #region Public Properties
 
         public TraktRateValue Rated { get; set; }
         public bool IsSubmitted { get; set; }
 
+        [Obsolete("This property is no longer used")]
+        public bool ShowAdvancedRatings { get; set; }
         #endregion
         
         #region Overides

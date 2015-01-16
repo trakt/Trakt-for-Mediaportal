@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
+using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
 
 namespace TraktPlugin.GUI
 {
