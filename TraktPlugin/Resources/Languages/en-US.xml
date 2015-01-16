@@ -121,6 +121,7 @@
   <string name="Episodes">Episodes</string>
   <string name="Error">Trakt Error</string>
   <string name="ErrorCalendar">Error getting calendar</string>
+  <string name="ErrorUserProfile">Error getting profile and statistics for user</string>
   <string name="ExecutiveProducer">Executive Producer</string>
   <!--F-->
   <string name="FailedCreateList">Failed to create list online</string>

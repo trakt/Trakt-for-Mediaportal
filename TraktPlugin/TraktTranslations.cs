@@ -366,6 +366,7 @@ namespace TraktPlugin.GUI
         public static string Episodes = "Episodes";
         public static string Error = "Trakt Error";
         public static string ErrorCalendar = "Error getting calendar";
+        public static string ErrorUserProfile = "Error getting profile and statistics for user";
         public static string ExecutiveProducer = "Executive Producer";
 
         // F
@@ -758,7 +759,7 @@ namespace TraktPlugin.GUI
         public static string UpdatingFiltersMenuMovingPicsWarning = "You can't remove trakt from the filters menu whilst they're still being updated!";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
         public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed\nfrom the 'Friends' view.";
-        public static string UserProfile = "User Profile";        
+        public static string UserProfile = "User Profile";
 
         // V
         public static string View = "View";

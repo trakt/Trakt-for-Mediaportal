@@ -92,16 +92,23 @@ namespace TraktPlugin.GUI
                     if (Users.Keys.Contains(CurrentUser))
                         Users.Remove(CurrentUser);
 
-                    _UserProfile = new TraktUserSummaryEx
+                    if (profile != null && statistics != null)
                     {
-                        Profile = profile,
-                        Statistics = statistics
-                    };
+                        _UserProfile = new TraktUserSummaryEx
+                        {
+                            Profile = profile,
+                            Statistics = statistics
+                        };
 
-                    GetUserProfileImage(_UserProfile);
-                    Users.Add(CurrentUser, _UserProfile);
-                    LastRequest = DateTime.UtcNow;
-                    PreviousActivityTypeSelectedIndex = 0;
+                        GetUserProfileImage(_UserProfile);
+                        Users.Add(CurrentUser, _UserProfile);
+                        LastRequest = DateTime.UtcNow;
+                        PreviousActivityTypeSelectedIndex = 0;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 return Users[CurrentUser];
             }
@@ -275,17 +282,24 @@ namespace TraktPlugin.GUI
                     PublishSkinProperties(user);
 
                     // Load Activity Facade
-                    LoadActivityTypes();
+                    LoadActivityTypes(user);
                 }
             }, Translation.GettingUserProfile, true);
         }
 
-        private void LoadActivityTypes()
+        private void LoadActivityTypes(TraktUserSummaryEx user)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            string avatar = User.Profile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
+            if (user == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.UserProfile, Translation.ErrorUserProfile);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }           
+
+            string avatar = user.Profile.Images.Avatar.LocalImageFilename(ArtworkType.Avatar);
 
             // add each type to the list           
             var item = new GUIUserListItem(Translation.RecentWatchedEpisodes, (int)TraktGUIWindows.Network);
