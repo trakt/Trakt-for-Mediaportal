@@ -59,7 +59,6 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool RemovingWatchListItem { get; set; }
         private Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex { get; set; }
         ImageSwapper backdrop;
@@ -251,14 +250,18 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case ((int)ContextMenuItem.RemoveFromWatchList):
-                    RemovingWatchListItem = true;
                     PreviousSelectedIndex = this.Facade.SelectedListItemIndex;
                     TraktHelper.RemoveEpisodeFromWatchList(selectedEpisode);
                     if (this.Facade.Count >= 1)
                     {
                         // remove from list
-                        _WatchListEpisodes = null;
-                        userWatchList.Remove(CurrentUser);
+                        var currentWatchlist = _WatchListEpisodes.ToList();
+                        currentWatchlist.RemoveAll(w => w.Episode.Ids.Trakt == selectedEpisode.Ids.Trakt);
+
+                        userWatchList[CurrentUser] = currentWatchlist;
+                        _WatchListEpisodes = currentWatchlist;
+
+                        // reload
                         LoadWatchListEpisodes();
                     }
                     else
@@ -327,8 +330,6 @@ namespace TraktPlugin.GUI
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                // wait until watched item has been removed or timesout (10secs)
-                while (RemovingWatchListItem) Thread.Sleep(500);
                 return WatchListEpisodes;
             },
             delegate(bool success, object result)
@@ -410,8 +411,6 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageOne = FanartBackground;
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
-
-            RemovingWatchListItem = false;
 
             // load Watchlist for user
             if (string.IsNullOrEmpty(CurrentUser)) CurrentUser = TraktSettings.Username;
