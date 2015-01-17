@@ -396,7 +396,6 @@
   <string name="Synchronize">Synchroniser</string>
   <string name="SynchronizeNow">Un nouveau plugin a été ajouté.\nVoulez-vous synchroniser vos bibliothèques\nmaintenant?</string>
   <string name="ShowRateDialogOnWatched">Afficher la boite de dialogue Notation concernant l\'élément visionné</string>
-  <string name="ShowSeasonInfo">Infos sur la saison...</string>
   <string name="ShowWatched">Série visionnée</string>
   <string name="SettingPluginEnabledName">Plugin activé</string>
   <string name="SettingPluginEnabledDescription">Activer / Désactiver ce paramètre afin de contrôler le lancement du plugin Trakt avec MediaPortal.</string>

@@ -290,7 +290,6 @@
   <string name="StartDate">Start dato</string>
   <string name="Synchronize">Synkronisér</string>
   <string name="ShowRateDialogOnWatched">Vis Rate Dialog på det viste objekt</string>
-  <string name="ShowSeasonInfo">Sæson Information...</string>
   <string name="ShowWatched">Vis sete</string>
   <string name="SettingPluginEnabledName">Tilføjelse slået til</string>
   <string name="SettingPluginEnabledDescription">Slå til / fra denne indstilling for at starte Trakt-tilføjelsen med MediaPortal.</string>

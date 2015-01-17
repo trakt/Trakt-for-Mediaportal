@@ -292,7 +292,6 @@
   <string name="StartDate">Datum začetka</string>
   <string name="Synchronize">Sinhroniziraj</string>
   <string name="ShowRateDialogOnWatched">Prikaži pogovorno okno oceni na gledanem elementu</string>
-  <string name="ShowSeasonInfo">Informacije sezone...</string>
   <string name="ShowWatched">Gledana oddaja</string>
   <string name="SettingPluginEnabledName">Vtičnik je omogočen</string>
   <string name="SettingPluginEnabledDescription">Omogoči / Onemogoči to nastavitev za nadzor, če se Trakt vtičnik naloži z MediaPortalom.</string>

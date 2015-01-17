@@ -343,7 +343,6 @@
   <string name="StartDate">Aloitus Pvm</string>
   <string name="Synchronize">Synkronoi</string>
   <string name="ShowRateDialogOnWatched">Näytä arvostelupyyntö katsottavalle ohjelmalle</string>
-  <string name="ShowSeasonInfo">Kauden tiedot...</string>
   <string name="ShowWatched">Näytä katsotut</string>
   <string name="SettingPluginEnabledName">Lisäosa otettu käyttöön</string>
   <string name="SettingPluginEnabledDescription">Aseta Päälle/Pois tämä asetus määrittääksesi ladataanko Trakt kun MP käynnistyy.</string>

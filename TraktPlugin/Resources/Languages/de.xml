@@ -413,7 +413,7 @@
   <string name="Synchronize">Synchronisieren</string>
   <string name="SynchronizeNow">Neue Plugin Handler wurden hinzugefügt.\nWillst du deine Bibliotheken aktualisieren?</string>
   <string name="ShowRateDialogOnWatched">Bewertungsdialog für gesehene Elemente anzeigen</string>
-  <string name="ShowSeasonInfo">Staffel-Information...</string>
+  <string name="ShowSeasonInfo">Staffel-Information</string>
   <string name="ShowWatched">Gesehene anzeigen</string>
   <string name="SettingPluginEnabledName">Plugin aktiviert</string>
   <string name="SettingPluginEnabledDescription">Aktivieren / Deaktivieren dieser Einstellung zur Kontrolle, ob das Trakt-Plugin mit MediaPortal geladen wird.</string>

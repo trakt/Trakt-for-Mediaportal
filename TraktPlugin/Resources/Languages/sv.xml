@@ -426,7 +426,7 @@ hantera plugins.</string>
 Vill du synka ditt 
 bibliotek nu?</string>
   <string name="ShowRateDialogOnWatched">Betygsätt efter visning</string>
-  <string name="ShowSeasonInfo">Säsongsinformation...</string>
+  <string name="ShowSeasonInfo">Säsongsinformation</string>
   <string name="ShowWatched">Visa sedda</string>
   <string name="SettingPluginEnabledName">Insticksprogrammet är aktivt</string>
   <string name="SettingPluginEnabledDescription">Sätt på / stäng av denna inställning för att tillåta att Trakt laddas med MediaPortal.</string>

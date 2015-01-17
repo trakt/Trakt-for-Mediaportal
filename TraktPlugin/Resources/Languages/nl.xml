@@ -413,7 +413,6 @@
   <string name="Synchronize">Synchroniseren</string>
   <string name="SynchronizeNow">Er is een nieuwe plugin toegevoegd. Wil je deze Synchroniseren met je bibliotheek?</string>
   <string name="ShowRateDialogOnWatched">Waarderingsdialoog weergeven voor bekeken item</string>
-  <string name="ShowSeasonInfo">Seizoen informatie...</string>
   <string name="ShowWatched">Serie bekeken</string>
   <string name="SettingPluginEnabledName">Plug-in ingeschakeld</string>
   <string name="SettingPluginEnabledDescription">Schakel deze instelling in/uit om Trakt te laden bij het opstarten van MediaPortal</string>

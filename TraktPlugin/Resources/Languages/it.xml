@@ -288,7 +288,6 @@
   <string name="StartDate">Data Inizio</string>
   <string name="Synchronize">Sincronizza</string>
   <string name="ShowRateDialogOnWatched">Visualizza finestra valutazione per l\'elemento visto</string>
-  <string name="ShowSeasonInfo">Informazioni Stagione...</string>
   <string name="ShowWatched">Visualizza Visti</string>
   <string name="SettingPluginEnabledName">Plugin Abilitato</string>
   <string name="SettingPluginEnabledDescription">Abilita / Disabilita questa impostazione per controllare se Trakt è caricato con MediaPortal.</string>
