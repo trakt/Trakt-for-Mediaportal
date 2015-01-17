@@ -2935,27 +2935,16 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>5</Major>
       <Minor>0</Minor>
-      <Build>5</Build>
+      <Build>6</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Request for 1000 items in Comments GUI for shows, movies and episodes . New API only returns 10 items per page by default. Later I will add support to sort by most popular comments which will require a larger set of items to be useful.
-* Fixes and improvements to Titan skin:
-** Fixed ratings in the Episodes GUI. It was showing TV-Show ratings for every episode.
-** Fixed SpinButton position in Comments GUI.
-** Fixed 'comment' height in Comments GUI.
-** Fixed list description height in Lists GUI.
-** Pretty formatting for 'vote' count where ratings are displayed.
-** Added 'Watchers' label to Trending Shows and Movies GUI (List and Icon layouts).
-** Added some missing images needed in various GUI windows.
-* Fixed missing 'Titan Skin' entry in MPEI installer where features are selected for install. User can now choose not to install it.
-* Fixed a bug where an error would be shown after returning back to the Calendar GUI.
-* Improved syncing from Movie plugins where IMDb was an empty string in a users local database, will be sent as null now. 
-* Added error checking and logging when password fails to decrypt from persisted settings.
-* Updated minimum requirements for MovingPictures to v1.7.0.
-* Updated minimum requirements for My Films to v6.1.1.3136 (Test DLL).
+    <VersionDescription>* Fixed compatibility with WIFI Remote plugin, resolves a crash at end of episode/movie playback when auto-rate was enabled or when invoked manually.
+* Fixed issue seen by some users when decrypting trakt password resulting in login failure. Requires password to be re-entered by user on next sign-in attempt.
+* Added error notification when failing to load the UserProfile GUI due to bad response for UserProfile and/or Statistics.
+* Improve Episode Watchlist loading in GUI after removing an item.
 * Updated translations from Transifex.
 
 As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.
@@ -2963,7 +2952,7 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
 </VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-01-11T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-01-17T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -5561,7 +5550,7 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{87837fa8-b5c5-43f9-a9be-4f5fd670f34c}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{12282515-ac05-49b5-9fdd-a3cdbdb334fb}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
