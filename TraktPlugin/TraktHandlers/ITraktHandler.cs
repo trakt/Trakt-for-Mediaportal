@@ -23,6 +23,11 @@ namespace TraktPlugin.TraktHandlers
         void SyncLibrary();
 
         /// <summary>
+        /// Syncs playback progress of partially watched items
+        /// </summary>
+        void SyncProgress();
+
+        /// <summary>
         /// Scrobbles to Trakt the given filename
         /// </summary>
         /// <param name="filename"></param>
