@@ -81,6 +81,11 @@ namespace TraktPlugin.TraktHandlers
             return;
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
 
         #region Player Events

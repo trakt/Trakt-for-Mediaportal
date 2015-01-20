@@ -614,6 +614,11 @@ namespace TraktPlugin.TraktHandlers
             }
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
 
         #region Scrobbling

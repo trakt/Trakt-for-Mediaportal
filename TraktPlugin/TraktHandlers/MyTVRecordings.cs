@@ -121,6 +121,11 @@ namespace TraktPlugin.TraktHandlers
             CurrentRecording = null;
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
     }
 }

@@ -126,6 +126,11 @@ namespace TraktPlugin.TraktHandlers
             CurrentProgram = null;
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
 
         #region Helpers

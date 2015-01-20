@@ -492,6 +492,11 @@ namespace TraktPlugin.TraktHandlers
             CurrentMovie = null;            
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
 
         #region Data Creators

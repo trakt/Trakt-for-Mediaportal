@@ -631,6 +631,11 @@ namespace TraktPlugin.TraktHandlers
             return;
         }
 
+        public void SyncProgress()
+        {
+            return;
+        }
+
         #endregion
 
         #region DataCreators
