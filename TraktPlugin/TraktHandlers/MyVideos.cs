@@ -424,7 +424,8 @@ namespace TraktPlugin.TraktHandlers
             StopScrobble();
 
             // stop check if not valid player type for plugin handler
-            if (g_Player.IsTV || g_Player.IsTVRecording) return false;
+            if (g_Player.IsTV || g_Player.IsTVRecording || filename == "http://localhost/OnlineVideo.mp4")
+                return false;
 
             // lookup movie by filename
             IMDBMovie movie = new IMDBMovie();
