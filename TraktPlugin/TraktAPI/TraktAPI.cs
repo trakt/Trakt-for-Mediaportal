@@ -98,6 +98,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Playback
+
+        public static IEnumerable<TraktSyncPlayback> GetPlaybackProgress()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncPlayback);
+            return response.FromJSONArray<TraktSyncPlayback>();
+        }
+
+        #endregion
+
         #region Collection
 
         public static IEnumerable<TraktMovieCollected> GetCollectedMovies()

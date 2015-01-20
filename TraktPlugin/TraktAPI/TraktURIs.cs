@@ -10,7 +10,9 @@ namespace TraktPlugin.TraktAPI
 
         // GET
         public const string SyncLastActivities = "http://api.trakt.tv/sync/last_activities";
-        
+
+        public const string SyncPlayback = "http://api.trakt.tv/sync/playback";
+
         public const string SyncCollectionMovies = "http://api.trakt.tv/sync/collection/movies";
         public const string SyncWatchedMovies = "http://api.trakt.tv/sync/watched/movies";
         public const string SyncRatedMovies = "http://api.trakt.tv/sync/ratings/movies";
