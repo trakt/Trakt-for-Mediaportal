@@ -145,7 +145,13 @@ namespace TraktPlugin.Extensions
 
         public static string ToNullIfEmpty(this string text)
         {
-            return string.IsNullOrEmpty(text) ? null : text;
+            if (string.IsNullOrEmpty(text))
+                return null;
+
+            if (text.Trim() == string.Empty)
+                return null;
+
+            return text.Trim();
         }
     }
 }
