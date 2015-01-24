@@ -78,7 +78,7 @@ namespace TraktPlugin.TraktHandlers
         
         public void SyncLibrary()
         {
-            TraktLogger.Info("MP-TVSeries Starting Sync");
+            TraktLogger.Info("MP-TVSeries Library Starting Sync");
             SyncInProgress = true;
 
             // store list of series ids so we can update the episode counts
@@ -552,7 +552,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             SyncInProgress = false;
-            TraktLogger.Info("MP-TVSeries Sync Completed");
+            TraktLogger.Info("MP-TVSeries Library Sync Completed");
         }
 
         public bool Scrobble(string filename)
@@ -633,6 +633,51 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            TraktLogger.Info("MP-TVSeries Starting Playback Sync");
+
+            // get playback data from trakt
+            var playbackData = TraktCache.PlaybackData;
+            if (playbackData == null)
+            {
+                TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                return;
+            }
+
+            TraktLogger.Info("Found {0} tv episodes on trakt.tv with resume data", playbackData.Where(p => p.Type == "episode").Count());
+
+            foreach (var item in playbackData.Where(p => p.Type == "episode"))
+            {
+                if (!item.Show.Ids.Tvdb.HasValue || item.Show.Ids.Tvdb <= 0)
+                {
+                    TraktLogger.Warning("Skipping item with invalid TVDb ID, TV Show = '{0}', Season='{1}', Episode='{2}'", item.Show.Title, item.Episode.Season, item.Episode.Number);
+                    continue;
+                }
+
+                // get episode from local database if it exists
+                var episode = DBEpisode.Get(item.Show.Ids.Tvdb.Value, item.Episode.Season, item.Episode.Number);
+                if (episode == null)
+                    return;
+
+                // if the local playtime is not known then skip
+                if (episode[DBEpisode.cLocalPlaytime] <= 0)
+                {
+                    TraktLogger.Warning("Skipping item with invalid runtime in database, TV Show = '{0}', Season='{1}', Episode='{2}'", item.Show.Title, item.Episode.Season, item.Episode.Number);
+                    continue;
+                }
+
+                // update the stop time based on percentage watched
+                // tvseries stores localplaytime in milliseconds and stoptime in secs
+                var resumeData = Convert.ToInt32((episode[DBEpisode.cLocalPlaytime] / 1000.0) * (item.Progress / 100.0));
+
+                if (episode[DBEpisode.cStopTime] != resumeData)
+                {
+                    TraktLogger.Info("Setting resume time '{0}' for episode, Title = '{1} - {2}x{3}'", new TimeSpan(0, 0, 0, resumeData), item.Show.Title, item.Episode.Season, item.Episode.Number);
+                    episode[DBEpisode.cStopTime] = resumeData;
+                    episode.Commit();
+                }
+            }
+
+            TraktLogger.Info("MP-TVSeries Playback Sync Completed");
             return;
         }
 

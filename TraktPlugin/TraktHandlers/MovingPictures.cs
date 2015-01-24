@@ -63,7 +63,7 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncLibrary()
         {
-            TraktLogger.Info("Moving Pictures Starting Sync");
+            TraktLogger.Info("Moving Pictures Starting Library Sync");
             SyncInProgress = true;
 
             // Get all movies in the local database
@@ -468,7 +468,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             SyncInProgress = false;
-            TraktLogger.Info("Moving Pictures Sync Completed");
+            TraktLogger.Info("Moving Pictures Library Sync Completed");
         }
 
         public bool Scrobble(String filename)
@@ -616,6 +616,50 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            TraktLogger.Info("Moving Pictures Starting Playback Sync");
+
+            // get playback data from trakt
+            var playbackData = TraktCache.PlaybackData;
+            if (playbackData == null)
+            {
+                TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                return;
+            }
+
+            TraktLogger.Info("Found {0} movies on trakt.tv with resume data", playbackData.Where(p => p.Type == "movie").Count());
+
+            foreach (var item in playbackData.Where(p => p.Type == "movie"))
+            {
+                // get movie from local database if it exists
+                var movie = DBMovieInfo.GetAll().FirstOrDefault(m => ((m.ImdbID == item.Movie.Ids.Imdb) && item.Movie.Ids.Imdb != null) ||
+                                                                       m.Title == item.Movie.Title && m.Year == item.Movie.Year);
+                if (movie == null)
+                    return;
+
+                // if the local playtime is not known then skip
+                if (movie.LocalMedia == null || movie.LocalMedia.First().Duration <= 0)
+                {
+                    TraktLogger.Warning("Skipping item with invalid runtime in database, Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    continue;
+                }
+
+                // update the stop time based on percentage watched
+                // movpics stores duration (mediainfo) in milliseconds and resume_time in secs
+                var resumeData = Convert.ToInt32((movie.LocalMedia.First().Duration / 1000.0) * (item.Progress / 100.0));
+
+                DBUserMovieSettings userSetting = movie.ActiveUserSettings;
+                if (userSetting.ResumeTime != resumeData)
+                {
+                    // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
+                    TraktLogger.Info("Setting resume time '{0}' for movie, Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    
+                    userSetting.ResumePart = 1;
+                    userSetting.ResumeTime = resumeData;
+                    userSetting.Commit();
+                }
+            }
+
+            TraktLogger.Info("Moving Pictures Playback Sync Completed");
             return;
         }
 

@@ -37,6 +37,7 @@ namespace TraktPlugin
 
         private static DateTime MovieRecommendationsAge;
         private static DateTime CustomListAge;
+        private static DateTime PlaySyncAge;
 
         private static DateTime LastFollowerRequest = new DateTime();
 
@@ -879,6 +880,29 @@ namespace TraktPlugin
             }
         }
         static TraktLastSyncActivities _LastSyncActivities = null;
+        #endregion
+
+        #region Playback
+
+        internal static IEnumerable<TraktSyncPlayback> PlaybackData
+        {
+            get
+            {
+                if (_playbackData == null || (DateTime.Now - PlaySyncAge) > TimeSpan.FromMinutes(5))
+                {
+                    TraktLogger.Info("Retrieving current users playback data");
+                    _playbackData = TraktAPI.TraktAPI.GetPlaybackProgress();
+                    PlaySyncAge = DateTime.Now;
+                }
+                return _playbackData;
+            }
+            set
+            {
+                _playbackData = value;
+            }
+        }
+        static IEnumerable<TraktSyncPlayback> _playbackData;
+
         #endregion
 
         #endregion

@@ -29,6 +29,7 @@ namespace TraktPlugin
         // Worker used for syncing libraries
         BackgroundWorker syncLibraryWorker;
         static Timer syncLibraryTimer;
+        bool abortSync;
         // Settings Management from MPEI
         ExtensionSettings extensionSettings = new ExtensionSettings();
         // Dashboard - Activity / Trending Items
@@ -162,9 +163,6 @@ namespace TraktPlugin
             // Load plugins we want to sync
             LoadPluginHandlers();
 
-            // Sync Libaries now and periodically
-            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength);
-            
             TraktLogger.Debug("Adding MediaPortal event handlers");
             g_Player.PlayBackChanged += new g_Player.ChangedHandler(g_Player_PlayBackChanged);
             g_Player.PlayBackEnded += new g_Player.EndedHandler(g_Player_PlayBackEnded);
@@ -175,20 +173,27 @@ namespace TraktPlugin
             GUIWindowManager.OnDeActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnDeActivateWindow);
             GUIWindowManager.OnActivateWindow += new GUIWindowManager.WindowActivationHandler(GUIWindowManager_OnActivateWindow);
             GUIWindowManager.Receivers += new SendMessageHandler(GUIWindowManager_Receivers);
-            
-            // Initialize translations
+
+            // Resume/Standby Windows Event
+            Microsoft.Win32.SystemEvents.PowerModeChanged += new Microsoft.Win32.PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+
+            // Sync Libaries now and periodically
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength);
+            SyncPlayback();
+
+            // Initialise translations
             Translation.Init();
 
-            // Initialize skin settings
+            // Initialise skin settings
             TraktSkinSettings.Init();
 
-            // Initialize genres
+            // Initialise genres
             TraktGenres.Init();
 
-            // Initialize Extension Settings
+            // Initialise Extension Settings
             extensionSettings.Init();
 
-            // Initialize Skin Dashboard
+            // Initialise Skin Dashboard
             dashBoard.Init();
 
             // Load main skin window
@@ -203,6 +208,8 @@ namespace TraktPlugin
         /// </summary>
         public override void DeInit()
         {
+            abortSync = true;
+
             if (syncLibraryWorker != null)
             {
                 TraktLogger.Debug("Stopping any plugins currently syncing library");
@@ -511,6 +518,48 @@ namespace TraktPlugin
 
         #region Library Functions
 
+        private void SyncPlayback()
+        {
+            // no plugins to sync, abort
+            if (TraktHandlers.Count == 0) return;
+
+            var syncPlaybackThread = new Thread((obj) =>
+            {
+                if (TraktSettings.AccountStatus != ConnectionState.Connected)
+                return;
+
+                TraktLogger.Info("Playback Sync started for all enabled plugins");
+
+                // clear cached sync data
+                TraktCache.PlaybackData = null;
+
+                // User could change handlers during sync from Settings so assign new list
+                var traktHandlers = new List<ITraktHandler>(TraktHandlers);
+                foreach (var traktHandler in traktHandlers)
+                {
+                    if (abortSync)
+                        return;
+
+                    try
+                    {
+                        traktHandler.SyncProgress();
+                    }
+                    catch (Exception ex)
+                    {
+                        TraktLogger.Error("Error synchronising playback data. Plugin = '{0}', Error = '{1}'", traktHandler.Name, ex.Message);
+                    }
+                }
+
+                TraktLogger.Info("Playback Sync finished for all enabled plugins");
+            })
+            {
+                Name = "PlaySync",
+                IsBackground = true
+            };
+
+            syncPlaybackThread.Start();
+        }
+
         /// <summary>
         /// Changes the period and start time of the Library Sync
         /// </summary>
@@ -572,8 +621,8 @@ namespace TraktPlugin
             TraktLogger.Info("Library Sync started for all enabled plugins");
 
             // User could change handlers during sync from Settings so assign new list
-            List<ITraktHandler> traktHandlers = new List<ITraktHandler>(TraktHandlers);
-            foreach (ITraktHandler traktHandler in traktHandlers)
+            var traktHandlers = new List<ITraktHandler>(TraktHandlers);
+            foreach (var traktHandler in traktHandlers)
             {
                 try
                 {
@@ -1295,6 +1344,26 @@ namespace TraktPlugin
                 }
             }
             #endregion
+        }
+
+        #endregion
+
+        #region Resume / Standby
+
+        void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
+        {
+            TraktLogger.Debug("Trakt received a power event from Windows, Event = '{0}'", e.Mode);
+            if (e.Mode == Microsoft.Win32.PowerModes.Resume)
+            {
+                TraktLogger.Info("Trakt has detected that system is entering into standby mode");
+
+                // start sync of playback (resume) data to plugins
+                SyncPlayback();
+            }
+            else if (e.Mode == Microsoft.Win32.PowerModes.Suspend)
+            {
+                TraktLogger.Info("Trakt has detected that the system is resuming from standby mode");
+            }
         }
 
         #endregion

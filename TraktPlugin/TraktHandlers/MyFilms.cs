@@ -67,7 +67,7 @@ namespace TraktPlugin.TraktHandlers
        
         public void SyncLibrary()
         {
-            TraktLogger.Info("My Films Starting Sync");
+            TraktLogger.Info("My Films Starting Library Sync");
             SyncInProgress = true;
 
             ArrayList myvideos = new ArrayList();
@@ -596,7 +596,7 @@ namespace TraktPlugin.TraktHandlers
             myvideos.Clear();
 
             SyncInProgress = false;
-            TraktLogger.Info("My Films Sync Completed");
+            TraktLogger.Info("My Films Library Sync Completed");
         }
 
         public bool Scrobble(string filename)
