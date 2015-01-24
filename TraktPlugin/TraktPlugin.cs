@@ -1377,6 +1377,10 @@ namespace TraktPlugin
 
                 // stop timer so it doesn't immediately start syncing users library after next resume from standby
                 ChangeSyncTimer(Timeout.Infinite, Timeout.Infinite);
+
+                // check state of connection if invalid such that it can be checked again on resume
+                if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                    TraktSettings.AccountStatus = ConnectionState.Pending;
             }
         }
 
