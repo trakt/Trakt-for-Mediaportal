@@ -103,7 +103,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("Movie watched history cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watched ?? "<empty>", lastSyncActivities.Movies.Watched ?? "<empty>");
+            TraktLogger.Info("Movie watched history cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watched ?? "<empty>", lastSyncActivities.Movies.Watched ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetWatchedMovies();
@@ -160,7 +160,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("Movie collection cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Collection ?? "<empty>", lastSyncActivities.Movies.Collection ?? "<empty>");
+            TraktLogger.Info("Movie collection cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Collection ?? "<empty>", lastSyncActivities.Movies.Collection ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetCollectedMovies();
@@ -217,7 +217,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("Movie ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Rating ?? "<empty>", lastSyncActivities.Movies.Rating ?? "<empty>");
+            TraktLogger.Info("Movie ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Rating ?? "<empty>", lastSyncActivities.Movies.Rating ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetRatedMovies();
@@ -278,7 +278,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("TV episode collection cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Collection ?? "<empty>", lastSyncActivities.Episodes.Collection ?? "<empty>");
+            TraktLogger.Info("TV episode collection cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Collection ?? "<empty>", lastSyncActivities.Episodes.Collection ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetCollectedEpisodes();
@@ -359,7 +359,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("TV episode watched history cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watched ?? "<empty>", lastSyncActivities.Episodes.Watched ?? "<empty>");
+            TraktLogger.Info("TV episode watched history cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watched ?? "<empty>", lastSyncActivities.Episodes.Watched ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetWatchedEpisodes();
@@ -483,7 +483,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("TV episode ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Rating ?? "<empty>", lastSyncActivities.Episodes.Rating ?? "<empty>");
+            TraktLogger.Info("TV episode ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Rating ?? "<empty>", lastSyncActivities.Episodes.Rating ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetRatedEpisodes();
@@ -549,7 +549,7 @@ namespace TraktPlugin
                     return cachedItems;
             }
 
-            TraktLogger.Debug("TV show ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Rating ?? "<empty>", lastSyncActivities.Shows.Rating ?? "<empty>");
+            TraktLogger.Info("TV show ratings cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Rating ?? "<empty>", lastSyncActivities.Shows.Rating ?? "<empty>");
 
             // we get from online, local cache is not up to date
             var onlineItems = TraktAPI.TraktAPI.GetRatedShows();
@@ -611,7 +611,7 @@ namespace TraktPlugin
                         return cachedItems;
                 }
 
-                TraktLogger.Debug("Movie watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watchlist ?? "<empty>", lastSyncActivities.Movies.Watchlist ?? "<empty>");
+                TraktLogger.Info("Movie watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watchlist ?? "<empty>", lastSyncActivities.Movies.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
                 var onlineItems = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
@@ -717,7 +717,7 @@ namespace TraktPlugin
                         return cachedItems;
                 }
 
-                TraktLogger.Debug("TV show watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Watchlist ?? "<empty>", lastSyncActivities.Shows.Watchlist ?? "<empty>");
+                TraktLogger.Info("TV show watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Watchlist ?? "<empty>", lastSyncActivities.Shows.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
                 var onlineItems = TraktAPI.TraktAPI.GetWatchListShows(TraktSettings.Username);
@@ -785,7 +785,7 @@ namespace TraktPlugin
                         return cachedItems;
                 }
 
-                TraktLogger.Debug("TV episode watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watchlist ?? "<empty>", lastSyncActivities.Episodes.Watchlist ?? "<empty>");
+                TraktLogger.Info("TV episode watchlist cache is out of date and does not match online data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watchlist ?? "<empty>", lastSyncActivities.Episodes.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
                 var onlineItems = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
