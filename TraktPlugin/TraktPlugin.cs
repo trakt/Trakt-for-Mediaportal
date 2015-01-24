@@ -1355,14 +1355,28 @@ namespace TraktPlugin
             TraktLogger.Debug("Trakt received a power event from Windows, Event = '{0}'", e.Mode);
             if (e.Mode == Microsoft.Win32.PowerModes.Resume)
             {
-                TraktLogger.Info("Trakt has detected that system is entering into standby mode");
+                TraktLogger.Info("Trakt has detected that the system is resuming from standby mode");
+                
+                // determine when next library sync is due
+                var nextSyncDate = SyncStartTime.Add(TimeSpan.FromMilliseconds(TraktSettings.SyncTimerLength));
+
+                // determine how long to wait from 'now' to start the next sync, set the start delay if it is 'now'
+                int startDelay = nextSyncDate <= DateTime.Now ? TraktSettings.SyncStartDelay : (int)(nextSyncDate.Subtract(DateTime.Now).TotalMilliseconds);
+                    
+                TraktLogger.Info("Last library sync started at {0}, next sync will start in {1}", SyncStartTime, new TimeSpan(0, 0, 0, 0, startDelay));
+
+                // initialise timer for library sync
+                ChangeSyncTimer(startDelay, TraktSettings.SyncTimerLength);
 
                 // start sync of playback (resume) data to plugins
                 SyncPlayback();
             }
             else if (e.Mode == Microsoft.Win32.PowerModes.Suspend)
             {
-                TraktLogger.Info("Trakt has detected that the system is resuming from standby mode");
+                TraktLogger.Info("Trakt has detected that system is entering into standby mode");
+
+                // stop timer so it doesn't immediately start syncing users library after next resume from standby
+                ChangeSyncTimer(Timeout.Infinite, Timeout.Infinite);
             }
         }
 
