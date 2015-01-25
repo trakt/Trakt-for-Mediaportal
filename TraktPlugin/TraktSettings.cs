@@ -22,7 +22,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 6;
+        static int SettingsVersion = 7;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -458,7 +458,7 @@ namespace TraktPlugin
                 //TODOSkippedMovies = xmlreader.GetValueAsString(cTrakt, cSkippedMovies, "{}").FromJSON<SyncMovieCheck>();
                 //TODOAlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
-                SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 86400000);
+                SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 24);
                 SyncStartDelay = xmlreader.GetValueAsInt(cTrakt, cSyncStartDelay, 5000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
                 TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
@@ -823,6 +823,17 @@ namespace TraktPlugin
                             xmlreader.RemoveEntry(cTrakt, cUserLogins);
                             currentSettingsVersion++;
                             break;
+
+                        case 6:
+                            // Save Sync Interval in Hours from Milliseconds
+                            int syncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 24);
+                            if (syncTimerLength > 24)
+                            {
+                                // requires upgrade
+                                xmlreader.SetValue(cTrakt, cSyncTimerLength, syncTimerLength / 3600000);
+                            }
+                            currentSettingsVersion++;
+                            break;
                     }
                 }
             }
@@ -881,8 +892,14 @@ namespace TraktPlugin
                 // re-load settings
                 TraktSettings.LoadSettings();
 
+                // determine when next library sync is due
+                var nextSyncDate = TraktPlugin.SyncStartTime.Add(TimeSpan.FromHours(TraktSettings.SyncTimerLength));
+
+                // determine how long to wait from 'now' to start the next sync, set the start delay if it is 'now'
+                int startDelay = nextSyncDate <= DateTime.Now ? TraktSettings.SyncStartDelay : (int)(nextSyncDate.Subtract(DateTime.Now).TotalMilliseconds);
+
                 // re-initialize sync Interval
-                TraktPlugin.ChangeSyncTimer(TraktSettings.SyncTimerLength, TraktSettings.SyncTimerLength);
+                TraktPlugin.ChangeSyncTimer(startDelay, TraktSettings.SyncTimerLength * 3600000);
 
                 // update any internal plugin settings required
                 TraktSettings.UpdateInternalPluginSettings();

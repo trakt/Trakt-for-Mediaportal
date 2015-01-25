@@ -43,8 +43,7 @@ namespace TraktPlugin
             {
               clbPlugins.Items.Add(item.Value, false);
             }
-            
-            cbTraktSyncLength.SelectedItem = (TraktSettings.SyncTimerLength / 3600000).ToString();
+                        
             cbMovingPicturesCategories.Checked = TraktSettings.MovingPicturesCategories;
             cbMovingPicturesFilters.Checked = TraktSettings.MovingPicturesFilters;
             cbMyFilmsCategories.Checked = TraktSettings.MyFilmsCategories;
@@ -53,6 +52,7 @@ namespace TraktPlugin
             cbSyncRatings.Checked = TraktSettings.SyncRatings;
             cbSyncPlayback.Checked = TraktSettings.SyncPlayback;
 
+            numSyncInterval.Value = TraktSettings.SyncTimerLength;
             numSyncResumeDelta.Value = TraktSettings.SyncResumeDelta;
 
             // disable controls if not applicable
@@ -275,11 +275,6 @@ namespace TraktPlugin
             }
         }
 
-        private void cbTraktSyncLength_SelectedValueChanged(object sender, EventArgs e)
-        {
-            TraktSettings.SyncTimerLength = int.Parse(cbTraktSyncLength.SelectedItem.ToString()) * 3600000;
-        }
-
         private void linkTrakt_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(@"http://trakt.tv/");
@@ -327,6 +322,15 @@ namespace TraktPlugin
             if (int.TryParse(numSyncResumeDelta.Value.ToString(), out result))
             {
                 TraktSettings.SyncResumeDelta = result;
+            }
+        }
+
+        private void numSyncInterval_ValueChanged(object sender, EventArgs e)
+        {
+            int result = 0;
+            if (int.TryParse(numSyncInterval.Value.ToString(), out result))
+            {
+                TraktSettings.SyncTimerLength = result;
             }
         }
 

@@ -33,8 +33,7 @@ namespace TraktPlugin
         // Settings Management from MPEI
         ExtensionSettings extensionSettings = new ExtensionSettings();
         // Dashboard - Activity / Trending Items
-        TraktDashboard dashBoard = new TraktDashboard();
-        DateTime SyncStartTime = new DateTime();
+        TraktDashboard dashBoard = new TraktDashboard();        
         #endregion
 
         #region ISetupFrom
@@ -178,7 +177,7 @@ namespace TraktPlugin
             Microsoft.Win32.SystemEvents.PowerModeChanged += new Microsoft.Win32.PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
 
             // Sync Libaries now and periodically
-            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength);
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength * 3600000);
             SyncPlayback();
 
             // Initialise translations
@@ -517,6 +516,8 @@ namespace TraktPlugin
         #endregion
 
         #region Library Functions
+        
+        public static DateTime SyncStartTime = new DateTime();
 
         private void SyncPlayback()
         {
@@ -797,7 +798,7 @@ namespace TraktPlugin
                 if (GUISettingsPlugins.PluginHandlersAdded)
                 {
                   if (GUIUtils.ShowYesNoDialog(Translation.Synchronize, Translation.SynchronizeNow, true))
-                      ChangeSyncTimer(0, TraktSettings.SyncTimerLength);
+                      ChangeSyncTimer(0, TraktSettings.SyncTimerLength * 3600000);
                 }
 
                 GUISettingsPlugins.PluginHandlersAdded = false;
@@ -1358,7 +1359,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Trakt has detected that the system is resuming from standby mode");
                 
                 // determine when next library sync is due
-                var nextSyncDate = SyncStartTime.Add(TimeSpan.FromMilliseconds(TraktSettings.SyncTimerLength));
+                var nextSyncDate = SyncStartTime.Add(TimeSpan.FromHours(TraktSettings.SyncTimerLength));
 
                 // determine how long to wait from 'now' to start the next sync, set the start delay if it is 'now'
                 int startDelay = nextSyncDate <= DateTime.Now ? TraktSettings.SyncStartDelay : (int)(nextSyncDate.Subtract(DateTime.Now).TotalMilliseconds);
@@ -1366,7 +1367,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Last library sync started at {0}, next sync will start in {1}", SyncStartTime, new TimeSpan(0, 0, 0, 0, startDelay));
 
                 // initialise timer for library sync
-                ChangeSyncTimer(startDelay, TraktSettings.SyncTimerLength);
+                ChangeSyncTimer(startDelay, TraktSettings.SyncTimerLength * 3600000);
 
                 // start sync of playback (resume) data to plugins
                 SyncPlayback();
