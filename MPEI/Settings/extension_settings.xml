@@ -180,5 +180,23 @@
              displaylistvalues="1|5|10|15|30|50|75|100|150|200"
              description="#Trakt.Translation.SettingMaxSearchResultsDescription.Label"
              configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncPlayback"
+             displayname="#Trakt.Translation.SettingSyncPlaybackName.Label"
+             defaultvalue="yes"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingSyncPlaybackDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncResumeDelta"
+             displayname="#Trakt.Translation.SettingSyncResumeDeltaName.Label"
+             defaultvalue="5"
+             type="int"
+             minvalue="0"
+             maxvalue="600"
+             description="#Trakt.Translation.SettingSyncResumeDeltaDescription.Label"
+             configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

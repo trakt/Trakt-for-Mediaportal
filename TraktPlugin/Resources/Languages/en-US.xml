@@ -456,6 +456,10 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignore Watched Percent On DVDs</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray\'s do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.</string>
+  <string name="SettingSyncPlaybackName">Enable Playback / Resume Sync</string>
+  <string name="SettingSyncPlaybackDescription">Enable this setting to synchronise your playback / resume data for movies and episodes which are partially watched e.g. 50%. This feature is useful for people that watch videos from multiple places such as a smart phone on the bus ride home or from multiple devices / machines at home, syncing playback data will allow you to start the video where you left off.</string>
+  <string name="SettingSyncResumeDeltaName">Playback / Resume Delta</string>
+  <string name="SettingSyncResumeDeltaDescription">Set the delta in seconds to apply to the resume data when syncing. This can allow you to re-play a certain period e.g. 5 secs from where you last left off on the other machine / device. Set to 0 to not apply a delta, the maximum allowed value is 600 (10 minutes). Default is 5 seconds.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>

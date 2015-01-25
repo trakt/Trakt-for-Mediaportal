@@ -668,9 +668,6 @@ namespace TraktPlugin.GUI
         public static string SkinPluginsOutOfDate = "Error loading window, skin is out of date!\nExit MediaPortal and enter Configuration to\nenable plugins handlers.";
         public static string SkinOutOfDate = "This feature is not available for your\nskin. See if update is Available.";
         public static string SigningIntoAccount = "Signing Into Account...";
-        public static string StartDate = "Start Date";
-        public static string Synchronize = "Synchronize";
-        public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
         public static string ShowRateDialogOnWatched = "Show Rate Dialog On Item Watched";
         public static string ShowSeasonInfo = "Season Information";
         public static string ShowWatched = "Show Watched";
@@ -714,12 +711,19 @@ namespace TraktPlugin.GUI
         public static string SettingFilterTrendingOnDashboardDescription = "Enable this setting to apply trending filters on the dashboard e.g. Hide Watched, Hide Watchlisted etc. These can be set from the corresponding trending GUI or context menu.";
         public static string SettingIgnoreWatchedPercentOnDVDName = "Ignore Watched Percent On DVDs";
         public static string SettingIgnoreWatchedPercentOnDVDDescription = "Enable this setting to ignore the percentage watched of a DVD when stopped. DVD and Bluray's do not always indicate the correct duration of the main feature video, this will always ensure it is scrobbled (i.e. send watched state) to trakt.tv on stop regardless of how much you have watched.";
+        public static string SettingSyncPlaybackName = "Enable Playback / Resume Sync";
+        public static string SettingSyncPlaybackDescription = "Enable this setting to synchronise your playback / resume data for movies and episodes which are partially watched e.g. 50%. This feature is useful for people that watch videos from multiple places such as a smart phone on the bus ride home or from multiple devices / machines at home, syncing playback data will allow you to start the video where you left off.";
+        public static string SettingSyncResumeDeltaName = "Playback / Resume Delta";
+        public static string SettingSyncResumeDeltaDescription = "Set the delta in seconds to apply to the resume data when syncing. This can allow you to re-play a certain period e.g. 5 secs from where you last left off on the other machine / device. Set to 0 to not apply a delta, the maximum allowed value is 600 (10 minutes). Default is 5 seconds.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
         public static string SortSeasonsDescending = "Sort Seasons in Descending order";
         public static string Specials = "Specials";
+        public static string StartDate = "Start Date";
         public static string Status = "Status";
+        public static string Synchronize = "Synchronize";
+        public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
 
         // T
         public static string Timeout = "Timeout";
