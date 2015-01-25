@@ -51,12 +51,21 @@ namespace TraktPlugin
             cbKeepInSync.Checked = TraktSettings.KeepTraktLibraryClean;
             cbSyncLibrary.Checked = TraktSettings.SyncLibrary;
             cbSyncRatings.Checked = TraktSettings.SyncRatings;
+            cbSyncPlayback.Checked = TraktSettings.SyncPlayback;
+
+            numSyncResumeDelta.Value = TraktSettings.SyncResumeDelta;
 
             // disable controls if not applicable
             if (!TraktSettings.SyncLibrary)
             {
                 cbKeepInSync.Enabled = false;
                 cbSyncRatings.Enabled = false;
+            }
+
+            if (!TraktSettings.SyncPlayback)
+            {
+                numSyncResumeDelta.Enabled = false;
+                lblSyncResumeDelta.Enabled = false;
             }
 
             #endregion
@@ -302,6 +311,23 @@ namespace TraktPlugin
         private void cbSyncRatings_CheckedChanged(object sender, EventArgs e)
         {
             TraktSettings.SyncRatings = cbSyncRatings.Checked;
+        }
+
+        private void cbSyncPlayback_CheckedChanged(object sender, EventArgs e)
+        {
+            numSyncResumeDelta.Enabled = cbSyncPlayback.Checked;
+            lblSyncResumeDelta.Enabled = cbSyncPlayback.Checked;
+
+            TraktSettings.SyncPlayback = cbSyncPlayback.Checked;
+        }
+
+        private void numSyncResumeDelta_ValueChanged(object sender, EventArgs e)
+        {
+            int result = 0;
+            if (int.TryParse(numSyncResumeDelta.Value.ToString(), out result))
+            {
+                TraktSettings.SyncResumeDelta = result;
+            }
         }
 
         /// <summary>

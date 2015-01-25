@@ -146,4 +146,7 @@ of this unless you manually take that action.
 The plugin will not enable this feature if you have multiple movie plugins enabled e.g. My Films
 MovingPictures and My Videos.</value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>43</value>
+  </metadata>
 </root>
