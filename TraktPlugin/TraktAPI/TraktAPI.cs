@@ -1491,11 +1491,11 @@ namespace TraktPlugin.TraktAPI
                 if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ex.Response as HttpWebResponse;
-                    errorMessage = string.Format("The API responded to the request with the following error. Code = '{0}', Description = '{1}'", (int)response.StatusCode, response.StatusDescription);
+                    errorMessage = string.Format("The API responded to the request with the following error, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}'", (int)response.StatusCode, response.StatusDescription, address, method);
                 }
 
                 if (OnDataError != null)
-                    OnDataError(ex.Message);
+                    OnDataError(errorMessage);
 
                 return null;
             }
@@ -1559,7 +1559,7 @@ namespace TraktPlugin.TraktAPI
                 if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ex.Response as HttpWebResponse;
-                    errorMessage = string.Format("The API responded to the request with the following error. Code = '{0}', Description = '{1}'", (int)response.StatusCode, response.StatusDescription);
+                    errorMessage = string.Format("The API responded to the request with the following error, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}', Data = '{4}'", (int)response.StatusCode, response.StatusDescription, address, method, postData ?? "<emtpy>");
                 }
 
                 if (OnDataError != null)
