@@ -521,7 +521,7 @@ namespace TraktPlugin
         private void SyncPlayback()
         {
             // no plugins to sync, abort
-            if (TraktHandlers.Count == 0) return;
+            if (TraktHandlers.Count == 0 || !TraktSettings.SyncPlayback) return;
 
             var syncPlaybackThread = new Thread((obj) =>
             {
