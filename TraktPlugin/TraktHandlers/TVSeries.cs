@@ -667,7 +667,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // update the stop time based on percentage watched
                 // tvseries stores localplaytime in milliseconds and stoptime in secs
-                var resumeData = Convert.ToInt32((episode[DBEpisode.cLocalPlaytime] / 1000.0) * (item.Progress / 100.0));
+                var resumeData = Convert.ToInt32((episode[DBEpisode.cLocalPlaytime] / 1000.0) * (item.Progress / 100.0)) - TraktSettings.SyncResumeDelta;
 
                 if (episode[DBEpisode.cStopTime] != resumeData)
                 {

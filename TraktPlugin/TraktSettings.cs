@@ -128,6 +128,8 @@ namespace TraktPlugin
         public static TraktLastSyncActivities LastSyncActivities { get; set; }
         public static int SyncBatchSize { get; set; }
         public static bool UseCompNameOnPassKey { get; set; }
+        public static bool SyncPlayback { get; set; }
+        public static int SyncResumeDelta { get; set; }        
         #endregion
 
         #region Constants
@@ -245,6 +247,8 @@ namespace TraktPlugin
         private const string cLastSyncActivities = "LastSyncActivities";
         private const string cSyncBatchSize = "SyncBatchSize";
         private const string cUseCompNameOnPassKey = "UseCompNameOnPassKey";
+        private const string cSyncPlayback = "SyncPlayback";
+        private const string cSyncResumeDelta = "SyncResumeDelta";
         #endregion
         
         #region Properties
@@ -537,6 +541,8 @@ namespace TraktPlugin
                 ActivityStreamView = xmlreader.GetValueAsInt(cTrakt, cActivityStreamView, 4);
                 LastSyncActivities = xmlreader.GetValueAsString(cTrakt, cLastSyncActivities, new TraktLastSyncActivities().ToJSON()).FromJSON<TraktLastSyncActivities>();
                 SyncBatchSize = xmlreader.GetValueAsInt(cTrakt, cSyncBatchSize, 100);
+                SyncPlayback = xmlreader.GetValueAsBool(cTrakt, cSyncPlayback, true);
+                SyncResumeDelta = xmlreader.GetValueAsInt(cTrakt, cSyncResumeDelta, 5);
             }
 
             // initialise the last sync activities 
@@ -664,6 +670,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cLastSyncActivities, LastSyncActivities.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSyncBatchSize, SyncBatchSize);
                 xmlwriter.SetValueAsBool(cTrakt, cUseCompNameOnPassKey, UseCompNameOnPassKey);
+                xmlwriter.SetValueAsBool(cTrakt, cSyncPlayback, SyncPlayback);
+                xmlwriter.SetValue(cTrakt, cSyncResumeDelta, SyncResumeDelta);
             }
 
             Settings.SaveCache();
