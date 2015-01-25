@@ -646,6 +646,7 @@ namespace TraktPlugin.TraktHandlers
                 // update the stop time based on percentage watched
                 // movpics stores duration (mediainfo) in milliseconds and resume_time in secs
                 var resumeData = Convert.ToInt32((movie.LocalMedia.First().Duration / 1000.0) * (item.Progress / 100.0)) - TraktSettings.SyncResumeDelta;
+                if (resumeData < 0) resumeData = 0;
 
                 DBUserMovieSettings userSetting = movie.ActiveUserSettings;
                 if (userSetting.ResumeTime != resumeData)
