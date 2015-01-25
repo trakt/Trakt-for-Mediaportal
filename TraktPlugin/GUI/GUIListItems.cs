@@ -789,7 +789,14 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (listItems == null || listItems.Count() == 0)
+            if (listItems == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
+            if (listItems.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoListItemsFound);
                 GUIWindowManager.ShowPreviousWindow();

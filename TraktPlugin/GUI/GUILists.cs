@@ -465,6 +465,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (lists == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             if (lists.Count() == 0 && TraktSettings.Username != CurrentUser)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoUserLists, CurrentUser));

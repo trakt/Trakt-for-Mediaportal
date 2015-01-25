@@ -493,6 +493,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (movieWatchlist == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             if (movieWatchlist.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoMovieWatchList, CurrentUser));

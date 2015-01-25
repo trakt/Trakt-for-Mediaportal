@@ -347,6 +347,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (episodeWatchlist == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             if (episodeWatchlist.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoEpisodeWatchList, CurrentUser));

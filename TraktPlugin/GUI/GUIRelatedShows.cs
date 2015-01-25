@@ -484,6 +484,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (shows == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             if (shows.Count() == 0)
             {
                 string title = string.IsNullOrEmpty(relatedShow.Title) ? relatedShow.Slug : relatedShow.Title;

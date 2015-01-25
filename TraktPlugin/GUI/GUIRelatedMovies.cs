@@ -523,6 +523,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
+            if (movies == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
             if (movies.Count() == 0)
             {
                 string title = string.IsNullOrEmpty(relatedMovie.Title) ? relatedMovie.Slug : relatedMovie.Title;

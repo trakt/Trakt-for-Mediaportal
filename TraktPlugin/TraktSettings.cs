@@ -442,7 +442,7 @@ namespace TraktPlugin
                 UseCompNameOnPassKey = xmlreader.GetValueAsBool(cTrakt, cUseCompNameOnPassKey, true);
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
                 Password = xmlreader.GetValueAsString(cTrakt, cPassword, "").Decrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty));
-                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty));
+                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "[]").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty));
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 MyVideos = xmlreader.GetValueAsInt(cTrakt, cMyVideos, -1);
@@ -453,8 +453,8 @@ namespace TraktPlugin
                 ArgusRecordings = xmlreader.GetValueAsInt(cTrakt, cArgusRecordings, -1);
                 ArgusTVLive = xmlreader.GetValueAsInt(cTrakt, cArgusTVLive, -1);
                 KeepTraktLibraryClean = xmlreader.GetValueAsBool(cTrakt, cKeepTraktLibraryClean, false);
-                BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "").FromJSONArray<string>().ToList();
-                BlockedFolders = xmlreader.GetValueAsString(cTrakt, cBlockedFolders, "").FromJSONArray<string>().ToList();
+                BlockedFilenames = xmlreader.GetValueAsString(cTrakt, cBlockedFilenames, "[]").FromJSONArray<string>().ToList();
+                BlockedFolders = xmlreader.GetValueAsString(cTrakt, cBlockedFolders, "[]").FromJSONArray<string>().ToList();
                 //TODOSkippedMovies = xmlreader.GetValueAsString(cTrakt, cSkippedMovies, "{}").FromJSON<SyncMovieCheck>();
                 //TODOAlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
@@ -554,8 +554,8 @@ namespace TraktPlugin
             TraktLogger.Info("Loading Persisted File Cache");
             LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
             LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
-            LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "{}").FromJSONArray<TraktMovieTrending>();
-            LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "{}").FromJSONArray<TraktShowTrending>();
+            LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "[]").FromJSONArray<TraktMovieTrending>();
+            LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "[]").FromJSONArray<TraktShowTrending>();
 
             // correct any settings in internal plugins if needed
             UpdateInternalPluginSettings();
@@ -679,8 +679,8 @@ namespace TraktPlugin
             TraktLogger.Info("Saving Persistent File Cache");
             TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
             TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
-            TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "{}".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
-            TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "{}".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
+            TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
+            TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "[]".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
         }
 
         /// <summary>

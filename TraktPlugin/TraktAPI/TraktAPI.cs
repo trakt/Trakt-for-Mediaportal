@@ -113,16 +113,12 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktMovieCollected> GetCollectedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncCollectionMovies);
-            
-            if (response == null) return null;
             return response.FromJSONArray<TraktMovieCollected>();
         }
 
         public static IEnumerable<TraktEpisodeCollected> GetCollectedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncCollectionEpisodes);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeCollected>();
         }
 
@@ -133,16 +129,12 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktMovieWatched> GetWatchedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedMovies);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktMovieWatched>();
         }
 
         public static IEnumerable<TraktEpisodeWatched> GetWatchedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncWatchedEpisodes);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeWatched>();
         }
 
@@ -153,24 +145,18 @@ namespace TraktPlugin.TraktAPI
         public static IEnumerable<TraktMovieRated> GetRatedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedMovies);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktMovieRated>();
         }
 
         public static IEnumerable<TraktEpisodeRated> GetRatedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedEpisodes);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktEpisodeRated>();
         }
 
         public static IEnumerable<TraktShowRated> GetRatedShows()
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedShows);
-
-            if (response == null) return null;
             return response.FromJSONArray<TraktShowRated>();
         }
 

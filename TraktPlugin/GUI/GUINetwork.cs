@@ -821,6 +821,13 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
             ClearProperties();
 
+            if (friends == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
+
             int friendCount = friends.Count();
 
             GUIUtils.SetProperty("#itemcount", friendCount.ToString());
@@ -908,6 +915,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
             ClearProperties();
+
+            if (following == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
 
             int followingCount = following.Count();
 
@@ -997,6 +1011,13 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
             ClearProperties();
 
+            if (followers == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
+
             int followerCount = followers.Count();
 
             GUIUtils.SetProperty("#itemcount", followerCount.ToString());
@@ -1083,6 +1104,13 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
             ClearProperties();
+
+            if (requests == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ActivateWindow(GUIWindowManager.GetPreviousActiveWindow());
+                return;
+            }
 
             int followerReqCount = requests.Count();
 

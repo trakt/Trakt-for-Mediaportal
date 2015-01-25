@@ -460,7 +460,15 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (episodes == null || episodes.Count() == 0)
+            if (episodes == null)
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                Episodes = null;
+                return;
+            }
+
+            if (episodes.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoSearchResultsFound);
                 GUIWindowManager.ShowPreviousWindow();

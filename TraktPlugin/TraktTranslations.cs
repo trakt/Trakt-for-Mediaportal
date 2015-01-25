@@ -368,6 +368,7 @@ namespace TraktPlugin.GUI
         public static string ErrorCalendar = "Error getting calendar";
         public static string ErrorUserProfile = "Error getting profile and statistics for user";
         public static string ExecutiveProducer = "Executive Producer";
+        public static string ErrorGeneral = "There was an error getting updated data from online, try again later";
 
         // F
         public static string FailedCreateList = "Failed to create list from online";

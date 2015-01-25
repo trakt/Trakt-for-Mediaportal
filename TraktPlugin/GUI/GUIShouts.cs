@@ -406,26 +406,31 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (shouts == null || shouts.Count() == 0)
+            if (shouts == null)
             {
-                if (shouts != null)
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
+                GUIWindowManager.ShowPreviousWindow();
+                return;
+            }
+
+            if (shouts.Count() == 0)
+            {
+                string title = string.Empty;
+                switch (ShoutType)
                 {
-                    string title = string.Empty;
-                    switch (ShoutType)
-                    {
-                        case ShoutTypeEnum.movie:
-                            title = MovieInfo.Title;
-                            break;
-                        case ShoutTypeEnum.show:
-                            title = ShowInfo.Title;
-                            break;
-                        case ShoutTypeEnum.episode:
-                            title = EpisodeInfo.ToString();
-                            break;
-                    }
-                    ClearProperties();
-                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoShoutsForItem, title));
+                    case ShoutTypeEnum.movie:
+                        title = MovieInfo.Title;
+                        break;
+                    case ShoutTypeEnum.show:
+                        title = ShowInfo.Title;
+                        break;
+                    case ShoutTypeEnum.episode:
+                        title = EpisodeInfo.ToString();
+                        break;
                 }
+                ClearProperties();
+                GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoShoutsForItem, title));
+               
                 if (ExitIfNoShoutsFound)
                 {
                     GUIWindowManager.ShowPreviousWindow();

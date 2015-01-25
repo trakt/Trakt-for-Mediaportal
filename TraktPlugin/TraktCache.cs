@@ -838,6 +838,7 @@ namespace TraktPlugin
                         // first get the users custom lists from trakt
                         TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
                         var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+                        if (userLists == null) return null;
 
                         // get details of each list including items
                         foreach (var list in userLists.Where(l => l.ItemCount > 0))

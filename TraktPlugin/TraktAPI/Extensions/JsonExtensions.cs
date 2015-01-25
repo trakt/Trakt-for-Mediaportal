@@ -20,7 +20,7 @@ namespace TraktPlugin.TraktAPI.Extensions
         /// </summary>
         public static IEnumerable<T> FromJSONArray<T>(this string jsonArray)
         {
-            if (string.IsNullOrEmpty(jsonArray)) return new List<T>();
+            if (string.IsNullOrEmpty(jsonArray)) return null;
 
             try
             {

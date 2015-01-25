@@ -1364,7 +1364,7 @@ namespace TraktPlugin
                 // determine how long to wait from 'now' to start the next sync, set the start delay if it is 'now'
                 int startDelay = nextSyncDate <= DateTime.Now ? TraktSettings.SyncStartDelay : (int)(nextSyncDate.Subtract(DateTime.Now).TotalMilliseconds);
                     
-                TraktLogger.Info("Last library sync started at {0}, next sync will start in {1}", SyncStartTime, new TimeSpan(0, 0, 0, 0, startDelay));
+                TraktLogger.Info("Last library sync started at {0}, next sync will start at {1}", SyncStartTime, DateTime.Now.Add(new TimeSpan(0, 0, 0, 0, startDelay)));
 
                 // initialise timer for library sync
                 ChangeSyncTimer(startDelay, TraktSettings.SyncTimerLength * 3600000);
