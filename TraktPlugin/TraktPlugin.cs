@@ -821,6 +821,12 @@ namespace TraktPlugin
                     if (TraktSettings.AccountStatus == ConnectionState.Connected)
                     {
                         var followerRequests = TraktCache.FollowerRequests;
+                        if (followerRequests == null)
+                        {
+                            TraktLogger.Error("Failed to retrieve follower requests");
+                            return;
+                        }
+
                         TraktLogger.Info("Found {0} follower requests for user", followerRequests.Count());
                         if (followerRequests.Count() > 0)
                         {
