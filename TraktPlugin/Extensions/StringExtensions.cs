@@ -87,9 +87,9 @@ namespace TraktPlugin.Extensions
             {
                 regionInfo = new RegionInfo(twoLetterCode);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
-                TraktLogger.Warning("Failed to convert two letter country code to country name. Two Letter Code = '{0}', Error = '{1}'", twoLetterCode, ex.Message);
+                TraktLogger.Debug("Failed to convert two letter country code to country name. Two Letter Code = '{0}'");
                 return twoLetterCode;
             }
             return regionInfo.DisplayName;
