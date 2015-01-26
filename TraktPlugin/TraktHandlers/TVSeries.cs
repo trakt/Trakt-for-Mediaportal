@@ -87,6 +87,9 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get online data from trakt.tv
 
+            // clear the last time(s) we did anything online
+            TraktCache.ClearLastActivityCache();
+
             #region Collection
 
             // get all episodes on trakt that are marked as in 'collection'

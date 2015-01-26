@@ -347,7 +347,7 @@ namespace TraktPlugin
             var lastSyncActivities = LastSyncActivities;
 
             // something bad happened e.g. site not available
-            if (lastSyncActivities == null || lastSyncActivities.Movies == null)
+            if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
                 return null;
 
             // check the last time we have against the online time
@@ -599,7 +599,7 @@ namespace TraktPlugin
                 var lastSyncActivities = LastSyncActivities;
 
                 // something bad happened e.g. site not available
-                if (lastSyncActivities == null || lastSyncActivities.Movies.Watchlist == null)
+                if (lastSyncActivities == null || lastSyncActivities.Movies == null)
                     return null;
 
                 // check the last time we have against the online time
@@ -705,7 +705,7 @@ namespace TraktPlugin
                 var lastSyncActivities = LastSyncActivities;
 
                 // something bad happened e.g. site not available
-                if (lastSyncActivities == null || lastSyncActivities.Shows.Watchlist == null)
+                if (lastSyncActivities == null || lastSyncActivities.Shows == null)
                     return null;
 
                 // check the last time we have against the online time
@@ -773,7 +773,7 @@ namespace TraktPlugin
                 var lastSyncActivities = LastSyncActivities;
 
                 // something bad happened e.g. site not available
-                if (lastSyncActivities == null || lastSyncActivities.Episodes.Watchlist == null)
+                if (lastSyncActivities == null || lastSyncActivities.Episodes == null)
                     return null;
 
                 // check the last time we have against the online time

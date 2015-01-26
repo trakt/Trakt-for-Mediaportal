@@ -136,10 +136,10 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get online data from trakt.tv
 
-            #region Get unwatched movies from trakt.tv
             // clear the last time(s) we did anything online
             TraktCache.ClearLastActivityCache();
 
+            #region Get unwatched movies from trakt.tv
             TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
             var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
             TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
