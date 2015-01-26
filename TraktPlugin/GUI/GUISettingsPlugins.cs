@@ -120,10 +120,10 @@ namespace TraktPlugin.GUI
             if (!btnMyVideos.Selected) MyVideos = -1;
             if (!btnMyFilms.Selected) MyFilms = -1;
             if (!btnOnlineVideos.Selected) OnlineVideos = -1;
-            if (!btnMyRecordedTV.Selected) MyRecordedTV = -1;
-            if (!btnArgusRecordings.IsSelected()) ArgusRecordings = -1;
-            if (!btnMyLiveTV.IsSelected()) MyLiveTV = -1;
-            if (!btnArgusLiveTV.IsSelected()) ArgusLiveTV = -1;
+            if (!btnMyRecordedTV.IsSelected(TraktSettings.MyTVRecordings >= 0)) MyRecordedTV = -1;
+            if (!btnArgusRecordings.IsSelected(TraktSettings.ArgusRecordings >= 0)) ArgusRecordings = -1;
+            if (!btnMyLiveTV.IsSelected(TraktSettings.MyTVLive >= 0)) MyLiveTV = -1;
+            if (!btnArgusLiveTV.IsSelected(TraktSettings.ArgusTVLive >= 0)) ArgusLiveTV = -1;
 
             // enable plugins
             int i = 1;
@@ -136,11 +136,11 @@ namespace TraktPlugin.GUI
             if (btnMovingPictures.Selected && MovingPictures < 0) { MovingPictures = intArray.Max() + i; i++; }
             if (btnMyVideos.Selected && MyVideos < 0) { MyVideos = intArray.Max() + i; i++; }
             if (btnMyFilms.Selected && MyFilms < 0) { MyFilms = intArray.Max() + i; i++; }
-            if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }            
-            if (btnMyRecordedTV.IsSelected() && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; }
-            if (btnArgusRecordings.IsSelected() && ArgusRecordings < 0) { ArgusRecordings = intArray.Max() + i; i++; }
-            if (btnMyLiveTV.IsSelected() && MyLiveTV < 0) { MyLiveTV = intArray.Max() + i; i++; }
-            if (btnArgusLiveTV.IsSelected() && ArgusLiveTV < 0) { ArgusLiveTV = intArray.Max() + i; i++; }
+            if (btnOnlineVideos.Selected && OnlineVideos < 0) { OnlineVideos = intArray.Max() + i; i++; }
+            if (btnMyRecordedTV.IsSelected(TraktSettings.MyTVRecordings >= 0) && MyRecordedTV < 0) { MyRecordedTV = intArray.Max() + i; i++; }
+            if (btnArgusRecordings.IsSelected(TraktSettings.ArgusRecordings >= 0) && ArgusRecordings < 0) { ArgusRecordings = intArray.Max() + i; i++; }
+            if (btnMyLiveTV.IsSelected(TraktSettings.MyTVLive >= 0) && MyLiveTV < 0) { MyLiveTV = intArray.Max() + i; i++; }
+            if (btnArgusLiveTV.IsSelected(TraktSettings.ArgusTVLive >= 0) && ArgusLiveTV < 0) { ArgusLiveTV = intArray.Max() + i; i++; }
 
             // save settings
             TraktSettings.TVSeries = TVSeries;

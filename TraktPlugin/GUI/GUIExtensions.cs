@@ -160,15 +160,29 @@ namespace TraktPlugin.GUI
 
         /// <summary>
         /// Checks if a GUICheckButton control is selected (checked)
-        /// This is also safe if control is not implemented by skin in which case false is returned
+        /// This is also safe if control is not implemented by skin in which case the default value is returned
         /// </summary>
         /// <param name="self">the control to check</param>
         /// <returns>true if selected/checked</returns>
-        public static bool IsSelected(this GUICheckButton self)
+        public static bool IsSelected(this GUICheckButton self, bool defaultValue = false)
         {
             // check if skin implements control
-            if (self == null) return false;
+            if (self == null) return defaultValue;
             return self.Selected;
+        }
+
+        /// <summary>
+        /// Sets a GUICheckButton to selected or not selected
+        /// </summary>
+        /// <param name="self">the control to set</param>
+        /// <param name="state">checked or unchecked</param>
+        public static void Select(this GUICheckButton self, bool state)
+        {
+            // check if skin implements control
+            if (self == null) return;
+            
+            self.Selected = state;
+            return;
         }
     }
 }

@@ -22,7 +22,8 @@ namespace TraktPlugin.GUI
             CreateMovingPicturesFilters = 6,
             ShowRateDialogOnWatched = 7,
             SyncRatings = 8,
-            CreateMyFilmsCategories = 9
+            CreateMyFilmsCategories = 9,
+            PlaybackSync = 10
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
@@ -48,6 +49,9 @@ namespace TraktPlugin.GUI
         
         [SkinControl((int)SkinControls.SyncRatings)]
         protected GUICheckButton btnSyncRatings = null;
+
+        [SkinControl((int)SkinControls.PlaybackSync)]
+        protected GUICheckButton btnPlaybackSync = null;
 
         #endregion
 
@@ -89,6 +93,7 @@ namespace TraktPlugin.GUI
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
             if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
             if (btnCreateMyFilmsCategories != null) TraktSettings.MyFilmsCategories = btnCreateMyFilmsCategories.Selected;
+            if (btnPlaybackSync != null) TraktSettings.SyncPlayback = btnPlaybackSync.Selected;
 
             // update any internal plugin settings required
             TraktSettings.UpdateInternalPluginSettings();
@@ -116,25 +121,15 @@ namespace TraktPlugin.GUI
         private void InitProperties()
         {
             // Set States
-            btnDownloadFanart.Selected = TraktSettings.DownloadFanart;
-            if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Selected = TraktSettings.DownloadFullSizeFanart;
-            if (btnGetFollowerRequests != null) btnGetFollowerRequests.Selected = TraktSettings.GetFollowerRequestsOnStartup;
-            if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Selected = TraktSettings.MovingPicturesCategories;
-            if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Selected = TraktSettings.MovingPicturesFilters;
-            if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Selected = TraktSettings.ShowRateDialogOnWatched;
-            if (btnSyncRatings != null) btnSyncRatings.Selected = TraktSettings.SyncRatings;
-            if (btnCreateMyFilmsCategories != null) btnCreateMyFilmsCategories.Selected = TraktSettings.MyFilmsCategories;
-
-            // Set Labels
-            // Properties set by skin in Toggle Buttons do not work in MP 1.1.x!
-            if (btnDownloadFanart != null) btnDownloadFanart.Label = Translation.DownloadFanart;
-            if (btnDownloadFullSizeFanart != null) btnDownloadFullSizeFanart.Label = Translation.DownloadFullSizeFanart;
-            if (btnGetFollowerRequests != null) btnGetFollowerRequests.Label = Translation.GetFollowerRequestsOnStartup;
-            if (btnCreateMovingPicturesCategories != null) btnCreateMovingPicturesCategories.Label = Translation.CreateMovingPicturesCategories;
-            if (btnCreateMovingPicturesFilters != null) btnCreateMovingPicturesFilters.Label = Translation.CreateMovingPicturesFilters;
-            if (btnShowRateDialogOnWatched != null) btnShowRateDialogOnWatched.Label = Translation.ShowRateDialogOnWatched;
-            if (btnSyncRatings != null) btnSyncRatings.Label = Translation.SettingSyncRatingsName;
-            if (btnCreateMyFilmsCategories != null) btnCreateMyFilmsCategories.Label = Translation.CreateMyFilmsCategories;
+            btnDownloadFanart.Select(TraktSettings.DownloadFanart);
+            btnDownloadFullSizeFanart.Select(TraktSettings.DownloadFullSizeFanart);
+            btnGetFollowerRequests.Select(TraktSettings.GetFollowerRequestsOnStartup);
+            btnCreateMovingPicturesCategories.Select(TraktSettings.MovingPicturesCategories);
+            btnCreateMovingPicturesFilters.Select(TraktSettings.MovingPicturesFilters);
+            btnShowRateDialogOnWatched.Select(TraktSettings.ShowRateDialogOnWatched);
+            btnSyncRatings.Select(TraktSettings.SyncRatings);
+            btnCreateMyFilmsCategories.Select(TraktSettings.MyFilmsCategories);
+            btnPlaybackSync.Select(TraktSettings.SyncPlayback);
         }
 
         private void CreateMovingPicturesCategoriesClicked()
