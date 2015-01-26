@@ -2110,7 +2110,14 @@ namespace TraktPlugin.TraktHandlers
                         TraktLogger.Debug("MP-TVSeries sync still in progress, trying again in 60 secs");
                         Thread.Sleep(60000);
                     }
-                    SyncLibrary();
+                    try
+                    {
+                        SyncLibrary();
+                    }
+                    catch (Exception ex)
+                    {
+                        TraktLogger.Error("MP-TVSeries sync failed, Reason = '{0}', StackTrace = {1}", ex.Message, ex.StackTrace);
+                    }
                 })
                 {
                     IsBackground = true,
