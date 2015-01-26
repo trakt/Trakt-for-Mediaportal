@@ -874,7 +874,8 @@ namespace TraktPlugin
             get
             {
                 if (_LastSyncActivities == null)
-                {                    
+                {
+                    TraktLogger.Info("Retrieving current users last activities");
                     _LastSyncActivities = TraktAPI.TraktAPI.GetLastSyncActivities();
                 }
                 return _LastSyncActivities;
