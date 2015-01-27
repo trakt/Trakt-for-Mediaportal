@@ -71,7 +71,7 @@ namespace TraktPlugin
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
             var unwatchedMovies =   from movie in previouslyWatched
-                                    where !currentWatched.Any(m => m.Movie.Ids.Trakt == movie.Movie.Ids.Trakt)
+                                    where !currentWatched.Any(m => (m.Movie.Ids.Trakt == movie.Movie.Ids.Trakt || m.Movie.Ids.Imdb == m.Movie.Ids.Imdb))
                                     select new TraktMovie
                                     {
                                         Ids = movie.Movie.Ids,
@@ -427,7 +427,7 @@ namespace TraktPlugin
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
             var unwatchedEpisodes = from pwe in previouslyWatched
-                                    where !currentWatched.Any(cwe => cwe.ShowId == pwe.ShowId &&
+                                    where !currentWatched.Any(cwe => (cwe.ShowId == pwe.ShowId || cwe.ShowTvdbId == pwe.ShowTvdbId || cwe.ShowImdbId == pwe.ShowImdbId) &&
                                                                      cwe.Number == pwe.Number &&
                                                                      cwe.Season == pwe.Season)
                                     select new Episode

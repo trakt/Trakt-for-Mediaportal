@@ -1481,6 +1481,9 @@ namespace TraktPlugin.TraktHandlers
             // get current progress of player (in seconds) to work out percent complete
             if (duration > 0.0)
                 progress = ((g_Player.CurrentPosition / 60.0) / duration) * 100.0;
+            
+            if (progress > 100.0)
+                progress = 100;
 
             return Math.Round(progress, 2);
         }
