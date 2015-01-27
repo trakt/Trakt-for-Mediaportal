@@ -37,7 +37,7 @@
         <label>#Trakt.Translation.DownloadFanart.Label</label>
         <onright>2</onright>
         <onleft>#defaultcontrol.onleft</onleft>
-        <onup>8</onup>
+        <onup>20</onup>
       </control>
       <control Style="SettingsCheckButtonLarge">
         <description>Download FullSize Fanart</description>
@@ -48,10 +48,10 @@
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
       <control Style="SettingsCheckButtonLarge">
-        <description>Get Friend Requests on Startup</description>
+        <description>Get Follower Requests on Startup</description>
         <type>checkbutton</type>
         <id>4</id>
-        <label>#Trakt.Translation.GetFriendRequestsOnStartup.Label</label>
+        <label>#Trakt.Translation.GetFollowerRequestsOnStartup.Label</label>
         <onright>4</onright>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
@@ -94,7 +94,35 @@
         <label>#Trakt.Translation.SettingSyncRatingsName.Label</label>
         <onright>8</onright>
         <onleft>#defaultcontrol.onleft</onleft>
-        <ondown>2</ondown>
+      </control>
+      <control Style="SettingsCheckButtonLarge">
+        <description>Sync Playback/Resume Data</description>
+        <type>checkbutton</type>
+        <id>10</id>
+        <label>#Trakt.Translation.SettingSyncPlaybackName.Label</label>
+        <onright>10</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>20</ondown>
+      </control>
+    </control>
+
+    <control>
+      <description>buttons</description>
+      <type>group</type>
+      <posX>655</posX>
+      <posY>900</posY>
+      <dimColor>ffffffff</dimColor>
+      <layout>StackLayout(7, Vertical, true)</layout>
+      <control Style="SettingsButtonLarge">
+        <description>Start Library Sync</description>
+        <type>button</type>
+        <id>20</id>
+        <textalign>center</textalign>
+        <textYOff>0</textYOff>
+        <label>#Trakt.Translation.StartLibrarySync.Label</label>
+        <onright>2</onright>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onup>10</onup>
       </control>
     </control>
   </controls>
