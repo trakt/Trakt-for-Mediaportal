@@ -23,7 +23,8 @@ namespace TraktPlugin.GUI
             ShowRateDialogOnWatched = 7,
             SyncRatings = 8,
             CreateMyFilmsCategories = 9,
-            PlaybackSync = 10
+            PlaybackSync = 10,
+            StartLibrarySync = 20
         }
 
         [SkinControl((int)SkinControls.DownloadFanart)]
@@ -52,6 +53,9 @@ namespace TraktPlugin.GUI
 
         [SkinControl((int)SkinControls.PlaybackSync)]
         protected GUICheckButton btnPlaybackSync = null;
+
+        [SkinControl((int)SkinControls.StartLibrarySync)]
+        protected GUIButtonControl btnStartLibrarySync = null;
 
         #endregion
 
@@ -93,7 +97,7 @@ namespace TraktPlugin.GUI
             if (btnShowRateDialogOnWatched != null) TraktSettings.ShowRateDialogOnWatched = btnShowRateDialogOnWatched.Selected;
             if (btnSyncRatings != null) TraktSettings.SyncRatings = btnSyncRatings.Selected;
             if (btnCreateMyFilmsCategories != null) TraktSettings.MyFilmsCategories = btnCreateMyFilmsCategories.Selected;
-            if (btnPlaybackSync != null) TraktSettings.SyncPlayback = btnPlaybackSync.Selected;
+            if (btnPlaybackSync != null) TraktSettings.SyncPlayback = btnPlaybackSync.Selected;            
 
             // update any internal plugin settings required
             TraktSettings.UpdateInternalPluginSettings();
@@ -110,6 +114,18 @@ namespace TraktPlugin.GUI
 
             if (control == btnCreateMovingPicturesFilters)
                 CreateMovingPicturesFiltersClicked();
+
+            if (control == btnStartLibrarySync)
+            {
+                if (TraktPlugin.StartSync())
+                {
+                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibrarySyncStarted);
+                }
+                else
+                {
+                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibrarySyncAlreadyRunning);
+                }
+            }
 
             base.OnClicked(controlId, control, actionType);
         }

@@ -27,13 +27,13 @@ namespace TraktPlugin
         // List of all our TraktHandlers
         List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         // Worker used for syncing libraries
-        BackgroundWorker syncLibraryWorker;
+        static BackgroundWorker syncLibraryWorker;
         static Timer syncLibraryTimer;
-        bool abortSync;
+        bool AbortSync;
         // Settings Management from MPEI
-        ExtensionSettings extensionSettings = new ExtensionSettings();
+        ExtensionSettings GUIExtensionSettings = new ExtensionSettings();
         // Dashboard - Activity / Trending Items
-        TraktDashboard dashBoard = new TraktDashboard();        
+        TraktDashboard DashBoard = new TraktDashboard();        
         #endregion
 
         #region ISetupFrom
@@ -190,10 +190,10 @@ namespace TraktPlugin
             TraktGenres.Init();
 
             // Initialise Extension Settings
-            extensionSettings.Init();
+            GUIExtensionSettings.Init();
 
             // Initialise Skin Dashboard
-            dashBoard.Init();
+            DashBoard.Init();
 
             // Load main skin window
             // this is a launching pad to all other windows
@@ -207,7 +207,7 @@ namespace TraktPlugin
         /// </summary>
         public override void DeInit()
         {
-            abortSync = true;
+            AbortSync = true;
 
             if (syncLibraryWorker != null)
             {
@@ -233,10 +233,10 @@ namespace TraktPlugin
             UnLoadPluginHandlers();
 
             // save dashboard data
-            TraktSettings.LastActivityLoad = dashBoard.PreviousActivity;
-            TraktSettings.LastTrendingMovies = dashBoard.PreviousTrendingMovies;
-            TraktSettings.LastTrendingShows = dashBoard.PreviousTrendingShows;
-            TraktSettings.LastStatistics = dashBoard.PreviousStatistics;
+            TraktSettings.LastActivityLoad = DashBoard.PreviousActivity;
+            TraktSettings.LastTrendingMovies = DashBoard.PreviousTrendingMovies;
+            TraktSettings.LastTrendingShows = DashBoard.PreviousTrendingShows;
+            TraktSettings.LastStatistics = DashBoard.PreviousStatistics;
 
             // save settings
             TraktSettings.SaveSettings();
@@ -538,7 +538,7 @@ namespace TraktPlugin
                 var traktHandlers = new List<ITraktHandler>(TraktHandlers);
                 foreach (var traktHandler in traktHandlers)
                 {
-                    if (abortSync)
+                    if (AbortSync)
                         return;
 
                     try
@@ -569,6 +569,20 @@ namespace TraktPlugin
         public static void ChangeSyncTimer(int dueTime, int period)
         {
             syncLibraryTimer.Change(dueTime, period);
+        }
+
+        /// <summary>
+        /// Starts a manual library sync
+        /// </summary>
+        /// <returns>true if sync started, false if already running</returns>
+        public static bool StartSync()
+        {
+            if (syncLibraryWorker.IsBusy)
+                return false;
+
+            ChangeSyncTimer(0, TraktSettings.SyncTimerLength * 3600000);
+
+            return true;
         }
 
         /// <summary>
@@ -848,29 +862,29 @@ namespace TraktPlugin
 
             if (TraktSkinSettings.DashBoardActivityWindows != null && TraktSkinSettings.DashBoardActivityWindows.Contains(windowID.ToString()))
             {
-                dashBoard.StartActivityPolling();
+                DashBoard.StartActivityPolling();
             }
             else
             {
-                dashBoard.StopActivityPolling();
+                DashBoard.StopActivityPolling();
             }
 
             if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(windowID.ToString())))
             {
-                dashBoard.StartTrendingMoviesPolling();
+                DashBoard.StartTrendingMoviesPolling();
             }
             else
             {
-                dashBoard.StopTrendingMoviesPolling();
+                DashBoard.StopTrendingMoviesPolling();
             }
 
             if (TraktSkinSettings.DashboardTrendingCollection != null && TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Contains(windowID.ToString())))
             {
-                dashBoard.StartTrendingShowsPolling();
+                DashBoard.StartTrendingShowsPolling();
             }
             else
             {
-                dashBoard.StopTrendingShowsPolling();
+                DashBoard.StopTrendingShowsPolling();
             }
 
             #endregion

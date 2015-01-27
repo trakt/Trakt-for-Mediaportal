@@ -500,16 +500,19 @@ namespace TraktPlugin.GUI
         public static string Languages = "Languages";
         public static string Location = "Location";
         public static string Layout = "Layout";
+        public static string LibrarySyncAlreadyRunning = "Library Sync is already running, try again later";
+        public static string LibrarySyncStarted = "Manual Library Sync has started";
         public static string Like = "Like";
         public static string Likes = "Likes";
         public static string List = "List";
+        public static string ListNameAlreadyExists = "List with this name already exists!";
         public static string Lists = "Lists";
         public static string Love = "Love";
         public static string Loved = "Loved";
         public static string LoginExistingAccount = "Login to Existing Account...";
         public static string LoggedIn = "Logged In";
         public static string Login = "Login";
-        public static string ListNameAlreadyExists = "List with this name already exists!";
+        
 
         // M
         public static string MarkAsWatched = "Mark as Watched";
@@ -722,6 +725,7 @@ namespace TraktPlugin.GUI
         public static string SortSeasonsDescending = "Sort Seasons in Descending order";
         public static string Specials = "Specials";
         public static string StartDate = "Start Date";
+        public static string StartLibrarySync = "Start Library Sync";
         public static string Status = "Status";
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";

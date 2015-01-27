@@ -248,6 +248,8 @@
   <string name="Languages">Languages</string>
   <string name="Location">Location</string>
   <string name="Layout">Layout</string>
+  <string name="LibrarySyncAlreadyRunning">Library Sync is already running, try again later</string>
+  <string name="LibrarySyncStarted">Manual Library Sync has started</string>
   <string name="Like">Like</string>
   <string name="Likes">Likes</string>
   <string name="List">List</string>
@@ -462,6 +464,7 @@
   <string name="SettingSyncResumeDeltaName">Playback / Resume Delta</string>
   <string name="SettingSyncResumeDeltaDescription">Set the delta in seconds to apply to the resume data when syncing. This can allow you to re-play a certain period e.g. 5 secs from where you last left off on the other machine / device. Set to 0 to not apply a delta, the maximum allowed value is 600 (10 minutes). Default is 5 seconds.</string>
   <string name="StartYear">Start: {0}</string>
+  <string name="StartLibrarySync">Start Library Sync</string>
   <string name="SortBy">Sort By: {0}</string>
   <string name="SortSeasonsAscending">Sort Seasons in Ascending order</string>
   <string name="SortSeasonsDescending">Sort Seasons in Descending order</string>
