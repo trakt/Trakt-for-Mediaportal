@@ -15,6 +15,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "type")]
         public string Type { get; set; }
 
+        [DataMember(Name = "paused_at")]
+        public string PausedAt { get; set; }
+
         [DataMember(Name = "movie")]
         public TraktMovie Movie { get; set; }
 
