@@ -61,7 +61,7 @@ namespace TraktPlugin.TraktHandlers
        
         public void SyncLibrary()
         {
-            TraktLogger.Info("My Videos Starting Sync");
+            TraktLogger.Info("My Videos Starting Library Sync");
 
             #region Get online data from trakt.tv
 
@@ -130,11 +130,7 @@ namespace TraktPlugin.TraktHandlers
             // optionally do library sync
             if (TraktSettings.SyncLibrary)
             {
-                // get all movies
-                ArrayList myvideos = new ArrayList();
-                VideoDatabase.GetMovies(ref myvideos);
-
-                var collectedMovies = (from IMDBMovie movie in myvideos select movie).ToList();
+                var collectedMovies = GetMovies();
 
                 #region Remove Blocked Movies
                 collectedMovies.RemoveAll(m => TraktSettings.BlockedFolders.Any(f => m.Path.ToLowerInvariant().Contains(f.ToLowerInvariant())));
@@ -412,11 +408,9 @@ namespace TraktPlugin.TraktHandlers
                     }
                 }
                 #endregion
-
-                myvideos.Clear();
             }
 
-            TraktLogger.Info("My Videos Sync Completed");
+            TraktLogger.Info("My Videos Library Sync Completed");
         }
 
         public bool Scrobble(string filename)
@@ -428,7 +422,7 @@ namespace TraktPlugin.TraktHandlers
                 return false;
 
             // lookup movie by filename
-            IMDBMovie movie = new IMDBMovie();
+            var movie = new IMDBMovie();
             int result = VideoDatabase.GetMovieInfo(filename, ref movie);
             if (result == -1) return false;
 
@@ -494,6 +488,61 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            TraktLogger.Info("My Videos Starting Playback Sync");
+
+            // get playback data from trakt
+            var playbackData = TraktCache.PlaybackData;
+            if (playbackData == null)
+            {
+                TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                return;
+            }
+
+            TraktLogger.Info("Found {0} movies on trakt.tv with resume data", playbackData.Where(p => p.Type == "movie").Count());
+
+            foreach (var item in playbackData.Where(p => p.Type == "movie"))
+            {
+                // get movie from local database if it exists
+                var movie = GetMovies().FirstOrDefault(m => ((m.IMDBNumber == item.Movie.Ids.Imdb) && !string.IsNullOrEmpty(item.Movie.Ids.Imdb) ||
+                                                              m.Title.ToLowerInvariant() == item.Movie.Title.ToLowerInvariant() && m.Year == item.Movie.Year));
+                
+                if (movie == null)
+                    continue;
+
+                // if the local playtime is not known then skip
+                if (movie.Duration <= 0)
+                {
+                    TraktLogger.Warning("Skipping item with invalid runtime in database, Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    continue;
+                }
+                
+                // update the stop time based on percentage watched
+                // the video database stores duration in seconds (runtime in minutes if duration not available) and stopTime in secs
+                var resumeData = Convert.ToInt32(movie.Duration * (item.Progress / 100.0)) - TraktSettings.SyncResumeDelta;
+                if (resumeData < 0) resumeData = 0;
+
+                if (string.IsNullOrEmpty(movie.VideoFileName))
+                {
+                    TraktLogger.Warning("Skipping item with invalid filename in database, Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    continue;
+                }
+
+                // Get FileId from filename
+                int fileId = VideoDatabase.GetMovieId(movie.VideoFileName);
+
+                // get current stop time for movie
+                int currentResumeData = VideoDatabase.GetMovieStopTime(fileId);
+
+                if (currentResumeData != resumeData)
+                {
+                    // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
+                    TraktLogger.Info("Setting resume time '{0}' for movie, Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+
+                    VideoDatabase.SetMovieStopTime(fileId, resumeData);
+                }
+            }
+
+            TraktLogger.Info("My Videos Playback Sync Completed");
             return;
         }
 
@@ -669,6 +718,17 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Gets all movies from the Video Database
+        /// </summary>
+        internal static List<IMDBMovie> GetMovies()
+        {
+            ArrayList myvideos = new ArrayList();
+            VideoDatabase.GetMovies(ref myvideos);
+
+            return (from IMDBMovie movie in myvideos select movie).ToList();
+        }
 
         internal static bool FindMovieID(string title, int year, string imdbid, ref IMDBMovie imdbMovie)
         {

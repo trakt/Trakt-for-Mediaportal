@@ -631,10 +631,10 @@ namespace TraktPlugin.TraktHandlers
             foreach (var item in playbackData.Where(p => p.Type == "movie"))
             {
                 // get movie from local database if it exists
-                var movie = DBMovieInfo.GetAll().FirstOrDefault(m => ((m.ImdbID == item.Movie.Ids.Imdb) && item.Movie.Ids.Imdb != null) ||
-                                                                       m.Title == item.Movie.Title && m.Year == item.Movie.Year);
+                var movie = DBMovieInfo.GetAll().FirstOrDefault(m => ((m.ImdbID == item.Movie.Ids.Imdb) && !string.IsNullOrEmpty(item.Movie.Ids.Imdb)) ||
+                                                                       m.Title.ToLowerInvariant() == item.Movie.Title.ToLowerInvariant() && m.Year == item.Movie.Year);
                 if (movie == null)
-                    return;
+                    continue;
 
                 // if the local playtime is not known then skip
                 if (movie.LocalMedia == null || movie.LocalMedia.First().Duration <= 0)

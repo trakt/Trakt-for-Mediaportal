@@ -659,7 +659,7 @@ namespace TraktPlugin.TraktHandlers
                 // get episode from local database if it exists
                 var episode = DBEpisode.Get(item.Show.Ids.Tvdb.Value, item.Episode.Season, item.Episode.Number);
                 if (episode == null)
-                    return;
+                    continue;
 
                 // if the local playtime is not known then skip
                 if (episode[DBEpisode.cLocalPlaytime] <= 0)
