@@ -1541,17 +1541,20 @@ namespace TraktPlugin.TraktAPI
             }
             catch (WebException ex)
             {
+                string result = null;
                 string errorMessage = ex.Message;
                 if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ex.Response as HttpWebResponse;
-                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}', Data = '{4}'", (int)response.StatusCode, response.StatusDescription, address, method, postData ?? "<emtpy>");
+                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}'", (int)response.StatusCode, response.StatusDescription, address, method);
+
+                    result = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
                 }
 
                 if (OnDataError != null)
-                    OnDataError(ex.Message);
+                    OnDataError(errorMessage);
 
-                return null;
+                return result;
             }
         }
 

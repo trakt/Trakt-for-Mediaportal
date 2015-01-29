@@ -11,6 +11,7 @@ namespace TraktPlugin.TraktAPI.Enums
         Connecting,
         Disconnected,
         Invalid,
+        UnAuthorised,
         Pending
     }
 

@@ -247,6 +247,7 @@
   <string name="Language">Language</string>
   <string name="Languages">Languages</string>
   <string name="Location">Location</string>
+  <string name="LoginFailedServerError">Login to trakt.tv failed due to a server error, try again later</string>
   <string name="Layout">Layout</string>
   <string name="LibrarySyncAlreadyRunning">Library Sync is already running, try again later</string>
   <string name="LibrarySyncStarted">Manual Library Sync has started</string>

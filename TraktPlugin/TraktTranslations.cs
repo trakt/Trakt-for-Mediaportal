@@ -499,6 +499,7 @@ namespace TraktPlugin.GUI
         public static string Language = "Language";
         public static string Languages = "Languages";
         public static string Location = "Location";
+        public static string LoginFailedServerError = "Login to trakt.tv failed due to a server error, try again later";
         public static string Layout = "Layout";
         public static string LibrarySyncAlreadyRunning = "Library Sync is already running, try again later";
         public static string LibrarySyncStarted = "Manual Library Sync has started";

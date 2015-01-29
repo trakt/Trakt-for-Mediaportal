@@ -7,9 +7,12 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktUserToken : TraktStatus
+    public class TraktStatus
     {
-        [DataMember(Name = "token")]
-        public string Token { get; set; }
+        [DataMember(Name = "reason")]
+        public string Description { get; set; }
+
+        [DataMember(Name = "code")]
+        public int Code { get; set; }
     }
 }

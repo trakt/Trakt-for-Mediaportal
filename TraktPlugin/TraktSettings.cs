@@ -429,8 +429,28 @@ namespace TraktPlugin
                         }
                         else
                         {
-                            TraktLogger.Error(Translation.FailedLogin);
-                            _AccountStatus = ConnectionState.Invalid;
+                            // check the error code for the type of error retured
+                            if (response.Description != null)
+                            {
+                                TraktLogger.Error("Login to trakt.tv failed, Code = '{0}', Reason = '{1}'", response.Code, response.Description);
+
+                                switch (response.Code)
+                                {
+                                    case 401:
+                                        _AccountStatus = ConnectionState.UnAuthorised;
+                                        break;
+
+                                    default:
+                                        _AccountStatus = ConnectionState.Invalid;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                // very unlikely to ever hit this condition since we should get some sort of protocol error
+                                // if a problem with login or server error
+                                _AccountStatus = ConnectionState.Invalid;
+                            }
                         }
                     }
                 }
@@ -444,7 +464,7 @@ namespace TraktPlugin
                 }
             }
         }
-        static ConnectionState _AccountStatus = ConnectionState.Pending;
+        public static ConnectionState _AccountStatus = ConnectionState.Pending;
 
         #endregion
 

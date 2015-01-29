@@ -738,11 +738,17 @@ namespace TraktPlugin
                     if (TraktSettings.AccountStatus == ConnectionState.Invalid)
                     {
                         TraktSettings.AccountStatus = ConnectionState.Pending;
+                        
                         // Re-Check and Notify
-                        if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                        if (TraktSettings.AccountStatus == ConnectionState.UnAuthorised)
                         {
                             Thread.Sleep(10000);
                             GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
+                        }
+                        else if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                        {
+                            Thread.Sleep(10000);
+                            GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
                         }
                     }
                     else
@@ -762,11 +768,15 @@ namespace TraktPlugin
                                     TraktSettings.AccountStatus = ConnectionState.Pending;
 
                                     // try login
-                                    if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                                    if (TraktSettings.AccountStatus == ConnectionState.UnAuthorised)
                                     {
                                         // incorrect login details provided, guide user to setting so it can be changed
                                         GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
+                                    }
+                                    else if (TraktSettings.AccountStatus == ConnectionState.Invalid)
+                                    {
+                                        GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
                                     }
                                     else if (TraktSettings.AccountStatus == ConnectionState.Connected)
                                     {
@@ -1400,8 +1410,8 @@ namespace TraktPlugin
                 ChangeSyncTimer(Timeout.Infinite, Timeout.Infinite);
 
                 // check state of connection if invalid such that it can be checked again on resume
-                if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                    TraktSettings.AccountStatus = ConnectionState.Pending;
+                if (TraktSettings._AccountStatus == ConnectionState.Invalid)
+                    TraktSettings._AccountStatus = ConnectionState.Pending;
             }
         }
 
@@ -1414,7 +1424,7 @@ namespace TraktPlugin
         /// <param name="filename">The video to search for</param>
         private void StartScrobble(String filename)
         {
-            Thread scrobbleThread = new Thread(delegate()
+            var scrobbleThread = new Thread(() =>
             {
                 if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
 

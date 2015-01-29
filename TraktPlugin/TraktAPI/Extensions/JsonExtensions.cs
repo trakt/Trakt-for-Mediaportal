@@ -28,20 +28,12 @@ namespace TraktPlugin.TraktAPI.Extensions
                 {
                     var ser = new DataContractJsonSerializer(typeof(IEnumerable<T>));
                     var result = (IEnumerable<T>)ser.ReadObject(ms);
-
-                    if (result == null)
-                    {
-                        return new List<T>();
-                    }
-                    else
-                    {
-                        return result;
-                    }
+                    return result;
                 }
             }
             catch (Exception)
             {
-                return new List<T>();
+                return null;
             }
         }
 

@@ -284,6 +284,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktStatus.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFollowerRequest.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktImage.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLastSyncActivities.cs" />
