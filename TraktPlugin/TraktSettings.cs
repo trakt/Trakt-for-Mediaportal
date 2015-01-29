@@ -369,6 +369,28 @@ namespace TraktPlugin
             }
         }
 
+        public static bool? IsConfiguration
+        {
+            get
+            {
+                if (_isConfiguration == null)
+                {
+                    try
+                    {
+                        var entryAssembly = Assembly.GetEntryAssembly();
+
+                        _isConfiguration = !Path.GetFileNameWithoutExtension(entryAssembly.Location).Equals("mediaportal", StringComparison.InvariantCultureIgnoreCase);
+                    }
+                    catch
+                    {
+                        _isConfiguration = false;
+                    }
+                }
+                return _isConfiguration;
+            }
+        }
+        static bool? _isConfiguration;
+
         /// <summary>
         /// The current connection status to trakt.tv
         /// </summary>
@@ -407,7 +429,7 @@ namespace TraktPlugin
                         }
                         else
                         {
-                            TraktLogger.Info(Translation.FailedLogin);
+                            TraktLogger.Error(Translation.FailedLogin);
                             _AccountStatus = ConnectionState.Invalid;
                         }
                     }
@@ -432,7 +454,7 @@ namespace TraktPlugin
         /// </summary>
         internal static void LoadSettings()
         {
-            TraktLogger.Info("Loading Local Settings");
+            TraktLogger.Info("Loading local settings");
 
             // initialise API settings
             TraktAPI.TraktAPI.UserAgent = UserAgent;
@@ -551,7 +573,7 @@ namespace TraktPlugin
             if (LastSyncActivities.Episodes == null) LastSyncActivities.Episodes = new TraktLastSyncActivities.EpisodeActivities();
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
 
-            TraktLogger.Info("Loading Persisted File Cache");
+            TraktLogger.Info("Loading persisted file cache");
             LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
             LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
             LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "[]").FromJSONArray<TraktMovieTrending>();
@@ -559,6 +581,8 @@ namespace TraktPlugin
 
             // correct any settings in internal plugins if needed
             UpdateInternalPluginSettings();
+
+            TraktLogger.Info("Finished loading local settings");
         }
 
         /// <summary>
@@ -566,7 +590,7 @@ namespace TraktPlugin
         /// </summary>
         internal static void SaveSettings()
         {
-            TraktLogger.Info("Saving Settings");
+            TraktLogger.Info("Saving settings");
             using (Settings xmlwriter = new MPSettings())
             {
                 xmlwriter.SetValue(cTrakt, cSettingsVersion, SettingsVersion);
@@ -676,7 +700,7 @@ namespace TraktPlugin
 
             Settings.SaveCache();
 
-            TraktLogger.Info("Saving Persistent File Cache");
+            TraktLogger.Info("Saving persistent file cache");
             TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
             TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
             TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());

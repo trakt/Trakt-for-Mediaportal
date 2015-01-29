@@ -40,7 +40,12 @@
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
-            this.gbMisc = new System.Windows.Forms.GroupBox();
+            this.gbSync = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numSyncInterval = new System.Windows.Forms.NumericUpDown();
+            this.lblSyncResumeDelta = new System.Windows.Forms.Label();
+            this.numSyncResumeDelta = new System.Windows.Forms.NumericUpDown();
+            this.cbSyncPlayback = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbSyncRatings = new System.Windows.Forms.CheckBox();
@@ -49,27 +54,25 @@
             this.cbMovingPicturesFilters = new System.Windows.Forms.CheckBox();
             this.cbMovingPicturesCategories = new System.Windows.Forms.CheckBox();
             this.lbSyncTimerLength = new System.Windows.Forms.Label();
-            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
+            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
-            this.btnMovieRestrictions = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.cbSyncPlayback = new System.Windows.Forms.CheckBox();
-            this.numSyncResumeDelta = new System.Windows.Forms.NumericUpDown();
-            this.lblSyncResumeDelta = new System.Windows.Forms.Label();
-            this.numSyncInterval = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnMovieRestrictions = new System.Windows.Forms.Button();
+            this.gbMaintenance = new System.Windows.Forms.GroupBox();
+            this.progressBarSync = new System.Windows.Forms.ProgressBar();
+            this.lblSyncStatus = new System.Windows.Forms.Label();
+            this.btnStartLibrarySync = new System.Windows.Forms.Button();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
-            this.gbMisc.SuspendLayout();
-            this.gbRestrictions.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).BeginInit();
+            this.gbSync.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSyncInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).BeginInit();
+            this.gbRestrictions.SuspendLayout();
+            this.gbMaintenance.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -176,28 +179,99 @@
             this.clbPlugins.TabIndex = 0;
             this.ttpConfig.SetToolTip(this.clbPlugins, resources.GetString("clbPlugins.ToolTip"));
             // 
-            // gbMisc
+            // gbSync
             // 
-            this.gbMisc.Controls.Add(this.label2);
-            this.gbMisc.Controls.Add(this.numSyncInterval);
-            this.gbMisc.Controls.Add(this.lblSyncResumeDelta);
-            this.gbMisc.Controls.Add(this.numSyncResumeDelta);
-            this.gbMisc.Controls.Add(this.cbSyncPlayback);
-            this.gbMisc.Controls.Add(this.textBox1);
-            this.gbMisc.Controls.Add(this.label1);
-            this.gbMisc.Controls.Add(this.cbSyncRatings);
-            this.gbMisc.Controls.Add(this.cbSyncLibrary);
-            this.gbMisc.Controls.Add(this.cbMyFilmsCategories);
-            this.gbMisc.Controls.Add(this.cbMovingPicturesFilters);
-            this.gbMisc.Controls.Add(this.cbMovingPicturesCategories);
-            this.gbMisc.Controls.Add(this.lbSyncTimerLength);
-            this.gbMisc.Controls.Add(this.cbKeepInSync);
-            this.gbMisc.Location = new System.Drawing.Point(340, 12);
-            this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(322, 286);
-            this.gbMisc.TabIndex = 3;
-            this.gbMisc.TabStop = false;
-            this.gbMisc.Text = "Synchronisation";
+            this.gbSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSync.Controls.Add(this.label2);
+            this.gbSync.Controls.Add(this.numSyncInterval);
+            this.gbSync.Controls.Add(this.lblSyncResumeDelta);
+            this.gbSync.Controls.Add(this.numSyncResumeDelta);
+            this.gbSync.Controls.Add(this.cbSyncPlayback);
+            this.gbSync.Controls.Add(this.textBox1);
+            this.gbSync.Controls.Add(this.label1);
+            this.gbSync.Controls.Add(this.cbSyncRatings);
+            this.gbSync.Controls.Add(this.cbSyncLibrary);
+            this.gbSync.Controls.Add(this.cbMyFilmsCategories);
+            this.gbSync.Controls.Add(this.cbMovingPicturesFilters);
+            this.gbSync.Controls.Add(this.cbMovingPicturesCategories);
+            this.gbSync.Controls.Add(this.lbSyncTimerLength);
+            this.gbSync.Controls.Add(this.cbKeepInSync);
+            this.gbSync.Location = new System.Drawing.Point(340, 12);
+            this.gbSync.Name = "gbSync";
+            this.gbSync.Size = new System.Drawing.Size(322, 286);
+            this.gbSync.TabIndex = 3;
+            this.gbSync.TabStop = false;
+            this.gbSync.Text = "Synchronisation";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(191, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "hours";
+            // 
+            // numSyncInterval
+            // 
+            this.numSyncInterval.Location = new System.Drawing.Point(129, 19);
+            this.numSyncInterval.Maximum = new decimal(new int[] {
+            168,
+            0,
+            0,
+            0});
+            this.numSyncInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numSyncInterval.Name = "numSyncInterval";
+            this.numSyncInterval.Size = new System.Drawing.Size(55, 20);
+            this.numSyncInterval.TabIndex = 1;
+            this.ttpConfig.SetToolTip(this.numSyncInterval, "Enter the period in hours to sync with trakt.tv for your selected \r\nsync options " +
+        "(Collection, Ratings, Watched etc).");
+            this.numSyncInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numSyncInterval.ValueChanged += new System.EventHandler(this.numSyncInterval_ValueChanged);
+            // 
+            // lblSyncResumeDelta
+            // 
+            this.lblSyncResumeDelta.AutoSize = true;
+            this.lblSyncResumeDelta.Location = new System.Drawing.Point(26, 192);
+            this.lblSyncResumeDelta.Name = "lblSyncResumeDelta";
+            this.lblSyncResumeDelta.Size = new System.Drawing.Size(197, 13);
+            this.lblSyncResumeDelta.TabIndex = 10;
+            this.lblSyncResumeDelta.Text = "Delta in seconds to apply to resume time";
+            // 
+            // numSyncResumeDelta
+            // 
+            this.numSyncResumeDelta.Location = new System.Drawing.Point(239, 190);
+            this.numSyncResumeDelta.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.numSyncResumeDelta.Name = "numSyncResumeDelta";
+            this.numSyncResumeDelta.Size = new System.Drawing.Size(61, 20);
+            this.numSyncResumeDelta.TabIndex = 11;
+            this.ttpConfig.SetToolTip(this.numSyncResumeDelta, "You may wish to re-play X seconds from where you left off, this setting \r\nallows " +
+        "you control how far back to start when prompted.");
+            this.numSyncResumeDelta.ValueChanged += new System.EventHandler(this.numSyncResumeDelta_ValueChanged);
+            // 
+            // cbSyncPlayback
+            // 
+            this.cbSyncPlayback.AutoSize = true;
+            this.cbSyncPlayback.Location = new System.Drawing.Point(9, 171);
+            this.cbSyncPlayback.Name = "cbSyncPlayback";
+            this.cbSyncPlayback.Size = new System.Drawing.Size(164, 17);
+            this.cbSyncPlayback.TabIndex = 9;
+            this.cbSyncPlayback.Text = "Sync Playback (resume) data";
+            this.cbSyncPlayback.UseVisualStyleBackColor = true;
+            this.cbSyncPlayback.CheckedChanged += new System.EventHandler(this.cbSyncPlayback_CheckedChanged);
             // 
             // textBox1
             // 
@@ -209,8 +283,8 @@
             this.textBox1.Size = new System.Drawing.Size(258, 42);
             this.textBox1.TabIndex = 13;
             this.textBox1.TabStop = false;
-            this.textBox1.Text = "more options can be found in the GUI Advanced Settings section. The Extensions pl" +
-    "ugin must also be installed.";
+            this.textBox1.Text = "More options can be found in the GUI under Advanced Settings. The Extensions plug" +
+    "in must be installed to see button.";
             // 
             // label1
             // 
@@ -290,6 +364,18 @@
             this.lbSyncTimerLength.Text = "Sync with trakt.tv every ";
             this.ttpConfig.SetToolTip(this.lbSyncTimerLength, "Set this to the value in hours that you want to wait to resync with Trakt");
             // 
+            // cbKeepInSync
+            // 
+            this.cbKeepInSync.AutoSize = true;
+            this.cbKeepInSync.Location = new System.Drawing.Point(9, 150);
+            this.cbKeepInSync.Name = "cbKeepInSync";
+            this.cbKeepInSync.Size = new System.Drawing.Size(278, 17);
+            this.cbKeepInSync.TabIndex = 8;
+            this.cbKeepInSync.Text = "&Remove Collected items if no longer in local database";
+            this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
+            this.cbKeepInSync.UseVisualStyleBackColor = true;
+            this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
+            // 
             // btnClearLibrary
             // 
             this.btnClearLibrary.Enabled = false;
@@ -303,21 +389,10 @@
             this.btnClearLibrary.UseVisualStyleBackColor = true;
             this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
             // 
-            // cbKeepInSync
-            // 
-            this.cbKeepInSync.AutoSize = true;
-            this.cbKeepInSync.Location = new System.Drawing.Point(9, 150);
-            this.cbKeepInSync.Name = "cbKeepInSync";
-            this.cbKeepInSync.Size = new System.Drawing.Size(278, 17);
-            this.cbKeepInSync.TabIndex = 8;
-            this.cbKeepInSync.Text = "&Remove Collected items if no longer in local database";
-            this.ttpConfig.SetToolTip(this.cbKeepInSync, resources.GetString("cbKeepInSync.ToolTip"));
-            this.cbKeepInSync.UseVisualStyleBackColor = true;
-            this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
-            // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(554, 371);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(556, 436);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(106, 23);
             this.btnOK.TabIndex = 5;
@@ -357,26 +432,6 @@
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
             // 
-            // btnMovieRestrictions
-            // 
-            this.btnMovieRestrictions.Location = new System.Drawing.Point(164, 56);
-            this.btnMovieRestrictions.Name = "btnMovieRestrictions";
-            this.btnMovieRestrictions.Size = new System.Drawing.Size(152, 23);
-            this.btnMovieRestrictions.TabIndex = 2;
-            this.btnMovieRestrictions.Text = "&Movies...";
-            this.btnMovieRestrictions.UseVisualStyleBackColor = true;
-            this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnClearLibrary);
-            this.groupBox1.Location = new System.Drawing.Point(340, 304);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(322, 61);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Maintenance";
-            // 
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
@@ -390,102 +445,91 @@
             this.textBox2.Text = "Choose what movies and tv shows you would like to ignore during sync and scrobble" +
     " actions:";
             // 
-            // cbSyncPlayback
+            // btnMovieRestrictions
             // 
-            this.cbSyncPlayback.AutoSize = true;
-            this.cbSyncPlayback.Location = new System.Drawing.Point(9, 171);
-            this.cbSyncPlayback.Name = "cbSyncPlayback";
-            this.cbSyncPlayback.Size = new System.Drawing.Size(164, 17);
-            this.cbSyncPlayback.TabIndex = 9;
-            this.cbSyncPlayback.Text = "Sync Playback (resume) data";
-            this.cbSyncPlayback.UseVisualStyleBackColor = true;
-            this.cbSyncPlayback.CheckedChanged += new System.EventHandler(this.cbSyncPlayback_CheckedChanged);
+            this.btnMovieRestrictions.Location = new System.Drawing.Point(164, 56);
+            this.btnMovieRestrictions.Name = "btnMovieRestrictions";
+            this.btnMovieRestrictions.Size = new System.Drawing.Size(152, 23);
+            this.btnMovieRestrictions.TabIndex = 2;
+            this.btnMovieRestrictions.Text = "&Movies...";
+            this.btnMovieRestrictions.UseVisualStyleBackColor = true;
+            this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
-            // numSyncResumeDelta
+            // gbMaintenance
             // 
-            this.numSyncResumeDelta.Location = new System.Drawing.Point(239, 190);
-            this.numSyncResumeDelta.Maximum = new decimal(new int[] {
-            600,
-            0,
-            0,
-            0});
-            this.numSyncResumeDelta.Name = "numSyncResumeDelta";
-            this.numSyncResumeDelta.Size = new System.Drawing.Size(61, 20);
-            this.numSyncResumeDelta.TabIndex = 11;
-            this.ttpConfig.SetToolTip(this.numSyncResumeDelta, "You may wish to re-play X seconds from where you left off, this setting \r\nallows " +
-        "you control how far back to start when prompted.");
-            this.numSyncResumeDelta.ValueChanged += new System.EventHandler(this.numSyncResumeDelta_ValueChanged);
+            this.gbMaintenance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbMaintenance.Controls.Add(this.btnClearLibrary);
+            this.gbMaintenance.Location = new System.Drawing.Point(340, 304);
+            this.gbMaintenance.Name = "gbMaintenance";
+            this.gbMaintenance.Size = new System.Drawing.Size(322, 61);
+            this.gbMaintenance.TabIndex = 4;
+            this.gbMaintenance.TabStop = false;
+            this.gbMaintenance.Text = "Maintenance";
             // 
-            // lblSyncResumeDelta
+            // progressBarSync
             // 
-            this.lblSyncResumeDelta.AutoSize = true;
-            this.lblSyncResumeDelta.Location = new System.Drawing.Point(26, 192);
-            this.lblSyncResumeDelta.Name = "lblSyncResumeDelta";
-            this.lblSyncResumeDelta.Size = new System.Drawing.Size(197, 13);
-            this.lblSyncResumeDelta.TabIndex = 10;
-            this.lblSyncResumeDelta.Text = "Delta in seconds to apply to resume time";
+            this.progressBarSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarSync.Location = new System.Drawing.Point(12, 371);
+            this.progressBarSync.Name = "progressBarSync";
+            this.progressBarSync.Size = new System.Drawing.Size(650, 23);
+            this.progressBarSync.TabIndex = 6;
             // 
-            // numSyncInterval
+            // lblSyncStatus
             // 
-            this.numSyncInterval.Location = new System.Drawing.Point(129, 19);
-            this.numSyncInterval.Maximum = new decimal(new int[] {
-            168,
-            0,
-            0,
-            0});
-            this.numSyncInterval.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSyncInterval.Name = "numSyncInterval";
-            this.numSyncInterval.Size = new System.Drawing.Size(55, 20);
-            this.numSyncInterval.TabIndex = 1;
-            this.ttpConfig.SetToolTip(this.numSyncInterval, "Enter the period in hours to sync with trakt.tv for your selected \r\nsync options " +
-        "(Collection, Ratings, Watched etc).");
-            this.numSyncInterval.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSyncInterval.ValueChanged += new System.EventHandler(this.numSyncInterval_ValueChanged);
+            this.lblSyncStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSyncStatus.AutoEllipsis = true;
+            this.lblSyncStatus.Location = new System.Drawing.Point(12, 439);
+            this.lblSyncStatus.Name = "lblSyncStatus";
+            this.lblSyncStatus.Size = new System.Drawing.Size(538, 14);
+            this.lblSyncStatus.TabIndex = 7;
+            this.lblSyncStatus.Text = "Ready for anything!";
             // 
-            // label2
+            // btnStartLibrarySync
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(191, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "hours";
+            this.btnStartLibrarySync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStartLibrarySync.Location = new System.Drawing.Point(12, 400);
+            this.btnStartLibrarySync.Name = "btnStartLibrarySync";
+            this.btnStartLibrarySync.Size = new System.Drawing.Size(650, 24);
+            this.btnStartLibrarySync.TabIndex = 8;
+            this.btnStartLibrarySync.Text = "Start Library Sync";
+            this.btnStartLibrarySync.UseVisualStyleBackColor = true;
+            this.btnStartLibrarySync.Click += new System.EventHandler(this.btnStartLibrarySync_Click);
             // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 400);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(672, 471);
+            this.Controls.Add(this.btnStartLibrarySync);
+            this.Controls.Add(this.lblSyncStatus);
+            this.Controls.Add(this.progressBarSync);
+            this.Controls.Add(this.gbMaintenance);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.gbMisc);
+            this.Controls.Add(this.gbSync);
             this.Controls.Add(this.gbPlugins);
             this.Controls.Add(this.gbTraktAccount);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(688, 509);
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trakt Configuration v10.0.0.0";
             this.gbTraktAccount.ResumeLayout(false);
             this.gbTraktAccount.PerformLayout();
             this.gbPlugins.ResumeLayout(false);
-            this.gbMisc.ResumeLayout(false);
-            this.gbMisc.PerformLayout();
+            this.gbSync.ResumeLayout(false);
+            this.gbSync.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSyncInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).EndInit();
             this.gbRestrictions.ResumeLayout(false);
             this.gbRestrictions.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSyncInterval)).EndInit();
+            this.gbMaintenance.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -498,7 +542,7 @@
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label lbPassword;
         private System.Windows.Forms.GroupBox gbPlugins;
-        private System.Windows.Forms.GroupBox gbMisc;
+        private System.Windows.Forms.GroupBox gbSync;
         private System.Windows.Forms.CheckBox cbKeepInSync;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnDown;
@@ -519,11 +563,14 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbMaintenance;
         private System.Windows.Forms.Label lblSyncResumeDelta;
         private System.Windows.Forms.NumericUpDown numSyncResumeDelta;
         private System.Windows.Forms.CheckBox cbSyncPlayback;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numSyncInterval;
+        private System.Windows.Forms.ProgressBar progressBarSync;
+        private System.Windows.Forms.Button btnStartLibrarySync;
+        public System.Windows.Forms.Label lblSyncStatus;
     }
 }

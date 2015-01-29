@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using MediaPortal.Configuration;
+using System.Threading;
+using TraktPlugin.TraktAPI.Enums;
+using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin
 {
@@ -12,6 +16,8 @@ namespace TraktPlugin
     {
         public Configuration()
         {
+            TraktLogger.OnLogReceived += new TraktLogger.OnLogReceivedDelegate(OnLogMessage);
+
             InitializeComponent();
             this.Text = "Trakt Configuration v" + TraktSettings.Version;
 
@@ -75,9 +81,15 @@ namespace TraktPlugin
             tbPassword.TextChanged += new EventHandler(this.tbPassword_TextChanged);
         }
 
+        private void OnLogMessage(string message, bool error)
+        {
+            UpdateStatus(message, error);
+        }
+
         private void tbUsername_TextChanged(object sender, EventArgs e)
         {
             TraktSettings.Username = tbUsername.Text;
+            TraktSettings.AccountStatus = ConnectionState.Pending;
         }
 
         private void tbPassword_TextChanged(object sender, EventArgs e)
@@ -87,7 +99,8 @@ namespace TraktPlugin
                 TraktSettings.Password = string.Empty;
                 return;
             }
-            TraktSettings.Password = tbPassword.Text;            
+            TraktSettings.Password = tbPassword.Text;
+            TraktSettings.AccountStatus = ConnectionState.Pending;
         }
 
         private void tbPassword_Enter(object sender, EventArgs e)
@@ -334,6 +347,99 @@ namespace TraktPlugin
             }
         }
 
+        private void btnStartLibrarySync_Click(object sender, EventArgs e)
+        {           
+            StartSync();
+        }
+
+        private void SetSyncControlProperties(bool syncRunning)
+        {
+            if (syncRunning)
+            {
+                progressBarSync.Style = ProgressBarStyle.Marquee;
+                btnStartLibrarySync.Enabled = false;
+                gbTraktAccount.Enabled = false;
+                gbPlugins.Enabled = false;
+                gbRestrictions.Enabled = false;
+                gbSync.Enabled = false;
+                gbMaintenance.Enabled = false;
+                btnOK.Enabled = false;
+            }
+            else
+            {
+                progressBarSync.Style = ProgressBarStyle.Continuous;
+                btnStartLibrarySync.Enabled = true;
+                gbTraktAccount.Enabled = true;
+                gbPlugins.Enabled = true;
+                gbRestrictions.Enabled = true;
+                gbSync.Enabled = true;
+                gbMaintenance.Enabled = true;
+                btnOK.Enabled = true;
+            }
+        }
+
+        private void StartSync()
+        {
+            SetSyncControlProperties(true);
+
+            var syncThread = new Thread(() =>
+                {
+                    if (TraktSettings.AccountStatus != ConnectionState.Connected)
+                    {
+                        // stop sync
+                        SetSyncControlProperties(false);
+                        TraktSettings.AccountStatus = ConnectionState.Pending;
+                        return;
+                    }
+
+                    TraktLogger.Info("Library Sync started for all enabled plugins");
+
+                    foreach (var item in clbPlugins.CheckedItems)
+                    {
+                        try
+                        {
+                            switch (item.ToString())
+                            {
+                                case "Moving Pictures":
+                                    var movingPictures = new MovingPictures(TraktSettings.MovingPictures);
+                                    movingPictures.SyncLibrary();
+                                    break;
+
+                                case "MP-TVSeries":
+                                    var tvSeries = new TVSeries(TraktSettings.TVSeries);
+                                    tvSeries.SyncLibrary();
+                                    break;
+
+                                case "My Videos":
+                                    var myVideos = new MyVideos(TraktSettings.MyVideos);
+                                    myVideos.SyncLibrary();
+                                    break;
+
+                                case "My Films":
+                                    var myFilms = new MyFilmsHandler(TraktSettings.MyFilms);
+                                    myFilms.SyncLibrary();
+                                    break;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            TraktLogger.Error("Error synchronising library, Plugin = '{0}', Error = '{1}'", item.ToString(), ex.Message);
+                            continue;
+                        }
+                    }
+
+                    TraktLogger.Info("Library Sync completed for all enabled plugins");
+                    SetSyncControlProperties(false);
+                })
+                {
+                    Name = "Sync",
+                    IsBackground = true
+                };
+
+            syncThread.Start();
+        }
+
         /// <summary>
         /// //TODOClears our library on Trakt as best as the api lets us
         /// </summary>
@@ -443,5 +549,26 @@ namespace TraktPlugin
             //progressDialog.Value = 100;
             //progressDialog.CloseDialog();
         //}
+
+        delegate void UpdateProgressDelegate(string message, bool error);
+
+        private void UpdateStatus(string message)
+        {
+            UpdateStatus(message, false);
+        }
+
+        private void UpdateStatus(string message, bool error)
+        {
+            if (lblSyncStatus.InvokeRequired)
+            {
+                var updateProgress = new UpdateProgressDelegate(UpdateStatus);
+                object[] args = { message, error };
+                lblSyncStatus.Invoke(updateProgress, args);
+                return;
+            }
+
+            lblSyncStatus.Text = message;
+            lblSyncStatus.ForeColor = error ? Color.Red : Color.Black;
+        }
     }
 }

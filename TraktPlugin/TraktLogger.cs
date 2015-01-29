@@ -15,6 +15,9 @@ namespace TraktPlugin
         private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
         private static string backupFilename = Config.GetFile(Config.Dir.Log, "TraktPlugin.bak");
         private static Object lockObject = new object();
+        
+        internal delegate void OnLogReceivedDelegate(string message, bool error);
+        internal static event OnLogReceivedDelegate OnLogReceived;
 
         static TraktLogger()
         {
@@ -52,6 +55,10 @@ namespace TraktPlugin
 
         internal static void Info(String log)
         {
+            // log to configuration window
+            if (TraktSettings.IsConfiguration == true)
+                OnLogReceived(log, false);
+
             if(TraktSettings.LogLevel >= 2)
                 writeToFile(String.Format(createPrefix(), "INFO", log));
         }
@@ -74,6 +81,10 @@ namespace TraktPlugin
 
         internal static void Error(String log)
         {
+            // log to configuration window
+            if (TraktSettings.IsConfiguration == true)
+                OnLogReceived(log, true);
+
             if(TraktSettings.LogLevel >= 0)
                 writeToFile(String.Format(createPrefix(), "ERR ", log));
         }
