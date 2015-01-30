@@ -22,7 +22,7 @@ namespace TraktPlugin
             this.Text = "Trakt Configuration v" + TraktSettings.Version;
 
             TraktSettings.PerformMaintenance();
-            TraktSettings.LoadSettings();
+            TraktSettings.LoadSettings(false);
 
             #region load settings
             tbUsername.Text = TraktSettings.Username;
@@ -127,7 +127,7 @@ namespace TraktPlugin
                 MessageBox.Show(message, "trakt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TraktSettings.KeepTraktLibraryClean = false;
             }
-            TraktSettings.SaveSettings();
+            TraktSettings.SaveSettings(false);
             this.Close();
         }
 

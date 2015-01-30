@@ -503,6 +503,8 @@ namespace TraktPlugin.GUI
         public static string Layout = "Layout";
         public static string LibrarySyncAlreadyRunning = "Library Sync is already running, try again later";
         public static string LibrarySyncStarted = "Manual Library Sync has started";
+        public static string LibraryAndPlaybackSyncAlreadyRunning = "Library and Playback Sync is already running, try again later";
+        public static string LibraryAndPlaybackSyncStarted = "Manual Library and Playback Sync has started";
         public static string Like = "Like";
         public static string Likes = "Likes";
         public static string List = "List";
@@ -731,6 +733,8 @@ namespace TraktPlugin.GUI
         public static string Specials = "Specials";
         public static string StartDate = "Start Date";
         public static string StartLibrarySync = "Start Library Sync";
+        public static string StartLibraryAndPlaybackSync = "Start Library and Playback Sync";
+        public static string StartPlaybackSync = "Start Playback Sync";
         public static string Status = "Status";
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";

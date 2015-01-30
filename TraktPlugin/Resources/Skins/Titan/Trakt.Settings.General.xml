@@ -114,12 +114,12 @@
       <dimColor>ffffffff</dimColor>
       <layout>StackLayout(7, Vertical, true)</layout>
       <control Style="SettingsButtonLarge">
-        <description>Start Library Sync</description>
+        <description>Start Library and Playback Sync</description>
         <type>button</type>
         <id>20</id>
         <textalign>center</textalign>
         <textYOff>0</textYOff>
-        <label>#Trakt.Translation.StartLibrarySync.Label</label>
+        <label>#Trakt.Translation.StartLibraryAndPlaybackSync.Label</label>
         <onright>2</onright>
         <onleft>#defaultcontrol.onleft</onleft>
         <onup>10</onup>

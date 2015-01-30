@@ -153,7 +153,7 @@ namespace TraktPlugin.GUI
             if (btnMyLiveTV != null) { TraktSettings.MyTVLive = MyLiveTV; }
             if (btnArgusLiveTV != null) { TraktSettings.ArgusTVLive = ArgusLiveTV; }
 
-            TraktSettings.SaveSettings();
+            TraktSettings.SaveSettings(false);
 
             base.OnPageDestroy(new_windowId);
         }

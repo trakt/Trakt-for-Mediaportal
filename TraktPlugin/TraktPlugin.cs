@@ -25,11 +25,11 @@ namespace TraktPlugin
     {
         #region Private Variables
         // List of all our TraktHandlers
-        List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
+        static List<ITraktHandler> TraktHandlers = new List<ITraktHandler>();
         // Worker used for syncing libraries
         static BackgroundWorker syncLibraryWorker;
         static Timer syncLibraryTimer;
-        bool AbortSync;
+        static bool AbortSync;
         // Settings Management from MPEI
         ExtensionSettings GUIExtensionSettings = new ExtensionSettings();
         // Dashboard - Activity / Trending Items
@@ -519,7 +519,7 @@ namespace TraktPlugin
         
         public static DateTime SyncStartTime = new DateTime();
 
-        private void SyncPlayback()
+        public static void SyncPlayback()
         {
             // no plugins to sync, abort
             if (TraktHandlers.Count == 0 || !TraktSettings.SyncPlayback) return;
@@ -572,13 +572,15 @@ namespace TraktPlugin
         }
 
         /// <summary>
-        /// Starts a manual library sync
+        /// Starts a manual library and playback sync
         /// </summary>
         /// <returns>true if sync started, false if already running</returns>
         public static bool StartSync()
         {
             if (syncLibraryWorker.IsBusy)
                 return false;
+
+            SyncPlayback();
 
             ChangeSyncTimer(0, TraktSettings.SyncTimerLength * 3600000);
 
@@ -780,6 +782,9 @@ namespace TraktPlugin
                                     }
                                     else if (TraktSettings.AccountStatus == ConnectionState.Connected)
                                     {
+                                        // save settings now so password persists incase of bad shutdown
+                                        TraktSettings.SaveSettings(false);
+
                                         // success, start a sync such that user data can be cached
                                         SyncLibrary();
                                     }
@@ -956,7 +961,7 @@ namespace TraktPlugin
                 // save our settings now so we dont get out of sync
                 // with extension settings
                 TraktLogger.Debug("Entering Extension Settings window");
-                TraktSettings.SaveSettings();
+                TraktSettings.SaveSettings(false);
             }
         }
 

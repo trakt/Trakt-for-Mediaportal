@@ -476,7 +476,7 @@ namespace TraktPlugin
         /// <summary>
         /// Loads the Settings
         /// </summary>
-        internal static void LoadSettings()
+        internal static void LoadSettings(bool loadPersistedCache = true)
         {
             TraktLogger.Info("Loading local settings");
 
@@ -599,11 +599,14 @@ namespace TraktPlugin
             if (LastSyncActivities.Episodes == null) LastSyncActivities.Episodes = new TraktLastSyncActivities.EpisodeActivities();
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
 
-            TraktLogger.Info("Loading persisted file cache");
-            LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
-            LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
-            LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "[]").FromJSONArray<TraktMovieTrending>();
-            LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "[]").FromJSONArray<TraktShowTrending>();
+            if (loadPersistedCache)
+            {
+                TraktLogger.Info("Loading persisted file cache");
+                LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
+                LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
+                LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "[]").FromJSONArray<TraktMovieTrending>();
+                LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "[]").FromJSONArray<TraktShowTrending>();
+            }
 
             // correct any settings in internal plugins if needed
             UpdateInternalPluginSettings();
@@ -614,7 +617,7 @@ namespace TraktPlugin
         /// <summary>
         /// Saves the Settings
         /// </summary>
-        internal static void SaveSettings()
+        internal static void SaveSettings(bool savePersistedCache = true)
         {
             TraktLogger.Info("Saving settings");
             using (Settings xmlwriter = new MPSettings())
@@ -728,11 +731,14 @@ namespace TraktPlugin
 
             Settings.SaveCache();
 
-            TraktLogger.Info("Saving persistent file cache");
-            TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
-            TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
-            TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
-            TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "[]".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
+            if (savePersistedCache)
+            {
+                TraktLogger.Info("Saving persistent file cache");
+                TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
+                TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
+                TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
+                TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "[]".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
+            }
         }
 
         /// <summary>
@@ -942,7 +948,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Settings updated externally");
 
                 // re-load settings
-                TraktSettings.LoadSettings();
+                TraktSettings.LoadSettings(false);
 
                 // determine when next library sync is due
                 var nextSyncDate = TraktPlugin.SyncStartTime.Add(TimeSpan.FromHours(TraktSettings.SyncTimerLength));

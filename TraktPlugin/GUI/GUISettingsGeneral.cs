@@ -102,7 +102,7 @@ namespace TraktPlugin.GUI
             // update any internal plugin settings required
             TraktSettings.UpdateInternalPluginSettings();
 
-            TraktSettings.SaveSettings();
+            TraktSettings.SaveSettings(false);
 
             base.OnPageDestroy(new_windowId);
         }
@@ -119,11 +119,11 @@ namespace TraktPlugin.GUI
             {
                 if (TraktPlugin.StartSync())
                 {
-                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibrarySyncStarted);
+                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibraryAndPlaybackSyncStarted);
                 }
                 else
                 {
-                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibrarySyncAlreadyRunning);
+                    GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.LibraryAndPlaybackSyncAlreadyRunning);
                 }
             }
 
