@@ -129,7 +129,9 @@ namespace TraktPlugin
         public static int SyncBatchSize { get; set; }
         public static bool UseCompNameOnPassKey { get; set; }
         public static bool SyncPlayback { get; set; }
-        public static int SyncResumeDelta { get; set; }        
+        public static int SyncResumeDelta { get; set; }
+        public static bool SyncPlaybackOnEnterPlugin { get; set; }
+        public static int SyncPlaybackCacheExpiry { get; set; }
         #endregion
 
         #region Constants
@@ -249,6 +251,8 @@ namespace TraktPlugin
         private const string cUseCompNameOnPassKey = "UseCompNameOnPassKey";
         private const string cSyncPlayback = "SyncPlayback";
         private const string cSyncResumeDelta = "SyncResumeDelta";
+        private const string cSyncPlaybackOnEnterPlugin = "SyncPlaybackOnEnterPlugin";
+        private const string cSyncPlaybackCacheExpiry = "SyncPlaybackCacheExpiry";
         #endregion
         
         #region Properties
@@ -585,6 +589,8 @@ namespace TraktPlugin
                 SyncBatchSize = xmlreader.GetValueAsInt(cTrakt, cSyncBatchSize, 100);
                 SyncPlayback = xmlreader.GetValueAsBool(cTrakt, cSyncPlayback, true);
                 SyncResumeDelta = xmlreader.GetValueAsInt(cTrakt, cSyncResumeDelta, 5);
+                SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
+                SyncPlaybackCacheExpiry = xmlreader.GetValueAsInt(cTrakt, cSyncPlaybackCacheExpiry, 5);
             }
 
             // initialise the last sync activities 
@@ -716,6 +722,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cUseCompNameOnPassKey, UseCompNameOnPassKey);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncPlayback, SyncPlayback);
                 xmlwriter.SetValue(cTrakt, cSyncResumeDelta, SyncResumeDelta);
+                xmlwriter.SetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, SyncPlaybackOnEnterPlugin);
+                xmlwriter.SetValue(cTrakt, cSyncPlaybackCacheExpiry, SyncPlaybackCacheExpiry);
             }
 
             Settings.SaveCache();

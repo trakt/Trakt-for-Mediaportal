@@ -899,6 +899,58 @@ namespace TraktPlugin
 
             #endregion
 
+            #region Playback / Resume Sync
+
+            if (TraktSettings.SyncPlaybackOnEnterPlugin)
+            {
+                var playSyncThread = new Thread((oId) =>
+                    {
+                        if ((int)oId == (int)ExternalPluginWindows.TVSeries)
+                        {
+                            var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "MP-TVSeries");
+                            if (pluginHandler != null)
+                            {
+                                pluginHandler.SyncProgress();
+                            }
+                        }
+
+                        if ((int)oId == (int)ExternalPluginWindows.MovingPictures)
+                        {
+                            var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "Moving Pictures");
+                            if (pluginHandler != null)
+                            {
+                                pluginHandler.SyncProgress();
+                            }
+                        }
+
+                        if ((int)oId == (int)ExternalPluginWindows.MyFilms)
+                        {
+                            var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "My Films");
+                            if (pluginHandler != null)
+                            {
+                                pluginHandler.SyncProgress();
+                            }
+                        }
+
+                        if ((int)oId == (int)ExternalPluginWindows.MyVideosDb || (int)oId == (int)ExternalPluginWindows.MyVideosShares)
+                        {
+                            var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "My Videos");
+                            if (pluginHandler != null)
+                            {
+                                pluginHandler.SyncProgress();
+                            }
+                        }
+                    })
+                    {
+                        IsBackground = true,
+                        Name = "PlaySync"
+                    };
+
+                playSyncThread.Start(windowID);
+            }
+
+            #endregion
+
             if (windowID == (int)ExternalPluginWindows.MPEISettings)
             {
                 // save our settings now so we dont get out of sync

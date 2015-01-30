@@ -32,7 +32,8 @@ namespace TraktPlugin.TraktHandlers
 
         #region Variables
 
-        bool SyncInProgress;        
+        bool SyncLibraryInProgress;
+        bool SyncPlaybackInProgress;
         bool EpisodeWatching;
         bool FirstEpisodeWatched;
         DBEpisode CurrentEpisode;
@@ -79,7 +80,7 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("MP-TVSeries Library Starting Sync");
-            SyncInProgress = true;
+            SyncLibraryInProgress = true;
 
             // store list of series ids so we can update the episode counts
             // of any series that syncback watched flags
@@ -554,7 +555,7 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
             }
 
-            SyncInProgress = false;
+            SyncLibraryInProgress = false;
             TraktLogger.Info("MP-TVSeries Library Sync Completed");
         }
 
@@ -636,8 +637,10 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
-            if (!TraktSettings.SyncPlayback)
+            if (!TraktSettings.SyncPlayback || SyncPlaybackInProgress)
                 return;
+
+            SyncPlaybackInProgress = true;
 
             TraktLogger.Info("MP-TVSeries Starting Playback Sync");
 
@@ -646,6 +649,7 @@ namespace TraktPlugin.TraktHandlers
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                SyncPlaybackInProgress = false;
                 return;
             }
 
@@ -661,7 +665,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // get episode from local database if it exists
                 var episode = DBEpisode.Get(item.Show.Ids.Tvdb.Value, item.Episode.Season, item.Episode.Number);
-                if (episode == null)
+                if (episode == null || string.IsNullOrEmpty(episode[DBEpisode.cFilename]))
                     continue;
 
                 // if the local playtime is not known then skip
@@ -685,6 +689,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             TraktLogger.Info("MP-TVSeries Playback Sync Completed");
+            SyncPlaybackInProgress = false;
             return;
         }
 
@@ -2113,7 +2118,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktLogger.Info("New episodes added in MP-TVSeries, starting sync");
 
-                    while (SyncInProgress)
+                    while (SyncLibraryInProgress)
                     {
                         // only do one sync at a time
                         TraktLogger.Debug("MP-TVSeries sync still in progress, trying again in 60 secs");

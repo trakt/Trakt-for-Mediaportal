@@ -26,7 +26,8 @@ namespace TraktPlugin.TraktHandlers
     class MovingPictures : ITraktHandler
     {
         DBMovieInfo currentMovie;
-        bool SyncInProgress;
+        bool SyncLibraryInProgress;
+        bool SyncPlaybackInProgress;
         bool TraktRateSent;
         bool IsDVDPlaying;
         public static MoviePlayer player = null;
@@ -64,7 +65,7 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("Moving Pictures Starting Library Sync");
-            SyncInProgress = true;
+            SyncLibraryInProgress = true;
 
             // Get all movies in the local database
             var collectedMovies = DBMovieInfo.GetAll();            
@@ -467,7 +468,7 @@ namespace TraktPlugin.TraktHandlers
 
             #endregion
 
-            SyncInProgress = false;
+            SyncLibraryInProgress = false;
             TraktLogger.Info("Moving Pictures Library Sync Completed");
         }
 
@@ -616,8 +617,10 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
-            if (!TraktSettings.SyncPlayback)
+            if (!TraktSettings.SyncPlayback || SyncPlaybackInProgress)
                 return;
+
+            SyncPlaybackInProgress = true;
 
             TraktLogger.Info("Moving Pictures Starting Playback Sync");
 
@@ -626,6 +629,7 @@ namespace TraktPlugin.TraktHandlers
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                SyncPlaybackInProgress = false;
                 return;
             }
 
@@ -664,6 +668,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             TraktLogger.Info("Moving Pictures Playback Sync Completed");
+            SyncPlaybackInProgress = false;
             return;
         }
 
@@ -793,7 +798,7 @@ namespace TraktPlugin.TraktHandlers
 
             // if we are syncing, we maybe manually setting state from trakt
             // in this case we dont want to resend to trakt
-            if (SyncInProgress) return;
+            if (SyncLibraryInProgress) return;
 
             DBUserMovieSettings userMovieSettings = (DBUserMovieSettings)dbObject;
             DBMovieInfo movie = userMovieSettings.AttachedMovies[0];

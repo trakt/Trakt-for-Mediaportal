@@ -890,7 +890,7 @@ namespace TraktPlugin
         {
             get
             {
-                if (_playbackData == null || (DateTime.Now - PlaySyncAge) > TimeSpan.FromMinutes(5))
+                if (_playbackData == null || (DateTime.Now - PlaySyncAge) > TimeSpan.FromMinutes(TraktSettings.SyncPlaybackCacheExpiry))
                 {
                     TraktLogger.Info("Retrieving current users playback data");
                     _playbackData = TraktAPI.TraktAPI.GetPlaybackProgress();

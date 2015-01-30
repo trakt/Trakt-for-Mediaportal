@@ -19,7 +19,8 @@ namespace TraktPlugin.TraktHandlers
     class MyVideos : ITraktHandler
     {
         #region Variables
-     
+
+        bool SyncPlaybackInProgress;
         IMDBMovie CurrentMovie = null;
         int WatchedPercent = 95;
 
@@ -488,8 +489,10 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
-            if (!TraktSettings.SyncPlayback)
+            if (!TraktSettings.SyncPlayback || SyncPlaybackInProgress)
                 return;
+
+            SyncPlaybackInProgress = true;
 
             TraktLogger.Info("My Videos Starting Playback Sync");
 
@@ -498,6 +501,7 @@ namespace TraktPlugin.TraktHandlers
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                SyncPlaybackInProgress = false;
                 return;
             }
 
@@ -546,6 +550,7 @@ namespace TraktPlugin.TraktHandlers
             }
 
             TraktLogger.Info("My Videos Playback Sync Completed");
+            SyncPlaybackInProgress = false;
             return;
         }
 

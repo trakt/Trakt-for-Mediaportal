@@ -720,6 +720,10 @@ namespace TraktPlugin.GUI
         public static string SettingSyncPlaybackDescription = "Enable this setting to synchronise your playback / resume data for movies and episodes which are partially watched e.g. 50%. This feature is useful for people that watch videos from multiple places such as a smart phone on the bus ride home or from multiple devices / machines at home, syncing playback data will allow you to start the video where you left off.";
         public static string SettingSyncResumeDeltaName = "Playback / Resume Delta";
         public static string SettingSyncResumeDeltaDescription = "Set the delta in seconds to apply to the resume data when syncing. This can allow you to re-play a certain period e.g. 5 secs from where you last left off on the other machine / device. Set to 0 to not apply a delta, the maximum allowed value is 600 (10 minutes). Default is 5 seconds.";
+        public static string SettingSyncPlaybackOnEnterPluginName = "Sync Playback on Plugin Entry";
+        public static string SettingSyncPlaybackOnEnterPluginDescription = "Enable this setting to sync playback / resume data when you enter an enabled plugin.";
+        public static string SettingSyncPlaybackCacheExpiryName = "Sync Playback Cache Expiry";
+        public static string SettingSyncPlaybackCacheExpiryDescription = "Set the period of time (in minutes) playback / resume data is cached locally before being refreshed on next request.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

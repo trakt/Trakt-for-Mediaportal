@@ -464,6 +464,10 @@
   <string name="SettingSyncPlaybackDescription">Enable this setting to synchronise your playback / resume data for movies and episodes which are partially watched e.g. 50%. This feature is useful for people that watch videos from multiple places such as a smart phone on the bus ride home or from multiple devices / machines at home, syncing playback data will allow you to start the video where you left off.</string>
   <string name="SettingSyncResumeDeltaName">Playback / Resume Delta</string>
   <string name="SettingSyncResumeDeltaDescription">Set the delta in seconds to apply to the resume data when syncing. This can allow you to re-play a certain period e.g. 5 secs from where you last left off on the other machine / device. Set to 0 to not apply a delta, the maximum allowed value is 600 (10 minutes). Default is 5 seconds.</string>
+  <string name="SettingSyncPlaybackOnEnterPluginName">Sync Playback on Plugin Entry</string>
+  <string name="SettingSyncPlaybackOnEnterPluginDescription">Enable this setting to sync playback / resume data when you enter an enabled plugin.</string>
+  <string name="SettingSyncPlaybackCacheExpiryName">Sync Playback Cache Expiry</string>
+  <string name="SettingSyncPlaybackCacheExpiryDescription">Set the period of time (in minutes) playback / resume data is cached locally before being refreshed on next request.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="SortBy">Sort By: {0}</string>
