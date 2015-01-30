@@ -616,6 +616,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            if (!TraktSettings.SyncPlayback)
+                return;
+
             TraktLogger.Info("Moving Pictures Starting Playback Sync");
 
             // get playback data from trakt

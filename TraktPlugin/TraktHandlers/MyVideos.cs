@@ -488,6 +488,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            if (!TraktSettings.SyncPlayback)
+                return;
+
             TraktLogger.Info("My Videos Starting Playback Sync");
 
             // get playback data from trakt

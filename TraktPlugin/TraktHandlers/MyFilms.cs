@@ -633,6 +633,9 @@ namespace TraktPlugin.TraktHandlers
 
         public void SyncProgress()
         {
+            if (!TraktSettings.SyncPlayback)
+                return;
+
             return;
         }
 

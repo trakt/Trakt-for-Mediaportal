@@ -495,7 +495,7 @@
             this.btnStartLibrarySync.Name = "btnStartLibrarySync";
             this.btnStartLibrarySync.Size = new System.Drawing.Size(650, 24);
             this.btnStartLibrarySync.TabIndex = 8;
-            this.btnStartLibrarySync.Text = "Start Library Sync";
+            this.btnStartLibrarySync.Text = "Start Library and Playback Sync";
             this.btnStartLibrarySync.UseVisualStyleBackColor = true;
             this.btnStartLibrarySync.Click += new System.EventHandler(this.btnStartLibrarySync_Click);
             // 

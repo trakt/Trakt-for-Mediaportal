@@ -392,7 +392,7 @@ namespace TraktPlugin
                         return;
                     }
 
-                    TraktLogger.Info("Library Sync started for all enabled plugins");
+                    TraktLogger.Info("Library and Playback Sync started for all enabled plugins");
 
                     foreach (var item in clbPlugins.CheckedItems)
                     {
@@ -403,21 +403,25 @@ namespace TraktPlugin
                                 case "Moving Pictures":
                                     var movingPictures = new MovingPictures(TraktSettings.MovingPictures);
                                     movingPictures.SyncLibrary();
+                                    movingPictures.SyncProgress();
                                     break;
 
                                 case "MP-TVSeries":
                                     var tvSeries = new TVSeries(TraktSettings.TVSeries);
                                     tvSeries.SyncLibrary();
+                                    tvSeries.SyncProgress();
                                     break;
 
                                 case "My Videos":
                                     var myVideos = new MyVideos(TraktSettings.MyVideos);
                                     myVideos.SyncLibrary();
+                                    myVideos.SyncProgress();
                                     break;
 
                                 case "My Films":
                                     var myFilms = new MyFilmsHandler(TraktSettings.MyFilms);
                                     myFilms.SyncLibrary();
+                                    myFilms.SyncProgress();
                                     break;
                             }
 
@@ -429,7 +433,7 @@ namespace TraktPlugin
                         }
                     }
 
-                    TraktLogger.Info("Library Sync completed for all enabled plugins");
+                    TraktLogger.Info("Library and Playback Sync completed for all enabled plugins");
                     SetSyncControlProperties(false);
                 })
                 {
