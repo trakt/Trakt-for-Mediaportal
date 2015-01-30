@@ -39,6 +39,7 @@
   <string name="Age">Age</string>
   <string name="AirDate">Date de diffusion</string>
   <string name="AirDay">Jour de diffusion</string>
+  <string name="AiredEpisodes">Episodes diffusés</string>
   <string name="AirTime">Heure de diffusion</string>
   <string name="Approve">Approuver</string>
   <string name="ApproveAndFollowBack">Acceptez et s\'abbonner</string>
@@ -76,6 +77,9 @@
   <string name="CreatingFilters">Création de filtres</string>
   <string name="CreatingList">Création d\'une liste</string>
   <string name="CreateList">Créer une nouvelle liste</string>
+  <string name="CreateAccountWebsite">Désolé , cette fonction n\'est plus \nvalide . S\'il vous plaît, utilisez le site \nafin de créer un compte .</string>
+  <string name="Comment">Commentaire</string>
+  <string name="Comments">Commentaires</string>
   <string name="Community">Communauté</string>
   <string name="CommunityActivity">Activité de la communauté</string>
   <string name="ConfirmDeleteList">Etes-vous sûr de vouloir supprimer\ncet liste?</string>
@@ -83,11 +87,13 @@
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
   <!--D-->
+  <string name="Dashboard">Tableau de bord</string>
   <string name="DateToday">Aujourd\'hui</string>
   <string name="DateYesterday">Hier</string>
   <string name="DateOneWeekAgo">Il  y a 1 semaine</string>
   <string name="DateTwoWeeksAgo">Il  y a 2 semaines</string>
   <string name="DateOneMonthAgo">Il  y a 1 mois</string>
+  <string name="Dead">Mort</string>
   <string name="Death">Mort</string>
   <string name="Deny">Refuser</string>
   <string name="DenyFollowRequest">Refuser la demande de suivi provenant de l\'utilisateur {0}?</string>
@@ -115,11 +121,14 @@
   <string name="Episodes">Episodes</string>
   <string name="Error">Erreur de Trakt</string>
   <string name="ErrorCalendar">Erreur lors de l\'obtention du calendrier</string>
+  <string name="ErrorUserProfile">Erreur pour obtenir le profil et les statistiques de l\'utilisateur</string>
   <string name="ExecutiveProducer">Producteur exécutif</string>
   <!--F-->
   <string name="FailedCreateList">Impossible de créer une liste en ligne</string>
   <string name="FailedDeleteList">Échec de la suppression de la liste en ligne</string>
+  <string name="FailedLogin">Impossible de se connecter à trakt.tv , vérifiez le nom d\'utilisateur et mot de passe dans les paramètres</string>
   <string name="FailedUpdateList">Impossible de mettre à jour la liste en ligne</string>
+  <string name="FeatureNotAvailable">Désolé , cette fonction n\'est pas disponible</string>
   <string name="Filters">Filtres</string>
   <string name="FirstAired">Première Diffusion</string>
   <string name="Follow">Suivre</string>
@@ -141,6 +150,8 @@
   <string name="FullName">Nom complet</string>
   <!--G-->
   <string name="Gender">Genre</string>
+  <string name="GenderMale">Homme</string>
+  <string name="GenderFemale">Femme</string>
   <string name="General">Général</string>
   <string name="GeneralSettings">Paramètres Généraux</string>
   <string name="Genre">Genre</string>
@@ -251,6 +262,7 @@
   <string name="MarkAsUnWatched">Marquer comme  non visionné</string>
   <string name="Me">Moi</string>
   <string name="Minutes">Minutes</string>
+  <string name="Minute">Minute</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
   <string name="MultiSelectDialog">Fenêtre à sélection multiple</string>
@@ -271,6 +283,8 @@
   <string name="NoFollowersTaunt">Vous n\'avez aucun abonné </string>
   <string name="NoFollowerReqTaunt">Vous n\'avez aucune requête d\'abonné</string>
   <string name="NoFollowingTaunt">Vous n’êtes abonné chez personne</string>
+  <string name="NoTrendingMovies">Aucun Films actuellement regardé!</string>
+  <string name="NoTrendingShows">Aucune série actuellement regardée!</string>
   <string name="NoMovieRecommendations">Aucun film recommandé trouvé !</string>
   <string name="NoShowRecommendations">Aucun série recommandée trouvée !</string>
   <string name="NoShowWatchList">{0} N\'a aucune série dans la liste!</string>
@@ -339,6 +353,7 @@
   <string name="RecentWatchedMovies">Films récemment visionnés</string>
   <string name="RecentAddedEpisodes">Épisodes récemment ajoutés</string>
   <string name="RecentAddedMovies">Films récemment ajoutés</string>
+  <string name="RecentComments">Commentaires récénts</string>
   <string name="RecentShouts">Messages récents</string>
   <string name="Recommendations">Recommandations</string>
   <string name="RecommendedMovies">Films recommandés</string>
@@ -382,9 +397,12 @@
   <string name="SelectUser">Sélectionnez un utilisateur</string>
   <string name="Series">Séries</string>
   <string name="SeriesPlural">Séries</string>
+  <string name="SetPassword">Votre mot de passe chez Trakt n\'est pas défini , voulez vous \nle créer maintenant?</string>
   <string name="Settings">Paramètres</string>
   <string name="Shout">Commentaire</string>
   <string name="Shouts">Commentaires</string>
+  <string name="Show">Série</string>
+  <string name="Shows">Séries</string>
   <string name="ShowTVShowsInWatchlist">Afficher les séries de la liste </string>
   <string name="ShowSpoilers">Afficher les spoilers</string>
   <string name="ShowFriendActivity">Montrer l\'Activité des amis</string>
@@ -396,6 +414,7 @@
   <string name="Synchronize">Synchroniser</string>
   <string name="SynchronizeNow">Un nouveau plugin a été ajouté.\nVoulez-vous synchroniser vos bibliothèques\nmaintenant?</string>
   <string name="ShowRateDialogOnWatched">Afficher la boite de dialogue Notation concernant l\'élément visionné</string>
+  <string name="ShowSeasonInfo">Infos sur la saison</string>
   <string name="ShowWatched">Série visionnée</string>
   <string name="SettingPluginEnabledName">Plugin activé</string>
   <string name="SettingPluginEnabledDescription">Activer / Désactiver ce paramètre afin de contrôler le lancement du plugin Trakt avec MediaPortal.</string>
@@ -469,6 +488,7 @@
   <string name="Username">Nom d\'utilisateur</string>
   <string name="UnAuthorized">L\'authentification a échoué, SVP vérifier le nom d\'utilisateur et le mot de passe dans les paramètres.</string>
   <string name="UnFollow">Se désabonner</string>
+  <string name="UnFollowMessage">Etes-vous sûr que vous ne souhaitez plus \nsuivre utilisateur {0} ?</string>
   <string name="UnRate">Non évalué</string>
   <string name="UpdatingCategories">Mise à jour des catégories</string>
   <string name="UpdatingCategoriesMenuMovingPics">Mise à jour du menu des catégories dans Moving Pictures.</string>

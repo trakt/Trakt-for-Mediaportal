@@ -126,6 +126,8 @@ detta objekt från den här listan?</string>
   <string name="Episodes">Avsnitt</string>
   <string name="Error">Trakt-fel</string>
   <string name="ErrorCalendar">Fel vid hämtning av kalender.</string>
+  <string name="ErrorGeneral">Fel när nya data skulle hämtas från nätet, försök igen senare.</string>
+  <string name="ErrorUserProfile">Fel när profil och statistik skulle hämtas för användaren</string>
   <string name="ExecutiveProducer">Verkställande producent</string>
   <!--F-->
   <string name="FailedCreateList">Misslyckades med att skapan lista online</string>
@@ -251,6 +253,8 @@ detta objekt från den här listan?</string>
   <string name="Languages">Språk</string>
   <string name="Location">Plats</string>
   <string name="Layout">Layout</string>
+  <string name="LibrarySyncAlreadyRunning">Synkronisering av bibliotek är redan igång, försök igen senare</string>
+  <string name="LibrarySyncStarted">Manuell synkronisering av bibliotek har startat</string>
   <string name="Like">Gilla</string>
   <string name="Likes">Gillar</string>
   <string name="List">Lista</string>
@@ -469,7 +473,12 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingFilterTrendingOnDashboardDescription">Aktivera inställningen för att filtrera populärt t ex dölj sedda, dölj Watchlist osv. Filtren kan sättas på motsvarande sida eller via meny</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorera procent sedd för DVD:er</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktivera den här inställningen för att ignorera procent sedd när du avbryter tittande på DVD:er. DVD och Bluray visar inte alltid rätt speltid, inställningen garanterar att rätt info skickas till trakt.tv oavsett hur mycket du har sett av skivan.</string>
+  <string name="SettingSyncPlaybackName">Aktivera synkronisering av uppspelning/fortsätt </string>
+  <string name="SettingSyncPlaybackDescription">Aktivera den här inställningen för att synkronisera uppspelning/fortsätt av filmer och avsnitt som du delvis har sett t ex 50%. Den här funktionen är användbar för såna som ser film på olika platser eller olika apparater, genom att synkronisera uppspelningen kan du fortsätta där du gjorde uppehåll. </string>
+  <string name="SettingSyncResumeDeltaName">Överlappning för uppspelning/fortsätt</string>
+  <string name="SettingSyncResumeDeltaDescription">Sätt överlappningen i sekunder när du synkroniserar. Det här ger dig möjlighet att se om en bit av det du redan sett när du återupptar tittandet på en annan apparat. Största tillåtna värde är 600 sekunder (10 minuter). Förinställt värde är 5 sekunder. Sätt värdet till 0 om du inte vill ha nån överlappning.</string>
   <string name="StartYear">Började: {0}</string>
+  <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
   <string name="SortSeasonsDescending">Sortera säsonger i fallande ordning</string>

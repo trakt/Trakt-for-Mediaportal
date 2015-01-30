@@ -121,6 +121,8 @@
   <string name="Episodes">Episodios</string>
   <string name="Error">Error Trakt</string>
   <string name="ErrorCalendar">Error obteniendo calendario</string>
+  <string name="ErrorGeneral">Error obteniendo datos online, por favor inténtalo más tarde</string>
+  <string name="ErrorUserProfile">Error obteniendo perfil y estadísticas del usuario</string>
   <string name="ExecutiveProducer">Productor Ejecutivo</string>
   <!--F-->
   <string name="FailedCreateList">Error al crear lista online</string>
@@ -245,7 +247,10 @@
   <string name="Language">Idioma</string>
   <string name="Languages">Idiomas</string>
   <string name="Location">Localización</string>
+  <string name="LoginFailedServerError">Debido a un error del servidor falló el registro en trakt.tv, por favor inténtalo más tarde</string>
   <string name="Layout">Distribición</string>
+  <string name="LibrarySyncAlreadyRunning">Sincronización de Librería ya está funcionando, inténtalo más tarde</string>
+  <string name="LibrarySyncStarted">Sincronización Manual de Librería ha empezado</string>
   <string name="Like">Gustar</string>
   <string name="Likes">Gustos</string>
   <string name="List">Lista</string>
@@ -455,7 +460,12 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Habilita esta opción para aplicar los filtros de tendencia en la tabla, por ejemplo: Ocultar Vistos, Ocultar Lista de Vigilancia, etc. Esto se puede configurar desde la interfaz de tendencia o desde el menú contextual.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorar % Visto en los DVDs</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Habilita esta opción para ignorar el porcentaje visto de un DVD cuando se para. A veces los DVD y Bluray no indican la duración correcta del vídeo principal, esto asegura siempre el scrobble (p. e. mandar estado de visto) a trakt.tv al parar, independientemente de lo mucho que hayas visto.</string>
+  <string name="SettingSyncPlaybackName">Habilitar Sincronización de Reproducción / Reanudación</string>
+  <string name="SettingSyncPlaybackDescription">Activa esta opción para sincronizar tus datos de reproducción / reanudación para películas y episodios que se vieron parcialmente; por ejemplo, 50%. Esta característica es útil para las personas que ven los vídeos desde distintos lugares, como un smartphone en el autobús yendo a casa o desde varios dispositivos en casa, la sincronización de los datos de reproducción permitirá empezar el video desde donde se dejó.</string>
+  <string name="SettingSyncResumeDeltaName">Reproducción / Reanudación Delta</string>
+  <string name="SettingSyncResumeDeltaDescription">Ajusta el delta en segundos para aplicar a los datos de reanudación al sincronizar. Esto permite que vuelva a repetirse un determinado período, por ejemplo 5 segundos, desde donde se dejó la última vez en el otro dispositivo. Se establece en 0 para no aplicar un delta, el valor máximo permitido es 600 (10 minutos). El valor predeterminado es 5 segundos.</string>
   <string name="StartYear">Iniciar: {0}</string>
+  <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="SortBy">Ordenar por: {0}</string>
   <string name="SortSeasonsAscending">Ordenar Temporadas en Orden Ascendente</string>
   <string name="SortSeasonsDescending">Ordenar Temporadas en Orden Descendente</string>
