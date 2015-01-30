@@ -57,6 +57,7 @@ namespace TraktPlugin
             cbSyncLibrary.Checked = TraktSettings.SyncLibrary;
             cbSyncRatings.Checked = TraktSettings.SyncRatings;
             cbSyncPlayback.Checked = TraktSettings.SyncPlayback;
+            cbSyncPlaybackOnEnterPlugin.Checked = TraktSettings.SyncPlaybackOnEnterPlugin;
 
             numSyncInterval.Value = TraktSettings.SyncTimerLength;
             numSyncResumeDelta.Value = TraktSettings.SyncResumeDelta;
@@ -72,6 +73,7 @@ namespace TraktPlugin
             {
                 numSyncResumeDelta.Enabled = false;
                 lblSyncResumeDelta.Enabled = false;
+                cbSyncPlaybackOnEnterPlugin.Enabled = false;
             }
 
             #endregion
@@ -325,6 +327,7 @@ namespace TraktPlugin
         {
             numSyncResumeDelta.Enabled = cbSyncPlayback.Checked;
             lblSyncResumeDelta.Enabled = cbSyncPlayback.Checked;
+            cbSyncPlaybackOnEnterPlugin.Enabled = cbSyncPlayback.Checked;
 
             TraktSettings.SyncPlayback = cbSyncPlayback.Checked;
         }
@@ -345,6 +348,11 @@ namespace TraktPlugin
             {
                 TraktSettings.SyncTimerLength = result;
             }
+        }
+
+        private void cbSyncPlaybackOnEnterPlugin_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.SyncPlaybackOnEnterPlugin = cbSyncPlaybackOnEnterPlugin.Checked;
         }
 
         private void btnStartLibrarySync_Click(object sender, EventArgs e)
@@ -574,5 +582,6 @@ namespace TraktPlugin
             lblSyncStatus.Text = message;
             lblSyncStatus.ForeColor = error ? Color.Red : Color.Black;
         }
+
     }
 }

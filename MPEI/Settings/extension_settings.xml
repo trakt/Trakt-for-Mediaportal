@@ -198,5 +198,23 @@
              maxvalue="600"
              description="#Trakt.Translation.SettingSyncResumeDeltaDescription.Label"
              configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncPlaybackOnEnterPlugin"
+             displayname="#Trakt.Translation.SettingSyncPlaybackOnEnterPluginName.Label"
+             defaultvalue="no"
+             type="string"
+             listvalues="yes|no"
+             displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"
+             description="#Trakt.Translation.SettingSyncPlaybackOnEnterPluginDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="SyncPlaybackCacheExpiry"
+             displayname="#Trakt.Translation.SettingSyncPlaybackCacheExpiryName.Label"
+             defaultvalue="5"
+             type="int"
+             minvalue="1"
+             maxvalue="1440"
+             description="#Trakt.Translation.SettingSyncPlaybackCacheExpiryDescription.Label"
+             configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

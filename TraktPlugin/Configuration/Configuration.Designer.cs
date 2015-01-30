@@ -66,6 +66,7 @@
             this.progressBarSync = new System.Windows.Forms.ProgressBar();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.btnStartLibrarySync = new System.Windows.Forms.Button();
+            this.cbSyncPlaybackOnEnterPlugin = new System.Windows.Forms.CheckBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
@@ -183,6 +184,7 @@
             // 
             this.gbSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSync.Controls.Add(this.cbSyncPlaybackOnEnterPlugin);
             this.gbSync.Controls.Add(this.label2);
             this.gbSync.Controls.Add(this.numSyncInterval);
             this.gbSync.Controls.Add(this.lblSyncResumeDelta);
@@ -241,15 +243,15 @@
             // lblSyncResumeDelta
             // 
             this.lblSyncResumeDelta.AutoSize = true;
-            this.lblSyncResumeDelta.Location = new System.Drawing.Point(26, 192);
+            this.lblSyncResumeDelta.Location = new System.Drawing.Point(7, 214);
             this.lblSyncResumeDelta.Name = "lblSyncResumeDelta";
             this.lblSyncResumeDelta.Size = new System.Drawing.Size(197, 13);
-            this.lblSyncResumeDelta.TabIndex = 10;
+            this.lblSyncResumeDelta.TabIndex = 11;
             this.lblSyncResumeDelta.Text = "Delta in seconds to apply to resume time";
             // 
             // numSyncResumeDelta
             // 
-            this.numSyncResumeDelta.Location = new System.Drawing.Point(239, 190);
+            this.numSyncResumeDelta.Location = new System.Drawing.Point(220, 212);
             this.numSyncResumeDelta.Maximum = new decimal(new int[] {
             600,
             0,
@@ -257,7 +259,7 @@
             0});
             this.numSyncResumeDelta.Name = "numSyncResumeDelta";
             this.numSyncResumeDelta.Size = new System.Drawing.Size(61, 20);
-            this.numSyncResumeDelta.TabIndex = 11;
+            this.numSyncResumeDelta.TabIndex = 12;
             this.ttpConfig.SetToolTip(this.numSyncResumeDelta, "You may wish to re-play X seconds from where you left off, this setting \r\nallows " +
         "you control how far back to start when prompted.");
             this.numSyncResumeDelta.ValueChanged += new System.EventHandler(this.numSyncResumeDelta_ValueChanged);
@@ -267,9 +269,12 @@
             this.cbSyncPlayback.AutoSize = true;
             this.cbSyncPlayback.Location = new System.Drawing.Point(9, 171);
             this.cbSyncPlayback.Name = "cbSyncPlayback";
-            this.cbSyncPlayback.Size = new System.Drawing.Size(164, 17);
+            this.cbSyncPlayback.Size = new System.Drawing.Size(260, 17);
             this.cbSyncPlayback.TabIndex = 9;
-            this.cbSyncPlayback.Text = "Sync Playback (resume) data";
+            this.cbSyncPlayback.Text = "Sync Playback (resume) data on Startup/Resume";
+            this.ttpConfig.SetToolTip(this.cbSyncPlayback, "Sync playback / resume data for partially watched videos. This allows\r\nyou to con" +
+        "tinue where you left off.\r\n\r\nThis is done when the system starts up or when you " +
+        "resume from standby.");
             this.cbSyncPlayback.UseVisualStyleBackColor = true;
             this.cbSyncPlayback.CheckedChanged += new System.EventHandler(this.cbSyncPlayback_CheckedChanged);
             // 
@@ -277,11 +282,11 @@
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(49, 233);
+            this.textBox1.Location = new System.Drawing.Point(51, 238);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(258, 42);
-            this.textBox1.TabIndex = 13;
+            this.textBox1.TabIndex = 14;
             this.textBox1.TabStop = false;
             this.textBox1.Text = "More options can be found in the GUI under Advanced Settings. The Extensions plug" +
     "in must be installed to see button.";
@@ -290,10 +295,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(7, 234);
+            this.label1.Location = new System.Drawing.Point(7, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 12;
+            this.label1.TabIndex = 13;
             this.label1.Text = "Note:";
             // 
             // cbSyncRatings
@@ -499,6 +504,19 @@
             this.btnStartLibrarySync.UseVisualStyleBackColor = true;
             this.btnStartLibrarySync.Click += new System.EventHandler(this.btnStartLibrarySync_Click);
             // 
+            // cbSyncPlaybackOnEnterPlugin
+            // 
+            this.cbSyncPlaybackOnEnterPlugin.AutoSize = true;
+            this.cbSyncPlaybackOnEnterPlugin.Location = new System.Drawing.Point(9, 192);
+            this.cbSyncPlaybackOnEnterPlugin.Name = "cbSyncPlaybackOnEnterPlugin";
+            this.cbSyncPlaybackOnEnterPlugin.Size = new System.Drawing.Size(245, 17);
+            this.cbSyncPlaybackOnEnterPlugin.TabIndex = 10;
+            this.cbSyncPlaybackOnEnterPlugin.Text = "Sync Playback when entering enabled Plugins";
+            this.ttpConfig.SetToolTip(this.cbSyncPlaybackOnEnterPlugin, "Sync playback/resume data when entering an enabled plugin.\r\nThis is in addition t" +
+        "o syncing when the system starts up and resumes from standby.");
+            this.cbSyncPlaybackOnEnterPlugin.UseVisualStyleBackColor = true;
+            this.cbSyncPlaybackOnEnterPlugin.CheckedChanged += new System.EventHandler(this.cbSyncPlaybackOnEnterPlugin_CheckedChanged);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -572,5 +590,6 @@
         private System.Windows.Forms.ProgressBar progressBarSync;
         private System.Windows.Forms.Button btnStartLibrarySync;
         public System.Windows.Forms.Label lblSyncStatus;
+        private System.Windows.Forms.CheckBox cbSyncPlaybackOnEnterPlugin;
     }
 }
