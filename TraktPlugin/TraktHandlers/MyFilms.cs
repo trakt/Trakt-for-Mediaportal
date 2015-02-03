@@ -77,7 +77,14 @@ namespace TraktPlugin.TraktHandlers
             #region Get unwatched movies from trakt.tv
             TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
             var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
-            TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", (traktUnWatchedMovies ?? new List<TraktMovie>()).Count());
+            if (traktUnWatchedMovies == null)
+            {
+                TraktLogger.Error("Error getting unwatched movies from trakt server");
+            }
+            else
+            {
+                TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
+            }
             #endregion
 
             #region Get watched movies from trakt.tv
