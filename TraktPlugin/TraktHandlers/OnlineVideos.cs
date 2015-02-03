@@ -147,11 +147,11 @@ namespace TraktPlugin.TraktHandlers
                 // TrackVideoPlayback event only gets fired on Stopped if > 80% watched
                 if (info.VideoKind == VideoKind.TvSeries)
                 {
-                    TraktLogger.Info("Playback of episode has ended and is considered watched. Progress = '{0}%', Title = '{1} - {2}x{3}', IMDb ID = '{4}', TMDb ID = '{5}', TVDb ID = '{6}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Season.ToString(), info.Episode.ToString(), info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>", info.ID_TVDB ?? "<empty>");
+                    TraktLogger.Info("Playback of episode has ended and is considered watched. Progress = '{0}%', Title = '{1} - {2}x{3}', IMDb ID = '{4}', TMDb ID = '{5}', TVDb ID = '{6}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Season, info.Episode, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>", info.ID_TVDB ?? "<empty>");
                 }
                 else
                 {
-                    TraktLogger.Info("Playback of movie has ended an is considered watched. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", info.Title, info.Year, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>");
+                    TraktLogger.Info("Playback of movie has ended and is considered watched. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Year, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>");
                 }
 
                 // Show Rating Dialog after watched
