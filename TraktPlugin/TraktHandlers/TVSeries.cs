@@ -249,7 +249,7 @@ namespace TraktPlugin.TraktHandlers
 
                     // get the shows that we have rated/unrated
                     var shows = DBSeries.Get(new SQLCondition());
-                    localRatedShows.AddRange(shows.Where(s => s[DBOnlineSeries.cMyRating] > 0));
+                    localRatedShows.AddRange(shows.Where(s => s[DBOnlineSeries.cMyRating] > 0 && !IgnoredSeries.Contains(s[DBOnlineSeries.cID])));
                     localNonRatedShows = shows.Except(localRatedShows).ToList();
                     TraktLogger.Info("Found {0} shows rated in tvseries database", localRatedShows.Count);
                 }
