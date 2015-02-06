@@ -24,6 +24,13 @@
               <ZipFileName>Installer{CopyFile}\{51951c7d-8f7a-47c9-9cb2-8ba759a5e44d}-Newtonsoft.Json.dll</ZipFileName>
               <DestinationFilename>%Base%\Newtonsoft.Json.dll</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.pdb</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{f8bae59c-8da4-4874-891b-b54e731d3055}-TraktPlugin.pdb</ZipFileName>
+              <DestinationFilename>%Plugins%\Windows\TraktPlugin.pdb</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -3022,6 +3029,13 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <LocalFileName>..\Externals\Newtonsoft.Json.dll</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{51951c7d-8f7a-47c9-9cb2-8ba759a5e44d}-Newtonsoft.Json.dll</ZipFileName>
         <DestinationFilename>%Base%\Newtonsoft.Json.dll</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.pdb</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{f8bae59c-8da4-4874-891b-b54e731d3055}-TraktPlugin.pdb</ZipFileName>
+        <DestinationFilename>%Plugins%\Windows\TraktPlugin.pdb</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
