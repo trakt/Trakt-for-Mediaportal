@@ -653,7 +653,15 @@ namespace TraktPlugin.TraktHandlers
                 // if the local playtime is not known then skip
                 if (movie.LocalMedia == null || movie.LocalMedia.First().Duration <= 0)
                 {
-                    TraktLogger.Warning("Skipping item with invalid runtime in database, Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    TraktLogger.Warning("Skipping item with invalid runtime in database. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    continue;
+                }
+
+                // check if movie is restricted
+                var filename = movie.LocalMedia[0].FullPath;
+                if (TraktSettings.BlockedFilenames.Any(f => f == filename) || TraktSettings.BlockedFolders.Any(f => f == Path.GetDirectoryName(filename)))
+                {
+                    TraktLogger.Info("Ignoring resume data sync for movie, filename/folder is ignored by user. Title = '{0}', Year = '{1}', IMDb ID = '{2}', Filename = '{3}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb, filename);
                     continue;
                 }
 
@@ -666,7 +674,7 @@ namespace TraktPlugin.TraktHandlers
                 if (userSetting.ResumeTime < resumeData)
                 {
                     // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
-                    TraktLogger.Info("Setting resume time '{0}' for movie, Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
+                    TraktLogger.Info("Setting resume time '{0}' for movie. Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
                     
                     userSetting.ResumePart = 1;
                     userSetting.ResumeTime = resumeData;

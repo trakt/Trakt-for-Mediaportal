@@ -695,6 +695,13 @@ namespace TraktPlugin.TraktHandlers
                     continue;
                 }
 
+                // check if series is ignored by user
+                if (IgnoredSeries.Contains(item.Show.Ids.Tvdb))
+                {
+                    TraktLogger.Info("Ignoring resume data sync for episode, series is ignored by user. TV Show = '{0}', Season='{1}', Episode='{2}'", item.Show.Title, item.Episode.Season, item.Episode.Number);
+                    continue;
+                }
+
                 // get episode from local database if it exists
                 var episode = DBEpisode.Get(item.Show.Ids.Tvdb.Value, item.Episode.Season, item.Episode.Number);
                 if (episode == null || string.IsNullOrEmpty(episode[DBEpisode.cFilename]))

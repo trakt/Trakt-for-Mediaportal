@@ -543,6 +543,13 @@ namespace TraktPlugin.TraktHandlers
                     continue;
                 }
 
+                // check if movie is restricted
+                if (TraktSettings.BlockedFilenames.Any(f => f == movie.VideoFileName) || TraktSettings.BlockedFolders.Any(f => f == Path.GetDirectoryName(movie.VideoFileName)))
+                {
+                    TraktLogger.Info("Ignoring resume data sync for movie, filename/folder is ignored by user. Title = '{0}', Year = '{1}', IMDb ID = '{2}', Filename = '{3}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb, movie.VideoFileName);
+                    continue;
+                }
+
                 // Get FileId from filename
                 int fileId = VideoDatabase.GetMovieId(movie.VideoFileName);
 
