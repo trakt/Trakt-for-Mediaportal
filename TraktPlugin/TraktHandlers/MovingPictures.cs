@@ -722,15 +722,23 @@ namespace TraktPlugin.TraktHandlers
                     scrobbleData.Progress = 100;
                 }
 
-                // update local cache
-                if (scrobbleData.Progress > 80)
-                {
-                    // Trakt auto marks as watched at +80%
-                    TraktCache.AddMovieToWatchHistory(scrobbleData.Movie);
-                }
+                TraktScrobbleResponse response = null;
 
-                TraktLogger.Info("Sending stop scrobble of movie to trakt.tv. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", scrobbleData.Progress, scrobbleMovie.Title, movie.Year, scrobbleMovie.ImdbID ?? "<empty>", GetTmdbID(scrobbleMovie) ?? "<empty>");
-                var response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+                // only mark as watched if progress is greater than user setting
+                if (scrobbleData.Progress >= MovingPicturesCore.Settings.MinimumWatchPercentage)
+                {
+                    // update local cache
+                    TraktCache.AddMovieToWatchHistory(scrobbleData.Movie);
+
+                    TraktLogger.Info("Sending 'stop' scrobble of movie to trakt.tv. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", scrobbleData.Progress, scrobbleMovie.Title, movie.Year, scrobbleMovie.ImdbID ?? "<empty>", GetTmdbID(scrobbleMovie) ?? "<empty>");
+                    response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+                }
+                else
+                {
+                    TraktLogger.Info("Sending 'pause' scrobble of movie to trakt.tv. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", scrobbleData.Progress, scrobbleMovie.Title, movie.Year, scrobbleMovie.ImdbID ?? "<empty>", GetTmdbID(scrobbleMovie) ?? "<empty>");
+                    response = TraktAPI.TraktAPI.PauseMovieScrobble(scrobbleData);
+                }
+                
                 TraktLogger.LogTraktResponse(response);
             })
             {

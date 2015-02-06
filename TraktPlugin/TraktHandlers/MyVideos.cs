@@ -8,6 +8,7 @@ using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.Player;
 using MediaPortal.Playlists;
+using MediaPortal.Profile;
 using MediaPortal.Video.Database;
 using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -22,7 +23,6 @@ namespace TraktPlugin.TraktHandlers
 
         bool SyncPlaybackInProgress;
         IMDBMovie CurrentMovie = null;
-        int WatchedPercent = 95;
 
         #endregion
 
@@ -38,12 +38,6 @@ namespace TraktPlugin.TraktHandlers
             if (new Version(version) < new Version(1, 6, 100, 0))
             {
                 throw new FileLoadException("MediaPortal does not meet minimum requirements!");
-            }
-
-            // get video watched percentage to count as scrobble
-            using (MediaPortal.Profile.Settings xmlreader = new MediaPortal.Profile.MPSettings())
-            {
-                WatchedPercent = xmlreader.GetValueAsInt("movies", "playedpercentagewatched", 95);
             }
 
             Priority = priority;
@@ -474,14 +468,22 @@ namespace TraktPlugin.TraktHandlers
                 var tScrobbleData = objScrobble as TraktScrobbleMovie;
                 if (tScrobbleData == null) return;
 
-                // update local cache
+                TraktScrobbleResponse response = null;
+
                 if (tScrobbleData.Progress >= WatchedPercent)
                 {
+                    // update local cache
                     TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
+
+                    TraktLogger.Info("Sending 'stop' scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
+                    response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
+                }
+                else
+                {
+                    TraktLogger.Info("Sending 'pause' scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
+                    response = TraktAPI.TraktAPI.PauseMovieScrobble(tScrobbleData);
                 }
 
-                TraktLogger.Info("Sending stop scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
-                var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -760,6 +762,21 @@ namespace TraktPlugin.TraktHandlers
 
             imdbMovie = movie;
             return true;
+        }
+
+        #endregion
+
+        #region Private Properties
+
+        private int WatchedPercent
+        {
+            get
+            {
+                using (Settings xmlreader = new MPSettings())
+                {
+                    return xmlreader.GetValueAsInt("movies", "playedpercentagewatched", 85);
+                }
+            }
         }
 
         #endregion

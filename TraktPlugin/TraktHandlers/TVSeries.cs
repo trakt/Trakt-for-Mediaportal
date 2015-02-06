@@ -1491,6 +1491,9 @@ namespace TraktPlugin.TraktHandlers
                 return null;
             }
 
+            // bad progress reading from g_player
+            if (progress > 100) progress = 100;
+
             var scrobbleData = new TraktScrobbleEpisode
             {
                 Episode = new TraktEpisode
@@ -2273,20 +2276,22 @@ namespace TraktPlugin.TraktHandlers
 
                 TraktScrobbleEpisode scrobbleData = null;
 
+                #region Double Episode Handling
+
                 // if its a double episode we may need to mark two episodes as watched
                 if (stoppedEpisode.IsDoubleEpisode)
                 {
                     // check if we should mark the first episode as watched
                     if (!FirstEpisodeWatched)
                     {
-                        scrobbleData = CreateScrobbleData(stoppedEpisode, progress);
+                        scrobbleData = CreateScrobbleData(stoppedEpisode, 100);
                         if (scrobbleData == null) return;
 
                         TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
                     }
 
                     // scrobble the second 
-                     scrobbleData = CreateScrobbleData(SecondEpisode, progress);
+                    scrobbleData = CreateScrobbleData(SecondEpisode, progress);
                     if (scrobbleData == null) return;
 
                     // prompt to rate second episode
@@ -2295,6 +2300,8 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
                     return;
                 }
+
+                #endregion
 
                 scrobbleData = CreateScrobbleData(stoppedEpisode, progress);
                 if (scrobbleData == null) return;
@@ -2339,18 +2346,23 @@ namespace TraktPlugin.TraktHandlers
 
             var stopWatching = new Thread((objEpisode) =>
             {
+                TraktScrobbleResponse response = null;
+                TraktScrobbleEpisode scrobbleData = null;
+
                 var stoppedEpisode = objEpisode as DBEpisode;
                 if (stoppedEpisode == null) return;
+
+                #region Double Episode Handling
 
                 if (stoppedEpisode.IsDoubleEpisode && progress > 50.0)
                 {
                     // first episode can be marked as watched
                     if (!FirstEpisodeWatched)
                     {
-                        TraktLogger.Info("Marking first episode of double episode as watched, Progress = '{0}%'", progress);
+                        TraktLogger.Info("Marking first episode of double episode as watched");
 
                         // fake progress so it's marked as watched online
-                        var scrobbleData = CreateScrobbleData(stoppedEpisode, 100);
+                        scrobbleData = CreateScrobbleData(stoppedEpisode, 100);
                         if (scrobbleData == null) return;
 
                         // prompt to rate episode
@@ -2358,22 +2370,29 @@ namespace TraktPlugin.TraktHandlers
 
                         // update local cache
                         TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
-
                         TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
+
                         return;
                     }
                     else
                     {
                         // stop the second 
-                        var scrobbleData = CreateScrobbleData(SecondEpisode, progress);
+                        scrobbleData = CreateScrobbleData(SecondEpisode, progress);
                         if (scrobbleData == null) return;
 
-                        TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
+                        // only mark as watched online if percentage watched is greater than user setting
+                        response = TraktAPI.TraktAPI.PauseEpisodeScrobble(scrobbleData);
+                        TraktLogger.LogTraktResponse(response);
+
                         return;
                     }
                 }
 
-                var response = TraktAPI.TraktAPI.StopEpisodeScrobble(CreateScrobbleData(stoppedEpisode, progress));
+                #endregion
+
+                scrobbleData = CreateScrobbleData(stoppedEpisode, progress);
+                TraktAPI.TraktAPI.PauseEpisodeScrobble(scrobbleData);
+
                 TraktLogger.LogTraktResponse(response);
             })
             {
@@ -2411,5 +2430,5 @@ namespace TraktPlugin.TraktHandlers
 
         #endregion
       
-    }
+    } 
 }

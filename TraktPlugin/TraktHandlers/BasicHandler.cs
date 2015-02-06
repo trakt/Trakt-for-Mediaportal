@@ -122,6 +122,8 @@ namespace TraktPlugin.TraktHandlers
             if (duration > 0.0)
                 progress = (position / duration) * 100.0;
 
+            if (progress > 100) progress = 100;
+
             return Math.Round(progress, 2);
         }
 

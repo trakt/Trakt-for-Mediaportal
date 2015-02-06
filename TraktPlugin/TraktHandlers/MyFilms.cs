@@ -728,7 +728,7 @@ namespace TraktPlugin.TraktHandlers
                     var tScrobbleData = objScrobble as TraktScrobbleMovie;
                     if (tScrobbleData == null) return;
 
-                    var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
+                    var response = TraktAPI.TraktAPI.PauseMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
                 })
                 {
@@ -767,11 +767,7 @@ namespace TraktPlugin.TraktHandlers
                     if (tScrobbleData.Progress < 80)
                         tScrobbleData.Progress = 100;
 
-                    // update local cache
-                    if (tScrobbleData.Progress > 80)
-                    {
-                        TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
-                    }
+                    TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
 
                     var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
