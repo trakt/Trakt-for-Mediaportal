@@ -549,7 +549,7 @@ namespace TraktPlugin.TraktHandlers
                 // get current stop time for movie
                 int currentResumeData = VideoDatabase.GetMovieStopTime(fileId);
 
-                if (currentResumeData != resumeData)
+                if (currentResumeData < resumeData)
                 {
                     // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
                     TraktLogger.Info("Setting resume time '{0}' for movie, Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);

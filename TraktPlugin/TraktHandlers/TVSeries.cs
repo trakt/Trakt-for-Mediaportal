@@ -712,7 +712,7 @@ namespace TraktPlugin.TraktHandlers
                 var resumeData = Convert.ToInt32((episode[DBEpisode.cLocalPlaytime] / 1000.0) * (item.Progress / 100.0)) - TraktSettings.SyncResumeDelta;
                 if (resumeData < 0) resumeData = 0;
 
-                if (episode[DBEpisode.cStopTime] != resumeData)
+                if (episode[DBEpisode.cStopTime] < resumeData)
                 {
                     TraktLogger.Info("Setting resume time '{0}' for episode, Title = '{1} - {2}x{3}'", new TimeSpan(0, 0, 0, resumeData), item.Show.Title, item.Episode.Season, item.Episode.Number);
                     episode[DBEpisode.cStopTime] = resumeData;

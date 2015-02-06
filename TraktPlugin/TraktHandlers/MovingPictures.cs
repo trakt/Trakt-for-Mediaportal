@@ -663,7 +663,7 @@ namespace TraktPlugin.TraktHandlers
                 if (resumeData < 0) resumeData = 0;
 
                 DBUserMovieSettings userSetting = movie.ActiveUserSettings;
-                if (userSetting.ResumeTime != resumeData)
+                if (userSetting.ResumeTime < resumeData)
                 {
                     // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
                     TraktLogger.Info("Setting resume time '{0}' for movie, Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
