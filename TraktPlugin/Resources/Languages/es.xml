@@ -251,6 +251,8 @@
   <string name="Layout">Distribición</string>
   <string name="LibrarySyncAlreadyRunning">Sincronización de Librería ya está funcionando, inténtalo más tarde</string>
   <string name="LibrarySyncStarted">Sincronización Manual de Librería ha empezado</string>
+  <string name="LibraryAndPlaybackSyncAlreadyRunning">Sincronización de Biblioteca y Reproducción está en funcionamiento, inténtalo más tarde</string>
+  <string name="LibraryAndPlaybackSyncStarted">Se ha iniciado Sincronización Manual de Biblioteca y Reproducción</string>
   <string name="Like">Gustar</string>
   <string name="Likes">Gustos</string>
   <string name="List">Lista</string>
@@ -464,8 +466,14 @@
   <string name="SettingSyncPlaybackDescription">Activa esta opción para sincronizar tus datos de reproducción / reanudación para películas y episodios que se vieron parcialmente; por ejemplo, 50%. Esta característica es útil para las personas que ven los vídeos desde distintos lugares, como un smartphone en el autobús yendo a casa o desde varios dispositivos en casa, la sincronización de los datos de reproducción permitirá empezar el video desde donde se dejó.</string>
   <string name="SettingSyncResumeDeltaName">Reproducción / Reanudación Delta</string>
   <string name="SettingSyncResumeDeltaDescription">Ajusta el delta en segundos para aplicar a los datos de reanudación al sincronizar. Esto permite que vuelva a repetirse un determinado período, por ejemplo 5 segundos, desde donde se dejó la última vez en el otro dispositivo. Se establece en 0 para no aplicar un delta, el valor máximo permitido es 600 (10 minutos). El valor predeterminado es 5 segundos.</string>
+  <string name="SettingSyncPlaybackOnEnterPluginName">Sincronizar Reproducción al entrar en el Plugin</string>
+  <string name="SettingSyncPlaybackOnEnterPluginDescription">Habilita esta opción para sincronizar datos de reproducción/reanudación cuando entres en un plugin compatible.</string>
+  <string name="SettingSyncPlaybackCacheExpiryName">Finalizó Caché de Sincronización de Reproducción</string>
+  <string name="SettingSyncPlaybackCacheExpiryDescription">Configura el periodo de tiempo (en minutos) de reproducción/reanudación que habrá en caché localmente antes de recargar nuevamente.</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
+  <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>
+  <string name="StartPlaybackSync">Empezar Sincronización de Reproduccción</string>
   <string name="SortBy">Ordenar por: {0}</string>
   <string name="SortSeasonsAscending">Ordenar Temporadas en Orden Ascendente</string>
   <string name="SortSeasonsDescending">Ordenar Temporadas en Orden Descendente</string>
