@@ -93,28 +93,30 @@ namespace TraktPlugin.TraktHandlers
 
             #region UnWatched / Watched
 
+            List<TraktCache.EpisodeWatched> traktWatchedEpisodes = null;
+
             // get all episodes on trakt that are marked as 'unseen'
             TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
             var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList();
             if (traktUnWatchedEpisodes == null)
             {
-                TraktLogger.Error("Error getting tv shows unwatched from trakt.tv server");
+                TraktLogger.Error("Error getting tv shows unwatched from trakt.tv server, unwatched and watched sync will be skipped");
             }
             else
             {
                 TraktLogger.Info("Found {0} unwatched tv episodes in trakt.tv library", traktUnWatchedEpisodes.Count());
-            }
 
-            // get all episodes on trakt that are marked as 'seen' or 'watched'
-            TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
-            var traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt().ToNullableList();
-            if (traktWatchedEpisodes == null)
-            {
-                TraktLogger.Error("Error getting tv shows watched from trakt.tv server");
-            }
-            else
-            {
-                TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
+                // now get all episodes on trakt that are marked as 'seen' or 'watched' (this will be cached already when working out unwatched)
+                TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
+                traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt().ToNullableList();
+                if (traktWatchedEpisodes == null)
+                {
+                    TraktLogger.Error("Error getting tv shows watched from trakt.tv server, watched sync will be skipped");
+                }
+                else
+                {
+                    TraktLogger.Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
+                }
             }
 
             #endregion

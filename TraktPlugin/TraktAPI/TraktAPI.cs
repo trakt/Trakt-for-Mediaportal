@@ -1461,7 +1461,7 @@ namespace TraktPlugin.TraktAPI
                 {
                     strResponse = response.StatusCode == HttpStatusCode.NoContent ? "Item Deleted" : "Failed to delete item";
                 }
-                
+
                 if (OnDataReceived != null)
                     OnDataReceived(strResponse);
 
@@ -1471,17 +1471,26 @@ namespace TraktPlugin.TraktAPI
 
                 return strResponse;
             }
-            catch (WebException ex)
+            catch (WebException wex)
             {
-                string errorMessage = ex.Message;
-                if (ex.Status == WebExceptionStatus.ProtocolError)
+                string errorMessage = wex.Message;
+                if (wex.Status == WebExceptionStatus.ProtocolError)
                 {
-                    var response = ex.Response as HttpWebResponse;
+                    var response = wex.Response as HttpWebResponse;
                     errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}'", (int)response.StatusCode, response.StatusDescription, address, method);
                 }
 
                 if (OnDataError != null)
                     OnDataError(errorMessage);
+
+                return null;
+            }
+            catch (IOException ioe)
+            {
+                string errorMessage = string.Format("Request failed due to an IO error, Description = '{0}', Url = '{1}', Method = '{2}'", ioe.Message, address, method);
+
+                if (OnDataError != null)
+                    OnDataError(ioe.Message);
 
                 return null;
             }
@@ -1555,6 +1564,15 @@ namespace TraktPlugin.TraktAPI
                     OnDataError(errorMessage);
 
                 return result;
+            }
+            catch (IOException ioe)
+            {
+                string errorMessage = string.Format("Request failed due to an IO error, Description = '{0}', Url = '{1}', Method = '{2}'", ioe.Message, address, method);
+
+                if (OnDataError != null)
+                    OnDataError(ioe.Message);
+
+                return null;
             }
         }
 

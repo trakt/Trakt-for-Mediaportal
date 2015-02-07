@@ -74,29 +74,29 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get online data from trakt.tv
 
-            #region Get unwatched movies from trakt.tv
+            #region Get unwatched / watched movies from trakt.tv
+            IEnumerable<TraktMovieWatched> traktWatchedMovies = null;
+
             TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
             var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
             if (traktUnWatchedMovies == null)
             {
-                TraktLogger.Error("Error getting unwatched movies from trakt server");
+                TraktLogger.Error("Error getting unwatched movies from trakt server, unwatched and watched sync will be skipped");
             }
             else
             {
                 TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
-            }
-            #endregion
 
-            #region Get watched movies from trakt.tv
-            TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
-            var traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
-            if (traktWatchedMovies == null)
-            {
-                TraktLogger.Error("Error getting watched movies from trakt server");
-            }
-            else
-            {
-                TraktLogger.Info("There are {0} watched movies in trakt.tv library", traktWatchedMovies.Count().ToString());
+                TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
+                traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
+                if (traktWatchedMovies == null)
+                {
+                    TraktLogger.Error("Error getting watched movies from trakt server, watched sync will be skipped");
+                }
+                else
+                {
+                    TraktLogger.Info("There are {0} watched movies in trakt.tv library", traktWatchedMovies.Count().ToString());
+                }
             }
             #endregion
 
