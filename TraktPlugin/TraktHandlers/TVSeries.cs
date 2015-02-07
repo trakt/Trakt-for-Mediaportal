@@ -675,7 +675,7 @@ namespace TraktPlugin.TraktHandlers
                 return;
 
             SyncPlaybackInProgress = true;
-
+            
             TraktLogger.Info("MP-TVSeries Starting Playback Sync");
 
             // get playback data from trakt
@@ -687,10 +687,20 @@ namespace TraktPlugin.TraktHandlers
                 return;
             }
 
-            TraktLogger.Info("Found {0} tv episodes on trakt.tv with resume data", playbackData.Where(p => p.Type == "episode").Count());
+            DateTime lastPausedItemProcessed;
+            DateTime.TryParse(TraktSettings.LastPausedItemProcessed, out lastPausedItemProcessed);
+            TraktLogger.Info("Found {0} tv episodes on trakt.tv with resume data, processing paused episodes after {1}", playbackData.Where(p => p.Type == "episode").Count(), TraktSettings.LastPausedItemProcessed);
 
             foreach (var item in playbackData.Where(p => p.Type == "episode"))
             {
+                DateTime itemPausedAt;
+                if (DateTime.TryParse(item.PausedAt, out itemPausedAt))
+                {
+                    // check if we need to process
+                    if (itemPausedAt <= lastPausedItemProcessed)
+                        continue;
+                }
+
                 if (!item.Show.Ids.Tvdb.HasValue || item.Show.Ids.Tvdb <= 0)
                 {
                     TraktLogger.Warning("Skipping item with invalid TVDb ID, TV Show = '{0}', Season='{1}', Episode='{2}'", item.Show.Title, item.Episode.Season, item.Episode.Number);
@@ -705,8 +715,19 @@ namespace TraktPlugin.TraktHandlers
                 }
 
                 // get episode from local database if it exists
-                var episode = DBEpisode.Get(item.Show.Ids.Tvdb.Value, item.Episode.Season, item.Episode.Number);
-                if (episode == null || string.IsNullOrEmpty(episode[DBEpisode.cFilename]))
+                string sql = "SELECT EpisodeFilename,SeriesID,SeasonIndex,EpisodeIndex,localPlaytime,StopTime " +
+                             "FROM local_episodes " +
+                             "WHERE SeriesID = '{0}' and SeasonIndex = '{1}' and EpisodeIndex = '{2}'";
+
+                string query = string.Format(sql, item.Show.Ids.Tvdb, item.Episode.Season, item.Episode.Number);
+
+                var episodes = DBEpisode.Get(query);
+                if (episodes == null || episodes.Count == 0)
+                    continue;
+
+                var episode = episodes.First();
+
+                if (string.IsNullOrEmpty(episode[DBEpisode.cFilename]))
                     continue;
 
                 // if the local playtime is not known then skip
@@ -721,9 +742,9 @@ namespace TraktPlugin.TraktHandlers
                 var resumeData = Convert.ToInt32((episode[DBEpisode.cLocalPlaytime] / 1000.0) * (item.Progress / 100.0)) - TraktSettings.SyncResumeDelta;
                 if (resumeData < 0) resumeData = 0;
 
-                if (episode[DBEpisode.cStopTime] < resumeData)
+                if (episode[DBEpisode.cStopTime] != resumeData)
                 {
-                    TraktLogger.Info("Setting resume time '{0}' for episode, Title = '{1} - {2}x{3}'", new TimeSpan(0, 0, 0, resumeData), item.Show.Title, item.Episode.Season, item.Episode.Number);
+                    TraktLogger.Info("Setting resume time '{0}' for episode, Title = '{1} - {2}x{3}', Paused At = '{4}'", new TimeSpan(0, 0, 0, resumeData), item.Show.Title, item.Episode.Season, item.Episode.Number, item.PausedAt);
                     episode[DBEpisode.cStopTime] = resumeData;
                     episode.Commit();
                 }

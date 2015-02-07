@@ -640,10 +640,20 @@ namespace TraktPlugin.TraktHandlers
                 return;
             }
 
-            TraktLogger.Info("Found {0} movies on trakt.tv with resume data", playbackData.Where(p => p.Type == "movie").Count());
+            DateTime lastPausedItemProcessed;
+            DateTime.TryParse(TraktSettings.LastPausedItemProcessed, out lastPausedItemProcessed);
+            TraktLogger.Info("Found {0} movies on trakt.tv with resume data, processing paused movies after {1}", playbackData.Where(p => p.Type == "movie").Count(), TraktSettings.LastPausedItemProcessed);
 
             foreach (var item in playbackData.Where(p => p.Type == "movie"))
             {
+                DateTime itemPausedAt;
+                if (DateTime.TryParse(item.PausedAt, out itemPausedAt))
+                {
+                    // check if we need to process
+                    if (itemPausedAt <= lastPausedItemProcessed)
+                        continue;
+                }
+
                 // get movie from local database if it exists
                 var movie = DBMovieInfo.GetAll().FirstOrDefault(m => ((m.ImdbID == item.Movie.Ids.Imdb) && !string.IsNullOrEmpty(item.Movie.Ids.Imdb)) ||
                                                                        m.Title.ToLowerInvariant() == item.Movie.Title.ToLowerInvariant() && m.Year == item.Movie.Year);
@@ -671,7 +681,7 @@ namespace TraktPlugin.TraktHandlers
                 if (resumeData < 0) resumeData = 0;
 
                 DBUserMovieSettings userSetting = movie.ActiveUserSettings;
-                if (userSetting.ResumeTime < resumeData)
+                if (userSetting.ResumeTime != resumeData)
                 {
                     // Note: will need to be a bit smarter for multi-part files (who the heck still does that!)
                     TraktLogger.Info("Setting resume time '{0}' for movie. Title = '{1}', Year = '{2}', IMDb ID = '{3}'", new TimeSpan(0, 0, 0, resumeData), item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);

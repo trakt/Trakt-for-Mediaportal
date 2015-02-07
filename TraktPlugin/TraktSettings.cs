@@ -132,6 +132,7 @@ namespace TraktPlugin
         public static int SyncResumeDelta { get; set; }
         public static bool SyncPlaybackOnEnterPlugin { get; set; }
         public static int SyncPlaybackCacheExpiry { get; set; }
+        public static string LastPausedItemProcessed { get; set; }
         #endregion
 
         #region Constants
@@ -253,6 +254,7 @@ namespace TraktPlugin
         private const string cSyncResumeDelta = "SyncResumeDelta";
         private const string cSyncPlaybackOnEnterPlugin = "SyncPlaybackOnEnterPlugin";
         private const string cSyncPlaybackCacheExpiry = "SyncPlaybackCacheExpiry";
+        private const string cLastPausedItemProcessed = "LastPausedItemProcessed";
         #endregion
         
         #region Properties
@@ -591,6 +593,7 @@ namespace TraktPlugin
                 SyncResumeDelta = xmlreader.GetValueAsInt(cTrakt, cSyncResumeDelta, 5);
                 SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
                 SyncPlaybackCacheExpiry = xmlreader.GetValueAsInt(cTrakt, cSyncPlaybackCacheExpiry, 5);
+                LastPausedItemProcessed = xmlreader.GetValueAsString(cTrakt, cLastPausedItemProcessed, "2010-01-01T00:00:00.000Z");
             }
 
             // initialise the last sync activities 
@@ -727,6 +730,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSyncResumeDelta, SyncResumeDelta);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, SyncPlaybackOnEnterPlugin);
                 xmlwriter.SetValue(cTrakt, cSyncPlaybackCacheExpiry, SyncPlaybackCacheExpiry);
+                xmlwriter.SetValue(cTrakt, cLastPausedItemProcessed, LastPausedItemProcessed);
             }
 
             Settings.SaveCache();

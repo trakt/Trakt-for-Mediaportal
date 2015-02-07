@@ -551,6 +551,12 @@ namespace TraktPlugin
                     }
                 }
 
+                // save last paused item so we only process after this date in future
+                if (TraktCache.PlaybackData != null && TraktCache.PlaybackData.Count() > 0)
+                {
+                    TraktSettings.LastPausedItemProcessed = TraktCache.PlaybackData.First().PausedAt;
+                }
+
                 TraktLogger.Info("Playback Sync finished for all enabled plugins");
             })
             {
