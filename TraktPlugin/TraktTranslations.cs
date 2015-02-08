@@ -726,6 +726,10 @@ namespace TraktPlugin.GUI
         public static string SettingSyncPlaybackOnEnterPluginDescription = "Enable this setting to sync playback / resume data when you enter an enabled plugin.";
         public static string SettingSyncPlaybackCacheExpiryName = "Sync Playback Cache Expiry";
         public static string SettingSyncPlaybackCacheExpiryDescription = "Set the period of time (in minutes) playback / resume data is cached locally before being refreshed on next request.";
+        public static string SettingMaxTrendingMoviesRequestName = "Maximum Trending Movies to Request";
+        public static string SettingMaxTrendingMoviesRequestDescription = "Set the maxmimum number of trending movies to request per page";
+        public static string SettingMaxTrendingShowsRequestName = "Maximum Trending TV Shows to Request";
+        public static string SettingMaxTrendingShowsRequestDescription = "Set the maxmimum number of trending tv shows to request per page";    
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

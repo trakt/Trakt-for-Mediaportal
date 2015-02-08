@@ -216,5 +216,24 @@
              maxvalue="1440"
              description="#Trakt.Translation.SettingSyncPlaybackCacheExpiryDescription.Label"
              configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxTrendingMoviesRequest"
+             displayname="#Trakt.Translation.SettingMaxTrendingMoviesRequestName.Label"
+             defaultvalue="100"
+             type="int"
+             minvalue="1"
+             maxvalue="1000"
+             description="#Trakt.Translation.SettingMaxTrendingMoviesRequestDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxTrendingShowsRequest"
+             displayname="#Trakt.Translation.SettingMaxTrendingShowsRequestName.Label"
+             defaultvalue="100"
+             type="int"
+             minvalue="1"
+             maxvalue="1000"
+             description="#Trakt.Translation.SettingMaxTrendingShowsRequestDescription.Label"
+             configfile="MediaPortal.xml" />
+    
   </settings>
 </extension_settings>

@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingShows == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows(1, 1000);
+                    _TrendingShows = TraktAPI.TraktAPI.GetTrendingShows(1, TraktSettings.MaxTrendingShowsRequest);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }

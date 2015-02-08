@@ -470,6 +470,10 @@
   <string name="SettingSyncPlaybackOnEnterPluginDescription">Enable this setting to sync playback / resume data when you enter an enabled plugin.</string>
   <string name="SettingSyncPlaybackCacheExpiryName">Sync Playback Cache Expiry</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Set the period of time (in minutes) playback / resume data is cached locally before being refreshed on next request.</string>
+  <string name="SettingMaxTrendingMoviesRequestName">Maximum Trending Movies to Request</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Set the maxmimum number of trending movies to request per page.</string>
+  <string name="SettingMaxTrendingShowsRequestName">Maximum Trending TV Shows to Request</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Set the maxmimum number of trending tv shows to request per page.</string>  
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>

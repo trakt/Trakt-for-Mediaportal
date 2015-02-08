@@ -72,7 +72,7 @@ namespace TraktPlugin.GUI
             {
                 if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, 1000);
+                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.MaxTrendingMoviesRequest);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }

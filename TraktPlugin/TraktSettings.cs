@@ -133,6 +133,8 @@ namespace TraktPlugin
         public static bool SyncPlaybackOnEnterPlugin { get; set; }
         public static int SyncPlaybackCacheExpiry { get; set; }
         public static string LastPausedItemProcessed { get; set; }
+        public static int MaxTrendingMoviesRequest { get; set; }
+        public static int MaxTrendingShowsRequest { get; set; }
         #endregion
 
         #region Constants
@@ -255,6 +257,8 @@ namespace TraktPlugin
         private const string cSyncPlaybackOnEnterPlugin = "SyncPlaybackOnEnterPlugin";
         private const string cSyncPlaybackCacheExpiry = "SyncPlaybackCacheExpiry";
         private const string cLastPausedItemProcessed = "LastPausedItemProcessed";
+        private const string cMaxTrendingMoviesRequest = "MaxTrendingMoviesRequest";
+        private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
         #endregion
         
         #region Properties
@@ -594,6 +598,8 @@ namespace TraktPlugin
                 SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
                 SyncPlaybackCacheExpiry = xmlreader.GetValueAsInt(cTrakt, cSyncPlaybackCacheExpiry, 5);
                 LastPausedItemProcessed = xmlreader.GetValueAsString(cTrakt, cLastPausedItemProcessed, "2010-01-01T00:00:00.000Z");
+                MaxTrendingMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingMoviesRequest, 100);
+                MaxTrendingShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingShowsRequest, 100);
             }
 
             // initialise the last sync activities 
@@ -731,6 +737,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, SyncPlaybackOnEnterPlugin);
                 xmlwriter.SetValue(cTrakt, cSyncPlaybackCacheExpiry, SyncPlaybackCacheExpiry);
                 xmlwriter.SetValue(cTrakt, cLastPausedItemProcessed, LastPausedItemProcessed);
+                xmlwriter.SetValue(cTrakt, cMaxTrendingMoviesRequest, MaxTrendingMoviesRequest);
+                xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
             }
 
             Settings.SaveCache();
