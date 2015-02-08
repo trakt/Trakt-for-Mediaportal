@@ -197,6 +197,7 @@
     <Compile Include="Configuration\AddPathPopup.designer.cs">
       <DependentUpon>AddPathPopup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ConfigConnector.cs" />
     <Compile Include="Configuration\Configuration.cs">
       <SubType>Form</SubType>
     </Compile>

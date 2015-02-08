@@ -31,6 +31,13 @@
               <ZipFileName>Installer{CopyFile}\{f8bae59c-8da4-4874-891b-b54e731d3055}-TraktPlugin.pdb</ZipFileName>
               <DestinationFilename>%Plugins%\Windows\TraktPlugin.pdb</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\ConfigLauncher\bin\Release\Trakt.exe</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{9924bc45-f2cc-4ecb-9665-9d6191caff84}-Trakt.exe</ZipFileName>
+              <DestinationFilename>%Base%\Trakt.exe</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2819,6 +2826,34 @@ Click Next to continue or Cancel to exit Setup.
               </Params>
               <ExecuteLocation>AfterPanelShow</ExecuteLocation>
             </ActionItem>
+            <ActionItem Name="CreateShortCut" ActionType="CreateShortCut" ConditionGroup="Default">
+              <Params>
+                <Items>
+                  <SectionParam Name="ShortCut location">
+                    <Value>%Desktop%\Trakt Configuration.lnk</Value>
+                    <ValueType>Template</ValueType>
+                    <Description>Location of shortcut</Description>
+                  </SectionParam>
+                  <SectionParam Name="ShortCut target">
+                    <Value>%Base%\Trakt.exe</Value>
+                    <ValueType>Template</ValueType>
+                    <Description>Target of short cut</Description>
+                  </SectionParam>
+                  <SectionParam Name="Description">
+                    <Value>Trakt Configuration</Value>
+                    <ValueType>String</ValueType>
+                    <Description>Description tooltip text </Description>
+                  </SectionParam>
+                  <SectionParam Name="Icon of the shortcut">
+                    <Value />
+                    <ValueType>Template</ValueType>
+                    <Description>Icon of the shortcut, 
+ if is empty the icon of the target will be used</Description>
+                  </SectionParam>
+                </Items>
+              </Params>
+              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
+            </ActionItem>
           </Items>
         </Actions>
         <IncludedGroups />
@@ -2949,35 +2984,30 @@ Click Next to continue or Cancel to exit Setup.
     <Version>
       <Major>5</Major>
       <Minor>1</Minor>
-      <Build>0</Build>
+      <Build>1</Build>
       <Revision>0</Revision>
     </Version>
-    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
-
+    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added Playback / Resume Sync, this is enabled by default and will automatically occur when starting MediaPortal or when Resuming from Standby.
-** Added option to enable/disable in Configuration and GUI.
-** Added option to configure how far back you want to resume from when you previously left off e.g. 5 secs.
-** Added option to configure if playback sync should occur when entering an enabled plugin from the GUI e.g. BasicHome -&gt; MP-TVSeries
-** Supported on MP-TVSeries, MovingPictures and My Videos. My Films is not supported yet and requires a change on My Films first.
-* Added option to do a manual Sync from Configuration and from GUI.
-* Fixed an issue where some items were marked as 'Unwatched' in local databases.
-* Fixed and improved error reporting in GUI and log.
-* Fixed minor issue with Page Count label in Titan's Network GUI.
-* Updated Titan skin with new features:
-** Added 'Enable Playback/Resume Sync' checkbutton to General Settings.
-** Added 'Start Library and Playback Sync' button to General Settings.
-* Updated Library Sync on Resume from Standby to respect sync delay setting if sync is due.
-* Updated translations from Transifex.
-
-Note: some skin changes are needed for the above settings to be configured from the GUI. See Skin Designers Guide for more information or Titan skin for reference.
-
-As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.
-
+    <VersionDescription>* Improved speed when in syncing the TVSeries plugin. There is still some improvements to make but for large collections / slower CPUs  it's going to be a dramatic improvement.
+* Improved speed when syncing Playback/Resume data. Will only process newly paused items since last sync.
+* Fixed a crash after watching a movie from a supported SiteUtil in OnlineVideos.
+* Fixed Sync of TV Show ratings not respecting Ignored Shows set by user.
+* Fixed Play Sync not respecting Ignored Shows / Movies by user.
+* Fixed issue where movie / episode was marked as watched online after stopping near the end of the video but not considered watched in the local database. It now respects the local percent watched setting and sends a 'Pause' signal to trakt. Possible symptom to this is having two or more scrobbles of the same item if you stopped and played again near the end.
+* Fixed issue with Play Sync reverting the stop time of a video to a previous set value if played / stopped several times and 'Sync on Enter Plugin' was enabled.
+* Added Shortcut to desktop to quickly launch the Trakt plugin configuration.
+* Added PDB file to installer such that more useful debugging information can be seen in logs if an unexpected crash occurs.
+* Updated URL used for API to point to a dedicated v2 endpoint 'api-v2launch.trakt.tv'. This will allow for future improvements to speed and stability of servers for v2 users.
+* Updated translations from Transifex.
+
+As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.
+
 </VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-01-31T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-02-08T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -3036,6 +3066,13 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <LocalFileName>..\TraktPlugin\bin\Release\TraktPlugin.pdb</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{f8bae59c-8da4-4874-891b-b54e731d3055}-TraktPlugin.pdb</ZipFileName>
         <DestinationFilename>%Plugins%\Windows\TraktPlugin.pdb</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\ConfigLauncher\bin\Release\Trakt.exe</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9924bc45-f2cc-4ecb-9665-9d6191caff84}-Trakt.exe</ZipFileName>
+        <DestinationFilename>%Base%\Trakt.exe</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -5589,7 +5626,7 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{12282515-ac05-49b5-9fdd-a3cdbdb334fb}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{f33c4099-8392-4415-8cff-2a6f469da19e}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>

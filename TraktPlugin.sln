@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transifex", "Transifex", "{
 		Transifex\Pull_From_Transifex.bat = Transifex\Pull_From_Transifex.bat
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigLauncher", "ConfigLauncher\ConfigLauncher.csproj", "{5D751473-DCC5-4044-A6E3-403D97C5B9F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
