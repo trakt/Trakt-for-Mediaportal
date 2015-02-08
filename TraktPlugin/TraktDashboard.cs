@@ -941,8 +941,8 @@ namespace TraktPlugin
 
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
-                TraktLogger.Debug("Getting trending movies from trakt");
-                var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies();
+                TraktLogger.Debug("Getting current list of movies trending from trakt.tv");
+                var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
                 if (trendingMovies != null && trendingMovies.Count() > 0)
                 {
                     LastTrendingMovieUpdate = DateTime.Now;
@@ -951,7 +951,7 @@ namespace TraktPlugin
             }
             else
             {
-                TraktLogger.Debug("Getting trending movies from cache");
+                TraktLogger.Debug("Getting cached list of movies trending");
                 isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);
@@ -967,8 +967,8 @@ namespace TraktPlugin
 
             if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
-                TraktLogger.Debug("Getting trending shows from trakt");
-                var trendingShows = TraktAPI.TraktAPI.GetTrendingShows();
+                TraktLogger.Debug("Getting current list of tv shows trending from trakt.tv");
+                var trendingShows = TraktAPI.TraktAPI.GetTrendingShows(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
                 if (trendingShows != null && trendingShows.Count() > 0)
                 {
                     LastTrendingShowUpdate = DateTime.Now;
@@ -977,7 +977,7 @@ namespace TraktPlugin
             }
             else
             {
-                TraktLogger.Debug("Getting trending shows from cache");
+                TraktLogger.Debug("Getting cached list of tv shows trending");
                 isCached = true;
                 // update start interval
                 int startInterval = (int)(TraktSettings.DashboardTrendingPollInterval - timeSinceLastUpdate);

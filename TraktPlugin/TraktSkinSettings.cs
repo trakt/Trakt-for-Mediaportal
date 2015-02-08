@@ -140,6 +140,8 @@ namespace TraktPlugin.GUI
                 }
             }
 
+            MaxTrendingItems = 10;
+
             var trendingNodes = doc.DocumentElement.SelectNodes("/settings/dashboard/trending");
             if (trendingNodes != null)
             {
@@ -165,7 +167,10 @@ namespace TraktPlugin.GUI
                     {
                         int maxItems;
                         if (int.TryParse(node.InnerText, out maxItems))
+                        {
                             trendingItem.FacadeMaxItems = maxItems;
+                            if (maxItems > MaxTrendingItems) MaxTrendingItems = maxItems;
+                        }
                     }
 
                     node = trendingNode.SelectSingleNode("propertiesmaxitems");
@@ -293,5 +298,6 @@ namespace TraktPlugin.GUI
             }
         }
 
+        public static int MaxTrendingItems { get; set; }
     }
 }
