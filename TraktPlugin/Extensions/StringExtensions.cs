@@ -89,7 +89,7 @@ namespace TraktPlugin.Extensions
             }
             catch (ArgumentException)
             {
-                TraktLogger.Debug("Failed to convert two letter country code to country name. Two Letter Code = '{0}'");
+                TraktLogger.Debug("Failed to convert two letter country code to country name. Two Letter Code = '{0}'", twoLetterCode);
                 return twoLetterCode;
             }
             return regionInfo.DisplayName;
