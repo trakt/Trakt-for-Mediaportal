@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Threading;
 using MediaPortal.Configuration;
@@ -12,10 +9,10 @@ namespace TraktPlugin
 {
     static class TraktLogger
     {
-        private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
-        private static string backupFilename = Config.GetFile(Config.Dir.Log, "TraktPlugin.bak");
         private static Object lockObject = new object();
-        
+        private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
+        private static string logFilePattern = Config.GetFile(Config.Dir.Log, "TraktPlugin.{0}.log");
+
         internal delegate void OnLogReceivedDelegate(string message, bool error);
         internal static event OnLogReceivedDelegate OnLogReceived;
 
@@ -24,28 +21,32 @@ namespace TraktPlugin
             // default logging before we load settings
             TraktSettings.LogLevel = 2;
 
-            if (File.Exists(logFilename))
+            #region Log Rollover
+
+            // get max number of log files to create
+            int maxLogFiles = 5;
+
+            // delete legacy backup
+            DeleteFile(Config.GetFile(Config.Dir.Log, "TraktPlugin.bak"));
+
+            // delete oldest log file if it exists
+            string newLogFile = string.Empty;
+            string oldLogFile = string.Format(logFilePattern, maxLogFiles);
+            DeleteFile(oldLogFile);
+
+            // move the other older log files up one slot
+            for (int i = maxLogFiles - 1; i > 0; i--)
             {
-                if (File.Exists(backupFilename))
-                {
-                    try
-                    {
-                        File.Delete(backupFilename);
-                    }
-                    catch
-                    {
-                        Error("Failed to remove old backup log");
-                    }
-                }
-                try
-                {
-                    File.Move(logFilename, backupFilename);
-                }
-                catch
-                {
-                    Error("Failed to move logfile to backup");
-                }
+                oldLogFile = string.Format(logFilePattern, i);
+                newLogFile = string.Format(logFilePattern, i + 1);
+                MoveFile(oldLogFile, newLogFile);
             }
+
+            // move the most recent log file up into the backup slots
+            newLogFile = string.Format(logFilePattern, 1);
+            MoveFile(logFilename, newLogFile);
+
+            #endregion
 
             // listen to webclient events from the TraktAPI so we can provide useful logging            
             TraktAPI.TraktAPI.OnDataSend += new TraktAPI.TraktAPI.OnDataSendDelegate(TraktAPI_OnDataSend);
@@ -110,6 +111,26 @@ namespace TraktPlugin
             return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " [{0}] " + String.Format("[{0}][{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId.ToString().PadLeft(2,'0')) +  ": {1}";
         }
 
+        private static void DeleteFile(String log)
+        {
+            if (File.Exists(log))
+            {
+                try
+                { File.Delete(log); }
+                catch { }
+            }
+        }
+
+        private static void MoveFile(String oldlog, String newLog)
+        {
+            if (File.Exists(oldlog))
+            {
+                // Move to next backup slot
+                try { File.Move(oldlog, newLog); }
+                catch { }
+            }
+        }
+
         private static void writeToFile(String log)
         {
             try
@@ -121,10 +142,7 @@ namespace TraktPlugin
                     sw.Close();
                 }
             }
-            catch
-            {
-                Error("Failed to write out to log");
-            }
+            catch { }
         }
 
         private static void TraktAPI_OnDataSend(string address, string data)
