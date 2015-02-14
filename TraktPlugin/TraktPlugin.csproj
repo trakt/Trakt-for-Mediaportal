@@ -402,6 +402,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Configuration\AddPathPopup.resx">
       <DependentUpon>AddPathPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Configuration.resx">
       <DependentUpon>Configuration.cs</DependentUpon>
@@ -409,12 +410,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\FolderList.resx">
       <DependentUpon>FolderList.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\MovieSelect.resx">
       <DependentUpon>MovieSelect.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\SeriesSelect.resx">
       <DependentUpon>SeriesSelect.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

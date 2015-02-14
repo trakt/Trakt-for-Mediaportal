@@ -121,6 +121,8 @@
   <string name="Episodes">Folgen</string>
   <string name="Error">Trakt Fehler</string>
   <string name="ErrorCalendar">Fehler beim Abruf des Kalenders</string>
+  <string name="ErrorGeneral">Es gab einen Fehler beim Aktualisieren mit Online-Daten. Versuch es später erneut.</string>
+  <string name="ErrorUserProfile">Fehler beim Abruf von Nutzerprofil und -statistiken</string>
   <string name="ExecutiveProducer">Ausführender Produzent</string>
   <!--F-->
   <string name="FailedCreateList">Konnte Liste online nicht erstellen</string>
@@ -245,7 +247,12 @@
   <string name="Language">Sprache</string>
   <string name="Languages">Sprachen</string>
   <string name="Location">Ort</string>
+  <string name="LoginFailedServerError">Anmelden bei trakt.tv aufgrund eines Serverfehlers fehlgeschlagen. Versuch es später erneut.</string>
   <string name="Layout">Layout</string>
+  <string name="LibrarySyncAlreadyRunning">Bibliotheks-Symchronisierung wird bereits ausgeführt. Versuch es später erneut.</string>
+  <string name="LibrarySyncStarted">Manuelle Bibliotheks-Synchronisation wurde gestartet.</string>
+  <string name="LibraryAndPlaybackSyncAlreadyRunning">Bibliotheks- und Wiedergabe-Synchronisation wird bereits ausgeführt. Versuch es später erneut.</string>
+  <string name="LibraryAndPlaybackSyncStarted">Manuelle Bibliotheks- und Wiedergabe-Synchronisation wurde gestartet.</string>
   <string name="Like">Gefällt mir</string>
   <string name="Likes">\"Gefällt mir\" - Angaben</string>
   <string name="List">Liste</string>
@@ -455,7 +462,22 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Setze dies um das Filtern der Populär-Anzeige in der Startseite zu ermöglichen, z.B. \"Verstecke gesehene\", \"Verstecke wenn auf Watchlist\". Die Filter können inm entsprechenden Populär-Fenster oder im Menü eingeschaltet werden.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignoriere gesehen in Prozent für DVDs</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Aktiviere diese Einstellung um den Gesehen-Status in Prozent für DVDs zu ignorieren. DVDs und Bluerays geben diesen oft nicht korrekt wieder.  Wenn aktiv wird bei \"Stop\" immer \"Gesehen\" an Trakt.tv gemeldet, egal wie weit du geschaut hast.</string>
+  <string name="SettingSyncPlaybackName">Wiedergabe- / Fortsetzen-Synchronisation aktivieren</string>
+  <string name="SettingSyncPlaybackDescription">Aktivieren, um Wiedergabe- / Fortsetzen-Daten von teilweise (z.B. zu 50%) angesehenen Filmen und Folgen zu synchronisieren. Dies ist für Leute hilfreich, welche Videos an verschiedenen Orten anschauen - ob auf dem Smartphone im Bus nach Hause oder dort auf verschiedenen Geräten. Das Synchronisieren der Wiedergabe-Daten erlaubt es, das Video an der zuletzt gesehenen Stelle fortzusetzen.</string>
+  <string name="SettingSyncResumeDeltaName">Wiedergabe- / Fortsetzen-Verzögerung</string>
+  <string name="SettingSyncResumeDeltaDescription">Stell die Differenz in Sekunden ein, die auf die Fortsetzen-Daten beim Synchronisieren angewandt wird. Die Wiedergabe des Videos wird dann an der zuletzt auf dem anderen Gerät gesehenen Stelle abzüglich dieser Zeitspanne fortgesetzt. Setze sie auf 0, um dies zu unterbinden. Der maximal erlaubte Wert ist 600 (10 Minuten), die Standardeinstellung beträgt 5 Sekunden.</string>
+  <string name="SettingSyncPlaybackOnEnterPluginName">Wiedergabe-Synchronisation bei Plugin-Start</string>
+  <string name="SettingSyncPlaybackOnEnterPluginDescription">Aktivieren, um die Wiedergabe- / Fortsetzen-Daten zu synchronisieren, sobald ein aktiviertes Plugin geöffnet wird.</string>
+  <string name="SettingSyncPlaybackCacheExpiryName">Ablauf des Wiedergabe-Synchronisationscache</string>
+  <string name="SettingSyncPlaybackCacheExpiryDescription">Zeitspanne (in Minuten) für lokales Zwischenspeichern der Wiedergabe- / Fortsetzen-Daten vor der nächsten Aktualisierung.</string>
+  <string name="SettingMaxTrendingMoviesRequestName">Maximalzahl abzurufender populärer Filme</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Maximale Anzahl populärer Filme einstellen, die je Seite abgerufen werden.</string>
+  <string name="SettingMaxTrendingShowsRequestName">Maximalzahl abzurufender populärer Serien</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Maximale Anzahl populärer Serien einstellen, die je Seite abgerufen werden.</string>
   <string name="StartYear">ab Jahr: {0}</string>
+  <string name="StartLibrarySync">Starte Bibliotheks-Synchronisierung</string>
+  <string name="StartLibraryAndPlaybackSync">Starte Bibliotheks- und Wiedergabe-Synchronisierung</string>
+  <string name="StartPlaybackSync">Starte Wiedergabe-Synchronisierung</string>
   <string name="SortBy">Sortieren: {0}</string>
   <string name="SortSeasonsAscending">Soreiere Staffeln aufsteigend</string>
   <string name="SortSeasonsDescending">Sortiere Staffeln abfalled</string>

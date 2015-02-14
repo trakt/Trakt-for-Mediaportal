@@ -484,6 +484,10 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingSyncPlaybackOnEnterPluginDescription">Aktivera den här inställningen för att synkronisera spela upp/fortsätt när du går till en aktiverad plugin </string>
   <string name="SettingSyncPlaybackCacheExpiryName">Synkronisera utgången uppspelningscache</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Sätt tiden (i minuter) för när den lokala cachen ska uppdateras vid nästa begäran om uppspelning/fortsätt </string>
+  <string name="SettingMaxTrendingMoviesRequestName">Max antal begärda populära filmer</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Sätt max antal begärda populära filmer per sida</string>
+  <string name="SettingMaxTrendingShowsRequestName">Max antal begärda populära TV-program</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Sätt max antal begärda populära TV-program per sida</string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>

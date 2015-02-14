@@ -470,6 +470,10 @@
   <string name="SettingSyncPlaybackOnEnterPluginDescription">Habilita esta opción para sincronizar datos de reproducción/reanudación cuando entres en un plugin compatible.</string>
   <string name="SettingSyncPlaybackCacheExpiryName">Finalizó Caché de Sincronización de Reproducción</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Configura el periodo de tiempo (en minutos) de reproducción/reanudación que habrá en caché localmente antes de recargar nuevamente.</string>
+  <string name="SettingMaxTrendingMoviesRequestName">Solicitud Máxima de Películas Tendencia</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Configura el número máximo de solicitudes de películas tendencia por página.</string>
+  <string name="SettingMaxTrendingShowsRequestName">Solicitud Máxima de Programas TV</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Configura el número máximo de solicitudes de programas tv por página.</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>

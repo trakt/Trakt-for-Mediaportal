@@ -473,7 +473,7 @@
   <string name="SettingMaxTrendingMoviesRequestName">Maximum Trending Movies to Request</string>
   <string name="SettingMaxTrendingMoviesRequestDescription">Set the maxmimum number of trending movies to request per page.</string>
   <string name="SettingMaxTrendingShowsRequestName">Maximum Trending TV Shows to Request</string>
-  <string name="SettingMaxTrendingShowsRequestDescription">Set the maxmimum number of trending tv shows to request per page.</string>  
+  <string name="SettingMaxTrendingShowsRequestDescription">Set the maxmimum number of trending tv shows to request per page.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>

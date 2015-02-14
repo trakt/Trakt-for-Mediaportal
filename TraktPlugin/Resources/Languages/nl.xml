@@ -121,6 +121,8 @@
   <string name="Episodes">Afleveringen</string>
   <string name="Error">Trakt fout</string>
   <string name="ErrorCalendar">Fout tijdens het verkrijgen van kalender</string>
+  <string name="ErrorGeneral">Fout tijdens het ophalen nieuwe data, probeer later opnieuw.</string>
+  <string name="ErrorUserProfile">Fout tijdens het ophalen van profiel en statistieken voor gebruiker</string>
   <string name="ExecutiveProducer">Uitvoerend producent</string>
   <!--F-->
   <string name="FailedCreateList">Fout tijdens maken online lijst</string>
@@ -245,7 +247,12 @@
   <string name="Language">Taal</string>
   <string name="Languages">Talen</string>
   <string name="Location">Locatie</string>
+  <string name="LoginFailedServerError">Inloggen op trakt.tv mislukt vanwege een server fout, probeer later opnieuw.</string>
   <string name="Layout">Lay-out</string>
+  <string name="LibrarySyncAlreadyRunning">Bibliotheek Sync loopt al, probeer later opnieuw</string>
+  <string name="LibrarySyncStarted">Handmatige Bibliotheek Sync gestart</string>
+  <string name="LibraryAndPlaybackSyncAlreadyRunning">Bibliotheek en Afspeel Sync lopen al, probeer later opnieuw.</string>
+  <string name="LibraryAndPlaybackSyncStarted">Handmatige Bibliotheek en Afspeel Sync gestart</string>
   <string name="Like">Vindt leuk</string>
   <string name="Likes">Vinden leuk</string>
   <string name="List">Lijst</string>
@@ -413,6 +420,7 @@
   <string name="Synchronize">Synchroniseren</string>
   <string name="SynchronizeNow">Er is een nieuwe plugin toegevoegd. Wil je deze Synchroniseren met je bibliotheek?</string>
   <string name="ShowRateDialogOnWatched">Waarderingsdialoog weergeven voor bekeken item</string>
+  <string name="ShowSeasonInfo">Seizoen informatie</string>
   <string name="ShowWatched">Serie bekeken</string>
   <string name="SettingPluginEnabledName">Plug-in ingeschakeld</string>
   <string name="SettingPluginEnabledDescription">Schakel deze instelling in/uit om Trakt te laden bij het opstarten van MediaPortal</string>
@@ -454,7 +462,18 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Schakel deze instelling in om filters toe te passen voor populaire items op het dashboard zoals: verberg bekeken, verberg kijklijst enz. Deze kunnen worden ingesteld vanaf het corresponderende \'Populair\' scherm of het context menu. </string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Negeer bekeken percentage voor DVD\'s</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Schakel deze instelling in om het bekeken percentage van een DVD te negeren wanneer deze is gestopt. DVD\'s en Bluray\'s geven niet altijd de juiste afspeeltijd weer van de hoofdvideo en deze instelling garandeerd dat altijd de bekeken status wordt gestuurd naar trakt.tv als het wordt gestopt onafhankelijk van hoeveel is bekeken.</string>
+  <string name="SettingSyncPlaybackName">Schakel Afspeel / Hervat Sync in</string>
+  <string name="SettingSyncPlaybackDescription">Schakel deze optie in om je Afspeel / Hervat informatie voor gedeeltelijk bekeken films en afleveringen te synchroniseren. Deze optie is vooral makkelijk als je verschillende apparaten (zoals smartphones en tablet\'s) gebruikt om video\'s te bekijken. Het afspelen kan nu op elk apparaat hervat worden.</string>
+  <string name="SettingSyncResumeDeltaName">Afspeel / Hervat Delta</string>
+  <string name="SettingSyncResumeDeltaDescription">Stel de delta in seconde in, voor synchronisaties. Dit laat toe om bijvoorbeeld 5 seconde extra terug te kijken t.o.v. waar je gebleven was op het andere apparaat. Zet op 0 voor geen delta, de maximum waarde is 600 (10 minuten). Standaard is 5 seconde.</string>
+  <string name="SettingSyncPlaybackOnEnterPluginName">Sync Afspelen tijdens openen Plugin.</string>
+  <string name="SettingSyncPlaybackOnEnterPluginDescription">Schakel deze optie in om afspeel / hervat informatie te synchroniseren als je de ingeschakelde plugin opent.</string>
+  <string name="SettingSyncPlaybackCacheExpiryName">Sync Afspeel Cache Vervaltijd</string>
+  <string name="SettingSyncPlaybackCacheExpiryDescription">Stel de cache tijd (in minuten) voor afspeel / hervat informatie in, voordat de lokale data ververst word.</string>
   <string name="StartYear">Start: {0}</string>
+  <string name="StartLibrarySync">Start Bibliotheek Sync</string>
+  <string name="StartLibraryAndPlaybackSync">Start Bibliotheek en Afspeel Sync</string>
+  <string name="StartPlaybackSync">Start Afspeel Sync</string>
   <string name="SortBy">Sorteer op: {0}</string>
   <string name="SortSeasonsAscending">Sorteer seizoenen oplopend</string>
   <string name="SortSeasonsDescending">Sorteer seizoenen aflopend</string>

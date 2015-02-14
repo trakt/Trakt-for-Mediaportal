@@ -526,7 +526,7 @@ namespace TraktPlugin
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
                 Thread.CurrentThread.Name = "Sync";
 
-            TraktLogger.Info("Library Sync complete for all enabled plugins, Time Taken = '{0}'", DateTime.Now.Subtract(SyncStartTime).ToPrettyTime());
+            TraktLogger.Info("Library Sync complete for all enabled plugins, Time Taken = '{0}'", DateTime.UtcNow.Subtract(SyncStartTime).ToPrettyTime());
 
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?
@@ -539,7 +539,7 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            SyncStartTime = DateTime.Now;
+            SyncStartTime = DateTime.UtcNow;
 
             Thread.CurrentThread.Name = "Sync";
 
