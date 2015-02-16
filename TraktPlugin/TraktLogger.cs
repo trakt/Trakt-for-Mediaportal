@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using MediaPortal.Configuration;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -10,6 +12,7 @@ namespace TraktPlugin
     static class TraktLogger
     {
         private static Object lockObject = new object();
+        private static string latencyFilename = Config.GetFile(Config.Dir.Log, "TraktPlugin-Latencies.csv");
         private static string logFilename = Config.GetFile(Config.Dir.Log,"TraktPlugin.log");
         private static string logFilePattern = Config.GetFile(Config.Dir.Log, "TraktPlugin.{0}.log");
 
@@ -48,10 +51,21 @@ namespace TraktPlugin
 
             #endregion
 
+            #region Latency Rollover
+
+
+
+            #endregion
+
+            // write latency header
+            if (!File.Exists(latencyFilename))
+                CreateLatencyHeader();
+
             // listen to webclient events from the TraktAPI so we can provide useful logging            
             TraktAPI.TraktAPI.OnDataSend += new TraktAPI.TraktAPI.OnDataSendDelegate(TraktAPI_OnDataSend);
             TraktAPI.TraktAPI.OnDataError += new TraktAPI.TraktAPI.OnDataErrorDelegate(TraktAPI_OnDataError);
             TraktAPI.TraktAPI.OnDataReceived += new TraktAPI.TraktAPI.OnDataReceivedDelegate(TraktAPI_OnDataReceived);
+            TraktAPI.TraktAPI.OnLatency += new TraktAPI.TraktAPI.OnLatencyDelegate(TraktAPI_OnLatency);
         }
 
         internal static void Info(String log)
@@ -61,7 +75,7 @@ namespace TraktPlugin
                 OnLogReceived(log, false);
 
             if(TraktSettings.LogLevel >= 2)
-                writeToFile(String.Format(createPrefix(), "INFO", log));
+                WriteToFile(String.Format(CreatePrefix(), "INFO", log));
         }
 
         internal static void Info(String format, params Object[] args)
@@ -72,7 +86,7 @@ namespace TraktPlugin
         internal static void Debug(String log)
         {
             if(TraktSettings.LogLevel >= 3)
-                writeToFile(String.Format(createPrefix(), "DEBG", log));
+                WriteToFile(String.Format(CreatePrefix(), "DEBG", log));
         }
 
         internal static void Debug(String format, params Object[] args)
@@ -87,7 +101,7 @@ namespace TraktPlugin
                 OnLogReceived(log, true);
 
             if(TraktSettings.LogLevel >= 0)
-                writeToFile(String.Format(createPrefix(), "ERR ", log));
+                WriteToFile(String.Format(CreatePrefix(), "ERR ", log));
         }
 
         internal static void Error(String format, params Object[] args)
@@ -98,7 +112,7 @@ namespace TraktPlugin
         internal static void Warning(String log)
         {
             if(TraktSettings.LogLevel >= 1)
-                writeToFile(String.Format(createPrefix(), "WARN", log));
+                WriteToFile(String.Format(CreatePrefix(), "WARN", log));
         }
 
         internal static void Warning(String format, params Object[] args)
@@ -106,9 +120,15 @@ namespace TraktPlugin
             Warning(String.Format(format, args));
         }
 
-        private static String createPrefix()
+        private static String CreatePrefix()
         {
             return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " [{0}] " + String.Format("[{0}][{1}]", Thread.CurrentThread.Name, Thread.CurrentThread.ManagedThreadId.ToString().PadLeft(2,'0')) +  ": {1}";
+        }
+
+        private static void CreateLatencyHeader()
+        {
+            string header = "TimeStamp (UTC),Absolute Path,Query,Method,Status Code,Status Description,Data Sent (Bytes),Data Received (Bytes),Server Execution Time (ms),Total Time Taken (ms)";
+            WriteLatency(header);
         }
 
         private static void DeleteFile(String log)
@@ -131,7 +151,7 @@ namespace TraktPlugin
             }
         }
 
-        private static void writeToFile(String log)
+        private static void WriteToFile(String log)
         {
             try
             {
@@ -139,6 +159,20 @@ namespace TraktPlugin
                 {
                     StreamWriter sw = File.AppendText(logFilename);
                     sw.WriteLine(log);
+                    sw.Close();
+                }
+            }
+            catch { }
+        }
+
+        private static void WriteLatency(String latency)
+        {
+            try
+            {
+                lock (lockObject)
+                {
+                    StreamWriter sw = File.AppendText(latencyFilename);
+                    sw.WriteLine(latency);
                     sw.Close();
                 }
             }
@@ -157,14 +191,45 @@ namespace TraktPlugin
             }
         }
 
-        private static void TraktAPI_OnDataReceived(string response)
+        private static void TraktAPI_OnDataReceived(string response, HttpWebResponse webResponse)
         {
-            TraktLogger.Debug("Response: {0}", response ?? "null");
+            if (TraktSettings.LogLevel >= 3)
+            {
+                string headers = string.Empty;
+                foreach(string key in webResponse.Headers.AllKeys)
+                {
+                    headers += string.Format("{0}: {1}, ", key, webResponse.Headers[key]);
+                }
+
+                TraktLogger.Debug("Response: {0}, Headers: {{{1}}}", response ?? "null", headers.TrimEnd(new char[] {',',' '}));
+            }
         }
 
         private static void TraktAPI_OnDataError(string error)
         {
             TraktLogger.Error(error);
+        }
+
+        private static void TraktAPI_OnLatency(double totalTimeTaken, HttpWebResponse webResponse, int dataSent, int dataReceived)
+        {
+            double serverRuntime = 0.0;
+            string[] headers = webResponse.Headers.AllKeys;
+            if (headers.Contains("X-Runtime"))
+            {
+                double.TryParse(webResponse.Headers["X-Runtime"], out serverRuntime);
+                
+                // convert to milliseconds from seconds
+                serverRuntime *= 1000.0;
+            }
+
+            // escape query string as it contains comma's
+            string query = webResponse.ResponseUri.Query;
+            if (!string.IsNullOrEmpty(query) && query.Contains(','))
+            {
+                query = "\"" + query + "\"";
+            }
+
+            WriteLatency(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", DateTime.UtcNow.ToISO8601(), webResponse.ResponseUri.AbsolutePath, query, webResponse.Method, (int)webResponse.StatusCode, webResponse.StatusDescription, dataSent, dataReceived, serverRuntime, totalTimeTaken));
         }
 
         /// <summary>

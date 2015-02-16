@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -37,12 +38,14 @@ namespace TraktPlugin.TraktAPI
 
         // these events can be used to log data sent / received from trakt
         internal delegate void OnDataSendDelegate(string url, string postData);
-        internal delegate void OnDataReceivedDelegate(string response);
+        internal delegate void OnDataReceivedDelegate(string response, HttpWebResponse webResponse);
         internal delegate void OnDataErrorDelegate(string error);
+        internal delegate void OnLatencyDelegate(double totalElapsedTime, HttpWebResponse webResponse, int dataSent, int dataReceived);
 
         internal static event OnDataSendDelegate OnDataSend;
         internal static event OnDataReceivedDelegate OnDataReceived;
         internal static event OnDataErrorDelegate OnDataError;
+        internal static event OnLatencyDelegate OnLatency;
 
         #endregion
 
@@ -1424,6 +1427,8 @@ namespace TraktPlugin.TraktAPI
 
         static string GetFromTrakt(string address, string method = "GET", bool sendOAuth = true)
         {
+            Stopwatch watch;
+
             if (OnDataSend != null)
                 OnDataSend(address, null);
 
@@ -1448,12 +1453,21 @@ namespace TraktPlugin.TraktAPI
                 request.Headers.Add("trakt-user-token", UserToken ?? string.Empty);
             }
 
+            // measure how long it took to get a response
+            watch = Stopwatch.StartNew();
+
             try
             {
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                if (response == null) return null;
+                if (response == null)
+                {
+                    watch.Stop();
+                    return null;
+                }
 
                 Stream stream = response.GetResponseStream();
+                watch.Stop();
+
                 StreamReader reader = new StreamReader(stream);
                 string strResponse = reader.ReadToEnd();
 
@@ -1463,7 +1477,10 @@ namespace TraktPlugin.TraktAPI
                 }
 
                 if (OnDataReceived != null)
-                    OnDataReceived(strResponse);
+                    OnDataReceived(strResponse, response);
+
+                if (OnLatency != null)
+                    OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, strResponse.Length * sizeof(Char));
 
                 stream.Close();
                 reader.Close();
@@ -1473,11 +1490,22 @@ namespace TraktPlugin.TraktAPI
             }
             catch (WebException wex)
             {
+                watch.Stop();
+
                 string errorMessage = wex.Message;
                 if (wex.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = wex.Response as HttpWebResponse;
-                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}'", (int)response.StatusCode, response.StatusDescription, address, method);
+
+                    string headers = string.Empty;
+                    foreach (string key in response.Headers.AllKeys)
+                    {
+                        headers += string.Format("{0}: {1}, ", key, response.Headers[key]);
+                    }
+                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
+
+                    if (OnLatency != null)
+                        OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, 0);
                 }
 
                 if (OnDataError != null)
@@ -1498,6 +1526,8 @@ namespace TraktPlugin.TraktAPI
 
         static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST")
         {
+            Stopwatch watch;
+
             if (OnDataSend != null && logRequest)
                 OnDataSend(address, postData);
 
@@ -1523,6 +1553,9 @@ namespace TraktPlugin.TraktAPI
                 request.Headers.Add("trakt-user-token", UserToken);
             }
 
+            // measure how long it took to get a response
+            watch = Stopwatch.StartNew();
+
             try
             {
                 // post to trakt
@@ -1531,14 +1564,20 @@ namespace TraktPlugin.TraktAPI
 
                 // get the response
                 var response = (HttpWebResponse)request.GetResponse();
-                if (response == null) return null;
+                watch.Stop();
+
+                if (response == null)
+                    return null;
 
                 Stream responseStream = response.GetResponseStream();
                 var reader = new StreamReader(responseStream);
                 string strResponse = reader.ReadToEnd();
 
                 if (OnDataReceived != null)
-                    OnDataReceived(strResponse);
+                    OnDataReceived(strResponse, response);
+
+                if (OnLatency != null)
+                    OnLatency(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), strResponse.Length * sizeof(Char));
 
                 // cleanup
                 postStream.Close();
@@ -1550,14 +1589,25 @@ namespace TraktPlugin.TraktAPI
             }
             catch (WebException ex)
             {
+                watch.Stop();
+
                 string result = null;
                 string errorMessage = ex.Message;
                 if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     var response = ex.Response as HttpWebResponse;
-                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Method = '{3}'", (int)response.StatusCode, response.StatusDescription, address, method);
+
+                    string headers = string.Empty;
+                    foreach (string key in response.Headers.AllKeys)
+                    {
+                        headers += string.Format("{0}: {1}, ", key, response.Headers[key]);
+                    }
+                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
 
                     result = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
+
+                    if (OnLatency != null)
+                        OnLatency(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), 0);
                 }
 
                 if (OnDataError != null)
