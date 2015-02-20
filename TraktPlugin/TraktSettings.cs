@@ -135,6 +135,7 @@ namespace TraktPlugin
         public static string LastPausedItemProcessed { get; set; }
         public static int MaxTrendingMoviesRequest { get; set; }
         public static int MaxTrendingShowsRequest { get; set; }
+        public static bool UseSSL { get; set; }
         #endregion
 
         #region Constants
@@ -259,6 +260,7 @@ namespace TraktPlugin
         private const string cLastPausedItemProcessed = "LastPausedItemProcessed";
         private const string cMaxTrendingMoviesRequest = "MaxTrendingMoviesRequest";
         private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
+        private const string cUseSSL = "UseSSL";
         #endregion
         
         #region Properties
@@ -486,9 +488,6 @@ namespace TraktPlugin
         {
             TraktLogger.Info("Loading local settings");
 
-            // initialise API settings
-            TraktAPI.TraktAPI.UserAgent = UserAgent;
-
             using (Settings xmlreader = new MPSettings())
             {
                 UseCompNameOnPassKey = xmlreader.GetValueAsBool(cTrakt, cUseCompNameOnPassKey, true);
@@ -600,7 +599,12 @@ namespace TraktPlugin
                 LastPausedItemProcessed = xmlreader.GetValueAsString(cTrakt, cLastPausedItemProcessed, "2010-01-01T00:00:00.000Z");
                 MaxTrendingMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingMoviesRequest, 100);
                 MaxTrendingShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingShowsRequest, 100);
+                UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
             }
+
+            // initialise API settings
+            TraktAPI.TraktAPI.UserAgent = UserAgent;
+            TraktAPI.TraktAPI.UseSSL = UseSSL;
 
             // initialise the last sync activities 
             if (LastSyncActivities == null) LastSyncActivities = new TraktLastSyncActivities();
@@ -739,6 +743,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cLastPausedItemProcessed, LastPausedItemProcessed);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingMoviesRequest, MaxTrendingMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
+                xmlwriter.SetValue(cTrakt, cUseSSL, UseSSL);
             }
 
             Settings.SaveCache();

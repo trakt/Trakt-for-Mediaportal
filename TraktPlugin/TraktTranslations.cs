@@ -729,7 +729,9 @@ namespace TraktPlugin.GUI
         public static string SettingMaxTrendingMoviesRequestName = "Maximum Trending Movies to Request";
         public static string SettingMaxTrendingMoviesRequestDescription = "Set the maxmimum number of trending movies to request per page";
         public static string SettingMaxTrendingShowsRequestName = "Maximum Trending TV Shows to Request";
-        public static string SettingMaxTrendingShowsRequestDescription = "Set the maxmimum number of trending tv shows to request per page";    
+        public static string SettingMaxTrendingShowsRequestDescription = "Set the maxmimum number of trending tv shows to request per page";
+        public static string SettingUseSSLName = "Secure Server Communication";
+        public static string SettingUseSSLDescription = "Enable to use HTTPS, a secure way to communicate with the trakt.tv servers";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

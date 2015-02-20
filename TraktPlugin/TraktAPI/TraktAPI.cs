@@ -58,7 +58,7 @@ namespace TraktPlugin.TraktAPI
         internal static string Password { get; set; }
         internal static string UserToken { get; set; }
         internal static string UserAgent { get; set; }
-        
+        internal static bool UseSSL { get; set; }
         #endregion
 
         #region Trakt Methods
@@ -1427,10 +1427,17 @@ namespace TraktPlugin.TraktAPI
 
         static string GetFromTrakt(string address, string method = "GET", bool sendOAuth = true)
         {
-            Stopwatch watch;
+            if (UseSSL)
+            {
+                address.Replace("http://", "https://");
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
 
             if (OnDataSend != null)
                 OnDataSend(address, null);
+
+            Stopwatch watch;
 
             var request = WebRequest.Create(address) as HttpWebRequest;
 
@@ -1526,10 +1533,17 @@ namespace TraktPlugin.TraktAPI
 
         static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST")
         {
-            Stopwatch watch;
+            if (UseSSL)
+            {
+                address.Replace("http://", "https://");
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
 
             if (OnDataSend != null && logRequest)
                 OnDataSend(address, postData);
+
+            Stopwatch watch;
 
             byte[] data = new UTF8Encoding().GetBytes(postData);
 
