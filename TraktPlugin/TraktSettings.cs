@@ -8,6 +8,7 @@ using System.Threading;
 using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
+using TraktPlugin;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI;
@@ -136,6 +137,7 @@ namespace TraktPlugin
         public static int MaxTrendingMoviesRequest { get; set; }
         public static int MaxTrendingShowsRequest { get; set; }
         public static bool UseSSL { get; set; }
+        public static IEnumerable<TraktCache.ListActivity> LastListActivities { get; set; }
         #endregion
 
         #region Constants
@@ -261,6 +263,7 @@ namespace TraktPlugin
         private const string cMaxTrendingMoviesRequest = "MaxTrendingMoviesRequest";
         private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
         private const string cUseSSL = "UseSSL";
+        private const string cLastListActivities = "LastListActivities";
         #endregion
         
         #region Properties
@@ -600,6 +603,7 @@ namespace TraktPlugin
                 MaxTrendingMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingMoviesRequest, 100);
                 MaxTrendingShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingShowsRequest, 100);
                 UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
+                LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
             }
 
             // initialise API settings
@@ -744,6 +748,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxTrendingMoviesRequest, MaxTrendingMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
                 xmlwriter.SetValue(cTrakt, cUseSSL, UseSSL);
+                xmlwriter.SetValue(cTrakt, cLastListActivities, LastListActivities.ToJSON());
             }
 
             Settings.SaveCache();

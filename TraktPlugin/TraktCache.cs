@@ -33,7 +33,7 @@ namespace TraktPlugin
         private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
-        private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\CustomList.json");
+        private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
 
         private static DateTime MovieRecommendationsAge;
         private static DateTime CustomListAge;
@@ -826,40 +826,75 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Custom
+        #region Custom Lists
 
-        internal static Dictionary<TraktListDetail, List<TraktListItem>> CustomLists
+        internal static Dictionary<TraktListDetail, List<TraktListItem>> GetCustomLists()
         {
-            get
+            lock (syncLists)
             {
-                lock (syncLists)
+                if (_CustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
-                    if (_CustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                    _CustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
+
+                    // first get the users custom lists from trakt
+                    TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
+                    var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+                    if (userLists == null) return null;
+
+                    // get last time lists were updated online
+                    var lastActivities = TraktSettings.LastListActivities.ToNullableList();
+
+                    // get details of each list including items
+                    foreach (var list in userLists.Where(l => l.ItemCount > 0))
                     {
-                        _CustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
+                        // load from cache
+                        TraktLogger.Info("Retrieving list details for custom list from local cache. Name = '{0}', ID = '{1}', Slug = '{2}'", list.Name, list.Ids.Trakt, list.Ids.Slug);
+                        string filename = CustomListFile.Replace("{listname}", list.Ids.Slug);
+                        var userList = LoadFileCache(filename, null).FromJSONArray<TraktListItem>();
 
-                        // first get the users custom lists from trakt
-                        TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
-                        var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
-                        if (userLists == null) return null;
-
-                        // get details of each list including items
-                        foreach (var list in userLists.Where(l => l.ItemCount > 0))
+                        // check if we have got this list before
+                        ListActivity listActivityCache = null;
+                        if (lastActivities != null)
                         {
-                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug);
-                            var userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
-
-                            if (userList == null)
-                                continue;
-
-                            // add them to the cache
-                            _CustomLists.Add(list, userList.ToList());
+                            listActivityCache = lastActivities.FirstOrDefault(c => c.Id == list.Ids.Trakt);
                         }
-                        CustomListAge = DateTime.Now;
+
+                        // check if we need to get update from online
+                        if (userList == null || listActivityCache == null || listActivityCache.UpdatedAt != list.UpdatedAt)
+                        {
+                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv, local cache is out of date. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}', Last Updated = '{4}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug, list.UpdatedAt);
+                            userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
+                        }
+
+                        if (userList == null)
+                            continue;
+
+                        // update cache update time
+                        if (listActivityCache != null)
+                        {
+                            listActivityCache.UpdatedAt = list.UpdatedAt;
+                        }
+                        else
+                        {
+                            lastActivities.Add(new ListActivity
+                            {
+                                Id = list.Ids.Trakt,
+                                UpdatedAt = list.UpdatedAt
+                            });
+                        }
+
+                        // persist cache to disk
+                        SaveFileCache(filename, userList.ToJSON());
+
+                        // add list to the cache
+                        _CustomLists.Add(list, userList.ToList());
                     }
-                    return _CustomLists;
+                    CustomListAge = DateTime.Now;
+                    TraktSettings.LastListActivities = lastActivities;
                 }
             }
+
+            return _CustomLists;
         }
         static Dictionary<TraktListDetail, List<TraktListItem>> _CustomLists = null;
 
@@ -2015,6 +2050,16 @@ namespace TraktPlugin
         {
             [DataMember]
             public string CollectedAt { get; set; }
+        }
+
+        [DataContract]
+        public class ListActivity
+        {
+            [DataMember]
+            public int? Id { get; set; }
+
+            [DataMember]
+            public string UpdatedAt { get; set; }
         }
 
         #endregion

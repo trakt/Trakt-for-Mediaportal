@@ -506,7 +506,7 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 #region Update Custom List Tags
-                var traktUserLists = TraktCache.CustomLists;
+                var traktUserLists = TraktCache.GetCustomLists();
 
                 if (traktUserLists != null)
                 {

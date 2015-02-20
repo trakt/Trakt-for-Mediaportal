@@ -1429,9 +1429,12 @@ namespace TraktPlugin.TraktAPI
         {
             if (UseSSL)
             {
-                address.Replace("http://", "https://");
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
+            else
+            {
+                address = address.Replace("https://", "http://");
             }
 
             if (OnDataSend != null)
@@ -1535,9 +1538,12 @@ namespace TraktPlugin.TraktAPI
         {
             if (UseSSL)
             {
-                address.Replace("http://", "https://");
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
+            else
+            {
+                address = address.Replace("https://", "http://");
             }
 
             if (OnDataSend != null && logRequest)
