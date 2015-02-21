@@ -498,14 +498,17 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            GUIUtils.SetProperty("#itemcount", shouts.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", shouts.Count(), shouts.Count() > 1 ? Translation.Comments : Translation.Shout));            
+            // filter out the duplicates!
+            var distinctShouts = shouts.Where(s => s.Comment != null && s.User != null).Distinct(new ShoutComparer());
+
+            GUIUtils.SetProperty("#itemcount", distinctShouts.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", distinctShouts.Count(), distinctShouts.Count() > 1 ? Translation.Comments : Translation.Shout));            
 
             int id = 0;
             var userImages = new List<GUITraktImage>();
 
             // Add each user that shouted to the list
-            foreach (var shout in shouts)
+            foreach (var shout in distinctShouts)
             {
                 // add image to download
                 var images = new GUITraktImage { UserImages = shout.User.Images };
@@ -634,5 +637,22 @@ namespace TraktPlugin.GUI
         {
             return string.Format("{0} - {1}x{2}", Title, SeasonIdx, EpisodeIdx);
         }
+    }
+
+    public class ShoutComparer : IEqualityComparer<TraktComment>
+    {
+        #region IEqualityComparer
+
+        public bool Equals(TraktComment x, TraktComment y)
+        {
+            return x.User.Username == y.User.Username && x.Comment.Trim() == y.Comment.Trim();
+        }
+
+        public int GetHashCode(TraktComment obj)
+        {
+            return (obj.User.Username + obj.Comment.Trim()).GetHashCode();
+        }
+
+        #endregion
     }
 }
