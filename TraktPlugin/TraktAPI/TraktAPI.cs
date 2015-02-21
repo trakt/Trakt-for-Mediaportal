@@ -1400,13 +1400,19 @@ namespace TraktPlugin.TraktAPI
 
         public static bool LikeComment(int id)
         {
-            var response = PostToTrakt(string.Format(TraktURIs.LikeComment, id), null);
+            var response = PostToTrakt(string.Format(TraktURIs.CommentLike, id), null);
             return response != null;
         }
 
         public static bool UnLikeComment(int id)
         {
-            return DeleteFromTrakt(string.Format(TraktURIs.LikeComment, id));
+            return DeleteFromTrakt(string.Format(TraktURIs.CommentLike, id));
+        }
+
+        public static IEnumerable<TraktComment> GetCommentReplies(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.CommentReplies, id));
+            return response.FromJSONArray<TraktComment>();
         }
 
         #endregion

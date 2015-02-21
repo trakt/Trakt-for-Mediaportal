@@ -60,6 +60,11 @@ namespace TraktPlugin.GUI
         #region Private Properties
 
         bool ExitIfNoShoutsFound { get; set; }
+        int CurrentLevel { get; set; }
+        Dictionary<int, int> SelectedParentItems = new Dictionary<int, int>();
+
+        IEnumerable<TraktComment> Comments = null;
+        Dictionary<int, IEnumerable<TraktComment>> CommentReplies = new Dictionary<int, IEnumerable<TraktComment>>();
 
         #endregion
 
@@ -107,11 +112,16 @@ namespace TraktPlugin.GUI
             EnableGUIButtons();
 
             // Load Shouts for Selected item
-            LoadShoutsList();
+            LoadCommentsList();
         }
 
         protected override void OnPageDestroy(int new_windowId)
         {
+            CurrentLevel = 0;
+            Comments = null;
+            CommentReplies.Clear();
+            SelectedParentItems.Clear();
+
             GUIUserListItem.StopDownload = true;
             IsWatched = false;
 
@@ -135,23 +145,83 @@ namespace TraktPlugin.GUI
                 // Hide Spoilers Button
                 case (2):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
-                    PublishShoutSkinProperties(Facade.SelectedListItem.TVTag as TraktComment);
+                    PublishCommentSkinProperties(Facade.SelectedListItem.TVTag as TraktComment);
                     break;
 
                 // Next Episode
                 case (3):
-                    GetNextEpisodeShouts();
+                    GetNextEpisodeComments();
                     break;
 
                 // Previous Episode
                 case (4):
-                    GetPrevEpisodeShouts();
+                    GetPrevEpisodeComments();
+                    break;
+
+                // Comments
+                case (50):
+                    // re-act to comment e.g. view replies if any, like a comment etc.
+                    var selectedComment = Facade.SelectedListItem.TVTag as TraktComment;
+                    if (selectedComment != null)
+                    {
+                        if (selectedComment.Replies > 0)
+                        {
+                            // remember position for level
+                            if (SelectedParentItems.ContainsKey(CurrentLevel))
+                            {
+                                SelectedParentItems[CurrentLevel] = selectedComment.Id;
+                            }
+                            else
+                            {
+                                SelectedParentItems.Add(CurrentLevel, selectedComment.Id);
+                            }
+                            CurrentLevel++;
+                            LoadCommentReplies(selectedComment.Id);
+                        }
+                        else
+                        {
+                            // let user do something else
+                            OnShowContextMenu();
+                        }
+                    }
                     break;
 
                 default:
                     break;
             }
             base.OnClicked(controlId, control, actionType);
+        }
+
+        public override void OnAction(Action action)
+        {
+            switch (action.wID)
+            {
+                case Action.ActionType.ACTION_PREVIOUS_MENU:
+                    // navigate back to parent if we are viewing replies
+                    var selectedComment = Facade.SelectedListItem.TVTag as TraktComment;
+                    if (selectedComment != null && selectedComment.ParentId > 0)
+                    {
+                        if (CurrentLevel > 1)
+                        {
+                            // load the previous list of replies                            
+                            LoadCommentReplies((int)selectedComment.ParentId);
+                        }
+                        else
+                        {
+                            // return the main list of comments
+                            LoadCommentsList();
+                        }
+
+                        // remove any previous selection for level returning from
+                        if (SelectedParentItems.ContainsKey(CurrentLevel))
+                            SelectedParentItems.Remove(CurrentLevel);
+
+                        CurrentLevel--;
+                        return;
+                    }
+                    break;
+            }
+            base.OnAction(action);
         }
 
         protected override void OnShowContextMenu()
@@ -189,7 +259,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.UnLike;
             }
 
-            if (ShoutType == ShoutTypeEnum.episode)
+            if (ShoutType == ShoutTypeEnum.episode && (selectedComment.ParentId == null || selectedComment.ParentId == 0))
             {
                 listItem = new GUIListItem(Translation.NextEpisode);
                 dlg.Add(listItem);
@@ -223,7 +293,7 @@ namespace TraktPlugin.GUI
                 case (int)ContextMenuItem.Like:
                     LikeComment(selectedComment.Id);
                     selectedComment.Likes++;
-                    PublishShoutSkinProperties(selectedComment);
+                    PublishCommentSkinProperties(selectedComment);
                     break;
 
                 case (int)ContextMenuItem.UnLike:
@@ -231,22 +301,22 @@ namespace TraktPlugin.GUI
                     if (selectedComment.Likes > 0)
                     {
                         selectedComment.Likes--;
-                        PublishShoutSkinProperties(selectedComment);
+                        PublishCommentSkinProperties(selectedComment);
                     }
                     break;
 
                 case ((int)ContextMenuItem.Spoilers):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
                     if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
-                    PublishShoutSkinProperties(selectedComment);
+                    PublishCommentSkinProperties(selectedComment);
                     break;
 
                 case ((int)ContextMenuItem.NextEpisode):
-                    GetNextEpisodeShouts();
+                    GetNextEpisodeComments();
                     break;
 
                 case ((int)ContextMenuItem.PrevEpisode):
-                    GetPrevEpisodeShouts();
+                    GetPrevEpisodeComments();
                     break;
 
                 case ((int)ContextMenuItem.UserProfile):
@@ -293,9 +363,11 @@ namespace TraktPlugin.GUI
             unlikeThread.Start(id);
         }
 
-        private void GetNextEpisodeShouts()
+        private void GetNextEpisodeComments()
         {
             if (ShoutType != ShoutTypeEnum.episode) return;
+
+            Comments = null;
 
             var episodeIndex = EpisodeInfo.EpisodeIdx;
             var seasonIndex = EpisodeInfo.SeasonIdx;
@@ -306,13 +378,13 @@ namespace TraktPlugin.GUI
             // flag to indicate we dont want to exit if no shouts found
             ExitIfNoShoutsFound = false;
 
-            LoadShoutsList();
+            LoadCommentsList();
 
             // set focus back to facade
             GUIControl.FocusControl(GetID, Facade.GetID);
         }
 
-        private void GetPrevEpisodeShouts()
+        private void GetPrevEpisodeComments()
         {
             if (ShoutType != ShoutTypeEnum.episode) return;
 
@@ -322,13 +394,15 @@ namespace TraktPlugin.GUI
             // there is no episode 0
             if (episodeIndex == 1) return;
 
+            Comments = null;
+
             // decrement by 1 episode
             EpisodeInfo.EpisodeIdx = episodeIndex - 1;
 
             // flag to indicate we dont want to exit if no shouts found
             ExitIfNoShoutsFound = false;
 
-            LoadShoutsList();
+            LoadCommentsList();
 
             // set focus back to facade
             GUIControl.FocusControl(GetID, Facade.GetID);
@@ -359,7 +433,7 @@ namespace TraktPlugin.GUI
             }
         }
 
-        private void LoadShoutsList()
+        private void LoadCommentsList()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
@@ -370,17 +444,17 @@ namespace TraktPlugin.GUI
                     case ShoutTypeEnum.movie:
                         if (MovieInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", MovieInfo.Title);
-                        return GetMovieShouts();
+                        return GetMovieComments();
 
                     case ShoutTypeEnum.show:
                         if (ShowInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", ShowInfo.Title);
-                        return GetShowShouts();
+                        return GetShowComments();
 
                     case ShoutTypeEnum.episode:
                         if (EpisodeInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", EpisodeInfo.ToString());
-                        return GetEpisodeShouts();
+                        return GetEpisodeComments();
 
                     default:
                         return null;
@@ -390,90 +464,131 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    SendShoutsToFacade(result as IEnumerable<TraktComment>);
+                    SendCommentsToFacade(result as IEnumerable<TraktComment>);
                 }
             }, Translation.GettingShouts, true);
         }
 
-        private IEnumerable<TraktComment> GetMovieShouts()
+        private void LoadCommentReplies(int id)
         {
-            string title = string.Empty;
-            if (MovieInfo.TraktId != null)
-                title = MovieInfo.TraktId.ToString();
-            // TODO: Find trakt id from other integer IDs
-            //else if (MovieInfo.TmdbId != null)
-            //    title = MovieInfo.TmdbId.ToString();
-            if (!string.IsNullOrEmpty(MovieInfo.ImdbId))
-                title = MovieInfo.ImdbId;
-            else
-                title = string.Format("{0} {1}", MovieInfo.Title, MovieInfo.Year).ToSlug();
-
-            return TraktAPI.TraktAPI.GetMovieComments(title);
+            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            {
+                if (CommentReplies.ContainsKey(id))
+                {
+                    return CommentReplies[id];
+                }
+                
+                var replies = TraktAPI.TraktAPI.GetCommentReplies(id.ToString());
+                if (replies != null)
+                {
+                    CommentReplies.Add(id, replies);
+                }
+                return replies;
+            },
+            delegate(bool success, object result)
+            {
+                if (success)
+                {
+                    SendCommentsToFacade(result as IEnumerable<TraktComment>);
+                }
+            }, Translation.GettingShouts, true);
         }
 
-        private IEnumerable<TraktComment> GetShowShouts()
+        private IEnumerable<TraktComment> GetMovieComments()
         {
-            string title = string.Empty;
+            if (Comments == null)
+            {
+                string title = string.Empty;
+                if (MovieInfo.TraktId != null)
+                    title = MovieInfo.TraktId.ToString();
+                // TODO: Find trakt id from other integer IDs
+                //else if (MovieInfo.TmdbId != null)
+                //    title = MovieInfo.TmdbId.ToString();
+                if (!string.IsNullOrEmpty(MovieInfo.ImdbId))
+                    title = MovieInfo.ImdbId;
+                else
+                    title = string.Format("{0} {1}", MovieInfo.Title, MovieInfo.Year).ToSlug();
 
-            if (ShowInfo.TraktId != null)
-            {
-                title = ShowInfo.TraktId.ToString();
-            }
-            // TODO: Find trakt id from other integer IDs
-            //else if (ShowInfo.TmdbId != null)
-            //    title = ShowInfo.TmdbId.ToString();
-            //else if (ShowInfo.TvdbId != null)
-            //    title = ShowInfo.TvdbId.ToString();
-            else if (!string.IsNullOrEmpty(ShowInfo.ImdbId))
-            {
-                title = ShowInfo.ImdbId;
-            }
-            else
-            {
-                title = ShowInfo.Title.StripYear(ShowInfo.Year).ToSlug();
+                Comments = TraktAPI.TraktAPI.GetMovieComments(title);
             }
 
-            return TraktAPI.TraktAPI.GetShowComments(title);
+            return Comments;
+        }        
+
+        private IEnumerable<TraktComment> GetShowComments()
+        {
+            if (Comments == null)
+            {
+                string title = string.Empty;
+
+                if (ShowInfo.TraktId != null)
+                {
+                    title = ShowInfo.TraktId.ToString();
+                }
+                // TODO: Find trakt id from other integer IDs
+                //else if (ShowInfo.TmdbId != null)
+                //    title = ShowInfo.TmdbId.ToString();
+                //else if (ShowInfo.TvdbId != null)
+                //    title = ShowInfo.TvdbId.ToString();
+                else if (!string.IsNullOrEmpty(ShowInfo.ImdbId))
+                {
+                    title = ShowInfo.ImdbId;
+                }
+                else
+                {
+                    title = ShowInfo.Title.StripYear(ShowInfo.Year).ToSlug();
+                }
+
+                Comments = TraktAPI.TraktAPI.GetShowComments(title);
+            }
+
+            return Comments;
         }
 
-        private IEnumerable<TraktComment> GetEpisodeShouts()
+        private IEnumerable<TraktComment> GetEpisodeComments()
         {
-            string title = string.Empty;
+            if (Comments == null)
+            {
+                string title = string.Empty;
 
-            if (EpisodeInfo.TraktId != null)
-            {
-                title = EpisodeInfo.TraktId.ToString();
-            }
-            // TODO: Find trakt id from other integer IDs
-            //else if (EpisodeInfo.TmdbId != null)
-            //    title = EpisodeInfo.TmdbId.ToString();
-            //else if (EpisodeInfo.TvdbId != null)
-            //    title = EpisodeInfo.TvdbId.ToString();
-            else if (!string.IsNullOrEmpty(EpisodeInfo.ImdbId))
-            {
-                title = EpisodeInfo.ImdbId;
-            }
-            else
-            {
-                title = EpisodeInfo.Title.StripYear(EpisodeInfo.Year).ToSlug();
+                if (EpisodeInfo.TraktId != null)
+                {
+                    title = EpisodeInfo.TraktId.ToString();
+                }
+                // TODO: Find trakt id from other integer IDs
+                //else if (EpisodeInfo.TmdbId != null)
+                //    title = EpisodeInfo.TmdbId.ToString();
+                //else if (EpisodeInfo.TvdbId != null)
+                //    title = EpisodeInfo.TvdbId.ToString();
+                else if (!string.IsNullOrEmpty(EpisodeInfo.ImdbId))
+                {
+                    title = EpisodeInfo.ImdbId;
+                }
+                else
+                {
+                    title = EpisodeInfo.Title.StripYear(EpisodeInfo.Year).ToSlug();
+                }
+
+                Comments = TraktAPI.TraktAPI.GetEpisodeComments(title, EpisodeInfo.SeasonIdx, EpisodeInfo.EpisodeIdx);
             }
 
-            return TraktAPI.TraktAPI.GetEpisodeComments(title, EpisodeInfo.SeasonIdx, EpisodeInfo.EpisodeIdx);
+            return Comments;
         }
 
-        private void SendShoutsToFacade(IEnumerable<TraktComment> shouts)
+        private void SendCommentsToFacade(IEnumerable<TraktComment> comments)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            if (shouts == null)
+            if (comments == null)
             {
                 GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
 
-            if (shouts.Count() == 0)
+            // this should not happen for replies as we only enter if more than one
+            if (comments.Count() == 0)
             {
                 string title = string.Empty;
                 switch (ShoutType)
@@ -499,34 +614,42 @@ namespace TraktPlugin.GUI
             }
 
             // filter out the duplicates!
-            var distinctShouts = shouts.Where(s => s.Comment != null && s.User != null).Distinct(new ShoutComparer());
+            var distinctComments = comments.Where(s => s.Comment != null && s.User != null).Distinct(new ShoutComparer());
 
-            GUIUtils.SetProperty("#itemcount", distinctShouts.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", distinctShouts.Count(), distinctShouts.Count() > 1 ? Translation.Comments : Translation.Shout));            
+            GUIUtils.SetProperty("#itemcount", distinctComments.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", distinctComments.Count(), distinctComments.Count() > 1 ? Translation.Comments : Translation.Shout));
+
+            int selectedParentItem = 0;
+            int selectedItemIndex = 0;
+            SelectedParentItems.TryGetValue(CurrentLevel, out selectedParentItem);
 
             int id = 0;
             var userImages = new List<GUITraktImage>();
 
             // Add each user that shouted to the list
-            foreach (var shout in distinctShouts)
+            foreach (var comment in distinctComments)
             {
                 // add image to download
-                var images = new GUITraktImage { UserImages = shout.User.Images };
+                var images = new GUITraktImage { UserImages = comment.User.Images };
                 userImages.Add(images);
 
-                var shoutItem = new GUIUserListItem(shout.User.Username, (int)TraktGUIWindows.Shouts);
+                var shoutItem = new GUIUserListItem(comment.User.Username, (int)TraktGUIWindows.Shouts);
 
-                shoutItem.Label2 = shout.CreatedAt.FromISO8601().ToShortDateString();
+                shoutItem.Label2 = comment.CreatedAt.FromISO8601().ToShortDateString();
                 shoutItem.Images = images;
-                shoutItem.TVTag = shout;
-                shoutItem.User = shout.User;
+                shoutItem.TVTag = comment;
+                shoutItem.User = comment.User;
                 shoutItem.ItemId = id++;
                 shoutItem.IconImage = "defaultTraktUser.png";
                 shoutItem.IconImageBig = "defaultTraktUserBig.png";
                 shoutItem.ThumbnailImage = "defaultTraktUserBig.png";
-                shoutItem.OnItemSelected += OnShoutSelected;
+                shoutItem.OnItemSelected += OnCommentSelected;
                 Utils.SetDefaultIcons(shoutItem);
                 Facade.Add(shoutItem);
+
+                // check if we should select this comment when returning from replies
+                if (selectedParentItem == (int)comment.Id)
+                    selectedItemIndex = id - 1;
             }
 
             // Enable / Disable GUI Controls
@@ -538,7 +661,7 @@ namespace TraktPlugin.GUI
                 Facade.SetCurrentLayout("List");
                 GUIControl.FocusControl(GetID, Facade.GetID);
 
-                Facade.SelectedListItemIndex = 0;
+                Facade.SelectedListItemIndex = selectedItemIndex;
             }
             else
             {
@@ -587,17 +710,17 @@ namespace TraktPlugin.GUI
             getFanartthread.Start();
         }
 
-        private void PublishShoutSkinProperties(TraktComment shout)
+        private void PublishCommentSkinProperties(TraktComment comment)
         {
-            if (shout == null) return;
+            if (comment == null) return;
 
-            GUICommon.SetUserProperties(shout.User);
-            GUICommon.SetShoutProperties(shout, IsWatched);
+            GUICommon.SetUserProperties(comment.User);
+            GUICommon.SetShoutProperties(comment, IsWatched);
         }
 
-        private void OnShoutSelected(GUIListItem item, GUIControl parent)
+        private void OnCommentSelected(GUIListItem item, GUIControl parent)
         {
-            PublishShoutSkinProperties(item.TVTag as TraktComment);
+            PublishCommentSkinProperties(item.TVTag as TraktComment);
         }
 
         #endregion
