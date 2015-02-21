@@ -34,7 +34,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             Like,
-            Unlike,
+            UnLike,
             Shout,
             Spoilers,
             NextEpisode,
@@ -161,8 +161,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedShout = selectedItem.TVTag as TraktComment;
-            if (selectedShout == null) return;
+            var selectedComment = selectedItem.TVTag as TraktComment;
+            if (selectedComment == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -171,6 +171,23 @@ namespace TraktPlugin.GUI
             dlg.SetHeading(GUIUtils.PluginName());
 
             GUIListItem listItem = null;
+
+            // Like or Unlike Comment
+            // There doesn't appear to be a way to get a users comment likes
+            // so can't tell if user can like / unlike, give user the choice  
+            // to do either
+            if (selectedComment.User.Username != TraktSettings.Username)
+            {
+                // Like
+                listItem = new GUIListItem(Translation.Like);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Like;
+
+                // UnLike
+                listItem = new GUIListItem(Translation.UnLike);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.UnLike;
+            }
 
             if (ShoutType == ShoutTypeEnum.episode)
             {
@@ -191,7 +208,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Spoilers;
 
             // userprofile - only load for unprotected users
-            if (!selectedShout.User.IsPrivate)
+            if (!selectedComment.User.IsPrivate)
             {
                 listItem = new GUIListItem(Translation.UserProfile);
                 dlg.Add(listItem);
@@ -203,10 +220,25 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case (int)ContextMenuItem.Like:
+                    LikeComment(selectedComment.Id);
+                    selectedComment.Likes++;
+                    PublishShoutSkinProperties(selectedComment);
+                    break;
+
+                case (int)ContextMenuItem.UnLike:
+                    UnLikeComment(selectedComment.Id);
+                    if (selectedComment.Likes > 0)
+                    {
+                        selectedComment.Likes--;
+                        PublishShoutSkinProperties(selectedComment);
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.Spoilers):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
                     if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
-                    PublishShoutSkinProperties(selectedShout);
+                    PublishShoutSkinProperties(selectedComment);
                     break;
 
                 case ((int)ContextMenuItem.NextEpisode):
@@ -218,7 +250,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.UserProfile):
-                    GUIUserProfile.CurrentUser = selectedShout.User.Username;
+                    GUIUserProfile.CurrentUser = selectedComment.User.Username;
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
                     break;
 
@@ -232,6 +264,34 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void LikeComment(int id)
+        {
+            var likeThread = new Thread((obj) =>
+                {
+                    TraktAPI.TraktAPI.LikeComment((int)obj);
+                })
+                {
+                    Name = "LikeComment",
+                    IsBackground = true
+                };
+
+            likeThread.Start(id);
+        }
+
+        private void UnLikeComment(int id)
+        {
+            var unlikeThread = new Thread((obj) =>
+            {
+                TraktAPI.TraktAPI.UnLikeComment((int)obj);
+            })
+            {
+                Name = "LikeComment",
+                IsBackground = true
+            };
+
+            unlikeThread.Start(id);
+        }
 
         private void GetNextEpisodeShouts()
         {

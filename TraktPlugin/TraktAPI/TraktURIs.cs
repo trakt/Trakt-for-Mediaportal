@@ -8,7 +8,6 @@ namespace TraktPlugin.TraktAPI
     {
         public const string Login = "https://api-v2launch.trakt.tv/auth/login";
 
-        // GET
         public const string SyncLastActivities = "https://api-v2launch.trakt.tv/sync/last_activities";
 
         public const string SyncPlayback = "https://api-v2launch.trakt.tv/sync/playback";
@@ -21,6 +20,15 @@ namespace TraktPlugin.TraktAPI
         public const string SyncWatchedEpisodes = "https://api-v2launch.trakt.tv/sync/watched/shows";
         public const string SyncRatedEpisodes = "https://api-v2launch.trakt.tv/sync/ratings/episodes";
         public const string SyncRatedShows = "https://api-v2launch.trakt.tv/sync/ratings/shows";
+
+        public const string SyncCollectionAdd = "https://api-v2launch.trakt.tv/sync/collection";
+        public const string SyncCollectionRemove = "https://api-v2launch.trakt.tv/sync/collection/remove";
+        public const string SyncWatchedHistoryAdd = "https://api-v2launch.trakt.tv/sync/history";
+        public const string SyncWatchedHistoryRemove = "https://api-v2launch.trakt.tv/sync/history/remove";
+        public const string SyncRatingsAdd = "https://api-v2launch.trakt.tv/sync/ratings";
+        public const string SyncRatingsRemove = "https://api-v2launch.trakt.tv/sync/ratings/remove";
+        public const string SyncWatchlistAdd = "https://api-v2launch.trakt.tv/sync/watchlist";
+        public const string SyncWatchlistRemove = "https://api-v2launch.trakt.tv/sync/watchlist/remove";
 
         public const string UserLists = "https://api-v2launch.trakt.tv/users/{0}/lists";
         public const string UserListItems = "https://api-v2launch.trakt.tv/users/{0}/lists/{1}/items?extended={2}";
@@ -52,6 +60,8 @@ namespace TraktPlugin.TraktAPI
         public const string ShowComments = "https://api-v2launch.trakt.tv/shows/{0}/comments?extended=full,images&page={1}&limit={2}";
         public const string EpisodeComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images&page={3}&limit={4}";
 
+        public const string LikeComment = "https://api-v2launch.trakt.tv/comments/{0}/like";
+
         public const string SearchMovies = "https://api-v2launch.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}?extended=full,images";
         public const string SearchShows = "https://api-v2launch.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full,images";
         public const string SearchEpisodes = "https://api-v2launch.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}?extended=full,images";
@@ -78,21 +88,10 @@ namespace TraktPlugin.TraktAPI
         public const string CalendarPremieres = "https://api-v2launch.trakt.tv/calendars/shows/premieres/{0}/{1}?extended=full,images";
         public const string CalendarNewPremieres = "https://api-v2launch.trakt.tv/calendars/shows/new/{0}/{1}?extended=full,images";
 
-        // POST
-        public const string SyncCollectionAdd = "https://api-v2launch.trakt.tv/sync/collection";
-        public const string SyncCollectionRemove = "https://api-v2launch.trakt.tv/sync/collection/remove";
-        public const string SyncWatchedHistoryAdd = "https://api-v2launch.trakt.tv/sync/history";
-        public const string SyncWatchedHistoryRemove = "https://api-v2launch.trakt.tv/sync/history/remove";
-        public const string SyncRatingsAdd = "https://api-v2launch.trakt.tv/sync/ratings";
-        public const string SyncRatingsRemove = "https://api-v2launch.trakt.tv/sync/ratings/remove";
-        public const string SyncWatchlistAdd = "https://api-v2launch.trakt.tv/sync/watchlist";
-        public const string SyncWatchlistRemove = "https://api-v2launch.trakt.tv/sync/watchlist/remove";
-
         public const string ScrobbleStart = "https://api-v2launch.trakt.tv/scrobble/start";
         public const string ScrobblePause = "https://api-v2launch.trakt.tv/scrobble/pause";
         public const string ScrobbleStop = "https://api-v2launch.trakt.tv/scrobble/stop";
 
-        // DELETE
         public const string DismissRecommendedMovie = "https://api-v2launch.trakt.tv/recommendations/movies/{0}";
         public const string DismissRecommendedShow = "https://api-v2launch.trakt.tv/recommendations/shows/{0}";
 

@@ -89,8 +89,6 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #region GET Methods
-
         #region Sync
 
         public static TraktLastSyncActivities GetLastSyncActivities()
@@ -161,22 +159,6 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(TraktURIs.SyncRatedShows);
             return response.FromJSONArray<TraktShowRated>();
-        }
-
-        #endregion
-
-        #region Recommendations
-
-        public static IEnumerable<TraktMovieSummary> GetRecommendedMovies(string extendedInfoParams = "min")
-        {
-            var response = GetFromTrakt(string.Format(TraktURIs.RecommendedMovies, extendedInfoParams));
-            return response.FromJSONArray<TraktMovieSummary>();
-        }
-
-        public static IEnumerable<TraktShowSummary> GetRecommendedShows()
-        {
-            var response = GetFromTrakt(TraktURIs.RecommendedShows);
-            return response.FromJSONArray<TraktShowSummary>();
         }
 
         #endregion
@@ -307,6 +289,11 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static bool DeleteUserList(string username, string listId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DeleteList, username, listId));
+        }
+
         #endregion
 
         #region Watchlists
@@ -363,6 +350,21 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Recommendations
+
+        public static IEnumerable<TraktMovieSummary> GetRecommendedMovies(string extendedInfoParams = "min")
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.RecommendedMovies, extendedInfoParams));
+            return response.FromJSONArray<TraktMovieSummary>();
+        }
+
+        public static bool DismissRecommendedMovie(string movieId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedMovie, movieId));
+        }
+
+        #endregion
+
         #endregion
 
         #region Shows
@@ -413,6 +415,21 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(string.Format(TraktURIs.TrendingShows, page, maxItems));
             return response.FromJSONArray<TraktShowTrending>();
+        }
+
+        #endregion
+
+        #region Recommendations
+
+        public static IEnumerable<TraktShowSummary> GetRecommendedShows()
+        {
+            var response = GetFromTrakt(TraktURIs.RecommendedShows);
+            return response.FromJSONArray<TraktShowSummary>();
+        }
+
+        public static bool DismissRecommendedShow(string showId)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedShow, showId));
         }
 
         #endregion
@@ -485,8 +502,6 @@ namespace TraktPlugin.TraktAPI
             var response = GetFromTrakt(string.Format(TraktURIs.SeasonEpisodes, showId, seasonId));
             return response.FromJSONArray<TraktEpisodeSummary>();
         }
-
-        #endregion
 
         #endregion
 
@@ -792,8 +807,6 @@ namespace TraktPlugin.TraktAPI
         }
 
         #endregion
-
-        #region POST Methods
 
         #region Collection
 
@@ -1383,32 +1396,18 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
-        #endregion
+        #region Comments
 
-        #region DELETE Methods
-
-        #region Dismiss Recommendations
-
-        public static bool DismissRecommendedMovie(string movieId)
+        public static bool LikeComment(int id)
         {
-            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedMovie, movieId));
+            var response = PostToTrakt(string.Format(TraktURIs.LikeComment, id), null);
+            return response != null;
         }
 
-        public static bool DismissRecommendedShow(string showId)
+        public static bool UnLikeComment(int id)
         {
-            return DeleteFromTrakt(string.Format(TraktURIs.DismissRecommendedShow, showId));
+            return DeleteFromTrakt(string.Format(TraktURIs.LikeComment, id));
         }
-
-        #endregion
-
-        #region Delete List
-
-        public static bool DeleteUserList(string username, string listId)
-        {
-            return DeleteFromTrakt(string.Format(TraktURIs.DeleteList, username, listId));
-        }
-
-        #endregion
 
         #endregion
 
@@ -1551,6 +1550,9 @@ namespace TraktPlugin.TraktAPI
 
             Stopwatch watch;
 
+            if (postData == null)
+                postData = string.Empty;
+
             byte[] data = new UTF8Encoding().GetBytes(postData);
 
             var request = WebRequest.Create(address) as HttpWebRequest;
@@ -1592,6 +1594,11 @@ namespace TraktPlugin.TraktAPI
                 Stream responseStream = response.GetResponseStream();
                 var reader = new StreamReader(responseStream);
                 string strResponse = reader.ReadToEnd();
+
+                if (string.IsNullOrEmpty(strResponse))
+                {
+                    strResponse = response.StatusCode.ToString();
+                }
 
                 if (OnDataReceived != null)
                     OnDataReceived(strResponse, response);

@@ -763,6 +763,7 @@ namespace TraktPlugin.GUI
         public static string Trailers = "Trailers...";
         
         // U
+        public static string UnLike = "UnLike";
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";
         public static string UserHasNoRecentAddedEpisodes = "User has no recently added episodes!";
