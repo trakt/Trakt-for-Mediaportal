@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -159,9 +160,45 @@ namespace TraktPlugin.GUI
         {
             if (string.IsNullOrEmpty(imageFilePath)) return;
 
-            ThumbnailImage = imageFilePath;
-            IconImage = imageFilePath;
-            IconImageBig = imageFilePath;
+            // determine the overlays to add to poster
+            var mainOverlay = MainOverlayImage.None;
+
+            if (Season.IsWatchlisted(Show))
+                mainOverlay = MainOverlayImage.Watchlist;
+            else if (Season.IsWatched(Show))
+                mainOverlay = MainOverlayImage.Seenit;
+
+            // add additional overlay if applicable
+            if (Season.IsCollected(Show))
+                mainOverlay |= MainOverlayImage.Library;
+
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Season.UserRating());
+
+            // get a reference to a MediaPortal Texture Identifier
+            string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
+            string texture = GUIImageHandler.GetTextureIdentFromFile(imageFilePath, suffix);
+
+            // build memory image
+            Image memoryImage = null;
+            if (mainOverlay != MainOverlayImage.None || ratingOverlay != RatingOverlayImage.None)
+            {
+                memoryImage = GUIImageHandler.DrawOverlayOnPoster(imageFilePath, mainOverlay, ratingOverlay);
+                if (memoryImage == null) return;
+
+                // load texture into facade item
+                if (GUITextureManager.LoadFromMemory(memoryImage, texture, 0, 0, 0) > 0)
+                {
+                    ThumbnailImage = texture;
+                    IconImage = texture;
+                    IconImageBig = texture;
+                }
+            }
+            else
+            {
+                ThumbnailImage = imageFilePath;
+                IconImage = imageFilePath;
+                IconImageBig = imageFilePath;
+            }
 
             // if selected and is current window force an update of thumbnail
             this.UpdateItemIfSelected(WindowID, ItemId);
