@@ -29,6 +29,7 @@ namespace TraktPlugin.GUI
         {
             Trailers,
             Comments,
+            Rate,
             MarkAsWatched,
             AddToLibrary,
             AddToList,
@@ -191,6 +192,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Comments;
 
+            // Rate
+            listItem = new GUIListItem(Translation.Rate + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Rate;
+
             // Mark season as watched
             listItem = new GUIListItem(Translation.MarkAsWatched);
             dlg.Add(listItem);
@@ -228,6 +234,23 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Comments):
                     TraktHelper.ShowTVSeasonShouts(Show, selectedSeason);
+                    break;
+
+                case ((int)ContextMenuItem.Rate):
+                    GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(new TraktSyncSeasonRatedEx
+                    {
+                        Ids = Show.Ids,
+                        Title = Show.Title,
+                        Year = Show.Year,
+                        Seasons = new List<TraktSyncSeasonRatedEx.Season>
+                        {
+                            new TraktSyncSeasonRatedEx.Season
+                            {
+                                Number = selectedSeason.Number,
+                                RatedAt = DateTime.UtcNow.ToISO8601()
+                            }
+                        }
+                    });
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):

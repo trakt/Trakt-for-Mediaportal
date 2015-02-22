@@ -2271,9 +2271,9 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Shouts;
 
-            //pItem = new GUIListItem(Translation.Rate);
-            //dlg.Add(pItem);
-            //pItem.ItemId = (int)TraktMenuItems.Rate;
+            pItem = new GUIListItem(Translation.Rate);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Rate;
 
             //pItem = new GUIListItem(Translation.AddToWatchList);
             //dlg.Add(pItem);
@@ -2328,12 +2328,20 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for tv season. Title = '{0}', Year = '{1}', TVDb ID = '{2}', Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
-                    //GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
-                    //{
-                    //    Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
-                    //    Title = title,
-                    //    Year = year.ToNullableInt32()
-                    //});
+                    GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(new TraktSyncSeasonRatedEx
+                    {
+                        Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
+                        Title = title,
+                        Year = year.ToNullableInt32(),
+                        Seasons = new List<TraktSyncSeasonRatedEx.Season>
+                        {
+                            new TraktSyncSeasonRatedEx.Season
+                            {
+                                Number = seasonNumber,
+                                RatedAt = DateTime.UtcNow.ToISO8601()
+                            }
+                        }
+                    });
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
@@ -2343,12 +2351,12 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding tv season to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}' Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
-                    //TraktHelper.AddShowToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
+                    //TraktHelper.AddSeasonToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):
                     TraktLogger.Info("Adding tv season to Custom List. Title = '{0}', Year = '{1}', TVDb ID = '{2}', Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
-                    //TraktHelper.AddRemoveShowInUserList(title, year, tvdbid, false);
+                    //TraktHelper.AddRemoveSeasonInUserList(title, year, tvdbid, false);
                     break;
 
                 case ((int)TraktMenuItems.UserProfile):

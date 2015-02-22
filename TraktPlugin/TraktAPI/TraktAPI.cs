@@ -1136,6 +1136,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddSeasonsToRatingsEx(TraktSyncSeasonsRatedEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncRatingsAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse RemoveEpisodesFromRatings(TraktSyncEpisodes episodes)
         {
             var response = PostToTrakt(TraktURIs.SyncRatingsRemove, episodes.ToJSON());
@@ -1143,6 +1149,12 @@ namespace TraktPlugin.TraktAPI
         }
 
         public static TraktSyncResponse RemoveShowsFromRatingsEx(TraktSyncShowsRatedEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncRatingsRemove, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveSeasonsFromRatingsEx(TraktSyncSeasonsRatedEx shows)
         {
             var response = PostToTrakt(TraktURIs.SyncRatingsRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
@@ -1202,6 +1214,32 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveShowsFromRatingsEx(episodes);
+        }
+
+        /// <summary>
+        /// Rate a single season on trakt.tv (with show info)
+        /// </summary>
+        public static TraktSyncResponse AddSeasonToRatingsEx(TraktSyncSeasonRatedEx item)
+        {
+            var seasons = new TraktSyncSeasonsRatedEx
+            {
+                Shows = new List<TraktSyncSeasonRatedEx>() { item }
+            };
+
+            return AddSeasonsToRatingsEx(seasons);
+        }
+
+        /// <summary>
+        /// UnRate a single season on trakt.tv (with show info)
+        /// </summary>
+        public static TraktSyncResponse RemoveSeasonFromRatingsEx(TraktSyncSeasonRatedEx item)
+        {
+            var seasons = new TraktSyncSeasonsRatedEx
+            {
+                Shows = new List<TraktSyncSeasonRatedEx>() { item }
+            };
+
+            return RemoveSeasonsFromRatingsEx(seasons);
         }
 
         /// <summary>

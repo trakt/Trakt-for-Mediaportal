@@ -461,6 +461,13 @@ namespace TraktPlugin.GUI
                 ratingDlg.Rated = item.Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Rating);
 
             }
+            else if (rateObject is TraktSyncSeasonRatedEx)
+            {
+                // for when season ids are not available we need to sync with both season and show details
+                var item = rateObject as TraktSyncSeasonRatedEx;
+                ratingDlg.SetLine(1, string.Format("{0} - {1} {2}", item.Title, Translation.Season, item.Seasons[0].Number));
+                ratingDlg.Rated = item.Seasons[0].Rating == 0 ? TraktRateValue.seven : (TraktRateValue)Convert.ToInt32(item.Seasons[0].Rating);
+            }
             else
             {
                 var item = rateObject as TraktSyncMovieRated;
@@ -535,6 +542,30 @@ namespace TraktPlugin.GUI
                     else
                     {
                         response = TraktAPI.TraktAPI.RemoveShowFromRatings(obj as TraktShow);
+                    }
+                    TraktLogger.LogTraktResponse(response);
+                })
+                {
+                    IsBackground = true,
+                    Name = "Rate"
+                };
+                rateThread.Start(item);
+            }
+            else if (rateObject is TraktSyncSeasonRatedEx)
+            {
+                // for when season ids are not available we need to sync with both season and show details
+                var item = rateObject as TraktSyncSeasonRatedEx;
+                currentRating = ratingDlg.Rated;
+                item.Seasons[0].Rating = (int)currentRating;
+                var rateThread = new Thread((obj) =>
+                {
+                    if ((obj as TraktSyncSeasonRatedEx).Seasons[0].Rating > 0)
+                    {
+                        response = TraktAPI.TraktAPI.AddSeasonToRatingsEx(obj as TraktSyncSeasonRatedEx);
+                    }
+                    else
+                    {
+                        response = TraktAPI.TraktAPI.RemoveSeasonFromRatingsEx(obj as TraktSyncSeasonRatedEx);
                     }
                     TraktLogger.LogTraktResponse(response);
                 })

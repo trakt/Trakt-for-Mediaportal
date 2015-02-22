@@ -327,6 +327,8 @@
     <Compile Include="TraktAPI\DataStructures\TraktSyncAll.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncPlayback.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonRatedEx.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonsRatedEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncShowCollectedEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncShowEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSyncShowRatedEx.cs" />
