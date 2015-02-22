@@ -237,7 +237,7 @@
     <setting entryname="Trakt"
              name="UseSSL"
              displayname="#Trakt.Translation.SettingUseSSLName.Label"
-             defaultvalue="yes"
+             defaultvalue="no"
              type="string"
              listvalues="yes|no"
              displaylistvalues="#Trakt.Translation.Yes.Label|#Trakt.Translation.No.Label"

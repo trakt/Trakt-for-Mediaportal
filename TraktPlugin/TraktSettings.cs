@@ -747,7 +747,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cLastPausedItemProcessed, LastPausedItemProcessed);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingMoviesRequest, MaxTrendingMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
-                xmlwriter.SetValue(cTrakt, cUseSSL, UseSSL);
+                xmlwriter.SetValueAsBool(cTrakt, cUseSSL, UseSSL);
                 xmlwriter.SetValue(cTrakt, cLastListActivities, LastListActivities.ToJSON());
             }
 
