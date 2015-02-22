@@ -470,6 +470,12 @@
   <string name="SettingSyncPlaybackOnEnterPluginDescription">Schakel deze optie in om afspeel / hervat informatie te synchroniseren als je de ingeschakelde plugin opent.</string>
   <string name="SettingSyncPlaybackCacheExpiryName">Sync Afspeel Cache Vervaltijd</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Stel de cache tijd (in minuten) voor afspeel / hervat informatie in, voordat de lokale data ververst word.</string>
+  <string name="SettingMaxTrendingMoviesRequestName">Maximum Populaire Films om te verzoeken</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Stel maximum aantal te verzoeken populaire films per pagina in.</string>
+  <string name="SettingMaxTrendingShowsRequestName">Maximum Populaire TV Series om te verzoeken</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Stel maximum aantal te verzoeken populaire TV series per pagina in.</string>
+  <string name="SettingUseSSLName">Beveiligde Server Communicatie</string>
+  <string name="SettingUseSSLDescription">Schakel in om HTTPS te gebruiken, een veilige manier om te communiceren met de trakt.tv servers.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Bibliotheek Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Bibliotheek en Afspeel Sync</string>
@@ -496,6 +502,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnLike">Niet leuk</string>
   <string name="UserHasNotWatchedEpisodes">Gebruiker heeft geen enkele aflevering gezien!</string>
   <string name="UserHasNotWatchedMovies">Gebruiker heeft geen enkele films gezien!</string>
   <string name="UserHasNoRecentAddedEpisodes">Gebruiker heeft geen recent toegevoegde afleveringen!</string>

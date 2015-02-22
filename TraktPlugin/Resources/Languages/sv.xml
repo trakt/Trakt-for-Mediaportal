@@ -488,6 +488,8 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingMaxTrendingMoviesRequestDescription">Sätt max antal begärda populära filmer per sida</string>
   <string name="SettingMaxTrendingShowsRequestName">Max antal begärda populära TV-program</string>
   <string name="SettingMaxTrendingShowsRequestDescription">Sätt max antal begärda populära TV-program per sida</string>
+  <string name="SettingUseSSLName">Säker serverkommunikation</string>
+  <string name="SettingUseSSLDescription">Aktivera för att använda HTTPS, ett säkert sätt att kommunicera med trakt.tv servrarna</string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>
@@ -514,6 +516,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnLike">Ogilla</string>
   <string name="UserHasNotWatchedEpisodes">Användaren har inte några sedda avsnitt!</string>
   <string name="UserHasNotWatchedMovies">Användaren har inte några sedda filmer!</string>
   <string name="UserHasNoRecentAddedEpisodes">Användaren har inte lagt till avsnitt nyligen!</string>

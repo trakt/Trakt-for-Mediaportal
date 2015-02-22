@@ -21,7 +21,7 @@
   <string name="ActivitySeenEpisodes">{0} zhlédl {1} epizod z {2}</string>
   <string name="ActivityRating">{0} hodnotil {1}</string>
   <string name="ActivityRatingAdvanced">{0} ohodnotil {1} [{2}/10]</string>
-  <string name="ActivityWatchlist">{0} přidal {1} do seznamu zhlédnutých</string>
+  <string name="ActivityWatchlist">Uživatel {0} přidal {1} do svého seznamu ke zhlédnutí</string>
   <string name="ActivityAddToList">{0} přidal {1} do {2}</string>
   <string name="ActivityCreatedList">{0} vytvořil {1}</string>
   <string name="ActivityReview">{0} recenzoval {1}</string>
@@ -30,12 +30,12 @@
   <string name="AddFriend">Přidat přítele...</string>
   <string name="AddToLibrary">Přidat do knihovny</string>
   <string name="AddToList">Přidat do seznamu...</string>
-  <string name="AddToWatchList">Přidat do seznamu zhlédnutých</string>
-  <string name="AddShowToWatchList">Přidat seriál do seznamu zhlédnutých</string>
-  <string name="AddEpisodeToWatchList">Přidat epizodu do seznamu zhlédnutých</string>
+  <string name="AddToWatchList">Přidat do seznamu ke zhlédnutí</string>
+  <string name="AddShowToWatchList">Přidat seriál do seznamu ke zhlédnutí</string>
+  <string name="AddEpisodeToWatchList">Přidat epizodu do seznamu ke zhlédnutí</string>
   <string name="AddShowToList">Přidat seriál do seznamu</string>
   <string name="AddEpisodeToList">Přidat epizodu do seznamu</string>
-  <string name="AddThisItemToWatchList">Přidat položku do Vašeho seznamu zhlédnutých?</string>
+  <string name="AddThisItemToWatchList">Přidat položku do Vašeho seznamu ke zhlédnutí?</string>
   <string name="Age">Věk</string>
   <string name="AirDate">Datum vysílání</string>
   <string name="AirDay">Den vysílání</string>
@@ -214,9 +214,9 @@
   <string name="GettingTrendingShows">Načítám populární seriály</string>
   <string name="GettingRecommendedMovies">Načítám doporučené filmy</string>
   <string name="GettingRecommendedShows">Načítám doporučené seriály</string>
-  <string name="GettingWatchListMovies">Načítám seznam zhlédnutých filmů</string>
-  <string name="GettingWatchListShows">Načítám seznam zhlédnutých seriálů</string>
-  <string name="GettingWatchListEpisodes">Načítám seznam zhlédnutých epizod</string>
+  <string name="GettingWatchListMovies">Načítám seznam filmů ke zhlédnutí</string>
+  <string name="GettingWatchListShows">Načítám seznam seriálů ke zhlédnutí</string>
+  <string name="GettingWatchListEpisodes">Načítám seznam epizod ke zhlédnutí</string>
   <string name="GettingRelatedMovies">Načítám podobné filmy</string>
   <string name="GettingRelatedShows">Načítám podobné seriály</string>
   <string name="GettingTrailerUrls">Načítám adresy upoutávek</string>
@@ -226,11 +226,11 @@
   <!--H-->
   <string name="Hate">Nelíbí se mi</string>
   <string name="Hated">Označené jako nelíbí se mi</string>
-  <string name="HideTVShowsInWatchlist">Skrýt seriály v seznamu zhlédnutých</string>
+  <string name="HideTVShowsInWatchlist">Skrýt seriály v seznamu ke zhlédnutí</string>
   <string name="HideCollected">Skrýt \"V kolekci\"</string>
   <string name="HideRated">Skrýt ohodnocené</string>
   <string name="HideWatched">Skrýt zhlédnuté</string>
-  <string name="HideWatchlisted">Skrýt označené jako zhlédnuté</string>
+  <string name="HideWatchlisted">Skrýt označené jako ke zhlédnutí</string>
   <string name="HideSpoilers">Skrýt prozrazení děje</string>
   <string name="HiddenToPreventSpoilers">Tento komentář byl skryt aby nedošlo k prozrazení děje. Toto můžete změnit v nastavení aplikace.</string>
   <!--I-->
@@ -293,9 +293,9 @@
   <string name="NoTrendingShows">V současné chvíli nejsou sledovány žádné seriály!</string>
   <string name="NoMovieRecommendations">Nebyly nalezeny žádné doporučené filmy!</string>
   <string name="NoShowRecommendations">Nebyly nalezeny žádné doporučené seriály!</string>
-  <string name="NoShowWatchList">{0} nemá ve zhlédnutých žádné seriály!</string>
-  <string name="NoMovieWatchList">{0} nemá ve zhlédnutých žádné filmy!</string>
-  <string name="NoEpisodeWatchList">{0} nemá ve zhlédnutých žádné epizody!</string>
+  <string name="NoShowWatchList">{0} nemá v seznamu ke zhlédnutí žádné seriály!</string>
+  <string name="NoMovieWatchList">{0} nemá v seznamu ke zhlédnutí žádné filmy!</string>
+  <string name="NoEpisodeWatchList">{0} nemá v seznamu ke zhlédnutí žádné epizody!</string>
   <string name="NoSearchTypesSelected">Před spuštěním musíte nejdříve zvolit jeden \nnebo více typů vyhledávání.</string>
   <string name="NoShoutsForItem">Pro {0} nebyly nalezeny žádné komentáře!</string>
   <string name="NoPeopleToSearch">Neexistují osoby, podle kterých by šlo vyhledávat.</string>
@@ -370,9 +370,9 @@
   <string name="Released">Vydáno</string>
   <string name="ReleaseDate">Datum vydání</string>
   <string name="RemoveFromLibrary">Odstranit z knihovny</string>
-  <string name="RemoveFromWatchList">Odstranit ze seznamu zhlédnutých</string>
-  <string name="RemoveShowFromWatchList">Odstranit seriál ze seznamu zhlédnutých</string>
-  <string name="RemoveEpisodeFromWatchList">Odstranit epizodu ze seznamu zhlédnutých</string>
+  <string name="RemoveFromWatchList">Odstranit ze seznamu ke zhlédnutí</string>
+  <string name="RemoveShowFromWatchList">Odstranit seriál ze seznamu ke zhlédnutí</string>
+  <string name="RemoveEpisodeFromWatchList">Odstranit epizodu ze seznamu ke zhlédnutí</string>
   <string name="RemoveFromList">Odstranit ze seznamu...</string>
   <string name="Reply">Odpovědět</string>
   <string name="Replies">Odpovědi</string>
@@ -409,7 +409,7 @@
   <string name="Shouts">Komentáře</string>
   <string name="Show">Seriál</string>
   <string name="Shows">Seriály</string>
-  <string name="ShowTVShowsInWatchlist">Zobrazit seriály v seznamu zhlédnutých</string>
+  <string name="ShowTVShowsInWatchlist">Zobrazit seriály v seznamu ke zhlédnutí</string>
   <string name="ShowSpoilers">Zobrazit prozrazení děje</string>
   <string name="ShowFriendActivity">Zobrazit aktivity přátel</string>
   <string name="ShowCommunityActivity">Zobrazit aktivity komunity</string>
@@ -460,7 +460,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="SettingShowSearchResultsBreakdownName">Zobrazit rozdělení výsledků vyhledávání</string>
   <string name="SettingShowSearchResultsBreakdownDescription">Toto slouží ke kontrole chování v případě jednoduchého vyhledávání. Je-li vypnuto a zároveň je zvoleno jednoduché vyhledávání, bude uživatel přesměrován přímo do výsledků vyhledávání.</string>
   <string name="SettingFilterTrendingOnDashboardName">Filtrovat populární filmy v základní obrazovce</string>
-  <string name="SettingFilterTrendingOnDashboardDescription">Povolením tohoto nastavení aplikujete filtry populárních položek v základní obrazovce, jako např. Skrýt zhlédnuté, Skrýt seznam zhlédnutých. Toto lze nastavit v odpovídajícím rozhraní populárních položek nebo v kontextovém menu. </string>
+  <string name="SettingFilterTrendingOnDashboardDescription">Povolením tohoto nastavení aplikujete filtry populárních položek v základní obrazovce, jako např. Skrýt zhlédnuté, Skrýt seznam ke zhlédnutí. Toto lze nastavit v odpovídajícím rozhraní populárních položek nebo v kontextovém menu. </string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorovat procento zhlédnutí u DVD</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Povolením tohoto nastavení nebude sledováno procento sledování u DVD při jeho zastavení. DVD a Blueray ne vždy správně indikují správný čas přehrávání u hlavního videa, a toto vždy zaručí že je to zalogováno (např. je odeslán stav zhlédnuto) do trakt.tv při zastavení, nezávisle na tom, kolik bylo opravdu zhlédnuto.</string>
   <string name="SettingSyncPlaybackName">Povolit synchronizaci Přehrávání / Obnovení</string>
@@ -475,6 +475,8 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="SettingMaxTrendingMoviesRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních filmů.</string>
   <string name="SettingMaxTrendingShowsRequestName">Maximální počet požadovaných populárních seriálů</string>
   <string name="SettingMaxTrendingShowsRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních seriálů.</string>
+  <string name="SettingUseSSLName">Zabezpečená komunikace se serverem</string>
+  <string name="SettingUseSSLDescription">Zapne zabezpečenou komunikaci se serverem trakt.tv pomocí protokolu HTTPS.</string>
   <string name="StartYear">Začátek: {0}</string>
   <string name="StartLibrarySync">Spustit synchronizaci knihovny</string>
   <string name="StartLibraryAndPlaybackSync">Spustit synchronizaci knihovny a přehrávání</string>
@@ -501,6 +503,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="Trailer">Upoutávka</string>
   <string name="Trailers">Upoutávky...</string>
   <!--U-->
+  <string name="UnLike">Už se mi to nelíbí</string>
   <string name="UserHasNotWatchedEpisodes">Uživatel neviděl žádné epizody!</string>
   <string name="UserHasNotWatchedMovies">Uživatel neviděl žádné filmy!</string>
   <string name="UserHasNoRecentAddedEpisodes">Uživatel v poslední době nepřidal žádné epizody!</string>
@@ -529,16 +532,16 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="ValidPassword">Zadejte platné heslo!</string>
   <string name="ValidEmail">Zadejte platný email!</string>
   <!--W-->
-  <string name="WatchList">Seznam zhlédnutých</string>
+  <string name="WatchList">Seznam ke zhlédnutí</string>
   <string name="Watched">Zhlédnuto</string>
   <string name="WatchedMovies">Zhlédnuté filmy</string>
   <string name="WatchedEpisodes">Zhlédnuté epizody</string>
   <string name="WatchedShows">Zhlédnuté seriály</string>
   <string name="Watchers">Sledující</string>
   <string name="Watching">Sledují</string>
-  <string name="WatchListMovies">Seznam zhlédnutých filmů</string>
-  <string name="WatchListShows">Seznam zhlédnutých seriálů</string>
-  <string name="WatchListEpisodes">Seznam zhlédnutých epizod</string>
+  <string name="WatchListMovies">Seznam filmů ke zhlédnutí</string>
+  <string name="WatchListShows">Seznam seriálů ke zhlédnutí</string>
+  <string name="WatchListEpisodes">Seznam epizod ke zhlédnutí</string>
   <string name="Writer">Scénář</string>
   <string name="Writers">Scénář</string>
   <!--Y-->
