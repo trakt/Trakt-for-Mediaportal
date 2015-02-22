@@ -150,6 +150,7 @@ namespace TraktPlugin.GUI
         Rate,
         Shouts,
         Related,
+        ShowSeasonInfo,
         UserProfile,
         Calendar,
         Network,
@@ -2134,6 +2135,10 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Related;
 
+            pItem = new GUIListItem(Translation.ShowSeasonInfo);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.ShowSeasonInfo;
+
             pItem = new GUIListItem(Translation.AddToWatchList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
@@ -2209,6 +2214,22 @@ namespace TraktPlugin.GUI
                     TraktHelper.ShowRelatedShows(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
                     break;
 
+                case ((int)TraktMenuItems.ShowSeasonInfo):
+                    TraktLogger.Info("Displaying Season Info for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
+                    var showSummary = new TraktShowSummary
+                    {
+                        Ids = new TraktShowId
+                        {
+                            Imdb = imdbid.ToNullIfEmpty(),
+                            Tvdb = tvdbid.ToNullableInt32()
+                        },
+                        Title = title,
+                        Year = year.ToNullableInt32()
+                    };
+                    GUIShowSeasons.Fanart = fanart;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, showSummary.ToJSON());
+                    break;
+
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding tv show to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
                     TraktHelper.AddShowToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
@@ -2256,7 +2277,6 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Seasons
-        //TODO: Add support for Season related items e.g. Rate,List,Watchlist...
         public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
         {
             return ShowTraktExtTVSeasonMenu(title, year, tvdbid, null, season, seasonid, fanart, people, showAll);

@@ -847,6 +847,8 @@ namespace TraktPlugin
                     // get details of each list including items
                     foreach (var list in userLists.Where(l => l.ItemCount > 0))
                     {
+                        bool listUpdated = false;
+
                         // load from cache
                         TraktLogger.Info("Retrieving list details for custom list from local cache. Name = '{0}', ID = '{1}', Slug = '{2}'", list.Name, list.Ids.Trakt, list.Ids.Slug);
                         string filename = CustomListFile.Replace("{listname}", list.Ids.Slug);
@@ -864,6 +866,7 @@ namespace TraktPlugin
                         {
                             TraktLogger.Info("Retrieving list details for custom list from trakt.tv, local cache is out of date. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}', Last Updated = '{4}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug, list.UpdatedAt);
                             userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
+                            listUpdated = true;
                         }
 
                         if (userList == null)
@@ -884,7 +887,10 @@ namespace TraktPlugin
                         }
 
                         // persist cache to disk
-                        SaveFileCache(filename, userList.ToJSON());
+                        if (listUpdated)
+                        {
+                            SaveFileCache(filename, userList.ToJSON());
+                        }
 
                         // add list to the cache
                         _CustomLists.Add(list, userList.ToList());

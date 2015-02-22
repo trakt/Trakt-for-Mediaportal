@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
@@ -48,6 +49,12 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Public Properties
+
+        public static string Fanart { get; set; }
+
+        #endregion
+
         #region Private Variables
 
         private Layout CurrentLayout { get; set; }
@@ -60,15 +67,31 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!Shows.Keys.Contains(Show.Ids.Trakt.ToString()) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                string slug = Show.Ids.Trakt.ToString();
+                if (string.IsNullOrEmpty(slug))
                 {
-                    _ShowSeasons = TraktAPI.TraktAPI.GetShowSeasons(Show.Ids.Trakt.ToString());
-                    if (Shows.Keys.Contains(Show.Ids.Trakt.ToString())) Shows.Remove(Show.Ids.Trakt.ToString());
-                    Shows.Add(Show.Ids.Trakt.ToString(), _ShowSeasons);
+                    if (Show.Ids.Imdb != null)
+                    {
+                        slug = Show.Ids.Imdb;
+                    }
+                    else
+                    {
+                        slug = Show.Title.StripYear(Show.Year).ToSlug();
+                    }
+                }
+
+                if (!Shows.Keys.Contains(slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                {
+                    _ShowSeasons = TraktAPI.TraktAPI.GetShowSeasons(slug);
+
+                    if (Shows.Keys.Contains(slug))
+                        Shows.Remove(slug);
+
+                    Shows.Add(slug, _ShowSeasons);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return Shows[Show.Ids.Trakt.ToString()];
+                return Shows[slug];
             }
         }
         private IEnumerable<TraktSeasonSummary> _ShowSeasons = null;
@@ -114,6 +137,7 @@ namespace TraktPlugin.GUI
         protected override void OnPageDestroy(int new_windowId)
         {
             GUISeasonListItem.StopDownload = true;
+            Fanart = null;
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
             ClearProperties();
 
@@ -338,7 +362,20 @@ namespace TraktPlugin.GUI
             // summary info except for images
             if (Show.UpdatedAt == null)
             {
-                var showSummary = TraktAPI.TraktAPI.GetShowSummary(Show.Ids.Trakt.ToString());
+                string slug = Show.Ids.Trakt.ToString();
+                if (string.IsNullOrEmpty(slug))
+                {
+                    if (Show.Ids.Imdb != null)
+                    {
+                        slug = Show.Ids.Imdb;
+                    }
+                    else
+                    {
+                        slug = Show.Title.StripYear(Show.Year).ToSlug();
+                    }
+                }
+
+                var showSummary = TraktAPI.TraktAPI.GetShowSummary(slug);
                 if (showSummary != null)
                 {
                     Show = showSummary;
@@ -426,14 +463,14 @@ namespace TraktPlugin.GUI
             if (_loadParameter == null)
             {
                 // maybe re-loading, so check previous window id
-                if (Show != null && Show.Ids.Trakt != null)
+                if (Show != null && (Show.Ids.Trakt != null || Show.Ids.Imdb != null || Show.Title != null))
                     return true;
 
                 return false;
             }
             
             Show = _loadParameter.FromJSON<TraktShowSummary>();
-            if (Show == null || Show.Ids.Trakt == null)
+            if (Show == null || Show.Ids == null)
                 return false;
             
             return true;
@@ -443,9 +480,21 @@ namespace TraktPlugin.GUI
         {
             // only set property if file exists
             // if we set now and download later, image will not set to skin
-            if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
-                GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
-       
+            if (Show.Images != null)
+            {
+                if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
+                {
+                    GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                }
+            }
+            else if (Fanart != null)
+            {
+                if (File.Exists(Fanart))
+                {
+                    GUIUtils.SetProperty("#Trakt.Show.Fanart", Fanart);
+                }
+            }
+            
             // Load Show Properties
             PublishShowSkinProperties(Show);
 
