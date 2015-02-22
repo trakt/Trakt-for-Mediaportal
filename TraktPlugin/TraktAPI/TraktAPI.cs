@@ -1362,6 +1362,18 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddSeasonsToWatchlist(TraktSyncSeasonsEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        public static TraktSyncResponse RemoveSeasonsFromWatchlist(TraktSyncSeasonsEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse AddEpisodesToWatchlist(TraktSyncEpisodes episodes)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, episodes.ToJSON());
@@ -1406,6 +1418,26 @@ namespace TraktPlugin.TraktAPI
             };
 
             return AddShowsToWatchlist(shows);
+        }
+
+        public static TraktSyncResponse AddSeasonToWatchlist(TraktSyncSeasonEx show)
+        {
+            var shows = new TraktSyncSeasonsEx
+            {
+                Shows = new List<TraktSyncSeasonEx>() { show }
+            };
+
+            return AddSeasonsToWatchlist(shows);
+        }
+
+        public static TraktSyncResponse RemoveSeasonFromWatchlist(TraktSyncSeasonEx show)
+        {
+            var shows = new TraktSyncSeasonsEx
+            {
+                Shows = new List<TraktSyncSeasonEx>() { show }
+            };
+
+            return RemoveSeasonsFromWatchlist(shows);
         }
 
         public static TraktSyncResponse RemoveShowFromWatchlist(TraktShow show)

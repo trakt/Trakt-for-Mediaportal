@@ -33,6 +33,7 @@ namespace TraktPlugin.GUI
             MarkAsWatched,
             AddToLibrary,
             AddToList,
+            AddToWatchlist,
             Sort,
             ChangeLayout
         }
@@ -212,6 +213,11 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
+            // Add to Watchlist
+            listItem = new GUIListItem(Translation.AddToWatchList);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.AddToWatchlist;
+
             // Sort By
             listItem = new GUIListItem(TraktSettings.SortSeasonsAscending ? Translation.SortSeasonsDescending : Translation.SortSeasonsAscending);
             dlg.Add(listItem);
@@ -263,6 +269,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToList):
                     TraktHelper.AddRemoveSeasonInUserList(selectedSeason, false);
+                    break;
+
+                case ((int)ContextMenuItem.AddToWatchlist):
+                    TraktHelper.AddSeasonToWatchList(Show, selectedSeason.Number);
                     break;
 
                 case ((int)ContextMenuItem.Sort):

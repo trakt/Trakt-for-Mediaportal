@@ -2275,9 +2275,9 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.Rate;
 
-            //pItem = new GUIListItem(Translation.AddToWatchList);
-            //dlg.Add(pItem);
-            //pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
+            pItem = new GUIListItem(Translation.AddToWatchList);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
 
             //pItem = new GUIListItem(Translation.AddToList);
             //dlg.Add(pItem);
@@ -2351,7 +2351,7 @@ namespace TraktPlugin.GUI
 
                 case ((int)TraktMenuItems.AddToWatchList):
                     TraktLogger.Info("Adding tv season to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}' Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
-                    //TraktHelper.AddSeasonToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
+                    TraktHelper.AddSeasonToWatchList(title, year.ToNullableInt32(), seasonNumber, tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
                     break;
 
                 case ((int)TraktMenuItems.AddToCustomList):

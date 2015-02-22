@@ -348,6 +348,92 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Season WatchList
+
+        public static void AddSeasonToWatchList(TraktShowSummary show, int season)
+        {
+            AddSeasonToWatchList(show.Title, show.Year, season, show.Ids.Tvdb, show.Ids.Imdb, show.Ids.Tmdb, show.Ids.Trakt);
+        }
+
+        public static void AddSeasonToWatchList(string title, int? year, int season, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            var seasonSync = new TraktSyncSeasonEx
+            {
+                Ids = new TraktShowId
+                {
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
+                },
+                Title = title,
+                Year = year,
+                Seasons = new List<TraktSyncSeasonEx.Season>
+                { 
+                    new TraktSyncSeasonEx.Season
+                    {
+                        Number = season
+                    }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddSeasonToWatchlist(objSyncData as TraktSyncSeasonEx);
+            })
+            {
+                IsBackground = true,
+                Name = "Watchlist"
+            };
+
+            syncThread.Start(seasonSync);
+        }
+
+        public static void RemoveSeasonFromWatchList(TraktShowSummary show, int season)
+        {
+            RemoveSeasonFromWatchList(show.Title, show.Year, season, show.Ids.Tvdb, show.Ids.Imdb, show.Ids.Tmdb, show.Ids.Trakt);
+        }
+
+        public static void RemoveSeasonFromWatchList(string title, int? year, int season, int? tvdbid, string imdbid, int? tmdbid, int? traktid)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            var seasonSync = new TraktSyncSeasonEx
+            {
+                Ids = new TraktShowId
+                {
+                    Trakt = traktid,
+                    Imdb = imdbid,
+                    Tmdb = tmdbid,
+                    Tvdb = tvdbid
+                },
+                Title = title,
+                Year = year,
+                Seasons = new List<TraktSyncSeasonEx.Season>
+                { 
+                    new TraktSyncSeasonEx.Season
+                    {
+                        Number = season
+                    }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveSeasonFromWatchlist(objSyncData as TraktSyncSeasonEx);
+            })
+            {
+                IsBackground = true,
+                Name = "Watchlist"
+            };
+
+            syncThread.Start(seasonSync);
+        }
+
+        #endregion
+
         #region Episode WatchList
 
         public static void AddEpisodeToWatchList(TraktEpisode episode)
