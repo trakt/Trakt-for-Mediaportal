@@ -397,6 +397,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktSeasonSummary>();
         }
 
+        public static IEnumerable<TraktComment> GetSeasonComments(string id, int season, int page = 1, int maxItems = 1000)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.SeasonComments, id, season, page, maxItems));
+            return response.FromJSONArray<TraktComment>();
+        }
+
         #endregion
 
         #region Comments

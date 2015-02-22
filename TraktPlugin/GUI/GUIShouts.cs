@@ -46,7 +46,8 @@ namespace TraktPlugin.GUI
         {
             movie,
             show,
-            episode
+            episode,
+            season
         }
 
         #endregion
@@ -73,6 +74,7 @@ namespace TraktPlugin.GUI
         public static ShoutTypeEnum ShoutType { get; set; }
         public static MovieShout MovieInfo { get; set; }
         public static ShowShout ShowInfo { get; set; }
+        public static SeasonShout SeasonInfo { get; set; }
         public static EpisodeShout EpisodeInfo { get; set; }
         public static string Fanart { get; set; }
         public static string OnlineFanart { get; set; }
@@ -451,6 +453,11 @@ namespace TraktPlugin.GUI
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", ShowInfo.Title);
                         return GetShowComments();
 
+                    case ShoutTypeEnum.season:
+                        if (SeasonInfo == null) return null;
+                        GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", SeasonInfo.Title);
+                        return GetSeasonComments();
+
                     case ShoutTypeEnum.episode:
                         if (EpisodeInfo == null) return null;
                         GUIUtils.SetProperty("#Trakt.Shout.CurrentItem", EpisodeInfo.ToString());
@@ -545,6 +552,31 @@ namespace TraktPlugin.GUI
             return Comments;
         }
 
+        private IEnumerable<TraktComment> GetSeasonComments()
+        {
+            if (Comments == null)
+            {
+                string title = string.Empty;
+
+                if (SeasonInfo.TraktId != null)
+                {
+                    title = SeasonInfo.TraktId.ToString();
+                }
+                else if (!string.IsNullOrEmpty(SeasonInfo.ImdbId))
+                {
+                    title = SeasonInfo.ImdbId;
+                }
+                else
+                {
+                    title = SeasonInfo.Title.StripYear(SeasonInfo.Year).ToSlug();
+                }
+
+                Comments = TraktAPI.TraktAPI.GetSeasonComments(title, SeasonInfo.SeasonIdx);
+            }
+
+            return Comments;
+        }
+
         private IEnumerable<TraktComment> GetEpisodeComments()
         {
             if (Comments == null)
@@ -598,6 +630,9 @@ namespace TraktPlugin.GUI
                         break;
                     case ShoutTypeEnum.show:
                         title = ShowInfo.Title;
+                        break;
+                    case ShoutTypeEnum.season:
+                        title = string.Format("{0} - {1} {2}", SeasonInfo.Title, Translation.Season, SeasonInfo.SeasonIdx);
                         break;
                     case ShoutTypeEnum.episode:
                         title = EpisodeInfo.ToString();
@@ -745,15 +780,13 @@ namespace TraktPlugin.GUI
         public int? TraktId { get; set; }
     }
 
-    public class EpisodeShout
+    public class SeasonShout : ShowShout
     {
-        public string Title { get; set; }
-        public int? Year { get; set; }
-        public string ImdbId { get; set; }
-        public int? TvdbId { get; set; }
-        public int? TmdbId { get; set; }
-        public int? TraktId { get; set; }
         public int SeasonIdx { get; set; }
+    }
+
+    public class EpisodeShout : SeasonShout
+    {
         public int EpisodeIdx { get; set; }
 
         public override string ToString()

@@ -58,6 +58,7 @@ namespace TraktPlugin.TraktAPI
 
         public const string MovieComments = "https://api-v2launch.trakt.tv/movies/{0}/comments?extended=full,images&page={1}&limit={2}";
         public const string ShowComments = "https://api-v2launch.trakt.tv/shows/{0}/comments?extended=full,images&page={1}&limit={2}";
+        public const string SeasonComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/comments?extended=full,images&page={2}&limit={3}";
         public const string EpisodeComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images&page={3}&limit={4}";
 
         public const string CommentLike = "https://api-v2launch.trakt.tv/comments/{0}/like";

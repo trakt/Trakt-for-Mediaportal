@@ -776,6 +776,42 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Season Shouts
+
+        public static void ShowTVSeasonShouts(TraktShowSummary show, TraktSeasonSummary season)
+        {
+            ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+        }
+
+        public static void ShowTVSeasonShouts(string title, int? year, int? tvdbid, int? traktid, string imdbid, int season, bool isWatched, string fanart, string onlineFanart = null)
+        {
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.Shouts.xml"))
+            {
+                // let user know they need to update skin or harass skin author
+                GUIUtils.ShowOKDialog(GUIUtils.PluginName(), Translation.SkinOutOfDate);
+                return;
+            }
+
+            var seasonInfo = new SeasonShout
+            {
+                TvdbId = tvdbid,
+                TraktId = traktid,
+                ImdbId = imdbid.ToNullIfEmpty(),
+                Title = title,
+                Year = year,
+                SeasonIdx = season
+            };
+
+            GUIShouts.ShoutType = GUIShouts.ShoutTypeEnum.season;
+            GUIShouts.SeasonInfo = seasonInfo;
+            GUIShouts.Fanart = fanart;
+            GUIShouts.OnlineFanart = onlineFanart;
+            GUIShouts.IsWatched = isWatched;
+            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Shouts);
+        }
+
+        #endregion
+
         #region Episode Shouts
 
         public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)

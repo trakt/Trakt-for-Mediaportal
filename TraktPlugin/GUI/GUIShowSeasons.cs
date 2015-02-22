@@ -28,6 +28,7 @@ namespace TraktPlugin.GUI
         enum ContextMenuItem
         {
             Trailers,
+            Comments,
             MarkAsWatched,
             AddToLibrary,
             AddToList,
@@ -185,6 +186,11 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
 
+            // Comments
+            listItem = new GUIListItem(Translation.Comments);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Comments;
+
             // Mark season as watched
             listItem = new GUIListItem(Translation.MarkAsWatched);
             dlg.Add(listItem);
@@ -218,6 +224,10 @@ namespace TraktPlugin.GUI
             {
                 case ((int)ContextMenuItem.Trailers):
                     GUICommon.ShowTVSeasonTrailersPluginMenu(Show, selectedSeason.Number);
+                    break;
+
+                case ((int)ContextMenuItem.Comments):
+                    TraktHelper.ShowTVSeasonShouts(Show, selectedSeason);
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):

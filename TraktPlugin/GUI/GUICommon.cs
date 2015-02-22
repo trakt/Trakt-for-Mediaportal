@@ -2259,11 +2259,127 @@ namespace TraktPlugin.GUI
         //TODO: Add support for Season related items e.g. Rate,List,Watchlist...
         public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
         {
-            return ShowTraktExtTVShowMenu(title, year, tvdbid, null, fanart, people, showAll);
+            return ShowTraktExtTVSeasonMenu(title, year, tvdbid, null, season, seasonid, fanart, people, showAll);
         }
         public static bool ShowTraktExtTVSeasonMenu(string title, string year, string tvdbid, string imdbid, string season, string seasonid, string fanart, SearchPeople people, bool showAll)
         {
-            return ShowTraktExtTVShowMenu(title, year, tvdbid, imdbid, fanart, people, showAll);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            dlg.Reset();
+            dlg.SetHeading(GUIUtils.PluginName());
+
+            GUIListItem pItem = new GUIListItem(Translation.Comments);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Shouts;
+
+            //pItem = new GUIListItem(Translation.Rate);
+            //dlg.Add(pItem);
+            //pItem.ItemId = (int)TraktMenuItems.Rate;
+
+            //pItem = new GUIListItem(Translation.AddToWatchList);
+            //dlg.Add(pItem);
+            //pItem.ItemId = (int)TraktMenuItems.AddToWatchList;
+
+            //pItem = new GUIListItem(Translation.AddToList);
+            //dlg.Add(pItem);
+            //pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            // also show non-context sensitive items related to shows
+            if (showAll)
+            {
+                // might want to check your recently watched, stats etc
+                pItem = new GUIListItem(Translation.UserProfile);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.UserProfile;
+
+                pItem = new GUIListItem(Translation.Network);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Network;
+
+                pItem = new GUIListItem(Translation.Calendar);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Calendar;
+
+                pItem = new GUIListItem(Translation.Recommendations);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Recommendations;
+
+                pItem = new GUIListItem(Translation.Trending);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Trending;
+
+                pItem = new GUIListItem(Translation.WatchList);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.WatchList;
+
+                pItem = new GUIListItem(Translation.Lists);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Lists;
+            }
+
+            int seasonNumber = 0;
+            if (!int.TryParse(season, out seasonNumber))
+                return false;
+
+            // Show Context Menu
+            dlg.DoModal(GUIWindowManager.ActiveWindow);
+            if (dlg.SelectedId < 0) return false;
+
+            switch (dlg.SelectedId)
+            {
+                case ((int)TraktMenuItems.Rate):
+                    TraktLogger.Info("Displaying rate dialog for tv season. Title = '{0}', Year = '{1}', TVDb ID = '{2}', Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
+                    //GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
+                    //{
+                    //    Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
+                    //    Title = title,
+                    //    Year = year.ToNullableInt32()
+                    //});
+                    break;
+
+                case ((int)TraktMenuItems.Shouts):
+                    TraktLogger.Info("Displaying Shouts for tv season. Title = '{0}', Year = '{1}', TVDb ID = '{2}', IMDb ID = '{3}', Season = '{4}'", title, year.ToLogString(), tvdbid.ToLogString(), imdbid.ToLogString(), season);
+                    TraktHelper.ShowTVSeasonShouts(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), null, imdbid, seasonNumber, false, fanart);
+                    break;
+
+                case ((int)TraktMenuItems.AddToWatchList):
+                    TraktLogger.Info("Adding tv season to Watchlist. Title = '{0}', Year = '{1}', TVDb ID = '{2}' Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
+                    //TraktHelper.AddShowToWatchList(title, year.ToNullableInt32(), tvdbid.ToNullableInt32(), imdbid.ToNullIfEmpty(), null, null);
+                    break;
+
+                case ((int)TraktMenuItems.AddToCustomList):
+                    TraktLogger.Info("Adding tv season to Custom List. Title = '{0}', Year = '{1}', TVDb ID = '{2}', Season = '{3}'", title, year.ToLogString(), tvdbid.ToLogString(), season);
+                    //TraktHelper.AddRemoveShowInUserList(title, year, tvdbid, false);
+                    break;
+
+                case ((int)TraktMenuItems.UserProfile):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.UserProfile);
+                    break;
+
+                case ((int)TraktMenuItems.Network):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Network);
+                    break;
+
+                case ((int)TraktMenuItems.Calendar):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    break;
+
+                case ((int)TraktMenuItems.Recommendations):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecommendationsShows);
+                    break;
+
+                case ((int)TraktMenuItems.Trending):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.TrendingShows);
+                    break;
+
+                case ((int)TraktMenuItems.WatchList):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
+                    break;
+
+                case ((int)TraktMenuItems.Lists):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    break;
+            }
+            return true;
         }
         #endregion
 
