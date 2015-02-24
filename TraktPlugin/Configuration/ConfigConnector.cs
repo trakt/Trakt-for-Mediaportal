@@ -92,12 +92,20 @@ namespace TraktPlugin
         }
 
         /// <summary>
+        /// Shows the Plugins configuration window with options parsed from command line
+        /// </summary>
+        public void ShowPlugin(string[] args)
+        {
+            Configuration config = new Configuration(args);
+            config.ShowDialog();
+        }
+
+        /// <summary>
         /// Shows the Plugins configuration window
         /// </summary>
         public void ShowPlugin()
         {
-            Configuration config = new Configuration();
-            config.ShowDialog();
+            ShowPlugin(null);
         }
 
         #endregion

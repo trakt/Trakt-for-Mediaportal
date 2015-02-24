@@ -41,6 +41,7 @@
             this.btnUp = new System.Windows.Forms.Button();
             this.clbPlugins = new System.Windows.Forms.CheckedListBox();
             this.gbSync = new System.Windows.Forms.GroupBox();
+            this.cbSyncPlaybackOnEnterPlugin = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.numSyncInterval = new System.Windows.Forms.NumericUpDown();
             this.lblSyncResumeDelta = new System.Windows.Forms.Label();
@@ -66,7 +67,6 @@
             this.progressBarSync = new System.Windows.Forms.ProgressBar();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.btnStartLibrarySync = new System.Windows.Forms.Button();
-            this.cbSyncPlaybackOnEnterPlugin = new System.Windows.Forms.CheckBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
@@ -205,6 +205,19 @@
             this.gbSync.TabIndex = 3;
             this.gbSync.TabStop = false;
             this.gbSync.Text = "Synchronisation";
+            // 
+            // cbSyncPlaybackOnEnterPlugin
+            // 
+            this.cbSyncPlaybackOnEnterPlugin.AutoSize = true;
+            this.cbSyncPlaybackOnEnterPlugin.Location = new System.Drawing.Point(9, 192);
+            this.cbSyncPlaybackOnEnterPlugin.Name = "cbSyncPlaybackOnEnterPlugin";
+            this.cbSyncPlaybackOnEnterPlugin.Size = new System.Drawing.Size(245, 17);
+            this.cbSyncPlaybackOnEnterPlugin.TabIndex = 10;
+            this.cbSyncPlaybackOnEnterPlugin.Text = "Sync Playback when entering enabled Plugins";
+            this.ttpConfig.SetToolTip(this.cbSyncPlaybackOnEnterPlugin, "Sync playback/resume data when entering an enabled plugin.\r\nThis is in addition t" +
+        "o syncing when the system starts up and resumes from standby.");
+            this.cbSyncPlaybackOnEnterPlugin.UseVisualStyleBackColor = true;
+            this.cbSyncPlaybackOnEnterPlugin.CheckedChanged += new System.EventHandler(this.cbSyncPlaybackOnEnterPlugin_CheckedChanged);
             // 
             // label2
             // 
@@ -504,19 +517,6 @@
             this.btnStartLibrarySync.UseVisualStyleBackColor = true;
             this.btnStartLibrarySync.Click += new System.EventHandler(this.btnStartLibrarySync_Click);
             // 
-            // cbSyncPlaybackOnEnterPlugin
-            // 
-            this.cbSyncPlaybackOnEnterPlugin.AutoSize = true;
-            this.cbSyncPlaybackOnEnterPlugin.Location = new System.Drawing.Point(9, 192);
-            this.cbSyncPlaybackOnEnterPlugin.Name = "cbSyncPlaybackOnEnterPlugin";
-            this.cbSyncPlaybackOnEnterPlugin.Size = new System.Drawing.Size(245, 17);
-            this.cbSyncPlaybackOnEnterPlugin.TabIndex = 10;
-            this.cbSyncPlaybackOnEnterPlugin.Text = "Sync Playback when entering enabled Plugins";
-            this.ttpConfig.SetToolTip(this.cbSyncPlaybackOnEnterPlugin, "Sync playback/resume data when entering an enabled plugin.\r\nThis is in addition t" +
-        "o syncing when the system starts up and resumes from standby.");
-            this.cbSyncPlaybackOnEnterPlugin.UseVisualStyleBackColor = true;
-            this.cbSyncPlaybackOnEnterPlugin.CheckedChanged += new System.EventHandler(this.cbSyncPlaybackOnEnterPlugin_CheckedChanged);
-            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -538,6 +538,7 @@
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trakt Configuration v10.0.0.0";
+            this.Load += new System.EventHandler(this.Configuration_Load);
             this.gbTraktAccount.ResumeLayout(false);
             this.gbTraktAccount.PerformLayout();
             this.gbPlugins.ResumeLayout(false);

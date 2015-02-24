@@ -14,17 +14,29 @@ namespace TraktPlugin
 {
     public partial class Configuration : Form
     {
-        public Configuration()
+        #region Command Line Options
+
+        private bool SilentMode { get; set; }
+        private bool AutoSync { get; set; }
+        private bool AutoCloseAfterSync { get; set; }
+
+        #endregion
+
+        public Configuration() { }
+
+        public Configuration(string[] args)
         {
             TraktLogger.OnLogReceived += new TraktLogger.OnLogReceivedDelegate(OnLogMessage);
-
+            
             InitializeComponent();
             this.Text = "Trakt Configuration v" + TraktSettings.Version;
 
+            ParseCommandLine(args);
+
             TraktSettings.PerformMaintenance();
             TraktSettings.LoadSettings(false);
-
-            #region load settings
+            
+            #region Load Settings
             tbUsername.Text = TraktSettings.Username;
             tbPassword.Text = TraktSettings.Password;
 
@@ -83,6 +95,32 @@ namespace TraktPlugin
             tbPassword.TextChanged += new EventHandler(this.tbPassword_TextChanged);
         }
 
+        private void ParseCommandLine(string[] args)
+        {
+            if (args == null)
+                return;
+
+            foreach (var argument in args)
+            {
+                switch (argument.ToLower().TrimStart('-'))
+                {
+                    case "silentmode":
+                        SilentMode = true;
+                        break;
+
+                    case "sync":
+                        AutoSync = true;
+                        break;
+
+                    case "closeaftersync":
+                        AutoCloseAfterSync = true;
+                        break;
+                }
+            }
+
+            TraktLogger.Info("Command Line Options Set, SilentMode = '{0}', AutoSync = '{1}'", SilentMode, AutoSync);
+        }
+
         private void OnLogMessage(string message, bool error)
         {
             UpdateStatus(message, error);
@@ -118,7 +156,7 @@ namespace TraktPlugin
             TraktSettings.KeepTraktLibraryClean = cbKeepInSync.Checked;
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private void CloseConfig()
         {
             if (TraktSettings.KeepTraktLibraryClean && (TraktSettings.MoviePluginCount > 1 || TraktSettings.TvShowPluginCount > 1))
             {
@@ -128,7 +166,14 @@ namespace TraktPlugin
                 TraktSettings.KeepTraktLibraryClean = false;
             }
             TraktSettings.SaveSettings(false);
+
+            TraktLogger.Info("Exiting Configuration");
             this.Close();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            CloseConfig();
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -449,6 +494,11 @@ namespace TraktPlugin
 
                     TraktLogger.Info("Library and Playback Sync completed for all enabled plugins");
                     SetSyncControlProperties(false);
+
+                    if (SilentMode || AutoCloseAfterSync)
+                    {
+                        CloseConfig();
+                    }
                 })
                 {
                     Name = "Sync",
@@ -587,6 +637,22 @@ namespace TraktPlugin
 
             lblSyncStatus.Text = message;
             lblSyncStatus.ForeColor = error ? Color.Red : Color.Black;
+        }
+
+        private void Configuration_Load(object sender, EventArgs e)
+        {
+            // hide the form if silent
+            if (SilentMode)
+            {
+                this.Opacity = 0;
+                this.ShowInTaskbar = true;
+                this.Visible = false;
+            }
+
+            if (AutoSync)
+            {
+                StartSync();
+            }
         }
 
     }

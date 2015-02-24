@@ -20,7 +20,7 @@ namespace ConfigLauncher
     {
         // Information needed from base class, implement in your subclass.
         public abstract string FriendlyPluginName { get; }
-        public abstract void Launch();
+        public abstract void Launch(string[] args);
 
         #region Private Stuff
 
@@ -119,7 +119,7 @@ namespace ConfigLauncher
 
                 // connect or assembly finder and attempt to launch plugin
                 bool pathsExists = plugin.InitAssemblyFinder();
-                if (pathsExists) plugin.Launch();
+                if (pathsExists) plugin.Launch(args);
             }
             catch (FileNotFoundException e)
             {
