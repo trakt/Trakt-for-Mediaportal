@@ -143,7 +143,7 @@
       <id>1</id>
       <posX>100</posX>
       <posY>338</posY>
-      <width>700</width>
+      <width>600</width>
       <label>#Trakt.List.Name</label>
       <textcolor>FF00b7ff</textcolor>
       <font>TitanLight16</font>
@@ -176,10 +176,34 @@
       <id>0</id>
       <posX>160</posX>
       <posY>434</posY>
-      <width>200</width>
+      <width>180</width>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <visible>!string.equals(#Trakt.List.Likes,)</visible>
     </control>
+    
+    <control>
+      <description>Comments Icon</description>
+      <type>image</type>
+      <id>1</id>
+      <width>48</width>
+      <height>48</height>
+      <posX>340</posX>
+      <posY>430</posY>
+      <texture>traktActivityShout.png</texture>
+      <visible>!string.equals(#Trakt.List.Comments,)</visible>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+    </control>
+    <control>
+      <type>label</type>
+      <label>#Trakt.List.Comments #Trakt.Translation.Comments.Label</label>
+      <id>0</id>
+      <posX>400</posX>
+      <posY>434</posY>
+      <width>315</width>
+      <animation effect="fade" time="250" delay="0">WindowClose</animation>
+      <visible>!string.equals(#Trakt.List.Comments,)</visible>
+    </control>
+    
     <control>
       <description>Summary (list)</description>
       <type>textboxscrollup</type>
