@@ -825,6 +825,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.List.UpdatedAt", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.ItemCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Likes", string.Empty);
+            GUIUtils.SetProperty("#Trakt.List.Comments", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Id", string.Empty);
             GUIUtils.SetProperty("#Trakt.List.Slug", string.Empty);
         }
@@ -840,6 +841,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.List.ShowNumbers", list.DisplayNumbers);
             SetProperty("#Trakt.List.UpdatedAt", list.UpdatedAt.FromISO8601().ToShortDateString());
             SetProperty("#Trakt.List.ItemCount", list.ItemCount);
+            SetProperty("#Trakt.List.Comments", list.Comments);
             SetProperty("#Trakt.List.Likes", list.Likes);
             SetProperty("#Trakt.List.Id", list.Ids.Trakt);
             SetProperty("#Trakt.List.Slug", list.Ids.Slug);
@@ -1077,6 +1079,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.TvRageId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.EpisodeAiredCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.InWatchList", string.Empty);
