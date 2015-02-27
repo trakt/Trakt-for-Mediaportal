@@ -322,9 +322,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Related
 
-        public static IEnumerable<TraktMovieSummary> GetRelatedMovies(string id, bool hideWatched = false)
+        public static IEnumerable<TraktMovieSummary> GetRelatedMovies(string id, int limit = 10)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.RelatedMovies, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedMovies, id, limit));
             return response.FromJSONArray<TraktMovieSummary>();
         }
 
@@ -371,9 +371,9 @@ namespace TraktPlugin.TraktAPI
 
         #region Related
 
-        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id, bool hideWatched = false)
+        public static IEnumerable<TraktShowSummary> GetRelatedShows(string id, int limit = 10)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.RelatedShows, id, limit));
             return response.FromJSONArray<TraktShowSummary>();
         }
 

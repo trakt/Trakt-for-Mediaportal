@@ -50,8 +50,8 @@ namespace TraktPlugin.TraktAPI
         public const string RecommendedMovies = "https://api-v2launch.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "https://api-v2launch.trakt.tv/recommendations/shows?extended=full,images";
 
-        public const string RelatedMovies = "https://api-v2launch.trakt.tv/movies/{0}/related?extended=full,images";
-        public const string RelatedShows = "https://api-v2launch.trakt.tv/shows/{0}/related?extended=full,images";
+        public const string RelatedMovies = "https://api-v2launch.trakt.tv/movies/{0}/related?extended=full,images&limit={1}";
+        public const string RelatedShows = "https://api-v2launch.trakt.tv/shows/{0}/related?extended=full,images&limit={1}";
 
         public const string TrendingMovies = "https://api-v2launch.trakt.tv/movies/trending?extended=full,images&page={0}&limit={1}";
         public const string TrendingShows = "https://api-v2launch.trakt.tv/shows/trending?extended=full,images&page={0}&limit={1}";

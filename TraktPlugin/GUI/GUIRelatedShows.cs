@@ -116,11 +116,19 @@ namespace TraktPlugin.GUI
             {
                 if (!dictRelatedShows.Keys.Contains(relatedShow.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    // TODO Hide Watched (Not Implemented on Server)
-                    _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, HideWatched);
-                    if (dictRelatedShows.Keys.Contains(relatedShow.Slug)) dictRelatedShows.Remove(relatedShow.Slug);
-                    dictRelatedShows.Add(relatedShow.Slug, _RelatedShows);
-                    LastRequest = DateTime.UtcNow;
+                    // get more items if we are going to hide watched
+                    int limit = HideWatched ? 100 : 10;
+
+                    _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, limit);
+
+                    if (dictRelatedShows.Keys.Contains(relatedShow.Slug)) 
+                        dictRelatedShows.Remove(relatedShow.Slug);
+
+                    if (_RelatedShows != null)
+                    {
+                        dictRelatedShows.Add(relatedShow.Slug, _RelatedShows);
+                        LastRequest = DateTime.UtcNow;
+                    }
                     PreviousSelectedIndex = 0;
                 }
                 return _RelatedShows;
@@ -215,14 +223,11 @@ namespace TraktPlugin.GUI
 
                 // Hide Watched Button
                 case (3):
-                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                    HideWatched = hideWatchedButton.Selected;
+                    dictRelatedShows.Remove(relatedShow.Slug);
+                    LoadRelatedShows();
+                    GUIControl.FocusControl((int)TraktGUIWindows.RelatedShows, Facade.GetID);
                     break;
-                    //TODO
-                    //HideWatched = hideWatchedButton.Selected;
-                    //dictRelatedShows.Remove(relatedShow.Slug);
-                    //LoadRelatedShows();
-                    //GUIControl.FocusControl((int)TraktGUIWindows.RelatedShows, Facade.GetID);
-                    //break;
 
                 default:
                     break;
@@ -404,7 +409,6 @@ namespace TraktPlugin.GUI
                         TvdbId = selectedShow.Ids.Tvdb,
                         Title = selectedShow.Title,
                         Year = selectedShow.Year
-                        
                     };
                     relatedShow = relShow;
                     LoadRelatedShows();
@@ -497,6 +501,12 @@ namespace TraktPlugin.GUI
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedShows, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
+            }
+
+            if (HideWatched)
+            {
+                // not interested if we have watched any underlying episodes
+                shows = shows.Where(s => s.Plays() == 0);
             }
 
             int itemId = 0;

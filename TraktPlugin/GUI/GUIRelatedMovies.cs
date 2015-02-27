@@ -115,11 +115,19 @@ namespace TraktPlugin.GUI
             {
                 if (!dictRelatedMovies.Keys.Contains(relatedMovie.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    // TODO Hide Watched (Not Implemented on Server)
-                    _RelatedMovies = TraktAPI.TraktAPI.GetRelatedMovies(relatedMovie.Slug, HideWatched);
-                    if (dictRelatedMovies.Keys.Contains(relatedMovie.Slug)) dictRelatedMovies.Remove(relatedMovie.Slug);
-                    dictRelatedMovies.Add(relatedMovie.Slug, _RelatedMovies);
-                    LastRequest = DateTime.UtcNow;
+                    // get more items if we are going to hide watched
+                    int limit = HideWatched ? 100 :10;
+
+                    _RelatedMovies = TraktAPI.TraktAPI.GetRelatedMovies(relatedMovie.Slug, limit);
+
+                    if (dictRelatedMovies.Keys.Contains(relatedMovie.Slug))
+                        dictRelatedMovies.Remove(relatedMovie.Slug);
+
+                    if (_RelatedMovies != null)
+                    {
+                        dictRelatedMovies.Add(relatedMovie.Slug, _RelatedMovies);
+                        LastRequest = DateTime.UtcNow;
+                    }
                     PreviousSelectedIndex = 0;
                 }
                 return dictRelatedMovies[relatedMovie.Slug];
@@ -203,14 +211,11 @@ namespace TraktPlugin.GUI
                 
                 // Hide Watched Button
                 case (3):
-                    GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
+                    HideWatched = hideWatchedButton.Selected;
+                    dictRelatedMovies.Remove(relatedMovie.Slug);
+                    LoadRelatedMovies();
+                    GUIControl.FocusControl((int)TraktGUIWindows.RelatedMovies, Facade.GetID);
                     break;
-                    //TODO
-                    //HideWatched = hideWatchedButton.Selected;
-                    //dictRelatedMovies.Remove(relatedMovie.Slug);
-                    //LoadRelatedMovies();
-                    //GUIControl.FocusControl((int)TraktGUIWindows.RelatedMovies, Facade.GetID);
-                    //break;
 
                 default:
                     break;
@@ -536,6 +541,12 @@ namespace TraktPlugin.GUI
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), string.Format(Translation.NoRelatedMovies, title));
                 GUIWindowManager.ShowPreviousWindow();
                 return;
+            }
+
+            if (HideWatched)
+            {
+                // not interested if we have watched any
+                movies = movies.Where(s => s.Plays() == 0);
             }
 
             int itemId = 0;
