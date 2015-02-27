@@ -732,6 +732,14 @@ namespace TraktPlugin.GUI
         public static string SettingMaxTrendingShowsRequestDescription = "Set the maxmimum number of trending tv shows to request per page";
         public static string SettingUseSSLName = "Secure Server Communication";
         public static string SettingUseSSLDescription = "Enable to use HTTPS, a secure way to communicate with the trakt.tv servers";
+        public static string SettingMaxRelatedMoviesRequestName = "Maximum Related Movies to Request";
+        public static string SettingMaxRelatedMoviesRequestDescription = "Set the maxmimum number of related movies to request when 'Hide Watched' is not enabled.";
+        public static string SettingMaxRelatedMoviesUnWatchedRequestName = "Maximum Related UnWatched Movies to Request";
+        public static string SettingMaxRelatedMoviesUnWatchedRequestDescription = "Set the maxmimum number of related movies to request when 'Hide Watched' is enabled.";
+        public static string SettingMaxRelatedShowsRequestName = "Maximum Related Shows to Request";
+        public static string SettingMaxRelatedShowsRequestDescription = "Set the maxmimum number of related shows to request when 'Hide Watched' is not enabled.";
+        public static string SettingMaxRelatedShowsUnWatchedRequestName = "Maximum Related UnWatched Shows to Request";
+        public static string SettingMaxRelatedShowsUnWatchedRequestDescription = "Set the maxmimum number of related shows to request when 'Hide Watched' is enabled.";        
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

@@ -476,6 +476,14 @@
   <string name="SettingMaxTrendingShowsRequestDescription">Set the maxmimum number of trending tv shows to request per page.</string>
   <string name="SettingUseSSLName">Secure Server Communication</string>
   <string name="SettingUseSSLDescription">Enable to use HTTPS, a secure way to communicate with the trakt.tv servers.</string>
+  <string name="SettingMaxRelatedMoviesRequestName">Maximum Related Movies to Request</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Set the maxmimum number of related movies to request when \'Hide Watched\' is not enabled.</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Maximum Related UnWatched Movies to Request</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Set the maxmimum number of related movies to request when \'Hide Watched\' is enabled.</string>
+  <string name="SettingMaxRelatedShowsRequestName">Maximum Related Shows to Request</string>
+  <string name="SettingMaxRelatedShowsRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is not enabled.</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximum Related UnWatched Shows to Request</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is enabled.</string>  
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>

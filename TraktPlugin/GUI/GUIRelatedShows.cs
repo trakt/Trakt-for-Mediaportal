@@ -117,7 +117,7 @@ namespace TraktPlugin.GUI
                 if (!dictRelatedShows.Keys.Contains(relatedShow.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     // get more items if we are going to hide watched
-                    int limit = HideWatched ? 100 : 10;
+                    int limit = HideWatched ? TraktSettings.MaxRelatedShowsUnWatchedRequest : TraktSettings.MaxRelatedShowsRequest;
 
                     _RelatedShows = TraktAPI.TraktAPI.GetRelatedShows(relatedShow.Slug, limit);
 

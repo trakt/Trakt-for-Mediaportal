@@ -116,7 +116,7 @@ namespace TraktPlugin.GUI
                 if (!dictRelatedMovies.Keys.Contains(relatedMovie.Slug) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
                     // get more items if we are going to hide watched
-                    int limit = HideWatched ? 100 :10;
+                    int limit = HideWatched ? TraktSettings.MaxRelatedMoviesUnWatchedRequest : TraktSettings.MaxRelatedMoviesRequest;
 
                     _RelatedMovies = TraktAPI.TraktAPI.GetRelatedMovies(relatedMovie.Slug, limit);
 

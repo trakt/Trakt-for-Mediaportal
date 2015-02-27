@@ -138,6 +138,10 @@ namespace TraktPlugin
         public static int MaxTrendingShowsRequest { get; set; }
         public static bool UseSSL { get; set; }
         public static IEnumerable<TraktCache.ListActivity> LastListActivities { get; set; }
+        public static int MaxRelatedMoviesRequest { get; set; }
+        public static int MaxRelatedMoviesUnWatchedRequest { get; set; }
+        public static int MaxRelatedShowsRequest { get; set; }
+        public static int MaxRelatedShowsUnWatchedRequest { get; set; }
         #endregion
 
         #region Constants
@@ -264,6 +268,10 @@ namespace TraktPlugin
         private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
         private const string cUseSSL = "UseSSL";
         private const string cLastListActivities = "LastListActivities";
+        private const string cMaxRelatedMoviesRequest = "MaxRelatedMoviesRequest";
+        private const string cMaxRelatedMoviesUnWatchedRequest = "MaxRelatedMoviesUnWatchedRequest";
+        private const string cMaxRelatedShowsRequest = "MaxRelatedShowsRequest";
+        private const string cMaxRelatedShowsUnWatchedRequest = "MaxRelatedShowsUnWatchedRequest";
         #endregion
         
         #region Properties
@@ -604,6 +612,10 @@ namespace TraktPlugin
                 MaxTrendingShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingShowsRequest, 100);
                 UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
                 LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
+                MaxRelatedMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedMoviesRequest, 10);
+                MaxRelatedMoviesUnWatchedRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 100);
+                MaxRelatedShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedShowsRequest, 10);
+                MaxRelatedShowsUnWatchedRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedShowsUnWatchedRequest, 100);
             }
 
             // initialise API settings
@@ -749,6 +761,10 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
                 xmlwriter.SetValueAsBool(cTrakt, cUseSSL, UseSSL);
                 xmlwriter.SetValue(cTrakt, cLastListActivities, LastListActivities.ToJSON());
+                xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesRequest, MaxRelatedMoviesRequest);
+                xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesUnWatchedRequest, MaxRelatedMoviesUnWatchedRequest);
+                xmlwriter.SetValue(cTrakt, cMaxRelatedShowsRequest, MaxRelatedShowsRequest);
+                xmlwriter.SetValue(cTrakt, cMaxRelatedShowsUnWatchedRequest, MaxRelatedShowsUnWatchedRequest);
             }
 
             Settings.SaveCache();
