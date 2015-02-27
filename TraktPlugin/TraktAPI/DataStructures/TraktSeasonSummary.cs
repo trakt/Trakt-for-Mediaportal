@@ -18,6 +18,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "episode_count")]
         public int EpisodeCount { get; set; }
 
+        [DataMember(Name = "aired_episodes")]
+        public int EpisodeAiredCount { get; set; }
+
         [DataMember(Name = "overview")]
         public string Overview { get; set; }
 

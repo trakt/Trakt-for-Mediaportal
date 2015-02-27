@@ -1098,6 +1098,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}", show.Ids.Slug, season.Number));
             SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
             SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
+            SetProperty("#Trakt.Season.EpisodeAiredCount", season.EpisodeAiredCount);
             SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
             SetProperty("#Trakt.Season.Watched", season.IsWatched(show));
             SetProperty("#Trakt.Season.Plays", season.Plays(show));

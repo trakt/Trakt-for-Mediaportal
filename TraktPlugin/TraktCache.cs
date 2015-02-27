@@ -1178,7 +1178,7 @@ namespace TraktPlugin
             // trakt does not include specials in count, nor should we
             int watchedEpisodeCount = watchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
                                                                     e.Season == season.Number).Count();
-            return watchedEpisodeCount >= season.EpisodeCount;
+            return watchedEpisodeCount >= season.EpisodeAiredCount;
         }
 
         public static bool IsCollected(this TraktSeasonSummary season, TraktShowSummary show)
@@ -1194,7 +1194,7 @@ namespace TraktPlugin
             // trakt does not include specials in count, nor should we
             int collectedEpisodeCount = collectedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
                                                                         e.Season == season.Number).Count();
-            return collectedEpisodeCount >= season.EpisodeCount;
+            return collectedEpisodeCount >= season.EpisodeAiredCount;
         }
 
         public static int? UserRating(this TraktSeasonSummary season)
