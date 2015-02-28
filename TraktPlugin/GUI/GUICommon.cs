@@ -942,8 +942,8 @@ namespace TraktPlugin.GUI
                 SetProperty("#Trakt.Statistics.Shows.Collection", stats.Shows.Collected);
                 SetProperty("#Trakt.Statistics.Shows.Watched", stats.Shows.Watched);
                 SetProperty("#Trakt.Statistics.Shows.Shouts", stats.Shows.Comments);
-                SetProperty("#Trakt.Statistics.Shows.Loved", stats.Shows.Ratings); //TODO
-                SetProperty("#Trakt.Statistics.Shows.Hated", "0"); //TODO
+                SetProperty("#Trakt.Statistics.Shows.Loved", TraktCache.StatsShowsLoved());
+                SetProperty("#Trakt.Statistics.Shows.Hated", TraktCache.StatsShowsHated());
                 SetProperty("#Trakt.Statistics.Shows.Ratings", stats.Shows.Ratings);
             }
             #endregion
@@ -955,8 +955,8 @@ namespace TraktPlugin.GUI
                 //SetProperty("#Trakt.Statistics.Episodes.CheckinsUnique", stats.Episodes.CheckinsUnique);
                 SetProperty("#Trakt.Statistics.Episodes.Library", stats.Episodes.Collected);
                 SetProperty("#Trakt.Statistics.Episodes.Collection", stats.Episodes.Collected);
-                SetProperty("#Trakt.Statistics.Episodes.Hated", "0"); //TODO
-                SetProperty("#Trakt.Statistics.Episodes.Loved", stats.Episodes.Ratings); //TODO
+                SetProperty("#Trakt.Statistics.Episodes.Hated", TraktCache.StatsEpisodesHated());
+                SetProperty("#Trakt.Statistics.Episodes.Loved", TraktCache.StatsEpisodesLoved());
                 SetProperty("#Trakt.Statistics.Episodes.Ratings", stats.Episodes.Ratings);
                 //SetProperty("#Trakt.Statistics.Episodes.Scrobbles", stats.Episodes.Scrobbles);
                 //SetProperty("#Trakt.Statistics.Episodes.ScrobblesUnique", stats.Episodes.ScrobblesUnique);
@@ -980,8 +980,8 @@ namespace TraktPlugin.GUI
                 SetProperty("#Trakt.Statistics.Movies.Collection", stats.Movies.Collected);
                 SetProperty("#Trakt.Statistics.Movies.Library", stats.Movies.Collected);
                 SetProperty("#Trakt.Statistics.Movies.Ratings", stats.Movies.Ratings);
-                SetProperty("#Trakt.Statistics.Movies.Loved", stats.Movies.Ratings); //TODO
-                SetProperty("#Trakt.Statistics.Movies.Hated", "0"); //TODO
+                SetProperty("#Trakt.Statistics.Movies.Loved", TraktCache.StatsMoviesLoved());
+                SetProperty("#Trakt.Statistics.Movies.Hated", TraktCache.StatsMoviesHated());
                 //SetProperty("#Trakt.Statistics.Movies.Scrobbles", stats.Movies.Scrobbles);
                 //SetProperty("#Trakt.Statistics.Movies.ScrobblesUnique", stats.Movies.ScrobblesUnique);
                 //SetProperty("#Trakt.Statistics.Movies.Seen", stats.Movies.Seen);

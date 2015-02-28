@@ -1029,6 +1029,57 @@ namespace TraktPlugin
 
         #region Get User Data
 
+        #region Statistics
+
+        public static int StatsMoviesLoved()
+        {
+            if (RatedMovies == null)
+                return 0;
+
+            return RatedMovies.Where(m => m.Rating >= 6).Count();
+        }
+
+        public static int StatsMoviesHated()
+        {
+            if (RatedMovies == null)
+                return 0;
+
+            return RatedMovies.Where(m => m.Rating < 6).Count();
+        }
+
+        public static int StatsShowsLoved()
+        {
+            if (RatedShows == null)
+                return 0;
+
+            return RatedShows.Where(s => s.Rating >= 6).Count();
+        }
+
+        public static int StatsShowsHated()
+        {
+            if (RatedShows == null)
+                return 0;
+
+            return RatedShows.Where(s => s.Rating < 6).Count();
+        }
+
+        public static int StatsEpisodesLoved()
+        {
+            if (RatedEpisodes == null)
+                return 0;
+
+            return RatedEpisodes.Where(e => e.Rating >= 6).Count();
+        }
+
+        public static int StatsEpisodesHated()
+        {
+            if (RatedEpisodes == null)
+                return 0;
+
+            return RatedEpisodes.Where(e => e.Rating < 6).Count();
+        }
+        #endregion
+
         #region Movies
 
         public static bool IsWatched(this TraktMovie movie)
