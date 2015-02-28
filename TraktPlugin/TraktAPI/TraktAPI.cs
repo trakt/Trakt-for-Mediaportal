@@ -1593,7 +1593,7 @@ namespace TraktPlugin.TraktAPI
                     {
                         headers += string.Format("{0}: {1}, ", key, response.Headers[key]);
                     }
-                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
+                    errorMessage = string.Format("Protocol Error, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
 
                     if (OnLatency != null)
                         OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, 0);
@@ -1711,7 +1711,7 @@ namespace TraktPlugin.TraktAPI
                     {
                         headers += string.Format("{0}: {1}, ", key, response.Headers[key]);
                     }
-                    errorMessage = string.Format("Request failed, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
+                    errorMessage = string.Format("Protocol Error, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
 
                     result = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
 

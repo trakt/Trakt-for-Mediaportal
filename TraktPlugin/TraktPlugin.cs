@@ -432,7 +432,7 @@ namespace TraktPlugin
             var syncPlaybackThread = new Thread((obj) =>
             {
                 if (TraktSettings.AccountStatus != ConnectionState.Connected)
-                return;
+                    return;
 
                 TraktLogger.Info("Playback Sync started for all enabled plugins");
 

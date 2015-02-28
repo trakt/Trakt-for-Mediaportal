@@ -453,7 +453,7 @@ namespace TraktPlugin
                         else
                         {
                             // check the error code for the type of error retured
-                            if (response.Description != null)
+                            if (response != null && response.Description != null)
                             {
                                 TraktLogger.Error("Login to trakt.tv failed, Code = '{0}', Reason = '{1}'", response.Code, response.Description);
 

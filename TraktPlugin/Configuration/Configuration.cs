@@ -118,7 +118,7 @@ namespace TraktPlugin
                 }
             }
 
-            TraktLogger.Info("Command Line Options Set, SilentMode = '{0}', AutoSync = '{1}'", SilentMode, AutoSync);
+            TraktLogger.Info("Command Line Options Set, SilentMode = '{0}', AutoSync = '{1}', CloseAfterSync = '{2}'", SilentMode, AutoSync, AutoCloseAfterSync);
         }
 
         private void OnLogMessage(string message, bool error)
