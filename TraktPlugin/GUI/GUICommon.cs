@@ -904,6 +904,22 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedTraktUnique", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Movies.WatchedUnique", string.Empty);
             #endregion
+
+            #region Ratings Statistics
+
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Total", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.1", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.2", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.3", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.4", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.5", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.6", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.7", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.8", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.9", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Ratings.Distribution.10", string.Empty);
+
+            #endregion
         }
 
         internal static void SetStatisticProperties(TraktUserStatistics stats)
@@ -977,6 +993,23 @@ namespace TraktPlugin.GUI
                 //SetProperty("#Trakt.Statistics.Movies.WatchedTrakt", stats.Movies.WatchedTrakt);
                 //SetProperty("#Trakt.Statistics.Movies.WatchedTraktUnique", stats.Movies.WatchedTraktUnique);
                 SetProperty("#Trakt.Statistics.Movies.WatchedUnique", stats.Movies.Watched);
+            }
+            #endregion
+
+            #region Ratings Statistics
+            if (stats.Ratings != null)
+            {
+                SetProperty("#Trakt.Statistics.Ratings.Total", stats.Ratings.Total);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.1", stats.Ratings.Distribution.One);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.2", stats.Ratings.Distribution.Two);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.3", stats.Ratings.Distribution.Three);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.4", stats.Ratings.Distribution.Four);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.5", stats.Ratings.Distribution.Five);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.6", stats.Ratings.Distribution.Six);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.7", stats.Ratings.Distribution.Seven);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.8", stats.Ratings.Distribution.Eight);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.9", stats.Ratings.Distribution.Nine);
+                SetProperty("#Trakt.Statistics.Ratings.Distribution.10", stats.Ratings.Distribution.Ten);
             }
             #endregion
         }

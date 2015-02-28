@@ -24,6 +24,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "network")]
         public NetworkStats Network { get; set; }
 
+        [DataMember(Name = "ratings")]
+        public RatingStats Ratings { get; set; }
+
+
         [DataContract]
         public class MovieStats
         {
@@ -99,6 +103,16 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "following")]
             public int Following { get; set; }
+        }
+
+        [DataContract]
+        public class RatingStats
+        {
+            [DataMember(Name = "total")]
+            public int Total { get; set; }
+
+            [DataMember(Name = "distribution")]
+            public TraktRatingDistribution Distribution { get; set; }
         }
     }
 }

@@ -793,6 +793,7 @@ namespace TraktPlugin.GUI
         public static string UnableToPlayTrailer = "Unable to play trailer.";
         public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed\nfrom the 'Friends' view.";
         public static string UserProfile = "User Profile";
+        public static string UserRatingsDistribution = "Ratings distribution 1 to 10 hearts";
 
         // V
         public static string View = "View";

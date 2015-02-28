@@ -532,6 +532,7 @@
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
   <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>
+  <string name="UserRatingsDistribution">Ratings distribution 1 to 10 hearts</string>
   <!--V-->
   <string name="View">View</string>
   <string name="Votes">Votes</string>
