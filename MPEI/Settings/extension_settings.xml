@@ -122,8 +122,8 @@
              displayname="#Trakt.Translation.SettingDashboardLoadDelayName.Label"
              defaultvalue="200"
              type="string"
-             listvalues="0|50|100|150|200|250|300|350|400|500|750|1000"
-             displaylistvalues="0|50|100|150|200|250|300|350|400|500|750|1000"
+             listvalues="100|150|200|250|300|350|400|500|750|1000"
+             displaylistvalues="100|150|200|250|300|350|400|500|750|1000"
              description="#Trakt.Translation.SettingDashboardLoadDelayDescription.Label"
              configfile="MediaPortal.xml" />
     <setting entryname="Trakt"

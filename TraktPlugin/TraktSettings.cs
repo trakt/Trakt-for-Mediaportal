@@ -492,6 +492,23 @@ namespace TraktPlugin
         #endregion
 
         #region Methods
+
+        static int GetValueAsIntAndValidate(string section, string key, int defaultValue, int minValue, int maxValue)
+        {
+            int retValue;
+
+            using (Settings xmlreader = new MPSettings())
+            {
+                retValue = xmlreader.GetValueAsInt(section, key, defaultValue);
+            }
+
+            // validate
+            if (retValue < minValue || retValue > maxValue)
+                retValue = defaultValue;
+
+            return retValue;
+        }
+
         /// <summary>
         /// Loads the Settings
         /// </summary>
@@ -520,8 +537,8 @@ namespace TraktPlugin
                 //TODOSkippedMovies = xmlreader.GetValueAsString(cTrakt, cSkippedMovies, "{}").FromJSON<SyncMovieCheck>();
                 //TODOAlreadyExistMovies = xmlreader.GetValueAsString(cTrakt, cAlreadyExistMovies, "{}").FromJSON<SyncMovieCheck>();
                 LogLevel = xmlreader.GetValueAsInt("general", "loglevel", 1);
-                SyncTimerLength = xmlreader.GetValueAsInt(cTrakt, cSyncTimerLength, 24);
-                SyncStartDelay = xmlreader.GetValueAsInt(cTrakt, cSyncStartDelay, 5000);
+                SyncTimerLength = GetValueAsIntAndValidate(cTrakt, cSyncTimerLength, 24, 1, 168);
+                SyncStartDelay = GetValueAsIntAndValidate(cTrakt, cSyncStartDelay, 5000, 0, 300000);
                 TrendingMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingMoviesDefaultLayout, 0);
                 TrendingShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cTrendingShowsDefaultLayout, 0);
                 RecommendedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecommendedMoviesDefaultLayout, 0);
@@ -539,8 +556,8 @@ namespace TraktPlugin
                 DefaultCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarStartDate, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
-                WebRequestCacheMinutes = xmlreader.GetValueAsInt(cTrakt, cWebRequestCacheMinutes, 15);
-                WebRequestTimeout = xmlreader.GetValueAsInt(cTrakt, cWebRequestTimeout, 30000);
+                WebRequestCacheMinutes = GetValueAsIntAndValidate(cTrakt, cWebRequestCacheMinutes, 15, 1, 1440);
+                WebRequestTimeout = GetValueAsIntAndValidate(cTrakt, cWebRequestTimeout, 30000, 15000, 90000);
                 GetFollowerRequestsOnStartup = xmlreader.GetValueAsBool(cTrakt, cGetFollowerRequestsOnStartup, false);
                 MovingPicturesCategories = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesCategories, false);
                 MovingPicturesFilters = xmlreader.GetValueAsBool(cTrakt, cMovingPicturesFilters, false);
@@ -550,9 +567,9 @@ namespace TraktPlugin
                 HideSpoilersOnShouts = xmlreader.GetValueAsBool(cTrakt, cHideSpoilersOnShouts, false);                
                 SyncRatings = xmlreader.GetValueAsBool(cTrakt, cSyncRatings, true);
                 ShowRateDialogOnWatched = xmlreader.GetValueAsBool(cTrakt, cShowRateDialogOnWatched, true);
-                DashboardActivityPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardActivityPollInterval, 15000);
-                DashboardTrendingPollInterval = xmlreader.GetValueAsInt(cTrakt, cDashboardTrendingPollInterval, 300000);
-                DashboardLoadDelay = xmlreader.GetValueAsInt(cTrakt, cDashboardLoadDelay, 200);
+                DashboardActivityPollInterval = GetValueAsIntAndValidate(cTrakt, cDashboardActivityPollInterval, 15000, 15000, 300000);
+                DashboardTrendingPollInterval = GetValueAsIntAndValidate(cTrakt, cDashboardTrendingPollInterval, 300000, 300000, 18000000);
+                DashboardLoadDelay = GetValueAsIntAndValidate(cTrakt, cDashboardLoadDelay, 200, 100, 1000);
                 DashboardMovieTrendingActive = xmlreader.GetValueAsBool(cTrakt, cDashboardMovieTrendingActive, false);
                 MovieRecommendationGenre = xmlreader.GetValueAsString(cTrakt, cMovieRecommendationGenre, "All");
                 MovieRecommendationHideCollected = xmlreader.GetValueAsBool(cTrakt, cMovieRecommendationHideCollected, false);
@@ -574,7 +591,7 @@ namespace TraktPlugin
                 MyFilmsCategories = xmlreader.GetValueAsBool(cTrakt, cMyFilmsCategories, false);
                 SortSeasonsAscending = xmlreader.GetValueAsBool(cTrakt, cSortSeasonsAscending, false);
                 RememberLastSelectedActivity = xmlreader.GetValueAsBool(cTrakt, cRememberLastSelectedActivity, true);
-                MovPicsRatingDlgDelay = xmlreader.GetValueAsInt(cTrakt, cMovPicsRatingDlgDelay, 500);
+                MovPicsRatingDlgDelay = GetValueAsIntAndValidate(cTrakt, cMovPicsRatingDlgDelay, 500, 250, 1000);
                 ShowRateDlgForPlaylists = xmlreader.GetValueAsBool(cTrakt, cShowRateDlgForPlaylists, false);
                 TrendingMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatched, false);
                 TrendingMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cTrendingMoviesHideWatchlisted, false);
@@ -597,25 +614,25 @@ namespace TraktPlugin
                 SearchUsersDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSearchUsersDefaultLayout, 0);
                 SearchTypes = xmlreader.GetValueAsInt(cTrakt, cSearchTypes, 1);
                 ShowSearchResultsBreakdown = xmlreader.GetValueAsBool(cTrakt, cShowSearchResultsBreakdown, true);
-                MaxSearchResults = xmlreader.GetValueAsInt(cTrakt, cMaxSearchResults, 30);
+                MaxSearchResults = GetValueAsIntAndValidate(cTrakt, cMaxSearchResults, 30, 1, 200);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
                 IgnoreWatchedPercentOnDVD = xmlreader.GetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, true);
                 ActivityStreamView = xmlreader.GetValueAsInt(cTrakt, cActivityStreamView, 4);
                 LastSyncActivities = xmlreader.GetValueAsString(cTrakt, cLastSyncActivities, new TraktLastSyncActivities().ToJSON()).FromJSON<TraktLastSyncActivities>();
-                SyncBatchSize = xmlreader.GetValueAsInt(cTrakt, cSyncBatchSize, 100);
+                SyncBatchSize = GetValueAsIntAndValidate(cTrakt, cSyncBatchSize, 100, 25, 1000);
                 SyncPlayback = xmlreader.GetValueAsBool(cTrakt, cSyncPlayback, true);
-                SyncResumeDelta = xmlreader.GetValueAsInt(cTrakt, cSyncResumeDelta, 5);
+                SyncResumeDelta = GetValueAsIntAndValidate(cTrakt, cSyncResumeDelta, 5, 0, 600);
                 SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
-                SyncPlaybackCacheExpiry = xmlreader.GetValueAsInt(cTrakt, cSyncPlaybackCacheExpiry, 5);
+                SyncPlaybackCacheExpiry = GetValueAsIntAndValidate(cTrakt, cSyncPlaybackCacheExpiry, 5, 1, 1440);
                 LastPausedItemProcessed = xmlreader.GetValueAsString(cTrakt, cLastPausedItemProcessed, "2010-01-01T00:00:00.000Z");
-                MaxTrendingMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingMoviesRequest, 100);
-                MaxTrendingShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxTrendingShowsRequest, 100);
+                MaxTrendingMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingMoviesRequest, 100, 1, 1000);
+                MaxTrendingShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingShowsRequest, 100, 1, 1000);
                 UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
                 LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
-                MaxRelatedMoviesRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedMoviesRequest, 10);
-                MaxRelatedMoviesUnWatchedRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 100);
-                MaxRelatedShowsRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedShowsRequest, 10);
-                MaxRelatedShowsUnWatchedRequest = xmlreader.GetValueAsInt(cTrakt, cMaxRelatedShowsUnWatchedRequest, 100);
+                MaxRelatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesRequest, 10, 1, 100);
+                MaxRelatedMoviesUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 100, 1, 100);
+                MaxRelatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsRequest, 10, 1, 100);
+                MaxRelatedShowsUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsUnWatchedRequest, 100, 1, 100);
             }
 
             // initialise API settings
