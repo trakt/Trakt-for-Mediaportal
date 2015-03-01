@@ -126,7 +126,7 @@ namespace TraktPlugin
             // initial publish from persisted settings            
             if (TraktSettings.LastStatistics != null)
             {
-                GUICommon.SetStatisticProperties(TraktSettings.LastStatistics);
+                GUICommon.SetStatisticProperties(TraktSettings.LastStatistics, TraktSettings.Username);
                 TraktSettings.LastStatistics = null;
             }
 
@@ -134,7 +134,7 @@ namespace TraktPlugin
             var userStats = TraktAPI.TraktAPI.GetUserStatistics(TraktSettings.Username);
             if (userStats != null)
             {
-                GUICommon.SetStatisticProperties(userStats);
+                GUICommon.SetStatisticProperties(userStats, TraktSettings.Username);
                 PreviousStatistics = userStats;
             }
         }

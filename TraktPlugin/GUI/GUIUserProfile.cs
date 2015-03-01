@@ -415,7 +415,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetUserProperties(user.Profile);
 
             // Publish Statistics
-            GUICommon.SetStatisticProperties(user.Statistics);
+            GUICommon.SetStatisticProperties(user.Statistics, user.Profile.Username);
         }
 
         private void OnActivityTypeSelected(GUIListItem item, GUIControl parent)
