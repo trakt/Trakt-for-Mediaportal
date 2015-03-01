@@ -417,6 +417,10 @@ namespace TraktPlugin.GUI
 
             foreach (var episode in episodes)
             {
+                // skip invalid episodes
+                if (episode.Number == 0)
+                    continue;
+
                 // use episode short string
                 string itemLabel = string.Format("{0}. {1}", episode.Number.ToString(), string.IsNullOrEmpty(episode.Title) ? Translation.Episode + " " + episode.Number.ToString() : episode.Title);
 
