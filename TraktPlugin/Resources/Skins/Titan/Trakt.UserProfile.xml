@@ -494,7 +494,7 @@
       <visible>!string.equals(#Trakt.Statistics.Episodes.Collection,)</visible>
     </control>
     <control>
-      <description>Episodes Loved Icon</description>
+      <description>Episodes Ratings Icon</description>
       <type>image</type>
       <id>1</id>
       <posX>721</posX>
@@ -504,20 +504,20 @@
       <texture>traktActivityLove.png</texture>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Episodes.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Episodes.Ratings,)</visible>
     </control>
     <control>
-      <description>Episode Loved Count</description>
+      <description>Episode Ratings Count</description>
       <id>0</id>
       <font>font14</font>
-      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Episodes.Loved)))</label>
+      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Episodes.Ratings)))</label>
       <type>label</type>
       <posX>790</posX>
       <posY>792</posY>
       <width>225</width>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Episodes.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Episodes.Ratings,)</visible>
     </control>
     <control>
       <description>Episode Shouts Icon</description>
@@ -613,7 +613,7 @@
       <visible>!string.equals(#Trakt.Statistics.Shows.Collection,)</visible>
     </control>
     <control>
-      <description>Shows Loved Icon</description>
+      <description>Shows Ratings Icon</description>
       <type>image</type>
       <id>1</id>
       <posX>721</posX>
@@ -623,20 +623,20 @@
       <texture>traktActivityLove.png</texture>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Shows.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Shows.Ratings,)</visible>
     </control>
     <control>
-      <description>Shows Loved Count</description>
+      <description>Shows Ratings Count</description>
       <id>0</id>
       <font>font14</font>
-      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Shows.Loved)))</label>
+      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Shows.Ratings)))</label>
       <type>label</type>
       <posX>790</posX>
       <posY>728</posY>
       <width>225</width>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Shows.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Shows.Ratings,)</visible>
     </control>
     <control>
       <description>Shows Shouts Icon</description>
@@ -732,7 +732,7 @@
       <visible>!string.equals(#Trakt.Statistics.Movies.Collection,)</visible>
     </control>
     <control>
-      <description>Movies Loved Icon</description>
+      <description>Movies Ratings Icon</description>
       <type>image</type>
       <id>1</id>
       <posX>721</posX>
@@ -742,20 +742,20 @@
       <texture>traktActivityLove.png</texture>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Movies.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Movies.Ratings,)</visible>
     </control>
     <control>
-      <description>Movies Loved Count</description>
+      <description>Movies Ratings Count</description>
       <id>0</id>
       <font>font14</font>
-      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Movies.Loved)))</label>
+      <label>#(string.format('{0:#,0}', cint(#Trakt.Statistics.Movies.Ratings)))</label>
       <type>label</type>
       <posX>790</posX>
       <posY>854</posY>
       <width>225</width>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Movies.Loved,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Movies.Ratings,)</visible>
     </control>
     <control>
       <description>Movies Shouts Icon</description>
