@@ -942,11 +942,11 @@ namespace TraktPlugin
             if (PreviousTrendingMovies == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
                 TraktLogger.Debug("Getting current list of movies trending from trakt.tv");
-                var trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
-                if (trendingMovies != null && trendingMovies.Count() > 0)
+                var trendingResult = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
+                if (trendingResult != null && trendingResult.Movies.Count() > 0)
                 {
                     LastTrendingMovieUpdate = DateTime.Now;
-                    PreviousTrendingMovies = trendingMovies;
+                    PreviousTrendingMovies = trendingResult.Movies;
                 }
             }
             else
@@ -968,11 +968,11 @@ namespace TraktPlugin
             if (PreviousTrendingShows == null || TraktSettings.DashboardTrendingPollInterval <= timeSinceLastUpdate)
             {
                 TraktLogger.Debug("Getting current list of tv shows trending from trakt.tv");
-                var trendingShows = TraktAPI.TraktAPI.GetTrendingShows(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
-                if (trendingShows != null && trendingShows.Count() > 0)
+                var trendingItems = TraktAPI.TraktAPI.GetTrendingShows(1, TraktSettings.FilterTrendingOnDashboard ? 100 : TraktSkinSettings.MaxTrendingItems);
+                if (trendingItems != null && trendingItems.Shows.Count() > 0)
                 {
                     LastTrendingShowUpdate = DateTime.Now;
-                    PreviousTrendingShows = trendingShows;
+                    PreviousTrendingShows = trendingItems.Shows;
                 }
             }
             else

@@ -342,10 +342,31 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktMovieTrending> GetTrendingMovies(int page = 1, int maxItems = 100)
+        public static TraktMoviesTrending GetTrendingMovies(int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.TrendingMovies, page, maxItems));
-            return response.FromJSONArray<TraktMovieTrending>();
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.TrendingMovies, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktMoviesTrending
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    TotalWatchers = int.Parse(headers["X-Trending-User-Count"]),
+                    Movies = response.FromJSONArray<TraktMovieTrending>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion
@@ -417,10 +438,31 @@ namespace TraktPlugin.TraktAPI
 
         #region Trending
 
-        public static IEnumerable<TraktShowTrending> GetTrendingShows(int page = 1, int maxItems = 100)
+        public static TraktShowsTrending GetTrendingShows(int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.TrendingShows, page, maxItems));
-            return response.FromJSONArray<TraktShowTrending>();
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.TrendingShows, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktShowsTrending
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    TotalWatchers = int.Parse(headers["X-Trending-User-Count"]),
+                    Shows = response.FromJSONArray<TraktShowTrending>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion
@@ -1508,6 +1550,14 @@ namespace TraktPlugin.TraktAPI
 
         static string GetFromTrakt(string address, string method = "GET", bool sendOAuth = true)
         {
+            WebHeaderCollection headerCollection;
+            return GetFromTrakt(address, out headerCollection, method, sendOAuth);
+        }
+
+        static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool sendOAuth = true)
+        {
+            headerCollection = new WebHeaderCollection();
+
             if (UseSSL)
             {
                 ServicePointManager.Expect100Continue = true;
@@ -1561,6 +1611,8 @@ namespace TraktPlugin.TraktAPI
 
                 StreamReader reader = new StreamReader(stream);
                 string strResponse = reader.ReadToEnd();
+
+                headerCollection = response.Headers;
 
                 if (method == "DELETE")
                 {

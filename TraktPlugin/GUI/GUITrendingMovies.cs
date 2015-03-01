@@ -66,7 +66,7 @@ namespace TraktPlugin.GUI
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
 
-        IEnumerable<TraktMovieTrending> TrendingMovies
+        TraktMoviesTrending TrendingMovies
         {
             get
             {
@@ -79,7 +79,7 @@ namespace TraktPlugin.GUI
                 return _TrendingMovies;
             }
         }
-        private IEnumerable<TraktMovieTrending> _TrendingMovies = null;
+        private TraktMoviesTrending _TrendingMovies = null;
 
         #endregion
 
@@ -349,13 +349,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    var movies = result as IEnumerable<TraktMovieTrending>;
+                    var movies = result as TraktMoviesTrending;
                     SendTrendingMoviesToFacade(movies);
                 }
             }, Translation.GettingTrendingMovies, true);
         }
 
-        private void SendTrendingMoviesToFacade(IEnumerable<TraktMovieTrending> trendingItems)
+        private void SendTrendingMoviesToFacade(TraktMoviesTrending trendingItems)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -367,7 +367,7 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            if (trendingItems.Count() == 0)
+            if (trendingItems.Movies.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingMovies);
                 GUIWindowManager.ShowPreviousWindow();
@@ -375,7 +375,7 @@ namespace TraktPlugin.GUI
             }
 
             // filter movies
-            var filteredTrendingList = GUICommon.FilterTrendingMovies(trendingItems).Where(m => !string.IsNullOrEmpty(m.Movie.Title)).ToList();
+            var filteredTrendingList = GUICommon.FilterTrendingMovies(trendingItems.Movies).Where(m => !string.IsNullOrEmpty(m.Movie.Title)).ToList();
 
             // sort movies
             filteredTrendingList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByTrendingMovies.Field, TraktSettings.SortByTrendingMovies.Direction));
@@ -419,9 +419,9 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", filteredTrendingList.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), trendingItems.Count() > 1 ? Translation.Movies : Translation.Movie));
-            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.Sum(t => t.Watchers).ToString());
-            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, trendingItems.Sum(t => t.Watchers).ToString(), trendingItems.Count().ToString()));
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), filteredTrendingList.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.TotalWatchers.ToString());
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, trendingItems.TotalWatchers.ToString(), trendingItems.TotalItems.ToString()));
 
             // Download movie images Async and set to facade
             GUIMovieListItem.GetImages(movieImages);

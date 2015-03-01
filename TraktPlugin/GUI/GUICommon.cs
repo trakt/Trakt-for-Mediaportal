@@ -862,6 +862,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Statistics.Shows.Shouts", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Shows.Loved", string.Empty);
             GUIUtils.SetProperty("#Trakt.Statistics.Shows.Hated", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Statistics.Shows.Ratings", string.Empty);
             #endregion
 
             #region Episodes Statistics

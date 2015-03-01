@@ -74,7 +74,7 @@ namespace TraktPlugin.GUI
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
 
-        IEnumerable<TraktShowTrending> TrendingShows
+        TraktShowsTrending TrendingShows
         {
             get
             {
@@ -87,7 +87,7 @@ namespace TraktPlugin.GUI
                 return _TrendingShows;
             }
         }
-        private IEnumerable<TraktShowTrending> _TrendingShows = null;
+        private TraktShowsTrending _TrendingShows = null;
         
         #endregion
 
@@ -359,13 +359,13 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    var shows = result as IEnumerable<TraktShowTrending>;
+                    var shows = result as TraktShowsTrending;
                     SendTrendingShowsToFacade(shows);
                 }
             }, Translation.GettingTrendingShows, true);
         }
 
-        private void SendTrendingShowsToFacade(IEnumerable<TraktShowTrending> trendingItems)
+        private void SendTrendingShowsToFacade(TraktShowsTrending trendingItems)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
@@ -377,7 +377,7 @@ namespace TraktPlugin.GUI
                 return;
             }
 
-            if (trendingItems.Count() == 0)
+            if (trendingItems.Shows.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingShows);
                 GUIWindowManager.ShowPreviousWindow();
@@ -385,7 +385,7 @@ namespace TraktPlugin.GUI
             }
 
             // filter shows
-            var filteredTrendingList = GUICommon.FilterTrendingShows(trendingItems).ToList();
+            var filteredTrendingList = GUICommon.FilterTrendingShows(trendingItems.Shows).ToList();
 
             // sort shows
             filteredTrendingList.Sort(new GUIListItemShowSorter(TraktSettings.SortByTrendingShows.Field, TraktSettings.SortByTrendingShows.Direction));
@@ -423,9 +423,9 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", filteredTrendingList.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), trendingItems.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
-            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.Sum(t => t.Watchers).ToString());
-            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingTVShowsPeople, trendingItems.Sum(t => t.Watchers).ToString(), trendingItems.Count().ToString()));
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), filteredTrendingList.Count() > 1 ? Translation.SeriesPlural : Translation.Series));
+            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.TotalWatchers.ToString());
+            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingTVShowsPeople, trendingItems.TotalWatchers.ToString(), trendingItems.TotalItems.ToString()));
 
             // Download show images Async and set to facade
             GUIShowListItem.GetImages(showImages);
