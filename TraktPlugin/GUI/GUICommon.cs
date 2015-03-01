@@ -1086,7 +1086,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.TmdbId", movie.Ids.Tmdb);
             SetProperty("#Trakt.Movie.Slug", movie.Ids.Slug);
             SetProperty("#Trakt.Movie.Certification", movie.Certification);
-            SetProperty("#Trakt.Movie.Overview", string.IsNullOrEmpty(movie.Overview) ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
+            SetProperty("#Trakt.Movie.Overview", movie.Overview.ToNullIfEmpty() == null ? Translation.NoMovieSummary : movie.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Movie.Released", movie.Released);
             SetProperty("#Trakt.Movie.Language", Translation.GetLanguageFromISOCode(movie.Language));
             SetProperty("#Trakt.Movie.Runtime", movie.Runtime);
@@ -1214,7 +1214,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.FirstAired", show.FirstAired.FromISO8601().ToShortDateString());
             SetProperty("#Trakt.Show.FirstAiredLocalized", show.FirstAired.FromISO8601().ToLocalTime().ToShortDateString());
             SetProperty("#Trakt.Show.Network", show.Network);
-            SetProperty("#Trakt.Show.Overview", string.IsNullOrEmpty(show.Overview) ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
+            SetProperty("#Trakt.Show.Overview", show.Overview.ToNullIfEmpty() == null ? Translation.NoShowSummary : show.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Show.Runtime", show.Runtime);
             SetProperty("#Trakt.Show.Year", show.Year);
             SetProperty("#Trakt.Show.Status", show.Status);
@@ -1287,7 +1287,7 @@ namespace TraktPlugin.GUI
             }
             SetProperty("#Trakt.Episode.Title", string.IsNullOrEmpty(episode.Title) ? string.Format("{0} {1}", Translation.Episode, episode.Number.ToString()) : episode.Title.RemapHighOrderChars());
             SetProperty("#Trakt.Episode.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}/episodes/{2}", show.Ids.Slug, episode.Season, episode.Number));
-            SetProperty("#Trakt.Episode.Overview", string.IsNullOrEmpty(episode.Overview) ? Translation.NoEpisodeSummary : episode.Overview.RemapHighOrderChars());
+            SetProperty("#Trakt.Episode.Overview", episode.Overview.ToNullIfEmpty() == null ? Translation.NoEpisodeSummary : episode.Overview.RemapHighOrderChars());
             SetProperty("#Trakt.Episode.Runtime", show.Runtime);
             SetProperty("#Trakt.Episode.InWatchList", episode.IsWatchlisted());
             SetProperty("#Trakt.Episode.InCollection", episode.IsCollected(show));
