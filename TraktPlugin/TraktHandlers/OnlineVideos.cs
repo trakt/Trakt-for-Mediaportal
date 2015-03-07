@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using MediaPortal.Configuration;
+using MediaPortal.Player;
 using MediaPortal.GUI.Library;
 using OnlineVideos;
 using OnlineVideos.MediaPortal1;
@@ -26,13 +27,16 @@ namespace TraktPlugin.TraktHandlers
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "OnlineVideos.MediaPortal1.dll");
             if (!File.Exists(pluginFilename))
+            {
                 throw new FileNotFoundException("Plugin not found!");
+            }
             else
             {
-                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
-                string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(0,31,0,0))
+                var fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
+                if (new Version(fvi.ProductVersion) < new Version(0, 31, 0, 0))
+                {
                     throw new FileLoadException("Plugin does not meet minimum requirements!");
+                }
             }
 
             TraktLogger.Debug("Adding Hooks to OnlineVideos");
@@ -64,11 +68,11 @@ namespace TraktPlugin.TraktHandlers
 
             if (CurrentVideo.VideoKind == VideoKind.TvSeries)
             {
-                TraktLogger.Info("Detected tv series playing in OnlineVideos. Title = '{0} - {1}x{2}', IMDb ID = '{3}', TMDb ID = '{4}', TVDb ID = '{5}'", CurrentVideo.Title, CurrentVideo.Season.ToString(), CurrentVideo.Episode.ToString(), CurrentVideo.ID_IMDB ?? "<empty>", CurrentVideo.ID_TMDB ?? "<empty>", CurrentVideo.ID_TVDB ?? "<empty>");
+                TraktLogger.Info("Detected tv series playing in OnlineVideos. Title = '{0} - {1}x{2}', Year = '{3}', IMDb ID = '{4}', TMDb ID = '{5}', TVDb ID = '{6}'", CurrentVideo.Title, CurrentVideo.Season, CurrentVideo.Episode, CurrentVideo.Year == 0 ? "<empty>" : CurrentVideo.Year.ToString(), CurrentVideo.ID_IMDB.ToLogString(), CurrentVideo.ID_TMDB.ToLogString(), CurrentVideo.ID_TVDB.ToLogString());
             }
             else
             {
-                TraktLogger.Info("Detected movie playing in OnlineVideos. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", CurrentVideo.Title, CurrentVideo.Year, CurrentVideo.ID_IMDB ?? "<empty>", CurrentVideo.ID_TMDB ?? "<empty>");
+                TraktLogger.Info("Detected movie playing in OnlineVideos. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", CurrentVideo.Title, CurrentVideo.Year, CurrentVideo.ID_IMDB.ToLogString(), CurrentVideo.ID_TMDB.ToLogString());
             }
 
             // scrobble from plugin event handler
@@ -77,7 +81,65 @@ namespace TraktPlugin.TraktHandlers
 
         public void StopScrobble()
         {
-            // stop scrobble from plugin event handler
+            if (CurrentVideo != null)
+            {
+                // onlinevideos can split videos into multiple parts
+                // we only need to handle a pause event if the progress is less than 80%
+
+                double position = g_Player.CurrentPosition;
+                double duration = g_Player.Duration;
+
+                if (duration != 0)
+                {
+                    double progress = position / duration;
+                    if (progress < 0.8)
+                    {
+                        // send pause event to trakt.tv
+                        TraktLogger.Info("Playback stopped in OnlineVideos but video is not considered watched, Progress = '{0}%', Duration = '{1}', Current Position = '{2}'", Math.Round(progress * 100, 2), g_Player.Duration, g_Player.CurrentPosition);
+
+                        if (CurrentVideo.VideoKind == VideoKind.TvSeries)
+                        {
+                            var scrobbleEpisodeData = CreateEpisodeScrobbleData(CurrentVideo, Math.Round(progress * 100, 2));
+
+                            var scrobbleThread = new Thread((objInfo) =>
+                            {
+                                var response = TraktAPI.TraktAPI.PauseEpisodeScrobble(objInfo as TraktScrobbleEpisode);
+                                TraktLogger.LogTraktResponse(response);
+                            })
+                            {
+                                IsBackground = true,
+                                Name = "Scrobble"
+                            };
+
+                            scrobbleThread.Start(scrobbleEpisodeData);
+                        }
+                        else
+                        {
+                            var scrobbleMovieData = CreateMovieScrobbleData(CurrentVideo, Math.Round(progress * 100, 2));
+
+                            var scrobbleThread = new Thread((objInfo) =>
+                            {
+                                var response = TraktAPI.TraktAPI.PauseMovieScrobble(objInfo as TraktScrobbleMovie);
+                                TraktLogger.LogTraktResponse(response);
+                            })
+                            {
+                                IsBackground = true,
+                                Name = "Scrobble"
+                            };
+
+                            scrobbleThread.Start(scrobbleMovieData);
+                        }
+                    }
+                    else
+                    {
+                        // either completely watched or finished watching part of a mult-part file
+                        TraktLogger.Info("Playback stopped in OnlineVideos, awaiting next playback event.");
+                    }
+                }
+
+                CurrentVideo = null;
+            }
+
             return;
         }
 
@@ -93,10 +155,14 @@ namespace TraktPlugin.TraktHandlers
         /// <summary>
         /// Event gets triggered on playback events in OnlineVideos
         /// The TrackVideoPlayback event gets fired on Playback Start, Playback Ended (100%)
-        /// and Playback Stopped (if percentage watched is greater than 0.8).
+        /// and Playback Stopped (if percentage watched is greater than 0.8).      
         /// </summary>
         private void TrackVideoPlayback(ITrackingInfo info, double percentPlayed)
         {
+            CurrentVideo = null;
+
+            TraktLogger.Debug("Received Video Playback event from OnlineVideos");
+
             if (info.VideoKind == VideoKind.Movie || info.VideoKind == VideoKind.TvSeries)
             {
                 // Started Playback
@@ -141,17 +207,15 @@ namespace TraktPlugin.TraktHandlers
                     return;
                 }
 
-                CurrentVideo = null;
-
                 // Playback Ended or Stopped and Considered Watched
                 // TrackVideoPlayback event only gets fired on Stopped if > 80% watched
                 if (info.VideoKind == VideoKind.TvSeries)
                 {
-                    TraktLogger.Info("Playback of episode has ended and is considered watched. Progress = '{0}%', Title = '{1} - {2}x{3}', IMDb ID = '{4}', TMDb ID = '{5}', TVDb ID = '{6}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Season, info.Episode, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>", info.ID_TVDB ?? "<empty>");
+                    TraktLogger.Info("Playback of episode has ended and is considered watched. Progress = '{0}%', Title = '{1} - {2}x{3}', Year = '{4}', IMDb ID = '{5}', TMDb ID = '{6}', TVDb ID = '{7}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Season, info.Episode, info.Year == 0 ? "<empty>" : info.Year.ToString(), info.ID_IMDB.ToLogString(), info.ID_TMDB.ToLogString(), info.ID_TVDB.ToLogString());
                 }
                 else
                 {
-                    TraktLogger.Info("Playback of movie has ended and is considered watched. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Year, info.ID_IMDB ?? "<empty>", info.ID_TMDB ?? "<empty>");
+                    TraktLogger.Info("Playback of movie has ended and is considered watched. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", Math.Round(percentPlayed * 100, 2), info.Title, info.Year, info.ID_IMDB.ToLogString(), info.ID_TMDB.ToLogString());
                 }
 
                 // Show Rating Dialog after watched
@@ -258,7 +322,8 @@ namespace TraktPlugin.TraktHandlers
         /// <param name="episode">The item being rated</param>
         private void ShowRateDialog(ITrackingInfo videoInfo)
         {            
-            if (!TraktSettings.ShowRateDialogOnWatched) return;     // not enabled            
+            if (!TraktSettings.ShowRateDialogOnWatched)
+                return;
 
             var rateThread = new Thread((objInfo) =>
             {
@@ -269,7 +334,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (itemToRate.VideoKind == VideoKind.TvSeries)
                 {
-                    TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB ?? "<empty>", itemToRate.ID_TMDB ?? "<empty>", itemToRate.Episode, itemToRate.Season);
+                    TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year == 0 ? "<empty>" : itemToRate.Year.ToString(), itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString(), itemToRate.Episode, itemToRate.Season);
 
                     // this gets complicated when the episode IDs are not available!
                     var rateObject = new TraktSyncShowRatedEx
@@ -298,7 +363,7 @@ namespace TraktPlugin.TraktHandlers
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {
-                    TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB ?? "<empty>", itemToRate.ID_TMDB ?? "<empty>");
+                    TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString());
 
                     var rateObject = new TraktSyncMovieRated
                     {
