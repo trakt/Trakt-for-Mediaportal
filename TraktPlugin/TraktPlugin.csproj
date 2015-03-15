@@ -65,18 +65,6 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AniDBAPI">
-      <HintPath>..\Externals\AniDBAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Anime2">
-      <HintPath>..\Externals\Anime2.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Anime2Schema">
-      <HintPath>..\Externals\Anime2Schema.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ArgusTV.DataContracts">
       <HintPath>..\Externals\ArgusTV.DataContracts.dll</HintPath>
       <Private>False</Private>
