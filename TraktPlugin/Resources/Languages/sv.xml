@@ -118,7 +118,7 @@ detta objekt från den här listan?</string>
   <!--E-->
   <string name="EditList">Ändra listan...</string>
   <string name="EditingList">Ändrar listan</string>
-  <string name="Email">E-mail</string>
+  <string name="Email">E-post</string>
   <string name="Ended">Avslutat</string>
   <string name="EndYear">Slut: {0}</string>
   <string name="EnterSearchTerm">Skriv in sökord</string>
@@ -359,11 +359,11 @@ en lista nu?</string>
   <string name="RateTwo">Usel</string>
   <string name="RateThree">Dåligt</string>
   <string name="RateFour">Undermåligt</string>
-  <string name="RateFive">Meh</string>
+  <string name="RateFive">Nja</string>
   <string name="RateSix">Okay</string>
-  <string name="RateSeven">Godkänd</string>
+  <string name="RateSeven">Bra</string>
   <string name="RateEight">Toppen</string>
-  <string name="RateNine">Bra</string>
+  <string name="RateNine">Kanon</string>
   <string name="RecentWatchedEpisodes">Nyligen sedda avsnitt</string>
   <string name="RecentWatchedMovies">Nyligen sedda filmer</string>
   <string name="RecentAddedEpisodes">Nyligen tillagda avsnitt</string>
@@ -490,6 +490,14 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingMaxTrendingShowsRequestDescription">Sätt max antal begärda populära TV-program per sida</string>
   <string name="SettingUseSSLName">Säker serverkommunikation</string>
   <string name="SettingUseSSLDescription">Aktivera för att använda HTTPS, ett säkert sätt att kommunicera med trakt.tv servrarna</string>
+  <string name="SettingMaxRelatedMoviesRequestName">Max antal relaterade filmer som begärs</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Sätt max antal relaterade filmer som begärs när \'Dölj sedda\' inte är aktiverat</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Max antal relaterade, inte sedda, filmer som begärs</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Sätt max antal relaterade filmer som begärs när \'Dölj sedda\' är aktiverat</string>
+  <string name="SettingMaxRelatedShowsRequestName">Max antal relaterade serier som begärs</string>
+  <string name="SettingMaxRelatedShowsRequestDescription">Sätt max antal relaterade serier som begärs när \'Dölj sedda\' inte är aktiverat</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestName">Max antal relaterade, inte sedda, serier som begärs</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Sätt max antal relaterade serier som begärs när \'Dölj sedda\' är aktiverat</string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>
@@ -538,6 +546,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="UnableToPlayTrailer">Kunde inte spela trailer.</string>
   <string name="UserIsProtected">Användaren är skyddad\n Skyddade användare kan bara ses i vänvyn</string>
   <string name="UserProfile">Användarprofil</string>
+  <string name="UserRatingsDistribution">Betygsintervall 1 till 10 hjärtan</string>
   <!--V-->
   <string name="View">Vy</string>
   <string name="Votes">Röster</string>

@@ -86,6 +86,7 @@
   <string name="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
   <string name="Continuing">Continuing</string>
   <string name="CopyList">Copy List...</string>
+  <string name="CurrentPage">Current Page</string>
   <!--D-->
   <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Today</string>
@@ -276,6 +277,7 @@
   <string name="Name">Name</string>
   <string name="Network">Network</string>
   <string name="NextEpisode">Next Episode</string>
+  <string name="NextPage">Next Page</string>
   <string name="NextWeek">Next Week</string>
   <string name="NoActivities">No activity found.</string>
   <string name="NoPersonBiography">There is no biography entered for this person.</string>
@@ -316,6 +318,8 @@
   <string name="On">On</string>
   <string name="Overview">Overview</string>
   <!--P-->
+  <string name="Page">Page</string>
+  <string name="Pages">Pages</string>
   <string name="Password">Password</string>
   <string name="People">People</string>
   <string name="Person">Person</string>
@@ -328,6 +332,7 @@
   <string name="Plugins">Plugins</string>
   <string name="Public">Public</string>
   <string name="PreviousEpisode">Previous Episode</string>
+  <string name="PreviousPage">Previous Page</string>
   <string name="Private">Private</string>
   <string name="Privacy">Privacy</string>
   <string name="PrivacyPublic">Anyone can view this list</string>
@@ -483,7 +488,7 @@
   <string name="SettingMaxRelatedShowsRequestName">Maximum Related Shows to Request</string>
   <string name="SettingMaxRelatedShowsRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is not enabled.</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximum Related UnWatched Shows to Request</string>
-  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is enabled.</string>  
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is enabled.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>
@@ -495,6 +500,7 @@
   <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
+  <string name="TotalPages">Total Pages</string>
   <string name="Trending">Trending</string>
   <string name="TrendingShows">Trending Shows</string>
   <string name="TrendingShowsAndMovies">Trending Shows and Movies</string>

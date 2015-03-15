@@ -8,7 +8,7 @@
   <string name="Actors">Actores</string>
   <string name="Activity">Actividad</string>
   <string name="ActivityFriendsDesc">Mira lo que tus amigos están haciendo...</string>
-  <string name="ActivityFriendsAndMeDesc">Mira lo que tú y tus amigos estáis haciendo...</string>
+  <string name="ActivityFriendsAndMeDesc">Mira qué estáis haciendo tú y tus amigos...</string>
   <string name="ActivityCommunityDesc">Mira lo que la comunidad está haciendo...</string>
   <string name="ActivityFollowersDesc">Mira lo que tus seguidores están haciendo...</string>
   <string name="ActivityFollowingDesc">Mira la actividad de la gente a la que sigues...</string>
@@ -474,6 +474,16 @@
   <string name="SettingMaxTrendingMoviesRequestDescription">Configura el número máximo de solicitudes de películas tendencia por página.</string>
   <string name="SettingMaxTrendingShowsRequestName">Solicitud Máxima de Programas TV</string>
   <string name="SettingMaxTrendingShowsRequestDescription">Configura el número máximo de solicitudes de programas tv por página.</string>
+  <string name="SettingUseSSLName">Comunicación Servidor Seguro</string>
+  <string name="SettingUseSSLDescription">Habilitar para usar HTTPS, una forma segura de comunicarse con los servidores trakt.tv.</string>
+  <string name="SettingMaxRelatedMoviesRequestName">Máximas Películas Relacionada para Buscar</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando no está habilitado \"Ocultar Vistas\".</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Máximo de Películas Relacionadas No Vistas para Buscar</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando está habilitado \"Ocultar Vistas\".</string>
+  <string name="SettingMaxRelatedShowsRequestName">Máximos Programas Relacionado para Buscar</string>
+  <string name="SettingMaxRelatedShowsRequestDescription">Configura el número máximo de programas relacionados cuando no está habilitado \"Ocultar Vistos\".</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestName">Máximo de Programas Relacionados No Vistos para Buscar</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Configura el número máximo de programas relacionados a buscar cuando está habilitado \"Ocultar Vistos\".</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>
@@ -500,6 +510,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnLike">No Gusta</string>
   <string name="UserHasNotWatchedEpisodes">¡El usuario no ha visto ningún episodio!</string>
   <string name="UserHasNotWatchedMovies">¡El usuario no ha visto ninguna película!</string>
   <string name="UserHasNoRecentAddedEpisodes">¡El usuario no tiene episodios añadidos recientemente!</string>
@@ -521,6 +532,7 @@
   <string name="UnableToPlayTrailer">No se puede reproducir el trailer.</string>
   <string name="UserIsProtected">¡El usuario actual está protegido!\nUsuario protegidos sólo pueden verse\ndesde el menú \"Amigos\".</string>
   <string name="UserProfile">Perfil de Usuario</string>
+  <string name="UserRatingsDistribution">Puntuación de 1 a 10 corazones</string>
   <!--V-->
   <string name="View">Vista</string>
   <string name="Votes">Votos</string>
