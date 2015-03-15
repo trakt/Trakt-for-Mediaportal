@@ -28,6 +28,8 @@ namespace TraktPlugin.TraktHandlers
 
         public MyTVRecordings(int priority)
         {
+            TraktLogger.Info("Initialising My TV Recordings plugin handler");
+
             Priority = priority;
         }
 

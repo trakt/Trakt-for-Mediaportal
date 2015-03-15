@@ -30,6 +30,8 @@ namespace TraktPlugin.TraktHandlers
 
         public MyVideos(int priority)
         {
+            TraktLogger.Info("Initialising My Videos plugin handler");
+
             // check that we are running MediaPortal 1.7 Pre-Release or greater
             string libFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "GUIVideos.dll");
 

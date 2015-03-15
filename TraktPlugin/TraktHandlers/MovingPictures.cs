@@ -36,6 +36,8 @@ namespace TraktPlugin.TraktHandlers
 
         public MovingPictures(int priority)
         {
+            TraktLogger.Info("Initialising MovingPictures plugin handler");
+
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MovingPictures.dll");
             if (!File.Exists(pluginFilename))

@@ -24,6 +24,8 @@ namespace TraktPlugin.TraktHandlers
 
         public OnlineVideos(int priority)
         {
+            TraktLogger.Info("Initialising OnlineVideos plugin handler");
+
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "OnlineVideos.MediaPortal1.dll");
             if (!File.Exists(pluginFilename))
@@ -35,7 +37,7 @@ namespace TraktPlugin.TraktHandlers
                 var fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 if (new Version(fvi.ProductVersion) < new Version(1, 9, 0, 3341))
                 {
-                    throw new FileLoadException("Plugin does not meet the minimum requirements!");
+                    throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
                 }
             }
 

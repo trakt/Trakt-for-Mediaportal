@@ -18,6 +18,8 @@ namespace TraktPlugin.TraktHandlers
 
         public MyTVLive(int priority)
         {
+            TraktLogger.Info("Initialising My TV plugin handler");
+
             Priority = priority;
         }
 

@@ -46,6 +46,8 @@ namespace TraktPlugin.TraktHandlers
 
         public TVSeries(int priority)
         {
+            TraktLogger.Info("Initialising MP-TVSeries plugin handler");
+
             Priority = priority;
             
             TraktLogger.Debug("Adding Hooks to MP-TVSeries");

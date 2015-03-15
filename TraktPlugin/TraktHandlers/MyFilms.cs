@@ -30,6 +30,8 @@ namespace TraktPlugin.TraktHandlers
 
         public MyFilmsHandler(int priority)
         {
+            TraktLogger.Info("Initialising My Films plugin handler");
+
             // check if plugin exists otherwise plugin could accidently get added to list
             string pluginFilename = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "MyFilms.dll");
             if (!File.Exists(pluginFilename))

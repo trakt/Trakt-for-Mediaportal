@@ -18,6 +18,8 @@ namespace TraktPlugin.TraktHandlers
 
         public ArgusTVLive(int priority)
         {
+            TraktLogger.Info("Initialising Argus TV Recordings plugin handler");
+
             Priority = priority;
         }
 
