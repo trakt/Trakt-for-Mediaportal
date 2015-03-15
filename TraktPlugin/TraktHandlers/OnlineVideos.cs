@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using MediaPortal.Configuration;
-using MediaPortal.Player;
 using MediaPortal.GUI.Library;
+using MediaPortal.Player;
 using OnlineVideos;
 using OnlineVideos.MediaPortal1;
 using TraktPlugin.Extensions;
@@ -33,9 +33,9 @@ namespace TraktPlugin.TraktHandlers
             else
             {
                 var fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
-                if (new Version(fvi.ProductVersion) < new Version(0, 31, 0, 0))
+                if (new Version(fvi.ProductVersion) < new Version(1, 9, 0, 3341))
                 {
-                    throw new FileLoadException("Plugin does not meet minimum requirements!");
+                    throw new FileLoadException("Plugin does not meet the minimum requirements!");
                 }
             }
 

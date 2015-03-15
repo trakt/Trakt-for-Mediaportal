@@ -35,9 +35,9 @@ namespace TraktPlugin.TraktHandlers
 
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(libFilename);
             string version = fvi.ProductVersion;
-            if (new Version(version) < new Version(1, 6, 100, 0))
+            if (new Version(version) < new Version(1, 8, 0, 0))
             {
-                throw new FileLoadException("MediaPortal does not meet minimum requirements!");
+                throw new FileLoadException("MediaPortal does not the meet minimum requirements!");
             }
 
             Priority = priority;
