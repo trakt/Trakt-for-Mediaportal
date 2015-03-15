@@ -73,7 +73,7 @@ namespace TraktPlugin.TraktHandlers
                     // check if we should mark previous as watched
                     if (!videoInfo.Equals(CurrentProgram))
                     {
-                        TraktLogger.Info("Detected new tv program has started. Previous Program =  '{0}', New Program = '{1}'", CurrentProgram.ToString(), videoInfo.ToString());
+                        TraktLogger.Info("Detected new tv program has started. Previous Program = '{0}', New Program = '{1}'", CurrentProgram.ToString(), videoInfo.ToString());
                         if (IsProgramWatched(CurrentProgram) && CurrentProgram.IsScrobbling)
                         {
                             TraktLogger.Info("Playback of program on Live TV is considered watched. Title = '{0}'", CurrentProgram.ToString());
@@ -182,7 +182,7 @@ namespace TraktPlugin.TraktHandlers
                     Runtime = GetRuntime(program)
                 };
 
-                TraktLogger.Info("Current program details. Title='{0}', Year='{1}', Season='{2}', Episode='{3}', StartTime='{4}', Runtime='{5}'", videoInfo.Title, videoInfo.Year.ToLogString(), videoInfo.SeasonIdx.ToLogString(), videoInfo.EpisodeIdx.ToString(), videoInfo.StartTime == null ? "<empty>" : videoInfo.StartTime.ToString(), videoInfo.Runtime);
+                TraktLogger.Info("Current program details. Title='{0}', Year='{1}', Season='{2}', Episode='{3}', StartTime='{4}', Runtime='{5}'", videoInfo.Title, videoInfo.Year.ToLogString(), videoInfo.SeasonIdx.ToLogString(), videoInfo.EpisodeIdx.ToLogString(), videoInfo.StartTime == null ? "<empty>" : videoInfo.StartTime.ToString(), videoInfo.Runtime);
             }
 
             return videoInfo;

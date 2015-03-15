@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktScrobbleResponse
+    public class TraktScrobbleResponse : TraktStatus
     {
         [DataMember(Name = "action")]
         public string Action { get; set; }

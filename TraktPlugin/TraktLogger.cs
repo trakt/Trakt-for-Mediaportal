@@ -258,7 +258,13 @@ namespace TraktPlugin
                     }
                     else if ((response is TraktScrobbleResponse))
                     {
-                        TraktLogger.Info("Scrobble Response: {0}", (response as TraktScrobbleResponse).ToJSON());
+                        // status code will be greater than 0 if we caught and error
+                        // we already log errors so we can supress the scrobble log result
+                        var scrobbleResponse = response as TraktScrobbleResponse;
+                        if (scrobbleResponse != null && scrobbleResponse.Code == 0)
+                        {   
+                            TraktLogger.Info("Scrobble Response: {0}", scrobbleResponse.ToJSON());
+                        }
                     }
                 }
 
