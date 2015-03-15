@@ -417,5 +417,174 @@
       <animation effect="fade" time="250">Visible</animation>
       <animation effect="fade" time="0">Hidden</animation>
     </control>
+
+    <!--            :: Page Data ::           	 -->
+    <control>
+      <description>Movies</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>565</posX>
+      <posY>360</posY>
+      <width>555</width>
+      <label>#Trakt.Translation.Movies.Label</label>
+      <font>fontB16</font>
+      <textcolor>FF00b7ff</textcolor>
+      <shadowAngle>120</shadowAngle>
+      <shadowDistance>2</shadowDistance>
+      <shadowColor>FF000000</shadowColor>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Current Page</description>
+      <type>fadelabel</type>
+      <label>#Trakt.Translation.CurrentPage.Label</label>
+      <id>0</id>
+      <posX>565</posX>
+      <posY>415</posY>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Current Page</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Facade.CurrentPage</label>
+      <posX>843</posX>
+      <posY>415</posY>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Total Pages</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.TotalPages.Label</label>
+      <posX>565</posX>
+      <posY>451</posY>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Total Pages</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Facade.TotalPages</label>
+      <posX>843</posX>
+      <posY>451</posY>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <description>Summary (list)</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>568</posX>
+      <posY>500</posY>
+      <width>555</width>
+      <height>410</height>
+      <label>#Trakt.Trending.Description</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <onleft>1026</onleft>
+      <onright>1026</onright>
+      <onup>1026</onup>
+      <ondown>1026</ondown>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)+window.istopmost(87266)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+
+    <control>
+      <description>Movies</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>118</posX>
+      <posY>360</posY>
+      <width>555</width>
+      <label>#Trakt.Translation.Movies.Label</label>
+      <font>fontB16</font>
+      <textcolor>FF00b7ff</textcolor>
+      <shadowAngle>120</shadowAngle>
+      <shadowDistance>2</shadowDistance>
+      <shadowColor>FF000000</shadowColor>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoLabel">
+      <description>Current Page</description>
+      <type>fadelabel</type>
+      <label>#Trakt.Translation.CurrentPage.Label</label>
+      <id>0</id>
+      <posX>118</posX>
+      <posY>415</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Current Page</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Facade.CurrentPage</label>
+      <posX>350</posX>
+      <posY>415</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Total Pages</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.TotalPages.Label</label>
+      <posX>118</posX>
+      <posY>451</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Total Pages</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Facade.TotalPages</label>
+      <posX>350</posX>
+      <posY>451</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <description>Summary (list)</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>118</posX>
+      <posY>500</posY>
+      <width>555</width>
+      <height>410</height>
+      <label>#Trakt.Trending.Description</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <onleft>1026</onleft>
+      <onright>1026</onright>
+      <onup>1026</onup>
+      <ondown>1026</ondown>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)+window.istopmost(87266)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
   </controls>
 </window>
