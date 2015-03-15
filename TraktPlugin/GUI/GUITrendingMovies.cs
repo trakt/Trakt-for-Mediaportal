@@ -61,25 +61,12 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
+        private Dictionary<int, TraktMoviesTrending> TrendingMoviePages = null;
         private Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
-
-        TraktMoviesTrending TrendingMovies
-        {
-            get
-            {
-                if (_TrendingMovies == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
-                {
-                    _TrendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.MaxTrendingMoviesRequest);
-                    LastRequest = DateTime.UtcNow;
-                    PreviousSelectedIndex = 0;
-                }
-                return _TrendingMovies;
-            }
-        }
-        private TraktMoviesTrending _TrendingMovies = null;
+        int CurrentPage = 1;
 
         #endregion
 
@@ -109,7 +96,7 @@ namespace TraktPlugin.GUI
             InitProperties();
 
             // Load Trending Movies
-            LoadTrendingMovies();
+            LoadTrendingMovies(CurrentPage);
         }
 
         protected override void OnPageDestroy(int new_windowId)
@@ -135,7 +122,28 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        CheckAndPlayMovie(true);
+                        var item = Facade.SelectedListItem as GUIMovieListItem;
+                        if (item == null) return;
+
+                        if (!item.IsFolder)
+                        {
+                            CheckAndPlayMovie(true);
+                        }
+                        else
+                        {
+                            if (item.IsPrevPageItem)
+                                CurrentPage--;
+                            else
+                                CurrentPage++;
+
+                            if (CurrentPage == 1)
+                                PreviousSelectedIndex = 0;
+                            else
+                                PreviousSelectedIndex = 1;
+
+                            // load next / previous page
+                            LoadTrendingMovies(CurrentPage);
+                        }
                     }
                     break;
 
@@ -152,39 +160,43 @@ namespace TraktPlugin.GUI
                         if (newSortBy.Field != TraktSettings.SortByTrendingMovies.Field)
                         {
                             TraktSettings.SortByTrendingMovies = newSortBy;
-                            PreviousSelectedIndex = 0;
+                            PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                             UpdateButtonState();
-                            LoadTrendingMovies();
+                            LoadTrendingMovies(CurrentPage);
                         }
                     }
                     break;
 
                 // Hide Watched
                 case (9):
+                    PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                     TraktSettings.TrendingMoviesHideWatched = !TraktSettings.TrendingMoviesHideWatched;
                     UpdateButtonState();
-                    LoadTrendingMovies();
+                    LoadTrendingMovies(CurrentPage);
                     break;
 
                 // Hide Watchlisted
                 case (10):
+                    PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                     TraktSettings.TrendingMoviesHideWatchlisted = !TraktSettings.TrendingMoviesHideWatchlisted;
                     UpdateButtonState();
-                    LoadTrendingMovies();
+                    LoadTrendingMovies(CurrentPage);
                     break;
 
                 // Hide Collected
                 case (11):
+                    PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                     TraktSettings.TrendingMoviesHideCollected = !TraktSettings.TrendingMoviesHideCollected;
                     UpdateButtonState();
-                    LoadTrendingMovies();
+                    LoadTrendingMovies(CurrentPage);
                     break;
 
                 // Hide Rated
                 case (12):
+                    PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                     TraktSettings.TrendingMoviesHideRated = !TraktSettings.TrendingMoviesHideRated;
                     UpdateButtonState();
-                    LoadTrendingMovies();
+                    LoadTrendingMovies(CurrentPage);
                     break;
 
                 default:
@@ -234,7 +246,7 @@ namespace TraktPlugin.GUI
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
-                    if (TraktSettings.TrendingMoviesHideWatched) LoadTrendingMovies();
+                    if (TraktSettings.TrendingMoviesHideWatched) LoadTrendingMovies(CurrentPage);
                     break;
 
                 case ((int)TrendingContextMenuItem.MarkAsUnWatched):
@@ -248,7 +260,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToWatchList(selectedTrendingItem.Movie, true);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
-                    if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies();
+                    if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies(CurrentPage);
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromWatchList):
@@ -265,7 +277,7 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddMovieToCollection(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
-                    if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies();
+                    if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies(CurrentPage);
                     break;
 
                 case ((int)TrendingContextMenuItem.RemoveFromLibrary):
@@ -282,14 +294,15 @@ namespace TraktPlugin.GUI
                     GUICommon.RateMovie(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
-                    if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies();
+                    if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies(CurrentPage);
                     break;
 
                 case ((int)TrendingContextMenuItem.Filters):
                     if (GUICommon.ShowMovieFiltersMenu())
                     {
+                        PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                         UpdateButtonState();
-                        LoadTrendingMovies();
+                        LoadTrendingMovies(CurrentPage);
                     }
                     break;
 
@@ -326,6 +339,48 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
+        TraktMoviesTrending GetTrendingMovies(int page)
+        {
+            TraktMoviesTrending trendingMovies = null;
+
+            if (TrendingMoviePages == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            {
+                // get the first page
+                trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(1, TraktSettings.MaxTrendingMoviesRequest);
+                
+                // reset to defaults
+                LastRequest = DateTime.UtcNow;
+                CurrentPage = 1;
+                PreviousSelectedIndex = 0;
+
+                // clear the cache
+                if (TrendingMoviePages == null)
+                    TrendingMoviePages = new Dictionary<int, TraktMoviesTrending>();
+                else
+                    TrendingMoviePages.Clear();
+
+                // add page to cache
+                TrendingMoviePages.Add(1, trendingMovies);
+            }
+            else
+            {
+                // get page from cache if it exists
+                if (TrendingMoviePages.TryGetValue(page, out trendingMovies))
+                {
+                    return trendingMovies;
+                }
+
+                // request next page
+                trendingMovies = TraktAPI.TraktAPI.GetTrendingMovies(page, TraktSettings.MaxTrendingMoviesRequest);
+                if (trendingMovies != null && trendingMovies.Movies != null)
+                {
+                    // add to cache
+                    TrendingMoviePages.Add(page, trendingMovies);
+                }
+            }
+            return trendingMovies;
+        }
+
         private void CheckAndPlayMovie(bool jumpTo)
         {
             var selectedItem = this.Facade.SelectedListItem;
@@ -337,13 +392,13 @@ namespace TraktPlugin.GUI
             GUICommon.CheckAndPlayMovie(jumpTo, selectedTrendingItem.Movie);
         }
 
-        private void LoadTrendingMovies()
+        private void LoadTrendingMovies(int page = 1)
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TrendingMovies;
+                return GetTrendingMovies(page);
             },
             delegate(bool success, object result)
             {
@@ -364,6 +419,7 @@ namespace TraktPlugin.GUI
             {
                 GUIUtils.ShowNotifyDialog(Translation.Error, Translation.ErrorGeneral);
                 GUIWindowManager.ShowPreviousWindow();
+                TrendingMoviePages = null;
                 return;
             }
 
@@ -371,6 +427,7 @@ namespace TraktPlugin.GUI
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.NoTrendingMovies);
                 GUIWindowManager.ShowPreviousWindow();
+                TrendingMoviePages = null;
                 return;
             }
 
@@ -382,6 +439,20 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             var movieImages = new List<GUITraktImage>();
+
+            // Add Previous Page Button
+            if (trendingItems.CurrentPage != 1)
+            {
+                var prevPageItem = new GUIMovieListItem(Translation.PreviousPage, (int)TraktGUIWindows.TrendingMovies);
+                prevPageItem.IsPrevPageItem = true;
+                prevPageItem.IconImage = "traktPreviousPage.png";
+                prevPageItem.IconImageBig = "traktPreviousPage.png";
+                prevPageItem.ThumbnailImage = "traktPreviousPage.png";
+                prevPageItem.OnItemSelected += OnPreviousPageSelected;
+                prevPageItem.IsFolder = true;
+                Facade.Add(prevPageItem);
+                itemId++;
+            }
 
             // Add each movie mark remote if not in collection            
             foreach (var trendingItem in filteredTrendingList)
@@ -398,16 +469,26 @@ namespace TraktPlugin.GUI
                 item.Images = images;
                 item.IsPlayed = trendingItem.Movie.IsWatched();
                 item.ItemId = Int32.MaxValue - itemId;
-                // movie in collection doesnt nessararily mean
-                // that the movie is locally available on this computer
-                // as 'keep library clean' might not be enabled
-                //item.IsRemote = !movie.InCollection;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
                 item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnMovieSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
+                itemId++;
+            }
+
+            // Add Next Page Button
+            if (trendingItems.CurrentPage != trendingItems.TotalPages)
+            {
+                var nextPageItem = new GUIMovieListItem(Translation.NextPage, (int)TraktGUIWindows.TrendingMovies);
+                nextPageItem.IsNextPageItem = true;
+                nextPageItem.IconImage = "traktNextPage.png";
+                nextPageItem.IconImageBig = "traktNextPage.png";
+                nextPageItem.ThumbnailImage = "traktNextPage.png";
+                nextPageItem.OnItemSelected += OnNextPageSelected;
+                nextPageItem.IsFolder = true;
+                Facade.Add(nextPageItem);
                 itemId++;
             }
 
@@ -420,8 +501,15 @@ namespace TraktPlugin.GUI
             // set facade properties
             GUIUtils.SetProperty("#itemcount", filteredTrendingList.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", filteredTrendingList.Count(), filteredTrendingList.Count() > 1 ? Translation.Movies : Translation.Movie));
+            
+            // set global trending properties
             GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", trendingItems.TotalWatchers.ToString());
             GUIUtils.SetProperty("#Trakt.Trending.Description", string.Format(Translation.TrendingMoviePeople, trendingItems.TotalWatchers.ToString(), trendingItems.TotalItems.ToString()));
+
+            // Page Properties
+            GUIUtils.SetProperty("#Trakt.Facade.CurrentPage", trendingItems.CurrentPage.ToString());
+            GUIUtils.SetProperty("#Trakt.Facade.TotalPages", trendingItems.TotalPages.ToString());
+            GUIUtils.SetProperty("#Trakt.Facade.TotalItemsPerPage", TraktSettings.MaxTrendingMoviesRequest.ToString());
 
             // Download movie images Async and set to facade
             GUIMovieListItem.GetImages(movieImages);
@@ -446,9 +534,9 @@ namespace TraktPlugin.GUI
                 sortButton.SortChanged += (o, e) =>
                 {
                     TraktSettings.SortByTrendingMovies.Direction = (SortingDirections)(e.Order - 1);
-                    PreviousSelectedIndex = 0;
+                    PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                     UpdateButtonState();
-                    LoadTrendingMovies();
+                    LoadTrendingMovies(CurrentPage);
                 };
             }
         }
@@ -477,13 +565,19 @@ namespace TraktPlugin.GUI
                 filterRatedButton.Selected = TraktSettings.TrendingMoviesHideRated;
         }
 
-        private void ClearProperties()
+        private void ClearProperties(bool moviesOnly = false)
         {
-            GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Trending.Description", string.Empty);
-            
+            if (!moviesOnly)
+            {
+                GUIUtils.SetProperty("#Trakt.Trending.PeopleCount", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Trending.Description", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Trending.CurrentPage", string.Empty);
+                GUIUtils.SetProperty("#Trakt.Trending.TotalPages", string.Empty);
+            }
+
             GUIUtils.SetProperty("#Trakt.Movie.Watchers", string.Empty);
             GUIUtils.SetProperty("#Trakt.Movie.Watchers.Extra", string.Empty);
+
             GUICommon.ClearMovieProperties();
         }
 
@@ -495,14 +589,43 @@ namespace TraktPlugin.GUI
             GUICommon.SetMovieProperties(trendingItem.Movie);
         }
 
-        private void OnMovieSelected(GUIListItem item, GUIControl parent)
+        private void OnMovieSelected(GUIListItem item, GUIControl control)
         {
+            GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", false.ToString());
+
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             var trendingItem = item.TVTag as TraktMovieTrending;
+            if (trendingItem == null) return;
+
             PublishMovieSkinProperties(trendingItem);
             GUIImageHandler.LoadFanart(backdrop, trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
         }
+
+        private void OnNextPageSelected(GUIListItem item, GUIControl control)
+        {
+            GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", true.ToString());
+            GUIUtils.SetProperty("#Trakt.Facade.PageToLoad", (CurrentPage + 1).ToString());
+
+            backdrop.Filename = string.Empty;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+
+            // only clear the last selected movie properties
+            ClearProperties(true);
+        }
+
+        private void OnPreviousPageSelected(GUIListItem item, GUIControl control)
+        {
+            GUIUtils.SetProperty("#Trakt.Facade.IsPageItem", true.ToString());
+            GUIUtils.SetProperty("#Trakt.Facade.PageToLoad", (CurrentPage - 1).ToString());
+
+            backdrop.Filename = string.Empty;
+            PreviousSelectedIndex = Facade.SelectedListItemIndex;
+
+            // only clear the last selected movie properties
+            ClearProperties(true);
+        }
+
         #endregion
     }
 }

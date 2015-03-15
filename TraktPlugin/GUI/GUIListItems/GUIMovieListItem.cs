@@ -27,6 +27,9 @@ namespace TraktPlugin.GUI
 
         public TraktMovie Movie { get; set; }
 
+        public bool IsNextPageItem { get; set; }
+        public bool IsPrevPageItem { get; set; }
+
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>

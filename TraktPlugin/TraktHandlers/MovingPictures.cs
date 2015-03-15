@@ -1787,7 +1787,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 if (string.IsNullOrEmpty(movieId)) continue;
 
-                TraktLogger.Debug("Adding criteria to the '{0}' node filter, Field = 'imdb_id', Value = '{1}'", node.Name, movieId);
+                //TraktLogger.Debug("Adding criteria to the '{0}' node filter, Field = 'imdb_id', Value = '{1}'", node.Name, movieId);
 
                 var criteria = new DBCriteria<DBMovieInfo>();
                 criteria.Field = DBField.GetFieldByDBName(typeof(DBMovieInfo), "imdb_id");

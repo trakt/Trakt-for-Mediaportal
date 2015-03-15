@@ -330,6 +330,7 @@ namespace TraktPlugin.GUI
         public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
         public static string Continuing = "Continuing";
         public static string CopyList = "Copy List...";
+        public static string CurrentPage = "Current Page";
 
         // D
         public static string Dashboard = "Dashboard";
@@ -531,6 +532,7 @@ namespace TraktPlugin.GUI
         public static string Name = "Name";
         public static string Network = "Network";
         public static string NextEpisode = "Next Episode";
+        public static string NextPage = "Next Page";
         public static string NextWeek = "Next Week";
         public static string NoActivities = "No Activity Found.";
         public static string NoPersonBiography = "There is no biography entered for this person.";
@@ -573,6 +575,8 @@ namespace TraktPlugin.GUI
         public static string Overview = "Overview";
 
         // P
+        public static string Page = "Page";
+        public static string Pages = "Pages";
         public static string Password = "Password";
         public static string People = "People";
         public static string Percentage = "Percentage";
@@ -585,6 +589,7 @@ namespace TraktPlugin.GUI
         public static string Plugin = "Plugin";
         public static string Public = "Public";
         public static string PreviousEpisode = "Previous Episode";
+        public static string PreviousPage = "Previous Page";
         public static string Private = "Private";
         public static string Privacy = "Privacy";
         public static string PrivacyPublic = "Anyone can view this list";
@@ -755,6 +760,7 @@ namespace TraktPlugin.GUI
 
         // T
         public static string Timeout = "Timeout";
+        public static string TotalPages = "Total Pages";
         public static string Trending = "Trending";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";
