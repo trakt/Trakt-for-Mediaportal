@@ -39,6 +39,8 @@ namespace TraktPlugin.TraktAPI
         public const string UserListItemsAdd = "https://api-v2launch.trakt.tv/users/{0}/lists/{1}/items";
         public const string UserListItemsRemove = "https://api-v2launch.trakt.tv/users/{0}/lists/{1}/items/remove";
 
+        public const string UserListLike = "https://api-v2launch.trakt.tv/users/{0}/lists/{1}/like";
+
         public const string UserWatchlistMovies = "https://api-v2launch.trakt.tv/users/{0}/watchlist/movies?extended={1}";
         public const string UserWatchlistShows = "https://api-v2launch.trakt.tv/users/{0}/watchlist/shows?extended=full,images";
         public const string UserWatchlistEpisodes = "https://api-v2launch.trakt.tv/users/{0}/watchlist/episodes?extended=full,images";

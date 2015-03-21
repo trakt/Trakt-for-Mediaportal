@@ -294,6 +294,17 @@ namespace TraktPlugin.TraktAPI
             return DeleteFromTrakt(string.Format(TraktURIs.DeleteList, username, listId));
         }
 
+        public static bool LikeList(string username, int id)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserListLike, username,id), null);
+            return response != null;
+        }
+
+        public static bool UnLikeList(string username, int id)
+        {
+            return DeleteFromTrakt(string.Format(TraktURIs.UserListLike, username, id));
+        }
+
         #endregion
 
         #region Watchlists

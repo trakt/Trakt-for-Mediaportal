@@ -175,6 +175,16 @@ namespace TraktPlugin.GUI
             }
             else
             {
+                // like list
+                listItem = new GUIListItem(Translation.Like);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Like;
+
+                //UnLike list
+                listItem = new GUIListItem(Translation.UnLike);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Unlike;
+
                 // copy a friends list
                 listItem = new GUIListItem(Translation.CopyList);
                 dlg.Add(listItem);
@@ -234,6 +244,21 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
+                case ((int)ContextMenuItem.Like):
+                    LikeList(selectedList.Ids.Trakt);
+                    selectedList.Likes++;
+                    PublishListProperties(selectedList);
+                    break;
+
+                case ((int)ContextMenuItem.Unlike):
+                    UnLikeList(selectedList.Ids.Trakt);
+                    if (selectedList.Likes > 0)
+                    {
+                        selectedList.Likes--;
+                        PublishListProperties(selectedList);
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -244,6 +269,34 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
+
+        private void LikeList(int? id)
+        {
+            var likeThread = new Thread((obj) =>
+            {
+                TraktAPI.TraktAPI.LikeList(CurrentUser, (int)obj);
+            })
+            {
+                Name = "LikeList",
+                IsBackground = true
+            };
+
+            likeThread.Start(id);
+        }
+
+        private void UnLikeList(int? id)
+        {
+            var unlikeThread = new Thread((obj) =>
+            {
+                TraktAPI.TraktAPI.UnLikeList(CurrentUser, (int)obj);
+            })
+            {
+                Name = "UnLikeList",
+                IsBackground = true
+            };
+
+            unlikeThread.Start(id);
+        }
 
         private void CopyList(TraktListDetail sourceList, TraktListDetail newList)
         {
@@ -540,11 +593,17 @@ namespace TraktPlugin.GUI
             
             GUICommon.SetProperty("#Trakt.Lists.CurrentUser", CurrentUser);
         }
-                
+
+        private void PublishListProperties(TraktListDetail list)
+        {
+            if (list == null) return;                
+            GUICommon.SetListProperties(list, CurrentUser);
+        }
+
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             var list = item.TVTag as TraktListDetail;
-            GUICommon.SetListProperties(list, CurrentUser);
+            PublishListProperties(list);
         }
 
         #endregion
