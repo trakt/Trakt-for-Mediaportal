@@ -57,7 +57,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>trakt.ico</ApplicationIcon>
+    <ApplicationIcon>trakt-1024.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Core">
@@ -101,7 +101,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="trakt.ico" />
+    <Content Include="trakt-1024.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
