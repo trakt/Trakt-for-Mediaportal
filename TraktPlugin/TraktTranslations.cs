@@ -750,7 +750,11 @@ namespace TraktPlugin.GUI
         public static string SettingMaxRelatedShowsRequestName = "Maximum Related Shows to Request";
         public static string SettingMaxRelatedShowsRequestDescription = "Set the maxmimum number of related shows to request when 'Hide Watched' is not enabled.";
         public static string SettingMaxRelatedShowsUnWatchedRequestName = "Maximum Related UnWatched Shows to Request";
-        public static string SettingMaxRelatedShowsUnWatchedRequestDescription = "Set the maxmimum number of related shows to request when 'Hide Watched' is enabled.";        
+        public static string SettingMaxRelatedShowsUnWatchedRequestDescription = "Set the maxmimum number of related shows to request when 'Hide Watched' is enabled.";
+        public static string SettingMaxPopularMoviesRequestName = "Maximum Popular Movies to Request";
+        public static string SettingMaxPopularMoviesRequestDescription = "Set the maxmimum number of popular movies to request per page";
+        public static string SettingMaxPopularShowsRequestName = "Maximum Popular TV Shows to Request";
+        public static string SettingMaxPopularShowsRequestDescription = "Set the maxmimum number of popular tv shows to request per page";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

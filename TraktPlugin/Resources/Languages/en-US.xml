@@ -495,6 +495,10 @@
   <string name="SettingMaxRelatedShowsRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is not enabled.</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximum Related UnWatched Shows to Request</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Set the maxmimum number of related shows to request when \'Hide Watched\' is enabled.</string>
+  <string name="SettingMaxPopularMoviesRequestName">Maximum Popular Movies to Request</string>
+  <string name="SettingMaxPopularMoviesRequestDescription">Set the maxmimum number of popular movies to request per page.</string>
+  <string name="SettingMaxPopularShowsRequestName">Maximum Popular TV Shows to Request</string>
+  <string name="SettingMaxPopularShowsRequestDescription">Set the maxmimum number of popular tv shows to request per page.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>
