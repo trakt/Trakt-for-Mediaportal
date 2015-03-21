@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87100</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <define>#currentmodule:#Trakt.Translation.Popular.Label</define>
+  <define>#selecteditem:#highlightedbutton</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onleft:9999</define>
+  <controls>
+    <control>
+      <description>BG</description>
+      <type>image</type>
+      <id>1</id>
+      <texture>BH Videos.jpg</texture>
+      <width>1280</width>
+      <height>720</height>
+      <colordiffuse>90ffffff</colordiffuse>
+    </control>
+    <import>Trakt.Common.Fanart.xml</import>
+    <import>common.window.xml</import>
+    <import>common.time.xml</import>
+    <import>Trakt.Common.xml</import>
+    <control>
+      <type>group</type>
+      <description>group element</description>
+      <posX>350</posX>
+      <posY>161</posY>
+      <width>263</width>
+      <height>379</height>
+      <layout>StackLayout(Vertical)</layout>
+      <control>
+        <type>button</type>
+        <description>Popular Movies</description>
+        <id>2</id>
+        <label>#Trakt.Translation.PopularMovies.Label</label>
+        <hyperlink>87101</hyperlink>
+        <onup>17</onup>
+        <width>373</width>
+        <onleft>#defaultcontrol.onleft</onleft>
+      </control>
+      <control>
+        <description>Popular Shows</description>
+        <type>button</type>
+        <id>3</id>
+        <label>#Trakt.Translation.PopularShows.Label</label>
+        <hyperlink>87102</hyperlink>
+        <width>373</width>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <ondown>2</ondown>
+      </control>
+    </control>
+  </controls>
+</window>

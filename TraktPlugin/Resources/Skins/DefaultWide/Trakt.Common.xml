@@ -17,8 +17,8 @@
       <id>0</id>
       <posX>40</posX>
       <posY>80</posY>
-      <width>106</width>
-      <height>80</height>
+      <width>60</width>
+      <height>60</height>
       <keepaspectratio>yes</keepaspectratio>
       <texture>logos\trakt.png</texture>
     </control>
@@ -38,7 +38,7 @@
         <width>280</width>
         <label>#Trakt.Translation.Profile.Label</label>
         <hyperlink>87400</hyperlink>
-        <onup>9998</onup>
+        <onup>9997</onup>
         <onright>#defaultcontrol</onright>
       </control>
       <control>
@@ -79,6 +79,15 @@
         <onright>#defaultcontrol</onright>
       </control>
       <control>
+        <description>Popular</description>
+        <type>button</type>
+        <id>9999</id>
+        <width>280</width>
+        <label>#Trakt.Translation.Popular.Label</label>
+        <hyperlink>87264</hyperlink>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control>
         <description>Watch List</description>
         <type>button</type>
         <id>9995</id>
@@ -97,22 +106,22 @@
         <onright>#defaultcontrol</onright>
       </control>
       <control>
-        <description>Settings</description>
-        <type>button</type>
-        <id>9997</id>
-        <width>280</width>
-        <label>#Trakt.Translation.Settings.Label</label>
-        <hyperlink>87271</hyperlink>
-        <onright>#defaultcontrol</onright>
-        <ondown>9998</ondown>
-      </control>
-      <control>
         <description>Search</description>
         <type>button</type>
         <id>9998</id>
         <width>280</width>
         <label>#Trakt.Translation.Search.Label</label>
         <hyperlink>874001</hyperlink>
+        <onright>#defaultcontrol</onright>
+        <ondown>9997</ondown>
+      </control>
+      <control>
+        <description>Settings</description>
+        <type>button</type>
+        <id>9997</id>
+        <width>280</width>
+        <label>#Trakt.Translation.Settings.Label</label>
+        <hyperlink>87271</hyperlink>
         <onright>#defaultcontrol</onright>
         <ondown>9990</ondown>
       </control>

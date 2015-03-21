@@ -511,6 +511,7 @@
   <!--T-->
   <string name="Timeout">Timeout</string>
   <string name="TotalPages">Total Pages</string>
+  <string name="TotalItemsPerPage">Total Items Per Page</string>
   <string name="Trending">Trending</string>
   <string name="TrendingShows">Trending Shows</string>
   <string name="TrendingShowsAndMovies">Trending Shows and Movies</string>

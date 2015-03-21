@@ -1173,6 +1173,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Certification", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Country", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.FirstAiredLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Network", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Overview", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Runtime", string.Empty);

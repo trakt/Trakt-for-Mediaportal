@@ -109,6 +109,81 @@
         </control>
       </control>
     </control>
-    <import>Trakt.Common.Properties.Episodes.xml</import>
+
+    <control>
+      <description>Overlay text right</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>709</posX>
+      <posY>156</posY>
+      <width>549</width>
+      <height>466</height>
+      <texture mask="picturethumbmask.png">black.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Episode LCD image</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>785</posX>
+      <posY>200</posY>
+      <width>391</width>
+      <height>227</height>
+      <texture>LCD.png</texture>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Episode image</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>804</posX>
+      <posY>219</posY>
+      <width>352</width>
+      <height>188</height>
+      <keepaspectratio>yes</keepaspectratio>
+      <zoom>yes</zoom>
+      <texture>#selectedthumb</texture>
+      <visible>facadeview.list</visible>
+    </control>
+
+    <control>
+      <description>Separator Line</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>460</posY>
+      <width>500</width>
+      <height>1</height>
+      <texture>hbar1white.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)</visible>
+    </control>
+    <control Style="NoShadow">
+      <description>Plot value</description>
+      <type>textboxscrollup</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>470</posY>
+      <width>520</width>
+      <height>105</height>
+      <label>#Trakt.Episode.Overview</label>
+      <font>font11</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Separator Line</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>580</posY>
+      <width>500</width>
+      <height>1</height>
+      <texture>hbar1white.png</texture>
+      <colordiffuse>60ffffff</colordiffuse>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)</visible>
+    </control>
+    
   </controls>
 </window>

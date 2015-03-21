@@ -771,6 +771,7 @@ namespace TraktPlugin.GUI
         // T
         public static string Timeout = "Timeout";
         public static string TotalPages = "Total Pages";
+        public static string TotalItemsPerPage = "Total Items Per Page";
         public static string Trending = "Trending";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";

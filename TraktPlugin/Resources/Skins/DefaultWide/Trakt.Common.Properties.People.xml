@@ -22,7 +22,7 @@
       <posY>170</posY>
       <width>180</width>
       <height>270</height>
-	  <keepaspectratio>no</keepaspectratio>
+      <keepaspectratio>no</keepaspectratio>
       <zoom>no</zoom>
       <texture mask="videothumbmask.png">#selectedthumb</texture>
       <visible>facadeview.list</visible>

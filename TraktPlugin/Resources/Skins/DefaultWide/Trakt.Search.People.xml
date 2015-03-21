@@ -116,6 +116,31 @@
         </control>
       </control>
     </control>
-    <import>Trakt.Common.Properties.People.xml</import>
+
+    <control>
+      <description>Headshot</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>840</posX>
+      <posY>170</posY>
+      <width>270</width>
+      <height>405</height>
+      <keepaspectratio>no</keepaspectratio>
+      <zoom>no</zoom>
+      <texture mask="videothumbmask.png">#selectedthumb</texture>
+      <visible>facadeview.list</visible>
+    </control>
+    <control>
+      <description>Headshot Frame</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>840</posX>
+      <posY>170</posY>
+      <width>270</width>
+      <height>405</height>
+      <texture>Videothumbframe.png</texture>
+      <visible>facadeview.list</visible>
+    </control>
+    
   </controls>
 </window>

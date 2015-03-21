@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--version="1.0" encoding="utf-8" standalone="yes"-->
 <window>
   <id>87275</id>
   <defaultcontrol>50</defaultcontrol>
@@ -57,18 +56,62 @@
         </control>
       </control>
     </control>
+
+    <control>
+      <description>Likes Icon</description>
+      <type>image</type>
+      <id>1</id>
+      <width>38</width>
+      <height>32</height>
+      <posX>105</posX>
+      <posY>500</posY>
+      <texture>love.png</texture>
+      <visible>!string.equals(#Trakt.List.Likes,)</visible>
+    </control>
+    <control>
+      <type>label</type>
+      <label>#Trakt.List.Likes #Trakt.Translation.Likes.Label</label>
+      <id>0</id>
+      <posX>160</posX>
+      <posY>500</posY>
+      <width>180</width>
+      <visible>!string.equals(#Trakt.List.Likes,)</visible>
+    </control>
+
+    <control>
+      <description>Comments Icon</description>
+      <type>image</type>
+      <id>1</id>
+      <width>32</width>
+      <height>32</height>
+      <posX>310</posX>
+      <posY>500</posY>
+      <texture>traktActivityShout.png</texture>
+      <visible>!string.equals(#Trakt.List.Comments,)</visible>
+    </control>
+    <control>
+      <type>label</type>
+      <label>#Trakt.List.Comments #Trakt.Translation.Comments.Label</label>
+      <id>0</id>
+      <posX>360</posX>
+      <posY>500</posY>
+      <width>315</width>
+      <visible>!string.equals(#Trakt.List.Comments,)</visible>
+    </control>
+    
+    
     <control>
       <description>Description</description>
       <type>textboxscrollup</type>
       <id>0</id>
       <posX>106</posX>
-      <posY>500</posY>
+      <posY>540</posY>
       <width>1066</width>
-      <height>100</height>
+      <height>65</height>
       <textcolor>ffFFFFFF</textcolor>
       <font>font14</font>
       <label>#Trakt.List.Description</label>
-      <visible>!string.equals(#Trakt.List.Description,N/A)+facadeview.list</visible>
+      <visible>!string.equals(#Trakt.List.Description,--)+facadeview.list</visible>
     </control>
   </controls>
 </window>
