@@ -742,9 +742,12 @@ namespace TraktPlugin.TraktAPI
                         var tMovieSearch = new Thread(obj => 
                         { 
                             var response = SearchMovies(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
 
                         });
@@ -757,9 +760,12 @@ namespace TraktPlugin.TraktAPI
                         var tShowSearch = new Thread(obj =>
                         {
                             var response = SearchShows(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
                         });
                         tShowSearch.Start(searchTerm);
@@ -771,9 +777,12 @@ namespace TraktPlugin.TraktAPI
                         var tEpisodeSearch = new Thread(obj =>
                         {
                             var response = SearchEpisodes(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
                         });
                         tEpisodeSearch.Start(searchTerm);
@@ -785,9 +794,12 @@ namespace TraktPlugin.TraktAPI
                         var tPeopleSearch = new Thread(obj =>
                         {
                             var response = SearchPeople(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
                         });
                         tPeopleSearch.Start(searchTerm);
@@ -799,9 +811,12 @@ namespace TraktPlugin.TraktAPI
                         var tUserSearch = new Thread(obj =>
                         {
                             var response = SearchUsers(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
                         });
                         tUserSearch.Start(searchTerm);
@@ -813,9 +828,12 @@ namespace TraktPlugin.TraktAPI
                         var tListSearch = new Thread(obj =>
                         {
                             var response = SearchLists(obj as string, maxResults);
-                            lock (searchLock)
+                            if (response != null)
                             {
-                                results.AddRange(response);
+                                lock (searchLock)
+                                {
+                                    results.AddRange(response);
+                                }
                             }
                         });
                         tListSearch.Start(searchTerm);
