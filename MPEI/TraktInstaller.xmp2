@@ -1839,6 +1839,41 @@
               <ZipFileName>Installer{CopyFile}\{fb4bccb3-0301-4559-b84c-b54ed47bcea9}-traktUserProfile.png</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Media\traktUserProfile.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a63526fb-01ff-47ae-ab4d-1b78f14a27af}-Trakt.Popular.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b35575eb-211f-4c07-adb0-9e42c7600200}-Trakt.Popular.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{10087075-ef97-4b47-a54d-24e5111d4360}-Trakt.Popular.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktNextPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{07a84a52-6b1a-4b01-9952-2b84c99e4e01}-traktNextPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktNextPage.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktPreviousPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{3d15f838-95d3-4b1b-abdd-a2ac9f8015e8}-traktPreviousPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktPreviousPage.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2656,6 +2691,41 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{1ce1a9cf-03e5-4b92-a341-6d78262ed0f6}-myextensions2settings.xml</ZipFileName>
               <DestinationFilename>%Skin%\Titan\myextensions2settings.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b1b3c22f-70d1-4502-bb51-20677d230949}-traktNextPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktNextPage.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktPreviousPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0baaf6bc-1a28-4b60-b713-a93c5f4e0dcd}-traktPreviousPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktPreviousPage.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cdabeb6d-cc8e-4d6f-9a6c-c1e6d3d1de63}-Trakt.Popular.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Popular.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{5c1f01da-e602-4746-948c-a14a045680d3}-Trakt.Popular.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Popular.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{cd10a5a7-333c-4052-bad7-a2dc61c3c385}-Trakt.Popular.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Popular.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2978,46 +3048,63 @@ Click Next to continue or Cancel to exit Setup.
     <Name>Trakt for MediaPortal</Name>
     <Id>a9c3845a-8718-4712-85cc-26f56520bb9a</Id>
     <Author>Technicolour, ltfearme</Author>
-    <HomePage>http://github.com/Technicolour/Trakt-for-Mediaportal</HomePage>
+    <HomePage>http://github.com/trakt/Trakt-for-Mediaportal</HomePage>
     <ForumPage>http://forum.team-mediaportal.com/mediaportal-plugins-47/1-0-0-trakt-mediaportal-97807/</ForumPage>
-    <UpdateUrl>https://raw.github.com/Technicolour/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
+    <UpdateUrl>https://raw.github.com/trakt/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>5</Major>
-      <Minor>2</Minor>
+      <Minor>3</Minor>
       <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Added support for Rating TV Seasons.
-* Added support to list Comments for TV Seasons.
-* Added support to list a Comments Replies, if a comment has replies then you can click on it to load and read them.
-* Added support to Like or UnLike a Comment from the Shouts GUI. You can click on a comment to see a list of actions.
-* Added support to add a TV Season to your Watchlist.
-* Added support to view a TV Show's Season Information from the Plugins External Menu e.g. from MP-TVSeries.
-* Added setting to allow secure communication (HTTPS) with trakt.tv server. This is disabled by default until confident that it works as expected. This can be enabled in Advanced Settings.
-* Added online latency logging into seperate file. You can open the CSV file output in the logs directory in a CSV viewer e.g. MS Excel.
-* Filter out any duplicate comments. This is detected if the same person writes the same comment.
-* Cache custom lists during Sync if syncing of lists is enabled in MovingPictures or My Films. This will result in faster syncs when there has been no changes detected to your online lists.
-* Updated logger to keep a history of the last 5 log files, this will be really useful for diagnosing issues.
+    <VersionDescription>* Added paging support to Trending Shows and Movies, new skin properties and images available for next/previous page items. Titan and DefaultWide skin have been updated.
+* Added Popular Movies and Shows GUI, windows support paging. Titan and DefaultWide skin have been updated.
+* Added Comment counts to Lists.
+* Added support to 'Like' or 'Unlike' a users List.
+* Added advanced settings to control how many items to request for Related Movies and Shows.
+* Added advanced settings to control how many items to request for Popular Movies and Shows.
+* Added a simple command line parser to the Configuration executable. You can now launch the config tool using the following command options: --silentmode, --sync, --closeaftersync. If you're using --silentmode then you do not need to also specify --closeaftersync.
+* Added extra validation checks when loading settings.
+* Added Ratings Distribution skin properties to the User Profile GUI. Skins can design a ratings distribution graph similar to what is on the website.
+* Re-Added Watched Filtering for Related Movies and Shows. Filtering is done client-side and will request more items by default.
+* Fixed a possible crash when failing to login to trakt.tv and error is not a Protocol Error.
+* Fixed a possible crash when a search query fails due to an error on trakt e.g. a Protocol Error.
+* Improved OnlineVideos scrobbler, added pause signal if movie/episode is not considered watched.
+* Improved watched/collected calculation in the TV Season GUI that displays the overlay icons on posters. This will now be done based on what has currently aired.
+* Updated skin properties that publish the total trending watchers and items being watched instead of whats just on the current page.
+* Updated Titan skin:
+** Add Comment count to the Lists GUI.
+** Updated design of the Search GUI windows, it has been updated such that it presents better with minimal information. Note: The search API does not give extended info for Search so skin should not try to present them. In the future you will be able to design a window which displays detailed info when clicking on a search item.
+* Updated DefaultWide skin:
+** Added Popular Shows and Movies GUI.
+** Updated Trending Shows and Movies GUI to better support Paging.
+** Updated Branding.
+** Added Likes and Comment counts to Lists GUI.
+** Updated design of the Search GUI windows, it has been updated such that it presents better with minimal information.
+** Updated General Settings GUI with new Sync options.
+** Updated Trakt icon on Configuration Launcher to support 256x256 icon size.
+* Updated minimum requirements for MediaPortal (1.8.0)
+* Updated minimum requirements for OnlineVideos (1.9.0).
 * Updated translations from Transifex.
 
 As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-02-22T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-03-21T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
       <Items>
         <SectionParam Name="Icon">
-          <Value>..\TraktPlugin\Resources\Images\trakt.png</Value>
+          <Value>..\TraktPlugin\Resources\Images\trakt-1024.png</Value>
           <ValueType>File</ValueType>
           <Description>The icon file of the package (jpg,png,bmp)</Description>
         </SectionParam>
         <SectionParam Name="Online Icon">
-          <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/raw/master/TraktPlugin/Resources/Images/trakt.png</Value>
+          <Value>https://github.com/trakt/Trakt-for-Mediaportal/raw/master/TraktPlugin/Resources/Images/trakt-1024.png</Value>
           <ValueType>String</ValueType>
           <Description>The icon file of the package stored online (jpg,png,bmp)</Description>
         </SectionParam>
@@ -3031,7 +3118,7 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
           </Description>
         </SectionParam>
         <SectionParam Name="Online Screenshots">
-          <Value>https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingMovies.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktMain.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktCalendar.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktFriends.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedShows.jpg;https://github.com/Technicolour/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedMovies.jpg</Value>
+          <Value>https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingMovies.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktTrendingShows.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktMain.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktCalendar.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktFriends.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedShows.jpg;https://github.com/trakt/Trakt-for-Mediaportal/wiki/Screenshots/traktRecommendedMovies.jpg</Value>
           <ValueType>String</ValueType>
           <Description>Online stored screenshot urls separated by ; </Description>
         </SectionParam>
@@ -4844,6 +4931,41 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <ZipFileName>Installer{CopyFile}\{fb4bccb3-0301-4559-b84c-b54ed47bcea9}-traktUserProfile.png</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Media\traktUserProfile.png</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a63526fb-01ff-47ae-ab4d-1b78f14a27af}-Trakt.Popular.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b35575eb-211f-4c07-adb0-9e42c7600200}-Trakt.Popular.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Popular.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{10087075-ef97-4b47-a54d-24e5111d4360}-Trakt.Popular.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Popular.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktNextPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{07a84a52-6b1a-4b01-9952-2b84c99e4e01}-traktNextPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktNextPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktPreviousPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{3d15f838-95d3-4b1b-abdd-a2ac9f8015e8}-traktPreviousPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktPreviousPage.png</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
@@ -5621,11 +5743,53 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <ZipFileName>Installer{CopyFile}\{1ce1a9cf-03e5-4b92-a341-6d78262ed0f6}-myextensions2settings.xml</ZipFileName>
         <DestinationFilename>%Skin%\Titan\myextensions2settings.xml</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b1b3c22f-70d1-4502-bb51-20677d230949}-traktNextPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktNextPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktPreviousPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0baaf6bc-1a28-4b60-b713-a93c5f4e0dcd}-traktPreviousPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktPreviousPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cdabeb6d-cc8e-4d6f-9a6c-c1e6d3d1de63}-Trakt.Popular.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Popular.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{5c1f01da-e602-4746-948c-a14a045680d3}-Trakt.Popular.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Popular.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Popular.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{cd10a5a7-333c-4052-bad7-a2dc61c3c385}-Trakt.Popular.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Popular.xml</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{5918be34-84cb-441d-a5f1-3eab01578fd0}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{cf06a253-17c1-4d19-8e5a-eed95a64f325}-trakt.png</ZipFileName>
+        <DestinationFilename />
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Images\trakt-1024.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{9123e879-d668-4048-8c92-88193033a456}-trakt-1024.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
