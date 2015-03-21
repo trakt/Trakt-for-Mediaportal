@@ -458,6 +458,8 @@ namespace TraktPlugin.GUI
         public static string GettingSearchResults = "Getting Search Results";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
+        public static string GettingPopularMovies = "Getting Popular Movies";
+        public static string GettingPopularShows = "Getting Popular Shows";
         public static string GettingRecommendedMovies = "Getting Recommended Movies";
         public static string GettingRecommendedShows = "Getting Recommended Shows";
         public static string GettingShouts = "Getting Shouts";
@@ -587,6 +589,10 @@ namespace TraktPlugin.GUI
         public static string PlayTrailer = "Play Trailer";
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";
+        public static string Popular = "Popular";
+        public static string Popularity = "Popularity";
+        public static string PopularShows = "Popular Shows";
+        public static string PopularMovies = "Popular Movies";
         public static string Public = "Public";
         public static string PreviousEpisode = "Previous Episode";
         public static string PreviousPage = "Previous Page";

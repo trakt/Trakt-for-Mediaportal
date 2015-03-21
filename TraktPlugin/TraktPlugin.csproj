@@ -226,6 +226,9 @@
     <Compile Include="GUI\GUIListItems\GUIUserListItem.cs" />
     <Compile Include="GUI\GUILists.cs" />
     <Compile Include="GUI\GUINetwork.cs" />
+    <Compile Include="GUI\GUIPopular.cs" />
+    <Compile Include="GUI\GUIPopularMovies.cs" />
+    <Compile Include="GUI\GUIPopularShows.cs" />
     <Compile Include="GUI\GUIRecentAddedEpisodes.cs" />
     <Compile Include="GUI\GUIRecentAddedMovies.cs" />
     <Compile Include="GUI\GUIRecentShouts.cs" />
@@ -273,9 +276,11 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMoviesPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesTrending.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPagination.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRatingDistribution.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktShowsPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsTrending.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktStatus.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFollowerRequest.cs" />

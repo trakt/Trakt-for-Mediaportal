@@ -1091,7 +1091,7 @@ namespace TraktPlugin
             var selectedItem = trendingShowsFacade.SelectedListItem;
             var selectedTrendingItem = selectedItem.TVTag as TraktShowTrending;
 
-            GUICommon.CreateTrendingShowsContextMenu(ref dlg, selectedTrendingItem.Show, true);
+            GUICommon.CreateShowsContextMenu(ref dlg, selectedTrendingItem.Show, true);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -1099,63 +1099,63 @@ namespace TraktPlugin
 
             switch (dlg.SelectedId)
             {
-                case ((int)TrendingContextMenuItem.AddToWatchList):
+                case ((int)MediaContextMenuItem.AddToWatchList):
                     TraktHelper.AddShowToWatchList(selectedTrendingItem.Show);
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
                     (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.ShowSeasonInfo):
+                case ((int)MediaContextMenuItem.ShowSeasonInfo):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedTrendingItem.Show.ToJSON());
                     break;
 
-                case ((int)TrendingContextMenuItem.MarkAsWatched):
+                case ((int)MediaContextMenuItem.MarkAsWatched):
                     GUICommon.MarkShowAsWatched(selectedTrendingItem.Show);
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToLibrary):
+                case ((int)MediaContextMenuItem.AddToLibrary):
                     GUICommon.AddShowToCollection(selectedTrendingItem.Show);
                     break;
 
-                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                case ((int)MediaContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveShowFromWatchList(selectedTrendingItem.Show);
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
                     (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToList):
+                case ((int)MediaContextMenuItem.AddToList):
                     TraktHelper.AddRemoveShowInUserList(selectedTrendingItem.Show, false);
                     break;
 
-                case ((int)TrendingContextMenuItem.Related):
+                case ((int)MediaContextMenuItem.Related):
                     TraktHelper.ShowRelatedShows(selectedTrendingItem.Show);
                     break;
 
-                case ((int)TrendingContextMenuItem.Filters):
+                case ((int)MediaContextMenuItem.Filters):
                     if (GUICommon.ShowTVShowFiltersMenu())
                         LoadTrendingShows(true);
                     break;
 
-                case ((int)TrendingContextMenuItem.Trailers):
+                case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowTVShowTrailersMenu(selectedTrendingItem.Show);
                     break;
 
-                case ((int)TrendingContextMenuItem.Shouts):
+                case ((int)MediaContextMenuItem.Shouts):
                     TraktHelper.ShowTVShowShouts(selectedTrendingItem.Show);
                     break;
 
-                case ((int)TrendingContextMenuItem.Rate):
+                case ((int)MediaContextMenuItem.Rate):
                     GUICommon.RateShow(selectedTrendingItem.Show);
                     OnTrendingShowSelected(selectedItem, trendingShowsFacade);
                     (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
+                case ((int)MediaContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedTrendingItem.Show.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchTorrent):
+                case ((int)MediaContextMenuItem.SearchTorrent):
                     string loadPar = selectedTrendingItem.Show.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
@@ -1179,7 +1179,7 @@ namespace TraktPlugin
             var selectedItem = trendingMoviesFacade.SelectedListItem;
             var selectedTrendingItem = selectedItem.TVTag as TraktMovieTrending;
 
-            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, true);
+            GUICommon.CreateMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, true);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -1187,77 +1187,77 @@ namespace TraktPlugin
 
             switch (dlg.SelectedId)
             {
-                case ((int)TrendingContextMenuItem.MarkAsWatched):
+                case ((int)MediaContextMenuItem.MarkAsWatched):
                     TraktHelper.AddMovieToWatchHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = true;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.MarkAsUnWatched):
+                case ((int)MediaContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveMovieFromWatchHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = false;
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToWatchList):
+                case ((int)MediaContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedTrendingItem.Movie, true);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                case ((int)MediaContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedTrendingItem.Movie, true);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToList):
+                case ((int)MediaContextMenuItem.AddToList):
                     TraktHelper.AddRemoveMovieInUserList(selectedTrendingItem.Movie, false);
                     break;
 
-                case ((int)TrendingContextMenuItem.Filters):
+                case ((int)MediaContextMenuItem.Filters):
                     if (GUICommon.ShowMovieFiltersMenu())
                         LoadTrendingMovies(true);
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToLibrary):
+                case ((int)MediaContextMenuItem.AddToLibrary):
                     TraktHelper.AddMovieToCollection(selectedTrendingItem.Movie);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.RemoveFromLibrary):
+                case ((int)MediaContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromCollection(selectedTrendingItem.Movie);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.Related):
+                case ((int)MediaContextMenuItem.Related):
                     TraktHelper.ShowRelatedMovies(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.Rate):
+                case ((int)MediaContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedTrendingItem.Movie);
                     OnTrendingMovieSelected(selectedItem, trendingMoviesFacade);
                     (selectedItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.Shouts):
+                case ((int)MediaContextMenuItem.Shouts):
                     TraktHelper.ShowMovieShouts(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.Trailers):
+                case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowMovieTrailersMenu(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
+                case ((int)MediaContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedTrendingItem.Movie.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchTorrent):
+                case ((int)MediaContextMenuItem.SearchTorrent):
                     string loadPar = selectedTrendingItem.Movie.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;

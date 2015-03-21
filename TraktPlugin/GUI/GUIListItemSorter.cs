@@ -59,6 +59,12 @@ namespace TraktPlugin.GUI
                         rtn = movieX.Votes.CompareTo(movieY.Votes);
                         break;
 
+                    case SortingFields.Popularity:
+                        double popX = movieX.Votes * movieX.Rating.GetValueOrDefault(0);
+                        double popY = movieY.Votes * movieY.Rating.GetValueOrDefault(0);
+                        rtn = popX.CompareTo(popY);
+                        break;
+
                     case SortingFields.Runtime:
                         rtn = movieX.Runtime.GetValueOrDefault(0).CompareTo(movieY.Runtime.GetValueOrDefault(0));
                         break;
@@ -152,6 +158,12 @@ namespace TraktPlugin.GUI
                     case SortingFields.Votes:
                         rtn = 0;
                         rtn = showX.Votes.CompareTo(showY.Votes);
+                        break;
+
+                    case SortingFields.Popularity:
+                        double popX = showX.Votes * showX.Rating.GetValueOrDefault(0);
+                        double popY = showY.Votes * showY.Rating.GetValueOrDefault(0);
+                        rtn = popX.CompareTo(popY);
                         break;
 
                     case SortingFields.Runtime:

@@ -340,6 +340,34 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Popular
+
+        public static TraktMoviesPopular GetPopularMovies(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.PopularMovies, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktMoviesPopular
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Movies = response.FromJSONArray<TraktMovieSummary>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Trending
 
         public static TraktMoviesTrending GetTrendingMovies(int page = 1, int maxItems = 100)
@@ -432,6 +460,34 @@ namespace TraktPlugin.TraktAPI
         {
             var response = GetFromTrakt(string.Format(TraktURIs.ShowComments, id, page, maxItems));
             return response.FromJSONArray<TraktComment>();
+        }
+
+        #endregion
+
+        #region Popular
+
+        public static TraktShowsPopular GetPopularShows(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.PopularShows, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktShowsPopular
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Shows = response.FromJSONArray<TraktShowSummary>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion

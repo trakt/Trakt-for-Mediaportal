@@ -213,6 +213,8 @@
   <string name="GettingShowSeasons">Getting Show Seasons</string>
   <string name="GettingTrendingMovies">Getting Trending Movies</string>
   <string name="GettingTrendingShows">Getting Trending Shows</string>
+  <string name="GettingPopularMovies">Getting Popular Movies</string>
+  <string name="GettingPopularShows">Getting Popular Shows</string>
   <string name="GettingRecommendedMovies">Getting Recommended Movies</string>
   <string name="GettingRecommendedShows">Getting Recommended Shows</string>
   <string name="GettingWatchListMovies">Getting Watchlist Movies</string>
@@ -330,6 +332,10 @@
   <string name="PlayTrailer">Play Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="Popular">Popular</string>
+  <string name="Popularity">Popularity</string>
+  <string name="PopularShows">Popular Shows</string>
+  <string name="PopularMovies">Popular Movies</string>
   <string name="Public">Public</string>
   <string name="PreviousEpisode">Previous Episode</string>
   <string name="PreviousPage">Previous Page</string>

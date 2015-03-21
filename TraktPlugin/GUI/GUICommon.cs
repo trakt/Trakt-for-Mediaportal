@@ -39,7 +39,7 @@ namespace TraktPlugin.GUI
         Trailers,
     }
 
-    public enum TrendingContextMenuItem
+    public enum MediaContextMenuItem
     {
         MarkAsWatched,
         MarkAsUnWatched,
@@ -103,7 +103,10 @@ namespace TraktPlugin.GUI
         SearchShows = 874003,
         SearchMovies = 874004,
         SearchPeople = 874005,
-        SearchUsers = 874006
+        SearchUsers = 874006,
+        Popular = 87100,
+        PopularMovies = 87101,
+        PopularShows = 87102
     }
 
     enum TraktDashboardControls
@@ -178,7 +181,8 @@ namespace TraktPlugin.GUI
         Votes,
         Runtime,
         PeopleWatching,
-        WatchListInserted
+        WatchListInserted,
+        Popularity
     }
 
     public enum SortingDirections
@@ -1377,7 +1381,7 @@ namespace TraktPlugin.GUI
             return listItems;
         }
 
-        internal static void CreateTrendingMoviesContextMenu(ref IDialogbox dlg, TraktMovie movie, bool dashboard)
+        internal static void CreateMoviesContextMenu(ref IDialogbox dlg, TraktMovie movie, bool dashboard)
         {
             GUIListItem listItem = null;
 
@@ -1386,7 +1390,7 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.MarkAsWatched;
+                listItem.ItemId = (int)MediaContextMenuItem.MarkAsWatched;
             }
 
             // Mark As UnWatched
@@ -1394,27 +1398,27 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.MarkAsUnWatched);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.MarkAsUnWatched;
+                listItem.ItemId = (int)MediaContextMenuItem.MarkAsUnWatched;
             }
 
-            // Add/Remove Watchlist            
+            // Add/Remove Watchlist
             if (!movie.IsWatchlisted())
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.AddToWatchList;
+                listItem.ItemId = (int)MediaContextMenuItem.AddToWatchList;
             }
             else
             {
                 listItem = new GUIListItem(Translation.RemoveFromWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromWatchList;
+                listItem.ItemId = (int)MediaContextMenuItem.RemoveFromWatchList;
             }
 
             // Add to Custom list
             listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
+            listItem.ItemId = (int)MediaContextMenuItem.AddToList;
 
             // Add to Library
             // Don't allow if it will be removed again on next sync
@@ -1423,14 +1427,14 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.AddToLibrary;
+                listItem.ItemId = (int)MediaContextMenuItem.AddToLibrary;
             }
 
             if (movie.IsCollected())
             {
                 listItem = new GUIListItem(Translation.RemoveFromLibrary);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromLibrary;
+                listItem.ItemId = (int)MediaContextMenuItem.RemoveFromLibrary;
             }
 
             // Filters
@@ -1438,38 +1442,38 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.Filters + "...");
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.Filters;
+                listItem.ItemId = (int)MediaContextMenuItem.Filters;
             }
 
             // Related Movies
             listItem = new GUIListItem(Translation.RelatedMovies);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Related;
+            listItem.ItemId = (int)MediaContextMenuItem.Related;
 
             // Rate Movie
             listItem = new GUIListItem(Translation.RateMovie);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Rate;
+            listItem.ItemId = (int)MediaContextMenuItem.Rate;
 
             // Shouts
             listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
+            listItem.ItemId = (int)MediaContextMenuItem.Shouts;
 
             // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.Trailers;
+                listItem.ItemId = (int)MediaContextMenuItem.Trailers;
             }
 
             // Change Layout
-            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingMovies)
+            if (!dashboard)
             {
                 listItem = new GUIListItem(Translation.ChangeLayout);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.ChangeLayout;
+                listItem.ItemId = (int)MediaContextMenuItem.ChangeLayout;
             }
 
             if (!movie.IsCollected() && TraktHelper.IsMpNZBAvailableAndEnabled)
@@ -1477,7 +1481,7 @@ namespace TraktPlugin.GUI
                 // Search for movie with mpNZB
                 listItem = new GUIListItem(Translation.SearchWithMpNZB);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.SearchWithMpNZB;
+                listItem.ItemId = (int)MediaContextMenuItem.SearchWithMpNZB;
             }
 
             if (!movie.IsCollected() && TraktHelper.IsMyTorrentsAvailableAndEnabled)
@@ -1485,12 +1489,12 @@ namespace TraktPlugin.GUI
                 // Search for movie with MyTorrents
                 listItem = new GUIListItem(Translation.SearchTorrent);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.SearchTorrent;
+                listItem.ItemId = (int)MediaContextMenuItem.SearchTorrent;
             }
 
         }
 
-        internal static void CreateTrendingShowsContextMenu(ref IDialogbox dlg, TraktShow show, bool dashboard)
+        internal static void CreateShowsContextMenu(ref IDialogbox dlg, TraktShow show, bool dashboard)
         {
             GUIListItem listItem = null;
 
@@ -1499,40 +1503,40 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.AddToWatchList;
+                listItem.ItemId = (int)MediaContextMenuItem.AddToWatchList;
             }
             else
             {
                 listItem = new GUIListItem(Translation.RemoveFromWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.RemoveFromWatchList;
+                listItem.ItemId = (int)MediaContextMenuItem.RemoveFromWatchList;
             }
 
             // Show Season Information
             listItem = new GUIListItem(Translation.ShowSeasonInfo);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.ShowSeasonInfo;
+            listItem.ItemId = (int)MediaContextMenuItem.ShowSeasonInfo;
 
             // Mark Show as Watched
             listItem = new GUIListItem(Translation.MarkAsWatched);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.MarkAsWatched;
+            listItem.ItemId = (int)MediaContextMenuItem.MarkAsWatched;
 
             // Add Show to Library
             listItem = new GUIListItem(Translation.AddToLibrary);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.AddToLibrary;
+            listItem.ItemId = (int)MediaContextMenuItem.AddToLibrary;
 
             // Add to Custom List
             listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.AddToList;
+            listItem.ItemId = (int)MediaContextMenuItem.AddToList;
 
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.Trailers;
+                listItem.ItemId = (int)MediaContextMenuItem.Trailers;
             }
 
             // Filters
@@ -1540,30 +1544,30 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.Filters + "...");
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.Filters;
+                listItem.ItemId = (int)MediaContextMenuItem.Filters;
             }
 
             // Related Shows
             listItem = new GUIListItem(Translation.RelatedShows);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Related;
+            listItem.ItemId = (int)MediaContextMenuItem.Related;
 
             // Rate Show
             listItem = new GUIListItem(Translation.RateShow);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Rate;
+            listItem.ItemId = (int)MediaContextMenuItem.Rate;
 
             // Shouts
             listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
-            listItem.ItemId = (int)TrendingContextMenuItem.Shouts;
+            listItem.ItemId = (int)MediaContextMenuItem.Shouts;
 
             // Change Layout
-            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.TrendingShows)
+            if (!dashboard)
             {
                 listItem = new GUIListItem(Translation.ChangeLayout);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.ChangeLayout;
+                listItem.ItemId = (int)MediaContextMenuItem.ChangeLayout;
             }
 
             if (TraktHelper.IsMpNZBAvailableAndEnabled)
@@ -1571,7 +1575,7 @@ namespace TraktPlugin.GUI
                 // Search for show with mpNZB
                 listItem = new GUIListItem(Translation.SearchWithMpNZB);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.SearchWithMpNZB;
+                listItem.ItemId = (int)MediaContextMenuItem.SearchWithMpNZB;
             }
 
             if (TraktHelper.IsMyTorrentsAvailableAndEnabled)
@@ -1579,7 +1583,7 @@ namespace TraktPlugin.GUI
                 // Search for show with MyTorrents
                 listItem = new GUIListItem(Translation.SearchTorrent);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)TrendingContextMenuItem.SearchTorrent;
+                listItem.ItemId = (int)MediaContextMenuItem.SearchTorrent;
             }
         }
 
@@ -1671,6 +1675,10 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)SortingFields.Votes;
 
+            pItem = new GUIListItem(Translation.Popularity);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)SortingFields.Popularity;
+
             pItem = new GUIListItem(Translation.Runtime);
             dlg.Add(pItem);
             pItem.ItemId = (int)SortingFields.Runtime;
@@ -1719,6 +1727,11 @@ namespace TraktPlugin.GUI
                     newSortBy.Direction = SortingDirections.Descending;
                     break;
 
+                case (int)SortingFields.Popularity:
+                    newSortBy.Field = SortingFields.Popularity;
+                    newSortBy.Direction = SortingDirections.Descending;
+                    break;
+
                 case (int)SortingFields.Runtime:
                     newSortBy.Field = SortingFields.Runtime;
                     break;
@@ -1729,6 +1742,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case (int)SortingFields.WatchListInserted:
+                    newSortBy.Direction = SortingDirections.Descending;
                     newSortBy.Field = SortingFields.WatchListInserted;
                     break;
 
@@ -1760,6 +1774,10 @@ namespace TraktPlugin.GUI
 
                 case SortingFields.Votes:
                     strLine = Translation.Votes;
+                    break;
+
+                case SortingFields.Popularity:
+                    strLine = Translation.Popularity;
                     break;
 
                 case SortingFields.Runtime:
@@ -2621,13 +2639,14 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Filters
-        static List<MultiSelectionItem> GetFilterListItems(Dictionary<Filters, bool> filters)
+
+        internal static List<MultiSelectionItem> GetFilterListItems(Dictionary<Filters, bool> filters)
         {
-            List<MultiSelectionItem> selectItems = new List<MultiSelectionItem>();
+            var selectItems = new List<MultiSelectionItem>();
 
             foreach (var filter in filters)
             {
-                MultiSelectionItem multiSelectItem = new MultiSelectionItem
+                var multiSelectItem = new MultiSelectionItem
                 {
                     ItemID = filter.Key.ToString(),
                     ItemTitle = Translation.GetByName(string.Format("Hide{0}", filter.Key)),
@@ -2744,6 +2763,7 @@ namespace TraktPlugin.GUI
 
             return showsToFilter;
         }
+
         #endregion
 
         #region Activity Helpers

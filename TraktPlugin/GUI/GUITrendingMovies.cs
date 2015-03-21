@@ -233,7 +233,7 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            GUICommon.CreateTrendingMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, false);
+            GUICommon.CreateMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, false);
 
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
@@ -241,7 +241,7 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
-                case ((int)TrendingContextMenuItem.MarkAsWatched):
+                case ((int)MediaContextMenuItem.MarkAsWatched):
                     TraktHelper.AddMovieToWatchHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = true;
                     OnMovieSelected(selectedItem, Facade);
@@ -249,55 +249,55 @@ namespace TraktPlugin.GUI
                     if (TraktSettings.TrendingMoviesHideWatched) LoadTrendingMovies(CurrentPage);
                     break;
 
-                case ((int)TrendingContextMenuItem.MarkAsUnWatched):
+                case ((int)MediaContextMenuItem.MarkAsUnWatched):
                     TraktHelper.RemoveMovieFromWatchHistory(selectedTrendingItem.Movie);
                     selectedItem.IsPlayed = false;
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToWatchList):
+                case ((int)MediaContextMenuItem.AddToWatchList):
                     TraktHelper.AddMovieToWatchList(selectedTrendingItem.Movie, true);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideWatchlisted) LoadTrendingMovies(CurrentPage);
                     break;
 
-                case ((int)TrendingContextMenuItem.RemoveFromWatchList):
+                case ((int)MediaContextMenuItem.RemoveFromWatchList):
                     TraktHelper.RemoveMovieFromWatchList(selectedTrendingItem.Movie, true);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToList):
+                case ((int)MediaContextMenuItem.AddToList):
                     TraktHelper.AddRemoveMovieInUserList(selectedTrendingItem.Movie, false);                    
                     break;
 
-                case ((int)TrendingContextMenuItem.AddToLibrary):
+                case ((int)MediaContextMenuItem.AddToLibrary):
                     TraktHelper.AddMovieToCollection(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideCollected) LoadTrendingMovies(CurrentPage);
                     break;
 
-                case ((int)TrendingContextMenuItem.RemoveFromLibrary):
+                case ((int)MediaContextMenuItem.RemoveFromLibrary):
                     TraktHelper.RemoveMovieFromCollection(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)TrendingContextMenuItem.Related):
+                case ((int)MediaContextMenuItem.Related):
                     TraktHelper.ShowRelatedMovies(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.Rate):
+                case ((int)MediaContextMenuItem.Rate):
                     GUICommon.RateMovie(selectedTrendingItem.Movie);
                     OnMovieSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     if (TraktSettings.TrendingMoviesHideRated) LoadTrendingMovies(CurrentPage);
                     break;
 
-                case ((int)TrendingContextMenuItem.Filters):
+                case ((int)MediaContextMenuItem.Filters):
                     if (GUICommon.ShowMovieFiltersMenu())
                     {
                         PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
@@ -306,24 +306,24 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
-                case ((int)TrendingContextMenuItem.Shouts):
+                case ((int)MediaContextMenuItem.Shouts):
                     TraktHelper.ShowMovieShouts(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.Trailers):
+                case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowMovieTrailersMenu(selectedTrendingItem.Movie);
                     break;
 
-                case ((int)TrendingContextMenuItem.ChangeLayout):
+                case ((int)MediaContextMenuItem.ChangeLayout):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchWithMpNZB):
+                case ((int)MediaContextMenuItem.SearchWithMpNZB):
                     string loadingParam = string.Format("search:{0}", selectedTrendingItem.Movie.Title);
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MpNZB, loadingParam);
                     break;
 
-                case ((int)TrendingContextMenuItem.SearchTorrent):
+                case ((int)MediaContextMenuItem.SearchTorrent):
                     string loadPar = selectedTrendingItem.Movie.Title;
                     GUIWindowManager.ActivateWindow((int)ExternalPluginWindows.MyTorrents, loadPar);
                     break;
