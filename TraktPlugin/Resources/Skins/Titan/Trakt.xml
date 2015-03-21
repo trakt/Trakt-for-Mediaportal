@@ -87,6 +87,13 @@
         <label>#Trakt.Translation.Trending.Label</label>
       </control>
       <control Style="SettingsButton">
+        <description>Popular</description>
+        <type>button</type>
+        <id>18</id>
+        <hyperlink>87100</hyperlink>
+        <label>#Trakt.Translation.Popular.Label</label>
+      </control>
+      <control Style="SettingsButton">
         <description>Watch List</description>
         <type>button</type>
         <id>14</id>

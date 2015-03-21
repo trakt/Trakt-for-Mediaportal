@@ -74,6 +74,15 @@
         <onright>#defaultcontrol</onright>
       </control>
       <control Style="SettingsButton">
+        <description>Popular</description>
+        <type>button</type>
+        <id>9999</id>
+        <label>#Trakt.Translation.Popular.Label</label>
+        <hyperlink>87100</hyperlink>
+        <onleft>#defaultcontrol</onleft>
+        <onright>#defaultcontrol</onright>
+      </control>
+      <control Style="SettingsButton">
         <description>Watchlist</description>
         <type>button</type>
         <id>9995</id>

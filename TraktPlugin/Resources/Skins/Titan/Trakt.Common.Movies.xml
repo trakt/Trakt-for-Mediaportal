@@ -466,7 +466,7 @@
       <label>#Trakt.Translation.TotalPages.Label</label>
       <posX>565</posX>
       <posY>451</posY>
-      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)+!string.equals(#Trakt.Facade.TotalPages,0)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -477,7 +477,7 @@
       <label>#Trakt.Facade.TotalPages</label>
       <posX>843</posX>
       <posY>451</posY>
-      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <visible>facadeview.list+string.equals(#Trakt.Facade.IsPageItem,true)+!string.equals(#Trakt.Facade.TotalPages,0)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -550,7 +550,7 @@
       <label>#Trakt.Translation.TotalPages.Label</label>
       <posX>118</posX>
       <posY>451</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)+!string.equals(#Trakt.Facade.TotalPages,0)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -561,7 +561,7 @@
       <label>#Trakt.Facade.TotalPages</label>
       <posX>350</posX>
       <posY>451</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+string.equals(#Trakt.Facade.IsPageItem,true)+!string.equals(#Trakt.Facade.TotalPages,0)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
