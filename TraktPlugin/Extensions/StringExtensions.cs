@@ -61,7 +61,7 @@ namespace TraktPlugin.Extensions
 
         public static string ToLogString(this int? number)
         {
-            return number.HasValue ? "<empty>" : number.ToString();
+            return number.HasValue ? number.ToString() : "<empty>";
         }
 
         /// <summary>
