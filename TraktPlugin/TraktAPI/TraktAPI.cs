@@ -33,6 +33,7 @@ namespace TraktPlugin.TraktAPI
     public static class TraktAPI
     {
         private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
+        //private const string ApplicationId = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
 
         #region Web Events
 
@@ -315,15 +316,15 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktMovieWatchList>();
         }
 
-        public static IEnumerable<TraktShowWatchList> GetWatchListShows(string username)
+        public static IEnumerable<TraktShowWatchList> GetWatchListShows(string username, string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistShows, username));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistShows, username, extendedInfoParams));
             return response.FromJSONArray<TraktShowWatchList>();
         }
 
-        public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username)
+        public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username, string extendedInfoParams = "min")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username, extendedInfoParams));
             return response.FromJSONArray<TraktEpisodeWatchList>();
         }
 

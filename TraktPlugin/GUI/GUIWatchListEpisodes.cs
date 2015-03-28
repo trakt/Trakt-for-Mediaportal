@@ -71,7 +71,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(CurrentUser);
+                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(CurrentUser, "full,images");
                     if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
                     userWatchList.Add(CurrentUser, _WatchListEpisodes);
                     LastRequest = DateTime.UtcNow;
