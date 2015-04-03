@@ -207,6 +207,19 @@ namespace TraktPlugin.TraktHandlers
             }
             #endregion
 
+            #region Get custom lists from trakt.tv
+            TraktLogger.Info("Getting user {0}'s custom lists from trakt", TraktSettings.Username);
+            var traktCustomLists = TraktCache.GetCustomLists();
+            if (traktCustomLists == null)
+            {
+                TraktLogger.Error("Error getting custom lists from trakt server");
+            }
+            else
+            {
+                TraktLogger.Info("There are {0} custom lists in trakt.tv library", traktCustomLists.Count());
+            }
+            #endregion
+
             #endregion
 
             // optionally do library sync

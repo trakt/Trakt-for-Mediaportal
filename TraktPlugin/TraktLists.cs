@@ -221,9 +221,9 @@ namespace TraktPlugin
 
         internal static string GetPrivacyLevelIcon(string privacyLevel)
         {
-            if (privacyLevel == "private") return "traktPrivate.png";
-            if (privacyLevel == "friends") return "traktFriends.png";
-            return "traktPublic.png";
+            if (privacyLevel == "private") return "traktPrivateList.png";
+            if (privacyLevel == "friends") return "traktFriendsList.png";
+            return "traktPublicList.png";
         }
 
         #endregion

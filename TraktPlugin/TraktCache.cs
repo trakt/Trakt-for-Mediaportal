@@ -33,6 +33,7 @@ namespace TraktPlugin
         private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
+        private static string CustomListsFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Menu.json");
         private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
 
         private static DateTime MovieRecommendationsAge;
@@ -828,23 +829,81 @@ namespace TraktPlugin
 
         #region Custom Lists
 
+        /// <summary>
+        /// returns the cached users custom lists on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktListDetail> CustomLists
+        {
+            get
+            {
+                if (_CustomLists == null)
+                {
+                    var persistedItems = LoadFileCache(CustomListsFile, null);
+                    if (persistedItems != null)
+                        _CustomLists = persistedItems.FromJSONArray<TraktListDetail>();
+                }
+                return _CustomLists;
+            }
+        }
+        static IEnumerable<TraktListDetail> _CustomLists = null;
+
+        static IEnumerable<TraktListDetail> GetCustomListsFromTrakt()
+        {
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Lists == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Lists.UpdatedAt == TraktSettings.LastSyncActivities.Lists.UpdatedAt)
+            {
+                TraktLogger.Info("Retrieving current users custom lists from local cache");
+                var cachedItems = CustomLists;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Custom Lists cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Lists.UpdatedAt ?? "<empty>", lastSyncActivities.Lists.UpdatedAt ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+            if (onlineItems == null)
+                return null;
+
+            _CustomLists = onlineItems;
+
+            // save to local file cache
+            SaveFileCache(CustomListsFile, _CustomLists.ToJSON());
+
+            // save new activity time for next time
+            TraktSettings.LastSyncActivities.Lists.UpdatedAt = lastSyncActivities.Lists.UpdatedAt;
+
+            return onlineItems;
+        }
+
+        /// <summary>
+        /// Returns the users custom lists with list item details
+        /// </summary>
+        /// <returns></returns>
         internal static Dictionary<TraktListDetail, List<TraktListItem>> GetCustomLists()
         {
             lock (syncLists)
             {
-                if (_CustomLists == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
+                if (_CustomListsAndItems == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
-                    _CustomLists = new Dictionary<TraktListDetail, List<TraktListItem>>();
-
-                    // first get the users custom lists from trakt
-                    TraktLogger.Info("Retrieving current users custom lists from trakt.tv");
-                    var userLists = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+                    // first get the users custom lists from trakt exluding any details for individual lists
+                    var userLists = GetCustomListsFromTrakt();                    
                     if (userLists == null) return null;
 
-                    // get last time lists were updated online
+                    // get last time individual lists were updated online
                     var lastActivities = TraktSettings.LastListActivities.ToNullableList();
 
                     // get details of each list including items
+                    _CustomListsAndItems = new Dictionary<TraktListDetail, List<TraktListItem>>();
+
                     foreach (var list in userLists.Where(l => l.ItemCount > 0))
                     {
                         bool listUpdated = false;
@@ -893,16 +952,16 @@ namespace TraktPlugin
                         }
 
                         // add list to the cache
-                        _CustomLists.Add(list, userList.ToList());
+                        _CustomListsAndItems.Add(list, userList.ToList());
                     }
                     CustomListAge = DateTime.Now;
                     TraktSettings.LastListActivities = lastActivities;
                 }
             }
 
-            return _CustomLists;
+            return _CustomListsAndItems;
         }
-        static Dictionary<TraktListDetail, List<TraktListItem>> _CustomLists = null;
+        static Dictionary<TraktListDetail, List<TraktListItem>> _CustomListsAndItems = null;
 
         #endregion
 
@@ -1418,20 +1477,20 @@ namespace TraktPlugin
             lock (syncLists)
             {
                 // check if something to clear
-                if (_CustomLists == null) return;
-
+                if (_CustomListsAndItems == null) return;
+                    
                 // clear all lists
                 if (string.IsNullOrEmpty(listName))
                 {
-                    _CustomLists = null;
+                    _CustomListsAndItems = null;
                     return;
                 }
 
                 // clear selected list
-                var list = _CustomLists.FirstOrDefault(t => t.Key.Name == listName);
+                var list = _CustomListsAndItems.FirstOrDefault(t => t.Key.Name == listName);
                 if (list.Key != null)
                 {
-                    _CustomLists.Remove(list.Key);
+                    _CustomListsAndItems.Remove(list.Key);
                 }
             }
         }
