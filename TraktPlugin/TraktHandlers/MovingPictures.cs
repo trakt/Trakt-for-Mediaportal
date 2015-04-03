@@ -1784,9 +1784,32 @@ namespace TraktPlugin.TraktHandlers
         {
             if (node == null) return;
 
+            // remove any movies that don't contain IMDb ID's.
+            var imdbCriteraToAdd = movieIMDbList.Where(s => !string.IsNullOrEmpty(s)).ToList();
+
             // clear existing filter
             if (node.HasFilter)
             {
+                // do a quick check to see if we need to do anything
+                // if the criteria counts matches, determine if the critera values also matches
+                if (node.Filter.Criteria.Count == imdbCriteraToAdd.Count)
+                {
+                    bool requiresUpdate = false;
+                    foreach (var criteria in node.Filter.Criteria)
+                    {
+                        // no point doing any further checks
+                        if (requiresUpdate)
+                            continue;
+
+                        // check if the current critera list already has the criteria in the filter
+                        requiresUpdate = !imdbCriteraToAdd.Contains(criteria.Value.ToString());
+                    }
+
+                    // nothing to do with node, it's already up to date
+                    if (!requiresUpdate)
+                        return;
+                }
+
                 node.Filter.WhiteList.Clear();
                 node.Filter.BlackList.Clear();
                 node.Filter.Delete();
@@ -1795,13 +1818,11 @@ namespace TraktPlugin.TraktHandlers
             // create a new filter, such that any criteria will match
             node.Filter = new DBFilter<DBMovieInfo>();
             node.Filter.CriteriaGrouping = DBFilter<DBMovieInfo>.CriteriaGroupingEnum.ONE;
-            node.Filter.Name = string.Format("{0} Filter", node.Name);
+            node.Filter.Name = string.Format("{0} Filter", node.Name);            
 
             // add criteria for each movie
-            foreach (var movieId in movieIMDbList)
+            foreach (var movieId in imdbCriteraToAdd)
             {
-                if (string.IsNullOrEmpty(movieId)) continue;
-
                 //TraktLogger.Debug("Adding criteria to the '{0}' node filter, Field = 'imdb_id', Value = '{1}'", node.Name, movieId);
 
                 var criteria = new DBCriteria<DBMovieInfo>();
