@@ -330,6 +330,7 @@ namespace TraktPlugin.GUI
         public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
         public static string Continuing = "Continuing";
         public static string CopyList = "Copy List...";
+        public static string Country = "Country";
         public static string CurrentPage = "Current Page";
 
         // D
@@ -524,6 +525,7 @@ namespace TraktPlugin.GUI
         public static string MarkAsWatched = "Mark as Watched";
         public static string MarkAsUnWatched = "Mark as UnWatched";
         public static string Me = "Me";
+        public static string Menu = "Menu";
         public static string Minutes = "Minutes";
         public static string Minute = "Minute";
         public static string Movie = "Movie";

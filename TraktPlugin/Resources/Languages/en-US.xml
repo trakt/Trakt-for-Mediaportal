@@ -86,6 +86,7 @@
   <string name="ConfirmDeleteListItem">Are you sure you want to delete\nthis item from the list?</string>
   <string name="Continuing">Continuing</string>
   <string name="CopyList">Copy List...</string>
+  <string name="Country">Country</string>
   <string name="CurrentPage">Current Page</string>
   <!--D-->
   <string name="Dashboard">Dashboard</string>
@@ -270,6 +271,7 @@
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
   <string name="Me">Me</string>
+  <string name="Menu">Menu</string>
   <string name="Minutes">Minutes</string>
   <string name="Minute">Minute</string>
   <string name="Movie">Movie</string>
