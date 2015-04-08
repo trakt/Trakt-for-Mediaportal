@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using MediaPortal.Player;
@@ -265,15 +266,28 @@ namespace TraktPlugin.TraktHandlers
 
                 if (itemToRate.Type == VideoType.Series)
                 {
-                    var rateObject = new TraktSyncEpisodeRated
+                    var rateObject = new TraktSyncShowRatedEx
                     {
                         Title = itemToRate.Title,
-                        Season = itemToRate.SeasonIdx.ToInt(),
-                        Number = itemToRate.EpisodeIdx.ToInt(),
-                        RatedAt = DateTime.UtcNow.ToISO8601()
+                        Year = itemToRate.Year.ToNullableInt32(),
+                        Seasons = new List<TraktSyncShowRatedEx.Season>
+                        { 
+                            new TraktSyncShowRatedEx.Season
+                            {
+                                Number = itemToRate.SeasonIdx.ToInt(),
+                                Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
+                                {
+                                    new TraktSyncShowRatedEx.Season.Episode
+                                    {
+                                        Number = itemToRate.EpisodeIdx.ToInt(),
+                                        RatedAt = DateTime.UtcNow.ToISO8601()
+                                    }
+                                }
+                            }
+                        }
                     };
                     // get the rating submitted to trakt
-                    rating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
+                    rating = GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(rateObject);
                 }
                 else if (itemToRate.Type == VideoType.Movie)
                 {
