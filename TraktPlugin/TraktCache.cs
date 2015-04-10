@@ -1277,7 +1277,7 @@ namespace TraktPlugin
 
         public static bool IsWatched(this TraktSeasonSummary season, TraktShowSummary show)
         {
-            if (season.EpisodeCount == 0)
+            if (season.EpisodeCount == 0 || season.EpisodeAiredCount == 0)
                 return false;
 
             var watchedEpisodes = TraktCache.WatchedEpisodes;
@@ -1293,7 +1293,7 @@ namespace TraktPlugin
 
         public static bool IsCollected(this TraktSeasonSummary season, TraktShowSummary show)
         {
-            if (season.EpisodeCount == 0)
+            if (season.EpisodeCount == 0 || season.EpisodeAiredCount == 0)
                 return false;
 
             var collectedEpisodes = TraktCache.CollectedEpisodes;
