@@ -90,6 +90,8 @@ den här listan?</string>
 detta objekt från den här listan?</string>
   <string name="Continuing">Fortsätter</string>
   <string name="CopyList">Kopiera lista...</string>
+  <string name="Country">Land</string>
+  <string name="CurrentPage">Aktuell sida</string>
   <!--D-->
   <string name="Dashboard">Översiktstavla</string>
   <string name="DateToday">Idag</string>
@@ -217,6 +219,8 @@ detta objekt från den här listan?</string>
   <string name="GettingShowSeasons">Hämtar seriesäsonger</string>
   <string name="GettingTrendingMovies">Tar emot filmer som växer i popularitet</string>
   <string name="GettingTrendingShows">Tar emot serier som växer i popularitet</string>
+  <string name="GettingPopularMovies">Hämtar populära filmer</string>
+  <string name="GettingPopularShows">Hämtar populära TV-program</string>
   <string name="GettingRecommendedMovies">Tar emot rekommenderade filmer</string>
   <string name="GettingRecommendedShows">Tar emot rekommenderade serier</string>
   <string name="GettingWatchListMovies">Hämtar filmer till Watch List</string>
@@ -272,6 +276,7 @@ detta objekt från den här listan?</string>
   <string name="MarkAsWatched">Markera som sedd</string>
   <string name="MarkAsUnWatched">Ta bort markering som sedd</string>
   <string name="Me">Jag</string>
+  <string name="Menu">Meny</string>
   <string name="Minutes">Minuter</string>
   <string name="Minute">Minut</string>
   <string name="Movie">Film</string>
@@ -281,6 +286,7 @@ detta objekt från den här listan?</string>
   <string name="Name">Namn</string>
   <string name="Network">Kanal/Producent</string>
   <string name="NextEpisode">Nästa avsnitt</string>
+  <string name="NextPage">Nästa sida</string>
   <string name="NextWeek">Nästa vecka</string>
   <string name="NoActivities">Ingen aktivitet</string>
   <string name="NoPersonBiography">Det finns ingen biografi inskriven för den här personen</string>
@@ -325,6 +331,8 @@ en lista nu?</string>
   <string name="On">På</string>
   <string name="Overview">Översikt</string>
   <!--P-->
+  <string name="Page">Sida</string>
+  <string name="Pages">Sidor</string>
   <string name="Password">Lösenord</string>
   <string name="People">Användare</string>
   <string name="Person">Person</string>
@@ -335,8 +343,13 @@ en lista nu?</string>
   <string name="PlayTrailer">Spela trailer</string>
   <string name="Plugin">Insticksprogram</string>
   <string name="Plugins">Insticksprogram</string>
+  <string name="Popular">Populärt</string>
+  <string name="Popularity">Popularitet</string>
+  <string name="PopularShows">Populära TV-program</string>
+  <string name="PopularMovies">Populära filmer</string>
   <string name="Public">Publikt</string>
   <string name="PreviousEpisode">Föregående avsnitt</string>
+  <string name="PreviousPage">Föregående sida</string>
   <string name="Private">Privat</string>
   <string name="Privacy">Ej allmänt</string>
   <string name="PrivacyPublic">Vem som helst kan se denna lista</string>
@@ -498,6 +511,10 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingMaxRelatedShowsRequestDescription">Sätt max antal relaterade serier som begärs när \'Dölj sedda\' inte är aktiverat</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Max antal relaterade, inte sedda, serier som begärs</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Sätt max antal relaterade serier som begärs när \'Dölj sedda\' är aktiverat</string>
+  <string name="SettingMaxPopularMoviesRequestName">Max antal begärda populära filmer</string>
+  <string name="SettingMaxPopularMoviesRequestDescription">Sätt max antal begärda populära filmer per sida</string>
+  <string name="SettingMaxPopularShowsRequestName">Max antal begärda populära TV-program</string>
+  <string name="SettingMaxPopularShowsRequestDescription">Sätt max antal begärda populära TV-program per sida</string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>
@@ -509,6 +526,8 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Timeout</string>
+  <string name="TotalPages">Totalt antal sidor</string>
+  <string name="TotalItemsPerPage">Totalt antal per sida</string>
   <string name="Trending">Populärt</string>
   <string name="TrendingShows">Populära serier</string>
   <string name="TrendingShowsAndMovies">Populära serier och filmer</string>

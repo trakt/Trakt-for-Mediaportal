@@ -86,6 +86,7 @@
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer\ncet élément de la liste?</string>
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
+  <string name="CurrentPage">Page courante</string>
   <!--D-->
   <string name="Dashboard">Tableau de bord</string>
   <string name="DateToday">Aujourd\'hui</string>
@@ -270,6 +271,7 @@
   <string name="Name">Nom</string>
   <string name="Network">Chaine</string>
   <string name="NextEpisode">Prochain épisode</string>
+  <string name="NextPage">Page suivante</string>
   <string name="NextWeek">Semaine prochaine</string>
   <string name="NoActivities">Aucune activité trouvée.</string>
   <string name="NoPersonBiography">Il n\'existe aucune bibliographie concernant cette personne</string>
@@ -310,6 +312,8 @@
   <string name="On">On</string>
   <string name="Overview">Vue d\'ensemble</string>
   <!--P-->
+  <string name="Page">Page</string>
+  <string name="Pages">Pages</string>
   <string name="Password">Mot de passe</string>
   <string name="People">People</string>
   <string name="Person">Personne</string>
@@ -320,8 +324,11 @@
   <string name="PlayTrailer">Lire la bande annonce</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="PopularShows">Spectacles populaires</string>
+  <string name="PopularMovies">Films populaires</string>
   <string name="Public">Public</string>
   <string name="PreviousEpisode">Episode précédent</string>
+  <string name="PreviousPage">Page Précédente</string>
   <string name="Private">Privé</string>
   <string name="Privacy">Confidentiel</string>
   <string name="PrivacyPublic">Tout le monde peut voir cette liste</string>
@@ -463,6 +470,7 @@
   <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Temps expiré</string>
+  <string name="TotalItemsPerPage">Nombre d\'items par page</string>
   <string name="Trending">Tendances</string>
   <string name="TrendingShows">Les  séries tendances</string>
   <string name="TrendingShowsAndMovies">Les  films et séries tendances</string>

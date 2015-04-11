@@ -86,6 +86,8 @@
   <string name="ConfirmDeleteListItem">Opravdu chcete odstranit\ntuto položku ze seznamu?</string>
   <string name="Continuing">Pokračování</string>
   <string name="CopyList">Kopírovat seznam...</string>
+  <string name="Country">Země</string>
+  <string name="CurrentPage">Aktuální strana</string>
   <!--D-->
   <string name="Dashboard">Hlavní okno</string>
   <string name="DateToday">Dnes</string>
@@ -212,6 +214,8 @@
   <string name="GettingShowSeasons">Načítám řady seriálu</string>
   <string name="GettingTrendingMovies">Načítám populární filmy</string>
   <string name="GettingTrendingShows">Načítám populární seriály</string>
+  <string name="GettingPopularMovies">Načítám oblíbené filmy</string>
+  <string name="GettingPopularShows">Načítám oblíbené seriály</string>
   <string name="GettingRecommendedMovies">Načítám doporučené filmy</string>
   <string name="GettingRecommendedShows">Načítám doporučené seriály</string>
   <string name="GettingWatchListMovies">Načítám seznam filmů ke zhlédnutí</string>
@@ -267,6 +271,7 @@
   <string name="MarkAsWatched">Označit jako zhlédnuté</string>
   <string name="MarkAsUnWatched">Označit jako nezhlédnuté</string>
   <string name="Me">Já</string>
+  <string name="Menu">Menu</string>
   <string name="Minutes">Minuty</string>
   <string name="Minute">Minuta</string>
   <string name="Movie">Film</string>
@@ -276,6 +281,7 @@
   <string name="Name">Název</string>
   <string name="Network">Vaše kontakty</string>
   <string name="NextEpisode">Další epizoda</string>
+  <string name="NextPage">Další strana</string>
   <string name="NextWeek">Další týden</string>
   <string name="NoActivities">Nebyla nalezena žádná aktivita.</string>
   <string name="NoPersonBiography">U této osoby nebyl nalezen žádný životopis.</string>
@@ -316,6 +322,8 @@
   <string name="On">Zap.</string>
   <string name="Overview">Přehled</string>
   <!--P-->
+  <string name="Page">Strana</string>
+  <string name="Pages">Strany</string>
   <string name="Password">Heslo</string>
   <string name="People">Osoby</string>
   <string name="Person">Osoba</string>
@@ -326,8 +334,13 @@
   <string name="PlayTrailer">Přehrát upoutávku</string>
   <string name="Plugin">Modul</string>
   <string name="Plugins">Moduly</string>
+  <string name="Popular">Oblíbený</string>
+  <string name="Popularity">Oblíbenost</string>
+  <string name="PopularShows">Oblíbené seriály</string>
+  <string name="PopularMovies">Oblíbené filmy</string>
   <string name="Public">Veřejný</string>
   <string name="PreviousEpisode">Předchozí epizoda</string>
+  <string name="PreviousPage">Předchozí strana</string>
   <string name="Private">Soukromý</string>
   <string name="Privacy">Soukromí</string>
   <string name="PrivacyPublic">Seznam může vidět kdokoliv</string>
@@ -472,11 +485,23 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="SettingSyncPlaybackCacheExpiryName">Délka platnosti vyrovnávací paměti přehrávání</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Nastavení časového intervalu (v minutách) po který místní zásobník uchovává informaci o funkci přehrát/obnovit před tím, než dojde k aktualizaci.</string>
   <string name="SettingMaxTrendingMoviesRequestName">Maximální počet požadovaných populárních filmů</string>
-  <string name="SettingMaxTrendingMoviesRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních filmů.</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních filmů na stránku.</string>
   <string name="SettingMaxTrendingShowsRequestName">Maximální počet požadovaných populárních seriálů</string>
-  <string name="SettingMaxTrendingShowsRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních seriálů.</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních seriálů na stránku.</string>
   <string name="SettingUseSSLName">Zabezpečená komunikace se serverem</string>
   <string name="SettingUseSSLDescription">Zapne zabezpečenou komunikaci se serverem trakt.tv pomocí protokolu HTTPS.</string>
+  <string name="SettingMaxRelatedMoviesRequestName">Maximální počet požadovaných podobných filmů</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Nastavení maximálního počtu požadovaných výsledků podobných filmů v případě že není povoleno \'Skrýt zhlédnuté\'. </string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Maximální počet požadovaných neshlédnutých podobných filmů</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Nastavení maximálního počtu požadovaných výsledků podobných filmů v případě že je povoleno \'Skrýt zhlédnuté\'. </string>
+  <string name="SettingMaxRelatedShowsRequestName">Maximální počet požadovaných podobných seriálů</string>
+  <string name="SettingMaxRelatedShowsRequestDescription">Nastavení maximálního počtu požadovaných výsledků podobných seriálů v případě že není povoleno \'Skrýt zhlédnuté\'. </string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximální počet požadovaných neshlédnutých podobných seriálů</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Nastavení maximálního počtu požadovaných výsledků podobných seriálů v případě že je povoleno \'Skrýt zhlédnuté\'. </string>
+  <string name="SettingMaxPopularMoviesRequestName">Maximální počet požadovaných oblíbených filmů</string>
+  <string name="SettingMaxPopularMoviesRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních filmů na stránku.</string>
+  <string name="SettingMaxPopularShowsRequestName">Maximální počet požadovaných oblíbených seriálů</string>
+  <string name="SettingMaxPopularShowsRequestDescription">Nastavení maximálního počtu výsledků vyhledávání populárních seriálů na stránku.</string>
   <string name="StartYear">Začátek: {0}</string>
   <string name="StartLibrarySync">Spustit synchronizaci knihovny</string>
   <string name="StartLibraryAndPlaybackSync">Spustit synchronizaci knihovny a přehrávání</string>
@@ -488,6 +513,8 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="Status">Stav</string>
   <!--T-->
   <string name="Timeout">Vypršel časový limit:</string>
+  <string name="TotalPages">Celkem stran</string>
+  <string name="TotalItemsPerPage">Celkem položek na stranu</string>
   <string name="Trending">Populární</string>
   <string name="TrendingShows">Populární seriály</string>
   <string name="TrendingShowsAndMovies">Populární seriály a filmy</string>
@@ -525,6 +552,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="UnableToPlayTrailer">Upoutávku nelze přehrát.</string>
   <string name="UserIsProtected">Uživatel je chráněný!\nChránění uživatelé mohou být prohlíženi pouze v zobrazení\n\'Přátelé\'.</string>
   <string name="UserProfile">Profil uživatele</string>
+  <string name="UserRatingsDistribution">Rozsah hodnocení od 1 do 10 srdcí</string>
   <!--V-->
   <string name="View">Pohled</string>
   <string name="Votes">Hlasování</string>

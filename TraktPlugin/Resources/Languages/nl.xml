@@ -86,6 +86,7 @@
   <string name="ConfirmDeleteListItem">Weet je zeker dat je dit item wilt verwijderen van de lijst?</string>
   <string name="Continuing">Lopend</string>
   <string name="CopyList">Kopiëer lijst...</string>
+  <string name="CurrentPage">Huidige Pagina</string>
   <!--D-->
   <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Vandaag</string>
@@ -212,6 +213,8 @@
   <string name="GettingShowSeasons">Ophalen serieseizoenen</string>
   <string name="GettingTrendingMovies">Populaire films ophalen</string>
   <string name="GettingTrendingShows">Populaire series ophalen</string>
+  <string name="GettingPopularMovies">Populaire films verkrijgen</string>
+  <string name="GettingPopularShows">Populaire series verkrijgen</string>
   <string name="GettingRecommendedMovies">Aanbevolen films ophalen</string>
   <string name="GettingRecommendedShows">Aanbevolen series ophalen</string>
   <string name="GettingWatchListMovies">Verkrijg kijk lijst films</string>
@@ -276,6 +279,7 @@
   <string name="Name">Naam</string>
   <string name="Network">Netwerk</string>
   <string name="NextEpisode">Volgende aflevering</string>
+  <string name="NextPage">Volgende Pagina</string>
   <string name="NextWeek">Volgende week</string>
   <string name="NoActivities">Geen activiteit gevonden</string>
   <string name="NoPersonBiography">Er is geen biografie ingevuld voor deze persoon</string>
@@ -316,6 +320,8 @@
   <string name="On">Aan</string>
   <string name="Overview">Overzicht</string>
   <!--P-->
+  <string name="Page">Pagine</string>
+  <string name="Pages">Pagina\'s</string>
   <string name="Password">Wachtwoord</string>
   <string name="People">Mensen</string>
   <string name="Person">Persoon</string>
@@ -326,8 +332,13 @@
   <string name="PlayTrailer">Trailer afspelen</string>
   <string name="Plugin">Plug-in</string>
   <string name="Plugins">Plug-ins</string>
+  <string name="Popular">Populair</string>
+  <string name="Popularity">Populariteit</string>
+  <string name="PopularShows">Populaire Shows</string>
+  <string name="PopularMovies">Populaire Films</string>
   <string name="Public">Openbaar</string>
   <string name="PreviousEpisode">Vorige aflevering</string>
+  <string name="PreviousPage">Vorige Pagina</string>
   <string name="Private">Privé</string>
   <string name="Privacy">Privacy</string>
   <string name="PrivacyPublic">Iedereen kan deze lijst bekijken</string>
@@ -471,9 +482,9 @@
   <string name="SettingSyncPlaybackCacheExpiryName">Sync Afspeel Cache Vervaltijd</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Stel de cache tijd (in minuten) voor afspeel / hervat informatie in, voordat de lokale data ververst word.</string>
   <string name="SettingMaxTrendingMoviesRequestName">Maximum Populaire Films om te verzoeken</string>
-  <string name="SettingMaxTrendingMoviesRequestDescription">Stel maximum aantal te verzoeken populaire films per pagina in.</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Stel maximum aantal te verzoeken trenderende films per pagina in.</string>
   <string name="SettingMaxTrendingShowsRequestName">Maximum Populaire TV Series om te verzoeken</string>
-  <string name="SettingMaxTrendingShowsRequestDescription">Stel maximum aantal te verzoeken populaire TV series per pagina in.</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Stel maximum aantal te verzoeken trenderende TV series per pagina in.</string>
   <string name="SettingUseSSLName">Beveiligde Server Communicatie</string>
   <string name="SettingUseSSLDescription">Schakel in om HTTPS te gebruiken, een veilige manier om te communiceren met de trakt.tv servers.</string>
   <string name="SettingMaxRelatedMoviesRequestName">Maximum Gerelateerde Films om te verzoeken</string>
@@ -484,6 +495,10 @@
   <string name="SettingMaxRelatedShowsRequestDescription">Stel maximum aantal te verzoeken gerelateerde series in als \'Verberg Bekeken\' niet is ingeschakeld.</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximum Gerelateerde Onbekeken Series om te verzoeken</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Stel maximum aantal te verzoeken gerelateerde series in als \'Verberg Bekeken\' is ingeschakeld.</string>
+  <string name="SettingMaxPopularMoviesRequestName">Maximum aantal Populaire Films om te verzoeken</string>
+  <string name="SettingMaxPopularMoviesRequestDescription">Stel maximum aantal te verzoeken populaire films per pagina in.</string>
+  <string name="SettingMaxPopularShowsRequestName">Maximum Populaire TV Series om te verzoeken</string>
+  <string name="SettingMaxPopularShowsRequestDescription">Stel maximum aantal te verzoeken populaire TV series per pagina in.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Bibliotheek Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Bibliotheek en Afspeel Sync</string>
@@ -495,6 +510,8 @@
   <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Time-out</string>
+  <string name="TotalPages">Totaal aantal Pagina\'s</string>
+  <string name="TotalItemsPerPage">Totaal aantal Items per pagina</string>
   <string name="Trending">Veel bekeken</string>
   <string name="TrendingShows">Populaire series</string>
   <string name="TrendingShowsAndMovies">Trending series en films</string>

@@ -1251,7 +1251,6 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Episode.TmdbId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Number", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Episode.Season", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAired", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", string.Empty);

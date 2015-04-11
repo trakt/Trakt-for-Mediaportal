@@ -86,6 +86,8 @@
   <string name="ConfirmDeleteListItem">¿Estás seguro de querer borrar\neste elemento de la lista?</string>
   <string name="Continuing">Emitiéndose</string>
   <string name="CopyList">Copiar Lista...</string>
+  <string name="Country">País</string>
+  <string name="CurrentPage">Página Actual</string>
   <!--D-->
   <string name="Dashboard">Menú</string>
   <string name="DateToday">Hoy</string>
@@ -212,6 +214,8 @@
   <string name="GettingShowSeasons">Obteniendo Temporadas</string>
   <string name="GettingTrendingMovies">Obteniendo Tendencias de Películas</string>
   <string name="GettingTrendingShows">Obteniendo Tendencias de Shows</string>
+  <string name="GettingPopularMovies">Obteniendo Películas Populares</string>
+  <string name="GettingPopularShows">Obteniendo Programas Populares</string>
   <string name="GettingRecommendedMovies">Obteniendo Películas Recomendadas</string>
   <string name="GettingRecommendedShows">Obteniendo Shows Recomendados</string>
   <string name="GettingWatchListMovies">Obteniendo Listado de Películas Vistas</string>
@@ -267,6 +271,7 @@
   <string name="MarkAsWatched">Marcar como Visto</string>
   <string name="MarkAsUnWatched">Marcar como No Visto</string>
   <string name="Me">Yo</string>
+  <string name="Menu">Menú</string>
   <string name="Minutes">Minutos</string>
   <string name="Minute">Minuto</string>
   <string name="Movie">Película</string>
@@ -276,6 +281,7 @@
   <string name="Name">Nombre</string>
   <string name="Network">Canal</string>
   <string name="NextEpisode">Próximo Episodio</string>
+  <string name="NextPage">Siguiente</string>
   <string name="NextWeek">Próxima Semana</string>
   <string name="NoActivities">No se encontró actividad.</string>
   <string name="NoPersonBiography">No existe ninguna biografía para esta persona.</string>
@@ -316,6 +322,8 @@
   <string name="On">Encendido</string>
   <string name="Overview">General</string>
   <!--P-->
+  <string name="Page">Página</string>
+  <string name="Pages">Páginas</string>
   <string name="Password">Contraseña</string>
   <string name="People">Gente</string>
   <string name="Person">Persona</string>
@@ -326,8 +334,13 @@
   <string name="PlayTrailer">Reproducir Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="Popular">Popular</string>
+  <string name="Popularity">Popularidad</string>
+  <string name="PopularShows">Programas Populares</string>
+  <string name="PopularMovies">Películas Populares</string>
   <string name="Public">Público</string>
   <string name="PreviousEpisode">Episodio Previo</string>
+  <string name="PreviousPage">Previa</string>
   <string name="Private">Privado</string>
   <string name="Privacy">Privacidad</string>
   <string name="PrivacyPublic">Nadie puede ver esta lista</string>
@@ -471,19 +484,23 @@
   <string name="SettingSyncPlaybackCacheExpiryName">Finalizó Caché de Sincronización de Reproducción</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Configura el periodo de tiempo (en minutos) de reproducción/reanudación que habrá en caché localmente antes de recargar nuevamente.</string>
   <string name="SettingMaxTrendingMoviesRequestName">Solicitud Máxima de Películas Tendencia</string>
-  <string name="SettingMaxTrendingMoviesRequestDescription">Configura el número máximo de solicitudes de películas tendencia por página.</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Configura el número máximo de películas tendencia a buscar por página.</string>
   <string name="SettingMaxTrendingShowsRequestName">Solicitud Máxima de Programas TV</string>
-  <string name="SettingMaxTrendingShowsRequestDescription">Configura el número máximo de solicitudes de programas tv por página.</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Configura el número máximo de programas tendencia a buscar por página.</string>
   <string name="SettingUseSSLName">Comunicación Servidor Seguro</string>
   <string name="SettingUseSSLDescription">Habilitar para usar HTTPS, una forma segura de comunicarse con los servidores trakt.tv.</string>
   <string name="SettingMaxRelatedMoviesRequestName">Máximas Películas Relacionada para Buscar</string>
-  <string name="SettingMaxRelatedMoviesRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando no está habilitado \"Ocultar Vistas\".</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando \"Ocultar Vistas\" no está habilitado.</string>
   <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Máximo de Películas Relacionadas No Vistas para Buscar</string>
-  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando está habilitado \"Ocultar Vistas\".</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Configura el número máximo de películas relacionadas a buscar cuando \"Ocultar Vistas\" está habilitado.</string>
   <string name="SettingMaxRelatedShowsRequestName">Máximos Programas Relacionado para Buscar</string>
-  <string name="SettingMaxRelatedShowsRequestDescription">Configura el número máximo de programas relacionados cuando no está habilitado \"Ocultar Vistos\".</string>
+  <string name="SettingMaxRelatedShowsRequestDescription">Configura el número máximo de programas relacionados a buscar cuando \"Ocultar Vistos\" no está habilitado.</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Máximo de Programas Relacionados No Vistos para Buscar</string>
-  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Configura el número máximo de programas relacionados a buscar cuando está habilitado \"Ocultar Vistos\".</string>
+  <string name="SettingMaxRelatedShowsUnWatchedRequestDescription">Configura el número máximo de programas relacionados a buscar cuando \"Ocultar Vistos\" está habilitado.</string>
+  <string name="SettingMaxPopularMoviesRequestName">Máximas Películas Populares a Buscar</string>
+  <string name="SettingMaxPopularMoviesRequestDescription">Configura el número máximo de películas populares a buscar por página.</string>
+  <string name="SettingMaxPopularShowsRequestName">Máximos Programas TV Populares a Buscar</string>
+  <string name="SettingMaxPopularShowsRequestDescription">Configura el número máximo de programas tv a buscar por página.</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>
@@ -495,6 +512,8 @@
   <string name="Status">Estado</string>
   <!--T-->
   <string name="Timeout">Tiempo de Espera</string>
+  <string name="TotalPages">Total Páginas</string>
+  <string name="TotalItemsPerPage">Elementos Totales Por Página</string>
   <string name="Trending">Tendencia</string>
   <string name="TrendingShows">Programas Tendencia</string>
   <string name="TrendingShowsAndMovies">Programas y Películas Tendencia</string>
