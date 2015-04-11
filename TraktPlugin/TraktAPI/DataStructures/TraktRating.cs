@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public double? Rating { get; set; }
 
         [DataMember(Name = "votes")]
-        public double? Votes { get; set; }
+        public int? Votes { get; set; }
 
         [DataMember(Name = "distribution")]
         public RatingsDistribution Distribution { get; set; }

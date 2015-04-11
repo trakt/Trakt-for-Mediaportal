@@ -964,6 +964,17 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktSearchResult>();
         }
 
+        /// <summary>
+        /// Returns a list of items found when searching by id
+        /// </summary>
+        /// <param name="idType">trakt-movie, trakt-show, trakt-episode, imdb, tmdb, tvdb, tvrage</param>
+        /// <param name="id">the id to search by e.g. tt0848228</param>
+        public static IEnumerable<TraktSearchResult> SearchById(string idType, string id)
+        {
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchById, idType, id));
+            return response.FromJSONArray<TraktSearchResult>();
+        }
+
         #endregion
 
         #region Collection

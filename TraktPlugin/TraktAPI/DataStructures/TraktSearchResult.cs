@@ -13,7 +13,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public string Type { get; set; }
 
         [DataMember(Name = "score")]
-        public double Score { get; set; }
+        public double? Score { get; set; }
 
         [DataMember(Name = "movie")]
         public TraktMovieSummary Movie { get; set; }

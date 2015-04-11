@@ -75,6 +75,7 @@ namespace TraktPlugin.TraktAPI
         public const string SearchPeople = "https://api-v2launch.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full,images";
         public const string SearchUsers = "https://api-v2launch.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images"; // not implemented!
         public const string SearchLists = "https://api-v2launch.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full,images";
+        public const string SearchById = "https://api-v2launch.trakt.tv/search?id_type={0}&id={1}";
 
         public const string NetworkFriends = "https://api-v2launch.trakt.tv/users/{0}/friends?extended=full,images";
         public const string NetworkFollowers = "https://api-v2launch.trakt.tv/users/{0}/followers?extended=full,images";
