@@ -426,6 +426,16 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Updates
+
+        public static IEnumerable<TraktMovieUpdate> GetRecentlyUpdatedMovies(string sincedate)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.MovieUpdates, sincedate));
+            return response.FromJSONArray<TraktMovieUpdate>();
+        }
+
+        #endregion
+
         #endregion
 
         #region Shows
@@ -450,11 +460,26 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Updates
+
+        public static IEnumerable<TraktShowUpdate> GetRecentlyUpdatedShows(string sincedate)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowUpdates, sincedate));
+            return response.FromJSONArray<TraktShowUpdate>();
+        }
+
+        #endregion
+
         #region Seasons
 
-        public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id)
+        /// <summary>
+        /// Gets the seasons for a show
+        /// </summary>
+        /// <param name="id">the id of the tv show</param>
+        /// <param name="extendedParameter">request parameters, "episodes,full,images"</param>
+        public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id, string extendedParameter = "full,images")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.ShowSeasons, id));
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowSeasons, id, extendedParameter));
             return response.FromJSONArray<TraktSeasonSummary>();
         }
 
@@ -761,7 +786,6 @@ namespace TraktPlugin.TraktAPI
                                     results.AddRange(response);
                                 }
                             }
-
                         });
                         tMovieSearch.Start(searchTerm);
                         tMovieSearch.Name = "Search";
@@ -1420,6 +1444,28 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveMoviesFromRatings(movies);
+        }
+
+        #endregion
+
+        #region Community Ratings
+
+        public static TraktRating GetShowRatings(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowRatings, id));
+            return response.FromJSON<TraktRating>();
+        }
+
+        public static TraktRating GetSeasonRatings(string id, int season)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowRatings, id, season));
+            return response.FromJSON<TraktRating>();
+        }
+
+        public static TraktRating GetEpisodeRatings(string id, int season, int episode)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.EpisodeRatings, id, season, episode));
+            return response.FromJSON<TraktRating>();
         }
 
         #endregion

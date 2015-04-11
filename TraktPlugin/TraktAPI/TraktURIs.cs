@@ -88,7 +88,7 @@ namespace TraktPlugin.TraktAPI
         public const string EpisodeSummary = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}?extended=full,images";
         public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full,images";
 
-        public const string ShowSeasons = "https://api-v2launch.trakt.tv/shows/{0}/seasons?extended=full,images";
+        public const string ShowSeasons = "https://api-v2launch.trakt.tv/shows/{0}/seasons?extended={1}";
         public const string SeasonEpisodes = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
 
         public const string CalendarShows = "https://api-v2launch.trakt.tv/calendars/shows/{0}/{1}?extended=full,images";
@@ -98,6 +98,13 @@ namespace TraktPlugin.TraktAPI
         public const string ScrobbleStart = "https://api-v2launch.trakt.tv/scrobble/start";
         public const string ScrobblePause = "https://api-v2launch.trakt.tv/scrobble/pause";
         public const string ScrobbleStop = "https://api-v2launch.trakt.tv/scrobble/stop";
+
+        public const string ShowRatings = "https://api-v2launch.trakt.tv/shows/{0}/ratings";
+        public const string SeasonRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/ratings";
+        public const string EpisodeRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/ratings";
+
+        public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}";
+        public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}";
 
         public const string DismissRecommendedMovie = "https://api-v2launch.trakt.tv/recommendations/movies/{0}";
         public const string DismissRecommendedShow = "https://api-v2launch.trakt.tv/recommendations/shows/{0}";

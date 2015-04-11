@@ -278,10 +278,12 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesTrending.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieUpdate.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPagination.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRatingDistribution.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsTrending.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktShowUpdate.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktStatus.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktFollowerRequest.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktImage.cs" />
