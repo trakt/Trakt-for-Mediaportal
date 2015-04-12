@@ -6,7 +6,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
     public class TraktShowUpdate
     {
         [DataMember(Name = "updated_at")]
-        public int Watchers { get; set; }
+        public string UpdatedAt { get; set; }
 
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }
