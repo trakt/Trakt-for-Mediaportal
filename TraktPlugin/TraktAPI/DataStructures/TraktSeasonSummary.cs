@@ -28,6 +28,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
         public TraktSeasonImages Images { get; set; }
 
         [DataMember(Name = "episodes")]
-        public TraktEpisodeSummary Episodes { get; set; }
+        public IEnumerable<TraktEpisodeSummary> Episodes { get; set; }
     }
 }
