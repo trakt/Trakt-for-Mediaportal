@@ -428,10 +428,28 @@ namespace TraktPlugin.TraktAPI
 
         #region Updates
 
-        public static IEnumerable<TraktMovieUpdate> GetRecentlyUpdatedMovies(string sincedate)
+        public static TraktMoviesUpdated GetRecentlyUpdatedMovies(string sincedate, int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.MovieUpdates, sincedate));
-            return response.FromJSONArray<TraktMovieUpdate>();
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.MovieUpdates, sincedate, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktMoviesUpdated
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Movies = response.FromJSONArray<TraktMovieUpdate>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion
@@ -462,10 +480,28 @@ namespace TraktPlugin.TraktAPI
 
         #region Updates
 
-        public static IEnumerable<TraktShowUpdate> GetRecentlyUpdatedShows(string sincedate)
+        public static TraktShowsUpdated GetRecentlyUpdatedShows(string sincedate, int page = 1, int maxItems = 100)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.ShowUpdates, sincedate));
-            return response.FromJSONArray<TraktShowUpdate>();
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowUpdates, sincedate, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktShowsUpdated
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Shows = response.FromJSONArray<TraktShowUpdate>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion

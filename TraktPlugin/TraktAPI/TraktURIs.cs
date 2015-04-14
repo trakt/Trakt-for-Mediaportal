@@ -104,8 +104,8 @@ namespace TraktPlugin.TraktAPI
         public const string SeasonRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/ratings";
         public const string EpisodeRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/ratings";
 
-        public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}";
-        public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}";
+        public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}?page={1}&limit={2}";
+        public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}?page={1}&limit={2}";
 
         public const string DismissRecommendedMovie = "https://api-v2launch.trakt.tv/recommendations/movies/{0}";
         public const string DismissRecommendedShow = "https://api-v2launch.trakt.tv/recommendations/shows/{0}";
