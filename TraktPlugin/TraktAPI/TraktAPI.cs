@@ -442,6 +442,8 @@ namespace TraktPlugin.TraktAPI
                 {
                     CurrentPage = page,
                     TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
                     Movies = response.FromJSONArray<TraktMovieUpdate>()
                 };
             }
@@ -494,6 +496,8 @@ namespace TraktPlugin.TraktAPI
                 {
                     CurrentPage = page,
                     TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
                     Shows = response.FromJSONArray<TraktShowUpdate>()
                 };
             }
