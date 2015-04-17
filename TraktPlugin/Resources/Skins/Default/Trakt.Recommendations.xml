@@ -3,7 +3,7 @@
   <id>87261</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
+	<rememberLastFocusedControl>no</rememberLastFocusedControl>
   <define>#currentmodule:#Trakt.Translation.Recommendations.Label</define>
   <define>#selecteditem:#highlightedbutton</define>
   <define>#defaultcontrol:2</define>
@@ -18,7 +18,6 @@
       <height>720</height>
       <colordiffuse>90ffffff</colordiffuse>
     </control>
-    
 		<import>Trakt.Common.Fanart.xml</import>
 		<import>common.window.xml</import>
     <import>common.time.xml</import>

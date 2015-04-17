@@ -3,7 +3,7 @@
   <id>87267</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-  <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <rememberLastFocusedControl>no</rememberLastFocusedControl>
   <define>#header.label:#Trakt.Translation.WatchList.Label</define>
   <define>#defaultcontrol:2</define>
   <define>#defaultcontrol.onright:9995</define>

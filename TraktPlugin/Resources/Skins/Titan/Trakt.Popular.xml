@@ -3,7 +3,7 @@
   <id>87100</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-  <rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <rememberLastFocusedControl>no</rememberLastFocusedControl>
   <define>#header.label:#Trakt.Translation.Popular.Label</define>
   <define>#defaultcontrol:2</define>
   <define>#defaultcontrol.onright:9999</define>

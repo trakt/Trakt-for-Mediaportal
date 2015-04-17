@@ -3,7 +3,7 @@
   <id>87267</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <rememberLastFocusedControl>no</rememberLastFocusedControl>
   <define>#currentmodule:#Trakt.Translation.WatchList.Label</define>
   <define>#selecteditem:#highlightedbutton</define>
   <define>#defaultcontrol:2</define>
@@ -18,11 +18,10 @@
       <height>720</height>
       <colordiffuse>90ffffff</colordiffuse>
     </control>
-    
-		<import>Trakt.Common.Fanart.xml</import>
-		<import>common.window.xml</import>
+    <import>Trakt.Common.Fanart.xml</import>
+    <import>common.window.xml</import>
     <import>common.time.xml</import>
-    <import>Trakt.Common.xml</import>    
+    <import>Trakt.Common.xml</import>
     <control>
       <type>group</type>
       <description>group element</description>
@@ -36,7 +35,7 @@
         <description>Watch List Movies</description>
         <id>2</id>
         <label>#Trakt.Translation.WatchListMovies.Label</label>
-				<hyperlink>87270</hyperlink>
+        <hyperlink>87270</hyperlink>
         <onup>17</onup>
         <width>280</width>
         <onleft>#defaultcontrol.onleft</onleft>
@@ -46,7 +45,7 @@
         <type>button</type>
         <id>3</id>
         <label>#Trakt.Translation.WatchListShows.Label</label>
-				<hyperlink>87268</hyperlink>
+        <hyperlink>87268</hyperlink>
         <width>280</width>
         <onleft>#defaultcontrol.onleft</onleft>
       </control>
@@ -55,7 +54,7 @@
         <type>button</type>
         <id>4</id>
         <label>#Trakt.Translation.WatchListEpisodes.Label</label>
-				<hyperlink>87269</hyperlink>
+        <hyperlink>87269</hyperlink>
         <width>280</width>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>

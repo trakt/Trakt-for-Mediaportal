@@ -3,12 +3,12 @@
   <id>87264</id>
   <defaultcontrol>2</defaultcontrol>
   <allowoverlay>no</allowoverlay>
-	<rememberLastFocusedControl>yes</rememberLastFocusedControl>
+  <rememberLastFocusedControl>no</rememberLastFocusedControl>
   <define>#currentmodule:#Trakt.Translation.Trending.Label</define>
   <define>#selecteditem:#highlightedbutton</define>
   <define>#defaultcontrol:2</define>
   <define>#defaultcontrol.onleft:9994</define>
-  <controls>    
+  <controls>
     <control>
       <description>BG</description>
       <type>image</type>
@@ -18,11 +18,10 @@
       <height>720</height>
       <colordiffuse>90ffffff</colordiffuse>
     </control>
-    
-		<import>Trakt.Common.Fanart.xml</import>
-		<import>common.window.xml</import>
+    <import>Trakt.Common.Fanart.xml</import>
+    <import>common.window.xml</import>
     <import>common.time.xml</import>
-    <import>Trakt.Common.xml</import>    
+    <import>Trakt.Common.xml</import>
     <control>
       <type>group</type>
       <description>group element</description>
@@ -36,7 +35,7 @@
         <description>Trending Movies</description>
         <id>2</id>
         <label>#Trakt.Translation.TrendingMovies.Label</label>
-				<hyperlink>87266</hyperlink>
+        <hyperlink>87266</hyperlink>
         <onup>17</onup>
         <width>280</width>
         <onleft>#defaultcontrol.onleft</onleft>
@@ -46,11 +45,11 @@
         <type>button</type>
         <id>3</id>
         <label>#Trakt.Translation.TrendingShows.Label</label>
-				<hyperlink>87265</hyperlink>
+        <hyperlink>87265</hyperlink>
         <width>280</width>
         <onleft>#defaultcontrol.onleft</onleft>
         <ondown>2</ondown>
-      </control>      
+      </control>
     </control>
   </controls>
 </window>
