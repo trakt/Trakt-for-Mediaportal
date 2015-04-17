@@ -56,66 +56,48 @@
         <onright>#defaultcontrol</onright>
       </control>
       <control Style="SettingsButton">
-        <description>Recommendations</description>
+        <description>TV</description>
         <type>button</type>
         <id>9993</id>
-        <label>#Trakt.Translation.Recommendations.Label</label>
-        <hyperlink>87261</hyperlink>
+        <label>#Trakt.Translation.TV.Label</label>
+        <hyperlink>87500</hyperlink>
         <onleft>#defaultcontrol</onleft>
         <onright>#defaultcontrol</onright>
       </control>
       <control Style="SettingsButton">
-        <description>Trending</description>
+        <description>Movies</description>
         <type>button</type>
         <id>9994</id>
-        <label>#Trakt.Translation.Trending.Label</label>
-        <hyperlink>87264</hyperlink>
-        <onleft>#defaultcontrol</onleft>
-        <onright>#defaultcontrol</onright>
-      </control>
-      <control Style="SettingsButton">
-        <description>Popular</description>
-        <type>button</type>
-        <id>9999</id>
-        <label>#Trakt.Translation.Popular.Label</label>
-        <hyperlink>87100</hyperlink>
-        <onleft>#defaultcontrol</onleft>
-        <onright>#defaultcontrol</onright>
-      </control>
-      <control Style="SettingsButton">
-        <description>Watchlist</description>
-        <type>button</type>
-        <id>9995</id>
-        <label>#Trakt.Translation.WatchList.Label</label>
-        <hyperlink>87267</hyperlink>
+        <label>#Trakt.Translation.Movies.Label</label>
+        <hyperlink>87501</hyperlink>
         <onleft>#defaultcontrol</onleft>
         <onright>#defaultcontrol</onright>
       </control>
       <control Style="SettingsButton">
         <description>Lists</description>
         <type>button</type>
-        <id>9996</id>
+        <id>9995</id>
         <label>#Trakt.Translation.Lists.Label</label>
-        <hyperlink>87275</hyperlink>
+        <hyperlink>87502</hyperlink>
         <onleft>#defaultcontrol</onleft>
         <onright>#defaultcontrol</onright>
       </control>
       <control Style="SettingsButton">
-        <description>Settings</description>
+        <description>Search</description>
         <type>button</type>
         <id>9997</id>
-        <label>#Trakt.Translation.Settings.Label</label>
-        <hyperlink>87271</hyperlink>
+        <label>#Trakt.Translation.Search.Label</label>
+        <hyperlink>874001</hyperlink>
         <onleft>#defaultcontrol</onleft>
         <onright>#defaultcontrol</onright>
         <ondown>9998</ondown>
       </control>
       <control Style="SettingsButton">
-        <description>Search</description>
+        <description>Settings</description>
         <type>button</type>
         <id>9998</id>
-        <label>#Trakt.Translation.Search.Label</label>
-        <hyperlink>874001</hyperlink>
+        <label>#Trakt.Translation.Settings.Label</label>
+        <hyperlink>87271</hyperlink>
         <onleft>#defaultcontrol</onleft>
         <onright>#defaultcontrol</onright>
         <ondown>9990</ondown>

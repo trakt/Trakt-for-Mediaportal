@@ -92,7 +92,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return (int)TraktGUIWindows.ListItems;
+                return (int)TraktGUIWindows.CustomListItems;
             }
         }
 
@@ -815,7 +815,7 @@ namespace TraktPlugin.GUI
 
                 string itemName = CurrentList.DisplayNumbers ? string.Format("{0}. {1}", itemId, GetListItemLabel(listItem)) : GetListItemLabel(listItem);
 
-                var item = new GUICustomListItem(itemName, (int)TraktGUIWindows.ListItems);
+                var item = new GUICustomListItem(itemName, (int)TraktGUIWindows.CustomListItems);
                 
                 item.Label2 = GetListItemSecondLabel(listItem);
                 item.TVTag = listItem;

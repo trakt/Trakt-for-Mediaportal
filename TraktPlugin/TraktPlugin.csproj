@@ -213,6 +213,7 @@
     </Compile>
     <Compile Include="Cornerstone.MP\AsyncImageResource.cs" />
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
+    <Compile Include="GUI\GUIListsMenu.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
     <Compile Include="GUI\GUIListItemSorter.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="GUI\GUIListItems\GUIShowListItem.cs" />
     <Compile Include="GUI\GUIListItems\GUIUserListItem.cs" />
     <Compile Include="GUI\GUILists.cs" />
+    <Compile Include="GUI\GUIMoviesMenu.cs" />
     <Compile Include="GUI\GUINetwork.cs" />
     <Compile Include="GUI\GUIPopular.cs" />
     <Compile Include="GUI\GUIPopularMovies.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="GUI\GUIShowSeasons.cs" />
     <Compile Include="GUI\GUIRecentWatchedEpisodes.cs" />
     <Compile Include="GUI\GUIRecentWatchedMovies.cs" />
+    <Compile Include="GUI\GUITVMenu.cs" />
     <Compile Include="GUI\GUIUserProfile.cs" />
     <Compile Include="GUI\GUIWatchListEpisodes.cs" />
     <Compile Include="GUI\GUIRecommendationsMovies.cs" />

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87501</id>
+  <defaultcontrol>2</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <rememberLastFocusedControl>no</rememberLastFocusedControl>
+  <define>#header.label:#Trakt.Translation.Movies.Label</define>
+  <define>#defaultcontrol:2</define>
+  <define>#defaultcontrol.onright:9994</define>
+  <define>#defaultcontrol.onleft:9994</define>
+  <controls>
+    <import>Trakt.Common.Background.xml</import>
+    <import>Trakt.Common.xml</import>
+    <import>common.time.xml</import>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <label>Trakt</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <type>label</type>
+      <id>1</id>
+      <posX>685</posX>
+      <posY>225</posY>
+      <width>500</width>
+      <label>#Trakt.Translation.Movies.Label</label>
+      <textcolor>00b7ff</textcolor>
+      <font>TitanLight20</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>buttons</description>
+      <type>group</type>
+      <posX>655</posX>
+      <posY>321</posY>
+      <layout>StackLayout(7, Vertical, true)</layout>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+      <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Trending Movies</description>
+        <id>2</id>
+        <label>#Trakt.Translation.Trending.Label</label>
+        <hyperlink>87266</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+        <onup>4</onup>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Popular Movies</description>
+        <type>button</type>
+        <id>3</id>
+        <label>#Trakt.Translation.Popular.Label</label>
+        <hyperlink>87101</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Recommended Movies</description>
+        <type>button</type>
+        <id>4</id>
+        <label>#Trakt.Translation.Recommendations.Label</label>
+        <hyperlink>87263</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+        <ondown>2</ondown>
+      </control>
+    </control>
+    <import>common.overlay.xml</import>
+  </controls>
+</window>

@@ -214,7 +214,7 @@ namespace TraktPlugin.GUI
 
                             case (ActivityType.Lists):
                                 GUILists.CurrentUser = CurrentUser;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                                 break;
                         }
                     }

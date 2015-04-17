@@ -332,6 +332,7 @@ namespace TraktPlugin.GUI
         public static string CopyList = "Copy List...";
         public static string Country = "Country";
         public static string CurrentPage = "Current Page";
+        public static string CustomLists = "Custom Lists";
 
         // D
         public static string Dashboard = "Dashboard";
@@ -780,6 +781,7 @@ namespace TraktPlugin.GUI
         public static string TrendingShowsAndMovies = "Trending TV Shows and Movies";
         public static string TrendingMoviePeople = "There are {0} people watching {1} movies right now!";
         public static string TrendingTVShowsPeople = "There are {0} people watching {1} tv shows right now!";
+        public static string TV = "TV";
         public static string TVShow = "TV Show";
         public static string TVShows = "TV Shows";
         public static string Tagline = "Tagline";

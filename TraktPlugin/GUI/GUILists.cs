@@ -60,7 +60,7 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return (int)TraktGUIWindows.Lists;
+                return (int)TraktGUIWindows.CustomLists;
             }
         }
 
@@ -115,7 +115,7 @@ namespace TraktPlugin.GUI
                         // Load current selected list
                         GUIListItems.CurrentList = selectedList;
                         GUIListItems.CurrentUser = CurrentUser;
-                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ListItems);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                     }
                     break;
 

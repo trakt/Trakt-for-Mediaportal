@@ -69,7 +69,6 @@ namespace TraktPlugin.GUI
     {
         Main = 87258,
         Calendar = 87259,
-        Friends = 87260, // removed
         Recommendations = 87261,
         RecommendationsShows = 87262,
         RecommendationsMovies = 87263,
@@ -84,8 +83,8 @@ namespace TraktPlugin.GUI
         SettingsAccount = 87272,
         SettingsPlugins = 87273,
         SettingsGeneral = 87274,
-        Lists = 87275,
-        ListItems = 87276,
+        CustomLists = 87275,
+        CustomListItems = 87276,
         RelatedMovies = 87277,
         RelatedShows = 87278,
         Shouts = 87280,
@@ -106,7 +105,10 @@ namespace TraktPlugin.GUI
         SearchUsers = 874006,
         Popular = 87100,
         PopularMovies = 87101,
-        PopularShows = 87102
+        PopularShows = 87102,
+        TV = 87500,
+        Movies= 87501,
+        Lists = 87502
     }
 
     enum TraktDashboardControls
@@ -2154,7 +2156,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Lists):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                     break;
             }
             return true;
@@ -2328,7 +2330,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Lists):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                     break;
             }
             return true;
@@ -2463,7 +2465,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Lists):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                     break;
             }
             return true;
@@ -2627,7 +2629,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Lists):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                     break;
             }
             return true;

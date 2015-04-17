@@ -88,6 +88,7 @@
   <string name="CopyList">Copy List...</string>
   <string name="Country">Country</string>
   <string name="CurrentPage">Current Page</string>
+  <string name="CustomLists">Custom Lists</string>
   <!--D-->
   <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Today</string>
@@ -520,6 +521,7 @@
   <string name="TrendingMovies">Trending Movies</string>
   <string name="TrendingMoviePeople">There are {0} people watching {1} movies right now!</string>
   <string name="TrendingTVShowsPeople">There are {0} people watching {1} tv shows right now!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">TV Show</string>
   <string name="TVShows">TV Shows</string>
   <string name="Tagline">Tagline</string>

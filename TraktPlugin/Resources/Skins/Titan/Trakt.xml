@@ -55,7 +55,7 @@
         <id>9</id>
         <label>#Trakt.Translation.Profile.Label</label>
         <hyperlink>87400</hyperlink>
-        <onup>17</onup>
+        <onup>15</onup>
       </control>
       <control Style="SettingsButton">
         <description>Calendar</description>
@@ -73,47 +73,25 @@
         <label>#Trakt.Translation.Network.Label</label>
       </control>
       <control Style="SettingsButton">
-        <description>Recommendations</description>
+        <description>TV</description>
         <type>button</type>
         <id>12</id>
-        <hyperlink>87261</hyperlink>
-        <label>#Trakt.Translation.Recommendations.Label</label>
+        <hyperlink>87500</hyperlink>
+        <label>#Trakt.Translation.TV.Label</label>
       </control>
       <control Style="SettingsButton">
-        <description>Trending</description>
+        <description>Movies</description>
         <type>button</type>
         <id>13</id>
-        <hyperlink>87264</hyperlink>
-        <label>#Trakt.Translation.Trending.Label</label>
-      </control>
-      <control Style="SettingsButton">
-        <description>Popular</description>
-        <type>button</type>
-        <id>18</id>
-        <hyperlink>87100</hyperlink>
-        <label>#Trakt.Translation.Popular.Label</label>
-      </control>
-      <control Style="SettingsButton">
-        <description>Watch List</description>
-        <type>button</type>
-        <id>14</id>
-        <hyperlink>87267</hyperlink>
-        <label>#Trakt.Translation.WatchList.Label</label>
+        <hyperlink>87501</hyperlink>
+        <label>#Trakt.Translation.Movies.Label</label>
       </control>
       <control Style="SettingsButton">
         <description>Lists</description>
         <type>button</type>
-        <id>16</id>
+        <id>14</id>
         <label>#Trakt.Translation.Lists.Label</label>
-        <hyperlink>87275</hyperlink>
-      </control>
-      <control Style="SettingsButton">
-        <description>Settings</description>
-        <type>button</type>
-        <id>15</id>
-        <label>#Trakt.Translation.Settings.Label</label>
-        <hyperlink>87271</hyperlink>
-        <ondown>17</ondown>
+        <hyperlink>87502</hyperlink>
       </control>
       <control Style="SettingsButton">
         <description>Search</description>
@@ -121,6 +99,14 @@
         <id>17</id>
         <label>#Trakt.Translation.Search.Label</label>
         <hyperlink>874001</hyperlink>
+        <ondown>15</ondown>
+      </control>
+      <control Style="SettingsButton">
+        <description>Settings</description>
+        <type>button</type>
+        <id>15</id>
+        <label>#Trakt.Translation.Settings.Label</label>
+        <hyperlink>87271</hyperlink>
         <ondown>9</ondown>
       </control>
     </control>

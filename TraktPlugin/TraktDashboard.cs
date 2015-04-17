@@ -1731,13 +1731,13 @@ namespace TraktPlugin
                                 // load users list
                                 //GUIListItems.CurrentList = new TraktListDetail { Ids = activity.List.Ids };
                                 GUIListItems.CurrentUser = activity.User.Username;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ListItems);
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                                 break;
 
                             case ActivityAction.created:
                                 // load users lists
                                 GUILists.CurrentUser = activity.User.Username;
-                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Lists);
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                                 break;
 
                             case ActivityAction.watchlist:
