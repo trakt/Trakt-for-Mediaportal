@@ -519,7 +519,7 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="TotalItemsPerPage">Gesamte Einträge pro Seite</string>
   <string name="Trending">Angesagt</string>
   <string name="TrendingShows">Angesagte Serien</string>
-  <string name="TrendingShowsAndMovies">Angesagte Filme und Serien</string>
+  <string name="TrendingShowsAndMovies">Angesagte Serien und Filme</string>
   <string name="TrendingMovies">Angesagte Filme</string>
   <string name="TrendingMoviePeople">Momentan schauen {0} Personen {1} Filme!</string>
   <string name="TrendingTVShowsPeople">Momentan schauen {0} Personn {1} TV-Serien!</string>
