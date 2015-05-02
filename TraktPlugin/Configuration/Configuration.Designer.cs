@@ -56,14 +56,12 @@
             this.cbMovingPicturesCategories = new System.Windows.Forms.CheckBox();
             this.lbSyncTimerLength = new System.Windows.Forms.Label();
             this.cbKeepInSync = new System.Windows.Forms.CheckBox();
-            this.btnClearLibrary = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
-            this.gbMaintenance = new System.Windows.Forms.GroupBox();
             this.progressBarSync = new System.Windows.Forms.ProgressBar();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.btnStartLibrarySync = new System.Windows.Forms.Button();
@@ -73,7 +71,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSyncInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).BeginInit();
             this.gbRestrictions.SuspendLayout();
-            this.gbMaintenance.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -394,19 +391,6 @@
             this.cbKeepInSync.UseVisualStyleBackColor = true;
             this.cbKeepInSync.CheckedChanged += new System.EventHandler(this.cbKeepInSync_CheckedChanged);
             // 
-            // btnClearLibrary
-            // 
-            this.btnClearLibrary.Enabled = false;
-            this.btnClearLibrary.Location = new System.Drawing.Point(9, 19);
-            this.btnClearLibrary.Name = "btnClearLibrary";
-            this.btnClearLibrary.Size = new System.Drawing.Size(307, 23);
-            this.btnClearLibrary.TabIndex = 0;
-            this.btnClearLibrary.Text = "&Delete all user data from trakt.tv";
-            this.ttpConfig.SetToolTip(this.btnClearLibrary, "Click this button to remove all movies and episodes that you have synchronised, m" +
-        "arked as watched or rated online.");
-            this.btnClearLibrary.UseVisualStyleBackColor = true;
-            this.btnClearLibrary.Click += new System.EventHandler(this.btnClearLibrary_Click);
-            // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -473,18 +457,6 @@
             this.btnMovieRestrictions.UseVisualStyleBackColor = true;
             this.btnMovieRestrictions.Click += new System.EventHandler(this.btnMovieRestrictions_Click);
             // 
-            // gbMaintenance
-            // 
-            this.gbMaintenance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbMaintenance.Controls.Add(this.btnClearLibrary);
-            this.gbMaintenance.Location = new System.Drawing.Point(340, 304);
-            this.gbMaintenance.Name = "gbMaintenance";
-            this.gbMaintenance.Size = new System.Drawing.Size(322, 61);
-            this.gbMaintenance.TabIndex = 4;
-            this.gbMaintenance.TabStop = false;
-            this.gbMaintenance.Text = "Maintenance";
-            // 
             // progressBarSync
             // 
             this.progressBarSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -525,7 +497,6 @@
             this.Controls.Add(this.btnStartLibrarySync);
             this.Controls.Add(this.lblSyncStatus);
             this.Controls.Add(this.progressBarSync);
-            this.Controls.Add(this.gbMaintenance);
             this.Controls.Add(this.gbRestrictions);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbSync);
@@ -548,7 +519,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).EndInit();
             this.gbRestrictions.ResumeLayout(false);
             this.gbRestrictions.PerformLayout();
-            this.gbMaintenance.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -567,7 +537,6 @@
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.CheckedListBox clbPlugins;
-        private System.Windows.Forms.Button btnClearLibrary;
         private System.Windows.Forms.ToolTip ttpConfig;
         private System.Windows.Forms.GroupBox gbRestrictions;
         private System.Windows.Forms.Button btnTVSeriesRestrictions;
@@ -582,7 +551,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.GroupBox gbMaintenance;
         private System.Windows.Forms.Label lblSyncResumeDelta;
         private System.Windows.Forms.NumericUpDown numSyncResumeDelta;
         private System.Windows.Forms.CheckBox cbSyncPlayback;

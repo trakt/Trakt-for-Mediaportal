@@ -204,7 +204,6 @@
     <Compile Include="Configuration\MovieSelect.Designer.cs">
       <DependentUpon>MovieSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ProgressDialog.cs" />
     <Compile Include="Configuration\SeriesSelect.cs">
       <SubType>Form</SubType>
     </Compile>
