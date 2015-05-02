@@ -309,18 +309,18 @@ namespace TraktPlugin.TraktHandlers
                         var traktEpisode = onlineEpisodes[tvdbKey].FirstOrDefault();
                         if (traktEpisode != null)
                         {
-                            TraktLogger.Info("Marking episode as watched in local database, episode is watched on trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}'",
-                                traktEpisode.Plays, traktEpisode.ShowTitle, traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season, traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>", traktEpisode.ShowImdbId ?? "<empty>");
+                            TraktLogger.Info("Marking episode as watched in local database, episode is watched on trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Last Watched = '{7}'",
+                                traktEpisode.Plays, traktEpisode.ShowTitle, traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season, traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>", traktEpisode.ShowImdbId ?? "<empty>", traktEpisode.WatchedAt);
 
                             episode[DBOnlineEpisode.cWatched] = true;
                             episode[DBOnlineEpisode.cPlayCount] = traktEpisode.Plays;
 
-                            if (string.IsNullOrEmpty(episode["LastWatchedDate"]))
-                                episode["LastWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            if (string.IsNullOrEmpty(episode["FirstWatchedDate"]))
-                                episode["FirstWatchedDate"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            if (string.IsNullOrEmpty(episode[DBOnlineEpisode.cLastWatchedDate]))
+                                episode[DBOnlineEpisode.cLastWatchedDate] = traktEpisode.WatchedAt.FromISO8601().ToString("yyyy-MM-dd HH:mm:ss");
+                            if (string.IsNullOrEmpty(episode[DBOnlineEpisode.cFirstWatchedDate]))
+                                episode[DBOnlineEpisode.cFirstWatchedDate] = traktEpisode.WatchedAt.FromISO8601().ToString("yyyy-MM-dd HH:mm:ss");
                             if (!string.IsNullOrEmpty(episode[DBEpisode.cFilename]) && string.IsNullOrEmpty(episode[DBEpisode.cDateWatched]))
-                                episode[DBEpisode.cDateWatched] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                                episode[DBEpisode.cDateWatched] = traktEpisode.WatchedAt.FromISO8601().ToString("yyyy-MM-dd HH:mm:ss");
 
                             episode.Commit();
 

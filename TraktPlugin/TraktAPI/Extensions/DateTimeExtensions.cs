@@ -69,7 +69,7 @@ namespace TraktPlugin.TraktAPI.Extensions
                 return date;
             }
 
-            return new DateTime();
+            return DateTime.UtcNow;
         }
 
         /// <summary>

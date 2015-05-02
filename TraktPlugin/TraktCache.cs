@@ -385,7 +385,8 @@ namespace TraktPlugin
                             ShowYear = show.Show.Year,
                             Number = episode.Number,
                             Season = season.Number,
-                            Plays = episode.Plays
+                            Plays = episode.Plays,
+                            WatchedAt = episode.WatchedAt
                         });
                     }
                 }
@@ -2159,6 +2160,9 @@ namespace TraktPlugin
         {
             [DataMember]
             public int Plays { get; set; }
+
+            [DataMember]
+            public string WatchedAt { get; set; }
         }
 
         [DataContract]

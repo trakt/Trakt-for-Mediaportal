@@ -38,6 +38,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
                 [DataMember(Name = "plays")]
                 public int Plays { get; set; }
+
+                [DataMember(Name = "last_watched_at")]
+                public string WatchedAt { get; set; }
             }
         }
     }
