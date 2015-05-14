@@ -24,8 +24,8 @@
           <type>listcontrol</type>
           <id>98300</id>
           <posX>570</posX>
-          <posY>286</posY>
-          <height>250</height>
+          <posY>268</posY>
+          <height>300</height>
           <width>1225</width>
           <onleft>#activityOnLeft</onleft>
           <onright>98301</onright>
@@ -38,7 +38,7 @@
           <PinIconYOff>0</PinIconYOff>
           <PinIconWidth>50</PinIconWidth>
           <PinIconHeight>50</PinIconHeight>
-          <textXOff>70</textXOff>
+          <textXOff>50</textXOff>
           <textYOff>8</textYOff>
           <textXOff2>1160</textXOff2>
           <textYOff2>8</textYOff2>
