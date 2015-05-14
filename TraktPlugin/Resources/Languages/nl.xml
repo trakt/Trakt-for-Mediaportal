@@ -86,7 +86,9 @@
   <string name="ConfirmDeleteListItem">Weet je zeker dat je dit item wilt verwijderen van de lijst?</string>
   <string name="Continuing">Lopend</string>
   <string name="CopyList">Kopiëer lijst...</string>
+  <string name="Country">Land</string>
   <string name="CurrentPage">Huidige Pagina</string>
+  <string name="CustomLists">Aangepaste Lijsten</string>
   <!--D-->
   <string name="Dashboard">Dashboard</string>
   <string name="DateToday">Vandaag</string>
@@ -270,6 +272,7 @@
   <string name="MarkAsWatched">Markeer als bekeken</string>
   <string name="MarkAsUnWatched">Markeer als onbekeken</string>
   <string name="Me">Mij</string>
+  <string name="Menu">Menu</string>
   <string name="Minutes">Minuten</string>
   <string name="Minute">Minuut</string>
   <string name="Movie">Film</string>
@@ -518,6 +521,7 @@
   <string name="TrendingMovies">Populaire films</string>
   <string name="TrendingMoviePeople">Er kijken {0} mensen naar {1} films op dit moment!</string>
   <string name="TrendingTVShowsPeople">Er kijken {0} mensen naar {1}  series op dit moment!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">TV serie</string>
   <string name="TVShows">TV series</string>
   <string name="Tagline">Label</string>

@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Cornerstone.MP\AsyncImageResource.cs" />
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="GUI\GUIListsMenu.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />

@@ -29,8 +29,13 @@ namespace TraktPlugin.GUI
         ChangeView,
         ShowSeasonInfo,
         MarkAsWatched,
+        MarkAsUnwatched,
+        AddToCollection,
+        RemoveFromCollection,
         AddToWatchList,
+        RemoveFromWatchList,
         AddToList,
+        RemoveFromList,
         Related,
         Rate,
         Shouts,
@@ -516,6 +521,30 @@ namespace TraktPlugin.GUI
 
         internal static bool RateEpisode(TraktShowSummary show, TraktEpisodeSummary episode)
         {
+            // this object will work without episode ids
+            var rateObjectEx = new TraktSyncShowRatedEx
+            {
+                Ids = show.Ids,
+                Title = show.Title,
+                Year = show.Year,
+                Seasons = new List<TraktSyncShowRatedEx.Season>
+                {
+                    new TraktSyncShowRatedEx.Season
+                    {
+                        Number = episode.Season,
+                        Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
+                        {
+                            new TraktSyncShowRatedEx.Season.Episode
+                            {
+                                Number = episode.Number,
+                                RatedAt = DateTime.UtcNow.ToISO8601()
+                            }
+                        }
+                    }
+                }
+            };
+
+            // only use if we have episode ids
             var rateObject = new TraktSyncEpisodeRated
             {
                 Ids = new TraktEpisodeId
@@ -535,7 +564,15 @@ namespace TraktPlugin.GUI
             int? prevRating = episode.UserRating(show);
             int newRating = 0;
 
-            newRating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
+            if (episode.Ids == null || episode.Ids.Trakt == null)
+            {
+                newRating = GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(rateObjectEx);
+            }
+            else
+            {
+                newRating = GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(rateObject);
+            }
+
             if (newRating == -1) return false;
 
             // If previous rating not equal to current rating then 
@@ -802,21 +839,24 @@ namespace TraktPlugin.GUI
         
         internal static void SetUserProperties(TraktUserSummary user)
         {
+            if (user == null)
+                return;
+
             SetProperty("#Trakt.User.Username", user.Username);
             SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());
             SetProperty("#Trakt.User.VIP", user.IsVip.ToString().ToLower());
             SetProperty("#Trakt.User.About", user.About.RemapHighOrderChars());
             SetProperty("#Trakt.User.Age", user.Age.ToString());
-            if (user.Images != null)
-            {
-                SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
-                SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
-            }
             SetProperty("#Trakt.User.FullName", user.FullName);
             SetProperty("#Trakt.User.Gender", string.IsNullOrEmpty(user.Gender) ? null : Translation.GetByName(string.Format("Gender{0}", user.Gender)));
             SetProperty("#Trakt.User.JoinDate", user.JoinedAt.FromISO8601().ToLongDateString());
             SetProperty("#Trakt.User.Location", user.Location);            
             SetProperty("#Trakt.User.Url", string.Format("http://trakt.tv/users/{0}", user.Username));
+            if (user.Images != null)
+            {
+                SetProperty("#Trakt.User.Avatar", user.Images.Avatar.FullSize);
+                SetProperty("#Trakt.User.AvatarFileName", user.Images.Avatar.LocalImageFilename(ArtworkType.Avatar));
+            }
         }
 
         internal static void ClearListProperties()
@@ -1103,8 +1143,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Url", string.Format("http://trakt.tv/movies/{0}", movie.Ids.Slug));
             SetProperty("#Trakt.Movie.Year", movie.Year);
             SetProperty("#Trakt.Movie.Genres", TraktGenres.Translate(movie.Genres));
-            SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
-            SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
             SetProperty("#Trakt.Movie.InCollection", movie.IsCollected());
             SetProperty("#Trakt.Movie.InWatchList", movie.IsWatchlisted());
             SetProperty("#Trakt.Movie.Plays", movie.Plays());
@@ -1113,6 +1151,11 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Rating.ToPercentage());
             SetProperty("#Trakt.Movie.Ratings.Votes", movie.Votes);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Rating >= 6) ? "love" : "hate");
+            if (movie.Images != null)
+            {
+                SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
+                SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            }
         }
 
         internal static void ClearSeasonProperties()
@@ -1304,7 +1347,10 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");
-            SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
+            if (episode.Images != null)
+            {
+                SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
+            }
         }
 
         internal static void ClearPersonProperties()
@@ -1345,17 +1391,59 @@ namespace TraktPlugin.GUI
 
         /// <summary>
         /// Returns a list of context menu items for a selected item in the Activity Dashboard
-        /// Activity API does not return authenticated data such as InWatchlist, InCollection, Rating etc.
         /// </summary>
-        internal static List<GUIListItem> GetContextMenuItemsForActivity()
+        internal static List<GUIListItem> GetContextMenuItemsForActivity(TraktActivity.Activity activity)
         {
             GUIListItem listItem = null;
-            List<GUIListItem> listItems = new List<GUIListItem>();
+            var listItems = new List<GUIListItem>();
 
-            // Add Watchlist  
-            listItem = new GUIListItem(Translation.AddToWatchList);
-            listItem.ItemId = (int)ActivityContextMenuItem.AddToWatchList;
-            listItems.Add(listItem);
+            // Add Watchlist
+            if (!activity.IsWatchlisted())
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                listItem.ItemId = (int)ActivityContextMenuItem.AddToWatchList;
+                listItems.Add(listItem);
+            }
+            else if (activity.Type != ActivityType.list.ToString())
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                listItem.ItemId = (int)ActivityContextMenuItem.RemoveFromWatchList;
+                listItems.Add(listItem);
+            }
+
+            // Mark As Watched
+            if (activity.Type == ActivityType.episode.ToString() || activity.Type == ActivityType.movie.ToString())
+            {
+                if (!activity.IsWatched())
+                {
+                    listItem = new GUIListItem(Translation.MarkAsWatched);
+                    listItem.ItemId = (int)ActivityContextMenuItem.MarkAsWatched;
+                    listItems.Add(listItem);
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                    listItem.ItemId = (int)ActivityContextMenuItem.MarkAsUnwatched;
+                    listItems.Add(listItem);
+                }
+            }
+
+            // Add To Collection
+            if (activity.Type == ActivityType.episode.ToString() || activity.Type == ActivityType.movie.ToString())
+            {
+                if (!activity.IsCollected())
+                {
+                    listItem = new GUIListItem(Translation.AddToLibrary);
+                    listItem.ItemId = (int)ActivityContextMenuItem.AddToCollection;
+                    listItems.Add(listItem);
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                    listItem.ItemId = (int)ActivityContextMenuItem.RemoveFromCollection;
+                    listItems.Add(listItem);
+                }
+            }
 
             // Add to Custom list
             listItem = new GUIListItem(Translation.AddToList);
@@ -1901,7 +1989,7 @@ namespace TraktPlugin.GUI
                 AirDate = show.FirstAired.FromISO8601().ToString("yyyy-MM-dd"),
                 Season = episode.Season,
                 Episode = episode.Number,
-                EpisodeName = episode.Title
+                EpisodeName = episode.Title ?? string.Empty
             };
             Trailers.Trailers.SearchForTrailers(trailerItem);
         }
@@ -2769,188 +2857,207 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Activity Helpers
-        internal static string GetActivityListItemTitle(TraktActivity.Activity activity)
+        internal static string GetActivityListItemTitle(TraktActivity.Activity activity, ActivityView view = ActivityView.community)
         {
-            //if (activity == null) return string.Empty;
+            if (activity == null)
+                return string.Empty;
 
-            //string itemName = GetActivityItemName(activity);
-            //string userName = activity.User.Username;
-            //string title = string.Empty;
+            string itemName = GetActivityItemName(activity);
+            string userName = activity.User == null ? "" : activity.User.Username;
+            string title = string.Empty;
 
-            //if (string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
-            //    return string.Empty;
+            if (string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
+                return string.Empty;
 
-            //ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
-            //ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+            var action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+            var type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
 
-            //switch (action)
-            //{
-            //    case ActivityAction.watching:
-            //        title = string.Format(Translation.ActivityWatching, userName, itemName);
-            //        break;
+            switch (action)
+            {
+                case ActivityAction.watching:
+                    title = string.Format(Translation.ActivityWatching, userName, itemName);
+                    break;
 
-            //    case ActivityAction.scrobble:
-            //        title = string.Format(Translation.ActivityWatched, userName, itemName);
-            //        break;
+                case ActivityAction.scrobble:
+                    if (activity.Plays() > 1)
+                    {
+                        title = string.Format(Translation.ActivityWatchedWithPlays, userName, itemName, activity.Plays());
+                    }
+                    else
+                    {
+                        title = string.Format(Translation.ActivityWatched, userName, itemName);
+                    }
+                    break;
 
-            //    case ActivityAction.checkin:
-            //        title = string.Format(Translation.ActivityCheckedIn, userName, itemName);
-            //        break;
+                case ActivityAction.checkin:
+                    title = string.Format(Translation.ActivityCheckedIn, userName, itemName);
+                    break;
 
-            //    case ActivityAction.seen:
-            //        if (type == ActivityType.episode && activity.Episodes.Count > 1)
-            //        {
-            //            title = string.Format(Translation.ActivitySeenEpisodes, userName, activity.Episodes.Count, itemName);
-            //        }
-            //        else
-            //        {
-            //            title = string.Format(Translation.ActivitySeen, userName, itemName);
-            //        }
-            //        break;
+                case ActivityAction.seen:
+                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
+                    {
+                        title = string.Format(Translation.ActivitySeenEpisodes, userName, activity.Episodes.Count, itemName);
+                    }
+                    else
+                    {
+                        title = string.Format(Translation.ActivitySeen, userName, itemName);
+                    }
+                    break;
 
-            //    case ActivityAction.collection:
-            //        if (type == ActivityType.episode && activity.Episodes.Count > 1)
-            //        {
-            //            title = string.Format(Translation.ActivityCollectedEpisodes, userName, activity.Episodes.Count, itemName);
-            //        }
-            //        else
-            //        {
-            //            title = string.Format(Translation.ActivityCollected, userName, itemName);
-            //        }
-            //        break;
+                case ActivityAction.collection:
+                    if (type == ActivityType.episode && activity.Episodes.Count > 1)
+                    {
+                        title = string.Format(Translation.ActivityCollectedEpisodes, userName, activity.Episodes.Count, itemName);
+                    }
+                    else
+                    {
+                        title = string.Format(Translation.ActivityCollected, userName, itemName);
+                    }
+                    break;
 
-            //    case ActivityAction.rating:
-            //        if (activity.UseRatingAdvanced)
-            //        {
-            //            title = string.Format(Translation.ActivityRatingAdvanced, userName, itemName, activity.RatingAdvanced);
-            //        }
-            //        else
-            //        {
-            //            title = string.Format(Translation.ActivityRating, userName, itemName);
-            //        }
-            //        break;
+                case ActivityAction.rating:
+                    title = string.Format(Translation.ActivityRatingAdvanced, userName, itemName, activity.Rating);
+                    break;
 
-            //    case ActivityAction.watchlist:
-            //        title = string.Format(Translation.ActivityWatchlist, userName, itemName);
-            //        break;
+                case ActivityAction.watchlist:
+                    if (view != ActivityView.me)
+                    {
+                        title = string.Format(Translation.ActivityWatchlist, userName, itemName);
+                    }
+                    else
+                    {
+                        title = string.Format(Translation.ActivityYourWatchlist, userName, itemName);
+                    }
+                    break;
 
-            //    case ActivityAction.review:
-            //        title = string.Format(Translation.ActivityReview, userName, itemName);
-            //        break;
+                case ActivityAction.review:
+                    title = string.Format(Translation.ActivityReview, userName, itemName);
+                    break;
 
-            //    case ActivityAction.shout:
-            //        title = string.Format(Translation.ActivityShouts, userName, itemName);
-            //        break;
+                case ActivityAction.shout:
+                    title = string.Format(Translation.ActivityShouts, userName, itemName);
+                    break;
 
-            //    case ActivityAction.created: // created list
-            //        title = string.Format(Translation.ActivityCreatedList, userName, itemName);
-            //        break;
+                case ActivityAction.created: // created list
+                    title = string.Format(Translation.ActivityCreatedList, userName, itemName);
+                    break;
 
-            //    case ActivityAction.item_added: // added item to list
-            //        title = string.Format(Translation.ActivityAddToList, userName, itemName, activity.List.Name);
-            //        break;
-            //}
+                case ActivityAction.updated: // updated list
+                    title = string.Format(Translation.ActivityUpdatedList, userName, itemName);
+                    break;
 
-            //return title;
-            return "TODO";
+                case ActivityAction.item_added: // added item to list
+                    title = string.Format(Translation.ActivityAddToList, userName, itemName, activity.List.Name);
+                    break;
+            }
+
+            // remove user name from your own feed, its not needed - you know who you are
+            if ((ActivityView)TraktSettings.ActivityStreamView == ActivityView.me && title.StartsWith(TraktSettings.Username))
+                title = title.Replace(TraktSettings.Username + " ", string.Empty);
+
+            return title;
         }
 
         internal static string GetActivityItemName(TraktActivity.Activity activity)
         {
-            //TODO
-            //string name = string.Empty;
+            string name = string.Empty;
 
-            //try
-            //{
-            //    ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
-            //    ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+            try
+            {
+                ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+                ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
 
-            //    switch (type)
-            //    {
-            //        case ActivityType.episode:
-            //            if (action == ActivityAction.seen || action == ActivityAction.collection)
-            //            {
-            //                if (activity.Episodes.Count > 1)
-            //                {
-            //                    // just return show name
-            //                    name = activity.Show.Title;
-            //                }
-            //                else
-            //                {
-            //                    //  get the first and only item in collection of episodes
-            //                    string episodeIndex = activity.Episodes.First().Number.ToString();
-            //                    string seasonIndex = activity.Episodes.First().Season.ToString();
-            //                    string episodeName = activity.Episodes.First().Title;
+                switch (type)
+                {
+                    case ActivityType.episode:
+                        if (action == ActivityAction.seen || action == ActivityAction.collection)
+                        {
+                            if (activity.Episodes.Count > 1)
+                            {
+                                // just return show name
+                                name = activity.Show.Title;
+                            }
+                            else
+                            {
+                                //  get the first and only item in collection of episodes
+                                string episodeIndex = activity.Episodes.First().Number.ToString();
+                                string seasonIndex = activity.Episodes.First().Season.ToString();
+                                string episodeName = activity.Episodes.First().Title;
 
-            //                    if (string.IsNullOrEmpty(episodeName))
-            //                        episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
+                                if (!string.IsNullOrEmpty(episodeName))
+                                    episodeName = string.Format(" - {0}", episodeName);
 
-            //                    name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, seasonIndex, episodeIndex, episodeName);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                string episodeName = activity.Episode.Title;
+                                name = string.Format("{0} - {1}x{2}{3}", activity.Show.Title, seasonIndex, episodeIndex, episodeName);
+                            }
+                        }
+                        else
+                        {
+                            string episodeName = activity.Episode.Title;
 
-            //                if (string.IsNullOrEmpty(episodeName))
-            //                    episodeName = string.Format("{0} {1}", Translation.Episode, activity.Episode.Number.ToString());
+                            if (!string.IsNullOrEmpty(episodeName))
+                                episodeName = string.Format(" - {0}", episodeName);
 
-            //                name = string.Format("{0} - {1}x{2} - {3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), episodeName);
-            //            }
-            //            break;
+                            name = string.Format("{0} - {1}x{2}{3}", activity.Show.Title, activity.Episode.Season.ToString(), activity.Episode.Number.ToString(), episodeName);
+                        }
+                        break;
 
-            //        case ActivityType.show:
-            //            name = activity.Show.Title;
-            //            break;
+                    case ActivityType.show:
+                        name = activity.Show.Title;
+                        break;
 
-            //        case ActivityType.movie:
-            //            name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
-            //            break;
+                    case ActivityType.movie:
+                        name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
+                        break;
 
-            //        case ActivityType.list:
-            //            if (action == ActivityAction.item_added)
-            //            {
-            //                // return the name of the item added to the list
-            //                switch (activity.ListItem.Type)
-            //                {
-            //                    case "show":
-            //                        name = activity.ListItem.Show.Title;
-            //                        break;
+                    case ActivityType.list:
+                        if (action == ActivityAction.item_added)
+                        {
+                            // return the name of the item added to the list
+                            switch (activity.ListItem.Type)
+                            {
+                                case "show":
+                                    name = activity.ListItem.Show.Title;
+                                    break;
 
-            //                    case "episode":
-            //                        string episodeIndex = activity.ListItem.Episode.Number.ToString();
-            //                        string seasonIndex = activity.ListItem.Episode.Season.ToString();
-            //                        string episodeName = activity.ListItem.Episode.Title;
+                                case "season":
+                                    name = string.Format("{0} - {1} {2}", activity.ListItem.Show.Title, Translation.Season, activity.ListItem.Season.Number);
+                                    break;
 
-            //                        if (string.IsNullOrEmpty(episodeName))
-            //                            episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
+                                case "episode":
+                                    string episodeIndex = activity.ListItem.Episode.Number.ToString();
+                                    string seasonIndex = activity.ListItem.Episode.Season.ToString();
+                                    string episodeName = activity.ListItem.Episode.Title;
 
-            //                        name = string.Format("{0} - {1}x{2} - {3}", activity.ListItem.Show.Title, seasonIndex, episodeIndex, episodeName);
-            //                        break;
+                                    if (string.IsNullOrEmpty(episodeName))
+                                        episodeName = string.Format("{0} {1}", Translation.Episode, episodeIndex);
 
-            //                    case "movie":
-            //                        name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
-            //                        break;
-            //                }
-            //            }
-            //            else if (action == ActivityAction.created)
-            //            {
-            //                // return the list name
-            //                name = activity.List.Name;
-            //            }
-            //            break;
-            //    }
-            //}
-            //catch
-            //{
-            //    // most likely trakt returned a null object
-            //    name = string.Empty;
-            //}
+                                    name = string.Format("{0} - {1}x{2} - {3}", activity.ListItem.Show.Title, seasonIndex, episodeIndex, episodeName);
+                                    break;
 
-            //return name;
+                                case "movie":
+                                    name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
+                                    break;
+                            }
+                        }
+                        else if (action == ActivityAction.created)
+                        {
+                            // return the list name
+                            name = activity.List.Name;
+                        }
+                        else if (action == ActivityAction.updated)
+                        {
+                            name = activity.List.Name;
+                        }
+                        break;
+                }
+            }
+            catch
+            {
+                // most likely trakt returned a null object
+                name = string.Empty;
+            }
 
-
-            return "TODO";
+            return name;
         }
         #endregion
     }

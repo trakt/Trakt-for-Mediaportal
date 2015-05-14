@@ -67,6 +67,12 @@ namespace TraktPlugin.GUI
                     var profileThread = new Thread(() =>
                     {
                         profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                        
+                        // Save to settings so we can load from cache next time we need the userprofile e.g. Activity stream
+                        if (profile != null && CurrentUser == TraktSettings.Username)
+                        {
+                            TraktSettings.LastUserProfile = profile;
+                        }
                     })
                     {
                         Name = "Profile"

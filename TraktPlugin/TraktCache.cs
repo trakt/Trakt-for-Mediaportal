@@ -86,8 +86,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users watched movies from Trakt
         /// </summary>
-        public static IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt()
+        public static IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return WatchedMovies;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -143,8 +147,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users collected movies from Trakt
         /// </summary>
-        public static IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt()
+        public static IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return CollectedMovies;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -200,8 +208,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users rated movies from Trakt
         /// </summary>
-        public static IEnumerable<TraktMovieRated> GetRatedMoviesFromTrakt()
+        public static IEnumerable<TraktMovieRated> GetRatedMoviesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return RatedMovies;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -261,8 +273,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users collected episodes from Trakt
         /// </summary>
-        public static IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt()
+        public static IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return CollectedEpisodes;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -342,8 +358,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users watched episodes from Trakt
         /// </summary>
-        public static IEnumerable<EpisodeWatched> GetWatchedEpisodesFromTrakt()
+        public static IEnumerable<EpisodeWatched> GetWatchedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return WatchedEpisodes;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -468,8 +488,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users rated episodes from Trakt
         /// </summary>
-        public static IEnumerable<TraktEpisodeRated> GetRatedEpisodesFromTrakt()
+        public static IEnumerable<TraktEpisodeRated> GetRatedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return RatedEpisodes;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -534,8 +558,12 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users rated shows from Trakt
         /// </summary>
-        public static IEnumerable<TraktShowRated> GetRatedShowsFromTrakt()
+        public static IEnumerable<TraktShowRated> GetRatedShowsFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return RatedShows;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -594,10 +622,14 @@ namespace TraktPlugin
 
         #region Movies
 
-        public static IEnumerable<TraktMovieWatchList> GetWatchlistedMoviesFromTrakt()
+        public static IEnumerable<TraktMovieWatchList> GetWatchlistedMoviesFromTrakt(bool ignoreLastSyncTime = false)
         {
             lock (syncLists)
             {
+                // get from cache regardless of last sync time
+                if (ignoreLastSyncTime)
+                    return WatchListMovies;
+
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
 
@@ -700,10 +732,14 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users watchlisted shows from Trakt
         /// </summary>
-        public static IEnumerable<TraktShowWatchList> GetWatchlistedShowsFromTrakt()
+        public static IEnumerable<TraktShowWatchList> GetWatchlistedShowsFromTrakt(bool ignoreLastSyncTime = false)
         {
             lock (syncLists)
             {
+                // get from cache regardless of last sync time
+                if (ignoreLastSyncTime)
+                    return WatchListShows;
+
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
 
@@ -769,10 +805,14 @@ namespace TraktPlugin
         /// <summary>
         /// Get the users watchlisted episodes from Trakt
         /// </summary>
-        public static IEnumerable<TraktEpisodeWatchList> GetWatchlistedEpisodesFromTrakt()
+        public static IEnumerable<TraktEpisodeWatchList> GetWatchlistedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
         {
             lock (syncLists)
             {
+                // get from cache regardless of last sync time
+                if (ignoreLastSyncTime)
+                    return WatchListEpisodes;
+
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
 
@@ -848,8 +888,12 @@ namespace TraktPlugin
         }
         static IEnumerable<TraktListDetail> _CustomLists = null;
 
-        static IEnumerable<TraktListDetail> GetCustomListsFromTrakt()
+        static IEnumerable<TraktListDetail> GetCustomListsFromTrakt(bool ignoreLastSyncTime = false)
         {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return CustomLists;
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -889,14 +933,14 @@ namespace TraktPlugin
         /// Returns the users custom lists with list item details
         /// </summary>
         /// <returns></returns>
-        internal static Dictionary<TraktListDetail, List<TraktListItem>> GetCustomLists()
+        internal static Dictionary<TraktListDetail, List<TraktListItem>> GetCustomLists(bool ignoreLastSyncTime = false)
         {
             lock (syncLists)
             {
                 if (_CustomListsAndItems == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
                     // first get the users custom lists from trakt exluding any details for individual lists
-                    var userLists = GetCustomListsFromTrakt();                    
+                    var userLists = GetCustomListsFromTrakt(ignoreLastSyncTime);
                     if (userLists == null) return null;
 
                     // get last time individual lists were updated online
@@ -1138,6 +1182,7 @@ namespace TraktPlugin
 
             return RatedEpisodes.Where(e => e.Rating < 6).Count();
         }
+
         #endregion
 
         #region Movies
@@ -1191,13 +1236,14 @@ namespace TraktPlugin
             if (WatchedMovies == null)
                 return 0;
 
-            var watchedMovie = WatchedMovies.FirstOrDefault(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
-                                                                 ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
-                                                                 ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
-            if (watchedMovie == null)
+            // we may added a play from a real-time scrobble or added a new play from a sync
+            var watchedMovies = WatchedMovies.Where(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                                         ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                                         ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
+            if (watchedMovies == null)
                 return 0;
 
-            return watchedMovie.Plays;
+            return watchedMovies.Sum(m => m.Plays);
         }
 
         #endregion
@@ -1356,6 +1402,16 @@ namespace TraktPlugin
             return WatchListEpisodes.Any(w => w.Episode.Ids.Trakt == episode.Ids.Trakt);
         }
 
+        public static bool IsWatchlisted(this TraktEpisode episode, TraktShow show)
+        {
+            if (WatchListEpisodes == null || show == null)
+                return false;
+
+            return WatchListEpisodes.Any(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                  e.Episode.Season == episode.Season &&
+                                                  e.Episode.Number == episode.Number);
+        }
+
         public static int? UserRating(this TraktEpisode episode, TraktShow show)
         {
             if (RatedEpisodes == null)
@@ -1376,13 +1432,14 @@ namespace TraktPlugin
             if (WatchedEpisodes == null || show == null)
                 return 0;
 
-            var watchedEpisode = WatchedEpisodes.FirstOrDefault(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
-                                                                        e.Season == episode.Season &&
-                                                                        e.Number == episode.Number);
-            if (watchedEpisode == null)
+            // we may added a play from a real-time scrobble or added a new play from a sync
+            var watchedEpisodes = WatchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && show.Ids.Tvdb != null)) &&
+                                                                e.Season == episode.Season &&
+                                                                e.Number == episode.Number);
+            if (watchedEpisodes == null)
                 return 0;
 
-            return watchedEpisode.Plays;
+            return watchedEpisodes.Sum(e => e.Plays);
         }
 
         #endregion
@@ -1461,6 +1518,66 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Activities
+
+        public static bool IsWatched(this TraktActivity.Activity activity)
+        {
+            if (activity.Movie != null)
+                return activity.Movie.IsWatched();
+            else if (activity.Episode != null && activity.Show != null)
+                return activity.Episode.IsWatched(activity.Show);
+            else if (activity.Episodes != null && activity.Episodes.Count == 1 && activity.Show != null)
+                return activity.Episodes.First().IsWatched(activity.Show);
+            else if (activity.Show != null)
+                return activity.Show.IsWatched();
+            else
+                return false;
+        }
+
+        public static bool IsCollected(this TraktActivity.Activity activity)
+        {
+            if (activity.Movie != null)
+                return activity.Movie.IsCollected();
+            else if (activity.Episode != null && activity.Show != null)
+                return activity.Episode.IsCollected(activity.Show);
+            else if (activity.Episodes != null && activity.Episodes.Count == 1 && activity.Show != null)
+                return activity.Episodes.First().IsCollected(activity.Show);
+            else if (activity.Show != null)
+                return activity.Show.IsCollected();
+            else
+                return false;
+        }
+
+        public static bool IsWatchlisted(this TraktActivity.Activity activity)
+        {
+            if (activity.Movie != null)
+                return activity.Movie.IsWatchlisted();
+            else if (activity.Episode != null && activity.Show != null)
+                return activity.Episode.IsWatchlisted(activity.Show);
+            else if (activity.Episodes != null && activity.Episodes.Count == 1 && activity.Show != null)
+                return activity.Episodes.First().IsWatchlisted(activity.Show);
+            else if (activity.Show != null)
+                return activity.Show.IsWatchlisted();
+            else
+                return false;
+        }
+
+        public static int Plays(this TraktActivity.Activity activity)
+        {
+            if (activity.Movie != null)
+                return activity.Movie.Plays();
+            else if (activity.Episode != null && activity.Show != null)
+                return activity.Episode.Plays(activity.Show);
+            else if (activity.Episodes != null && activity.Episodes.Count == 1 && activity.Show != null)
+                return activity.Episodes.First().Plays(activity.Show);
+            else if (activity.Show != null)
+                return activity.Show.Plays();
+            else
+                return 0;
+        }
+
+        #endregion
+
         #endregion
 
         #region Clear Cache
@@ -1532,7 +1649,7 @@ namespace TraktPlugin
                 from movie in movies
                 select new TraktMovieWatched
                 {
-                    LastWatchedAt = DateTime.UtcNow.ToISO8601(),
+                    LastWatchedAt = movie.WatchedAt ?? DateTime.UtcNow.ToISO8601(),
                     Movie = new TraktMovie
                     {
                         Ids = movie.Ids,
@@ -1603,7 +1720,7 @@ namespace TraktPlugin
                 from movie in movies
                 select new TraktMovieCollected
                 {
-                    CollectedAt = DateTime.UtcNow.ToISO8601(),
+                    CollectedAt = movie.CollectedAt ?? DateTime.UtcNow.ToISO8601(),
                     Movie = new TraktMovieSummary
                     {
                         Ids = movie.Ids,
@@ -1641,7 +1758,7 @@ namespace TraktPlugin
                 from movie in movies
                 select new TraktMovieRated
                 {
-                    RatedAt = movie.RatedAt,
+                    RatedAt = movie.RatedAt ?? DateTime.UtcNow.ToISO8601(),
                     Rating = movie.Rating,
                     Movie = new TraktMovieSummary
                     {
@@ -1713,7 +1830,7 @@ namespace TraktPlugin
                 from show in shows
                 select new TraktShowRated
                 {
-                    RatedAt = show.RatedAt,
+                    RatedAt = show.RatedAt ?? DateTime.UtcNow.ToISO8601(),
                     Rating = show.Rating,
                     Show = new TraktShowSummary
                     {
@@ -1767,7 +1884,8 @@ namespace TraktPlugin
                         ShowTvdbId = show.Ids.Tvdb,
                         ShowTitle = show.Title,
                         ShowYear = show.Year,
-                        Plays = 1
+                        Plays = 1,
+                        WatchedAt = episode.WatchedAt ?? DateTime.UtcNow.ToISO8601()
                     });
                 }
             }
@@ -1790,7 +1908,8 @@ namespace TraktPlugin
                 ShowTvdbId = show.Ids.Tvdb,
                 ShowTitle = show.Title,
                 ShowYear = show.Year,
-                Plays = 1
+                Plays = 1,
+                WatchedAt = DateTime.UtcNow.ToISO8601()
             });
 
             _WatchedEpisodes = watchedEpisodes;
@@ -1832,7 +1951,7 @@ namespace TraktPlugin
                         ShowTvdbId = show.Ids.Tvdb,
                         ShowTitle = show.Title,
                         ShowYear = show.Year,
-                        CollectedAt = episode.CollectedAt
+                        CollectedAt = episode.CollectedAt ?? DateTime.UtcNow.ToISO8601()
                     });
                 }
             }
@@ -1854,7 +1973,8 @@ namespace TraktPlugin
                 ShowImdbId = show.Ids.Imdb,
                 ShowTvdbId = show.Ids.Tvdb,
                 ShowTitle = show.Title,
-                ShowYear = show.Year
+                ShowYear = show.Year,
+                CollectedAt = DateTime.UtcNow.ToISO8601()
             });
 
             _CollectedEpisodes = collectedEpisodes;
@@ -1871,7 +1991,7 @@ namespace TraktPlugin
                 {
                     episodesToAdd.Add(new TraktEpisodeRated
                     {
-                        RatedAt = episode.RatedAt,
+                        RatedAt = episode.RatedAt ?? DateTime.UtcNow.ToISO8601(),
                         Rating = episode.Rating,
                         Show = new TraktShow
                         {
@@ -2069,7 +2189,7 @@ namespace TraktPlugin
                 return;
 
             var watchedEpisodes = _WatchedEpisodes.ToList();
-            watchedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)) &&                                            
+            watchedEpisodes.RemoveAll(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)) &&
                                               e.Season == episode.Season && 
                                               e.Number == episode.Number);
 
@@ -2085,6 +2205,19 @@ namespace TraktPlugin
             watchlistEpisodes.RemoveAll(e => e.Episode.Ids.Trakt == episode.Ids.Trakt ||
                                              e.Episode.Ids.Imdb == episode.Ids.Imdb ||
                                              e.Episode.Ids.Tvdb == episode.Ids.Tvdb);
+
+            _WatchListEpisodes = watchlistEpisodes;
+        }
+
+        internal static void RemoveEpisodeFromWatchlist(TraktShow show, TraktEpisode episode)
+        {
+            if (_WatchListEpisodes == null)
+                return;
+
+            var watchlistEpisodes = _WatchListEpisodes.ToList();
+            watchlistEpisodes.RemoveAll(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
+                                                e.Episode.Season == episode.Season &&
+                                                e.Episode.Number == episode.Number);
 
             _WatchListEpisodes = watchlistEpisodes;
         }

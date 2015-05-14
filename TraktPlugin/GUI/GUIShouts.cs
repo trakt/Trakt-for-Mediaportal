@@ -735,6 +735,9 @@ namespace TraktPlugin.GUI
 
         private void DownloadFanart(string localFile, string remoteFile)
         {
+            if (localFile == null || remoteFile == null)
+                return;
+
             var getFanartthread = new Thread((o) =>
                 {
                     GUIImageHandler.DownloadImage(remoteFile, localFile);

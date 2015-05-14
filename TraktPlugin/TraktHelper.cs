@@ -436,6 +436,47 @@ namespace TraktPlugin
 
         #region Episode WatchList
 
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void AddEpisodeToWatchList(TraktShowSummary show, TraktEpisodeSummary episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddShowToWatchlistEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.AddEpisodeToWatchlist(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "AddWatchlist"
+            };
+
+            syncThread.Start(episodeSync);
+        }
+
         public static void AddEpisodeToWatchList(TraktEpisode episode)
         {
             AddEpisodeToWatchList(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
@@ -465,10 +506,51 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Watchlist"
+                Name = "AddWatchlist"
             };
 
             syncThread.Start(episode);
+        }
+
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void RemoveEpisodeFromWatchList(TraktShowSummary show, TraktEpisodeSummary episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveShowFromWatchlistEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.RemoveEpisodeFromWatchlist(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "RemoveWatchlist"
+            };
+
+            syncThread.Start(episodeSync);
         }
 
         public static void RemoveEpisodeFromWatchList(TraktEpisode episode)
@@ -500,7 +582,7 @@ namespace TraktPlugin
             })
             {
                 IsBackground = true,
-                Name = "Watchlist"
+                Name = "RemoveWatchlist"
             };
 
             syncThread.Start(episode);
@@ -780,7 +862,14 @@ namespace TraktPlugin
 
         public static void ShowMovieShouts(TraktMovieSummary movie)
         {
-            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
+            if (movie.Images == null || movie.Images.Fanart == null)
+            {
+                ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), null, null);
+            }
+            else
+            {
+                ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
+            }
         }
 
         public static void ShowMovieShouts(string imdbid, string title, string year, string fanart)
@@ -827,7 +916,14 @@ namespace TraktPlugin
 
         public static void ShowTVShowShouts(TraktShowSummary show)
         {
-            ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            if (show.Images == null || show.Images.Fanart == null)
+            {
+                ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), null);
+            }
+            else
+            {
+                ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            }
         }
 
         public static void ShowTVShowShouts(string title, int? tvdbid, int? traktid, bool isWatched, string fanart, string onlineFanart = null)
@@ -866,7 +962,14 @@ namespace TraktPlugin
 
         public static void ShowTVSeasonShouts(TraktShowSummary show, TraktSeasonSummary season)
         {
-            ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            if (show.Images == null || show.Images.Fanart == null)
+            {
+                ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), null);
+            }
+            else
+            {
+                ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            }
         }
 
         public static void ShowTVSeasonShouts(string title, int? year, int? tvdbid, int? traktid, string imdbid, int season, bool isWatched, string fanart, string onlineFanart = null)
@@ -902,7 +1005,14 @@ namespace TraktPlugin
 
         public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)
         {
-            ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            if (show.Images == null || show.Images.Fanart == null)
+            {
+                ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), null);
+            }
+            else
+            {
+                ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
+            }
         }
 
         public static void ShowEpisodeShouts(string title, string tvdbid, string season, string episode, bool isWatched, string fanart, string onlineFanart = null)
@@ -1009,6 +1119,47 @@ namespace TraktPlugin
 
         #region Episode Watched History
 
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void AddEpisodeToWatchHistory(TraktShow show, TraktEpisode episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddShowToWatchedHistoryEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.AddEpisodeToWatchHistory(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "MarkWatched"
+            };
+
+            syncThread.Start(episodeSync);
+        }
+
         public static void AddEpisodeToWatchHistory(TraktEpisode episode)
         {
             AddEpisodeToWatchHistory(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
@@ -1034,6 +1185,7 @@ namespace TraktPlugin
             var syncThread = new Thread((objSyncData) =>
             {
                 var response = TraktAPI.TraktAPI.AddEpisodeToWatchedHistory(objSyncData as TraktSyncEpisodeWatched);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
             })
             {
                 IsBackground = true,
@@ -1041,6 +1193,47 @@ namespace TraktPlugin
             };
 
             syncThread.Start(episode);
+        }
+
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void RemoveEpisodeFromWatchHistory(TraktShow show, TraktEpisode episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveShowFromWatchedHistoryEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.RemoveEpisodeFromWatchHistory(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "MarkUnWatched"
+            };
+
+            syncThread.Start(episodeSync);
         }
 
         public static void RemoveEpisodeFromWatchHistory(TraktEpisode episode)
@@ -1067,6 +1260,7 @@ namespace TraktPlugin
             var syncThread = new Thread((objSyncData) =>
             {
                 var response = TraktAPI.TraktAPI.RemoveEpisodeFromWatchedHistory(objSyncData as TraktEpisode);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
             })
             {
                 IsBackground = true,
@@ -1154,6 +1348,47 @@ namespace TraktPlugin
 
         #region Episode Collection
 
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void AddEpisodeToCollection(TraktShow show, TraktEpisode episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.AddShowToCollectionEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.AddEpisodeToCollection(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "AddToCollection"
+            };
+
+            syncThread.Start(episodeSync);
+        }
+
         public static void AddEpisodeToCollection(TraktEpisode episode)
         {
             AddEpisodeToCollection(episode.Title, episode.Season, episode.Number, episode.Ids.Tvdb, episode.Ids.Imdb, episode.Ids.Tmdb, episode.Ids.Trakt);
@@ -1187,6 +1422,47 @@ namespace TraktPlugin
             };
 
             syncThread.Start(episode);
+        }
+
+        /// <summary>
+        /// Use this method when no Episode Ids are available
+        /// </summary>
+        public static void RemoveEpisodeFromCollection(TraktShow show, TraktEpisode episode)
+        {
+            var episodeSync = new TraktSyncShowEx
+            {
+                Title = show.Title,
+                Year = show.Year,
+                Ids = show.Ids,
+                Seasons = new List<TraktSyncShowEx.Season>
+                {
+                   new TraktSyncShowEx.Season
+                   {
+                       Number = episode.Season,
+                       Episodes = new List<TraktSyncShowEx.Season.Episode>
+                       {
+                           new TraktSyncShowEx.Season.Episode
+                           {
+                               Number = episode.Number
+                           }
+                       }
+                   }
+                }
+            };
+
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var response = TraktAPI.TraktAPI.RemoveShowFromCollectionEx(objSyncData as TraktSyncShowEx);
+                TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                TraktCache.RemoveEpisodeFromCollection(show, episode);
+            })
+            {
+                IsBackground = true,
+                Name = "RemoveCollection"
+            };
+
+            syncThread.Start(episodeSync);
         }
 
         public static void RemoveEpisodeFromCollection(TraktEpisode episode)

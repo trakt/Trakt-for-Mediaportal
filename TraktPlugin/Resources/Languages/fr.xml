@@ -86,7 +86,9 @@
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer\ncet élément de la liste?</string>
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
+  <string name="Country">Pays</string>
   <string name="CurrentPage">Page courante</string>
+  <string name="CustomLists">listes personnalisées</string>
   <!--D-->
   <string name="Dashboard">Tableau de bord</string>
   <string name="DateToday">Aujourd\'hui</string>
@@ -122,6 +124,7 @@
   <string name="Episodes">Episodes</string>
   <string name="Error">Erreur de Trakt</string>
   <string name="ErrorCalendar">Erreur lors de l\'obtention du calendrier</string>
+  <string name="ErrorGeneral">Il y a eu une erreur lors de la mise à jour des données, réessayer plus tard</string>
   <string name="ErrorUserProfile">Erreur pour obtenir le profil et les statistiques de l\'utilisateur</string>
   <string name="ExecutiveProducer">Producteur exécutif</string>
   <!--F-->
@@ -212,6 +215,8 @@
   <string name="GettingShowSeasons">Récupération des saisons d\'une série</string>
   <string name="GettingTrendingMovies">Récupération des films tendances</string>
   <string name="GettingTrendingShows">Récupération des séries tendances</string>
+  <string name="GettingPopularMovies">Obtenir des Films populaires</string>
+  <string name="GettingPopularShows">Obtenir des spectacles populaires</string>
   <string name="GettingRecommendedMovies">Récupération des films recommandés</string>
   <string name="GettingRecommendedShows">Récupération des séries recommandées</string>
   <string name="GettingWatchListMovies">Obtenir la liste des films </string>
@@ -247,7 +252,9 @@
   <string name="Language">Langue</string>
   <string name="Languages">Langues</string>
   <string name="Location">Emplacement</string>
+  <string name="LoginFailedServerError">La connection à trakt.tv a échoué en raison d\'une erreur de serveur, réessayez plus tard</string>
   <string name="Layout">Mise en page</string>
+  <string name="LibrarySyncStarted">La synchronisation de la bibliothèque a commencé</string>
   <string name="Like">Apprécie</string>
   <string name="Likes">Apprécies</string>
   <string name="List">Liste</string>
@@ -262,6 +269,7 @@
   <string name="MarkAsWatched">Marquer comme visionné</string>
   <string name="MarkAsUnWatched">Marquer comme  non visionné</string>
   <string name="Me">Moi</string>
+  <string name="Menu">Menu</string>
   <string name="Minutes">Minutes</string>
   <string name="Minute">Minute</string>
   <string name="Movie">Film</string>
@@ -324,6 +332,8 @@
   <string name="PlayTrailer">Lire la bande annonce</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="Popular">Populaire</string>
+  <string name="Popularity">Popularité</string>
   <string name="PopularShows">Spectacles populaires</string>
   <string name="PopularMovies">Films populaires</string>
   <string name="Public">Public</string>
@@ -462,6 +472,11 @@
   <string name="SettingFilterTrendingOnDashboardDescription">Activer ce paramètre pour appliquer une série de filtres sur le dashboard c.a.d. masquer,visionné, masquer la liste des vus etc. Ceux-ci peuvent être configurés depuis le GUI correspondant ou dans le menu contextuel.</string>
   <string name="SettingIgnoreWatchedPercentOnDVDName">Ignorer le pourcentage visionné sur les DVD</string>
   <string name="SettingIgnoreWatchedPercentOnDVDDescription">Activez ce paramètre pour ignorer le pourcentage regardé du Dvd à l\'arrêt de celui ci. Pour les Dvd et Blu-ray, le pourcentage n\'est pas toujours une bonne Indication concernant la durée  visionnée de la vidéo. Ceci permet de scrobbler la vidéo (envoyer un état visionné​​) sur trakt.tv sans notification du pourcentage regardé.</string>
+  <string name="SettingMaxTrendingMoviesRequestName">Nombre de films tendances </string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Définissez le nombre maximum de films tendances par page.</string>
+  <string name="SettingMaxTrendingShowsRequestName">Nombre de shows tendances </string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Définissez le nombre maximum de shows tendances par page.</string>
+  <string name="SettingUseSSLName">Communication du serveur sécurisé</string>
   <string name="StartYear">Début: {0}</string>
   <string name="SortBy">Trier par : {0}</string>
   <string name="SortSeasonsAscending">Trier les saisons par ordre croissant</string>
@@ -477,6 +492,7 @@
   <string name="TrendingMovies">Les  films tendances</string>
   <string name="TrendingMoviePeople">Il y a {0} personne(s) qui regarde(nt) {1} film(s) actuellement</string>
   <string name="TrendingTVShowsPeople">Il y a {0} personne(s) qui regarde(nt) {1} Show TV actuellement</string>
+  <string name="TV">TV</string>
   <string name="TVShow">Show TV</string>
   <string name="TVShows">Shows TV</string>
   <string name="Tagline">Tagline</string>
@@ -486,6 +502,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Bandes annonces...</string>
   <!--U-->
+  <string name="UnLike">Contrairement à</string>
   <string name="UserHasNotWatchedEpisodes">L\'utilisateur n\'a  visionné aucun épisode</string>
   <string name="UserHasNotWatchedMovies">L\'utilisateur n\'a  visionné aucun film</string>
   <string name="UserHasNoRecentAddedEpisodes">L\'utilisateur n\'a ajouté aucun épisode récemment  </string>
@@ -507,6 +524,7 @@
   <string name="UnableToPlayTrailer">Impossible de lire la bande annonce.</string>
   <string name="UserIsProtected">L\'utilisateur actuel est protégé ! Les utilisateurs \nprotégés ne peuvent être vus que depuis la page \'Amis\'</string>
   <string name="UserProfile">Profil utilisateur</string>
+  <string name="UserRatingsDistribution">Notation de 1 à 10 coeurs</string>
   <!--V-->
   <string name="View">Vu</string>
   <string name="Votes">Votes</string>

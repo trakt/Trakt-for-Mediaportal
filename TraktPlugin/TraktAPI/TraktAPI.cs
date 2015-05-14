@@ -1581,12 +1581,24 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse AddShowsToWatchlistEx(TraktSyncShowsEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
         public static TraktSyncResponse RemoveShowsFromWatchlist(TraktSyncShows shows)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
         }
 
+        public static TraktSyncResponse RemoveShowsFromWatchlistEx(TraktSyncShowsEx shows)
+        {
+            var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, shows.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+
+        }
         public static TraktSyncResponse AddSeasonsToWatchlist(TraktSyncSeasonsEx shows)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, shows.ToJSON());
@@ -1645,6 +1657,16 @@ namespace TraktPlugin.TraktAPI
             return AddShowsToWatchlist(shows);
         }
 
+        public static TraktSyncResponse AddShowToWatchlistEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return AddShowsToWatchlistEx(shows);
+        }
+
         public static TraktSyncResponse AddSeasonToWatchlist(TraktSyncSeasonEx show)
         {
             var shows = new TraktSyncSeasonsEx
@@ -1673,6 +1695,16 @@ namespace TraktPlugin.TraktAPI
             };
 
             return RemoveShowsFromWatchlist(shows);
+        }
+
+        public static TraktSyncResponse RemoveShowFromWatchlistEx(TraktSyncShowEx show)
+        {
+            var shows = new TraktSyncShowsEx
+            {
+                Shows = new List<TraktSyncShowEx>() { show }
+            };
+
+            return RemoveShowsFromWatchlistEx(shows);
         }
 
         public static TraktSyncResponse AddEpisodeToWatchlist(TraktEpisode episode)

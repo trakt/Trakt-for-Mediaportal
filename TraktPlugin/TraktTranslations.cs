@@ -254,8 +254,10 @@ namespace TraktPlugin.GUI
         public static string ActivityCommunityDesc = "See what the community is up to...";
         public static string ActivityFollowersDesc = "See what your followers are up to...";
         public static string ActivityFollowingDesc = "See activity for people you're following...";
+        public static string ActivityMeDesc = "See what you've been up to...";
         public static string ActivityWatching = "{0} is watching {1}";
         public static string ActivityWatched = "{0} watched {1}";
+        public static string ActivityWatchedWithPlays = "{0} watched {1} [{2} Plays]";
         public static string ActivityCheckedIn = "{0} checked into {1}";
         public static string ActivityCollected = "{0} collected {1}";
         public static string ActivityCollectedEpisodes = "{0} collected {1} episodes of {2}";
@@ -264,8 +266,10 @@ namespace TraktPlugin.GUI
         public static string ActivityRating = "{0} rated {1}";
         public static string ActivityRatingAdvanced = "{0} rated {1} [{2}/10]";
         public static string ActivityWatchlist = "{0} added {1} to their watchlist";
+        public static string ActivityYourWatchlist = "{0} added {1} to watchlist";
         public static string ActivityAddToList = "{0} added {1} to {2}";
         public static string ActivityCreatedList = "{0} created list {1}";
+        public static string ActivityUpdatedList = "{0} updated list {1}";
         public static string ActivityReview = "{0} reviewed {1}";
         public static string ActivityShouts = "{0} shouted on {1}";
         public static string Activities = "Activities";
@@ -589,6 +593,7 @@ namespace TraktPlugin.GUI
         public static string Person = "Person";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
+        public static string Plays = "Plays";
         public static string PlayTrailer = "Play Trailer";
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";

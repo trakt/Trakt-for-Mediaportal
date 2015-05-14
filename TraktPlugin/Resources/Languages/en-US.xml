@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">See what the community is up to...</string>
   <string name="ActivityFollowersDesc">See what your followers are up to...</string>
   <string name="ActivityFollowingDesc">See activity for people you\'re following...</string>
+  <string name="ActivityMeDesc">See what you\'ve been up to...</string>
   <string name="ActivityWatching">{0} is watching {1}</string>
   <string name="ActivityWatched">{0} watched {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} watched {1} [{2} Plays]</string>
   <string name="ActivityCheckedIn">{0} checked into {1}</string>
   <string name="ActivityCollected">{0} collected {1}</string>
   <string name="ActivityCollectedEpisodes">{0} collected {1} episodes of {2}</string>
@@ -22,8 +24,10 @@
   <string name="ActivityRating">{0} rated {1}</string>
   <string name="ActivityRatingAdvanced">{0} rated {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} added {1} to their watchlist</string>
+  <string name="ActivityYourWatchlist">{0} added {1} to watchlist</string>
   <string name="ActivityAddToList">{0} added {1} to {2}</string>
   <string name="ActivityCreatedList">{0} created {1}</string>
+  <string name="ActivityUpdatedList">{0} updated {1}</string>
   <string name="ActivityReview">{0} reviewed {1}</string>
   <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="Activities">Activities</string>
@@ -332,6 +336,7 @@
   <string name="Protected">Protected</string>
   <string name="PersonWatching">1 Person Watching</string>
   <string name="PeopleWatching">{0} People Watching</string>
+  <string name="Plays">Plays</string>
   <string name="PlayTrailer">Play Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>

@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">Co se děje v komunitě...</string>
   <string name="ActivityFollowersDesc">Aktivity lidí, kteří Vás sledují...</string>
   <string name="ActivityFollowingDesc">Aktivity lidí, které sledujete...</string>
+  <string name="ActivityMeDesc">Vaše aktivity...</string>
   <string name="ActivityWatching">{0} sleduje {1}</string>
   <string name="ActivityWatched">{0} sledoval {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} zhlédnuto {1} [{2} přehrání]</string>
   <string name="ActivityCheckedIn">{0} přihlášen do {1}</string>
   <string name="ActivityCollected">{0} přidal do knihovny {1}</string>
   <string name="ActivityCollectedEpisodes">{0} přidal do knihovny {1} epizod z {2}</string>
@@ -22,6 +24,7 @@
   <string name="ActivityRating">{0} hodnotil {1}</string>
   <string name="ActivityRatingAdvanced">{0} ohodnotil {1} [{2}/10]</string>
   <string name="ActivityWatchlist">Uživatel {0} přidal {1} do svého seznamu ke zhlédnutí</string>
+  <string name="ActivityYourWatchlist"> {0} přidal {1} do seznamu ke zhlédnutí</string>
   <string name="ActivityAddToList">{0} přidal {1} do {2}</string>
   <string name="ActivityCreatedList">{0} vytvořil {1}</string>
   <string name="ActivityReview">{0} recenzoval {1}</string>
@@ -88,6 +91,7 @@
   <string name="CopyList">Kopírovat seznam...</string>
   <string name="Country">Země</string>
   <string name="CurrentPage">Aktuální strana</string>
+  <string name="CustomLists">Vlastní seznamy</string>
   <!--D-->
   <string name="Dashboard">Hlavní okno</string>
   <string name="DateToday">Dnes</string>
@@ -331,6 +335,7 @@
   <string name="Protected">Chráněný</string>
   <string name="PersonWatching">Sleduje jedna osoba</string>
   <string name="PeopleWatching">Sleduje {0} osob</string>
+  <string name="Plays">Počet přehrání</string>
   <string name="PlayTrailer">Přehrát upoutávku</string>
   <string name="Plugin">Modul</string>
   <string name="Plugins">Moduly</string>
@@ -521,6 +526,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="TrendingMovies">Populární filmy</string>
   <string name="TrendingMoviePeople">{0} lidí právě sleduje {1} filmů!</string>
   <string name="TrendingTVShowsPeople">{0} lidí právě sleduje {1} seriálů!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">Seriál</string>
   <string name="TVShows">Seriály</string>
   <string name="Tagline">Slogan</string>

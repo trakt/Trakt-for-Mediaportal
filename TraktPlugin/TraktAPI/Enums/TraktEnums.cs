@@ -121,7 +121,8 @@ namespace TraktPlugin.TraktAPI.Enums
         review,
         shout,
         created,
-        item_added
+        item_added, 
+        updated
     }
 
     /// <summary>
@@ -132,6 +133,7 @@ namespace TraktPlugin.TraktAPI.Enums
     {
         all,
         episode,
+        season,
         show,
         movie,
         list

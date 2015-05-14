@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">Aktivitäten der Gemeinschaft</string>
   <string name="ActivityFollowersDesc">Schau nach was bei deinen Folgern los ist...</string>
   <string name="ActivityFollowingDesc">Was geht bei den Leuten, denen du folgst...</string>
+  <string name="ActivityMeDesc">Was bei dir los war</string>
   <string name="ActivityWatching">{0} schaut gerade {1}</string>
   <string name="ActivityWatched">{0} hat {1} angesehen</string>
+  <string name="ActivityWatchedWithPlays">{0} schaute {1} [{2} Abspielungen]</string>
   <string name="ActivityCheckedIn">{0} hat in {1} eingecheckt</string>
   <string name="ActivityCollected">{0} hat {1} in Sammlung aufgenommen</string>
   <string name="ActivityCollectedEpisodes">{0} hat {1} Folgen von {2} in Sammlung aufgenommen</string>
@@ -22,6 +24,7 @@
   <string name="ActivityRating">{0} hat {1} bewertet</string>
   <string name="ActivityRatingAdvanced">{0} hat {1} bewertet [{2}/10]</string>
   <string name="ActivityWatchlist">{0} hat {1} zur Watchlist hinzugefügt</string>
+  <string name="ActivityYourWatchlist">{0} hat {1} zur Watchlist hinzugefügt</string>
   <string name="ActivityAddToList">{0} hat {1} zu {2} hinzugefügt</string>
   <string name="ActivityCreatedList">{0} hat {1} erstellt</string>
   <string name="ActivityReview">{0} bewertete {1}</string>
@@ -88,6 +91,7 @@
   <string name="CopyList">Liste kopieren</string>
   <string name="Country">Land</string>
   <string name="CurrentPage">Aktuelle Seite</string>
+  <string name="CustomLists">Eigene Listen</string>
   <!--D-->
   <string name="Dashboard">Startseite</string>
   <string name="DateToday">Heute</string>
@@ -231,10 +235,10 @@
   <string name="Hate">Hass</string>
   <string name="Hated">Verhasst</string>
   <string name="HideTVShowsInWatchlist">Verstecke Serien in der Watchlist</string>
-  <string name="HideCollected">In der Sammlung vorhandene ausblenden</string>
+  <string name="HideCollected">Gesammelte ausblenden</string>
   <string name="HideRated">Verstecke bewertete</string>
   <string name="HideWatched">Gesehene ausblenden</string>
-  <string name="HideWatchlisted">In der Watchlist enthaltene ausblenden</string>
+  <string name="HideWatchlisted">Watchlist ausblenden</string>
   <string name="HideSpoilers">Spoiler ausblenden</string>
   <string name="HiddenToPreventSpoilers">Dieser Kommentar wurde wegen möglicher Spoiler ausgeblendet.\nDu kannst dies im Menü ändern.</string>
   <!--I-->
@@ -331,6 +335,7 @@
   <string name="Protected">Geschützt</string>
   <string name="PersonWatching">1 Person schaut gerade</string>
   <string name="PeopleWatching">{0} Personen schauen</string>
+  <string name="Plays">Abspielungen</string>
   <string name="PlayTrailer">Trailer abspielen</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
@@ -519,10 +524,11 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="TotalItemsPerPage">Gesamte Einträge pro Seite</string>
   <string name="Trending">Angesagt</string>
   <string name="TrendingShows">Angesagte Serien</string>
-  <string name="TrendingShowsAndMovies">Angesagte Serien und Filme</string>
+  <string name="TrendingShowsAndMovies">Angesagte  Serien und Filme</string>
   <string name="TrendingMovies">Angesagte Filme</string>
   <string name="TrendingMoviePeople">Momentan schauen {0} Personen {1} Filme!</string>
   <string name="TrendingTVShowsPeople">Momentan schauen {0} Personn {1} TV-Serien!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">TV-Serie</string>
   <string name="TVShows">TV-Serien</string>
   <string name="Tagline">Inhaltsangabe</string>

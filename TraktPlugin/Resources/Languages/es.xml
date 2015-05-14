@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">Mira lo que la comunidad está haciendo...</string>
   <string name="ActivityFollowersDesc">Mira lo que tus seguidores están haciendo...</string>
   <string name="ActivityFollowingDesc">Mira la actividad de la gente a la que sigues...</string>
+  <string name="ActivityMeDesc">Mira lo que estás haciendo...</string>
   <string name="ActivityWatching">{0} está viendo a {1}</string>
   <string name="ActivityWatched">{0} vio a {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} visto {1} [{2} Reproducciones]</string>
   <string name="ActivityCheckedIn">{0} registrado en {1}</string>
   <string name="ActivityCollected">{0} coleccionó {1}</string>
   <string name="ActivityCollectedEpisodes">{0} coleccionó {1} episodios de {2}</string>
@@ -22,6 +24,7 @@
   <string name="ActivityRating">{0} puntuó {1}</string>
   <string name="ActivityRatingAdvanced">{0} puntuó {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} añadieron {1} a su lista</string>
+  <string name="ActivityYourWatchlist">{0} añadido {1} a la lista seguimiento</string>
   <string name="ActivityAddToList">{0} añadió {1} a {2}</string>
   <string name="ActivityCreatedList">{0} creó {1}</string>
   <string name="ActivityReview">{0} críticó {1}</string>
@@ -88,6 +91,7 @@
   <string name="CopyList">Copiar Lista...</string>
   <string name="Country">País</string>
   <string name="CurrentPage">Página Actual</string>
+  <string name="CustomLists">Listas Personalizadas</string>
   <!--D-->
   <string name="Dashboard">Menú</string>
   <string name="DateToday">Hoy</string>
@@ -331,6 +335,7 @@
   <string name="Protected">Protegido</string>
   <string name="PersonWatching">1 Persona Viendo</string>
   <string name="PeopleWatching">{0} Personas Viendo</string>
+  <string name="Plays">Reproducciones</string>
   <string name="PlayTrailer">Reproducir Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
@@ -520,6 +525,7 @@
   <string name="TrendingMovies">Películas Tendencia</string>
   <string name="TrendingMoviePeople">¡Hay {0} personas viendo {1} películas ahora mismo!</string>
   <string name="TrendingTVShowsPeople">¡Hay {0} personas viendo {1} programas tv ahora mismo!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">Programa TV</string>
   <string name="TVShows">Programas TV</string>
   <string name="Tagline">Lema</string>

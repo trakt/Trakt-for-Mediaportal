@@ -92,6 +92,7 @@ detta objekt från den här listan?</string>
   <string name="CopyList">Kopiera lista...</string>
   <string name="Country">Land</string>
   <string name="CurrentPage">Aktuell sida</string>
+  <string name="CustomLists">Egna listor</string>
   <!--D-->
   <string name="Dashboard">Översiktstavla</string>
   <string name="DateToday">Idag</string>
@@ -534,6 +535,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="TrendingMovies">Populära filmer</string>
   <string name="TrendingMoviePeople">Just nu tittar {0} användare på {1} filmer!</string>
   <string name="TrendingTVShowsPeople">Just nu tittar {0} användare på {1} TV-serier!</string>
+  <string name="TV">TV</string>
   <string name="TVShow">TV-serie</string>
   <string name="TVShows">TV-serier</string>
   <string name="Tagline">Tagline</string>

@@ -817,8 +817,10 @@ namespace TraktPlugin.TraktHandlers
             var episodes = DBEpisode.Get(seriesid, seasonid);
             var episode = episodes.FirstOrDefault(e => (e[DBEpisode.cEpisodeIndex] == episodeid || e[DBEpisode.cEpisodeIndex2] == episodeid) && !string.IsNullOrEmpty(e[DBEpisode.cFilename]));
             if (episode == null) return false;
+            
+            PlayEpisode(episode);
 
-            return PlayEpisode(episode);
+            return true;
         }
 
         /// <summary>
@@ -860,7 +862,9 @@ namespace TraktPlugin.TraktHandlers
                 }
                 if (episode == null) return false;
 
-                return PlayEpisode(episode);
+                PlayEpisode(episode);
+
+                return true;
             }
             catch (Exception e)
             {
@@ -1903,6 +1907,8 @@ namespace TraktPlugin.TraktHandlers
                     (
                         new TraktShow
                         {
+                            Title = show[DBOnlineSeries.cPrettyName],
+                            Year = show.Year.ToNullableInt32(),
                             Ids = new TraktShowId
                             {
                                 Tvdb = show[DBSeries.cID],
@@ -1917,7 +1923,8 @@ namespace TraktPlugin.TraktHandlers
                                 Imdb = episode[DBOnlineEpisode.cIMDBID].ToString().ToNullIfEmpty()
                             },
                             Number = episode[DBOnlineEpisode.cEpisodeIndex],
-                            Season = episode[DBOnlineEpisode.cSeasonIndex]
+                            Season = episode[DBOnlineEpisode.cSeasonIndex],
+                            Title = episode[DBOnlineEpisode.cEpisodeName]
                         },
                         episode[DBOnlineEpisode.cMyRating]
                     );
@@ -2170,12 +2177,14 @@ namespace TraktPlugin.TraktHandlers
                     TraktCache.AddEpisodeToRatings
                     (
                         new TraktShow
-                        {
+                        {   
                             Ids = new TraktShowId
                             {
                                 Tvdb = show[DBSeries.cID],
                                 Imdb = BasicHandler.GetProperImdbId(show[DBOnlineSeries.cIMDBID])
-                            }
+                            },
+                            Title = show[DBOnlineSeries.cPrettyName],
+                            Year = show.Year.ToNullableInt32(),
                         },
                         new TraktEpisode
                         {
@@ -2185,8 +2194,10 @@ namespace TraktPlugin.TraktHandlers
                                 Imdb = episode[DBOnlineEpisode.cIMDBID].ToString().ToNullIfEmpty()
                             },
                             Number = episode[DBOnlineEpisode.cEpisodeIndex],
-                            Season = episode[DBOnlineEpisode.cSeasonIndex]
-                        }, rating
+                            Season = episode[DBOnlineEpisode.cSeasonIndex],
+                            Title = episode[DBOnlineEpisode.cEpisodeName]
+                        },
+                        rating
                     );
 
                     epToRate[DBOnlineEpisode.cMyRating] = rating;
@@ -2306,6 +2317,7 @@ namespace TraktPlugin.TraktHandlers
                 var stoppedEpisode = objEpisode as DBEpisode;
                 if (stoppedEpisode == null) return;
 
+                TraktScrobbleResponse response = null;
                 TraktScrobbleEpisode scrobbleData = null;
 
                 #region Double Episode Handling
@@ -2319,7 +2331,11 @@ namespace TraktPlugin.TraktHandlers
                         scrobbleData = CreateScrobbleData(stoppedEpisode, 100);
                         if (scrobbleData == null) return;
 
-                        TraktLogger.LogTraktResponse(TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData));
+                        // update local cache
+                        TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
+
+                        response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
+                        TraktLogger.LogTraktResponse(response);
                     }
 
                     // scrobble the second 
@@ -2344,7 +2360,7 @@ namespace TraktPlugin.TraktHandlers
                 // update local cache
                 TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
 
-                var response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
+                response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
                 TraktLogger.LogTraktResponse(response);
             })
             {

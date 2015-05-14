@@ -20,7 +20,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 7;
+        static int SettingsVersion = 8;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -82,6 +82,7 @@ namespace TraktPlugin
         public static int DashboardTrendingPollInterval { get; set; }
         public static int DashboardLoadDelay { get; set; }
         public static TraktUserStatistics LastStatistics { get; set; }
+        public static TraktUserSummary LastUserProfile { get; set; }
         public static bool DashboardMovieTrendingActive { get; set; }
         public static string MovieRecommendationGenre { get; set; }
         public static bool MovieRecommendationHideCollected { get; set; }
@@ -160,9 +161,10 @@ namespace TraktPlugin
 
         private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
         private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserStatistics.json");
+        private static string cLastUserProfileFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserProfile.json");
         private static string cLastTrendingMovieFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingMovies.json");
-        private static string cLastTrendingShowFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingShows.json");        
-
+        private static string cLastTrendingShowFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\Dashboard\TrendingShows.json");
+        
         private const string cTrakt = "Trakt";
         private const string cSettingsVersion = "SettingsVersion";
         private const string cUsername = "Username";
@@ -654,7 +656,7 @@ namespace TraktPlugin
                 MaxSearchResults = GetValueAsIntAndValidate(cTrakt, cMaxSearchResults, 30, 1, 200);
                 FilterTrendingOnDashboard = xmlreader.GetValueAsBool(cTrakt, cFilterTrendingOnDashboard, false);
                 IgnoreWatchedPercentOnDVD = xmlreader.GetValueAsBool(cTrakt, cIgnoreWatchedPercentOnDVD, true);
-                ActivityStreamView = xmlreader.GetValueAsInt(cTrakt, cActivityStreamView, 4);
+                ActivityStreamView = xmlreader.GetValueAsInt(cTrakt, cActivityStreamView, 5);
                 LastSyncActivities = xmlreader.GetValueAsString(cTrakt, cLastSyncActivities, new TraktLastSyncActivities().ToJSON()).FromJSON<TraktLastSyncActivities>();
                 SyncBatchSize = GetValueAsIntAndValidate(cTrakt, cSyncBatchSize, 100, 25, 1000);
                 SyncPlayback = xmlreader.GetValueAsBool(cTrakt, cSyncPlayback, true);
@@ -690,6 +692,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Loading persisted file cache");
                 LastActivityLoad = TraktCache.LoadFileCache(cLastActivityFileCache, "{}").FromJSON<TraktActivity>();
                 LastStatistics = TraktCache.LoadFileCache(cLastStatisticsFileCache, null).FromJSON<TraktUserStatistics>();
+                LastUserProfile = TraktCache.LoadFileCache(cLastUserProfileFileCache, null).FromJSON<TraktUserSummary>();
                 LastTrendingMovies = TraktCache.LoadFileCache(cLastTrendingMovieFileCache, "[]").FromJSONArray<TraktMovieTrending>();
                 LastTrendingShows = TraktCache.LoadFileCache(cLastTrendingShowFileCache, "[]").FromJSONArray<TraktShowTrending>();
             }
@@ -845,6 +848,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Saving persistent file cache");
                 TraktCache.SaveFileCache(cLastActivityFileCache, LastActivityLoad.ToJSON());
                 TraktCache.SaveFileCache(cLastStatisticsFileCache, LastStatistics.ToJSON());
+                TraktCache.SaveFileCache(cLastUserProfileFileCache, LastUserProfile.ToJSON());
                 TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
                 TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "[]".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
             }
@@ -875,7 +879,7 @@ namespace TraktPlugin
 
             using (Settings xmlreader = new MPSettings())
             {
-                int currentSettingsVersion = xmlreader.GetValueAsInt(cTrakt, cSettingsVersion, 0);
+                int currentSettingsVersion = xmlreader.GetValueAsInt(cTrakt, cSettingsVersion, SettingsVersion);
 
                 // check if any maintenance task is required
                 if (currentSettingsVersion >= SettingsVersion) return;
@@ -999,6 +1003,12 @@ namespace TraktPlugin
                                 // requires upgrade
                                 xmlreader.SetValue(cTrakt, cSyncTimerLength, syncTimerLength / 3600000);
                             }
+                            currentSettingsVersion++;
+                            break;
+
+                        case 7:
+                            // upgrade last activity view
+                            xmlreader.RemoveEntry(cTrakt, cActivityStreamView);
                             currentSettingsVersion++;
                             break;
                     }

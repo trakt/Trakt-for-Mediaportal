@@ -382,6 +382,12 @@ namespace TraktPlugin.GUI
 
                     // Load Show Properties
                     PublishShowSkinProperties(Show);
+
+                    // Publish Fanart
+                    if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
+                    {
+                        GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    }
                 }
             }
         }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
-    //TODO
     [DataContract]
     public class TraktActivity
     {
@@ -50,7 +47,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "timestamp")]
             public string Timestamp { get; set; }
 
-            [DataMember(Name = "when")]
+            [DataMember(Name = "when", EmitDefaultValue = false)]
             public TraktWhen When { get; set; }
 
             [DataContract]
@@ -63,7 +60,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 public string Time { get; set; }
             }
 
-            [DataMember(Name = "elapsed")]
+            [DataMember(Name = "elapsed", EmitDefaultValue = false)]
             public TraktElapsed Elapsed { get; set; }
 
             [DataContract]
@@ -86,30 +83,27 @@ namespace TraktPlugin.TraktAPI.DataStructures
             public TraktUserSummary User { get; set; }
 
             [DataMember(Name = "rating")]
-            public string Rating { get; set; }
+            public int Rating { get; set; }
 
-            [DataMember(Name = "rating_advanced")]
-            public string RatingAdvanced { get; set; }
-
-            [DataMember(Name = "use_rating_advanced")]
-            public bool UseRatingAdvanced { get; set; }
-
-            [DataMember(Name = "episode")]
+            [DataMember(Name = "episode", EmitDefaultValue = false)]
             public TraktEpisodeSummary Episode { get; set; }
 
-            [DataMember(Name = "episodes")]
+            [DataMember(Name = "episodes", EmitDefaultValue = false)]
             public List<TraktEpisodeSummary> Episodes { get; set; }
 
-            [DataMember(Name = "show")]
+            [DataMember(Name = "show", EmitDefaultValue = false)]
             public TraktShowSummary Show { get; set; }
 
-            [DataMember(Name = "movie")]
+            [DataMember(Name = "season", EmitDefaultValue = false)]
+            public TraktSeasonSummary Season { get; set; }
+
+            [DataMember(Name = "movie", EmitDefaultValue = false)]
             public TraktMovieSummary Movie { get; set; }
 
-            [DataMember(Name = "review")]
+            [DataMember(Name = "review", EmitDefaultValue = false)]
             public Activity.TraktShout Review { get; set; }
 
-            [DataMember(Name = "shout")]
+            [DataMember(Name = "shout", EmitDefaultValue = false)]
             public Activity.TraktShout Shout { get; set; }
 
             [DataContract]
@@ -128,10 +122,10 @@ namespace TraktPlugin.TraktAPI.DataStructures
                 public bool Spoiler { get; set; }
             }
 
-            [DataMember(Name = "list")]
+            [DataMember(Name = "list", EmitDefaultValue = false)]
             public TraktList List { get; set; }
 
-            [DataMember(Name = "list_item")]
+            [DataMember(Name = "list_item", EmitDefaultValue = false)]
             public Activity.TraktListItem ListItem { get; set; }
 
             [DataContract]
@@ -148,6 +142,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
                 [DataMember(Name = "episode")]
                 public TraktEpisodeSummary Episode { get; set; }
+
+                [DataMember(Name = "season")]
+                public TraktSeasonSummary Season { get; set; }
             }
         }
     }

@@ -233,7 +233,7 @@ namespace TraktPlugin.GUI
             // get a list of common actions to perform on the selected item
             if (selectedActivity.Movie != null || selectedActivity.Show != null)
             {
-                var listItems = GUICommon.GetContextMenuItemsForActivity();
+                var listItems = GUICommon.GetContextMenuItemsForActivity(selectedActivity);
                 foreach (var item in listItems)
                 {
                     int itemId = item.ItemId;
