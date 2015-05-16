@@ -835,6 +835,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.User.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.Username", string.Empty);
             GUIUtils.SetProperty("#Trakt.User.VIP", string.Empty);
+            GUIUtils.SetProperty("#Trakt.User.VIP_EP", string.Empty);
         }
         
         internal static void SetUserProperties(TraktUserSummary user)
@@ -845,6 +846,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.User.Username", user.Username);
             SetProperty("#Trakt.User.Protected", user.IsPrivate.ToString().ToLower());
             SetProperty("#Trakt.User.VIP", user.IsVip.ToString().ToLower());
+            SetProperty("#Trakt.User.VIP_EP", user.IsVipEP.ToString().ToLower());
             SetProperty("#Trakt.User.About", user.About.RemapHighOrderChars());
             SetProperty("#Trakt.User.Age", user.Age.ToString());
             SetProperty("#Trakt.User.FullName", user.FullName);

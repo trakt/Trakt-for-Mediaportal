@@ -18,6 +18,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
         [DataMember(Name = "vip")]
         public bool IsVip { get; set; }
 
+        [DataMember(Name = "vip_ep")]
+        public bool IsVipEP { get; set; }
+
         [DataMember(Name = "private")]
         public bool IsPrivate { get; set; }
     }
