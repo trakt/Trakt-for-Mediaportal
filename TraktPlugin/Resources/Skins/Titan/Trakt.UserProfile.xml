@@ -242,9 +242,11 @@
       <id>0</id>
       <posX>566</posX>
       <posY>252</posY>
+      <width>480</width>
       <font>font14</font>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Username,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>FullName label</description>
@@ -268,6 +270,7 @@
       <posY>308</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.FullName,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Gender label</description>
@@ -399,7 +402,7 @@
       <width>225</width>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-      <visible>!string.equals(#Trakt.Statistics.Followers,)</visible>
+      <visible>!string.equals(#Trakt.Statistics.Following,)</visible>
     </control>
     <control Style="InfoValueSmall">
       <description>Following Value</description>

@@ -649,7 +649,7 @@ namespace TraktPlugin.GUI
             }
 
             // filter out the duplicates!
-            var distinctComments = comments.Where(s => s.Comment != null && s.User != null).Distinct(new ShoutComparer());
+            var distinctComments = comments.Where(s => s.Text != null && s.User != null).Distinct(new ShoutComparer());
 
             GUIUtils.SetProperty("#itemcount", distinctComments.Count().ToString());
             GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", distinctComments.Count(), distinctComments.Count() > 1 ? Translation.Comments : Translation.Shout));
@@ -753,7 +753,7 @@ namespace TraktPlugin.GUI
             if (comment == null) return;
 
             GUICommon.SetUserProperties(comment.User);
-            GUICommon.SetShoutProperties(comment, IsWatched);
+            GUICommon.SetCommentProperties(comment, IsWatched);
         }
 
         private void OnCommentSelected(GUIListItem item, GUIControl parent)
@@ -804,12 +804,12 @@ namespace TraktPlugin.GUI
 
         public bool Equals(TraktComment x, TraktComment y)
         {
-            return x.User.Username == y.User.Username && x.Comment.Trim() == y.Comment.Trim();
+            return x.User.Username == y.User.Username && x.Text.Trim() == y.Text.Trim();
         }
 
         public int GetHashCode(TraktComment obj)
         {
-            return (obj.User.Username + obj.Comment.Trim()).GetHashCode();
+            return (obj.User.Username + obj.Text.Trim()).GetHashCode();
         }
 
         #endregion

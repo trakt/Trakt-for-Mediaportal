@@ -271,6 +271,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktCommentItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />

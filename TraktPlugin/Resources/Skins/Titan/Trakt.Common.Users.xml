@@ -25,6 +25,7 @@
       <width>490</width>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Username,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>FullName label</description>
@@ -48,6 +49,7 @@
       <posY>308</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.FullName,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Gender label</description>
@@ -71,6 +73,7 @@
       <posY>346</posY>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
+      <visible>!string.equals(#Trakt.User.Gender,)</visible>
     </control>
     <control Style="InfoLabel">
       <description>Location label</description>

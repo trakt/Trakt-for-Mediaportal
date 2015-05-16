@@ -196,9 +196,8 @@ namespace TraktPlugin.GUI
                                 break;
 
                             case (ActivityType.RecentComments):
-                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
-                                //TODOGUIRecentShouts.CurrentUser = CurrentUser;
-                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
+                                GUIRecentShouts.CurrentUser = CurrentUser;
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentShouts);
                                 break;
 
                             case (ActivityType.MovieWatchList):

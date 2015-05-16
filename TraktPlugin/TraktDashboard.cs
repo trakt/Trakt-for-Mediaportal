@@ -1359,7 +1359,7 @@ namespace TraktPlugin
             }
             #endregion
             
-            #region Lists
+            #region lists
             var lists = TraktCache.GetCustomLists(true);
             if (lists != null)
             {

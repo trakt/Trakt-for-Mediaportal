@@ -1067,6 +1067,7 @@ namespace TraktPlugin.GUI
         internal static void ClearShoutProperties()
         {
             GUIUtils.SetProperty("#Trakt.Shout.Id", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Shout.Date", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Inserted", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Spoiler", "false");
             GUIUtils.SetProperty("#Trakt.Shout.Review", "false");
@@ -1077,22 +1078,23 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Shout.Replies", string.Empty);
         }
 
-        internal static void SetShoutProperties(TraktComment shout, bool isWatched = false)
+        internal static void SetCommentProperties(TraktComment comment, bool isWatched = false)
         {
-            SetProperty("#Trakt.Shout.Id", shout.Id);
-            SetProperty("#Trakt.Shout.Inserted", shout.CreatedAt.FromISO8601().ToLongDateString());
-            SetProperty("#Trakt.Shout.Spoiler", shout.IsSpoiler);
-            SetProperty("#Trakt.Shout.Review", shout.IsReview);
-            SetProperty("#Trakt.Shout.Type", shout.IsReview ? "review" : "shout");
-            SetProperty("#Trakt.Shout.Likes", shout.Likes);
-            SetProperty("#Trakt.Shout.Replies", shout.Replies);
-            SetProperty("#Trakt.Shout.UserRating", shout.UserRating);
+            SetProperty("#Trakt.Shout.Id", comment.Id);
+            SetProperty("#Trakt.Shout.Inserted", comment.CreatedAt.FromISO8601().ToLongDateString());
+            SetProperty("#Trakt.Shout.Date", comment.CreatedAt.FromISO8601().ToShortDateString());
+            SetProperty("#Trakt.Shout.Spoiler", comment.IsSpoiler);
+            SetProperty("#Trakt.Shout.Review", comment.IsReview);
+            SetProperty("#Trakt.Shout.Type", comment.IsReview ? "review" : "shout");
+            SetProperty("#Trakt.Shout.Likes", comment.Likes);
+            SetProperty("#Trakt.Shout.Replies", comment.Replies);
+            SetProperty("#Trakt.Shout.UserRating", comment.UserRating);
 
             // don't hide spoilers if watched
-            if (TraktSettings.HideSpoilersOnShouts && shout.IsSpoiler && !isWatched)
+            if (TraktSettings.HideSpoilersOnShouts && comment.IsSpoiler && !isWatched)
                 SetProperty("#Trakt.Shout.Text", Translation.HiddenToPreventSpoilers);
             else
-                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(shout.Comment.RemapHighOrderChars()).StripHTML());
+                SetProperty("#Trakt.Shout.Text", System.Web.HttpUtility.HtmlDecode(comment.Text.RemapHighOrderChars()).StripHTML());
         }
 
         internal static void ClearMovieProperties()

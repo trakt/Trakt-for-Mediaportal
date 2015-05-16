@@ -81,7 +81,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentlyWatchedEpisodes.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    var recentlyWatched = TraktAPI.TraktAPI.GetUsersEpisodeWatchedHistory(CurrentUser);
+                    var recentlyWatched = TraktAPI.TraktAPI.GetUsersEpisodeWatchedHistory(CurrentUser, 1, TraktSettings.MaxUserWatchedEpisodesRequest);
 
                     _RecentlyWatchedEpisodes = recentlyWatched;
                     if (userRecentlyWatchedEpisodes.Keys.Contains(CurrentUser)) userRecentlyWatchedEpisodes.Remove(CurrentUser);

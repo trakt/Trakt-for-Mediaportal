@@ -156,6 +156,7 @@ namespace TraktPlugin
         public static int MaxRelatedShowsUnWatchedRequest { get; set; }
         public static int MaxUserWatchedMoviesRequest { get; set; }
         public static int MaxUserWatchedEpisodesRequest { get; set; }
+        public static int MaxUserCommentsRequest { get; set; }
         #endregion
 
         #region Constants
@@ -302,7 +303,8 @@ namespace TraktPlugin
         private const string cMaxRelatedShowsRequest = "MaxRelatedShowsRequest";
         private const string cMaxRelatedShowsUnWatchedRequest = "MaxRelatedShowsUnWatchedRequest";
         private const string cMaxUserWatchedMoviesRequest = "MaxUserWatchedMoviesRequest";
-        private const string cMaxUserEpisodesMoviesRequest = "MaxUserEpisodesMoviesRequest";
+        private const string cMaxUserWatchedEpisodesRequest = "MaxUserWatchedEpisodesRequest";
+        private const string cMaxUserCommentsRequest = "MaxUserCommentsRequest";
         #endregion
         
         #region Properties
@@ -678,7 +680,9 @@ namespace TraktPlugin
                 MaxRelatedMoviesUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 100, 1, 100);
                 MaxRelatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsRequest, 10, 1, 100);
                 MaxRelatedShowsUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsUnWatchedRequest, 100, 1, 1000);
-                MaxUserWatchedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserEpisodesMoviesRequest, 100, 1, 1000);
+                MaxUserWatchedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedMoviesRequest, 100, 1, 1000);
+                MaxUserWatchedEpisodesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedEpisodesRequest, 100, 1, 1000);
+                MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
             }
 
             // initialise API settings
@@ -844,8 +848,9 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesUnWatchedRequest, MaxRelatedMoviesUnWatchedRequest);
                 xmlwriter.SetValue(cTrakt, cMaxRelatedShowsRequest, MaxRelatedShowsRequest);
                 xmlwriter.SetValue(cTrakt, cMaxRelatedShowsUnWatchedRequest, MaxRelatedShowsUnWatchedRequest);
-                xmlwriter.SetValue(cTrakt, cMaxUserEpisodesMoviesRequest, MaxUserWatchedEpisodesRequest);
+                xmlwriter.SetValue(cTrakt, cMaxUserWatchedEpisodesRequest, MaxUserWatchedEpisodesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxUserWatchedMoviesRequest, MaxUserWatchedMoviesRequest);
+                xmlwriter.SetValue(cTrakt, cMaxUserCommentsRequest, MaxUserCommentsRequest);
             }
 
             Settings.SaveCache();

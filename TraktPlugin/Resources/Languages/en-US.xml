@@ -511,6 +511,8 @@
   <string name="SettingMaxUserWatchedMoviesRequestDescription">Set the maximum number of recently watched movies to request for a user per page.</string>
   <string name="SettingMaxUserWatchedEpisodesRequestName">Maximum Recently Watched Episodes to Request</string>
   <string name="SettingMaxUserWatchedEpisodesRequestDescription">Set the maximum number of recently watched episodes to request for a user per page.</string>
+  <string name="SettingMaxUserCommentsRequestName">Maximum Recent Comments to Request</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Set the maximum number of recent comments to request for a user per page.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>

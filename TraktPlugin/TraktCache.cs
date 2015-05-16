@@ -1578,6 +1578,80 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Comments
+
+        public static bool IsWatched(this TraktCommentItem comment)
+        {
+            if (comment.Movie != null)
+                return comment.Movie.IsWatched();
+            else if (comment.Episode != null && comment.Show != null)
+                return comment.Episode.IsWatched(comment.Show);
+            else if (comment.Season != null && comment.Show != null)
+                return comment.Season.IsWatched(comment.Show);
+            else if (comment.Show != null)
+                return comment.Show.IsWatched();
+            else
+                return false;
+        }
+
+        public static bool IsCollected(this TraktCommentItem comment)
+        {
+            if (comment.Movie != null)
+                return comment.Movie.IsCollected();
+            else if (comment.Episode != null && comment.Show != null)
+                return comment.Episode.IsCollected(comment.Show);
+            else if (comment.Season != null && comment.Show != null)
+                return comment.Season.IsCollected(comment.Show);
+            else if (comment.Show != null)
+                return comment.Show.IsCollected();
+            else
+                return false;
+        }
+
+        public static bool IsWatchlisted(this TraktCommentItem comment)
+        {
+            if (comment.Movie != null)
+                return comment.Movie.IsWatchlisted();
+            else if (comment.Episode != null && comment.Show != null)
+                return comment.Episode.IsWatchlisted(comment.Show);
+            else if (comment.Season != null && comment.Show != null)
+                return comment.Season.IsWatchlisted(comment.Show);
+            else if (comment.Show != null)
+                return comment.Show.IsWatchlisted();
+            else
+                return false;
+        }
+
+        public static int Plays(this TraktCommentItem comment)
+        {
+            if (comment.Movie != null)
+                return comment.Movie.Plays();
+            else if (comment.Episode != null && comment.Show != null)
+                return comment.Episode.Plays(comment.Show);
+            else if (comment.Season != null && comment.Show != null)
+                return comment.Season.Plays(comment.Show);
+            else if (comment.Show != null)
+                return comment.Show.Plays();
+            else
+                return 0;
+        }
+
+        public static int? UserRating(this TraktCommentItem comment)
+        {
+            if (comment.Movie != null)
+                return comment.Movie.UserRating();
+            else if (comment.Type == "show" && comment.Show != null)
+                return comment.Show.UserRating();
+            else if (comment.Season != null)
+                return comment.Season.UserRating();
+            else if (comment.Episode != null)
+                return comment.Episode.UserRating(comment.Show);
+
+            return null;
+        }
+
+        #endregion
+
         #endregion
 
         #region Clear Cache

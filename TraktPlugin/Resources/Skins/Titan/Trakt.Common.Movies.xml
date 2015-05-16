@@ -10,8 +10,8 @@
       <posY>1015</posY>
       <label>#Trakt.Movie.Title</label>
       <visible>control.isvisible(50)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control>
       <description>Poster shadow</description>
@@ -501,7 +501,6 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
-
 
     <control>
       <description>Movies</description>

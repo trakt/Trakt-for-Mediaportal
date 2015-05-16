@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
@@ -71,31 +72,26 @@ namespace TraktPlugin.GUI
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
-        Dictionary<string, IEnumerable<TraktActivity.Activity>> userRecentShouts = new Dictionary<string, IEnumerable<TraktActivity.Activity>>();
+        Dictionary<string, IEnumerable<TraktCommentItem>> userRecentComments = new Dictionary<string, IEnumerable<TraktCommentItem>>();
 
-        IEnumerable<TraktActivity.Activity> RecentShouts
+        IEnumerable<TraktCommentItem> RecentComments
         {
             get
             {
-                if (!userRecentShouts.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                if (!userRecentComments.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
-                    (
-                        CurrentUser,
-                        new List<ActivityType>() { ActivityType.all },
-                        new List<ActivityAction>() { ActivityAction.review, ActivityAction.shout }
-                    );
+                    var comments = TraktAPI.TraktAPI.GetUsersComments(CurrentUser, "all", "all", 1, TraktSettings.MaxUserCommentsRequest);
 
-                    _RecentlyShouts = activity.Activities;
-                    if (userRecentShouts.Keys.Contains(CurrentUser)) userRecentShouts.Remove(CurrentUser);
-                    userRecentShouts.Add(CurrentUser, _RecentlyShouts);
+                    _RecentlyComments = comments;
+                    if (userRecentComments.Keys.Contains(CurrentUser)) userRecentComments.Remove(CurrentUser);
+                    userRecentComments.Add(CurrentUser, _RecentlyComments);
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
-                return userRecentShouts[CurrentUser];
+                return userRecentComments[CurrentUser];
             }
         }
-        private IEnumerable<TraktActivity.Activity> _RecentlyShouts = null;
+        private IEnumerable<TraktCommentItem> _RecentlyComments = null;
 
         #endregion
 
@@ -134,7 +130,7 @@ namespace TraktPlugin.GUI
             InitProperties();
 
             // Load Recently Added
-            LoadRecentShouts();
+            LoadRecentComments();
         }
 
         protected override void OnPageDestroy(int new_windowId)
@@ -163,14 +159,14 @@ namespace TraktPlugin.GUI
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
                         PreviousUser = CurrentUser;
-                        PlayActivityItem(true);
+                        PlayCommentItem(true);
                     }
                     break;
 
                 // Hide Spoilers Button
                 case (2):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
-                    PublishShoutSkinProperties(Facade.SelectedListItem.TVTag as TraktActivity.Activity);
+                    PublishCommentSkinProperties(Facade.SelectedListItem.TVTag as TraktCommentItem);
                     break;
 
                 default:
@@ -192,7 +188,7 @@ namespace TraktPlugin.GUI
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
                     PreviousUser = CurrentUser;
-                    PlayActivityItem(false);
+                    PlayCommentItem(false);
                     break;
                 default:
                     base.OnAction(action);
@@ -205,10 +201,8 @@ namespace TraktPlugin.GUI
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedActivity = selectedItem.TVTag as TraktActivity.Activity;
-            if (selectedActivity == null) return;
-
-            var type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
+            var selectedComment = selectedItem.TVTag as TraktCommentItem;
+            if (selectedComment == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             if (dlg == null) return;
@@ -223,7 +217,7 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Spoilers;
 
             // if selected activity is an episode or show, add 'Season Info'
-            if (selectedActivity.Show != null)
+            if (selectedComment.Show != null)
             {
                 listItem = new GUIListItem(Translation.ShowSeasonInfo);
                 dlg.Add(listItem);
@@ -231,9 +225,9 @@ namespace TraktPlugin.GUI
             }
 
             // get a list of common actions to perform on the selected item
-            if (selectedActivity.Movie != null || selectedActivity.Show != null)
+            if (selectedComment.Movie != null || selectedComment.Show != null)
             {
-                var listItems = GUICommon.GetContextMenuItemsForActivity(selectedActivity);
+                var listItems = GetContextMenuItemsForComment(selectedComment);
                 foreach (var item in listItems)
                 {
                     int itemId = item.ItemId;
@@ -251,54 +245,54 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Spoilers):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
                     if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
-                    PublishShoutSkinProperties(selectedActivity);
+                    PublishCommentSkinProperties(selectedComment);
                     break;
 
                 case ((int)ActivityContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedActivity.Show.ToJSON());
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedComment.Show.ToJSON());
                     break;
 
                 case ((int)ActivityContextMenuItem.AddToList):
-                    if (selectedActivity.Movie != null)
-                        TraktHelper.AddRemoveMovieInUserList(selectedActivity.Movie, false);
-                    else if (selectedActivity.Episode != null)
-                        TraktHelper.AddRemoveEpisodeInUserList(selectedActivity.Episode, false);
+                    if (selectedComment.Movie != null)
+                        TraktHelper.AddRemoveMovieInUserList(selectedComment.Movie, false);
+                    else if (selectedComment.Episode != null)
+                        TraktHelper.AddRemoveEpisodeInUserList(selectedComment.Episode, false);
                     else
-                        TraktHelper.AddRemoveShowInUserList(selectedActivity.Show, false);
+                        TraktHelper.AddRemoveShowInUserList(selectedComment.Show, false);
                     break;
 
                 case ((int)ActivityContextMenuItem.AddToWatchList):
-                    if (selectedActivity.Movie != null)
-                        TraktHelper.AddMovieToWatchList(selectedActivity.Movie, true);
-                    else if (selectedActivity.Episode != null)
-                        TraktHelper.AddEpisodeToWatchList(selectedActivity.Episode);
+                    if (selectedComment.Movie != null)
+                        TraktHelper.AddMovieToWatchList(selectedComment.Movie, true);
+                    else if (selectedComment.Episode != null)
+                        TraktHelper.AddEpisodeToWatchList(selectedComment.Episode);
                     else
-                        TraktHelper.AddShowToWatchList(selectedActivity.Show);
+                        TraktHelper.AddShowToWatchList(selectedComment.Show);
                     break;
 
                 case ((int)ActivityContextMenuItem.Shouts):
-                    if (selectedActivity.Movie != null)
-                        TraktHelper.ShowMovieShouts(selectedActivity.Movie);
-                    else if (selectedActivity.Episode != null)
-                        TraktHelper.ShowEpisodeShouts(selectedActivity.Show, selectedActivity.Episode);
+                    if (selectedComment.Movie != null)
+                        TraktHelper.ShowMovieShouts(selectedComment.Movie);
+                    else if (selectedComment.Episode != null)
+                        TraktHelper.ShowEpisodeShouts(selectedComment.Show, selectedComment.Episode);
                     else
-                        TraktHelper.ShowTVShowShouts(selectedActivity.Show);
+                        TraktHelper.ShowTVShowShouts(selectedComment.Show);
                     break;
 
                 case ((int)ActivityContextMenuItem.Rate):
-                    if (selectedActivity.Movie != null)
-                        GUICommon.RateMovie(selectedActivity.Movie);
-                    else if (selectedActivity.Episode != null)
-                        GUICommon.RateEpisode(selectedActivity.Show, selectedActivity.Episode);
+                    if (selectedComment.Movie != null)
+                        GUICommon.RateMovie(selectedComment.Movie);
+                    else if (selectedComment.Episode != null)
+                        GUICommon.RateEpisode(selectedComment.Show, selectedComment.Episode);
                     else
-                        GUICommon.RateShow(selectedActivity.Show);
+                        GUICommon.RateShow(selectedComment.Show);
                     break;
 
                 case ((int)ActivityContextMenuItem.Trailers):
-                    if (selectedActivity.Movie != null)
-                        GUICommon.ShowMovieTrailersMenu(selectedActivity.Movie);
+                    if (selectedComment.Movie != null)
+                        GUICommon.ShowMovieTrailersMenu(selectedComment.Movie);
                     else
-                        GUICommon.ShowTVShowTrailersMenu(selectedActivity.Show, selectedActivity.Episode);
+                        GUICommon.ShowTVShowTrailersMenu(selectedComment.Show, selectedComment.Episode);
                     break;
             }
 
@@ -309,57 +303,135 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void PlayActivityItem(bool jumpTo)
+        private List<GUIListItem> GetContextMenuItemsForComment(TraktCommentItem commentItem)
+        {
+            GUIListItem listItem = null;
+            var listItems = new List<GUIListItem>();
+
+            // Add Watchlist
+            if (!commentItem.IsWatchlisted())
+            {
+                listItem = new GUIListItem(Translation.AddToWatchList);
+                listItem.ItemId = (int)ActivityContextMenuItem.AddToWatchList;
+                listItems.Add(listItem);
+            }
+            else if (commentItem.Type != ActivityType.list.ToString())
+            {
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
+                listItem.ItemId = (int)ActivityContextMenuItem.RemoveFromWatchList;
+                listItems.Add(listItem);
+            }
+
+            // Mark As Watched
+            if (commentItem.Type == ActivityType.episode.ToString() || commentItem.Type == ActivityType.movie.ToString())
+            {
+                if (!commentItem.IsWatched())
+                {
+                    listItem = new GUIListItem(Translation.MarkAsWatched);
+                    listItem.ItemId = (int)ActivityContextMenuItem.MarkAsWatched;
+                    listItems.Add(listItem);
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.MarkAsUnWatched);
+                    listItem.ItemId = (int)ActivityContextMenuItem.MarkAsUnwatched;
+                    listItems.Add(listItem);
+                }
+            }
+
+            // Add To Collection
+            if (commentItem.Type == ActivityType.episode.ToString() || commentItem.Type == ActivityType.movie.ToString())
+            {
+                if (!commentItem.IsCollected())
+                {
+                    listItem = new GUIListItem(Translation.AddToLibrary);
+                    listItem.ItemId = (int)ActivityContextMenuItem.AddToCollection;
+                    listItems.Add(listItem);
+                }
+                else
+                {
+                    listItem = new GUIListItem(Translation.RemoveFromLibrary);
+                    listItem.ItemId = (int)ActivityContextMenuItem.RemoveFromCollection;
+                    listItems.Add(listItem);
+                }
+            }
+
+            // Add to Custom list
+            listItem = new GUIListItem(Translation.AddToList);
+            listItem.ItemId = (int)ActivityContextMenuItem.AddToList;
+            listItems.Add(listItem);
+
+            // Shouts
+            listItem = new GUIListItem(Translation.Comments);
+            listItem.ItemId = (int)ActivityContextMenuItem.Shouts;
+            listItems.Add(listItem);
+
+            // Rate
+            listItem = new GUIListItem(Translation.Rate + "...");
+            listItem.ItemId = (int)ActivityContextMenuItem.Rate;
+            listItems.Add(listItem);
+
+            // Trailers
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                listItem.ItemId = (int)ActivityContextMenuItem.Trailers;
+                listItems.Add(listItem);
+            }
+
+            return listItems;
+        }
+
+        private void PlayCommentItem(bool jumpTo)
         {
             var selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedActivity = selectedItem.TVTag as TraktActivity.Activity;
-            if (selectedActivity == null) return;
+            var selectedComment = selectedItem.TVTag as TraktCommentItem;
+            if (selectedComment == null) return;
 
-            var type = (ActivityType)Enum.Parse(typeof(ActivityType), selectedActivity.Type);
-
-            switch (type)
+            switch (selectedComment.Type)
             {
-                case ActivityType.episode:
-                    GUICommon.CheckAndPlayEpisode(selectedActivity.Show, selectedActivity.Episode);
+                case "episode":
+                    GUICommon.CheckAndPlayEpisode(selectedComment.Show, selectedComment.Episode);
                     break;
 
-                case ActivityType.show:
-                    GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedActivity.Show, jumpTo);
+                case "show":
+                case "season":                    
+                    GUICommon.CheckAndPlayFirstUnwatchedEpisode(selectedComment.Show, jumpTo);
                     break;
 
-                case ActivityType.movie:
-                    GUICommon.CheckAndPlayMovie(jumpTo, selectedActivity.Movie);
+                case "movie":
+                    GUICommon.CheckAndPlayMovie(jumpTo, selectedComment.Movie);
                     break;
             }
         }
 
-        private void LoadRecentShouts()
+        private void LoadRecentComments()
         {
             GUIUtils.SetProperty("#Trakt.Items", string.Empty);
 
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return RecentShouts;
+                return RecentComments;
             },
             delegate(bool success, object result)
             {
                 if (success)
                 {
-                    var activities = result as IEnumerable<TraktActivity.Activity>;
-                    SendRecentShoutsToFacade(activities);
+                    var comments = result as IEnumerable<TraktCommentItem>;
+                    SendRecentCommentsToFacade(comments);
                 }
             }, Translation.GettingUserRecentShouts, true);
         }
 
-        private void SendRecentShoutsToFacade(IEnumerable<TraktActivity.Activity> activities)
+        private void SendRecentCommentsToFacade(IEnumerable<TraktCommentItem> comments)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             // protected profiles might return null
-            if (activities == null || activities.Count() == 0)
+            if (comments == null || comments.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNoRecentShouts);
                 PreviousUser = CurrentUser;
@@ -369,37 +441,40 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var shoutImages = new List<GUITraktImage>();
+            var commentImages = new List<GUITraktImage>();
 
             // Add each item added
-            foreach (var activity in activities)
+            foreach (var comment in comments)
             {
-                // bad api data
-                if (activity.Movie == null && activity.Show == null) continue;
+                // bad api data - at least one must not be null
+                if (comment.Movie == null && comment.Show == null && comment.List == null)
+                    continue;
 
-                var item = new GUICustomListItem(GUICommon.GetActivityListItemTitle(activity), (int)TraktGUIWindows.RecentShouts);
+                var item = new GUICustomListItem(GetCommentItemTitle(comment), (int)TraktGUIWindows.RecentShouts);
 
                 // add images for download
                 var images = new GUITraktImage
                 {
-                    ShowImages = activity.Show != null ? activity.Show.Images : null,
-                    MovieImages = activity.Movie != null ? activity.Movie.Images : null
+                    ShowImages = comment.Show != null ? comment.Show.Images : null,
+                    MovieImages = comment.Movie != null ? comment.Movie.Images : null
                 };
-                shoutImages.Add(images);
+                commentImages.Add(images);
 
                 // add user shout date as second label
-                item.Label2 = activity.Timestamp.FromISO8601().ToShortDateString();
-                item.TVTag = activity;
-                item.Episode = activity.Episode;
-                item.Show = activity.Show;
-                item.Movie = activity.Movie;
+                item.Label2 = comment.Comment.CreatedAt.ToPrettyDateTime();
+                item.TVTag = comment;
+                item.Episode = comment.Episode;
+                item.Show = comment.Show;
+                item.Movie = comment.Movie;
+                item.Season = comment.Season;
+                item.List = comment.List;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
                 item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.PinImage = "traktActivityShout.png";
-                item.OnItemSelected += OnShoutSelected;
+                item.OnItemSelected += OnCommentSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
                 itemId++;
@@ -409,35 +484,57 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout("List");
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            if (PreviousSelectedIndex >= activities.Count())
+            if (PreviousSelectedIndex >= comments.Count())
                 Facade.SelectIndex(PreviousSelectedIndex - 1);
             else
                 Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", activities.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Shout : Translation.Comments));
+            GUIUtils.SetProperty("#itemcount", comments.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", comments.Count().ToString(), comments.Count() > 1 ? Translation.Comment : Translation.Comments));
 
             // Download images Async and set to facade
-            GUICustomListItem.GetImages(shoutImages);
+            GUICustomListItem.GetImages(commentImages);
         }
 
-        private string GetActivityShoutText(TraktActivity.Activity activity)
+        private string GetCommentItemTitle(TraktCommentItem comment)
         {
-            if (activity.Shout.Spoiler && TraktSettings.HideSpoilersOnShouts) 
+            string title = string.Empty;
+
+            switch (comment.Type)
+            {
+                case "movie":
+                    title = comment.Movie.Title;
+                    break;
+
+                case "show":
+                    title = comment.Show.Title;
+                    break;
+                
+                case "season":
+                    title = string.Format("{0} - {1} {2}", comment.Show.Title, Translation.Season, comment.Season.Number);
+                    break;
+
+                case "episode":
+                    title = string.Format("{0} - {1}x{2} - {3}", comment.Show.Title, comment.Episode.Season, comment.Episode.Number, comment.Episode.Title ?? string.Format("{0} {1}", Translation.Episode, comment.Episode.Number));
+                    break;
+
+                case "list":
+                    title = comment.List.Name;
+                    break;
+            }
+
+            return title;
+        }
+
+        private string GetCommentText(TraktCommentItem item)
+        {
+            if (item.Comment.IsSpoiler && TraktSettings.HideSpoilersOnShouts) 
                 return Translation.HiddenToPreventSpoilers;
 
-            return activity.Shout.Text;
+            return item.Comment.Text;
         }
-
-        private string GetActivityReviewText(TraktActivity.Activity activity)
-        {
-            if (activity.Review.Spoiler &&  TraktSettings.HideSpoilersOnShouts) 
-                return Translation.HiddenToPreventSpoilers;
-
-            return activity.Review.Text;
-        }
-
+        
         private void InitProperties()
         {
             // Fanart
@@ -466,56 +563,80 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Shout.Date", string.Empty);
 
             GUIUtils.SetProperty("#Trakt.Shout.Text", string.Empty);
-            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Review", string.Empty);
-
+            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", string.Empty);
+            
             GUICommon.ClearMovieProperties();
             GUICommon.ClearShowProperties();
+            GUICommon.ClearSeasonProperties();
             GUICommon.ClearEpisodeProperties();
-            GUICommon.ClearUserProperties();                
+            GUICommon.ClearListProperties();
+            GUICommon.ClearUserProperties();         
         }
 
-        private void PublishShoutSkinProperties(TraktActivity.Activity activity)
+        private void PublishCommentSkinProperties(TraktCommentItem item)
         {
-            if (activity == null) return;
-
-            if (activity.Shout == null && activity.Review == null) return;
-
-            GUIUtils.SetProperty("#Trakt.Shout.Type", activity.Type);
-            GUICommon.SetProperty("#Trakt.Shout.Date", activity.Timestamp.FromISO8601().ToShortDateString());
+            if (item == null || item.Comment == null)
+                return;
 
             // set shout/review properties
-            GUIUtils.SetProperty("#Trakt.Shout.Text", activity.Shout != null ? GetActivityShoutText(activity) : GetActivityReviewText(activity));
-            GUIUtils.SetProperty("#Trakt.Shout.Spoiler", activity.Shout != null ? activity.Shout.Spoiler.ToString() : activity.Review.Spoiler.ToString());
-            GUIUtils.SetProperty("#Trakt.Shout.Review", (activity.Review != null).ToString());
-
+            GUICommon.SetCommentProperties(item.Comment, item.IsWatched());
+            
             // set user properties
-            GUICommon.SetUserProperties(activity.User);
+            GUICommon.SetUserProperties(item.Comment.User);
 
-            // set movie, show or episode properties
-            // set show and episode properties for episode shouts
-            if (activity.Movie != null)
+            // set movie, show, season, episode or list properties
+            // set show and episode properties for episode comments
+            // set show and season for season shocommentsuts
+            if (item.Movie != null)
             {
-                GUICommon.SetMovieProperties(activity.Movie);
+                GUICommon.SetMovieProperties(item.Movie);
             }
-            else
+            else if (item.Show != null)
             {
-                GUICommon.SetShowProperties(activity.Show);
-                if (activity.Episode != null)
-                    GUICommon.SetEpisodeProperties(activity.Show, activity.Episode);
+                GUICommon.SetShowProperties(item.Show);
+                if (item.Season != null)
+                    GUICommon.SetSeasonProperties(item.Show, item.Season);
+                if (item.Episode != null)
+                    GUICommon.SetEpisodeProperties(item.Show, item.Episode);
+            }
+            else if (item.List != null)
+            {
+                GUICommon.SetListProperties(item.List, CurrentUser);
             }
         }
 
-        private void OnShoutSelected(GUIListItem item, GUIControl parent)
+        private void OnCommentSelected(GUIListItem item, GUIControl parent)
         {
-            var activity = item.TVTag as TraktActivity.Activity;
-            if (activity == null) return;
+            var commentItem = item.TVTag as TraktCommentItem;
+            if (commentItem == null) return;
 
-            PublishShoutSkinProperties(activity);
+            PublishCommentSkinProperties(commentItem);
 
-            string fanartFileName = activity.Movie != null ? activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart) : activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
-            GUIImageHandler.LoadFanart(backdrop, fanartFileName);
+            string fanartFileName = string.Empty;
+            
+            switch (commentItem.Type)
+            {
+                case "movie":
+                    fanartFileName = commentItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    break;
+
+                case "show":
+                case "season":
+                case "episode":
+                    fanartFileName = commentItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    break;
+
+                case "list":
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(fanartFileName))
+            {
+                GUIImageHandler.LoadFanart(backdrop, fanartFileName);
+            }
         }
+
         #endregion
     }
 }

@@ -262,6 +262,18 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktEpisodeHistory>();
         }
 
+        /// <summary>
+        /// Get comments for user sorted by most recent
+        /// </summary>
+        /// <param name="username">Username of person that made comment</param>
+        /// <param name="commentType">all, reviews, shouts</param>
+        /// <param name="type"> all, movies, shows, seasons, episodes, lists</param>
+        public static IEnumerable<TraktCommentItem> GetUsersComments(string username, string commentType = "all", string type = "all", int page = 1, int maxItems = 100)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserComments, username, commentType, type, page, maxItems));
+            return response.FromJSONArray<TraktCommentItem>();
+        }
+
         #endregion
 
         #region Lists

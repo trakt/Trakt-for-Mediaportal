@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
   <controls>
-
-
     <!--            :: LIST / THUMBVIEW ::            -->
 
     <control Style="smallTitle">
@@ -13,8 +11,8 @@
       <posY>1015</posY>
       <label>#Trakt.Show.Title - #Trakt.Episode.Title</label>
       <visible>control.isvisible(50)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control>
@@ -27,8 +25,8 @@
       <height>213</height>
       <texture>#selectedthumb</texture>
       <visible>facadeview.list</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control>
@@ -41,8 +39,8 @@
       <height>251</height>
       <texture>tvseries_thumb_shadow.png</texture>
       <visible>facadeview.list</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <!--            :: INFO LABELS ::            -->
@@ -54,8 +52,8 @@
       <posX>565</posX>
       <posY>343</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.Season,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoValueSmall">
@@ -66,8 +64,8 @@
       <posX>798</posX>
       <posY>343</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.Season,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoLabel">
@@ -78,8 +76,8 @@
       <posX>565</posX>
       <posY>379</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.Title,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoValueSmall">
@@ -90,8 +88,8 @@
       <posX>798</posX>
       <posY>379</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.Title,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoLabel">
@@ -139,9 +137,9 @@
       <id>0</id>
       <posX>565</posX>
       <posY>453</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Episode.Network,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoValueSmall">
@@ -151,9 +149,9 @@
       <label>#Trakt.Show.Network</label>
       <posX>798</posX>
       <posY>453</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Episode.Network,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoLabel">
@@ -163,9 +161,9 @@
       <label>#Trakt.Translation.Certification.Label</label>
       <posX>565</posX>
       <posY>491</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Episode.Certification,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoValueSmall">
@@ -175,9 +173,9 @@
       <label>#Trakt.Show.Certification</label>
       <posX>798</posX>
       <posY>491</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Episode.Certification,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoLabel">
@@ -188,8 +186,8 @@
       <posX>565</posX>
       <posY>529</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control Style="InfoValueSmall">
@@ -200,8 +198,8 @@
       <posX>798</posX>
       <posY>529</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAiredLocalizedDayOfWeek,)</visible>
-      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
-      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
     <control>
@@ -337,7 +335,7 @@
       <label>#Trakt.Show.Certification</label>
       <posX>350</posX>
       <posY>516</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Episode.Certification,)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

@@ -315,5 +315,14 @@
              maxvalue="1000"
              description="#Trakt.Translation.SettingMaxUserWatchedEpisodesRequestDescription.Label"
              configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxUserCommentsRequest"
+             displayname="#Trakt.Translation.SettingMaxUserCommentsRequestName.Label"
+             defaultvalue="100"
+             type="int"
+             minvalue="1"
+             maxvalue="1000"
+             description="#Trakt.Translation.SettingMaxUserCommentsRequestDescription.Label"
+             configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

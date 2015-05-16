@@ -29,6 +29,7 @@ namespace TraktPlugin.GUI
         public TraktEpisode Episode { get; set; }
         public TraktSeason Season { get; set; }
         public TraktPerson Person { get; set; }
+        public TraktList List { get; set; }
 
         /// <summary>
         /// Images attached to a gui list item
@@ -234,31 +235,45 @@ namespace TraktPlugin.GUI
 
                 ratingOverlay = GUIImageHandler.GetRatingOverlay(listItem.UserRating());
             }
-            //TODO
-            //else if (TVTag is TraktActivity.Activity)
-            //{
-            //    var activity = TVTag as TraktActivity.Activity;
-            //    if (activity == null) return;
+            else if (TVTag is TraktCommentItem)
+            {
+                var commentItem = TVTag as TraktCommentItem;
+                if (commentItem == null) return;
 
-            //    var movie = activity.Movie;
-            //    var show = activity.Show;
+                if (commentItem.IsWatchlisted())
+                    mainOverlay = MainOverlayImage.Watchlist;
+                else if (commentItem.IsWatched())
+                    mainOverlay = MainOverlayImage.Seenit;
 
-            //    if (movie != null && movie.InWatchList)
-            //        mainOverlay = MainOverlayImage.Watchlist;
-            //    else if (show != null && show.InWatchList)
-            //        mainOverlay = MainOverlayImage.Watchlist;
-            //    else if (movie != null && movie.Watched)
-            //        mainOverlay = MainOverlayImage.Seenit;
+                if (commentItem.IsCollected())
+                    mainOverlay |= MainOverlayImage.Library;
 
-            //    // add additional overlay if applicable
-            //    if (movie != null && movie.InCollection)
-            //        mainOverlay |= MainOverlayImage.Library;
+                ratingOverlay = GUIImageHandler.GetRatingOverlay(commentItem.UserRating());
+            }
+            else if (TVTag is TraktActivity.Activity)
+            {
+                var activity = TVTag as TraktActivity.Activity;
+                if (activity == null) return;
 
-            //    if (movie != null)
-            //        ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.RatingAdvanced);
-            //    else
-            //        ratingOverlay = GUIImageHandler.GetRatingOverlay(show.RatingAdvanced);
-            //}
+                var movie = activity.Movie;
+                var show = activity.Show;
+
+                if (movie != null && movie.IsWatchlisted())
+                    mainOverlay = MainOverlayImage.Watchlist;
+                else if (show != null && show.IsWatchlisted())
+                    mainOverlay = MainOverlayImage.Watchlist;
+                else if (movie != null && movie.IsWatched())
+                    mainOverlay = MainOverlayImage.Seenit;
+
+                // add additional overlay if applicable
+                if (movie != null && movie.IsCollected())
+                    mainOverlay |= MainOverlayImage.Library;
+
+                if (movie != null)
+                    ratingOverlay = GUIImageHandler.GetRatingOverlay(movie.UserRating());
+                else if (Episode != null && Show != null)
+                    ratingOverlay = GUIImageHandler.GetRatingOverlay(Episode.UserRating(Show));
+            }
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = mainOverlay.ToString().Replace(", ", string.Empty) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);
