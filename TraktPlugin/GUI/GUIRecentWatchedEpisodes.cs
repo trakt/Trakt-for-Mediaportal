@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
@@ -72,22 +73,17 @@ namespace TraktPlugin.GUI
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
-        Dictionary<string, IEnumerable<TraktActivity.Activity>> userRecentlyWatchedEpisodes = new Dictionary<string, IEnumerable<TraktActivity.Activity>>();
+        Dictionary<string, IEnumerable<TraktEpisodeHistory>> userRecentlyWatchedEpisodes = new Dictionary<string, IEnumerable<TraktEpisodeHistory>>();
 
-        IEnumerable<TraktActivity.Activity> RecentlyWatchedEpisodes
+        IEnumerable<TraktEpisodeHistory> RecentlyWatchedEpisodes
         {
             get
             {
                 if (!userRecentlyWatchedEpisodes.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
-                    (
-                        CurrentUser,
-                        new List<ActivityType>() { ActivityType.episode },
-                        new List<ActivityAction>() { ActivityAction.checkin, ActivityAction.scrobble }
-                    );
+                    var recentlyWatched = TraktAPI.TraktAPI.GetUsersEpisodeWatchedHistory(CurrentUser);
 
-                    _RecentlyWatchedEpisodes = activity.Activities;
+                    _RecentlyWatchedEpisodes = recentlyWatched;
                     if (userRecentlyWatchedEpisodes.Keys.Contains(CurrentUser)) userRecentlyWatchedEpisodes.Remove(CurrentUser);
                     userRecentlyWatchedEpisodes.Add(CurrentUser, _RecentlyWatchedEpisodes);
                     LastRequest = DateTime.UtcNow;
@@ -96,7 +92,7 @@ namespace TraktPlugin.GUI
                 return userRecentlyWatchedEpisodes[CurrentUser];
             }
         }
-        private IEnumerable<TraktActivity.Activity> _RecentlyWatchedEpisodes = null;
+        private IEnumerable<TraktEpisodeHistory> _RecentlyWatchedEpisodes = null;
 
         #endregion
 
@@ -203,13 +199,13 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedEpisodeSummary = selectedItem.TVTag as TraktEpisodeSummaryEx;
-            if (selectedEpisodeSummary == null) return;
+            var selectedRecent = selectedItem.TVTag as TraktEpisodeHistory;
+            if (selectedRecent == null) return;
 
-            var selectedEpisode = selectedEpisodeSummary.Episode;
+            var selectedEpisode = selectedRecent.Episode;
             if (selectedEpisode == null) return;
 
-            var selectedShow = selectedEpisodeSummary.Show;
+            var selectedShow = selectedRecent.Show;
             if (selectedShow == null) return;
 
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -259,9 +255,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
-            // Add to Library
-            // Don't allow if it will be removed again on next sync
-            // movie could be part of a DVD collection
+            // Add to Collection
             if (!selectedEpisode.IsCollected(selectedShow) && !TraktSettings.KeepTraktLibraryClean)
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
@@ -426,10 +420,10 @@ namespace TraktPlugin.GUI
             GUIListItem selectedItem = this.Facade.SelectedListItem;
             if (selectedItem == null) return;
 
-            var selectedSummary = selectedItem.TVTag as TraktEpisodeSummaryEx;
-            if (selectedSummary == null) return;
+            var selectedRecent = selectedItem.TVTag as TraktEpisodeHistory;
+            if (selectedRecent == null) return;
 
-            GUICommon.CheckAndPlayEpisode(selectedSummary.Show, selectedSummary.Episode);
+            GUICommon.CheckAndPlayEpisode(selectedRecent.Show, selectedRecent.Episode);
         }
 
         private void LoadRecentlyWatchedEpisodes()
@@ -444,19 +438,19 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    var activities = result as IEnumerable<TraktActivity.Activity>;
-                    SendRecentlyWatchedToFacade(activities);
+                    var recentlyWatched = result as IEnumerable<TraktEpisodeHistory>;
+                    SendRecentlyWatchedToFacade(recentlyWatched);
                 }
             }, Translation.GettingUserWatchedHistory, true);
         }
 
-        private void SendRecentlyWatchedToFacade(IEnumerable<TraktActivity.Activity> activities)
+        private void SendRecentlyWatchedToFacade(IEnumerable<TraktEpisodeHistory> recentlyWatched)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             // protected profiles might return null
-            if (activities == null || activities.Count() == 0)
+            if (recentlyWatched == null || recentlyWatched.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNotWatchedEpisodes);
                 PreviousUser = CurrentUser;
@@ -469,36 +463,37 @@ namespace TraktPlugin.GUI
             var showImages = new List<GUITraktImage>();
 
             // Add each item watched
-            foreach (var activity in activities)
+            foreach (var recent in recentlyWatched)
             {
                 // bad data in API
-                if (activity.Show == null || activity.Episode == null)
+                if (recent.Show == null || recent.Episode == null)
                     continue;
 
-                var episodeSummary = new TraktEpisodeSummaryEx { Episode = activity.Episode, Show = activity.Show };
-                
                 // skip invalid episodes
-                if (episodeSummary.Episode.Number == 0) continue;
+                if (recent.Episode.Number == 0)
+                    continue;
 
-                var item = new GUIEpisodeListItem(episodeSummary.ToString(), (int)TraktGUIWindows.RecentWatchedEpisodes);
+                string episodeName = string.Format("{0} - {1}x{2} - {3}", recent.Show.Title, recent.Episode.Season, recent.Episode.Number, recent.Episode.Title ?? string.Format("{0} {1}", Translation.Episode, recent.Episode.Number));
+
+                var item = new GUIEpisodeListItem(episodeName, (int)TraktGUIWindows.RecentWatchedEpisodes);
 
                 // add images for download
                 var images = new GUITraktImage
                 {
-                    EpisodeImages = activity.Episode.Images,
-                    ShowImages = activity.Show.Images
+                    EpisodeImages = recent.Episode.Images,
+                    ShowImages = recent.Show.Images
                 };
                 showImages.Add(images);
 
                 // add user watched date as second label
-                item.Label2 = activity.Timestamp.FromISO8601().ToShortDateString();                
-                item.Date = activity.Timestamp.FromISO8601().ToLongDateString();
-                item.TVTag = episodeSummary;
-                item.Episode = activity.Episode;
-                item.Show = activity.Show;
+                item.Label2 = recent.WatchedAt.ToPrettyDateTime();
+                item.Date = recent.WatchedAt.FromISO8601().ToLongDateString();
+                item.TVTag = recent;
+                item.Episode = recent.Episode;
+                item.Show = recent.Show;
                 item.Images = images;
-                item.ItemId = Int32.MaxValue - itemId;
-                item.IsPlayed = activity.Episode.IsWatched(activity.Show);
+                item.ItemId = Int32.MaxValue - itemId;     
+                item.IsPlayed = CurrentUser != TraktSettings.Username ? recent.Episode.IsWatched(recent.Show) : false;
                 item.IconImage = "defaultTraktEpisode.png";
                 item.IconImageBig = "defaultTraktEpisodeBig.png";
                 item.ThumbnailImage = "defaultTraktEpisodeBig.png";
@@ -512,14 +507,14 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            if (PreviousSelectedIndex >= activities.Count())
+            if (PreviousSelectedIndex >= recentlyWatched.Count())
                 Facade.SelectIndex(PreviousSelectedIndex - 1);
             else
                 Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", activities.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Episodes : Translation.Episode));
+            GUIUtils.SetProperty("#itemcount", recentlyWatched.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", recentlyWatched.Count().ToString(), recentlyWatched.Count() > 1 ? Translation.Episodes : Translation.Episode));
 
             // Download show images Async and set to facade
             GUIEpisodeListItem.GetImages(showImages);
@@ -556,22 +551,24 @@ namespace TraktPlugin.GUI
         private void ClearProperties()
         {
             GUIUtils.SetProperty("#Trakt.Episode.WatchedDate", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Episode.Action", string.Empty);
             GUICommon.ClearEpisodeProperties();
             GUICommon.ClearShowProperties();
         }
 
         private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
         {
-            var episodeSummary = item.TVTag as TraktEpisodeSummaryEx;
-            if (episodeSummary == null) return;
+            var recent = item.TVTag as TraktEpisodeHistory;
+            if (recent == null) return;
 
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             GUICommon.SetProperty("#Trakt.Episode.WatchedDate", (item as GUIEpisodeListItem).Date);
-            GUICommon.SetShowProperties(episodeSummary.Show);
-            GUICommon.SetEpisodeProperties(episodeSummary.Show, episodeSummary.Episode);
+            GUICommon.SetProperty("#Trakt.Episode.Action", recent.Action);
+            GUICommon.SetShowProperties(recent.Show);
+            GUICommon.SetEpisodeProperties(recent.Show, recent.Episode);
 
-            GUIImageHandler.LoadFanart(backdrop, episodeSummary.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, recent.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
         }
         #endregion
     }

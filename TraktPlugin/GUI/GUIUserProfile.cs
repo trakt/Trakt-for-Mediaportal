@@ -174,15 +174,13 @@ namespace TraktPlugin.GUI
                         switch (SelectedActivity)
                         {
                             case (ActivityType.RecentWatchedMovies):
-                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
-                                //TODOGUIRecentWatchedMovies.CurrentUser = CurrentUser;
-                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
+                                GUIRecentWatchedMovies.CurrentUser = CurrentUser;
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedMovies);
                                 break;
 
                             case (ActivityType.RecentWatchedEpisodes):
-                                GUIUtils.ShowNotifyDialog("Trakt", Translation.FeatureNotAvailable);
-                                //TODOGUIRecentWatchedEpisodes.CurrentUser = CurrentUser;
-                                //TODOGUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedEpisodes);
+                                GUIRecentWatchedEpisodes.CurrentUser = CurrentUser;
+                                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.RecentWatchedEpisodes);
                                 break;
 
                             case (ActivityType.RecentAddedEpisodes):

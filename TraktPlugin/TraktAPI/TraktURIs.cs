@@ -49,6 +49,12 @@ namespace TraktPlugin.TraktAPI
         public const string UserFollowerRequests = "https://api-v2launch.trakt.tv/users/requests?extended=full,images";
         public const string UserStats = "https://api-v2launch.trakt.tv/users/{0}/stats";
 
+        public const string UserWatchedHistoryMovies = "https://api-v2launch.trakt.tv/users/{0}/history/movies?extended=full,images&page={1}&limit={2}";
+        public const string UserWatchedHistoryEpisodes = "https://api-v2launch.trakt.tv/users/{0}/history/episodes?extended=full,images&page={1}&limit={2}";
+        
+        public const string UserCollectedMovies = "https://api-v2launch.trakt.tv/users/{0}/collection/movies?extended=full,images";
+        public const string UserCollectedShows = "https://api-v2launch.trakt.tv/users/{0}/collection/shows?extended=full,images";
+
         public const string RecommendedMovies = "https://api-v2launch.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "https://api-v2launch.trakt.tv/recommendations/shows?extended=full,images";
 
@@ -73,7 +79,7 @@ namespace TraktPlugin.TraktAPI
         public const string SearchShows = "https://api-v2launch.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full,images";
         public const string SearchEpisodes = "https://api-v2launch.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}?extended=full,images";
         public const string SearchPeople = "https://api-v2launch.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full,images";
-        public const string SearchUsers = "https://api-v2launch.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images"; // not implemented!
+        public const string SearchUsers = "https://api-v2launch.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images";
         public const string SearchLists = "https://api-v2launch.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full,images";
         public const string SearchById = "https://api-v2launch.trakt.tv/search?id_type={0}&id={1}";
 

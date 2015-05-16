@@ -361,21 +361,7 @@ namespace TraktPlugin
                 if (avatarImage == "defaultTraktUser.png")
                     userImages.Add(images);
 
-                DateTime timestamp = activity.Timestamp.FromISO8601();
-
-                if (timestamp.ToLocalTime().Date == DateTime.Today)
-                {
-                    item.Label2 = timestamp.ToLocalTime().ToShortTimeString();
-                }
-                else if (timestamp.ToLocalTime().Date <= DateTime.Today.AddDays(7))
-                {
-                    item.Label2 = timestamp.ToLocalTime().DayOfWeek.ToShortDayName() + ", " + timestamp.ToLocalTime().ToShortTimeString();
-                }
-                else if (timestamp.ToLocalTime().Date > DateTime.Today.AddDays(7))
-                {
-                    item.Label2 = timestamp.ToLocalTime().ToShortDateString();
-                }
-
+                item.Label2 = activity.Timestamp.ToPrettyDateTime();
                 item.TVTag = activity;
                 item.User = activity.User;
                 item.Images = images;

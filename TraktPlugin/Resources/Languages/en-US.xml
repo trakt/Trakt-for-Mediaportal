@@ -507,6 +507,10 @@
   <string name="SettingMaxPopularMoviesRequestDescription">Set the maximum number of popular movies to request per page.</string>
   <string name="SettingMaxPopularShowsRequestName">Maximum Popular TV Shows to Request</string>
   <string name="SettingMaxPopularShowsRequestDescription">Set the maximum number of popular tv shows to request per page.</string>
+  <string name="SettingMaxUserWatchedMoviesRequestName">Maximum Recently Watched Movies to Request</string>
+  <string name="SettingMaxUserWatchedMoviesRequestDescription">Set the maximum number of recently watched movies to request for a user per page.</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestName">Maximum Recently Watched Episodes to Request</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Set the maximum number of recently watched episodes to request for a user per page.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>

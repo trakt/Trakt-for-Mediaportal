@@ -297,5 +297,23 @@
              maxvalue="1000"
              description="#Trakt.Translation.SettingMaxPopularShowsRequestDescription.Label"
              configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxUserWatchedMoviesRequest"
+             displayname="#Trakt.Translation.SettingMaxUserWatchedMoviesRequestName.Label"
+             defaultvalue="100"
+             type="int"
+             minvalue="1"
+             maxvalue="1000"
+             description="#Trakt.Translation.SettingMaxUserWatchedMoviesRequestDescription.Label"
+             configfile="MediaPortal.xml" />
+    <setting entryname="Trakt"
+             name="MaxUserWatchedEpisodesRequest"
+             displayname="#Trakt.Translation.SettingMaxUserWatchedEpisodesRequestName.Label"
+             defaultvalue="100"
+             type="int"
+             minvalue="1"
+             maxvalue="1000"
+             description="#Trakt.Translation.SettingMaxUserWatchedEpisodesRequestDescription.Label"
+             configfile="MediaPortal.xml" />
   </settings>
 </extension_settings>

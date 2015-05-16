@@ -273,12 +273,14 @@
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieHistory.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesTrending.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesUpdated.cs" />

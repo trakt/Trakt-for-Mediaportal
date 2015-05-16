@@ -24,6 +24,7 @@ namespace TraktPlugin.GUI
         }
 
         public string Date { get; set; }
+        public string Action { get; set; }
 
         public TraktMovie Movie { get; set; }
 

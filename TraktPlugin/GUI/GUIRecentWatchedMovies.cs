@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -70,23 +70,18 @@ namespace TraktPlugin.GUI
         static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
-        ImageSwapper backdrop;        
-        Dictionary<string, IEnumerable<TraktActivity.Activity>> userRecentlyWatchedMovies = new Dictionary<string, IEnumerable<TraktActivity.Activity>>();
+        ImageSwapper backdrop;
+        Dictionary<string, IEnumerable<TraktMovieHistory>> userRecentlyWatchedMovies = new Dictionary<string, IEnumerable<TraktMovieHistory>>();
 
-        IEnumerable<TraktActivity.Activity> RecentlyWatchedMovies
+        IEnumerable<TraktMovieHistory> RecentlyWatchedMovies
         {
             get
             {
                 if (!userRecentlyWatchedMovies.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
-                    (
-                        CurrentUser,
-                        new List<ActivityType>() { ActivityType.movie },
-                        new List<ActivityAction>() { ActivityAction.checkin, ActivityAction.scrobble }
-                    );
+                    var recentlyWatched = TraktAPI.TraktAPI.GetUsersMovieWatchedHistory(CurrentUser);
 
-                    _RecentlyWatchedMovies = activity.Activities;
+                    _RecentlyWatchedMovies = recentlyWatched;
                     if (userRecentlyWatchedMovies.Keys.Contains(CurrentUser)) userRecentlyWatchedMovies.Remove(CurrentUser);
                     userRecentlyWatchedMovies.Add(CurrentUser, _RecentlyWatchedMovies);
                     LastRequest = DateTime.UtcNow;
@@ -95,7 +90,7 @@ namespace TraktPlugin.GUI
                 return userRecentlyWatchedMovies[CurrentUser];
             }
         }
-        private IEnumerable<TraktActivity.Activity> _RecentlyWatchedMovies = null;
+        private IEnumerable<TraktMovieHistory> _RecentlyWatchedMovies = null;
 
         #endregion
 
@@ -247,9 +242,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
-            // Add to Library
-            // Don't allow if it will be removed again on next sync
-            // movie could be part of a DVD collection
+            // Add to Collection
             if (!selectedMovie.IsCollected() && !TraktSettings.KeepTraktLibraryClean)
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
@@ -423,19 +416,19 @@ namespace TraktPlugin.GUI
             {
                 if (success)
                 {
-                    IEnumerable<TraktActivity.Activity> activities = result as IEnumerable<TraktActivity.Activity>;
-                    SendRecentlyWatchedToFacade(activities);
+                    var recentlyWatched = result as IEnumerable<TraktMovieHistory>;
+                    SendRecentlyWatchedToFacade(recentlyWatched);
                 }
             }, Translation.GettingUserWatchedHistory, true);
         }
 
-        private void SendRecentlyWatchedToFacade(IEnumerable<TraktActivity.Activity> activities)
+        private void SendRecentlyWatchedToFacade(IEnumerable<TraktMovieHistory> recentlyWatched)
         {
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             // protected profiles might return null
-            if (activities == null || activities.Count() == 0)
+            if (recentlyWatched == null || recentlyWatched.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNotWatchedMovies);
                 PreviousUser = CurrentUser;
@@ -448,26 +441,27 @@ namespace TraktPlugin.GUI
             var movieImages = new List<GUITraktImage>();
 
             // Add each item watched
-            foreach (var activity in activities)
+            foreach (var recent in recentlyWatched)
             {
                 // bad data in API
-                if (activity.Movie == null)
+                if (recent.Movie == null)
                     continue;
 
                 // add image for download
-                var images = new GUITraktImage { MovieImages = activity.Movie.Images };
+                var images = new GUITraktImage { MovieImages = recent.Movie.Images };
                 movieImages.Add(images);
 
-                var item = new GUIMovieListItem(activity.Movie.Title, (int)TraktGUIWindows.RecentWatchedMovies);
+                var item = new GUIMovieListItem(recent.Movie.Title, (int)TraktGUIWindows.RecentWatchedMovies);
 
                 // add user watched date as second label
-                item.Label2 = activity.Timestamp.FromISO8601().ToShortDateString();
-                item.Date = activity.Timestamp.FromISO8601().ToLongDateString();
-                item.TVTag = activity.Movie;
-                item.Movie = activity.Movie;
+                item.Label2 = recent.WatchedAt.ToPrettyDateTime();
+                item.Date = recent.WatchedAt.FromISO8601().ToLongDateString();
+                item.Action = recent.Action;
+                item.TVTag = recent.Movie;
+                item.Movie = recent.Movie;
                 item.Images = images;
                 item.ItemId = Int32.MaxValue - itemId;
-                item.IsPlayed = activity.Movie.IsWatched();
+                item.IsPlayed = CurrentUser != TraktSettings.Username ? recent.Movie.IsWatched() : false;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
                 item.IconImageBig = GUIImageHandler.GetDefaultPoster();
                 item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
@@ -481,14 +475,14 @@ namespace TraktPlugin.GUI
             Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
             GUIControl.FocusControl(GetID, Facade.GetID);
 
-            if (PreviousSelectedIndex >= activities.Count())
+            if (PreviousSelectedIndex >= recentlyWatched.Count())
                 Facade.SelectIndex(PreviousSelectedIndex - 1);
             else
                 Facade.SelectIndex(PreviousSelectedIndex);
 
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", activities.Count().ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", activities.Count().ToString(), activities.Count() > 1 ? Translation.Movies : Translation.Movie));
+            GUIUtils.SetProperty("#itemcount", recentlyWatched.Count().ToString());
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", recentlyWatched.Count().ToString(), recentlyWatched.Count() > 1 ? Translation.Movies : Translation.Movie));
 
             // Download movie images Async and set to facade
             GUIMovieListItem.GetImages(movieImages);
@@ -525,6 +519,7 @@ namespace TraktPlugin.GUI
         private void ClearProperties()
         {
             GUIUtils.SetProperty("#Trakt.Movie.WatchedDate", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Movie.Action", string.Empty);
             GUICommon.ClearMovieProperties();
         }
 
@@ -536,6 +531,7 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             GUICommon.SetProperty("#Trakt.Movie.WatchedDate", (item as GUIMovieListItem).Date);
+            GUICommon.SetProperty("#Trakt.Movie.Action", (item as GUIMovieListItem).Action);
             GUICommon.SetMovieProperties(selectedMovie);
 
             GUIImageHandler.LoadFanart(backdrop, selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));

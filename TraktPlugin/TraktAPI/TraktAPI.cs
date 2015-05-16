@@ -250,6 +250,18 @@ namespace TraktPlugin.TraktAPI
             return DeleteFromTrakt(string.Format(TraktURIs.NetworkFollowUser, username));
         }
 
+        public static IEnumerable<TraktMovieHistory> GetUsersMovieWatchedHistory(string username, int page = 1, int maxItems = 100)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchedHistoryMovies, username, page, maxItems));
+            return response.FromJSONArray<TraktMovieHistory>();
+        }
+
+        public static IEnumerable<TraktEpisodeHistory> GetUsersEpisodeWatchedHistory(string username, int page = 1, int maxItems = 100)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchedHistoryEpisodes, username, page, maxItems));
+            return response.FromJSONArray<TraktEpisodeHistory>();
+        }
+
         #endregion
 
         #region Lists

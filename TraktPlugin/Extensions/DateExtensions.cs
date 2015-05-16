@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using TraktPlugin.TraktAPI.Extensions;
 
 namespace TraktPlugin.Extensions
 {
@@ -33,6 +31,26 @@ namespace TraktPlugin.Extensions
         public static string ToShortDayName(this DayOfWeek dayOfWeek)
         {
             return AbbreviatedDaysOfWeek[(int)dayOfWeek];
+        }
+
+        public static string ToPrettyDateTime(this string timestamp)
+        {
+            DateTime dateTimestamp = timestamp.FromISO8601();
+
+            if (dateTimestamp.ToLocalTime().Date == DateTime.Today)
+            {
+                return dateTimestamp.ToShortTimeString();
+            }
+            else if (dateTimestamp.ToLocalTime().Date >= DateTime.Today.AddDays(-7))
+            {
+                return dateTimestamp.ToLocalTime().DayOfWeek.ToShortDayName() + ", " + dateTimestamp.ToLocalTime().ToShortTimeString();
+            }
+            else if (dateTimestamp.ToLocalTime().Date < DateTime.Today.AddDays(-7))
+            {
+                return dateTimestamp.ToLocalTime().ToShortDateString();
+            }
+
+            return string.Empty;
         }
     }
 }

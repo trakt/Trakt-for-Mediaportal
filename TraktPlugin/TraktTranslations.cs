@@ -763,6 +763,10 @@ namespace TraktPlugin.GUI
         public static string SettingMaxPopularMoviesRequestDescription = "Set the maximum number of popular movies to request per page";
         public static string SettingMaxPopularShowsRequestName = "Maximum Popular TV Shows to Request";
         public static string SettingMaxPopularShowsRequestDescription = "Set the maximum number of popular tv shows to request per page";
+        public static string SettingMaxUserWatchedMoviesRequestName = "Maximum Recently Watched Movies to Request";
+        public static string SettingMaxUserWatchedMoviesRequestDescription = "Set the maximum number of recently watched movies to request for a user per page.";
+        public static string SettingMaxUserWatchedEpisodesRequestName = "Maximum Recently Watched Episodes to Request";
+        public static string SettingMaxUserWatchedEpisodesRequestDescription = "Set the maximum number of recently watched episodes to request for a user per page.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
