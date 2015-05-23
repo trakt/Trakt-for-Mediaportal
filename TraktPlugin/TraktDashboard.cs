@@ -217,7 +217,8 @@ namespace TraktPlugin
             if (TraktSkinSettings.DashboardActivityFacadeType.ToLowerInvariant() != "none")
             {
                 facade = GetFacade((int)TraktDashboardControls.ActivityFacade);
-                if (facade == null) return;
+                if (facade == null)
+                    return;
 
                 // we may trigger a re-load by switching from
                 // community->friends->community etc
@@ -247,7 +248,8 @@ namespace TraktPlugin
             {
                 // get latest activity
                 var activities = GetActivity((ActivityView)TraktSettings.ActivityStreamView);
-                if (activities == null || activities.Activities == null) return;
+                if (activities == null || activities.Activities == null)
+                    return;
 
                 // publish properties
                 PublishActivityProperties(activities);
@@ -1036,7 +1038,7 @@ namespace TraktPlugin
             activity.Timestamps = new TraktActivity.TraktTimestamps { Current = DateTime.UtcNow.ToEpoch() };
             activity.Activities = new List<TraktActivity.Activity>();
 
-            TraktLogger.Debug("Getting users cached activity");
+            TraktLogger.Debug("Getting current user cached activity");
 
             #region watched episodes
             var watchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt(true);
@@ -1085,6 +1087,7 @@ namespace TraktPlugin
                 {
                     var watchedEpActivity = new TraktActivity.Activity
                     {
+                        Id = i++,
                         Action = ActivityAction.scrobble.ToString(),
                         Type = ActivityType.movie.ToString(),
                         Movie = new TraktMovieSummary
@@ -1154,6 +1157,7 @@ namespace TraktPlugin
                 {
                     var collectedEpActivity = new TraktActivity.Activity
                     {
+                        Id = i++,
                         Action = ActivityAction.collection.ToString(),
                         Type = ActivityType.movie.ToString(),
                         Movie = new TraktMovieSummary
@@ -1420,6 +1424,15 @@ namespace TraktPlugin
 
         private TraktActivity GetActivity(ActivityView activityView)
         {
+            // if we're getting stuff locally for our own activity
+            // there is no need to set the update animation nor get incremental updates
+            if (activityView == ActivityView.me)
+            {
+                SetUpdateAnimation(false);
+                PreviousActivity = GetMyActivityFromCache();
+                return PreviousActivity;
+            }
+
             SetUpdateAnimation(true);
 
             if (PreviousActivity == null || PreviousActivity.Activities == null || ActivityStartTime <= 0 || GetFullActivityLoad)
@@ -1965,7 +1978,8 @@ namespace TraktPlugin
             // get control
             var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
             var control = window.GetControl((int)TraktDashboardControls.DashboardAnimation);
-            if (control == null) return;
+            if (control == null)
+                return;
 
             try
             {

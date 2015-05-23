@@ -532,7 +532,7 @@ namespace TraktPlugin
 
             LibrarySyncRunning = false;
 
-            TraktLogger.Info("Library Sync complete for all enabled plugins, Time Taken = '{0}'", DateTime.UtcNow.Subtract(SyncStartTime).ToPrettyTime());
+            TraktLogger.Info("Finished 2-way sync of all enabled plugins, Time Taken = '{0}'", DateTime.UtcNow.Subtract(SyncStartTime).ToPrettyTime());
 
             //TODO: Callback to let caller know that we are done
             //Possibly stop scrobbling while we are syncing?
@@ -553,13 +553,15 @@ namespace TraktPlugin
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
 
-            TraktLogger.Info("Library Sync started for all enabled plugins");
-                
+            TraktLogger.Info("Started 2-way sync of all enabled plugins");
+
             // get data from online and store in cache so its readily available for plugins syncing
             // data will also be used in user activity feed on the dashboard            
 
             try
             {
+                TraktLogger.Info("Started refresh of tv show user data from trakt.tv");
+
                 // clear the last time(s) we did anything online
                 TraktCache.ClearLastActivityCache();
 
@@ -573,6 +575,9 @@ namespace TraktPlugin
                 TraktCache.GetWatchlistedShowsFromTrakt();
                 TraktCache.GetWatchlistedEpisodesFromTrakt();
 
+                TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");
+                TraktLogger.Info("Started refresh of movie user data from trakt.tv");
+
                 // get latest movie data from online
                 if (TraktCache.GetUnWatchedMoviesFromTrakt() != null)
                     TraktCache.GetWatchedMoviesFromTrakt();
@@ -581,12 +586,17 @@ namespace TraktPlugin
                 TraktCache.GetRatedMoviesFromTrakt();
                 TraktCache.GetWatchlistedMoviesFromTrakt();
 
+                TraktLogger.Info("Finished refresh of movie user data from trakt.tv");
+                TraktLogger.Info("Started refresh of custom list user data from trakt.tv");
+
                 // get custom lists from online
                 TraktCache.GetCustomLists();
+
+                TraktLogger.Info("Finished refresh of custom list user data from trakt.tv");
             }
             catch (Exception ex)
             {
-                TraktLogger.Error("Error getting library from trakt.tv. Error = '{0}'", ex.Message);
+                TraktLogger.Error("Error getting user data from trakt.tv. Error = '{0}'", ex.Message);
                 return;
             }
 

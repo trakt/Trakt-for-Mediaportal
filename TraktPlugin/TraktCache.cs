@@ -57,7 +57,7 @@ namespace TraktPlugin
             if (UnWatchedMovies != null)
                 return UnWatchedMovies;
 
-            TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
+            TraktLogger.Info("Getting current user unwatched movies from trakt");
 
             // trakt.tv does not provide an unwatched API
             // There are plans after initial launch of v2 to have a re-watch API.
@@ -104,7 +104,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return WatchedMovies;
 
-            TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
+            TraktLogger.Info("Getting current user watched movies from trakt");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -167,7 +167,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return CollectedMovies;
 
-            TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
+            TraktLogger.Info("Getting current user collected movies from trakt");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -230,7 +230,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return RatedMovies;
 
-            TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
+            TraktLogger.Info("Getting current user rated movies from trakt");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -297,7 +297,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return CollectedEpisodes;
 
-            TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
+            TraktLogger.Info("Getting current user collected tv episodes from trakt.tv");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -384,7 +384,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return WatchedEpisodes;
 
-            TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
+            TraktLogger.Info("Getting current user watched episodes from trakt.tv");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -456,7 +456,7 @@ namespace TraktPlugin
             if (UnWatchedEpisodes != null)
                 return UnWatchedEpisodes;
 
-            TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
+            TraktLogger.Info("Getting current user unwatched episodes from trakt.tv");
 
             // trakt.tv does not provide an unwatched API
             // There are plans after initial launch of v2 to have a re-watch API.
@@ -528,7 +528,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return RatedEpisodes;
 
-            TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
+            TraktLogger.Info("Getting current user rated episodes from trakt.tv");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -600,7 +600,7 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return RatedShows;
 
-            TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
+            TraktLogger.Info("Getting current user rated shows from trakt.tv");
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -668,7 +668,7 @@ namespace TraktPlugin
                 if (ignoreLastSyncTime)
                     return WatchListMovies;
 
-                TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
+                TraktLogger.Info("Getting current user watchlisted movies from trakt");
 
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
@@ -780,7 +780,7 @@ namespace TraktPlugin
                 if (ignoreLastSyncTime)
                     return WatchListShows;
 
-                TraktLogger.Info("Getting user {0}'s watchlisted shows from trakt.tv", TraktSettings.Username);
+                TraktLogger.Info("Getting current user watchlisted shows from trakt.tv");
 
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
@@ -855,7 +855,7 @@ namespace TraktPlugin
                 if (ignoreLastSyncTime)
                     return WatchListEpisodes;
 
-                TraktLogger.Info("Getting user {0}'s watchlisted episodes from trakt.tv", TraktSettings.Username);
+                TraktLogger.Info("Getting current user watchlisted episodes from trakt.tv", TraktSettings.Username);
 
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
@@ -949,7 +949,7 @@ namespace TraktPlugin
             // if the times are the same try to load from cache
             if (lastSyncActivities.Lists.UpdatedAt == TraktSettings.LastSyncActivities.Lists.UpdatedAt)
             {
-                TraktLogger.Info("Retrieving current users custom lists from local cache");
+                TraktLogger.Info("Getting current user custom lists from local cache");
                 var cachedItems = CustomLists;
                 if (cachedItems != null)
                     return cachedItems;
@@ -983,7 +983,7 @@ namespace TraktPlugin
             {
                 if (_CustomListsAndItems == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
-                    TraktLogger.Info("Getting user {0}'s custom lists from trakt", TraktSettings.Username);
+                    TraktLogger.Info("Getting current user custom lists from trakt");
 
                     // first get the users custom lists from trakt exluding any details for individual lists
                     var userLists = GetCustomListsFromTrakt(ignoreLastSyncTime);
@@ -1000,7 +1000,7 @@ namespace TraktPlugin
                         bool listUpdated = false;
 
                         // load from cache
-                        TraktLogger.Info("Retrieving list details for custom list from local cache. Name = '{0}', ID = '{1}', Slug = '{2}'", list.Name, list.Ids.Trakt, list.Ids.Slug);
+                        TraktLogger.Info("Getting list details for custom list from local cache. Name = '{0}', ID = '{1}', Slug = '{2}'", list.Name, list.Ids.Trakt, list.Ids.Slug);
                         string filename = CustomListFile.Replace("{listname}", list.Ids.Slug);
                         var userList = LoadFileCache(filename, null).FromJSONArray<TraktListItem>();
 
@@ -1014,7 +1014,7 @@ namespace TraktPlugin
                         // check if we need to get update from online
                         if (userList == null || listActivityCache == null || listActivityCache.UpdatedAt != list.UpdatedAt)
                         {
-                            TraktLogger.Info("Retrieving list details for custom list from trakt.tv, local cache is out of date. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}', Last Updated = '{4}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug, list.UpdatedAt);
+                            TraktLogger.Info("Getting list details for custom list from trakt.tv, local cache is out of date. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}', Last Updated = '{4}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug, list.UpdatedAt);
                             userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
                             listUpdated = true;
                         }
@@ -1069,7 +1069,7 @@ namespace TraktPlugin
             {
                 if (_LastSyncActivities == null)
                 {
-                    TraktLogger.Info("Retrieving current users last activities from trakt.tv");
+                    TraktLogger.Info("Getting current user last activity times from trakt.tv");
                     _LastSyncActivities = TraktAPI.TraktAPI.GetLastSyncActivities();
                 }
                 return _LastSyncActivities;
@@ -1086,7 +1086,7 @@ namespace TraktPlugin
             {
                 if (_playbackData == null || (DateTime.Now - PlaySyncAge) > TimeSpan.FromMinutes(TraktSettings.SyncPlaybackCacheExpiry))
                 {
-                    TraktLogger.Info("Retrieving current users playback data");
+                    TraktLogger.Info("Getting current users playback data");
                     _playbackData = TraktAPI.TraktAPI.GetPlaybackProgress();
                     PlaySyncAge = DateTime.Now;
                 }
