@@ -1417,7 +1417,7 @@ namespace TraktPlugin
             TraktLogger.Debug("Finished getting users cached activity");
 
             // sort by time inserted into library
-            activity.Activities = activity.Activities.OrderByDescending(a => a.Timestamp).ToList();
+            activity.Activities = activity.Activities.OrderByDescending(a => a.Timestamp).Take(TraktSkinSettings.DashboardActivityFacadeMaxItems).ToList();
 
             return activity;
         }

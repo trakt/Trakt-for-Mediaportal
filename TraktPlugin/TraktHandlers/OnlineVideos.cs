@@ -230,7 +230,12 @@ namespace TraktPlugin.TraktHandlers
 
                     var scrobbleThread = new Thread((objInfo) =>
                     {
-                        var response = TraktAPI.TraktAPI.StopEpisodeScrobble(objInfo as TraktScrobbleEpisode);
+                        var threadParam = objInfo as TraktScrobbleEpisode;
+
+                        //  add episode watched to cache
+                        TraktCache.AddEpisodeToWatchHistory(threadParam.Show, threadParam.Episode);
+
+                        var response = TraktAPI.TraktAPI.StopEpisodeScrobble(threadParam);
                         TraktLogger.LogTraktResponse(response);
                     })
                     {
@@ -246,7 +251,12 @@ namespace TraktPlugin.TraktHandlers
 
                     var scrobbleThread = new Thread((objInfo) =>
                     {
-                        var response = TraktAPI.TraktAPI.StopMovieScrobble(objInfo as TraktScrobbleMovie);
+                        var threadParam = objInfo as TraktScrobbleMovie;
+
+                        //  add movie watched to cache
+                        TraktCache.AddMovieToWatchHistory(threadParam.Movie);
+
+                        var response = TraktAPI.TraktAPI.StopMovieScrobble(threadParam);
                         TraktLogger.LogTraktResponse(response);
                     })
                     {
@@ -269,6 +279,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 Episode = new TraktEpisode
                 {
+                    Ids = new TraktEpisodeId(),
                     Number = (int)info.Episode,
                     Season = (int)info.Season
                 },
@@ -362,6 +373,26 @@ namespace TraktPlugin.TraktHandlers
                     };
                     // get the rating submitted to trakt
                     rating = GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(rateObject);
+
+                    // add episode rated to cache
+                    if (rating > 0)
+                    {
+                        TraktCache.AddEpisodeToRatings(
+                            new TraktShow
+                            {
+                                Ids = rateObject.Ids,
+                                Title = rateObject.Title,
+                                Year = rateObject.Year,
+                            },
+                            new TraktEpisode
+                            {
+                                Ids = new TraktEpisodeId(),
+                                Season = rateObject.Seasons[0].Number,
+                                Number = rateObject.Seasons[0].Episodes[0].Number
+                            },
+                            rating
+                        );
+                    }
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {
@@ -376,6 +407,16 @@ namespace TraktPlugin.TraktHandlers
                     };
                     // get the rating submitted to trakt
                     rating = GUIUtils.ShowRateDialog<TraktSyncMovieRated>(rateObject);
+
+                    // add movie rated to cache
+                    if (rating > 0)
+                    {
+                        TraktCache.AddMovieToRatings(rateObject, rating);
+                    }
+                    else
+                    {
+                        TraktCache.RemoveMovieFromRatings(rateObject);
+                    }
                 }
             })
             {
