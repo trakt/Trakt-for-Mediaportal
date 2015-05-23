@@ -54,6 +54,11 @@ namespace TraktPlugin
         /// </summary>
         public static IEnumerable<TraktMovie> GetUnWatchedMoviesFromTrakt()
         {
+            if (UnWatchedMovies != null)
+                return UnWatchedMovies;
+
+            TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
+
             // trakt.tv does not provide an unwatched API
             // There are plans after initial launch of v2 to have a re-watch API.
 
@@ -80,8 +85,15 @@ namespace TraktPlugin
                                         Year = movie.Movie.Year
                                     };
 
-            return unwatchedMovies ?? new List<TraktMovie>();
+            UnWatchedMovies = unwatchedMovies ?? new List<TraktMovie>();
+
+            return UnWatchedMovies;
         }
+
+        /// <summary>
+        /// returns the users unwatched movies for current session
+        /// </summary>
+        static IEnumerable<TraktMovie> UnWatchedMovies { get; set; }
 
         /// <summary>
         /// Get the users watched movies from Trakt
@@ -91,6 +103,8 @@ namespace TraktPlugin
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
                 return WatchedMovies;
+
+            TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -153,6 +167,8 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return CollectedMovies;
 
+            TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -213,6 +229,8 @@ namespace TraktPlugin
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
                 return RatedMovies;
+
+            TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -278,6 +296,8 @@ namespace TraktPlugin
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
                 return CollectedEpisodes;
+
+            TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -364,6 +384,8 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return WatchedEpisodes;
 
+            TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -431,6 +453,11 @@ namespace TraktPlugin
         /// </summary>
         public static IEnumerable<Episode> GetUnWatchedEpisodesFromTrakt()
         {
+            if (UnWatchedEpisodes != null)
+                return UnWatchedEpisodes;
+
+            TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
+
             // trakt.tv does not provide an unwatched API
             // There are plans after initial launch of v2 to have a re-watch API.
 
@@ -464,8 +491,15 @@ namespace TraktPlugin
                                         Number = pwe.Number
                                     };
 
-            return unwatchedEpisodes ?? new List<TraktCache.Episode>();
+            UnWatchedEpisodes = unwatchedEpisodes ?? new List<Episode>();
+
+            return UnWatchedEpisodes;
         }
+
+        /// <summary>
+        /// returns the users unwatched episodes for current session        
+        /// </summary>
+        static IEnumerable<Episode> UnWatchedEpisodes { get; set; }
 
         /// <summary>
         /// returns the cached users watched episodes on trakt.tv
@@ -493,6 +527,8 @@ namespace TraktPlugin
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
                 return RatedEpisodes;
+
+            TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
 
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
@@ -564,6 +600,8 @@ namespace TraktPlugin
             if (ignoreLastSyncTime)
                 return RatedShows;
 
+            TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
+
             // get the last time we did anything to our library online
             var lastSyncActivities = LastSyncActivities;
 
@@ -629,6 +667,8 @@ namespace TraktPlugin
                 // get from cache regardless of last sync time
                 if (ignoreLastSyncTime)
                     return WatchListMovies;
+
+                TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
 
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
@@ -740,6 +780,8 @@ namespace TraktPlugin
                 if (ignoreLastSyncTime)
                     return WatchListShows;
 
+                TraktLogger.Info("Getting user {0}'s watchlisted shows from trakt.tv", TraktSettings.Username);
+
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
 
@@ -812,6 +854,8 @@ namespace TraktPlugin
                 // get from cache regardless of last sync time
                 if (ignoreLastSyncTime)
                     return WatchListEpisodes;
+
+                TraktLogger.Info("Getting user {0}'s watchlisted episodes from trakt.tv", TraktSettings.Username);
 
                 // get the last time we did anything to our library online
                 var lastSyncActivities = LastSyncActivities;
@@ -939,6 +983,8 @@ namespace TraktPlugin
             {
                 if (_CustomListsAndItems == null || (DateTime.Now - CustomListAge) > TimeSpan.FromMinutes(TraktSettings.WebRequestCacheMinutes))
                 {
+                    TraktLogger.Info("Getting user {0}'s custom lists from trakt", TraktSettings.Username);
+
                     // first get the users custom lists from trakt exluding any details for individual lists
                     var userLists = GetCustomListsFromTrakt(ignoreLastSyncTime);
                     if (userLists == null) return null;
@@ -1023,7 +1069,7 @@ namespace TraktPlugin
             {
                 if (_LastSyncActivities == null)
                 {
-                    TraktLogger.Info("Retrieving current users last activities");
+                    TraktLogger.Info("Retrieving current users last activities from trakt.tv");
                     _LastSyncActivities = TraktAPI.TraktAPI.GetLastSyncActivities();
                 }
                 return _LastSyncActivities;
@@ -1690,6 +1736,32 @@ namespace TraktPlugin
         internal static void ClearLastActivityCache()
         {
             _LastSyncActivities = null;
+
+            UnWatchedEpisodes = null;
+            UnWatchedMovies = null;
+        }
+
+        internal static void ClearLastShowsActivityCache()
+        {
+            if (_LastSyncActivities != null)
+            {
+                _LastSyncActivities.Shows = null;
+                _LastSyncActivities.Episodes = null;
+                _LastSyncActivities.Seasons = null;
+            }
+
+            UnWatchedEpisodes = null;
+        }
+
+        internal static void ClearLastMoviesActivityCache()
+        {
+            if (_LastSyncActivities != null)
+            {
+                _LastSyncActivities.Movies = null;
+                _LastSyncActivities.Lists = null;
+            }
+
+            UnWatchedMovies = null;
         }
 
         internal static void ClearSyncCache()

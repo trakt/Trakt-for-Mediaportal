@@ -65,7 +65,6 @@ namespace TraktPlugin.TraktHandlers
             #region Get unwatched / watched movies from trakt.tv
             IEnumerable<TraktMovieWatched> traktWatchedMovies = null;
 
-            TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
             var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
             if (traktUnWatchedMovies == null)
             {
@@ -75,7 +74,6 @@ namespace TraktPlugin.TraktHandlers
             {
                 TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
 
-                TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
                 traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
                 if (traktWatchedMovies == null)
                 {
@@ -89,7 +87,6 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get collected movies from trakt.tv
-            TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
             var traktCollectedMovies = TraktCache.GetCollectedMoviesFromTrakt();
             if (traktCollectedMovies == null)
             {
@@ -100,35 +97,7 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("There are {0} collected movies in trakt.tv library", traktCollectedMovies.Count());
             }
             #endregion
-
-            #region Get rated movies from trakt.tv
-            // not used in MyVideos sync but could be used externally
-            TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
-            var traktRatedMovies = TraktCache.GetRatedMoviesFromTrakt();
-            if (traktRatedMovies == null)
-            {
-                TraktLogger.Error("Error getting rated movies from trakt server");
-            }
-            else
-            {
-                TraktLogger.Info("There are {0} rated movies in trakt.tv library", traktRatedMovies.Count());
-            }
-            #endregion
-
-            #region Get watchlisted movies from trakt.tv
-            // not used in MyVideos sync but could be used externally
-            TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
-            var traktWatchListMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
-            if (traktWatchListMovies == null)
-            {
-                TraktLogger.Error("Error getting watchlisted movies from trakt server");
-            }
-            else
-            {
-                TraktLogger.Info("There are {0} watchlisted movies in trakt.tv library", traktWatchListMovies.Count());
-            }
-            #endregion
-
+            
             #endregion
 
             // optionally do library sync
@@ -218,9 +187,6 @@ namespace TraktPlugin.TraktHandlers
                 var watchedMovies = collectedMovies.Where(m => m.Watched > 0).ToList();
 
                 TraktLogger.Info("Found {0} watched movies available to sync in My Videos database", watchedMovies.Count);
-
-                // clear the last time(s) we did anything online
-                TraktCache.ClearLastActivityCache();
 
                 #region Mark movies as unwatched in local database
                 if (traktUnWatchedMovies != null && traktUnWatchedMovies.Count() > 0)

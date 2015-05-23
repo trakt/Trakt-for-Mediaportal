@@ -32,7 +32,6 @@ namespace TraktPlugin.TraktHandlers
 
         #region Variables
 
-        bool SyncLibraryInProgress;
         bool SyncPlaybackInProgress;
         bool EpisodeWatching;
         bool FirstEpisodeWatched;
@@ -82,7 +81,6 @@ namespace TraktPlugin.TraktHandlers
         public void SyncLibrary()
         {
             TraktLogger.Info("MP-TVSeries Library Starting Sync");
-            SyncLibraryInProgress = true;
 
             // store list of series ids so we can update the episode counts
             // of any series that syncback watched flags
@@ -90,15 +88,11 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get online data from trakt.tv
 
-            // clear the last time(s) we did anything online
-            TraktCache.ClearLastActivityCache();
-
             #region UnWatched / Watched
 
             List<TraktCache.EpisodeWatched> traktWatchedEpisodes = null;
 
             // get all episodes on trakt that are marked as 'unseen'
-            TraktLogger.Info("Getting user {0}'s unwatched episodes from trakt.tv", TraktSettings.Username);
             var traktUnWatchedEpisodes = TraktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList();
             if (traktUnWatchedEpisodes == null)
             {
@@ -109,7 +103,6 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("Found {0} unwatched tv episodes in trakt.tv library", traktUnWatchedEpisodes.Count());
 
                 // now get all episodes on trakt that are marked as 'seen' or 'watched' (this will be cached already when working out unwatched)
-                TraktLogger.Info("Getting user {0}'s watched episodes from trakt.tv", TraktSettings.Username);
                 traktWatchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt().ToNullableList();
                 if (traktWatchedEpisodes == null)
                 {
@@ -126,7 +119,6 @@ namespace TraktPlugin.TraktHandlers
             #region Collection
 
             // get all episodes on trakt that are marked as in 'collection'
-            TraktLogger.Info("Getting user {0}'s collected tv episodes from trakt.tv", TraktSettings.Username);
             var traktCollectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt().ToNullableList();
             if (traktCollectedEpisodes == null)
             {
@@ -142,7 +134,6 @@ namespace TraktPlugin.TraktHandlers
 
             #region Episodes
 
-            TraktLogger.Info("Getting user {0}'s rated episodes from trakt.tv", TraktSettings.Username);
             var traktRatedEpisodes = TraktCache.GetRatedEpisodesFromTrakt().ToNullableList();
             if (traktRatedEpisodes == null)
             {
@@ -157,7 +148,6 @@ namespace TraktPlugin.TraktHandlers
 
             #region Shows
 
-            TraktLogger.Info("Getting user {0}'s rated shows from trakt.tv", TraktSettings.Username);
             var traktRatedShows = TraktCache.GetRatedShowsFromTrakt().ToNullableList();
             if (traktRatedShows == null)
             {
@@ -176,7 +166,6 @@ namespace TraktPlugin.TraktHandlers
 
             #region Shows
 
-            TraktLogger.Info("Getting user {0}'s watchlisted shows from trakt.tv", TraktSettings.Username);
             var traktWatchlistedShows = TraktCache.GetWatchlistedShowsFromTrakt();
             if (traktWatchlistedShows == null)
             {
@@ -190,8 +179,7 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Episodes
-
-            TraktLogger.Info("Getting user {0}'s watchlisted episodes from trakt.tv", TraktSettings.Username);
+            
             var traktWatchlistedEpisodes = TraktCache.GetWatchlistedEpisodesFromTrakt();
             if (traktWatchlistedEpisodes == null)
             {
@@ -332,7 +320,7 @@ namespace TraktPlugin.TraktHandlers
 
                 #endregion
 
-                #region Rate episodes in local database
+                #region Rate episodes/shows in local database
 
                 if (TraktSettings.SyncRatings)
                 {
@@ -591,7 +579,6 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
             }
 
-            SyncLibraryInProgress = false;
             TraktLogger.Info("MP-TVSeries Library Sync Completed");
         }
 
@@ -2263,7 +2250,7 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktLogger.Info("New episodes added in MP-TVSeries, starting sync");
 
-                    while (SyncLibraryInProgress)
+                    while (TraktPlugin.LibrarySyncRunning)
                     {
                         // only do one sync at a time
                         TraktLogger.Debug("MP-TVSeries sync still in progress, trying again in 60 secs");
@@ -2271,6 +2258,8 @@ namespace TraktPlugin.TraktHandlers
                     }
                     try
                     {
+                        TraktCache.ClearLastActivityCache();
+
                         SyncLibrary();
                     }
                     catch (Exception ex)

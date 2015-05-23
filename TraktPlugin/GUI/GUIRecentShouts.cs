@@ -587,7 +587,7 @@ namespace TraktPlugin.GUI
 
             // set movie, show, season, episode or list properties
             // set show and episode properties for episode comments
-            // set show and season for season shocommentsuts
+            // set show and season for season comments
             if (item.Movie != null)
             {
                 GUICommon.SetMovieProperties(item.Movie);

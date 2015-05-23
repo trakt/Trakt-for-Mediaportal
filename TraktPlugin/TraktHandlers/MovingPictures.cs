@@ -139,13 +139,9 @@ namespace TraktPlugin.TraktHandlers
 
             #region Get online data from trakt.tv
 
-            // clear the last time(s) we did anything online
-            TraktCache.ClearLastActivityCache();
-
             #region Get unwatched / watched movies from trakt.tv
             IEnumerable<TraktMovieWatched> traktWatchedMovies = null;
-
-            TraktLogger.Info("Getting user {0}'s unwatched movies from trakt", TraktSettings.Username);
+            
             var traktUnWatchedMovies = TraktCache.GetUnWatchedMoviesFromTrakt();
             if (traktUnWatchedMovies == null)
             {
@@ -154,8 +150,7 @@ namespace TraktPlugin.TraktHandlers
             else
             {
                 TraktLogger.Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
-
-                TraktLogger.Info("Getting user {0}'s watched movies from trakt", TraktSettings.Username);
+                
                 traktWatchedMovies = TraktCache.GetWatchedMoviesFromTrakt();
                 if (traktWatchedMovies == null)
                 {
@@ -169,7 +164,6 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get collected movies from trakt.tv
-            TraktLogger.Info("Getting user {0}'s collected movies from trakt", TraktSettings.Username);
             var traktCollectedMovies = TraktCache.GetCollectedMoviesFromTrakt();
             if (traktCollectedMovies == null)
             {
@@ -182,7 +176,6 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get rated movies from trakt.tv
-            TraktLogger.Info("Getting user {0}'s rated movies from trakt", TraktSettings.Username);
             var traktRatedMovies = TraktCache.GetRatedMoviesFromTrakt();
             if (traktRatedMovies == null)
             {
@@ -195,7 +188,6 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get watchlisted movies from trakt.tv
-            TraktLogger.Info("Getting user {0}'s watchlisted movies from trakt", TraktSettings.Username);
             var traktWatchlistedMovies = TraktCache.GetWatchlistedMoviesFromTrakt();
             if (traktWatchlistedMovies == null)
             {
@@ -208,7 +200,6 @@ namespace TraktPlugin.TraktHandlers
             #endregion
 
             #region Get custom lists from trakt.tv
-            TraktLogger.Info("Getting user {0}'s custom lists from trakt", TraktSettings.Username);
             var traktCustomLists = TraktCache.GetCustomLists();
             if (traktCustomLists == null)
             {
@@ -1020,6 +1011,12 @@ namespace TraktPlugin.TraktHandlers
                                             traktMovie.Title, traktMovie.Year.HasValue ? traktMovie.Year.ToString() : "<empty>", traktMovie.Ids.Imdb ?? "<empty>", traktMovie.Ids.Tmdb.HasValue ? traktMovie.Ids.Tmdb.ToString() : "<empty>",
                                             traktMovie.CollectedAt, traktMovie.MediaType ?? "<empty>", traktMovie.Resolution ?? "<empty>", traktMovie.AudioCodec ?? "<empty>", traktMovie.AudioChannels ?? "<empty>");
 
+                        // check if we already have the movie collected online
+                        if (traktMovie.IsCollected())
+                        {
+                            TraktLogger.Info("Skipping movie addition to trakt.tv collection, movie already exists in online collection.");
+                            return;
+                        }
 
                         // insert movie into local cache
                         TraktCache.AddMovieToCollection(traktMovie);

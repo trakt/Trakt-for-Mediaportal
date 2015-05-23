@@ -35,6 +35,10 @@ namespace TraktPlugin
     
         #endregion
 
+        #region Public Properties
+        public static bool LibrarySyncRunning { get; set; }
+        #endregion
+
         #region GUIWindow Overrides
 
         /// <summary>
@@ -526,6 +530,8 @@ namespace TraktPlugin
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
                 Thread.CurrentThread.Name = "Sync";
 
+            LibrarySyncRunning = false;
+
             TraktLogger.Info("Library Sync complete for all enabled plugins, Time Taken = '{0}'", DateTime.UtcNow.Subtract(SyncStartTime).ToPrettyTime());
 
             //TODO: Callback to let caller know that we are done
@@ -539,6 +545,7 @@ namespace TraktPlugin
         /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            LibrarySyncRunning = true;
             SyncStartTime = DateTime.UtcNow;
 
             Thread.CurrentThread.Name = "Sync";
@@ -547,11 +554,49 @@ namespace TraktPlugin
                 return;
 
             TraktLogger.Info("Library Sync started for all enabled plugins");
+                
+            // get data from online and store in cache so its readily available for plugins syncing
+            // data will also be used in user activity feed on the dashboard            
 
-            // User could change handlers during sync from Settings so assign new list
+            try
+            {
+                // clear the last time(s) we did anything online
+                TraktCache.ClearLastActivityCache();
+
+                // get latest tv data from online
+                if (TraktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList() != null)
+                    TraktCache.GetWatchedEpisodesFromTrakt();
+
+                TraktCache.GetCollectedEpisodesFromTrakt();
+                TraktCache.GetRatedEpisodesFromTrakt();
+                TraktCache.GetRatedShowsFromTrakt();
+                TraktCache.GetWatchlistedShowsFromTrakt();
+                TraktCache.GetWatchlistedEpisodesFromTrakt();
+
+                // get latest movie data from online
+                if (TraktCache.GetUnWatchedMoviesFromTrakt() != null)
+                    TraktCache.GetWatchedMoviesFromTrakt();
+
+                TraktCache.GetCollectedMoviesFromTrakt();
+                TraktCache.GetRatedMoviesFromTrakt();
+                TraktCache.GetWatchlistedMoviesFromTrakt();
+
+                // get custom lists from online
+                TraktCache.GetCustomLists();
+            }
+            catch (Exception ex)
+            {
+                TraktLogger.Error("Error getting library from trakt.tv. Error = '{0}'", ex.Message);
+                return;
+            }
+
+            // user could change handlers during sync from Settings GUI so assign to a new list
             var traktHandlers = new List<ITraktHandler>(TraktHandlers);
             foreach (var traktHandler in traktHandlers)
             {
+                if (syncLibraryWorker.CancellationPending)
+                    return;
+
                 try
                 {
                     traktHandler.SyncLibrary();
@@ -560,9 +605,6 @@ namespace TraktPlugin
                 {
                     TraktLogger.Error("Error synchronising library. Plugin = '{0}', Error = '{1}'", traktHandler.Name, ex.Message);
                 }
-
-                if (syncLibraryWorker.CancellationPending)
-                    return;
             }    
         }
 
