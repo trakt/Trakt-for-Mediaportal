@@ -34,6 +34,7 @@ namespace TraktPlugin
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
         private static string SeasonsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Watchlisted.json");
+        private static string SeasonsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Rated.json");
 
         private static string CustomListsFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Menu.json");
         private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
@@ -588,6 +589,68 @@ namespace TraktPlugin
 
         #region Seasons
 
+        /// <summary>
+        /// Get the users rated seasons from Trakt
+        /// </summary>
+        public static IEnumerable<TraktSeasonRated> GetRatedSeasonsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return RatedSeasons;
+
+            TraktLogger.Info("Getting current user rated seasons from trakt.tv");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Seasons == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Seasons.Rating == TraktSettings.LastSyncActivities.Seasons.Rating)
+            {
+                var cachedItems = RatedSeasons;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("TV season ratings cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Seasons.Rating ?? "<empty>", lastSyncActivities.Seasons.Rating ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetRatedSeasons();
+            if (onlineItems != null)
+            {
+                _RatedSeasons = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(SeasonsRatedFile, _RatedSeasons.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Seasons.Rating = lastSyncActivities.Seasons.Rating;
+            }
+
+            return onlineItems;
+        }
+
+        /// <summary>
+        /// returns the cached users rated seasons on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktSeasonRated> RatedSeasons
+        {
+            get
+            {
+                if (_RatedSeasons == null)
+                {
+                    var persistedItems = LoadFileCache(SeasonsRatedFile, null);
+                    if (persistedItems != null)
+                        _RatedSeasons = persistedItems.FromJSONArray<TraktSeasonRated>();
+                }
+                return _RatedSeasons;
+            }
+        }
+        static IEnumerable<TraktSeasonRated> _RatedSeasons = null;
 
         #endregion
 
@@ -1470,10 +1533,19 @@ namespace TraktPlugin
             return collectedEpisodeCount >= season.EpisodeAiredCount;
         }
 
-        public static int? UserRating(this TraktSeasonSummary season)
+        public static int? UserRating(this TraktSeasonSummary season, TraktShowSummary show)
         {
-            //TODO
-            return null;
+            if (RatedSeasons == null)
+                return null;
+
+            var ratedSeason = RatedSeasons.FirstOrDefault(s => ((((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) || ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null))) && 
+                                                                 s.Season.Number == season.Number);
+
+
+            if (ratedSeason == null)
+                return null;
+
+            return ratedSeason.Rating;
         }
 
         public static int Plays(this TraktSeasonSummary season, TraktShowSummary show)
@@ -1625,7 +1697,7 @@ namespace TraktPlugin
             else if (item.Type == "show" && item.Show != null)
                 return item.Show.UserRating();
             else if (item.Type == "season" && item.Season != null)
-                return item.Season.UserRating();
+                return item.Season.UserRating(item.Show);
             else if (item.Type == "episode" && item.Episode != null)
                 return item.Episode.UserRating(item.Show);
 
@@ -1761,7 +1833,7 @@ namespace TraktPlugin
             else if (comment.Type == "show" && comment.Show != null)
                 return comment.Show.UserRating();
             else if (comment.Season != null)
-                return comment.Season.UserRating();
+                return comment.Season.UserRating(comment.Show);
             else if (comment.Episode != null)
                 return comment.Episode.UserRating(comment.Show);
 

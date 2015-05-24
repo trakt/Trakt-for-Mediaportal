@@ -1197,7 +1197,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.Plays", season.Plays(show));
             SetProperty("#Trakt.Season.InCollection", season.IsCollected(show));
             SetProperty("#Trakt.Season.InWatchList", season.IsWatchlisted(show));
-            SetProperty("#Trakt.Season.Rating", season.UserRating());
+            SetProperty("#Trakt.Season.Rating", season.UserRating(show));
             SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
             SetProperty("#Trakt.Season.Ratings.Votes", season.Votes);
             SetProperty("#Trakt.Season.Ratings.Icon", (season.Rating >= 6) ? "love" : "hate");

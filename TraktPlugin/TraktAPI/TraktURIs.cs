@@ -19,6 +19,7 @@ namespace TraktPlugin.TraktAPI
         public const string SyncCollectionEpisodes = "https://api-v2launch.trakt.tv/sync/collection/shows";
         public const string SyncWatchedEpisodes = "https://api-v2launch.trakt.tv/sync/watched/shows";
         public const string SyncRatedEpisodes = "https://api-v2launch.trakt.tv/sync/ratings/episodes";
+        public const string SyncRatedSeasons = "https://api-v2launch.trakt.tv/sync/ratings/seasons";
         public const string SyncRatedShows = "https://api-v2launch.trakt.tv/sync/ratings/shows";
 
         public const string SyncCollectionAdd = "https://api-v2launch.trakt.tv/sync/collection";

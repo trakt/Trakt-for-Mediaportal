@@ -162,6 +162,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktShowRated>();
         }
 
+        public static IEnumerable<TraktSeasonRated> GetRatedSeasons()
+        {
+            var response = GetFromTrakt(TraktURIs.SyncRatedSeasons);
+            return response.FromJSONArray<TraktSeasonRated>();
+        }
+
         #endregion
 
         #region User

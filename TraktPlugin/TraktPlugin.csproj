@@ -288,6 +288,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktMovieUpdate.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPagination.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRatingDistribution.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktSeasonRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonWatchList.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsTrending.cs" />

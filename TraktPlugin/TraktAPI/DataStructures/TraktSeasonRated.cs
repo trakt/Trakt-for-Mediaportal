@@ -3,7 +3,7 @@
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktShowRated
+    public class TraktSeasonRated
     {
         [DataMember(Name = "rating")]
         public int Rating { get; set; }
@@ -13,5 +13,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }
+
+        [DataMember(Name = "season")]
+        public TraktSeason Season { get; set; }
     }
 }

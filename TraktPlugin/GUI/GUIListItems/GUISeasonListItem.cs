@@ -172,7 +172,7 @@ namespace TraktPlugin.GUI
             if (Season.IsCollected(Show))
                 mainOverlay |= MainOverlayImage.Library;
 
-            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Season.UserRating());
+            RatingOverlayImage ratingOverlay = GUIImageHandler.GetRatingOverlay(Season.UserRating(Show));
 
             // get a reference to a MediaPortal Texture Identifier
             string suffix = Enum.GetName(typeof(MainOverlayImage), mainOverlay) + Enum.GetName(typeof(RatingOverlayImage), ratingOverlay);

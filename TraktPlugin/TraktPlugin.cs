@@ -570,8 +570,9 @@ namespace TraktPlugin
                     TraktCache.GetWatchedEpisodesFromTrakt();
 
                 TraktCache.GetCollectedEpisodesFromTrakt();
-                TraktCache.GetRatedEpisodesFromTrakt();
                 TraktCache.GetRatedShowsFromTrakt();
+                TraktCache.GetRatedSeasonsFromTrakt();
+                TraktCache.GetRatedEpisodesFromTrakt();
                 TraktCache.GetWatchlistedShowsFromTrakt();
                 TraktCache.GetWatchlistedSeasonsFromTrakt();
                 TraktCache.GetWatchlistedEpisodesFromTrakt();

@@ -160,6 +160,20 @@ namespace TraktPlugin.TraktHandlers
 
             #endregion
 
+            #region Seasons
+
+            var traktRatedSeasons = TraktCache.GetRatedSeasonsFromTrakt().ToNullableList();
+            if (traktRatedSeasons == null)
+            {
+                TraktLogger.Error("Error getting rated seasons from trakt.tv server");
+            }
+            else
+            {
+                TraktLogger.Info("Found {0} rated tv seasons in trakt.tv library", traktRatedSeasons.Count());
+            }
+
+            #endregion
+
             #endregion
 
             #region Watchlist
