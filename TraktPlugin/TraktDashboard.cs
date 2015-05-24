@@ -1338,6 +1338,39 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region rated seasons
+            var ratedSeasons = TraktCache.GetRatedSeasonsFromTrakt(true);
+            if (ratedSeasons != null)
+            {
+                foreach (var season in ratedSeasons.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
+                {
+                    var ratedShowActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.rating.ToString(),
+                        Type = ActivityType.season.ToString(),
+                        Show = new TraktShowSummary
+                        {
+                            Title = season.Show.Title,
+                            Year = season.Show.Year,
+                            Ids = season.Show.Ids,
+                            Images = new TraktShowImages()
+                        },
+                        Season = new TraktSeasonSummary
+                        {
+                            Number = season.Season.Number
+                        },
+                        Rating = season.Rating,
+                        Timestamp = season.RatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(ratedShowActivity);
+                }
+            }
+            #endregion
+
             #region rated shows
             var ratedShows = TraktCache.GetRatedShowsFromTrakt(true);
             if (ratedShows != null)
