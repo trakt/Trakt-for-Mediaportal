@@ -232,11 +232,14 @@ namespace TraktPlugin.TraktHandlers
                     {
                         var threadParam = objInfo as TraktScrobbleEpisode;
 
-                        //  add episode watched to cache
-                        TraktCache.AddEpisodeToWatchHistory(threadParam.Show, threadParam.Episode);
-
                         var response = TraktAPI.TraktAPI.StopEpisodeScrobble(threadParam);
                         TraktLogger.LogTraktResponse(response);
+
+                        if (response != null && response.Code == 0)
+                        {
+                            //  add episode watched to cache
+                            TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                        }
                     })
                     {
                         IsBackground = true,
@@ -253,11 +256,14 @@ namespace TraktPlugin.TraktHandlers
                     {
                         var threadParam = objInfo as TraktScrobbleMovie;
 
-                        //  add movie watched to cache
-                        TraktCache.AddMovieToWatchHistory(threadParam.Movie);
-
                         var response = TraktAPI.TraktAPI.StopMovieScrobble(threadParam);
                         TraktLogger.LogTraktResponse(response);
+
+                        if (response != null && response.Code == 0)
+                        {
+                            // add movie watched to cache
+                            TraktCache.AddMovieToWatchHistory(response.Movie);
+                        }
                     })
                     {
                         IsBackground = true,

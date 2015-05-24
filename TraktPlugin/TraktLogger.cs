@@ -258,7 +258,7 @@ namespace TraktPlugin
                     }
                     else if ((response is TraktScrobbleResponse))
                     {
-                        // status code will be greater than 0 if we caught and error
+                        // status code will be greater than 0 if we caught an error
                         // we already log errors so we can supress the scrobble log result
                         var scrobbleResponse = response as TraktScrobbleResponse;
                         if (scrobbleResponse != null && scrobbleResponse.Code == 0)
