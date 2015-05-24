@@ -1240,6 +1240,39 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region watchlisted seasons
+            var watchlistedSeasons = TraktCache.GetWatchlistedSeasonsFromTrakt(true);
+            if (watchlistedSeasons != null)
+            {
+                foreach (var item in watchlistedSeasons.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
+                {
+                    var watchlistedSeasonActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.watchlist.ToString(),
+                        Type = ActivityType.season.ToString(),
+                        Show = new TraktShowSummary
+                        {
+                            Title = item.Show.Title,
+                            Year = item.Show.Year,
+                            Ids = item.Show.Ids,
+                            Images = new TraktShowImages()
+                        },
+                        Season = new TraktSeasonSummary
+                        {
+                            Ids = item.Season.Ids,
+                            Number = item.Season.Number
+                        },
+                        Timestamp = item.ListedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(watchlistedSeasonActivity);
+                }
+            }
+            #endregion
+
             #region watchlisted movies
             var watchlistedMovies = TraktCache.GetWatchlistedMoviesFromTrakt(true);
             if (watchlistedMovies != null)

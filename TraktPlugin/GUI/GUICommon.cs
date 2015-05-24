@@ -3009,6 +3009,10 @@ namespace TraktPlugin.GUI
                         name = activity.Show.Title;
                         break;
 
+                    case ActivityType.season:
+                        name = string.Format("{0} - {1} {2}", activity.Show.Title, Translation.Season, activity.Season.Number);
+                        break;
+
                     case ActivityType.movie:
                         name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
                         break;

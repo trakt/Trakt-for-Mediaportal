@@ -389,6 +389,19 @@ namespace TraktPlugin
             };
 
             syncThread.Start(seasonSync);
+
+            TraktCache.AddSeasonToWatchlist(
+                new TraktShow
+                {
+                    Ids = seasonSync.Ids,
+                    Title = seasonSync.Title,
+                    Year = seasonSync.Year
+                },
+                new TraktSeason
+                {
+                    Number = season
+                }
+             );
         }
 
         public static void RemoveSeasonFromWatchList(TraktShowSummary show, int season)
@@ -430,6 +443,19 @@ namespace TraktPlugin
             };
 
             syncThread.Start(seasonSync);
+
+            TraktCache.RemoveSeasonFromWatchlist(
+                new TraktShow
+                {
+                    Ids = seasonSync.Ids,
+                    Title = title,
+                    Year = year
+                },
+                new TraktSeason
+                {
+                    Number = season
+                }
+            );
         }
 
         #endregion

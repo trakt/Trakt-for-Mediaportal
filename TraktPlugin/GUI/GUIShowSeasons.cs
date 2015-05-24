@@ -281,14 +281,20 @@ namespace TraktPlugin.GUI
                             }
                         }
                     });
+                    OnSeasonSelected(selectedItem, Facade);
+                    (Facade.SelectedListItem as GUISeasonListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
                     GUICommon.MarkSeasonAsWatched(Show, selectedSeason.Number);
+                    OnSeasonSelected(selectedItem, Facade);
+                    (Facade.SelectedListItem as GUISeasonListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToLibrary):
                     GUICommon.AddSeasonToLibrary(Show, selectedSeason.Number);
+                    OnSeasonSelected(selectedItem, Facade);
+                    (Facade.SelectedListItem as GUISeasonListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.AddToList):
@@ -297,6 +303,8 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.AddToWatchlist):
                     TraktHelper.AddSeasonToWatchList(Show, selectedSeason.Number);
+                    OnSeasonSelected(selectedItem, Facade);
+                    (Facade.SelectedListItem as GUISeasonListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.Sort):
