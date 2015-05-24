@@ -87,6 +87,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "rated_at")]
             public string Rating { get; set; }
 
+            [DataMember(Name = "watchlisted_at")]
+            public string Watchlist { get; set; }
+
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
         }

@@ -33,6 +33,8 @@ namespace TraktPlugin
         private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
 
+        private static string SeasonsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Watchlisted.json");
+
         private static string CustomListsFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Menu.json");
         private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
 
@@ -839,6 +841,71 @@ namespace TraktPlugin
 
         #region Seasons
 
+        /// <summary>
+        /// Get the users watchlisted seasons from Trakt
+        /// </summary>
+        public static IEnumerable<TraktSeasonWatchList> GetWatchlistedSeasonsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            lock (syncLists)
+            {
+                // get from cache regardless of last sync time
+                if (ignoreLastSyncTime)
+                    return WatchListSeasons;
+
+                TraktLogger.Info("Getting current user watchlisted seasons from trakt.tv");
+
+                // get the last time we did anything to our library online
+                var lastSyncActivities = LastSyncActivities;
+
+                // something bad happened e.g. site not available
+                if (lastSyncActivities == null || lastSyncActivities.Seasons == null)
+                    return null;
+
+                // check the last time we have against the online time
+                // if the times are the same try to load from cache
+                if (lastSyncActivities.Seasons.Watchlist == TraktSettings.LastSyncActivities.Seasons.Watchlist)
+                {
+                    var cachedItems = WatchListSeasons;
+                    if (cachedItems != null)
+                        return cachedItems;
+                }
+
+                TraktLogger.Info("TV seasons watchlist cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Seasons.Watchlist ?? "<empty>", lastSyncActivities.Seasons.Watchlist ?? "<empty>");
+
+                // we get from online, local cache is not up to date
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListSeasons(TraktSettings.Username);
+                if (onlineItems == null)
+                    return null;
+
+                _WatchListSeasons = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(SeasonsWatchlistedFile, _WatchListSeasons.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Seasons.Watchlist = lastSyncActivities.Seasons.Watchlist;
+
+                return onlineItems;
+            }
+        }
+
+        /// <summary>
+        /// Returns the cached users watchlisted seasons on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktSeasonWatchList> WatchListSeasons
+        {
+            get
+            {
+                if (_WatchListSeasons == null)
+                {
+                    var persistedItems = LoadFileCache(SeasonsWatchlistedFile, null);
+                    if (persistedItems != null)
+                        _WatchListSeasons = persistedItems.FromJSONArray<TraktSeasonWatchList>();
+                }
+                return _WatchListSeasons;
+            }
+        }
+        static IEnumerable<TraktSeasonWatchList> _WatchListSeasons = null;
        
         #endregion
 
@@ -1364,8 +1431,11 @@ namespace TraktPlugin
 
         public static bool IsWatchlisted(this TraktSeasonSummary season, TraktShowSummary show)
         {
-            //TODO
-            return false;
+            if (WatchListSeasons == null)
+                return false;
+
+            return WatchListSeasons.Any(s => ((((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) || ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && show.Ids.Tvdb != null))) &&
+                                                 s.Season.Number == season.Number);
         }
 
         public static bool IsWatched(this TraktSeasonSummary season, TraktShowSummary show)
@@ -1602,6 +1672,8 @@ namespace TraktPlugin
                 return activity.Episode.IsWatchlisted(activity.Show);
             else if (activity.Episodes != null && activity.Episodes.Count == 1 && activity.Show != null)
                 return activity.Episodes.First().IsWatchlisted(activity.Show);
+            else if (activity.Season != null)
+                return activity.Season.IsWatchlisted(activity.Show);
             else if (activity.Show != null)
                 return activity.Show.IsWatchlisted();
             else
@@ -2010,6 +2082,33 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Seasons
+
+        internal static void AddSeasonToWatchlist(TraktShow show, TraktSeason season)
+        {
+            var watchlistSeasons = (_WatchListSeasons ?? new List<TraktSeasonWatchList>()).ToList();
+
+            watchlistSeasons.Add(new TraktSeasonWatchList
+            {
+                ListedAt = DateTime.UtcNow.ToISO8601(),
+                Show = new TraktShowSummary
+                {
+                    Ids = show.Ids,
+                    Title = show.Title,
+                    Year = show.Year
+                },
+                Season = new TraktSeasonSummary
+                {
+                    Ids = season.Ids,
+                    Number = season.Number
+                }
+            });
+
+            _WatchListSeasons = watchlistSeasons;
+        }
+
+        #endregion
+
         #region Episodes
 
         internal static void AddEpisodesToWatchHistory(TraktSyncShowWatchedEx show)
@@ -2308,6 +2407,24 @@ namespace TraktPlugin
                                       ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && s.Show.Ids.Tvdb != null));
 
             _RatedShows = ratedShows;
+        }
+
+        #endregion
+
+        #region Seasons
+
+        internal static void RemoveSeasonFromWatchlist(TraktShow show, TraktSeason season)
+        {
+            if (_WatchListSeasons == null)
+                return;
+
+            var watchlistSeasons = _WatchListSeasons.ToList();
+            watchlistSeasons.RemoveAll(s => (((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) ||
+                                             ((s.Show.Ids.Imdb == show.Ids.Imdb) && s.Show.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                             ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && s.Show.Ids.Tvdb != null)) &&
+                                               s.Season.Number == season.Number);
+
+            _WatchListSeasons = watchlistSeasons;
         }
 
         #endregion

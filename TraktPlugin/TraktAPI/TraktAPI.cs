@@ -346,6 +346,12 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktShowWatchList>();
         }
 
+        public static IEnumerable<TraktSeasonWatchList> GetWatchListSeasons(string username, string extendedInfoParams = "min")
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistSeasons, username, extendedInfoParams));
+            return response.FromJSONArray<TraktSeasonWatchList>();
+        }
+
         public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username, string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username, extendedInfoParams));

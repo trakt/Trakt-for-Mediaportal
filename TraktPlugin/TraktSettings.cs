@@ -693,6 +693,7 @@ namespace TraktPlugin
             if (LastSyncActivities == null) LastSyncActivities = new TraktLastSyncActivities();
             if (LastSyncActivities.Movies == null) LastSyncActivities.Movies = new TraktLastSyncActivities.MovieActivities();
             if (LastSyncActivities.Episodes == null) LastSyncActivities.Episodes = new TraktLastSyncActivities.EpisodeActivities();
+            if (LastSyncActivities.Seasons == null) LastSyncActivities.Seasons = new TraktLastSyncActivities.SeasonActivities();
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
             if (LastSyncActivities.Lists == null) LastSyncActivities.Lists = new TraktLastSyncActivities.ListActivities();
 

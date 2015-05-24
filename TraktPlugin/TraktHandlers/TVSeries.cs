@@ -86,7 +86,7 @@ namespace TraktPlugin.TraktHandlers
             // of any series that syncback watched flags
             var seriesToUpdateEpisodeCounts = new HashSet<int>();
 
-            #region Get online data from trakt.tv
+            #region Get online data from cache
 
             #region UnWatched / Watched
 
@@ -174,6 +174,20 @@ namespace TraktPlugin.TraktHandlers
             else
             {
                 TraktLogger.Info("Found {0} watchlisted tv shows in trakt.tv library", traktWatchlistedShows.Count());
+            }
+
+            #endregion
+
+            #region Seasons
+
+            var traktWatchlistedSeasons = TraktCache.GetWatchlistedSeasonsFromTrakt();
+            if (traktWatchlistedSeasons == null)
+            {
+                TraktLogger.Error("Error getting watchlisted seasons from trakt.tv server");
+            }
+            else
+            {
+                TraktLogger.Info("Found {0} watchlisted tv seasons in trakt.tv library", traktWatchlistedSeasons.Count());
             }
 
             #endregion

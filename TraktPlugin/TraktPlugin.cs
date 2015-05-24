@@ -573,6 +573,7 @@ namespace TraktPlugin
                 TraktCache.GetRatedEpisodesFromTrakt();
                 TraktCache.GetRatedShowsFromTrakt();
                 TraktCache.GetWatchlistedShowsFromTrakt();
+                TraktCache.GetWatchlistedSeasonsFromTrakt();
                 TraktCache.GetWatchlistedEpisodesFromTrakt();
 
                 TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");

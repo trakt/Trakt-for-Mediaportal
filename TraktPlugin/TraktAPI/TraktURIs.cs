@@ -43,6 +43,7 @@ namespace TraktPlugin.TraktAPI
 
         public const string UserWatchlistMovies = "https://api-v2launch.trakt.tv/users/{0}/watchlist/movies?extended={1}";
         public const string UserWatchlistShows = "https://api-v2launch.trakt.tv/users/{0}/watchlist/shows?extended={1}";
+        public const string UserWatchlistSeasons = "https://api-v2launch.trakt.tv/users/{0}/watchlist/seasons?extended={1}";
         public const string UserWatchlistEpisodes = "https://api-v2launch.trakt.tv/users/{0}/watchlist/episodes?extended={1}";
 
         public const string UserProfile = "https://api-v2launch.trakt.tv/users/{0}?extended=full,images";

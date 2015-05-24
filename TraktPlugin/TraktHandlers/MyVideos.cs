@@ -60,7 +60,7 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("My Videos Starting Library Sync");
 
-            #region Get online data from trakt.tv
+            #region Get online data from cache
 
             #region Get unwatched / watched movies from trakt.tv
             IEnumerable<TraktMovieWatched> traktWatchedMovies = null;
