@@ -2947,7 +2947,18 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ActivityAction.updated: // updated list
-                    title = string.Format(Translation.ActivityUpdatedList, userName, itemName);
+                    if (activity.List.ItemCount == 0)
+                    {
+                        title = string.Format(Translation.ActivityUpdatedList, userName, itemName);
+                    }
+                    else if (activity.List.ItemCount == 1)
+                    {
+                        title = string.Format(Translation.ActivityUpdatedListWithItemCountSingular, userName, itemName, 1);
+                    }
+                    else
+                    {
+                        title = string.Format(Translation.ActivityUpdatedListWithItemCount, userName, itemName, activity.List.ItemCount);
+                    }
                     break;
 
                 case ActivityAction.item_added: // added item to list

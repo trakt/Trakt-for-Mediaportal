@@ -123,7 +123,7 @@ namespace TraktPlugin.TraktAPI.DataStructures
             }
 
             [DataMember(Name = "list", EmitDefaultValue = false)]
-            public TraktList List { get; set; }
+            public TraktListDetail List { get; set; }
 
             [DataMember(Name = "list_item", EmitDefaultValue = false)]
             public Activity.TraktListItem ListItem { get; set; }

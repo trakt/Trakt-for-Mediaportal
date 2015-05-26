@@ -1435,14 +1435,7 @@ namespace TraktPlugin
             {
                 foreach (var list in lists.OrderByDescending(l => l.Key.UpdatedAt).Take(maxActivityItems))
                 {
-                    var userList = new TraktList
-                    {
-                        Name = list.Key.Name,
-                        Description = list.Key.Description,
-                        DisplayNumbers = list.Key.DisplayNumbers,
-                        Privacy = list.Key.Privacy,
-                        AllowComments = list.Key.AllowComments
-                    };
+                    var userList = list.Key;
 
                     var listActivity = new TraktActivity.Activity
                     {
