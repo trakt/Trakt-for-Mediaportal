@@ -286,6 +286,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToWatchedHistory(new TraktSyncMoviesWatched { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromWatchHistory(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -333,6 +339,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromCollection(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -440,11 +452,14 @@ namespace TraktPlugin.TraktHandlers
 
                 if (tScrobbleData.Progress >= WatchedPercent)
                 {
-                    // update local cache
-                    TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
-
                     TraktLogger.Info("Sending 'stop' scrobble of movie to trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", tScrobbleData.Movie.Title, tScrobbleData.Movie.Year, tScrobbleData.Movie.Ids.Imdb ?? "<empty>");
                     response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
+
+                    if (response != null && response.Movie != null && response.Action == "scrobble")
+                    {
+                        // add to cache
+                        TraktCache.AddMovieToWatchHistory(response.Movie);
+                    }
                 }
                 else
                 {

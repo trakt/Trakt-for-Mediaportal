@@ -307,6 +307,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToWatchedHistory(new TraktSyncMoviesWatched { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromWatchHistory(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -354,6 +360,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromCollection(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -396,6 +408,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToRatings(new TraktSyncMoviesRated { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromRatings(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -773,10 +791,14 @@ namespace TraktPlugin.TraktHandlers
                     if (tScrobbleData.Progress < 80)
                         tScrobbleData.Progress = 100;
 
-                    TraktCache.AddMovieToWatchHistory(tScrobbleData.Movie);
-
                     var response = TraktAPI.TraktAPI.StopMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
+
+                    if (response != null && response.Movie != null && response.Action == "scrobble")
+                    {
+                        // add to cache
+                        TraktCache.AddMovieToWatchHistory(response.Movie);
+                    }
                 })
                 {
                     IsBackground = true,
@@ -820,15 +842,18 @@ namespace TraktPlugin.TraktHandlers
                     RatedAt = DateTime.UtcNow.ToISO8601()
                 };
 
-                // update local cache
-                if (rating > 0)
-                {
-                    TraktCache.AddMovieToRatings(rateMovie, rating);
-                }
-
                 var response = TraktAPI.TraktAPI.AddMovieToRatings(rateMovie);
 
                 TraktLogger.LogTraktResponse(response);
+
+                if (response != null && response.NotFound != null && response.NotFound.Movies.Count == 0)
+                {
+                    // update local cache
+                    if (rating > 0)
+                    {
+                        TraktCache.AddMovieToRatings(rateMovie, rating);
+                    }
+                }
             })
             {
                 IsBackground = true,
@@ -884,11 +909,14 @@ namespace TraktPlugin.TraktHandlers
                         WatchedAt = DateTime.UtcNow.ToISO8601()
                     };
 
-                    // update local cache
-                    TraktCache.AddMovieToWatchHistory(traktMovie);
-
                     var response = TraktAPI.TraktAPI.AddMovieToWatchedHistory(traktMovie);
                     TraktLogger.LogTraktResponse(response);
+
+                    if (response != null && response.NotFound != null && response.NotFound.Movies.Count == 0)
+                    {
+                        // update local cache
+                        TraktCache.AddMovieToWatchHistory(traktMovie);
+                    }
                 }
             })
             {
@@ -988,7 +1016,7 @@ namespace TraktPlugin.TraktHandlers
 
             var rateThread = new Thread((objMovie) =>
             {
-                MFMovie movieToRate = objMovie as MFMovie;
+                var movieToRate = objMovie as MFMovie;
                 if (movieToRate == null) return;
 
                 var rateObject = new TraktSyncMovieRated
@@ -1014,6 +1042,9 @@ namespace TraktPlugin.TraktHandlers
                     {
                         GUICommon.SetProperty("#myfilms.user.rating.value", movieToRate.RatingUser.ToString());
                     }
+
+                    // add to cache
+                    TraktCache.AddMovieToRatings(rateObject, rating);
                 }
             })
             {

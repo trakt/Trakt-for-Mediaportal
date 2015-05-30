@@ -3,6 +3,8 @@ namespace TraktPlugin.TraktAPI
 {
     /// <summary>
     /// List of URIs for the Trakt API
+    /// Staging:    https://api.staging.trakt.tv
+    /// Production: https://api-v2launch.trakt.tv
     /// </summary>
     public static class TraktURIs
     {

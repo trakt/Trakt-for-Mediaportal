@@ -864,6 +864,9 @@ namespace TraktPlugin
                 TraktCache.SaveFileCache(cLastUserProfileFileCache, LastUserProfile.ToJSON());
                 TraktCache.SaveFileCache(cLastTrendingShowFileCache, (LastTrendingShows ?? "[]".FromJSONArray<TraktShowTrending>()).ToList().ToJSON());
                 TraktCache.SaveFileCache(cLastTrendingMovieFileCache, (LastTrendingMovies ?? "[]".FromJSONArray<TraktMovieTrending>()).ToList().ToJSON());
+
+                // save user activity cache
+                TraktCache.Save();
             }
         }
 

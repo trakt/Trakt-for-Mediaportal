@@ -430,11 +430,16 @@ namespace TraktPlugin.TraktHandlers
                         var pagedShows = new List<TraktSyncShowWatchedEx>();
                         pagedShows.Add(show);
                 
-                        // update local cache
-                        TraktCache.AddEpisodesToWatchHistory(show);
-
                         var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(new TraktSyncShowsWatchedEx { Shows = pagedShows });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                        // only add to cache if it was a success
+                        // note: we don't get back the same object type so makes it hard to figure out what failed
+                        if (response != null && response.Added != null && response.Added.Episodes == showEpisodeCount)
+                        {
+                            // update local cache
+                            TraktCache.AddEpisodesToWatchHistory(show);
+                        }
                     }
                 }
                 #endregion
@@ -463,11 +468,15 @@ namespace TraktPlugin.TraktHandlers
                         var pagedShows = new List<TraktSyncShowCollectedEx>();
                         pagedShows.Add(show);
 
-                        // update local cache
-                        TraktCache.AddEpisodesToCollection(show);
-
                         var response = TraktAPI.TraktAPI.AddShowsToCollectonEx(new TraktSyncShowsCollectedEx { Shows = pagedShows });
                         TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                        // only add to cache if it was a success
+                        if (response != null && response.Added != null && response.Added.Episodes == showEpisodeCount)
+                        {
+                            // update local cache
+                            TraktCache.AddEpisodesToCollection(show);
+                        }
                     }
                 }
                 #endregion
@@ -500,11 +509,15 @@ namespace TraktPlugin.TraktHandlers
                             var pagedShows = new List<TraktSyncShowRatedEx>();
                             pagedShows.Add(show);
 
-                            // update local cache
-                            TraktCache.AddEpisodesToRatings(show);
-
                             var response = TraktAPI.TraktAPI.AddShowsToRatingsEx(new TraktSyncShowsRatedEx { Shows = pagedShows });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                            // only add to cache if it was a success
+                            if (response != null && response.Added != null && response.Added.Episodes == showEpisodeCount)
+                            {
+                                // update local cache
+                                TraktCache.AddEpisodesToRatings(show);
+                            }
                         }
                     }
                     #endregion
@@ -552,6 +565,12 @@ namespace TraktPlugin.TraktHandlers
 
                                 var response = TraktAPI.TraktAPI.AddShowsToRatings(new TraktSyncShowsRated { Shows = pagedShows });
                                 TraktLogger.LogTraktResponse(response);
+
+                                // remove from cache if not a success
+                                if (response != null && response.NotFound != null && response.NotFound.Shows.Count > 0)
+                                {
+                                    TraktCache.RemoveShowsFromRatings(response.NotFound.Shows);
+                                }
                             }
                         }
                     }
@@ -1984,6 +2003,11 @@ namespace TraktPlugin.TraktHandlers
 
                 var response = TraktAPI.TraktAPI.AddShowToRatings(showRateData);
                 TraktLogger.LogTraktResponse(response);
+
+                if (response != null && response.NotFound != null && response.NotFound.Shows.Count > 0)
+                {
+                    TraktCache.RemoveShowFromRatings(showRateData);
+                }
             })
             {
                 IsBackground = true,
@@ -2050,11 +2074,14 @@ namespace TraktPlugin.TraktHandlers
                     Shows = new List<TraktSyncShowWatchedEx> { showEpisodes }
                 };
 
-                // update local cache
-                TraktCache.AddEpisodesToWatchHistory(showEpisodes);
-
                 var response = TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(showSync);
                 TraktLogger.LogTraktResponse(response);
+
+                if (response != null && response.NotFound != null && response.NotFound.Episodes.Count == 0)
+                {
+                    // update local cache
+                    TraktCache.AddEpisodesToWatchHistory(showEpisodes);
+                }
             })
             {
                 IsBackground = true,
@@ -2379,6 +2406,12 @@ namespace TraktPlugin.TraktHandlers
 
                 response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
                 TraktLogger.LogTraktResponse(response);
+
+                if (response != null && response.Show != null && response.Action == "scrobble")
+                {
+                    // add to cache
+                    TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                }
             })
             {
                 IsBackground = true,

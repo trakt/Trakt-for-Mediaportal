@@ -306,6 +306,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToWatchedHistory(new TraktSyncMoviesWatched { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromWatchHistory(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -353,6 +359,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromCollection(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -395,6 +407,12 @@ namespace TraktPlugin.TraktHandlers
 
                             var response = TraktAPI.TraktAPI.AddMoviesToRatings(new TraktSyncMoviesRated { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
+
+                            // remove movies from cache which didn't succeed
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count > 0)
+                            {
+                                TraktCache.RemoveMoviesFromRatings(response.NotFound.Movies);
+                            }
                         }
                     }
                 }
@@ -751,11 +769,14 @@ namespace TraktPlugin.TraktHandlers
                 // only mark as watched if progress is greater than user setting
                 if (scrobbleData.Progress >= MovingPicturesCore.Settings.MinimumWatchPercentage)
                 {
-                    // update local cache
-                    TraktCache.AddMovieToWatchHistory(scrobbleData.Movie);
-
                     TraktLogger.Info("Sending 'stop' scrobble of movie to trakt.tv. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", scrobbleData.Progress, scrobbleMovie.Title, movie.Year, scrobbleMovie.ImdbID ?? "<empty>", GetTmdbID(scrobbleMovie) ?? "<empty>");
                     response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
+
+                    if (response != null && response.Movie != null && response.Action == "scrobble")
+                    {
+                        // update local cache
+                        TraktCache.AddMovieToWatchHistory(scrobbleData.Movie);
+                    }
                 }
                 else
                 {
@@ -901,11 +922,14 @@ namespace TraktPlugin.TraktHandlers
                                 WatchedAt = DateTime.UtcNow.ToISO8601()
                             };
 
-                            // update internal cache
-                            TraktCache.AddMovieToWatchHistory(traktMovie);
-
                             var response = TraktAPI.TraktAPI.AddMovieToWatchedHistory(traktMovie);
                             TraktLogger.LogTraktResponse(response);
+
+                            if (response != null && response.NotFound != null && response.NotFound.Movies.Count == 0)
+                            {
+                                // update internal cache
+                                TraktCache.AddMovieToWatchHistory(traktMovie);
+                            }
 
                             // don't need to keep this movie anymore in categories/filter menu if it's watched
                             RemoveMovieCriteriaFromRecommendationsNode(tMovie.ImdbID);
