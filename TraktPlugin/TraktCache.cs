@@ -2179,6 +2179,30 @@ namespace TraktPlugin
             _WatchListSeasons = watchlistSeasons;
         }
 
+        internal static void AddSeasonToRatings(TraktShow show, TraktSeason season, int rating)
+        {
+            var ratedSeasons = (_RatedSeasons ?? new List<TraktSeasonRated>()).ToList();
+
+            ratedSeasons.Add(new TraktSeasonRated
+            {
+                RatedAt = DateTime.UtcNow.ToISO8601(),
+                Rating = rating,
+                Show = new TraktShow
+                {
+                    Ids = show.Ids,
+                    Title = show.Title,
+                    Year = show.Year
+                },
+                Season = new TraktSeason
+                {
+                    Ids = season.Ids,
+                    Number = season.Number
+                }
+            });
+
+            _RatedSeasons = ratedSeasons;
+        }
+
         #endregion
 
         #region Episodes
@@ -2576,6 +2600,27 @@ namespace TraktPlugin
             }
 
             _WatchListSeasons = watchlistSeasons;
+        }
+
+        internal static void RemoveSeasonFromRatings(TraktShow show, TraktSeason season)
+        {
+            if (_RatedSeasons == null || show.Ids == null)
+                return;
+
+            var ratedSeasons = _RatedSeasons.ToList();
+            ratedSeasons.RemoveAll(s => (((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) ||
+                                         ((s.Show.Ids.Imdb == show.Ids.Imdb) && s.Show.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                         ((s.Show.Ids.Tvdb == show.Ids.Tvdb) && s.Show.Ids.Tvdb != null)) &&
+                                           s.Season.Number == season.Number);
+
+            // remove using Title + Year
+            if (show.Ids.Trakt == null && show.Ids.Imdb.ToNullIfEmpty() == null && show.Ids.Tvdb == null)
+            {
+                ratedSeasons.RemoveAll(s => s.Show.Title.ToLowerInvariant() == show.Title.ToLower() && s.Show.Year == show.Year &&
+                                            s.Season.Number == season.Number);
+            }
+
+            _RatedSeasons = ratedSeasons;
         }
 
         #endregion

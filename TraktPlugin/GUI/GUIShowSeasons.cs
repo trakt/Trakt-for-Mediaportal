@@ -267,20 +267,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(new TraktSyncSeasonRatedEx
-                    {
-                        Ids = Show.Ids,
-                        Title = Show.Title,
-                        Year = Show.Year,
-                        Seasons = new List<TraktSyncSeasonRatedEx.Season>
-                        {
-                            new TraktSyncSeasonRatedEx.Season
-                            {
-                                Number = selectedSeason.Number,
-                                RatedAt = DateTime.UtcNow.ToISO8601()
-                            }
-                        }
-                    });
+                    GUICommon.RateSeason(Show, selectedSeason);
                     OnSeasonSelected(selectedItem, Facade);
                     (Facade.SelectedListItem as GUISeasonListItem).Images.NotifyPropertyChanged("Poster");
                     break;

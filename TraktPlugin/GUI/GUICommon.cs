@@ -517,6 +517,71 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Rate Season
+
+        internal static bool RateSeason(TraktShowSummary show, TraktSeasonSummary season)
+        {
+            var rateObject = new TraktSyncSeasonRatedEx
+            {
+                Ids = show.Ids,
+                Title = show.Title,
+                Year = show.Year,
+                Seasons = new List<TraktSyncSeasonRatedEx.Season>
+                {
+                    new TraktSyncSeasonRatedEx.Season
+                    {
+                        Number = season.Number,
+                        RatedAt = DateTime.UtcNow.ToISO8601()
+                    }
+                }
+            };
+
+            int? prevRating = season.UserRating(show);
+            int newRating = 0;
+
+            newRating = GUIUtils.ShowRateDialog<TraktSyncSeasonRatedEx>(rateObject);
+            if (newRating == -1) return false;
+
+            // If previous rating not equal to current rating then 
+            // update skin properties to reflect changes
+            if (prevRating == newRating)
+                return false;
+
+            if (prevRating == null || prevRating == 0)
+            {
+                // add to ratings
+                TraktCache.AddSeasonToRatings(show, season, newRating);
+                season.Votes++;
+            }
+            else if (newRating == 0)
+            {
+                // remove from ratings
+                TraktCache.RemoveSeasonFromRatings(show, season);
+                season.Votes--;
+            }
+            else
+            {
+                // rating changed, remove then add
+                TraktCache.RemoveSeasonFromRatings(show, season);
+                TraktCache.AddSeasonToRatings(show, season, newRating);
+            }
+
+            // update ratings until next online update
+            // if we have the ratings distribution we could calculate correctly
+            if (season.Votes == 0)
+            {
+                season.Rating = 0;
+            }
+            else if (season.Votes == 1 && newRating > 0)
+            {
+                season.Rating = newRating;
+            }
+
+            return true;
+        }
+
+        #endregion
+
         #region Rate Episode
 
         internal static bool RateEpisode(TraktShowSummary show, TraktEpisodeSummary episode)
