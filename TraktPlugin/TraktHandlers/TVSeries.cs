@@ -2401,9 +2401,6 @@ namespace TraktPlugin.TraktHandlers
                 // prompt to rate episode
                 ShowRateDialog(stoppedEpisode, isPlaylist);
 
-                // update local cache
-                TraktCache.AddEpisodeToWatchHistory(scrobbleData.Show, scrobbleData.Episode);
-
                 response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
                 TraktLogger.LogTraktResponse(response);
 
