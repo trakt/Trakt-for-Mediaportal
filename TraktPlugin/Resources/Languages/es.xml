@@ -27,6 +27,7 @@
   <string name="ActivityYourWatchlist">{0} añadido {1} a la lista seguimiento</string>
   <string name="ActivityAddToList">{0} añadió {1} a {2}</string>
   <string name="ActivityCreatedList">{0} creó {1}</string>
+  <string name="ActivityUpdatedList">{0} actualizó {1}</string>
   <string name="ActivityReview">{0} críticó {1}</string>
   <string name="ActivityShouts">{0} comentado por {1}</string>
   <string name="Activities">Actividades</string>

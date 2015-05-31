@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">Se vad övriga användare gör...</string>
   <string name="ActivityFollowersDesc">Se vad dina följare gör...</string>
   <string name="ActivityFollowingDesc">Se vad folk du följer gör...</string>
+  <string name="ActivityMeDesc">Ser vad du gjort...</string>
   <string name="ActivityWatching">{0} tittar på {1}</string>
   <string name="ActivityWatched">{0} har sett {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} har sett {1} [{2} gånger]</string>
   <string name="ActivityCheckedIn">{0} kollade in {1}</string>
   <string name="ActivityCollected">{0} samlade {1}</string>
   <string name="ActivityCollectedEpisodes">{0} samlade {1} avsnitt av {2}</string>
@@ -22,8 +24,12 @@
   <string name="ActivityRating">{0} betygsatt {1}</string>
   <string name="ActivityRatingAdvanced">{0} betygsatt {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} lade till {1} till sin WatchList</string>
+  <string name="ActivityYourWatchlist">{0} lade till {1} till WatchList</string>
   <string name="ActivityAddToList">{0} lade till {1} till {2}</string>
   <string name="ActivityCreatedList">{0} skapade {1}</string>
+  <string name="ActivityUpdatedList">{0} uppdaterade {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} uppdaterade {1} [{2} stycken]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} uppdaterade {1} [{2} stycken]</string>
   <string name="ActivityReview">{0} granskade {1}</string>
   <string name="ActivityShouts">{0} shout den {1}</string>
   <string name="Activities">Aktiviteter</string>
@@ -341,6 +347,7 @@ en lista nu?</string>
   <string name="Protected">Skyddad</string>
   <string name="PersonWatching">1 person tittar</string>
   <string name="PeopleWatching">{0} personer tittar</string>
+  <string name="Plays">Spelar</string>
   <string name="PlayTrailer">Spela trailer</string>
   <string name="Plugin">Insticksprogram</string>
   <string name="Plugins">Insticksprogram</string>
@@ -516,6 +523,12 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingMaxPopularMoviesRequestDescription">Sätt max antal begärda populära filmer per sida</string>
   <string name="SettingMaxPopularShowsRequestName">Max antal begärda populära TV-program</string>
   <string name="SettingMaxPopularShowsRequestDescription">Sätt max antal begärda populära TV-program per sida</string>
+  <string name="SettingMaxUserWatchedMoviesRequestName">Max antal nyligen sedda filmer som begärs</string>
+  <string name="SettingMaxUserWatchedMoviesRequestDescription">Sätt max antal begärda sedda filmer per sida</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestName">Max antal nyligen sedda avsnitt som begärs</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Sätt max antal begärda sedda avsnitt per sida</string>
+  <string name="SettingMaxUserCommentsRequestName">Max antal nya kommentarer som begärs</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Sätt max antal begärda nya kommentarer per sida</string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>

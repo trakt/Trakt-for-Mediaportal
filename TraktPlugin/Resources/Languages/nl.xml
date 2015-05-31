@@ -12,8 +12,10 @@
   <string name="ActivityCommunityDesc">Kijk wat de community doet...</string>
   <string name="ActivityFollowersDesc">Kijk wat je volgers doen...</string>
   <string name="ActivityFollowingDesc">Bekijk de activiteit van mensen die je volgt</string>
+  <string name="ActivityMeDesc">Kijk wat je gedaan hebt...</string>
   <string name="ActivityWatching">{0} bekijkt {1}</string>
   <string name="ActivityWatched">{0} bekeek {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} bekeek {1} [{2} keer]</string>
   <string name="ActivityCheckedIn">{0} ingecheckt in {1}</string>
   <string name="ActivityCollected">{0} verzamelde {1}</string>
   <string name="ActivityCollectedEpisodes">{0} verzamelde {1} afleveringen van {2}</string>
@@ -22,8 +24,10 @@
   <string name="ActivityRating">{0} waardeerde {1}</string>
   <string name="ActivityRatingAdvanced">{0} waardeerde {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} voegde {1} toe aan hun kijklijst</string>
+  <string name="ActivityYourWatchlist">{0} voegde {1} aan kijk lijst toe</string>
   <string name="ActivityAddToList">{0} voegde {1} toe aan {2}</string>
   <string name="ActivityCreatedList">{0} maakte {1}</string>
+  <string name="ActivityUpdatedList">{0} geüpdatet {1}</string>
   <string name="ActivityReview">{0} beoordeelde {1}</string>
   <string name="ActivityShouts">{0} stemde op {1}</string>
   <string name="Activities">Activiteiten</string>
@@ -332,6 +336,7 @@
   <string name="Protected">Beveiligd</string>
   <string name="PersonWatching">1 persoon kijkt</string>
   <string name="PeopleWatching">{0} mensen kijken</string>
+  <string name="Plays">keer bekeken</string>
   <string name="PlayTrailer">Trailer afspelen</string>
   <string name="Plugin">Plug-in</string>
   <string name="Plugins">Plug-ins</string>

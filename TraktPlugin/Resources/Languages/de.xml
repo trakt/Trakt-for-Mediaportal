@@ -27,6 +27,9 @@
   <string name="ActivityYourWatchlist">{0} hat {1} zur Watchlist hinzugefügt</string>
   <string name="ActivityAddToList">{0} hat {1} zu {2} hinzugefügt</string>
   <string name="ActivityCreatedList">{0} hat {1} erstellt</string>
+  <string name="ActivityUpdatedList">{0} aktualisierte {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} aktualisierte {1} [{2} Eintrag]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} aktualisierte {1} [{2} Einträge]</string>
   <string name="ActivityReview">{0} bewertete {1}</string>
   <string name="ActivityShouts">{0} kommentierte {1}</string>
   <string name="Activities">Aktivitäten</string>
@@ -509,6 +512,12 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="SettingMaxPopularMoviesRequestDescription">Setze das Maximum an beliebten Filmen, die pro Seite abgerufen werden.</string>
   <string name="SettingMaxPopularShowsRequestName">Maximum an beliebten Serien pro Abfrage</string>
   <string name="SettingMaxPopularShowsRequestDescription">Setze das Maximum an beliebten Serien, die pro Seite abgerufen werden.</string>
+  <string name="SettingMaxUserWatchedMoviesRequestName">Maximal abzurufende kürzlich gesehene Filme</string>
+  <string name="SettingMaxUserWatchedMoviesRequestDescription">Setze die Maximalzahl abzurufender kürzlich gesehener Filme pro Seite</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestName">Maximal abzurufende kürzlich gesehene Folgen</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Setze die Maximalzahl abzurufender kürzlich gesehener Folgen pro Seite</string>
+  <string name="SettingMaxUserCommentsRequestName">Maximal abzurufende kürzliche Kommentare</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Setze die Maximalzahl abzurufender kürzlicher Kommentare pro Seite</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="StartLibrarySync">Starte Bibliotheks-Synchronisierung</string>
   <string name="StartLibraryAndPlaybackSync">Starte Bibliotheks- und Wiedergabe-Synchronisierung</string>

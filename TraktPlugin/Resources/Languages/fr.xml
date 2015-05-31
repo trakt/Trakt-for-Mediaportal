@@ -254,6 +254,7 @@
   <string name="Location">Emplacement</string>
   <string name="LoginFailedServerError">La connection à trakt.tv a échoué en raison d\'une erreur de serveur, réessayez plus tard</string>
   <string name="Layout">Mise en page</string>
+  <string name="LibrarySyncAlreadyRunning">La synchronisation de la bibliothèque est déjà en cours, essayez à nouveau plus tard.</string>
   <string name="LibrarySyncStarted">La synchronisation de la bibliothèque a commencé</string>
   <string name="Like">Apprécie</string>
   <string name="Likes">Apprécies</string>
@@ -329,6 +330,7 @@
   <string name="Protected">Protégé</string>
   <string name="PersonWatching">1 téléspectateur</string>
   <string name="PeopleWatching">{0} téléspectateurs</string>
+  <string name="Plays">Lectures</string>
   <string name="PlayTrailer">Lire la bande annonce</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
