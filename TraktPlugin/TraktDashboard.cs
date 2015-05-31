@@ -1468,6 +1468,10 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region Comments
+            // TODO
+            #endregion
+
             TraktLogger.Debug("Finished getting users cached activity");
 
             // sort by time inserted into library
@@ -2330,14 +2334,15 @@ namespace TraktPlugin
                                 break;
 
                             case ActivityAction.item_added:
+                            case ActivityAction.updated:
                                 // load users list
-                                //GUIListItems.CurrentList = new TraktListDetail { Ids = activity.List.Ids };
+                                GUIListItems.CurrentList = activity.List;
                                 GUIListItems.CurrentUser = activity.User.Username;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                                 break;
 
                             case ActivityAction.created:
-                                // load users lists
+                                // load lists menu
                                 GUILists.CurrentUser = activity.User.Username;
                                 GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomLists);
                                 break;
