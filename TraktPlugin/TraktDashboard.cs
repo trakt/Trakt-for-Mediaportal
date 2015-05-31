@@ -1358,6 +1358,7 @@ namespace TraktPlugin
                         },
                         Season = new TraktSeasonSummary
                         {
+                            Ids = season.Season.Ids ?? new TraktSeasonId(),
                             Number = season.Season.Number
                         },
                         Rating = season.Rating,
@@ -1930,6 +1931,8 @@ namespace TraktPlugin
                         TraktHelper.AddRemoveMovieInUserList(activity.Movie, false);
                     else if (activity.Episode != null)
                         TraktHelper.AddRemoveEpisodeInUserList(activity.Episode, false);
+                    else if (activity.Season != null)
+                        TraktHelper.AddRemoveSeasonInUserList(activity.Season, false);
                     else
                         TraktHelper.AddRemoveShowInUserList(activity.Show, false);
                     break;
@@ -1941,6 +1944,8 @@ namespace TraktPlugin
                         TraktHelper.AddEpisodeToWatchList(activity.Show, activity.Episode);
                     else if (activity.Episodes != null && activity.Episodes.Count == 1)
                         TraktHelper.AddEpisodeToWatchList(activity.Show, activity.Episodes.First());
+                    else if (activity.Season != null)
+                        TraktHelper.AddSeasonToWatchList(activity.Show, activity.Season.Number);
                     else
                         TraktHelper.AddShowToWatchList(activity.Show);
                     break;
@@ -1952,6 +1957,8 @@ namespace TraktPlugin
                         TraktHelper.RemoveEpisodeFromWatchList(activity.Show, activity.Episode);
                     else if (activity.Episodes != null && activity.Episodes.Count == 1)
                         TraktHelper.RemoveEpisodeFromWatchList(activity.Show, activity.Episodes.First());
+                    else if (activity.Season != null)
+                        TraktHelper.RemoveSeasonFromWatchList(activity.Show, activity.Season.Number);
                     else
                         TraktHelper.RemoveShowFromWatchList(activity.Show);
 
@@ -2017,6 +2024,8 @@ namespace TraktPlugin
                         GUICommon.RateEpisode(activity.Show, activity.Episode);
                     else if (activity.Episodes != null && activity.Episodes.Count == 1)
                         GUICommon.RateEpisode(activity.Show, activity.Episodes.First());
+                    else if (activity.Season != null)
+                        GUICommon.RateSeason(activity.Show, activity.Season);
                     else
                         GUICommon.RateShow(activity.Show);
                     break;
@@ -2225,6 +2234,11 @@ namespace TraktPlugin
                     GUICommon.SetShowProperties(activity.Show);
                     break;
 
+                case ActivityType.season:
+                    GUICommon.SetShowProperties(activity.Show);
+                    GUICommon.SetSeasonProperties(activity.Show, activity.Season);
+                    break;
+
                 case ActivityType.movie:
                     GUICommon.SetMovieProperties(activity.Movie);
                     break;
@@ -2238,10 +2252,15 @@ namespace TraktPlugin
                             case "show":
                                 GUICommon.SetShowProperties(activity.ListItem.Show);
                                 break;
+                            
+                            case "season":
+                                GUICommon.SetShowProperties(activity.ListItem.Show);
+                                GUICommon.SetSeasonProperties(activity.ListItem.Show, activity.ListItem.Season);
+                                break;
 
                             case "episode":
                                 GUICommon.SetShowProperties(activity.ListItem.Show);
-                                GUICommon.SetEpisodeProperties(activity.Show, activity.ListItem.Episode);
+                                GUICommon.SetEpisodeProperties(activity.ListItem.Show, activity.ListItem.Episode);
                                 break;
 
                             case "movie":
