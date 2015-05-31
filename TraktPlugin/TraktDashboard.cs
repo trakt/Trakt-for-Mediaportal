@@ -961,15 +961,8 @@ namespace TraktPlugin
         private string GetActivityShoutText(TraktActivity.Activity activity)
         {
             if (activity.Action != ActivityAction.shout.ToString()) return string.Empty;
-            if (activity.Shout.Spoiler) return Translation.HiddenToPreventSpoilers;
+            if (activity.Shout.IsSpoiler) return Translation.HiddenToPreventSpoilers;
             return activity.Shout.Text;
-        }
-
-        private string GetActivityReviewText(TraktActivity.Activity activity)
-        {
-            if (activity.Action != ActivityAction.review.ToString()) return string.Empty;
-            if (activity.Review.Spoiler) return Translation.HiddenToPreventSpoilers;
-            return activity.Review.Text;
         }
 
         private IEnumerable<TraktMovieTrending> GetTrendingMovies(out bool isCached)
@@ -1464,6 +1457,7 @@ namespace TraktPlugin
                             Show = listItem.Show,
                             Episode = listItem.Episode,
                             Season = listItem.Season,
+                            Person = listItem.Person,
                             User = GetUserProfile()
                         };
 

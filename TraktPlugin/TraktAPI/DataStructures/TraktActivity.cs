@@ -100,52 +100,17 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "movie", EmitDefaultValue = false)]
             public TraktMovieSummary Movie { get; set; }
 
-            [DataMember(Name = "review", EmitDefaultValue = false)]
-            public Activity.TraktShout Review { get; set; }
-
             [DataMember(Name = "shout", EmitDefaultValue = false)]
-            public Activity.TraktShout Shout { get; set; }
-
-            [DataContract]
-            public class TraktShout
-            {
-                [DataMember(Name = "id")]
-                public long Id { get; set; }
-
-                [DataMember(Name = "text")]
-                public string Text { get; set; }
-
-                [DataMember(Name = "text_html")]
-                public string TextHTML { get; set; }
-
-                [DataMember(Name = "spoiler")]
-                public bool Spoiler { get; set; }
-            }
+            public TraktComment Shout { get; set; }
 
             [DataMember(Name = "list", EmitDefaultValue = false)]
             public TraktListDetail List { get; set; }
 
             [DataMember(Name = "list_item", EmitDefaultValue = false)]
-            public Activity.TraktListItem ListItem { get; set; }
+            public TraktListItem ListItem { get; set; }
 
-            [DataContract]
-            public class TraktListItem
-            {
-                [DataMember(Name = "type")]
-                public string Type { get; set; }
-
-                [DataMember(Name = "show")]
-                public TraktShowSummary Show { get; set; }
-
-                [DataMember(Name = "movie")]
-                public TraktMovieSummary Movie { get; set; }
-
-                [DataMember(Name = "episode")]
-                public TraktEpisodeSummary Episode { get; set; }
-
-                [DataMember(Name = "season")]
-                public TraktSeasonSummary Season { get; set; }
-            }
+            [DataMember(Name = "person", EmitDefaultValue = false)]
+            public TraktPersonSummary Person { get; set; }
         }
     }
 }

@@ -3093,6 +3093,10 @@ namespace TraktPlugin.GUI
                         name = string.Format("{0} ({1})", activity.Movie.Title, activity.Movie.Year);
                         break;
 
+                    case ActivityType.person:
+                        name = string.Format("{0}", activity.Person.Name);
+                        break;
+
                     case ActivityType.list:
                         if (action == ActivityAction.item_added)
                         {
@@ -3121,6 +3125,11 @@ namespace TraktPlugin.GUI
                                 case "movie":
                                     name = string.Format("{0} ({1})", activity.ListItem.Movie.Title, activity.ListItem.Movie.Year);
                                     break;
+
+                                case "person":
+                                    name = string.Format("{0}", activity.Person.Name);
+                                    break;
+
                             }
                         }
                         else if (action == ActivityAction.created)

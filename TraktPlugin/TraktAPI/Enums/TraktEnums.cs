@@ -136,6 +136,7 @@ namespace TraktPlugin.TraktAPI.Enums
         season,
         show,
         movie,
+        person,
         list
     }
 
