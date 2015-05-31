@@ -47,6 +47,8 @@ namespace TraktPlugin.GUI
                         SetImageToGui((s as GUITraktImage).MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster));
                     if (s is GUITraktImage && e.PropertyName == "ShowPoster")
                         SetImageToGui((s as GUITraktImage).ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster));
+                    if (s is GUITraktImage && e.PropertyName == "HeadShot")
+                        SetImageToGui((s as GUITraktImage).PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot));
                     // re-size season posters to same as series/movie posters
                     if (s is GUITraktImage && e.PropertyName == "Season")
                         SetImageToGui((s as GUITraktImage).SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster), new Size(300, 434));
@@ -192,6 +194,30 @@ namespace TraktPlugin.GUI
                             }
                             #endregion
                         }
+                        #endregion
+
+                        #region People
+
+                        if (item.PoepleImages != null)
+                        {
+                            #region Headshot
+                            // stop download if we have exited window
+                            if (StopDownload) break;
+
+                            remoteThumb = item.PoepleImages.HeadShot.FullSize;
+                            localThumb = item.PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot);
+
+                            if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
+                            {
+                                if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                                {
+                                    // notify that image has been downloaded
+                                    item.NotifyPropertyChanged("HeadShot");
+                                }
+                            }
+                            #endregion
+                        }
+
                         #endregion
                     }
                 })

@@ -414,6 +414,8 @@ namespace TraktPlugin.GUI
                         TraktHelper.AddRemoveSeasonInUserList(selectedListItem.Season, false);
                     else if (SelectedType == TraktItemType.episode)
                         TraktHelper.AddRemoveEpisodeInUserList(selectedListItem.Episode, false);
+                    else if (SelectedType == TraktItemType.person)
+                        TraktHelper.AddRemovePersonInUserList(selectedListItem.Person, false);
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromList):
@@ -994,6 +996,13 @@ namespace TraktPlugin.GUI
             GUICommon.SetMovieProperties(item.Movie);
         }
 
+        private void PublishPersonSkinProperties(TraktListItem item)
+        {
+            if (item == null || item.Person == null) return;
+
+            GUICommon.SetPersonProperties(item.Person);
+        }
+
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             if (item == null) return;
@@ -1027,6 +1036,12 @@ namespace TraktPlugin.GUI
                     SelectedType = TraktItemType.episode;
                     PublishEpisodeSkinProperties(listItem);
                     GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    break;
+
+                case "person":
+                    SelectedType = TraktItemType.person;
+                    PublishPersonSkinProperties(listItem);
+                    GUIImageHandler.LoadFanart(backdrop, null);
                     break;
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());

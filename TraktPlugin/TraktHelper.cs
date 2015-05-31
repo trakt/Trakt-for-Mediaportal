@@ -809,6 +809,45 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Add/Remove Person in List
+
+        internal static void AddRemovePersonInUserList(TraktPerson person, bool remove)
+        {
+            if (!GUICommon.CheckLogin(false)) return;
+
+            GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
+            {
+                return TraktLists.GetListsForUser(TraktSettings.Username);
+            },
+            delegate(bool success, object result)
+            {
+                if (success)
+                {
+                    var customlists = result as IEnumerable<TraktListDetail>;
+
+                    // get slug of lists selected
+                    List<int> slugs = TraktLists.GetUserListSelections(customlists.ToList());
+                    if (slugs == null || slugs.Count == 0) return;
+
+                    // add the movie to add/remove to a new sync list
+                    var items = new TraktSyncAll
+                    {
+                        People = new List<TraktPerson>
+                        {
+                            new TraktPerson
+                            {
+                                Ids = person.Ids
+                            }
+                        }
+                    };
+
+                    AddRemoveItemInList(slugs, items, remove);
+                }
+            }, Translation.GettingLists, true);
+        }
+
+        #endregion
+
         #region Related Movies
 
         public static void ShowRelatedMovies(TraktMovie movie)

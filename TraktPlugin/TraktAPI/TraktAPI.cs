@@ -1633,8 +1633,8 @@ namespace TraktPlugin.TraktAPI
         {
             var response = PostToTrakt(TraktURIs.SyncWatchlistRemove, shows.ToJSON());
             return response.FromJSON<TraktSyncResponse>();
-
         }
+        
         public static TraktSyncResponse AddSeasonsToWatchlist(TraktSyncSeasonsEx shows)
         {
             var response = PostToTrakt(TraktURIs.SyncWatchlistAdd, shows.ToJSON());
