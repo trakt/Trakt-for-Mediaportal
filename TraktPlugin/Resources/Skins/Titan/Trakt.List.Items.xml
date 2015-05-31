@@ -250,7 +250,7 @@
         <type>facadeview</type>
         <id>50</id>
         <control>
-          <description>Movie List</description>
+          <description>List</description>
           <type>listcontrol</type>
           <id>50</id>
           <onleft>2</onleft>
@@ -269,7 +269,6 @@
           <spinPosX>1828</spinPosX>
           <spinPosY>1000</spinPosY>
         </control>
-
         <control>
           <description>Filmstrip view</description>
           <type>filmstrip</type>
@@ -314,7 +313,6 @@
           <thumbAnimation effect="zoom" acceleration="-2" start="100,100" reversible="false" end="120,120" center="0,880" time="200">focus</thumbAnimation>
           <thumbAnimation effect="zoom" start="120,120" reversible="false" end="100,100" center="0,880" time="100">unfocus</thumbAnimation>
         </control>
-
         <control>
           <description>Thumbnail Panel</description>
           <type>thumbnailpanel</type>
@@ -358,7 +356,6 @@
           <spinPosX>1828</spinPosX>
           <spinPosY>1000</spinPosY>
         </control>
-
         <control>
           <description>Cover Flow view</description>
           <type>coverflow</type>
@@ -539,7 +536,7 @@
     </control>
 
     <control Style="InfoLabel">
-      <description>Released Label</description>
+      <description>FirstAired Label</description>
       <type>label</type>
       <posX>565</posX>
       <posY>343</posY>
@@ -550,12 +547,23 @@
     </control>
 
     <control Style="InfoLabel">
-      <description>Released Label</description>
+      <description>FirstAired Label</description>
       <type>label</type>
       <posX>565</posX>
       <posY>343</posY>
       <label>#Trakt.Translation.FirstAired.Label</label>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAired,)+string.equals(#Trakt.List.ItemType,episode)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Birthday Label</description>
+      <type>label</type>
+      <posX>565</posX>
+      <posY>343</posY>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -573,7 +581,7 @@
     </control>
 
     <control Style="InfoValueSmall">
-      <description>Released</description>
+      <description>FirstAired</description>
       <id>0</id>
       <type>label</type>
       <posX>798</posX>
@@ -585,13 +593,25 @@
     </control>
 
     <control Style="InfoValueSmall">
-      <description>Released</description>
+      <description>FirstAired</description>
       <id>0</id>
       <type>label</type>
       <posX>798</posX>
       <posY>343</posY>
       <label>#Trakt.Episode.FirstAired</label>
       <visible>facadeview.list+!string.equals(#Trakt.Episode.FirstAired,)+string.equals(#Trakt.List.ItemType,episode)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoValueSmall">
+      <description>Birthday</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>798</posX>
+      <posY>343</posY>
+      <label>#Trakt.Person.Birthday</label>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -615,7 +635,19 @@
       <posX>565</posX>
       <posY>379</posY>
       <label>#Trakt.Translation.Runtime.Label</label>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Birthplace Label</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>565</posX>
+      <posY>379</posY>
+      <label>#Trakt.Translation.BirthPlace.Label</label>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -639,7 +671,19 @@
       <posX>798</posX>
       <posY>379</posY>
       <label>#Trakt.Show.Runtime min</label>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoValueSmall">
+      <description>Birthplace</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>798</posX>
+      <posY>379</posY>
+      <label>#Trakt.Person.Birthplace</label>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -651,7 +695,7 @@
       <posX>565</posX>
       <posY>415</posY>
       <label>#Trakt.Translation.Rating.Label</label>
-      <visible>facadeview.list+[!string.equals(#Trakt.Show.Ratings.Percentage,) | !string.equals(#Trakt.Movie.Ratings.Percentage,) | !string.equals(#Trakt.Episode.Ratings.Percentage,)]</visible>
+      <visible>facadeview.list+[!string.equals(#Trakt.Show.Ratings.Percentage,) | !string.equals(#Trakt.Movie.Ratings.Percentage,) | !string.equals(#Trakt.Episode.Ratings.Percentage,)]+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -767,7 +811,7 @@
       <posX>565</posX>
       <posY>451</posY>
       <label>#Trakt.Translation.Certification.Label</label>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -791,7 +835,7 @@
       <posX>798</posX>
       <posY>451</posY>
       <label>#Trakt.Show.Certification</label>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -875,9 +919,28 @@
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
+    
+    <control>
+      <description>Biography</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>568</posX>
+      <posY>501</posY>
+      <width>555</width>
+      <height>415</height>
+      <label>#Trakt.Person.Biography</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <onleft>1026</onleft>
+      <onright>1026</onright>
+      <onup>1026</onup>
+      <ondown>1026</ondown>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Biography,)+string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
 
     <!--            :: THUMBVIEW ::            -->
-
 
     <control>
       <description>Movie Title value</description>
@@ -951,6 +1014,24 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
+    <control>
+      <description>Person Name value</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>1040</posX>
+      <posY>332</posY>
+      <width>700</width>
+      <label>#Trakt.Person.Name</label>
+      <font>fontB16</font>
+      <textcolor>FF00b7ff</textcolor>
+      <shadowAngle>120</shadowAngle>
+      <shadowDistance>2</shadowDistance>
+      <shadowColor>FF000000</shadowColor>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Name,)+string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
     <control Style="InfoLabel">
       <description>Released Label</description>
       <type>label</type>
@@ -963,7 +1044,7 @@
     </control>
 
     <control Style="InfoLabel">
-      <description>Released Label</description>
+      <description>FirstAired Label</description>
       <type>label</type>
       <posX>1038</posX>
       <posY>399</posY>
@@ -974,12 +1055,23 @@
     </control>
 
     <control Style="InfoLabel">
-      <description>Released Label</description>
+      <description>FirstAired Label</description>
       <type>label</type>
       <posX>1038</posX>
       <posY>399</posY>
       <label>#Trakt.Translation.FirstAired.Label</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Episode.FirstAired,)+string.equals(#Trakt.List.ItemType,episode)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Birthday Label</description>
+      <type>label</type>
+      <posX>1038</posX>
+      <posY>399</posY>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -997,7 +1089,7 @@
     </control>
 
     <control Style="InfoValueSmall">
-      <description>Released</description>
+      <description>FirstAired</description>
       <id>0</id>
       <type>label</type>
       <posX>1270</posX>
@@ -1009,13 +1101,25 @@
     </control>
 
     <control Style="InfoValueSmall">
-      <description>Released</description>
+      <description>FirstAired</description>
       <id>0</id>
       <type>label</type>
       <posX>1270</posX>
       <posY>399</posY>
       <label>#Trakt.Episode.FirstAired</label>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Episode.FirstAired,)+string.equals(#Trakt.List.ItemType,episode)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoValueSmall">
+      <description>Birthday</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>1270</posX>
+      <posY>399</posY>
+      <label>#Trakt.Person.Birthday</label>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1039,7 +1143,19 @@
       <posX>1038</posX>
       <posY>435</posY>
       <label>#Trakt.Translation.Runtime.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Birthplace Label</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>1038</posX>
+      <posY>435</posY>
+      <label>#Trakt.Translation.BirthPlace.Label</label>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1063,7 +1179,19 @@
       <posX>1270</posX>
       <posY>435</posY>
       <label>#Trakt.Show.Runtime min</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoValueSmall">
+      <description>Birthplace</description>
+      <id>0</id>
+      <type>label</type>
+      <posX>1270</posX>
+      <posY>435</posY>
+      <label>#Trakt.Person.Birthplace</label>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1075,7 +1203,7 @@
       <posX>1038</posX>
       <posY>471</posY>
       <label>#Trakt.Translation.Rating.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+[!string.equals(#Trakt.Show.Ratings.Percentage,) | !string.equals(#Trakt.Movie.Ratings.Percentage,) | !string.equals(#Trakt.Episode.Ratings.Percentage,)]</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+[!string.equals(#Trakt.Show.Ratings.Percentage,) | !string.equals(#Trakt.Movie.Ratings.Percentage,) | !string.equals(#Trakt.Episode.Ratings.Percentage,)]+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1189,7 +1317,7 @@
       <posX>1038</posX>
       <posY>506</posY>
       <label>#Trakt.Translation.Certification.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1213,7 +1341,7 @@
       <posX>1270</posX>
       <posY>506</posY>
       <label>#Trakt.Show.Certification</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Certification,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -1298,6 +1426,26 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
 
+    <control>
+      <description>Biography</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>1040</posX>
+      <posY>592</posY>
+      <width>790</width>
+      <height>345</height>
+      <label>#Trakt.Person.Biography</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <onleft>1026</onleft>
+      <onright>1026</onright>
+      <onup>1026</onup>
+      <ondown>1026</ondown>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Biography,)+string.equals(#Trakt.List.ItemType,person)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
     <import>common.overlay.xml</import>
   </controls>
 </window>

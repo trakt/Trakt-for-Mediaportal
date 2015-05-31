@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<!--version="1.0" encoding="utf-8" standalone="yes"-->
 <window>
   <id>87276</id>
   <defaultcontrol>50</defaultcontrol>
@@ -297,7 +296,7 @@
       <height>1</height>
       <texture>hbar1white.png</texture>
       <colordiffuse>60ffffff</colordiffuse>
-      <visible>facadeview.list+!string.equals(#Trakt.Movie.Title,)+string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.List.Name,)</visible>
     </control>
     <control Style="NoShadow">
       <description>Plot value</description>
@@ -347,7 +346,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Rating Icon</description>
@@ -358,7 +357,7 @@
       <posX>729</posX>
       <posY>208</posY>
       <texture>#Trakt.Show.Ratings.Icon.png</texture>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Rating value</description>
@@ -370,7 +369,7 @@
       <label>#Trakt.Show.Ratings.Percentage% (#Trakt.Show.Ratings.Votes #Trakt.Translation.Votes.Label)</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Ratings.Votes,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Genre txt</description>
@@ -382,7 +381,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Genre value</description>
@@ -394,7 +393,7 @@
       <font>font12</font>
       <width>280</width>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Series Airs txt</description>
@@ -406,7 +405,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Airs</description>
@@ -418,7 +417,7 @@
       <label>#Trakt.Show.AirDayLocalized #Trakt.Show.AirTimeLocalized</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.AirDayLocalized,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Network txt</description>
@@ -430,7 +429,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Network</description>
@@ -442,7 +441,7 @@
       <label>#Trakt.Show.Network</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Network,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Country Label</description>
@@ -453,7 +452,7 @@
       <label>#(string.rtrim(L(1276),':'))</label>
       <font>font11</font>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Country,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Country,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Country Value</description>
@@ -464,7 +463,7 @@
       <label>#Trakt.Show.Country</label>
       <font>font12</font>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Country,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Country,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Runtime txt</description>
@@ -476,7 +475,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Show Runtime</description>
@@ -489,7 +488,7 @@
       <font>font12</font>
       <align>left</align>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Runtime,)+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control>
       <description>Separator Line</description>
@@ -502,6 +501,55 @@
       <texture>hbar1white.png</texture>
       <colordiffuse>60ffffff</colordiffuse>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+    </control>
+    <!-- People List Layout -->
+    <control>
+      <description>Birthday txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>187</posY>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
+    </control>
+    <control>
+      <description>Birthday value</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>206</posY>
+      <width>280</width>
+      <label>#Trakt.Person.Birthday</label>
+      <font>font12</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)+string.equals(#Trakt.List.ItemType,person)</visible>
+    </control>
+    <control>
+      <description>Birthplace txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>231</posY>
+      <label>#Trakt.Translation.BirthPlace.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
+    </control>
+    <control>
+      <description>Genre value</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>250</posY>
+      <label>#Trakt.Person.Birthplace</label>
+      <font>font12</font>
+      <width>280</width>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)+string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
     <control Style="NoShadow">
       <description>Plot value</description>
@@ -529,6 +577,19 @@
       <textcolor>ivory</textcolor>
       <visible>facadeview.list+string.equals(#Trakt.List.ItemType,episode)</visible>
     </control>
+    <control Style="NoShadow">
+      <description>Biography value</description>
+      <type>textboxscrollup</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>470</posY>
+      <width>520</width>
+      <height>105</height>
+      <label>#Trakt.Person.Biography</label>
+      <font>font11</font>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+string.equals(#Trakt.List.ItemType,person)</visible>
+    </control>
     <control>
       <description>Separator Line</description>
       <type>image</type>
@@ -539,7 +600,7 @@
       <height>1</height>
       <texture>hbar1white.png</texture>
       <colordiffuse>60ffffff</colordiffuse>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.List.Name,)</visible>
     </control>
     <control>
       <description>Certification Logo</description>
@@ -551,7 +612,7 @@
       <height>32</height>
       <texture>Logos\#Trakt.Show.Certification.png</texture>
       <keepaspectratio>no</keepaspectratio>
-      <visible>facadeview.list+!string.equals(#Trakt.List.ItemType,movie)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.List.ItemType,movie)+!string.equals(#Trakt.List.ItemType,person)</visible>
     </control>
   </controls>
 </window>
