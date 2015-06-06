@@ -32,6 +32,7 @@
   <string name="ActivityUpdatedListWithItemCount">{0} updated {1} [{2} Items]</string>
   <string name="ActivityReview">{0} reviewed {1}</string>
   <string name="ActivityShouts">{0} shouted on {1}</string>
+  <string name="ActivityPaused">{0} paused {1} [{2}%]</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>
   <string name="AddToLibrary">Add to Collection</string>

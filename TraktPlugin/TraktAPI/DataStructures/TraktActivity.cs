@@ -82,8 +82,11 @@ namespace TraktPlugin.TraktAPI.DataStructures
             [DataMember(Name = "user")]
             public TraktUserSummary User { get; set; }
 
-            [DataMember(Name = "rating")]
+            [DataMember(Name = "rating", EmitDefaultValue = false)]
             public int Rating { get; set; }
+
+            [DataMember(Name = "progress", EmitDefaultValue = false)]
+            public float Progress { get; set; }
 
             [DataMember(Name = "episode", EmitDefaultValue = false)]
             public TraktEpisodeSummary Episode { get; set; }

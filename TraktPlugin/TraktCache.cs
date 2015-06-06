@@ -1806,7 +1806,7 @@ namespace TraktPlugin
 
         #region Paused
 
-        public static IEnumerable<TraktSyncPausedMovies> GetMoviePausedData(out string lastMovieProcessedAt, bool ignoreLastSyncTime = false)
+        public static IEnumerable<TraktSyncPausedMovies> GetPausedMovieData(out string lastMovieProcessedAt, bool ignoreLastSyncTime = false)
         {
             lastMovieProcessedAt = TraktSettings.LastSyncActivities.Movies.PausedAt;
 
@@ -1865,7 +1865,7 @@ namespace TraktPlugin
         }
         static IEnumerable<TraktSyncPausedMovies> _PausedMovieData;
 
-        public static IEnumerable<TraktSyncPausedEpisodes> GetEpisodePausedData(out string lastEpisodeProcessedAt, bool ignoreLastSyncTime = false)
+        public static IEnumerable<TraktSyncPausedEpisodes> GetPausedEpisodeData(out string lastEpisodeProcessedAt, bool ignoreLastSyncTime = false)
         {
             lastEpisodeProcessedAt = TraktSettings.LastSyncActivities.Episodes.PausedAt;
 

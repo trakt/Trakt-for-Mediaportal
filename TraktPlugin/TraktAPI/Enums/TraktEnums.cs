@@ -120,6 +120,7 @@ namespace TraktPlugin.TraktAPI.Enums
         watchlist,
         review,
         shout,
+        pause,
         created,
         item_added, 
         updated

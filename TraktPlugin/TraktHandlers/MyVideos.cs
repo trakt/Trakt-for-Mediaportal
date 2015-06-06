@@ -490,7 +490,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get playback data from trakt
             string lastPausedAtMovie;
-            var playbackData = TraktCache.GetMoviePausedData(out lastPausedAtMovie);
+            var playbackData = TraktCache.GetPausedMovieData(out lastPausedAtMovie);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");

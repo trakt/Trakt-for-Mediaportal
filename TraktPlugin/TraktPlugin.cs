@@ -103,7 +103,7 @@ namespace TraktPlugin
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
-            TraktLogger.Info("Loading main skin window, Filename = '{0}'", xmlSkin);
+            TraktLogger.Info("Loading main skin window. Filename = '{0}'", xmlSkin);
             bool loadResult = Load(xmlSkin);
 
             // Sync Libaries now and periodically

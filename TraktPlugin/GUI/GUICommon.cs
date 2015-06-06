@@ -3007,6 +3007,10 @@ namespace TraktPlugin.GUI
                     title = string.Format(Translation.ActivityShouts, userName, itemName);
                     break;
 
+                case ActivityAction.pause:
+                    title = string.Format(Translation.ActivityPaused, userName, itemName, Math.Round(activity.Progress, 0));
+                    break;
+
                 case ActivityAction.created: // created list
                     title = string.Format(Translation.ActivityCreatedList, userName, itemName);
                     break;

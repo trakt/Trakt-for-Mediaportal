@@ -914,6 +914,7 @@ namespace TraktPlugin
             {
                 case ActivityAction.checkin:
                 case ActivityAction.watching:
+                case ActivityAction.pause:
                     imageFilename = "traktActivityWatching.png";
                     break;
 
@@ -1619,6 +1620,73 @@ namespace TraktPlugin
 
                     // add activity to the list
                     activity.Activities.Add(commentedListActivity);
+                }
+            }
+            #endregion
+
+            #region paused episodes
+            string lastEpisodeProcessedAt;
+            var pausedEpisodes = TraktCache.GetPausedEpisodeData(out lastEpisodeProcessedAt, true);
+            if (pausedEpisodes != null)
+            {
+                foreach (var pause in pausedEpisodes.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
+                {
+                    var pausedEpisodeActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.pause.ToString(),
+                        Type = ActivityType.episode.ToString(),
+                        Show = new TraktShowSummary
+                        {
+                            Title = pause.Show.Title,
+                            Year = pause.Show.Year,
+                            Ids = pause.Show.Ids,
+                            Images = new TraktShowImages()
+                        },
+                        Episode = new TraktEpisodeSummary
+                        {
+                            Ids = pause.Episode.Ids,
+                            Number = pause.Episode.Number,
+                            Season = pause.Episode.Season,
+                            Title = pause.Episode.Title
+                        },
+                        Progress = pause.Progress,
+                        Timestamp = pause.PausedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(pausedEpisodeActivity);
+                }
+            }
+            #endregion
+
+            #region paused movies
+            string lastMovieProcessedAt;
+            var pausedMovie = TraktCache.GetPausedMovieData(out lastMovieProcessedAt, true);
+            if (pausedMovie != null)
+            {
+                foreach (var pause in pausedMovie.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
+                {
+                    var pausedMovieActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.pause.ToString(),
+                        Type = ActivityType.movie.ToString(),
+                        Movie = new TraktMovieSummary
+                        {
+                            Ids = pause.Movie.Ids,
+                            Title = pause.Movie.Title,
+                            Year = pause.Movie.Year,
+                            Images = new TraktMovieImages()
+                        },
+                        Progress = pause.Progress,
+                        Timestamp = pause.PausedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(pausedMovieActivity);
                 }
             }
             #endregion

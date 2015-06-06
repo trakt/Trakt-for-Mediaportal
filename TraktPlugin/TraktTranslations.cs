@@ -274,6 +274,7 @@ namespace TraktPlugin.GUI
         public static string ActivityUpdatedListWithItemCount = "{0} updated {1} [{2} Items]";
         public static string ActivityReview = "{0} reviewed {1}";
         public static string ActivityShouts = "{0} shouted on {1}";
+        public static string ActivityPaused = "{0} paused {1} [{2}%]";
         public static string Activities = "Activities";
         public static string AiredEpisodes = "Aired Episodes";
         public static string AddFriend = "Add Friend...";

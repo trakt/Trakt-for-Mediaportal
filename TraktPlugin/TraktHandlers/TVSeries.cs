@@ -716,7 +716,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get playback data from trakt
             string lastPausedAtEpisode;
-            var playbackData = TraktCache.GetEpisodePausedData(out lastPausedAtEpisode);
+            var playbackData = TraktCache.GetPausedEpisodeData(out lastPausedAtEpisode);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
