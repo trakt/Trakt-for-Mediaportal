@@ -115,6 +115,9 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
             [DataMember(Name = "updated_at")]
             public string UpdatedAt { get; set; }
+
+            [DataMember(Name = "commented_at")]
+            public string Comment { get; set; }
         }
     }
 }

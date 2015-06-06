@@ -576,6 +576,9 @@ namespace TraktPlugin
                 TraktCache.GetWatchlistedShowsFromTrakt();
                 TraktCache.GetWatchlistedSeasonsFromTrakt();
                 TraktCache.GetWatchlistedEpisodesFromTrakt();
+                TraktCache.GetCommentedEpisodesFromTrakt();
+                TraktCache.GetCommentedSeasonsFromTrakt();
+                TraktCache.GetCommentedShowsFromTrakt();
 
                 TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");
                 TraktLogger.Info("Started refresh of movie user data from trakt.tv");
@@ -587,14 +590,17 @@ namespace TraktPlugin
                 TraktCache.GetCollectedMoviesFromTrakt();
                 TraktCache.GetRatedMoviesFromTrakt();
                 TraktCache.GetWatchlistedMoviesFromTrakt();
+                TraktCache.GetCommentedMoviesFromTrakt();
 
                 TraktLogger.Info("Finished refresh of movie user data from trakt.tv");
                 TraktLogger.Info("Started refresh of custom list user data from trakt.tv");
 
                 // get custom lists from online
                 TraktCache.GetCustomLists();
+                TraktCache.GetCommentedListsFromTrakt();
 
                 TraktLogger.Info("Finished refresh of custom list user data from trakt.tv");
+
             }
             catch (Exception ex)
             {

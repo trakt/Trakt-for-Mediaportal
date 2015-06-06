@@ -213,6 +213,7 @@
     <Compile Include="Cornerstone.MP\AsyncImageResource.cs" />
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="GUI\GUIListsMenu.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCommentItem.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktComments.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />

@@ -274,10 +274,30 @@ namespace TraktPlugin.TraktAPI
         /// <param name="username">Username of person that made comment</param>
         /// <param name="commentType">all, reviews, shouts</param>
         /// <param name="type"> all, movies, shows, seasons, episodes, lists</param>
-        public static IEnumerable<TraktCommentItem> GetUsersComments(string username, string commentType = "all", string type = "all", int page = 1, int maxItems = 100)
+        public static TraktComments GetUsersComments(string username, string commentType = "all", string type = "all", string extendedInfoParams = "min", int page = 1, int maxItems = 10)
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserComments, username, commentType, type, page, maxItems));
-            return response.FromJSONArray<TraktCommentItem>();
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.UserComments, username, commentType, type, extendedInfoParams, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktComments
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    //TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    //TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    Comments = response.FromJSONArray<TraktCommentItem>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
         }
 
         #endregion

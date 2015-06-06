@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktCommentItem
+    public class TraktCommentItem : IEquatable<TraktCommentItem>
     {
         [DataMember(Name = "type")]
         public string Type { get; set; }
@@ -25,5 +26,20 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "comment")]
         public TraktComment Comment { get; set; }
+
+        #region IEquatable
+        public bool Equals(TraktCommentItem other)
+        {
+            if (other == null || other.Comment == null)
+                return false;
+
+            return (this.Comment.Id == other.Comment.Id && this.Type == other.Type);
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.Comment.Id.ToString() + "_" + this.Type).GetHashCode();
+        }
+        #endregion
     }
 }

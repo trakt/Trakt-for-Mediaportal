@@ -317,10 +317,14 @@ namespace TraktPlugin
             if (facade.Count > 0 && !ReloadActivityView)
             {
                 var mostRecentActivity = facade[0].TVTag as TraktActivity.Activity;
-                if (mostRecentActivity != null)
+                var lastActivity = facade[facade.Count - 1].TVTag as TraktActivity.Activity;
+
+                if (mostRecentActivity != null && lastActivity != null)
                 {
                     // only check the timestamp if only showing yourself
-                    if (view == ActivityView.me && mostRecentActivity.Timestamp == activities.Activities.First().Timestamp)
+                    // check first and last because we may insert something in the middle between last load
+                    if (view == ActivityView.me && mostRecentActivity.Timestamp == activities.Activities.First().Timestamp
+                                                && lastActivity.Timestamp == activities.Activities.Last().Timestamp)
                         return;
 
                     if (mostRecentActivity.Timestamp == activities.Activities.First().Timestamp &&
@@ -1468,8 +1472,155 @@ namespace TraktPlugin
             }
             #endregion
 
-            #region Comments
-            // TODO
+            #region commented episodes
+            var commentedEpisodes = TraktCache.GetCommentedEpisodesFromTrakt(true);
+            if (commentedEpisodes != null)
+            {
+                foreach (var comment in commentedEpisodes.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                {
+                    var commentedEpisodeActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                        Type = comment.Type,
+                        Show = new TraktShowSummary
+                        {
+                            Ids = comment.Show.Ids,
+                            Title = comment.Show.Title,
+                            Year = comment.Show.Year,
+                            Images = new TraktShowImages()
+                        },
+                        Episode = new TraktEpisodeSummary
+                        {
+                            Ids = comment.Episode.Ids,
+                            Number = comment.Episode.Number,
+                            Season = comment.Episode.Season,
+                            Title = comment.Episode.Title
+                        },
+                        Shout = comment.Comment,
+                        Timestamp = comment.Comment.CreatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(commentedEpisodeActivity);
+                }
+            }
+            #endregion
+
+            #region commented seasons
+            var commentedSeasons = TraktCache.GetCommentedSeasonsFromTrakt(true);
+            if (commentedSeasons != null)
+            {
+                foreach (var comment in commentedSeasons.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                {
+                    var commentedSeasonActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                        Type = comment.Type,
+                        Show = new TraktShowSummary
+                        {
+                            Ids = comment.Show.Ids,
+                            Title = comment.Show.Title,
+                            Year = comment.Show.Year,
+                            Images = new TraktShowImages()
+                        },
+                        Season = new TraktSeasonSummary
+                        {
+                            Ids = comment.Season.Ids,
+                            Number = comment.Season.Number
+                        },
+                        Shout = comment.Comment,
+                        Timestamp = comment.Comment.CreatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(commentedSeasonActivity);
+                }
+            }
+            #endregion
+
+            #region commented shows
+            var commentedShows = TraktCache.GetCommentedShowsFromTrakt(true);
+            if (commentedShows != null)
+            {
+                foreach (var comment in commentedShows.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                {
+                    var commentedShowActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                        Type = comment.Type,
+                        Show = new TraktShowSummary
+                        {
+                            Ids = comment.Show.Ids,
+                            Title = comment.Show.Title,
+                            Year = comment.Show.Year,
+                            Images = new TraktShowImages()
+                        },
+                        Shout = comment.Comment,
+                        Timestamp = comment.Comment.CreatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(commentedShowActivity);
+                }
+            }
+            #endregion
+
+            #region commented movies
+            var commentedMovies = TraktCache.GetCommentedMoviesFromTrakt(true);
+            if (commentedMovies != null)
+            {
+                foreach (var comment in commentedMovies.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                {
+                    var commentedMovieActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                        Type = comment.Type,
+                        Movie = new TraktMovieSummary
+                        {
+                            Ids = comment.Movie.Ids,
+                            Title = comment.Movie.Title,
+                            Year = comment.Movie.Year,
+                            Images = new TraktMovieImages()
+                        },
+                        Shout = comment.Comment,
+                        Timestamp = comment.Comment.CreatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(commentedMovieActivity);
+                }
+            }
+            #endregion
+
+            #region commented lists
+            var commentedLists = TraktCache.GetCommentedMoviesFromTrakt(true);
+            if (commentedLists != null)
+            {
+                foreach (var comment in commentedLists.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                {
+                    var commentedListActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                        Type = comment.Type,
+                        List = comment.List,
+                        Shout = comment.Comment,
+                        Timestamp = comment.Comment.CreatedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(commentedListActivity);
+                }
+            }
             #endregion
 
             TraktLogger.Debug("Finished getting users cached activity");

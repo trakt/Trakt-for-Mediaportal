@@ -1,11 +1,9 @@
 ﻿extern alias nsoft;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using nsoft::Newtonsoft.Json; //OnlineVideos has this namespace
 
 namespace TraktPlugin.TraktAPI.Extensions

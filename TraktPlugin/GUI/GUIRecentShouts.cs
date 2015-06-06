@@ -80,13 +80,19 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentComments.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    var comments = TraktAPI.TraktAPI.GetUsersComments(CurrentUser, "all", "all", 1, TraktSettings.MaxUserCommentsRequest);
-
-                    _RecentlyComments = comments;
-                    if (userRecentComments.Keys.Contains(CurrentUser)) userRecentComments.Remove(CurrentUser);
-                    userRecentComments.Add(CurrentUser, _RecentlyComments);
-                    LastRequest = DateTime.UtcNow;
-                    PreviousSelectedIndex = 0;
+                    var response = TraktAPI.TraktAPI.GetUsersComments(CurrentUser, "all", "all", "full,images", 1, TraktSettings.MaxUserCommentsRequest);
+                    if (response != null)
+                    {
+                        _RecentlyComments = response.Comments;
+                        if (userRecentComments.Keys.Contains(CurrentUser)) userRecentComments.Remove(CurrentUser);
+                        userRecentComments.Add(CurrentUser, _RecentlyComments);
+                        LastRequest = DateTime.UtcNow;
+                        PreviousSelectedIndex = 0;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 return userRecentComments[CurrentUser];
             }
@@ -430,7 +436,7 @@ namespace TraktPlugin.GUI
             // clear facade
             GUIControl.ClearControl(GetID, Facade.GetID);
 
-            // protected profiles might return null
+            // protected profiles might also return null
             if (comments == null || comments.Count() == 0)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.UserHasNoRecentShouts);

@@ -3132,13 +3132,9 @@ namespace TraktPlugin.GUI
 
                             }
                         }
-                        else if (action == ActivityAction.created)
+                        else
                         {
                             // return the list name
-                            name = activity.List.Name;
-                        }
-                        else if (action == ActivityAction.updated)
-                        {
                             name = activity.List.Name;
                         }
                         break;
