@@ -1296,7 +1296,7 @@ namespace TraktPlugin
                 if (CommentedEpisodes != null && pagedItems.IsAny())
                 {
                     // if the comment id exists then we already have all comments
-                    commentExists = CommentedEpisodes.Any(c => c.Comment.Id == pagedItems.First().Comment.Id);
+                    commentExists = CommentedEpisodes.Any(c => c.Comment.Id == pagedItems.Last().Comment.Id);
 
                     // add the latest page to our previous cached comments
                     pagedItems = pagedItems.Union(CommentedEpisodes);
@@ -1311,7 +1311,7 @@ namespace TraktPlugin
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
-                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.First().Comment.Id))
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.Last().Comment.Id))
                             commentExists = true;
 
                         // add the latest page to our previous requested comments
@@ -1400,7 +1400,7 @@ namespace TraktPlugin
                 if (CommentedShows != null && pagedItems.IsAny())
                 {
                     // if the comment id exists then we already have all comments
-                    commentExists = CommentedShows.Any(c => c.Comment.Id == pagedItems.First().Comment.Id);
+                    commentExists = CommentedShows.Any(c => c.Comment.Id == pagedItems.Last().Comment.Id);
 
                     // add the latest page to our previous cached comments
                     pagedItems = pagedItems.Union(CommentedShows);
@@ -1415,7 +1415,7 @@ namespace TraktPlugin
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
-                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.First().Comment.Id))
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.Last().Comment.Id))
                             commentExists = true;
 
                         // add the latest page to our previous requested comments
@@ -1504,7 +1504,7 @@ namespace TraktPlugin
                 if (CommentedSeasons != null && pagedItems.IsAny())
                 {
                     // if the comment id exists then we already have all comments
-                    commentExists = CommentedSeasons.Any(c => c.Comment.Id == pagedItems.First().Comment.Id);
+                    commentExists = CommentedSeasons.Any(c => c.Comment.Id == pagedItems.Last().Comment.Id);
 
                     // add the latest page to our previous cached comments
                     pagedItems = pagedItems.Union(CommentedSeasons);
@@ -1519,7 +1519,7 @@ namespace TraktPlugin
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
-                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.First().Comment.Id))
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.Last().Comment.Id))
                             commentExists = true;
 
                         // add the latest page to our previous requested comments
@@ -1609,7 +1609,7 @@ namespace TraktPlugin
                 if (CommentedMovies != null && pagedItems.IsAny())
                 {
                     // if the comment id exists then we already have all comments
-                    commentExists = CommentedMovies.Any(c => c.Comment.Id == pagedItems.First().Comment.Id);
+                    commentExists = CommentedMovies.Any(c => c.Comment.Id == pagedItems.Last().Comment.Id);
 
                     // add the latest page to our previous cached comments
                     pagedItems = pagedItems.Union(CommentedMovies);
@@ -1624,7 +1624,7 @@ namespace TraktPlugin
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
-                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.First().Comment.Id))
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.Last().Comment.Id))
                             commentExists = true;
 
                         // add the latest page to our previous requested comments
@@ -1713,7 +1713,7 @@ namespace TraktPlugin
                 if (CommentedLists != null && pagedItems.IsAny())
                 {
                     // if the comment id exists then we already have all comments
-                    commentExists = CommentedLists.Any(c => c.Comment.Id == pagedItems.First().Comment.Id);
+                    commentExists = CommentedLists.Any(c => c.Comment.Id == pagedItems.Last().Comment.Id);
 
                     // add the latest page to our previous cached comments
                     pagedItems = pagedItems.Union(CommentedLists);
@@ -1728,7 +1728,7 @@ namespace TraktPlugin
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
-                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.First().Comment.Id))
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Comments.Last().Comment.Id))
                             commentExists = true;
 
                         // add the latest page to our previous requested comments

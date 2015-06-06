@@ -451,7 +451,6 @@ namespace TraktPlugin
                                     myFilms.SyncProgress();
                                     break;
                             }
-
                         }
                         catch (Exception ex)
                         {
@@ -459,6 +458,9 @@ namespace TraktPlugin
                             continue;
                         }
                     }
+
+                    // save user activity cache
+                    TraktCache.Save();
 
                     // save last paused item so we only process after this date in future
                     if (TraktCache.PlaybackData != null && TraktCache.PlaybackData.Count() > 0)
