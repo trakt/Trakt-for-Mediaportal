@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktSyncPlayback
+    public class TraktSyncPaused
     {
         [DataMember(Name = "progress")]
         public float Progress { get; set; }
@@ -17,10 +13,18 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "paused_at")]
         public string PausedAt { get; set; }
+    }
 
+    [DataContract]
+    public class TraktSyncPausedMovies : TraktSyncPaused
+    {
         [DataMember(Name = "movie")]
         public TraktMovie Movie { get; set; }
+    }
 
+    [DataContract]
+    public class TraktSyncPausedEpisodes : TraktSyncPaused
+    {
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }
 

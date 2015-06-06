@@ -712,10 +712,11 @@ namespace TraktPlugin.TraktHandlers
 
             SyncPlaybackInProgress = true;
             
-            TraktLogger.Info("MP-TVSeries Starting Playback Sync");
+            TraktLogger.Info("MP-TVSeries Starting Paused Episodes Sync");
 
             // get playback data from trakt
-            var playbackData = TraktCache.PlaybackData;
+            string lastPausedAtEpisode;
+            var playbackData = TraktCache.GetEpisodePausedData(out lastPausedAtEpisode);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
@@ -724,8 +725,8 @@ namespace TraktPlugin.TraktHandlers
             }
 
             DateTime lastPausedItemProcessed;
-            DateTime.TryParse(TraktSettings.LastPausedItemProcessed, out lastPausedItemProcessed);
-            TraktLogger.Info("Found {0} tv episodes on trakt.tv with resume data, processing paused episodes after {1}", playbackData.Where(p => p.Type == "episode").Count(), TraktSettings.LastPausedItemProcessed);
+            DateTime.TryParse(lastPausedAtEpisode, out lastPausedItemProcessed);
+            TraktLogger.Info("Found {0} tv episodes on trakt.tv with resume data, processing paused episodes after {1}", playbackData.Where(p => p.Type == "episode").Count(), lastPausedAtEpisode);
 
             foreach (var item in playbackData.Where(p => p.Type == "episode"))
             {
@@ -786,7 +787,7 @@ namespace TraktPlugin.TraktHandlers
                 }
             }
 
-            TraktLogger.Info("MP-TVSeries Playback Sync Completed");
+            TraktLogger.Info("MP-TVSeries Paused Episodes Sync Completed");
             SyncPlaybackInProgress = false;
             return;
         }
@@ -2313,7 +2314,7 @@ namespace TraktPlugin.TraktHandlers
                     }
                     try
                     {
-                        TraktCache.ClearLastActivityCache();
+                        TraktCache.ClearLastActivityCache(true);
 
                         SyncLibrary();
                     }

@@ -489,7 +489,8 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("My Videos Starting Playback Sync");
 
             // get playback data from trakt
-            var playbackData = TraktCache.PlaybackData;
+            string lastPausedAtMovie;
+            var playbackData = TraktCache.GetMoviePausedData(out lastPausedAtMovie);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
@@ -498,8 +499,8 @@ namespace TraktPlugin.TraktHandlers
             }
 
             DateTime lastPausedItemProcessed;
-            DateTime.TryParse(TraktSettings.LastPausedItemProcessed, out lastPausedItemProcessed);
-            TraktLogger.Info("Found {0} movies on trakt.tv with resume data, processing paused movies after {1}", playbackData.Where(p => p.Type == "movie").Count(), TraktSettings.LastPausedItemProcessed);
+            DateTime.TryParse(lastPausedAtMovie, out lastPausedItemProcessed);
+            TraktLogger.Info("Found {0} movies on trakt.tv with resume data, processing paused movies after {1}", playbackData.Where(p => p.Type == "movie").Count(), lastPausedAtMovie);
 
             foreach (var item in playbackData.Where(p => p.Type == "movie"))
             {

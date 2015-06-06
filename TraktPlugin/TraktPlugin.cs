@@ -85,10 +85,6 @@ namespace TraktPlugin
             // Resume/Standby Windows Event
             Microsoft.Win32.SystemEvents.PowerModeChanged += new Microsoft.Win32.PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
 
-            // Sync Libaries now and periodically
-            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength * 3600000);
-            SyncPlayback();
-
             // Initialise translations
             Translation.Init();
 
@@ -107,8 +103,14 @@ namespace TraktPlugin
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
-            TraktLogger.Info("Loading main skin window: " + xmlSkin);
-            return Load(xmlSkin);
+            TraktLogger.Info("Loading main skin window, Filename = '{0}'", xmlSkin);
+            bool loadResult = Load(xmlSkin);
+
+            // Sync Libaries now and periodically
+            syncLibraryTimer = new Timer(new TimerCallback((o) => { SyncLibrary(); }), null, TraktSettings.SyncStartDelay, TraktSettings.SyncTimerLength * 3600000);
+            SyncPlayback();
+
+            return loadResult;
         }
 
         /// <summary>
@@ -441,7 +443,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Playback Sync started for all enabled plugins");
 
                 // clear cached sync data
-                TraktCache.PlaybackData = null;
+                TraktCache.ClearLastActivityCache();
 
                 // User could change handlers during sync from Settings so assign new list
                 var traktHandlers = new List<ITraktHandler>(TraktHandlers);
@@ -458,12 +460,6 @@ namespace TraktPlugin
                     {
                         TraktLogger.Error("Error synchronising playback data. Plugin = '{0}', Error = '{1}'", traktHandler.Name, ex.Message);
                     }
-                }
-
-                // save last paused item so we only process after this date in future
-                if (TraktCache.PlaybackData != null && TraktCache.PlaybackData.Count() > 0)
-                {
-                    TraktSettings.LastPausedItemProcessed = TraktCache.PlaybackData.First().PausedAt;
                 }
 
                 TraktLogger.Info("Playback Sync finished for all enabled plugins");
@@ -838,6 +834,7 @@ namespace TraktPlugin
                             var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "MP-TVSeries");
                             if (pluginHandler != null)
                             {
+                                TraktCache.ClearLastActivityCache();
                                 pluginHandler.SyncProgress();
                             }
                         }
@@ -847,6 +844,7 @@ namespace TraktPlugin
                             var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "Moving Pictures");
                             if (pluginHandler != null)
                             {
+                                TraktCache.ClearLastActivityCache();
                                 pluginHandler.SyncProgress();
                             }
                         }
@@ -856,6 +854,7 @@ namespace TraktPlugin
                             var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "My Films");
                             if (pluginHandler != null)
                             {
+                                TraktCache.ClearLastActivityCache();
                                 pluginHandler.SyncProgress();
                             }
                         }
@@ -865,6 +864,7 @@ namespace TraktPlugin
                             var pluginHandler = TraktHandlers.FirstOrDefault(h => h.Name == "My Videos");
                             if (pluginHandler != null)
                             {
+                                TraktCache.ClearLastActivityCache();
                                 pluginHandler.SyncProgress();
                             }
                         }

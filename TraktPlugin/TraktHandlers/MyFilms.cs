@@ -947,7 +947,7 @@ namespace TraktPlugin.TraktHandlers
                     Thread.Sleep(60000);
                 }
 
-                TraktCache.ClearLastActivityCache();
+                TraktCache.ClearLastActivityCache(true);
 
                 SyncLibrary();
             })

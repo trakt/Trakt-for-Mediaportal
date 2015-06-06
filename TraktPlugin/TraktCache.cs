@@ -18,6 +18,7 @@ namespace TraktPlugin
     public static class TraktCache
     {
         static Object syncLists = new object();
+        static Object syncLastActivities = new object();
 
         private static string MoviesWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Watchlisted.json");
         private static string MoviesRecommendedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Recommended.json");
@@ -25,12 +26,14 @@ namespace TraktPlugin
         private static string MoviesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Watched.json");
         private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Rated.json");
         private static string MoviesCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Commented.json");
+        private static string MoviesPausedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Paused.json");
 
         private static string EpisodesWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watchlisted.json");
         private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Collected.json");
         private static string EpisodesWatchedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watched.json");
         private static string EpisodesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Rated.json");
         private static string EpisodesCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Commented.json");
+        private static string EpisodesPausedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Paused.json");
 
         private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
@@ -46,7 +49,6 @@ namespace TraktPlugin
 
         private static DateTime MovieRecommendationsAge;
         private static DateTime CustomListAge;
-        private static DateTime PlaySyncAge;
 
         private static DateTime LastFollowerRequest = new DateTime();
 
@@ -1784,41 +1786,143 @@ namespace TraktPlugin
         /// Get last sync activities from trakt to see if we need to get an update on the various sync methods
         /// This should be done atleast once before a local/online sync
         /// </summary>
-        static TraktLastSyncActivities LastSyncActivities
+        public static TraktLastSyncActivities LastSyncActivities
         {
             get
             {
-                if (_LastSyncActivities == null)
+                lock (syncLastActivities)
                 {
-                    TraktLogger.Info("Getting current user last activity times from trakt.tv");
-                    _LastSyncActivities = TraktAPI.TraktAPI.GetLastSyncActivities();
+                    if (_LastSyncActivities == null)
+                    {
+                        TraktLogger.Info("Getting current user last activity times from trakt.tv");
+                        _LastSyncActivities = TraktAPI.TraktAPI.GetLastSyncActivities();
+                    }
+                    return _LastSyncActivities;
                 }
-                return _LastSyncActivities;
             }
         }
         static TraktLastSyncActivities _LastSyncActivities = null;
         #endregion
 
-        #region Playback
+        #region Paused
 
-        internal static IEnumerable<TraktSyncPlayback> PlaybackData
+        public static IEnumerable<TraktSyncPausedMovies> GetMoviePausedData(out string lastMovieProcessedAt, bool ignoreLastSyncTime = false)
+        {
+            lastMovieProcessedAt = TraktSettings.LastSyncActivities.Movies.PausedAt;
+
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return PausedMovieData;
+
+            TraktLogger.Info("Getting current user paused movies from trakt.tv");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Movies == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Movies.PausedAt == TraktSettings.LastSyncActivities.Movies.PausedAt)
+            {
+                var cachedItems = PausedMovieData;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Movie paused cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.PausedAt ?? "<empty>", lastSyncActivities.Movies.PausedAt ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetPausedMovies();
+            if (onlineItems != null)
+            {
+                _PausedMovieData = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(MoviesPausedFile, _PausedMovieData.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Movies.PausedAt = lastSyncActivities.Movies.PausedAt;
+            }
+
+            return onlineItems;
+        }
+
+        static IEnumerable<TraktSyncPausedMovies> PausedMovieData
         {
             get
             {
-                if (_playbackData == null || (DateTime.Now - PlaySyncAge) > TimeSpan.FromMinutes(TraktSettings.SyncPlaybackCacheExpiry))
+                if (_PausedMovieData == null)
                 {
-                    TraktLogger.Info("Getting current users playback data");
-                    _playbackData = TraktAPI.TraktAPI.GetPlaybackProgress();
-                    PlaySyncAge = DateTime.Now;
+                    var persistedItems = LoadFileCache(MoviesPausedFile, null);
+                    if (persistedItems != null)
+                        _PausedMovieData = persistedItems.FromJSONArray<TraktSyncPausedMovies>();
                 }
-                return _playbackData;
-            }
-            set
-            {
-                _playbackData = value;
+                return _PausedMovieData;
             }
         }
-        static IEnumerable<TraktSyncPlayback> _playbackData;
+        static IEnumerable<TraktSyncPausedMovies> _PausedMovieData;
+
+        public static IEnumerable<TraktSyncPausedEpisodes> GetEpisodePausedData(out string lastEpisodeProcessedAt, bool ignoreLastSyncTime = false)
+        {
+            lastEpisodeProcessedAt = TraktSettings.LastSyncActivities.Episodes.PausedAt;
+
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return PausedEpisodeData;
+
+            TraktLogger.Info("Getting current user paused episodes from trakt.tv");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Movies == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Episodes.PausedAt == TraktSettings.LastSyncActivities.Episodes.PausedAt)
+            {
+                var cachedItems = PausedEpisodeData;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("TV episode paused cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.PausedAt ?? "<empty>", lastSyncActivities.Episodes.PausedAt ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetPausedEpisodes();
+            if (onlineItems != null)
+            {
+                _PausedEpisodeData = onlineItems;
+
+                // save to local file cache
+                SaveFileCache(EpisodesPausedFile, _PausedEpisodeData.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Episodes.PausedAt = lastSyncActivities.Episodes.PausedAt;
+            }
+
+            return onlineItems;
+        }
+
+        static IEnumerable<TraktSyncPausedEpisodes> PausedEpisodeData
+        {
+            get
+            {
+                if (_PausedEpisodeData == null)
+                {
+                    var persistedItems = LoadFileCache(EpisodesPausedFile, null);
+                    if (persistedItems != null)
+                        _PausedEpisodeData = persistedItems.FromJSONArray<TraktSyncPausedEpisodes>();
+                }
+                return _PausedEpisodeData;
+            }
+        }
+        static IEnumerable<TraktSyncPausedEpisodes> _PausedEpisodeData;
 
         #endregion
 
@@ -2468,12 +2572,21 @@ namespace TraktPlugin
             }
         }
 
-        internal static void ClearLastActivityCache()
+        static DateTime lastClearedAt = DateTime.MinValue;
+        internal static void ClearLastActivityCache(bool force = false)
         {
-            _LastSyncActivities = null;
+            // don't be too aggressive at clearing the last activities
+            // its possible that we sync paused and library together or
+            // enter/exit plugins frequently which enable paused sync
+            if (force || lastClearedAt < DateTime.Now.Subtract(new TimeSpan(0, 5, 0)))
+            {
+                _LastSyncActivities = null;
 
-            UnWatchedEpisodes = null;
-            UnWatchedMovies = null;
+                UnWatchedEpisodes = null;
+                UnWatchedMovies = null;
+
+                lastClearedAt = DateTime.Now;
+            }
         }
 
         internal static void ClearLastShowsActivityCache()
@@ -2502,6 +2615,7 @@ namespace TraktPlugin
         internal static void ClearSyncCache()
         {
             _RatedEpisodes = null;
+            _RatedSeasons = null;
             _RatedMovies = null;
             _RatedShows = null;
 
@@ -2513,7 +2627,17 @@ namespace TraktPlugin
 
             _WatchListMovies = null;
             _WatchListShows = null;
+            _WatchListSeasons = null;
             _WatchListEpisodes = null;
+
+            _PausedEpisodeData = null;
+            _PausedMovieData = null;
+
+            _CommentedEpisodes = null;
+            _CommentedLists = null;
+            _CommentedMovies = null;
+            _CommentedSeasons = null;
+            _CommentedShows = null;
         }
 
         #endregion

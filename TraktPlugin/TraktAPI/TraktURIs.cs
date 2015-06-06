@@ -12,7 +12,8 @@ namespace TraktPlugin.TraktAPI
 
         public const string SyncLastActivities = "https://api-v2launch.trakt.tv/sync/last_activities";
 
-        public const string SyncPlayback = "https://api-v2launch.trakt.tv/sync/playback";
+        public const string SyncPausedMovies = "https://api-v2launch.trakt.tv/sync/playback/movies";
+        public const string SyncPausedEpisodes = "https://api-v2launch.trakt.tv/sync/playback/episodes";
 
         public const string SyncCollectionMovies = "https://api-v2launch.trakt.tv/sync/collection/movies";
         public const string SyncWatchedMovies = "https://api-v2launch.trakt.tv/sync/watched/movies";

@@ -143,7 +143,6 @@ namespace TraktPlugin
         public static int SyncResumeDelta { get; set; }
         public static bool SyncPlaybackOnEnterPlugin { get; set; }
         public static int SyncPlaybackCacheExpiry { get; set; }
-        public static string LastPausedItemProcessed { get; set; }
         public static int MaxTrendingMoviesRequest { get; set; }
         public static int MaxTrendingShowsRequest { get; set; }
         public static int MaxPopularMoviesRequest { get; set; }
@@ -291,7 +290,6 @@ namespace TraktPlugin
         private const string cSyncResumeDelta = "SyncResumeDelta";
         private const string cSyncPlaybackOnEnterPlugin = "SyncPlaybackOnEnterPlugin";
         private const string cSyncPlaybackCacheExpiry = "SyncPlaybackCacheExpiry";
-        private const string cLastPausedItemProcessed = "LastPausedItemProcessed";
         private const string cMaxTrendingMoviesRequest = "MaxTrendingMoviesRequest";
         private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
         private const string cMaxPopularMoviesRequest = "MaxPopularMoviesRequest";
@@ -669,7 +667,6 @@ namespace TraktPlugin
                 SyncResumeDelta = GetValueAsIntAndValidate(cTrakt, cSyncResumeDelta, 5, 0, 600);
                 SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
                 SyncPlaybackCacheExpiry = GetValueAsIntAndValidate(cTrakt, cSyncPlaybackCacheExpiry, 5, 1, 1440);
-                LastPausedItemProcessed = xmlreader.GetValueAsString(cTrakt, cLastPausedItemProcessed, "2010-01-01T00:00:00.000Z");
                 MaxTrendingMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingMoviesRequest, 100, 1, 1000);
                 MaxTrendingShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingShowsRequest, 100, 1, 1000);
                 MaxPopularMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularMoviesRequest, 100, 1, 1000);
@@ -838,7 +835,6 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSyncResumeDelta, SyncResumeDelta);
                 xmlwriter.SetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, SyncPlaybackOnEnterPlugin);
                 xmlwriter.SetValue(cTrakt, cSyncPlaybackCacheExpiry, SyncPlaybackCacheExpiry);
-                xmlwriter.SetValue(cTrakt, cLastPausedItemProcessed, LastPausedItemProcessed);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingMoviesRequest, MaxTrendingMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
                 xmlwriter.SetValue(cTrakt, cMaxPopularMoviesRequest, MaxPopularMoviesRequest);
@@ -1026,6 +1022,9 @@ namespace TraktPlugin
                             // upgrade last activity view
                             xmlreader.RemoveEntry(cTrakt, cActivityStreamView);
                             currentSettingsVersion++;
+
+                            // remove last paused item processed - stored in last activities
+                            xmlreader.RemoveEntry(cTrakt, "LastPausedItemProcessed");
                             break;
                     }
                 }
