@@ -416,6 +416,11 @@ namespace TraktPlugin
 
                     TraktLogger.Info("Library and Playback Sync started for all enabled plugins");
 
+                    // get data from online and store in cache so its readily available for plugin sync
+                    // data will also be used in user activity feed on the dashboard
+                    if (!TraktCache.RefreshData())
+                        return;
+
                     foreach (var item in clbPlugins.CheckedItems)
                     {
                         try

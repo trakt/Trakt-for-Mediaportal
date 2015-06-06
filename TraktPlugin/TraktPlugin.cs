@@ -425,10 +425,10 @@ namespace TraktPlugin
         #endregion
 
         #region Library Functions
-        
-        public static DateTime SyncStartTime = new DateTime();
 
-        public static void SyncPlayback()
+        internal static DateTime SyncStartTime = new DateTime();
+
+        internal static void SyncPlayback()
         {
             // no plugins to sync, abort
             if (TraktHandlers.Count == 0 || !TraktSettings.SyncPlayback) return;
@@ -481,7 +481,7 @@ namespace TraktPlugin
         /// </summary>
         /// <param name="dueTime">initial time in milliseconds to wait before starting sync</param>
         /// <param name="period">period of time to wait inbetween sync's</param>
-        public static void ChangeSyncTimer(int dueTime, int period)
+        internal static void ChangeSyncTimer(int dueTime, int period)
         {
             syncLibraryTimer.Change(dueTime, period);
         }
@@ -490,7 +490,7 @@ namespace TraktPlugin
         /// Starts a manual library and playback sync
         /// </summary>
         /// <returns>true if sync started, false if already running</returns>
-        public static bool StartSync()
+        internal static bool StartSync()
         {
             if (syncLibraryWorker.IsBusy)
                 return false;
@@ -555,58 +555,10 @@ namespace TraktPlugin
 
             TraktLogger.Info("Started 2-way sync of all enabled plugins");
 
-            // get data from online and store in cache so its readily available for plugins syncing
-            // data will also be used in user activity feed on the dashboard            
-
-            try
-            {
-                TraktLogger.Info("Started refresh of tv show user data from trakt.tv");
-
-                // clear the last time(s) we did anything online
-                TraktCache.ClearLastActivityCache();
-
-                // get latest tv data from online
-                if (TraktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList() != null)
-                    TraktCache.GetWatchedEpisodesFromTrakt();
-
-                TraktCache.GetCollectedEpisodesFromTrakt();
-                TraktCache.GetRatedShowsFromTrakt();
-                TraktCache.GetRatedSeasonsFromTrakt();
-                TraktCache.GetRatedEpisodesFromTrakt();
-                TraktCache.GetWatchlistedShowsFromTrakt();
-                TraktCache.GetWatchlistedSeasonsFromTrakt();
-                TraktCache.GetWatchlistedEpisodesFromTrakt();
-                TraktCache.GetCommentedEpisodesFromTrakt();
-                TraktCache.GetCommentedSeasonsFromTrakt();
-                TraktCache.GetCommentedShowsFromTrakt();
-
-                TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");
-                TraktLogger.Info("Started refresh of movie user data from trakt.tv");
-
-                // get latest movie data from online
-                if (TraktCache.GetUnWatchedMoviesFromTrakt() != null)
-                    TraktCache.GetWatchedMoviesFromTrakt();
-
-                TraktCache.GetCollectedMoviesFromTrakt();
-                TraktCache.GetRatedMoviesFromTrakt();
-                TraktCache.GetWatchlistedMoviesFromTrakt();
-                TraktCache.GetCommentedMoviesFromTrakt();
-
-                TraktLogger.Info("Finished refresh of movie user data from trakt.tv");
-                TraktLogger.Info("Started refresh of custom list user data from trakt.tv");
-
-                // get custom lists from online
-                TraktCache.GetCustomLists();
-                TraktCache.GetCommentedListsFromTrakt();
-
-                TraktLogger.Info("Finished refresh of custom list user data from trakt.tv");
-
-            }
-            catch (Exception ex)
-            {
-                TraktLogger.Error("Error getting user data from trakt.tv. Error = '{0}'", ex.Message);
+            // get data from online and store in cache so its readily available for plugin sync
+            // data will also be used in user activity feed on the dashboard
+            if (!TraktCache.RefreshData())
                 return;
-            }
 
             // user could change handlers during sync from Settings GUI so assign to a new list
             var traktHandlers = new List<ITraktHandler>(TraktHandlers);

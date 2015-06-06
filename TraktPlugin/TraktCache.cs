@@ -52,6 +52,67 @@ namespace TraktPlugin
 
         #region Sync
 
+        #region Refresh
+
+        /// <summary>
+        /// Refreshes local cache from online data
+        /// </summary>
+        public static bool RefreshData()
+        {
+            try
+            {
+                TraktLogger.Info("Started refresh of tv show user data from trakt.tv");
+
+                // clear the last time(s) we did anything online
+                ClearLastActivityCache();
+
+                // get latest tv data from online
+                if (GetUnWatchedEpisodesFromTrakt().ToNullableList() != null)
+                    GetWatchedEpisodesFromTrakt();
+
+                GetCollectedEpisodesFromTrakt();
+                GetRatedShowsFromTrakt();
+                GetRatedSeasonsFromTrakt();
+                GetRatedEpisodesFromTrakt();
+                GetWatchlistedShowsFromTrakt();
+                GetWatchlistedSeasonsFromTrakt();
+                GetWatchlistedEpisodesFromTrakt();
+                GetCommentedEpisodesFromTrakt();
+                GetCommentedSeasonsFromTrakt();
+                GetCommentedShowsFromTrakt();
+
+                TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");
+                TraktLogger.Info("Started refresh of movie user data from trakt.tv");
+
+                // get latest movie data from online
+                if (GetUnWatchedMoviesFromTrakt() != null)
+                    GetWatchedMoviesFromTrakt();
+
+                GetCollectedMoviesFromTrakt();
+                GetRatedMoviesFromTrakt();
+                GetWatchlistedMoviesFromTrakt();
+                GetCommentedMoviesFromTrakt();
+
+                TraktLogger.Info("Finished refresh of movie user data from trakt.tv");
+                TraktLogger.Info("Started refresh of custom list user data from trakt.tv");
+
+                // get custom lists from online
+                GetCustomLists();
+                GetCommentedListsFromTrakt();
+
+                TraktLogger.Info("Finished refresh of custom list user data from trakt.tv");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                TraktLogger.Error("Error getting user data from trakt.tv. Error = '{0}'", ex.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
         #region Movies
 
         /// <summary>
