@@ -143,7 +143,7 @@ namespace TraktPlugin
             if (currentWatched == null)
                 return null;
 
-            TraktLogger.Info("Comparing previous watched movies against current watched movies such that unwatched can be determined");
+            TraktLogger.Debug("Comparing previous watched movies against current watched movies such that unwatched can be determined");
 
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
@@ -542,7 +542,7 @@ namespace TraktPlugin
             if (currentWatched == null)
                 return null;
 
-            TraktLogger.Info("Comparing previous watched episodes against current watched episodes such that unwatched can be determined");
+            TraktLogger.Debug("Comparing previous watched episodes against current watched episodes such that unwatched can be determined");
 
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.

@@ -357,7 +357,11 @@ namespace TraktPlugin
                         PreviousSelectedIdx = itemId;
                 }
 
-                var item = new GUIUserListItem(GUICommon.GetActivityListItemTitle(activity, view), GUIWindowManager.ActiveWindow);
+                string itemLabel = GUICommon.GetActivityListItemTitle(activity, view);
+                if (string.IsNullOrEmpty(itemLabel))
+                    continue;
+
+                var item = new GUIUserListItem(itemLabel, GUIWindowManager.ActiveWindow);
 
                 string activityImage = GetActivityImage(activity);
                 string avatarImage = GetAvatarImage(activity);

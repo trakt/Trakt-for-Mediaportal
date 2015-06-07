@@ -26,6 +26,7 @@ namespace TraktPlugin.TraktHandlers
     class MovingPictures : ITraktHandler
     {
         DBMovieInfo currentMovie;
+        DBMovieInfo LastMovie;
         bool SyncLibraryInProgress;
         bool SyncPlaybackInProgress;
         bool TraktRateSent;
@@ -520,6 +521,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 matchFound = true;
                 currentMovie = searchResults[0];
+                LastMovie = searchResults[0];
                 IsDVDPlaying = false;
             }
             else
@@ -562,6 +564,7 @@ namespace TraktPlugin.TraktHandlers
                     {
                         matchFound = true;
                         IsDVDPlaying = true;
+                        LastMovie = currentMovie;
                     }
                     else
                     {
@@ -699,6 +702,12 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Info("Ignoring resume data sync for movie, filename/folder is ignored by user. Title = '{0}', Year = '{1}', IMDb ID = '{2}', Filename = '{3}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb, filename);
                     continue;
                 }
+
+                // if we are syncing on plugin entry we could possibly still be sending paused data to trakt
+                // after stopping video (stopping video == re-entry to plugin), prevent possibly reverting stale resumed data
+                // we already have updated resume data when stopping video in real-time
+                if (TraktSettings.SyncPlaybackOnEnterPlugin && LastMovie != null && LastMovie.LocalMedia[0].FullPath == filename)
+                    continue;
 
                 // update the stop time based on percentage watched
                 // movpics stores duration (mediainfo) in milliseconds and resume_time in secs

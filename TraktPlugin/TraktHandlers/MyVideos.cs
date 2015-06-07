@@ -23,7 +23,7 @@ namespace TraktPlugin.TraktHandlers
 
         bool SyncPlaybackInProgress;
         IMDBMovie CurrentMovie = null;
-
+        IMDBMovie LastMovie = null;
         #endregion
 
         #region Constructor
@@ -409,6 +409,7 @@ namespace TraktPlugin.TraktHandlers
             if (result == -1) return false;
 
             CurrentMovie = movie;
+            LastMovie = movie;
 
             var scrobbleData = CreateScrobbleData(CurrentMovie);
             var scrobbleMovie = new Thread((objScrobble) =>
@@ -542,6 +543,12 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Warning("Skipping item with invalid filename in database, Title = '{0}', Year = '{1}', IMDb ID = '{2}'", item.Movie.Title, item.Movie.Year, item.Movie.Ids.Imdb);
                     continue;
                 }
+
+                // if we are syncing on plugin entry we could possibly still be sending paused data to trakt
+                // after stopping video (stopping video == re-entry to plugin), prevent possibly reverting stale resumed data
+                // we already have updated resume data when stopping video in real-time
+                if (TraktSettings.SyncPlaybackOnEnterPlugin && LastMovie != null && LastMovie.VideoFileName == movie.VideoFileName)
+                    continue;
 
                 // check if movie is restricted
                 if (TraktSettings.BlockedFilenames.Any(f => f == movie.VideoFileName) || TraktSettings.BlockedFolders.Any(f => f == Path.GetDirectoryName(movie.VideoFileName)))

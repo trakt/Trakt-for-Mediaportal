@@ -2929,14 +2929,17 @@ namespace TraktPlugin.GUI
         internal static string GetActivityListItemTitle(TraktActivity.Activity activity, ActivityView view = ActivityView.community)
         {
             if (activity == null)
-                return string.Empty;
+                return null;
 
             string itemName = GetActivityItemName(activity);
+            if (string.IsNullOrEmpty(itemName))
+                return null;
+
             string userName = activity.User == null ? "" : activity.User.Username;
             string title = string.Empty;
 
             if (string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
-                return string.Empty;
+                return null;
 
             var action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
             var type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);

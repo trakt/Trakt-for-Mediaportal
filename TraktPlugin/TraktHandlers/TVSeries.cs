@@ -37,6 +37,7 @@ namespace TraktPlugin.TraktHandlers
         bool FirstEpisodeWatched;
         DBEpisode CurrentEpisode;
         DBEpisode SecondEpisode;
+        DBEpisode LastEpisode;
         static VideoHandler player = null;
 
         #endregion
@@ -773,6 +774,12 @@ namespace TraktPlugin.TraktHandlers
                     TraktLogger.Warning("Skipping item with invalid runtime in database, TV Show = '{0}', Season='{1}', Episode='{2}'", item.Show.Title, item.Episode.Season, item.Episode.Number);
                     continue;
                 }
+
+                // if we are syncing on plugin entry we could possibly still be sending paused data to trakt
+                // after stopping video (stopping video == re-entry to plugin), prevent possibly reverting stale resumed data
+                // we already have updated resume data when stopping video in real-time
+                if (TraktSettings.SyncPlaybackOnEnterPlugin && LastEpisode != null && LastEpisode[DBEpisode.cFilename] == episode[DBEpisode.cFilename])
+                    continue;
 
                 // update the stop time based on percentage watched
                 // tvseries stores localplaytime in milliseconds and stoptime in secs
@@ -2426,6 +2433,7 @@ namespace TraktPlugin.TraktHandlers
             TraktLogger.Info("Playback of MP-TVSeries episode started. Title = '{0}'", episode.ToString());
             EpisodeWatching = true;
             CurrentEpisode = episode;
+            LastEpisode = episode;
         }
 
         private void OnEpisodeStopped(DBEpisode episode)
