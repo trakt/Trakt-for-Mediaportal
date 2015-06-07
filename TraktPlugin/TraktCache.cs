@@ -2679,24 +2679,28 @@ namespace TraktPlugin
             if (existingWatchedMovie != null)
             {
                 existingWatchedMovie.Plays++;
+                existingWatchedMovie.LastWatchedAt = DateTime.UtcNow.ToISO8601();
             }
-
-            watchedMovies.Add(new TraktMovieWatched
+            else
             {
-                LastWatchedAt = DateTime.UtcNow.ToISO8601(),
-                Movie = new TraktMovie
+                watchedMovies.Add(new TraktMovieWatched
                 {
-                    Ids = movie.Ids,
-                    Title = movie.Title,
-                    Year = movie.Year
-                },
-                Plays = 1
-            });
+                    LastWatchedAt = DateTime.UtcNow.ToISO8601(),
+                    Movie = new TraktMovie
+                    {
+                        Ids = movie.Ids,
+                        Title = movie.Title,
+                        Year = movie.Year
+                    },
+                    Plays = 1
+                });
+            }
 
             _WatchedMovies = watchedMovies;
 
-            // now remove from watchlist since it will be removed from online in this case
+            // now remove from watchlist and paused state since it will be removed from online in these cases
             RemoveMovieFromWatchlist(movie);
+            RemoveMovieFromPausedData(movie);
         }
 
         internal static void AddMovieToWatchlist(TraktMovie movie)
@@ -2970,8 +2974,9 @@ namespace TraktPlugin
 
             _WatchedEpisodes = watchedEpisodes;
 
-            // now remove from watchlist since it will be removed from online in this case
+            // now remove from watchlist and paused state since it will be removed from online in these cases
             RemoveEpisodeFromWatchlist(episode);
+            RemoveEpisodeFromPausedData(show, episode);
             RemoveShowFromWatchlist(show);
         }
 
@@ -3204,6 +3209,25 @@ namespace TraktPlugin
             _RatedMovies = ratedMovies;
         }
 
+        internal static void RemoveMovieFromPausedData(TraktMovie movie)
+        {
+            if (_PausedMovieData == null || movie.Ids == null)
+                return;
+
+            var pausedMovies = _PausedMovieData.ToList();
+            pausedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                        ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                        ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
+
+            // remove using Title + Year
+            if (movie.Ids.Trakt == null && movie.Ids.Imdb.ToNullIfEmpty() == null && movie.Ids.Tmdb == null)
+            {
+                pausedMovies.RemoveAll(m => m.Movie.Title.ToLowerInvariant() == movie.Title.ToLower() && m.Movie.Year == movie.Year);
+            }
+
+            _PausedMovieData = pausedMovies;
+        }
+
         #endregion
 
         #region Shows
@@ -3384,9 +3408,9 @@ namespace TraktPlugin
                 return;
 
             var watchlistEpisodes = _WatchListEpisodes.ToList();
-            watchlistEpisodes.RemoveAll(e => e.Episode.Ids.Trakt == episode.Ids.Trakt ||
-                                             e.Episode.Ids.Imdb == episode.Ids.Imdb ||
-                                             e.Episode.Ids.Tvdb == episode.Ids.Tvdb);
+            watchlistEpisodes.RemoveAll(e => ((e.Episode.Ids.Trakt == episode.Ids.Trakt) && e.Episode.Ids.Trakt != null) ||
+                                             ((e.Episode.Ids.Imdb == episode.Ids.Imdb) && e.Episode.Ids.Imdb != null) ||
+                                             ((e.Episode.Ids.Tvdb == episode.Ids.Tvdb && e.Episode.Ids.Tvdb != null)));
 
             _WatchListEpisodes = watchlistEpisodes;
         }
@@ -3459,6 +3483,27 @@ namespace TraktPlugin
                                          ((e.Episode.Ids.Tvdb == episode.Ids.Tvdb) && e.Episode.Ids.Tvdb != null));
 
             _RatedEpisodes = ratedEpisodes;
+        }
+
+        internal static void RemoveEpisodeFromPausedData(TraktShow show, TraktEpisode episode)
+        {
+            if (_PausedEpisodeData == null || show.Ids == null)
+                return;
+
+            var pausedEpisodes = _PausedEpisodeData.ToList();
+            pausedEpisodes.RemoveAll(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
+                                             e.Episode.Season == episode.Season &&
+                                             e.Episode.Number == episode.Number);
+
+            // remove using Title + Year
+            if (show.Ids.Trakt == null && show.Ids.Tvdb == null)
+            {
+                pausedEpisodes.RemoveAll(e => e.Show.Title.ToLowerInvariant() == show.Title.ToLowerInvariant() && e.Show.Year == show.Year &&
+                                              e.Episode.Season == episode.Season &&
+                                              e.Episode.Number == episode.Number);
+            }
+
+            _PausedEpisodeData = pausedEpisodes;
         }
 
         #endregion
