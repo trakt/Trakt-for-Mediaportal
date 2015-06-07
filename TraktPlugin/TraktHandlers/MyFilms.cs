@@ -754,6 +754,12 @@ namespace TraktPlugin.TraktHandlers
 
                     var response = TraktAPI.TraktAPI.PauseMovieScrobble(tScrobbleData);
                     TraktLogger.LogTraktResponse(response);
+
+                    if (response != null && response.Movie != null && response.Action == "pause")
+                    {
+                        // add to cache
+                        TraktCache.AddMovieToPausedData(response.Movie, response.Progress);
+                    }
                 })
                 {
                     IsBackground = true,

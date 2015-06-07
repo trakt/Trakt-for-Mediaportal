@@ -1806,13 +1806,13 @@ namespace TraktPlugin
 
         #region Paused
 
-        public static IEnumerable<TraktSyncPausedMovies> GetPausedMovieData(out string lastMovieProcessedAt, bool ignoreLastSyncTime = false)
+        public static IEnumerable<TraktSyncPausedMovie> GetPausedMovies(out string lastMovieProcessedAt, bool ignoreLastSyncTime = false)
         {
             lastMovieProcessedAt = TraktSettings.LastSyncActivities.Movies.PausedAt;
 
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
-                return PausedMovieData;
+                return PausedMovies;
 
             TraktLogger.Info("Getting current user paused movies from trakt.tv");
 
@@ -1827,7 +1827,7 @@ namespace TraktPlugin
             // if the times are the same try to load from cache
             if (lastSyncActivities.Movies.PausedAt == TraktSettings.LastSyncActivities.Movies.PausedAt)
             {
-                var cachedItems = PausedMovieData;
+                var cachedItems = PausedMovies;
                 if (cachedItems != null)
                     return cachedItems;
             }
@@ -1838,10 +1838,10 @@ namespace TraktPlugin
             var onlineItems = TraktAPI.TraktAPI.GetPausedMovies();
             if (onlineItems != null)
             {
-                _PausedMovieData = onlineItems;
+                _PausedMovies = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(MoviesPausedFile, _PausedMovieData.ToJSON());
+                SaveFileCache(MoviesPausedFile, _PausedMovies.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Movies.PausedAt = lastSyncActivities.Movies.PausedAt;
@@ -1850,28 +1850,28 @@ namespace TraktPlugin
             return onlineItems;
         }
 
-        static IEnumerable<TraktSyncPausedMovies> PausedMovieData
+        static IEnumerable<TraktSyncPausedMovie> PausedMovies
         {
             get
             {
-                if (_PausedMovieData == null)
+                if (_PausedMovies == null)
                 {
                     var persistedItems = LoadFileCache(MoviesPausedFile, null);
                     if (persistedItems != null)
-                        _PausedMovieData = persistedItems.FromJSONArray<TraktSyncPausedMovies>();
+                        _PausedMovies = persistedItems.FromJSONArray<TraktSyncPausedMovie>();
                 }
-                return _PausedMovieData;
+                return _PausedMovies;
             }
         }
-        static IEnumerable<TraktSyncPausedMovies> _PausedMovieData;
+        static IEnumerable<TraktSyncPausedMovie> _PausedMovies;
 
-        public static IEnumerable<TraktSyncPausedEpisodes> GetPausedEpisodeData(out string lastEpisodeProcessedAt, bool ignoreLastSyncTime = false)
+        public static IEnumerable<TraktSyncPausedEpisode> GetPausedEpisodes(out string lastEpisodeProcessedAt, bool ignoreLastSyncTime = false)
         {
             lastEpisodeProcessedAt = TraktSettings.LastSyncActivities.Episodes.PausedAt;
 
             // get from cache regardless of last sync time
             if (ignoreLastSyncTime)
-                return PausedEpisodeData;
+                return PausedEpisodes;
 
             TraktLogger.Info("Getting current user paused episodes from trakt.tv");
 
@@ -1886,7 +1886,7 @@ namespace TraktPlugin
             // if the times are the same try to load from cache
             if (lastSyncActivities.Episodes.PausedAt == TraktSettings.LastSyncActivities.Episodes.PausedAt)
             {
-                var cachedItems = PausedEpisodeData;
+                var cachedItems = PausedEpisodes;
                 if (cachedItems != null)
                     return cachedItems;
             }
@@ -1897,10 +1897,10 @@ namespace TraktPlugin
             var onlineItems = TraktAPI.TraktAPI.GetPausedEpisodes();
             if (onlineItems != null)
             {
-                _PausedEpisodeData = onlineItems;
+                _PausedEpisodes = onlineItems;
 
                 // save to local file cache
-                SaveFileCache(EpisodesPausedFile, _PausedEpisodeData.ToJSON());
+                SaveFileCache(EpisodesPausedFile, _PausedEpisodes.ToJSON());
 
                 // save new activity time for next time
                 TraktSettings.LastSyncActivities.Episodes.PausedAt = lastSyncActivities.Episodes.PausedAt;
@@ -1909,20 +1909,20 @@ namespace TraktPlugin
             return onlineItems;
         }
 
-        static IEnumerable<TraktSyncPausedEpisodes> PausedEpisodeData
+        static IEnumerable<TraktSyncPausedEpisode> PausedEpisodes
         {
             get
             {
-                if (_PausedEpisodeData == null)
+                if (_PausedEpisodes == null)
                 {
                     var persistedItems = LoadFileCache(EpisodesPausedFile, null);
                     if (persistedItems != null)
-                        _PausedEpisodeData = persistedItems.FromJSONArray<TraktSyncPausedEpisodes>();
+                        _PausedEpisodes = persistedItems.FromJSONArray<TraktSyncPausedEpisode>();
                 }
-                return _PausedEpisodeData;
+                return _PausedEpisodes;
             }
         }
-        static IEnumerable<TraktSyncPausedEpisodes> _PausedEpisodeData;
+        static IEnumerable<TraktSyncPausedEpisode> _PausedEpisodes;
 
         #endregion
 
@@ -2630,8 +2630,8 @@ namespace TraktPlugin
             _WatchListSeasons = null;
             _WatchListEpisodes = null;
 
-            _PausedEpisodeData = null;
-            _PausedMovieData = null;
+            _PausedEpisodes = null;
+            _PausedMovies = null;
 
             _CommentedEpisodes = null;
             _CommentedLists = null;
@@ -2799,6 +2799,38 @@ namespace TraktPlugin
             _RatedMovies = ratedMovies;
         }
 
+        internal static void AddMovieToPausedData(TraktMovie movie, float progress)
+        {
+            var pausedMovies = (_PausedMovies ?? new List<TraktSyncPausedMovie>()).ToList();
+
+            var existingPausedMovie = pausedMovies.FirstOrDefault(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && movie.Ids.Trakt != null) ||
+                                                                        ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                                                        ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && movie.Ids.Tmdb != null));
+            
+            // if it exists already, increment the play count only
+            if (existingPausedMovie != null)
+            {
+                existingPausedMovie.Progress = progress;
+                existingPausedMovie.PausedAt = DateTime.UtcNow.ToISO8601();
+            }
+            else
+            {
+                pausedMovies.Add(new TraktSyncPausedMovie
+                {
+                    PausedAt = DateTime.UtcNow.ToISO8601(),
+                    Progress = progress,
+                    Movie = new TraktMovieSummary
+                    {
+                        Ids = movie.Ids,
+                        Title = movie.Title,
+                        Year = movie.Year
+                    }
+                });
+            }
+
+            _PausedMovies = pausedMovies;
+        }
+
         #endregion
 
         #region Shows
@@ -2959,18 +2991,31 @@ namespace TraktPlugin
         {
             var watchedEpisodes = (_WatchedEpisodes ?? new List<EpisodeWatched>()).ToList();
 
-            watchedEpisodes.Add(new EpisodeWatched
+            var existingWatchedEpisode = watchedEpisodes.FirstOrDefault(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || ((e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)) &&
+                                                                                e.Season == episode.Season &&
+                                                                                e.Number == episode.Number);
+
+            // if it exists already, increment the play count only
+            if (existingWatchedEpisode != null)
             {
-                Number = episode.Number,
-                Season = episode.Season,
-                ShowId = show.Ids.Trakt,
-                ShowImdbId = show.Ids.Imdb,
-                ShowTvdbId = show.Ids.Tvdb,
-                ShowTitle = show.Title,
-                ShowYear = show.Year,
-                Plays = 1,
-                WatchedAt = DateTime.UtcNow.ToISO8601()
-            });
+                existingWatchedEpisode.Plays++;
+                existingWatchedEpisode.WatchedAt = DateTime.UtcNow.ToISO8601();
+            }
+            else
+            {
+                watchedEpisodes.Add(new EpisodeWatched
+                {
+                    Number = episode.Number,
+                    Season = episode.Season,
+                    ShowId = show.Ids.Trakt,
+                    ShowImdbId = show.Ids.Imdb,
+                    ShowTvdbId = show.Ids.Tvdb,
+                    ShowTitle = show.Title,
+                    ShowYear = show.Year,
+                    Plays = 1,
+                    WatchedAt = DateTime.UtcNow.ToISO8601()
+                });
+            }
 
             _WatchedEpisodes = watchedEpisodes;
 
@@ -3101,6 +3146,45 @@ namespace TraktPlugin
             _RatedEpisodes = ratedEpisodes;
         }
 
+        internal static void AddEpisodeToPausedData(TraktShow show, TraktEpisode episode, float progress)
+        {
+            var pausedEpisodes = (_PausedEpisodes ?? new List<TraktSyncPausedEpisode>()).ToList();
+
+            var existingPausedEpisode = _PausedEpisodes.FirstOrDefault(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
+                                                                               e.Episode.Season == episode.Season &&
+                                                                               e.Episode.Number == episode.Number);
+
+            // if it exists already, increment the play count only
+            if (existingPausedEpisode != null)
+            {
+                existingPausedEpisode.Progress = progress;
+                existingPausedEpisode.PausedAt = DateTime.UtcNow.ToISO8601();
+            }
+            else
+            {
+                pausedEpisodes.Add(new TraktSyncPausedEpisode
+                {
+                    PausedAt = DateTime.UtcNow.ToISO8601(),
+                    Progress = progress,
+                    Show = new TraktShow
+                    {
+                        Ids = show.Ids,
+                        Title = show.Title,
+                        Year = show.Year
+                    },
+                    Episode = new TraktEpisode
+                    {
+                        Ids = episode.Ids,
+                        Number = episode.Number,
+                        Season = episode.Season,
+                        Title = episode.Title
+                    }
+                });
+            }
+
+            _PausedEpisodes = pausedEpisodes;
+        }
+
         #endregion
 
         #endregion
@@ -3211,10 +3295,10 @@ namespace TraktPlugin
 
         internal static void RemoveMovieFromPausedData(TraktMovie movie)
         {
-            if (_PausedMovieData == null || movie.Ids == null)
+            if (_PausedMovies == null || movie.Ids == null)
                 return;
 
-            var pausedMovies = _PausedMovieData.ToList();
+            var pausedMovies = _PausedMovies.ToList();
             pausedMovies.RemoveAll(m => ((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
                                         ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
                                         ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null));
@@ -3225,7 +3309,7 @@ namespace TraktPlugin
                 pausedMovies.RemoveAll(m => m.Movie.Title.ToLowerInvariant() == movie.Title.ToLower() && m.Movie.Year == movie.Year);
             }
 
-            _PausedMovieData = pausedMovies;
+            _PausedMovies = pausedMovies;
         }
 
         #endregion
@@ -3487,10 +3571,10 @@ namespace TraktPlugin
 
         internal static void RemoveEpisodeFromPausedData(TraktShow show, TraktEpisode episode)
         {
-            if (_PausedEpisodeData == null || show.Ids == null)
+            if (_PausedEpisodes == null || show.Ids == null)
                 return;
 
-            var pausedEpisodes = _PausedEpisodeData.ToList();
+            var pausedEpisodes = _PausedEpisodes.ToList();
             pausedEpisodes.RemoveAll(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
                                              e.Episode.Season == episode.Season &&
                                              e.Episode.Number == episode.Number);
@@ -3503,7 +3587,7 @@ namespace TraktPlugin
                                               e.Episode.Number == episode.Number);
             }
 
-            _PausedEpisodeData = pausedEpisodes;
+            _PausedEpisodes = pausedEpisodes;
         }
 
         #endregion
@@ -3512,18 +3596,23 @@ namespace TraktPlugin
 
         #region Save Cache
 
+        /// <summary>
+        /// Save cached data which gets updated from real-time events
+        /// </summary>
         internal static void Save()
         {
             SaveFileCache(MoviesWatchlistedFile, _WatchListMovies.ToJSON());
             SaveFileCache(MoviesCollectedFile, _CollectedMovies.ToJSON());
             SaveFileCache(MoviesWatchedFile, _WatchedMovies.ToJSON());
             SaveFileCache(MoviesRatedFile, _RatedMovies.ToJSON());
+            SaveFileCache(MoviesPausedFile, _PausedMovies.ToJSON());
             //SaveFileCache(MoviesCommentedFile, _CommentedMovies.ToJSON());
 
             SaveFileCache(EpisodesWatchlistedFile, _WatchListEpisodes.ToJSON());
             SaveFileCache(EpisodesCollectedFile, _CollectedEpisodes.ToJSON());
             SaveFileCache(EpisodesWatchedFile, _WatchedEpisodes.ToJSON());
             SaveFileCache(EpisodesRatedFile, _RatedEpisodes.ToJSON());
+            SaveFileCache(EpisodesPausedFile, _PausedEpisodes.ToJSON());
             //SaveFileCache(EpisodesCommentedFile, _CommentedEpisodes.ToJSON());
 
             SaveFileCache(ShowsWatchlistedFile, _WatchListShows.ToJSON());

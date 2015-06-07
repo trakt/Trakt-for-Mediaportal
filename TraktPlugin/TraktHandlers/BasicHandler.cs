@@ -216,10 +216,17 @@ namespace TraktPlugin.TraktHandlers
 
             var response = TraktAPI.TraktAPI.StopMovieScrobble(scrobbleData);
 
-            if (response != null && response.Movie != null && response.Action == "scrobble")
+            if (response != null && response.Movie != null)
             {
                 // add to cache
-                TraktCache.AddMovieToWatchHistory(response.Movie);
+                if (response.Action == "scrobble")
+                {
+                    TraktCache.AddMovieToWatchHistory(response.Movie);
+                }
+                else if (response.Action == "pause")
+                {
+                    TraktCache.AddMovieToPausedData(response.Movie, response.Progress);
+                }
             }
 
             return TraktLogger.LogTraktResponse(response);
@@ -255,10 +262,17 @@ namespace TraktPlugin.TraktHandlers
 
             var response = TraktAPI.TraktAPI.StopEpisodeScrobble(scrobbleData);
 
-            if (response != null && response.Show != null && response.Action == "scrobble")
+            if (response != null && response.Show != null)
             {
                 // add to cache
-                TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                if (response.Action == "scrobble")
+                {
+                    TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                }
+                else if (response.Action == "pause")
+                {
+                    TraktCache.AddEpisodeToPausedData(response.Show, response.Episode, response.Progress);
+                }
             }
 
             return TraktLogger.LogTraktResponse(response);

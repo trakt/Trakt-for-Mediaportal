@@ -16,14 +16,14 @@ namespace TraktPlugin.TraktAPI.DataStructures
     }
 
     [DataContract]
-    public class TraktSyncPausedMovies : TraktSyncPaused
+    public class TraktSyncPausedMovie : TraktSyncPaused
     {
         [DataMember(Name = "movie")]
         public TraktMovie Movie { get; set; }
     }
 
     [DataContract]
-    public class TraktSyncPausedEpisodes : TraktSyncPaused
+    public class TraktSyncPausedEpisode : TraktSyncPaused
     {
         [DataMember(Name = "show")]
         public TraktShow Show { get; set; }

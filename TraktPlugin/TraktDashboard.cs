@@ -1626,7 +1626,7 @@ namespace TraktPlugin
 
             #region paused episodes
             string lastEpisodeProcessedAt;
-            var pausedEpisodes = TraktCache.GetPausedEpisodeData(out lastEpisodeProcessedAt, true);
+            var pausedEpisodes = TraktCache.GetPausedEpisodes(out lastEpisodeProcessedAt, true);
             if (pausedEpisodes != null)
             {
                 foreach (var pause in pausedEpisodes.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
@@ -1663,7 +1663,7 @@ namespace TraktPlugin
 
             #region paused movies
             string lastMovieProcessedAt;
-            var pausedMovie = TraktCache.GetPausedMovieData(out lastMovieProcessedAt, true);
+            var pausedMovie = TraktCache.GetPausedMovies(out lastMovieProcessedAt, true);
             if (pausedMovie != null)
             {
                 foreach (var pause in pausedMovie.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))

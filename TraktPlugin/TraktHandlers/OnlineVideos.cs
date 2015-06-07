@@ -107,6 +107,15 @@ namespace TraktPlugin.TraktHandlers
                             {
                                 var response = TraktAPI.TraktAPI.PauseEpisodeScrobble(objInfo as TraktScrobbleEpisode);
                                 TraktLogger.LogTraktResponse(response);
+
+                                if (response != null && response.Code == 0)
+                                {
+                                    //  add episode paused to cache
+                                    if (response.Action == "pause")
+                                    {
+                                        TraktCache.AddEpisodeToPausedData(response.Show, response.Episode, response.Progress);
+                                    }
+                                }
                             })
                             {
                                 IsBackground = true,
@@ -123,6 +132,15 @@ namespace TraktPlugin.TraktHandlers
                             {
                                 var response = TraktAPI.TraktAPI.PauseMovieScrobble(objInfo as TraktScrobbleMovie);
                                 TraktLogger.LogTraktResponse(response);
+
+                                if (response != null && response.Code == 0)
+                                {
+                                    //  add movie paused to cache
+                                    if (response.Action == "pause")
+                                    {
+                                        TraktCache.AddMovieToPausedData(response.Movie, response.Progress);
+                                    }
+                                }
                             })
                             {
                                 IsBackground = true,
@@ -237,8 +255,15 @@ namespace TraktPlugin.TraktHandlers
 
                         if (response != null && response.Code == 0)
                         {
-                            //  add episode watched to cache
-                            TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                            //  add episode to cache
+                            if (response.Action == "scrobble")
+                            {
+                                TraktCache.AddEpisodeToWatchHistory(response.Show, response.Episode);
+                            }
+                            else if (response.Action == "pause")
+                            {
+                                TraktCache.AddEpisodeToPausedData(response.Show, response.Episode, response.Progress);
+                            }
                         }
                     })
                     {
@@ -261,8 +286,15 @@ namespace TraktPlugin.TraktHandlers
 
                         if (response != null && response.Code == 0)
                         {
-                            // add movie watched to cache
-                            TraktCache.AddMovieToWatchHistory(response.Movie);
+                            // add movie to cache
+                            if (response.Action == "scrobble")
+                            {
+                                TraktCache.AddMovieToWatchHistory(response.Movie);
+                            }
+                            else if (response.Action == "pause")
+                            {
+                                TraktCache.AddMovieToPausedData(response.Movie, response.Progress);
+                            }
                         }
                     })
                     {

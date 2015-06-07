@@ -102,16 +102,16 @@ namespace TraktPlugin.TraktAPI
 
         #region Playback
 
-        public static IEnumerable<TraktSyncPausedMovies> GetPausedMovies()
+        public static IEnumerable<TraktSyncPausedMovie> GetPausedMovies()
         {
             var response = GetFromTrakt(TraktURIs.SyncPausedMovies);
-            return response.FromJSONArray<TraktSyncPausedMovies>();
+            return response.FromJSONArray<TraktSyncPausedMovie>();
         }
 
-        public static IEnumerable<TraktSyncPausedEpisodes> GetPausedEpisodes()
+        public static IEnumerable<TraktSyncPausedEpisode> GetPausedEpisodes()
         {
             var response = GetFromTrakt(TraktURIs.SyncPausedEpisodes);
-            return response.FromJSONArray<TraktSyncPausedEpisodes>();
+            return response.FromJSONArray<TraktSyncPausedEpisode>();
         }
 
         #endregion

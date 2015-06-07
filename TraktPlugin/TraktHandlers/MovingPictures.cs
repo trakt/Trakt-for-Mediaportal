@@ -657,7 +657,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get playback data from trakt
             string lastPausedAtMovie;
-            var playbackData = TraktCache.GetPausedMovieData(out lastPausedAtMovie);
+            var playbackData = TraktCache.GetPausedMovies(out lastPausedAtMovie);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
@@ -783,6 +783,12 @@ namespace TraktPlugin.TraktHandlers
                 {
                     TraktLogger.Info("Sending 'pause' scrobble of movie to trakt.tv. Progress = '{0}%', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'", scrobbleData.Progress, scrobbleMovie.Title, movie.Year, scrobbleMovie.ImdbID ?? "<empty>", GetTmdbID(scrobbleMovie) ?? "<empty>");
                     response = TraktAPI.TraktAPI.PauseMovieScrobble(scrobbleData);
+
+                    if (response != null && response.Movie != null && response.Action == "pause")
+                    {
+                        // add to cache
+                        TraktCache.AddMovieToPausedData(response.Movie, response.Progress);
+                    }
                 }
                 
                 TraktLogger.LogTraktResponse(response);

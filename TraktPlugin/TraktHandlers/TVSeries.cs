@@ -716,7 +716,7 @@ namespace TraktPlugin.TraktHandlers
 
             // get playback data from trakt
             string lastPausedAtEpisode;
-            var playbackData = TraktCache.GetPausedEpisodeData(out lastPausedAtEpisode);
+            var playbackData = TraktCache.GetPausedEpisodes(out lastPausedAtEpisode);
             if (playbackData == null)
             {
                 TraktLogger.Warning("Failed to get plackback data from trakt.tv");
@@ -2480,6 +2480,11 @@ namespace TraktPlugin.TraktHandlers
                         response = TraktAPI.TraktAPI.PauseEpisodeScrobble(scrobbleData);
                         TraktLogger.LogTraktResponse(response);
 
+                        if (response != null && response.Show != null && response.Action == "pause")
+                        {
+                            // add to cache
+                            TraktCache.AddEpisodeToPausedData(response.Show, response.Episode, response.Progress);
+                        }
                         return;
                     }
                 }
@@ -2487,9 +2492,15 @@ namespace TraktPlugin.TraktHandlers
                 #endregion
 
                 scrobbleData = CreateScrobbleData(stoppedEpisode, progress);
-                TraktAPI.TraktAPI.PauseEpisodeScrobble(scrobbleData);
+                response = TraktAPI.TraktAPI.PauseEpisodeScrobble(scrobbleData);
 
                 TraktLogger.LogTraktResponse(response);
+
+                if (response != null && response.Show != null && response.Action == "pause")
+                {
+                    // add to cache
+                    TraktCache.AddEpisodeToPausedData(response.Show, response.Episode, response.Progress);
+                }
             })
             {
                 IsBackground = true,
