@@ -28,6 +28,8 @@
   <string name="ActivityAddToList">{0} añadió {1} a {2}</string>
   <string name="ActivityCreatedList">{0} creó {1}</string>
   <string name="ActivityUpdatedList">{0} actualizó {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} actualizó {1} [{2} elemento]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} actualizó {1} [{2} elementos]</string>
   <string name="ActivityReview">{0} críticó {1}</string>
   <string name="ActivityShouts">{0} comentado por {1}</string>
   <string name="Activities">Actividades</string>
@@ -507,6 +509,12 @@
   <string name="SettingMaxPopularMoviesRequestDescription">Configura el número máximo de películas populares a buscar por página.</string>
   <string name="SettingMaxPopularShowsRequestName">Máximos Programas TV Populares a Buscar</string>
   <string name="SettingMaxPopularShowsRequestDescription">Configura el número máximo de programas tv a buscar por página.</string>
+  <string name="SettingMaxUserWatchedMoviesRequestName">Máximo de Películas Vistas Recientemente para Buscar</string>
+  <string name="SettingMaxUserWatchedMoviesRequestDescription">Configura el número máximo de películas recientemente vistas a buscar por página.</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestName">Máximo de Episodios Vistos para Buscar</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Configura el número máximo de episodios vistos a buscar por página.</string>
+  <string name="SettingMaxUserCommentsRequestName">Máximos Comentarios Recientes para Buscar</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Configura el número máximo de comentarios recientes a buscar por página.</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>

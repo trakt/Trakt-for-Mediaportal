@@ -1021,10 +1021,11 @@ namespace TraktPlugin
                         case 7:
                             // upgrade last activity view
                             xmlreader.RemoveEntry(cTrakt, cActivityStreamView);
-                            currentSettingsVersion++;
-
+                            
                             // remove last paused item processed - stored in last activities
                             xmlreader.RemoveEntry(cTrakt, "LastPausedItemProcessed");
+
+                            currentSettingsVersion++;
                             break;
                     }
                 }
