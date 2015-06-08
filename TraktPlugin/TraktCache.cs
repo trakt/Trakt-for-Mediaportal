@@ -2578,7 +2578,7 @@ namespace TraktPlugin
             // don't be too aggressive at clearing the last activities
             // its possible that we sync paused and library together or
             // enter/exit plugins frequently which enable paused sync
-            if (force || lastClearedAt < DateTime.Now.Subtract(new TimeSpan(0, 5, 0)))
+            if (force || lastClearedAt < DateTime.Now.Subtract(new TimeSpan(0, TraktSettings.SyncPlaybackCacheExpiry, 0)))
             {
                 _LastSyncActivities = null;
 
