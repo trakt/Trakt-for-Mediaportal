@@ -3150,9 +3150,9 @@ namespace TraktPlugin
         {
             var pausedEpisodes = (_PausedEpisodes ?? new List<TraktSyncPausedEpisode>()).ToList();
 
-            var existingPausedEpisode = _PausedEpisodes.FirstOrDefault(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
-                                                                               e.Episode.Season == episode.Season &&
-                                                                               e.Episode.Number == episode.Number);
+            var existingPausedEpisode = pausedEpisodes.FirstOrDefault(e => (((e.Show.Ids.Trakt == show.Ids.Trakt) && e.Show.Ids.Trakt != null) || ((e.Show.Ids.Tvdb == show.Ids.Tvdb) && e.Show.Ids.Tvdb != null)) &&
+                                                                              e.Episode.Season == episode.Season &&
+                                                                              e.Episode.Number == episode.Number);
 
             // if it exists already, increment the play count only
             if (existingPausedEpisode != null)
