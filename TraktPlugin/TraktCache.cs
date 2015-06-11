@@ -2730,7 +2730,7 @@ namespace TraktPlugin
                 select new TraktMovieCollected
                 {
                     CollectedAt = movie.CollectedAt ?? DateTime.UtcNow.ToISO8601(),
-                    Movie = new TraktMovieSummary
+                    Movie = new TraktMovie
                     {
                         Ids = movie.Ids,
                         Title = movie.Title,
@@ -2769,7 +2769,7 @@ namespace TraktPlugin
                 {
                     RatedAt = movie.RatedAt ?? DateTime.UtcNow.ToISO8601(),
                     Rating = movie.Rating,
-                    Movie = new TraktMovieSummary
+                    Movie = new TraktMovie
                     {
                         Ids = movie.Ids,
                         Title = movie.Title,
@@ -2788,7 +2788,7 @@ namespace TraktPlugin
             {
                 RatedAt = DateTime.UtcNow.ToISO8601(),
                 Rating = rating,
-                Movie = new TraktMovieSummary
+                Movie = new TraktMovie
                 {
                     Ids = movie.Ids,
                     Title = movie.Title,
@@ -2819,7 +2819,7 @@ namespace TraktPlugin
                 {
                     PausedAt = DateTime.UtcNow.ToISO8601(),
                     Progress = progress,
-                    Movie = new TraktMovieSummary
+                    Movie = new TraktMovie
                     {
                         Ids = movie.Ids,
                         Title = movie.Title,
