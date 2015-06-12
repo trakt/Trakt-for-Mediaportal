@@ -663,7 +663,7 @@ namespace TraktPlugin.TraktHandlers
             var playbackData = TraktCache.GetPausedMovies(out lastPausedAtMovie);
             if (playbackData == null)
             {
-                TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                TraktLogger.Warning("Failed to get resume data from trakt.tv");
                 SyncPlaybackInProgress = false;
                 return;
             }

@@ -720,7 +720,7 @@ namespace TraktPlugin.TraktHandlers
             var playbackData = TraktCache.GetPausedEpisodes(out lastPausedAtEpisode);
             if (playbackData == null)
             {
-                TraktLogger.Warning("Failed to get plackback data from trakt.tv");
+                TraktLogger.Warning("Failed to get resume data from trakt.tv");
                 SyncPlaybackInProgress = false;
                 return;
             }
