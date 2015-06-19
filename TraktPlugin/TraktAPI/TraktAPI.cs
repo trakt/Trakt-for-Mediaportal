@@ -32,21 +32,18 @@ namespace TraktPlugin.TraktAPI
 
     public static class TraktAPI
     {
-        private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
-        //private const string ApplicationId = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
-
         #region Web Events
 
         // these events can be used to log data sent / received from trakt
-        internal delegate void OnDataSendDelegate(string url, string postData);
-        internal delegate void OnDataReceivedDelegate(string response, HttpWebResponse webResponse);
-        internal delegate void OnDataErrorDelegate(string error);
-        internal delegate void OnLatencyDelegate(double totalElapsedTime, HttpWebResponse webResponse, int dataSent, int dataReceived);
+        public delegate void OnDataSendDelegate(string url, string postData);
+        public delegate void OnDataReceivedDelegate(string response, HttpWebResponse webResponse);
+        public delegate void OnDataErrorDelegate(string error);
+        public delegate void OnLatencyDelegate(double totalElapsedTime, HttpWebResponse webResponse, int dataSent, int dataReceived);
 
-        internal static event OnDataSendDelegate OnDataSend;
-        internal static event OnDataReceivedDelegate OnDataReceived;
-        internal static event OnDataErrorDelegate OnDataError;
-        internal static event OnLatencyDelegate OnLatency;
+        public static event OnDataSendDelegate OnDataSend;
+        public static event OnDataReceivedDelegate OnDataReceived;
+        public static event OnDataErrorDelegate OnDataError;
+        public static event OnLatencyDelegate OnLatency;
 
         #endregion
 
@@ -55,11 +52,13 @@ namespace TraktPlugin.TraktAPI
         // these settings should be set before sending data to trakt
         // exception being the UserToken which is set after logon
 
-        internal static string Username { get; set; }
-        internal static string Password { get; set; }
-        internal static string UserToken { get; set; }
-        internal static string UserAgent { get; set; }
-        internal static bool UseSSL { get; set; }
+        public static string ApplicationId { get; set; }
+        public static string Username { get; set; }
+        public static string Password { get; set; }
+        public static string UserToken { get; set; }
+        public static string UserAgent { get; set; }
+        public static bool UseSSL { get; set; }
+        
         #endregion
 
         #region Trakt Methods

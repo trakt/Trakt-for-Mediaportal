@@ -160,6 +160,8 @@ namespace TraktPlugin
 
         #region Constants
         public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
+        private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
+        //private const string ApplicationId = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
 
         private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
         private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserStatistics.json");
@@ -683,6 +685,7 @@ namespace TraktPlugin
             }
 
             // initialise API settings
+            TraktAPI.TraktAPI.ApplicationId = ApplicationId;
             TraktAPI.TraktAPI.UserAgent = UserAgent;
             TraktAPI.TraktAPI.UseSSL = UseSSL;
 

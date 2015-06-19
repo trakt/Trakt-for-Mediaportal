@@ -58,6 +58,7 @@ namespace TraktPlugin
 
         /// <summary>
         /// Refreshes local cache from online data
+        /// This should be called before doing a sync
         /// </summary>
         public static bool RefreshData()
         {
