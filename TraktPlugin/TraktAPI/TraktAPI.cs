@@ -294,8 +294,8 @@ namespace TraktPlugin.TraktAPI
                 {
                     CurrentPage = page,
                     TotalItemsPerPage = maxItems,
-                    //TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
-                    //TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
                     Comments = response.FromJSONArray<TraktCommentItem>()
                 };
             }

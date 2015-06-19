@@ -330,7 +330,7 @@ namespace TraktPlugin.GUI
         }
         #endregion
 
-        #region PlayEpisode
+        #region Play Episode
         internal static void CheckAndPlayEpisode(TraktShowSummary show, TraktEpisodeSummary episode)
         {
             if (show == null || episode == null) return;
@@ -1131,7 +1131,7 @@ namespace TraktPlugin.GUI
             #endregion
         }
 
-        internal static void ClearShoutProperties()
+        internal static void ClearCommentProperties()
         {
             GUIUtils.SetProperty("#Trakt.Shout.Id", string.Empty);
             GUIUtils.SetProperty("#Trakt.Shout.Date", string.Empty);

@@ -1307,7 +1307,7 @@ namespace TraktPlugin
                 // get more pages
                 if (!commentExists && pagedItems.IsAny() && onlineItems.Comments.Count() == onlineItems.TotalItemsPerPage)
                 {
-                    for (int i = 2; i <= 100; i++)
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
                         var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "episodes", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
@@ -1411,7 +1411,7 @@ namespace TraktPlugin
                 // get more pages
                 if (!commentExists && pagedItems.IsAny() && onlineItems.Comments.Count() == onlineItems.TotalItemsPerPage)
                 {
-                    for (int i = 2; i <= 100; i++)
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
                         var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "shows", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
@@ -1515,7 +1515,7 @@ namespace TraktPlugin
                 // get more pages
                 if (!commentExists && pagedItems.IsAny() && onlineItems.Comments.Count() == onlineItems.TotalItemsPerPage)
                 {
-                    for (int i = 2; i <= 100; i++)
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
                         var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "seasons", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
@@ -1620,7 +1620,7 @@ namespace TraktPlugin
                 // get more pages
                 if (!commentExists && pagedItems.IsAny() && onlineItems.Comments.Count() == onlineItems.TotalItemsPerPage)
                 {
-                    for (int i = 2; i <= 100; i++)
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
                         var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "movies", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
@@ -1724,7 +1724,7 @@ namespace TraktPlugin
                 // get more pages
                 if (!commentExists && pagedItems.IsAny() && onlineItems.Comments.Count() == onlineItems.TotalItemsPerPage)
                 {
-                    for (int i = 2; i <= 100; i++)
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
                         var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "lists", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;

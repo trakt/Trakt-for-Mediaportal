@@ -729,7 +729,7 @@ namespace TraktPlugin.GUI
         {
             GUIUtils.SetProperty("#Trakt.Shouts.CurrentItem", string.Empty);
 
-            GUICommon.ClearShoutProperties();
+            GUICommon.ClearCommentProperties();
             GUICommon.ClearUserProperties();
         }
 
