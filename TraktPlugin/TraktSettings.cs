@@ -159,10 +159,12 @@ namespace TraktPlugin
         #endregion
 
         #region Constants
-        public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
+        // trakt has 2 servers, live and staging
         private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
-        //private const string ApplicationId = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
-
+        private const string ApplicationIdStaging = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
+        
+        public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
+        
         private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
         private static string cLastStatisticsFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserStatistics.json");
         private static string cLastUserProfileFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\UserProfile.json");
@@ -696,6 +698,7 @@ namespace TraktPlugin
             if (LastSyncActivities.Seasons == null) LastSyncActivities.Seasons = new TraktLastSyncActivities.SeasonActivities();
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
             if (LastSyncActivities.Lists == null) LastSyncActivities.Lists = new TraktLastSyncActivities.ListActivities();
+            if (LastSyncActivities.Comments == null) LastSyncActivities.Comments = new TraktLastSyncActivities.CommentActivities();
 
             if (loadPersistedCache)
             {

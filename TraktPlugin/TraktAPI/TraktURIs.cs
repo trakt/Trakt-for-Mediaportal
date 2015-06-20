@@ -62,6 +62,8 @@ namespace TraktPlugin.TraktAPI
 
         public const string UserComments = "https://api-v2launch.trakt.tv/users/{0}/comments/{1}/{2}?extended={3}&page={4}&limit={5}";
 
+        public const string UserLikedItems = "https://api-v2launch.trakt.tv/users/likes/{0}?extended={1}&page={2}&limit={3}";
+
         public const string RecommendedMovies = "https://api-v2launch.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "https://api-v2launch.trakt.tv/recommendations/shows?extended=full,images";
 
@@ -124,6 +126,5 @@ namespace TraktPlugin.TraktAPI
         public const string DismissRecommendedShow = "https://api-v2launch.trakt.tv/recommendations/shows/{0}";
 
         public const string DeleteList = "https://api-v2launch.trakt.tv/users/{0}/lists/{1}";
-
     }
 }

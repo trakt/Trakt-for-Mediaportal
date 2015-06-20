@@ -46,6 +46,9 @@ namespace TraktPlugin
         private static string CustomListsFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Menu.json");
         private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
         private static string CustomListCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Commented.json");
+        private static string CustomListLikedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Liked.json");
+
+        private static string CommentsLikedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Comments\Liked.json");
 
         private static DateTime MovieRecommendationsAge;
         private static DateTime CustomListAge;
@@ -70,6 +73,8 @@ namespace TraktPlugin
                 ClearLastActivityCache();
 
                 // get latest tv data from online
+                // get unwatched before watched first as we need to compare old vs new
+                // unwatched data is synthetic, there is no online API for it
                 if (GetUnWatchedEpisodesFromTrakt().ToNullableList() != null)
                     GetWatchedEpisodesFromTrakt();
 
@@ -88,6 +93,8 @@ namespace TraktPlugin
                 TraktLogger.Info("Started refresh of movie user data from trakt.tv");
 
                 // get latest movie data from online
+                // get unwatched first as we need to compare old vs new
+                // unwatched data is synthetic, there is no online API for it
                 if (GetUnWatchedMoviesFromTrakt() != null)
                     GetWatchedMoviesFromTrakt();
 
@@ -102,8 +109,14 @@ namespace TraktPlugin
                 // get custom lists from online
                 GetCustomLists();
                 GetCommentedListsFromTrakt();
+                GetLikedListsFromTrakt();
 
                 TraktLogger.Info("Finished refresh of custom list user data from trakt.tv");
+                TraktLogger.Info("Started refresh of comment user data from trakt.tv");
+
+                GetLikedCommentsFromTrakt();
+
+                TraktLogger.Info("Finished refresh of comment user data from trakt.tv");
 
                 return true;
             }
@@ -1253,6 +1266,107 @@ namespace TraktPlugin
         }
         static Dictionary<TraktListDetail, List<TraktListItem>> _CustomListsAndItems = null;
 
+        public static IEnumerable<TraktLike> GetLikedListsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return LikedLists;
+
+            TraktLogger.Info("Getting current user liked lists from trakt.tv");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Lists == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Lists.LikedAt == TraktSettings.LastSyncActivities.Lists.LikedAt)
+            {
+                var cachedItems = LikedLists;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Liked lists cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Lists.LikedAt ?? "<empty>", lastSyncActivities.Lists.LikedAt ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetLikedItems("lists");
+            if (onlineItems != null)
+            {
+                bool listExists = false;
+                var pagedItems = onlineItems.Likes;
+
+                // check if we need to request more pages
+                if (LikedLists != null && pagedItems.IsAny())
+                {
+                    // if the list id exists then we already have all liked lists
+                    listExists = LikedLists.Any(l => l.List.Ids.Trakt == pagedItems.Last().List.Ids.Trakt);
+
+                    // add the latest page to our previous cached comments
+                    pagedItems = pagedItems.Union(LikedLists);
+                }
+
+                // get more pages
+                if (!listExists && pagedItems.IsAny() && onlineItems.Likes.Count() == onlineItems.TotalItemsPerPage)
+                {
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
+                    {
+                        var nextPage = TraktAPI.TraktAPI.GetLikedItems("lists", "min", i);
+                        if (nextPage == null || !nextPage.Likes.IsAny()) break;
+
+                        // if the list id exists then we already have all liked lists
+                        if (pagedItems.Any(c => c.List.Ids.Trakt == nextPage.Likes.Last().List.Ids.Trakt))
+                            listExists = true;
+
+                        // add the latest page to our previous requested liked lists
+                        pagedItems = pagedItems.Union(nextPage.Likes);
+
+                        if (listExists || nextPage.Likes.Count() < nextPage.TotalItemsPerPage)
+                            break;
+                    }
+                }
+
+                // evaluate any union additions
+                if (pagedItems != null)
+                    pagedItems = pagedItems.ToList();
+
+                _LikedLists = pagedItems;
+
+                // save to local file cache
+                SaveFileCache(CustomListLikedFile, _LikedLists.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Lists.LikedAt = lastSyncActivities.Lists.LikedAt;
+
+                return pagedItems == null ? null : pagedItems.OrderByDescending(l => l.LikedAt);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// returns the cached liked lists on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktLike> LikedLists
+        {
+            get
+            {
+                if (_LikedLists == null)
+                {
+                    var persistedItems = LoadFileCache(CustomListLikedFile, null);
+                    if (persistedItems != null)
+                        _LikedLists = persistedItems.FromJSONArray<TraktLike>();
+                }
+                return _LikedLists;
+            }
+        }
+        static IEnumerable<TraktLike> _LikedLists = null;
+
         #endregion
 
         #endregion
@@ -1779,6 +1893,107 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktCommentItem> _CommentedLists = null;
+
+        public static IEnumerable<TraktLike> GetLikedCommentsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return LikedComments;
+
+            TraktLogger.Info("Getting current user liked comments from trakt.tv");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Comments == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Comments.LikedAt == TraktSettings.LastSyncActivities.Comments.LikedAt)
+            {
+                var cachedItems = LikedComments;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Liked comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Comments.LikedAt ?? "<empty>", lastSyncActivities.Comments.LikedAt ?? "<empty>");
+
+            // we get from online, local cache is not up to date
+            var onlineItems = TraktAPI.TraktAPI.GetLikedItems("comments");
+            if (onlineItems != null)
+            {
+                bool commentExists = false;
+                var pagedItems = onlineItems.Likes;
+
+                // check if we need to request more pages
+                if (LikedComments != null && pagedItems.IsAny())
+                {
+                    // if the comment id exists then we already have all liked comments
+                    commentExists = LikedComments.Any(l => l.Comment.Id == pagedItems.Last().Comment.Id);
+
+                    // add the latest page to our previous cached comments
+                    pagedItems = pagedItems.Union(LikedComments);
+                }
+
+                // get more pages
+                if (!commentExists && pagedItems.IsAny() && onlineItems.Likes.Count() == onlineItems.TotalItemsPerPage)
+                {
+                    for (int i = 2; i <= onlineItems.TotalPages; i++)
+                    {
+                        var nextPage = TraktAPI.TraktAPI.GetLikedItems("comments", "min", i);
+                        if (nextPage == null || !nextPage.Likes.IsAny()) break;
+
+                        // if the comment id exists then we already have all liked comments
+                        if (pagedItems.Any(c => c.Comment.Id == nextPage.Likes.Last().Comment.Id))
+                            commentExists = true;
+
+                        // add the latest page to our previous requested liked comments
+                        pagedItems = pagedItems.Union(nextPage.Likes);
+
+                        if (commentExists || nextPage.Likes.Count() < nextPage.TotalItemsPerPage)
+                            break;
+                    }
+                }
+
+                // evaluate any union additions
+                if (pagedItems != null)
+                    pagedItems = pagedItems.ToList();
+
+                _LikedComments = pagedItems;
+
+                // save to local file cache
+                SaveFileCache(CommentsLikedFile, _LikedComments.ToJSON());
+
+                // save new activity time for next time
+                TraktSettings.LastSyncActivities.Comments.LikedAt = lastSyncActivities.Comments.LikedAt;
+
+                return pagedItems == null ? null : pagedItems.OrderByDescending(l => l.LikedAt);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// returns the cached liked comments on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktLike> LikedComments
+        {
+            get
+            {
+                if (_LikedComments == null)
+                {
+                    var persistedItems = LoadFileCache(CommentsLikedFile, null);
+                    if (persistedItems != null)
+                        _LikedComments = persistedItems.FromJSONArray<TraktLike>();
+                }
+                return _LikedComments;
+            }
+        }
+        static IEnumerable<TraktLike> _LikedComments = null;
 
         #endregion
 
@@ -3607,24 +3822,27 @@ namespace TraktPlugin
             SaveFileCache(MoviesWatchedFile, _WatchedMovies.ToJSON());
             SaveFileCache(MoviesRatedFile, _RatedMovies.ToJSON());
             SaveFileCache(MoviesPausedFile, _PausedMovies.ToJSON());
-            //SaveFileCache(MoviesCommentedFile, _CommentedMovies.ToJSON());
+            SaveFileCache(MoviesCommentedFile, _CommentedMovies.ToJSON());
 
             SaveFileCache(EpisodesWatchlistedFile, _WatchListEpisodes.ToJSON());
             SaveFileCache(EpisodesCollectedFile, _CollectedEpisodes.ToJSON());
             SaveFileCache(EpisodesWatchedFile, _WatchedEpisodes.ToJSON());
             SaveFileCache(EpisodesRatedFile, _RatedEpisodes.ToJSON());
             SaveFileCache(EpisodesPausedFile, _PausedEpisodes.ToJSON());
-            //SaveFileCache(EpisodesCommentedFile, _CommentedEpisodes.ToJSON());
+            SaveFileCache(EpisodesCommentedFile, _CommentedEpisodes.ToJSON());
 
             SaveFileCache(ShowsWatchlistedFile, _WatchListShows.ToJSON());
             SaveFileCache(ShowsRatedFile, _RatedShows.ToJSON());
-            //SaveFileCache(ShowsCommentedFile, _CommentedShows.ToJSON());
+            SaveFileCache(ShowsCommentedFile, _CommentedShows.ToJSON());
 
             SaveFileCache(SeasonsWatchlistedFile, _WatchListSeasons.ToJSON());
             SaveFileCache(SeasonsRatedFile, _RatedSeasons.ToJSON());
-            //SaveFileCache(SeasonsCommentedFile, _CommentedSeasons.ToJSON());
+            SaveFileCache(SeasonsCommentedFile, _CommentedSeasons.ToJSON());
 
-            //SaveFileCache(CustomListCommentedFile, _CommentedLists.ToJSON());
+            SaveFileCache(CustomListCommentedFile, _CommentedLists.ToJSON());
+            SaveFileCache(CustomListLikedFile, _LikedLists.ToJSON());
+
+            SaveFileCache(CommentsLikedFile, _LikedComments.ToJSON());
         }
 
         #endregion
