@@ -123,7 +123,8 @@ namespace TraktPlugin.TraktAPI.Enums
         pause,
         created,
         item_added, 
-        updated
+        updated,
+        like
     }
 
     /// <summary>
@@ -138,7 +139,8 @@ namespace TraktPlugin.TraktAPI.Enums
         show,
         movie,
         person,
-        list
+        list,
+        comment
     }
 
     /// <summary>

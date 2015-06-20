@@ -949,6 +949,10 @@ namespace TraktPlugin
                 case ActivityAction.updated:
                     imageFilename = "traktActivityList.png";
                     break;
+
+                case ActivityAction.like:
+                    imageFilename = "traktActivityLike.png";
+                    break;
             }
 
             return imageFilename;
@@ -1667,10 +1671,10 @@ namespace TraktPlugin
 
             #region paused movies
             string lastMovieProcessedAt;
-            var pausedMovie = TraktCache.GetPausedMovies(out lastMovieProcessedAt, true);
-            if (pausedMovie != null)
+            var pausedMovies = TraktCache.GetPausedMovies(out lastMovieProcessedAt, true);
+            if (pausedMovies != null)
             {
-                foreach (var pause in pausedMovie.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
+                foreach (var pause in pausedMovies.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
                 {
                     var pausedMovieActivity = new TraktActivity.Activity
                     {
@@ -1691,6 +1695,50 @@ namespace TraktPlugin
 
                     // add activity to the list
                     activity.Activities.Add(pausedMovieActivity);
+                }
+            }
+            #endregion
+
+            #region liked comments
+            var likedComments = TraktCache.GetLikedCommentsFromTrakt(true);
+            if (likedComments != null)
+            {
+                foreach (var like in likedComments.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
+                {
+                    var likedCommentActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.like.ToString(),
+                        Type = ActivityType.comment.ToString(),
+                        Shout = like.Comment,
+                        Timestamp = like.LikedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(likedCommentActivity);
+                }
+            }
+            #endregion
+
+            #region liked lists
+            var likedLists = TraktCache.GetLikedListsFromTrakt(true);
+            if (likedLists != null)
+            {
+                foreach (var like in likedLists.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
+                {
+                    var likedListActivity = new TraktActivity.Activity
+                    {
+                        Id = i++,
+                        Action = ActivityAction.like.ToString(),
+                        Type = ActivityType.list.ToString(),
+                        List = like.List,
+                        Timestamp = like.LikedAt,
+                        User = GetUserProfile()
+                    };
+
+                    // add activity to the list
+                    activity.Activities.Add(likedListActivity);
                 }
             }
             #endregion

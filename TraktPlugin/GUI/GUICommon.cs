@@ -3036,6 +3036,17 @@ namespace TraktPlugin.GUI
                 case ActivityAction.item_added: // added item to list
                     title = string.Format(Translation.ActivityAddToList, userName, itemName, activity.List.Name);
                     break;
+
+                case ActivityAction.like:
+                    if (type == ActivityType.comment)
+                    {
+                        title = string.Format(Translation.ActivityLikedComment, userName, activity.Shout.User.Username, itemName);
+                    }
+                    else if (type == ActivityType.list)
+                    {
+                        title = string.Format(Translation.ActivityLikedList, userName, itemName);
+                    }
+                    break;
             }
 
             // remove user name from your own feed, its not needed - you know who you are
@@ -3144,6 +3155,10 @@ namespace TraktPlugin.GUI
                             // return the list name
                             name = activity.List.Name;
                         }
+                        break;
+
+                    case ActivityType.comment:
+                        name = activity.Shout.Text.Truncate(30);
                         break;
                 }
             }

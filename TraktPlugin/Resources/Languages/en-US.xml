@@ -33,6 +33,8 @@
   <string name="ActivityReview">{0} reviewed {1}</string>
   <string name="ActivityShouts">{0} shouted on {1}</string>
   <string name="ActivityPaused">{0} paused {1} [{2}%]</string>
+  <string name="ActivityLikedComment">{0} liked comment by {1} - {2}</string>
+  <string name="ActivityLikedList">{0} liked list {1}</string>
   <string name="Activities">Activities</string>
   <string name="AddFriend">Add Friend...</string>
   <string name="AddToLibrary">Add to Collection</string>
