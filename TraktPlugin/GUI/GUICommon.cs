@@ -854,6 +854,44 @@ namespace TraktPlugin.GUI
 
         #endregion
 
+        #region Likes
+
+        public static void LikeComment(TraktComment comment)
+        {
+            var likeThread = new Thread((obj) =>
+            {
+                TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
+
+                // add like to cache
+                TraktCache.AddCommentToLikes(comment);
+            })
+            {
+                Name = "LikeComment",
+                IsBackground = true
+            };
+
+            likeThread.Start(comment);
+        }
+
+        public static void UnLikeComment(TraktComment comment)
+        {
+            var unlikeThread = new Thread((obj) =>
+            {
+                TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
+
+                // remove like from cache
+                TraktCache.RemoveCommentFromLikes(comment);
+            })
+            {
+                Name = "LikeComment",
+                IsBackground = true
+            };
+
+            unlikeThread.Start(comment);
+        }
+
+        #endregion
+
         #region Common Skin Properties
 
         internal static string GetProperty(string property)

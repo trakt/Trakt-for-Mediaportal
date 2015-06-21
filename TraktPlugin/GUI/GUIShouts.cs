@@ -244,7 +244,7 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            // Like or Unlike Comment            
+            // Like or Unlike Comment
             if (selectedComment.User.Username != TraktSettings.Username)
             {
                 // Like
@@ -295,13 +295,13 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case (int)ContextMenuItem.Like:
-                    LikeComment(selectedComment);
+                    GUICommon.LikeComment(selectedComment);
                     selectedComment.Likes++;
                     PublishCommentSkinProperties(selectedComment);
                     break;
 
                 case (int)ContextMenuItem.UnLike:
-                    UnLikeComment(selectedComment);
+                    GUICommon.UnLikeComment(selectedComment);
                     if (selectedComment.Likes > 0)
                     {
                         selectedComment.Likes--;
@@ -338,40 +338,6 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Private Methods
-
-        private void LikeComment(TraktComment comment)
-        {
-            var likeThread = new Thread((obj) =>
-                {
-                    TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
-
-                    // add like to cache
-                    TraktCache.AddCommentToLikes(comment);
-                })
-                {
-                    Name = "LikeComment",
-                    IsBackground = true
-                };
-
-            likeThread.Start(comment);
-        }
-
-        private void UnLikeComment(TraktComment comment)
-        {
-            var unlikeThread = new Thread((obj) =>
-            {
-                TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
-
-                // remove like from cache
-                TraktCache.RemoveCommentFromLikes(comment);
-            })
-            {
-                Name = "LikeComment",
-                IsBackground = true
-            };
-
-            unlikeThread.Start(comment);
-        }
 
         private void GetNextEpisodeComments()
         {

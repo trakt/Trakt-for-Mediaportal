@@ -36,7 +36,10 @@ namespace TraktPlugin.GUI
 
         enum ContextMenuItem
         {
+            Like,
+            UnLike,
             Spoilers,
+            ShowSeasonInfo,
             RemoveFromWatchList,
             AddToWatchList,
             AddToList,
@@ -218,6 +221,25 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
+            // Like or Unlike Comment
+            if (CurrentUser != TraktSettings.Username)
+            {
+                // Like
+                if (!selectedComment.Comment.IsLiked())
+                {
+                    listItem = new GUIListItem(Translation.Like);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.Like;
+                }
+                else
+                {
+                    // UnLike
+                    listItem = new GUIListItem(Translation.UnLike);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.UnLike;
+                }
+            }
+
             listItem = new GUIListItem(TraktSettings.HideSpoilersOnShouts ? Translation.ShowSpoilers : Translation.HideSpoilers);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Spoilers;
@@ -227,7 +249,7 @@ namespace TraktPlugin.GUI
             {
                 listItem = new GUIListItem(Translation.ShowSeasonInfo);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ActivityContextMenuItem.ShowSeasonInfo;
+                listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
             }
 
             // get a list of common actions to perform on the selected item
@@ -248,13 +270,28 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
+                case (int)ContextMenuItem.Like:
+                    GUICommon.LikeComment(selectedComment.Comment);
+                    selectedComment.Comment.Likes++;
+                    PublishCommentSkinProperties(selectedComment);
+                    break;
+
+                case (int)ContextMenuItem.UnLike:
+                    GUICommon.UnLikeComment(selectedComment.Comment);
+                    if (selectedComment.Comment.Likes > 0)
+                    {
+                        selectedComment.Comment.Likes--;
+                        PublishCommentSkinProperties(selectedComment);
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.Spoilers):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
                     if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
                     PublishCommentSkinProperties(selectedComment);
                     break;
 
-                case ((int)ActivityContextMenuItem.ShowSeasonInfo):
+                case ((int)ContextMenuItem.ShowSeasonInfo):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedComment.Show.ToJSON());
                     break;
 
@@ -267,7 +304,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.AddRemoveShowInUserList(selectedComment.Show, false);
                     break;
 
-                case ((int)ActivityContextMenuItem.AddToWatchList):
+                case ((int)ContextMenuItem.AddToWatchList):
                     if (selectedComment.Movie != null)
                         TraktHelper.AddMovieToWatchList(selectedComment.Movie, true);
                     else if (selectedComment.Episode != null)
@@ -276,7 +313,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.AddShowToWatchList(selectedComment.Show);
                     break;
 
-                case ((int)ActivityContextMenuItem.Shouts):
+                case ((int)ContextMenuItem.Shouts):
                     if (selectedComment.Movie != null)
                         TraktHelper.ShowMovieShouts(selectedComment.Movie);
                     else if (selectedComment.Episode != null)
@@ -285,7 +322,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.ShowTVShowShouts(selectedComment.Show);
                     break;
 
-                case ((int)ActivityContextMenuItem.Rate):
+                case ((int)ContextMenuItem.Rate):
                     if (selectedComment.Movie != null)
                         GUICommon.RateMovie(selectedComment.Movie);
                     else if (selectedComment.Episode != null)
@@ -294,7 +331,7 @@ namespace TraktPlugin.GUI
                         GUICommon.RateShow(selectedComment.Show);
                     break;
 
-                case ((int)ActivityContextMenuItem.Trailers):
+                case ((int)ContextMenuItem.Trailers):
                     if (selectedComment.Movie != null)
                         GUICommon.ShowMovieTrailersMenu(selectedComment.Movie);
                     else
