@@ -2543,7 +2543,7 @@ namespace TraktPlugin
 
         #endregion
 
-        #region Lists
+        #region List Items
 
         public static int Plays(this TraktListItem item)
         {
@@ -2613,6 +2613,30 @@ namespace TraktPlugin
                 return item.Episode.UserRating(item.Show);
 
             return null;
+        }
+
+        #endregion
+
+        #region Lists
+
+        public static bool IsLiked(this TraktListDetail list)
+        {
+            if (LikedLists == null || list == null || list.Ids == null)
+                return false;
+
+            return LikedLists.Any(l => l.List.Ids.Trakt == list.Ids.Trakt);
+        }
+
+        #endregion
+
+        #region Comments
+
+        public static bool IsLiked(this TraktComment comment)
+        {
+            if (LikedComments == null || comment == null)
+                return false;
+
+            return LikedComments.Any(l => l.Comment.Id == comment.Id);
         }
 
         #endregion
@@ -3403,6 +3427,42 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Comments
+
+        internal static void AddCommentToLikes(TraktComment comment)
+        {
+            var likedComments = (_LikedComments ?? new List<TraktLike>()).ToList();
+
+            likedComments.Add(new TraktLike
+            {
+                LikedAt = DateTime.UtcNow.ToISO8601(),
+                Comment = comment,
+                Type = "comment"
+            });
+
+            _LikedComments = likedComments;
+        }
+
+        #endregion
+
+        #region List
+
+        internal static void AddListToLikes(TraktListDetail list)
+        {
+            var likedLists = (_LikedLists ?? new List<TraktLike>()).ToList();
+
+            likedLists.Add(new TraktLike
+            {
+                LikedAt = DateTime.UtcNow.ToISO8601(),
+                List = list,
+                Type = "list"
+            });
+
+            _LikedLists = likedLists;
+        }
+
+        #endregion
+
         #endregion
 
         #region Remove From Cache
@@ -3804,6 +3864,36 @@ namespace TraktPlugin
             }
 
             _PausedEpisodes = pausedEpisodes;
+        }
+
+        #endregion
+
+        #region Comments
+
+        internal static void RemoveCommentFromLikes(TraktComment comment)
+        {
+            if (_LikedComments == null)
+                return;
+
+            var likedComments = _LikedComments.ToList();
+            likedComments.RemoveAll(l => l.Comment.Id == comment.Id);
+
+            _LikedComments = likedComments;
+        }
+
+        #endregion
+
+        #region Lists
+
+        internal static void RemoveListFromLikes(TraktListDetail list)
+        {
+            if (_LikedLists == null)
+                return;
+
+            var likedLists = _LikedLists.ToList();
+            likedLists.RemoveAll(l => l.List.Ids.Trakt == list.Ids.Trakt);
+
+            _LikedLists = likedLists;
         }
 
         #endregion

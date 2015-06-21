@@ -244,21 +244,23 @@ namespace TraktPlugin.GUI
 
             GUIListItem listItem = null;
 
-            // Like or Unlike Comment
-            // There doesn't appear to be a way to get a users comment likes
-            // so can't tell if user can like / unlike, give user the choice  
-            // to do either
+            // Like or Unlike Comment            
             if (selectedComment.User.Username != TraktSettings.Username)
             {
                 // Like
-                listItem = new GUIListItem(Translation.Like);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Like;
-
-                // UnLike
-                listItem = new GUIListItem(Translation.UnLike);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.UnLike;
+                if (!selectedComment.IsLiked())
+                {
+                    listItem = new GUIListItem(Translation.Like);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.Like;
+                }
+                else
+                {
+                    // UnLike
+                    listItem = new GUIListItem(Translation.UnLike);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.UnLike;
+                }
             }
 
             if (ShoutType == ShoutTypeEnum.episode && (selectedComment.ParentId == null || selectedComment.ParentId == 0))
@@ -293,13 +295,13 @@ namespace TraktPlugin.GUI
             switch (dlg.SelectedId)
             {
                 case (int)ContextMenuItem.Like:
-                    LikeComment(selectedComment.Id);
+                    LikeComment(selectedComment);
                     selectedComment.Likes++;
                     PublishCommentSkinProperties(selectedComment);
                     break;
 
                 case (int)ContextMenuItem.UnLike:
-                    UnLikeComment(selectedComment.Id);
+                    UnLikeComment(selectedComment);
                     if (selectedComment.Likes > 0)
                     {
                         selectedComment.Likes--;
@@ -337,32 +339,38 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void LikeComment(int id)
+        private void LikeComment(TraktComment comment)
         {
             var likeThread = new Thread((obj) =>
                 {
-                    TraktAPI.TraktAPI.LikeComment((int)obj);
+                    TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
+
+                    // add like to cache
+                    TraktCache.AddCommentToLikes(comment);
                 })
                 {
                     Name = "LikeComment",
                     IsBackground = true
                 };
 
-            likeThread.Start(id);
+            likeThread.Start(comment);
         }
 
-        private void UnLikeComment(int id)
+        private void UnLikeComment(TraktComment comment)
         {
             var unlikeThread = new Thread((obj) =>
             {
-                TraktAPI.TraktAPI.UnLikeComment((int)obj);
+                TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
+
+                // remove like from cache
+                TraktCache.RemoveCommentFromLikes(comment);
             })
             {
                 Name = "LikeComment",
                 IsBackground = true
             };
 
-            unlikeThread.Start(id);
+            unlikeThread.Start(comment);
         }
 
         private void GetNextEpisodeComments()
