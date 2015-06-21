@@ -863,7 +863,7 @@ namespace TraktPlugin.GUI
                 TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
 
                 // add like to cache
-                TraktCache.AddCommentToLikes(comment);
+                TraktCache.AddCommentToLikes((TraktComment)comment);
             })
             {
                 Name = "LikeComment",
@@ -880,7 +880,7 @@ namespace TraktPlugin.GUI
                 TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
 
                 // remove like from cache
-                TraktCache.RemoveCommentFromLikes(comment);
+                TraktCache.RemoveCommentFromLikes((TraktComment)comment);
             })
             {
                 Name = "LikeComment",

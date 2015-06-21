@@ -176,14 +176,19 @@ namespace TraktPlugin.GUI
             else
             {
                 // like list
-                listItem = new GUIListItem(Translation.Like);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Like;
-
-                //UnLike list
-                listItem = new GUIListItem(Translation.UnLike);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Unlike;
+                if (!selectedList.IsLiked())
+                {
+                    listItem = new GUIListItem(Translation.Like);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.Like;
+                }
+                else
+                {
+                    // unLike list
+                    listItem = new GUIListItem(Translation.UnLike);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ContextMenuItem.Unlike;
+                }
 
                 // copy a friends list
                 listItem = new GUIListItem(Translation.CopyList);
@@ -245,13 +250,13 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)ContextMenuItem.Like):
-                    LikeList(selectedList.Ids.Trakt);
+                    LikeList(selectedList);
                     selectedList.Likes++;
                     PublishListProperties(selectedList);
                     break;
 
                 case ((int)ContextMenuItem.Unlike):
-                    UnLikeList(selectedList.Ids.Trakt);
+                    UnLikeList(selectedList);
                     if (selectedList.Likes > 0)
                     {
                         selectedList.Likes--;
@@ -270,32 +275,38 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void LikeList(int? id)
+        private void LikeList(TraktListDetail list)
         {
             var likeThread = new Thread((obj) =>
             {
-                TraktAPI.TraktAPI.LikeList(CurrentUser, (int)obj);
+                TraktAPI.TraktAPI.LikeList(CurrentUser, ((TraktListDetail)obj).Ids.Trakt.Value);
+
+                // all list to likes cache
+                TraktCache.AddListToLikes((TraktListDetail)obj);
             })
             {
                 Name = "LikeList",
                 IsBackground = true
             };
 
-            likeThread.Start(id);
+            likeThread.Start(list);
         }
 
-        private void UnLikeList(int? id)
+        private void UnLikeList(TraktListDetail list)
         {
             var unlikeThread = new Thread((obj) =>
             {
-                TraktAPI.TraktAPI.UnLikeList(CurrentUser, (int)obj);
+                TraktAPI.TraktAPI.UnLikeList(CurrentUser, ((TraktListDetail)obj).Ids.Trakt.Value);
+
+                // remove list from likes cache
+                TraktCache.RemoveListFromLikes((TraktListDetail)obj);
             })
             {
                 Name = "UnLikeList",
                 IsBackground = true
             };
 
-            unlikeThread.Start(id);
+            unlikeThread.Start(list);
         }
 
         private void CopyList(TraktListDetail sourceList, TraktListDetail newList)
