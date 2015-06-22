@@ -367,10 +367,10 @@
       <type>image</type>
       <id>1</id>
       <width>52</width>
-      <height>48</height>
-      <posX>570</posX>
-      <posY>490</posY>
-      <texture>love.png</texture>
+      <height>52</height>
+      <posX>555</posX>
+      <posY>485</posY>
+      <texture>traktActivityLike.png</texture>
       <visible>facadeview.list+!string.equals(#Trakt.Shout.Likes,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
@@ -379,9 +379,9 @@
       <type>label</type>
       <label>#Trakt.Shout.Likes #Trakt.Translation.Likes.Label</label>
       <id>0</id>
-      <posX>630</posX>
+      <posX>605</posX>
       <posY>494</posY>
-      <width>200</width>
+      <width>220</width>
       <animation effect="fade" time="250" delay="0">WindowClose</animation>
       <visible>facadeview.list+!string.equals(#Trakt.Shout.Likes,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
