@@ -2113,9 +2113,10 @@ namespace TraktPlugin
             GUIListItem listItem = null;
 
             // activity view menu
-            listItem = new GUIListItem(Translation.ChangeView);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ActivityContextMenuItem.ChangeView;
+            // currently not supported
+            //listItem = new GUIListItem(Translation.ChangeView);
+            //dlg.Add(listItem);
+            //listItem.ItemId = (int)ActivityContextMenuItem.ChangeView;
             
             var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
 
@@ -2138,7 +2139,7 @@ namespace TraktPlugin
                     listItem.ItemId = (int)ActivityContextMenuItem.FollowUser;
                 }
 
-                // if selected activity is an episode or show, add 'Season Info'
+                // if selected activity is an episode, season or show, add 'Season Info'
                 if (activity.Show != null)
                 {
                     listItem = new GUIListItem(Translation.ShowSeasonInfo);
@@ -2156,6 +2157,15 @@ namespace TraktPlugin
                         dlg.Add(item);
                         item.ItemId = itemId;
                     }
+                }
+
+                // if selected activity is a 'like', show unlike item
+                // like list
+                if (activity.Action == "like" && TraktSettings.ActivityStreamView == (int)ActivityView.me)
+                {
+                    listItem = new GUIListItem(Translation.UnLike);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.Unlike;
                 }
             }
 
@@ -2297,6 +2307,15 @@ namespace TraktPlugin
                         GUICommon.RateSeason(activity.Show, activity.Season);
                     else
                         GUICommon.RateShow(activity.Show);
+                    break;
+
+                case (int)ActivityContextMenuItem.Unlike:
+                    if (activity.Shout != null)
+                        GUICommon.UnLikeComment(activity.Shout);
+                    else if (activity.List != null)
+                        GUICommon.UnLikeList(activity.List, TraktSettings.Username);
+
+                    ReloadActivityView = true;
                     break;
 
                 case ((int)ActivityContextMenuItem.Trailers):

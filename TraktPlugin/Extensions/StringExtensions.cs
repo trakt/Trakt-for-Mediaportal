@@ -156,7 +156,15 @@ namespace TraktPlugin.Extensions
             if (value == null)
                 return string.Empty;
 
-            return value.Length <= maxChars ? value : value.Substring(0, maxChars) + " ..";
+            return value.Length <= maxChars ? value : value.Substring(0, maxChars).Replace(Environment.NewLine, " ") + " ..";
+        }
+
+        public static string RemoveWhitespace(this string value)
+        {
+            if (value == null)
+                return string.Empty;
+
+            return Regex.Replace(value, @"\s+", "");
         }
     }
 }

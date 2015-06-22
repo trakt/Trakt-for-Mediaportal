@@ -41,6 +41,7 @@ namespace TraktPlugin.GUI
         Shouts,
         UserProfile,
         FollowUser,
+        Unlike,
         Trailers,
     }
 
@@ -860,10 +861,10 @@ namespace TraktPlugin.GUI
         {
             var likeThread = new Thread((obj) =>
             {
-                TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
-
                 // add like to cache
                 TraktCache.AddCommentToLikes((TraktComment)comment);
+
+                TraktAPI.TraktAPI.LikeComment(((TraktComment)comment).Id);
             })
             {
                 Name = "LikeComment",
@@ -877,10 +878,10 @@ namespace TraktPlugin.GUI
         {
             var unlikeThread = new Thread((obj) =>
             {
-                TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
-
                 // remove like from cache
+
                 TraktCache.RemoveCommentFromLikes((TraktComment)comment);
+                TraktAPI.TraktAPI.UnLikeComment(((TraktComment)comment).Id);
             })
             {
                 Name = "LikeComment",
@@ -888,6 +889,40 @@ namespace TraktPlugin.GUI
             };
 
             unlikeThread.Start(comment);
+        }
+
+        public static void LikeList(TraktListDetail list, string username)
+        {
+            var likeThread = new Thread((obj) =>
+            {
+                // all list to likes cache
+                TraktCache.AddListToLikes((TraktListDetail)obj);
+
+                TraktAPI.TraktAPI.LikeList(username, ((TraktListDetail)obj).Ids.Trakt.Value);
+            })
+            {
+                Name = "LikeList",
+                IsBackground = true
+            };
+
+            likeThread.Start(list);
+        }
+
+        public static void UnLikeList(TraktListDetail list, string username)
+        {
+            var unlikeThread = new Thread((obj) =>
+            {
+                // remove list from likes cache
+                TraktCache.RemoveListFromLikes((TraktListDetail)obj);
+
+                TraktAPI.TraktAPI.UnLikeList(username, ((TraktListDetail)obj).Ids.Trakt.Value);
+            })
+            {
+                Name = "UnLikeList",
+                IsBackground = true
+            };
+
+            unlikeThread.Start(list);
         }
 
         #endregion
