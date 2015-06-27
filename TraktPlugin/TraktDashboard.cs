@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using TraktPlugin.Extensions;
@@ -21,6 +23,76 @@ namespace TraktPlugin
         friendsandme,
         me
     }
+
+    #region Data Structures
+
+    [DataContract]
+    public class ActivityFilter
+    {
+        [DataContract]
+        public class Type
+        {
+            [DataMember]
+            public bool Episodes = true;
+
+            [DataMember]
+            public bool Seasons = true;
+
+            [DataMember]
+            public bool Shows = true;
+
+            [DataMember]
+            public bool Movies = true;
+
+            [DataMember]
+            public bool Lists = true;
+
+            [DataMember]
+            public bool Comments = true;
+
+            [DataMember]
+            public bool People = true;
+        }
+
+        [DataContract]
+        public class Action
+        {
+            [DataMember]
+            public bool Watched = true;
+
+            [DataMember]
+            public bool Collected = true;
+
+            [DataMember]
+            public bool Rated = true;
+
+            [DataMember]
+            public bool Watchlisted = true;
+
+            [DataMember]
+            public bool Commented = true;
+
+            [DataMember]
+            public bool Paused = true;
+
+            [DataMember]
+            public bool Updated = true;
+
+            [DataMember]
+            public bool Added = true;
+
+            [DataMember]
+            public bool Liked = true;
+        }
+
+        [DataMember]
+        public Action Actions { get; set; }
+
+        [DataMember]
+        public Type Types { get; set; }
+    }
+
+    #endregion
 
     internal class TraktDashboard
     {
@@ -1047,698 +1119,769 @@ namespace TraktPlugin
             TraktLogger.Debug("Getting current user cached activity");
 
             #region watched episodes
-            var watchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt(true);
-            if (watchedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Watched)
             {
-                foreach (var episode in watchedEpisodes.OrderByDescending(e => e.WatchedAt).Take(maxActivityItems))
+                var watchedEpisodes = TraktCache.GetWatchedEpisodesFromTrakt(true);
+                if (watchedEpisodes != null)
                 {
-                    var watchedEpActivity = new TraktActivity.Activity
+                    foreach (var episode in watchedEpisodes.OrderByDescending(e => e.WatchedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.scrobble.ToString(),
-                        Type = ActivityType.episode.ToString(),
-                        Episode = new TraktEpisodeSummary
+                        var watchedEpActivity = new TraktActivity.Activity
                         {
-                            Ids = new TraktEpisodeId(),
-                            Number = episode.Number,
-                            Season = episode.Season
-                        },
-                        Show = new TraktShowSummary
-                        {
-                            Title = episode.ShowTitle,
-                            Year = episode.ShowYear,
-                            Ids = new TraktShowId
+                            Id = i++,
+                            Action = ActivityAction.scrobble.ToString(),
+                            Type = ActivityType.episode.ToString(),
+                            Episode = new TraktEpisodeSummary
                             {
-                                Imdb = episode.ShowImdbId,
-                                Trakt = episode.ShowId,
-                                Tvdb = episode.ShowTvdbId
+                                Ids = new TraktEpisodeId(),
+                                Number = episode.Number,
+                                Season = episode.Season
                             },
-                            Images = new TraktShowImages()
-                        },
-                        Timestamp = episode.WatchedAt,
-                        User = GetUserProfile()
-                    };
+                            Show = new TraktShowSummary
+                            {
+                                Title = episode.ShowTitle,
+                                Year = episode.ShowYear,
+                                Ids = new TraktShowId
+                                {
+                                    Imdb = episode.ShowImdbId,
+                                    Trakt = episode.ShowId,
+                                    Tvdb = episode.ShowTvdbId
+                                },
+                                Images = new TraktShowImages()
+                            },
+                            Timestamp = episode.WatchedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region watched movies
-            var watchedMovies = TraktCache.GetWatchedMoviesFromTrakt(true);
-            if (watchedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Watched)
             {
-                foreach (var movie in watchedMovies.OrderByDescending(m => m.LastWatchedAt).Take(maxActivityItems))
+                var watchedMovies = TraktCache.GetWatchedMoviesFromTrakt(true);
+                if (watchedMovies != null)
                 {
-                    var watchedEpActivity = new TraktActivity.Activity
+                    foreach (var movie in watchedMovies.OrderByDescending(m => m.LastWatchedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.scrobble.ToString(),
-                        Type = ActivityType.movie.ToString(),
-                        Movie = new TraktMovieSummary
+                        var watchedEpActivity = new TraktActivity.Activity
                         {
-                            Ids = movie.Movie.Ids,
-                            Title = movie.Movie.Title,
-                            Year = movie.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Timestamp = movie.LastWatchedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.scrobble.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = movie.Movie.Ids,
+                                Title = movie.Movie.Title,
+                                Year = movie.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Timestamp = movie.LastWatchedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region collected episodes
-            var collectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt(true);
-            if (collectedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Collected)
             {
-                foreach (var episode in collectedEpisodes.OrderByDescending(e => e.CollectedAt).Take(maxActivityItems))
+                var collectedEpisodes = TraktCache.GetCollectedEpisodesFromTrakt(true);
+                if (collectedEpisodes != null)
                 {
-                    var collectedEpActivity = new TraktActivity.Activity
+                    foreach (var episode in collectedEpisodes.OrderByDescending(e => e.CollectedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.collection.ToString(),
-                        Type = ActivityType.episode.ToString(),
-                        Episodes = new List<TraktEpisodeSummary>
+                        var collectedEpActivity = new TraktActivity.Activity
                         {
-                            new TraktEpisodeSummary
+                            Id = i++,
+                            Action = ActivityAction.collection.ToString(),
+                            Type = ActivityType.episode.ToString(),
+                            Episodes = new List<TraktEpisodeSummary>
                             {
-                                Ids = new TraktEpisodeId(),
-                                Number = episode.Number,
-                                Season = episode.Season
-                            }
-                        },
-                        Show = new TraktShowSummary
-                        {
-                            Title = episode.ShowTitle,
-                            Year = episode.ShowYear,
-                            Ids = new TraktShowId
-                            {
-                                Imdb = episode.ShowImdbId,
-                                Trakt = episode.ShowId,
-                                Tvdb = episode.ShowTvdbId
+                                new TraktEpisodeSummary
+                                {
+                                    Ids = new TraktEpisodeId(),
+                                    Number = episode.Number,
+                                    Season = episode.Season
+                                }
                             },
-                            Images = new TraktShowImages()
-                        },
-                        Timestamp = episode.CollectedAt,
-                        User = GetUserProfile()
-                    };
+                            Show = new TraktShowSummary
+                            {
+                                Title = episode.ShowTitle,
+                                Year = episode.ShowYear,
+                                Ids = new TraktShowId
+                                {
+                                    Imdb = episode.ShowImdbId,
+                                    Trakt = episode.ShowId,
+                                    Tvdb = episode.ShowTvdbId
+                                },
+                                Images = new TraktShowImages()
+                            },
+                            Timestamp = episode.CollectedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(collectedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(collectedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region collected movies
-            var collectedMovies = TraktCache.GetCollectedMoviesFromTrakt(true);
-            if (collectedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Collected)
             {
-                foreach (var movie in collectedMovies.OrderByDescending(m => m.CollectedAt).Take(maxActivityItems))
+                var collectedMovies = TraktCache.GetCollectedMoviesFromTrakt(true);
+                if (collectedMovies != null)
                 {
-                    var collectedEpActivity = new TraktActivity.Activity
+                    foreach (var movie in collectedMovies.OrderByDescending(m => m.CollectedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.collection.ToString(),
-                        Type = ActivityType.movie.ToString(),
-                        Movie = new TraktMovieSummary
+                        var collectedEpActivity = new TraktActivity.Activity
                         {
-                            Ids = movie.Movie.Ids,
-                            Title = movie.Movie.Title,
-                            Year = movie.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Timestamp = movie.CollectedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.collection.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = movie.Movie.Ids,
+                                Title = movie.Movie.Title,
+                                Year = movie.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Timestamp = movie.CollectedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(collectedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(collectedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region watchlisted episodes
-            var watchlistedEpisodes = TraktCache.GetWatchlistedEpisodesFromTrakt(true);
-            if (watchlistedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Watchlisted)
             {
-                foreach (var episode in watchlistedEpisodes.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
+                var watchlistedEpisodes = TraktCache.GetWatchlistedEpisodesFromTrakt(true);
+                if (watchlistedEpisodes != null)
                 {
-                    var watchlistedEpActivity = new TraktActivity.Activity
+                    foreach (var episode in watchlistedEpisodes.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.watchlist.ToString(),
-                        Type = ActivityType.episode.ToString(),
-                        Episode = new TraktEpisodeSummary
+                        var watchlistedEpActivity = new TraktActivity.Activity
                         {
-                            Ids = episode.Episode.Ids,
-                            Number = episode.Episode.Number,
-                            Season = episode.Episode.Season,
-                            Title = episode.Episode.Title
-                        },
-                        Show = new TraktShowSummary
-                        {
-                            Title = episode.Show.Title,
-                            Year = episode.Show.Year,
-                            Ids = episode.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Timestamp = episode.ListedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.watchlist.ToString(),
+                            Type = ActivityType.episode.ToString(),
+                            Episode = new TraktEpisodeSummary
+                            {
+                                Ids = episode.Episode.Ids,
+                                Number = episode.Episode.Number,
+                                Season = episode.Episode.Season,
+                                Title = episode.Episode.Title
+                            },
+                            Show = new TraktShowSummary
+                            {
+                                Title = episode.Show.Title,
+                                Year = episode.Show.Year,
+                                Ids = episode.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Timestamp = episode.ListedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchlistedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchlistedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region watchlisted shows
-            var watchlistedShows = TraktCache.GetWatchlistedShowsFromTrakt(true);
-            if (watchlistedShows != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.Watchlisted)
             {
-                foreach (var show in watchlistedShows.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
+                var watchlistedShows = TraktCache.GetWatchlistedShowsFromTrakt(true);
+                if (watchlistedShows != null)
                 {
-                    var watchlistedShowActivity = new TraktActivity.Activity
+                    foreach (var show in watchlistedShows.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.watchlist.ToString(),
-                        Type = ActivityType.show.ToString(),
-                        Show = new TraktShowSummary
+                        var watchlistedShowActivity = new TraktActivity.Activity
                         {
-                            Title = show.Show.Title,
-                            Year = show.Show.Year,
-                            Ids = show.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Timestamp = show.ListedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.watchlist.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = new TraktShowSummary
+                            {
+                                Title = show.Show.Title,
+                                Year = show.Show.Year,
+                                Ids = show.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Timestamp = show.ListedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchlistedShowActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchlistedShowActivity);
+                    }
                 }
             }
             #endregion
 
             #region watchlisted seasons
-            var watchlistedSeasons = TraktCache.GetWatchlistedSeasonsFromTrakt(true);
-            if (watchlistedSeasons != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.Watchlisted)
             {
-                foreach (var item in watchlistedSeasons.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
+                var watchlistedSeasons = TraktCache.GetWatchlistedSeasonsFromTrakt(true);
+                if (watchlistedSeasons != null)
                 {
-                    var watchlistedSeasonActivity = new TraktActivity.Activity
+                    foreach (var item in watchlistedSeasons.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.watchlist.ToString(),
-                        Type = ActivityType.season.ToString(),
-                        Show = new TraktShowSummary
+                        var watchlistedSeasonActivity = new TraktActivity.Activity
                         {
-                            Title = item.Show.Title,
-                            Year = item.Show.Year,
-                            Ids = item.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Season = new TraktSeasonSummary
-                        {
-                            Ids = item.Season.Ids,
-                            Number = item.Season.Number
-                        },
-                        Timestamp = item.ListedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.watchlist.ToString(),
+                            Type = ActivityType.season.ToString(),
+                            Show = new TraktShowSummary
+                            {
+                                Title = item.Show.Title,
+                                Year = item.Show.Year,
+                                Ids = item.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Season = new TraktSeasonSummary
+                            {
+                                Ids = item.Season.Ids,
+                                Number = item.Season.Number
+                            },
+                            Timestamp = item.ListedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchlistedSeasonActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchlistedSeasonActivity);
+                    }
                 }
             }
             #endregion
 
             #region watchlisted movies
-            var watchlistedMovies = TraktCache.GetWatchlistedMoviesFromTrakt(true);
-            if (watchlistedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Watchlisted)
             {
-                foreach (var movie in watchlistedMovies.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
+                var watchlistedMovies = TraktCache.GetWatchlistedMoviesFromTrakt(true);
+                if (watchlistedMovies != null)
                 {
-                    var watchlistedMovieActivity = new TraktActivity.Activity
+                    foreach (var movie in watchlistedMovies.OrderByDescending(e => e.ListedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.watchlist.ToString(),
-                        Type = ActivityType.movie.ToString(),
-                        Movie = new TraktMovieSummary
+                        var watchlistedMovieActivity = new TraktActivity.Activity
                         {
-                            Ids = movie.Movie.Ids,
-                            Title = movie.Movie.Title,
-                            Year = movie.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Timestamp = movie.ListedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.watchlist.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = movie.Movie.Ids,
+                                Title = movie.Movie.Title,
+                                Year = movie.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Timestamp = movie.ListedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(watchlistedMovieActivity);
+                        // add activity to the list
+                        activity.Activities.Add(watchlistedMovieActivity);
+                    }
                 }
             }
-
             #endregion
 
             #region rated episodes
-            var ratedEpisodes = TraktCache.GetRatedEpisodesFromTrakt(true);
-            if (ratedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Rated)
             {
-                foreach (var episode in ratedEpisodes.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
+                var ratedEpisodes = TraktCache.GetRatedEpisodesFromTrakt(true);
+                if (ratedEpisodes != null)
                 {
-                    var ratedEpActivity = new TraktActivity.Activity
+                    foreach (var episode in ratedEpisodes.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.rating.ToString(),
-                        Type = ActivityType.episode.ToString(),
-                        Episode = new TraktEpisodeSummary
+                        var ratedEpActivity = new TraktActivity.Activity
                         {
-                            Ids = episode.Episode.Ids,
-                            Number = episode.Episode.Number,
-                            Season = episode.Episode.Season,
-                            Title = episode.Episode.Title
-                        },
-                        Show = new TraktShowSummary
-                        {
-                            Title = episode.Show.Title,
-                            Year = episode.Show.Year,
-                            Ids = episode.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Rating = episode.Rating,
-                        Timestamp = episode.RatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.rating.ToString(),
+                            Type = ActivityType.episode.ToString(),
+                            Episode = new TraktEpisodeSummary
+                            {
+                                Ids = episode.Episode.Ids,
+                                Number = episode.Episode.Number,
+                                Season = episode.Episode.Season,
+                                Title = episode.Episode.Title
+                            },
+                            Show = new TraktShowSummary
+                            {
+                                Title = episode.Show.Title,
+                                Year = episode.Show.Year,
+                                Ids = episode.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Rating = episode.Rating,
+                            Timestamp = episode.RatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(ratedEpActivity);
+                        // add activity to the list
+                        activity.Activities.Add(ratedEpActivity);
+                    }
                 }
             }
             #endregion
 
             #region rated seasons
-            var ratedSeasons = TraktCache.GetRatedSeasonsFromTrakt(true);
-            if (ratedSeasons != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.Rated)
             {
-                foreach (var season in ratedSeasons.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
+                var ratedSeasons = TraktCache.GetRatedSeasonsFromTrakt(true);
+                if (ratedSeasons != null)
                 {
-                    var ratedShowActivity = new TraktActivity.Activity
+                    foreach (var season in ratedSeasons.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.rating.ToString(),
-                        Type = ActivityType.season.ToString(),
-                        Show = new TraktShowSummary
+                        var ratedShowActivity = new TraktActivity.Activity
                         {
-                            Title = season.Show.Title,
-                            Year = season.Show.Year,
-                            Ids = season.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Season = new TraktSeasonSummary
-                        {
-                            Ids = season.Season.Ids ?? new TraktSeasonId(),
-                            Number = season.Season.Number
-                        },
-                        Rating = season.Rating,
-                        Timestamp = season.RatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.rating.ToString(),
+                            Type = ActivityType.season.ToString(),
+                            Show = new TraktShowSummary
+                            {
+                                Title = season.Show.Title,
+                                Year = season.Show.Year,
+                                Ids = season.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Season = new TraktSeasonSummary
+                            {
+                                Ids = season.Season.Ids ?? new TraktSeasonId(),
+                                Number = season.Season.Number
+                            },
+                            Rating = season.Rating,
+                            Timestamp = season.RatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(ratedShowActivity);
+                        // add activity to the list
+                        activity.Activities.Add(ratedShowActivity);
+                    }
                 }
             }
             #endregion
 
             #region rated shows
-            var ratedShows = TraktCache.GetRatedShowsFromTrakt(true);
-            if (ratedShows != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.Rated)
             {
-                foreach (var show in ratedShows.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
+                var ratedShows = TraktCache.GetRatedShowsFromTrakt(true);
+                if (ratedShows != null)
                 {
-                    var ratedShowActivity = new TraktActivity.Activity
+                    foreach (var show in ratedShows.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.rating.ToString(),
-                        Type = ActivityType.show.ToString(),
-                        Show = new TraktShowSummary
+                        var ratedShowActivity = new TraktActivity.Activity
                         {
-                            Title = show.Show.Title,
-                            Year = show.Show.Year,
-                            Ids = show.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Rating = show.Rating,
-                        Timestamp = show.RatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.rating.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = new TraktShowSummary
+                            {
+                                Title = show.Show.Title,
+                                Year = show.Show.Year,
+                                Ids = show.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Rating = show.Rating,
+                            Timestamp = show.RatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(ratedShowActivity);
+                        // add activity to the list
+                        activity.Activities.Add(ratedShowActivity);
+                    }
                 }
             }
             #endregion
 
             #region rated movies
-            var ratedMovies = TraktCache.GetRatedMoviesFromTrakt(true);
-            if (ratedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Rated)
             {
-                foreach (var movie in ratedMovies.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
+                var ratedMovies = TraktCache.GetRatedMoviesFromTrakt(true);
+                if (ratedMovies != null)
                 {
-                    var ratedMovieActivity = new TraktActivity.Activity
+                    foreach (var movie in ratedMovies.OrderByDescending(e => e.RatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.rating.ToString(),
-                        Type = ActivityType.movie.ToString(),
-                        Movie = new TraktMovieSummary
+                        var ratedMovieActivity = new TraktActivity.Activity
                         {
-                            Ids = movie.Movie.Ids,
-                            Title = movie.Movie.Title,
-                            Year = movie.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Rating = movie.Rating,
-                        Timestamp = movie.RatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.rating.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = movie.Movie.Ids,
+                                Title = movie.Movie.Title,
+                                Year = movie.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Rating = movie.Rating,
+                            Timestamp = movie.RatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(ratedMovieActivity);
+                        // add activity to the list
+                        activity.Activities.Add(ratedMovieActivity);
+                    }
                 }
             }
             #endregion
             
             #region lists
-            var lists = TraktCache.GetCustomLists(true);
-            if (lists != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Lists)
             {
-                foreach (var list in lists.OrderByDescending(l => l.Key.UpdatedAt).Take(maxActivityItems))
+                var lists = TraktCache.GetCustomLists(true);
+                if (lists != null)
                 {
-                    var userList = list.Key;
-
-                    var listActivity = new TraktActivity.Activity
+                    foreach (var list in lists.OrderByDescending(l => l.Key.UpdatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.updated.ToString(),
-                        Type = ActivityType.list.ToString(),
-                        List = userList,
-                        Timestamp = list.Key.UpdatedAt,
-                        User = GetUserProfile()
-                    };
+                        var userList = list.Key;
 
-                    // add activity to the list
-                    activity.Activities.Add(listActivity);
-
-                    foreach (var listItem in list.Value.OrderByDescending(l => l.ListedAt).Take(maxActivityItems))
-                    {
-                        var listItemActivity = new TraktActivity.Activity
+                        if (TraktSettings.DashboardActivityFilter.Actions.Updated)
                         {
-                            Id = i++,
-                            Action = ActivityAction.item_added.ToString(),
-                            Type = listItem.Type,
-                            Timestamp = listItem.ListedAt,
-                            List = userList,
-                            Movie = listItem.Movie,
-                            Show = listItem.Show,
-                            Episode = listItem.Episode,
-                            Season = listItem.Season,
-                            Person = listItem.Person,
-                            User = GetUserProfile()
-                        };
+                            var listActivity = new TraktActivity.Activity
+                            {
+                                Id = i++,
+                                Action = ActivityAction.updated.ToString(),
+                                Type = ActivityType.list.ToString(),
+                                List = userList,
+                                Timestamp = list.Key.UpdatedAt,
+                                User = GetUserProfile()
+                            };
 
-                        // add activity to the list
-                        activity.Activities.Add(listItemActivity);
+                            // add activity to the list
+                            activity.Activities.Add(listActivity);
+                        }
+
+                        if (TraktSettings.DashboardActivityFilter.Actions.Added)
+                        {
+                            foreach (var listItem in list.Value.OrderByDescending(l => l.ListedAt).Take(maxActivityItems))
+                            {
+                                var listItemActivity = new TraktActivity.Activity
+                                {
+                                    Id = i++,
+                                    Action = ActivityAction.item_added.ToString(),
+                                    Type = listItem.Type,
+                                    Timestamp = listItem.ListedAt,
+                                    List = userList,
+                                    Movie = listItem.Movie,
+                                    Show = listItem.Show,
+                                    Episode = listItem.Episode,
+                                    Season = listItem.Season,
+                                    Person = listItem.Person,
+                                    User = GetUserProfile()
+                                };
+
+                                // add activity to the list
+                                activity.Activities.Add(listItemActivity);
+                            }
+                        }
                     }
                 }
             }
             #endregion
 
             #region commented episodes
-            var commentedEpisodes = TraktCache.GetCommentedEpisodesFromTrakt(true);
-            if (commentedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Commented)
             {
-                foreach (var comment in commentedEpisodes.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                var commentedEpisodes = TraktCache.GetCommentedEpisodesFromTrakt(true);
+                if (commentedEpisodes != null)
                 {
-                    var commentedEpisodeActivity = new TraktActivity.Activity
+                    foreach (var comment in commentedEpisodes.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
-                        Type = comment.Type,
-                        Show = new TraktShowSummary
+                        var commentedEpisodeActivity = new TraktActivity.Activity
                         {
-                            Ids = comment.Show.Ids,
-                            Title = comment.Show.Title,
-                            Year = comment.Show.Year,
-                            Images = new TraktShowImages()
-                        },
-                        Episode = new TraktEpisodeSummary
-                        {
-                            Ids = comment.Episode.Ids,
-                            Number = comment.Episode.Number,
-                            Season = comment.Episode.Season,
-                            Title = comment.Episode.Title
-                        },
-                        Shout = comment.Comment,
-                        Timestamp = comment.Comment.CreatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                            Type = comment.Type,
+                            Show = new TraktShowSummary
+                            {
+                                Ids = comment.Show.Ids,
+                                Title = comment.Show.Title,
+                                Year = comment.Show.Year,
+                                Images = new TraktShowImages()
+                            },
+                            Episode = new TraktEpisodeSummary
+                            {
+                                Ids = comment.Episode.Ids,
+                                Number = comment.Episode.Number,
+                                Season = comment.Episode.Season,
+                                Title = comment.Episode.Title
+                            },
+                            Shout = comment.Comment,
+                            Timestamp = comment.Comment.CreatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(commentedEpisodeActivity);
+                        // add activity to the list
+                        activity.Activities.Add(commentedEpisodeActivity);
+                    }
                 }
             }
             #endregion
 
             #region commented seasons
-            var commentedSeasons = TraktCache.GetCommentedSeasonsFromTrakt(true);
-            if (commentedSeasons != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.Commented)
             {
-                foreach (var comment in commentedSeasons.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                var commentedSeasons = TraktCache.GetCommentedSeasonsFromTrakt(true);
+                if (commentedSeasons != null)
                 {
-                    var commentedSeasonActivity = new TraktActivity.Activity
+                    foreach (var comment in commentedSeasons.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
-                        Type = comment.Type,
-                        Show = new TraktShowSummary
+                        var commentedSeasonActivity = new TraktActivity.Activity
                         {
-                            Ids = comment.Show.Ids,
-                            Title = comment.Show.Title,
-                            Year = comment.Show.Year,
-                            Images = new TraktShowImages()
-                        },
-                        Season = new TraktSeasonSummary
-                        {
-                            Ids = comment.Season.Ids,
-                            Number = comment.Season.Number
-                        },
-                        Shout = comment.Comment,
-                        Timestamp = comment.Comment.CreatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                            Type = comment.Type,
+                            Show = new TraktShowSummary
+                            {
+                                Ids = comment.Show.Ids,
+                                Title = comment.Show.Title,
+                                Year = comment.Show.Year,
+                                Images = new TraktShowImages()
+                            },
+                            Season = new TraktSeasonSummary
+                            {
+                                Ids = comment.Season.Ids,
+                                Number = comment.Season.Number
+                            },
+                            Shout = comment.Comment,
+                            Timestamp = comment.Comment.CreatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(commentedSeasonActivity);
+                        // add activity to the list
+                        activity.Activities.Add(commentedSeasonActivity);
+                    }
                 }
             }
             #endregion
 
             #region commented shows
-            var commentedShows = TraktCache.GetCommentedShowsFromTrakt(true);
-            if (commentedShows != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.Commented)
             {
-                foreach (var comment in commentedShows.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                var commentedShows = TraktCache.GetCommentedShowsFromTrakt(true);
+                if (commentedShows != null)
                 {
-                    var commentedShowActivity = new TraktActivity.Activity
+                    foreach (var comment in commentedShows.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
-                        Type = comment.Type,
-                        Show = new TraktShowSummary
+                        var commentedShowActivity = new TraktActivity.Activity
                         {
-                            Ids = comment.Show.Ids,
-                            Title = comment.Show.Title,
-                            Year = comment.Show.Year,
-                            Images = new TraktShowImages()
-                        },
-                        Shout = comment.Comment,
-                        Timestamp = comment.Comment.CreatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                            Type = comment.Type,
+                            Show = new TraktShowSummary
+                            {
+                                Ids = comment.Show.Ids,
+                                Title = comment.Show.Title,
+                                Year = comment.Show.Year,
+                                Images = new TraktShowImages()
+                            },
+                            Shout = comment.Comment,
+                            Timestamp = comment.Comment.CreatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(commentedShowActivity);
+                        // add activity to the list
+                        activity.Activities.Add(commentedShowActivity);
+                    }
                 }
             }
             #endregion
 
             #region commented movies
-            var commentedMovies = TraktCache.GetCommentedMoviesFromTrakt(true);
-            if (commentedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Commented)
             {
-                foreach (var comment in commentedMovies.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                var commentedMovies = TraktCache.GetCommentedMoviesFromTrakt(true);
+                if (commentedMovies != null)
                 {
-                    var commentedMovieActivity = new TraktActivity.Activity
+                    foreach (var comment in commentedMovies.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
-                        Type = comment.Type,
-                        Movie = new TraktMovieSummary
+                        var commentedMovieActivity = new TraktActivity.Activity
                         {
-                            Ids = comment.Movie.Ids,
-                            Title = comment.Movie.Title,
-                            Year = comment.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Shout = comment.Comment,
-                        Timestamp = comment.Comment.CreatedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                            Type = comment.Type,
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = comment.Movie.Ids,
+                                Title = comment.Movie.Title,
+                                Year = comment.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Shout = comment.Comment,
+                            Timestamp = comment.Comment.CreatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(commentedMovieActivity);
+                        // add activity to the list
+                        activity.Activities.Add(commentedMovieActivity);
+                    }
                 }
             }
             #endregion
 
             #region commented lists
-            var commentedLists = TraktCache.GetCommentedMoviesFromTrakt(true);
-            if (commentedLists != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Lists && TraktSettings.DashboardActivityFilter.Actions.Commented)
             {
-                foreach (var comment in commentedLists.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
+                var commentedLists = TraktCache.GetCommentedMoviesFromTrakt(true);
+                if (commentedLists != null)
                 {
-                    var commentedListActivity = new TraktActivity.Activity
+                    foreach (var comment in commentedLists.OrderByDescending(c => c.Comment.CreatedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
-                        Type = comment.Type,
-                        List = comment.List,
-                        Shout = comment.Comment,
-                        Timestamp = comment.Comment.CreatedAt,
-                        User = GetUserProfile()
-                    };
+                        var commentedListActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = comment.Comment.IsReview ? ActivityAction.review.ToString() : ActivityAction.shout.ToString(),
+                            Type = comment.Type,
+                            List = comment.List,
+                            Shout = comment.Comment,
+                            Timestamp = comment.Comment.CreatedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(commentedListActivity);
+                        // add activity to the list
+                        activity.Activities.Add(commentedListActivity);
+                    }
                 }
             }
             #endregion
 
             #region paused episodes
-            string lastEpisodeProcessedAt;
-            var pausedEpisodes = TraktCache.GetPausedEpisodes(out lastEpisodeProcessedAt, true);
-            if (pausedEpisodes != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Episodes && TraktSettings.DashboardActivityFilter.Actions.Paused)
             {
-                foreach (var pause in pausedEpisodes.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
+                string lastEpisodeProcessedAt;
+                var pausedEpisodes = TraktCache.GetPausedEpisodes(out lastEpisodeProcessedAt, true);
+                if (pausedEpisodes != null)
                 {
-                    var pausedEpisodeActivity = new TraktActivity.Activity
+                    foreach (var pause in pausedEpisodes.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.pause.ToString(),
-                        Type = ActivityType.episode.ToString(),
-                        Show = new TraktShowSummary
+                        var pausedEpisodeActivity = new TraktActivity.Activity
                         {
-                            Title = pause.Show.Title,
-                            Year = pause.Show.Year,
-                            Ids = pause.Show.Ids,
-                            Images = new TraktShowImages()
-                        },
-                        Episode = new TraktEpisodeSummary
-                        {
-                            Ids = pause.Episode.Ids,
-                            Number = pause.Episode.Number,
-                            Season = pause.Episode.Season,
-                            Title = pause.Episode.Title
-                        },
-                        Progress = pause.Progress,
-                        Timestamp = pause.PausedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.pause.ToString(),
+                            Type = ActivityType.episode.ToString(),
+                            Show = new TraktShowSummary
+                            {
+                                Title = pause.Show.Title,
+                                Year = pause.Show.Year,
+                                Ids = pause.Show.Ids,
+                                Images = new TraktShowImages()
+                            },
+                            Episode = new TraktEpisodeSummary
+                            {
+                                Ids = pause.Episode.Ids,
+                                Number = pause.Episode.Number,
+                                Season = pause.Episode.Season,
+                                Title = pause.Episode.Title
+                            },
+                            Progress = pause.Progress,
+                            Timestamp = pause.PausedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(pausedEpisodeActivity);
+                        // add activity to the list
+                        activity.Activities.Add(pausedEpisodeActivity);
+                    }
                 }
             }
             #endregion
 
             #region paused movies
-            string lastMovieProcessedAt;
-            var pausedMovies = TraktCache.GetPausedMovies(out lastMovieProcessedAt, true);
-            if (pausedMovies != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.Paused)
             {
-                foreach (var pause in pausedMovies.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
+                string lastMovieProcessedAt;
+                var pausedMovies = TraktCache.GetPausedMovies(out lastMovieProcessedAt, true);
+                if (pausedMovies != null)
                 {
-                    var pausedMovieActivity = new TraktActivity.Activity
+                    foreach (var pause in pausedMovies.OrderByDescending(e => e.PausedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.pause.ToString(),
-                        Type = ActivityType.movie.ToString(),
-                        Movie = new TraktMovieSummary
+                        var pausedMovieActivity = new TraktActivity.Activity
                         {
-                            Ids = pause.Movie.Ids,
-                            Title = pause.Movie.Title,
-                            Year = pause.Movie.Year,
-                            Images = new TraktMovieImages()
-                        },
-                        Progress = pause.Progress,
-                        Timestamp = pause.PausedAt,
-                        User = GetUserProfile()
-                    };
+                            Id = i++,
+                            Action = ActivityAction.pause.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = new TraktMovieSummary
+                            {
+                                Ids = pause.Movie.Ids,
+                                Title = pause.Movie.Title,
+                                Year = pause.Movie.Year,
+                                Images = new TraktMovieImages()
+                            },
+                            Progress = pause.Progress,
+                            Timestamp = pause.PausedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(pausedMovieActivity);
+                        // add activity to the list
+                        activity.Activities.Add(pausedMovieActivity);
+                    }
                 }
             }
             #endregion
 
             #region liked comments
-            var likedComments = TraktCache.GetLikedCommentsFromTrakt(true);
-            if (likedComments != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Comments && TraktSettings.DashboardActivityFilter.Actions.Liked)
             {
-                foreach (var like in likedComments.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
+                var likedComments = TraktCache.GetLikedCommentsFromTrakt(true);
+                if (likedComments != null)
                 {
-                    var likedCommentActivity = new TraktActivity.Activity
+                    foreach (var like in likedComments.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.like.ToString(),
-                        Type = ActivityType.comment.ToString(),
-                        Shout = like.Comment,
-                        Timestamp = like.LikedAt,
-                        User = GetUserProfile()
-                    };
+                        var likedCommentActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.like.ToString(),
+                            Type = ActivityType.comment.ToString(),
+                            Shout = like.Comment,
+                            Timestamp = like.LikedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(likedCommentActivity);
+                        // add activity to the list
+                        activity.Activities.Add(likedCommentActivity);
+                    }
                 }
             }
             #endregion
 
             #region liked lists
-            var likedLists = TraktCache.GetLikedListsFromTrakt(true);
-            if (likedLists != null)
+            if (TraktSettings.DashboardActivityFilter.Types.Lists && TraktSettings.DashboardActivityFilter.Actions.Liked)
             {
-                foreach (var like in likedLists.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
+                var likedLists = TraktCache.GetLikedListsFromTrakt(true);
+                if (likedLists != null)
                 {
-                    var likedListActivity = new TraktActivity.Activity
+                    foreach (var like in likedLists.OrderByDescending(c => c.LikedAt).Take(maxActivityItems))
                     {
-                        Id = i++,
-                        Action = ActivityAction.like.ToString(),
-                        Type = ActivityType.list.ToString(),
-                        List = like.List,
-                        Timestamp = like.LikedAt,
-                        User = GetUserProfile()
-                    };
+                        var likedListActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.like.ToString(),
+                            Type = ActivityType.list.ToString(),
+                            List = like.List,
+                            Timestamp = like.LikedAt,
+                            User = GetUserProfile()
+                        };
 
-                    // add activity to the list
-                    activity.Activities.Add(likedListActivity);
+                        // add activity to the list
+                        activity.Activities.Add(likedListActivity);
+                    }
                 }
             }
             #endregion
@@ -1857,6 +2000,232 @@ namespace TraktPlugin
                 hasDashBoard = true;
 
             return hasDashBoard;
+        }
+
+        private bool ShowActivityFilterActionsMenu()
+        {
+            var items = new List<MultiSelectionItem>();
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.scrobble.ToString(),
+                ItemTitle = Translation.HideWatched,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Watched ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.collection.ToString(),
+                ItemTitle = Translation.HideCollected,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Collected ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.rating.ToString(),
+                ItemTitle = Translation.HideRated,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Rated ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.watchlist.ToString(),
+                ItemTitle = Translation.HideWatchlisted,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Watchlisted ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.pause.ToString(),
+                ItemTitle = Translation.HidePaused,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Paused ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.shout.ToString(),
+                ItemTitle = Translation.HideCommented,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Commented ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.like.ToString(),
+                ItemTitle = Translation.HideLiked,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Liked ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.item_added.ToString(),
+                ItemTitle = Translation.HideAdded,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Added ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.updated.ToString(),
+                ItemTitle = Translation.HideUpdated,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+            });
+
+            List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, items);
+            if (selectedItems == null) return false;
+
+            foreach (var item in selectedItems.Where(l => l.Selected == true))
+            {
+                // toggle state of all selected items
+                switch ((ActivityAction)Enum.Parse(typeof(ActivityAction), item.ItemID, true))
+                {
+                    case ActivityAction.scrobble:
+                        TraktSettings.DashboardActivityFilter.Actions.Watched = !TraktSettings.DashboardActivityFilter.Actions.Watched;
+                        break;
+
+                    case ActivityAction.collection:
+                        TraktSettings.DashboardActivityFilter.Actions.Collected = !TraktSettings.DashboardActivityFilter.Actions.Collected;
+                        break;
+
+                    case ActivityAction.rating:
+                        TraktSettings.DashboardActivityFilter.Actions.Rated = !TraktSettings.DashboardActivityFilter.Actions.Rated;
+                        break;
+
+                    case ActivityAction.watchlist:
+                        TraktSettings.DashboardActivityFilter.Actions.Watchlisted = !TraktSettings.DashboardActivityFilter.Actions.Watchlisted;
+                        break;
+
+                    case ActivityAction.pause:
+                        TraktSettings.DashboardActivityFilter.Actions.Paused = !TraktSettings.DashboardActivityFilter.Actions.Paused;
+                        break;
+
+                    case ActivityAction.shout:
+                        TraktSettings.DashboardActivityFilter.Actions.Commented = !TraktSettings.DashboardActivityFilter.Actions.Commented;
+                        break;
+
+                    case ActivityAction.like:
+                        TraktSettings.DashboardActivityFilter.Actions.Liked = !TraktSettings.DashboardActivityFilter.Actions.Liked;
+                        break;
+
+                    case ActivityAction.item_added:
+                        TraktSettings.DashboardActivityFilter.Actions.Added = !TraktSettings.DashboardActivityFilter.Actions.Added;
+                        break;
+
+                    case ActivityAction.updated:
+                        TraktSettings.DashboardActivityFilter.Actions.Updated = !TraktSettings.DashboardActivityFilter.Actions.Updated;
+                        break;
+                }
+            }
+
+            return true;
+        }
+
+        private bool ShowActivityFilterTypesMenu()
+        {
+            var items = new List<MultiSelectionItem>();
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.movie.ToString(),
+                ItemTitle = Translation.HideMovies,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Movies ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.show.ToString(),
+                ItemTitle = Translation.HideShows,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Shows ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.season.ToString(),
+                ItemTitle = Translation.HideSeasons,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Seasons ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.episode.ToString(),
+                ItemTitle = Translation.HideEpisodes,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Episodes ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.comment.ToString(),
+                ItemTitle = Translation.HideComments,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Comments ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.list.ToString(),
+                ItemTitle = Translation.HideLists,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.Lists ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityType.person.ToString(),
+                ItemTitle = Translation.HidePeople,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Types.People ? Translation.Yes : Translation.No
+            });
+
+            List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, items);
+            if (selectedItems == null) return false;
+
+            foreach (var item in selectedItems.Where(l => l.Selected == true))
+            {
+                // toggle state of all selected items
+                switch ((ActivityType)Enum.Parse(typeof(ActivityType), item.ItemID, true))
+                {
+                    case ActivityType.movie:
+                        TraktSettings.DashboardActivityFilter.Types.Movies = !TraktSettings.DashboardActivityFilter.Types.Movies;
+                        break;
+
+                    case ActivityType.show:
+                        TraktSettings.DashboardActivityFilter.Types.Shows = !TraktSettings.DashboardActivityFilter.Types.Shows;
+                        break;
+
+                    case ActivityType.season:
+                        TraktSettings.DashboardActivityFilter.Types.Seasons = !TraktSettings.DashboardActivityFilter.Types.Seasons;
+                        break;
+
+                    case ActivityType.episode:
+                        TraktSettings.DashboardActivityFilter.Types.Episodes = !TraktSettings.DashboardActivityFilter.Types.Episodes;
+                        break;
+
+                    case ActivityType.list:
+                        TraktSettings.DashboardActivityFilter.Types.Lists = !TraktSettings.DashboardActivityFilter.Types.Lists;
+                        break;
+
+                    case ActivityType.comment:
+                        TraktSettings.DashboardActivityFilter.Types.Comments = !TraktSettings.DashboardActivityFilter.Types.Comments;
+                        break;
+
+                    case ActivityType.person:
+                        TraktSettings.DashboardActivityFilter.Types.People = !TraktSettings.DashboardActivityFilter.Types.People;
+                        break;
+                }
+            }
+
+            return true;
         }
 
         private void ShowTrendingShowsContextMenu()
@@ -2112,12 +2481,20 @@ namespace TraktPlugin
 
             GUIListItem listItem = null;
 
+            listItem = new GUIListItem(Translation.ActivityFilterTypes);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityContextMenuItem.FilterTypes;
+
+            listItem = new GUIListItem(Translation.ActivityFilterActions);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityContextMenuItem.FilterActions;
+
             // activity view menu
             // currently not supported
-            //listItem = new GUIListItem(Translation.ChangeView);
-            //dlg.Add(listItem);
-            //listItem.ItemId = (int)ActivityContextMenuItem.ChangeView;
-            
+            listItem = new GUIListItem(Translation.ChangeView);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ActivityContextMenuItem.ChangeView;
+
             var activity = activityFacade.SelectedListItem.TVTag as TraktActivity.Activity;
 
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
@@ -2174,7 +2551,23 @@ namespace TraktPlugin
             if (dlg.SelectedId < 0) return;
 
             switch (dlg.SelectedId)
-            {                
+            {
+                case ((int)ActivityContextMenuItem.FilterActions):
+                    if (ShowActivityFilterActionsMenu())
+                    {
+                        ReloadActivityView = true;
+                        StartActivityPolling();
+                    }
+                    break;
+
+                case ((int)ActivityContextMenuItem.FilterTypes):
+                    if (ShowActivityFilterTypesMenu())
+                    {
+                        ReloadActivityView = true;
+                        StartActivityPolling();
+                    }
+                    break;
+
                 case ((int)ActivityContextMenuItem.ChangeView):
                     if (ShowActivityViewMenu())
                     {
@@ -2557,6 +2950,10 @@ namespace TraktPlugin
                         }
                     }
                     break;
+
+                case ActivityType.comment:
+                    GUICommon.SetCommentProperties(activity.Shout, false);
+                    break;
             }
         }
 
@@ -2870,6 +3267,7 @@ namespace TraktPlugin
                 TrendingShowsTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
-        #endregion
+
+        #endregion        
     }
 }

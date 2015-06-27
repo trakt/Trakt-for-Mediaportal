@@ -278,6 +278,8 @@ namespace TraktPlugin.GUI
         public static string ActivityLikedComment = "{0} liked comment by {1} - {2}";
         public static string ActivityLikedList = "{0} liked list {1}";
         public static string Activities = "Activities";
+        public static string ActivityFilterActions = "Filter By Actions...";
+        public static string ActivityFilterTypes = "Filter By Types...";
         public static string AiredEpisodes = "Aired Episodes";
         public static string AddFriend = "Add Friend...";
         public static string AddToLibrary = "Add to Collection";
@@ -489,10 +491,22 @@ namespace TraktPlugin.GUI
         public static string Hate = "Hate";
         public static string Hated = "Hated";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watchlist";
+        public static string HideAdded = "Hide Added";
+        public static string HideCommented = "Hide Commented";
+        public static string HideComments = "Hide Comments";
         public static string HideCollected = "Hide Collected";
-        public static string HideWatched = "Hide Watched";
+        public static string HideEpisodes = "Hide Episodes";
+        public static string HideLiked = "Hide Liked";
+        public static string HideLists = "Hide Lists";
+        public static string HideMovies = "Hide Movies";
+        public static string HidePaused = "Hide Paused";
+        public static string HidePeople = "Hide People";
         public static string HideRated = "Hide Rated";
+        public static string HideSeasons = "Hide Seasons";
+        public static string HideShows = "Hide Shows";
         public static string HideSpoilers = "Hide Spoilers";
+        public static string HideUpdated = "Hide Updated";
+        public static string HideWatched = "Hide Watched";
         public static string HideWatchlisted = "Hide Watchlisted";
         public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";
 

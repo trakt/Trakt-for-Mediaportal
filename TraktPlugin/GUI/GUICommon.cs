@@ -26,6 +26,8 @@ namespace TraktPlugin.GUI
 
     enum ActivityContextMenuItem
     {
+        FilterTypes,
+        FilterActions,
         ChangeView,
         ShowSeasonInfo,
         MarkAsWatched,

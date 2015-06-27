@@ -122,7 +122,7 @@ namespace TraktPlugin.TraktAPI.Enums
         shout,
         pause,
         created,
-        item_added, 
+        item_added,
         updated,
         like
     }

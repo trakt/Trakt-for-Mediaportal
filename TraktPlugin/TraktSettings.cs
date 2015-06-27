@@ -156,6 +156,7 @@ namespace TraktPlugin
         public static int MaxUserWatchedMoviesRequest { get; set; }
         public static int MaxUserWatchedEpisodesRequest { get; set; }
         public static int MaxUserCommentsRequest { get; set; }
+        public static ActivityFilter DashboardActivityFilter { get; set; }
         #endregion
 
         #region Constants
@@ -307,6 +308,7 @@ namespace TraktPlugin
         private const string cMaxUserWatchedMoviesRequest = "MaxUserWatchedMoviesRequest";
         private const string cMaxUserWatchedEpisodesRequest = "MaxUserWatchedEpisodesRequest";
         private const string cMaxUserCommentsRequest = "MaxUserCommentsRequest";
+        private const string cDashboardActivityFilter = "DashboardActivityFilter";
         #endregion
         
         #region Properties
@@ -684,6 +686,7 @@ namespace TraktPlugin
                 MaxUserWatchedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedMoviesRequest, 100, 1, 1000);
                 MaxUserWatchedEpisodesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedEpisodesRequest, 100, 1, 1000);
                 MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
+                DashboardActivityFilter = xmlreader.GetValueAsString(cTrakt, cDashboardActivityFilter, "{}").FromJSON<ActivityFilter>();
             }
 
             // initialise API settings
@@ -699,6 +702,11 @@ namespace TraktPlugin
             if (LastSyncActivities.Shows == null) LastSyncActivities.Shows = new TraktLastSyncActivities.ShowActivities();
             if (LastSyncActivities.Lists == null) LastSyncActivities.Lists = new TraktLastSyncActivities.ListActivities();
             if (LastSyncActivities.Comments == null) LastSyncActivities.Comments = new TraktLastSyncActivities.CommentActivities();
+
+            // initialise the dashboard activity filter
+            if (DashboardActivityFilter == null) DashboardActivityFilter = new ActivityFilter();
+            if (DashboardActivityFilter.Actions == null) DashboardActivityFilter.Actions = new ActivityFilter.Action();
+            if (DashboardActivityFilter.Types == null) DashboardActivityFilter.Types = new ActivityFilter.Type();
 
             if (loadPersistedCache)
             {
@@ -854,6 +862,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxUserWatchedEpisodesRequest, MaxUserWatchedEpisodesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxUserWatchedMoviesRequest, MaxUserWatchedMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxUserCommentsRequest, MaxUserCommentsRequest);
+                xmlwriter.SetValue(cTrakt, cDashboardActivityFilter, DashboardActivityFilter.ToJSON());
             }
 
             Settings.SaveCache();

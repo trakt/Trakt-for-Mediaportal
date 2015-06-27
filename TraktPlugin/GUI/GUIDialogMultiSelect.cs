@@ -85,7 +85,7 @@ namespace TraktPlugin.GUI
                         if ((bool)SelectionList.SelectedListItem.TVTag)
                         {
                             string currentStateLabel = SelectionList.SelectedListItem.Label2;
-                            SelectionList.SelectedListItem.Label2 = currentStateLabel == Translation.On ? Translation.Off : Translation.On;
+                            SelectionList.SelectedListItem.Label2 = currentStateLabel == Translation.Yes ? Translation.No : Translation.Yes;
                         }
                     }
 
