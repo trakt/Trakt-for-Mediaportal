@@ -189,9 +189,9 @@
   <string name="Hated">Vihattu</string>
   <string name="HideCollected">Piilota kerätyt</string>
   <string name="HideRated">Piilota arvostellut</string>
+  <string name="HideSpoilers">Piilota \'juonipaljastukset\'</string>
   <string name="HideWatched">Piilota katsotut</string>
   <string name="HideWatchlisted">Piilota katsontalistatut</string>
-  <string name="HideSpoilers">Piilota \'juonipaljastukset\'</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Lisää Minut ystävien aktiviteetteihin</string>
   <string name="Inserted">Asetettu</string>

@@ -192,9 +192,9 @@
   <string name="Hated">Nekenčiami</string>
   <string name="HideCollected">Slėpti kolekcionuojamus</string>
   <string name="HideRated">Slėpti įvertintus</string>
+  <string name="HideSpoilers">Slėpti išnašas</string>
   <string name="HideWatched">Slėpti žiūrėtus</string>
   <string name="HideWatchlisted">Slėpti žiūrėtųjų sąraše</string>
-  <string name="HideSpoilers">Slėpti išnašas</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Įtraukti mane draugų veiklose</string>
   <string name="Inserted">Įtrauktas</string>

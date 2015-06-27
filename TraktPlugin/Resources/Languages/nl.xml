@@ -28,8 +28,11 @@
   <string name="ActivityAddToList">{0} voegde {1} toe aan {2}</string>
   <string name="ActivityCreatedList">{0} maakte {1}</string>
   <string name="ActivityUpdatedList">{0} geüpdatet {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} updatete {1} [{2} Item]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} updatete {1} [{2} Items]</string>
   <string name="ActivityReview">{0} beoordeelde {1}</string>
   <string name="ActivityShouts">{0} stemde op {1}</string>
+  <string name="ActivityPaused">{0} gepauseerd {1} [{2}%]</string>
   <string name="Activities">Activiteiten</string>
   <string name="AddFriend">Vriend toevoegen</string>
   <string name="AddToLibrary">Voeg toe aan collectie</string>
@@ -238,9 +241,9 @@
   <string name="HideTVShowsInWatchlist">Verberg TV serie in kijk lijst</string>
   <string name="HideCollected">Verberg verzameld</string>
   <string name="HideRated">Gewaardeerde verbergen</string>
+  <string name="HideSpoilers">Verberg spoilers</string>
   <string name="HideWatched">Verberg bekeken</string>
   <string name="HideWatchlisted">Verberg kijklijst</string>
-  <string name="HideSpoilers">Verberg spoilers</string>
   <string name="HiddenToPreventSpoilers">Deze stem is verborgen om spoilers te voorkomen en je kunt deze optie wijzigen via het menu.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Voeg me toe aan de activiteit van vrienden</string>
@@ -507,6 +510,12 @@
   <string name="SettingMaxPopularMoviesRequestDescription">Stel maximum aantal te verzoeken populaire films per pagina in.</string>
   <string name="SettingMaxPopularShowsRequestName">Maximum Populaire TV Series om te verzoeken</string>
   <string name="SettingMaxPopularShowsRequestDescription">Stel maximum aantal te verzoeken populaire TV series per pagina in.</string>
+  <string name="SettingMaxUserWatchedMoviesRequestName">Maximum Recent Bekeken Films om te verzoeken</string>
+  <string name="SettingMaxUserWatchedMoviesRequestDescription">Stel maximum aantal te verzoeken recent bekeken films per pagina in voor een gebruiker</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestName">Maximum Recent Bekeken Afleveringen om te verzoeken</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Stel maximum aantal te verzoeken recent bekeken afleveringen per pagina in voor een gebruiker</string>
+  <string name="SettingMaxUserCommentsRequestName">Maximum Recente Opmerkingen om te verzoeken</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Stel maximum aantal te verzoeken recente opmerkingen per pagina in voor een gebruiker</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Bibliotheek Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Bibliotheek en Afspeel Sync</string>

@@ -245,9 +245,9 @@ detta objekt från den här listan?</string>
   <string name="HideTVShowsInWatchlist">Dölj TV-program i watchlist </string>
   <string name="HideCollected">Göm samlade</string>
   <string name="HideRated">Dölj betygsatta</string>
+  <string name="HideSpoilers">Göm spoilers</string>
   <string name="HideWatched">Göm sedda</string>
   <string name="HideWatchlisted">Göm allt redan i WatchList</string>
-  <string name="HideSpoilers">Göm spoilers</string>
   <string name="HiddenToPreventSpoilers">Detta shout är dolt för att förhindra spoilers, du kan ändra den här inställningen från menyn.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Visa mina aktiviteter för mina vänner</string>

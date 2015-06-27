@@ -135,9 +135,9 @@
   <!--H-->
   <string name="HideCollected">Ukryj zebrane</string>
   <string name="HideRated">Ukryj ocenione</string>
+  <string name="HideSpoilers">Ukryj żarty</string>
   <string name="HideWatched">Ukryj obejrzane</string>
   <string name="HideWatchlisted">Ukryj z listy monitorowania</string>
-  <string name="HideSpoilers">Ukryj żarty</string>
   <!--I-->
   <string name="Inserted">Wstawione</string>
   <string name="Item">Element</string>

@@ -158,9 +158,9 @@
   <string name="Hate">Hater</string>
   <string name="Hated">Hatet</string>
   <string name="HideCollected">Skjul samlet</string>
+  <string name="HideSpoilers">Skjul avsløringer</string>
   <string name="HideWatched">Skjul sette</string>
   <string name="HideWatchlisted">Skjul visningsliste</string>
-  <string name="HideSpoilers">Skjul avsløringer</string>
   <!--I-->
   <string name="Inserted">Satt inn</string>
   <string name="Item">Objekt</string>

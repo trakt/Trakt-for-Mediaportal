@@ -241,9 +241,9 @@
   <string name="HideTVShowsInWatchlist">Ocultar Programas TV en Lista de Seguimiento</string>
   <string name="HideCollected">Ocultar Coleccionado</string>
   <string name="HideRated">Ocultar Calificación</string>
+  <string name="HideSpoilers">Ocultar Spoilers</string>
   <string name="HideWatched">Ocultar Visto</string>
   <string name="HideWatchlisted">Ocultar Visto y Seguido</string>
-  <string name="HideSpoilers">Ocultar Spoilers</string>
   <string name="HiddenToPreventSpoilers">Este comentario se ocultó para prevenir spoilers, puedes cambiar esta opción en el menú.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Incluirme en Actividad de Amigos</string>

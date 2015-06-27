@@ -237,9 +237,9 @@
   <string name="HideTVShowsInWatchlist">Skrýt seriály v seznamu ke zhlédnutí</string>
   <string name="HideCollected">Skrýt \"V kolekci\"</string>
   <string name="HideRated">Skrýt ohodnocené</string>
+  <string name="HideSpoilers">Skrýt prozrazení děje</string>
   <string name="HideWatched">Skrýt zhlédnuté</string>
   <string name="HideWatchlisted">Skrýt označené jako ke zhlédnutí</string>
-  <string name="HideSpoilers">Skrýt prozrazení děje</string>
   <string name="HiddenToPreventSpoilers">Tento komentář byl skryt aby nedošlo k prozrazení děje. Toto můžete změnit v nastavení aplikace.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Zahrnout mě do aktivity přátel</string>

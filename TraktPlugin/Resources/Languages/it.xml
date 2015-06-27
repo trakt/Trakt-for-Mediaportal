@@ -160,9 +160,9 @@
   <string name="Hate">Non mi Piace</string>
   <string name="Hated">Non mi è Piaciuto</string>
   <string name="HideCollected">Nascondi Collezionati</string>
+  <string name="HideSpoilers">Nascondi Anticipazioni Trama</string>
   <string name="HideWatched">Nascondi Visti</string>
   <string name="HideWatchlisted">Nascondi Elenco Visti</string>
-  <string name="HideSpoilers">Nascondi Anticipazioni Trama</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Includimi nelle Attività degli Amici</string>
   <string name="Inserted">Inserito</string>

@@ -161,9 +161,9 @@
   <string name="Hated">Hadede</string>
   <string name="HideCollected">Skjul indsamlede</string>
   <string name="HideRated">Skjul Rated</string>
+  <string name="HideSpoilers">Skjul spoilers</string>
   <string name="HideWatched">Skjul set</string>
   <string name="HideWatchlisted">Skjul setliste</string>
-  <string name="HideSpoilers">Skjul spoilers</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Medtag Mig i Venners Aktiviteter</string>
   <string name="Inserted">Indsæt</string>

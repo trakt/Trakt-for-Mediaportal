@@ -163,9 +163,9 @@
   <string name="Hated">Osovraženo</string>
   <string name="HideCollected">Skrij zbrane</string>
   <string name="HideRated">Skrij ocenjene</string>
+  <string name="HideSpoilers">Skrij Spoilerje</string>
   <string name="HideWatched">Skrij gledane</string>
   <string name="HideWatchlisted">Skrij Watchlisted</string>
-  <string name="HideSpoilers">Skrij Spoilerje</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Vključi me v aktivnost prijateljev</string>
   <string name="Inserted">Vstavljeno</string>

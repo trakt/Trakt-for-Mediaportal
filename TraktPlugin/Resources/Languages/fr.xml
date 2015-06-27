@@ -234,9 +234,9 @@
   <string name="HideTVShowsInWatchlist">Cacher les séries de la liste </string>
   <string name="HideCollected">Masquer ce qui est collecté</string>
   <string name="HideRated">Masquer les éléments notés</string>
+  <string name="HideSpoilers">Masquer les spoilers</string>
   <string name="HideWatched">Masquer ce qui est visionné</string>
   <string name="HideWatchlisted">Masquer la liste</string>
-  <string name="HideSpoilers">Masquer les spoilers</string>
   <string name="HiddenToPreventSpoilers">Ce message a été masqué pour éviter d’éventuel résumé, vous pouvez modifier cette option à partir du menu.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">M\'inclure dans Activités des amis</string>

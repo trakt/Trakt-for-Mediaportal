@@ -32,6 +32,9 @@
   <string name="ActivityUpdatedListWithItemCount">{0} aktualisierte {1} [{2} Einträge]</string>
   <string name="ActivityReview">{0} bewertete {1}</string>
   <string name="ActivityShouts">{0} kommentierte {1}</string>
+  <string name="ActivityPaused">{0} pausierte {1} [{2}%]</string>
+  <string name="ActivityLikedComment">{0} mochte den Kommentar von {1} - {2}</string>
+  <string name="ActivityLikedList">{0} mochte die Liste {1}</string>
   <string name="Activities">Aktivitäten</string>
   <string name="AddFriend">Freund hinzufügen...</string>
   <string name="AddToLibrary">Zur Sammlung hinzufügen</string>
@@ -240,9 +243,9 @@
   <string name="HideTVShowsInWatchlist">Verstecke Serien in der Watchlist</string>
   <string name="HideCollected">Gesammelte ausblenden</string>
   <string name="HideRated">Verstecke bewertete</string>
+  <string name="HideSpoilers">Spoiler ausblenden</string>
   <string name="HideWatched">Gesehene ausblenden</string>
   <string name="HideWatchlisted">Watchlist ausblenden</string>
-  <string name="HideSpoilers">Spoiler ausblenden</string>
   <string name="HiddenToPreventSpoilers">Dieser Kommentar wurde wegen möglicher Spoiler ausgeblendet.\nDu kannst dies im Menü ändern.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Mich in Freund-Aktivitäten einbeziehen</string>
@@ -495,15 +498,15 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="SettingSyncPlaybackCacheExpiryName">Ablauf des Wiedergabe-Synchronisierungscache</string>
   <string name="SettingSyncPlaybackCacheExpiryDescription">Zeitspanne (in Minuten) für lokales Zwischenspeichern der Wiedergabe- / Fortsetzen-Daten vor der nächsten Aktualisierung.</string>
   <string name="SettingMaxTrendingMoviesRequestName">Maximalzahl abzurufender angesagter Filme</string>
-  <string name="SettingMaxTrendingMoviesRequestDescription">Setze das Maximum an angesagten Filmen, die pro Anzeige abgefragt werden.</string>
+  <string name="SettingMaxTrendingMoviesRequestDescription">Setze das Maximum der angesagten Filme, das pro Anzeige abgefragt wird.</string>
   <string name="SettingMaxTrendingShowsRequestName">Maximalzahl abzurufender angesagter Serien</string>
-  <string name="SettingMaxTrendingShowsRequestDescription">Setze das Maximum an angesagten Serien, die pro Anzeige abgefragt werden.</string>
+  <string name="SettingMaxTrendingShowsRequestDescription">Setze das Maximum an angesagten Serien, das pro Anzeige abgefragt wird.</string>
   <string name="SettingUseSSLName">Sichere Server-Verbindung</string>
   <string name="SettingUseSSLDescription">Aktivieren um https zu benutzen. Dies ermöglicht eine sichere Kommunikation mit den Servern von Trakt.tv</string>
   <string name="SettingMaxRelatedMoviesRequestName">Maximum an ähnlichen Filmen pro Abfrage</string>
-  <string name="SettingMaxRelatedMoviesRequestDescription">Setze das Maximum an ähnlichen Filmen, die abgefragt werden, wenn \"Gesehene ausblenden\" nicht aktiv ist.</string>
-  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Maximum an ähnlichen (un)gesehenen Filmen pro Abfrage.</string>
-  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Setze das Maximum an ähnlichen Filmen, die abgefragt werden, wenn \"Gesehene ausblenden\" aktiv ist.</string>
+  <string name="SettingMaxRelatedMoviesRequestDescription">Setze das Maximum an ähnlichen Filmen, das abgefragt wird, wenn \"Gesehene ausblenden\" nicht aktiv ist.</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestName">Maximum an ähnlichen (un)gesehenen Filmen pro Abfrage</string>
+  <string name="SettingMaxRelatedMoviesUnWatchedRequestDescription">Setze das Maximum an ähnlichen Filmen, das abgefragt wird, wenn \"Gesehene ausblenden\" aktiv ist.</string>
   <string name="SettingMaxRelatedShowsRequestName">Maximum an ähnlichen Serien pro Abrage</string>
   <string name="SettingMaxRelatedShowsRequestDescription">Setze das Maximum an ähnlichen Serien, die abgefragt werden, wenn \"Gesehene ausblenden\" nicht aktiv ist.</string>
   <string name="SettingMaxRelatedShowsUnWatchedRequestName">Maximum an ähnlichen (un)gesehenen Serien pro Abfrage</string>
