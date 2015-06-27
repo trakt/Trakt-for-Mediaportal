@@ -1080,6 +1080,27 @@
               <ZipFileName>Installer{CopyFile}\{4aa5a543-5039-4006-bfdf-d2325d55348e}-traktUserProfile.png</ZipFileName>
               <DestinationFilename>%Skin%\Default\Media\traktUserProfile.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktActivityLike.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{dd5e458c-95c0-47c9-8243-02dd9b1859c8}-traktActivityLike.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktActivityLike.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktNextPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d4e93548-46d0-4767-87d9-766fb4f08596}-traktNextPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktNextPage.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktPreviousPage.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d1c8ab58-a016-4060-9ec7-f10eba00c9ff}-traktPreviousPage.png</ZipFileName>
+              <DestinationFilename>%Skin%\Default\Media\traktPreviousPage.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -1873,6 +1894,13 @@
               <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktPreviousPage.png</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{3d15f838-95d3-4b1b-abdd-a2ac9f8015e8}-traktPreviousPage.png</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Media\traktPreviousPage.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktActivityLike.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{2c272db4-7133-464e-a9dc-4938bd4cc62f}-traktActivityLike.png</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityLike.png</DestinationFilename>
             </FileItem>
           </Items>
         </Files>
@@ -2747,6 +2775,13 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{f73b1413-efb5-47a4-bb67-63a2531f3892}-Trakt.TV.Menu.xml</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Trakt.TV.Menu.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLike.png</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{24d01537-76ec-4cbc-87ca-7c5a5b856a90}-traktActivityLike.png</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Media\traktActivityLike.png</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -3074,21 +3109,22 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/trakt/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>5</Major>
-      <Minor>4</Minor>
-      <Build>1</Build>
+      <Minor>5</Minor>
+      <Build>0</Build>
       <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Fixed crash when adding an episode to the paused cache after playback if the initial get from trakt failed.
-* Fixed errors on shutdown when saving the user movie cache.
+    <VersionDescription>* Added support to view comments and lists that you have 'liked' on your activity dashboard.
+* Added support to filter by Types (Movies, Shows, Episodes, etc) and Actions (Watched, Collected, Paused, etc)  on your activity dashboard.
+* Improved the Multi-Select dialog in the Titan skin
 * Updated translations from Transifex.
 
 As the v2 API evolves so will the plugin, priority will be to re-instate features which are in plugin but not yet in the API.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-06-12T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-06-28T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -4180,6 +4216,27 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktActivityLike.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{dd5e458c-95c0-47c9-8243-02dd9b1859c8}-traktActivityLike.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktActivityLike.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktNextPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d4e93548-46d0-4767-87d9-766fb4f08596}-traktNextPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktNextPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Default\Media\traktPreviousPage.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d1c8ab58-a016-4060-9ec7-f10eba00c9ff}-traktPreviousPage.png</ZipFileName>
+        <DestinationFilename>%Skin%\Default\Media\traktPreviousPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.AccountDialog.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c0fc8685-fb7d-4654-b94f-9e9b3b9a2945}-Trakt.AccountDialog.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.AccountDialog.xml</DestinationFilename>
@@ -4960,6 +5017,13 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktPreviousPage.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{3d15f838-95d3-4b1b-abdd-a2ac9f8015e8}-traktPreviousPage.png</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Media\traktPreviousPage.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Media\traktActivityLike.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{2c272db4-7133-464e-a9dc-4938bd4cc62f}-traktActivityLike.png</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityLike.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
@@ -5793,6 +5857,13 @@ As the v2 API evolves so will the plugin, priority will be to re-instate feature
         <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.TV.Menu.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{f73b1413-efb5-47a4-bb67-63a2531f3892}-Trakt.TV.Menu.xml</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Trakt.TV.Menu.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLike.png</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{24d01537-76ec-4cbc-87ca-7c5a5b856a90}-traktActivityLike.png</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Media\traktActivityLike.png</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
