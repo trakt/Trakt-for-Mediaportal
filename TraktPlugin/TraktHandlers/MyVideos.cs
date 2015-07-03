@@ -124,6 +124,15 @@ namespace TraktPlugin.TraktHandlers
                 collectedMovies.RemoveAll(m => blockedMovieIds.Contains(m.ID));
                 #endregion
 
+                #region Remove Movies with No IDs
+                // Remove any movies that don't have any valid online ID's e.g. IMDb ID or TMDb ID.
+                if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+                {
+                    TraktLogger.Info("Removing movies that contain no valid online ID from sync movie list");
+                    collectedMovies.RemoveAll(m => !BasicHandler.IsValidImdb(m.IMDBNumber));
+                }
+                #endregion
+
                 #region Skipped Movies Check
                 // Remove Skipped Movies from previous Sync
                 //TODO

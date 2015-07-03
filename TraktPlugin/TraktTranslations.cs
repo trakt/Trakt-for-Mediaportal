@@ -788,6 +788,8 @@ namespace TraktPlugin.GUI
         public static string SettingMaxUserWatchedEpisodesRequestDescription = "Set the maximum number of recently watched episodes to request for a user per page.";
         public static string SettingMaxUserCommentsRequestName = "Maximum Recent Comments to Request";
         public static string SettingMaxUserCommentsRequestDescription = "Set the maximum number of recent comments to request for a user per page.";
+        public static string SettingSkipMoviesWithNoIdsOnSyncName = "Skip movies with no online ID on Sync";
+        public static string SettingSkipMoviesWithNoIdsOnSyncDescription = "Enable this to skip any movies from your local database that contain no valid IMDb ID or TMDb ID when syncing online.";
         public static string StartYear = "Start Year: {0}";
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";

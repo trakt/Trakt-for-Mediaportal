@@ -157,6 +157,7 @@ namespace TraktPlugin
         public static int MaxUserWatchedEpisodesRequest { get; set; }
         public static int MaxUserCommentsRequest { get; set; }
         public static ActivityFilter DashboardActivityFilter { get; set; }
+        public static bool SkipMoviesWithNoIdsOnSync { get; set; }
         #endregion
 
         #region Constants
@@ -309,6 +310,7 @@ namespace TraktPlugin
         private const string cMaxUserWatchedEpisodesRequest = "MaxUserWatchedEpisodesRequest";
         private const string cMaxUserCommentsRequest = "MaxUserCommentsRequest";
         private const string cDashboardActivityFilter = "DashboardActivityFilter";
+        private const string cSkipMoviesWithNoIdsOnSync = "SkipMoviesWithNoIdsOnSync";
         #endregion
         
         #region Properties
@@ -687,6 +689,7 @@ namespace TraktPlugin
                 MaxUserWatchedEpisodesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedEpisodesRequest, 100, 1, 1000);
                 MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
                 DashboardActivityFilter = xmlreader.GetValueAsString(cTrakt, cDashboardActivityFilter, "{}").FromJSON<ActivityFilter>();
+                SkipMoviesWithNoIdsOnSync = xmlreader.GetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, true);
             }
 
             // initialise API settings
@@ -863,6 +866,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxUserWatchedMoviesRequest, MaxUserWatchedMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxUserCommentsRequest, MaxUserCommentsRequest);
                 xmlwriter.SetValue(cTrakt, cDashboardActivityFilter, DashboardActivityFilter.ToJSON());
+                xmlwriter.SetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, SkipMoviesWithNoIdsOnSync);
             }
 
             Settings.SaveCache();

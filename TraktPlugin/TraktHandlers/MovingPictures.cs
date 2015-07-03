@@ -78,8 +78,15 @@ namespace TraktPlugin.TraktHandlers
             
             // Remove any blocked movies
             TraktLogger.Info("Removing blocked files and folders from sync movie list");
-            collectedMovies.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())));
-            collectedMovies.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.LocalMedia[0].FullPath));
+            collectedMovies.RemoveAll(m => TraktSettings.BlockedFolders.Any(f => m.LocalMedia[0].FullPath.ToLowerInvariant().Contains(f.ToLowerInvariant())));
+            collectedMovies.RemoveAll(m => TraktSettings.BlockedFilenames.Contains(m.LocalMedia[0].FullPath));
+
+            // Remove any movies that don't have any valid online ID's e.g. IMDb ID or TMDb ID.
+            if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+            {
+                TraktLogger.Info("Removing movies that contain no valid online ID from sync movie list");
+                collectedMovies.RemoveAll(m => !BasicHandler.IsValidImdb(m.ImdbID) && GetTmdbID(m) == null);
+            }
 
             #region Skipped Movies Check
             // Remove Skipped Movies from previous Sync
