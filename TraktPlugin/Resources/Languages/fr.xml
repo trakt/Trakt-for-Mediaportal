@@ -22,11 +22,17 @@
   <string name="ActivityRating">{0} a évalué {1}</string>
   <string name="ActivityRatingAdvanced">{0} a évalué {1} [{2}/10]</string>
   <string name="ActivityWatchlist">{0} a ajouté {1} à sa liste </string>
+  <string name="ActivityYourWatchlist">{0} ajouté à la liste {1}</string>
   <string name="ActivityAddToList">{0} a ajouté {1} à {2}</string>
   <string name="ActivityCreatedList">{0} a créé {1}</string>
+  <string name="ActivityUpdatedList">{0} mises à jour sur {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} mises à jour sur {1}  [{2} éléments]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} mises à jour sur {1}  [{2} éléments]</string>
   <string name="ActivityReview">{0} a commenté {1}</string>
   <string name="ActivityShouts">{0} messages sur {1}</string>
   <string name="Activities">Activités</string>
+  <string name="ActivityFilterActions">Filtrer par actions ...</string>
+  <string name="ActivityFilterTypes">Filtrer par types ...</string>
   <string name="AddFriend">Ajouter un ami...</string>
   <string name="AddToLibrary">Ajouter à la collection</string>
   <string name="AddToList">Ajouter à la liste...</string>
@@ -232,9 +238,19 @@
   <string name="Hate">Détester</string>
   <string name="Hated">A détesté</string>
   <string name="HideTVShowsInWatchlist">Cacher les séries de la liste </string>
+  <string name="HideAdded">Masquer les ajouts</string>
+  <string name="HideCommented">Masquer ce qui  est commenté</string>
+  <string name="HideComments">Masquer les commentaires</string>
   <string name="HideCollected">Masquer ce qui est collecté</string>
+  <string name="HideEpisodes">Masquer les épisodes</string>
+  <string name="HideLiked">Masquer les favoris</string>
+  <string name="HideLists">Masquer les listes</string>
+  <string name="HideMovies">Masquer les films</string>
   <string name="HideRated">Masquer les éléments notés</string>
+  <string name="HideSeasons">Masquer les saisons</string>
+  <string name="HideShows">Masquer les émissions</string>
   <string name="HideSpoilers">Masquer les spoilers</string>
+  <string name="HideUpdated">Masquer la mise à jour</string>
   <string name="HideWatched">Masquer ce qui est visionné</string>
   <string name="HideWatchlisted">Masquer la liste</string>
   <string name="HiddenToPreventSpoilers">Ce message a été masqué pour éviter d’éventuel résumé, vous pouvez modifier cette option à partir du menu.</string>
@@ -481,6 +497,8 @@
   <string name="SettingMaxTrendingShowsRequestName">Nombre de shows tendances </string>
   <string name="SettingMaxTrendingShowsRequestDescription">Définissez le nombre maximum de shows tendances par page.</string>
   <string name="SettingUseSSLName">Communication du serveur sécurisé</string>
+  <string name="SettingMaxUserWatchedEpisodesRequestDescription">Définissez le nombre maximum d\'épisodes regardées récemment  par page.</string>
+  <string name="SettingMaxUserCommentsRequestDescription">Définissez le nombre maximum de commentaires récents par page.</string>
   <string name="StartYear">Début: {0}</string>
   <string name="StartLibrarySync">Démarrer a synchronisation de la bibliothèque</string>
   <string name="StartLibraryAndPlaybackSync">Démarrer la synchronisation de la bibliothèque et des lectures </string>
@@ -492,6 +510,7 @@
   <string name="Status">Status</string>
   <!--T-->
   <string name="Timeout">Temps expiré</string>
+  <string name="TotalPages">Nombre de Pages</string>
   <string name="TotalItemsPerPage">Nombre d\'items par page</string>
   <string name="Trending">Tendances</string>
   <string name="TrendingShows">Les  séries tendances</string>
