@@ -3113,7 +3113,7 @@ namespace TraktPlugin
                 {
                     RatedAt = show.RatedAt ?? DateTime.UtcNow.ToISO8601(),
                     Rating = show.Rating,
-                    Show = new TraktShowSummary
+                    Show = new TraktShow
                     {
                         Ids = show.Ids,
                         Title = show.Title,
@@ -3132,7 +3132,7 @@ namespace TraktPlugin
             {
                 RatedAt = DateTime.UtcNow.ToISO8601(),
                 Rating = rating,
-                Show = new TraktShowSummary
+                Show = new TraktShow
                 {
                     Ids = show.Ids,
                     Title = show.Title,
