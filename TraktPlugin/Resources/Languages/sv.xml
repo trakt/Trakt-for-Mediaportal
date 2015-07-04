@@ -546,6 +546,8 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SettingMaxUserWatchedEpisodesRequestDescription">Sätt max antal begärda sedda avsnitt per sida</string>
   <string name="SettingMaxUserCommentsRequestName">Max antal nya kommentarer som begärs</string>
   <string name="SettingMaxUserCommentsRequestDescription">Sätt max antal begärda nya kommentarer per sida</string>
+  <string name="SettingSkipMoviesWithNoIdsOnSyncName">Hoppa över filmer utan online ID vid synkronisering</string>
+  <string name="SettingSkipMoviesWithNoIdsOnSyncDescription">Aktivera detta för att hoppa över filmer i din lokala databas som saknar ett giltigt ID från IMDB eller TMDB när du synkroniserar online </string>
   <string name="StartYear">Började: {0}</string>
   <string name="StartLibrarySync">Starta synkronisering av bibliotek.</string>
   <string name="StartLibraryAndPlaybackSync">Starta synkronisering av bibliotek och uppspelning.</string>
