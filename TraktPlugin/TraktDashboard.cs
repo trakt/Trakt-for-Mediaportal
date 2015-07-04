@@ -3009,8 +3009,8 @@ namespace TraktPlugin
                         if (activity == null || string.IsNullOrEmpty(activity.Action) || string.IsNullOrEmpty(activity.Type))
                             return;
 
-                        ActivityAction action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
-                        ActivityType type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
+                        var action = (ActivityAction)Enum.Parse(typeof(ActivityAction), activity.Action);
+                        var type = (ActivityType)Enum.Parse(typeof(ActivityType), activity.Type);
 
                         switch (action)
                         {
@@ -3050,6 +3050,21 @@ namespace TraktPlugin
                                 {
                                     GUIWatchListEpisodes.CurrentUser = activity.User.Username;
                                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListEpisodes);
+                                }
+                                break;
+
+                            case ActivityAction.like:
+                                if (type == ActivityType.comment)
+                                {
+                                    // view comment
+                                    GUIUtils.ShowTextDialog(Translation.Comment, activity.Shout.Text);
+                                }
+                                else if (type == ActivityType.list)
+                                {
+                                    // load list - A liked list doesn't return the user
+                                    //GUIListItems.CurrentList = activity.List;
+                                    //GUIListItems.CurrentUser = activity.List.User;
+                                    //GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                                 }
                                 break;
 
