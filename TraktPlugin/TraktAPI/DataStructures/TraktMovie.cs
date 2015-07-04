@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
     [DataContract]
     public class TraktMovie
     {
-        [DataMember(Name = "title")]
+        [DataMember(Name = "title", EmitDefaultValue = false)]
         public string Title { get; set; }
 
-        [DataMember(Name = "year")]
+        [DataMember(Name = "year", EmitDefaultValue = false)]
         public int? Year { get; set; }
 
         [DataMember(Name = "ids")]

@@ -158,8 +158,8 @@ namespace TraktPlugin.TraktHandlers
                 var collectedMovies = (from MFMovie movie in myvideos select movie).ToList();
 
                 // Remove any blocked movies
-                collectedMovies.RemoveAll(movie => TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())));
-                collectedMovies.RemoveAll(movie => TraktSettings.BlockedFilenames.Contains(movie.File));
+                collectedMovies.RemoveAll(m => TraktSettings.BlockedFolders.Any(f => m.File.ToLowerInvariant().Contains(f.ToLowerInvariant())));
+                collectedMovies.RemoveAll(m => TraktSettings.BlockedFilenames.Contains(m.File));
 
                 // Remove any movies that don't have any valid online ID's e.g. IMDb ID or TMDb ID.
                 if (TraktSettings.SkipMoviesWithNoIdsOnSync)
@@ -312,6 +312,12 @@ namespace TraktPlugin.TraktHandlers
                             pagedMovies.ForEach(s => TraktLogger.Info("Adding movie to trakt.tv watched history. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Date Watched = '{4}'",
                                                                              s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>", s.WatchedAt));
 
+                            // remove title/year such that match against online ID only
+                            if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+                            {
+                                pagedMovies.ForEach(m => { m.Title = null; m.Year = null; });
+                            }
+
                             var response = TraktAPI.TraktAPI.AddMoviesToWatchedHistory(new TraktSyncMoviesWatched { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse<TraktSyncResponse>(response);
 
@@ -365,6 +371,12 @@ namespace TraktPlugin.TraktHandlers
                                                                         s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>",
                                                                         s.CollectedAt, s.MediaType ?? "<empty>", s.Resolution ?? "<empty>", s.AudioCodec ?? "<empty>", s.AudioChannels ?? "<empty>"));
 
+                            // remove title/year such that match against online ID only
+                            if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+                            {
+                                pagedMovies.ForEach(m => { m.Title = null; m.Year = null; });
+                            }
+
                             var response = TraktAPI.TraktAPI.AddMoviesToCollecton(new TraktSyncMoviesCollected { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
 
@@ -412,6 +424,12 @@ namespace TraktPlugin.TraktHandlers
 
                             pagedMovies.ForEach(a => TraktLogger.Info("Adding movie to trakt.tv ratings. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Rating = '{4}/10'",
                                                                         a.Title, a.Year.HasValue ? a.Year.ToString() : "<empty>", a.Ids.Imdb ?? "<empty>", a.Ids.Tmdb.HasValue ? a.Ids.Tmdb.ToString() : "<empty>", a.Rating));
+
+                            // remove title/year such that match against online ID only
+                            if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+                            {
+                                pagedMovies.ForEach(m => { m.Title = null; m.Year = null; });
+                            }
 
                             var response = TraktAPI.TraktAPI.AddMoviesToRatings(new TraktSyncMoviesRated { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
@@ -483,6 +501,12 @@ namespace TraktPlugin.TraktHandlers
                             pagedMovies.ForEach(s => TraktLogger.Info("Removing movie from trakt.tv collection, movie no longer exists locally. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
                                                                         s.Title, s.Year.HasValue ? s.Year.ToString() : "<empty>", s.Ids.Imdb ?? "<empty>", s.Ids.Tmdb.HasValue ? s.Ids.Tmdb.ToString() : "<empty>"));
 
+                            // remove title/year such that match against online ID only
+                            if (TraktSettings.SkipMoviesWithNoIdsOnSync)
+                            {
+                                pagedMovies.ForEach(m => { m.Title = null; m.Year = null; });
+
+                            }
                             var response = TraktAPI.TraktAPI.RemoveMoviesFromCollecton(new TraktSyncMovies { Movies = pagedMovies });
                             TraktLogger.LogTraktResponse(response);
                         }
