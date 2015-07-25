@@ -20,7 +20,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 8;
+        static int SettingsVersion = 9;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -1044,6 +1044,26 @@ namespace TraktPlugin
                             // remove last paused item processed - stored in last activities
                             xmlreader.RemoveEntry(cTrakt, "LastPausedItemProcessed");
 
+                            currentSettingsVersion++;
+                            break;
+
+                        case 8:
+                            // cleanup cached likes, API changed to include a user object for lists
+                            // i.e. the user that owns the list
+                            try
+                            {
+                                var folderName = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt");
+
+                                var matches = Directory.GetFiles(folderName, "Liked.json", SearchOption.AllDirectories);
+                                foreach (string file in matches)
+                                {
+                                    File.Delete(file);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                TraktLogger.Error("Failed to remove previously cached liked lists from disk, Reason = '{0}'", e.Message);
+                            }
                             currentSettingsVersion++;
                             break;
                     }
