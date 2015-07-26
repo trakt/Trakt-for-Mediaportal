@@ -3061,10 +3061,13 @@ namespace TraktPlugin
                                 }
                                 else if (type == ActivityType.list)
                                 {
-                                    // load list - A liked list doesn't return the user
-                                    //GUIListItems.CurrentList = activity.List;
-                                    //GUIListItems.CurrentUser = activity.List.User;
-                                    //GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
+                                    // load the liked list
+                                    if (activity.List.User != null)
+                                    {
+                                        GUIListItems.CurrentList = activity.List;
+                                        GUIListItems.CurrentUser = activity.List.User.Username;
+                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
+                                    }
                                 }
                                 break;
 
