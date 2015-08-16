@@ -31,6 +31,7 @@ namespace TraktPlugin.TraktHandlers
         bool SyncPlaybackInProgress;
         bool TraktRateSent;
         bool IsDVDPlaying;
+        bool AdvancedRatings;
         public static MoviePlayer player = null;
 
         public static DBSourceInfo tmdbSource;
@@ -51,6 +52,11 @@ namespace TraktPlugin.TraktHandlers
                 string version = fvi.ProductVersion;
                 if (new Version(version) < new Version(1, 7, 0, 0))
                     throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
+
+                // check if it support user ratings out of 10
+                if (new Version(version) >= new Version(1, 8, 1, 0))
+                    AdvancedRatings = true;
+
             }
 
             Priority = priority;
@@ -233,7 +239,8 @@ namespace TraktPlugin.TraktHandlers
                 TraktLogger.Info("Found {0} watched movies available to sync in MovingPictures database", watchedMovies.Count);
 
                 // get the movies that we have rated/unrated
-                var ratedMovies = collectedMovies.Where(m => m.ActiveUserSettings.UserRating > 0).ToList();
+                // check if there is a rating out of 10 if using supported version of the plugin
+                var ratedMovies = collectedMovies.Where(m => (AdvancedRatings && HasAdvancedRating(m)) || m.ActiveUserSettings.UserRating.GetValueOrDefault(0) > 0).ToList();
                 TraktLogger.Info("Found {0} rated movies available to sync in MovingPictures database", ratedMovies.Count);
                 
                 #endregion
@@ -403,7 +410,7 @@ namespace TraktPlugin.TraktHandlers
                                             Ids = new TraktMovieId { Imdb = movie.ImdbID.ToNullIfEmpty(), Tmdb = GetTmdbID(movie).ToNullableInt32() },
                                             Title = movie.Title,
                                             Year = movie.Year,
-                                            Rating = (int)movie.UserSettings.First().UserRating * 2,
+                                            Rating = AdvancedRatings ? GetAdvancedUserRating(movie) : (int)movie.UserSettings.First().UserRating * 2,
                                             RatedAt = null,
                                        }).ToList();
 
@@ -452,16 +459,30 @@ namespace TraktPlugin.TraktHandlers
                         var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, trm.Movie));
                         if (localMovie == null) continue;
 
-                        if (localMovie.UserSettings.First().UserRating == null || localMovie.UserSettings.First().UserRating == 0)
+                        if (!AdvancedRatings)
                         {
-                            // update local collection rating (5 Point Scale)
-                            int rating = (int)(Math.Round(trm.Rating / 2.0, MidpointRounding.AwayFromZero));
+                            if (localMovie.UserSettings.First().UserRating == null || localMovie.UserSettings.First().UserRating == 0)
+                            {
+                                // update local collection rating (5 Point Scale)
+                                int rating = (int)(Math.Round(trm.Rating / 2.0, MidpointRounding.AwayFromZero));
 
-                            TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-                                              trm.Rating, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.Imdb ?? "<empty>", trm.Movie.Ids.Tmdb.HasValue ? trm.Movie.Ids.Tmdb.ToString() : "<empty>");
+                                TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
+                                                  trm.Rating, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.Imdb ?? "<empty>", trm.Movie.Ids.Tmdb.HasValue ? trm.Movie.Ids.Tmdb.ToString() : "<empty>");
 
-                            localMovie.ActiveUserSettings.UserRating = rating;
-                            localMovie.Commit();
+                                localMovie.ActiveUserSettings.UserRating = rating;
+                                localMovie.Commit();
+                            }
+                        }
+                        else
+                        {
+                            if (!HasAdvancedRating(localMovie))
+                            {
+                                TraktLogger.Info("Adding movie rating to match trakt.tv. Rated = '{0}/10', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
+                                                  trm.Rating, trm.Movie.Title, trm.Movie.Year.HasValue ? trm.Movie.Year.ToString() : "<empty>", trm.Movie.Ids.Imdb ?? "<empty>", trm.Movie.Ids.Tmdb.HasValue ? trm.Movie.Ids.Tmdb.ToString() : "<empty>");
+
+                                SetAdvancedRating(localMovie, trm.Rating);
+                                localMovie.Commit();
+                            }
                         }
                     }
                 }
@@ -843,7 +864,7 @@ namespace TraktPlugin.TraktHandlers
 
         #endregion
 
-       #region MovingPictures Events
+        #region MovingPictures Events
 
         /// <summary>
         /// Fired when an object is removed from the MovingPictures Database
@@ -1352,6 +1373,29 @@ namespace TraktPlugin.TraktHandlers
         }
 
         /// <summary>
+        /// gets the user rating for a movie out of 10
+        /// this should only be called if the plugin is v1.8.1 or greater!
+        /// </summary>
+        private int GetAdvancedUserRating(DBMovieInfo movie)
+        {
+            if (movie.UserSettings.First().UserRatingBase10.GetValueOrDefault(0) > 0)
+                return (int)movie.UserSettings.First().UserRatingBase10;
+            else if (movie.UserSettings.First().UserRating.GetValueOrDefault(0) > 0)
+                return (int)movie.UserSettings.First().UserRating * 2;
+            else
+                return 0;
+        }
+
+        /// <summary>
+        /// sets the user rating for a movie out of 10
+        /// this should only be called if the plugin is v1.8.1 or greater!
+        /// </summary>
+        private void SetAdvancedRating(DBMovieInfo movie, int userRating)
+        {
+            movie.ActiveUserSettings.UserRatingBase10 = userRating;
+        }
+
+        /// <summary>
         /// Creates Scrobble data based on a DBMovieInfo object
         /// </summary>
         private TraktScrobbleMovie CreateScrobbleData(DBMovieInfo movie)
@@ -1413,6 +1457,7 @@ namespace TraktPlugin.TraktHandlers
             if (MovingPicturesCore.Settings.AutoPromptForRating) return;    // movpics dialog is enabled
             if (!TraktSettings.ShowRateDialogOnWatched) return;             // not enabled
             if (movie.ActiveUserSettings.UserRating > 0) return;            // already rated
+            if (AdvancedRatings && HasAdvancedRating(movie)) return;        // already rated (advanced)
 
             var rateThread = new Thread((objMovie) =>
             {
@@ -1445,7 +1490,14 @@ namespace TraktPlugin.TraktHandlers
                 if (rating > 0)
                 {
                     TraktLogger.Info("Applying rating for movie. Rating = '{0}/10', Title = '{1}', Year = '{2}', IMDB ID = '{3}', TMDb ID = '{4}'", rating,  movie.Title, movie.Year, movie.ImdbID ?? "<empty>", GetTmdbID(movie) ?? "<empty>");
-                    movieToRate.ActiveUserSettings.UserRating = (int)(Math.Round(rating / 2.0, MidpointRounding.AwayFromZero));
+                    if (!AdvancedRatings)
+                    {
+                        movieToRate.ActiveUserSettings.UserRating = (int)(Math.Round(rating / 2.0, MidpointRounding.AwayFromZero));
+                    }
+                    else
+                    {
+                        SetAdvancedRating(movieToRate, rating);
+                    }
 
                     // update local cache
                     TraktCache.AddMovieToRatings(rateObject, rating);
@@ -1454,8 +1506,15 @@ namespace TraktPlugin.TraktHandlers
                     // Make sure we're still showing the active movie
                     if (GUIUtils.GetProperty("#MovingPictures.SelectedMovie.title").Equals(movieToRate.Title))
                     {
-                        GUICommon.SetProperty("#MovingPictures.UserMovieSettings.user_rating", movieToRate.ActiveUserSettings.UserRating.ToString());
-                        GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", (movieToRate.ActiveUserSettings.UserRating * 2).ToString());
+                        if (!AdvancedRatings)
+                        {
+                            GUICommon.SetProperty("#MovingPictures.UserMovieSettings.user_rating", movieToRate.ActiveUserSettings.UserRating.ToString());
+                            GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", (movieToRate.ActiveUserSettings.UserRating * 2).ToString());
+                        }
+                        else
+                        {
+                            GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", rating);
+                        }
                     }
 
                     if (movieToRate.Popularity == 0 && movieToRate.Score == 0)
@@ -1469,6 +1528,7 @@ namespace TraktPlugin.TraktHandlers
                     // unrate
                     TraktLogger.Info("Removing rating for movie. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.ImdbID ?? "<empty>", GetTmdbID(movie) ?? "<empty>");
                     movieToRate.ActiveUserSettings.UserRating = 0;
+                    if (AdvancedRatings) SetAdvancedRating(movieToRate, 0);
 
                     // update local cache
                     TraktCache.RemoveMovieFromRatings(rateObject);
@@ -1496,6 +1556,15 @@ namespace TraktPlugin.TraktHandlers
             };
 
             rateThread.Start(movie);
+        }
+
+        /// <summary>
+        /// Checks if a movie has a user rating out of 10
+        /// this should only be called if the plugin is v1.8.1 or greater!
+        /// </summary>
+        private bool HasAdvancedRating(DBMovieInfo movie)
+        {
+            return movie.ActiveUserSettings.UserRatingBase10.GetValueOrDefault(0) > 0;
         }
 
         #endregion

@@ -3068,6 +3068,10 @@ namespace TraktPlugin
                                         GUIListItems.CurrentUser = activity.List.User.Username;
                                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CustomListItems);
                                     }
+                                    else
+                                    {
+                                        TraktLogger.Warning("No user associated with liked list. ID = '{0}', Name = '{1}', Privacy = '{2}'", activity.List.Ids.Trakt, activity.List.Name, activity.List.Privacy); 
+                                    }
                                 }
                                 break;
 
