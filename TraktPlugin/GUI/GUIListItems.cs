@@ -1017,25 +1017,37 @@ namespace TraktPlugin.GUI
                 case "movie":
                     SelectedType = TraktItemType.movie;
                     PublishMovieSkinProperties(listItem);
-                    GUIImageHandler.LoadFanart(backdrop, listItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+                    if (listItem.Movie.Images != null)
+                    {
+                        GUIImageHandler.LoadFanart(backdrop, listItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+                    }
                     break;
 
                 case "show":
                     SelectedType = TraktItemType.show;
                     PublishShowSkinProperties(listItem);
-                    GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    if (listItem.Show.Images != null)
+                    {
+                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    }
                     break;
 
                 case "season":
                     SelectedType = TraktItemType.season;
                     PublishSeasonSkinProperties(listItem);
-                    GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    if (listItem.Show.Images != null)
+                    {
+                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    }
                     break;
 
                 case "episode":
                     SelectedType = TraktItemType.episode;
                     PublishEpisodeSkinProperties(listItem);
-                    GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    if (listItem.Show.Images != null)
+                    {
+                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    }
                     break;
 
                 case "person":

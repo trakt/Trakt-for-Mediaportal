@@ -520,7 +520,8 @@ namespace TraktPlugin.GUI
             {
                 // add image for download
                 var images = new GUITraktImage { MovieImages = watchlistItem.Movie.Images };
-                movieImages.Add(images);
+                if (watchlistItem.Movie.Images != null)
+                    movieImages.Add(images);
 
                 var item = new GUIMovieListItem(watchlistItem.Movie.Title, (int)TraktGUIWindows.WatchedListMovies);
 
@@ -617,7 +618,10 @@ namespace TraktPlugin.GUI
 
             var watchlistItem = item.TVTag as TraktMovieWatchList;
             PublishWatchlistSkinProperties(watchlistItem);
-            GUIImageHandler.LoadFanart(backdrop, watchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            if (watchlistItem.Movie.Images != null)
+            {
+                GUIImageHandler.LoadFanart(backdrop, watchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            }
         }
         #endregion
 
