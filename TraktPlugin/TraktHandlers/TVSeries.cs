@@ -1109,6 +1109,34 @@ namespace TraktPlugin.TraktHandlers
             DBOption.SetOptions(setting, value);
         }
 
+        public static void SetShowUserRating(int rating)
+        {
+            var show = SelectedObject as DBSeries;
+            if (show == null) return;
+
+            show[DBOnlineSeries.cMyRating] = rating;
+            if (show[DBOnlineSeries.cRatingCount] == 0)
+            {
+                show[DBOnlineSeries.cRatingCount] = 1;
+                show[DBOnlineSeries.cRating] = rating;
+            }
+            show.Commit();
+        }
+
+        public static void SetEpisodeUserRating(int rating)
+        {
+            var episode = SelectedObject as DBEpisode;
+            if (episode == null) return;
+
+            episode[DBOnlineEpisode.cRating] = rating;
+            if (episode[DBOnlineEpisode.cRatingCount] == 0)
+            {
+                episode[DBOnlineEpisode.cRatingCount] = 1;
+                episode[DBOnlineEpisode.cRating] = rating;
+            }
+            episode.Commit();
+        }
+
         #endregion
 
         #region Data Creators

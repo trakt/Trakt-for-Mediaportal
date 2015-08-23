@@ -1062,7 +1062,7 @@ namespace TraktPlugin
                             }
                             catch (Exception e)
                             {
-                                TraktLogger.Error("Failed to remove previously cached liked lists from disk, Reason = '{0}'", e.Message);
+                                TraktLogger.Error("Failed to remove previously cached likes from disk, Reason = '{0}'", e.Message);
                             }
                             currentSettingsVersion++;
                             break;

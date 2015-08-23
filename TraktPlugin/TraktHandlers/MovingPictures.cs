@@ -31,7 +31,7 @@ namespace TraktPlugin.TraktHandlers
         bool SyncPlaybackInProgress;
         bool TraktRateSent;
         bool IsDVDPlaying;
-        bool AdvancedRatings;
+        static bool AdvancedRatings;
         public static MoviePlayer player = null;
 
         public static DBSourceInfo tmdbSource;
@@ -1390,7 +1390,7 @@ namespace TraktPlugin.TraktHandlers
         /// sets the user rating for a movie out of 10
         /// this should only be called if the plugin is v1.8.1 or greater!
         /// </summary>
-        private void SetAdvancedRating(DBMovieInfo movie, int userRating)
+        static void SetAdvancedRating(DBMovieInfo movie, int userRating)
         {
             movie.ActiveUserSettings.UserRatingBase10 = userRating;
         }
@@ -1539,12 +1539,6 @@ namespace TraktPlugin.TraktHandlers
                         GUICommon.SetProperty("#MovingPictures.UserMovieSettings.user_rating", " ");
                         GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", " ");
                     }
-
-                    if (movieToRate.Popularity == 1)
-                    {
-                        movieToRate.Score = 0;
-                        movieToRate.Popularity = 0;
-                    }
                 }
 
                 movieToRate.Commit();
@@ -1666,6 +1660,22 @@ namespace TraktPlugin.TraktHandlers
                 MovingPicturesCore.Settings[setting].Value = value;
                 MovingPicturesCore.Settings[setting].Commit();
             }
+        }
+
+        public static void SetUserRating(int rating)
+        {
+            // only support advanced ratings
+            if (!AdvancedRatings) return;
+
+            var movie = MovingPicturesCore.Browser.SelectedMovie;
+            if (movie == null) return;
+
+            // update database
+            SetAdvancedRating(movie, rating);
+            movie.Commit();
+
+            // publish to skin
+            GUICommon.SetProperty("#MovingPictures.UserMovieSettings.10point_user_rating", rating > 0 ? rating.ToString() : " ");
         }
 
         #endregion

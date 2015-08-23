@@ -1018,6 +1018,30 @@ namespace TraktPlugin.TraktHandlers
             return true;
         }
 
+        public static MFMovie FindMovie(string title, int year, string imdbid)
+        {
+            // get all movies
+            ArrayList myvideos = new ArrayList();
+            BaseMesFilms.GetMovies(ref myvideos);
+
+            // get all movies in local database
+            List<MFMovie> movies = (from MFMovie m in myvideos select m).ToList();
+
+            // try find a match
+            MFMovie movie = movies.Find(m => BasicHandler.GetProperImdbId(m.IMDBNumber) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
+            return movie;
+        }
+
+        public static void SetUserRating(int rating, string title, int? year, string imdbid)
+        {
+            var movie = FindMovie(title, year ?? 0, imdbid);
+            if (movie == null) return;
+
+            movie.Username = TraktSettings.Username;
+            movie.RatingUser = rating;
+            movie.Commit();
+        }
+
         #endregion
 
         #region Private Methods

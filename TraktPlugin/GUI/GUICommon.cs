@@ -2335,12 +2335,33 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
-                    GUIUtils.ShowRateDialog<TraktSyncMovieRated>(new TraktSyncMovieRated
+                    var movie = new TraktSyncMovieRated
                         {
                             Ids = new TraktMovieId { Imdb = imdbid.ToNullIfEmpty() },
                             Title = title,
                             Year = year.ToNullableInt32()
-                        });
+                        };
+
+                    int rating = GUIUtils.ShowRateDialog<TraktSyncMovieRated>(movie);
+                    
+                    // update local databases
+                    if (rating >= 0)
+                    {
+                        switch (GUIWindowManager.ActiveWindow)
+                        {
+                            case (int)ExternalPluginWindows.MovingPictures:
+                                TraktHandlers.MovingPictures.SetUserRating(rating);
+                                break;
+                            case (int)ExternalPluginWindows.MyFilms:
+                                TraktHandlers.MyFilmsHandler.SetUserRating(rating, title, year.ToNullableInt32(), imdbid.ToNullIfEmpty());
+                                break;
+                        }
+
+                        if (rating == 0)
+                            TraktCache.RemoveMovieFromRatings(movie);
+                        else
+                            TraktCache.AddMovieToRatings(movie, rating);
+                    }
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
@@ -2489,12 +2510,29 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for tv show. Title = '{0}', Year = '{1}', TVDb ID = '{2}'", title, year.ToLogString(), tvdbid.ToLogString());
-                    GUIUtils.ShowRateDialog<TraktSyncShowRated>(new TraktSyncShowRated
+                    var show = new TraktSyncShowRated
                     {
                         Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                         Title = title,
                         Year = year.ToNullableInt32()
-                    });
+                    };
+                    int rating = GUIUtils.ShowRateDialog<TraktSyncShowRated>(show);
+
+                    // update local databases
+                    if (rating >= 0)
+                    {
+                        switch (GUIWindowManager.ActiveWindow)
+                        {
+                            case (int)ExternalPluginWindows.TVSeries:
+                                TraktHandlers.TVSeries.SetShowUserRating(rating);
+                                break;
+                        }
+
+                        if (rating == 0)
+                            TraktCache.RemoveShowFromRatings(show);
+                        else
+                            TraktCache.AddShowToRatings(show, rating);
+                    }
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
@@ -2788,38 +2826,39 @@ namespace TraktPlugin.GUI
             {
                 case ((int)TraktMenuItems.Rate):
                     TraktLogger.Info("Displaying rate dialog for tv episode. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show ID = '{4}', Episode ID = '{5}'", title, year.ToLogString(), season, episode, tvdbid.ToLogString(), episodetvdbid.ToLogString());
-                    //GUIUtils.ShowRateDialog<TraktSyncEpisodeRated>(new TraktSyncEpisodeRated
-                    //    {
-                    //        Ids = new TraktEpisodeId
-                    //        {
-                    //            Tvdb = episodetvdbid.ToNullableInt32()
-                    //        },
-                    //        RatedAt = DateTime.UtcNow.ToISO8601(),
-                    //        Season = season.ToInt(),
-                    //        Number = episode.ToInt()
-                    //    });
-                    
-                    GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(new TraktSyncShowRatedEx
+                    var show = new TraktSyncShowRatedEx
                     {
                         Ids = new TraktShowId { Tvdb = tvdbid.ToNullableInt32(), Imdb = imdbid.ToNullIfEmpty() },
                         Title = title,
                         Year = year.ToNullableInt32(),
                         Seasons = new List<TraktSyncShowRatedEx.Season>
-                                      {
-                                          new TraktSyncShowRatedEx.Season
-                                              {
-                                                Number = season.ToInt(),
-                                                Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
-                                                               {
-                                                                    new TraktSyncShowRatedEx.Season.Episode
-                                                                    {
-                                                                        Number = episode.ToInt(),
-                                                                        RatedAt = DateTime.UtcNow.ToISO8601()
-                                                                    }
-                                                               }
-                                            }
+                        {
+                            new TraktSyncShowRatedEx.Season
+                            {
+                                Number = season.ToInt(),
+                                Episodes = new List<TraktSyncShowRatedEx.Season.Episode>
+                                {
+                                    new TraktSyncShowRatedEx.Season.Episode
+                                    {
+                                        Number = episode.ToInt(),
+                                        RatedAt = DateTime.UtcNow.ToISO8601()
                                     }
-                    });
+                                }
+                            }
+                        }
+                    };
+                    int rating = GUIUtils.ShowRateDialog<TraktSyncShowRatedEx>(show);
+
+                    // update local databases
+                    if (rating >= 0)
+                    {
+                        switch (GUIWindowManager.ActiveWindow)
+                        {
+                            case (int)ExternalPluginWindows.TVSeries:
+                                TraktHandlers.TVSeries.SetEpisodeUserRating(rating);
+                                break;
+                        }
+                    }
                     break;
 
                 case ((int)TraktMenuItems.Shouts):
