@@ -532,6 +532,8 @@
   <string name="SettingMaxUserWatchedEpisodesRequestDescription">Configura el número máximo de episodios vistos a buscar por página.</string>
   <string name="SettingMaxUserCommentsRequestName">Máximos Comentarios Recientes para Buscar</string>
   <string name="SettingMaxUserCommentsRequestDescription">Configura el número máximo de comentarios recientes a buscar por página.</string>
+  <string name="SettingSkipMoviesWithNoIdsOnSyncName">Saltar películas sin ID en la Sincronización online</string>
+  <string name="SettingSkipMoviesWithNoIdsOnSyncDescription">Habilita esto para saltar en la sincronización online cualquier película de tu base de datos que no contenga ID de IMDB o TMDd.</string>
   <string name="StartYear">Iniciar: {0}</string>
   <string name="StartLibrarySync">Iniciar Sincronización de Librería</string>
   <string name="StartLibraryAndPlaybackSync">Iniciar Sincronización de Biblioteca y Reproducción</string>
