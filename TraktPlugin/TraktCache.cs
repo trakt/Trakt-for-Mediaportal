@@ -161,14 +161,14 @@ namespace TraktPlugin
 
             // anything not in the currentwatched that is previously watched
             // must be unwatched now.
-            var unwatchedMovies =   from movie in previouslyWatched
-                                    where !currentWatched.Any(m => (m.Movie.Ids.Trakt == movie.Movie.Ids.Trakt || m.Movie.Ids.Imdb == m.Movie.Ids.Imdb))
-                                    select new TraktMovie
-                                    {
-                                        Ids = movie.Movie.Ids,
-                                        Title = movie.Movie.Title,
-                                        Year = movie.Movie.Year
-                                    };
+            var unwatchedMovies = from pw in previouslyWatched
+                                  where !currentWatched.Any(m => (m.Movie.Ids.Trakt == pw.Movie.Ids.Trakt || m.Movie.Ids.Imdb == pw.Movie.Ids.Imdb))
+                                  select new TraktMovie
+                                  {
+                                      Ids = pw.Movie.Ids,
+                                      Title = pw.Movie.Title,
+                                      Year = pw.Movie.Year
+                                  };
 
             UnWatchedMovies = unwatchedMovies ?? new List<TraktMovie>();
 
