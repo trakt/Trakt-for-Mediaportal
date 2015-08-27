@@ -1114,6 +1114,17 @@ namespace TraktPlugin.TraktHandlers
                                             traktMovie.Title, traktMovie.Year.HasValue ? traktMovie.Year.ToString() : "<empty>", traktMovie.Ids.Imdb ?? "<empty>", traktMovie.Ids.Tmdb.HasValue ? traktMovie.Ids.Tmdb.ToString() : "<empty>",
                                             traktMovie.CollectedAt, traktMovie.MediaType ?? "<empty>", traktMovie.Resolution ?? "<empty>", traktMovie.AudioCodec ?? "<empty>", traktMovie.AudioChannels ?? "<empty>");
 
+                        // check if we already have the movie collected online
+                        if (traktMovie.IsCollected())
+                        {
+                            TraktLogger.Info("Skipping movie addition to trakt.tv collection, movie already exists in online collection.");
+                            return;
+                        }
+
+                        // insert movie into local cache - with title/year
+                        TraktCache.AddMovieToCollection(traktMovie);
+
+                        // check for valid IDs
                         if (TraktSettings.SkipMoviesWithNoIdsOnSync)
                         {
                             traktMovie.Title = null;
@@ -1124,16 +1135,6 @@ namespace TraktPlugin.TraktHandlers
                                 return;
                             }
                         }
-
-                        // check if we already have the movie collected online
-                        if (traktMovie.IsCollected())
-                        {
-                            TraktLogger.Info("Skipping movie addition to trakt.tv collection, movie already exists in online collection.");
-                            return;
-                        }
-
-                        // insert movie into local cache
-                        TraktCache.AddMovieToCollection(traktMovie);
 
                         // insert online
                         var response = TraktAPI.TraktAPI.AddMovieToCollection(traktMovie);
