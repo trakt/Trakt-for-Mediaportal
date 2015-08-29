@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
 {
@@ -11,5 +7,8 @@ namespace TraktPlugin.TraktAPI.DataStructures
     {
         [DataMember(Name = "headshot")]
         public TraktImage HeadShot { get; set; }
+
+        [DataMember(Name = "fanart")]
+        public TraktImage Fanart { get; set; }
     }
 }
