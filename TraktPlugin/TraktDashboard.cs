@@ -101,7 +101,9 @@ namespace TraktPlugin
         #endregion
 
         #region Private Variables
-        
+
+        private static Object lockObject = new object();
+
         private long ActivityStartTime = 0;
 
         private Timer ActivityTimer = null;
@@ -150,48 +152,63 @@ namespace TraktPlugin
 
         private GUIFacadeControl GetFacade(int facadeID)
         {
-            int i = 0;
-            GUIFacadeControl facade = null;
-
-            // window init message does not work unless overridden from a guiwindow class
-            // so we need to be ensured that the window is fully loaded
-            // before we can get reference to a skin control
-            try
+            lock (lockObject)
             {
-                do
+                int i = 0;
+                GUIFacadeControl facade = null;
+
+                // window init message does not work unless overridden from a guiwindow class
+                // so we need to be ensured that the window is fully loaded
+                // before we can get reference to a skin control
+                try
                 {
-                    // get current window
-                    var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
+                    bool bReady;
+                    
+                    do
+                    {
+                        // get current window
+                        var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
 
-                    // get facade control
-                    facade = window.GetControl(facadeID) as GUIFacadeControl;
-                    if (facade == null) Thread.Sleep(100);
+                        // get facade control
+                        facade = window.GetControl(facadeID) as GUIFacadeControl;
 
-                    i++;
+                        // ensure we're ready for action
+                        if (!window.WindowLoaded || facade == null)
+                        {
+                            bReady = false;
+                            Thread.Sleep(100);
+                        }
+                        else
+                        {
+                            bReady = true;
+                        }
+
+                        i++;
+                    }
+                    while (i < 25 && !bReady);
                 }
-                while (i < 25 && facade == null);
-            }
-            catch (Exception ex)
-            {
-                TraktLogger.Error("MediaPortal failed to get the active control");
-                TraktLogger.Error(ex.StackTrace);
-            }
-
-            if (facade == null)
-            {
-                TraktLogger.Debug("Unable to find Facade [id:{0}], check that trakt skin settings are correctly defined!", facadeID.ToString());
-
-                // remove windows from future checks
-                foreach (var tc in TraktSkinSettings.DashboardTrendingCollection)
+                catch (Exception ex)
                 {
-                    tc.MovieWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
-                    tc.TVShowWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
+                    TraktLogger.Error("MediaPortal failed to get the active control");
+                    TraktLogger.Error(ex.StackTrace);
                 }
 
-                TraktSkinSettings.DashBoardActivityWindows.RemoveAll(d => d == GUIWindowManager.ActiveWindow.ToString());
-            }
+                if (facade == null)
+                {
+                    TraktLogger.Debug("Unable to find facade control [id:{0}], check that trakt skin settings are correctly defined!", facadeID.ToString());
 
-            return facade;
+                    // remove windows from future checks
+                    foreach (var tc in TraktSkinSettings.DashboardTrendingCollection)
+                    {
+                        tc.MovieWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
+                        tc.TVShowWindows.RemoveAll(w => w == GUIWindowManager.ActiveWindow.ToString());
+                    }
+
+                    TraktSkinSettings.DashBoardActivityWindows.RemoveAll(d => d == GUIWindowManager.ActiveWindow.ToString());
+                }
+
+                return facade;
+            }
         }
 
         private void GetStatistics()
@@ -477,49 +494,6 @@ namespace TraktPlugin
             TraktLogger.Debug("Finished Loading Activity facade");
         }
 
-        /// <summary>
-        /// Skinners can use this property to toggle visibility of trending facades/properties
-        /// </summary>
-        private void SetTrendingVisibility()
-        {
-            var window = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow);
-            var toggleButton = window.GetControl((int)TraktDashboardControls.ToggleTrendingCheckButton) as GUICheckButton;
-
-            // if skin does not have checkmark control to toggle trending then exit
-            if (toggleButton == null) return;
-
-            if (toggleButton != null)
-            {
-                var trendingShowsFacade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
-                var trendingMoviesFacade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
-
-                bool moviesVisible = TraktSettings.DashboardMovieTrendingActive;
-
-                toggleButton.Selected = moviesVisible;
-                GUIUtils.SetProperty("#Trakt.Dashboard.TrendingType.Active", moviesVisible ? "movies" : "shows");
-
-                if (trendingMoviesFacade != null)
-                {
-                    trendingMoviesFacade.Visible = moviesVisible;
-                    if (trendingMoviesFacade.FilmstripLayout != null) trendingMoviesFacade.FilmstripLayout.Visible = moviesVisible;
-                    if (trendingMoviesFacade.ListLayout != null) trendingMoviesFacade.ListLayout.Visible = moviesVisible;
-                    if (trendingMoviesFacade.AlbumListLayout != null) trendingMoviesFacade.AlbumListLayout.Visible = moviesVisible;
-                    if (trendingMoviesFacade.ThumbnailLayout != null) trendingMoviesFacade.ThumbnailLayout.Visible = moviesVisible;
-                    if (trendingMoviesFacade.CoverFlowLayout != null) trendingMoviesFacade.CoverFlowLayout.Visible = moviesVisible;
-                }
-
-                if (trendingShowsFacade != null)
-                {
-                    trendingShowsFacade.Visible = !moviesVisible;
-                    if (trendingShowsFacade.FilmstripLayout != null) trendingShowsFacade.FilmstripLayout.Visible = !moviesVisible;
-                    if (trendingShowsFacade.ListLayout != null) trendingShowsFacade.ListLayout.Visible = !moviesVisible;
-                    if (trendingShowsFacade.AlbumListLayout != null) trendingShowsFacade.AlbumListLayout.Visible = !moviesVisible;
-                    if (trendingShowsFacade.ThumbnailLayout != null) trendingShowsFacade.ThumbnailLayout.Visible = !moviesVisible;
-                    if (trendingShowsFacade.CoverFlowLayout != null) trendingShowsFacade.CoverFlowLayout.Visible = !moviesVisible;
-                }
-            }
-        }
-
         private void LoadTrendingMovies()
         {
             LoadTrendingMovies(false);
@@ -537,9 +511,6 @@ namespace TraktPlugin
 
             if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
-                // update toggle visibility
-                SetTrendingVisibility();
-
                 facade = GetFacade((int)TraktDashboardControls.TrendingMoviesFacade);
                 if (facade == null) return;
 
@@ -740,8 +711,6 @@ namespace TraktPlugin
             GUIMovieListItem.StopDownload = false;
             GUIMovieListItem.GetImages(movieImages);
 
-            SetTrendingVisibility();
-
             TraktLogger.Debug("Finished Loading Trending Movies facade");
         }
 
@@ -762,9 +731,6 @@ namespace TraktPlugin
 
             if (trendingSettings.FacadeType.ToLowerInvariant() != "none")
             {
-                // update toggle visibility
-                SetTrendingVisibility();
-
                 facade = GetFacade((int)TraktDashboardControls.TrendingShowsFacade);
                 if (facade == null) return;
 
@@ -908,7 +874,7 @@ namespace TraktPlugin
 
         private void LoadTrendingShowsFacade(IEnumerable<TraktShowTrending> trendingItems, GUIFacadeControl facade)
         {
-            if (TraktSkinSettings.DashboardTrendingCollection == null || !TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.MovieWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
+            if (TraktSkinSettings.DashboardTrendingCollection == null || !TraktSkinSettings.DashboardTrendingCollection.Exists(d => d.TVShowWindows.Contains(GUIWindowManager.ActiveWindow.ToString())))
                 return;
 
             // get trending settings
@@ -973,8 +939,6 @@ namespace TraktPlugin
             GUIShowListItem.StopDownload = false;
             GUIShowListItem.GetImages(showImages);
             
-            SetTrendingVisibility();
-
             TraktLogger.Debug("Finished Loading Trending Shows facade");
         }
 
@@ -2992,12 +2956,6 @@ namespace TraktPlugin
             switch (message.Message)
             {                   
                 case GUIMessage.MessageType.GUI_MSG_CLICKED:
-                    if (message.SenderControlId == (int)TraktDashboardControls.ToggleTrendingCheckButton)
-                    {
-                        TraktSettings.DashboardMovieTrendingActive = !TraktSettings.DashboardMovieTrendingActive;
-                        SetTrendingVisibility();
-                    }
-
                     if (message.Param1 != 7) return; // mouse click, enter key, remote ok, only
 
                     if (message.SenderControlId == (int)TraktDashboardControls.ActivityFacade)
