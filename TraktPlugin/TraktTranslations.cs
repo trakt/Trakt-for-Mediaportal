@@ -249,6 +249,7 @@ namespace TraktPlugin.GUI
         public static string Activity = "Activity";
         public static string Actor = "Actor";
         public static string Actors = "Actors";
+        public static string ActorAndRole = "{0} as {1}";
         public static string ActivityFriendsDesc = "See what your friends are up to...";
         public static string ActivityFriendsAndMeDesc = "See what you and your friends are up to...";
         public static string ActivityCommunityDesc = "See what the community is up to...";
@@ -290,6 +291,9 @@ namespace TraktPlugin.GUI
         public static string AddShowToList = "Add Show to List";
         public static string AddEpisodeToList = "Add Episode to List";
         public static string AddThisItemToWatchList = "Add this item to your watchlist?";
+        public static string AdditionalPhotography = "Additional Photography";
+        public static string Administration = "Administration";
+        public static string ADRAndDubbing = "ADR and Dubbing";
         public static string Age = "Age";
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
@@ -301,16 +305,32 @@ namespace TraktPlugin.GUI
         public static string ApproveFollowerMessage = "Would you like to allow user {0}\nto follow you?";
         public static string ApproveFollowerAndFollowBackMessage = "Would you like to allow user {0}\nto follow you and follow user back?";
         public static string AdvancedSettings = "Advanced Settings";
+        public static string Animation = "Animation";
+        public static string Art = "Art";
+        public static string ArtDepartmentAssistant = "Art Department Assistant";
+        public static string ArtDepartmentCoordinator = "Art Department Coordinator";
+        public static string ArtDepartmentManager = "Art Department Manager";
+        public static string ArtDirection = "Art Direction";
+        public static string AssistantArtDirector = "Assistant Art Director";
+        public static string AssistantDirector = "Assistant Director";
+        public static string AssociateProducer = "Associate Producer";
 
         // B
+        public static string BestBoyElectric = "Best Boy Electric";
         public static string BufferingTrailer = "Buffering Trailer";
         public static string Biography = "Biography";
         public static string Birthday = "Birthday";
         public static string BirthDate = "Birth Date";
+        public static string BoomOperator = "Boom Operator";
         public static string Born = "Born";
         public static string BirthPlace = "Birth Place";
 
         // C
+        public static string Camera = "Camera";
+        public static string CameraDepartmentManager = "Camera Department Manager";
+        public static string CameraOperator = "Camera Operator";
+        public static string CameraSupervisor = "Camera Supervisor";
+        public static string CameraTechnician = "Camera Technician";
         public static string Cancel = "Cancel";
         public static string Canceled = "Cancelled";
         public static string Calendar = "Calendar";
@@ -319,6 +339,9 @@ namespace TraktPlugin.GUI
         public static string CalendarAllShows = "All Shows";
         public static string Certification = "Certification";
         public static string Cast = "Cast";
+        public static string Casting = "Casting";
+        public static string Character = "Character";
+        public static string Characters = "Characters";
         public static string ChangeView = "Change View...";
         public static string ChangeLayout = "Change Layout...";
         public static string Create = "Create";
@@ -333,17 +356,25 @@ namespace TraktPlugin.GUI
         public static string CreatingList = "Creating List";
         public static string CreateList = "Create a new List...";
         public static string CreateAccountWebsite = "Sorry, this feature is no longer\navailable. Please use the website\nto create an account.";
+        public static string CreatureDesign = "Creature Design";
         public static string Comment = "Comment";
         public static string Comments = "Comments";
         public static string Community = "Community";
         public static string CommunityActivity = "Community Activity";
+        public static string Compositors = "Compositors";
+        public static string ConceptualDesign = "Conceptual Design";
+        public static string ConstructionCoordinator = "Construction Coordinator";
         public static string ConfirmDeleteList = "Are you sure you want to delete\nthis list?";
         public static string ConfirmDeleteListItem = "Are you sure you want to delete\nthis item from the list?";
         public static string Continuing = "Continuing";
         public static string CopyList = "Copy List...";
+        public static string CostumeAndMakeUp = "Costume and Make-up";
+        public static string CostumeDesign = "Costume Design";
+        public static string CostumeSupervisor = "Costume Supervisor";
         public static string Country = "Country";
         public static string CurrentPage = "Current Page";
         public static string CustomLists = "Custom Lists";
+        public static string Crew = "Crew";
 
         // D
         public static string Dashboard = "Dashboard";
@@ -360,18 +391,30 @@ namespace TraktPlugin.GUI
         public static string DenyFollowRequest = "Deny Follow Request from user {0}?";
         public static string DeleteFriend = "Delete Friend";
         public static string DeleteFriendMessage = "Are you sure you want to delete\n{0} as a friend?";
+        public static string DialogueEditor = "Dialogue Editor";
+        public static string DigitalIntermediate = "Digital Intermediate";
         public static string Died = "Died";
+        public static string DigitalEffectsSupervisor = "Digital Effects Supervisor";
+        public static string DigitalProducer = "Digital Producer";
+        public static string Directing = "Directing";
         public static string Director = "Director";
         public static string Directors = "Directors";
+        public static string DirectorOfPhotography = "Director of Photography";
         public static string DisconnectAccount = "Disconnect Account: {0}";
         public static string DismissRecommendation = "Dismiss this Recommendation";
         public static string DontIncludeMeInFriendsActivity = "Don't Include Me in Friends Activity";
         public static string DownloadFanart = "Download Fanart";
         public static string DownloadFullSizeFanart = "Download Original Size Fanart";
+        public static string Driver = "Driver";
 
         // E
+        public static string Editor = "Editor";
+        public static string EditorialCoordinator = "Editorial Coordinator";
+        public static string EditorialManager = "Editorial Manager";
+        public static string EditorialProductionAssistant = "Editorial Production Assistant";
         public static string EditList = "Edit List...";
         public static string EditingList = "Editing List";
+        public static string Electrician = "Electrician";
         public static string Email = "Email";
         public static string Ended = "Ended";
         public static string EndYear = "End Year: {0}";
@@ -381,6 +424,8 @@ namespace TraktPlugin.GUI
         public static string Error = "Trakt Error";
         public static string ErrorCalendar = "Error getting calendar";
         public static string ErrorUserProfile = "Error getting profile and statistics for user";
+        public static string ExecutiveInChargeOfPostProduction = "Executive In Charge Of Post Production";
+        public static string ExecutiveInChargeOfProduction = "Executive In Charge Of Production";
         public static string ExecutiveProducer = "Executive Producer";
         public static string ErrorGeneral = "There was an error getting updated data from online, try again later";
 
@@ -392,6 +437,7 @@ namespace TraktPlugin.GUI
         public static string FeatureNotAvailable = "Sorry, this feature is currently not available";
         public static string Filters = "Filters";
         public static string FirstAired = "First Aired";
+        public static string Foley = "Foley";
         public static string Follow = "Follow";
         public static string Followed = "Followed";
         public static string Follower = "Follower";
@@ -411,6 +457,7 @@ namespace TraktPlugin.GUI
         public static string FullName = "Full Name";
 
         // G
+        public static string Gaffer = "Gaffer";
         public static string Gender = "Gender";
         public static string GenderMale = "Male";
         public static string GenderFemale = "Female";
@@ -468,6 +515,8 @@ namespace TraktPlugin.GUI
         public static string GettingFriendsWatchedHistory = "Getting Friends Watched History";
         public static string GettingLists = "Getting Lists";
         public static string GettingListItems = "Getting List Items";
+        public static string GettingMovieCredits = "Getting Movie Credits";
+        public static string GettingShowCredits = "Getting Show Credits";
         public static string GettingSearchResults = "Getting Search Results";
         public static string GettingTrendingMovies = "Getting Trending Movies";
         public static string GettingTrendingShows = "Getting Trending Shows";
@@ -484,12 +533,17 @@ namespace TraktPlugin.GUI
         public static string GettingRelatedShows = "Getting Related Shows";
         public static string GettingTrailerUrls = "Getting Trailer Urls";
         public static string GettingUserProfile = "Getting User Profile";
+        public static string Greensman = "Greensman";
+        public static string Grip = "Grip";
         public static string GuestStar = "Gueststar";
         public static string GuestStars = "Gueststars";
 
         // H
+        public static string HairSetup = "Hair Setup";
+        public static string HairStylist = "Hair Stylist";
         public static string Hate = "Hate";
         public static string Hated = "Hated";
+        public static string HelicopterCamera = "Helicopter Camera";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watchlist";
         public static string HideAdded = "Hide Added";
         public static string HideCommented = "Hide Commented";
@@ -518,6 +572,7 @@ namespace TraktPlugin.GUI
         public static string Items = "Items";
 
         // J
+        public static string Job = "Job";
         public static string JoinDate = "Join Date";
         public static string Joined = "Joined";
 
@@ -533,8 +588,10 @@ namespace TraktPlugin.GUI
         public static string LibrarySyncStarted = "Manual Library Sync has started";
         public static string LibraryAndPlaybackSyncAlreadyRunning = "Library and Playback Sync is already running, try again later";
         public static string LibraryAndPlaybackSyncStarted = "Manual Library and Playback Sync has started";
+        public static string LightingTechnician = "Lighting Technician";
         public static string Like = "Like";
         public static string Likes = "Likes";
+        public static string LineProducer = "Line Producer";
         public static string List = "List";
         public static string ListNameAlreadyExists = "List with this name already exists!";
         public static string Lists = "Lists";
@@ -546,15 +603,21 @@ namespace TraktPlugin.GUI
         
 
         // M
+        public static string MakeupArtist = "Makeup Artist";
         public static string MarkAsWatched = "Mark as Watched";
         public static string MarkAsUnWatched = "Mark as UnWatched";
         public static string Me = "Me";
         public static string Menu = "Menu";
         public static string Minutes = "Minutes";
         public static string Minute = "Minute";
+        public static string Modeling = "Modeling";
         public static string Movie = "Movie";
         public static string Movies = "Movies";
         public static string MultiSelectDialog = "Multi-Select Dialog";
+        public static string Music = "Music";
+        public static string MusicEditor = "Music Editor";
+        public static string MovieCredits = "Movie Credits";
+        public static string MovieCount = "{0} Movies";
 
         // N
         public static string Name = "Name";
@@ -562,7 +625,8 @@ namespace TraktPlugin.GUI
         public static string NextEpisode = "Next Episode";
         public static string NextPage = "Next Page";
         public static string NextWeek = "Next Week";
-        public static string NoActivities = "No Activity Found.";
+        public static string NoActivities = "No activity Found.";
+        public static string NoCreditsFound = "No credits Found.";
         public static string NoPersonBiography = "There is no biography entered for this person.";
         public static string NoEpisodesInSeason = "No Episodes are available in Season.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
@@ -595,12 +659,16 @@ namespace TraktPlugin.GUI
         public static string NoRelatedMovies = "No Related movies found for {0}!";
         public static string NoRelatedShows = "No Related shows found for {0}!";
         public static string No = "No";
+        public static string Novel = "Novel";
 
         // O
         public static string Off = "Off";
         public static string OK = "OK";
         public static string On = "On";
         public static string Overview = "Overview";
+        public static string Other = "Other";
+        public static string OriginalStory = "Original Story";
+        public static string OriginalMusicComposer = "Original Music Composer";
 
         // P
         public static string Page = "Page";
@@ -610,6 +678,7 @@ namespace TraktPlugin.GUI
         public static string Percentage = "Percentage";
         public static string Protected = "Protected";
         public static string Person = "Person";
+        public static string PersonSummary = "Person Summary";
         public static string PersonWatching = "1 Person Watching";
         public static string PeopleWatching = "{0} People Watching";
         public static string Plays = "Plays";
@@ -620,6 +689,7 @@ namespace TraktPlugin.GUI
         public static string Popularity = "Popularity";
         public static string PopularShows = "Popular Shows";
         public static string PopularMovies = "Popular Movies";
+        public static string PostProductionSupervisor = "Post Production Supervisor";
         public static string Public = "Public";
         public static string PreviousEpisode = "Previous Episode";
         public static string PreviousPage = "Previous Page";
@@ -630,6 +700,14 @@ namespace TraktPlugin.GUI
         public static string PrivacyPrivate = "Only you can view this list";
         public static string Producer = "Producer";
         public static string Producers = "Producers";
+        public static string Production = "Production";
+        public static string ProductionDesign = "Production Design";
+        public static string ProductionManager = "Production Manager";
+        public static string ProductionOfficeAssistant = "Production Office Assistant";
+        public static string ProductionOfficeCoordinator = "Production Office Coordinator";
+        public static string ProductionSupervisor = "Production Supervisor";
+        public static string PropMaker = "Prop Maker";
+        public static string PropertyMaster = "Property Master";
         public static string Profile = "Profile";
         
         // R
@@ -656,6 +734,7 @@ namespace TraktPlugin.GUI
         public static string Recommendations = "Recommendations";
         public static string RecommendedMovies = "Recommended Movies";
         public static string RecommendedShows = "Recommended Shows";
+        public static string RecordingSupervision = "Recording Supervision";
         public static string Refresh = "Refresh";
         public static string RelatedMovies = "Related Movies";
         public static string RelatedShows = "Related Shows";
@@ -674,11 +753,17 @@ namespace TraktPlugin.GUI
         public static string Replies = "Replies";
         public static string Requests = "Requests";
         public static string ReturningSeries = "Returning Series";
+        public static string RiggingGaffer = "Rigging Gaffer";
+        public static string RiggingGrip = "Rigging Grip";
         public static string Runtime = "Runtime";
 
         // S
+        public static string ScenicArtist = "Scenic Artist";
+        public static string ScoreEngineer = "Score Engineer";
+        public static string Screenplay = "Screenplay";
         public static string Score = "Score";
         public static string Scrobble = "Scrobble";
+        public static string Sculptor = "Sculptor";
         public static string SearchWithMpNZB = "Search NZB";
         public static string SearchTorrent = "Search Torrent";
         public static string Season = "Season";
@@ -694,18 +779,25 @@ namespace TraktPlugin.GUI
         public static string SearchForFriend = "Search for Friend...";
         public static string SearchForUser = "Search for User...";
         public static string SearchTypes = "Search Types";
+        public static string SecondUnit = "Second Unit";
         public static string SendFriendRequest = "Send friend request to {0}?";
         public static string SendFollowRequest = "Send follow request to {0}?";
         public static string SelectLists = "Select Lists";
         public static string SelectUser = "Select User";
         public static string Series = "Series";
         public static string SeriesPlural = "Series";
+        public static string SetCostumer = "Set Costumer";
+        public static string SetDecoration = "Set Decoration";
+        public static string SetDesigner = "Set Designer";
+        public static string SetDressingArtist = "Set Dressing Artist";
         public static string SetPassword = "Your trakt password is not set, would\nyou like to set it now?";
         public static string Settings = "Settings";
         public static string Shout = "Shout";
         public static string Shouts = "Shouts";
         public static string Show = "Show";
         public static string Shows = "Shows";
+        public static string ShowCredits = "Show Credits";
+        public static string ShowCount = "{0} Shows";
         public static string ShowTVShowsInWatchlist = "Show TV Shows in WatchList";
         public static string ShowSpoilers = "Show Spoilers";
         public static string ShowFriendActivity = "Show Friend Activity";
@@ -794,19 +886,38 @@ namespace TraktPlugin.GUI
         public static string SortBy = "Sort By: {0}";
         public static string SortSeasonsAscending = "Sort Seasons in Ascending order";
         public static string SortSeasonsDescending = "Sort Seasons in Descending order";
+        public static string Sound = "Sound";
+        public static string SoundDesigner = "Sound Designer";
+        public static string SoundEditor = "Sound Editor";
+        public static string SoundEffectsEditor = "Sound Effects Editor";
+        public static string SoundMixer = "Sound Mixer";
+        public static string SoundReRecordingMixer = "Sound Re-Recording Mixer";
         public static string Specials = "Specials";
+        public static string SpecialEffects = "Special Effects";
+        public static string SpecialEffectsCoordinator = "Special Effects Coordinator";
         public static string StartDate = "Start Date";
         public static string StartLibrarySync = "Start Library Sync";
         public static string StartLibraryAndPlaybackSync = "Start Library and Playback Sync";
         public static string StartPlaybackSync = "Start Playback Sync";
         public static string Status = "Status";
+        public static string StillPhotographer = "Still Photographer";
+        public static string Story = "Story";
+        public static string Storyboard = "Storyboard";
+        public static string StuntCoordinator = "Stunt Coordinator";
+        public static string Stunts = "Stunts";
+        public static string SupervisingSoundEditor = "Supervising Sound Editor";
         public static string Synchronize = "Synchronize";
         public static string SynchronizeNow = "New Plugin Handlers have been added.\nWould you like to Synchronize your\nlibraries now?";
 
         // T
+        public static string TechnicalSupervisor = "Technical Supervisor";
+        public static string Thanks = "Thanks";
         public static string Timeout = "Timeout";
         public static string TotalPages = "Total Pages";
         public static string TotalItemsPerPage = "Total Items Per Page";
+        public static string TransportationCaptain = "Transportation Captain";
+        public static string TransportationCoCaptain = "Transportation Co-Captain";
+        public static string TransportationCoordinator = "Transportation Coordinator";
         public static string Trending = "Trending";
         public static string TrendingShows = "Trending Shows";
         public static string TrendingMovies = "Trending Movies";
@@ -849,7 +960,17 @@ namespace TraktPlugin.GUI
         public static string UserRatingsDistribution = "Ratings distribution 1 to 10 hearts";
 
         // V
+        public static string VideoAssistOperator = "Video Assist Operator";
         public static string View = "View";
+        public static string VFXArtist = "VFX Artist";
+        public static string VFXProductionCoordinator = "VFX Production Coordinator";
+        public static string VFXSupervisor = "VFX Supervisor";
+        public static string VisualDevelopment = "Visual Development";
+        public static string VisualEffectsDesignConsultant = "Visual Effects Design Consultant";
+        public static string VisualEffects = "Visual Effects";
+        public static string VisualEffectsEditor = "Visual Effects Editor";
+        public static string VisualEffectsProducer = "Visual Effects Producer";
+        public static string VisualEffectsSupervisor = "Visual Effects Supervisor";
         public static string Votes = "Votes";
         public static string ValidUsername = "You must enter a valid username!";
         public static string ValidPassword = "You must enter a valid password!";
@@ -867,6 +988,7 @@ namespace TraktPlugin.GUI
         public static string WatchListEpisodes = "Episode Watchlist";
         public static string Writer = "Writer";
         public static string Writers = "Writers";
+        public static string Writing = "Writing";
 
         // Y
         public static string Year = "Year";

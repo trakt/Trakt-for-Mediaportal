@@ -102,7 +102,6 @@ namespace TraktPlugin.TraktAPI
         public const string ShowSummary = "https://api-v2launch.trakt.tv/shows/{0}?extended=full,images";
         public const string MovieSummary = "https://api-v2launch.trakt.tv/movies/{0}?extended=full,images";
         public const string EpisodeSummary = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}?extended=full,images";
-        public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full,images";
 
         public const string ShowSeasons = "https://api-v2launch.trakt.tv/shows/{0}/seasons?extended={1}";
         public const string SeasonEpisodes = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
@@ -118,6 +117,13 @@ namespace TraktPlugin.TraktAPI
         public const string ShowRatings = "https://api-v2launch.trakt.tv/shows/{0}/ratings";
         public const string SeasonRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/ratings";
         public const string EpisodeRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/ratings";
+
+        public const string PersonMovieCredits = "https://api-v2launch.trakt.tv/people/{0}/movies?extended=full,images";
+        public const string PersonShowCredits = "https://api-v2launch.trakt.tv/people/{0}/shows?extended=full,images";
+        public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full,images";
+
+        public const string MoviePeople = "https://api-v2launch.trakt.tv/movie/{0}/people?extended=full,images";
+        public const string ShowPeople = "https://api-v2launch.trakt.tv/show/{0}/people?extended=full,images";
 
         public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}?page={1}&limit={2}";
         public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}?page={1}&limit={2}";

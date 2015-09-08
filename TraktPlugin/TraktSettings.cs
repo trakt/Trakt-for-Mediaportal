@@ -98,10 +98,12 @@ namespace TraktPlugin
         public static SortBy SortByPopularMovies { get; set; }
         public static SortBy SortByRecommendedMovies { get; set; }
         public static SortBy SortByWatchListMovies { get; set; }
+        public static SortBy SortByCreditMovies { get; set; }
         public static SortBy SortByTrendingShows { get; set; }
         public static SortBy SortByPopularShows { get; set; }
         public static SortBy SortByRecommendedShows { get; set; }
         public static SortBy SortByWatchListShows { get; set; }
+        public static SortBy SortByCreditShows { get; set; }
         public static bool EnableJumpToForTVShows { get; set; }
         public static bool MyFilmsCategories { get; set; }
         public static bool SortSeasonsAscending { get; set; }
@@ -124,6 +126,14 @@ namespace TraktPlugin
         public static bool PopularShowsHideWatchlisted { get; set; }
         public static bool PopularShowsHideCollected { get; set; }
         public static bool PopularShowsHideRated { get; set; }
+        public static bool CreditMoviesHideWatched { get; set; }
+        public static bool CreditMoviesHideWatchlisted { get; set; }
+        public static bool CreditMoviesHideCollected { get; set; }
+        public static bool CreditMoviesHideRated { get; set; }
+        public static bool CreditShowsHideWatched { get; set; }
+        public static bool CreditShowsHideWatchlisted { get; set; }
+        public static bool CreditShowsHideCollected { get; set; }
+        public static bool CreditShowsHideRated { get; set; }
         public static int DefaultNetworkView { get; set; }
         public static int RecentWatchedMoviesDefaultLayout { get; set; }
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
@@ -158,6 +168,8 @@ namespace TraktPlugin
         public static int MaxUserCommentsRequest { get; set; }
         public static ActivityFilter DashboardActivityFilter { get; set; }
         public static bool SkipMoviesWithNoIdsOnSync { get; set; }
+        public static int MovieCreditsDefaultLayout { get; set; }
+        public static int ShowCreditsDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -251,10 +263,12 @@ namespace TraktPlugin
         private const string cSortByPopularMovies = "SortByPopularMovies";
         private const string cSortByRecommendedMovies = "SortByRecommendedMovies";
         private const string cSortByWatchListMovies = "SortByWatchListMovies";
+        private const string cSortByCreditMovies = "SortByCreditMovies";
         private const string cSortByTrendingShows = "SortByTrendingShows";
         private const string cSortByPopularShows = "SortByPopularShows";
         private const string cSortByRecommendedShows = "SortByRecommendedShows";
         private const string cSortByWatchListShows = "SortByWatchListShows";
+        private const string cSortByCreditShows = "SortByCreditShows";
         private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         private const string cMyFilmsCategories = "MyFilmsCategories";
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
@@ -277,6 +291,14 @@ namespace TraktPlugin
         private const string cPopularShowsHideWatchlisted = "PopularShowsHideWatchlisted";
         private const string cPopularShowsHideCollected = "PopularShowsHideCollected";
         private const string cPopularShowsHideRated = "PopularShowsHideRated";
+        private const string cCreditMoviesHideWatched = "CreditMoviesHideWatched";
+        private const string cCreditMoviesHideWatchlisted = "CreditMoviesHideWatchlisted";
+        private const string cCreditMoviesHideCollected = "CreditMoviesHideCollected";
+        private const string cCreditMoviesHideRated = "CreditMoviesHideRated";
+        private const string cCreditShowsHideWatched = "CreditShowsHideWatched";
+        private const string cCreditShowsHideWatchlisted = "CreditShowsHideWatchlisted";
+        private const string cCreditShowsHideCollected = "CreditShowsHideCollected";
+        private const string cCreditShowsHideRated = "CreditShowsHideRated";
         private const string cDefaultNetworkView = "DefaultNetworkView";
         private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
@@ -311,6 +333,8 @@ namespace TraktPlugin
         private const string cMaxUserCommentsRequest = "MaxUserCommentsRequest";
         private const string cDashboardActivityFilter = "DashboardActivityFilter";
         private const string cSkipMoviesWithNoIdsOnSync = "SkipMoviesWithNoIdsOnSync";
+        private const string cMovieCreditsDefaultLayout = "MovieCreditsDefaultLayout";
+        private const string cShowCreditsDefaultLayout = "ShowCreditsDefaultLayout";
         #endregion
         
         #region Properties
@@ -690,6 +714,18 @@ namespace TraktPlugin
                 MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
                 DashboardActivityFilter = xmlreader.GetValueAsString(cTrakt, cDashboardActivityFilter, "{}").FromJSON<ActivityFilter>();
                 SkipMoviesWithNoIdsOnSync = xmlreader.GetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, true);
+                MovieCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cMovieCreditsDefaultLayout, 0);
+                ShowCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cShowCreditsDefaultLayout, 0);
+                SortByCreditMovies = xmlreader.GetValueAsString(cTrakt, cSortByCreditMovies, "{\"Field\": 7,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByCreditShows = xmlreader.GetValueAsString(cTrakt, cSortByCreditShows, "{\"Field\": 7,\"Direction\": 1}").FromJSON<SortBy>();
+                CreditMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cCreditMoviesHideWatched, false);
+                CreditMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cCreditMoviesHideWatchlisted, false);
+                CreditMoviesHideCollected = xmlreader.GetValueAsBool(cTrakt, cCreditMoviesHideCollected, false);
+                CreditMoviesHideRated = xmlreader.GetValueAsBool(cTrakt, cCreditMoviesHideRated, false);
+                CreditShowsHideWatched = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideWatched, false);
+                CreditShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideWatchlisted, false);
+                CreditShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideCollected, false);
+                CreditShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideRated, false);
             }
 
             // initialise API settings
@@ -867,6 +903,18 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxUserCommentsRequest, MaxUserCommentsRequest);
                 xmlwriter.SetValue(cTrakt, cDashboardActivityFilter, DashboardActivityFilter.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, SkipMoviesWithNoIdsOnSync);
+                xmlwriter.SetValue(cTrakt, cMovieCreditsDefaultLayout, MovieCreditsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cShowCreditsDefaultLayout, ShowCreditsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cSortByCreditMovies, SortByCreditMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByCreditShows, SortByCreditShows.ToJSON());
+                xmlwriter.SetValueAsBool(cTrakt, cCreditMoviesHideWatched, CreditMoviesHideWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditMoviesHideWatchlisted, CreditMoviesHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditMoviesHideCollected, CreditMoviesHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditMoviesHideRated, CreditMoviesHideRated);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideWatched, CreditShowsHideWatched);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideWatchlisted, CreditShowsHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideCollected, CreditShowsHideCollected);
+                xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideRated, CreditShowsHideRated);
             }
 
             Settings.SaveCache();

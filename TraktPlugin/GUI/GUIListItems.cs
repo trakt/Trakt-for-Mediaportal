@@ -178,6 +178,18 @@ namespace TraktPlugin.GUI
                             };
                             GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SeasonEpisodes, loadingParam.ToJSON());
                         }
+                        else if (SelectedType == TraktItemType.person)
+                        {
+                            var selectedItem = Facade.SelectedListItem;
+                            if (selectedItem == null) return;
+
+                            var listItem = selectedItem.TVTag as TraktListItem;
+                            if (listItem == null) return;
+
+                            // if we already have the person summary, parse it along to the window
+                            GUIPersonSummary.CurrentPerson = listItem.Person;
+                            GUIWindowManager.ActivateWindow((int)TraktGUIWindows.PersonSummary);
+                        }
                     }
                     break;
 
@@ -780,8 +792,6 @@ namespace TraktPlugin.GUI
                 {
                     var userListItems = result as IEnumerable<TraktListItem>;
                     SendListItemsToFacade(userListItems);
-
-                    CurrentListItems = userListItems.ToList();
                 }
             }, Translation.GettingListItems, true);
         }
@@ -797,6 +807,8 @@ namespace TraktPlugin.GUI
                 GUIWindowManager.ShowPreviousWindow();
                 return;
             }
+
+            CurrentListItems = listItems.ToList();
 
             if (listItems.Count() == 0)
             {
@@ -927,7 +939,7 @@ namespace TraktPlugin.GUI
                     images.ShowImages = listItem.Show.Images;
                     break;
                 case "person":
-                    images.PoepleImages = listItem.Person.Images;
+                    images.PeopleImages = listItem.Person.Images;
                     break;
             }
             return images;
@@ -1053,7 +1065,10 @@ namespace TraktPlugin.GUI
                 case "person":
                     SelectedType = TraktItemType.person;
                     PublishPersonSkinProperties(listItem);
-                    GUIImageHandler.LoadFanart(backdrop, null);
+                    if (listItem.Person.Images != null && listItem.Person.Images.Fanart != null)
+                    {
+                        GUIImageHandler.LoadFanart(backdrop, listItem.Person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart));
+                    }
                     break;
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());

@@ -1861,14 +1861,21 @@ namespace TraktPlugin.TraktHandlers
             if (!nodeName.StartsWith("$"))
                 nodeName = string.Format("${{{0}}}", name);
 
-            // check if the node exists before removing
-            var node = rootNode.Children.FirstOrDefault(n => n.Name == nodeName);
-            if (node == null) return;
+            try
+            {
+                // check if the node exists before removing
+                var node = rootNode.Children.FirstOrDefault(n => n.Name == nodeName);
+                if (node == null) return;
 
-            rootNode.Children.Remove(node);
-            rootNode.Children.Commit();            
+                rootNode.Children.Remove(node);
+                rootNode.Children.Commit();
 
-            node.Delete();
+                node.Delete();
+            }
+            catch (Exception ex)
+            {
+                TraktLogger.Error("Failed to remove node from MovingPictures, ParentNode='{0}', Name='{1}', Error='{2}'", rootNode, name, ex.Message);
+            }
         }
 
         /// <summary>
@@ -2310,7 +2317,8 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var node in currentNodes)
                 {
                     if (node.Name == string.Format("${{{0}}}", GUI.Translation.WatchList) ||
-                        node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations))
+                        node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations) ||
+                        node.Name == "$(Watchlist)" || node.Name == "${Recommendations}")
                         continue;
 
                     if (!customLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))
@@ -2384,7 +2392,8 @@ namespace TraktPlugin.TraktHandlers
                 foreach (var node in currentNodes)
                 {
                     if (node.Name == string.Format("${{{0}}}", GUI.Translation.WatchList) ||
-                        node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations))
+                        node.Name == string.Format("${{{0}}}", GUI.Translation.Recommendations) ||
+                        node.Name == "$(Watchlist)" || node.Name == "${Recommendations}")
                         continue;
 
                     if (!customLists.Keys.Any(key => string.Format("${{{0}}}", key.Name) == node.Name))

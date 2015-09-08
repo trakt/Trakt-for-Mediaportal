@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Linq;
-using System.Text;
 using MediaPortal.Configuration;
-using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 
@@ -64,7 +60,8 @@ namespace TraktPlugin.GUI
         SeasonThumb,
         EpisodeImage,
         Avatar,
-        Headshot
+        PersonHeadshot,
+        PersonFanart
     }
 
     /// <summary>
@@ -76,7 +73,7 @@ namespace TraktPlugin.GUI
         public TraktShowImages ShowImages { get; set; }
         public TraktMovieImages MovieImages { get; set; }
         public TraktSeasonImages SeasonImages { get; set; }
-        public TraktPersonImages PoepleImages { get; set; }
+        public TraktPersonImages PeopleImages { get; set; }
         public TraktUserImages UserImages { get; set; }
 
         /// <summary>
@@ -128,9 +125,14 @@ namespace TraktPlugin.GUI
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\Avatars");
                     break;
 
-                case ArtworkType.Headshot:
+                case ArtworkType.PersonHeadshot:
                     filename = image.ThumbSize.ToClearUrl();
                     folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\People");
+                    break;
+
+                case ArtworkType.PersonFanart:
+                    filename = TraktSettings.DownloadFullSizeFanart ? image.FullSize.ToClearUrl() : image.MediumSize.ToClearUrl();
+                    folder = Config.GetSubFolder(Config.Dir.Thumbs, @"Trakt\People\Fanart");
                     break;
 
                 case ArtworkType.SeasonPoster:

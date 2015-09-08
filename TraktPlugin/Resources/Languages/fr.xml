@@ -14,7 +14,7 @@
   <string name="ActivityFollowingDesc">Voir l\'activité des personnes que vous suivez...</string>
   <string name="ActivityWatching">{0} regarde {1}</string>
   <string name="ActivityWatched">{0} a regardé {1}</string>
-  <string name="ActivityWatchedWithPlays">0} {1} Visionné [{2} Lu]</string>
+  <string name="ActivityWatchedWithPlays">{0} {1} Visionné [{2} Lu]</string>
   <string name="ActivityCheckedIn">{0} a enregistré {1}</string>
   <string name="ActivityCollected">{0} a collecté {1}</string>
   <string name="ActivityCollectedEpisodes">{0} a collecté {1} épisodes de {2}</string>
@@ -27,8 +27,8 @@
   <string name="ActivityAddToList">{0} a ajouté {1} à {2}</string>
   <string name="ActivityCreatedList">{0} a créé {1}</string>
   <string name="ActivityUpdatedList">{0} mises à jour sur {1}</string>
-  <string name="ActivityUpdatedListWithItemCountSingular">{0} mises à jour sur {1}  [{2} éléments]</string>
-  <string name="ActivityUpdatedListWithItemCount">{0} mises à jour sur {1}  [{2} éléments]</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} mises à jour sur {1} [{2} éléments]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} mises à jour sur {1} [{2} éléments]</string>
   <string name="ActivityReview">{0} a commenté {1}</string>
   <string name="ActivityShouts">{0} messages sur {1}</string>
   <string name="ActivityPaused">{0} {1} en pause [{2}%]</string>

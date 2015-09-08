@@ -1848,6 +1848,28 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region People
+
+        public static TraktPersonSummary GetPersonSummary(string person)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.PersonSummary, person));
+            return response.FromJSON<TraktPersonSummary>();
+        }
+
+        public static TraktPersonMovieCredits GetMovieCreditsForPerson(string person)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.PersonMovieCredits, person));
+            return response.FromJSON<TraktPersonMovieCredits>();
+        }
+
+        public static TraktPersonShowCredits GetShowCreditsForPerson(string person)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.PersonShowCredits, person));
+            return response.FromJSON<TraktPersonShowCredits>();
+        }
+
+        #endregion
+
         #region Web Helpers
 
         static string ReplaceOnTrakt(string address, string postData)

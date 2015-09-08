@@ -124,6 +124,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
+                                if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Screen");
                             }
@@ -142,6 +144,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                             {
+                                if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Fanart");
                             }

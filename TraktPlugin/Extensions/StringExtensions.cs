@@ -10,6 +10,7 @@ namespace TraktPlugin.Extensions
         public static string ToSlug(this string phrase)
         {
             if (phrase == null) return string.Empty;
+            if (phrase.IsNumber()) return phrase;
 
             var s = phrase.RemoveDiacritics().ToLower();
             s = Regex.Replace(s, @"[^a-z0-9\s-]", string.Empty);        // remove invalid characters

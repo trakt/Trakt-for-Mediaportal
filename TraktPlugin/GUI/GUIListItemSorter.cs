@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 
@@ -22,7 +18,7 @@ namespace TraktPlugin.GUI
     #endregion
 
     #region Movie Sorter
-    public class GUIListItemMovieSorter : IComparer<TraktMovieTrending>, IComparer<TraktMovieSummary>, IComparer<TraktMovieWatchList>
+    public class GUIListItemMovieSorter : IComparer<TraktMovieTrending>, IComparer<TraktMovieSummary>, IComparer<TraktMovieWatchList>, IComparer<TraktPersonMovieCast>, IComparer<TraktPersonMovieJob>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -119,11 +115,20 @@ namespace TraktPlugin.GUI
             return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
         }
 
+        public int Compare(TraktPersonMovieJob movieX, TraktPersonMovieJob movieY)
+        {
+            return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
+        }
+
+        public int Compare(TraktPersonMovieCast movieX, TraktPersonMovieCast movieY)
+        {
+            return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
+        }
     }
     #endregion
 
     #region Show Sorter
-    public class GUIListItemShowSorter : IComparer<TraktShowTrending>, IComparer<TraktShowSummary>, IComparer<TraktShowWatchList>
+    public class GUIListItemShowSorter : IComparer<TraktShowTrending>, IComparer<TraktShowSummary>, IComparer<TraktShowWatchList>, IComparer<TraktPersonShowCast>, IComparer<TraktPersonShowJob>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -217,6 +222,16 @@ namespace TraktPlugin.GUI
                 return rtn;
             }
 
+            return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
+        }
+
+        public int Compare(TraktPersonShowCast showX, TraktPersonShowCast showY)
+        {
+            return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
+        }
+
+        public int Compare(TraktPersonShowJob showX, TraktPersonShowJob showY)
+        {
             return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
         }
     }

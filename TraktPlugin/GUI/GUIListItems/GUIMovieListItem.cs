@@ -26,7 +26,7 @@ namespace TraktPlugin.GUI
         public string Date { get; set; }
         public string Action { get; set; }
 
-        public TraktMovie Movie { get; set; }
+        public TraktMovieSummary Movie { get; set; }
 
         public bool IsNextPageItem { get; set; }
         public bool IsPrevPageItem { get; set; }
@@ -102,6 +102,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
+                                //if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Poster");
                             }
@@ -120,6 +122,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                             {
+                                //if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Fanart");
                             }

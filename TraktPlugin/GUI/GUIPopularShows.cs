@@ -286,7 +286,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)MediaContextMenuItem.Filters):
-                    if (GUICommon.ShowTVShowFiltersMenu())
+                    if (ShowTVShowFiltersMenu())
                     {
                         PreviousSelectedIndex = CurrentPage == 1 ? 0 : 1;
                         UpdateButtonState();

@@ -33,7 +33,7 @@ namespace TraktPlugin.GUI
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
                     if (s is GUITraktImage && e.PropertyName == "HeadShot")
-                        SetImageToGui((s as GUITraktImage).PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot));
+                        SetImageToGui((s as GUITraktImage).PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
                 };
             }
         }
@@ -71,14 +71,13 @@ namespace TraktPlugin.GUI
                     var items = (List<GUITraktImage>)o;
                     foreach (var item in items)
                     {
-                        #region Person Headshot
-                        if (item.PoepleImages != null)
+                        if (item.PeopleImages != null)
                         {
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            string remoteThumb = item.PoepleImages.HeadShot.FullSize;
-                            string localThumb = item.PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot);
+                            string remoteThumb = item.PeopleImages.HeadShot.FullSize;
+                            string localThumb = item.PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
@@ -88,8 +87,23 @@ namespace TraktPlugin.GUI
                                     item.NotifyPropertyChanged("HeadShot");
                                 }
                             }
+
+                            // not all methods have Fanart for people
+                            if (item.PeopleImages.Fanart != null)
+                            {
+                                remoteThumb = item.PeopleImages.Fanart.FullSize;
+                                localThumb = item.PeopleImages.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
+
+                                if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
+                                {
+                                    if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                                    {
+                                        // notify that image has been downloaded
+                                        item.NotifyPropertyChanged("Fanart");
+                                    }
+                                }
+                            }
                         }
-                        #endregion
                     }
                 })
                 {

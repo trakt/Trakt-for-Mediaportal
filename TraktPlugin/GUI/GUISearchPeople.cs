@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.GUI.Video;
 using MediaPortal.Util;
-using MediaPortal.Video.Database;
-using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
@@ -113,10 +106,6 @@ namespace TraktPlugin.GUI
             GUIPersonListItem.StopDownload = true;
             ClearProperties();
 
-            _loadParameter = null;
-            IsMultiPersonSearch = false;
-            GUIUtils.SetProperty("#Trakt.People.Fanart", string.Empty);
-
             // save settings
             TraktSettings.SearchPeopleDefaultLayout = (int)CurrentLayout;
 
@@ -131,7 +120,14 @@ namespace TraktPlugin.GUI
             switch (controlId)
             {
                 // Facade
-                case (50):                    
+                case (50):
+                    var selectedItem = Facade.SelectedListItem;
+                    if (selectedItem == null) return;
+
+                    var person = selectedItem.TVTag as TraktPersonSummary;
+                    if (person == null) return;
+                    
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.PersonSummary, person.Ids.Trakt.ToString());
                     break;
 
                 // Layout Button
@@ -155,7 +151,10 @@ namespace TraktPlugin.GUI
                     break;
 
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
-                    // clear search criteria if going back
+                    // clear search criteria if going back                               
+                    IsMultiPersonSearch = false;
+                    _loadParameter = null;
+                    GUIUtils.SetProperty("#Trakt.People.Fanart", string.Empty);
                     SearchTerm = string.Empty;
                     People = null;
                     base.OnAction(action);
@@ -298,7 +297,7 @@ namespace TraktPlugin.GUI
             foreach (var person in people)
             {
                 // add image for download
-                var images = new GUITraktImage { PoepleImages = person.Images };
+                var images = new GUITraktImage { PeopleImages = person.Images };
                 personImages.Add(images);
 
                 var item = new GUIPersonListItem(person.Name.Trim(), (int)TraktGUIWindows.SearchPeople);
@@ -385,6 +384,8 @@ namespace TraktPlugin.GUI
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
             var person = item.TVTag as TraktPersonSummary;
+            if (person == null) return;
+
             PublishSkinProperties(person);
         }
         #endregion

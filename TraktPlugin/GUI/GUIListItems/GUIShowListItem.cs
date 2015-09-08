@@ -99,6 +99,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
+                                //if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Poster");
                             }
@@ -117,6 +119,8 @@ namespace TraktPlugin.GUI
                         {
                             if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                             {
+                                //if (StopDownload) break;
+
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Fanart");
                             }

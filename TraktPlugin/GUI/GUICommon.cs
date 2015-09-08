@@ -116,12 +116,14 @@ namespace TraktPlugin.GUI
         PopularShows = 87102,
         TV = 87500,
         Movies= 87501,
-        Lists = 87502
+        Lists = 87502,
+        PersonSummary = 87600,
+        PersonCreditMovies = 87601,
+        PersonCreditShows = 87602,
     }
 
     enum TraktDashboardControls
     {
-        ToggleTrendingCheckButton = 98298,
         DashboardAnimation = 98299,
         ActivityFacade = 98300,
         TrendingShowsFacade = 98301,
@@ -207,6 +209,19 @@ namespace TraktPlugin.GUI
         Watchlisted,
         Collected,
         Rated
+    }
+
+    public enum Credit
+    {
+        Cast,
+        Crew,
+        Production,
+        Art,
+        CostumeAndMakeUp,
+        Directing,
+        Writing,
+        Sound,
+        Camera
     }
 
     #endregion
@@ -1502,9 +1517,12 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Person.Id", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.TmdbId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.ImdbId", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.TvRageId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.Name", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.HeadshotUrl", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.HeadshotFilename", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.FanartUrl", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Person.FanartFilename", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.Url", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.Biography", string.Empty);
             GUIUtils.SetProperty("#Trakt.Person.Birthday", string.Empty);
@@ -1517,9 +1535,18 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Person.Id", person.Ids.Trakt);
             SetProperty("#Trakt.Person.ImdbId", person.Ids.ImdbId);
             SetProperty("#Trakt.Person.TmdbId", person.Ids.TmdbId);
+            SetProperty("#Trakt.Person.TvRageId", person.Ids.TvRageId);
             SetProperty("#Trakt.Person.Name", person.Name);
-            SetProperty("#Trakt.Person.HeadshotUrl", person.Images.HeadShot.FullSize);
-            SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadShot.LocalImageFilename(ArtworkType.Headshot));
+            if (person.Images != null)
+            {
+                SetProperty("#Trakt.Person.HeadshotUrl", person.Images.HeadShot.FullSize);
+                SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
+                if (person.Images.Fanart != null && System.IO.File.Exists(person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart)))
+                {
+                    SetProperty("#Trakt.Person.FanartUrl", person.Images.Fanart.FullSize);
+                    SetProperty("#Trakt.Person.FanartFilename", person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart));
+                }
+            }
             SetProperty("#Trakt.Person.Url", string.Format("http://trakt.tv/people/{0}", person.Ids.Slug));
             SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography.RemapHighOrderChars());
             SetProperty("#Trakt.Person.Birthday", person.Birthday);
@@ -2243,7 +2270,7 @@ namespace TraktPlugin.GUI
             }
             else
             {
-                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SearchPeople, dlg.SelectedLabelText);
+                GUIWindowManager.ActivateWindow((int)TraktGUIWindows.PersonSummary, dlg.SelectedLabelText);
             }
 
             return true;
@@ -3284,6 +3311,267 @@ namespace TraktPlugin.GUI
 
             return name;
         }
+        #endregion
+
+        #region Translation
+
+        public static string GetTranslatedCreditJob(string job)
+        {
+            if (string.IsNullOrEmpty(job))
+                return string.Empty;
+
+            switch (job.ToLower().Trim())
+            {
+                case "additional photography":
+                    return Translation.AdditionalPhotography;
+                case "administration":
+                    return Translation.Administration;
+                case "adr & dubbing":
+                    return Translation.ADRAndDubbing;
+                case "animation":
+                    return Translation.Animation;
+                case "art department assistant":
+                    return Translation.ArtDepartmentAssistant;
+                case "art department coordinator":
+                    return Translation.ArtDepartmentCoordinator;
+                case "art department manager":
+                    return Translation.ArtDepartmentManager;
+                case "art direction":
+                    return Translation.ArtDirection;
+                case "assistant art director":
+                    return Translation.AssistantArtDirector;
+                case "assistant director":
+                    return Translation.AssistantDirector;
+                case "associate producer":
+                    return Translation.AssociateProducer;
+                case "best boy electric":
+                    return Translation.BestBoyElectric;
+                case "boom operator":
+                    return Translation.BoomOperator;
+                case "casting":
+                    return Translation.Casting;
+                case "camera department manager":
+                    return Translation.CameraDepartmentManager;
+                case "camera operator":
+                    return Translation.CameraOperator;
+                case "camera supervisor":
+                    return Translation.CameraSupervisor;
+                case "camera technician":
+                    return Translation.CameraTechnician;
+                case "characters":
+                    return Translation.Characters;
+                case "creature design":
+                    return Translation.CreatureDesign;
+                case "compositors":
+                    return Translation.Compositors;
+                case "conceptual design":
+                    return Translation.ConceptualDesign;
+                case "construction coordinator":
+                    return Translation.ConstructionCoordinator;
+                case "costume design":
+                    return Translation.CostumeDesign;
+                case "costume supervisor":
+                    return Translation.CostumeSupervisor;
+                case "dialogue editor":
+                    return Translation.DialogueEditor;
+                case "digital effects supervisor":
+                    return Translation.DigitalEffectsSupervisor;
+                case "digital intermediate":
+                    return Translation.DigitalIntermediate;
+                case "digital producer":
+                    return Translation.DigitalProducer;
+                case "director":
+                    return Translation.Director;
+                case "director of photography":
+                    return Translation.DirectorOfPhotography;
+                case "driver":
+                    return Translation.Driver;
+                case "editor":
+                    return Translation.Editor;
+                case "editorial coordinator":
+                    return Translation.EditorialCoordinator;
+                case "editorial manager":
+                    return Translation.EditorialManager;
+                case "editorial production assistant":
+                    return Translation.EditorialProductionAssistant;
+                case "executive in charge of post production ":
+                    return Translation.ExecutiveInChargeOfPostProduction;
+                case "executive in charge of production ":
+                    return Translation.ExecutiveInChargeOfProduction;
+                case "executive producer":
+                    return Translation.ExecutiveProducer;
+                case "electrician":
+                    return Translation.Electrician;
+                case "foley":
+                    return Translation.Foley;
+                case "gaffer":
+                    return Translation.Gaffer;
+                case "greensman":
+                    return Translation.Greensman;
+                case "grip":
+                    return Translation.Grip;
+                case "hair setup":
+                    return Translation.HairSetup;
+                case "hair stylist":
+                case "hairstylist":
+                    return Translation.HairStylist;
+                case "helicopter camera":
+                    return Translation.HelicopterCamera;
+                case "lighting technician":
+                    return Translation.LightingTechnician;
+                case "line producer":
+                    return Translation.LineProducer;
+                case "layout":
+                    return Translation.Layout;
+                case "music":
+                    return Translation.Music;
+                case "modeling":
+                    return Translation.Modeling;
+                case "music editor":
+                    return Translation.MusicEditor;
+                case "MakeupArtist":
+                    return Translation.MakeupArtist;
+                case "novel":
+                    return Translation.Novel;
+                case "original music composer":
+                    return Translation.OriginalMusicComposer;
+                case "original story":
+                    return Translation.OriginalStory;
+                case "other":
+                    return Translation.Other;
+                case "post production supervisor":
+                    return Translation.PostProductionSupervisor;
+                case "producer":
+                    return Translation.Producer;
+                case "production design":
+                    return Translation.ProductionDesign;
+                case "production manager":
+                    return Translation.ProductionManager;
+                case "production office assistant":
+                    return Translation.ProductionOfficeAssistant;
+                case "production office coordinator":
+                    return Translation.ProductionOfficeCoordinator;
+                case "production supervisor":
+                    return Translation.ProductionSupervisor;
+                case "prop maker":
+                case "propmaker":
+                    return Translation.PropMaker;
+                case "property master":
+                    return Translation.PropertyMaster;
+                case "recording supervision":
+                    return Translation.RecordingSupervision;
+                case "rigging gaffer":
+                    return Translation.RiggingGaffer;
+                case "rigging grip":
+                    return Translation.RiggingGrip;
+                case "screenplay":
+                    return Translation.Screenplay;
+                case "scenic artist":
+                    return Translation.ScenicArtist;
+                case "score engineer":
+                    return Translation.ScoreEngineer;
+                case "sculptor":
+                    return Translation.Sculptor;
+                case "second unit":
+                    return Translation.SecondUnit;
+                case "set costumer":
+                    return Translation.SetCostumer;
+                case "set decoration":
+                    return Translation.SetDecoration;
+                case "set dressing artist":
+                    return Translation.SetDressingArtist;
+                case "set designer":
+                    return Translation.SetDesigner;
+                case "sound designer":
+                    return Translation.SoundDesigner;
+                case "sound editor":
+                    return Translation.SoundEditor;
+                case "sound effects editor":
+                    return Translation.SoundEffectsEditor;
+                case "sound mixer":
+                    return Translation.SoundMixer;
+                case "sound re-recording mixer":
+                    return Translation.SoundReRecordingMixer;
+                case "special effects":
+                    return Translation.SpecialEffects;
+                case "special effects coordinator":
+                    return Translation.SpecialEffectsCoordinator;
+                case "still photographer":
+                    return Translation.StillPhotographer;
+                case "story":
+                    return Translation.Story;
+                case "storyboard":
+                    return Translation.Storyboard;
+                case "stunt coordinator":
+                    return Translation.StuntCoordinator;
+                case "stunts":
+                    return Translation.Stunts;
+                case "supervising sound editor":
+                    return Translation.SupervisingSoundEditor;
+                case "technical supervisor":
+                    return Translation.TechnicalSupervisor;
+                case "thanks":
+                    return Translation.Thanks;
+                case "transportation captain":
+                    return Translation.TransportationCaptain;
+                case "transportation co-captain":
+                    return Translation.TransportationCoCaptain;
+                case "transportation coordinator":
+                    return Translation.TransportationCoordinator;
+                case "video assist operator":
+                    return Translation.VideoAssistOperator;
+                case "vfx artist":
+                    return Translation.VFXArtist;
+                case "vfx production coordinator":
+                    return Translation.VFXProductionCoordinator;
+                case "vfx supervisor":
+                    return Translation.VFXSupervisor;
+                case "visual development":
+                    return Translation.VisualDevelopment;
+                case "visual effects":
+                    return Translation.VisualEffects;
+                case "visual effects design consultant":
+                    return Translation.VisualEffectsDesignConsultant;
+                case "visual effects editor":
+                    return Translation.VisualEffectsEditor;
+                case "visual effects producer":
+                    return Translation.VisualEffectsProducer;
+                case "visual effects supervisor":
+                    return Translation.VisualEffectsSupervisor;
+                case "writer":
+                    return Translation.Writer;
+                default:
+                    return job;
+            }
+        }
+
+        public static string GetTranslatedCreditType(Credit credit)
+        {
+            switch (credit)
+            {
+                case Credit.Art:
+                    return Translation.Art;
+                case Credit.Camera:
+                    return Translation.Camera;
+                case Credit.Cast:
+                    return Translation.Cast;
+                case Credit.CostumeAndMakeUp:
+                    return Translation.CostumeAndMakeUp;
+                case Credit.Crew:
+                    return Translation.Crew;
+                case Credit.Directing:
+                    return Translation.Directing;
+                case Credit.Production:
+                    return Translation.Production;
+                case Credit.Sound:
+                    return Translation.Sound;
+                case Credit.Writing:
+                    return Translation.Writing;
+                default:
+                    return string.Empty;
+            }
+        }
+
         #endregion
     }
 

@@ -48,7 +48,7 @@ namespace TraktPlugin.GUI
                     if (s is GUITraktImage && e.PropertyName == "ShowPoster")
                         SetImageToGui((s as GUITraktImage).ShowImages.Poster.LocalImageFilename(ArtworkType.ShowPoster));
                     if (s is GUITraktImage && e.PropertyName == "HeadShot")
-                        SetImageToGui((s as GUITraktImage).PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot));
+                        SetImageToGui((s as GUITraktImage).PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
                     // re-size season posters to same as series/movie posters
                     if (s is GUITraktImage && e.PropertyName == "Season")
                         SetImageToGui((s as GUITraktImage).SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster), new Size(300, 434));
@@ -108,6 +108,8 @@ namespace TraktPlugin.GUI
                             {
                                 if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("ShowPoster");
                                 }
@@ -126,6 +128,8 @@ namespace TraktPlugin.GUI
                             {
                                 if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("Fanart");
                                 }
@@ -148,6 +152,8 @@ namespace TraktPlugin.GUI
                             {
                                 if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("Season");
                                 }
@@ -170,6 +176,8 @@ namespace TraktPlugin.GUI
                             {
                                 if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("MoviePoster");
                                 }
@@ -188,6 +196,8 @@ namespace TraktPlugin.GUI
                             {
                                 if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("Fanart");
                                 }
@@ -198,19 +208,21 @@ namespace TraktPlugin.GUI
 
                         #region People
 
-                        if (item.PoepleImages != null)
+                        if (item.PeopleImages != null)
                         {
                             #region Headshot
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            remoteThumb = item.PoepleImages.HeadShot.FullSize;
-                            localThumb = item.PoepleImages.HeadShot.LocalImageFilename(ArtworkType.Headshot);
+                            remoteThumb = item.PeopleImages.HeadShot.FullSize;
+                            localThumb = item.PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
                                 if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                                 {
+                                    if (StopDownload) break;
+
                                     // notify that image has been downloaded
                                     item.NotifyPropertyChanged("HeadShot");
                                 }
