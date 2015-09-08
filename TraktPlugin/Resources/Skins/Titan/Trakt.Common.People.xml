@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
   <controls>
-    <!--            :: LIST / THUMBVIEW ::            -->
     <control Style="smallTitle">
       <description>Selected item Label</description>
       <type>fadelabel</type>
@@ -22,7 +21,7 @@
       <width>429</width>
       <height>613</height>
       <texture>list_poster_shadow.png</texture>
-      <visible>facadeview.list+Control.IsVisible(50)</visible>
+      <visible>control.isvisible(50)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -35,7 +34,7 @@
       <width>379</width>
       <height>563</height>
       <texture>defaultVideoBig.png</texture>
-      <visible>facadeview.list + Control.IsVisible(50) + !Control.HasThumb(60)</visible>
+      <visible>control.isvisible(50)+!control.hasthumb(60)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -48,18 +47,18 @@
       <width>379</width>
       <height>563</height>
       <texture>#selectedthumb</texture>
-      <visible>facadeview.list+Control.IsVisible(50)</visible>
+      <visible>facadeview.list+control.isvisible(50)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
-    <!--            :: LISTVIEW ::            -->
+    
     <control Style="InfoLabel">
       <description>Birthday Label</description>
       <type>label</type>
       <label>#Trakt.Translation.Birthday.Label</label>
       <posX>565</posX>
       <posY>343</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)</visible>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -70,7 +69,7 @@
       <label>#Trakt.Person.Birthday</label>
       <posX>798</posX>
       <posY>343</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)</visible>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -81,7 +80,7 @@
       <label>#Trakt.Translation.BirthPlace.Label</label>
       <posX>565</posX>
       <posY>379</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)</visible>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -92,7 +91,7 @@
       <label>#Trakt.Person.Birthplace</label>
       <posX>798</posX>
       <posY>379</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Person.Birthplace,)</visible>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -112,120 +111,9 @@
       <onup>1026</onup>
       <ondown>1026</ondown>
       <lineSpacing>0.92</lineSpacing>
-      <visible>facadeview.list+Control.IsVisible(50)</visible>
+      <visible>Control.IsVisible(50)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <!--            :: THUMBVIEW ::            -->
-    <control>
-      <description>Person Name</description>
-      <type>fadelabel</type>
-      <id>1</id>
-      <posX>118</posX>
-      <posY>332</posY>
-      <width>555</width>
-      <label>#Trakt.Person.Name</label>
-      <font>fontB16</font>
-      <textcolor>FF00b7ff</textcolor>
-      <shadowAngle>120</shadowAngle>
-      <shadowDistance>2</shadowDistance>
-      <shadowColor>FF000000</shadowColor>
-      <visible>[facadeview.smallicons | facadeview.largeicons] + Control.IsVisible(50)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control Style="InfoLabel">
-      <description>Birthday Label</description>
-      <type>label</type>
-      <id>0</id>
-      <posX>118</posX>
-      <posY>445</posY>
-      <label>#Trakt.Translation.Birthday.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthday,)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control Style="InfoValueWide">
-      <description>Birthday Value</description>
-      <type>label</type>
-      <id>0</id>
-      <label>#Trakt.Person.Birthday</label>
-      <posX>350</posX>
-      <posY>445</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthday,)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control Style="InfoLabel">
-      <description>Birthplace Label</description>
-      <type>label</type>
-      <id>0</id>
-      <posX>118</posX>
-      <posY>481</posY>
-      <label>#Trakt.Translation.BirthPlace.Label</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthplace,)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control Style="InfoValueWide">
-      <description>Birthplace Value</description>
-      <type>label</type>
-      <id>0</id>
-      <posX>350</posX>
-      <posY>481</posY>
-      <label>#Trakt.Person.Birthplace</label>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Person.Birthplace,)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control>
-      <description>Summary (list)</description>
-      <type>textboxscrollup</type>
-      <id>0</id>
-      <posX>118</posX>
-      <posY>535</posY>
-      <width>555</width>
-      <height>410</height>
-      <label>#Trakt.Person.Biography</label>
-      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
-      <onleft>1026</onleft>
-      <onright>1026</onright>
-      <onup>1026</onup>
-      <ondown>1026</ondown>
-      <lineSpacing>0.92</lineSpacing>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+Control.IsVisible(50)</visible>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <!--            :: List Scrolling Popup ::            -->
-    <control>
-      <description>listscroller bg</description>
-      <type>image</type>
-      <id>1</id>
-      <posX>210</posX>
-      <posY>542</posY>
-      <width>211</width>
-      <height>211</height>
-      <texture>listscroller_bg.png</texture>
-      <visible>facadeview.list+string.contains(#scrolling.up,yes)|string.contains(#scrolling.down,yes)</visible>
-      <animation effect="fade" time="250">Visible</animation>
-      <animation effect="fade" time="0">Hidden</animation>
-    </control>
-    <control>
-      <type>label</type>
-      <id>1</id>
-      <posX>265</posX>
-      <posY>602</posY>
-      <width>96</width>
-      <height>96</height>
-      <font>TitanLight32</font>
-      <textcolor>ff000000</textcolor>
-      <label>#selecteditem.scrolllabel</label>
-      <visible>facadeview.list+string.contains(#scrolling.up,yes)|string.contains(#scrolling.down,yes)</visible>
-      <align>center</align>
-      <valign>middle</valign>
-      <animation effect="fade" time="250">Visible</animation>
-      <animation effect="fade" time="0">Hidden</animation>
     </control>
   </controls>
 </window>

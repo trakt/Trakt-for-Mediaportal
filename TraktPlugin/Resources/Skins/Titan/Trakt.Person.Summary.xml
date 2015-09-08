@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87600</id>
+  <defaultcontrol>50</defaultcontrol>
+  <allowoverlay>no</allowoverlay>
+  <define>#header.label:#Trakt.Translation.PersonSummary.Label</define>
+  <controls>
+
+    <control>
+      <description>DEFAULT BACKGROUND</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>background.png</texture>
+      <shouldCache>true</shouldCache>
+    </control>
+    <control>
+      <description>Fanart</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>#Trakt.Person.FanartFilename</texture>
+      <shouldCache>true</shouldCache>
+    </control>
+
+    <control>
+      <description>background listview</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>0</posX>
+      <posY>0</posY>
+      <width>1920</width>
+      <height>1080</height>
+      <texture>fanart_overlay.png</texture>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <description>background listview</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>10</posX>
+      <posY>252</posY>
+      <width>1903</width>
+      <height>790</height>
+      <texture>panel_list.png</texture>
+      <visible>control.isvisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <id>0</id>
+      <type>image</type>
+      <posX>66</posX>
+      <posY>34</posY>
+      <width>68</width>
+      <height>60</height>
+      <texture>icon_plugin.png</texture>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <import>common.time.xml</import>
+    
+    <control>
+      <description>List Lines</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>1222</posX>
+      <posY>385</posY>
+      <width>607</width>
+      <height>506</height>
+      <texture>list_lines.png</texture>
+      <visible>control.isvisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <description>group element</description>
+      <type>group</type>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+      <control>
+        <type>facadeview</type>
+        <id>50</id>
+        <control>
+          <description>Movie List</description>
+          <type>listcontrol</type>
+          <id>50</id>
+          <onleft>50</onleft>
+          <onright>50</onright>
+          <scrollOffset>1</scrollOffset>
+          <posX>1165</posX>
+          <posY>331</posY>
+          <height>700</height>
+          <width>698</width>
+          <textXOff>44</textXOff>
+          <textXOff2>650</textXOff2>
+          <textureHeight>54</textureHeight>
+          <textureFocus>listcontrol_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <dimColor>ffffffff</dimColor>
+          <spinPosX>1828</spinPosX>
+          <spinPosY>1000</spinPosY>
+        </control>
+      </control>
+    </control>
+
+    <control>
+      <description>Person</description>
+      <type>label</type>
+      <label>#Trakt.Person.Name</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <visible>!string.equals(#Trakt.Person.Name,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="smallTitle">
+      <description>Person</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>395</posX>
+      <posY>1015</posY>
+      <label>#Trakt.Person.Name</label>
+      <visible>!string.equals(#Trakt.Person.Name,)</visible>
+      <animation effect="fade" start="0" end="100" time="300" delay="350">WindowOpen</animation>
+      <animation effect="fade" start="100" end="0" time="0" delay="0">WindowClose</animation>
+    </control>
+    
+    <control>
+      <description>Poster shadow</description>
+      <type>image</type>
+      <id>1</id>
+      <posX>105</posX>
+      <posY>347</posY>
+      <width>429</width>
+      <height>613</height>
+      <texture>list_poster_shadow.png</texture>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>Default Cover Art</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>123</posX>
+      <posY>360</posY>
+      <width>379</width>
+      <height>563</height>
+      <texture>defaultVideoBig.png</texture>
+      <visible>control.isvisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control>
+      <description>Cover Art</description>
+      <type>image</type>
+      <id>0</id>
+      <posX>123</posX>
+      <posY>360</posY>
+      <width>379</width>
+      <height>563</height>
+      <texture>#Trakt.Person.HeadshotFilename</texture>
+      <visible>control.isvisible(50)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
+      <description>Birthday Label</description>
+      <type>label</type>
+      <label>#Trakt.Translation.Birthday.Label</label>
+      <posX>565</posX>
+      <posY>343</posY>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Birthday</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Person.Birthday</label>
+      <posX>798</posX>
+      <posY>343</posY>
+      <visible>!string.equals(#Trakt.Person.Birthday,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Birthplace Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.BirthPlace.Label</label>
+      <posX>565</posX>
+      <posY>379</posY>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Birthplace</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Person.Birthplace</label>
+      <posX>798</posX>
+      <posY>379</posY>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control>
+      <description>Summary (list)</description>
+      <type>textboxscrollup</type>
+      <id>0</id>
+      <posX>568</posX>
+      <posY>450</posY>
+      <width>555</width>
+      <height>480</height>
+      <label>#Trakt.Person.Biography</label>
+      <seperator>---------------------------------------------------------------------------------------------------------</seperator>
+      <lineSpacing>0.92</lineSpacing>
+      <visible>!string.equals(#Trakt.Person.Birthplace,)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <import>common.overlay.xml</import>
+  </controls>
+</window>

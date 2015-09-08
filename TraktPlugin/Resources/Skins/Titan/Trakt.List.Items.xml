@@ -925,9 +925,9 @@
       <type>textboxscrollup</type>
       <id>0</id>
       <posX>568</posX>
-      <posY>501</posY>
+      <posY>450</posY>
       <width>555</width>
-      <height>415</height>
+      <height>480</height>
       <label>#Trakt.Person.Biography</label>
       <seperator>---------------------------------------------------------------------------------------------------------</seperator>
       <onleft>1026</onleft>
