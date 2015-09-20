@@ -122,8 +122,8 @@ namespace TraktPlugin.TraktAPI
         public const string PersonShowCredits = "https://api-v2launch.trakt.tv/people/{0}/shows?extended=full,images";
         public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full,images";
 
-        public const string MoviePeople = "https://api-v2launch.trakt.tv/movie/{0}/people?extended=full,images";
-        public const string ShowPeople = "https://api-v2launch.trakt.tv/show/{0}/people?extended=full,images";
+        public const string MoviePeople = "https://api-v2launch.trakt.tv/movies/{0}/people?extended=full,images";
+        public const string ShowPeople = "https://api-v2launch.trakt.tv/shows/{0}/people?extended=full,images";
 
         public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}?page={1}&limit={2}";
         public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}?page={1}&limit={2}";

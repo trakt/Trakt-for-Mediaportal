@@ -69,6 +69,8 @@ namespace TraktPlugin.GUI
             RemoveFromLibrary,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             Trailers,
             WatchlistFilter
         }
@@ -437,6 +439,15 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)ContextMenuItem.RemoveFromLibrary;
             }
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Crew;
+
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 listItem = new GUIListItem(Translation.Trailers);
@@ -551,6 +562,20 @@ namespace TraktPlugin.GUI
                     TraktCache.RemoveEpisodeFromCollection(calendarItem.Show, calendarItem.Episode);
                     OnEpisodeSelected(Facade.SelectedListItem, Facade);
                     (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    break;
+
+                case ((int)ContextMenuItem.Cast):
+                    GUICreditsShow.Show = calendarItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    GUICreditsShow.Show = calendarItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):

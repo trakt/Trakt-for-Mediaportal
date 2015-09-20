@@ -214,6 +214,8 @@
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="GUI\GUICreditsMovie.cs" />
+    <Compile Include="GUI\GUICreditsShow.cs" />
     <Compile Include="GUI\GUIListsMenu.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
@@ -274,9 +276,12 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktCharacter.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCommentItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktComments.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktCredits.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktCrew.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />
@@ -286,6 +291,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktJob.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLike.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLikes.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCast.cs" />
@@ -807,6 +813,9 @@
     <Content Include="Resources\Skins\Titan\Trakt.Lists.xml" />
     <Content Include="Resources\Skins\Titan\Trakt.Movies.Menu.xml" />
     <Content Include="Resources\Skins\Titan\Trakt.Network.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Person.Credits.Movies.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Person.Credits.Shows.xml" />
+    <Content Include="Resources\Skins\Titan\Trakt.Person.Summary.xml" />
     <Content Include="Resources\Skins\Titan\Trakt.Popular.Movies.xml" />
     <Content Include="Resources\Skins\Titan\Trakt.Popular.Shows.xml" />
     <Content Include="Resources\Skins\Titan\Trakt.Popular.xml" />

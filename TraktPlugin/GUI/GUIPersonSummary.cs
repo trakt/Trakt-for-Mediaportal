@@ -281,20 +281,27 @@ namespace TraktPlugin.GUI
             // set the current view
             CurrentView = View.MovieCredits;
 
+            var personImages = new List<GUITraktImage>();
+
             int itemId = 0;
-            GUIListItem item = null;
+            GUIPersonListItem item = null;
 
             // Add all the Cast and Crew items
             if (credits.Cast != null && credits.Cast.Count > 0)
             {
-                item = new GUIListItem(Translation.Actor);
+                // add image for download
+                var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                personImages.Add(images);
+
+                item = new GUIPersonListItem(Translation.Actor, (int)TraktGUIWindows.PersonSummary);
                 item.Label2 = string.Format(Translation.MovieCount, credits.Cast.Count);
                 item.TVTag = Credit.Cast;
                 item.MusicTag = credits;
-                item.ItemId = ++itemId;
-                item.IconImage = "defaultFolder.png";
-                item.IconImageBig = "defaultFolderBig.png";
-                item.ThumbnailImage = "defaultFolderBig.png";
+                item.Images = images;
+                item.ItemId = Int32.MaxValue - itemId;
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnItemSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
@@ -305,14 +312,19 @@ namespace TraktPlugin.GUI
             {
                 if (credits.Crew.Production != null && credits.Crew.Production.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Production);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Production, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Production.Count);
                     item.TVTag = Credit.Production;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -321,14 +333,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Directing != null && credits.Crew.Directing.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Directing);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Directing, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Directing.Count);
                     item.TVTag = Credit.Directing;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -337,14 +354,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Writing != null && credits.Crew.Writing.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Writing);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Writing, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Writing.Count);
                     item.TVTag = Credit.Writing;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -353,14 +375,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Art != null && credits.Crew.Art.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Art);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Art, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Art.Count);
                     item.TVTag = Credit.Art;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -369,14 +396,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Camera != null && credits.Crew.Camera.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Camera);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Camera, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Camera.Count);
                     item.TVTag = Credit.Camera;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -385,14 +417,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.CostumeAndMakeUp != null && credits.Crew.CostumeAndMakeUp.Count > 0)
                 {
-                    item = new GUIListItem(Translation.CostumeAndMakeUp);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.CostumeAndMakeUp, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.CostumeAndMakeUp.Count);
                     item.TVTag = Credit.CostumeAndMakeUp;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -401,14 +438,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Sound != null && credits.Crew.Sound.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Sound);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Sound, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Sound.Count);
                     item.TVTag = Credit.Sound;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -430,6 +472,8 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
+
+            GUIPersonListItem.GetImages(personImages, false);
         }
 
         private void LoadShowCredits()
@@ -464,20 +508,27 @@ namespace TraktPlugin.GUI
             // set the current view
             CurrentView = View.ShowCredits;
 
+            var personImages = new List<GUITraktImage>();
+
             int itemId = 0;
-            GUIListItem item = null;
+            GUIPersonListItem item = null;
 
             // Add all the Cast and Crew items
             if (credits.Cast != null && credits.Cast.Count > 0)
             {
-                item = new GUIListItem(Translation.Actor);
+                // add image for download
+                var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                personImages.Add(images);
+
+                item = new GUIPersonListItem(Translation.Actor, (int)TraktGUIWindows.PersonSummary);
                 item.Label2 = string.Format(Translation.ShowCount, credits.Cast.Count);
                 item.TVTag = Credit.Cast;
+                item.Images = images;
                 item.MusicTag = credits;
-                item.ItemId = ++itemId;
-                item.IconImage = "defaultFolder.png";
-                item.IconImageBig = "defaultFolderBig.png";
-                item.ThumbnailImage = "defaultFolderBig.png";
+                item.ItemId = Int32.MaxValue - itemId;
+                item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                 item.OnItemSelected += OnItemSelected;
                 Utils.SetDefaultIcons(item);
                 Facade.Add(item);
@@ -488,14 +539,19 @@ namespace TraktPlugin.GUI
             {
                 if (credits.Crew.Production != null && credits.Crew.Production.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Production);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Production, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.Production.Count);
                     item.TVTag = Credit.Production;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -504,13 +560,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Directing != null && credits.Crew.Directing.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Directing);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Directing, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.Directing.Count);
                     item.TVTag = Credit.Directing;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.MusicTag = credits;
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -519,14 +581,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Writing != null && credits.Crew.Writing.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Writing);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Writing, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.Writing.Count);
                     item.TVTag = Credit.Writing;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -535,14 +602,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Art != null && credits.Crew.Art.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Art);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Art, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.Art.Count);
                     item.TVTag = Credit.Art;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -551,14 +623,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Camera != null && credits.Crew.Camera.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Camera);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+                    
+                    item = new GUIPersonListItem(Translation.Camera, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.Camera.Count);
                     item.TVTag = Credit.Camera;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -567,14 +644,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.CostumeAndMakeUp != null && credits.Crew.CostumeAndMakeUp.Count > 0)
                 {
-                    item = new GUIListItem(Translation.CostumeAndMakeUp);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.CostumeAndMakeUp, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.ShowCount, credits.Crew.CostumeAndMakeUp.Count);
                     item.TVTag = Credit.CostumeAndMakeUp;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -583,14 +665,19 @@ namespace TraktPlugin.GUI
 
                 if (credits.Crew.Sound != null && credits.Crew.Sound.Count > 0)
                 {
-                    item = new GUIListItem(Translation.Sound);
+                    // add image for download
+                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    personImages.Add(images);
+
+                    item = new GUIPersonListItem(Translation.Sound, (int)TraktGUIWindows.PersonSummary);
                     item.Label2 = string.Format(Translation.MovieCount, credits.Crew.Sound.Count);
                     item.TVTag = Credit.Sound;
                     item.MusicTag = credits;
-                    item.ItemId = ++itemId;
-                    item.IconImage = "defaultFolder.png";
-                    item.IconImageBig = "defaultFolderBig.png";
-                    item.ThumbnailImage = "defaultFolderBig.png";
+                    item.Images = images;
+                    item.ItemId = Int32.MaxValue - itemId;
+                    item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+                    item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+                    item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
                     item.OnItemSelected += OnItemSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
@@ -612,6 +699,8 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
+
+            GUIPersonListItem.GetImages(personImages, false);
         }
 
         private void LoadPersonSummary()
@@ -650,28 +739,39 @@ namespace TraktPlugin.GUI
             // publish person properties
             PublishSkinProperties(person);
 
+            var personImages = new List<GUITraktImage>();
             int itemId = 0;
 
+            // add image for download
+            var images = new GUITraktImage { PeopleImages = person.Images };
+            personImages.Add(images);
+
             // Add movie and show credit items
-            var item = new GUIListItem(Translation.MovieCredits);
+            var item = new GUIPersonListItem(Translation.MovieCredits, (int)TraktGUIWindows.PersonSummary);
 
             item.TVTag = View.MovieCredits.ToString();
-            item.ItemId = itemId++;
-            item.IconImage = "defaultFolder.png";
-            item.IconImageBig = "defaultFolderBig.png";
-            item.ThumbnailImage = "defaultFolderBig.png";
+            item.ItemId = Int32.MaxValue - itemId;
+            item.Images = images;
+            item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+            item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+            item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
             item.OnItemSelected += OnItemSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
             itemId++;
 
-            item = new GUIListItem(Translation.ShowCredits);
+            // add image for download
+            images = new GUITraktImage { PeopleImages = person.Images };
+            personImages.Add(images);
+
+            item = new GUIPersonListItem(Translation.ShowCredits, (int)TraktGUIWindows.PersonSummary);
 
             item.TVTag = View.ShowCredits.ToString();
-            item.ItemId = itemId++;
-            item.IconImage = "defaultFolder.png";
-            item.IconImageBig = "defaultFolderBig.png";
-            item.ThumbnailImage = "defaultFolderBig.png";
+            item.ItemId = Int32.MaxValue - itemId;
+            item.Images = images;
+            item.IconImage = GUIImageHandler.GetDefaultPoster(false);
+            item.IconImageBig = GUIImageHandler.GetDefaultPoster();
+            item.ThumbnailImage = GUIImageHandler.GetDefaultPoster();
             item.OnItemSelected += OnItemSelected;
             Utils.SetDefaultIcons(item);
             Facade.Add(item);
@@ -682,66 +782,38 @@ namespace TraktPlugin.GUI
             GUIControl.FocusControl(GetID, Facade.GetID);
             
             // set facade properties
-            GUIUtils.SetProperty("#itemcount", "2");
+            GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());
 
             // Download images Async
-            GetImages(person);
+            DownloadFanart(person);
+
+            GUIPersonListItem.GetImages(personImages, false);
         }
 
-        private void GetImages(TraktPersonSummary person)
+        private void DownloadFanart(TraktPersonSummary person)
         {
-            // download images in parallel
-            var threads = new List<Thread>();
-
             var tFanart = new Thread(obj =>
             {
                 var tPerson = obj as TraktPersonSummary;
 
                 string remoteThumb = TraktSettings.DownloadFullSizeFanart ? tPerson.Images.Fanart.FullSize : tPerson.Images.Fanart.MediumSize;
                 string localThumb = tPerson.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
-                DownloadFanart(localThumb, remoteThumb);
-            });
-            tFanart.Start(person);
-            tFanart.Name = "Fanart";
-            threads.Add(tFanart);
 
-            var tHeadshot = new Thread(obj =>
+                if (localThumb == null || remoteThumb == null)
+                    return;
+
+                GUIImageHandler.DownloadImage(remoteThumb, localThumb);
+                if (!StopDownload)
+                {
+                    Thread.Sleep(500);
+                    GUIUtils.SetProperty("#Trakt.Person.FanartFilename", localThumb);
+                }
+            })
             {
-                var tPerson = obj as TraktPersonSummary;
-
-                string remoteThumb = tPerson.Images.HeadShot.FullSize;
-                string localThumb = tPerson.Images.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot);
-                DownloadHeadshot(localThumb, remoteThumb);
-            });
-            tHeadshot.Start(person);
-            tHeadshot.Name = "Headshot";
-            threads.Add(tHeadshot);
-        }
-
-        private void DownloadFanart(string localFile, string remoteFile)
-        {
-            if (localFile == null || remoteFile == null)
-                return;
-
-            GUIImageHandler.DownloadImage(remoteFile, localFile);
-            if (!StopDownload)
-            {
-                Thread.Sleep(500);
-                GUIUtils.SetProperty("#Trakt.Person.FanartFilename", localFile);
-            }
-        }
-
-        private void DownloadHeadshot(string localFile, string remoteFile)
-        {
-            if (localFile == null || remoteFile == null)
-                return;
-
-            GUIImageHandler.DownloadImage(remoteFile, localFile);
-            if (!StopDownload)
-            {
-                Thread.Sleep(500);
-                GUIUtils.SetProperty("#Trakt.Person.HeadShotFilename", localFile);
-            }
+                Name = "Fanart"
+            };            
+            
+            tFanart.Start(person);            
         }
 
         private void InitProperties()
@@ -767,6 +839,8 @@ namespace TraktPlugin.GUI
         private void OnItemSelected(GUIListItem item, GUIControl parent)
         {
             if (item == null) return;
+
+            PublishSkinProperties(CurrentPerson);
         }
 
         #endregion

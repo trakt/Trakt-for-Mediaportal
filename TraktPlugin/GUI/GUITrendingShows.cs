@@ -298,6 +298,20 @@ namespace TraktPlugin.GUI
                     TraktHelper.ShowRelatedShows(selectedTrendingItem.Show);
                     break;
 
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedTrendingItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedTrendingItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
                 case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowTVShowTrailersMenu(selectedTrendingItem.Show);
                     break;

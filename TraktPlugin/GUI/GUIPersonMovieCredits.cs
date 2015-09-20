@@ -112,7 +112,7 @@ namespace TraktPlugin.GUI
             ClearProperties();
 
             // save current layout
-            TraktSettings.MovieCreditsDefaultLayout = (int)CurrentLayout;
+            TraktSettings.PersonMovieCreditsDefaultLayout = (int)CurrentLayout;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -510,7 +510,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Person.CreditType", GUICommon.GetTranslatedCreditType(CurrentCreditType));
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.MovieCreditsDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.PersonMovieCreditsDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

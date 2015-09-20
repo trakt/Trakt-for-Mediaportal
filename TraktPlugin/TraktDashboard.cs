@@ -2246,6 +2246,30 @@ namespace TraktPlugin
                     TraktHelper.ShowRelatedShows(selectedTrendingItem.Show);
                     break;
 
+                case ((int)MediaContextMenuItem.Rate):
+                    GUICommon.RateShow(selectedTrendingItem.Show);
+                    OnTrendingShowSelected(selectedItem, trendingShowsFacade);
+                    (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
+                    break;
+
+                case ((int)MediaContextMenuItem.Shouts):
+                    TraktHelper.ShowTVShowShouts(selectedTrendingItem.Show);
+                    break;
+
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedTrendingItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedTrendingItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
                 case ((int)MediaContextMenuItem.Filters):
                     if (GUICommon.ShowTVShowFiltersMenu())
                         LoadTrendingShows(true);
@@ -2253,16 +2277,6 @@ namespace TraktPlugin
 
                 case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowTVShowTrailersMenu(selectedTrendingItem.Show);
-                    break;
-
-                case ((int)MediaContextMenuItem.Shouts):
-                    TraktHelper.ShowTVShowShouts(selectedTrendingItem.Show);
-                    break;
-
-                case ((int)MediaContextMenuItem.Rate):
-                    GUICommon.RateShow(selectedTrendingItem.Show);
-                    OnTrendingShowSelected(selectedItem, trendingShowsFacade);
-                    (selectedItem as GUIShowListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)MediaContextMenuItem.SearchWithMpNZB):
@@ -2361,6 +2375,20 @@ namespace TraktPlugin
 
                 case ((int)MediaContextMenuItem.Shouts):
                     TraktHelper.ShowMovieShouts(selectedTrendingItem.Movie);
+                    break;
+
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsMovie.Movie = selectedTrendingItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsMovie.Movie = selectedTrendingItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)MediaContextMenuItem.Trailers):
@@ -2673,6 +2701,40 @@ namespace TraktPlugin
                         GUICommon.UnLikeList(activity.List, TraktSettings.Username);
 
                     ReloadActivityView = true;
+                    break;
+
+                case ((int)ActivityContextMenuItem.Cast):
+                    if (activity.Movie != null)
+                    {
+                        GUICreditsMovie.Movie = activity.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                        GUICreditsMovie.Fanart = activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (activity.Show != null)
+                    {
+                        GUICreditsShow.Show = activity.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                        GUICreditsShow.Fanart = activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
+                case ((int)ActivityContextMenuItem.Crew):
+                    if (activity.Movie != null)
+                    {
+                        GUICreditsMovie.Movie = activity.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                        GUICreditsMovie.Fanart = activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (activity.Show != null)
+                    {
+                        GUICreditsShow.Show = activity.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                        GUICreditsShow.Fanart = activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
                     break;
 
                 case ((int)ActivityContextMenuItem.Trailers):

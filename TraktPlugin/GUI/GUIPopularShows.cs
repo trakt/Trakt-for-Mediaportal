@@ -313,6 +313,20 @@ namespace TraktPlugin.GUI
                     if (TraktSettings.PopularShowsHideRated) LoadPopularShows(CurrentPage);
                     break;
 
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedPopularItem;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedPopularItem.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedPopularItem;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedPopularItem.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
                 case ((int)MediaContextMenuItem.ChangeLayout):
                     CurrentLayout = GUICommon.ShowLayoutMenu(CurrentLayout, PreviousSelectedIndex);
                     break;

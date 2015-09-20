@@ -62,6 +62,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             ChangeLayout,
             SearchWithMpNZB,
             SearchTorrent
@@ -364,6 +366,15 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Crew;
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
@@ -462,6 +473,20 @@ namespace TraktPlugin.GUI
                         }
                         LoadRecommendedShows();
                     }
+                    break;
+
+                case ((int)ContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedShow;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedShow;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):

@@ -34,27 +34,6 @@ namespace TraktPlugin.GUI
 
         #region Enums
 
-        enum ContextMenuItem
-        {
-            Like,
-            UnLike,
-            Spoilers,
-            ShowSeasonInfo,
-            RemoveFromWatchList,
-            AddToWatchList,
-            AddToList,
-            MarkAsWatched,
-            MarkAsUnWatched,
-            AddToLibrary,
-            RemoveFromLibrary,
-            Related,
-            Rate,
-            Shouts,
-            Trailers,
-            SearchWithMpNZB,
-            SearchTorrent
-        }
-
         #endregion
 
         #region Constructor
@@ -229,27 +208,27 @@ namespace TraktPlugin.GUI
                 {
                     listItem = new GUIListItem(Translation.Like);
                     dlg.Add(listItem);
-                    listItem.ItemId = (int)ContextMenuItem.Like;
+                    listItem.ItemId = (int)ActivityContextMenuItem.Like;
                 }
                 else
                 {
                     // UnLike
                     listItem = new GUIListItem(Translation.UnLike);
                     dlg.Add(listItem);
-                    listItem.ItemId = (int)ContextMenuItem.UnLike;
+                    listItem.ItemId = (int)ActivityContextMenuItem.Unlike;
                 }
             }
 
             listItem = new GUIListItem(TraktSettings.HideSpoilersOnShouts ? Translation.ShowSpoilers : Translation.HideSpoilers);
             dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.Spoilers;
+            listItem.ItemId = (int)ActivityContextMenuItem.Spoilers;
 
             // if selected activity is an episode or show, add 'Season Info'
             if (selectedComment.Show != null)
             {
                 listItem = new GUIListItem(Translation.ShowSeasonInfo);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
+                listItem.ItemId = (int)ActivityContextMenuItem.ShowSeasonInfo;
             }
 
             // get a list of common actions to perform on the selected item
@@ -270,13 +249,13 @@ namespace TraktPlugin.GUI
 
             switch (dlg.SelectedId)
             {
-                case (int)ContextMenuItem.Like:
+                case (int)ActivityContextMenuItem.Like:
                     GUICommon.LikeComment(selectedComment.Comment);
                     selectedComment.Comment.Likes++;
                     PublishCommentSkinProperties(selectedComment);
                     break;
 
-                case (int)ContextMenuItem.UnLike:
+                case (int)ActivityContextMenuItem.Unlike:
                     GUICommon.UnLikeComment(selectedComment.Comment);
                     if (selectedComment.Comment.Likes > 0)
                     {
@@ -285,13 +264,13 @@ namespace TraktPlugin.GUI
                     }
                     break;
 
-                case ((int)ContextMenuItem.Spoilers):
+                case ((int)ActivityContextMenuItem.Spoilers):
                     TraktSettings.HideSpoilersOnShouts = !TraktSettings.HideSpoilersOnShouts;
                     if (hideSpoilersButton != null) hideSpoilersButton.Selected = TraktSettings.HideSpoilersOnShouts;
                     PublishCommentSkinProperties(selectedComment);
                     break;
 
-                case ((int)ContextMenuItem.ShowSeasonInfo):
+                case ((int)ActivityContextMenuItem.ShowSeasonInfo):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, selectedComment.Show.ToJSON());
                     break;
 
@@ -304,7 +283,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.AddRemoveShowInUserList(selectedComment.Show, false);
                     break;
 
-                case ((int)ContextMenuItem.AddToWatchList):
+                case ((int)ActivityContextMenuItem.AddToWatchList):
                     if (selectedComment.Movie != null)
                         TraktHelper.AddMovieToWatchList(selectedComment.Movie, true);
                     else if (selectedComment.Episode != null)
@@ -313,7 +292,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.AddShowToWatchList(selectedComment.Show);
                     break;
 
-                case ((int)ContextMenuItem.Shouts):
+                case ((int)ActivityContextMenuItem.Shouts):
                     if (selectedComment.Movie != null)
                         TraktHelper.ShowMovieShouts(selectedComment.Movie);
                     else if (selectedComment.Episode != null)
@@ -322,7 +301,7 @@ namespace TraktPlugin.GUI
                         TraktHelper.ShowTVShowShouts(selectedComment.Show);
                     break;
 
-                case ((int)ContextMenuItem.Rate):
+                case ((int)ActivityContextMenuItem.Rate):
                     if (selectedComment.Movie != null)
                         GUICommon.RateMovie(selectedComment.Movie);
                     else if (selectedComment.Episode != null)
@@ -331,7 +310,41 @@ namespace TraktPlugin.GUI
                         GUICommon.RateShow(selectedComment.Show);
                     break;
 
-                case ((int)ContextMenuItem.Trailers):
+                case ((int)ActivityContextMenuItem.Cast):
+                    if (selectedComment.Movie != null)
+                    {
+                        GUICreditsMovie.Movie = selectedComment.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                        GUICreditsMovie.Fanart = selectedComment.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (selectedComment.Show != null)
+                    {
+                        GUICreditsShow.Show = selectedComment.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                        GUICreditsShow.Fanart = selectedComment.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
+                case ((int)ActivityContextMenuItem.Crew):
+                    if (selectedComment.Movie != null)
+                    {
+                        GUICreditsMovie.Movie = selectedComment.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                        GUICreditsMovie.Fanart = selectedComment.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (selectedComment.Show != null)
+                    {
+                        GUICreditsShow.Show = selectedComment.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                        GUICreditsShow.Fanart = selectedComment.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
+                case ((int)ActivityContextMenuItem.Trailers):
                     if (selectedComment.Movie != null)
                         GUICommon.ShowMovieTrailersMenu(selectedComment.Movie);
                     else
@@ -413,6 +426,18 @@ namespace TraktPlugin.GUI
             listItem = new GUIListItem(Translation.Rate + "...");
             listItem.ItemId = (int)ActivityContextMenuItem.Rate;
             listItems.Add(listItem);
+
+            // Cast and Crew
+            if (commentItem.Type == ActivityType.show.ToString() || commentItem.Type == ActivityType.movie.ToString())
+            {
+                listItem = new GUIListItem(Translation.Cast);
+                listItem.ItemId = (int)ActivityContextMenuItem.Cast;
+                listItems.Add(listItem);
+
+                listItem = new GUIListItem(Translation.Crew);
+                listItem.ItemId = (int)ActivityContextMenuItem.Crew;
+                listItems.Add(listItem);
+            }
 
             // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)

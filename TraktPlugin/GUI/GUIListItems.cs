@@ -55,6 +55,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             ChangeLayout,
             Trailers,
             SearchWithMpNZB,
@@ -330,7 +332,19 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Shouts;
             }
-            
+
+            // Cast and Crew
+            if (SelectedType == TraktItemType.movie || SelectedType == TraktItemType.show)
+            {
+                listItem = new GUIListItem(Translation.Cast);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Cast;
+
+                listItem = new GUIListItem(Translation.Crew);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Crew;
+            }
+
             // Trailers
             if (SelectedType != TraktItemType.person)
             {
@@ -512,7 +526,41 @@ namespace TraktPlugin.GUI
                     else
                         TraktHelper.ShowEpisodeShouts(selectedListItem.Show, selectedListItem.Episode);
                     break;
-                
+
+                case ((int)ContextMenuItem.Cast):
+                    if (SelectedType == TraktItemType.movie)
+                    {
+                        GUICreditsMovie.Movie = selectedListItem.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                        GUICreditsMovie.Fanart = selectedListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (SelectedType == TraktItemType.show)
+                    {
+                        GUICreditsShow.Show = selectedListItem.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                        GUICreditsShow.Fanart = selectedListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    if (SelectedType == TraktItemType.movie)
+                    {
+                        GUICreditsMovie.Movie = selectedListItem.Movie;
+                        GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                        GUICreditsMovie.Fanart = selectedListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    }
+                    else if (SelectedType == TraktItemType.show)
+                    {
+                        GUICreditsShow.Show = selectedListItem.Show;
+                        GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                        GUICreditsShow.Fanart = selectedListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    }
+                    break;
+
                 case ((int)ContextMenuItem.Trailers):
                     if (SelectedType == TraktItemType.movie)
                     {

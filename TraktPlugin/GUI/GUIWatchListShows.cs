@@ -45,6 +45,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             ChangeLayout,
             SearchWithMpNZB,
             SearchTorrent
@@ -253,13 +255,6 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.AddToList;
 
-            if (TraktHelper.IsTrailersAvailableAndEnabled)
-            {
-                listItem = new GUIListItem(Translation.Trailers);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.Trailers;
-            }
-
             // Related Shows
             listItem = new GUIListItem(Translation.RelatedShows);
             dlg.Add(listItem);
@@ -275,10 +270,27 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Crew;
+
             // Change Layout
             listItem = new GUIListItem(Translation.ChangeLayout);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
+
+            // Trailers
+            if (TraktHelper.IsTrailersAvailableAndEnabled)
+            {
+                listItem = new GUIListItem(Translation.Trailers);
+                dlg.Add(listItem);
+                listItem.ItemId = (int)ContextMenuItem.Trailers;
+            }
 
             if (TraktHelper.IsMpNZBAvailableAndEnabled)
             {
@@ -355,6 +367,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Shouts):
                     TraktHelper.ShowTVShowShouts(selectedWatchlistItem.Show);
+                    break;
+
+                case ((int)ContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedWatchlistItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedWatchlistItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedWatchlistItem.Show;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedWatchlistItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):

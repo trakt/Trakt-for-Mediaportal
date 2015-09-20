@@ -168,8 +168,10 @@ namespace TraktPlugin
         public static int MaxUserCommentsRequest { get; set; }
         public static ActivityFilter DashboardActivityFilter { get; set; }
         public static bool SkipMoviesWithNoIdsOnSync { get; set; }
-        public static int MovieCreditsDefaultLayout { get; set; }
-        public static int ShowCreditsDefaultLayout { get; set; }
+        public static int PersonMovieCreditsDefaultLayout { get; set; }
+        public static int PersonShowCreditsDefaultLayout { get; set; }
+        public static int CreditsMovieDefaultLayout { get; set; }
+        public static int CreditsShowDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -333,8 +335,10 @@ namespace TraktPlugin
         private const string cMaxUserCommentsRequest = "MaxUserCommentsRequest";
         private const string cDashboardActivityFilter = "DashboardActivityFilter";
         private const string cSkipMoviesWithNoIdsOnSync = "SkipMoviesWithNoIdsOnSync";
-        private const string cMovieCreditsDefaultLayout = "MovieCreditsDefaultLayout";
-        private const string cShowCreditsDefaultLayout = "ShowCreditsDefaultLayout";
+        private const string cPersonMovieCreditsDefaultLayout = "PersonMovieCreditsDefaultLayout";
+        private const string cPersonShowCreditsDefaultLayout = "PersonShowCreditsDefaultLayout";
+        private const string cCreditsMovieDefaultLayout = "CreditsMovieDefaultLayout";
+        private const string cCreditsShowDefaultLayout = "CreditsShowDefaultLayout";
         #endregion
         
         #region Properties
@@ -714,8 +718,8 @@ namespace TraktPlugin
                 MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
                 DashboardActivityFilter = xmlreader.GetValueAsString(cTrakt, cDashboardActivityFilter, "{}").FromJSON<ActivityFilter>();
                 SkipMoviesWithNoIdsOnSync = xmlreader.GetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, true);
-                MovieCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cMovieCreditsDefaultLayout, 0);
-                ShowCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cShowCreditsDefaultLayout, 0);
+                PersonMovieCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cPersonMovieCreditsDefaultLayout, 0);
+                PersonShowCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cPersonShowCreditsDefaultLayout, 0);
                 SortByCreditMovies = xmlreader.GetValueAsString(cTrakt, cSortByCreditMovies, "{\"Field\": 7,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByCreditShows = xmlreader.GetValueAsString(cTrakt, cSortByCreditShows, "{\"Field\": 7,\"Direction\": 1}").FromJSON<SortBy>();
                 CreditMoviesHideWatched = xmlreader.GetValueAsBool(cTrakt, cCreditMoviesHideWatched, false);
@@ -726,6 +730,8 @@ namespace TraktPlugin
                 CreditShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideWatchlisted, false);
                 CreditShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideCollected, false);
                 CreditShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideRated, false);
+                CreditsMovieDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cCreditsMovieDefaultLayout, 0);
+                CreditsShowDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cCreditsShowDefaultLayout, 0);
             }
 
             // initialise API settings
@@ -903,8 +909,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxUserCommentsRequest, MaxUserCommentsRequest);
                 xmlwriter.SetValue(cTrakt, cDashboardActivityFilter, DashboardActivityFilter.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, SkipMoviesWithNoIdsOnSync);
-                xmlwriter.SetValue(cTrakt, cMovieCreditsDefaultLayout, MovieCreditsDefaultLayout);
-                xmlwriter.SetValue(cTrakt, cShowCreditsDefaultLayout, ShowCreditsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cPersonMovieCreditsDefaultLayout, PersonMovieCreditsDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cPersonShowCreditsDefaultLayout, PersonShowCreditsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cSortByCreditMovies, SortByCreditMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByCreditShows, SortByCreditShows.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cCreditMoviesHideWatched, CreditMoviesHideWatched);
@@ -915,6 +921,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideWatchlisted, CreditShowsHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideCollected, CreditShowsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideRated, CreditShowsHideRated);
+                xmlwriter.SetValue(cTrakt, cCreditsMovieDefaultLayout, CreditsMovieDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cCreditsShowDefaultLayout, CreditsShowDefaultLayout);
             }
 
             Settings.SaveCache();

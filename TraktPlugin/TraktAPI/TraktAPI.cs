@@ -554,6 +554,26 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Summary
+
+        public static TraktMovieSummary GetMovieSummary(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.MovieSummary, id));
+            return response.FromJSON<TraktMovieSummary>();
+        }
+
+        #endregion
+
+        #region People
+
+        public static TraktCredits GetMoviePeople(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.MoviePeople, id));
+            return response.FromJSON<TraktCredits>();
+        }
+
+        #endregion
+
         #endregion
 
         #region Shows
@@ -756,6 +776,16 @@ namespace TraktPlugin.TraktAPI
         {
             string premieres = GetFromTrakt(string.Format(TraktURIs.CalendarPremieres, startDate, days));
             return premieres.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+        }
+
+        #endregion
+
+        #region People
+
+        public static TraktCredits GetShowPeople(string id)
+        {
+            var response = GetFromTrakt(string.Format(TraktURIs.ShowPeople, id));
+            return response.FromJSON<TraktCredits>();
         }
 
         #endregion

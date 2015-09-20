@@ -339,6 +339,7 @@ namespace TraktPlugin.GUI
         public static string CalendarAllShows = "All Shows";
         public static string Certification = "Certification";
         public static string Cast = "Cast";
+        public static string CastAndCrew = "Cast and Crew";
         public static string Casting = "Casting";
         public static string Character = "Character";
         public static string Characters = "Characters";

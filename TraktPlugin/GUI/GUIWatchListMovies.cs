@@ -48,6 +48,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             Trailers,
             SearchWithMpNZB,
             SearchTorrent
@@ -287,6 +289,21 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Crew;
+
+            // Change Layout
+            listItem = new GUIListItem(Translation.ChangeLayout);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
+
+            // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
                 // Trailers
@@ -294,11 +311,6 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
-
-            // Change Layout
-            listItem = new GUIListItem(Translation.ChangeLayout);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.ChangeLayout;
 
             if (!selectedWatchlistItem.Movie.IsCollected() && TraktHelper.IsMpNZBAvailableAndEnabled)
             {
@@ -434,6 +446,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Shouts):
                     TraktHelper.ShowMovieShouts(selectedWatchlistItem.Movie);
+                    break;
+
+                case ((int)ContextMenuItem.Cast):
+                    GUICreditsMovie.Movie = selectedWatchlistItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = selectedWatchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    GUICreditsMovie.Movie = selectedWatchlistItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = selectedWatchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.ChangeLayout):

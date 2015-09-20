@@ -310,6 +310,20 @@ namespace TraktPlugin.GUI
                     TraktHelper.ShowMovieShouts(selectedTrendingItem.Movie);
                     break;
 
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsMovie.Movie = selectedTrendingItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsMovie.Movie = selectedTrendingItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
                 case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowMovieTrailersMenu(selectedTrendingItem.Movie);
                     break;

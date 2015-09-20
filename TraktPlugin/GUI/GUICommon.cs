@@ -43,8 +43,14 @@ namespace TraktPlugin.GUI
         Shouts,
         UserProfile,
         FollowUser,
+        Like,
         Unlike,
+        Cast,
+        Crew,
         Trailers,
+        Spoilers,
+        SearchWithMpNZB,
+        SearchTorrent
     }
 
     public enum MediaContextMenuItem
@@ -60,6 +66,8 @@ namespace TraktPlugin.GUI
         Related,
         Rate,
         Shouts,
+        Cast,
+        Crew,
         ChangeLayout,
         Trailers,
         SearchWithMpNZB,
@@ -120,6 +128,8 @@ namespace TraktPlugin.GUI
         PersonSummary = 87600,
         PersonCreditMovies = 87601,
         PersonCreditShows = 87602,
+        CreditsMovie = 87603,
+        CreditsShow = 87604
     }
 
     enum TraktDashboardControls
@@ -163,6 +173,8 @@ namespace TraktPlugin.GUI
         AddToWatchList,
         AddToCustomList,
         Rate,
+        Cast,
+        Crew,
         Shouts,
         Related,
         ShowSeasonInfo,
@@ -1631,6 +1643,15 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ActivityContextMenuItem.Rate;
             listItems.Add(listItem);
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            listItem.ItemId = (int)ActivityContextMenuItem.Cast;
+            listItems.Add(listItem);
+
+            listItem = new GUIListItem(Translation.Crew);
+            listItem.ItemId = (int)ActivityContextMenuItem.Crew;
+            listItems.Add(listItem);
+
             // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
@@ -1706,20 +1727,29 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = (int)MediaContextMenuItem.Filters;
             }
 
-            // Related Movies
-            listItem = new GUIListItem(Translation.RelatedMovies);
-            dlg.Add(listItem);
-            listItem.ItemId = (int)MediaContextMenuItem.Related;
-
             // Rate Movie
             listItem = new GUIListItem(Translation.RateMovie);
             dlg.Add(listItem);
             listItem.ItemId = (int)MediaContextMenuItem.Rate;
 
+            // Related Movies
+            listItem = new GUIListItem(Translation.RelatedMovies);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)MediaContextMenuItem.Related;
+
             // Shouts
             listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)MediaContextMenuItem.Shouts;
+
+            // Cast & Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)MediaContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)MediaContextMenuItem.Crew;
 
             // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)
@@ -1818,10 +1848,19 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)MediaContextMenuItem.Rate;
 
-            // Shouts
+            // Comments
             listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)MediaContextMenuItem.Shouts;
+
+            // Cast & Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)MediaContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)MediaContextMenuItem.Crew;
 
             // Change Layout
             if (!dashboard)
@@ -2317,6 +2356,14 @@ namespace TraktPlugin.GUI
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
 
+            pItem = new GUIListItem(Translation.Cast);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Cast;
+
+            pItem = new GUIListItem(Translation.Crew);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Crew;
+
             // Show Search By...
             if (people != null && people.Count != 0)
             {
@@ -2411,6 +2458,22 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveMovieInUserList(title, year, imdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.Cast):
+                    TraktLogger.Info("Displaying Cast for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
+                    GUICreditsMovie.Movie = null;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = fanart;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie, imdbid);
+                    break;
+
+                    case ((int)TraktMenuItems.Crew):
+                    TraktLogger.Info("Displaying Crew for movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
+                    GUICreditsMovie.Movie = null;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = fanart;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie, imdbid);
+                    break;
+
                 case ((int)TraktMenuItems.SearchBy):
                     ShowSearchByMenu(people, title, fanart);
                     break;
@@ -2487,6 +2550,14 @@ namespace TraktPlugin.GUI
             pItem = new GUIListItem(Translation.AddToList);
             dlg.Add(pItem);
             pItem.ItemId = (int)TraktMenuItems.AddToCustomList;
+
+            pItem = new GUIListItem(Translation.Cast);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Cast;
+
+            pItem = new GUIListItem(Translation.Crew);
+            dlg.Add(pItem);
+            pItem.ItemId = (int)TraktMenuItems.Crew;
 
             // Show SearchBy menu...
             if (people != null && people.Count != 0)
@@ -2598,6 +2669,21 @@ namespace TraktPlugin.GUI
                     TraktHelper.AddRemoveShowInUserList(title, year, tvdbid, false);
                     break;
 
+                case ((int)TraktMenuItems.Cast):
+                    TraktLogger.Info("Displaying Cast for show. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
+                    GUICreditsShow.Show = null;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = fanart;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow, imdbid);
+                    break;
+
+                case ((int)TraktMenuItems.Crew):
+                    TraktLogger.Info("Displaying Crew for show. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", title, year.ToLogString(), imdbid.ToLogString());
+                    GUICreditsShow.Show = null;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = fanart;
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow, imdbid);
+                    break;
                 case ((int)TraktMenuItems.SearchBy):
                     ShowSearchByMenu(people, title, fanart);
                     break;

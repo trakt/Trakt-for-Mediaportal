@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using TraktPlugin.Extensions;
+using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {
@@ -19,6 +20,11 @@ namespace TraktPlugin.GUI
         {
             this.WindowID = windowID;
         }
+
+        public TraktPersonSummary Person { get; set; }
+        public Credit CreditType { get; set; }
+        public TraktJob Job { get; set; }
+        public TraktCharacter Character { get; set; }
 
         /// <summary>
         /// Images attached to a gui list item
@@ -50,7 +56,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUITraktImage> itemsWithThumbs)
+        internal static void GetImages(List<GUITraktImage> itemsWithThumbs, bool downloadFanart = true)
         {
             StopDownload = false;
 
@@ -76,7 +82,7 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            string remoteThumb = item.PeopleImages.HeadShot.FullSize;
+                            string remoteThumb = item.PeopleImages.HeadShot.ThumbSize;
                             string localThumb = item.PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -89,9 +95,10 @@ namespace TraktPlugin.GUI
                             }
 
                             // not all methods have Fanart for people
-                            if (item.PeopleImages.Fanart != null)
+                            // only get it if we need it
+                            if (downloadFanart && item.PeopleImages.Fanart != null)
                             {
-                                remoteThumb = item.PeopleImages.Fanart.FullSize;
+                                remoteThumb = TraktSettings.DownloadFullSizeFanart ? item.PeopleImages.Fanart.FullSize : item.PeopleImages.Fanart.MediumSize;
                                 localThumb = item.PeopleImages.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
 
                                 if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))

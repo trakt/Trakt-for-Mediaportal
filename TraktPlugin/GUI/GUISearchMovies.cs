@@ -52,6 +52,8 @@ namespace TraktPlugin.GUI
             Related,
             Rate,
             Shouts,
+            Cast,
+            Crew,
             ChangeLayout,
             Trailers,
             SearchWithMpNZB,
@@ -272,6 +274,15 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
+            // Cast and Crew
+            listItem = new GUIListItem(Translation.Cast);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Cast;
+
+            listItem = new GUIListItem(Translation.Crew);
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.Crew;
+
             // Trailers
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
@@ -361,6 +372,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.Shouts):
                     TraktHelper.ShowMovieShouts(selectedMovie);
+                    break;
+
+                case ((int)ContextMenuItem.Cast):
+                    GUICreditsMovie.Movie = selectedMovie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
+                case ((int)ContextMenuItem.Crew):
+                    GUICreditsMovie.Movie = selectedMovie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):

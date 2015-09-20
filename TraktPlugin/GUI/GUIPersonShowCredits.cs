@@ -113,7 +113,7 @@ namespace TraktPlugin.GUI
             ClearProperties();
 
             // save current layout
-            TraktSettings.ShowCreditsDefaultLayout = (int)CurrentLayout;
+            TraktSettings.PersonShowCreditsDefaultLayout = (int)CurrentLayout;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -278,6 +278,20 @@ namespace TraktPlugin.GUI
 
                 case ((int)MediaContextMenuItem.Related):
                     TraktHelper.ShowRelatedShows(selectedShow);
+                    break;
+
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsShow.Show = selectedShow;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
+                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsShow.Show = selectedShow;
+                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
+                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)MediaContextMenuItem.Trailers):
@@ -505,7 +519,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Person.CreditType", GUICommon.GetTranslatedCreditType(CurrentCreditType));
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.ShowCreditsDefaultLayout;
+            CurrentLayout = (Layout)TraktSettings.PersonShowCreditsDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

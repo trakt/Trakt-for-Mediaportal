@@ -93,7 +93,7 @@
         <type>facadeview</type>
         <id>50</id>
         <control>
-          <description>Movie List</description>
+          <description>Credit List</description>
           <type>listcontrol</type>
           <id>50</id>
           <onleft>50</onleft>
@@ -150,32 +150,20 @@
       <width>429</width>
       <height>613</height>
       <texture>list_poster_shadow.png</texture>
-      <animation effect="fade" time="250">WindowOpen</animation>
-      <animation effect="fade" time="250">WindowClose</animation>
-    </control>
-    <control>
-      <description>Default Cover Art</description>
-      <type>image</type>
-      <id>0</id>
-      <posX>123</posX>
-      <posY>360</posY>
-      <width>379</width>
-      <height>563</height>
-      <texture>defaultVideoBig.png</texture>
-      <visible>control.isvisible(50)</visible>
+      <visible>facadeview.list+control.isvisible(50)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <control>
       <description>Cover Art</description>
       <type>image</type>
-      <id>0</id>
+      <id>60</id>
       <posX>123</posX>
       <posY>360</posY>
       <width>379</width>
       <height>563</height>
-      <texture>#Trakt.Person.HeadshotFilename</texture>
-      <visible>control.isvisible(50)</visible>
+      <texture>#selectedthumb</texture>
+      <visible>facadeview.list+control.isvisible(50)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
