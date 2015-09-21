@@ -35,6 +35,7 @@
   <string name="Approve">Schváliť</string>
   <string name="ApprovedDate">Dátum schválenia</string>
   <string name="AdvancedSettings">Pokročilé nastavenia</string>
+  <string name="Animation">Animovaný</string>
   <!--B-->
   <string name="BufferingTrailer">Prednačítanie traileru</string>
   <string name="Biography">Biografia</string>
@@ -49,6 +50,7 @@
   <string name="CalendarPremieres">Premiéry</string>
   <string name="CalendarAllShows">Všetky relácie</string>
   <string name="Cast">Obsadenie</string>
+  <string name="CastAndCrew">Obsadenie</string>
   <string name="Certification">Klasifikácia</string>
   <string name="ChangeView">Zmeniť pohľad...</string>
   <string name="ChangeLayout">Zmeniť rozloženie...</string>
@@ -170,8 +172,10 @@
   <string name="MarkAsUnWatched">Označiť film ktorý som nevidel</string>
   <string name="Me">Ja</string>
   <string name="Minutes">Minút</string>
+  <string name="Music">Hudba</string>
   <string name="Movie">Film</string>
   <string name="Movies">filmov</string>
+  <string name="MovieCount">{0} filmov</string>
   <string name="MultiSelectDialog">Dialóg s multi-výberom</string>
   <!--N-->
   <string name="Name">Meno</string>
@@ -185,6 +189,7 @@
   <string name="Off">Vyp.</string>
   <string name="OK">OK</string>
   <string name="On">Zap.</string>
+  <string name="Other">Iné</string>
   <string name="Overview">Prehľad</string>
   <!--P-->
   <string name="Password">Heslo</string>

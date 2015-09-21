@@ -39,6 +39,7 @@
   <string name="ApproveAndFollowBack">Patvirtinti ir stebėti jį</string>
   <string name="ApprovedDate">Patvirtinimo data</string>
   <string name="AdvancedSettings">Išplėstiniai nustatymai</string>
+  <string name="Animation">Animaciniai</string>
   <!--B-->
   <string name="BufferingTrailer">Buferuojamas anonsas</string>
   <string name="Biography">Biografija</string>
@@ -53,6 +54,7 @@
   <string name="CalendarPremieres">Premjeros</string>
   <string name="CalendarAllShows">Visos laidos</string>
   <string name="Cast">Transliuojamas</string>
+  <string name="CastAndCrew">Filmavimo grupė</string>
   <string name="Certification">Serifikacija</string>
   <string name="ChangeView">Keisti išvaizdą...</string>
   <string name="ChangeLayout">Keisti išdėstymą...</string>
@@ -224,8 +226,10 @@
   <string name="MarkAsUnWatched">Žymėti Nežiūrėtu</string>
   <string name="Me">Aš</string>
   <string name="Minutes">Minutės</string>
+  <string name="Music">Muzika</string>
   <string name="Movie">Filmas</string>
   <string name="Movies">Filmai</string>
+  <string name="MovieCount">{0} filmai(ų)</string>
   <string name="MultiSelectDialog">Daugkartinio pasirinkimo dialogas</string>
   <!--N-->
   <string name="Name">Vardas</string>
@@ -253,6 +257,7 @@
   <string name="Off">Išjungta</string>
   <string name="OK">OK</string>
   <string name="On">Įjungta</string>
+  <string name="Other">Kita</string>
   <string name="Overview">Apžvalga</string>
   <!--P-->
   <string name="Password">Slaptažodis</string>

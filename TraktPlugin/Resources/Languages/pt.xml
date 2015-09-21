@@ -29,6 +29,7 @@
   <string name="MarkAsWatched">Marcar como visto</string>
   <string name="Movie">filme</string>
   <string name="Movies">Filmes</string>
+  <string name="MovieCount">{0} Filmes</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
   <!--N-->
   <string name="No">Não</string>

@@ -3,11 +3,13 @@
   <!--A-->
   <string name="Actor">Glumac</string>
   <string name="Actors">Glumci</string>
+  <string name="Animation">Animirani</string>
   <!--B-->
   <!--C-->
   <string name="Cancel">Odustanite</string>
   <string name="Calendar">Kalendar</string>
   <string name="Cast">Glumci</string>
+  <string name="CastAndCrew">Uloge i ekipa</string>
   <string name="Certification">Potvrda</string>
   <!--D-->
   <string name="DateToday">Danas</string>
@@ -49,6 +51,7 @@
   <!--M-->
   <string name="MarkAsWatched">Označite kao pogledano</string>
   <string name="Minutes">Minuta</string>
+  <string name="Music">Glazba</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmova</string>
   <!--N-->
@@ -56,6 +59,7 @@
   <string name="No">Ne</string>
   <!--O-->
   <string name="OK">U redu</string>
+  <string name="Other">Ostalo</string>
   <!--P-->
   <string name="Plugin">Dodatak</string>
   <string name="Plugins">Dodaci</string>

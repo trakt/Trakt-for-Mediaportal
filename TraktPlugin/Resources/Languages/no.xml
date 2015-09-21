@@ -34,6 +34,7 @@
   <string name="Approve">Approve</string>
   <string name="ApprovedDate">Approved Date</string>
   <string name="AdvancedSettings">Avanserte innstillinger</string>
+  <string name="Animation">Tegnefilm</string>
   <!--B-->
   <string name="BufferingTrailer">Bufrer forhåndsvisning</string>
   <!--C-->
@@ -186,6 +187,7 @@
   <string name="MarkAsWatched">Marker som sett</string>
   <string name="MarkAsUnWatched">Marker som usett</string>
   <string name="Minutes">Minutter</string>
+  <string name="Music">Musikk</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
   <!--N-->
@@ -201,6 +203,7 @@
   <string name="No">Nei</string>
   <!--O-->
   <string name="OK">Ok</string>
+  <string name="Other">Annet</string>
   <string name="Overview">Oversikt</string>
   <!--P-->
   <string name="Password">Passord</string>

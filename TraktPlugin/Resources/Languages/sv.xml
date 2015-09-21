@@ -6,6 +6,7 @@
   <string name="AccountDialog">Dialogruta - konto</string>
   <string name="Actor">Skådespelare</string>
   <string name="Actors">Skådespelare</string>
+  <string name="ActorAndRole">{0} som {1}</string>
   <string name="Activity">Aktivitet</string>
   <string name="ActivityFriendsDesc">Se vad dina vänner gör...</string>
   <string name="ActivityFriendsAndMeDesc">Se vad du och dina vänner gör...</string>
@@ -61,6 +62,8 @@ bland dina vänner?</string>
 föjer dig?</string>
   <string name="ApproveFollowerAndFollowBackMessage">Godkänn att användaren {0} följer dig, och följ i din tur honom/henne</string>
   <string name="AdvancedSettings">Avancerade inställningar</string>
+  <string name="Animation">Tecknat</string>
+  <string name="Art">Illustration</string>
   <!--B-->
   <string name="BufferingTrailer">Buffrar trailer</string>
   <string name="Biography">Biografi</string>
@@ -69,6 +72,7 @@ föjer dig?</string>
   <string name="Born">Född</string>
   <string name="BirthPlace">Födelseort</string>
   <!--C-->
+  <string name="Camera">Kamera</string>
   <string name="Cancel">Avbryt</string>
   <string name="Canceled">Nedlagd</string>
   <string name="Calendar">Kalender</string>
@@ -76,9 +80,11 @@ föjer dig?</string>
   <string name="CalendarPremieres">Premiärer</string>
   <string name="CalendarAllShows">Alla serier</string>
   <string name="Cast">Rollbesättning</string>
+  <string name="CastAndCrew">Rollbesättning och filmcrew</string>
   <string name="Certification">Åldersgräns</string>
   <string name="ChangeView">Byt vy...</string>
   <string name="ChangeLayout">Byt layout...</string>
+  <string name="Character">Karaktär</string>
   <string name="Create">Skapa</string>
   <string name="CreateAccount">Skapa konto</string>
   <string name="CreateNewAccount">Skapa nytt konto...</string>
@@ -102,8 +108,10 @@ detta objekt från den här listan?</string>
   <string name="Continuing">Fortsätter</string>
   <string name="CopyList">Kopiera lista...</string>
   <string name="Country">Land</string>
+  <string name="CostumeAndMakeUp">Kläder och make-up</string>
   <string name="CurrentPage">Aktuell sida</string>
   <string name="CustomLists">Egna listor</string>
+  <string name="Crew">Besättning</string>
   <!--D-->
   <string name="Dashboard">Översiktstavla</string>
   <string name="DateToday">Idag</string>
@@ -122,6 +130,7 @@ detta objekt från den här listan?</string>
   <string name="DeleteFriendMessage">Är det säkert att du vill ta bort
 {0} från dina vänner?</string>
   <string name="Died">Dog</string>
+  <string name="Directing">Regi</string>
   <string name="Director">Regissör</string>
   <string name="Directors">Regissörer</string>
   <string name="DisconnectAccount">Koppla ifrån konto: {0}</string>
@@ -273,6 +282,7 @@ detta objekt från den här listan?</string>
   <string name="Item">Objekt</string>
   <string name="Items">antal objekt</string>
   <!--J-->
+  <string name="Job">Jobb</string>
   <string name="JoinDate">Datum för registrering</string>
   <string name="Joined">Gick med</string>
   <!--K-->
@@ -303,8 +313,10 @@ detta objekt från den här listan?</string>
   <string name="Menu">Meny</string>
   <string name="Minutes">Minuter</string>
   <string name="Minute">Minut</string>
+  <string name="Music">Musik</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmer</string>
+  <string name="MovieCount">{0} Filmer</string>
   <string name="MultiSelectDialog">Flervalsdialog</string>
   <!--N-->
   <string name="Name">Namn</string>
@@ -353,6 +365,7 @@ en lista nu?</string>
   <string name="Off">Av</string>
   <string name="OK">OK</string>
   <string name="On">På</string>
+  <string name="Other">Övrigt</string>
   <string name="Overview">Översikt</string>
   <!--P-->
   <string name="Page">Sida</string>
@@ -383,6 +396,7 @@ en lista nu?</string>
   <string name="Profile">Profil</string>
   <string name="Producer">Producent</string>
   <string name="Producers">Producenter</string>
+  <string name="Production">Produktion</string>
   <!--R-->
   <string name="Rate">Betygsätt</string>
   <string name="Rated">Betyg</string>
@@ -555,6 +569,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="SortBy">Sortera efter: {0}</string>
   <string name="SortSeasonsAscending">Sortera säsonger i stigande ordning</string>
   <string name="SortSeasonsDescending">Sortera säsonger i fallande ordning</string>
+  <string name="Sound">Ljud</string>
   <string name="Specials">Specialer</string>
   <string name="Status">Status</string>
   <!--T-->
@@ -619,6 +634,7 @@ Om inställningen inte är aktiverad kommer i stället den första posten i list
   <string name="WatchListEpisodes">Watchlist för avsnitt</string>
   <string name="Writer">Manus</string>
   <string name="Writers">Manus</string>
+  <string name="Writing">Manus</string>
   <!--Y-->
   <string name="Year">År</string>
   <string name="Yes">Ja</string>

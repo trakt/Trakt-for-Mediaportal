@@ -35,6 +35,7 @@
   <string name="Approve">Odobri</string>
   <string name="ApprovedDate">Datum odobritve</string>
   <string name="AdvancedSettings">Napredne nastavitve</string>
+  <string name="Animation">Animation</string>
   <!--B-->
   <string name="BufferingTrailer">Medpomnjenje trailerja</string>
   <string name="Biography">Življenjepis</string>
@@ -46,6 +47,7 @@
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">Vse oddaje</string>
   <string name="Cast">Igralci</string>
+  <string name="CastAndCrew">Zasedba in osebje</string>
   <string name="Certification">Certifikacija</string>
   <string name="ChangeView">Spremeni pogled...</string>
   <string name="ChangeLayout">Spremeni izgled...</string>
@@ -194,8 +196,10 @@
   <string name="MarkAsWatched">Označi kot gledano</string>
   <string name="MarkAsUnWatched">Označi kot neogledano</string>
   <string name="Minutes">Minut</string>
+  <string name="Music">Glasba</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmov</string>
+  <string name="MovieCount">{0} filmov</string>
   <string name="MultiSelectDialog">Multi-izbira</string>
   <!--N-->
   <string name="Name">Ime</string>
@@ -218,6 +222,7 @@
   <string name="Off">Izklopljen</string>
   <string name="OK">V redu</string>
   <string name="On">Vklopljen</string>
+  <string name="Other">Drugo</string>
   <string name="Overview">Pregled</string>
   <!--P-->
   <string name="Password">Geslo</string>

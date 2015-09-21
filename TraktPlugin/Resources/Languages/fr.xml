@@ -58,6 +58,9 @@
   <string name="ApproveFollowerMessage">Voulez-vous permettre à l\'utilisateur {0} de vous suivre?</string>
   <string name="ApproveFollowerAndFollowBackMessage">Voulez-vous permettre à l\'utilisateur {0} \nde vous suivre et vous de suivre l\'utilisateur ?</string>
   <string name="AdvancedSettings">Paramétrages avancés</string>
+  <string name="Animation">Animation</string>
+  <string name="ArtDirection">Directeur artistique </string>
+  <string name="AssistantArtDirector">Directeur artistique adjoint</string>
   <!--B-->
   <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
   <string name="Biography">Biographie</string>
@@ -73,9 +76,13 @@
   <string name="CalendarPremieres">Pilotes</string>
   <string name="CalendarAllShows">Toutes les séries</string>
   <string name="Cast">Distribution</string>
+  <string name="CastAndCrew">Distribution et équipe </string>
+  <string name="Casting">Castings</string>
   <string name="Certification">Certification</string>
   <string name="ChangeView">Changer de vue ...</string>
   <string name="ChangeLayout">Changer la mise en page</string>
+  <string name="Character">Personnage</string>
+  <string name="Characters">Personnages</string>
   <string name="Create">Créer</string>
   <string name="CreateAccount">Créer un compte</string>
   <string name="CreateNewAccount">Créer un nouveau compte</string>
@@ -92,11 +99,14 @@
   <string name="Comments">Commentaires</string>
   <string name="Community">Communauté</string>
   <string name="CommunityActivity">Activité de la communauté</string>
+  <string name="Compositors">Compositeurs</string>
+  <string name="ConstructionCoordinator">Décorateur</string>
   <string name="ConfirmDeleteList">Etes-vous sûr de vouloir supprimer\ncet liste?</string>
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer\ncet élément de la liste?</string>
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
   <string name="Country">Pays</string>
+  <string name="CostumeAndMakeUp">Costume et Maquillage</string>
   <string name="CurrentPage">Page courante</string>
   <string name="CustomLists">listes personnalisées</string>
   <!--D-->
@@ -118,6 +128,7 @@
   <string name="Died">Mort</string>
   <string name="Director">Réalisateur</string>
   <string name="Directors">Réalisateurs</string>
+  <string name="DirectorOfPhotography">Directeur de la photographie</string>
   <string name="DisconnectAccount">Compte déconnecté: {0}</string>
   <string name="DismissRecommendation">Ne pas tenir compte de la recommandation</string>
   <string name="DontIncludeMeInFriendsActivity">Ne pas m\'inclure dans Activités des amis</string>
@@ -297,8 +308,10 @@
   <string name="Menu">Menu</string>
   <string name="Minutes">Minutes</string>
   <string name="Minute">Minute</string>
+  <string name="Music">Musique</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
+  <string name="MovieCount">{0} Films</string>
   <string name="MultiSelectDialog">Fenêtre à sélection multiple</string>
   <!--N-->
   <string name="Name">Nom</string>
@@ -339,11 +352,15 @@
   <string name="NoRelatedMovies">Aucun film similaire trouvé pour {0}</string>
   <string name="NoRelatedShows">Aucune série similaire trouvée pour {0}</string>
   <string name="No">Non</string>
+  <string name="Novel">Roman</string>
   <!--O-->
   <string name="Off">Off</string>
   <string name="OK">OK</string>
   <string name="On">On</string>
+  <string name="Other">Autres</string>
   <string name="Overview">Vue d\'ensemble</string>
+  <string name="OriginalStory">Histoire Originale</string>
+  <string name="OriginalMusicComposer">Compositeur</string>
   <!--P-->
   <string name="Page">Page</string>
   <string name="Pages">Pages</string>
@@ -417,6 +434,7 @@
   <string name="ReturningSeries">Retour vers les séries</string>
   <string name="Runtime">Durée</string>
   <!--S-->
+  <string name="Screenplay">Scénario</string>
   <string name="Score">Score</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Recherche de NZB</string>
@@ -440,6 +458,8 @@
   <string name="SelectUser">Sélectionnez un utilisateur</string>
   <string name="Series">Séries</string>
   <string name="SeriesPlural">Séries</string>
+  <string name="SetDecoration">Décorateur</string>
+  <string name="SetDesigner">Scénographe</string>
   <string name="SetPassword">Votre mot de passe chez Trakt n\'est pas défini , voulez vous \nle créer maintenant?</string>
   <string name="Settings">Paramètres</string>
   <string name="Shout">Commentaire</string>

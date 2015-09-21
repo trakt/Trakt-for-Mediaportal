@@ -35,6 +35,7 @@
   <string name="Approve">Approva</string>
   <string name="ApprovedDate">Data Approvazione</string>
   <string name="AdvancedSettings">Impostazioni Avanzate</string>
+  <string name="Animation">Animazione</string>
   <!--B-->
   <string name="BufferingTrailer">Buffering Trailer</string>
   <string name="Biography">Biografia</string>
@@ -45,6 +46,7 @@
   <string name="CalendarPremieres">Anteprime</string>
   <string name="CalendarAllShows">Tutte le Serie</string>
   <string name="Cast">Cast</string>
+  <string name="CastAndCrew">Cast e troupe</string>
   <string name="Certification">Certifica</string>
   <string name="ChangeView">Cambia Vista...</string>
   <string name="ChangeLayout">Cambia Layout...</string>
@@ -190,8 +192,10 @@
   <string name="MarkAsWatched">Marca come visto</string>
   <string name="MarkAsUnWatched">Marca come Non Visto</string>
   <string name="Minutes">Minuti</string>
+  <string name="Music">Musicale</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
+  <string name="MovieCount">{0} Film</string>
   <string name="MultiSelectDialog">Finestra di Selezione Multipla</string>
   <!--N-->
   <string name="Name">Nome</string>

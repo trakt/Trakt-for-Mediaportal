@@ -36,6 +36,7 @@
   <string name="ApproveAndFollowBack">Hyväksy ja seuraa</string>
   <string name="ApprovedDate">Hyväksymis päivämäärä</string>
   <string name="AdvancedSettings">Kehittyneet asetukset</string>
+  <string name="Animation">Animaatio</string>
   <!--B-->
   <string name="BufferingTrailer">Ladataan traileria</string>
   <string name="Biography">Elämänkerta</string>
@@ -50,6 +51,7 @@
   <string name="CalendarPremieres">Ennakot</string>
   <string name="CalendarAllShows">Kaikki jaksot</string>
   <string name="Cast">Näyttelijät</string>
+  <string name="CastAndCrew">Näyttelijät ja Avustajat</string>
   <string name="Certification">Sertifiointi</string>
   <string name="ChangeView">Muuta näkymää...</string>
   <string name="ChangeLayout">Muuta ulkoasua...</string>
@@ -221,8 +223,10 @@
   <string name="MarkAsUnWatched">Merkkaa Ei-katsotuksi</string>
   <string name="Me">Minä</string>
   <string name="Minutes">Minuuttia</string>
+  <string name="Music">Musiikki</string>
   <string name="Movie">Elokuva</string>
   <string name="Movies">Elokuvat</string>
+  <string name="MovieCount">{0} elokuvia</string>
   <string name="MultiSelectDialog">Monivalinta Ikkuna</string>
   <!--N-->
   <string name="Name">Nimi</string>
@@ -250,6 +254,7 @@
   <string name="Off">Pois päältä</string>
   <string name="OK">OK</string>
   <string name="On">Päällä</string>
+  <string name="Other">Muut</string>
   <string name="Overview">Yleiskatsaus</string>
   <!--P-->
   <string name="Password">Salasana</string>

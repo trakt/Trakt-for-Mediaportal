@@ -43,6 +43,7 @@
   <string name="Minutes">Minutos</string>
   <string name="Movie">Filme</string>
   <string name="Movies">Filmes</string>
+  <string name="MovieCount">{0} Filmes</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
   <!--N-->
   <string name="Network">emissora</string>

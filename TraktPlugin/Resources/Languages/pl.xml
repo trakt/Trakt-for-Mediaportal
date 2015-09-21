@@ -23,6 +23,7 @@
   <string name="Approve">Zatwierdź</string>
   <string name="ApprovedDate">Data zatwierdzenia</string>
   <string name="AdvancedSettings">Ustawienia zaawansowane</string>
+  <string name="Animation">Animacja</string>
   <!--B-->
   <string name="Biography">Biografia</string>
   <string name="Born">Urodzony</string>
@@ -33,6 +34,7 @@
   <string name="CalendarPremieres">Premiery</string>
   <string name="CalendarAllShows">Wszystkie programy</string>
   <string name="Cast">Obsada</string>
+  <string name="CastAndCrew">Obsada i zespół</string>
   <string name="Certification">Ograniczenia wiekowe</string>
   <string name="ChangeView">Zmień widok...</string>
   <string name="ChangeLayout">Zmień układ...</string>
@@ -161,8 +163,10 @@
   <string name="MarkAsWatched">Oznacz jako obejrzany</string>
   <string name="Me">Ja</string>
   <string name="Minutes">Minuty</string>
+  <string name="Music">Muzyka</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmy</string>
+  <string name="MovieCount">{0} filmów</string>
   <string name="MultiSelectDialog">Okno wielokrotnego wyboru</string>
   <!--N-->
   <string name="Name">Nazwa</string>
@@ -178,6 +182,7 @@
   <string name="Off">Wyłącz</string>
   <string name="OK">OK</string>
   <string name="On">Włącz</string>
+  <string name="Other">Inne</string>
   <!--P-->
   <string name="Password">Hasło</string>
   <string name="People">Ludzie</string>

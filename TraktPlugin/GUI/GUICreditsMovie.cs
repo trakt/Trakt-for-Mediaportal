@@ -308,7 +308,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Directing;
                         item.Job = person;
@@ -333,7 +333,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Writing;
                         item.Job = person;
@@ -358,7 +358,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Production;
                         item.Job = person;
@@ -383,7 +383,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Art;
                         item.Job = person;
@@ -408,7 +408,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Camera;
                         item.Job = person;
@@ -433,7 +433,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.CostumeAndMakeUp;
                         item.Job = person;
@@ -458,7 +458,7 @@ namespace TraktPlugin.GUI
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
-                        item.Label2 = person.Job;
+                        item.Label2 = GUICommon.GetTranslatedCreditJob(person.Job);
                         item.Person = person.Person;
                         item.CreditType = Credit.Sound;
                         item.Job = person;

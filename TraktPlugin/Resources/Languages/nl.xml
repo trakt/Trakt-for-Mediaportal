@@ -59,6 +59,7 @@
   <string name="ApproveFollowerMessage">Vind je het leuk als gebruiker {0} je gaat volgen?</string>
   <string name="ApproveFollowerAndFollowBackMessage">Wil je toestaan dat gebruiker {0} je volgt en dat jij deze gebruiker gaat volgen?</string>
   <string name="AdvancedSettings">Geavanceerde instellingen</string>
+  <string name="Animation">Animatie</string>
   <!--B-->
   <string name="BufferingTrailer">Trailer bufferen</string>
   <string name="Biography">Biografie</string>
@@ -74,6 +75,7 @@
   <string name="CalendarPremieres">Premières</string>
   <string name="CalendarAllShows">Alle series</string>
   <string name="Cast">Rolverdeling:</string>
+  <string name="CastAndCrew">Cast en Crew</string>
   <string name="Certification">Classificatie</string>
   <string name="ChangeView">Wijzig weergave</string>
   <string name="ChangeLayout">Wijzig lay-out</string>
@@ -298,8 +300,10 @@
   <string name="Menu">Menu</string>
   <string name="Minutes">Minuten</string>
   <string name="Minute">Minuut</string>
+  <string name="Music">Muziek</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
+  <string name="MovieCount">{0} Films</string>
   <string name="MultiSelectDialog">Multi-Select dialoog</string>
   <!--N-->
   <string name="Name">Naam</string>
@@ -344,6 +348,7 @@
   <string name="Off">Uit</string>
   <string name="OK">OK</string>
   <string name="On">Aan</string>
+  <string name="Other">Overige</string>
   <string name="Overview">Overzicht</string>
   <!--P-->
   <string name="Page">Pagine</string>

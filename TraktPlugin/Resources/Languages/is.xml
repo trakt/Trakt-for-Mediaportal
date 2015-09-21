@@ -15,6 +15,7 @@
   <string name="Age">Aldur</string>
   <string name="Approve">Samþykkja</string>
   <string name="ApprovedDate">Dags. samþykktar</string>
+  <string name="Animation">Teiknimyndir</string>
   <!--B-->
   <string name="BufferingTrailer">Stiklur í biðminni</string>
   <string name="Biography">Ævisaga</string>
@@ -24,6 +25,7 @@
   <string name="CalendarMyShows">Mínir sjónvarpsþættir</string>
   <string name="CalendarAllShows">Allir sjónvarpsþættir</string>
   <string name="Cast">Leikhópur</string>
+  <string name="CastAndCrew">Leikarar og starfsmenn</string>
   <string name="Certification">Aldurstakmark</string>
   <string name="ChangeView">Breyta útliti...</string>
   <string name="Create">Búa til</string>
@@ -107,8 +109,10 @@
   <string name="MarkAsWatched">Merkja séða</string>
   <string name="MarkAsUnWatched">Merkja óséða</string>
   <string name="Minutes">mínútur</string>
+  <string name="Music">Tónlist</string>
   <string name="Movie">Kvikmynd</string>
   <string name="Movies">Kvikmyndir</string>
+  <string name="MovieCount">{0} kvikmyndir</string>
   <string name="MultiSelectDialog">Multi-Select Dialog</string>
   <!--N-->
   <string name="Name">Nafn</string>
@@ -126,6 +130,7 @@
   <string name="Off">Af</string>
   <string name="OK">Í lagi</string>
   <string name="On">Á</string>
+  <string name="Other">Annað</string>
   <string name="Overview">Yfirlit</string>
   <!--P-->
   <string name="Password">Aðgangsorð</string>

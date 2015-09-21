@@ -40,6 +40,7 @@
   <!--M-->
   <string name="MarkAsWatched">Отметить как просмотренный</string>
   <string name="Minutes">Минуты</string>
+  <string name="Music">Музыка</string>
   <string name="Movie">Фильм</string>
   <string name="Movies">Фильмы</string>
   <!--N-->
@@ -47,6 +48,7 @@
   <string name="No">Нет</string>
   <!--O-->
   <string name="OK">OK</string>
+  <string name="Other">Другое</string>
   <!--P-->
   <string name="Plugin">Диполнение</string>
   <string name="Plugins">Дополнения</string>

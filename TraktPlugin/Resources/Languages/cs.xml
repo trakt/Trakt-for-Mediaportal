@@ -51,6 +51,7 @@
   <string name="ApproveFollowerMessage">Chcete povolit uživateli {0}\naby Vás sledoval?</string>
   <string name="ApproveFollowerAndFollowBackMessage">Chcete povolit uživateli {0}\naby Vás sledoval a také jej sledovat?</string>
   <string name="AdvancedSettings">Rozšířené možnosti</string>
+  <string name="Animation">Animovaný</string>
   <!--B-->
   <string name="BufferingTrailer">Načítám upoutávku</string>
   <string name="Biography">Životopis</string>
@@ -66,6 +67,7 @@
   <string name="CalendarPremieres">Premiéry</string>
   <string name="CalendarAllShows">Všechny seriály</string>
   <string name="Cast">Obsazení</string>
+  <string name="CastAndCrew">Osoby a obsazení</string>
   <string name="Certification">Klasifikace</string>
   <string name="ChangeView">Změnit pohled...</string>
   <string name="ChangeLayout">Změnit rozložení...</string>
@@ -278,8 +280,10 @@
   <string name="Menu">Menu</string>
   <string name="Minutes">Minuty</string>
   <string name="Minute">Minuta</string>
+  <string name="Music">Hudební</string>
   <string name="Movie">Film</string>
   <string name="Movies">Filmy</string>
+  <string name="MovieCount">{0} filmů</string>
   <string name="MultiSelectDialog">Vícenásobný výběr</string>
   <!--N-->
   <string name="Name">Název</string>
@@ -324,6 +328,7 @@
   <string name="Off">Vyp.</string>
   <string name="OK">OK</string>
   <string name="On">Zap.</string>
+  <string name="Other">Jiné</string>
   <string name="Overview">Přehled</string>
   <!--P-->
   <string name="Page">Strana</string>

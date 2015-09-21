@@ -35,6 +35,7 @@
   <string name="Approve">Godkendt</string>
   <string name="ApprovedDate">Godkendelses dato</string>
   <string name="AdvancedSettings">Advancerede indstillinger</string>
+  <string name="Animation">Animation</string>
   <!--B-->
   <string name="BufferingTrailer">Bufferlagringen Trailer</string>
   <!--C-->
@@ -44,6 +45,7 @@
   <string name="CalendarPremieres">Premiere</string>
   <string name="CalendarAllShows">Alle seier</string>
   <string name="Cast">Medvirkende</string>
+  <string name="CastAndCrew">Skuespillere og filmhold</string>
   <string name="Certification">Censur</string>
   <string name="ChangeView">Ændre syn...</string>
   <string name="ChangeLayout">Ændre layout...</string>
@@ -192,8 +194,10 @@
   <string name="MarkAsWatched">Markér som set</string>
   <string name="MarkAsUnWatched">Markér som uset</string>
   <string name="Minutes">Minutter</string>
+  <string name="Music">Musik</string>
   <string name="Movie">Film</string>
   <string name="Movies">Film</string>
+  <string name="MovieCount">{0} Film</string>
   <string name="MultiSelectDialog">Markér flere</string>
   <!--N-->
   <string name="Name">Navn</string>
