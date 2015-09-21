@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>87600</id>
+  <defaultcontrol>50</defaultcontrol>
+  <allowoverlay>yes</allowoverlay>
+  <controls>
+    <control>
+      <description>BG</description>
+      <type>image</type>
+      <id>1</id>
+      <texture>BH Videos.jpg</texture>
+      <width>1280</width>
+      <height>720</height>
+      <colordiffuse>90ffffff</colordiffuse>
+    </control>
+    <control>
+      <description>Fanart</description>
+      <type>image</type>
+      <id>1</id>
+      <texture>#Trakt.Person.FanartFilename</texture>
+      <width>1280</width>
+      <height>720</height>
+      <colordiffuse>ffffffff</colordiffuse>
+    </control>
+    <import>common.window.xml</import>
+    <import>common.time.xml</import>
+    <control>
+      <description>General Overlay</description>
+      <id>0</id>
+      <type>image</type>
+      <posX>0</posX>
+      <posY>30</posY>
+      <width>1280</width>
+      <height>720</height>
+      <texture>general_overlay.png</texture>
+    </control>
+    <control>
+      <description>Current View</description>
+      <type>label</type>
+      <id>0</id>
+      <posX>29</posX>
+      <posY>10</posY>
+      <width>866</width>
+      <font>font11</font>
+      <textcolor>ff6FAFE1</textcolor>
+      <label>#Trakt.Translation.PersonSummary.Label: #Trakt.Person.Name</label>
+      <align>left</align>
+    </control>
+    <import>Trakt.Common.Facade.xml</import>
+    <import>Trakt.Common.Properties.People.xml</import>
+  </controls>
+</window>

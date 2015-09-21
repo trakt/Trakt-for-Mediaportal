@@ -111,6 +111,30 @@
       <visible>facadeview.list+!string.equals(#Trakt.Person.Birthday,)</visible>
     </control>
     <control>
+      <description>Died txt</description>
+      <type>label</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>304</posY>
+      <label>#Trakt.Translation.Died.Label</label>
+      <font>font10</font>
+      <align>left</align>
+      <textcolor>ff6FAFE1</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Death,)+!string.equals(#Trakt.Person.Death,--)</visible>
+    </control>
+    <control>
+      <description>Death value</description>
+      <type>fadelabel</type>
+      <id>1</id>
+      <posX>729</posX>
+      <posY>323</posY>
+      <label>#Trakt.Person.Death</label>
+      <font>font12</font>
+      <width>280</width>
+      <textcolor>ivory</textcolor>
+      <visible>facadeview.list+!string.equals(#Trakt.Person.Death,)+!string.equals(#Trakt.Person.Death,--)</visible>
+    </control>
+    <control>
       <description>Separator Line</description>
       <type>image</type>
       <id>1</id>
