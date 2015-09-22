@@ -1902,6 +1902,41 @@
               <ZipFileName>Installer{CopyFile}\{2c272db4-7133-464e-a9dc-4938bd4cc62f}-traktActivityLike.png</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityLike.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Credits.Movie.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{4e0e726c-071f-4b69-9081-4e40532d51d8}-Trakt.Credits.Movie.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Credits.Movie.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Credits.Show.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{8cce879d-25eb-42fd-9d2c-f61320e9d1b6}-Trakt.Credits.Show.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Credits.Show.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Credits.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{37071c8e-3d16-45af-9861-082a1e7db5da}-Trakt.Person.Credits.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Credits.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Credits.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b47e8b25-0c90-457a-8947-9802dc20a5b1}-Trakt.Person.Credits.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Credits.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Summary.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c6ea18d7-05ee-4b1d-a5fc-2171f9829460}-Trakt.Person.Summary.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Summary.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2715,13 +2750,6 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
             <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
               <Param1 />
               <UpdateOption>OverwriteIfOlder</UpdateOption>
-              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\myextensions2settings.xml</LocalFileName>
-              <ZipFileName>Installer{CopyFile}\{1ce1a9cf-03e5-4b92-a341-6d78262ed0f6}-myextensions2settings.xml</ZipFileName>
-              <DestinationFilename>%Skin%\Titan\myextensions2settings.xml</DestinationFilename>
-            </FileItem>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-              <Param1 />
-              <UpdateOption>OverwriteIfOlder</UpdateOption>
               <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextPage.png</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{b1b3c22f-70d1-4502-bb51-20677d230949}-traktNextPage.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Media\traktNextPage.png</DestinationFilename>
@@ -2781,6 +2809,41 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLike.png</LocalFileName>
               <ZipFileName>Installer{CopyFile}\{24d01537-76ec-4cbc-87ca-7c5a5b856a90}-traktActivityLike.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Media\traktActivityLike.png</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Credits.Movie.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{14709cf4-f232-4efe-90bc-534a6f410164}-Trakt.Credits.Movie.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Credits.Movie.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Credits.Show.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{b4c79912-944c-470c-87b6-4ef970e617a7}-Trakt.Credits.Show.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Credits.Show.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Credits.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c77f4f52-5c3c-46cf-a8a2-fb0e8970a8f6}-Trakt.Person.Credits.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Person.Credits.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Credits.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{c1fc3573-90bc-4847-ba09-a1e151be7908}-Trakt.Person.Credits.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Person.Credits.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Summary.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{79da9ad3-efd6-4344-92ac-66c2d1b7b6de}-Trakt.Person.Summary.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Person.Summary.xml</DestinationFilename>
             </FileItem>
           </Items>
         </Files>
@@ -3111,17 +3174,19 @@ Click Next to continue or Cancel to exit Setup.
       <Major>5</Major>
       <Minor>5</Minor>
       <Build>2</Build>
-      <Revision>1</Revision>
+      <Revision>2</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* General bug fixes and improvements to dashboard loading.
+    <VersionDescription>* Support for Movie and TV Show credits (cast and crew). Titan and DefaultWide skin updated.
+* Support for Person Movie and TV Show credits. Titan and DefaultWide skin updated.
+* General bug fixes and improvements to dashboard loading.
 * Fixed missing movie title / year on dashboard when new movie added to MovingPictures collection.
 * Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2015-09-05T10:00:00</ReleaseDate>
+    <ReleaseDate>2015-09-21T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -5022,6 +5087,41 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{2c272db4-7133-464e-a9dc-4938bd4cc62f}-traktActivityLike.png</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Media\traktActivityLike.png</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Credits.Movie.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{4e0e726c-071f-4b69-9081-4e40532d51d8}-Trakt.Credits.Movie.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Credits.Movie.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Credits.Show.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{8cce879d-25eb-42fd-9d2c-f61320e9d1b6}-Trakt.Credits.Show.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Credits.Show.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Credits.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{37071c8e-3d16-45af-9861-082a1e7db5da}-Trakt.Person.Credits.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Credits.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Credits.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b47e8b25-0c90-457a-8947-9802dc20a5b1}-Trakt.Person.Credits.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Credits.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Person.Summary.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c6ea18d7-05ee-4b1d-a5fc-2171f9829460}-Trakt.Person.Summary.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Summary.xml</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
@@ -5795,13 +5895,6 @@ Trakt will also synchronize your watched flags across multiple installations.</E
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
-        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\myextensions2settings.xml</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{1ce1a9cf-03e5-4b92-a341-6d78262ed0f6}-myextensions2settings.xml</ZipFileName>
-        <DestinationFilename>%Skin%\Titan\myextensions2settings.xml</DestinationFilename>
-      </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
-        <Param1 />
-        <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktNextPage.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{b1b3c22f-70d1-4502-bb51-20677d230949}-traktNextPage.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Media\traktNextPage.png</DestinationFilename>
@@ -5861,6 +5954,41 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Media\traktActivityLike.png</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{24d01537-76ec-4cbc-87ca-7c5a5b856a90}-traktActivityLike.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Media\traktActivityLike.png</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Credits.Movie.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{14709cf4-f232-4efe-90bc-534a6f410164}-Trakt.Credits.Movie.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Credits.Movie.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Credits.Show.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{b4c79912-944c-470c-87b6-4ef970e617a7}-Trakt.Credits.Show.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Credits.Show.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Credits.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c77f4f52-5c3c-46cf-a8a2-fb0e8970a8f6}-Trakt.Person.Credits.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Person.Credits.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Credits.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{c1fc3573-90bc-4847-ba09-a1e151be7908}-Trakt.Person.Credits.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Person.Credits.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Person.Summary.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{79da9ad3-efd6-4344-92ac-66c2d1b7b6de}-Trakt.Person.Summary.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Person.Summary.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
