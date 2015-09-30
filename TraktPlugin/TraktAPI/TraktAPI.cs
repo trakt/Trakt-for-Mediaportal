@@ -177,15 +177,15 @@ namespace TraktPlugin.TraktAPI
 
         #region User
 
-        public static TraktUserStatistics GetUserStatistics(string user)
+        public static TraktUserStatistics GetUserStatistics(string username = "me")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserStats, user));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserStats, username));
             return response.FromJSON<TraktUserStatistics>();
         }
 
-        public static TraktUserSummary GetUserProfile(string user)
+        public static TraktUserSummary GetUserProfile(string username = "me")
         {
-            var response = GetFromTrakt(string.Format(TraktURIs.UserProfile, user));
+            var response = GetFromTrakt(string.Format(TraktURIs.UserProfile, username));
             return response.FromJSON<TraktUserSummary>();
         }
 
@@ -205,11 +205,11 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         public static IEnumerable<TraktNetworkFriend> GetNetworkFriends()
         {
-            return GetNetworkFriends(TraktSettings.Username);
+            return GetNetworkFriends("me");
         }
-        public static IEnumerable<TraktNetworkFriend> GetNetworkFriends(string user)
+        public static IEnumerable<TraktNetworkFriend> GetNetworkFriends(string username)
         {
-            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFriends, user));
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFriends, username));
             return response.FromJSONArray<TraktNetworkFriend>();
         }
 
@@ -218,11 +218,11 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         public static IEnumerable<TraktNetworkUser> GetNetworkFollowing()
         {
-            return GetNetworkFollowing(TraktSettings.Username);
+            return GetNetworkFollowing("me");
         }
-        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing(string user)
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowing(string username)
         {
-            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowing, user));
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowing, username));
             return response.FromJSONArray<TraktNetworkUser>();
         }
 
@@ -231,11 +231,11 @@ namespace TraktPlugin.TraktAPI
         /// </summary>
         public static IEnumerable<TraktNetworkUser> GetNetworkFollowers()
         {
-            return GetNetworkFollowers(TraktSettings.Username);
+            return GetNetworkFollowers("me");
         }
-        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers(string user)
+        public static IEnumerable<TraktNetworkUser> GetNetworkFollowers(string username)
         {
-            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowers, user));
+            string response = GetFromTrakt(string.Format(TraktURIs.NetworkFollowers, username));
             return response.FromJSONArray<TraktNetworkUser>();
         }
 
@@ -261,13 +261,13 @@ namespace TraktPlugin.TraktAPI
             return DeleteFromTrakt(string.Format(TraktURIs.NetworkFollowUser, username));
         }
 
-        public static IEnumerable<TraktMovieHistory> GetUsersMovieWatchedHistory(string username, int page = 1, int maxItems = 100)
+        public static IEnumerable<TraktMovieHistory> GetUsersMovieWatchedHistory(string username = "me", int page = 1, int maxItems = 100)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchedHistoryMovies, username, page, maxItems));
             return response.FromJSONArray<TraktMovieHistory>();
         }
 
-        public static IEnumerable<TraktEpisodeHistory> GetUsersEpisodeWatchedHistory(string username, int page = 1, int maxItems = 100)
+        public static IEnumerable<TraktEpisodeHistory> GetUsersEpisodeWatchedHistory(string username = "me", int page = 1, int maxItems = 100)
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchedHistoryEpisodes, username, page, maxItems));
             return response.FromJSONArray<TraktEpisodeHistory>();
@@ -279,7 +279,7 @@ namespace TraktPlugin.TraktAPI
         /// <param name="username">Username of person that made comment</param>
         /// <param name="commentType">all, reviews, shouts</param>
         /// <param name="type"> all, movies, shows, seasons, episodes, lists</param>
-        public static TraktComments GetUsersComments(string username, string commentType = "all", string type = "all", string extendedInfoParams = "min", int page = 1, int maxItems = 10)
+        public static TraktComments GetUsersComments(string username = "me", string commentType = "all", string type = "all", string extendedInfoParams = "min", int page = 1, int maxItems = 10)
         {
             var headers = new WebHeaderCollection();
 
@@ -309,7 +309,7 @@ namespace TraktPlugin.TraktAPI
 
         #region Lists
         
-        public static IEnumerable<TraktListDetail> GetUserLists(string username)
+        public static IEnumerable<TraktListDetail> GetUserLists(string username = "me")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username));
             return response.FromJSONArray<TraktListDetail>();
@@ -321,13 +321,13 @@ namespace TraktPlugin.TraktAPI
             return response.FromJSONArray<TraktListItem>();
         }
 
-        public static TraktListDetail CreateCustomList(TraktList list, string username)
+        public static TraktListDetail CreateCustomList(TraktList list, string username = "me")
         {
             var response = PostToTrakt(string.Format(TraktURIs.UserListAdd, username), list.ToJSON());
             return response.FromJSON<TraktListDetail>();
         }
 
-        public static TraktListDetail UpdateCustomList(TraktListDetail list, string username)
+        public static TraktListDetail UpdateCustomList(TraktListDetail list, string username = "me")
         {
             var response = ReplaceOnTrakt(string.Format(TraktURIs.UserListEdit, username), list.ToJSON());
             return response.FromJSON<TraktListDetail>();
@@ -365,25 +365,25 @@ namespace TraktPlugin.TraktAPI
 
         #region Watchlists
 
-        public static IEnumerable<TraktMovieWatchList> GetWatchListMovies(string username, string extendedInfoParams = "min")
+        public static IEnumerable<TraktMovieWatchList> GetWatchListMovies(string username = "me", string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistMovies, username, extendedInfoParams));
             return response.FromJSONArray<TraktMovieWatchList>();
         }
 
-        public static IEnumerable<TraktShowWatchList> GetWatchListShows(string username, string extendedInfoParams = "min")
+        public static IEnumerable<TraktShowWatchList> GetWatchListShows(string username = "me", string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistShows, username, extendedInfoParams));
             return response.FromJSONArray<TraktShowWatchList>();
         }
 
-        public static IEnumerable<TraktSeasonWatchList> GetWatchListSeasons(string username, string extendedInfoParams = "min")
+        public static IEnumerable<TraktSeasonWatchList> GetWatchListSeasons(string username = "me", string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistSeasons, username, extendedInfoParams));
             return response.FromJSONArray<TraktSeasonWatchList>();
         }
 
-        public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username, string extendedInfoParams = "min")
+        public static IEnumerable<TraktEpisodeWatchList> GetWatchListEpisodes(string username = "me", string extendedInfoParams = "min")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserWatchlistEpisodes, username, extendedInfoParams));
             return response.FromJSONArray<TraktEpisodeWatchList>();

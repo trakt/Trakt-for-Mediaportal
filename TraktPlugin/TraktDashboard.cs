@@ -223,7 +223,7 @@ namespace TraktPlugin
             }
 
             // retrieve statistics from online
-            var userStats = TraktAPI.TraktAPI.GetUserStatistics(TraktSettings.Username);
+            var userStats = TraktAPI.TraktAPI.GetUserStatistics();
             if (userStats != null)
             {
                 GUICommon.SetStatisticProperties(userStats, TraktSettings.Username);
@@ -237,7 +237,7 @@ namespace TraktPlugin
             // this will be updated whenever a user enters the UserProfile GUI
             if (TraktSettings.LastUserProfile == null)
             {
-                var userProfile = TraktAPI.TraktAPI.GetUserProfile(TraktSettings.Username);
+                var userProfile = TraktAPI.TraktAPI.GetUserProfile();
                 if (userProfile != null)
                 {
                     TraktSettings.LastUserProfile = userProfile;
@@ -2698,7 +2698,7 @@ namespace TraktPlugin
                     if (activity.Shout != null)
                         GUICommon.UnLikeComment(activity.Shout);
                     else if (activity.List != null)
-                        GUICommon.UnLikeList(activity.List, TraktSettings.Username);
+                        GUICommon.UnLikeList(activity.List, "me");
 
                     ReloadActivityView = true;
                     break;

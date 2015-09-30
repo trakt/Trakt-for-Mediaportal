@@ -285,7 +285,7 @@ namespace TraktPlugin.GUI
 
                 // first create new list
                 TraktLogger.Info("Creating new list online. Privacy = '{0}', Name = '{1}'", copyParams.Destination.Privacy, copyParams.Destination.Name);
-                var response = TraktAPI.TraktAPI.CreateCustomList(copyParams.Destination, TraktSettings.Username);
+                var response = TraktAPI.TraktAPI.CreateCustomList(copyParams.Destination);
                 if (response != null)
                 {
                     // get items from other list
@@ -338,7 +338,7 @@ namespace TraktPlugin.GUI
                     }
                     
                     // add items to the list
-                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList(TraktSettings.Username, response.Ids.Trakt.ToString(), itemsToAdd);
+                    var ItemsAddedResponse = TraktAPI.TraktAPI.AddItemsToList("me", response.Ids.Trakt.ToString(), itemsToAdd);
 
                     if (ItemsAddedResponse != null)
                     {
@@ -371,7 +371,7 @@ namespace TraktPlugin.GUI
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
                 TraktLogger.Info("Deleting list from online. Name = '{0}', Id = '{1}'", list.Name, list.Ids.Trakt);
-                return TraktAPI.TraktAPI.DeleteUserList(TraktSettings.Username, list.Ids.Trakt.ToString());
+                return TraktAPI.TraktAPI.DeleteUserList("me", list.Ids.Trakt.ToString());
             },
             delegate(bool success, object result)
             {
@@ -402,7 +402,7 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.TraktAPI.CreateCustomList(list, TraktSettings.Username);
+                return TraktAPI.TraktAPI.CreateCustomList(list);
             },
             delegate(bool success, object result)
             {
@@ -434,7 +434,7 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return TraktAPI.TraktAPI.UpdateCustomList(list, TraktSettings.Username);
+                return TraktAPI.TraktAPI.UpdateCustomList(list);
             },
             delegate(bool success, object result)
             {

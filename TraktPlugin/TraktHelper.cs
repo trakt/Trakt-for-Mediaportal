@@ -1587,11 +1587,11 @@ namespace TraktPlugin
                     TraktSyncResponse response = null;
                     if (!remove)
                     {
-                        response = TraktAPI.TraktAPI.AddItemsToList(TraktSettings.Username, listId.ToString(), items);
+                        response = TraktAPI.TraktAPI.AddItemsToList("me", listId.ToString(), items);
                     }
                     else
                     {
-                        response = TraktAPI.TraktAPI.RemoveItemsFromList(TraktSettings.Username, listId.ToString(), items);
+                        response = TraktAPI.TraktAPI.RemoveItemsFromList("me", listId.ToString(), items);
                     }
 
                     if (response != null)

@@ -66,7 +66,7 @@ namespace TraktPlugin.GUI
 
                     var profileThread = new Thread(() =>
                     {
-                        profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser);
+                        profile = TraktAPI.TraktAPI.GetUserProfile(CurrentUser == TraktSettings.Username ? "me" : CurrentUser);
                         
                         // Save to settings so we can load from cache next time we need the userprofile e.g. Activity stream
                         if (profile != null && CurrentUser == TraktSettings.Username)
@@ -80,7 +80,7 @@ namespace TraktPlugin.GUI
                     
                     var statsThread = new Thread(() =>
                     {
-                        statistics = TraktAPI.TraktAPI.GetUserStatistics(CurrentUser);
+                        statistics = TraktAPI.TraktAPI.GetUserStatistics(CurrentUser == TraktSettings.Username ? "me" : CurrentUser);
                     })
                     {
                         Name = "Stats"

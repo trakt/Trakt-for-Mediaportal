@@ -149,12 +149,19 @@ namespace TraktPlugin.GUI
         {
             if (GUIWindowManager.ActiveWindow != windowId) return;
 
-            GUIListItem selectedItem = GUIControl.GetSelectedListItem(windowId, controlId);
-            
-            // only send message if the current item is selected
-            if (selectedItem == self)
+            try
             {
-                GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, controlId, index, 0, null));
+                GUIListItem selectedItem = GUIControl.GetSelectedListItem(windowId, controlId);
+
+                // only send message if the current item is selected
+                if (selectedItem == self)
+                {
+                    GUIWindowManager.SendThreadMessage(new GUIMessage(GUIMessage.MessageType.GUI_MSG_ITEM_SELECT, GUIWindowManager.ActiveWindow, 0, controlId, index, 0, null));
+                }
+            }
+            catch (Exception)
+            {
+                TraktLogger.Warning("Unable to update selected facade item, MediaPortal could not get a reference");
             }
         }
 

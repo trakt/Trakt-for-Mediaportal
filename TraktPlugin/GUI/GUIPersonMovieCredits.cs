@@ -296,6 +296,20 @@ namespace TraktPlugin.GUI
                     TraktHelper.ShowMovieShouts(selectedMovie);
                     break;
 
+                case ((int)MediaContextMenuItem.Cast):
+                    GUICreditsMovie.Movie = selectedMovie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
+                case ((int)MediaContextMenuItem.Crew):
+                    GUICreditsMovie.Movie = selectedMovie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
+                    break;
+
                 case ((int)MediaContextMenuItem.Trailers):
                     GUICommon.ShowMovieTrailersMenu(selectedMovie);
                     break;
@@ -610,7 +624,6 @@ namespace TraktPlugin.GUI
         }
 
         #endregion
-
 
         #region Filters
 

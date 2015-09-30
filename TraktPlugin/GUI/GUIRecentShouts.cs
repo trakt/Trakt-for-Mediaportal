@@ -62,7 +62,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentComments.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    var response = TraktAPI.TraktAPI.GetUsersComments(CurrentUser, "all", "all", "full,images", 1, TraktSettings.MaxUserCommentsRequest);
+                    var response = TraktAPI.TraktAPI.GetUsersComments(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "all", "all", "full,images", 1, TraktSettings.MaxUserCommentsRequest);
                     if (response != null)
                     {
                         _RecentlyComments = response.Comments;

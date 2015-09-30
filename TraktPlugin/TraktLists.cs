@@ -31,7 +31,7 @@ namespace TraktPlugin
             if (!UserLists.Keys.Contains(username) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 // get all lists for user
-                var userLists = TraktAPI.TraktAPI.GetUserLists(username);
+                var userLists = TraktAPI.TraktAPI.GetUserLists(username == TraktSettings.Username ? "me" : username);
                 if (userLists == null) return null;
 
                 // remove any cached list for user
@@ -55,7 +55,7 @@ namespace TraktPlugin
             if (!UserListItems.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 // get list items               
-                var listItems = TraktAPI.TraktAPI.GetUserListItems(username, id.ToString(), "full,images");
+                var listItems = TraktAPI.TraktAPI.GetUserListItems(username == TraktSettings.Username ? "me" : username, id.ToString(), "full,images");
                 if (listItems == null) return null;
 
                 // remove any cached items for user
@@ -103,7 +103,7 @@ namespace TraktPlugin
                 if (TraktLists.GetListDetailsFromUser(ref list))
                 {
                     TraktLogger.Info("Creating new list for user online. Privacy = '{0}', Name = '{1}'", list.Privacy, list.Name);
-                    var response = TraktAPI.TraktAPI.CreateCustomList(list, TraktSettings.Username);
+                    var response = TraktAPI.TraktAPI.CreateCustomList(list);
                     if (response != null)
                     {
                         ClearListCache(TraktSettings.Username);

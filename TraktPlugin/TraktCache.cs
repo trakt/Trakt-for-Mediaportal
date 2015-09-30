@@ -836,7 +836,7 @@ namespace TraktPlugin
                 TraktLogger.Info("Movie watchlist cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Watchlist ?? "<empty>", lastSyncActivities.Movies.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
-                var onlineItems = TraktAPI.TraktAPI.GetWatchListMovies(TraktSettings.Username);
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListMovies();
                 if (onlineItems != null)
                 {
                     _WatchListMovies = onlineItems;
@@ -948,7 +948,7 @@ namespace TraktPlugin
                 TraktLogger.Info("TV show watchlist cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Watchlist ?? "<empty>", lastSyncActivities.Shows.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
-                var onlineItems = TraktAPI.TraktAPI.GetWatchListShows(TraktSettings.Username);
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListShows();
                 if (onlineItems == null)
                     return null;
 
@@ -1018,7 +1018,7 @@ namespace TraktPlugin
                 TraktLogger.Info("TV seasons watchlist cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Seasons.Watchlist ?? "<empty>", lastSyncActivities.Seasons.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
-                var onlineItems = TraktAPI.TraktAPI.GetWatchListSeasons(TraktSettings.Username);
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListSeasons();
                 if (onlineItems == null)
                     return null;
 
@@ -1088,7 +1088,7 @@ namespace TraktPlugin
                 TraktLogger.Info("TV episode watchlist cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Watchlist ?? "<empty>", lastSyncActivities.Episodes.Watchlist ?? "<empty>");
 
                 // we get from online, local cache is not up to date
-                var onlineItems = TraktAPI.TraktAPI.GetWatchListEpisodes(TraktSettings.Username);
+                var onlineItems = TraktAPI.TraktAPI.GetWatchListEpisodes();
                 if (onlineItems == null)
                     return null;
 
@@ -1170,7 +1170,7 @@ namespace TraktPlugin
             TraktLogger.Info("Custom Lists cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Lists.UpdatedAt ?? "<empty>", lastSyncActivities.Lists.UpdatedAt ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUserLists(TraktSettings.Username);
+            var onlineItems = TraktAPI.TraktAPI.GetUserLists();
             if (onlineItems == null)
                 return null;
 
@@ -1227,7 +1227,7 @@ namespace TraktPlugin
                         if (userList == null || listActivityCache == null || listActivityCache.UpdatedAt != list.UpdatedAt)
                         {
                             TraktLogger.Info("Getting list details for custom list from trakt.tv, local cache is out of date. Name = '{0}', Total Items = '{1}', ID = '{2}', Slug = '{3}', Last Updated = '{4}'", list.Name, list.ItemCount, list.Ids.Trakt, list.Ids.Slug, list.UpdatedAt);
-                            userList = TraktAPI.TraktAPI.GetUserListItems(TraktSettings.Username, list.Ids.Trakt.ToString());
+                            userList = TraktAPI.TraktAPI.GetUserListItems("me", list.Ids.Trakt.ToString());
                             listUpdated = true;
                         }
 
@@ -1403,7 +1403,7 @@ namespace TraktPlugin
             TraktLogger.Info("TV episode comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Episodes.Comment ?? "<empty>", lastSyncActivities.Episodes.Comment ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "episodes", "min");
+            var onlineItems = TraktAPI.TraktAPI.GetUsersComments("me", "all", "episodes", "min");
             if (onlineItems != null)
             {
                 bool commentExists = false;
@@ -1424,7 +1424,7 @@ namespace TraktPlugin
                 {
                     for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
-                        var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "episodes", "min", i);
+                        var nextPage = TraktAPI.TraktAPI.GetUsersComments("me", "all", "episodes", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
@@ -1507,7 +1507,7 @@ namespace TraktPlugin
             TraktLogger.Info("TV show comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.Comment ?? "<empty>", lastSyncActivities.Shows.Comment ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "shows", "min");
+            var onlineItems = TraktAPI.TraktAPI.GetUsersComments("me", "all", "shows", "min");
             if (onlineItems != null)
             {
                 bool commentExists = false;
@@ -1528,7 +1528,7 @@ namespace TraktPlugin
                 {
                     for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
-                        var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "shows", "min", i);
+                        var nextPage = TraktAPI.TraktAPI.GetUsersComments("me", "all", "shows", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
@@ -1611,7 +1611,7 @@ namespace TraktPlugin
             TraktLogger.Info("TV season comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Seasons.Comment ?? "<empty>", lastSyncActivities.Seasons.Comment ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "seasons", "min");
+            var onlineItems = TraktAPI.TraktAPI.GetUsersComments("me", "all", "seasons", "min");
             if (onlineItems != null)
             {
                 bool commentExists = false;
@@ -1632,7 +1632,7 @@ namespace TraktPlugin
                 {
                     for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
-                        var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "seasons", "min", i);
+                        var nextPage = TraktAPI.TraktAPI.GetUsersComments("me", "all", "seasons", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
@@ -1716,7 +1716,7 @@ namespace TraktPlugin
             TraktLogger.Info("Movie comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.Comment ?? "<empty>", lastSyncActivities.Movies.Comment ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "movies", "min");
+            var onlineItems = TraktAPI.TraktAPI.GetUsersComments("me", "all", "movies", "min");
             if (onlineItems != null)
             {
                 bool commentExists = false;
@@ -1737,7 +1737,7 @@ namespace TraktPlugin
                 {
                     for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
-                        var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "movies", "min", i);
+                        var nextPage = TraktAPI.TraktAPI.GetUsersComments("me", "all", "movies", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
@@ -1820,7 +1820,7 @@ namespace TraktPlugin
             TraktLogger.Info("List comments cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Lists.Comment ?? "<empty>", lastSyncActivities.Lists.Comment ?? "<empty>");
 
             // we get from online, local cache is not up to date
-            var onlineItems = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "lists", "min");
+            var onlineItems = TraktAPI.TraktAPI.GetUsersComments("me", "all", "lists", "min");
             if (onlineItems != null)
             {
                 bool commentExists = false;
@@ -1841,7 +1841,7 @@ namespace TraktPlugin
                 {
                     for (int i = 2; i <= onlineItems.TotalPages; i++)
                     {
-                        var nextPage = TraktAPI.TraktAPI.GetUsersComments(TraktSettings.Username, "all", "lists", "min", i);
+                        var nextPage = TraktAPI.TraktAPI.GetUsersComments("me", "all", "lists", "min", i);
                         if (nextPage == null || !nextPage.Comments.IsAny()) break;
 
                         // if the comment id exists then we already have all comments
