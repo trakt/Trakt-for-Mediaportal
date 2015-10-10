@@ -39,6 +39,7 @@
   <string name="AddShowToList">Přidat seriál do seznamu</string>
   <string name="AddEpisodeToList">Přidat epizodu do seznamu</string>
   <string name="AddThisItemToWatchList">Přidat položku do Vašeho seznamu ke zhlédnutí?</string>
+  <string name="Administration">Správa</string>
   <string name="Age">Věk</string>
   <string name="AirDate">Datum vysílání</string>
   <string name="AirDay">Den vysílání</string>
@@ -60,6 +61,8 @@
   <string name="Born">Narozen</string>
   <string name="BirthPlace">Místo narození</string>
   <!--C-->
+  <string name="Camera">Kamera</string>
+  <string name="CameraOperator">Kameraman</string>
   <string name="Cancel">Zrušit</string>
   <string name="Canceled">Zrušeno</string>
   <string name="Calendar">Kalendář</string>
@@ -68,9 +71,12 @@
   <string name="CalendarAllShows">Všechny seriály</string>
   <string name="Cast">Obsazení</string>
   <string name="CastAndCrew">Osoby a obsazení</string>
+  <string name="Casting">Obsazení</string>
   <string name="Certification">Klasifikace</string>
   <string name="ChangeView">Změnit pohled...</string>
   <string name="ChangeLayout">Změnit rozložení...</string>
+  <string name="Character">Postava</string>
+  <string name="Characters">Postavy</string>
   <string name="Create">Vytvořit</string>
   <string name="CreateAccount">Vytvořit účet</string>
   <string name="CreateNewAccount">Vytvořit nový účet...</string>
@@ -87,6 +93,7 @@
   <string name="Comments">Komentáře</string>
   <string name="Community">Komunita</string>
   <string name="CommunityActivity">Aktivity komunity</string>
+  <string name="Compositors">Skladatelé</string>
   <string name="ConfirmDeleteList">Opravdu chcete odstranit\ntento seznam?</string>
   <string name="ConfirmDeleteListItem">Opravdu chcete odstranit\ntuto položku ze seznamu?</string>
   <string name="Continuing">Pokračování</string>
@@ -118,9 +125,12 @@
   <string name="DontIncludeMeInFriendsActivity">Nezahrnovat mě do aktivity přátel</string>
   <string name="DownloadFanart">Stáhnout pozadí</string>
   <string name="DownloadFullSizeFanart">Stáhnout pozadí v původní velikosti</string>
+  <string name="Driver">Řidič</string>
   <!--E-->
+  <string name="Editor">Střihač</string>
   <string name="EditList">Upravit seznam...</string>
   <string name="EditingList">Úprava seznamu</string>
+  <string name="Electrician">Elektrikář</string>
   <string name="Email">Email</string>
   <string name="Ended">Ukončený</string>
   <string name="EndYear">Konec: {0}</string>
@@ -250,6 +260,7 @@
   <string name="Item">Položka</string>
   <string name="Items">Položky</string>
   <!--J-->
+  <string name="Job">Pozice</string>
   <string name="JoinDate">Datum registrace</string>
   <string name="Joined">Registrovaný</string>
   <!--K-->
@@ -359,6 +370,7 @@
   <string name="Profile">Profil</string>
   <string name="Producer">Producent</string>
   <string name="Producers">Producenti</string>
+  <string name="Production">Produkce</string>
   <!--R-->
   <string name="Rate">Hodnotit</string>
   <string name="Rated">Hodnoceno</string>
@@ -519,6 +531,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="SortBy">Řadit dle: {0}</string>
   <string name="SortSeasonsAscending">Zobrazit řady ve vzestupném pořadí</string>
   <string name="SortSeasonsDescending">Zobrazit řady v sestupném pořadí</string>
+  <string name="Sound">Zvuk</string>
   <string name="Specials">Speciály</string>
   <string name="Status">Stav</string>
   <!--T-->

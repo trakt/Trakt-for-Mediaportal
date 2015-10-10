@@ -1937,6 +1937,48 @@
               <ZipFileName>Installer{CopyFile}\{c6ea18d7-05ee-4b1d-a5fc-2171f9829460}-Trakt.Person.Summary.xml</ZipFileName>
               <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Summary.xml</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Anticipated.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{a029d1ec-323a-4033-a631-0301979782bb}-Trakt.Anticipated.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Anticipated.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Anticipated.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{af9984c5-964f-4889-9195-4d6328d3f391}-Trakt.Anticipated.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Anticipated.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.BoxOffice.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{10e0d620-f6a0-41c0-9179-f70cfb580173}-Trakt.BoxOffice.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.BoxOffice.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Lists.Menu.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{0f1721c4-3c10-4622-aecb-dfcbfc020c30}-Trakt.Lists.Menu.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Lists.Menu.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Movies.Menu.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{fb142274-8f81-432c-95b0-0154fc5c3366}-Trakt.Movies.Menu.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.Movies.Menu.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>AlwaysOverwrite</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.TV.Menu.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{26dc91f4-b3d9-4820-af09-2c7839eb9b93}-Trakt.TV.Menu.xml</ZipFileName>
+              <DestinationFilename>%Skin%\DefaultWide\Trakt.TV.Menu.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -2880,6 +2922,27 @@ Trailers can be accessed from the F9 context menu (INFO button on remote).</Desc
               <ZipFileName>Installer{CopyFile}\{7d56ac85-4e91-472d-a2ac-4f15a6a96204}-panel_trakt_profile.png</ZipFileName>
               <DestinationFilename>%Skin%\Titan\Media\panel_trakt_profile.png</DestinationFilename>
             </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Anticipated.Movies.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d2466be1-d88a-48d0-946e-4ccd367fbd36}-Trakt.Anticipated.Movies.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Anticipated.Movies.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Anticipated.Shows.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{d8e41297-6378-44e6-90da-fdd69272b621}-Trakt.Anticipated.Shows.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.Anticipated.Shows.xml</DestinationFilename>
+            </FileItem>
+            <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+              <Param1 />
+              <UpdateOption>OverwriteIfOlder</UpdateOption>
+              <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.BoxOffice.xml</LocalFileName>
+              <ZipFileName>Installer{CopyFile}\{90a58452-f55c-4fd8-90aa-acbc06069d39}-Trakt.BoxOffice.xml</ZipFileName>
+              <DestinationFilename>%Skin%\Titan\Trakt.BoxOffice.xml</DestinationFilename>
+            </FileItem>
           </Items>
         </Files>
       </GroupItem>
@@ -3207,14 +3270,16 @@ Click Next to continue or Cancel to exit Setup.
     <UpdateUrl>https://raw.github.com/trakt/Trakt-for-Mediaportal/master/MPEI/update.xml</UpdateUrl>
     <Version>
       <Major>5</Major>
-      <Minor>5</Minor>
-      <Build>2</Build>
-      <Revision>4</Revision>
+      <Minor>6</Minor>
+      <Build>0</Build>
+      <Revision>0</Revision>
     </Version>
     <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
 
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* Support for Movie and TV Show credits (cast and crew). Titan and DefaultWide skin updated.
+    <VersionDescription>* Support for Movie Box Office. Titan and DefaultWide skin updated.
+* Support for Anticipated Movies and Shows. Titan and DefaultWide skin updated.
+* Support for Movie and TV Show credits (cast and crew). Titan and DefaultWide skin updated.
 * Support for Person Movie and TV Show credits. Titan and DefaultWide skin updated.
 * General bug fixes and improvements to dashboard loading.
 * Fixed requests not working when username was specified as an email.
@@ -5158,6 +5223,48 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{c6ea18d7-05ee-4b1d-a5fc-2171f9829460}-Trakt.Person.Summary.xml</ZipFileName>
         <DestinationFilename>%Skin%\DefaultWide\Trakt.Person.Summary.xml</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Anticipated.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{a029d1ec-323a-4033-a631-0301979782bb}-Trakt.Anticipated.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Anticipated.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Anticipated.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{af9984c5-964f-4889-9195-4d6328d3f391}-Trakt.Anticipated.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Anticipated.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.BoxOffice.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{10e0d620-f6a0-41c0-9179-f70cfb580173}-Trakt.BoxOffice.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.BoxOffice.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Lists.Menu.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{0f1721c4-3c10-4622-aecb-dfcbfc020c30}-Trakt.Lists.Menu.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Lists.Menu.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.Movies.Menu.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{fb142274-8f81-432c-95b0-0154fc5c3366}-Trakt.Movies.Menu.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.Movies.Menu.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>AlwaysOverwrite</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\DefaultWide\Trakt.TV.Menu.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{26dc91f4-b3d9-4820-af09-2c7839eb9b93}-Trakt.TV.Menu.xml</ZipFileName>
+        <DestinationFilename>%Skin%\DefaultWide\Trakt.TV.Menu.xml</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
         <Param1 />
         <UpdateOption>AlwaysOverwrite</UpdateOption>
@@ -6061,18 +6168,39 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <ZipFileName>Installer{CopyFile}\{7d56ac85-4e91-472d-a2ac-4f15a6a96204}-panel_trakt_profile.png</ZipFileName>
         <DestinationFilename>%Skin%\Titan\Media\panel_trakt_profile.png</DestinationFilename>
       </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Anticipated.Movies.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d2466be1-d88a-48d0-946e-4ccd367fbd36}-Trakt.Anticipated.Movies.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Anticipated.Movies.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.Anticipated.Shows.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{d8e41297-6378-44e6-90da-fdd69272b621}-Trakt.Anticipated.Shows.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.Anticipated.Shows.xml</DestinationFilename>
+      </FileItem>
+      <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
+        <Param1 />
+        <UpdateOption>OverwriteIfOlder</UpdateOption>
+        <LocalFileName>..\TraktPlugin\Resources\Skins\Titan\Trakt.BoxOffice.xml</LocalFileName>
+        <ZipFileName>Installer{CopyFile}\{90a58452-f55c-4fd8-90aa-acbc06069d39}-Trakt.BoxOffice.xml</ZipFileName>
+        <DestinationFilename>%Skin%\Titan\Trakt.BoxOffice.xml</DestinationFilename>
+      </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{e420f972-fd16-44a9-91d4-0212dfd23b9b}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{31f3d1c2-72a4-4355-b73d-3ed223b148c7}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt-1024.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{feb18a9f-aae5-40c9-9495-9c839ba8c803}-trakt-1024.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{d4a35623-fce9-445d-b8c3-46b2282b4db5}-trakt-1024.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
