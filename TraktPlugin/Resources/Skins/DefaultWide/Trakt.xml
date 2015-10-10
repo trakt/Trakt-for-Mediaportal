@@ -74,47 +74,29 @@
         <onright>98300</onright>
       </control>
       <control>
-        <description>Recommendations</description>
+        <description>TV</description>
         <type>button</type>
         <width>280</width>
         <id>5</id>
-        <hyperlink>87261</hyperlink>
-        <label>#Trakt.Translation.Recommendations.Label</label>
+        <hyperlink>87500</hyperlink>
+        <label>#Trakt.Translation.TV.Label</label>
         <onright>98301</onright>
       </control>
       <control>
-        <description>Trending</description>
+        <description>Movies</description>
         <type>button</type>
         <width>280</width>
         <id>6</id>
-        <hyperlink>87264</hyperlink>
-        <label>#Trakt.Translation.Trending.Label</label>
-        <onright>98301</onright>
-      </control>
-      <control>
-        <description>Popular</description>
-        <type>button</type>
-        <width>280</width>
-        <id>7</id>
-        <hyperlink>87100</hyperlink>
-        <label>#Trakt.Translation.Popular.Label</label>
-        <onright>98301</onright>
-      </control>
-      <control>
-        <description>Watch List</description>
-        <type>button</type>
-        <width>280</width>
-        <id>8</id>
-        <hyperlink>87267</hyperlink>
-        <label>#Trakt.Translation.WatchList.Label</label>
+        <hyperlink>87501</hyperlink>
+        <label>#Trakt.Translation.Movies.Label</label>
         <onright>98301</onright>
       </control>
       <control>
         <description>Lists</description>
         <type>button</type>
         <width>280</width>
-        <id>9</id>
-        <hyperlink>87275</hyperlink>
+        <id>7</id>
+        <hyperlink>87502</hyperlink>
         <label>#Trakt.Translation.Lists.Label</label>
         <onright>98301</onright>
       </control>
@@ -122,7 +104,7 @@
         <description>Search</description>
         <type>button</type>
         <width>280</width>
-        <id>10</id>
+        <id>8</id>
         <label>#Trakt.Translation.Search.Label</label>
         <hyperlink>874001</hyperlink>
       </control>
@@ -130,7 +112,7 @@
         <description>Settings</description>
         <type>button</type>
         <width>280</width>
-        <id>11</id>
+        <id>9</id>
         <label>#Trakt.Translation.Settings.Label</label>
         <hyperlink>87271</hyperlink>
         <ondown>99</ondown>
@@ -143,7 +125,7 @@
         <id>99</id>
         <label>#MPEI.Translation.Update.Label</label>
         <ondown>2</ondown>
-        <onup>11</onup>
+        <onup>9</onup>
         <visible>string.equals(#mpei.a9c3845a_8718_4712_85cc_26f56520bb9a.haveupdate, true)</visible>
         <onright>98302</onright>
       </control>
@@ -153,7 +135,7 @@
       <type>image</type>
       <id>0</id>
       <posX>280</posX>
-      <posY>576</posY>
+      <posY>495</posY>
       <width>28</width>
       <height>28</height>
       <texture>isupdate.png</texture>

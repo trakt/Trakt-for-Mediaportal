@@ -81,7 +81,7 @@
       <font>font10</font>
       <align>left</align>
       <textcolor>ff6FAFE1</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)</visible>
     </control>
     <control>
       <description>Genre value</description>
@@ -93,7 +93,7 @@
       <font>font12</font>
       <width>280</width>
       <textcolor>ivory</textcolor>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Genres,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)</visible>
     </control>
     <control>
       <description>Series Airs txt</description>
