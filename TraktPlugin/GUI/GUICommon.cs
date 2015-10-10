@@ -131,7 +131,8 @@ namespace TraktPlugin.GUI
         CreditsMovie = 87603,
         CreditsShow = 87604,
         AnticipatedMovies = 87605,
-        AnticipatedShows = 87606
+        AnticipatedShows = 87606,
+        BoxOffice = 87607
     }
 
     enum TraktDashboardControls

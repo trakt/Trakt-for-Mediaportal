@@ -430,6 +430,16 @@ namespace TraktPlugin.TraktAPI
 
         #region Movies
 
+        #region Box Office
+
+        public static IEnumerable<TraktMovieBoxOffice> GetBoxOffice()
+        {
+            var response = GetFromTrakt(TraktURIs.BoxOffice);
+            return response.FromJSONArray<TraktMovieBoxOffice>();
+        }
+
+        #endregion
+
         #region Related
 
         public static IEnumerable<TraktMovieSummary> GetRelatedMovies(string id, int limit = 10)

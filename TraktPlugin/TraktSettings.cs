@@ -180,6 +180,7 @@ namespace TraktPlugin
         public static int CreditsShowDefaultLayout { get; set; }
         public static int AnticipatedShowsDefaultLayout { get; set; }
         public static int AnticipatedMoviesDefaultLayout { get; set; }
+        public static int BoxOfficeDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -355,6 +356,7 @@ namespace TraktPlugin
         private const string cCreditsShowDefaultLayout = "CreditsShowDefaultLayout";
         private const string cAnticipatedMoviesDefaultLayout = "AnticipatedMoviesDefaultLayout";
         private const string cAnticipatedShowsDefaultLayout = "AnticipatedShowsDefaultLayout";
+        private const string cBoxOfficeDefaultLayout = "BoxOfficeDefaultLayout";
         #endregion
         
         #region Properties
@@ -756,6 +758,7 @@ namespace TraktPlugin
                 AnticipatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cAnticipatedShowsDefaultLayout, 0);
                 SortByAnticipatedMovies = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedMovies, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByAnticipatedShows = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedShows, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
+                BoxOfficeDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cBoxOfficeDefaultLayout, 0);
             }
 
             // initialise API settings

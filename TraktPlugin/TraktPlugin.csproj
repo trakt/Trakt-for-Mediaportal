@@ -215,6 +215,7 @@
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="GUI\GUIAnticipatedMovies.cs" />
+    <Compile Include="GUI\GUIBoxOffice.cs" />
     <Compile Include="GUI\GUICreditsMovie.cs" />
     <Compile Include="GUI\GUICreditsShow.cs" />
     <Compile Include="GUI\GUIAnticipatedShows.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="TraktAPI\DataStructures\TraktLike.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLikes.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieAnticipated.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieBoxOffice.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMoviesAnticipated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCast.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCredits.cs" />

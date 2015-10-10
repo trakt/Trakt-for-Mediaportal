@@ -160,7 +160,7 @@
       <label>#Trakt.Translation.Genre.Label</label>
       <posX>565</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+[!window.istopmost(87266)+!window.istopmost(87601)+!window.istopmost(87605)]</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+[!window.istopmost(87266)+!window.istopmost(87601)+!window.istopmost(87605)+!window.istopmost(87607)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -171,7 +171,7 @@
       <label>#Trakt.Movie.Genres</label>
       <posX>798</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+[!window.istopmost(87266)+!window.istopmost(87601)+!window.istopmost(87605)]</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Genres,)+[!window.istopmost(87266)+!window.istopmost(87601)+!window.istopmost(87605)+!window.istopmost(87607)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -216,6 +216,28 @@
       <posX>798</posX>
       <posY>487</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Movie.ListCount,)+window.istopmost(87605)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Revenue Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Revenue.Label</label>
+      <posX>565</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Revenue,)+window.istopmost(87607)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Revenue</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Movie.Revenue</label>
+      <posX>798</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Movie.Revenue,)+window.istopmost(87607)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -431,6 +453,28 @@
       <posX>350</posX>
       <posY>592</posY>
       <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.ListCount,)+window.istopmost(87605)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Revenue Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Revenue.Label</label>
+      <posX>118</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Revenue,)+window.istopmost(87607)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Revenue</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Movie.Revenue</label>
+      <posX>350</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Movie.Revenue,)+window.istopmost(87607)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

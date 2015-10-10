@@ -325,9 +325,10 @@ namespace TraktPlugin.GUI
         public static string Biography = "Biography";
         public static string Birthday = "Birthday";
         public static string BirthDate = "Birth Date";
+        public static string BirthPlace = "Birth Place";
         public static string BoomOperator = "Boom Operator";
         public static string Born = "Born";
-        public static string BirthPlace = "Birth Place";
+        public static string BoxOffice = "Box Office";
 
         // C
         public static string Camera = "Camera";
@@ -540,6 +541,7 @@ namespace TraktPlugin.GUI
         public static string GettingUserProfile = "Getting User Profile";
         public static string GettingAnticipatedShows = "Getting Anticipated Shows";
         public static string GettingAnticipatedMovies = "Getting Anticipated Movies";
+        public static string GettingBoxOffice = "Getting Box Office";
         public static string Greensman = "Greensman";
         public static string Grip = "Grip";
         public static string GuestStar = "Gueststar";
@@ -665,6 +667,7 @@ namespace TraktPlugin.GUI
         public static string NoSeasonsForShow = "No Seasons found for show!";
         public static string NoRelatedMovies = "No Related movies found for {0}!";
         public static string NoRelatedShows = "No Related shows found for {0}!";
+        public static string NoBoxOffice = "No Box Office movies found!";
         public static string No = "No";
         public static string Novel = "Novel";
 
@@ -760,6 +763,7 @@ namespace TraktPlugin.GUI
         public static string Replies = "Replies";
         public static string Requests = "Requests";
         public static string ReturningSeries = "Returning Series";
+        public static string Revenue = "Revenue";
         public static string RiggingGaffer = "Rigging Gaffer";
         public static string RiggingGrip = "Rigging Grip";
         public static string Runtime = "Runtime";
@@ -922,6 +926,7 @@ namespace TraktPlugin.GUI
         public static string Timeout = "Timeout";
         public static string TotalPages = "Total Pages";
         public static string TotalItemsPerPage = "Total Items Per Page";
+        public static string TotalRevenue = "Total Revenue";
         public static string TransportationCaptain = "Transportation Captain";
         public static string TransportationCoCaptain = "Transportation Co-Captain";
         public static string TransportationCoordinator = "Transportation Coordinator";

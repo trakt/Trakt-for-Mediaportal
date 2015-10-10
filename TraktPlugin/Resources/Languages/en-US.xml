@@ -84,6 +84,7 @@
   <string name="BoomOperator">Boom Operator</string>
   <string name="Born">Born</string>
   <string name="BirthPlace">Birth Place</string>
+  <string name="BoxOffice">Box Office</string>
   <!--C-->
   <string name="Camera">Camera</string>
   <string name="CameraDepartmentManager">Camera Department Manager</string>
@@ -292,6 +293,7 @@
   <string name="GettingUserProfile">Getting User Profile</string>
   <string name="GettingAnticipatedMovies">Getting Anticipated Movies</string>
   <string name="GettingAnticipatedShows">Getting Anticipated Shows</string>
+  <string name="GettingBoxOffice">Getting Box Office</string>
   <string name="Greensman">Greensman</string>
   <string name="Grip">Grip</string>
   <string name="GuestStar">Guest Star</string>
@@ -409,6 +411,7 @@
   <string name="NoListItemsFound">No items found in this list!</string>
   <string name="NoRelatedMovies">No Related movies found for {0}!</string>
   <string name="NoRelatedShows">No Related shows found for {0}!</string>
+  <string name="NoBoxOffice">No Box Office movies found!</string>
   <string name="No">No</string>
   <string name="Novel">Novel</string>
   <!--O-->
@@ -501,6 +504,7 @@
   <string name="Replies">Replies</string>
   <string name="Requests">Requests</string>
   <string name="ReturningSeries">Returning Series</string>
+  <string name="Revenue">Revenue</string>
   <string name="RiggingGaffer">Rigging Gaffer</string>
   <string name="RiggingGrip">Rigging Grip</string>
   <string name="Runtime">Runtime</string>
@@ -661,6 +665,7 @@
   <string name="Timeout">Timeout</string>
   <string name="TotalPages">Total Pages</string>
   <string name="TotalItemsPerPage">Total Items Per Page</string>
+  <string name="TotalRevenue">Total Revenue</string>
   <string name="TransportationCaptain">Transportation Captain</string>
   <string name="TransportationCoCaptain">Transportation Co-Captain</string>
   <string name="TransportationCoordinator">Transportation Coordinator</string>
