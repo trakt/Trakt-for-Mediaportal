@@ -214,8 +214,10 @@
     <Compile Include="Cornerstone.MP\ImageSwapper.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="GUI\GUIAnticipatedMovies.cs" />
     <Compile Include="GUI\GUICreditsMovie.cs" />
     <Compile Include="GUI\GUICreditsShow.cs" />
+    <Compile Include="GUI\GUIAnticipatedShows.cs" />
     <Compile Include="GUI\GUIListsMenu.cs" />
     <Compile Include="GUI\GUICommon.cs" />
     <Compile Include="GUI\GUIDialogMultiSelect.cs" />
@@ -294,6 +296,8 @@
     <Compile Include="TraktAPI\DataStructures\TraktJob.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLike.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktLikes.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMovieAnticipated.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktMoviesAnticipated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCast.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCredits.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCrew.cs" />
@@ -311,6 +315,10 @@
     <Compile Include="TraktAPI\DataStructures\TraktRatingDistribution.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonWatchList.cs" />
+    <Compile Include="TraktAPI\DataStructures\TraktShowAnticipated.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TraktAPI\DataStructures\TraktShowsAnticipated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsPopular.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsTrending.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowsUpdated.cs" />

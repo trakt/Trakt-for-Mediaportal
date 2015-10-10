@@ -99,11 +99,13 @@ namespace TraktPlugin
         public static SortBy SortByRecommendedMovies { get; set; }
         public static SortBy SortByWatchListMovies { get; set; }
         public static SortBy SortByCreditMovies { get; set; }
+        public static SortBy SortByAnticipatedMovies { get; set; }
         public static SortBy SortByTrendingShows { get; set; }
         public static SortBy SortByPopularShows { get; set; }
         public static SortBy SortByRecommendedShows { get; set; }
         public static SortBy SortByWatchListShows { get; set; }
         public static SortBy SortByCreditShows { get; set; }
+        public static SortBy SortByAnticipatedShows { get; set; }
         public static bool EnableJumpToForTVShows { get; set; }
         public static bool MyFilmsCategories { get; set; }
         public static bool SortSeasonsAscending { get; set; }
@@ -134,6 +136,8 @@ namespace TraktPlugin
         public static bool CreditShowsHideWatchlisted { get; set; }
         public static bool CreditShowsHideCollected { get; set; }
         public static bool CreditShowsHideRated { get; set; }
+        public static bool AnticipatedMoviesHideWatchlisted { get; set; }
+        public static bool AnticipatedShowsHideWatchlisted { get; set; }
         public static int DefaultNetworkView { get; set; }
         public static int RecentWatchedMoviesDefaultLayout { get; set; }
         public static int RecentWatchedEpisodesDefaultLayout { get; set; }
@@ -157,6 +161,8 @@ namespace TraktPlugin
         public static int MaxTrendingShowsRequest { get; set; }
         public static int MaxPopularMoviesRequest { get; set; }
         public static int MaxPopularShowsRequest { get; set; }
+        public static int MaxAnticipatedMoviesRequest { get; set; }
+        public static int MaxAnticipatedShowsRequest { get; set; }
         public static bool UseSSL { get; set; }
         public static IEnumerable<TraktCache.ListActivity> LastListActivities { get; set; }
         public static int MaxRelatedMoviesRequest { get; set; }
@@ -172,6 +178,8 @@ namespace TraktPlugin
         public static int PersonShowCreditsDefaultLayout { get; set; }
         public static int CreditsMovieDefaultLayout { get; set; }
         public static int CreditsShowDefaultLayout { get; set; }
+        public static int AnticipatedShowsDefaultLayout { get; set; }
+        public static int AnticipatedMoviesDefaultLayout { get; set; }
         #endregion
 
         #region Constants
@@ -266,11 +274,13 @@ namespace TraktPlugin
         private const string cSortByRecommendedMovies = "SortByRecommendedMovies";
         private const string cSortByWatchListMovies = "SortByWatchListMovies";
         private const string cSortByCreditMovies = "SortByCreditMovies";
+        private const string cSortByAnticipatedMovies = "SortByAnticipatedMovies";
         private const string cSortByTrendingShows = "SortByTrendingShows";
         private const string cSortByPopularShows = "SortByPopularShows";
         private const string cSortByRecommendedShows = "SortByRecommendedShows";
         private const string cSortByWatchListShows = "SortByWatchListShows";
         private const string cSortByCreditShows = "SortByCreditShows";
+        private const string cSortByAnticipatedShows = "SortByAnticipatedShows";
         private const string cEnableJumpToForTVShows = "EnableJumpToForTVShows";
         private const string cMyFilmsCategories = "MyFilmsCategories";
         private const string cSortSeasonsAscending = "SortSeasonsAscending";
@@ -301,6 +311,8 @@ namespace TraktPlugin
         private const string cCreditShowsHideWatchlisted = "CreditShowsHideWatchlisted";
         private const string cCreditShowsHideCollected = "CreditShowsHideCollected";
         private const string cCreditShowsHideRated = "CreditShowsHideRated";
+        private const string cAnticipatedShowsHideWatchlisted = "AnticipatedShowsHideWatchlisted";
+        private const string cAnticipatedMoviesHideWatchlisted = "AnticipatedMoviesHideWatchlisted";
         private const string cDefaultNetworkView = "DefaultNetworkView";
         private const string cRecentWatchedMoviesDefaultLayout = "RecentWatchedMoviesDefaultLayout";
         private const string cRecentWatchedEpisodesDefaultLayout = "RecentWatchedEpisodesDefaultLayout";
@@ -324,6 +336,8 @@ namespace TraktPlugin
         private const string cMaxTrendingShowsRequest = "MaxTrendingShowsRequest";
         private const string cMaxPopularMoviesRequest = "MaxPopularMoviesRequest";
         private const string cMaxPopularShowsRequest = "MaxPopularShowsRequest";
+        private const string cMaxAnticipatedMoviesRequest = "MaxAnticipatedMoviesRequest";
+        private const string cMaxAnticipatedShowsRequest = "MaxAnticipatedShowsRequest";
         private const string cUseSSL = "UseSSL";
         private const string cLastListActivities = "LastListActivities";
         private const string cMaxRelatedMoviesRequest = "MaxRelatedMoviesRequest";
@@ -339,6 +353,8 @@ namespace TraktPlugin
         private const string cPersonShowCreditsDefaultLayout = "PersonShowCreditsDefaultLayout";
         private const string cCreditsMovieDefaultLayout = "CreditsMovieDefaultLayout";
         private const string cCreditsShowDefaultLayout = "CreditsShowDefaultLayout";
+        private const string cAnticipatedMoviesDefaultLayout = "AnticipatedMoviesDefaultLayout";
+        private const string cAnticipatedShowsDefaultLayout = "AnticipatedShowsDefaultLayout";
         #endregion
         
         #region Properties
@@ -680,6 +696,8 @@ namespace TraktPlugin
                 PopularShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cPopularShowsHideWatchlisted, false);
                 PopularShowsHideCollected = xmlreader.GetValueAsBool(cTrakt, cPopularShowsHideCollected, false);
                 PopularShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cPopularShowsHideRated, false);
+                AnticipatedMoviesHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cAnticipatedMoviesHideWatchlisted, false);
+                AnticipatedShowsHideWatchlisted = xmlreader.GetValueAsBool(cTrakt, cAnticipatedShowsHideWatchlisted, false);
                 DefaultNetworkView = xmlreader.GetValueAsInt(cTrakt, cDefaultNetworkView, 1);
                 RecentWatchedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedMoviesDefaultLayout, 0);
                 RecentWatchedEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRecentWatchedEpisodesDefaultLayout, 0);
@@ -707,6 +725,8 @@ namespace TraktPlugin
                 MaxTrendingShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingShowsRequest, 100, 1, 1000);
                 MaxPopularMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularMoviesRequest, 100, 1, 1000);
                 MaxPopularShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularShowsRequest, 100, 1, 1000);
+                MaxAnticipatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedMoviesRequest, 50, 1, 1000);
+                MaxAnticipatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedShowsRequest, 50, 1, 1000);
                 UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
                 LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
                 MaxRelatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesRequest, 10, 1, 100);
@@ -732,6 +752,10 @@ namespace TraktPlugin
                 CreditShowsHideRated = xmlreader.GetValueAsBool(cTrakt, cCreditShowsHideRated, false);
                 CreditsMovieDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cCreditsMovieDefaultLayout, 0);
                 CreditsShowDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cCreditsShowDefaultLayout, 0);
+                AnticipatedMoviesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cAnticipatedMoviesDefaultLayout, 0);
+                AnticipatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cAnticipatedShowsDefaultLayout, 0);
+                SortByAnticipatedMovies = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedMovies, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
+                SortByAnticipatedShows = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedShows, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
             }
 
             // initialise API settings
@@ -849,6 +873,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cSortByPopularShows, SortByPopularShows.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByWatchListMovies, SortByWatchListMovies.ToJSON());
                 xmlwriter.SetValue(cTrakt, cSortByWatchListShows, SortByWatchListShows.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByAnticipatedMovies, SortByAnticipatedMovies.ToJSON());
+                xmlwriter.SetValue(cTrakt, cSortByAnticipatedShows, SortByAnticipatedShows.ToJSON());
                 xmlwriter.SetValueAsBool(cTrakt, cEnableJumpToForTVShows, EnableJumpToForTVShows);
                 xmlwriter.SetValueAsBool(cTrakt, cMyFilmsCategories, MyFilmsCategories);
                 xmlwriter.SetValueAsBool(cTrakt, cSortSeasonsAscending, SortSeasonsAscending);
@@ -870,6 +896,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cPopularShowsHideWatchlisted, PopularShowsHideWatchlisted);
                 xmlwriter.SetValueAsBool(cTrakt, cPopularShowsHideCollected, PopularShowsHideCollected);
                 xmlwriter.SetValueAsBool(cTrakt, cPopularShowsHideRated, PopularShowsHideRated);
+                xmlwriter.SetValueAsBool(cTrakt, cAnticipatedMoviesHideWatchlisted, AnticipatedMoviesHideWatchlisted);
+                xmlwriter.SetValueAsBool(cTrakt, cAnticipatedShowsHideWatchlisted, AnticipatedShowsHideWatchlisted);
                 xmlwriter.SetValue(cTrakt, cDefaultNetworkView, DefaultNetworkView);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedMoviesDefaultLayout, RecentWatchedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cRecentWatchedEpisodesDefaultLayout, RecentWatchedEpisodesDefaultLayout);
@@ -898,6 +926,8 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cMaxTrendingShowsRequest, MaxTrendingShowsRequest);
                 xmlwriter.SetValue(cTrakt, cMaxPopularMoviesRequest, MaxPopularMoviesRequest);
                 xmlwriter.SetValue(cTrakt, cMaxPopularShowsRequest, MaxPopularShowsRequest);
+                xmlwriter.SetValue(cTrakt, cMaxAnticipatedMoviesRequest, MaxAnticipatedMoviesRequest);
+                xmlwriter.SetValue(cTrakt, cMaxAnticipatedShowsRequest, MaxAnticipatedShowsRequest);
                 xmlwriter.SetValueAsBool(cTrakt, cUseSSL, UseSSL);
                 xmlwriter.SetValue(cTrakt, cLastListActivities, LastListActivities.ToJSON());
                 xmlwriter.SetValue(cTrakt, cMaxRelatedMoviesRequest, MaxRelatedMoviesRequest);
@@ -923,6 +953,8 @@ namespace TraktPlugin
                 xmlwriter.SetValueAsBool(cTrakt, cCreditShowsHideRated, CreditShowsHideRated);
                 xmlwriter.SetValue(cTrakt, cCreditsMovieDefaultLayout, CreditsMovieDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cCreditsShowDefaultLayout, CreditsShowDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cAnticipatedMoviesDefaultLayout, AnticipatedMoviesDefaultLayout);
+                xmlwriter.SetValue(cTrakt, cAnticipatedShowsDefaultLayout, AnticipatedShowsDefaultLayout);
             }
 
             Settings.SaveCache();

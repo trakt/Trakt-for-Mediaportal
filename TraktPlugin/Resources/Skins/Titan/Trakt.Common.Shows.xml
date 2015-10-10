@@ -175,7 +175,7 @@
       <label>#Trakt.Translation.Genre.Label</label>
       <posX>565</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+[!window.istopmost(87265)+!window.istopmost(87602)]</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+[!window.istopmost(87265)+!window.istopmost(87602)+!window.istopmost(87606)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -187,7 +187,7 @@
       <label>#Trakt.Show.Genres</label>
       <posX>798</posX>
       <posY>487</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+[!window.istopmost(87265)+!window.istopmost(87602)]</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.Title,)+[!window.istopmost(87265)+!window.istopmost(87602)+!window.istopmost(87606)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -210,6 +210,28 @@
       <posX>798</posX>
       <posY>487</posY>
       <visible>facadeview.list+!string.equals(#Trakt.Show.Watchers,)+window.istopmost(87265)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoLabel">
+      <description>Lists Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Lists.Label</label>
+      <posX>565</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.ListCount,)+window.istopmost(87606)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    <control Style="InfoValueSmall">
+      <description>Lists</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Show.ListCount.Extra</label>
+      <posX>798</posX>
+      <posY>487</posY>
+      <visible>facadeview.list+!string.equals(#Trakt.Show.ListCount,)+window.istopmost(87606)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -446,6 +468,30 @@
     </control>
 
     <control Style="InfoLabel">
+      <description>Lists Label</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Translation.Lists.Label</label>
+      <posX>118</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.ListCount,)+window.istopmost(87606)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+
+    <control Style="InfoValueSmall">
+      <description>Lists</description>
+      <id>0</id>
+      <type>label</type>
+      <label>#Trakt.Show.ListCount.Extra</label>
+      <posX>350</posX>
+      <posY>592</posY>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.ListCount,)+window.istopmost(87606)</visible>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
+    
+    <control Style="InfoLabel">
       <description>Credit (Character/Job) Label</description>
       <id>0</id>
       <type>label</type>
@@ -475,7 +521,7 @@
       <label>#Trakt.Translation.Language.Label</label>
       <posX>118</posX>
       <posY>592</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Language,)+[!window.istopmost(87265)+!window.istopmost(87602)]</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Language,)+[!window.istopmost(87265)+!window.istopmost(87602)+!window.istopmost(87606)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -487,7 +533,7 @@
       <label>#Trakt.Show.Language</label>
       <posX>350</posX>
       <posY>592</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Language,)+[!window.istopmost(87265)+!window.istopmost(87602)]</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Language,)+[!window.istopmost(87265)+!window.istopmost(87602)+!window.istopmost(87606)]</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

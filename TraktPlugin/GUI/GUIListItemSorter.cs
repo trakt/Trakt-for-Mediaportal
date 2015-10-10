@@ -18,7 +18,7 @@ namespace TraktPlugin.GUI
     #endregion
 
     #region Movie Sorter
-    public class GUIListItemMovieSorter : IComparer<TraktMovieTrending>, IComparer<TraktMovieSummary>, IComparer<TraktMovieWatchList>, IComparer<TraktPersonMovieCast>, IComparer<TraktPersonMovieJob>
+    public class GUIListItemMovieSorter : IComparer<TraktMovieTrending>, IComparer<TraktMovieSummary>, IComparer<TraktMovieWatchList>, IComparer<TraktPersonMovieCast>, IComparer<TraktPersonMovieJob>, IComparer<TraktMovieAnticipated>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -115,6 +115,21 @@ namespace TraktPlugin.GUI
             return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
         }
 
+        public int Compare(TraktMovieAnticipated movieX, TraktMovieAnticipated movieY)
+        {
+            if (_sortField == SortingFields.Anticipated)
+            {
+                int rtn = movieX.ListCount.CompareTo(movieY.ListCount);
+                if (_sortDirection == SortingDirections.Descending)
+                    rtn = -rtn;
+
+                return rtn;
+            }
+
+            return Compare(movieX.Movie, movieY.Movie);
+        }
+
+
         public int Compare(TraktPersonMovieJob movieX, TraktPersonMovieJob movieY)
         {
             return Compare(movieX.Movie as TraktMovieSummary, movieY.Movie as TraktMovieSummary);
@@ -128,7 +143,7 @@ namespace TraktPlugin.GUI
     #endregion
 
     #region Show Sorter
-    public class GUIListItemShowSorter : IComparer<TraktShowTrending>, IComparer<TraktShowSummary>, IComparer<TraktShowWatchList>, IComparer<TraktPersonShowCast>, IComparer<TraktPersonShowJob>
+    public class GUIListItemShowSorter : IComparer<TraktShowTrending>, IComparer<TraktShowSummary>, IComparer<TraktShowWatchList>, IComparer<TraktPersonShowCast>, IComparer<TraktPersonShowJob>, IComparer<TraktShowAnticipated>
     {
         private SortingFields _sortField;
         private SortingDirections _sortDirection;
@@ -216,6 +231,20 @@ namespace TraktPlugin.GUI
             if (_sortField == SortingFields.WatchListInserted)
             {
                 int rtn = showX.ListedAt.FromISO8601().CompareTo(showY.ListedAt.FromISO8601());
+                if (_sortDirection == SortingDirections.Descending)
+                    rtn = -rtn;
+
+                return rtn;
+            }
+
+            return Compare(showX.Show as TraktShowSummary, showY.Show as TraktShowSummary);
+        }
+
+        public int Compare(TraktShowAnticipated showX, TraktShowAnticipated showY)
+        {
+            if (_sortField == SortingFields.Anticipated)
+            {
+                int rtn = showX.ListCount.CompareTo(showY.ListCount);
                 if (_sortDirection == SortingDirections.Descending)
                     rtn = -rtn;
 

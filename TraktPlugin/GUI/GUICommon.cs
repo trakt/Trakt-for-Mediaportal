@@ -129,7 +129,9 @@ namespace TraktPlugin.GUI
         PersonCreditMovies = 87601,
         PersonCreditShows = 87602,
         CreditsMovie = 87603,
-        CreditsShow = 87604
+        CreditsShow = 87604,
+        AnticipatedMovies = 87605,
+        AnticipatedShows = 87606
     }
 
     enum TraktDashboardControls
@@ -183,7 +185,9 @@ namespace TraktPlugin.GUI
         Network,
         Recommendations,
         Trending,
+        Popular,
         WatchList,
+        Anticipated,
         Lists,
         SearchBy
     }
@@ -206,7 +210,8 @@ namespace TraktPlugin.GUI
         Runtime,
         PeopleWatching,
         WatchListInserted,
-        Popularity
+        Popularity,
+        Anticipated
     }
 
     public enum SortingDirections
@@ -1999,6 +2004,15 @@ namespace TraktPlugin.GUI
                 pItem.ItemId = (int)SortingFields.WatchListInserted;
             }
 
+            // Anticipated
+            if (GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.AnticipatedMovies ||
+                GUIWindowManager.ActiveWindow == (int)TraktGUIWindows.AnticipatedShows)
+            {
+                pItem = new GUIListItem(Translation.Anticipated);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)SortingFields.Anticipated;
+            }
+
             // set the focus to currently used sort method
             dlg.SelectedLabel = (int)currentSortBy.Field;
 
@@ -2046,6 +2060,11 @@ namespace TraktPlugin.GUI
                     newSortBy.Field = SortingFields.WatchListInserted;
                     break;
 
+                case (int)SortingFields.Anticipated:
+                    newSortBy.Direction = SortingDirections.Descending;
+                    newSortBy.Field = SortingFields.Anticipated;
+                    break;
+
                 default:
                     newSortBy.Field = SortingFields.Title;
                     break;
@@ -2090,6 +2109,10 @@ namespace TraktPlugin.GUI
 
                 case SortingFields.WatchListInserted:
                     strLine = Translation.Inserted;
+                    break;
+
+                case SortingFields.Anticipated:
+                    strLine = Translation.Anticipated;
                     break;
                 
                 default:
@@ -2392,6 +2415,14 @@ namespace TraktPlugin.GUI
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Trending;
 
+                pItem = new GUIListItem(Translation.Popular);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Popular;
+                
+                pItem = new GUIListItem(Translation.Anticipated);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Anticipated;
+
                 pItem = new GUIListItem(Translation.WatchList);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.WatchList;
@@ -2494,6 +2525,14 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.TrendingMovies);
                     break;
 
+                case ((int)TraktMenuItems.Popular):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.PopularMovies);
+                    break;
+
+                case ((int)TraktMenuItems.Anticipated):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.AnticipatedMovies);
+                    break;
+
                 case ((int)TraktMenuItems.WatchList):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListMovies);
                     break;
@@ -2590,6 +2629,14 @@ namespace TraktPlugin.GUI
                 pItem = new GUIListItem(Translation.Trending);
                 dlg.Add(pItem);
                 pItem.ItemId = (int)TraktMenuItems.Trending;
+
+                pItem = new GUIListItem(Translation.Popular);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Popular;
+
+                pItem = new GUIListItem(Translation.Anticipated);
+                dlg.Add(pItem);
+                pItem.ItemId = (int)TraktMenuItems.Anticipated;
 
                 pItem = new GUIListItem(Translation.WatchList);
                 dlg.Add(pItem);
@@ -2708,6 +2755,14 @@ namespace TraktPlugin.GUI
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.TrendingShows);
                     break;
 
+                case ((int)TraktMenuItems.Popular):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.PopularShows);
+                    break;
+
+                case ((int)TraktMenuItems.Anticipated):
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.AnticipatedShows);
+
+                    break;
                 case ((int)TraktMenuItems.WatchList):
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.WatchedListShows);
                     break;

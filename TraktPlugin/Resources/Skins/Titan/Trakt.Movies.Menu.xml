@@ -53,7 +53,7 @@
         <hyperlink>87266</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
-        <onup>4</onup>
+        <onup>5</onup>
       </control>
       <control Style="SettingsButtonLarge">
         <description>Popular Movies</description>
@@ -70,6 +70,15 @@
         <id>4</id>
         <label>#Trakt.Translation.Recommendations.Label</label>
         <hyperlink>87263</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
+      </control>
+      <control Style="SettingsButtonLarge">
+        <description>Anticipated Movies</description>
+        <type>button</type>
+        <id>5</id>
+        <label>#Trakt.Translation.Anticipated.Label</label>
+        <hyperlink>87605</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
         <ondown>2</ondown>

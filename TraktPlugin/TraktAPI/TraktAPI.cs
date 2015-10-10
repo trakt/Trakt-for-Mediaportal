@@ -509,6 +509,34 @@ namespace TraktPlugin.TraktAPI
 
         #endregion
 
+        #region Anticipated
+
+        public static TraktMoviesAnticipated GetAnticipatedMovies(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.AnticipatedMovies, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktMoviesAnticipated
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Movies = response.FromJSONArray<TraktMovieAnticipated>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
+
+        #endregion
+
         #region Recommendations
 
         public static IEnumerable<TraktMovieSummary> GetRecommendedMovies(string extendedInfoParams = "min")
@@ -676,6 +704,34 @@ namespace TraktPlugin.TraktAPI
                     CurrentPage = page,
                     TotalItemsPerPage = maxItems,
                     Shows = response.FromJSONArray<TraktShowSummary>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Anticipated
+
+        public static TraktShowsAnticipated GetAnticipatedShows(int page = 1, int maxItems = 100)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.AnticipatedShows, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktShowsAnticipated
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    Shows = response.FromJSONArray<TraktShowAnticipated>()
                 };
             }
             catch

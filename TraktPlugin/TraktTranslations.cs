@@ -304,8 +304,12 @@ namespace TraktPlugin.GUI
         public static string ApproveFriendMessage = "Would you like to add user {0}\nas a friend?";
         public static string ApproveFollowerMessage = "Would you like to allow user {0}\nto follow you?";
         public static string ApproveFollowerAndFollowBackMessage = "Would you like to allow user {0}\nto follow you and follow user back?";
+        public static string AppearsInList = "{0} Lists";
         public static string AdvancedSettings = "Advanced Settings";
         public static string Animation = "Animation";
+        public static string Anticipated = "Anticipated";
+        public static string AnticipatedShows = "Anticipated Shows";
+        public static string AnticipatedMovies = "Anticipated Movies";
         public static string Art = "Art";
         public static string ArtDepartmentAssistant = "Art Department Assistant";
         public static string ArtDepartmentCoordinator = "Art Department Coordinator";
@@ -534,6 +538,8 @@ namespace TraktPlugin.GUI
         public static string GettingRelatedShows = "Getting Related Shows";
         public static string GettingTrailerUrls = "Getting Trailer Urls";
         public static string GettingUserProfile = "Getting User Profile";
+        public static string GettingAnticipatedShows = "Getting Anticipated Shows";
+        public static string GettingAnticipatedMovies = "Getting Anticipated Movies";
         public static string Greensman = "Greensman";
         public static string Grip = "Grip";
         public static string GuestStar = "Gueststar";

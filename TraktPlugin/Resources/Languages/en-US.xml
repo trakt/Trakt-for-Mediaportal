@@ -64,6 +64,9 @@
   <string name="ApproveFollowerAndFollowBackMessage">Would you like to allow user {0}\nto follow you and follow user back?</string>
   <string name="AdvancedSettings">Advanced Settings</string>
   <string name="Animation">Animation</string>
+  <string name="Anticipated">Anticipated</string>
+  <string name="AnticipatedShows">Anticipated Shows</string>
+  <string name="AnticipatedMovies">Anticipated Movies</string>
   <string name="Art">Art</string>
   <string name="ArtDepartmentAssistant">Art Department Assistant</string>
   <string name="ArtDepartmentCoordinator">Art Department Coordinator</string>
@@ -287,6 +290,8 @@
   <string name="GettingRelatedShows">Getting Related Shows</string>
   <string name="GettingTrailerUrls">Getting Trailer Urls</string>
   <string name="GettingUserProfile">Getting User Profile</string>
+  <string name="GettingAnticipatedMovies">Getting Anticipated Movies</string>
+  <string name="GettingAnticipatedShows">Getting Anticipated Shows</string>
   <string name="Greensman">Greensman</string>
   <string name="Grip">Grip</string>
   <string name="GuestStar">Guest Star</string>
