@@ -1346,6 +1346,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.InCollection", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.InWatchList", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Collected", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Plays", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Rating", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Ratings.Icon", string.Empty);
@@ -1370,6 +1371,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.Plays", season.Plays(show));
             SetProperty("#Trakt.Season.InCollection", season.IsCollected(show));
             SetProperty("#Trakt.Season.InWatchList", season.IsWatchlisted(show));
+            SetProperty("#Trakt.Season.Collected", season.Collected(show));
             SetProperty("#Trakt.Season.Rating", season.UserRating(show));
             SetProperty("#Trakt.Season.Ratings.Percentage", season.Rating.ToPercentage());
             SetProperty("#Trakt.Season.Ratings.Votes", season.Votes);
@@ -1404,6 +1406,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Show.Genres", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InWatchList", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.InCollection", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Show.Collected", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Watched", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.AiredEpisodes", string.Empty);
             GUIUtils.SetProperty("#Trakt.Show.Plays", string.Empty);
@@ -1450,6 +1453,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Genres", TraktGenres.Translate(show.Genres));
             SetProperty("#Trakt.Show.InWatchList", show.IsWatchlisted());
             SetProperty("#Trakt.Show.InCollection", show.IsCollected());
+            SetProperty("#Trakt.Show.Collected", show.Collected());
             SetProperty("#Trakt.Show.Watched", show.IsWatched());
             SetProperty("#Trakt.Show.AiredEpisodes", show.AiredEpisodes);
             SetProperty("#Trakt.Show.Plays", show.Plays());

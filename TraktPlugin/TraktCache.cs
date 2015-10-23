@@ -2399,6 +2399,16 @@ namespace TraktPlugin
             return watchedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || (e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)).Sum(e => e.Plays);
         }
 
+        public static int Collected(this TraktShow show)
+        {
+            var collectedEpisodes = TraktCache.CollectedEpisodes;
+            if (collectedEpisodes == null)
+                return 0;
+
+            // count all the episodes collected in the show
+            return collectedEpisodes.Where(e => (((e.ShowId == show.Ids.Trakt) && e.ShowId != null) || (e.ShowTvdbId == show.Ids.Tvdb) && e.ShowTvdbId != null)).Count();
+        }
+
         #endregion
 
         #region Seasons
@@ -2467,6 +2477,16 @@ namespace TraktPlugin
 
             // sum up all the plays per episode in season
             return watchedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Sum(e => e.Plays);
+        }
+
+        public static int Collected(this TraktSeasonSummary season, TraktShowSummary show)
+        {
+            var collectedEpisodes = TraktCache.CollectedEpisodes;
+            if (collectedEpisodes == null)
+                return 0;
+
+            // count all the episodes collected in the season
+            return collectedEpisodes.Where(e => e.ShowId == show.Ids.Trakt && e.Season == season.Number).Count();
         }
 
         #endregion
