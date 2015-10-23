@@ -59,8 +59,13 @@
   <string name="ApproveFollowerAndFollowBackMessage">Voulez-vous permettre à l\'utilisateur {0} \nde vous suivre et vous de suivre l\'utilisateur ?</string>
   <string name="AdvancedSettings">Paramétrages avancés</string>
   <string name="Animation">Animation</string>
+  <string name="Anticipated">Prévoir</string>
+  <string name="AnticipatedShows">Séries prévues</string>
+  <string name="AnticipatedMovies">Films prévus</string>
   <string name="ArtDirection">Directeur artistique </string>
   <string name="AssistantArtDirector">Directeur artistique adjoint</string>
+  <string name="AssistantDirector">Assistant réalisateur</string>
+  <string name="AssociateProducer">Producteur associé</string>
   <!--B-->
   <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
   <string name="Biography">Biographie</string>
@@ -69,6 +74,8 @@
   <string name="Born">Né</string>
   <string name="BirthPlace">Lieu de naissance</string>
   <!--C-->
+  <string name="Camera">Camera</string>
+  <string name="CameraOperator">Opérateur Caméra</string>
   <string name="Cancel">Annuler</string>
   <string name="Canceled">Annuler</string>
   <string name="Calendar">Calendrier</string>
@@ -105,6 +112,7 @@
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer\ncet élément de la liste?</string>
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
+  <string name="CostumeDesign">Création des costumes</string>
   <string name="Country">Pays</string>
   <string name="CostumeAndMakeUp">Costume et Maquillage</string>
   <string name="CurrentPage">Page courante</string>
@@ -174,6 +182,7 @@
   <string name="FollowerRequestMessage">Vous avez  {0}  requêtes d\'abonné, accepter ou refuser via la fenêtre de réseau</string>
   <string name="FullName">Nom complet</string>
   <!--G-->
+  <string name="Gaffer">Chef-électricien</string>
   <string name="Gender">Genre</string>
   <string name="GenderMale">Homme</string>
   <string name="GenderFemale">Femme</string>
@@ -250,6 +259,7 @@
   <string name="GuestStar">Célébrité Invité</string>
   <string name="GuestStars">Célébrités Invités</string>
   <!--H-->
+  <string name="HairStylist">Coiffeur</string>
   <string name="Hate">Détester</string>
   <string name="Hated">A détesté</string>
   <string name="HideTVShowsInWatchlist">Cacher les séries de la liste </string>
@@ -293,6 +303,7 @@
   <string name="LibraryAndPlaybackSyncStarted">Une synchronisation de la bibliothèque  et des lectures est en cours.</string>
   <string name="Like">Apprécie</string>
   <string name="Likes">Apprécies</string>
+  <string name="LineProducer">Producteur</string>
   <string name="List">Liste</string>
   <string name="Lists">Listes</string>
   <string name="Love">Aimer</string>
@@ -302,6 +313,7 @@
   <string name="Login">Connexion</string>
   <string name="ListNameAlreadyExists">Une liste de même nom existe déjà</string>
   <!--M-->
+  <string name="MakeupArtist">Maquilleur</string>
   <string name="MarkAsWatched">Marquer comme visionné</string>
   <string name="MarkAsUnWatched">Marquer comme  non visionné</string>
   <string name="Me">Moi</string>
@@ -390,6 +402,10 @@
   <string name="Profile">Profil</string>
   <string name="Producer">Producteur</string>
   <string name="Producers">Producteurs</string>
+  <string name="Production">Création des décors</string>
+  <string name="ProductionDesign">Création des décors</string>
+  <string name="ProductionManager">Directeur de production</string>
+  <string name="ProductionOfficeAssistant">Assistant de production</string>
   <!--R-->
   <string name="Rate">Note</string>
   <string name="Rated">Noté</string>
@@ -452,6 +468,7 @@
   <string name="SearchForFriend">Rechercher un ami...</string>
   <string name="SearchForUser">Recherche d\'utilisateur....</string>
   <string name="SearchTypes">Types de recherche</string>
+  <string name="SecondUnit">Deuxième Equipe</string>
   <string name="SendFriendRequest">Envoyer une invitation à {0}?</string>
   <string name="SendFollowRequest">Envoyer la demande de suivi à {0}?</string>
   <string name="SelectLists">Sélectionnez les listes</string>
@@ -529,11 +546,15 @@
   <string name="StartLibrarySync">Démarrer a synchronisation de la bibliothèque</string>
   <string name="StartLibraryAndPlaybackSync">Démarrer la synchronisation de la bibliothèque et des lectures </string>
   <string name="StartPlaybackSync">Démarrer la synchronisation des lectures</string>
+  <string name="Storyboard">Storyboard</string>
   <string name="SortBy">Trier par : {0}</string>
   <string name="SortSeasonsAscending">Trier les saisons par ordre croissant</string>
   <string name="SortSeasonsDescending">Trier les saisons par ordre décroissant</string>
+  <string name="Sound">Son</string>
   <string name="Specials">Spéciaux</string>
+  <string name="SpecialEffects">Effets spéciaux</string>
   <string name="Status">Status</string>
+  <string name="StillPhotographer">Photographe</string>
   <!--T-->
   <string name="Timeout">Temps expiré</string>
   <string name="TotalPages">Nombre de Pages</string>
@@ -578,6 +599,9 @@
   <string name="UserProfile">Profil utilisateur</string>
   <string name="UserRatingsDistribution">Notation de 1 à 10 coeurs</string>
   <!--V-->
+  <string name="VisualEffects">Effets visuels</string>
+  <string name="VisualEffectsProducer"> Producteur des Effets Visuels</string>
+  <string name="VisualEffectsSupervisor">Superviseur des effets visuels</string>
   <string name="View">Vu</string>
   <string name="Votes">Votes</string>
   <string name="ValidUsername">Vous devez indiquer un nom d\'utilisateur valide</string>

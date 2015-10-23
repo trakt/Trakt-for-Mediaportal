@@ -64,6 +64,9 @@
   <string name="ApproveFollowerAndFollowBackMessage">Willst du {0} erlauben\ndir zu folgen und du ihm/ihr?</string>
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <string name="Animation">Zeichentrick</string>
+  <string name="Anticipated">Geplant</string>
+  <string name="AnticipatedShows">Geplante Serien</string>
+  <string name="AnticipatedMovies">Geplante Filme</string>
   <string name="Art">Kunst</string>
   <string name="ArtDepartmentAssistant">Assistenz Art Department</string>
   <string name="ArtDepartmentCoordinator">Koordination Art Department</string>
@@ -81,6 +84,7 @@
   <string name="BoomOperator">Tonassistent</string>
   <string name="Born">Geboren</string>
   <string name="BirthPlace">Geburtsort</string>
+  <string name="BoxOffice">Kino</string>
   <!--C-->
   <string name="Camera">Kamera</string>
   <string name="CameraDepartmentManager">Leitung Kameraabteilung</string>
@@ -287,6 +291,8 @@
   <string name="GettingRelatedShows">Ähnliche Shows werden abgerufen</string>
   <string name="GettingTrailerUrls">Trailer-URLs abrufen</string>
   <string name="GettingUserProfile">Benutzerprofile werden abgerufen</string>
+  <string name="GettingAnticipatedMovies">Erwartete Filme werden abgerufen</string>
+  <string name="GettingAnticipatedShows">Erwartete Serien werden abgerufen</string>
   <string name="Greensman">Gärtner</string>
   <string name="Grip">Kameratechnik</string>
   <string name="GuestStar">Gaststar</string>
@@ -496,6 +502,7 @@
   <string name="Replies">Anworten</string>
   <string name="Requests">Anfragen</string>
   <string name="ReturningSeries">Fortgesetzte Serie</string>
+  <string name="Revenue">Einnahmen</string>
   <string name="RiggingGaffer">Vorarbeiter Kameratechnik</string>
   <string name="RiggingGrip">Kameratechniker</string>
   <string name="Runtime">Laufzeit</string>

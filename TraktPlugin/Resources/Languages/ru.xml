@@ -3,16 +3,43 @@
   <!--A-->
   <string name="Actor">Актер</string>
   <string name="Actors">Актеры</string>
+  <string name="ActivityWatching">{0} смотрит {1}</string>
+  <string name="ActivityWatched">{0} смотрели {1}</string>
+  <string name="AddFriend">Добавить друга...</string>
+  <string name="AddToLibrary">Добавить в коллекцию</string>
+  <string name="AddToList">Добавить в список...</string>
+  <string name="AddToWatchList">Добавить в список просмотра</string>
+  <string name="AddShowToWatchList">Добавить сериал в список просмотра</string>
+  <string name="AddEpisodeToWatchList">Добавить серию в список просмотра</string>
+  <string name="AddShowToList">Добавить сериал в список</string>
+  <string name="AddEpisodeToList">Добавить серию в список</string>
+  <string name="AddThisItemToWatchList">Добавить в список просмотра?</string>
+  <string name="AdditionalPhotography">Дополнительные фотографии</string>
+  <string name="Administration">Администрация</string>
+  <string name="Age">Возраст</string>
+  <string name="Approve">Одобрить</string>
+  <string name="AdvancedSettings">Расширенные настройки</string>
   <!--B-->
   <string name="Biography">Биография</string>
   <!--C-->
   <string name="Cancel">Отмена</string>
+  <string name="Canceled">Отменен</string>
   <string name="Calendar">Календарь</string>
+  <string name="CalendarMyShows">Мои сериалы</string>
+  <string name="CalendarPremieres">Премьеры</string>
+  <string name="CalendarAllShows">Все сериалы</string>
   <string name="Cast">В ролях</string>
   <string name="Certification">Рейтинг MPAA</string>
+  <string name="Create">Создать</string>
+  <string name="Comments">Комментарии</string>
+  <string name="Country">Страна</string>
   <!--D-->
   <string name="DateToday">Сегодня</string>
   <string name="DateYesterday">Вчера</string>
+  <string name="DateOneWeekAgo">Неделю назад</string>
+  <string name="DateTwoWeeksAgo">Две недели назад</string>
+  <string name="DateOneMonthAgo">Месяц назад</string>
+  <string name="DeleteList">Удалить список</string>
   <string name="Director">Режиссер</string>
   <string name="Directors">Режисеры</string>
   <string name="DownloadFanart">Скачать фанарт</string>
@@ -20,14 +47,32 @@
   <string name="Email">Электронная почта</string>
   <string name="Episode">Эпизод</string>
   <string name="Episodes">Эпизоды</string>
+  <string name="Error">Ошибка</string>
   <!--F-->
   <string name="Filters">Фильтры</string>
   <string name="FirstAired">Первый показ</string>
+  <string name="Friend">Друг</string>
+  <string name="Friends">Друзья</string>
+  <string name="FriendsAndMe">Я и мои Друзья</string>
+  <string name="FriendActivity">Друзья смотрят</string>
   <!--G-->
+  <string name="GenderMale">М</string>
+  <string name="GenderFemale">Ж</string>
   <string name="Genre">Жанр</string>
   <string name="GenreAll">Все</string>
+  <string name="GenreChildren">Детский</string>
+  <string name="GenreComedy">Комедия</string>
+  <string name="GenreDocumentary">Документальный</string>
+  <string name="GenreDrama">Драма</string>
+  <string name="GenreFamily">Семейный</string>
+  <string name="GenreHistory">Исторический</string>
+  <string name="GenreHorror">Ужасы</string>
+  <string name="GenreMiniSeries">Мини-Сериал</string>
   <string name="GenreMusic">Музыка</string>
+  <string name="GenreMusical">Мюзикл</string>
   <string name="GenreNews">Новости</string>
+  <string name="GenreScienceFiction">Научная фантастика</string>
+  <string name="GenreWestern">Вестерн</string>
   <string name="GuestStar">Приглашенная звезда</string>
   <string name="GuestStars">Приглашенные звезды</string>
   <!--H-->
@@ -36,26 +81,43 @@
   <!--K-->
   <!--L-->
   <string name="Language">Язык</string>
+  <string name="Languages">Языки</string>
   <string name="List">Отображение списка</string>
   <!--M-->
   <string name="MarkAsWatched">Отметить как просмотренный</string>
+  <string name="MarkAsUnWatched">Отметить как непросмотренный</string>
+  <string name="Menu">Меню</string>
   <string name="Minutes">Минуты</string>
+  <string name="Minute">Минута</string>
   <string name="Music">Музыка</string>
   <string name="Movie">Фильм</string>
   <string name="Movies">Фильмы</string>
   <!--N-->
   <string name="Network">Сеть</string>
+  <string name="NextEpisode">Следующая серия</string>
+  <string name="NextPage">Следующая страница</string>
+  <string name="NoFriendsTaunt">У вас нет друзей!</string>
   <string name="No">Нет</string>
   <!--O-->
   <string name="OK">OK</string>
   <string name="Other">Другое</string>
+  <string name="Overview">Обзор</string>
   <!--P-->
+  <string name="Page">Страница</string>
+  <string name="Password">Пароль</string>
   <string name="Plugin">Диполнение</string>
   <string name="Plugins">Дополнения</string>
   <!--R-->
   <string name="Rate">Рейтинг</string>
   <string name="Rated">Оценка</string>
   <string name="Rating">Рейтинг</string>
+  <string name="RateMovie">Оценить фильм</string>
+  <string name="RateShow">Оценить сериал</string>
+  <string name="RateEpisode">Оценить серию</string>
+  <string name="RateDialog">Оценка</string>
+  <string name="RateHate">Отстой :(</string>
+  <string name="RateLove">Отлично!</string>
+  <string name="RateHeading">Что вы думаете?</string>
   <string name="RateTwo">Ужасный</string>
   <string name="RateThree">Плохо</string>
   <string name="RateFour">Неважно</string>
@@ -65,12 +127,14 @@
   <string name="RateNine">Великолепный</string>
   <string name="RecentAddedMovies">Недавно добавленные фильмы</string>
   <string name="Recommendations">Рекомендации</string>
+  <string name="Refresh">Обновить</string>
   <string name="ReleaseDate">Дата Релиза</string>
   <string name="Runtime">Продолжительность</string>
   <!--S-->
   <string name="Score">Рейтинг</string>
   <string name="Season">Сезон</string>
   <string name="Seasons">Сезоны</string>
+  <string name="Search">Поиск</string>
   <string name="Series">Сериал</string>
   <string name="SeriesPlural">Сериал</string>
   <string name="Settings">Настройки</string>
@@ -80,13 +144,19 @@
   <string name="SettingListedPluginsName">Расположено в Моих Плагинах</string>
   <string name="Specials">Дополнения</string>
   <string name="Status">Статус</string>
+  <string name="Stunts">Каскадеры</string>
   <!--T-->
   <string name="Timeout">Время истекло</string>
   <string name="Trending">Трендинг</string>
+  <string name="Tagline">Слоган</string>
   <string name="Title">Название</string>
   <string name="Today">Сегодня</string>
   <string name="Trailer">Трейлер</string>
   <!--U-->
+  <string name="User">Пользователь</string>
+  <string name="Users">Пользователи</string>
+  <string name="Username">Имя пользователя</string>
+  <string name="UserProfile">Профиль пользователя</string>
   <!--V-->
   <string name="Votes">Голоса</string>
   <!--W-->

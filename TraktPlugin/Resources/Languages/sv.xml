@@ -48,6 +48,7 @@
   <string name="AddShowToList">Lägg till serien i listan</string>
   <string name="AddEpisodeToList">Lägg till avsnittet i listan</string>
   <string name="AddThisItemToWatchList">Vill du lägga till den här i din watchlist?</string>
+  <string name="Administration">Administration</string>
   <string name="Age">Ålder</string>
   <string name="AirDate">Först visat</string>
   <string name="AirDay">Veckodag</string>

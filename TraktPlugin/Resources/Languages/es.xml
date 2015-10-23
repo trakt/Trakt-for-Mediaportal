@@ -64,6 +64,9 @@
   <string name="ApproveFollowerAndFollowBackMessage">¿Quieres permitir al usuario {0}\nseguirte y seguir al usuario nuevo?</string>
   <string name="AdvancedSettings">Opciones Avanzadas</string>
   <string name="Animation">Animación</string>
+  <string name="Anticipated">Previstos</string>
+  <string name="AnticipatedShows">Programas Previstos</string>
+  <string name="AnticipatedMovies">Películas Previstas</string>
   <string name="Art">Arte</string>
   <string name="ArtDepartmentAssistant">Asistente Departamento de Arte</string>
   <string name="ArtDepartmentCoordinator">Coordinador Departamento de Arte</string>
@@ -81,6 +84,7 @@
   <string name="BoomOperator">Perchista</string>
   <string name="Born">Nació</string>
   <string name="BirthPlace">Lugar de Nacimiento</string>
+  <string name="BoxOffice">Taquilla</string>
   <!--C-->
   <string name="Camera">Cámara</string>
   <string name="CameraDepartmentManager">Jefe Departamento de Cámaras</string>
@@ -287,6 +291,8 @@
   <string name="GettingRelatedShows">Obteniendo Shows Relacionados</string>
   <string name="GettingTrailerUrls">Obteniendo Url de Trailer</string>
   <string name="GettingUserProfile">Obteniendo Perfil de Usuario</string>
+  <string name="GettingAnticipatedMovies">Obteniendo Películas Previstas</string>
+  <string name="GettingAnticipatedShows">Obteniendo Programas Previstos</string>
   <string name="Greensman">Paisajista</string>
   <string name="Grip">Tramoyista</string>
   <string name="GuestStar">Artista Invitado</string>
@@ -496,6 +502,7 @@
   <string name="Replies">Respuestas</string>
   <string name="Requests">Peticiones</string>
   <string name="ReturningSeries">Series Renovadas</string>
+  <string name="Revenue">Ingresos</string>
   <string name="RiggingGaffer">Encargado de Cableado</string>
   <string name="RiggingGrip">Electrico</string>
   <string name="Runtime">Duración</string>

@@ -444,6 +444,7 @@
   <string name="Shouts">Komentáře</string>
   <string name="Show">Seriál</string>
   <string name="Shows">Seriály</string>
+  <string name="ShowCount">{0} seriálů</string>
   <string name="ShowTVShowsInWatchlist">Zobrazit seriály v seznamu ke zhlédnutí</string>
   <string name="ShowSpoilers">Zobrazit prozrazení děje</string>
   <string name="ShowFriendActivity">Zobrazit aktivity přátel</string>
