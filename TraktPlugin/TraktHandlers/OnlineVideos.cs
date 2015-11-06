@@ -35,7 +35,7 @@ namespace TraktPlugin.TraktHandlers
             else
             {
                 var fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
-                if (new Version(fvi.ProductVersion) < new Version(1, 9, 0, 3341))
+                if (new Version(fvi.FileVersion) < new Version(1, 9, 0, 3341))
                 {
                     throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
                 }
@@ -385,7 +385,7 @@ namespace TraktPlugin.TraktHandlers
 
                 if (itemToRate.VideoKind == VideoKind.TvSeries)
                 {
-                    TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year == 0 ? "<empty>" : itemToRate.Year.ToString(), itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString(), itemToRate.Episode, itemToRate.Season);
+                    TraktLogger.Info("Showing rate dialog for episode. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}', Season = '{4}', Episode = '{5}'", itemToRate.Title, itemToRate.Year == 0 ? "<empty>" : itemToRate.Year.ToString(), itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString(), itemToRate.Episode, itemToRate.Season);
 
                     // this gets complicated when the episode IDs are not available!
                     var rateObject = new TraktSyncShowRatedEx
@@ -434,7 +434,7 @@ namespace TraktPlugin.TraktHandlers
                 }
                 else if (itemToRate.VideoKind == VideoKind.Movie)
                 {
-                    TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDB ID = '{2}', TMDb ID = '{3}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString());
+                    TraktLogger.Info("Showing rate dialog for movie. Title = '{0}', Year = '{1}', IMDb Id = '{2}', TMDb ID = '{3}'", itemToRate.Title, itemToRate.Year, itemToRate.ID_IMDB.ToLogString(), itemToRate.ID_TMDB.ToLogString());
 
                     var rateObject = new TraktSyncMovieRated
                     {
