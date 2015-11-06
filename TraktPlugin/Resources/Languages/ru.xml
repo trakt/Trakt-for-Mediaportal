@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--A-->
+  <string name="Account">Учётная запись</string>
+  <string name="AccountSetup">Настройки учётной записи</string>
+  <string name="AccountDialog">Учётная запись</string>
   <string name="Actor">Актер</string>
   <string name="Actors">Актеры</string>
   <string name="ActivityWatching">{0} смотрит {1}</string>
@@ -19,8 +22,16 @@
   <string name="Age">Возраст</string>
   <string name="Approve">Одобрить</string>
   <string name="AdvancedSettings">Расширенные настройки</string>
+  <string name="Anticipated">Ожидаемые</string>
+  <string name="AnticipatedShows">Ожидаемые сариалы</string>
+  <string name="AnticipatedMovies">Ожидаемые фильмы</string>
   <!--B-->
   <string name="Biography">Биография</string>
+  <string name="Birthday">День рождения</string>
+  <string name="BirthDate">Дата рождения</string>
+  <string name="Born">Родился</string>
+  <string name="BirthPlace">Место рождения</string>
+  <string name="BoxOffice">Самые кассовые</string>
   <!--C-->
   <string name="Cancel">Отмена</string>
   <string name="Canceled">Отменен</string>
@@ -34,12 +45,16 @@
   <string name="Comments">Комментарии</string>
   <string name="Country">Страна</string>
   <!--D-->
+  <string name="Dashboard">Главная</string>
   <string name="DateToday">Сегодня</string>
   <string name="DateYesterday">Вчера</string>
   <string name="DateOneWeekAgo">Неделю назад</string>
   <string name="DateTwoWeeksAgo">Две недели назад</string>
   <string name="DateOneMonthAgo">Месяц назад</string>
+  <string name="Dead">Мертв</string>
+  <string name="Death">Дата смерти</string>
   <string name="DeleteList">Удалить список</string>
+  <string name="Died">Умер</string>
   <string name="Director">Режиссер</string>
   <string name="Directors">Режисеры</string>
   <string name="DownloadFanart">Скачать фанарт</string>
@@ -142,12 +157,16 @@
   <string name="SettingPluginEnabledName">Дополнение активировано</string>
   <string name="SettingListedHomeName">Расположено в главном меню</string>
   <string name="SettingListedPluginsName">Расположено в Моих Плагинах</string>
+  <string name="SettingFilterTrendingOnDashboardName">Оставить популярные на главной</string>
   <string name="Specials">Дополнения</string>
   <string name="Status">Статус</string>
   <string name="Stunts">Каскадеры</string>
   <!--T-->
   <string name="Timeout">Время истекло</string>
-  <string name="Trending">Трендинг</string>
+  <string name="Trending">Популярные</string>
+  <string name="TrendingShows">Популярные сериалы</string>
+  <string name="TrendingShowsAndMovies">Популярные сериалы и ифльмы</string>
+  <string name="TrendingMovies">Популярные фильмы</string>
   <string name="Tagline">Слоган</string>
   <string name="Title">Название</string>
   <string name="Today">Сегодня</string>
