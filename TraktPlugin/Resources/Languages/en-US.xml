@@ -56,6 +56,7 @@
   <string name="AirDay">Air Day</string>
   <string name="AiredEpisodes">Aired Episodes</string>
   <string name="AirTime">Air Time</string>
+  <string name="AppearsInList">{0} Lists</string>
   <string name="Approve">Approve</string>
   <string name="ApproveAndFollowBack">Approve and Follow Back</string>
   <string name="ApprovedDate">Approved Date</string>
@@ -260,6 +261,7 @@
   <string name="GetFriendRequestsOnStartup">Get Friend Requests on Startup</string>
   <string name="GetFollowerRequestsOnStartup">Get Follower Requests on Startup</string>
   <string name="GettingActivity">GettingActivity</string>
+  <string name="GettingBoxOffice">Getting Box Office</string>
   <string name="GettingCalendar">Getting Calendar</string>
   <string name="GettingEpisodes">Getting Episodes</string>
   <string name="GettingFriendsList">Getting Friends List</string>
@@ -378,6 +380,7 @@
   <string name="NextPage">Next Page</string>
   <string name="NextWeek">Next Week</string>
   <string name="NoActivities">No activity found.</string>
+  <string name="NoBoxOffice">No Box Office movies found!</string>
   <string name="NoCreditsFound">No credits found.</string>
   <string name="NoPersonBiography">There is no biography entered for this person.</string>
   <string name="NoEpisodesInSeason">No Episodes are available in Season.</string>
@@ -663,6 +666,7 @@
   <string name="Timeout">Timeout</string>
   <string name="TotalPages">Total Pages</string>
   <string name="TotalItemsPerPage">Total Items Per Page</string>
+  <string name="TotalRevenue">Total Revenue</string>
   <string name="TransportationCaptain">Transportation Captain</string>
   <string name="TransportationCoCaptain">Transportation Co-Captain</string>
   <string name="TransportationCoordinator">Transportation Coordinator</string>
