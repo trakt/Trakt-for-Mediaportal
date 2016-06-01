@@ -577,7 +577,7 @@ namespace TraktPlugin
             for (int i = 0; i < maxItems; i++)
             {
                 var trendingItem = trendingList[i];
-                if (trendingItem == null) continue;
+                if (trendingItem == null || trendingItem.Movie == null) continue;
 
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers", i), trendingItem.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Watchers.Extra", i), trendingItem.Watchers > 1 ? string.Format(Translation.PeopleWatching, trendingItem.Watchers) : Translation.PersonWatching);
@@ -675,6 +675,9 @@ namespace TraktPlugin
             // Add each activity item to the facade
             foreach (var trendingItem in trendingItems.Take(trendingSettings.FacadeMaxItems))
             {
+                if (trendingItem.Movie == null)
+                    continue;
+
                 // add image for download
                 var images = new GUITraktImage { MovieImages = trendingItem.Movie.Images };
                 movieImages.Add(images);
@@ -797,7 +800,7 @@ namespace TraktPlugin
             for (int i = 0; i < maxItems; i++)
             {
                 var trendingItem = trendingList[i];
-                if (trendingItem == null) continue;
+                if (trendingItem == null || trendingItem.Show == null) continue;
 
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers", i), trendingItem.Watchers.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Watchers.Extra", i), trendingItem.Watchers > 1 ? string.Format(Translation.PeopleWatching, trendingItem.Watchers) : Translation.PersonWatching);
@@ -903,6 +906,9 @@ namespace TraktPlugin
             // Add each activity item to the facade
             foreach (var trendingItem in trendingItems.Take(trendingSettings.FacadeMaxItems))
             {
+                if (trendingItem.Show == null)
+                    continue;
+
                 // add image for download
                 var images = new GUITraktImage { ShowImages = trendingItem.Show.Images };
                 showImages.Add(images);
