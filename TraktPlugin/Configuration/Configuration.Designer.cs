@@ -47,8 +47,6 @@
             this.lblSyncResumeDelta = new System.Windows.Forms.Label();
             this.numSyncResumeDelta = new System.Windows.Forms.NumericUpDown();
             this.cbSyncPlayback = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.cbSyncRatings = new System.Windows.Forms.CheckBox();
             this.cbSyncLibrary = new System.Windows.Forms.CheckBox();
             this.cbMyFilmsCategories = new System.Windows.Forms.CheckBox();
@@ -59,18 +57,28 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.ttpConfig = new System.Windows.Forms.ToolTip(this.components);
             this.btnTVSeriesRestrictions = new System.Windows.Forms.Button();
+            this.cbParentControls = new System.Windows.Forms.CheckBox();
+            this.txtPinCode = new System.Windows.Forms.TextBox();
             this.gbRestrictions = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.btnMovieRestrictions = new System.Windows.Forms.Button();
             this.progressBarSync = new System.Windows.Forms.ProgressBar();
             this.lblSyncStatus = new System.Windows.Forms.Label();
             this.btnStartLibrarySync = new System.Windows.Forms.Button();
+            this.dtParentalControlsTime = new System.Windows.Forms.DateTimePicker();
+            this.cbParentalControlsTime = new System.Windows.Forms.CheckBox();
+            this.gbParentalControls = new System.Windows.Forms.GroupBox();
+            this.cboMovieCertifications = new System.Windows.Forms.ComboBox();
+            this.cbParentalIgnoreMovieCertifications = new System.Windows.Forms.CheckBox();
+            this.cboTVCertifications = new System.Windows.Forms.ComboBox();
+            this.cbParentalIgnoreShowCertifications = new System.Windows.Forms.CheckBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSyncInterval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).BeginInit();
             this.gbRestrictions.SuspendLayout();
+            this.gbParentalControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -187,8 +195,6 @@
             this.gbSync.Controls.Add(this.lblSyncResumeDelta);
             this.gbSync.Controls.Add(this.numSyncResumeDelta);
             this.gbSync.Controls.Add(this.cbSyncPlayback);
-            this.gbSync.Controls.Add(this.textBox1);
-            this.gbSync.Controls.Add(this.label1);
             this.gbSync.Controls.Add(this.cbSyncRatings);
             this.gbSync.Controls.Add(this.cbSyncLibrary);
             this.gbSync.Controls.Add(this.cbMyFilmsCategories);
@@ -198,7 +204,7 @@
             this.gbSync.Controls.Add(this.cbKeepInSync);
             this.gbSync.Location = new System.Drawing.Point(340, 12);
             this.gbSync.Name = "gbSync";
-            this.gbSync.Size = new System.Drawing.Size(322, 286);
+            this.gbSync.Size = new System.Drawing.Size(322, 245);
             this.gbSync.TabIndex = 3;
             this.gbSync.TabStop = false;
             this.gbSync.Text = "Synchronisation";
@@ -261,7 +267,7 @@
             // 
             // numSyncResumeDelta
             // 
-            this.numSyncResumeDelta.Location = new System.Drawing.Point(220, 212);
+            this.numSyncResumeDelta.Location = new System.Drawing.Point(252, 212);
             this.numSyncResumeDelta.Maximum = new decimal(new int[] {
             600,
             0,
@@ -287,29 +293,6 @@
         "resume from standby.");
             this.cbSyncPlayback.UseVisualStyleBackColor = true;
             this.cbSyncPlayback.CheckedChanged += new System.EventHandler(this.cbSyncPlayback_CheckedChanged);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(51, 238);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(258, 42);
-            this.textBox1.TabIndex = 14;
-            this.textBox1.TabStop = false;
-            this.textBox1.Text = "More options can be found in the GUI under Advanced Settings. The Extensions plug" +
-    "in must be installed to see button.";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(7, 238);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Note:";
             // 
             // cbSyncRatings
             // 
@@ -394,10 +377,10 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(556, 436);
+            this.btnOK.Location = new System.Drawing.Point(556, 466);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(106, 23);
-            this.btnOK.TabIndex = 5;
+            this.btnOK.TabIndex = 8;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -422,6 +405,30 @@
             this.btnTVSeriesRestrictions.UseVisualStyleBackColor = true;
             this.btnTVSeriesRestrictions.Click += new System.EventHandler(this.btnTVSeriesRestrictions_Click);
             // 
+            // cbParentControls
+            // 
+            this.cbParentControls.AutoSize = true;
+            this.cbParentControls.Location = new System.Drawing.Point(10, 19);
+            this.cbParentControls.Name = "cbParentControls";
+            this.cbParentControls.Size = new System.Drawing.Size(191, 17);
+            this.cbParentControls.TabIndex = 0;
+            this.cbParentControls.Text = "Enable Parental Controls Pin Code:";
+            this.ttpConfig.SetToolTip(this.cbParentControls, "When enabled, will prevent playback of inappropriate material.");
+            this.cbParentControls.UseVisualStyleBackColor = true;
+            this.cbParentControls.CheckedChanged += new System.EventHandler(this.cbParentControls_CheckedChanged);
+            // 
+            // txtPinCode
+            // 
+            this.txtPinCode.Location = new System.Drawing.Point(252, 16);
+            this.txtPinCode.MaxLength = 4;
+            this.txtPinCode.Name = "txtPinCode";
+            this.txtPinCode.PasswordChar = '*';
+            this.txtPinCode.Size = new System.Drawing.Size(62, 20);
+            this.txtPinCode.TabIndex = 1;
+            this.ttpConfig.SetToolTip(this.txtPinCode, "Enter in a 4-digit pin code to prevent playback of inappropriate material.");
+            this.txtPinCode.TextChanged += new System.EventHandler(this.txtPinCode_TextChanged);
+            this.txtPinCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPinCode_KeyPress);
+            // 
             // gbRestrictions
             // 
             this.gbRestrictions.Controls.Add(this.textBox2);
@@ -429,7 +436,7 @@
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
             this.gbRestrictions.Location = new System.Drawing.Point(12, 245);
             this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Size = new System.Drawing.Size(322, 120);
+            this.gbRestrictions.Size = new System.Drawing.Size(322, 145);
             this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
@@ -461,17 +468,17 @@
             // 
             this.progressBarSync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarSync.Location = new System.Drawing.Point(12, 371);
+            this.progressBarSync.Location = new System.Drawing.Point(12, 401);
             this.progressBarSync.Name = "progressBarSync";
             this.progressBarSync.Size = new System.Drawing.Size(650, 23);
-            this.progressBarSync.TabIndex = 6;
+            this.progressBarSync.TabIndex = 5;
             // 
             // lblSyncStatus
             // 
             this.lblSyncStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSyncStatus.AutoEllipsis = true;
-            this.lblSyncStatus.Location = new System.Drawing.Point(12, 439);
+            this.lblSyncStatus.Location = new System.Drawing.Point(12, 469);
             this.lblSyncStatus.Name = "lblSyncStatus";
             this.lblSyncStatus.Size = new System.Drawing.Size(538, 14);
             this.lblSyncStatus.TabIndex = 7;
@@ -481,19 +488,115 @@
             // 
             this.btnStartLibrarySync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartLibrarySync.Location = new System.Drawing.Point(12, 400);
+            this.btnStartLibrarySync.Location = new System.Drawing.Point(12, 430);
             this.btnStartLibrarySync.Name = "btnStartLibrarySync";
             this.btnStartLibrarySync.Size = new System.Drawing.Size(650, 24);
-            this.btnStartLibrarySync.TabIndex = 8;
+            this.btnStartLibrarySync.TabIndex = 6;
             this.btnStartLibrarySync.Text = "Start Library and Playback Sync";
             this.btnStartLibrarySync.UseVisualStyleBackColor = true;
             this.btnStartLibrarySync.Click += new System.EventHandler(this.btnStartLibrarySync_Click);
+            // 
+            // dtParentalControlsTime
+            // 
+            this.dtParentalControlsTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtParentalControlsTime.Location = new System.Drawing.Point(226, 38);
+            this.dtParentalControlsTime.Name = "dtParentalControlsTime";
+            this.dtParentalControlsTime.ShowUpDown = true;
+            this.dtParentalControlsTime.Size = new System.Drawing.Size(88, 20);
+            this.dtParentalControlsTime.TabIndex = 3;
+            this.dtParentalControlsTime.Value = new System.DateTime(2016, 3, 25, 21, 0, 0, 0);
+            this.dtParentalControlsTime.ValueChanged += new System.EventHandler(this.dtParentalControlsTime_ValueChanged);
+            // 
+            // cbParentalControlsTime
+            // 
+            this.cbParentalControlsTime.AutoSize = true;
+            this.cbParentalControlsTime.Location = new System.Drawing.Point(10, 43);
+            this.cbParentalControlsTime.Name = "cbParentalControlsTime";
+            this.cbParentalControlsTime.Size = new System.Drawing.Size(163, 17);
+            this.cbParentalControlsTime.TabIndex = 2;
+            this.cbParentalControlsTime.Text = "Ignore Parental Controls after";
+            this.cbParentalControlsTime.UseVisualStyleBackColor = true;
+            this.cbParentalControlsTime.CheckedChanged += new System.EventHandler(this.cbParentalControlsTime_CheckedChanged);
+            // 
+            // gbParentalControls
+            // 
+            this.gbParentalControls.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbParentalControls.Controls.Add(this.cboMovieCertifications);
+            this.gbParentalControls.Controls.Add(this.cbParentalIgnoreMovieCertifications);
+            this.gbParentalControls.Controls.Add(this.cboTVCertifications);
+            this.gbParentalControls.Controls.Add(this.cbParentalIgnoreShowCertifications);
+            this.gbParentalControls.Controls.Add(this.cbParentalControlsTime);
+            this.gbParentalControls.Controls.Add(this.cbParentControls);
+            this.gbParentalControls.Controls.Add(this.dtParentalControlsTime);
+            this.gbParentalControls.Controls.Add(this.txtPinCode);
+            this.gbParentalControls.Location = new System.Drawing.Point(340, 264);
+            this.gbParentalControls.Name = "gbParentalControls";
+            this.gbParentalControls.Size = new System.Drawing.Size(320, 126);
+            this.gbParentalControls.TabIndex = 4;
+            this.gbParentalControls.TabStop = false;
+            this.gbParentalControls.Text = "Parental Controls";
+            // 
+            // cboMovieCertifications
+            // 
+            this.cboMovieCertifications.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMovieCertifications.FormattingEnabled = true;
+            this.cboMovieCertifications.Items.AddRange(new object[] {
+            "G",
+            "PG",
+            "PG-13",
+            "R"});
+            this.cboMovieCertifications.Location = new System.Drawing.Point(252, 83);
+            this.cboMovieCertifications.Name = "cboMovieCertifications";
+            this.cboMovieCertifications.Size = new System.Drawing.Size(61, 21);
+            this.cboMovieCertifications.TabIndex = 7;
+            this.cboMovieCertifications.SelectedValueChanged += new System.EventHandler(this.cboMovieCertifications_SelectedValueChanged);
+            // 
+            // cbParentalIgnoreMovieCertifications
+            // 
+            this.cbParentalIgnoreMovieCertifications.AutoSize = true;
+            this.cbParentalIgnoreMovieCertifications.Location = new System.Drawing.Point(10, 90);
+            this.cbParentalIgnoreMovieCertifications.Name = "cbParentalIgnoreMovieCertifications";
+            this.cbParentalIgnoreMovieCertifications.Size = new System.Drawing.Size(188, 17);
+            this.cbParentalIgnoreMovieCertifications.TabIndex = 6;
+            this.cbParentalIgnoreMovieCertifications.Text = "Ignore on Movies with Certification";
+            this.cbParentalIgnoreMovieCertifications.UseVisualStyleBackColor = true;
+            this.cbParentalIgnoreMovieCertifications.CheckedChanged += new System.EventHandler(this.cbParentalIgnoreMovieCertifications_CheckedChanged);
+            // 
+            // cboTVCertifications
+            // 
+            this.cboTVCertifications.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTVCertifications.FormattingEnabled = true;
+            this.cboTVCertifications.Items.AddRange(new object[] {
+            "TV-Y",
+            "TV-Y7",
+            "TV-G",
+            "TV-PG",
+            "TV-14",
+            "TV-M"});
+            this.cboTVCertifications.Location = new System.Drawing.Point(252, 60);
+            this.cboTVCertifications.Name = "cboTVCertifications";
+            this.cboTVCertifications.Size = new System.Drawing.Size(61, 21);
+            this.cboTVCertifications.TabIndex = 5;
+            this.cboTVCertifications.SelectedValueChanged += new System.EventHandler(this.cboTVCertifications_SelectedValueChanged);
+            // 
+            // cbParentalIgnoreShowCertifications
+            // 
+            this.cbParentalIgnoreShowCertifications.AutoSize = true;
+            this.cbParentalIgnoreShowCertifications.Location = new System.Drawing.Point(10, 66);
+            this.cbParentalIgnoreShowCertifications.Name = "cbParentalIgnoreShowCertifications";
+            this.cbParentalIgnoreShowCertifications.Size = new System.Drawing.Size(186, 17);
+            this.cbParentalIgnoreShowCertifications.TabIndex = 4;
+            this.cbParentalIgnoreShowCertifications.Text = "Ignore on Shows with Certification";
+            this.cbParentalIgnoreShowCertifications.UseVisualStyleBackColor = true;
+            this.cbParentalIgnoreShowCertifications.CheckedChanged += new System.EventHandler(this.cbParentalIgnoreShowCertifications_CheckedChanged);
             // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 471);
+            this.ClientSize = new System.Drawing.Size(672, 501);
+            this.Controls.Add(this.gbParentalControls);
             this.Controls.Add(this.btnStartLibrarySync);
             this.Controls.Add(this.lblSyncStatus);
             this.Controls.Add(this.progressBarSync);
@@ -505,7 +608,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(688, 509);
+            this.MinimumSize = new System.Drawing.Size(688, 539);
             this.Name = "Configuration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trakt Configuration v10.0.0.0";
@@ -519,6 +622,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).EndInit();
             this.gbRestrictions.ResumeLayout(false);
             this.gbRestrictions.PerformLayout();
+            this.gbParentalControls.ResumeLayout(false);
+            this.gbParentalControls.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -548,8 +653,6 @@
         private System.Windows.Forms.CheckBox cbMyFilmsCategories;
         private System.Windows.Forms.CheckBox cbSyncLibrary;
         private System.Windows.Forms.CheckBox cbSyncRatings;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label lblSyncResumeDelta;
         private System.Windows.Forms.NumericUpDown numSyncResumeDelta;
@@ -560,5 +663,14 @@
         private System.Windows.Forms.Button btnStartLibrarySync;
         public System.Windows.Forms.Label lblSyncStatus;
         private System.Windows.Forms.CheckBox cbSyncPlaybackOnEnterPlugin;
+        private System.Windows.Forms.TextBox txtPinCode;
+        private System.Windows.Forms.CheckBox cbParentControls;
+        private System.Windows.Forms.DateTimePicker dtParentalControlsTime;
+        private System.Windows.Forms.CheckBox cbParentalControlsTime;
+        private System.Windows.Forms.GroupBox gbParentalControls;
+        private System.Windows.Forms.ComboBox cboMovieCertifications;
+        private System.Windows.Forms.CheckBox cbParentalIgnoreMovieCertifications;
+        private System.Windows.Forms.ComboBox cboTVCertifications;
+        private System.Windows.Forms.CheckBox cbParentalIgnoreShowCertifications;
     }
 }

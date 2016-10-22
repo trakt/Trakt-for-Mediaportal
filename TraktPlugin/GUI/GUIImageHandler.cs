@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using MediaPortal.Configuration;
 using MediaPortal.Util;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
@@ -69,12 +71,30 @@ namespace TraktPlugin.GUI
     /// </summary>
     public class GUITraktImage : INotifyPropertyChanged
     {
-        public TraktEpisodeImages EpisodeImages { get; set; }
-        public TraktShowImages ShowImages { get; set; }
-        public TraktMovieImages MovieImages { get; set; }
-        public TraktSeasonImages SeasonImages { get; set; }
-        public TraktPersonImages PeopleImages { get; set; }
         public TraktUserImages UserImages { get; set; }
+
+        /// <summary>
+        /// raise event when property changes so we can know when a artwork
+        /// download is complete and ready to be pushed to skin
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    /// <summary>
+    /// This object will typically hold images used in facade list items and window backgrounds
+    /// </summary>
+    public class GUITmdbImage : INotifyPropertyChanged
+    {
+        public TmdbEpisodeImages EpisodeImages { get; set; }
+        public TmdbShowImages ShowImages { get; set; }
+        public TmdbMovieImages MovieImages { get; set; }
+        public TmdbSeasonImages SeasonImages { get; set; }
+        public TmdbPeopleImages PeopleImages { get; set; }
 
         /// <summary>
         /// raise event when property changes so we can know when a artwork

@@ -66,6 +66,10 @@ namespace TraktPlugin
             TraktAPI.TraktAPI.OnDataError += new TraktAPI.TraktAPI.OnDataErrorDelegate(TraktAPI_OnDataError);
             TraktAPI.TraktAPI.OnDataReceived += new TraktAPI.TraktAPI.OnDataReceivedDelegate(TraktAPI_OnDataReceived);
             TraktAPI.TraktAPI.OnLatency += new TraktAPI.TraktAPI.OnLatencyDelegate(TraktAPI_OnLatency);
+
+            TmdbAPI.TmdbAPI.OnDataSend += new TmdbAPI.TmdbAPI.OnDataSendDelegate(TmdbAPI_OnDataSend);
+            TmdbAPI.TmdbAPI.OnDataError += new TmdbAPI.TmdbAPI.OnDataErrorDelegate(TmdbAPI_OnDataError);
+            TmdbAPI.TmdbAPI.OnDataReceived += new TmdbAPI.TmdbAPI.OnDataReceivedDelegate(TmdbAPI_OnDataReceived);
         }
 
         internal static void Info(String log)
@@ -230,6 +234,37 @@ namespace TraktPlugin
             }
 
             WriteLatency(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", DateTime.UtcNow.ToISO8601(), webResponse.ResponseUri.AbsolutePath, query, webResponse.Method, (int)webResponse.StatusCode, webResponse.StatusDescription, dataSent, dataReceived, serverRuntime, totalTimeTaken));
+        }
+
+        private static void TmdbAPI_OnDataSend(string address, string data)
+        {
+            if (!string.IsNullOrEmpty(data))
+            {
+                TraktLogger.Debug("Address: {0}, Post: {1}", address, data);
+            }
+            else
+            {
+                TraktLogger.Debug("Address: {0}", address);
+            }
+        }
+
+        private static void TmdbAPI_OnDataReceived(string response, HttpWebResponse webResponse)
+        {
+            if (TraktSettings.LogLevel >= 3)
+            {
+                string headers = string.Empty;
+                foreach (string key in webResponse.Headers.AllKeys)
+                {
+                    headers += string.Format("{0}: {1}, ", key, webResponse.Headers[key]);
+                }
+
+                TraktLogger.Debug("Response: {0}, Headers: {{{1}}}", response ?? "null", headers.TrimEnd(new char[] { ',', ' ' }));
+            }
+        }
+
+        private static void TmdbAPI_OnDataError(string error)
+        {
+            TraktLogger.Error(error);
         }
 
         /// <summary>

@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -532,14 +525,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedListItem.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                        GUICreditsMovie.Fanart = selectedListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (SelectedType == TraktItemType.show)
                     {
                         GUICreditsShow.Show = selectedListItem.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                        GUICreditsShow.Fanart = selectedListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -549,14 +542,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedListItem.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                        GUICreditsMovie.Fanart = selectedListItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (SelectedType == TraktItemType.show)
                     {
                         GUICreditsShow.Show = selectedListItem.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                        GUICreditsShow.Fanart = selectedListItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -866,13 +859,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 1;
-            var listImages = new List<GUITraktImage>();
+            var listImages = new List<GUITmdbImage>();
             
             // Add each list item
             foreach (var listItem in listItems)
             {
                 // add image for download
-                var images = GetTraktImage(listItem);
+                var images = GetTmdbImage(listItem);
                 listImages.Add(images);
 
                 string itemName = CurrentList.DisplayNumbers ? string.Format("{0}. {1}", itemId, GetListItemLabel(listItem)) : GetListItemLabel(listItem);
@@ -971,25 +964,40 @@ namespace TraktPlugin.GUI
             return retValue;
         }
 
-        private GUITraktImage GetTraktImage(TraktListItem listItem)
+        private GUITmdbImage GetTmdbImage(TraktListItem listItem)
         {
-            var images = new GUITraktImage();
+            var images = new GUITmdbImage();
 
             switch (listItem.Type)
             {
                 case "movie":
-                    images.MovieImages = listItem.Movie.Images;
+                    images.MovieImages = new TmdbMovieImages { Id = listItem.Movie.Ids.Tmdb };
                     break;
 
                 case "show":
+                    images.ShowImages = new TmdbShowImages { Id = listItem.Show.Ids.Tmdb };
+                    break;
                 case "season":
+                    images.ShowImages = new TmdbShowImages { Id = listItem.Show.Ids.Tmdb };
+                    images.SeasonImages = new TmdbSeasonImages
+                    {
+                        Id = listItem.Show.Ids.Tmdb,
+                        Season = listItem.Season.Number
+                    };
+                    break;
                 case "episode":
-                    images.ShowImages = listItem.Show.Images;
+                    images.ShowImages = new TmdbShowImages { Id = listItem.Show.Ids.Tmdb };
+                    images.SeasonImages = new TmdbSeasonImages
+                    {
+                        Id = listItem.Show.Ids.Tmdb,
+                        Season = listItem.Episode.Season
+                    };
                     break;
                 case "person":
-                    images.PeopleImages = listItem.Person.Images;
+                    images.PeopleImages = new TmdbPeopleImages { Id = listItem.Person.Ids.TmdbId };
                     break;
             }
+
             return images;
         }
 
@@ -1077,46 +1085,46 @@ namespace TraktPlugin.GUI
                 case "movie":
                     SelectedType = TraktItemType.movie;
                     PublishMovieSkinProperties(listItem);
-                    if (listItem.Movie.Images != null)
+                    string fanart = TmdbCache.GetMovieBackdropFilename((item as GUICustomListItem).Images.MovieImages);
+                    if (!string.IsNullOrEmpty(fanart))
                     {
-                        GUIImageHandler.LoadFanart(backdrop, listItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+                        GUIImageHandler.LoadFanart(backdrop, fanart);
                     }
                     break;
 
                 case "show":
                     SelectedType = TraktItemType.show;
                     PublishShowSkinProperties(listItem);
-                    if (listItem.Show.Images != null)
+                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
+                    if (!string.IsNullOrEmpty(fanart))
                     {
-                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                        GUIImageHandler.LoadFanart(backdrop, fanart);
                     }
                     break;
 
                 case "season":
                     SelectedType = TraktItemType.season;
                     PublishSeasonSkinProperties(listItem);
-                    if (listItem.Show.Images != null)
+                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
+                    if (!string.IsNullOrEmpty(fanart))
                     {
-                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                        GUIImageHandler.LoadFanart(backdrop, fanart);
                     }
                     break;
 
                 case "episode":
                     SelectedType = TraktItemType.episode;
                     PublishEpisodeSkinProperties(listItem);
-                    if (listItem.Show.Images != null)
+                    fanart = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
+                    if (!string.IsNullOrEmpty(fanart))
                     {
-                        GUIImageHandler.LoadFanart(backdrop, listItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                        GUIImageHandler.LoadFanart(backdrop, fanart);
                     }
                     break;
 
                 case "person":
                     SelectedType = TraktItemType.person;
                     PublishPersonSkinProperties(listItem);
-                    if (listItem.Person.Images != null && listItem.Person.Images.Fanart != null)
-                    {
-                        GUIImageHandler.LoadFanart(backdrop, listItem.Person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart));
-                    }
                     break;
             }
             GUIUtils.SetProperty("#Trakt.List.ItemType", SelectedType.ToString());

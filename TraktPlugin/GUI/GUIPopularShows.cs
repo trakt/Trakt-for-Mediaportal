@@ -5,6 +5,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -234,7 +236,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            var selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIShowListItem;
             if (selectedItem == null) return;
 
             var selectedPopularItem = selectedItem.TVTag as TraktShowSummary;
@@ -316,14 +318,14 @@ namespace TraktPlugin.GUI
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsShow.Show = selectedPopularItem;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = selectedPopularItem.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsShow.Show = selectedPopularItem;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = selectedPopularItem.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
@@ -443,7 +445,7 @@ namespace TraktPlugin.GUI
             filteredPopularList.Sort(new GUIListItemShowSorter(TraktSettings.SortByPopularShows.Field, TraktSettings.SortByPopularShows.Direction));
 
             int itemId = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add Previous Page Button
             if (PopularItems.CurrentPage != 1)
@@ -459,17 +461,17 @@ namespace TraktPlugin.GUI
                 itemId++;
             }
 
-            foreach (var PopularItem in filteredPopularList)
+            foreach (var popularItem in filteredPopularList)
             {
-                var item = new GUIShowListItem(PopularItem.Title, (int)TraktGUIWindows.PopularShows);
+                var item = new GUIShowListItem(popularItem.Title, (int)TraktGUIWindows.PopularShows);
 
                 // add image for download
-                var image = new GUITraktImage { ShowImages = PopularItem.Images };
+                var image = new GUITmdbImage { ShowImages = new TmdbShowImages { Id = popularItem.Ids.Tmdb } };
                 showImages.Add(image);
 
-                item.Label2 = PopularItem.Year.ToString();
-                item.TVTag = PopularItem;
-                item.Show = PopularItem;
+                item.Label2 = popularItem.Year.ToString();
+                item.TVTag = popularItem;
+                item.Show = popularItem;
                 item.Images = image;
                 item.ItemId = Int32.MaxValue - itemId;
                 item.IconImage = GUIImageHandler.GetDefaultPoster(false);
@@ -594,7 +596,7 @@ namespace TraktPlugin.GUI
             if (PopularItem == null) return;
 
             PublishShowSkinProperties(PopularItem);
-            GUIImageHandler.LoadFanart(backdrop, PopularItem.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIShowListItem).Images.ShowImages));
         }
 
         private void OnNextPageSelected(GUIListItem item, GUIControl control)

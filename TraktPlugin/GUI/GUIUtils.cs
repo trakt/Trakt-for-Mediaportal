@@ -18,6 +18,7 @@ namespace TraktPlugin.GUI
         private delegate void ShowTextDialogDelegate(string heading, string text);
         private delegate int ShowRateDialogDelegate<T>(T rateObject);
         private delegate bool GetStringFromKeyboardDelegate(ref string strLine, bool isPassword);
+        private delegate bool ShowPinCodeDialogDelegate(string masterCode);
 
         public static readonly string TraktLogo = TraktHelper.GetThemedSkinFile(SkinThemeType.Image, "Logos\\trakt.png");
 
@@ -416,6 +417,23 @@ namespace TraktPlugin.GUI
             }
 
             return false;
+        }
+
+        public static bool ShowPinCodeDialog(string masterCode)
+        {
+            if (GUIGraphicsContext.form.InvokeRequired)
+            {
+                ShowPinCodeDialogDelegate d = ShowPinCodeDialog;
+                return (bool)GUIGraphicsContext.form.Invoke(d, masterCode);
+            }
+
+            var pinCodeDlg = (GUIDialogPinCode)GUIWindowManager.GetWindow(GUIDialogPinCode.ID);
+            pinCodeDlg.Reset();
+
+            pinCodeDlg.MasterCode = masterCode;
+            pinCodeDlg.EnteredPinCode = string.Empty;
+            pinCodeDlg.DoModal(GUIWindowManager.ActiveWindow);
+            return pinCodeDlg.IsCorrect;
         }
 
         /// <summary>

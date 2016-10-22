@@ -5,9 +5,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktPersonSummary : TraktPerson
     {
-        [DataMember(Name = "images")]
-        public TraktPersonImages Images { get; set; }
-
         [DataMember(Name = "biography")]
         public string Biography { get; set; }
 

@@ -5,6 +5,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
+using TraktPlugin.Cache;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -283,14 +285,14 @@ namespace TraktPlugin.GUI
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsShow.Show = selectedShow;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsShow.Show = selectedShow;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
@@ -410,12 +412,12 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             GUIShowListItem item = null;
-            var ShowImages = new List<GUITraktImage>();
+            var ShowImages = new List<GUITmdbImage>();
 
             foreach (var job in filteredCrew)
             {
                 // add image for download
-                var images = new GUITraktImage { ShowImages = job.Show.Images };
+                var images = new GUITmdbImage { ShowImages = new TmdbShowImages { Id = job.Show.Ids.Tmdb } };
                 ShowImages.Add(images);
 
                 item = new GUIShowListItem(job.Show.Title, (int)TraktGUIWindows.PersonCreditShows);
@@ -467,12 +469,12 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             GUIShowListItem item = null;
-            var ShowImages = new List<GUITraktImage>();
+            var ShowImages = new List<GUITmdbImage>();
 
             foreach (var credit in filteredCast)
             {
                 // add image for download
-                var images = new GUITraktImage { ShowImages = credit.Show.Images };
+                var images = new GUITmdbImage { ShowImages = new TmdbShowImages { Id = credit.Show.Ids.Tmdb } };
                 ShowImages.Add(images);
 
                 item = new GUIShowListItem(credit.Show.Title, (int)TraktGUIWindows.PersonCreditShows);
@@ -604,7 +606,7 @@ namespace TraktPlugin.GUI
             if (creditItem == null) return;
 
             PublishCrewSkinProperties(creditItem);
-            GUIImageHandler.LoadFanart(backdrop, creditItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIShowListItem).Images.ShowImages));
         }
 
         private void OnCastSelected(GUIListItem item, GUIControl control)
@@ -615,7 +617,7 @@ namespace TraktPlugin.GUI
             if (creditItem == null) return;
 
             PublishCastSkinProperties(creditItem);
-            GUIImageHandler.LoadFanart(backdrop, creditItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIShowListItem).Images.ShowImages));
         }
 
         #endregion

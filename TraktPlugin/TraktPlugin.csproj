@@ -179,6 +179,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\TmdbCache.cs" />
     <Compile Include="Configuration\AddPathPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -237,6 +238,7 @@
     <Compile Include="GUI\GUINetwork.cs" />
     <Compile Include="GUI\GUIPersonShowCredits.cs" />
     <Compile Include="GUI\GUIPersonSummary.cs" />
+    <Compile Include="GUI\GUIDialogPinCode.cs" />
     <Compile Include="GUI\GUIPopular.cs" />
     <Compile Include="GUI\GUIPopularMovies.cs" />
     <Compile Include="GUI\GUIPopularShows.cs" />
@@ -277,6 +279,17 @@
     <Compile Include="GUI\GUIWatchListShows.cs" />
     <Compile Include="Extensions\SecurityExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbConfiguration.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbEpisodeImages.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbImage.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbMovieImages.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbPersonImages.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbRequestAge.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbSeasonImages.cs" />
+    <Compile Include="TmdbAPI\DataStructures\TmdbShowImages.cs" />
+    <Compile Include="TmdbAPI\Extensions\JsonExtensions.cs" />
+    <Compile Include="TmdbAPI\TmdbAPI.cs" />
+    <Compile Include="TmdbAPI\TmdbURIs.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktCharacter.cs" />
@@ -289,7 +302,6 @@
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
@@ -336,7 +348,6 @@
     <Compile Include="TraktAPI\DataStructures\TraktListItem.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovie.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieWatched.cs" />
@@ -345,7 +356,6 @@
     <Compile Include="TraktAPI\DataStructures\TraktNetworkUser.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPerson.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktPersonSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktRating.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktScrobble.cs" />
@@ -355,12 +365,10 @@
     <Compile Include="TraktAPI\DataStructures\TraktSearchResult.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeason.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeasonImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktSeasonSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShow.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowId.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktMovieCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowImages.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowRated.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowSummary.cs" />
     <Compile Include="TraktAPI\DataStructures\TraktShowTrending.cs" />
@@ -412,7 +420,7 @@
     <Compile Include="TraktAPI\Extensions\MathExtensions.cs" />
     <Compile Include="TraktAPI\TraktAPI.cs" />
     <Compile Include="TraktAPI\TraktURIs.cs" />
-    <Compile Include="TraktCache.cs" />
+    <Compile Include="Cache\TraktCache.cs" />
     <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktGenres.cs" />
     <Compile Include="TraktHandlers\ArgusRecordings.cs" />

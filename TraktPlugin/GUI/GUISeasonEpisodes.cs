@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -413,7 +409,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetShowProperties(Show);
 
             int itemCount = 0;
-            var episodeImages = new List<GUITraktImage>();
+            var episodeImages = new List<GUITmdbImage>();
 
             foreach (var episode in episodes)
             {
@@ -425,10 +421,15 @@ namespace TraktPlugin.GUI
                 string itemLabel = string.Format("{0}. {1}", episode.Number.ToString(), string.IsNullOrEmpty(episode.Title) ? Translation.Episode + " " + episode.Number.ToString() : episode.Title);
 
                 // add image for download
-                var images = new GUITraktImage
+                var images = new GUITmdbImage
                 {
-                    EpisodeImages = episode.Images,
-                    ShowImages = Show.Images
+                    EpisodeImages = new TmdbEpisodeImages
+                    { 
+                        Id = Show.Ids.Tmdb,
+                        Episode = episode.Number,
+                        Season = episode.Season,
+                        AirDate = episode.FirstAired == null ? null : episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                    },
                 };
 
                 episodeImages.Add(images);
@@ -501,8 +502,11 @@ namespace TraktPlugin.GUI
         {
             // only set property if file exists
             // if we set now and download later, image will not set to skin
-            if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
-                GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            var showImages = TmdbCache.GetShowImages(Show.Ids.Tmdb, true);
+            var backdropFilename = TmdbCache.GetShowBackdropFilename(showImages);
+
+            if (backdropFilename != null && File.Exists(backdropFilename))
+                GUIUtils.SetProperty("#Trakt.Show.Fanart", backdropFilename);
 
             // load last layout
             CurrentLayout = (Layout)TraktSettings.SeasonEpisodesDefaultLayout;

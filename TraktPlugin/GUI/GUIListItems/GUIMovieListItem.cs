@@ -8,6 +8,7 @@ using System.Threading;
 using MediaPortal.GUI.Library;
 using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
+using TraktPlugin.Cache;
 
 namespace TraktPlugin.GUI
 {
@@ -34,7 +35,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public GUITraktImage Images
+        public GUITmdbImage Images
         {
             get { return _Images; }
             set
@@ -43,13 +44,13 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUITraktImage && e.PropertyName == "Poster")
-                        SetImageToGui((s as GUITraktImage).MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster));
-                    if (s is GUITraktImage && e.PropertyName == "Fanart")
+                    if (s is GUITmdbImage && e.PropertyName == "Poster")
+                        SetImageToGui(TmdbCache.GetMoviePosterFilename((s as GUITmdbImage).MovieImages));
+                    if (s is GUITmdbImage && e.PropertyName == "Fanart")
                         this.UpdateItemIfSelected(WindowID, ItemId);
                 };
             }
-        } protected GUITraktImage _Images;
+        } protected GUITmdbImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images
@@ -62,7 +63,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUITraktImage> itemsWithThumbs)
+        internal static void GetImages(List<GUITmdbImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -72,38 +73,43 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<GUITraktImage>();
+                var groupList = new List<GUITmdbImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
                 }
 
                 // sort images so that images that already exist are displayed first
-                groupList.Sort((m1, m2) =>
-                {
-                    int x = Convert.ToInt32(File.Exists(m1.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster))) + Convert.ToInt32(File.Exists(m1.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart)));
-                    int y = Convert.ToInt32(File.Exists(m2.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster))) + Convert.ToInt32(File.Exists(m2.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart)));
-                    return y.CompareTo(x);
-                });
+                //groupList.Sort((m1, m2) =>
+                //{
+                //    int x = Convert.ToInt32(File.Exists(m1.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster))) + Convert.ToInt32(File.Exists(m1.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart)));
+                //    int y = Convert.ToInt32(File.Exists(m2.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster))) + Convert.ToInt32(File.Exists(m2.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart)));
+                //    return y.CompareTo(x);
+                //});
 
                 new Thread(delegate(object o)
                 {
-                    var items = (List<GUITraktImage>)o;
+                    var items = (List<GUITmdbImage>)o;
                     foreach (var item in items)
                     {
+                        // check if we have the image in our cache
+                        var movieImages = TmdbCache.GetMovieImages(item.MovieImages.Id);
+                        if (movieImages == null)
+                            continue;
+
+                        item.MovieImages = movieImages;
+
                         #region Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
 
-                        string remoteThumb = item.MovieImages.Poster.ThumbSize;
-                        string localThumb = item.MovieImages.Poster.LocalImageFilename(ArtworkType.MoviePoster);
+                        string remoteThumb = TmdbCache.GetMoviePosterUrl(movieImages);
+                        string localThumb = TmdbCache.GetMoviePosterFilename(movieImages);
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
-                                //if (StopDownload) break;
-
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Poster");
                             }
@@ -115,15 +121,13 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.MovieImages.Fanart.FullSize : item.MovieImages.Fanart.MediumSize;
-                        string localFanart = item.MovieImages.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        string remoteFanart = TmdbCache.GetMovieBackdropUrl(movieImages); ;
+                        string localFanart = TmdbCache.GetMovieBackdropFilename(movieImages);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
                         {
                             if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
                             {
-                                //if (StopDownload) break;
-
                                 // notify that image has been downloaded
                                 item.NotifyPropertyChanged("Fanart");
                             }
@@ -196,7 +200,7 @@ namespace TraktPlugin.GUI
                 IconImage = imageFilePath;
                 IconImageBig = imageFilePath;
             }
-
+            
             // if selected and is current window force an update of thumbnail
             this.UpdateItemIfSelected(WindowID, ItemId);
         }

@@ -14,6 +14,8 @@ using MediaPortal.Video.Database;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -477,16 +479,21 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each show
             foreach (var episodeSummary in episodes)
             {
                 // add images for download
-                var images = new GUITraktImage
+                var images = new GUITmdbImage
                 {
-                    EpisodeImages = episodeSummary.Episode.Images,
-                    ShowImages = episodeSummary.Show.Images
+                    EpisodeImages = new TmdbEpisodeImages
+                    { 
+                        Id = episodeSummary.Show.Ids.Tmdb, 
+                        Season = episodeSummary.Episode.Season, 
+                        Episode = episodeSummary.Episode.Number,
+                        AirDate = episodeSummary.Episode.FirstAired == null ? null : episodeSummary.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                    }
                 };
                 showImages.Add(images);
 
@@ -572,9 +579,10 @@ namespace TraktPlugin.GUI
             var episodeSummary = item.TVTag as TraktEpisodeSummaryEx;
             PublishSkinProperties(episodeSummary);
 
-            if (episodeSummary.Show.Images != null)
+            var backdropFilename = TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages);
+            if (backdropFilename != null)
             {
-                GUIImageHandler.LoadFanart(backdrop, episodeSummary.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                GUIImageHandler.LoadFanart(backdrop, backdropFilename);
             }
         }
 

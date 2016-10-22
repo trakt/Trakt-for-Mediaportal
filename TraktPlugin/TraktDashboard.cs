@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using MediaPortal.GUI.Library;
+using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
@@ -550,10 +551,13 @@ namespace TraktPlugin
                     PublishMovieProperties(trendingMovies);
 
                     // download images
-                    var movieImages = new List<GUITraktImage>();
+                    var movieImages = new List<GUITmdbImage>();
                     foreach (var trendingItem in trendingMovies)
                     {
-                        movieImages.Add(new GUITraktImage { MovieImages = trendingItem.Movie.Images });
+                        movieImages.Add(new GUITmdbImage
+                                            { 
+                                                MovieImages = new TmdbMovieImages { Id = trendingItem.Movie.Ids.Tmdb } 
+                                            });
                     }
                     GUIMovieListItem.GetImages(movieImages);
                 }
@@ -596,8 +600,8 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), string.Format("http://trakt.tv/movies/{0}", trendingItem.Movie.Ids.Slug));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), trendingItem.Movie.Year.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", TraktGenres.Translate(trendingItem.Movie.Genres)));
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), trendingItem.Movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
-                GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), trendingItem.Movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
+                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InCollection", i), trendingItem.Movie.IsCollected().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InWatchList", i), trendingItem.Movie.IsWatchlisted().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Plays", i), trendingItem.Movie.Plays());
@@ -666,7 +670,7 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // filter movies
             if (TraktSettings.FilterTrendingOnDashboard)
@@ -679,7 +683,7 @@ namespace TraktPlugin
                     continue;
 
                 // add image for download
-                var images = new GUITraktImage { MovieImages = trendingItem.Movie.Images };
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = trendingItem.Movie.Ids.Tmdb } };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(trendingItem.Movie.Title, GUIWindowManager.ActiveWindow);
@@ -773,10 +777,10 @@ namespace TraktPlugin
                     PublishShowProperties(trendingShows);
 
                     // download images
-                    var showImages = new List<GUITraktImage>();
+                    var showImages = new List<GUITmdbImage>();
                     foreach (var trendingItem in trendingShows)
                     {
-                        showImages.Add(new GUITraktImage { ShowImages = trendingItem.Show.Images });
+                        showImages.Add(new GUITmdbImage { ShowImages = new TmdbShowImages { Id = trendingItem.Show.Ids.Tmdb } });
                     }
                     GUIShowListItem.GetImages(showImages);
                 }
@@ -831,8 +835,8 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Votes);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Rating >= 6) ? "love" : "hate");
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), trendingItem.Show.Rating.ToPercentage());
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), trendingItem.Show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
-                GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), trendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), trendingItem.Show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
+                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), trendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
             }
         }
 
@@ -897,7 +901,7 @@ namespace TraktPlugin
             GUIControl.ClearControl(GUIWindowManager.ActiveWindow, facade.GetID);
 
             int itemId = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // filter shows
             if (TraktSettings.FilterTrendingOnDashboard)
@@ -910,7 +914,7 @@ namespace TraktPlugin
                     continue;
 
                 // add image for download
-                var images = new GUITraktImage { ShowImages = trendingItem.Show.Images };
+                var images = new GUITmdbImage { ShowImages = new TmdbShowImages { Id = trendingItem.Show.Ids.Tmdb } };
                 showImages.Add(images);
 
                 var item = new GUIShowListItem(trendingItem.Show.Title, GUIWindowManager.ActiveWindow);
@@ -1117,7 +1121,6 @@ namespace TraktPlugin
                                     Trakt = episode.ShowId,
                                     Tvdb = episode.ShowTvdbId
                                 },
-                                Images = new TraktShowImages()
                             },
                             Timestamp = episode.WatchedAt,
                             User = GetUserProfile()
@@ -1147,8 +1150,7 @@ namespace TraktPlugin
                             {
                                 Ids = movie.Movie.Ids,
                                 Title = movie.Movie.Title,
-                                Year = movie.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = movie.Movie.Year
                             },
                             Timestamp = movie.LastWatchedAt,
                             User = GetUserProfile()
@@ -1193,7 +1195,6 @@ namespace TraktPlugin
                                     Trakt = episode.ShowId,
                                     Tvdb = episode.ShowTvdbId
                                 },
-                                Images = new TraktShowImages()
                             },
                             Timestamp = episode.CollectedAt,
                             User = GetUserProfile()
@@ -1223,8 +1224,7 @@ namespace TraktPlugin
                             {
                                 Ids = movie.Movie.Ids,
                                 Title = movie.Movie.Title,
-                                Year = movie.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = movie.Movie.Year
                             },
                             Timestamp = movie.CollectedAt,
                             User = GetUserProfile()
@@ -1261,8 +1261,7 @@ namespace TraktPlugin
                             {
                                 Title = episode.Show.Title,
                                 Year = episode.Show.Year,
-                                Ids = episode.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = episode.Show.Ids
                             },
                             Timestamp = episode.ListedAt,
                             User = GetUserProfile()
@@ -1292,8 +1291,7 @@ namespace TraktPlugin
                             {
                                 Title = show.Show.Title,
                                 Year = show.Show.Year,
-                                Ids = show.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = show.Show.Ids
                             },
                             Timestamp = show.ListedAt,
                             User = GetUserProfile()
@@ -1323,8 +1321,7 @@ namespace TraktPlugin
                             {
                                 Title = item.Show.Title,
                                 Year = item.Show.Year,
-                                Ids = item.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = item.Show.Ids
                             },
                             Season = new TraktSeasonSummary
                             {
@@ -1359,8 +1356,7 @@ namespace TraktPlugin
                             {
                                 Ids = movie.Movie.Ids,
                                 Title = movie.Movie.Title,
-                                Year = movie.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = movie.Movie.Year
                             },
                             Timestamp = movie.ListedAt,
                             User = GetUserProfile()
@@ -1397,8 +1393,7 @@ namespace TraktPlugin
                             {
                                 Title = episode.Show.Title,
                                 Year = episode.Show.Year,
-                                Ids = episode.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = episode.Show.Ids
                             },
                             Rating = episode.Rating,
                             Timestamp = episode.RatedAt,
@@ -1429,8 +1424,7 @@ namespace TraktPlugin
                             {
                                 Title = season.Show.Title,
                                 Year = season.Show.Year,
-                                Ids = season.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = season.Show.Ids
                             },
                             Season = new TraktSeasonSummary
                             {
@@ -1466,8 +1460,7 @@ namespace TraktPlugin
                             {
                                 Title = show.Show.Title,
                                 Year = show.Show.Year,
-                                Ids = show.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = show.Show.Ids
                             },
                             Rating = show.Rating,
                             Timestamp = show.RatedAt,
@@ -1498,8 +1491,7 @@ namespace TraktPlugin
                             {
                                 Ids = movie.Movie.Ids,
                                 Title = movie.Movie.Title,
-                                Year = movie.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = movie.Movie.Year
                             },
                             Rating = movie.Rating,
                             Timestamp = movie.RatedAt,
@@ -1584,8 +1576,7 @@ namespace TraktPlugin
                             {
                                 Ids = comment.Show.Ids,
                                 Title = comment.Show.Title,
-                                Year = comment.Show.Year,
-                                Images = new TraktShowImages()
+                                Year = comment.Show.Year
                             },
                             Episode = new TraktEpisodeSummary
                             {
@@ -1623,8 +1614,7 @@ namespace TraktPlugin
                             {
                                 Ids = comment.Show.Ids,
                                 Title = comment.Show.Title,
-                                Year = comment.Show.Year,
-                                Images = new TraktShowImages()
+                                Year = comment.Show.Year
                             },
                             Season = new TraktSeasonSummary
                             {
@@ -1660,8 +1650,7 @@ namespace TraktPlugin
                             {
                                 Ids = comment.Show.Ids,
                                 Title = comment.Show.Title,
-                                Year = comment.Show.Year,
-                                Images = new TraktShowImages()
+                                Year = comment.Show.Year
                             },
                             Shout = comment.Comment,
                             Timestamp = comment.Comment.CreatedAt,
@@ -1692,8 +1681,7 @@ namespace TraktPlugin
                             {
                                 Ids = comment.Movie.Ids,
                                 Title = comment.Movie.Title,
-                                Year = comment.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = comment.Movie.Year
                             },
                             Shout = comment.Comment,
                             Timestamp = comment.Comment.CreatedAt,
@@ -1751,8 +1739,7 @@ namespace TraktPlugin
                             {
                                 Title = pause.Show.Title,
                                 Year = pause.Show.Year,
-                                Ids = pause.Show.Ids,
-                                Images = new TraktShowImages()
+                                Ids = pause.Show.Ids
                             },
                             Episode = new TraktEpisodeSummary
                             {
@@ -1791,8 +1778,7 @@ namespace TraktPlugin
                             {
                                 Ids = pause.Movie.Ids,
                                 Title = pause.Movie.Title,
-                                Year = pause.Movie.Year,
-                                Images = new TraktMovieImages()
+                                Year = pause.Movie.Year
                             },
                             Progress = pause.Progress,
                             Timestamp = pause.PausedAt,
@@ -2209,7 +2195,7 @@ namespace TraktPlugin
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var selectedItem = trendingShowsFacade.SelectedListItem;
+            var selectedItem = trendingShowsFacade.SelectedListItem as GUIShowListItem;
             var selectedTrendingItem = selectedItem.TVTag as TraktShowTrending;
 
             GUICommon.CreateShowsContextMenu(ref dlg, selectedTrendingItem.Show, true);
@@ -2265,14 +2251,14 @@ namespace TraktPlugin
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsShow.Show = selectedTrendingItem.Show;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsShow.Show = selectedTrendingItem.Show;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = selectedTrendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
@@ -2311,7 +2297,7 @@ namespace TraktPlugin
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var selectedItem = trendingMoviesFacade.SelectedListItem;
+            var selectedItem = trendingMoviesFacade.SelectedListItem as GUIMovieListItem;
             var selectedTrendingItem = selectedItem.TVTag as TraktMovieTrending;
 
             GUICommon.CreateMoviesContextMenu(ref dlg, selectedTrendingItem.Movie, true);
@@ -2386,14 +2372,14 @@ namespace TraktPlugin
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsMovie.Movie = selectedTrendingItem.Movie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsMovie.Movie = selectedTrendingItem.Movie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                    GUICreditsMovie.Fanart = selectedTrendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
@@ -2712,16 +2698,20 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.Cast):
                     if (activity.Movie != null)
                     {
+                        var images = TmdbCache.GetMovieImages(activity.Movie.Ids.Tmdb, true);
+
                         GUICreditsMovie.Movie = activity.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                        GUICreditsMovie.Fanart = activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(images);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (activity.Show != null)
                     {
+                        var images = TmdbCache.GetShowImages(activity.Show.Ids.Tmdb, true);
+
                         GUICreditsShow.Show = activity.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                        GUICreditsShow.Fanart = activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(images);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -2729,16 +2719,20 @@ namespace TraktPlugin
                 case ((int)ActivityContextMenuItem.Crew):
                     if (activity.Movie != null)
                     {
+                        var images = TmdbCache.GetMovieImages(activity.Movie.Ids.Tmdb, true);
+
                         GUICreditsMovie.Movie = activity.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                        GUICreditsMovie.Fanart = activity.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(images);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (activity.Show != null)
                     {
+                        var images = TmdbCache.GetShowImages(activity.Show.Ids.Tmdb, true);
+
                         GUICreditsShow.Show = activity.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                        GUICreditsShow.Fanart = activity.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(images);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;

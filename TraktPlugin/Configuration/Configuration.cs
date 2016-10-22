@@ -73,6 +73,22 @@ namespace TraktPlugin
             numSyncInterval.Value = TraktSettings.SyncTimerLength;
             numSyncResumeDelta.Value = TraktSettings.SyncResumeDelta;
 
+            cbParentControls.Checked = TraktSettings.ParentalControlsEnabled;
+            txtPinCode.Text = TraktSettings.ParentalControlsPinCode;
+            txtPinCode.Enabled = TraktSettings.ParentalControlsEnabled == true;
+
+            cbParentalControlsTime.Checked = TraktSettings.ParentalIgnoreAfterEnabled;
+            dtParentalControlsTime.Text = TraktSettings.ParentalIgnoreAfterTime;
+            dtParentalControlsTime.Enabled = TraktSettings.ParentalIgnoreAfterEnabled;
+
+            cbParentalIgnoreMovieCertifications.Checked = TraktSettings.ParentalIgnoreMovieRatingEnabled;
+            cboMovieCertifications.Text = TraktSettings.ParentalIgnoreMovieRating;
+            cboMovieCertifications.Enabled = TraktSettings.ParentalIgnoreMovieRatingEnabled;
+
+            cbParentalIgnoreShowCertifications.Checked = TraktSettings.ParentalIgnoreShowRatingEnabled;
+            cboTVCertifications.Text = TraktSettings.ParentalIgnoreShowRating;
+            cboTVCertifications.Enabled = TraktSettings.ParentalIgnoreShowRatingEnabled;
+
             // disable controls if not applicable
             if (!TraktSettings.SyncLibrary)
             {
@@ -164,6 +180,11 @@ namespace TraktPlugin
                 MessageBox.Show(message, "trakt", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 TraktSettings.KeepTraktLibraryClean = false;
             }
+
+            // disable parental controls if not pin code not entered
+            if (txtPinCode.TextLength < 4)
+                TraktSettings.ParentalControlsEnabled = false;
+
             TraktSettings.SaveSettings(false);
 
             TraktLogger.Info("Exiting Configuration");
@@ -369,6 +390,68 @@ namespace TraktPlugin
         private void cbSyncPlaybackOnEnterPlugin_CheckedChanged(object sender, EventArgs e)
         {
             TraktSettings.SyncPlaybackOnEnterPlugin = cbSyncPlaybackOnEnterPlugin.Checked;
+        }
+
+        private void cbParentControls_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalControlsEnabled = cbParentControls.Checked;
+            txtPinCode.Enabled = TraktSettings.ParentalControlsEnabled == true;
+        }
+        
+        private void txtPinCode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // only allows numbers 0-9
+            if (!char.IsDigit(e.KeyChar) && (e.KeyChar != Convert.ToChar(Keys.Back)))
+                e.Handled = true;
+        }
+
+        private void txtPinCode_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPinCode.TextLength < 4)
+            {
+                txtPinCode.ForeColor = Color.Red;
+            }
+            else
+            {
+                txtPinCode.ForeColor = Color.Black;
+                TraktSettings.ParentalControlsPinCode = txtPinCode.Text;
+            }
+        }
+
+        private void cbParentalControlsTime_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalIgnoreAfterEnabled = cbParentalControlsTime.Checked;
+            dtParentalControlsTime.Enabled = cbParentalControlsTime.Checked;
+        }
+
+        private void dtParentalControlsTime_ValueChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(dtParentalControlsTime.Text))
+                return;
+
+            TraktSettings.ParentalIgnoreAfterTime = dtParentalControlsTime.Text;
+        }
+
+        private void cbParentalIgnoreShowCertifications_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalIgnoreShowRatingEnabled = cbParentalIgnoreShowCertifications.Checked;
+            cboTVCertifications.Enabled = cbParentalIgnoreShowCertifications.Checked;
+        }
+
+        private void cbParentalIgnoreMovieCertifications_CheckedChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalIgnoreMovieRatingEnabled = cbParentalIgnoreMovieCertifications.Checked;
+            cboMovieCertifications.Enabled = cbParentalIgnoreMovieCertifications.Checked;
+        }
+
+        private void cboTVCertifications_SelectedValueChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalIgnoreShowRating = cboTVCertifications.SelectedItem.ToString();
+        }
+
+        private void cboMovieCertifications_SelectedValueChanged(object sender, EventArgs e)
+        {
+            TraktSettings.ParentalIgnoreMovieRating = cboMovieCertifications.SelectedItem.ToString();
         }
 
         private void btnStartLibrarySync_Click(object sender, EventArgs e)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace TraktPlugin.TraktAPI.DataStructures
@@ -23,9 +20,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
 
         [DataMember(Name = "overview")]
         public string Overview { get; set; }
-
-        [DataMember(Name = "images")]
-        public TraktSeasonImages Images { get; set; }
 
         [DataMember(Name = "episodes")]
         public IEnumerable<TraktEpisodeSummary> Episodes { get; set; }

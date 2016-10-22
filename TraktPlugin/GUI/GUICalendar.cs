@@ -5,6 +5,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -338,7 +340,10 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var calendarItem = Facade.SelectedListItem.TVTag as TraktCalendar;
+            var selectedItem = Facade.SelectedListItem as GUIEpisodeListItem;
+            if (selectedItem == null) return;
+
+            var calendarItem = selectedItem.TVTag as TraktCalendar;
             if (calendarItem == null) return;
 
             // Create Views Menu Item
@@ -567,14 +572,14 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Cast):
                     GUICreditsShow.Show = calendarItem.Show;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)ContextMenuItem.Crew):
                     GUICreditsShow.Show = calendarItem.Show;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
@@ -793,7 +798,7 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
            
             int itemCount = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
@@ -826,10 +831,15 @@ namespace TraktPlugin.GUI
                         var episodeItem = new GUIEpisodeListItem(calendarItem.ToString(), (int)TraktGUIWindows.Calendar);
 
                         // add image for download
-                        var images = new GUITraktImage
+                        var images = new GUITmdbImage
                         {
-                            EpisodeImages = calendarItem.Episode.Images,
-                            ShowImages = calendarItem.Show.Images
+                            EpisodeImages = new TmdbEpisodeImages
+                            { 
+                                Id = calendarItem.Show.Ids.Tmdb, 
+                                Season = calendarItem.Episode.Season, 
+                                Episode = calendarItem.Episode.Number,
+                                AirDate = calendarItem.Episode.FirstAired == null ? null : calendarItem.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                            }                            
                         };
                         showImages.Add(images);
 
@@ -988,7 +998,7 @@ namespace TraktPlugin.GUI
             var calendarItem = item.TVTag as TraktCalendar;
             PublishCalendarSkinProperties(calendarItem);
 
-            GUIImageHandler.LoadFanart(backdrop, calendarItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages));
         }
 
         private void InitProperties()

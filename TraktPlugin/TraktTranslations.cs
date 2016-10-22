@@ -695,6 +695,11 @@ namespace TraktPlugin.GUI
         public static string PlayTrailer = "Play Trailer";
         public static string Plugins = "Plugins";
         public static string Plugin = "Plugin";
+        public static string PinCode = "Pin Code";
+        public static string PinCodeDialog = "Pin Code Dialog";
+        public static string PinCodeDlgLabel1 = "Parental controls is enabled";
+        public static string PinCodeDlgLabel2 = "Enter in 4 Digit Pin Code to proceed:";
+        public static string PinCodeMessageIncorrect = "Pin Incorrect";
         public static string Popular = "Popular";
         public static string Popularity = "Popularity";
         public static string PopularShows = "Popular Shows";

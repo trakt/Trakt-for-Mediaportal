@@ -7,6 +7,8 @@ using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -460,7 +462,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each item watched
             foreach (var recent in recentlyWatched)
@@ -478,10 +480,15 @@ namespace TraktPlugin.GUI
                 var item = new GUIEpisodeListItem(episodeName, (int)TraktGUIWindows.RecentWatchedEpisodes);
 
                 // add images for download
-                var images = new GUITraktImage
+                var images = new GUITmdbImage
                 {
-                    EpisodeImages = recent.Episode.Images,
-                    ShowImages = recent.Show.Images
+                    EpisodeImages = new TmdbEpisodeImages 
+                    { 
+                        Id = recent.Show.Ids.Tmdb, 
+                        Season = recent.Episode.Season, 
+                        Episode = recent.Episode.Number,
+                        AirDate = recent.Episode.FirstAired == null ? null : recent.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                    }
                 };
                 showImages.Add(images);
 
@@ -568,7 +575,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetShowProperties(recent.Show);
             GUICommon.SetEpisodeProperties(recent.Show, recent.Episode);
 
-            GUIImageHandler.LoadFanart(backdrop, recent.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages));
         }
         #endregion
     }

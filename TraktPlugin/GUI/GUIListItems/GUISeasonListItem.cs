@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
+using TraktPlugin.Cache;
 using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
@@ -28,7 +28,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public GUITraktImage Images
+        public GUITmdbImage Images
         {
             get { return _Images; }
             set
@@ -37,25 +37,21 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    var traktImage = s as GUITraktImage;
-                    if (s is GUITraktImage && e.PropertyName == "Poster")
-                    {
-                        if (traktImage.SeasonImages.Poster != null && traktImage.SeasonImages.Poster.ThumbSize != null)
-                        {
-                            SetImageToGui(traktImage.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
-                        }
-                        else
-                        {
-                            SetImageToGui(traktImage.ShowImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
-                        }
+                    if (s is GUITmdbImage && e.PropertyName == "SeasonPoster")
+                    {                    
+                        SetImageToGui(TmdbCache.GetSeasonPosterFilename((s as GUITmdbImage).SeasonImages));
                     }
-                    if (s is GUITraktImage && e.PropertyName == "Fanart")
+                    else if (s is GUITmdbImage && e.PropertyName == "ShowPoster")
+                    {
+                        SetImageToGui(TmdbCache.GetShowPosterFilename((s as GUITmdbImage).ShowImages));
+                    }                    
+                    else if (s is GUITmdbImage && e.PropertyName == "Fanart")
                     {
                         this.UpdateItemIfSelected(WindowID, ItemId);
                     }
                 };
             }
-        } protected GUITraktImage _Images;
+        } protected GUITmdbImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images
@@ -68,7 +64,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUITraktImage> itemsWithThumbs)
+        internal static void GetImages(List<GUITmdbImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -78,42 +74,62 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<GUITraktImage>();
+                var groupList = new List<GUITmdbImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
                 }
 
                 // sort images so that images that already exist are displayed first
-                groupList.Sort((s1, s2) =>
-                {
-                    int x = Convert.ToInt32(File.Exists(s1.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster)));
-                    int y = Convert.ToInt32(File.Exists(s2.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster)));
-                    return y.CompareTo(x);
-                });
+                //groupList.Sort((s1, s2) =>
+                //{
+                //    int x = Convert.ToInt32(File.Exists(s1.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster)));
+                //    int y = Convert.ToInt32(File.Exists(s2.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster)));
+                //    return y.CompareTo(x);
+                //});
 
                 new Thread(obj =>
                 {
-                    var items = (List<GUITraktImage>)obj;
+                    var items = (List<GUITmdbImage>)obj;
+                    if (items == null || items.Count == 0)
+                        return;
+
+                    // all seasons should have the same show reference
+                    var showImages = TmdbCache.GetShowImages(items.First().SeasonImages.Id);
+                    if (showImages != null)
+                    {
+                        items.ForEach(s => s.ShowImages = showImages);
+                    }
+
                     foreach (var item in items)
                     {
                         #region Season Poster
                         // stop download if we have exited window
                         if (StopDownload) break;
-                        
+
+                        bool downloadShowPoster = false;
+
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
 
-                        if (item.SeasonImages.Poster.ThumbSize != null)
+                        var seasonImages = TmdbCache.GetSeasonImages(item.SeasonImages.Id, item.SeasonImages.Season);
+                        if (seasonImages != null)
                         {
-                            remoteThumb = item.SeasonImages.Poster.ThumbSize;
-                            localThumb = item.SeasonImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+                            item.SeasonImages = seasonImages;
+                        }
+
+                        if (seasonImages != null && seasonImages.Posters != null && seasonImages.Posters.Count > 0)
+                        {
+                            remoteThumb = TmdbCache.GetSeasonPosterUrl(seasonImages);
+                            localThumb = TmdbCache.GetSeasonPosterFilename(seasonImages);
                         }
                         else
                         {
+                            downloadShowPoster = true;
+
                             // use show image if season poster not available
-                            remoteThumb = item.ShowImages.Poster.ThumbSize;
-                            localThumb = item.ShowImages.Poster.LocalImageFilename(ArtworkType.SeasonPoster);
+                            remoteThumb = TmdbCache.GetShowPosterUrl(showImages);
+                            localThumb = TmdbCache.GetShowPosterFilename(showImages);
                         }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -121,7 +137,7 @@ namespace TraktPlugin.GUI
                             if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
                                 // notify that image has been downloaded
-                                item.NotifyPropertyChanged("Poster");
+                                item.NotifyPropertyChanged(downloadShowPoster ? "ShowPoster" : "SeasonPoster");
                             }
                         }
                         #endregion
@@ -131,8 +147,8 @@ namespace TraktPlugin.GUI
                         if (StopDownload) break;
                         if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
-                        string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        string remoteFanart = TmdbCache.GetShowBackdropUrl(showImages);
+                        string localFanart = TmdbCache.GetShowBackdropFilename(showImages);
 
                         if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
                         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -221,7 +223,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            var selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIMovieListItem;
             if (selectedItem == null) return;
 
             var selectedPopularMovie = selectedItem.TVTag as TraktMovieSummary;
@@ -313,14 +315,14 @@ namespace TraktPlugin.GUI
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsMovie.Movie = selectedPopularMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                    GUICreditsMovie.Fanart = selectedPopularMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsMovie.Movie = selectedPopularMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                    GUICreditsMovie.Fanart = selectedPopularMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
@@ -444,7 +446,7 @@ namespace TraktPlugin.GUI
             filteredPopularList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByPopularMovies.Field, TraktSettings.SortByPopularMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // Add Previous Page Button
             if (PopularItems.CurrentPage != 1)
@@ -464,7 +466,7 @@ namespace TraktPlugin.GUI
             foreach (var PopularItem in filteredPopularList)
             {
                 // add image for download
-                var images = new GUITraktImage { MovieImages = PopularItem.Images };
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = PopularItem.Ids.Tmdb } };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(PopularItem.Title, (int)TraktGUIWindows.PopularMovies);
@@ -593,7 +595,7 @@ namespace TraktPlugin.GUI
             if (PopularItem == null) return;
 
             PublishMovieSkinProperties(PopularItem);
-            GUIImageHandler.LoadFanart(backdrop, PopularItem.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
 
         private void OnNextPageSelected(GUIListItem item, GUIControl control)

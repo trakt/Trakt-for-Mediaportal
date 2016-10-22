@@ -9,9 +9,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktMovieSummary : TraktMovie
     {
-        [DataMember(Name = "images")]
-        public TraktMovieImages Images { get; set; }
-
         [DataMember(Name = "tagline")]
         public string Tagline { get; set; }
 

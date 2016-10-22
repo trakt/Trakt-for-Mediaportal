@@ -9,9 +9,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktShowSummary : TraktShow
     {
-        [DataMember(Name = "images")]
-        public TraktShowImages Images { get; set; }
-
         [DataMember(Name = "first_aired")]
         public string FirstAired { get; set; }
 

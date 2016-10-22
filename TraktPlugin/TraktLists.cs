@@ -55,7 +55,7 @@ namespace TraktPlugin
             if (!UserListItems.Keys.Contains(key) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 // get list items               
-                var listItems = TraktAPI.TraktAPI.GetUserListItems(username == TraktSettings.Username ? "me" : username, id.ToString(), "full,images");
+                var listItems = TraktAPI.TraktAPI.GetUserListItems(username == TraktSettings.Username ? "me" : username, id.ToString(), "full");
                 if (listItems == null) return null;
 
                 // remove any cached items for user

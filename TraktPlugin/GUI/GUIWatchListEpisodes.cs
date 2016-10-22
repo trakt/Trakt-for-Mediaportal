@@ -6,6 +6,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
+using TraktPlugin.Cache;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -71,7 +73,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "full,images");
+                    _WatchListEpisodes = TraktAPI.TraktAPI.GetWatchListEpisodes(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "full");
                     if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
                     userWatchList.Add(CurrentUser, _WatchListEpisodes);
                     LastRequest = DateTime.UtcNow;
@@ -363,17 +365,22 @@ namespace TraktPlugin.GUI
             }
 
             int itemCount = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each show and underlying episodes
             // Should we do facade levels (Series,Season,Episodes)?
             foreach (var watchlistItem in episodeWatchlist)
             {
                 // add image for download
-                var images = new GUITraktImage
+                var images = new GUITmdbImage
                 {
-                    EpisodeImages = watchlistItem.Episode.Images,
-                    ShowImages = watchlistItem.Show.Images
+                    EpisodeImages = new TmdbEpisodeImages
+                    { 
+                        Id = watchlistItem.Show.Ids.Tmdb, 
+                        Season = watchlistItem.Episode.Season, 
+                        Episode = watchlistItem.Episode.Number,
+                        AirDate = watchlistItem.Episode.FirstAired == null ? null : watchlistItem.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                    }
                 };
                 showImages.Add(images);
 
@@ -452,7 +459,12 @@ namespace TraktPlugin.GUI
 
             var selectedItem = item.TVTag as TraktEpisodeWatchList;
             PublishWatchlistSkinProperties(selectedItem);
-            GUIImageHandler.LoadFanart(backdrop, selectedItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+
+            var backdropFilename = TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages);
+            if (backdropFilename != null)
+            {
+                GUIImageHandler.LoadFanart(backdrop, backdropFilename);
+            }
         }
 
         #endregion

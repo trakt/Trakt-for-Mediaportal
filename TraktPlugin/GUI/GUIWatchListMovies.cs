@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
@@ -82,7 +84,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userWatchList.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "full,images");
+                    _WatchListMovies = TraktAPI.TraktAPI.GetWatchListMovies(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "full");
                     if (userWatchList.Keys.Contains(CurrentUser)) userWatchList.Remove(CurrentUser);
                     userWatchList.Add(CurrentUser, _WatchListMovies);
                     LastRequest = DateTime.UtcNow;
@@ -207,7 +209,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            var selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIMovieListItem;
             if (selectedItem == null) return;
 
             var selectedWatchlistItem = selectedItem.TVTag as TraktMovieWatchList;
@@ -451,14 +453,14 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Cast):
                     GUICreditsMovie.Movie = selectedWatchlistItem.Movie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                    GUICreditsMovie.Fanart = selectedWatchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.Crew):
                     GUICreditsMovie.Movie = selectedWatchlistItem.Movie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                    GUICreditsMovie.Fanart = selectedWatchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
@@ -539,15 +541,14 @@ namespace TraktPlugin.GUI
             sortedList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByWatchListMovies.Field, TraktSettings.SortByWatchListMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // Add each movie
             foreach (var watchlistItem in sortedList)
             {
                 // add image for download
-                var images = new GUITraktImage { MovieImages = watchlistItem.Movie.Images };
-                if (watchlistItem.Movie.Images != null)
-                    movieImages.Add(images);
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = watchlistItem.Movie.Ids.Tmdb } };                
+                movieImages.Add(images);
 
                 var item = new GUIMovieListItem(watchlistItem.Movie.Title, (int)TraktGUIWindows.WatchedListMovies);
 
@@ -644,9 +645,11 @@ namespace TraktPlugin.GUI
 
             var watchlistItem = item.TVTag as TraktMovieWatchList;
             PublishWatchlistSkinProperties(watchlistItem);
-            if (watchlistItem.Movie.Images != null)
+            
+            string fanart = TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages);
+            if (!string.IsNullOrEmpty(fanart))
             {
-                GUIImageHandler.LoadFanart(backdrop, watchlistItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+                GUIImageHandler.LoadFanart(backdrop, fanart);
             }
         }
         #endregion

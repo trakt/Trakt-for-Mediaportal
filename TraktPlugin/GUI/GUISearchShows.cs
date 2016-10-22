@@ -15,6 +15,8 @@ using MediaPortal.Util;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
+using TraktPlugin.Cache;
 
 namespace TraktPlugin.GUI
 {
@@ -205,7 +207,7 @@ namespace TraktPlugin.GUI
         {
             if (GUIBackgroundTask.Instance.IsBusy) return;
 
-            var selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIShowListItem;
             if (selectedItem == null) return;
 
             var selectedShow = selectedItem.TVTag as TraktShowSummary;
@@ -359,14 +361,14 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Cast):
                     GUICreditsShow.Show = selectedShow;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
                 case ((int)ContextMenuItem.Crew):
                     GUICreditsShow.Show = selectedShow;
                     GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = selectedShow.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     break;
 
@@ -455,13 +457,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each show
             foreach (var show in shows)
             {
                 // add image for download
-                var images = new GUITraktImage { ShowImages = show.Images };
+                var images = new GUITmdbImage { ShowImages = new TmdbShowImages { Id = show.Ids.Tmdb } };
                 showImages.Add(images);
 
                 GUIShowListItem item = new GUIShowListItem(show.Title, (int)TraktGUIWindows.SearchShows);
@@ -543,7 +545,7 @@ namespace TraktPlugin.GUI
 
             var show = item.TVTag as TraktShowSummary;
             PublishShowSkinProperties(show);
-            GUIImageHandler.LoadFanart(backdrop, show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIShowListItem).Images.ShowImages));
         }
         #endregion
     }

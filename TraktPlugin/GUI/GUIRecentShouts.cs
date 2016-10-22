@@ -4,6 +4,8 @@ using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
 using TraktPlugin.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
@@ -62,7 +64,7 @@ namespace TraktPlugin.GUI
             {
                 if (!userRecentComments.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
                 {
-                    var response = TraktAPI.TraktAPI.GetUsersComments(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "all", "all", "full,images", 1, TraktSettings.MaxUserCommentsRequest);
+                    var response = TraktAPI.TraktAPI.GetUsersComments(CurrentUser == TraktSettings.Username ? "me" : CurrentUser, "all", "all", "full", 1, TraktSettings.MaxUserCommentsRequest);
                     if (response != null)
                     {
                         _RecentlyComments = response.Comments;
@@ -315,14 +317,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedComment.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                        GUICreditsMovie.Fanart = selectedComment.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (selectedComment.Show != null)
                     {
                         GUICreditsShow.Show = selectedComment.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                        GUICreditsShow.Fanart = selectedComment.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -332,14 +334,14 @@ namespace TraktPlugin.GUI
                     {
                         GUICreditsMovie.Movie = selectedComment.Movie;
                         GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                        GUICreditsMovie.Fanart = selectedComment.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                        GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename((selectedItem as GUIMovieListItem).Images.MovieImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     }
                     else if (selectedComment.Show != null)
                     {
                         GUICreditsShow.Show = selectedComment.Show;
                         GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                        GUICreditsShow.Fanart = selectedComment.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename((selectedItem as GUIShowListItem).Images.ShowImages);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
                     break;
@@ -509,7 +511,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var commentImages = new List<GUITraktImage>();
+            var commentImages = new List<GUITmdbImage>();
 
             // Add each item added
             foreach (var comment in comments)
@@ -518,15 +520,11 @@ namespace TraktPlugin.GUI
                 if (comment.Movie == null && comment.Show == null && comment.List == null)
                     continue;
 
-                var item = new GUICustomListItem(GetCommentItemTitle(comment), (int)TraktGUIWindows.RecentShouts);
-
-                // add images for download
-                var images = new GUITraktImage
-                {
-                    ShowImages = comment.Show != null ? comment.Show.Images : null,
-                    MovieImages = comment.Movie != null ? comment.Movie.Images : null
-                };
+                // add image for download
+                var images = GetTmdbImage(comment);
                 commentImages.Add(images);
+
+                var item = new GUICustomListItem(GetCommentItemTitle(comment), (int)TraktGUIWindows.RecentShouts);
 
                 // add user shout date as second label
                 item.Label2 = comment.Comment.CreatedAt.ToPrettyDateTime();
@@ -563,6 +561,42 @@ namespace TraktPlugin.GUI
 
             // Download images Async and set to facade
             GUICustomListItem.GetImages(commentImages);
+        }
+
+        private GUITmdbImage GetTmdbImage(TraktCommentItem comment)
+        {
+            var images = new GUITmdbImage();
+
+            switch (comment.Type)
+            {
+                case "movie":
+                    images.MovieImages = new TmdbMovieImages { Id = comment.Movie.Ids.Tmdb };
+                    break;
+
+                case "show":
+                    images.ShowImages = new TmdbShowImages { Id = comment.Show.Ids.Tmdb };
+                    break;
+                case "season":
+                    images.ShowImages = new TmdbShowImages { Id = comment.Show.Ids.Tmdb };
+                    images.SeasonImages = new TmdbSeasonImages
+                    {
+                        Id = comment.Show.Ids.Tmdb,
+                        Season = comment.Season.Number
+                    };
+                    break;
+                case "episode":
+                    images.ShowImages = new TmdbShowImages { Id = comment.Show.Ids.Tmdb };
+                    images.SeasonImages = new TmdbSeasonImages
+                    {
+                        Id = comment.Show.Ids.Tmdb,
+                        Season = comment.Episode.Season
+                    };
+                    break;
+                case "list":
+                    break;
+            }
+
+            return images;
         }
 
         private string GetCommentItemTitle(TraktCommentItem comment)
@@ -686,13 +720,13 @@ namespace TraktPlugin.GUI
             switch (commentItem.Type)
             {
                 case "movie":
-                    fanartFileName = commentItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    fanartFileName = TmdbCache.GetMovieBackdropFilename((item as GUICustomListItem).Images.MovieImages);
                     break;
 
                 case "show":
                 case "season":
                 case "episode":
-                    fanartFileName = commentItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                    fanartFileName = TmdbCache.GetShowBackdropFilename((item as GUICustomListItem).Images.ShowImages);
                     break;
 
                 case "list":

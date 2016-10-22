@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Player;
+using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -100,6 +101,9 @@ namespace TraktPlugin
             // Initialise Skin Dashboard
             DashBoard.Init();
 
+            // Initialise TMDb Cache
+            TmdbCache.Init();
+
             // Load main skin window
             // this is a launching pad to all other windows
             string xmlSkin = GUIGraphicsContext.Skin + @"\Trakt.xml";
@@ -152,6 +156,9 @@ namespace TraktPlugin
             // save settings
             TraktSettings.SaveSettings();
 
+            // save tmdb cache
+            TmdbCache.DeInit();
+            
             TraktLogger.Info("Plugin has successfully unloaded");
             base.DeInit();
         }

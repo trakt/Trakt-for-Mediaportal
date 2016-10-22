@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using MediaPortal.Configuration;
 using MediaPortal.GUI.Library;
-using MediaPortal.Video.Database;
-using MediaPortal.GUI.Video;
-using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
+using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
@@ -454,7 +447,7 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // Add each item added
             foreach (var activity in activities)
@@ -464,7 +457,7 @@ namespace TraktPlugin.GUI
                     continue;
 
                 // add image for download
-                var images = new GUITraktImage { MovieImages = activity.Movie.Images };
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = activity.Movie.Ids.Tmdb } };
                 movieImages.Add(images);
 
                 var item = new GUIMovieListItem(activity.Movie.Title, (int)TraktGUIWindows.RecentAddedMovies);
@@ -547,7 +540,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Movie.AddedDate", (item as GUIMovieListItem).Date);
             GUICommon.SetMovieProperties(selectedMovie);
 
-            GUIImageHandler.LoadFanart(backdrop, selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
         #endregion
     }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
+using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
@@ -26,7 +27,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public GUITraktImage Images
+        public GUITmdbImage Images
         {
             get { return _Images; }
             set
@@ -35,25 +36,21 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUITraktImage && e.PropertyName == "Screen")
+                    if (s is GUITmdbImage && e.PropertyName == "ShowScreenStill")
                     {
-                        var traktImage = s as GUITraktImage;
-                        if (traktImage.EpisodeImages.ScreenShot != null && traktImage.EpisodeImages.ScreenShot.ThumbSize != null)
-                        {
-                            SetImageToGui(traktImage.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
-                        }
-                        else
-                        {
-                            SetImageToGui(traktImage.ShowImages.Fanart.LocalImageFilename(ArtworkType.EpisodeImage));
-                        }
+                        SetImageToGui(TmdbCache.GetEpisodeThumbFilename((s as GUITmdbImage).EpisodeImages));
                     }
-                    if (s is GUITraktImage && e.PropertyName == "Fanart")
+                    else if (s is GUITmdbImage && e.PropertyName == "ShowScreenStillAsBackdrop")
+                    {
+                        SetImageToGui(TmdbCache.GetShowBackdropFilename((s as GUITmdbImage).ShowImages, true));
+                    }
+                    else if (s is GUITraktImage && e.PropertyName == "Fanart")
                     {
                         this.UpdateItemIfSelected(WindowID, ItemId);
                     }
                 };
             }
-        } protected GUITraktImage _Images;
+        } protected GUITmdbImage _Images;
 
         public string Date { get; set; }
         public string SelectedIndex { get; set; }
@@ -72,7 +69,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUITraktImage> itemsWithThumbs)
+        internal static void GetImages(List<GUITmdbImage> itemsWithThumbs)
         {
             StopDownload = false;
 
@@ -82,42 +79,66 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<GUITraktImage>();
+                var groupList = new List<GUITmdbImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
                 }
 
                 // sort images so that images that already exist are displayed first
-                groupList.Sort((s1, s2) =>
-                {
-                    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s1.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
-                    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s2.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
-                    return y.CompareTo(x);
-                });
+                //groupList.Sort((s1, s2) =>
+                //{
+                //    int x = Convert.ToInt32(File.Exists(s1.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s1.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s1.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
+                //    int y = Convert.ToInt32(File.Exists(s2.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage))) + (s2.ShowImages == null ? 0 : Convert.ToInt32(File.Exists(s2.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart))));
+                //    return y.CompareTo(x);
+                //});
 
                 new Thread(delegate(object o)
                 {
-                    var items = (List<GUITraktImage>)o;
+                    var items = (List<GUITmdbImage>)o;
                     foreach (var item in items)
                     {
                         #region Episode Image
                         // stop download if we have exited window
                         if (StopDownload) break;
 
+                        bool downloadShowBackdrop = false;
+
                         string remoteThumb = string.Empty;
                         string localThumb = string.Empty;
 
-                        if (item.EpisodeImages.ScreenShot.ThumbSize != null)
+                        TmdbEpisodeImages episodeImages = null;
+                        TmdbShowImages showImages = null;
+
+                        // Don't try to get episode images that air after today, they most likely do not exist and contain spoilers
+                        if (item.EpisodeImages.AirDate != null && Convert.ToDateTime(item.EpisodeImages.AirDate) <= Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                         {
-                            remoteThumb = item.EpisodeImages.ScreenShot.ThumbSize;
-                            localThumb = item.EpisodeImages.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage);
+                            episodeImages = TmdbCache.GetEpisodeImages(item.EpisodeImages.Id, item.EpisodeImages.Season, item.EpisodeImages.Episode);
+                            if (episodeImages != null)
+                            {
+                                item.EpisodeImages = episodeImages;
+                            }
+                        }
+
+                        showImages = TmdbCache.GetShowImages(item.EpisodeImages.Id);
+                        if (showImages != null)
+                        {
+                            item.ShowImages = showImages;
+                        }
+
+                        // if the episode image exists get it, otherwise get the show fanart
+                        if (episodeImages != null && episodeImages.Stills != null && episodeImages.Stills.Count > 0)
+                        {
+                            remoteThumb = TmdbCache.GetEpisodeThumbUrl(episodeImages);
+                            localThumb = TmdbCache.GetEpisodeThumbFilename(episodeImages);
                         }
                         else
                         {
-                            // use fanart for episode image
-                            remoteThumb = item.ShowImages.Fanart.ThumbSize;
-                            localThumb = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.EpisodeImage);
+                            downloadShowBackdrop = true;
+                            
+                            // use fanart for episode image, get one with a logo
+                            remoteThumb = TmdbCache.GetShowBackdropUrl(item.ShowImages, true);
+                            localThumb = TmdbCache.GetShowBackdropFilename(item.ShowImages, true);
                         }
 
                         if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
@@ -127,7 +148,7 @@ namespace TraktPlugin.GUI
                                 if (StopDownload) break;
 
                                 // notify that image has been downloaded
-                                item.NotifyPropertyChanged("Screen");
+                                item.NotifyPropertyChanged(downloadShowBackdrop ? "ShowScreenStillAsBackdrop" : "ShowScreenStill");
                             }
                         }
                         #endregion
@@ -135,14 +156,14 @@ namespace TraktPlugin.GUI
                         #region Fanart
                         // stop download if we have exited window
                         if (StopDownload) break;
-                        if (!TraktSettings.DownloadFanart || item.ShowImages == null) continue;
+                        if (!TraktSettings.DownloadFanart) continue;
 
-                        string remoteFanart = TraktSettings.DownloadFullSizeFanart ? item.ShowImages.Fanart.FullSize : item.ShowImages.Fanart.MediumSize;
-                        string localFanart = item.ShowImages.Fanart.LocalImageFilename(ArtworkType.ShowFanart);
+                        remoteThumb = TmdbCache.GetShowBackdropUrl(item.ShowImages);
+                        localThumb = TmdbCache.GetShowBackdropFilename(item.ShowImages);
 
-                        if (!string.IsNullOrEmpty(remoteFanart) && !string.IsNullOrEmpty(localFanart))
+                        if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                         {
-                            if (GUIImageHandler.DownloadImage(remoteFanart, localFanart))
+                            if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
                             {
                                 if (StopDownload) break;
 

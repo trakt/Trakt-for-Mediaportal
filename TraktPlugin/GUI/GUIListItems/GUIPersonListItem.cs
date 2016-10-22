@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 
@@ -29,7 +31,7 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Images attached to a gui list item
         /// </summary>
-        public GUITraktImage Images
+        public GUITmdbImage Images
         {
             get { return _Images; }
             set
@@ -38,12 +40,12 @@ namespace TraktPlugin.GUI
                 var notifier = value as INotifyPropertyChanged;
                 if (notifier != null) notifier.PropertyChanged += (s, e) =>
                 {
-                    if (s is GUITraktImage && e.PropertyName == "HeadShot")
-                        SetImageToGui((s as GUITraktImage).PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
+                    if (s is GUITmdbImage && e.PropertyName == "HeadShot")
+                        SetImageToGui(TmdbCache.GetPersonHeadshotFilename((s as GUITmdbImage).PeopleImages));
                 };
             }
         }
-        protected GUITraktImage _Images;
+        protected GUITmdbImage _Images;
 
         /// <summary>
         /// Set this to true to stop downloading any images
@@ -56,7 +58,7 @@ namespace TraktPlugin.GUI
         /// TODO: Make part of a GUI Base Window
         /// </summary>
         /// <param name="itemsWithThumbs">List of images to get</param>
-        internal static void GetImages(List<GUITraktImage> itemsWithThumbs, bool downloadFanart = true)
+        internal static void GetImages(List<GUITmdbImage> itemsWithThumbs, bool downloadFanart = true)
         {
             StopDownload = false;
 
@@ -66,7 +68,7 @@ namespace TraktPlugin.GUI
 
             for (int i = 0; i < groups; i++)
             {
-                var groupList = new List<GUITraktImage>();
+                var groupList = new List<GUITmdbImage>();
                 for (int j = groupSize * i; j < groupSize * i + (groupSize * (i + 1) > itemsWithThumbs.Count ? itemsWithThumbs.Count - groupSize * i : groupSize); j++)
                 {
                     groupList.Add(itemsWithThumbs[j]);
@@ -74,7 +76,7 @@ namespace TraktPlugin.GUI
 
                 new Thread(delegate(object o)
                 {
-                    var items = (List<GUITraktImage>)o;
+                    var items = (List<GUITmdbImage>)o;
                     foreach (var item in items)
                     {
                         if (item.PeopleImages != null)
@@ -82,8 +84,14 @@ namespace TraktPlugin.GUI
                             // stop download if we have exited window
                             if (StopDownload) break;
 
-                            string remoteThumb = item.PeopleImages.HeadShot.ThumbSize;
-                            string localThumb = item.PeopleImages.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot);
+                            var peopleImages = TmdbCache.GetPersonImages(item.PeopleImages.Id);
+                            if (peopleImages == null)
+                                return;
+
+                            item.PeopleImages = peopleImages;
+
+                            string remoteThumb = TmdbCache.GetPersonHeadshotUrl(peopleImages);
+                            string localThumb = TmdbCache.GetPersonHeadshotFilename(peopleImages);
 
                             if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
                             {
@@ -95,21 +103,21 @@ namespace TraktPlugin.GUI
                             }
 
                             // not all methods have Fanart for people
-                            // only get it if we need it
-                            if (downloadFanart && item.PeopleImages.Fanart != null)
-                            {
-                                remoteThumb = TraktSettings.DownloadFullSizeFanart ? item.PeopleImages.Fanart.FullSize : item.PeopleImages.Fanart.MediumSize;
-                                localThumb = item.PeopleImages.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
+                            // only get it, if we need it
+                            //if (downloadFanart && item.PeopleImages.Fanart != null)
+                            //{
+                            //    remoteThumb = TraktSettings.DownloadFullSizeFanart ? item.PeopleImages.Fanart.FullSize : item.PeopleImages.Fanart.MediumSize;
+                            //    localThumb = item.PeopleImages.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
 
-                                if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
-                                {
-                                    if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
-                                    {
-                                        // notify that image has been downloaded
-                                        item.NotifyPropertyChanged("Fanart");
-                                    }
-                                }
-                            }
+                            //    if (!string.IsNullOrEmpty(remoteThumb) && !string.IsNullOrEmpty(localThumb))
+                            //    {
+                            //        if (GUIImageHandler.DownloadImage(remoteThumb, localThumb))
+                            //        {
+                            //            // notify that image has been downloaded
+                            //            item.NotifyPropertyChanged("Fanart");
+                            //        }
+                            //    }
+                            //}
                         }
                     }
                 })

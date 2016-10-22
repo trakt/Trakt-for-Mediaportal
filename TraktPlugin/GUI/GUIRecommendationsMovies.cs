@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -105,7 +107,7 @@ namespace TraktPlugin.GUI
                     if ((StartYear > EndYear) && EndYear != 0) StartYear = 0;
                     //TODO - Filtering not yet implemented on API
                     //_RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies(TraktGenres.MovieGenres[CurrentGenre], HideCollected, HideWatchlisted, StartYear, EndYear);
-                    _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies("full,images");
+                    _RecommendedMovies = TraktAPI.TraktAPI.GetRecommendedMovies("full");
                     LastRequest = DateTime.UtcNow;
                     PreviousSelectedIndex = 0;
                 }
@@ -292,7 +294,7 @@ namespace TraktPlugin.GUI
 
         protected override void OnShowContextMenu()
         {
-            GUIListItem selectedItem = this.Facade.SelectedListItem;
+            var selectedItem = this.Facade.SelectedListItem as GUIMovieListItem;
             if (selectedItem == null) return;
 
             var selectedMovie = selectedItem.TVTag as TraktMovieSummary;
@@ -516,14 +518,14 @@ namespace TraktPlugin.GUI
                 case ((int)ContextMenuItem.Cast):
                     GUICreditsMovie.Movie = selectedMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.Crew):
                     GUICreditsMovie.Movie = selectedMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
@@ -696,7 +698,7 @@ namespace TraktPlugin.GUI
             movieList.Sort(new GUIListItemMovieSorter(TraktSettings.SortByRecommendedMovies.Field, TraktSettings.SortByRecommendedMovies.Direction));
 
             int itemId = 0;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // Add each movie
             foreach (var movie in movieList)
@@ -704,7 +706,7 @@ namespace TraktPlugin.GUI
                 var item = new GUIMovieListItem(movie.Title, (int)TraktGUIWindows.RecommendationsMovies);
 
                 // add image for download
-                var image = new GUITraktImage { MovieImages = movie.Images };
+                var image = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = movie.Ids.Tmdb } };
                 movieImages.Add(image);
 
                 item.Label2 = movie.Year == null ? "----" : movie.Year.ToString();
@@ -831,7 +833,7 @@ namespace TraktPlugin.GUI
             if (movie == null) return;
 
             PublishMovieSkinProperties(movie);
-            GUIImageHandler.LoadFanart(backdrop, movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
 
         #endregion

@@ -12,6 +12,7 @@ using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -20,7 +21,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 9;
+        static int SettingsVersion = 10;
 
         public static List<TraktAuthentication> UserLogins { get; set; }
         public static int MovingPictures { get; set; }
@@ -181,6 +182,25 @@ namespace TraktPlugin
         public static int AnticipatedShowsDefaultLayout { get; set; }
         public static int AnticipatedMoviesDefaultLayout { get; set; }
         public static int BoxOfficeDefaultLayout { get; set; }
+        public static bool ParentalControlsEnabled { get; set; }
+        public static bool ParentalIgnoreAfterEnabled { get; set; }
+        public static bool ParentalIgnoreShowRatingEnabled { get; set; }
+        public static bool ParentalIgnoreMovieRatingEnabled { get; set; }
+        public static string ParentalControlsPinCode { get; set; }
+        public static string ParentalIgnoreAfterTime { get; set; }
+        public static string ParentalIgnoreShowRating { get; set; }
+        public static string ParentalIgnoreMovieRating { get; set; }
+        public static TmdbConfiguration TmdbConfiguration { get; set; }
+        public static string TmdbConfigurationAge { get; set; }
+        public static string TmdbPreferredBackdropSize { get; set; }
+        public static string TmdbPreferredPosterSize { get; set; }
+        public static string TmdbPreferredEpisodeThumbSize { get; set; }
+        public static string TmdbPreferredHeadshotSize { get; set; }
+        public static int TmdbShowImageMaxCacheAge { get; set; }
+        public static int TmdbMovieImageMaxCacheAge { get; set; }
+        public static int TmdbSeasonImageMaxCacheAge { get; set; }
+        public static int TmdbEpisodeImageMaxCacheAge { get; set; }
+        public static int TmdbPersonImageMaxCacheAge { get; set; }
         #endregion
 
         #region Constants
@@ -357,6 +377,25 @@ namespace TraktPlugin
         private const string cAnticipatedMoviesDefaultLayout = "AnticipatedMoviesDefaultLayout";
         private const string cAnticipatedShowsDefaultLayout = "AnticipatedShowsDefaultLayout";
         private const string cBoxOfficeDefaultLayout = "BoxOfficeDefaultLayout";
+        private const string cParentalControlsEnabled = "ParentalControlsEnabled";
+        private const string cParentalIgnoreAfterEnabled = "ParentalIgnoreAfterEnabled";
+        private const string cParentalIgnoreShowRatingEnabled = "ParentalIgnoreShowRatingEnabled";
+        private const string cParentalIgnoreMovieRatingEnabled = "ParentalIgnoreMovieRatingEnabled";
+        private const string cParentalControlsPinCode = "ParentalControlsPinCode";
+        private const string cParentalIgnoreAfterTime = "ParentalIgnoreAfterTime";
+        private const string cParentalIgnoreShowRating = "ParentalIgnoreShowRating";
+        private const string cParentalIgnoreMovieRating = "ParentalIgnoreMovieRating";
+        private const string cTmdbConfiguration = "TmdbConfiguration";
+        private const string cTmdbConfigurationAge = "TmdbConfigurationAge";
+        private const string cTmdbPreferredBackdropSize = "PreferredBackdropSize";
+        private const string cTmdbPreferredPosterSize = "PreferredPosterSize";
+        private const string cTmdbPreferredEpisodeThumbSize = "PreferredEpisodeThumbSize";
+        private const string cTmdbPreferredHeadshotSize = "PreferredHeadshotSize";
+        private const string cTmdbShowImageMaxCacheAge = "TmdbShowImageMaxCacheAge";
+        private const string cTmdbMovieImageMaxCacheAge = "TmdbMovieImageMaxCacheAge";
+        private const string cTmdbSeasonImageMaxCacheAge = "TmdbSeasonImageMaxCacheAge";
+        private const string cTmdbEpisodeImageMaxCacheAge = "TmdbEpisodeImageMaxCacheAge";
+        private const string cTmdbPersonImageMaxCacheAge = "TmdbPersonImageMaxCacheAge";
         #endregion
         
         #region Properties
@@ -723,21 +762,21 @@ namespace TraktPlugin
                 SyncResumeDelta = GetValueAsIntAndValidate(cTrakt, cSyncResumeDelta, 5, 0, 600);
                 SyncPlaybackOnEnterPlugin = xmlreader.GetValueAsBool(cTrakt, cSyncPlaybackOnEnterPlugin, false);
                 SyncPlaybackCacheExpiry = GetValueAsIntAndValidate(cTrakt, cSyncPlaybackCacheExpiry, 5, 1, 1440);
-                MaxTrendingMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingMoviesRequest, 100, 1, 1000);
-                MaxTrendingShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingShowsRequest, 100, 1, 1000);
-                MaxPopularMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularMoviesRequest, 100, 1, 1000);
-                MaxPopularShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularShowsRequest, 100, 1, 1000);
-                MaxAnticipatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedMoviesRequest, 50, 1, 1000);
-                MaxAnticipatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedShowsRequest, 50, 1, 1000);
+                MaxTrendingMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingMoviesRequest, 40, 1, 1000);
+                MaxTrendingShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxTrendingShowsRequest, 40, 1, 1000);
+                MaxPopularMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularMoviesRequest, 40, 1, 1000);
+                MaxPopularShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxPopularShowsRequest, 40, 1, 1000);
+                MaxAnticipatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedMoviesRequest, 40, 1, 1000);
+                MaxAnticipatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxAnticipatedShowsRequest, 40, 1, 1000);
                 UseSSL = xmlreader.GetValueAsBool(cTrakt, cUseSSL, false);
                 LastListActivities = xmlreader.GetValueAsString(cTrakt, cLastListActivities, "[]").FromJSONArray<TraktCache.ListActivity>();
                 MaxRelatedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesRequest, 10, 1, 100);
-                MaxRelatedMoviesUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 100, 1, 100);
+                MaxRelatedMoviesUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 40, 1, 100);
                 MaxRelatedShowsRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsRequest, 10, 1, 100);
-                MaxRelatedShowsUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsUnWatchedRequest, 100, 1, 1000);
-                MaxUserWatchedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedMoviesRequest, 100, 1, 1000);
-                MaxUserWatchedEpisodesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedEpisodesRequest, 100, 1, 1000);
-                MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 100, 1, 1000);
+                MaxRelatedShowsUnWatchedRequest = GetValueAsIntAndValidate(cTrakt, cMaxRelatedShowsUnWatchedRequest, 40, 1, 1000);
+                MaxUserWatchedMoviesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedMoviesRequest, 40, 1, 1000);
+                MaxUserWatchedEpisodesRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserWatchedEpisodesRequest, 40, 1, 1000);
+                MaxUserCommentsRequest = GetValueAsIntAndValidate(cTrakt, cMaxUserCommentsRequest, 40, 1, 1000);
                 DashboardActivityFilter = xmlreader.GetValueAsString(cTrakt, cDashboardActivityFilter, "{}").FromJSON<ActivityFilter>();
                 SkipMoviesWithNoIdsOnSync = xmlreader.GetValueAsBool(cTrakt, cSkipMoviesWithNoIdsOnSync, true);
                 PersonMovieCreditsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cPersonMovieCreditsDefaultLayout, 0);
@@ -759,12 +798,33 @@ namespace TraktPlugin
                 SortByAnticipatedMovies = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedMovies, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
                 SortByAnticipatedShows = xmlreader.GetValueAsString(cTrakt, cSortByAnticipatedShows, "{\"Field\": 8,\"Direction\": 1}").FromJSON<SortBy>();
                 BoxOfficeDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cBoxOfficeDefaultLayout, 0);
+                ParentalControlsEnabled = xmlreader.GetValueAsBool(cTrakt, cParentalControlsEnabled, false);
+                ParentalControlsPinCode = xmlreader.GetValueAsString(cTrakt, cParentalControlsPinCode, "");
+                ParentalIgnoreAfterEnabled = xmlreader.GetValueAsBool(cTrakt, cParentalIgnoreAfterEnabled, false);
+                ParentalIgnoreAfterTime = xmlreader.GetValueAsString(cTrakt, cParentalIgnoreAfterTime, new DateTime().ToShortTimeString());
+                ParentalIgnoreMovieRatingEnabled = xmlreader.GetValueAsBool(cTrakt, cParentalIgnoreMovieRatingEnabled, false);
+                ParentalIgnoreShowRatingEnabled = xmlreader.GetValueAsBool(cTrakt, cParentalIgnoreShowRatingEnabled, false);
+                ParentalIgnoreMovieRating = xmlreader.GetValueAsString(cTrakt, cParentalIgnoreMovieRating, "G");
+                ParentalIgnoreShowRating = xmlreader.GetValueAsString(cTrakt, cParentalIgnoreShowRating, "TV-G");
+                TmdbConfiguration = xmlreader.GetValueAsString(cTrakt, cTmdbConfiguration, "{}").FromJSON<TmdbConfiguration>();
+                TmdbConfigurationAge = xmlreader.GetValueAsString(cTrakt, cTmdbConfigurationAge, new DateTime().ToString());
+                TmdbPreferredBackdropSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredBackdropSize, "w1280");
+                TmdbPreferredPosterSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredPosterSize, "w500");
+                TmdbPreferredEpisodeThumbSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredEpisodeThumbSize, "w300");
+                TmdbPreferredHeadshotSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredHeadshotSize, "h632");
+                TmdbShowImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbShowImageMaxCacheAge, 90, 1, 365);
+                TmdbMovieImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbMovieImageMaxCacheAge, 90, 1, 365);
+                TmdbSeasonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbSeasonImageMaxCacheAge, 365, 1, 365);
+                TmdbEpisodeImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbEpisodeImageMaxCacheAge, 365, 1, 365);
+                TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 365, 1, 365);
             }
 
             // initialise API settings
             TraktAPI.TraktAPI.ApplicationId = ApplicationId;
             TraktAPI.TraktAPI.UserAgent = UserAgent;
             TraktAPI.TraktAPI.UseSSL = UseSSL;
+
+            TmdbAPI.TmdbAPI.UserAgent = UserAgent;
 
             // initialise the last sync activities 
             if (LastSyncActivities == null) LastSyncActivities = new TraktLastSyncActivities();
@@ -958,6 +1018,25 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cCreditsShowDefaultLayout, CreditsShowDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cAnticipatedMoviesDefaultLayout, AnticipatedMoviesDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cAnticipatedShowsDefaultLayout, AnticipatedShowsDefaultLayout);
+                xmlwriter.SetValueAsBool(cTrakt, cParentalControlsEnabled, ParentalControlsEnabled);
+                xmlwriter.SetValue(cTrakt, cParentalControlsPinCode, ParentalControlsPinCode);
+                xmlwriter.SetValueAsBool(cTrakt, cParentalIgnoreAfterEnabled, ParentalIgnoreAfterEnabled);
+                xmlwriter.SetValue(cTrakt, cParentalIgnoreAfterTime, ParentalIgnoreAfterTime);
+                xmlwriter.SetValueAsBool(cTrakt, cParentalIgnoreMovieRatingEnabled, ParentalIgnoreMovieRatingEnabled);
+                xmlwriter.SetValueAsBool(cTrakt, cParentalIgnoreShowRatingEnabled, ParentalIgnoreShowRatingEnabled);
+                xmlwriter.SetValue(cTrakt, cParentalIgnoreMovieRating, ParentalIgnoreMovieRating);
+                xmlwriter.SetValue(cTrakt, cParentalIgnoreShowRating, ParentalIgnoreShowRating);
+                xmlwriter.SetValue(cTrakt, cTmdbConfiguration, TmdbConfiguration.ToJSON());
+                xmlwriter.SetValue(cTrakt, cTmdbConfigurationAge, TmdbConfigurationAge);
+                xmlwriter.SetValue(cTrakt, cTmdbPreferredBackdropSize, TmdbPreferredBackdropSize);
+                xmlwriter.SetValue(cTrakt, cTmdbPreferredPosterSize, TmdbPreferredPosterSize);
+                xmlwriter.SetValue(cTrakt, cTmdbPreferredEpisodeThumbSize, TmdbPreferredEpisodeThumbSize);
+                xmlwriter.SetValue(cTrakt, cTmdbPreferredHeadshotSize, TmdbPreferredHeadshotSize);
+                xmlwriter.SetValue(cTrakt, cTmdbShowImageMaxCacheAge, TmdbShowImageMaxCacheAge);
+                xmlwriter.SetValue(cTrakt, cTmdbMovieImageMaxCacheAge, TmdbMovieImageMaxCacheAge);
+                xmlwriter.SetValue(cTrakt, cTmdbSeasonImageMaxCacheAge, TmdbSeasonImageMaxCacheAge);
+                xmlwriter.SetValue(cTrakt, cTmdbEpisodeImageMaxCacheAge, TmdbEpisodeImageMaxCacheAge);
+                xmlwriter.SetValue(cTrakt, cTmdbPersonImageMaxCacheAge, TmdbPersonImageMaxCacheAge);
             }
 
             Settings.SaveCache();
@@ -1155,6 +1234,42 @@ namespace TraktPlugin
                             {
                                 TraktLogger.Error("Failed to remove previously cached likes from disk, Reason = '{0}'", e.Message);
                             }
+                            currentSettingsVersion++;
+                            break;
+
+                        case 9:
+                            // remove old thumbs folder
+                            try
+                            {
+                                DirectoryInfo di = new DirectoryInfo(Path.Combine(Config.GetFolder(Config.Dir.Thumbs), @"Trakt"));
+
+                                foreach (FileInfo file in di.GetFiles())
+                                {
+                                    file.Delete();
+                                }
+                                foreach (DirectoryInfo dir in di.GetDirectories())
+                                {
+                                    dir.Delete(true);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                TraktLogger.Error("Failed to remove previously cached thumbs from disk, Reason = '{0}'", e.Message);
+                            }
+
+                            // update default sizes for requests so we dont hit any limits from TMDb by default
+                            xmlreader.SetValue(cTrakt, cMaxAnticipatedMoviesRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxAnticipatedShowsRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxPopularMoviesRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxPopularShowsRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxRelatedMoviesUnWatchedRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxRelatedShowsUnWatchedRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxTrendingMoviesRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxTrendingShowsRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxUserWatchedEpisodesRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxUserWatchedMoviesRequest, 40);
+                            xmlreader.SetValue(cTrakt, cMaxUserCommentsRequest, 40);
+
                             currentSettingsVersion++;
                             break;
                     }

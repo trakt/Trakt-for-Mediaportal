@@ -8,6 +8,8 @@ using MediaPortal.Util;
 using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -379,9 +381,14 @@ namespace TraktPlugin.GUI
                     PublishShowSkinProperties(Show);
 
                     // Publish Fanart
-                    if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
+                    var showImages = TmdbCache.GetShowImages(showSummary.Ids.Tmdb);
+                    var showBackdropFilename = TmdbCache.GetShowBackdropFilename(showImages);
+                    if (showBackdropFilename == null)
+                        return;
+
+                    if (File.Exists(showBackdropFilename))
                     {
-                        GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                        GUIUtils.SetProperty("#Trakt.Show.Fanart", showBackdropFilename);
                     }
                 }
             }
@@ -417,13 +424,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var seasonImages = new List<GUITraktImage>();
+            var seasonImages = new List<GUITmdbImage>();
 
             // skip over any seasons with no episodes
             foreach (var season in seasons.Where(s => s.EpisodeCount > 0))
             {
                 // add image for download
-                var images = new GUITraktImage { SeasonImages = season.Images, ShowImages = Show.Images };
+                var images = new GUITmdbImage { SeasonImages = new TmdbSeasonImages { Id = Show.Ids.Tmdb, Season = season.Number } };
                 seasonImages.Add(images);
 
                 string itemLabel = season.Number == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Number.ToString());
@@ -481,11 +488,14 @@ namespace TraktPlugin.GUI
         {
             // only set property if file exists
             // if we set now and download later, image will not set to skin
-            if (Show.Images != null)
+            var showImages = TmdbCache.GetShowImages(Show.Ids.Tmdb, true);
+            var backdropFilename = TmdbCache.GetShowBackdropFilename(showImages);
+
+            if (backdropFilename != null)
             {
-                if (File.Exists(Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart)))
+                if (File.Exists(backdropFilename))
                 {
-                    GUIUtils.SetProperty("#Trakt.Show.Fanart", Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+                    GUIUtils.SetProperty("#Trakt.Show.Fanart", backdropFilename);
                 }
             }
             else if (Fanart != null)

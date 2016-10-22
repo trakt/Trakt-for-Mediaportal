@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
@@ -291,13 +292,13 @@ namespace TraktPlugin.GUI
             }
 
             int itemId = 0;
-            var personImages = new List<GUITraktImage>();
+            var personImages = new List<GUITmdbImage>();
 
             // Add each movie
             foreach (var person in people)
             {
                 // add image for download
-                var images = new GUITraktImage { PeopleImages = person.Images };
+                var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Ids.TmdbId } };
                 personImages.Add(images);
 
                 var item = new GUIPersonListItem(person.Name.Trim(), (int)TraktGUIWindows.SearchPeople);

@@ -11,6 +11,8 @@ using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Extensions;
 using TraktPlugin.TraktHandlers;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -927,14 +929,8 @@ namespace TraktPlugin
 
         public static void ShowMovieShouts(TraktMovieSummary movie)
         {
-            if (movie.Images == null || movie.Images.Fanart == null)
-            {
-                ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), null, null);
-            }
-            else
-            {
-                ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart), TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize);
-            }
+            var images = TmdbCache.GetMovieImages(movie.Ids.Tmdb, true);
+            ShowMovieShouts(movie.Title, movie.Year, movie.Ids.Imdb, movie.Ids.Trakt, movie.IsWatched(), TmdbCache.GetMovieBackdropFilename(images), TmdbCache.GetMovieBackdropUrl(images));
         }
 
         public static void ShowMovieShouts(string imdbid, string title, string year, string fanart)
@@ -981,14 +977,8 @@ namespace TraktPlugin
 
         public static void ShowTVShowShouts(TraktShowSummary show)
         {
-            if (show.Images == null || show.Images.Fanart == null)
-            {
-                ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), null);
-            }
-            else
-            {
-                ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
-            }
+            var images = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
+            ShowTVShowShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, show.IsWatched(), TmdbCache.GetShowBackdropFilename(images), TmdbCache.GetShowBackdropUrl(images));
         }
 
         public static void ShowTVShowShouts(string title, int? tvdbid, int? traktid, bool isWatched, string fanart, string onlineFanart = null)
@@ -1027,14 +1017,8 @@ namespace TraktPlugin
 
         public static void ShowTVSeasonShouts(TraktShowSummary show, TraktSeasonSummary season)
         {
-            if (show.Images == null || show.Images.Fanart == null)
-            {
-                ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), null);
-            }
-            else
-            {
-                ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
-            }
+            var showImages = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
+            ShowTVSeasonShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, season.Number, season.IsWatched(show), TmdbCache.GetShowBackdropFilename(showImages), TmdbCache.GetShowBackdropUrl(showImages));
         }
 
         public static void ShowTVSeasonShouts(string title, int? year, int? tvdbid, int? traktid, string imdbid, int season, bool isWatched, string fanart, string onlineFanart = null)
@@ -1070,14 +1054,8 @@ namespace TraktPlugin
 
         public static void ShowEpisodeShouts(TraktShowSummary show, TraktEpisodeSummary episode)
         {
-            if (show.Images == null || show.Images.Fanart == null)
-            {
-                ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), null);
-            }
-            else
-            {
-                ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart), TraktSettings.DownloadFullSizeFanart ? show.Images.Fanart.FullSize : show.Images.Fanart.MediumSize);
-            }
+            var showImages = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
+            ShowEpisodeShouts(show.Title, show.Year, show.Ids.Tvdb, show.Ids.Trakt, show.Ids.Imdb, episode.Season, episode.Number, episode.IsWatched(show), TmdbCache.GetShowBackdropFilename(showImages), TmdbCache.GetShowBackdropUrl(showImages));
         }
 
         public static void ShowEpisodeShouts(string title, string tvdbid, string season, string episode, bool isWatched, string fanart, string onlineFanart = null)
@@ -1320,7 +1298,7 @@ namespace TraktPlugin
                 Title = title,
                 Season = season,
                 Number = number
-            };
+            }; 
 
             var syncThread = new Thread((objSyncData) =>
             {

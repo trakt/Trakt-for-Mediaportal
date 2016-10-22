@@ -373,6 +373,7 @@ namespace TraktPlugin.TraktHandlers
 
                                 // we could potentially use the RatedAt date to insert a DateWatched if empty or less than
                                 episode[DBOnlineEpisode.cMyRating] = traktEpisode.Rating;
+                                episode["myRatingAt"] = traktEpisode.RatedAt.FromISO8601().ToString("yyyy-MM-dd HH:mm:ss");
                                 episode.Commit();
                             }
                         }
@@ -398,6 +399,7 @@ namespace TraktPlugin.TraktHandlers
                                 traktShow.Rating, traktShow.Show.Title, traktShow.Show.Year.HasValue ? traktShow.Show.Year.ToString() : "<empty>" , traktShow.Show.Ids.Tvdb.HasValue ? traktShow.Show.Ids.Tvdb.ToString() : "<empty>");
 
                             show[DBOnlineSeries.cMyRating] = traktShow.Rating;
+                            show["myRatingAt"] = traktShow.RatedAt.FromISO8601().ToString("yyyy-MM-dd HH:mm:ss");
                             show.Commit();
                         }
                     }

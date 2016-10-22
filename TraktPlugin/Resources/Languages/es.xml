@@ -56,6 +56,7 @@
   <string name="AirDay">Día de Emisión</string>
   <string name="AiredEpisodes">Episodios en el aire</string>
   <string name="AirTime">Hora de Emisión</string>
+  <string name="AppearsInList">{0} Listas</string>
   <string name="Approve">Aprobar</string>
   <string name="ApproveAndFollowBack">Aprobar y seguir de nuevo</string>
   <string name="ApprovedDate">Fecha de Aprobación</string>
@@ -260,6 +261,7 @@
   <string name="GetFriendRequestsOnStartup">Obtener Solicitudes de Amistad al Inicio</string>
   <string name="GetFollowerRequestsOnStartup">Obtener Solicitudes de Seguidores en el Inicio</string>
   <string name="GettingActivity">Obteniendo Actividad</string>
+  <string name="GettingBoxOffice">Obteniendo Taquilla</string>
   <string name="GettingCalendar">Obteniendo Calendario</string>
   <string name="GettingEpisodes">Obteniendo Episodios</string>
   <string name="GettingFriendsList">Obteniendo Lista de Amigos</string>
@@ -378,6 +380,7 @@
   <string name="NextPage">Siguiente</string>
   <string name="NextWeek">Próxima Semana</string>
   <string name="NoActivities">No se encontró actividad.</string>
+  <string name="NoBoxOffice">¡No hay películas en la Taquilla!</string>
   <string name="NoCreditsFound">No se encontraron créditos.</string>
   <string name="NoPersonBiography">No existe ninguna biografía para esta persona.</string>
   <string name="NoEpisodesInSeason">Sin Episodios disponibles en la Temporada.</string>
@@ -663,6 +666,7 @@
   <string name="Timeout">Tiempo de Espera</string>
   <string name="TotalPages">Total Páginas</string>
   <string name="TotalItemsPerPage">Elementos Totales Por Página</string>
+  <string name="TotalRevenue">Ingresos Totales</string>
   <string name="TransportationCaptain">Capitán de Transporte</string>
   <string name="TransportationCoCaptain">Co-Capitán de Transporte</string>
   <string name="TransportationCoordinator">Coordinador de Transporte</string>

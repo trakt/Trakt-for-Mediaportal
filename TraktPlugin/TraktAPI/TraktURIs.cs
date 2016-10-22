@@ -54,47 +54,47 @@ namespace TraktPlugin.TraktAPI
         public const string UserFollowerRequests = "https://api-v2launch.trakt.tv/users/requests?extended=full,images";
         public const string UserStats = "https://api-v2launch.trakt.tv/users/{0}/stats";
 
-        public const string UserWatchedHistoryMovies = "https://api-v2launch.trakt.tv/users/{0}/history/movies?extended=full,images&page={1}&limit={2}";
-        public const string UserWatchedHistoryEpisodes = "https://api-v2launch.trakt.tv/users/{0}/history/episodes?extended=full,images&page={1}&limit={2}";
+        public const string UserWatchedHistoryMovies = "https://api-v2launch.trakt.tv/users/{0}/history/movies?extended=full&page={1}&limit={2}";
+        public const string UserWatchedHistoryEpisodes = "https://api-v2launch.trakt.tv/users/{0}/history/episodes?extended=full&page={1}&limit={2}";
         
-        public const string UserCollectedMovies = "https://api-v2launch.trakt.tv/users/{0}/collection/movies?extended=full,images";
-        public const string UserCollectedShows = "https://api-v2launch.trakt.tv/users/{0}/collection/shows?extended=full,images";
+        public const string UserCollectedMovies = "https://api-v2launch.trakt.tv/users/{0}/collection/movies?extended=full";
+        public const string UserCollectedShows = "https://api-v2launch.trakt.tv/users/{0}/collection/shows?extended=full";
 
         public const string UserComments = "https://api-v2launch.trakt.tv/users/{0}/comments/{1}/{2}?extended={3}&page={4}&limit={5}";
 
         public const string UserLikedItems = "https://api-v2launch.trakt.tv/users/likes/{0}?extended={1}&page={2}&limit={3}";
 
         public const string RecommendedMovies = "https://api-v2launch.trakt.tv/recommendations/movies?extended={0}";
-        public const string RecommendedShows = "https://api-v2launch.trakt.tv/recommendations/shows?extended=full,images";
+        public const string RecommendedShows = "https://api-v2launch.trakt.tv/recommendations/shows?extended=full";
 
-        public const string RelatedMovies = "https://api-v2launch.trakt.tv/movies/{0}/related?extended=full,images&limit={1}";
-        public const string RelatedShows = "https://api-v2launch.trakt.tv/shows/{0}/related?extended=full,images&limit={1}";
+        public const string RelatedMovies = "https://api-v2launch.trakt.tv/movies/{0}/related?extended=full&limit={1}";
+        public const string RelatedShows = "https://api-v2launch.trakt.tv/shows/{0}/related?extended=full&limit={1}";
 
-        public const string TrendingMovies = "https://api-v2launch.trakt.tv/movies/trending?extended=full,images&page={0}&limit={1}";
-        public const string TrendingShows = "https://api-v2launch.trakt.tv/shows/trending?extended=full,images&page={0}&limit={1}";
+        public const string TrendingMovies = "https://api-v2launch.trakt.tv/movies/trending?extended=full&page={0}&limit={1}";
+        public const string TrendingShows = "https://api-v2launch.trakt.tv/shows/trending?extended=full&page={0}&limit={1}";
 
-        public const string PopularMovies = "https://api-v2launch.trakt.tv/movies/popular?extended=full,images&page={0}&limit={1}";
-        public const string PopularShows = "https://api-v2launch.trakt.tv/shows/popular?extended=full,images&page={0}&limit={1}";
+        public const string PopularMovies = "https://api-v2launch.trakt.tv/movies/popular?extended=full&page={0}&limit={1}";
+        public const string PopularShows = "https://api-v2launch.trakt.tv/shows/popular?extended=full&page={0}&limit={1}";
 
-        public const string AnticipatedMovies = "https://api-v2launch.trakt.tv/movies/anticipated?extended=full,images&page={0}&limit={1}";
-        public const string AnticipatedShows = "https://api-v2launch.trakt.tv/shows/anticipated?extended=full,images&page={0}&limit={1}";
+        public const string AnticipatedMovies = "https://api-v2launch.trakt.tv/movies/anticipated?extended=full&page={0}&limit={1}";
+        public const string AnticipatedShows = "https://api-v2launch.trakt.tv/shows/anticipated?extended=full&page={0}&limit={1}";
 
-        public const string BoxOffice = "https://api-v2launch.trakt.tv/movies/boxoffice?extended=full,images";
+        public const string BoxOffice = "https://api-v2launch.trakt.tv/movies/boxoffice?extended=full";
 
-        public const string MovieComments = "https://api-v2launch.trakt.tv/movies/{0}/comments?extended=full,images&page={1}&limit={2}";
-        public const string ShowComments = "https://api-v2launch.trakt.tv/shows/{0}/comments?extended=full,images&page={1}&limit={2}";
-        public const string SeasonComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/comments?extended=full,images&page={2}&limit={3}";
-        public const string EpisodeComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full,images&page={3}&limit={4}";
+        public const string MovieComments = "https://api-v2launch.trakt.tv/movies/{0}/comments?extended=full&page={1}&limit={2}";
+        public const string ShowComments = "https://api-v2launch.trakt.tv/shows/{0}/comments?extended=full&page={1}&limit={2}";
+        public const string SeasonComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/comments?extended=full&page={2}&limit={3}";
+        public const string EpisodeComments = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/comments?extended=full&page={3}&limit={4}";
 
         public const string CommentLike = "https://api-v2launch.trakt.tv/comments/{0}/like";
         public const string CommentReplies = "https://api-v2launch.trakt.tv/comments/{0}/replies";
 
-        public const string SearchMovies = "https://api-v2launch.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}?extended=full,images";
-        public const string SearchShows = "https://api-v2launch.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full,images";
-        public const string SearchEpisodes = "https://api-v2launch.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}?extended=full,images";
-        public const string SearchPeople = "https://api-v2launch.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full,images";
-        public const string SearchUsers = "https://api-v2launch.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full,images";
-        public const string SearchLists = "https://api-v2launch.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full,images";
+        public const string SearchMovies = "https://api-v2launch.trakt.tv/search?query={0}&type=movie&page={1}&limit={2}?extended=full";
+        public const string SearchShows = "https://api-v2launch.trakt.tv/search?query={0}&type=show&page={1}&limit={2}?extended=full";
+        public const string SearchEpisodes = "https://api-v2launch.trakt.tv/search?query={0}&type=episode&page={1}&limit={2}?extended=full";
+        public const string SearchPeople = "https://api-v2launch.trakt.tv/search?query={0}&type=person&page={1}&limit={2}?extended=full";
+        public const string SearchUsers = "https://api-v2launch.trakt.tv/search?query={0}&type=user&page={1}&limit={2}?extended=full";
+        public const string SearchLists = "https://api-v2launch.trakt.tv/search?query={0}&type=list&page={1}&limit={2}?extended=full";
         public const string SearchById = "https://api-v2launch.trakt.tv/search?id_type={0}&id={1}";
 
         public const string NetworkFriends = "https://api-v2launch.trakt.tv/users/{0}/friends?extended=full,images";
@@ -104,16 +104,16 @@ namespace TraktPlugin.TraktAPI
         public const string NetworkFollowRequest = "https://api-v2launch.trakt.tv/users/requests/{0}";
         public const string NetworkFollowUser = "https://api-v2launch.trakt.tv/users/{0}/follow";
 
-        public const string ShowSummary = "https://api-v2launch.trakt.tv/shows/{0}?extended=full,images";
-        public const string MovieSummary = "https://api-v2launch.trakt.tv/movies/{0}?extended=full,images";
-        public const string EpisodeSummary = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}?extended=full,images";
+        public const string ShowSummary = "https://api-v2launch.trakt.tv/shows/{0}?extended=full";
+        public const string MovieSummary = "https://api-v2launch.trakt.tv/movies/{0}?extended=full";
+        public const string EpisodeSummary = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}?extended=full";
 
         public const string ShowSeasons = "https://api-v2launch.trakt.tv/shows/{0}/seasons?extended={1}";
-        public const string SeasonEpisodes = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}?extended=full,images";
+        public const string SeasonEpisodes = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}?extended=full";
 
-        public const string CalendarShows = "https://api-v2launch.trakt.tv/calendars/shows/{0}/{1}?extended=full,images";
-        public const string CalendarPremieres = "https://api-v2launch.trakt.tv/calendars/shows/premieres/{0}/{1}?extended=full,images";
-        public const string CalendarNewPremieres = "https://api-v2launch.trakt.tv/calendars/shows/new/{0}/{1}?extended=full,images";
+        public const string CalendarShows = "https://api-v2launch.trakt.tv/calendars/shows/{0}/{1}?extended=full";
+        public const string CalendarPremieres = "https://api-v2launch.trakt.tv/calendars/shows/premieres/{0}/{1}?extended=full";
+        public const string CalendarNewPremieres = "https://api-v2launch.trakt.tv/calendars/shows/new/{0}/{1}?extended=full";
 
         public const string ScrobbleStart = "https://api-v2launch.trakt.tv/scrobble/start";
         public const string ScrobblePause = "https://api-v2launch.trakt.tv/scrobble/pause";
@@ -123,12 +123,12 @@ namespace TraktPlugin.TraktAPI
         public const string SeasonRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/ratings";
         public const string EpisodeRatings = "https://api-v2launch.trakt.tv/shows/{0}/seasons/{1}/episodes/{2}/ratings";
 
-        public const string PersonMovieCredits = "https://api-v2launch.trakt.tv/people/{0}/movies?extended=full,images";
-        public const string PersonShowCredits = "https://api-v2launch.trakt.tv/people/{0}/shows?extended=full,images";
-        public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full,images";
+        public const string PersonMovieCredits = "https://api-v2launch.trakt.tv/people/{0}/movies?extended=full";
+        public const string PersonShowCredits = "https://api-v2launch.trakt.tv/people/{0}/shows?extended=full";
+        public const string PersonSummary = "https://api-v2launch.trakt.tv/people/{0}?extended=full";
 
-        public const string MoviePeople = "https://api-v2launch.trakt.tv/movies/{0}/people?extended=full,images";
-        public const string ShowPeople = "https://api-v2launch.trakt.tv/shows/{0}/people?extended=full,images";
+        public const string MoviePeople = "https://api-v2launch.trakt.tv/movies/{0}/people?extended=full";
+        public const string ShowPeople = "https://api-v2launch.trakt.tv/shows/{0}/people?extended=full";
 
         public const string ShowUpdates = "https://api-v2launch.trakt.tv/shows/updates/{0}?page={1}&limit={2}";
         public const string MovieUpdates = "https://api-v2launch.trakt.tv/movies/updates/{0}?page={1}&limit={2}";

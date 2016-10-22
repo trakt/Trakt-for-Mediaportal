@@ -7,6 +7,7 @@ using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Video.Database;
 using Trailers.Providers;
+using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
@@ -242,10 +243,20 @@ namespace TraktPlugin.GUI
         Camera
     }
 
+    public enum MediaType
+    {
+        Show,
+        Movie
+    }
+
     #endregion
 
     public class GUICommon
     {
+        public static TraktMovieSummary CurrentMovie = null;
+        public static TraktShowSummary CurrentShow = null;
+        public static MediaType CurrentMediaType = MediaType.Movie;
+
         #region Check Login
         public static bool CheckLogin()
         {
@@ -282,6 +293,19 @@ namespace TraktPlugin.GUI
         {
             if (movie == null) return;
 
+            CurrentMediaType = MediaType.Movie;
+            CurrentMovie = movie;
+
+            // check for parental controls
+            if (PromptForPinCode)
+            {
+                if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                {
+                    TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                    return;
+                }
+            }
+
             TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", movie.Title, movie.Year.ToLogString(), movie.Ids.Imdb.ToLogString());
             bool handled = false;
 
@@ -291,7 +315,7 @@ namespace TraktPlugin.GUI
                 int? movieid = null;
 
                 // Find Movie ID in MovingPictures
-                // Movie List is now cached internally in MovingPictures so it will be fast
+                // Movie list is now cached internally in MovingPictures so it will be fast
                 bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref movieid);
 
                 if (movieExists)
@@ -370,7 +394,20 @@ namespace TraktPlugin.GUI
         internal static void CheckAndPlayEpisode(TraktShowSummary show, TraktEpisodeSummary episode)
         {
             if (show == null || episode == null) return;
-        
+
+            CurrentMediaType = MediaType.Show;
+            CurrentShow = show;
+
+            // check for parental controls
+            if (PromptForPinCode)
+            {
+                if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                {
+                    TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                    return;
+                }
+            }
+
             bool handled = false;
 
             // check if plugin is installed and enabled
@@ -391,6 +428,19 @@ namespace TraktPlugin.GUI
         internal static void CheckAndPlayFirstUnwatchedEpisode(TraktShowSummary show, bool jumpTo)
         {
             if (show == null) return;
+
+            CurrentMediaType = MediaType.Show;
+            CurrentShow = show;
+
+            // check for parental controls
+            if (PromptForPinCode)
+            {
+                if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                {
+                    TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                    return;
+                }
+            }
 
             TraktLogger.Info("Attempting to play episodes for tv show. TVDb ID = '{0}', IMDb ID = '{1}'", show.Ids.Tvdb.ToLogString(), show.Ids.Imdb.ToLogString());
             bool handled = false;
@@ -1328,11 +1378,6 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Movie.Ratings.Percentage", movie.Rating.ToPercentage());
             SetProperty("#Trakt.Movie.Ratings.Votes", movie.Votes);
             SetProperty("#Trakt.Movie.Ratings.Icon", (movie.Rating >= 6) ? "love" : "hate");
-            if (movie.Images != null)
-            {
-                SetProperty("#Trakt.Movie.PosterImageFilename", movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
-                SetProperty("#Trakt.Movie.FanartImageFilename", movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
-            }
         }
 
         internal static void ClearSeasonProperties()
@@ -1363,7 +1408,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Season.TvRageId", season.Ids.TvRage);
             SetProperty("#Trakt.Season.Number", season.Number);            
             SetProperty("#Trakt.Season.Url", string.Format("http://trakt.tv/shows/{0}/seasons/{1}", show.Ids.Slug, season.Number));
-            SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
+            //SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
             SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
             SetProperty("#Trakt.Season.EpisodeAiredCount", season.EpisodeAiredCount);
             SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
@@ -1461,12 +1506,12 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Show.Ratings.Percentage", show.Rating.ToPercentage());
             SetProperty("#Trakt.Show.Ratings.Votes", show.Votes);
             SetProperty("#Trakt.Show.Ratings.Icon", (show.Rating > 6) ? "love" : "hate");
-            if (show.Images != null)
-            {
-                SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
-                SetProperty("#Trakt.Show.PosterImageFilename", show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
-                SetProperty("#Trakt.Show.BannerImageFilename", show.Images.Banner.LocalImageFilename(ArtworkType.ShowBanner));
-            }
+            //if (show.Images != null)
+            //{
+            //    SetProperty("#Trakt.Show.FanartImageFilename", show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            //    SetProperty("#Trakt.Show.PosterImageFilename", show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
+            //    SetProperty("#Trakt.Show.BannerImageFilename", show.Images.Banner.LocalImageFilename(ArtworkType.ShowBanner));
+            //}
         }
 
         internal static void ClearEpisodeProperties()
@@ -1510,7 +1555,7 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Season", episode.Season);
             if (episode.FirstAired != null)
             {
-                // FirsAired is converted to UTC from original countrys timezaone on trakt
+                // FirstAired is converted to UTC from original countries timezone on trakt
                 SetProperty("#Trakt.Episode.FirstAired", episode.FirstAired.FromISO8601().ToShortDateString());
                 SetProperty("#Trakt.Episode.FirstAiredLocalized", episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString());
                 SetProperty("#Trakt.Episode.FirstAiredLocalizedDayOfWeek", episode.FirstAired.FromISO8601().ToLocalTime().ToLocalisedDayOfWeek());
@@ -1528,10 +1573,10 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Episode.Ratings.Percentage", episode.Rating.ToPercentage());
             SetProperty("#Trakt.Episode.Ratings.Votes", episode.Votes);
             SetProperty("#Trakt.Episode.Ratings.Icon", (episode.Rating >= 6) ? "love" : "hate");
-            if (episode.Images != null)
-            {
-                SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
-            }
+            //if (episode.Images != null)
+            //{
+            //    SetProperty("#Trakt.Episode.EpisodeImageFilename", episode.Images.ScreenShot.LocalImageFilename(ArtworkType.EpisodeImage));
+            //}
         }
 
         internal static void ClearPersonProperties()
@@ -1559,16 +1604,16 @@ namespace TraktPlugin.GUI
             SetProperty("#Trakt.Person.TmdbId", person.Ids.TmdbId);
             SetProperty("#Trakt.Person.TvRageId", person.Ids.TvRageId);
             SetProperty("#Trakt.Person.Name", person.Name);
-            if (person.Images != null)
-            {
-                SetProperty("#Trakt.Person.HeadshotUrl", person.Images.HeadShot.FullSize);
-                SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
-                if (person.Images.Fanart != null && System.IO.File.Exists(person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart)))
-                {
-                    SetProperty("#Trakt.Person.FanartUrl", person.Images.Fanart.FullSize);
-                    SetProperty("#Trakt.Person.FanartFilename", person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart));
-                }
-            }
+            //if (person.Images != null)
+            //{
+            //    SetProperty("#Trakt.Person.HeadshotUrl", person.Images.HeadShot.FullSize);
+            //    SetProperty("#Trakt.Person.HeadshotFilename", person.Images.HeadShot.LocalImageFilename(ArtworkType.PersonHeadshot));
+            //    if (person.Images.Fanart != null && System.IO.File.Exists(person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart)))
+            //    {
+            //        SetProperty("#Trakt.Person.FanartUrl", person.Images.Fanart.FullSize);
+            //        SetProperty("#Trakt.Person.FanartFilename", person.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart));
+            //    }
+            //}
             SetProperty("#Trakt.Person.Url", string.Format("http://trakt.tv/people/{0}", person.Ids.Slug));
             SetProperty("#Trakt.Person.Biography", person.Biography ?? Translation.NoPersonBiography.RemapHighOrderChars());
             SetProperty("#Trakt.Person.Birthday", person.Birthday);
@@ -2133,12 +2178,14 @@ namespace TraktPlugin.GUI
         #region Movie Trailers
         public static void ShowMovieTrailersPluginMenu(TraktMovieSummary movie)
         {
+            var images = TmdbCache.GetMovieImages(movie.Ids.Tmdb, true);
+
             var trailerItem = new MediaItem
             {
                 IMDb = movie.Ids.Imdb.ToNullIfEmpty(),
                 TMDb = movie.Ids.Tmdb.ToString(),
                 Plot = movie.Overview,
-                Poster = movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster),
+                Poster = TmdbCache.GetMoviePosterFilename(images),
                 Title = movie.Title,
                 Year = movie.Year.GetValueOrDefault(0)
             };
@@ -2149,6 +2196,20 @@ namespace TraktPlugin.GUI
         {
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
+
+                CurrentMediaType = MediaType.Movie;
+                CurrentMovie = movie;
+
+                // check for parental controls
+                if (PromptForPinCode)
+                {
+                    if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                    {
+                        TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                        return;
+                    }
+                }
+
                 ShowMovieTrailersPluginMenu(movie);
                 return;
             }
@@ -2159,6 +2220,7 @@ namespace TraktPlugin.GUI
         #region TV Show Trailers
         public static void ShowTVShowTrailersPluginMenu(TraktShowSummary show)
         {
+            var showImages = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Show,
@@ -2167,7 +2229,7 @@ namespace TraktPlugin.GUI
                 TVRage = show.Ids.TvRage.ToString(),
                 TMDb = show.Ids.Tmdb.ToString(),
                 Plot = show.Overview,
-                Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
+                Poster = TmdbCache.GetShowPosterFilename(showImages),
                 Title = show.Title,                
                 Year = show.Year.GetValueOrDefault(0),
                 AirDate = show.FirstAired.FromISO8601().ToString("yyyy-MM-dd")
@@ -2179,6 +2241,19 @@ namespace TraktPlugin.GUI
         {
             if (TraktHelper.IsTrailersAvailableAndEnabled)
             {
+                CurrentMediaType = MediaType.Show;
+                CurrentShow = show;
+
+                // check for parental controls
+                if (PromptForPinCode)
+                {
+                    if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                    {
+                        TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                        return;
+                    }
+                }
+
                 if (episode == null)
                     ShowTVShowTrailersPluginMenu(show);
                 else
@@ -2192,6 +2267,20 @@ namespace TraktPlugin.GUI
         #region TV Season Trailers
         public static void ShowTVSeasonTrailersPluginMenu(TraktShowSummary show, int season)
         {
+            CurrentMediaType = MediaType.Show;
+            CurrentShow = show;
+
+            // check for parental controls
+            if (PromptForPinCode)
+            {
+                if (!GUIUtils.ShowPinCodeDialog(TraktSettings.ParentalControlsPinCode))
+                {
+                    TraktLogger.Warning("Parental controls pin code has not successfully been entered. Window ID = {0}", GUIWindowManager.ActiveWindow);
+                    return;
+                }
+            }
+
+            var showImages = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Season,
@@ -2200,7 +2289,7 @@ namespace TraktPlugin.GUI
                 TVDb = show.Ids.Tvdb.ToString(),
                 TVRage = show.Ids.TvRage.ToString(),
                 Plot = show.Overview,
-                Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
+                Poster = TmdbCache.GetShowPosterFilename(showImages),
                 Title = show.Title,
                 Year = show.Year.GetValueOrDefault(0),
                 AirDate = show.FirstAired.FromISO8601().ToString("yyyy-MM-dd"),
@@ -2213,6 +2302,7 @@ namespace TraktPlugin.GUI
         #region TV Episode Trailers
         public static void ShowTVEpisodeTrailersPluginMenu(TraktShowSummary show, TraktEpisodeSummary episode)
         {
+            var showImages = TmdbCache.GetShowImages(show.Ids.Tmdb, true);
             var trailerItem = new MediaItem
             {
                 MediaType = MediaItemType.Episode,
@@ -2221,7 +2311,7 @@ namespace TraktPlugin.GUI
                 TVDb = show.Ids.Tvdb.ToString(),
                 TVRage = show.Ids.TvRage.ToString(),
                 Plot = show.Overview,
-                Poster = show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster),
+                Poster = TmdbCache.GetShowPosterFilename(showImages),
                 Title = show.Title,
                 Year = show.Year.GetValueOrDefault(0),
                 AirDate = show.FirstAired.FromISO8601().ToString("yyyy-MM-dd"),
@@ -3457,6 +3547,139 @@ namespace TraktPlugin.GUI
 
             return name;
         }
+        #endregion
+
+        #region Parental Controls
+
+        static bool PromptForPinCode
+        {
+            get
+            {
+                if (!TraktSettings.ParentalControlsEnabled)
+                    return false;
+
+                // check if we ignore parental controls after certain time
+                if (TraktSettings.ParentalIgnoreAfterEnabled)
+                {
+                    // check if the current time is > that allowed time
+                    if (Convert.ToDateTime(TraktSettings.ParentalIgnoreAfterTime) < DateTime.Now)
+                        return false;
+                }
+
+                // check movie certification is allowed
+                if (CheckRatingOnMovie())
+                    return false;
+
+                // check tv show certification is allowed
+                if (CheckRatingOnShow())
+                    return false;
+
+                CurrentMovie = null;
+                CurrentShow = null;
+
+                return true;
+            }
+        }
+
+        static bool CheckRatingOnMovie()
+        {
+            if (!TraktSettings.ParentalIgnoreMovieRatingEnabled)
+                return false;
+
+            if (CurrentMediaType != MediaType.Movie)
+                return false;
+
+            if (CurrentMovie == null || string.IsNullOrEmpty(CurrentMovie.Certification)) 
+                return false;
+
+            string allowedRating = TraktSettings.ParentalIgnoreMovieRating;
+
+            switch (CurrentMovie.Certification)
+            {
+                case "R":
+                    if (allowedRating == "R") return true;
+                    break;
+
+                case "PG-13":
+                    if (allowedRating == "R")       return true;
+                    if (allowedRating == "PG-13")   return true;
+                    break;
+
+                case "PG":
+                    if (allowedRating == "R")       return true;
+                    if (allowedRating == "PG-13")   return true;
+                    if (allowedRating == "PG")      return true;
+                    break;
+
+                case "G":
+                    if (allowedRating == "R")       return true;
+                    if (allowedRating == "PG-13")   return true;
+                    if (allowedRating == "PG")      return true;
+                    if (allowedRating == "G")       return true;
+                    break;
+            }
+
+            return false;
+        }
+
+        static bool CheckRatingOnShow()
+        {
+            if (!TraktSettings.ParentalIgnoreShowRatingEnabled)
+                return false;
+
+            if (CurrentMediaType != MediaType.Show)
+                return false;
+
+            if (CurrentShow == null || string.IsNullOrEmpty(CurrentShow.Certification))
+                return false;
+
+            string allowedRating = TraktSettings.ParentalIgnoreShowRating;
+
+            switch (CurrentShow.Certification)
+            {
+                case "M":
+                    if (allowedRating == "M") return true;
+                    break;
+
+                case "TV-14":
+                    if (allowedRating == "M")       return true;
+                    if (allowedRating == "TV-14")   return true;
+                    break;
+
+                case "TV-PG":
+                    if (allowedRating == "M")       return true;
+                    if (allowedRating == "TV-14")   return true;
+                    if (allowedRating == "TV-PG")   return true;
+                    break;
+
+                case "TV-G":
+                    if (allowedRating == "M")       return true;
+                    if (allowedRating == "TV-14")   return true;
+                    if (allowedRating == "TV-PG")   return true;
+                    if (allowedRating == "TV-G")    return true;
+                    break;
+
+                case "TV-Y7":
+                    if (allowedRating == "M")       return true;
+                    if (allowedRating == "TV-14")   return true;
+                    if (allowedRating == "TV-PG")   return true;
+                    if (allowedRating == "TV-G")    return true;
+                    if (allowedRating == "TV-Y7")   return true;
+                    break;
+
+                case "TV-Y":
+                    if (allowedRating == "M")       return true;
+                    if (allowedRating == "TV-14")   return true;
+                    if (allowedRating == "TV-PG")   return true;
+                    if (allowedRating == "TV-G")    return true;
+                    if (allowedRating == "TV-Y7")   return true;
+                    if (allowedRating == "TV-Y")    return true;
+                    break;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Translation

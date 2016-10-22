@@ -438,6 +438,11 @@
   <string name="PlayTrailer">Play Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="PinCode">Pin Code</string>
+  <string name="PinCodeDialog">Pin Code Dialog</string>
+  <string name="PinCodeDlgLabel1">Parental controls is enabled</string>
+  <string name="PinCodeDlgLabel2">Enter in 4 Digit Pin Code to proceed:</string>
+  <string name="PinCodeMessageIncorrect">Pin Incorrect</string>
   <string name="Popular">Popular</string>
   <string name="Popularity">Popularity</string>
   <string name="PopularShows">Popular Shows</string>

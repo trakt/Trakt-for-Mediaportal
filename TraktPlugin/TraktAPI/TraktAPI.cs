@@ -672,8 +672,8 @@ namespace TraktPlugin.TraktAPI
         /// Gets the seasons for a show
         /// </summary>
         /// <param name="id">the id of the tv show</param>
-        /// <param name="extendedParameter">request parameters, "episodes,full,images"</param>
-        public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id, string extendedParameter = "full,images")
+        /// <param name="extendedParameter">request parameters, "episodes,full"</param>
+        public static IEnumerable<TraktSeasonSummary> GetShowSeasons(string id, string extendedParameter = "full")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.ShowSeasons, id, extendedParameter));
             return response.FromJSONArray<TraktSeasonSummary>();

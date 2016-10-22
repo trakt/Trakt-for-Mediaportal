@@ -56,6 +56,7 @@
   <string name="AirDay">Sendetag</string>
   <string name="AiredEpisodes">Ausgestrahlte Folgen</string>
   <string name="AirTime">Sendezeit</string>
+  <string name="AppearsInList">{0} Listen</string>
   <string name="Approve">Bestätigung</string>
   <string name="ApproveAndFollowBack">Bestätigen und ebenfalls folgen</string>
   <string name="ApprovedDate">Bestätigtes Datum</string>
@@ -64,9 +65,9 @@
   <string name="ApproveFollowerAndFollowBackMessage">Willst du {0} erlauben\ndir zu folgen und du ihm/ihr?</string>
   <string name="AdvancedSettings">Erweiterte Einstellungen</string>
   <string name="Animation">Zeichentrick</string>
-  <string name="Anticipated">Geplant</string>
-  <string name="AnticipatedShows">Geplante Serien</string>
-  <string name="AnticipatedMovies">Geplante Filme</string>
+  <string name="Anticipated">Erwartet</string>
+  <string name="AnticipatedShows">Erwartete Serien</string>
+  <string name="AnticipatedMovies">Erwartete Filme</string>
   <string name="Art">Kunst</string>
   <string name="ArtDepartmentAssistant">Assistenz Art Department</string>
   <string name="ArtDepartmentCoordinator">Koordination Art Department</string>
@@ -260,6 +261,7 @@
   <string name="GetFriendRequestsOnStartup">Freundschaftsanfragen bei Programmstart abrufen</string>
   <string name="GetFollowerRequestsOnStartup">Follower-Anfragen bei Programmstart abrufen</string>
   <string name="GettingActivity">Aktivitäten abrufen</string>
+  <string name="GettingBoxOffice">Hole Box Office</string>
   <string name="GettingCalendar">Kalender abrufen</string>
   <string name="GettingEpisodes">Hole Folgen</string>
   <string name="GettingFriendsList">Freundesliste abrufen</string>
@@ -378,6 +380,7 @@
   <string name="NextPage">Nächste Seite</string>
   <string name="NextWeek">Nächste Woche</string>
   <string name="NoActivities">Keine Aktivität gefunden.</string>
+  <string name="NoBoxOffice">Keine Filme für Box Office gefunden!</string>
   <string name="NoCreditsFound">Keine Credits gefunden</string>
   <string name="NoPersonBiography">Für diese Person wurde keine Biografie eingegeben.</string>
   <string name="NoEpisodesInSeason">Keine Folgen in dieser Staffel verfügbar.</string>
@@ -666,6 +669,7 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="Timeout">Zeitüberschreitung</string>
   <string name="TotalPages">Gesamte Seiten</string>
   <string name="TotalItemsPerPage">Gesamte Einträge pro Seite</string>
+  <string name="TotalRevenue">Einspielergebnis gesamt</string>
   <string name="TransportationCaptain">Leitung Transport</string>
   <string name="TransportationCoCaptain">stv. Leitung Transport</string>
   <string name="TransportationCoordinator">Koordination Transport</string>

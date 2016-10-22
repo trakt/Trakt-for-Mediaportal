@@ -6,6 +6,8 @@ using MediaPortal.Util;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
@@ -467,7 +469,7 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             int episodeCount = 0;
-            var showImages = new List<GUITraktImage>();
+            var showImages = new List<GUITmdbImage>();
 
             // Add each item added
             foreach (var activity in activities)
@@ -493,10 +495,15 @@ namespace TraktPlugin.GUI
                     var item = new GUIEpisodeListItem(episodeSummary.ToString(), (int)TraktGUIWindows.RecentAddedEpisodes);
 
                     // add images for download
-                    var images = new GUITraktImage
+                    var images = new GUITmdbImage
                     {
-                        EpisodeImages = episode.Images,
-                        ShowImages = activity.Show.Images
+                        EpisodeImages = new TmdbEpisodeImages
+                        { 
+                            Id = episodeSummary.Show.Ids.Tmdb,
+                            Season = episodeSummary.Episode.Season, 
+                            Episode = episodeSummary.Episode.Number,
+                            AirDate = episodeSummary.Episode.FirstAired == null ? null : episodeSummary.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
+                        }
                     };
                     showImages.Add(images);
 
@@ -583,7 +590,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetShowProperties(episodeSummary.Show);
             GUICommon.SetEpisodeProperties(episodeSummary.Show, episodeSummary.Episode);
 
-            GUIImageHandler.LoadFanart(backdrop, episodeSummary.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages));
         }
         #endregion
     }

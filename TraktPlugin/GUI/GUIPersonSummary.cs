@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -281,7 +283,7 @@ namespace TraktPlugin.GUI
             // set the current view
             CurrentView = View.MovieCredits;
 
-            var personImages = new List<GUITraktImage>();
+            var personImages = new List<GUITmdbImage>();
 
             int itemId = 0;
             GUIPersonListItem item = null;
@@ -290,7 +292,7 @@ namespace TraktPlugin.GUI
             if (credits.Cast != null && credits.Cast.Count > 0)
             {
                 // add image for download
-                var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                 personImages.Add(images);
 
                 item = new GUIPersonListItem(Translation.Actor, (int)TraktGUIWindows.PersonSummary);
@@ -313,7 +315,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Production != null && credits.Crew.Production.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Production, (int)TraktGUIWindows.PersonSummary);
@@ -334,7 +336,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Directing != null && credits.Crew.Directing.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Directing, (int)TraktGUIWindows.PersonSummary);
@@ -355,7 +357,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Writing != null && credits.Crew.Writing.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Writing, (int)TraktGUIWindows.PersonSummary);
@@ -376,7 +378,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Art != null && credits.Crew.Art.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Art, (int)TraktGUIWindows.PersonSummary);
@@ -397,7 +399,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Camera != null && credits.Crew.Camera.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Camera, (int)TraktGUIWindows.PersonSummary);
@@ -418,7 +420,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.CostumeAndMakeUp != null && credits.Crew.CostumeAndMakeUp.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.CostumeAndMakeUp, (int)TraktGUIWindows.PersonSummary);
@@ -439,7 +441,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Sound != null && credits.Crew.Sound.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Sound, (int)TraktGUIWindows.PersonSummary);
@@ -508,7 +510,7 @@ namespace TraktPlugin.GUI
             // set the current view
             CurrentView = View.ShowCredits;
 
-            var personImages = new List<GUITraktImage>();
+            var personImages = new List<GUITmdbImage>();
 
             int itemId = 0;
             GUIPersonListItem item = null;
@@ -517,7 +519,7 @@ namespace TraktPlugin.GUI
             if (credits.Cast != null && credits.Cast.Count > 0)
             {
                 // add image for download
-                var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                 personImages.Add(images);
 
                 item = new GUIPersonListItem(Translation.Actor, (int)TraktGUIWindows.PersonSummary);
@@ -540,7 +542,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Production != null && credits.Crew.Production.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Production, (int)TraktGUIWindows.PersonSummary);
@@ -561,7 +563,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Directing != null && credits.Crew.Directing.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Directing, (int)TraktGUIWindows.PersonSummary);
@@ -582,7 +584,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Writing != null && credits.Crew.Writing.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Writing, (int)TraktGUIWindows.PersonSummary);
@@ -603,7 +605,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Art != null && credits.Crew.Art.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Art, (int)TraktGUIWindows.PersonSummary);
@@ -624,7 +626,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Camera != null && credits.Crew.Camera.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
                     
                     item = new GUIPersonListItem(Translation.Camera, (int)TraktGUIWindows.PersonSummary);
@@ -645,7 +647,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.CostumeAndMakeUp != null && credits.Crew.CostumeAndMakeUp.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.CostumeAndMakeUp, (int)TraktGUIWindows.PersonSummary);
@@ -666,7 +668,7 @@ namespace TraktPlugin.GUI
                 if (credits.Crew.Sound != null && credits.Crew.Sound.Count > 0)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = CurrentPerson.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = CurrentPerson.Ids.TmdbId } };
                     personImages.Add(images);
 
                     item = new GUIPersonListItem(Translation.Sound, (int)TraktGUIWindows.PersonSummary);
@@ -739,11 +741,11 @@ namespace TraktPlugin.GUI
             // publish person properties
             PublishSkinProperties(person);
 
-            var personImages = new List<GUITraktImage>();
+            var personImages = new List<GUITmdbImage>();
             int itemId = 0;
 
             // add image for download
-            var images = new GUITraktImage { PeopleImages = person.Images };
+            var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Ids.TmdbId } };
             personImages.Add(images);
 
             // Add movie and show credit items
@@ -761,7 +763,7 @@ namespace TraktPlugin.GUI
             itemId++;
 
             // add image for download
-            images = new GUITraktImage { PeopleImages = person.Images };
+            images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Ids.TmdbId } };
             personImages.Add(images);
 
             item = new GUIPersonListItem(Translation.ShowCredits, (int)TraktGUIWindows.PersonSummary);
@@ -795,9 +797,12 @@ namespace TraktPlugin.GUI
             var tFanart = new Thread(obj =>
             {
                 var tPerson = obj as TraktPersonSummary;
+                var personImages = TmdbCache.GetPersonImages(tPerson.Ids.TmdbId);
+                if (personImages == null)
+                    return;
 
-                string remoteThumb = TraktSettings.DownloadFullSizeFanart ? tPerson.Images.Fanart.FullSize : tPerson.Images.Fanart.MediumSize;
-                string localThumb = tPerson.Images.Fanart.LocalImageFilename(ArtworkType.PersonFanart);
+                string remoteThumb = TmdbCache.GetPersonHeadshotUrl(personImages);
+                string localThumb = TmdbCache.GetPersonHeadshotFilename(personImages);
 
                 if (localThumb == null || remoteThumb == null)
                     return;

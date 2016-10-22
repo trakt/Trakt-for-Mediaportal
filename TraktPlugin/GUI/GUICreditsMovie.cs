@@ -4,6 +4,8 @@ using System.IO;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -268,7 +270,7 @@ namespace TraktPlugin.GUI
             }
             
             int itemId = 0;
-            var personImages = new List<GUITraktImage>();
+            var personImages = new List<GUITmdbImage>();
 
             // Add each character
             if (Type == CreditType.Cast && credits.Cast != null)
@@ -276,7 +278,7 @@ namespace TraktPlugin.GUI
                 foreach (var person in credits.Cast)
                 {
                     // add image for download
-                    var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                    var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                     personImages.Add(images);
 
                     var item = new GUIPersonListItem(string.IsNullOrEmpty(person.Character) ? person.Person.Name : string.Format(Translation.ActorAndRole, person.Person.Name, person.Character), (int)TraktGUIWindows.CreditsMovie);
@@ -304,7 +306,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Directing)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -329,7 +331,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Writing)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -354,7 +356,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Production)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -379,7 +381,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Art)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -404,7 +406,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Camera)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -429,7 +431,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.CostumeAndMakeUp)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -454,7 +456,7 @@ namespace TraktPlugin.GUI
                     foreach (var person in credits.Crew.Sound)
                     {
                         // add image for download
-                        var images = new GUITraktImage { PeopleImages = person.Person.Images };
+                        var images = new GUITmdbImage { PeopleImages = new TmdbPeopleImages { Id = person.Person.Ids.TmdbId } };
                         personImages.Add(images);
 
                         var item = new GUIPersonListItem(person.Person.Name, (int)TraktGUIWindows.CreditsMovie);
@@ -558,14 +560,18 @@ namespace TraktPlugin.GUI
 
         private void DownloadFanart()
         {
-            if (Movie == null || Movie.Images == null || Movie.Images.Fanart == null)
+            if (Movie == null || Movie.Ids == null || Movie.Ids.Tmdb == null)
                 return;
 
             var getFanartthread = new Thread((o) =>
             {
+                var movieImages = TmdbCache.GetMovieImages(Movie.Ids.Tmdb);
+                if (movieImages == null)
+                    return;
+
                 var movie = o as TraktMovieSummary;
-                string localFile = movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
-                string remoteFile = TraktSettings.DownloadFullSizeFanart ? movie.Images.Fanart.FullSize : movie.Images.Fanart.MediumSize;
+                string localFile = TmdbCache.GetMoviePosterFilename(movieImages);
+                string remoteFile = TmdbCache.GetMoviePosterUrl(movieImages);
 
                 if (localFile == null || remoteFile == null)
                     return;

@@ -9,9 +9,6 @@ namespace TraktPlugin.TraktAPI.DataStructures
     [DataContract]
     public class TraktEpisodeSummary : TraktEpisode
     {
-        [DataMember(Name = "images")]
-        public TraktEpisodeImages Images { get; set; }
-
         [DataMember(Name = "number_abs")]
         public int? AbsoluteNumber { get; set; }
 

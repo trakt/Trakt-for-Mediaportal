@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
+using TraktPlugin.Cache;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
@@ -299,14 +301,14 @@ namespace TraktPlugin.GUI
                 case ((int)MediaContextMenuItem.Cast):
                     GUICreditsMovie.Movie = selectedMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
-                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)MediaContextMenuItem.Crew):
                     GUICreditsMovie.Movie = selectedMovie;
                     GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
-                    GUICreditsMovie.Fanart = selectedMovie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart);
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
                     GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
@@ -415,12 +417,12 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             GUIMovieListItem item = null;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             foreach (var job in filteredCrew)
             {
                 // add image for download
-                var images = new GUITraktImage { MovieImages = job.Movie.Images };
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = job.Movie.Ids.Tmdb } };
                 movieImages.Add(images);
 
                 item = new GUIMovieListItem(job.Movie.Title, (int)TraktGUIWindows.PersonCreditMovies);
@@ -472,12 +474,12 @@ namespace TraktPlugin.GUI
 
             int itemId = 0;
             GUIMovieListItem item = null;
-            var movieImages = new List<GUITraktImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             foreach (var credit in filteredCast)
             {
                 // add image for download
-                var images = new GUITraktImage { MovieImages = credit.Movie.Images };
+                var images = new GUITmdbImage { MovieImages = new TmdbMovieImages { Id = credit.Movie.Ids.Tmdb } };
                 movieImages.Add(images);
 
                 item = new GUIMovieListItem(credit.Movie.Title, (int)TraktGUIWindows.PersonCreditMovies);
@@ -609,7 +611,7 @@ namespace TraktPlugin.GUI
             if (creditItem == null) return;
 
             PublishCrewSkinProperties(creditItem);
-            GUIImageHandler.LoadFanart(backdrop, creditItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
 
         private void OnCastSelected(GUIListItem item, GUIControl control)
@@ -620,7 +622,7 @@ namespace TraktPlugin.GUI
             if (creditItem == null) return;
 
             PublishCastSkinProperties(creditItem);
-            GUIImageHandler.LoadFanart(backdrop, creditItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
 
         #endregion
