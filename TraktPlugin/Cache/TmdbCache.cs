@@ -151,7 +151,7 @@ namespace TraktPlugin.Cache
             }
             
             // get movie images from tmdb and add to the cache            
-            movieImages = TmdbAPI.TmdbAPI.GetMovieImages(id.ToString());
+            movieImages = TmdbAPI.TmdbAPI.GetMovieImages(id.ToString(), TraktSettings.TmdbPreferredImageLanguage);
             AddMovieImagesToCache(movieImages);
 
             return movieImages;
@@ -260,7 +260,7 @@ namespace TraktPlugin.Cache
             }
 
             // get movie images from tmdb and add to the cache            
-            showImages = TmdbAPI.TmdbAPI.GetShowImages(id.ToString());
+            showImages = TmdbAPI.TmdbAPI.GetShowImages(id.ToString(), TraktSettings.TmdbPreferredImageLanguage);
             AddShowImagesToCache(showImages);
 
             return showImages;
@@ -486,7 +486,7 @@ namespace TraktPlugin.Cache
             }
 
             // get movie images from tmdb and add to the cache            
-            seasonImages = TmdbAPI.TmdbAPI.GetSeasonImages(id.ToString(), season);
+            seasonImages = TmdbAPI.TmdbAPI.GetSeasonImages(id.ToString(), season, TraktSettings.TmdbPreferredImageLanguage);
             AddSeasonImagesToCache(seasonImages, id, season);
 
             return seasonImages;

@@ -2,6 +2,7 @@
 using System.Net;
 using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TmdbAPI.Extensions;
+using System.Threading;
 
 namespace TraktPlugin.TmdbAPI
 {
@@ -33,27 +34,21 @@ namespace TraktPlugin.TmdbAPI
             return response.FromJSON<TmdbConfiguration>();
         }
 
-        public static TmdbMovieImages GetMovieImages(string id)
+        public static TmdbMovieImages GetMovieImages(string id, string language = "en")
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetMovieImages, id));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetMovieImages, id, language));
             return response.FromJSON<TmdbMovieImages>();
         }
 
-        public static TmdbShowImages GetShowImages(string id)
+        public static TmdbShowImages GetShowImages(string id, string language = "en")
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetShowImages, id));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetShowImages, id, language));
             return response.FromJSON<TmdbShowImages>();
         }
 
-        public static TmdbSeasonImages GetShowImages(string id, int season)
+        public static TmdbSeasonImages GetSeasonImages(string id, int season, string language = "en")
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetSeasonImages, id, season));
-            return response.FromJSON<TmdbSeasonImages>();
-        }
-
-        public static TmdbSeasonImages GetSeasonImages(string id, int season)
-        {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetSeasonImages, id, season));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetSeasonImages, id, season, language));
             return response.FromJSON<TmdbSeasonImages>();
         }
 
@@ -69,10 +64,15 @@ namespace TraktPlugin.TmdbAPI
             return response.FromJSON<TmdbPeopleImages>();
         }
 
-        static string GetFromTmdb(string address)
+        static string GetFromTmdb(string address, int delayRequest = 0)
         {
+            if (delayRequest > 0)
+                Thread.Sleep(1000 + delayRequest);
+
             if (OnDataSend != null)
                 OnDataSend(address, null);
+
+            var headerCollection = new WebHeaderCollection();
 
             var request = WebRequest.Create(address) as HttpWebRequest;
 
@@ -83,6 +83,8 @@ namespace TraktPlugin.TmdbAPI
             request.ContentType = "application/json";
             request.UserAgent = UserAgent;
 
+            string strResponse = null;
+
             try
             {
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -91,7 +93,9 @@ namespace TraktPlugin.TmdbAPI
                 Stream stream = response.GetResponseStream();
 
                 StreamReader reader = new StreamReader(stream);
-                string strResponse = reader.ReadToEnd();
+                strResponse = reader.ReadToEnd();
+
+                headerCollection = response.Headers;
 
                 if (OnDataReceived != null)
                     OnDataReceived(strResponse, response);
@@ -99,8 +103,6 @@ namespace TraktPlugin.TmdbAPI
                 stream.Close();
                 reader.Close();
                 response.Close();
-
-                return strResponse;
             }
             catch (WebException wex)
             {
@@ -115,12 +117,28 @@ namespace TraktPlugin.TmdbAPI
                         headers += string.Format("{0}: {1}, ", key, response.Headers[key]);
                     }
                     errorMessage = string.Format("Protocol Error, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
+
+                    // check if we got a 429 error code
+                    // https://developers.themoviedb.org/3/getting-started/request-rate-limiting
+
+                    if ((int)response.StatusCode == 429)
+                    {
+                        int retry = 0;
+                        int.TryParse(response.Headers["Retry-After"], out retry);
+
+                        errorMessage = string.Format("Request Rate Limiting is in effect, retrying request in {0} seconds. Url = '{1}'", retry, address);
+
+                        if (OnDataError != null)
+                            OnDataError(errorMessage);
+
+                        return GetFromTmdb(address, retry * 1000);
+                    }
                 }
 
                 if (OnDataError != null)
                     OnDataError(errorMessage);
 
-                return null;
+                strResponse = null;
             }
             catch (IOException ioe)
             {
@@ -129,8 +147,10 @@ namespace TraktPlugin.TmdbAPI
                 if (OnDataError != null)
                     OnDataError(ioe.Message);
 
-                return null;
+                strResponse = null;
             }
+
+            return strResponse;
         }
     }   
 }

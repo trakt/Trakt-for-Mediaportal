@@ -2027,6 +2027,7 @@ namespace TraktPlugin.TraktAPI
 
             // measure how long it took to get a response
             watch = Stopwatch.StartNew();
+            string strResponse = null;
 
             try
             {
@@ -2041,7 +2042,7 @@ namespace TraktPlugin.TraktAPI
                 watch.Stop();
 
                 StreamReader reader = new StreamReader(stream);
-                string strResponse = reader.ReadToEnd();
+                strResponse = reader.ReadToEnd();
 
                 headerCollection = response.Headers;
 
@@ -2059,8 +2060,6 @@ namespace TraktPlugin.TraktAPI
                 stream.Close();
                 reader.Close();
                 response.Close();
-
-                return strResponse;
             }
             catch (WebException wex)
             {
@@ -2085,7 +2084,7 @@ namespace TraktPlugin.TraktAPI
                 if (OnDataError != null)
                     OnDataError(errorMessage);
 
-                return null;
+                strResponse = null;
             }
             catch (IOException ioe)
             {
@@ -2094,8 +2093,10 @@ namespace TraktPlugin.TraktAPI
                 if (OnDataError != null)
                     OnDataError(ioe.Message);
 
-                return null;
+                strResponse = null;
             }
+
+            return strResponse;
         }
 
         static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST")

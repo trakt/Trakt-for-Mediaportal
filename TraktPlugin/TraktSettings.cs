@@ -9,10 +9,10 @@ using MediaPortal.GUI.Library;
 using MediaPortal.Profile;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
+using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
 using TraktPlugin.TraktAPI.Enums;
 using TraktPlugin.TraktAPI.Extensions;
-using TraktPlugin.TmdbAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -201,6 +201,7 @@ namespace TraktPlugin
         public static int TmdbSeasonImageMaxCacheAge { get; set; }
         public static int TmdbEpisodeImageMaxCacheAge { get; set; }
         public static int TmdbPersonImageMaxCacheAge { get; set; }
+        public static string TmdbPreferredImageLanguage { get; set; }
         #endregion
 
         #region Constants
@@ -396,6 +397,7 @@ namespace TraktPlugin
         private const string cTmdbSeasonImageMaxCacheAge = "TmdbSeasonImageMaxCacheAge";
         private const string cTmdbEpisodeImageMaxCacheAge = "TmdbEpisodeImageMaxCacheAge";
         private const string cTmdbPersonImageMaxCacheAge = "TmdbPersonImageMaxCacheAge";
+        private const string cTmdbPreferredImageLanguage = "TmdbPreferredImageLanguage";
         #endregion
         
         #region Properties
@@ -817,6 +819,7 @@ namespace TraktPlugin
                 TmdbSeasonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbSeasonImageMaxCacheAge, 365, 1, 365);
                 TmdbEpisodeImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbEpisodeImageMaxCacheAge, 365, 1, 365);
                 TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 365, 1, 365);
+                TmdbPreferredImageLanguage = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredImageLanguage, "en");
             }
 
             // initialise API settings
@@ -1037,6 +1040,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cTmdbSeasonImageMaxCacheAge, TmdbSeasonImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbEpisodeImageMaxCacheAge, TmdbEpisodeImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPersonImageMaxCacheAge, TmdbPersonImageMaxCacheAge);
+                xmlwriter.SetValue(cTrakt, cTmdbPreferredImageLanguage, TmdbPreferredImageLanguage);
             }
 
             Settings.SaveCache();

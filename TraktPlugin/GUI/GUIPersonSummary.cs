@@ -166,7 +166,6 @@ namespace TraktPlugin.GUI
 
         protected override void OnPageDestroy(int new_windowId)
         {
-            StopDownload = true;
             ClearProperties();
 
             base.OnPageDestroy(new_windowId);
@@ -515,6 +514,7 @@ namespace TraktPlugin.GUI
             int itemId = 0;
             GUIPersonListItem item = null;
 
+            #region Cast
             // Add all the Cast and Crew items
             if (credits.Cast != null && credits.Cast.Count > 0)
             {
@@ -536,9 +536,12 @@ namespace TraktPlugin.GUI
                 Facade.Add(item);
                 itemId++;
             }
+            #endregion
 
+            #region Crew
             if (credits.Crew != null)
             {
+                #region Production
                 if (credits.Crew.Production != null && credits.Crew.Production.Count > 0)
                 {
                     // add image for download
@@ -559,7 +562,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Directing
                 if (credits.Crew.Directing != null && credits.Crew.Directing.Count > 0)
                 {
                     // add image for download
@@ -580,7 +585,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Writing
                 if (credits.Crew.Writing != null && credits.Crew.Writing.Count > 0)
                 {
                     // add image for download
@@ -601,7 +608,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Art
                 if (credits.Crew.Art != null && credits.Crew.Art.Count > 0)
                 {
                     // add image for download
@@ -622,7 +631,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Camera
                 if (credits.Crew.Camera != null && credits.Crew.Camera.Count > 0)
                 {
                     // add image for download
@@ -643,7 +654,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Costume and Makeup
                 if (credits.Crew.CostumeAndMakeUp != null && credits.Crew.CostumeAndMakeUp.Count > 0)
                 {
                     // add image for download
@@ -664,7 +677,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
 
+                #region Sound
                 if (credits.Crew.Sound != null && credits.Crew.Sound.Count > 0)
                 {
                     // add image for download
@@ -685,7 +700,9 @@ namespace TraktPlugin.GUI
                     Facade.Add(item);
                     itemId++;
                 }
+                #endregion
             }
+            #endregion
 
             if (Facade.Count == 0)
             {
@@ -796,23 +813,23 @@ namespace TraktPlugin.GUI
         {
             var tFanart = new Thread(obj =>
             {
-                var tPerson = obj as TraktPersonSummary;
-                var personImages = TmdbCache.GetPersonImages(tPerson.Ids.TmdbId);
-                if (personImages == null)
-                    return;
+                //var tPerson = obj as TraktPersonSummary;
+                //var personImages = TmdbCache.GetPersonImages(tPerson.Ids.TmdbId);
+                //if (personImages == null)
+                //    return;
 
-                string remoteThumb = TmdbCache.GetPersonHeadshotUrl(personImages);
-                string localThumb = TmdbCache.GetPersonHeadshotFilename(personImages);
+                //string remoteThumb = TmdbCache.GetPersonHeadshotUrl(personImages);
+                //string localThumb = TmdbCache.GetPersonHeadshotFilename(personImages);
 
-                if (localThumb == null || remoteThumb == null)
-                    return;
+                //if (localThumb == null || remoteThumb == null)
+                //    return;
 
-                GUIImageHandler.DownloadImage(remoteThumb, localThumb);
-                if (!StopDownload)
-                {
-                    Thread.Sleep(500);
-                    GUIUtils.SetProperty("#Trakt.Person.FanartFilename", localThumb);
-                }
+                //GUIImageHandler.DownloadImage(remoteThumb, localThumb);
+                //if (!StopDownload)
+                //{
+                //    Thread.Sleep(500);
+                //    GUIUtils.SetProperty("#Trakt.Person.FanartFilename", localThumb);
+                //}
             })
             {
                 Name = "Fanart"
