@@ -220,11 +220,12 @@ namespace TraktPlugin.GUI
 
             // Load Main Overlay Positions
             XmlNode node = null;
-            PosterMainOverlayPosX = 178;
+            PosterMainOverlayPosX = 222;
             node = doc.DocumentElement.SelectSingleNode("/settings/mainoverlayicons/posters/posx");
             if (node != null)
             {
                 int.TryParse(node.InnerText, out posx);
+                if (posx == 178) posx = 222; // upgrade step, new poster sizes
                 PosterMainOverlayPosX = posx;
             }
             PosterMainOverlayPosY = 0;
@@ -252,11 +253,12 @@ namespace TraktPlugin.GUI
             }
 
             // Load Rating Overlay Positions
-            PosterRatingOverlayPosX = 178;
+            PosterRatingOverlayPosX = 222;
             node = doc.DocumentElement.SelectSingleNode("/settings/ratingoverlayicons/posters/posx");
             if (node != null)
             {
                 int.TryParse(node.InnerText, out posx);
+                if (posx == 178) posx = 222; // upgrade step, new poster sizes
                 PosterRatingOverlayPosX = posx;
             }
             PosterRatingOverlayPosY = 0;

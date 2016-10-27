@@ -72,6 +72,9 @@
             this.cbParentalIgnoreMovieCertifications = new System.Windows.Forms.CheckBox();
             this.cboTVCertifications = new System.Windows.Forms.ComboBox();
             this.cbParentalIgnoreShowCertifications = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cboPreferredImageLanguage = new System.Windows.Forms.ComboBox();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
@@ -79,6 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSyncResumeDelta)).BeginInit();
             this.gbRestrictions.SuspendLayout();
             this.gbParentalControls.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbTraktAccount
@@ -436,7 +440,7 @@
             this.gbRestrictions.Controls.Add(this.btnTVSeriesRestrictions);
             this.gbRestrictions.Location = new System.Drawing.Point(12, 245);
             this.gbRestrictions.Name = "gbRestrictions";
-            this.gbRestrictions.Size = new System.Drawing.Size(322, 145);
+            this.gbRestrictions.Size = new System.Drawing.Size(322, 89);
             this.gbRestrictions.TabIndex = 2;
             this.gbRestrictions.TabStop = false;
             this.gbRestrictions.Text = "Restrictions";
@@ -591,11 +595,42 @@
             this.cbParentalIgnoreShowCertifications.UseVisualStyleBackColor = true;
             this.cbParentalIgnoreShowCertifications.CheckedChanged += new System.EventHandler(this.cbParentalIgnoreShowCertifications_CheckedChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cboPreferredImageLanguage);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 341);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(322, 49);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Images";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Preferred Language:";
+            // 
+            // cboPreferredImageLanguage
+            // 
+            this.cboPreferredImageLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboPreferredImageLanguage.FormattingEnabled = true;
+            this.cboPreferredImageLanguage.Location = new System.Drawing.Point(122, 16);
+            this.cboPreferredImageLanguage.Name = "cboPreferredImageLanguage";
+            this.cboPreferredImageLanguage.Size = new System.Drawing.Size(194, 21);
+            this.cboPreferredImageLanguage.TabIndex = 1;
+            this.cboPreferredImageLanguage.SelectedIndexChanged += new System.EventHandler(this.cboPreferredImageLanguage_SelectedIndexChanged);
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(672, 501);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbParentalControls);
             this.Controls.Add(this.btnStartLibrarySync);
             this.Controls.Add(this.lblSyncStatus);
@@ -624,6 +659,8 @@
             this.gbRestrictions.PerformLayout();
             this.gbParentalControls.ResumeLayout(false);
             this.gbParentalControls.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -672,5 +709,8 @@
         private System.Windows.Forms.CheckBox cbParentalIgnoreMovieCertifications;
         private System.Windows.Forms.ComboBox cboTVCertifications;
         private System.Windows.Forms.CheckBox cbParentalIgnoreShowCertifications;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox cboPreferredImageLanguage;
+        private System.Windows.Forms.Label label1;
     }
 }

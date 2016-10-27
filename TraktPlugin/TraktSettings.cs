@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -615,6 +616,23 @@ namespace TraktPlugin
         }
         public static ConnectionState _AccountStatus = ConnectionState.Pending;
 
+        public static IEnumerable<LanguageISO> ImageLanguages
+        {
+            get
+            {
+                if (_languages == null)
+                {
+                    var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures).Except(CultureInfo.GetCultures(CultureTypes.SpecificCultures));
+
+                    _languages = from c in cultures
+                                 select new LanguageISO { DisplayName = c.DisplayName, TwoLetterCode = c.TwoLetterISOLanguageName };
+                }
+
+                return _languages;
+            }
+        }
+        static IEnumerable<LanguageISO> _languages;
+
         #endregion
 
         #region Methods
@@ -812,7 +830,7 @@ namespace TraktPlugin
                 TmdbConfigurationAge = xmlreader.GetValueAsString(cTrakt, cTmdbConfigurationAge, new DateTime().ToString());
                 TmdbPreferredBackdropSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredBackdropSize, "w1280");
                 TmdbPreferredPosterSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredPosterSize, "w500");
-                TmdbPreferredEpisodeThumbSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredEpisodeThumbSize, "w300");
+                TmdbPreferredEpisodeThumbSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredEpisodeThumbSize, "w342");
                 TmdbPreferredHeadshotSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredHeadshotSize, "h632");
                 TmdbShowImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbShowImageMaxCacheAge, 90, 1, 365);
                 TmdbMovieImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbMovieImageMaxCacheAge, 90, 1, 365);
@@ -1283,6 +1301,17 @@ namespace TraktPlugin
         }
 
         #endregion
+
+        public class LanguageISO
+        {
+            public string DisplayName { get; set; }
+            public string TwoLetterCode { get; set; }
+
+            public override string ToString()
+            {
+                return string.Format("{0} ({1})", this.DisplayName, this.TwoLetterCode);
+            }
+        }
     }
 
     public class ExtensionSettings

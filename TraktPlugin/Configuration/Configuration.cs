@@ -103,6 +103,19 @@ namespace TraktPlugin
                 cbSyncPlaybackOnEnterPlugin.Enabled = false;
             }
 
+            int selectedItem = 0;
+            int i = 0;
+            foreach (var language in TraktSettings.ImageLanguages)
+            {
+                cboPreferredImageLanguage.Items.Add(language);
+
+                if (language.TwoLetterCode == TraktSettings.TmdbPreferredImageLanguage)
+                    selectedItem = i;
+
+                i++;
+            }
+            cboPreferredImageLanguage.SelectedIndex = selectedItem;
+
             #endregion
 
             // handle events now that we have populated default settings
@@ -596,6 +609,12 @@ namespace TraktPlugin
             {
                 StartSync();
             }
+        }
+
+        private void cboPreferredImageLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedLanguage = cboPreferredImageLanguage.SelectedItem as TraktSettings.LanguageISO;
+            TraktSettings.TmdbPreferredImageLanguage = selectedLanguage.TwoLetterCode;
         }
 
     }

@@ -12,29 +12,124 @@ namespace TraktPlugin.Cache
 {
     public static class TmdbCache
     {
-        static Object lockObject = new object();
+        // create locks for each media type, lists can have multiple types
+        static Object lockShowObject = new object();
+        static Object lockMovieObject = new object();
+        static Object lockSeasonObject = new object();
+        static Object lockEpisodeObject = new object();
+        static Object lockPersonObject = new object();
 
-        private static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Movies.json");
-        private static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Shows.json");
-        private static string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");
-        private static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Seasons.json");
-        private static string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
+        static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Movies.json", TraktSettings.TmdbPreferredImageLanguage));
+        static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Shows.json", TraktSettings.TmdbPreferredImageLanguage));
+        static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Seasons.json", TraktSettings.TmdbPreferredImageLanguage));
+        static string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");        
+        static string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
 
-        private static List<TmdbMovieImages> Movies = null;
-        private static List<TmdbShowImages> Shows = null;
-        private static List<TmdbEpisodeImages> Episodes = null;
-        private static List<TmdbSeasonImages> Seasons = null;
-        private static List<TmdbPeopleImages> People = null;
+        static List<TmdbMovieImages> Movies
+        {
+            get
+            {
+                lock (lockMovieObject)
+                {
+                    return _Movies;
+                }
+            }
+            set
+            {
+                lock (lockMovieObject)
+                {
+                    _Movies = value;
+                }
+            }
+        }
+        static List<TmdbMovieImages> _Movies = null;
+
+        static List<TmdbShowImages> Shows
+        {
+            get
+            {
+                lock (lockShowObject)
+                {
+                    return _Shows;
+                }
+            }
+            set
+            {
+                lock (lockShowObject)
+                {
+                    _Shows = value;
+                }
+            }
+        }
+        static List<TmdbShowImages> _Shows = null;
+
+        static List<TmdbEpisodeImages> Episodes
+        {
+            get
+            {
+                lock (lockEpisodeObject)
+                {
+                    return _Episodes;
+                }
+            }
+            set
+            {
+                lock (lockEpisodeObject)
+                {
+                    _Episodes = value;
+                }
+            }
+        }
+        static List<TmdbEpisodeImages> _Episodes = null;
+
+        static List<TmdbSeasonImages> Seasons
+        {
+            get
+            {
+                lock (lockSeasonObject)
+                {
+                    return _Seasons;
+                }
+            }
+            set
+            {
+                lock (lockSeasonObject)
+                {
+                    _Seasons = value;
+                }
+            }
+        }
+        static List<TmdbSeasonImages> _Seasons = null;
+
+        static List<TmdbPeopleImages> People
+        {
+            get
+            {
+                lock (lockPersonObject)
+                {
+                    return _People;
+                }
+            }
+            set
+            {
+                lock (lockPersonObject)
+                {
+                    _People = value;
+                }
+            }
+        }
+        static List<TmdbPeopleImages> _People = null;
+
 
         public static void Init()
         {
             TraktLogger.Info("Loading TMDb request cache");
 
-            Movies = LoadFileCache(MovieCacheFile, "[]").FromJSONArray<TmdbMovieImages>().ToList();
-            Shows = LoadFileCache(ShowCacheFile, "[]").FromJSONArray<TmdbShowImages>().ToList();
-            Seasons = LoadFileCache(SeasonCacheFile, "[]").FromJSONArray<TmdbSeasonImages>().ToList();
-            Episodes = LoadFileCache(EpisodeCacheFile, "[]").FromJSONArray<TmdbEpisodeImages>().ToList();
-            People = LoadFileCache(PersonCacheFile, "[]").FromJSONArray<TmdbPeopleImages>().ToList();
+            _Movies = LoadFileCache(MovieCacheFile, "[]").FromJSONArray<TmdbMovieImages>().ToList();
+            _Shows = LoadFileCache(ShowCacheFile, "[]").FromJSONArray<TmdbShowImages>().ToList();
+            _Seasons = LoadFileCache(SeasonCacheFile, "[]").FromJSONArray<TmdbSeasonImages>().ToList();
+            _Episodes = LoadFileCache(EpisodeCacheFile, "[]").FromJSONArray<TmdbEpisodeImages>().ToList();
+            _People = LoadFileCache(PersonCacheFile, "[]").FromJSONArray<TmdbPeopleImages>().ToList();
 
             // get updated configuration from TMDb
             GetTmdbConfiguration();
@@ -162,7 +257,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var moviePoster = images.Posters.FirstOrDefault();
+            var moviePoster = images.Posters.LocalisedImage();
             if (moviePoster == null)
                 return null;
 
@@ -176,7 +271,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var moviePoster = images.Posters.FirstOrDefault();
+            var moviePoster = images.Posters.LocalisedImage();
             if (moviePoster == null)
                 return null;
 
@@ -213,24 +308,18 @@ namespace TraktPlugin.Cache
 
         static void AddMovieImagesToCache(TmdbMovieImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    Movies.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                Movies.Add(images);
             }
         }
 
         static void RemoveMovieImagesFromCache(TmdbMovieImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    Movies.RemoveAll(m => m.Id == images.Id);
-                }
+                Movies.RemoveAll(m => m.Id == images.Id);
             }
         }
 
@@ -271,7 +360,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var showPoster = images.Posters.FirstOrDefault();
+            var showPoster = images.Posters.LocalisedImage();
             if (showPoster == null)
                 return null;
 
@@ -285,7 +374,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var showPoster = images.Posters.FirstOrDefault();
+            var showPoster = images.Posters.LocalisedImage();
             if (showPoster == null)
                 return null;
 
@@ -304,18 +393,11 @@ namespace TraktPlugin.Cache
             if (logo)
             {
                 // get the highest rated backdrop with a language
-                showBackdrop = images.Backdrops.FirstOrDefault(b => b.LanguageCode == "en");
-                if (showBackdrop != null)
-                {
-                    languagePath = "_en_";
-                }
+                showBackdrop = images.Backdrops.LocalisedImage();
             }
-
-            if (showBackdrop == null)
+            else
             {
-                // get the highest rated
                 showBackdrop = images.Backdrops.FirstOrDefault();
-                languagePath = "_";
             }
 
             if (showBackdrop == null)
@@ -323,7 +405,7 @@ namespace TraktPlugin.Cache
 
             // create filename based on desired resolution
             return Path.Combine(Config.GetFolder(Config.Dir.Thumbs), @"Trakt\Shows\Backdrops\") +
-                                images.Id + "_" + TraktSettings.TmdbPreferredBackdropSize + languagePath + showBackdrop.FilePath.TrimStart('/');
+                                images.Id + "_" + TraktSettings.TmdbPreferredBackdropSize + "_" + showBackdrop.FilePath.TrimStart('/');
         }
 
         public static string GetShowBackdropUrl(TmdbShowImages images, bool logo = false)
@@ -336,12 +418,10 @@ namespace TraktPlugin.Cache
             if (logo)
             {
                 // get the highest rated backdrop with a language
-                showBackdrop = images.Backdrops.FirstOrDefault(b => b.LanguageCode == "en");
+                showBackdrop = images.Backdrops.LocalisedImage();
             }
-            
-            if (showBackdrop == null)
+            else
             {
-                // get the highest rated
                 showBackdrop = images.Backdrops.FirstOrDefault();
             }
 
@@ -354,24 +434,18 @@ namespace TraktPlugin.Cache
 
         static void AddShowImagesToCache(TmdbShowImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    Shows.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                Shows.Add(images);
             }
         }
 
         static void RemoveShowImagesFromCache(TmdbShowImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    Shows.RemoveAll(s => s.Id == images.Id);
-                }
+                Shows.RemoveAll(s => s.Id == images.Id);
             }
         }
 
@@ -436,27 +510,21 @@ namespace TraktPlugin.Cache
 
         static void AddEpisodeImagesToCache(TmdbEpisodeImages images, int? id, int season, int episode)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    images.Season = season;
-                    images.Episode = episode;
-                    images.Id = id;
-                    Episodes.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                images.Season = season;
+                images.Episode = episode;
+                images.Id = id;
+                Episodes.Add(images);
             }
         }
 
         static void RemoveEpisodeImagesFromCache(TmdbEpisodeImages images, int season, int episode)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    Episodes.RemoveAll(e => e.Id == images.Id && e.Season == season && e.Episode == episode);
-                }
+                Episodes.RemoveAll(e => e.Id == images.Id && e.Season == season && e.Episode == episode);
             }
         }
 
@@ -497,7 +565,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var seasonThumb = images.Posters.FirstOrDefault();
+            var seasonThumb = images.Posters.LocalisedImage();
             if (seasonThumb == null)
                 return null;
 
@@ -511,7 +579,7 @@ namespace TraktPlugin.Cache
             if (images == null || images.Posters == null)
                 return null;
 
-            var seasonThumb = images.Posters.FirstOrDefault();
+            var seasonThumb = images.Posters.LocalisedImage();
             if (seasonThumb == null)
                 return null;
 
@@ -521,27 +589,21 @@ namespace TraktPlugin.Cache
 
         static void AddSeasonImagesToCache(TmdbSeasonImages images, int? id, int season)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    // the id on the request (show) is different on the response (season)
-                    images.RequestAge = DateTime.Now.ToString();
-                    images.Season = season;
-                    images.Id = id;
-                    Seasons.Add(images);
-                }
+                // the id on the request (show) is different on the response (season)
+                images.RequestAge = DateTime.Now.ToString();
+                images.Season = season;
+                images.Id = id;
+                Seasons.Add(images);
             }
         }
 
         static void RemoveSeasonImagesFromCache(TmdbSeasonImages images, int season)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    Seasons.RemoveAll(s => s.Id == images.Id && s.Season == season);
-                }
+                Seasons.RemoveAll(s => s.Id == images.Id && s.Season == season);
             }
         }
 
@@ -606,28 +668,34 @@ namespace TraktPlugin.Cache
 
         static void AddPeopleImagesToCache(TmdbPeopleImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    images.RequestAge = DateTime.Now.ToString();
-                    People.Add(images);
-                }
+                images.RequestAge = DateTime.Now.ToString();
+                People.Add(images);
             }
         }
 
         static void RemovePeopleImagesFromCache(TmdbPeopleImages images)
         {
-            lock (lockObject)
+            if (images != null)
             {
-                if (images != null)
-                {
-                    People.RemoveAll(p => p.Id == images.Id);
-                }
+                People.RemoveAll(p => p.Id == images.Id);
             }
         }
 
         #endregion
 
+        #region Helpers
+
+        static TmdbImage LocalisedImage(this List<TmdbImage> images)
+        {
+            var image = images.FirstOrDefault(i => i.LanguageCode == TraktSettings.TmdbPreferredImageLanguage);
+            if (image == null)
+                image = images.FirstOrDefault();
+
+            return image;
+        }
+
+        #endregion
     }
 }
