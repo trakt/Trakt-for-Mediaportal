@@ -19,9 +19,9 @@ namespace TraktPlugin.Cache
         static Object lockEpisodeObject = new object();
         static Object lockPersonObject = new object();
 
-        static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Movies.json", TraktSettings.TmdbPreferredImageLanguage));
-        static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Shows.json", TraktSettings.TmdbPreferredImageLanguage));
-        static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\{0}\Seasons.json", TraktSettings.TmdbPreferredImageLanguage));
+        static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Movies.json"));
+        static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Shows.json"));
+        static string SeasonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Seasons.json"));
         static string EpisodeCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\Episodes.json");        
         static string PersonCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\TmdbCache\People.json");
 
@@ -154,7 +154,7 @@ namespace TraktPlugin.Cache
                 // if older than 2 weeks request again, should rarily change.
 
                 DateTime lastRequestedDate = Convert.ToDateTime(TraktSettings.TmdbConfigurationAge);
-                if (DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0, 0)) > lastRequestedDate)
+                if (TraktSettings.TmdbConfiguration == null || TraktSettings.TmdbConfiguration.Images == null || DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0, 0)) > lastRequestedDate)
                 {
                     var latestConfig = TmdbAPI.TmdbAPI.GetConfiguration();
                     if (latestConfig != null && latestConfig.Images != null && latestConfig.Images.BaseUrl != null)
@@ -245,8 +245,8 @@ namespace TraktPlugin.Cache
                 RemoveMovieImagesFromCache(movieImages);
             }
             
-            // get movie images from tmdb and add to the cache            
-            movieImages = TmdbAPI.TmdbAPI.GetMovieImages(id.ToString(), TraktSettings.TmdbPreferredImageLanguage);
+            // get movie images from tmdb and add to the cache
+            movieImages = TmdbAPI.TmdbAPI.GetMovieImages(id.ToString());
             AddMovieImagesToCache(movieImages);
 
             return movieImages;
@@ -348,8 +348,8 @@ namespace TraktPlugin.Cache
                 RemoveShowImagesFromCache(showImages);
             }
 
-            // get movie images from tmdb and add to the cache            
-            showImages = TmdbAPI.TmdbAPI.GetShowImages(id.ToString(), TraktSettings.TmdbPreferredImageLanguage);
+            // get movie images from tmdb and add to the cache
+            showImages = TmdbAPI.TmdbAPI.GetShowImages(id.ToString());
             AddShowImagesToCache(showImages);
 
             return showImages;
@@ -553,8 +553,8 @@ namespace TraktPlugin.Cache
                 RemoveSeasonImagesFromCache(seasonImages, season);
             }
 
-            // get movie images from tmdb and add to the cache            
-            seasonImages = TmdbAPI.TmdbAPI.GetSeasonImages(id.ToString(), season, TraktSettings.TmdbPreferredImageLanguage);
+            // get movie images from tmdb and add to the cache
+            seasonImages = TmdbAPI.TmdbAPI.GetSeasonImages(id.ToString(), season);
             AddSeasonImagesToCache(seasonImages, id, season);
 
             return seasonImages;
@@ -690,6 +690,10 @@ namespace TraktPlugin.Cache
         static TmdbImage LocalisedImage(this List<TmdbImage> images)
         {
             var image = images.FirstOrDefault(i => i.LanguageCode == TraktSettings.TmdbPreferredImageLanguage);
+
+            if (image == null && TraktSettings.TmdbPreferredImageLanguage != "en")
+                image = images.FirstOrDefault(i => i.LanguageCode == "en");
+
             if (image == null)
                 image = images.FirstOrDefault();
 

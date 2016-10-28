@@ -34,21 +34,21 @@ namespace TraktPlugin.TmdbAPI
             return response.FromJSON<TmdbConfiguration>();
         }
 
-        public static TmdbMovieImages GetMovieImages(string id, string language = "en")
+        public static TmdbMovieImages GetMovieImages(string id)
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetMovieImages, id, language));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetMovieImages, id));
             return response.FromJSON<TmdbMovieImages>();
         }
 
-        public static TmdbShowImages GetShowImages(string id, string language = "en")
+        public static TmdbShowImages GetShowImages(string id)
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetShowImages, id, language));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetShowImages, id));
             return response.FromJSON<TmdbShowImages>();
         }
 
-        public static TmdbSeasonImages GetSeasonImages(string id, int season, string language = "en")
+        public static TmdbSeasonImages GetSeasonImages(string id, int season)
         {
-            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetSeasonImages, id, season, language));
+            string response = GetFromTmdb(string.Format(TmdbURIs.apiGetSeasonImages, id, season));
             return response.FromJSON<TmdbSeasonImages>();
         }
 

@@ -600,8 +600,6 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Url", i), string.Format("http://trakt.tv/movies/{0}", trendingItem.Movie.Ids.Slug));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Year", i), trendingItem.Movie.Year.ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Genres", i), string.Join(", ", TraktGenres.Translate(trendingItem.Movie.Genres)));
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), trendingItem.Movie.Images.Poster.LocalImageFilename(ArtworkType.MoviePoster));
-                //GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), trendingItem.Movie.Images.Fanart.LocalImageFilename(ArtworkType.MovieFanart));
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InCollection", i), trendingItem.Movie.IsCollected().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.InWatchList", i), trendingItem.Movie.IsWatchlisted().ToString());
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Plays", i), trendingItem.Movie.Plays());
@@ -610,6 +608,13 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Votes", i), trendingItem.Movie.Votes);
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Icon", i), (trendingItem.Movie.Rating >= 6) ? "love" : "hate");
                 GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.Ratings.Percentage", i), trendingItem.Movie.Rating.ToPercentage());
+
+                var images = TmdbCache.GetMovieImages(trendingItem.Movie.Ids.Tmdb);
+                if (images != null)
+                {
+                    GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.PosterImageFilename", i), TmdbCache.GetMoviePosterFilename(images));
+                    GUICommon.SetProperty(string.Format("#Trakt.Movie.{0}.FanartImageFilename", i), TmdbCache.GetMovieBackdropFilename(images));
+                }
             }
         }
 
@@ -835,8 +840,13 @@ namespace TraktPlugin
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Votes", i), trendingItem.Show.Votes);
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Icon", i), (trendingItem.Show.Rating >= 6) ? "love" : "hate");
                 GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.Ratings.Percentage", i), trendingItem.Show.Rating.ToPercentage());
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), trendingItem.Show.Images.Poster.LocalImageFilename(ArtworkType.ShowPoster));
-                //GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), trendingItem.Show.Images.Fanart.LocalImageFilename(ArtworkType.ShowFanart));
+
+                var images = TmdbCache.GetShowImages(trendingItem.Show.Ids.Tmdb);
+                if (images != null)
+                {
+                    GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.PosterImageFilename", i), TmdbCache.GetShowPosterFilename(images));
+                    GUICommon.SetProperty(string.Format("#Trakt.Show.{0}.FanartImageFilename", i), TmdbCache.GetShowBackdropFilename(images));
+                }
             }
         }
 

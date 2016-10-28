@@ -1024,6 +1024,8 @@ namespace TraktPlugin.GUI
         {
             string propertyValue = string.IsNullOrEmpty(value) ? "--" : value;
             GUIUtils.SetProperty(property, propertyValue);
+
+            //TraktLogger.Debug("Property: {0}, Value = {1}", property, value);
         }
 
         internal static void SetProperty(string property, List<string> value)
