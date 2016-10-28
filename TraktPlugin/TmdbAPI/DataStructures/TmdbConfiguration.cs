@@ -32,6 +32,9 @@ namespace TraktPlugin.TmdbAPI.DataStructures
 
             [DataMember(Name = "profile_sizes")]
             public List<string> ProfileSizes { get; set; }
+
+            [DataMember(Name = "still_sizes")]
+            public List<string> StillSizes { get; set; }
         }
     }
 }

@@ -290,7 +290,7 @@ namespace TraktPlugin.Cache
 
             // create filename based on desired resolution
             return Path.Combine(Config.GetFolder(Config.Dir.Thumbs), @"Trakt\Movies\Backdrops\") +
-                                images.Id + "_" + TraktSettings.TmdbPreferredBackdropSize + "_" + movieBackdrop.FilePath.TrimStart('/');
+                                images.Id + "_" + (TraktSettings.DownloadFullSizeFanart ? "original" : TraktSettings.TmdbPreferredBackdropSize) + "_" + movieBackdrop.FilePath.TrimStart('/');
         }
 
         public static string GetMovieBackdropUrl(TmdbMovieImages images)
@@ -303,7 +303,7 @@ namespace TraktPlugin.Cache
                 return null;
 
             // return the desired resolution
-            return TraktSettings.TmdbConfiguration.Images.BaseUrl + TraktSettings.TmdbPreferredBackdropSize + movieBackdrop.FilePath;
+            return TraktSettings.TmdbConfiguration.Images.BaseUrl + (TraktSettings.DownloadFullSizeFanart ? "original" : TraktSettings.TmdbPreferredBackdropSize) + movieBackdrop.FilePath;
         }
 
         static void AddMovieImagesToCache(TmdbMovieImages images)
@@ -405,7 +405,7 @@ namespace TraktPlugin.Cache
 
             // create filename based on desired resolution
             return Path.Combine(Config.GetFolder(Config.Dir.Thumbs), @"Trakt\Shows\Backdrops\") +
-                                images.Id + "_" + TraktSettings.TmdbPreferredBackdropSize + "_" + showBackdrop.FilePath.TrimStart('/');
+                images.Id + "_" + (TraktSettings.DownloadFullSizeFanart ? "original" : TraktSettings.TmdbPreferredBackdropSize) + "_" + showBackdrop.FilePath.TrimStart('/');
         }
 
         public static string GetShowBackdropUrl(TmdbShowImages images, bool logo = false)
@@ -429,7 +429,7 @@ namespace TraktPlugin.Cache
                 return null;
 
             // return the desired resolution
-            return TraktSettings.TmdbConfiguration.Images.BaseUrl + TraktSettings.TmdbPreferredBackdropSize + showBackdrop.FilePath;
+            return TraktSettings.TmdbConfiguration.Images.BaseUrl + (TraktSettings.DownloadFullSizeFanart ? "original" : TraktSettings.TmdbPreferredBackdropSize) + showBackdrop.FilePath;
         }
 
         static void AddShowImagesToCache(TmdbShowImages images)
