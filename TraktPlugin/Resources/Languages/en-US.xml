@@ -642,6 +642,16 @@
   <string name="SettingMaxUserCommentsRequestDescription">Set the maximum number of recent comments to request for a user per page.</string>
   <string name="SettingSkipMoviesWithNoIdsOnSyncName">Skip movies with no online ID on Sync</string>
   <string name="SettingSkipMoviesWithNoIdsOnSyncDescription">Enable this to skip any movies from your local database that contain no valid IMDb ID or TMDb ID when syncing online.</string>
+  <string name="SettingTmdbMovieImageMaxCacheAgeName">Movie Image Request Age</string>
+  <string name="SettingTmdbMovieImageMaxCacheAgeDescription">Number of days to cache Movie image requests.</string>
+  <string name="SettingTmdbShowImageMaxCacheAgeName">TV Show Image Request Age</string>
+  <string name="SettingTmdbShowImageMaxCacheAgeDescription">Number of days to cache TV Show image requests.</string>
+  <string name="SettingTmdbSeasonImageMaxCacheAgeName">TV Season Image Request Age</string>
+  <string name="SettingTmdbSeasonImageMaxCacheAgeDescription">Number of days to cache TV Season image requests.</string>
+  <string name="SettingTmdbEpisodeImageMaxCacheAgeName">TV Episode Image Request Age</string>
+  <string name="SettingTmdbEpisodeImageMaxCacheAgeDescription">Number of days to cache TV Episode image requests.</string>
+  <string name="SettingTmdbPersonImageMaxCacheAgeName">Person Image Request Age</string>
+  <string name="SettingTmdbPersonImageMaxCacheAgeDescription">Number of days to cache Person image requests.</string>
   <string name="StartYear">Start: {0}</string>
   <string name="StartLibrarySync">Start Library Sync</string>
   <string name="StartLibraryAndPlaybackSync">Start Library and Playback Sync</string>
