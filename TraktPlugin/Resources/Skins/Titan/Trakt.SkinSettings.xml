@@ -49,7 +49,7 @@
     <!-- Posters are fixed at 300px wide and usually 450px height -->
     <!-- Positions are relative to top left i.e. (0,0) -->
     <posters>
-      <posx>178</posx>
+      <posx>222</posx>
       <posy>0</posy>
     </posters>
     <!-- Episode thumbnails are 400x225px -->
@@ -64,7 +64,7 @@
   <ratingoverlayicons>
     <ratingoverlayicons>
       <posters>
-        <posx>178</posx>
+        <posx>222</posx>
         <posy>0</posy>
       </posters>
       <episodethumbs>

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+  <id>99991</id>
+  <defaultcontrol>10</defaultcontrol>
+  <allowoverlay>yes</allowoverlay>
+  <controls>
+    <import>common.dialog.xml</import>
+    
+	<control>
+		<description>Lock</description>
+		<type>image</type>
+		<id>1</id>
+		<posX>1850</posX>
+		<posY>40</posY>
+		<width>48</width>
+		<height>48</height>		
+		<texture>lock.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+	
+	<!-- Star Controls -->
+	<control>
+		<description>PinCode Item 1</description>
+		<type>image</type>
+		<id>1</id>
+		<posX>800</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>101</onup>
+		<texture>starblack_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+		<description>PinCode Item 1</description>
+		<type>image</type>
+		<id>100</id>
+		<posX>800</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>101</onup>
+		<texture>starblue_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+
+	<control>
+		<description>PinCode Item 2</description>
+		<type>image</type>
+		<id>1</id>
+		<posX>850</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>101</onup>
+		<texture>starblack_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+		<description>PinCode Item 2</description>
+		<type>image</type>
+		<id>101</id>
+		<posX>850</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>102</onup>
+		<texture>starblue_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+
+	<control>
+		<description>PinCode Item 3</description>
+		<type>image</type>
+		<id>1</id>
+		<posX>900</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>101</onup>
+		<texture>starblack_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+		<description>PinCode Item 3</description>
+		<type>image</type>
+		<id>102</id>
+		<posX>900</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>103</onup>
+		<texture>starblue_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+
+	<control>
+		<description>PinCode Item 4</description>
+		<type>image</type>
+		<id>1</id>
+		<posX>950</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>101</onup>
+		<texture>starblack_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+    <control>
+		<description>PinCode Item 4</description>
+		<type>image</type>
+		<id>103</id>
+		<posX>950</posX>
+		<posY>732</posY>
+		<width>53</width> 
+		<height>41</height>
+		<onup>104</onup>
+		<texture>starblue_rating.png</texture>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+		
+	<control>
+		<description>Feedback</description>
+		<type>label</type>
+		<id>6</id>
+		<posX>678</posX>
+		<posY>800</posY>
+		<width>560</width>
+        <font>fontB12</font>
+        <textcolor>ff393939</textcolor>
+        <animation effect="fade" time="250">WindowOpen</animation>
+		<animation effect="fade" time="0">WindowClose</animation>
+		<animation effect="slide" start="0,200" end="0,0" tween="quadratic" easing="in" time="150" delay="0">WindowOpen</animation>
+    </control>
+	
+  </controls>
+</window>
