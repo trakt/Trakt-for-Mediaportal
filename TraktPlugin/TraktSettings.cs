@@ -829,14 +829,14 @@ namespace TraktPlugin
                 TmdbConfiguration = xmlreader.GetValueAsString(cTrakt, cTmdbConfiguration, "{}").FromJSON<TmdbConfiguration>();
                 TmdbConfigurationAge = xmlreader.GetValueAsString(cTrakt, cTmdbConfigurationAge, new DateTime().ToString());
                 TmdbPreferredBackdropSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredBackdropSize, "w1280");
-                TmdbPreferredPosterSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredPosterSize, "w500");
-                TmdbPreferredEpisodeThumbSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredEpisodeThumbSize, "w342");
+                TmdbPreferredPosterSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredPosterSize, "w342");
+                TmdbPreferredEpisodeThumbSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredEpisodeThumbSize, "w300");
                 TmdbPreferredHeadshotSize = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredHeadshotSize, "h632");
-                TmdbShowImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbShowImageMaxCacheAge, 90, 1, 365);
-                TmdbMovieImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbMovieImageMaxCacheAge, 90, 1, 365);
-                TmdbSeasonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbSeasonImageMaxCacheAge, 365, 1, 365);
-                TmdbEpisodeImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbEpisodeImageMaxCacheAge, 365, 1, 365);
-                TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 365, 1, 365);
+                TmdbShowImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbShowImageMaxCacheAge, 30, 1, 365);
+                TmdbMovieImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbMovieImageMaxCacheAge, 30, 1, 365);
+                TmdbSeasonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbSeasonImageMaxCacheAge, 30, 1, 365);
+                TmdbEpisodeImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbEpisodeImageMaxCacheAge, 30, 1, 365);
+                TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 30, 1, 365);
                 TmdbPreferredImageLanguage = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredImageLanguage, "en");
             }
 
