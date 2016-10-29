@@ -5,6 +5,7 @@ using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
 using TraktPlugin.TraktAPI;
 using TraktPlugin.TraktAPI.DataStructures;
+using System.IO;
 
 namespace TraktPlugin.GUI
 {
@@ -425,6 +426,12 @@ namespace TraktPlugin.GUI
             {
                 ShowPinCodeDialogDelegate d = ShowPinCodeDialog;
                 return (bool)GUIGraphicsContext.form.Invoke(d, masterCode);
+            }
+
+            if (!File.Exists(GUIGraphicsContext.Skin + @"\Trakt.PinCodeDialog.xml"))
+            {
+                GUIUtils.ShowNotifyDialog(Translation.Error, Translation.SkinOutOfDate);
+                return false;
             }
 
             var pinCodeDlg = (GUIDialogPinCode)GUIWindowManager.GetWindow(GUIDialogPinCode.ID);
