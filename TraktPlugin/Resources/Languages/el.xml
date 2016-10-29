@@ -45,6 +45,10 @@
   <!--O-->
   <string name="OK">Εντάξει</string>
   <!--P-->
+  <string name="PinCode">Κωδικός Pin</string>
+  <string name="PinCodeDialog">Διάλογος κωδικού Pin</string>
+  <string name="PinCodeDlgLabel2">Εισάγετε τον τετραψήφιο κωδικό Pin για να συνεχίσετε:</string>
+  <string name="PinCodeMessageIncorrect">Λάθος Pin</string>
   <!--R-->
   <string name="Rate">Αξιολόγηση</string>
   <string name="Rated">Αξιολογήθηκε</string>

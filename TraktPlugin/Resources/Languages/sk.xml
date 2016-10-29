@@ -198,6 +198,10 @@
   <string name="Percentage">Percentá</string>
   <string name="Plugin">Doplnok</string>
   <string name="Plugins">Doplnky</string>
+  <string name="PinCode">PIN kód</string>
+  <string name="PinCodeDialog">Dialóg PIN kódu</string>
+  <string name="PinCodeDlgLabel2">Zadajte štvorciferný PIN kód:</string>
+  <string name="PinCodeMessageIncorrect">PIN je nesprávny</string>
   <string name="Profile">Profil</string>
   <string name="Producer">Producent</string>
   <string name="Producers">Producenti</string>

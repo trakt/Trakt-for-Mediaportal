@@ -38,6 +38,10 @@
   <!--O-->
   <string name="OK">Ok</string>
   <!--P-->
+  <string name="PinCode">Pinkode</string>
+  <string name="PinCodeDialog">Pinkode dialog</string>
+  <string name="PinCodeDlgLabel2">Tast inn den fire sirede pinkoden for å fortsette:</string>
+  <string name="PinCodeMessageIncorrect">Feil pinkode</string>
   <!--R-->
   <string name="Rated">Rangering</string>
   <string name="Rating">Rangering</string>

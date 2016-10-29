@@ -6,12 +6,14 @@
   <string name="AccountDialog">Boite de dialogue concernant le compte</string>
   <string name="Actor">Acteur</string>
   <string name="Actors">Acteurs</string>
+  <string name="ActorAndRole">{0} à {1}</string>
   <string name="Activity">Activité</string>
   <string name="ActivityFriendsDesc">Voir ce que vos amis font...</string>
   <string name="ActivityFriendsAndMeDesc">Voir ce que vos amis font</string>
   <string name="ActivityCommunityDesc">Voir ce que la communauté fait...</string>
   <string name="ActivityFollowersDesc">Voir ce que vos abonnés font</string>
   <string name="ActivityFollowingDesc">Voir l\'activité des personnes que vous suivez...</string>
+  <string name="ActivityMeDesc">Voir ce que vous venez de faire...</string>
   <string name="ActivityWatching">{0} regarde {1}</string>
   <string name="ActivityWatched">{0} a regardé {1}</string>
   <string name="ActivityWatchedWithPlays">{0} {1} Visionné [{2} Lu]</string>
@@ -46,11 +48,15 @@
   <string name="AddShowToList">Ajouter la série à la liste </string>
   <string name="AddEpisodeToList">Ajouter l\'épisode à la liste </string>
   <string name="AddThisItemToWatchList">Ajouter cet élément à votre liste ?</string>
+  <string name="AdditionalPhotography">Equipe Photographie</string>
+  <string name="Administration">Administration</string>
+  <string name="ADRAndDubbing">ADR et Doublage</string>
   <string name="Age">Age</string>
   <string name="AirDate">Date de diffusion</string>
   <string name="AirDay">Jour de diffusion</string>
   <string name="AiredEpisodes">Episodes diffusés</string>
   <string name="AirTime">Heure de diffusion</string>
+  <string name="AppearsInList">{0} Listes</string>
   <string name="Approve">Approuver</string>
   <string name="ApproveAndFollowBack">Acceptez et s\'abbonner</string>
   <string name="ApprovedDate">Date approuvée</string>
@@ -59,23 +65,33 @@
   <string name="ApproveFollowerAndFollowBackMessage">Voulez-vous permettre à l\'utilisateur {0} \nde vous suivre et vous de suivre l\'utilisateur ?</string>
   <string name="AdvancedSettings">Paramétrages avancés</string>
   <string name="Animation">Animation</string>
-  <string name="Anticipated">Prévoir</string>
+  <string name="Anticipated">Prévu</string>
   <string name="AnticipatedShows">Séries prévues</string>
   <string name="AnticipatedMovies">Films prévus</string>
+  <string name="Art">Equipe Artistique</string>
+  <string name="ArtDepartmentAssistant">Assistant Directeur Artisitique</string>
+  <string name="ArtDepartmentCoordinator">Coordinateur Artisitique</string>
+  <string name="ArtDepartmentManager">Directeur Artisitique</string>
   <string name="ArtDirection">Directeur artistique </string>
   <string name="AssistantArtDirector">Directeur artistique adjoint</string>
   <string name="AssistantDirector">Assistant réalisateur</string>
   <string name="AssociateProducer">Producteur associé</string>
   <!--B-->
+  <string name="BestBoyElectric">Assistant Chef Electricien</string>
   <string name="BufferingTrailer">Mise en mémoire de la bande-annonce</string>
   <string name="Biography">Biographie</string>
   <string name="Birthday">Anniversaire</string>
   <string name="BirthDate">Date d\'anniversaire</string>
+  <string name="BoomOperator">Perchman</string>
   <string name="Born">Né</string>
   <string name="BirthPlace">Lieu de naissance</string>
+  <string name="BoxOffice">Box Office</string>
   <!--C-->
   <string name="Camera">Camera</string>
+  <string name="CameraDepartmentManager">Chef Cadreur</string>
   <string name="CameraOperator">Opérateur Caméra</string>
+  <string name="CameraSupervisor">Superviseur Caméra</string>
+  <string name="CameraTechnician">Technicien Caméra</string>
   <string name="Cancel">Annuler</string>
   <string name="Canceled">Annuler</string>
   <string name="Calendar">Calendrier</string>
@@ -101,22 +117,26 @@
   <string name="CreatingFilters">Création de filtres</string>
   <string name="CreatingList">Création d\'une liste</string>
   <string name="CreateList">Créer une nouvelle liste</string>
+  <string name="CreatureDesign">Concepteur Créature</string>
   <string name="CreateAccountWebsite">Désolé , cette fonction n\'est plus \nvalide . S\'il vous plaît, utilisez le site \nafin de créer un compte .</string>
   <string name="Comment">Commentaire</string>
   <string name="Comments">Commentaires</string>
   <string name="Community">Communauté</string>
   <string name="CommunityActivity">Activité de la communauté</string>
   <string name="Compositors">Compositeurs</string>
+  <string name="ConceptualDesign">Design conceptuel</string>
   <string name="ConstructionCoordinator">Décorateur</string>
   <string name="ConfirmDeleteList">Etes-vous sûr de vouloir supprimer\ncet liste?</string>
   <string name="ConfirmDeleteListItem">Etes-vous sûr de vouloir supprimer\ncet élément de la liste?</string>
   <string name="Continuing">En cours</string>
   <string name="CopyList">Copie de la liste</string>
   <string name="CostumeDesign">Création des costumes</string>
+  <string name="CostumeSupervisor">Chef Habilleur</string>
   <string name="Country">Pays</string>
   <string name="CostumeAndMakeUp">Costume et Maquillage</string>
   <string name="CurrentPage">Page courante</string>
   <string name="CustomLists">listes personnalisées</string>
+  <string name="Crew">Equipe</string>
   <!--D-->
   <string name="Dashboard">Tableau de bord</string>
   <string name="DateToday">Aujourd\'hui</string>
@@ -133,7 +153,10 @@
   <string name="DeletingList">Suppression de la liste</string>
   <string name="DeleteFriend">Supprimer un ami</string>
   <string name="DeleteFriendMessage">Etes vous sur de supprimer\n{0} comme ami ?</string>
+  <string name="DialogueEditor">Dialoguiste</string>
   <string name="Died">Mort</string>
+  <string name="DigitalEffectsSupervisor">Superviseur Effets Spéciaux</string>
+  <string name="Directing">Réalisation</string>
   <string name="Director">Réalisateur</string>
   <string name="Directors">Réalisateurs</string>
   <string name="DirectorOfPhotography">Directeur de la photographie</string>
@@ -142,9 +165,14 @@
   <string name="DontIncludeMeInFriendsActivity">Ne pas m\'inclure dans Activités des amis</string>
   <string name="DownloadFanart">Télécharger le Fanart</string>
   <string name="DownloadFullSizeFanart">Télécharger le Fanart dans sa taille originale</string>
+  <string name="Driver">Chauffeur</string>
   <!--E-->
+  <string name="Editor">Monteur</string>
+  <string name="EditorialCoordinator">Coordinateur de la Rédaction</string>
+  <string name="EditorialManager">Directeur de la Rédaction</string>
   <string name="EditList">Editer la liste ....</string>
   <string name="EditingList">Edtion de la liste</string>
+  <string name="Electrician">Électricien</string>
   <string name="Email">Email</string>
   <string name="Ended">Terminé</string>
   <string name="EndYear">Terminé: {0}</string>
@@ -227,6 +255,7 @@
   <string name="GetFriendRequestsOnStartup">Récupérer les invitations d\'amis au démarrage</string>
   <string name="GetFollowerRequestsOnStartup">Récupérer les requêtes d\'un abonné au démarrage</string>
   <string name="GettingActivity">Récupération de l\'Acitivité</string>
+  <string name="GettingBoxOffice">Récupérer Box Office</string>
   <string name="GettingCalendar">Récupération du calendrier</string>
   <string name="GettingEpisodes">Obtenir les épisodes </string>
   <string name="GettingFriendsList">Récupération de la liste d\'amis</string>
@@ -240,6 +269,8 @@
   <string name="GettingFriendsWatchedHistory">Récupération de l\'historique  du visionnage des Amis</string>
   <string name="GettingLists">Récupération des listes</string>
   <string name="GettingListItems">Récupération des éléments de la liste</string>
+  <string name="GettingMovieCredits">Récupérer l\'Equipe du Film</string>
+  <string name="GettingShowCredits">Récupérer l\'Equipe de la Série</string>
   <string name="GettingSearchResults">Récupération des résultats de la recherche</string>
   <string name="GettingShouts">Récupération des commentaires</string>
   <string name="GettingShowSeasons">Récupération des saisons d\'une série</string>
@@ -256,12 +287,16 @@
   <string name="GettingRelatedShows">Récupération des séries similaires</string>
   <string name="GettingTrailerUrls">Récupération des Urls des bandes annonces</string>
   <string name="GettingUserProfile">Obtenir le profil de l\'utilisateur</string>
+  <string name="GettingAnticipatedMovies">Récupérer les Films Prévus</string>
+  <string name="GettingAnticipatedShows">Récupérer les Séries Prévues</string>
   <string name="GuestStar">Célébrité Invité</string>
   <string name="GuestStars">Célébrités Invités</string>
   <!--H-->
+  <string name="HairSetup">Coiffure</string>
   <string name="HairStylist">Coiffeur</string>
   <string name="Hate">Détester</string>
   <string name="Hated">A détesté</string>
+  <string name="HelicopterCamera">Caméra Héliportée</string>
   <string name="HideTVShowsInWatchlist">Cacher les séries de la liste </string>
   <string name="HideAdded">Masquer les ajouts</string>
   <string name="HideCommented">Masquer ce qui  est commenté</string>
@@ -301,6 +336,7 @@
   <string name="LibrarySyncStarted">La synchronisation de la bibliothèque a commencé</string>
   <string name="LibraryAndPlaybackSyncAlreadyRunning">La synchronisation de la bibliothèque  et des lectures est déjà en cours, essayez à nouveau plus tard.</string>
   <string name="LibraryAndPlaybackSyncStarted">Une synchronisation de la bibliothèque  et des lectures est en cours.</string>
+  <string name="LightingTechnician">Technicien Eclairagiste</string>
   <string name="Like">Apprécie</string>
   <string name="Likes">Apprécies</string>
   <string name="LineProducer">Producteur</string>
@@ -321,8 +357,10 @@
   <string name="Minutes">Minutes</string>
   <string name="Minute">Minute</string>
   <string name="Music">Musique</string>
+  <string name="MusicEditor">Compositeur</string>
   <string name="Movie">Film</string>
   <string name="Movies">Films</string>
+  <string name="MovieCredits">Equipe du Film</string>
   <string name="MovieCount">{0} Films</string>
   <string name="MultiSelectDialog">Fenêtre à sélection multiple</string>
   <!--N-->
@@ -387,6 +425,10 @@
   <string name="PlayTrailer">Lire la bande annonce</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="PinCode">Code PIN</string>
+  <string name="PinCodeDialog">Code PIN</string>
+  <string name="PinCodeDlgLabel2">Entrer le code PIN pour déverrouiller:</string>
+  <string name="PinCodeMessageIncorrect">Code PIN incorrect</string>
   <string name="Popular">Populaire</string>
   <string name="Popularity">Popularité</string>
   <string name="PopularShows">Spectacles populaires</string>
@@ -555,10 +597,13 @@
   <string name="SpecialEffects">Effets spéciaux</string>
   <string name="Status">Status</string>
   <string name="StillPhotographer">Photographe</string>
+  <string name="Stunts">Cascadeurs</string>
   <!--T-->
+  <string name="Thanks">Remerciements</string>
   <string name="Timeout">Temps expiré</string>
   <string name="TotalPages">Nombre de Pages</string>
   <string name="TotalItemsPerPage">Nombre d\'items par page</string>
+  <string name="TotalRevenue">Total des revenus</string>
   <string name="Trending">Tendances</string>
   <string name="TrendingShows">Les  séries tendances</string>
   <string name="TrendingShowsAndMovies">Les  films et séries tendances</string>

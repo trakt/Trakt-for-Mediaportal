@@ -438,6 +438,10 @@
   <string name="PlayTrailer">Trailer abspielen</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugins</string>
+  <string name="PinCode">PIN</string>
+  <string name="PinCodeDialog">PIN-Dialog</string>
+  <string name="PinCodeDlgLabel2">4-stellige PIN eingeben:</string>
+  <string name="PinCodeMessageIncorrect">PIN falsch</string>
   <string name="Popular">Beliebt</string>
   <string name="Popularity">Beliebtheit</string>
   <string name="PopularShows">Beliebte Serien</string>

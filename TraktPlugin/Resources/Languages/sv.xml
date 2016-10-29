@@ -382,6 +382,10 @@ en lista nu?</string>
   <string name="PlayTrailer">Spela trailer</string>
   <string name="Plugin">Insticksprogram</string>
   <string name="Plugins">Insticksprogram</string>
+  <string name="PinCode">Pin-kod</string>
+  <string name="PinCodeDialog">Pin-kod</string>
+  <string name="PinCodeDlgLabel2">Mata in 4-siffrig Pin-kod för att fortsätta:</string>
+  <string name="PinCodeMessageIncorrect">Pin-koden är felaktig</string>
   <string name="Popular">Populärt</string>
   <string name="Popularity">Popularitet</string>
   <string name="PopularShows">Populära TV-program</string>

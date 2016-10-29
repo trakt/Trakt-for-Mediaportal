@@ -6,7 +6,7 @@
   <string name="AccountDialog">Учётная запись</string>
   <string name="Actor">Актер</string>
   <string name="Actors">Актеры</string>
-  <string name="Activity">Сейчас смортят</string>
+  <string name="Activity">Сейчас смотрят</string>
   <string name="ActivityWatching">{0} смотрит {1}</string>
   <string name="ActivityWatched">{0} смотрели {1}</string>
   <string name="ActivityWatchlist">{0} добавил {1} в свой список \"Буду смотреть\"</string>
@@ -228,6 +228,10 @@
   <string name="PlayTrailer">Воспроизвести трейлер</string>
   <string name="Plugin">Диполнение</string>
   <string name="Plugins">Дополнения</string>
+  <string name="PinCode">Пин-код</string>
+  <string name="PinCodeDialog">Ввод PIN-кода</string>
+  <string name="PinCodeDlgLabel2">Введите 4-значный пин-код для продолжения:</string>
+  <string name="PinCodeMessageIncorrect">Неверный пин</string>
   <string name="Popular">Популярные</string>
   <string name="Popularity">Популярность</string>
   <string name="PopularShows">Популярные сериалы</string>

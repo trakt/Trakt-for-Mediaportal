@@ -364,6 +364,10 @@
   <string name="PlayTrailer">Trailer afspelen</string>
   <string name="Plugin">Plug-in</string>
   <string name="Plugins">Plug-ins</string>
+  <string name="PinCode">Pin Code</string>
+  <string name="PinCodeDialog">Pincode dialoog</string>
+  <string name="PinCodeDlgLabel2">Voer 4-cijferige PIN code in om verder te gaan:</string>
+  <string name="PinCodeMessageIncorrect">PIN Foutief</string>
   <string name="Popular">Populair</string>
   <string name="Popularity">Populariteit</string>
   <string name="PopularShows">Populaire Shows</string>
@@ -592,6 +596,9 @@
   <string name="UserProfile">Gebruikersprofiel</string>
   <string name="UserRatingsDistribution">Waardering van 1 tot 10 hartjes</string>
   <!--V-->
+  <string name="VFXArtist">VFX Artiest</string>
+  <string name="VFXProductionCoordinator">VFX Productie coordinator</string>
+  <string name="VFXSupervisor">VFX Leidinggevende</string>
   <string name="View">Bekijk</string>
   <string name="Votes">Stemmen</string>
   <string name="ValidUsername">Je moet een correcte gebruikersnaam invoeren!</string>
@@ -610,6 +617,7 @@
   <string name="WatchListEpisodes">Aflevering kijklijst</string>
   <string name="Writer">Schrijver</string>
   <string name="Writers">Schrijvers</string>
+  <string name="Writing">Schrijfwerk</string>
   <!--Y-->
   <string name="Year">Jaar</string>
   <string name="Yes">Ja</string>

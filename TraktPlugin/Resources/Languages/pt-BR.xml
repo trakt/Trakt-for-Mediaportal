@@ -52,6 +52,10 @@
   <string name="Off">Desligar</string>
   <string name="On">Ligado</string>
   <!--P-->
+  <string name="PinCode">Codigo PIN</string>
+  <string name="PinCodeDialog">Pin Code Dialog</string>
+  <string name="PinCodeDlgLabel2">Entre o código PIN de 4 digitos para continuar:</string>
+  <string name="PinCodeMessageIncorrect">Pin Incorreto</string>
   <!--R-->
   <string name="Rate">Classificar</string>
   <string name="Rated">Classificado como</string>

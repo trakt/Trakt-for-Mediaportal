@@ -267,6 +267,10 @@
   <string name="PlayTrailer">Toista traileri</string>
   <string name="Plugin">Lisäosa</string>
   <string name="Plugins">Lisäosat</string>
+  <string name="PinCode">Pin-koodi</string>
+  <string name="PinCodeDialog">Pin-koodi ikkuna</string>
+  <string name="PinCodeDlgLabel2">Anna nelinumeroinen pin-koodi jatkaaksesi:</string>
+  <string name="PinCodeMessageIncorrect">Pin-koodi väärin</string>
   <string name="Public">Julkinen</string>
   <string name="PreviousEpisode">Edellinen jakso</string>
   <string name="Private">Yksityinen</string>

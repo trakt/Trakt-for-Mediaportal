@@ -229,6 +229,10 @@
   <string name="PlayTrailer">Vedi Trailer</string>
   <string name="Plugin">Plugin</string>
   <string name="Plugins">Plugin</string>
+  <string name="PinCode">Codice pin</string>
+  <string name="PinCodeDialog">Finestra del codice pin</string>
+  <string name="PinCodeDlgLabel2">Inserisci un Codice Pin a 4 cifre per procedere:</string>
+  <string name="PinCodeMessageIncorrect">Pin errato</string>
   <string name="Public">Pubblico</string>
   <string name="PreviousEpisode">Episodio Precedente</string>
   <string name="Private">Privato</string>

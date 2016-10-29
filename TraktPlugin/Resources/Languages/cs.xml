@@ -6,6 +6,7 @@
   <string name="AccountDialog">Dialog účtu</string>
   <string name="Actor">Herec</string>
   <string name="Actors">Herci</string>
+  <string name="ActorAndRole">{0} jako {1}</string>
   <string name="Activity">Aktivity</string>
   <string name="ActivityFriendsDesc">Vaše aktivity, a aktivity Vašich přátel...</string>
   <string name="ActivityFriendsAndMeDesc">Vaše aktivity, a aktivity Vašich přátel...</string>
@@ -14,8 +15,8 @@
   <string name="ActivityFollowingDesc">Aktivity lidí, které sledujete...</string>
   <string name="ActivityMeDesc">Vaše aktivity...</string>
   <string name="ActivityWatching">{0} sleduje {1}</string>
-  <string name="ActivityWatched">{0} sledoval {1}</string>
-  <string name="ActivityWatchedWithPlays">{0} zhlédnuto {1} [{2} přehrání]</string>
+  <string name="ActivityWatched">{0} zhlédl {1}</string>
+  <string name="ActivityWatchedWithPlays">{0} zhlédl {1} [{2} přehrání]</string>
   <string name="ActivityCheckedIn">{0} přihlášen do {1}</string>
   <string name="ActivityCollected">{0} přidal do knihovny {1}</string>
   <string name="ActivityCollectedEpisodes">{0} přidal do knihovny {1} epizod z {2}</string>
@@ -27,8 +28,12 @@
   <string name="ActivityYourWatchlist"> {0} přidal {1} do seznamu ke zhlédnutí</string>
   <string name="ActivityAddToList">{0} přidal {1} do {2}</string>
   <string name="ActivityCreatedList">{0} vytvořil {1}</string>
+  <string name="ActivityUpdatedList">{0} aktualizoval {1}</string>
+  <string name="ActivityUpdatedListWithItemCountSingular">{0} aktualizoval {1} [{2} položku]</string>
+  <string name="ActivityUpdatedListWithItemCount">{0} aktualizoval {1} [{2} položek]</string>
   <string name="ActivityReview">{0} recenzoval {1}</string>
   <string name="ActivityShouts">{0} okomentoval {1}</string>
+  <string name="ActivityPaused">{0} pozastavil {1} [{2}%]</string>
   <string name="Activities">Aktivity</string>
   <string name="AddFriend">Přidat přítele...</string>
   <string name="AddToLibrary">Přidat do knihovny</string>
@@ -45,6 +50,7 @@
   <string name="AirDay">Den vysílání</string>
   <string name="AiredEpisodes">Odvysílané epizody</string>
   <string name="AirTime">Čas vysílání</string>
+  <string name="AppearsInList">{0}  seznamů</string>
   <string name="Approve">Přijmout</string>
   <string name="ApproveAndFollowBack">Přijmout a také začít sledovat</string>
   <string name="ApprovedDate">Datum přijetí</string>
@@ -53,16 +59,20 @@
   <string name="ApproveFollowerAndFollowBackMessage">Chcete povolit uživateli {0}\naby Vás sledoval a také jej sledovat?</string>
   <string name="AdvancedSettings">Rozšířené možnosti</string>
   <string name="Animation">Animovaný</string>
+  <string name="Anticipated">Očekávané</string>
+  <string name="AnticipatedShows">Očekávané seriály</string>
+  <string name="AnticipatedMovies">Očekávané filmy</string>
   <!--B-->
   <string name="BufferingTrailer">Načítám upoutávku</string>
   <string name="Biography">Životopis</string>
   <string name="Birthday">Narozeniny</string>
   <string name="BirthDate">Datum narození</string>
-  <string name="Born">Narozen</string>
+  <string name="Born">Narozeniny</string>
   <string name="BirthPlace">Místo narození</string>
   <!--C-->
   <string name="Camera">Kamera</string>
   <string name="CameraOperator">Kameraman</string>
+  <string name="CameraSupervisor">Vedoucí kameraman</string>
   <string name="Cancel">Zrušit</string>
   <string name="Canceled">Zrušeno</string>
   <string name="Calendar">Kalendář</string>
@@ -98,9 +108,12 @@
   <string name="ConfirmDeleteListItem">Opravdu chcete odstranit\ntuto položku ze seznamu?</string>
   <string name="Continuing">Pokračování</string>
   <string name="CopyList">Kopírovat seznam...</string>
+  <string name="CostumeDesign">Návrh kostýmů</string>
+  <string name="CostumeSupervisor">Vedoucí kostýmů</string>
   <string name="Country">Země</string>
   <string name="CurrentPage">Aktuální strana</string>
   <string name="CustomLists">Vlastní seznamy</string>
+  <string name="Crew">Štáb</string>
   <!--D-->
   <string name="Dashboard">Hlavní okno</string>
   <string name="DateToday">Dnes</string>
@@ -117,9 +130,11 @@
   <string name="DeletingList">Odstraňuji seznam</string>
   <string name="DeleteFriend">Odstranit přítele</string>
   <string name="DeleteFriendMessage">Opravdu chcete odstranit\n{0} ze seznamu přátel?</string>
+  <string name="DialogueEditor">Editor dialogů</string>
   <string name="Died">Úmrtí</string>
   <string name="Director">Režisér</string>
   <string name="Directors">Režiséři</string>
+  <string name="DirectorOfPhotography">Kamera</string>
   <string name="DisconnectAccount">Odpojit od účtu: {0}</string>
   <string name="DismissRecommendation">Odstranit toto doporučení</string>
   <string name="DontIncludeMeInFriendsActivity">Nezahrnovat mě do aktivity přátel</string>
@@ -244,12 +259,25 @@
   <string name="GuestStar">Host</string>
   <string name="GuestStars">Hosté</string>
   <!--H-->
+  <string name="HairStylist">Kadeřník</string>
   <string name="Hate">Nelíbí se mi</string>
   <string name="Hated">Označené jako nelíbí se mi</string>
   <string name="HideTVShowsInWatchlist">Skrýt seriály v seznamu ke zhlédnutí</string>
+  <string name="HideAdded">Skrýt přidané</string>
+  <string name="HideCommented">Skrýt okomentované</string>
+  <string name="HideComments">Skrýt komentáře</string>
   <string name="HideCollected">Skrýt \"V kolekci\"</string>
+  <string name="HideEpisodes">Skrýt epizody</string>
+  <string name="HideLiked">Skrýt oblíbené</string>
+  <string name="HideLists">Skrýt seznamy</string>
+  <string name="HideMovies">Skrýt filmy</string>
+  <string name="HidePaused">Skrýt pozastavené</string>
+  <string name="HidePeople">Skrýt osoby</string>
   <string name="HideRated">Skrýt ohodnocené</string>
+  <string name="HideSeasons">Skrýt řady</string>
+  <string name="HideShows">Skrýt seriály</string>
   <string name="HideSpoilers">Skrýt prozrazení děje</string>
+  <string name="HideUpdated">Skrýt aktualizované</string>
   <string name="HideWatched">Skrýt zhlédnuté</string>
   <string name="HideWatchlisted">Skrýt označené jako ke zhlédnutí</string>
   <string name="HiddenToPreventSpoilers">Tento komentář byl skryt aby nedošlo k prozrazení děje. Toto můžete změnit v nastavení aplikace.</string>
@@ -274,6 +302,7 @@
   <string name="LibrarySyncStarted">Byla spuštěna manuální synchronizace.</string>
   <string name="LibraryAndPlaybackSyncAlreadyRunning">Synchronizace knihovny a přehrávání již běží, zkuste to prosím později.</string>
   <string name="LibraryAndPlaybackSyncStarted">Byla spuštěna manuální synchronizace knihovny a přehrávání.</string>
+  <string name="LightingTechnician">Osvětlovač</string>
   <string name="Like">Líbí se mi</string>
   <string name="Likes">Označené jako líbí se mi</string>
   <string name="List">Seznam</string>
@@ -335,12 +364,15 @@
   <string name="NoRelatedMovies">Pro {0} nebyly nalezeny podobné filmy!</string>
   <string name="NoRelatedShows">Pro {0} nebyly nalezeny podobné seriály!</string>
   <string name="No">Ne</string>
+  <string name="Novel">Román</string>
   <!--O-->
   <string name="Off">Vyp.</string>
   <string name="OK">OK</string>
   <string name="On">Zap.</string>
   <string name="Other">Jiné</string>
   <string name="Overview">Přehled</string>
+  <string name="OriginalStory">Předloha</string>
+  <string name="OriginalMusicComposer">Hudba</string>
   <!--P-->
   <string name="Page">Strana</string>
   <string name="Pages">Strany</string>
@@ -355,7 +387,11 @@
   <string name="PlayTrailer">Přehrát upoutávku</string>
   <string name="Plugin">Modul</string>
   <string name="Plugins">Moduly</string>
-  <string name="Popular">Oblíbený</string>
+  <string name="PinCode">PIN kód</string>
+  <string name="PinCodeDialog">Dialog PIN kódu</string>
+  <string name="PinCodeDlgLabel2">Zadejte čtyř číselný PIN kód pro pokračování:</string>
+  <string name="PinCodeMessageIncorrect">Neplatný PIN kód</string>
+  <string name="Popular">Oblíbené</string>
   <string name="Popularity">Oblíbenost</string>
   <string name="PopularShows">Oblíbené seriály</string>
   <string name="PopularMovies">Oblíbené filmy</string>
@@ -396,7 +432,7 @@
   <string name="RecentAddedMovies">Nedávno přidané filmy</string>
   <string name="RecentComments">Nedávné komentáře</string>
   <string name="RecentShouts">Nedávné komentáře</string>
-  <string name="Recommendations">Doporučení</string>
+  <string name="Recommendations">Doporučené</string>
   <string name="RecommendedMovies">Doporučené filmy</string>
   <string name="RecommendedShows">Doporučené seriály</string>
   <string name="Refresh">Aktualizovat</string>
@@ -413,8 +449,10 @@
   <string name="Replies">Odpovědi</string>
   <string name="Requests">Žádosti</string>
   <string name="ReturningSeries">Opakované seriály</string>
+  <string name="Revenue">Tržby</string>
   <string name="Runtime">Délka</string>
   <!--S-->
+  <string name="Screenplay">Scénář</string>
   <string name="Score">Skóre</string>
   <string name="Scrobble">Scrobble</string>
   <string name="SearchWithMpNZB">Prohledat NZB</string>
@@ -436,13 +474,13 @@
   <string name="SendFollowRequest">Odeslat uživateli {0} žádost o sledování?</string>
   <string name="SelectLists">Zvolte seznamy</string>
   <string name="SelectUser">Zvolte uživatele</string>
-  <string name="Series">Seriály</string>
-  <string name="SeriesPlural">Seriály</string>
+  <string name="Series">Řady</string>
+  <string name="SeriesPlural">Řady</string>
   <string name="SetPassword">Nemáte zadané heslo.\nChcete jej zadat nyní?</string>
   <string name="Settings">Možnosti</string>
   <string name="Shout">Komentář</string>
   <string name="Shouts">Komentáře</string>
-  <string name="Show">Seriál</string>
+  <string name="Show">Seriály</string>
   <string name="Shows">Seriály</string>
   <string name="ShowCount">{0} seriálů</string>
   <string name="ShowTVShowsInWatchlist">Zobrazit seriály v seznamu ke zhlédnutí</string>
@@ -534,19 +572,22 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="SortSeasonsDescending">Zobrazit řady v sestupném pořadí</string>
   <string name="Sound">Zvuk</string>
   <string name="Specials">Speciály</string>
+  <string name="SpecialEffects">Speciální efekty</string>
   <string name="Status">Stav</string>
   <!--T-->
+  <string name="Thanks">Poděkování</string>
   <string name="Timeout">Vypršel časový limit:</string>
   <string name="TotalPages">Celkem stran</string>
   <string name="TotalItemsPerPage">Celkem položek na stranu</string>
+  <string name="TotalRevenue">Celkové tržby</string>
   <string name="Trending">Populární</string>
   <string name="TrendingShows">Populární seriály</string>
   <string name="TrendingShowsAndMovies">Populární seriály a filmy</string>
   <string name="TrendingMovies">Populární filmy</string>
   <string name="TrendingMoviePeople">{0} lidí právě sleduje {1} filmů!</string>
   <string name="TrendingTVShowsPeople">{0} lidí právě sleduje {1} seriálů!</string>
-  <string name="TV">TV</string>
-  <string name="TVShow">Seriál</string>
+  <string name="TV">Seriály</string>
+  <string name="TVShow">Seriály</string>
   <string name="TVShows">Seriály</string>
   <string name="Tagline">Slogan</string>
   <string name="Title">Název</string>
@@ -579,6 +620,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="UserProfile">Profil uživatele</string>
   <string name="UserRatingsDistribution">Rozsah hodnocení od 1 do 10 srdcí</string>
   <!--V-->
+  <string name="VisualEffects">Obrazové efekty</string>
   <string name="View">Pohled</string>
   <string name="Votes">Hlasování</string>
   <string name="ValidUsername">Zadejte platné jméno uživatele!</string>
@@ -586,7 +628,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="ValidEmail">Zadejte platný email!</string>
   <!--W-->
   <string name="WatchList">Seznam ke zhlédnutí</string>
-  <string name="Watched">Zhlédnuto</string>
+  <string name="Watched">Zhlédnuté</string>
   <string name="WatchedMovies">Zhlédnuté filmy</string>
   <string name="WatchedEpisodes">Zhlédnuté epizody</string>
   <string name="WatchedShows">Zhlédnuté seriály</string>

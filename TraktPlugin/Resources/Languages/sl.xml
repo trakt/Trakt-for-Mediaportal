@@ -234,6 +234,10 @@
   <string name="PlayTrailer">Predvajaj Trailer</string>
   <string name="Plugin">Vtičnik</string>
   <string name="Plugins">Vtičniki</string>
+  <string name="PinCode">Pin koda</string>
+  <string name="PinCodeDialog">Pin koda</string>
+  <string name="PinCodeDlgLabel2">Za nadaljevanje vnesite 4 mestno Pin kodo:</string>
+  <string name="PinCodeMessageIncorrect">Pin neveljaven</string>
   <string name="Public">Javno</string>
   <string name="PreviousEpisode">Prejšnja epizoda</string>
   <string name="Private">Zasebno</string>

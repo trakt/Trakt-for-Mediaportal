@@ -141,6 +141,9 @@
   <string name="PlayTrailer">Spila stiklu</string>
   <string name="Plugin">Viðbót</string>
   <string name="Plugins">Viðbætur</string>
+  <string name="PinCode">Pin númer</string>
+  <string name="PinCodeDlgLabel2">Sláið inn 4 stafa pin til að halda áfram:</string>
+  <string name="PinCodeMessageIncorrect">Pin rangt</string>
   <string name="PreviousEpisode">Fyrri þáttur</string>
   <string name="PrivacyPublic">Allir geta séð þennan lista</string>
   <string name="PrivacyFriends">Aðeins vinir geta skoðað þennan lista</string>

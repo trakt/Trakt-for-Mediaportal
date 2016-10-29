@@ -41,6 +41,10 @@
   <string name="No">아니오</string>
   <!--O-->
   <!--P-->
+  <string name="PinCode">핀코드</string>
+  <string name="PinCodeDialog">핀코드 입력창</string>
+  <string name="PinCodeDlgLabel2">4개 숫자로된 핀코드를 입력하세요:</string>
+  <string name="PinCodeMessageIncorrect">잘못된 핀</string>
   <!--R-->
   <string name="Rate">평점</string>
   <string name="Rated">점수매겨짐</string>

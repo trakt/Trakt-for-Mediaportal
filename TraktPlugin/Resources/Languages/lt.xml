@@ -270,6 +270,10 @@
   <string name="PlayTrailer">Groti anonsą</string>
   <string name="Plugin">Įskiepis</string>
   <string name="Plugins">Įskiepiai</string>
+  <string name="PinCode">PIN kodas</string>
+  <string name="PinCodeDialog">PIN kodo langas</string>
+  <string name="PinCodeDlgLabel2">Įveskite 4 skaičių PIN kodą:</string>
+  <string name="PinCodeMessageIncorrect">PIN neteisingas</string>
   <string name="Public">Viešas</string>
   <string name="PreviousEpisode">Praeitas epzidoas</string>
   <string name="Private">Privatus</string>

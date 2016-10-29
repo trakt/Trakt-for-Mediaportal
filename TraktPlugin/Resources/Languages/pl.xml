@@ -190,6 +190,10 @@
   <string name="PlayTrailer">Odtwórz zwiastun</string>
   <string name="Plugin">Dodatek</string>
   <string name="Plugins">Dodatki</string>
+  <string name="PinCode">Kod PIN</string>
+  <string name="PinCodeDialog">Okno kodu PIN</string>
+  <string name="PinCodeDlgLabel2">Wprowadź czteroznakowy kod PIN aby kontynuować:</string>
+  <string name="PinCodeMessageIncorrect">Nieprawidłowy PIN</string>
   <string name="PreviousEpisode">Poprzedni odcinek</string>
   <string name="Private">Prywatny</string>
   <string name="Privacy">Prywatność</string>

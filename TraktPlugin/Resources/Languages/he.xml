@@ -42,6 +42,8 @@
   <!--O-->
   <string name="OK">אוקיי</string>
   <!--P-->
+  <string name="PinCode">קוד נעילה</string>
+  <string name="PinCodeMessageIncorrect">קוד נעילה שגוי</string>
   <!--R-->
   <string name="Rate">דרג</string>
   <string name="Rated">מדורג</string>

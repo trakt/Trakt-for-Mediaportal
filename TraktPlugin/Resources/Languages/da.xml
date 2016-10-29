@@ -231,6 +231,10 @@
   <string name="PlayTrailer">Afspil trailer</string>
   <string name="Plugin">Tilføjelse</string>
   <string name="Plugins">Tilføjelser</string>
+  <string name="PinCode">Adgangskode</string>
+  <string name="PinCodeDialog">Adgangskode dialog</string>
+  <string name="PinCodeDlgLabel2">Skriv den 4 ciffrede kode for at fortsætte:</string>
+  <string name="PinCodeMessageIncorrect">Forkert kode</string>
   <string name="Public">Offentlig</string>
   <string name="PreviousEpisode">Foregående episode</string>
   <string name="Private">Privat</string>

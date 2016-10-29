@@ -63,6 +63,10 @@
   <!--P-->
   <string name="Plugin">Dodatak</string>
   <string name="Plugins">Dodaci</string>
+  <string name="PinCode">Pin kod</string>
+  <string name="PinCodeDialog">Okvir za unos PIN-a</string>
+  <string name="PinCodeDlgLabel2">Unesi PIN od 4 znamenke za nastavak:</string>
+  <string name="PinCodeMessageIncorrect">PIN je netočan</string>
   <!--R-->
   <string name="Rate">Ocijeni</string>
   <string name="Rated">Ocijenjeno</string>
