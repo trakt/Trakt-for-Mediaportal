@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using SQLite.NET;
-using MediaPortal.Configuration;
+﻿using MediaPortal.Configuration;
 using MediaPortal.Database;
 using MediaPortal.Video.Database;
+using SQLite.NET;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace TraktPlugin
 {
@@ -106,8 +103,8 @@ namespace TraktPlugin
         {
             // Get Movies from My Films Configurations (that are trakt enabled)
             ArrayList moviesArray = new ArrayList();
-            MyFilmsPlugin.MyFilms.BaseMesFilms.GetMovies(ref moviesArray);
-            List<MyFilmsPlugin.MyFilms.MFMovie> movies = (from MyFilmsPlugin.MyFilms.MFMovie movie in moviesArray select movie).ToList();
+            MyFilmsPlugin.BaseMesFilms.GetMovies(ref moviesArray);
+            List<MyFilmsPlugin.DataBase.MFMovie> movies = (from MyFilmsPlugin.DataBase.MFMovie movie in moviesArray select movie).ToList();
             unCheckedMovies.AddRange(from movie in movies where !_blockedFilenames.Contains(movie.File) select new MovieSelectItem { MovieTitle = movie.Title, Filename = new List<string> { movie.File } });
             checkedMovies.AddRange(from movie in movies where _blockedFilenames.Contains(movie.File) select new MovieSelectItem { MovieTitle = movie.Title, Filename = new List<string> { movie.File } });
         }

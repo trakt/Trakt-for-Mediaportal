@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
+using MediaPortal.Util;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using MediaPortal.GUI.Library;
-using MediaPortal.Util;
-using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
 using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -42,7 +41,7 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        bool StopDownload = false;
+        //bool StopDownload = false;
         DateTime LastRequest = new DateTime();
         Dictionary<string, TraktPersonSummary> people = new Dictionary<string, TraktPersonSummary>();
         Dictionary<string, TraktPersonMovieCredits> movieCredits = new Dictionary<string, TraktPersonMovieCredits>();
@@ -849,7 +848,7 @@ namespace TraktPlugin.GUI
 
         private void ClearProperties()
         {
-            StopDownload = false;
+            //StopDownload = false;
             GUICommon.ClearPersonProperties();
         }
 

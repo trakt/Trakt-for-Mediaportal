@@ -1591,16 +1591,19 @@ namespace TraktPlugin.TraktHandlers
             return id;
         }
 
-        public static bool FindMovieID(string title, int year, string imdbid, ref int? movieID)
+        public static bool FindMovieID(string title, int year, string imdbid, int? tmdbid, ref int? movieID)
         {
             // get all movies in local database
             List<DBMovieInfo> movies = DBMovieInfo.GetAll();
 
             // try find a match
-            DBMovieInfo movie = movies.Find(m => BasicHandler.GetProperImdbId(m.ImdbID) == imdbid || (string.Compare(m.Title, title, true) == 0 && m.Year == year));
+            DBMovieInfo movie = movies.Find(m => (BasicHandler.GetProperImdbId(m.ImdbID) == imdbid) ||
+                                                 (GetTmdbID(m).ToNullableInt32() == tmdbid ) ||
+                                                 (string.Compare(m.Title, title, true) == 0 && m.Year == year)
+                                           );
             if (movie == null)
             {
-                TraktLogger.Info("Found no movies for search criteria. Title = '{0}', Year = '{1}", title, year);
+                TraktLogger.Info("Found no movies for search criteria. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", title, year, imdbid.ToLogString(), tmdbid.ToLogString());
                 return false;
             }
 

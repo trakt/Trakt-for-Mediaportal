@@ -306,7 +306,7 @@ namespace TraktPlugin.GUI
                 }
             }
 
-            TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}'", movie.Title, movie.Year.ToLogString(), movie.Ids.Imdb.ToLogString());
+            TraktLogger.Info("Attempting to play movie. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year.ToLogString(), movie.Ids.Imdb.ToLogString(), movie.Ids.Tmdb.ToLogString());
             bool handled = false;
 
             if (TraktHelper.IsMovingPicturesAvailableAndEnabled)
@@ -316,7 +316,7 @@ namespace TraktPlugin.GUI
 
                 // Find Movie ID in MovingPictures
                 // Movie list is now cached internally in MovingPictures so it will be fast
-                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref movieid);
+                bool movieExists = TraktHandlers.MovingPictures.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, movie.Ids.Tmdb, ref movieid);
 
                 if (movieExists)
                 {
@@ -340,7 +340,7 @@ namespace TraktPlugin.GUI
             {
                 TraktLogger.Info("Checking if any movie to watch in My Videos");
                 IMDBMovie imdbMovie = null;
-                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, ref imdbMovie))
+                if (TraktHandlers.MyVideos.FindMovieID(movie.Title, movie.Year.GetValueOrDefault(), movie.Ids.Imdb, movie.Ids.Tmdb, ref imdbMovie))
                 {
                     // Open My Videos Video Info view so user can play movie
                     if (jumpTo)

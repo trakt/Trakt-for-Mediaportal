@@ -1011,7 +1011,8 @@ namespace TraktPlugin
                                     title = GUIPropertyManager.GetProperty("#title").Trim();
                                     year = GUIPropertyManager.GetProperty("#year").Trim();
                                     imdbid = GUIPropertyManager.GetProperty("#imdbnumber").Trim();
-                                  
+                                    tmdbid = (GUIPropertyManager.GetProperty("#tmdbnumber") ?? string.Empty).Trim();
+
                                     MediaPortal.Util.FanArt.GetFanArtfilename(title, 0, out fanart);
                                     if (fanart.ToLowerInvariant().Equals("unknown"))
                                     {
@@ -1092,7 +1093,7 @@ namespace TraktPlugin
                                     {
                                         int? movieID = null;
                                         int iYear = 0; int.TryParse(year, out iYear);
-                                        if (MovingPictures.FindMovieID(title, iYear, imdbid, ref movieID))
+                                        if (MovingPictures.FindMovieID(title, iYear, imdbid, tmdbid.ToNullableInt32(), ref movieID))
                                             MovingPictures.GetMoviePersonInfo(movieID, out searchPeople);
                                     }
                                     

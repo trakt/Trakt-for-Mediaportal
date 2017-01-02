@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MediaPortal.Configuration;
+using MediaPortal.Player;
+using MyFilmsPlugin;
+using MyFilmsPlugin.DataBase;
+using MyFilmsPlugin.MyFilmsGUI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using MediaPortal.Configuration;
-using MediaPortal.Player;
-using MyFilmsPlugin.MyFilms;
-using MyFilmsPlugin.MyFilms.MyFilmsGUI;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TraktAPI.DataStructures;
@@ -40,7 +41,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(6,1,1,3136))
+                if (new Version(version) < new Version(6,1,2,1469))
                     throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
             }
 
