@@ -12,9 +12,9 @@ using MediaPortal.Video.Database;
 using MediaPortal.GUI.Video;
 using Action = MediaPortal.GUI.Library.Action;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI;
+using TraktAPI.DataStructures;
+using TraktAPI.Extensions;
 using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.Cache;
 

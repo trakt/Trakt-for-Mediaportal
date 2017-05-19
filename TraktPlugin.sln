@@ -1,7 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktPlugin", "TraktPlugin\TraktPlugin.csproj", "{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F9354E34-2955-4E54-AFB2-040236542D19} = {F9354E34-2955-4E54-AFB2-040236542D19}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MPEI", "MPEI", "{CE1EB7DF-4B75-4BD0-B744-B8898FC75371}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transifex", "Transifex", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigLauncher", "ConfigLauncher\ConfigLauncher.csproj", "{5D751473-DCC5-4044-A6E3-403D97C5B9F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktAPI", "TraktAPI\TraktAPI.csproj", "{F9354E34-2955-4E54-AFB2-040236542D19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +43,10 @@ Global
 		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9354E34-2955-4E54-AFB2-040236542D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9354E34-2955-4E54-AFB2-040236542D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9354E34-2955-4E54-AFB2-040236542D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9354E34-2955-4E54-AFB2-040236542D19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

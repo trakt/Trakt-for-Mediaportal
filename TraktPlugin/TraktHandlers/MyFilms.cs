@@ -12,9 +12,9 @@ using System.Linq;
 using System.Threading;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Enums;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {

@@ -7,7 +7,7 @@ using System.Net;
 using MediaPortal.Configuration;
 using MediaPortal.Util;
 using TraktPlugin.TmdbAPI.DataStructures;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktAPI.DataStructures;
 
 namespace TraktPlugin.GUI
 {

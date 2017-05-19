@@ -136,6 +136,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Externals\Newtonsoft.Json.dll</HintPath>
       <Aliases>nsoft</Aliases>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OnlineVideos">
       <HintPath>..\Externals\OnlineVideos.dll</HintPath>
@@ -290,136 +291,6 @@
     <Compile Include="TmdbAPI\Extensions\JsonExtensions.cs" />
     <Compile Include="TmdbAPI\TmdbAPI.cs" />
     <Compile Include="TmdbAPI\TmdbURIs.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktActivity.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktCalendar.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktCharacter.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktComment.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktCommentItem.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktComments.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktCredits.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktCrew.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisode.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeHistory.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeSummaryEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktJob.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktLike.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktLikes.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieAnticipated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieBoxOffice.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMoviesAnticipated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCast.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCredits.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonMovieCrew.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieHistory.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonMovieJob.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMoviesPopular.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMoviesTrending.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMoviesUpdated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieUpdate.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPagination.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonShowCast.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonShowCredits.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonShowCrew.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonShowJob.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktRatingDistribution.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeasonRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeasonWatchList.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowAnticipated.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TraktAPI\DataStructures\TraktShowsAnticipated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowsPopular.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowsTrending.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowsUpdated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowUpdate.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktStatus.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktFollowerRequest.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktImage.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktLastSyncActivities.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktAuthentication.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktList.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktListDetail.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktListItem.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovie.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktNetworkApproval.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktNetworkFriend.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktNetworkUser.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPerson.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktPersonSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktRating.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktScrobble.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktScrobbleEpisode.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktScrobbleMovie.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktScrobbleResponse.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSearchResult.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeason.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeasonId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSeasonSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShow.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowId.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowTrending.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncAll.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncPlayback.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonRatedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonsEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncSeasonsRatedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowCollectedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowRatedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodes.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowsCollectedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowsEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowsRatedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodesWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncEpisodeWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowWatchedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMovieCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMovieRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMovies.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMoviesCollected.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMoviesRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMoviesWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncMovieWatched.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowsWatchedEx.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncResponse.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShows.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktSyncShowsRated.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieTrending.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUser.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUserImages.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUserStatistics.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUserSummary.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktUserToken.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktEpisodeWatchlist.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktMovieWatchlist.cs" />
-    <Compile Include="TraktAPI\DataStructures\TraktShowWatchlist.cs" />
-    <Compile Include="TraktAPI\Enums\TraktEnums.cs" />
-    <Compile Include="TraktAPI\Extensions\DateTimeExtensions.cs" />
-    <Compile Include="TraktAPI\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="TraktAPI\Extensions\JsonExtensions.cs" />
-    <Compile Include="TraktAPI\Extensions\MathExtensions.cs" />
-    <Compile Include="TraktAPI\TraktAPI.cs" />
-    <Compile Include="TraktAPI\TraktURIs.cs" />
     <Compile Include="Cache\TraktCache.cs" />
     <Compile Include="TraktDashboard.cs" />
     <Compile Include="TraktGenres.cs" />
@@ -494,7 +365,12 @@
   <ItemGroup>
     <None Include="Resources\Images\list-remove.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TraktAPI\TraktAPI.csproj">
+      <Project>{f9354e34-2955-4e54-afb2-040236542d19}</Project>
+      <Name>TraktAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Images\InstallSideImage.png" />
     <Content Include="Resources\Images\trakt.png" />

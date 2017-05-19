@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using MediaPortal.Configuration;
-using TraktPlugin.TraktAPI.Enums;
+using TraktAPI.Enums;
 using TraktPlugin.TraktHandlers;
 
 namespace TraktPlugin

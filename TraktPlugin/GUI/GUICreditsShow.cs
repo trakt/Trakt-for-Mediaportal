@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktAPI.DataStructures;
 using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.Cache;
 using Action = MediaPortal.GUI.Library.Action;

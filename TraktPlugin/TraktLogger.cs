@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using MediaPortal.Configuration;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin
 {

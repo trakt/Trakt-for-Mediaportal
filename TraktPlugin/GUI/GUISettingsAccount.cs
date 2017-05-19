@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MediaPortal.GUI.Library;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Enums;
+using TraktAPI.Extensions;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI

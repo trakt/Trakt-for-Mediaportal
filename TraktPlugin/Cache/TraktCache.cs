@@ -6,8 +6,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using MediaPortal.Configuration;
 using TraktPlugin.Extensions;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin
 {

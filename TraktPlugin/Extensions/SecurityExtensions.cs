@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktAPI.DataStructures;
 
 namespace TraktPlugin.Extensions
 {

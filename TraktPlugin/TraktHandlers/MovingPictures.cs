@@ -14,9 +14,9 @@ using MediaPortal.Plugins.MovingPictures.LocalMediaManagement;
 using MediaPortal.Plugins.MovingPictures.MainUI;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Enums;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {

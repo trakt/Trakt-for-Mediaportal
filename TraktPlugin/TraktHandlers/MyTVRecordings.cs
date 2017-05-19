@@ -10,8 +10,8 @@ using System.Threading;
 using MediaPortal.Player;
 using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktAPI;
+using TraktAPI.DataStructures;
 using TvDatabase;
 
 namespace TraktPlugin.TraktHandlers

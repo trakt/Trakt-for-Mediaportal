@@ -9,9 +9,9 @@ using MediaPortal.Video.Database;
 using Trailers.Providers;
 using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Enums;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Enums;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin.GUI
 {

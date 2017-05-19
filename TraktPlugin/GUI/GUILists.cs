@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading;
 using MediaPortal.GUI.Library;
 using MediaPortal.Util;
-using TraktPlugin.TraktAPI.DataStructures;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.DataStructures;
+using TraktAPI.Extensions;
 using TraktPlugin.TraktHandlers;
 using Action = MediaPortal.GUI.Library.Action;
 

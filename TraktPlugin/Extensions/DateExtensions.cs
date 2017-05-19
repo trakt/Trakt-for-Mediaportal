@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using TraktPlugin.TraktAPI.Extensions;
+using TraktAPI.Extensions;
 
 namespace TraktPlugin.Extensions
 {

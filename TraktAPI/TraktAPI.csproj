@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9354E34-2955-4E54-AFB2-040236542D19}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TraktAPI</RootNamespace>
+    <AssemblyName>TraktAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Externals\Newtonsoft.Json.dll</HintPath>
+      <Aliases>nsoft</Aliases>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataStructures\TraktActivity.cs" />
+    <Compile Include="DataStructures\TraktAuthentication.cs" />
+    <Compile Include="DataStructures\TraktCalendar.cs" />
+    <Compile Include="DataStructures\TraktCharacter.cs" />
+    <Compile Include="DataStructures\TraktComment.cs" />
+    <Compile Include="DataStructures\TraktCommentItem.cs" />
+    <Compile Include="DataStructures\TraktComments.cs" />
+    <Compile Include="DataStructures\TraktCredits.cs" />
+    <Compile Include="DataStructures\TraktCrew.cs" />
+    <Compile Include="DataStructures\TraktEpisode.cs" />
+    <Compile Include="DataStructures\TraktEpisodeCollected.cs" />
+    <Compile Include="DataStructures\TraktEpisodeHistory.cs" />
+    <Compile Include="DataStructures\TraktEpisodeId.cs" />
+    <Compile Include="DataStructures\TraktEpisodeRated.cs" />
+    <Compile Include="DataStructures\TraktEpisodeSummary.cs" />
+    <Compile Include="DataStructures\TraktEpisodeSummaryEx.cs" />
+    <Compile Include="DataStructures\TraktEpisodeWatched.cs" />
+    <Compile Include="DataStructures\TraktEpisodeWatchlist.cs" />
+    <Compile Include="DataStructures\TraktFollowerRequest.cs" />
+    <Compile Include="DataStructures\TraktId.cs" />
+    <Compile Include="DataStructures\TraktImage.cs" />
+    <Compile Include="DataStructures\TraktJob.cs" />
+    <Compile Include="DataStructures\TraktLastSyncActivities.cs" />
+    <Compile Include="DataStructures\TraktLike.cs" />
+    <Compile Include="DataStructures\TraktLikes.cs" />
+    <Compile Include="DataStructures\TraktList.cs" />
+    <Compile Include="DataStructures\TraktListDetail.cs" />
+    <Compile Include="DataStructures\TraktListItem.cs" />
+    <Compile Include="DataStructures\TraktMovie.cs" />
+    <Compile Include="DataStructures\TraktMovieAnticipated.cs" />
+    <Compile Include="DataStructures\TraktMovieBoxOffice.cs" />
+    <Compile Include="DataStructures\TraktMovieCollected.cs" />
+    <Compile Include="DataStructures\TraktMovieHistory.cs" />
+    <Compile Include="DataStructures\TraktMovieId.cs" />
+    <Compile Include="DataStructures\TraktMovieRated.cs" />
+    <Compile Include="DataStructures\TraktMoviesAnticipated.cs" />
+    <Compile Include="DataStructures\TraktMoviesPopular.cs" />
+    <Compile Include="DataStructures\TraktMoviesTrending.cs" />
+    <Compile Include="DataStructures\TraktMovieSummary.cs" />
+    <Compile Include="DataStructures\TraktMoviesUpdated.cs" />
+    <Compile Include="DataStructures\TraktMovieTrending.cs" />
+    <Compile Include="DataStructures\TraktMovieUpdate.cs" />
+    <Compile Include="DataStructures\TraktMovieWatched.cs" />
+    <Compile Include="DataStructures\TraktMovieWatchlist.cs" />
+    <Compile Include="DataStructures\TraktNetworkApproval.cs" />
+    <Compile Include="DataStructures\TraktNetworkFriend.cs" />
+    <Compile Include="DataStructures\TraktNetworkUser.cs" />
+    <Compile Include="DataStructures\TraktPagination.cs" />
+    <Compile Include="DataStructures\TraktPerson.cs" />
+    <Compile Include="DataStructures\TraktPersonId.cs" />
+    <Compile Include="DataStructures\TraktPersonMovieCast.cs" />
+    <Compile Include="DataStructures\TraktPersonMovieCredits.cs" />
+    <Compile Include="DataStructures\TraktPersonMovieCrew.cs" />
+    <Compile Include="DataStructures\TraktPersonMovieJob.cs" />
+    <Compile Include="DataStructures\TraktPersonShowCast.cs" />
+    <Compile Include="DataStructures\TraktPersonShowCredits.cs" />
+    <Compile Include="DataStructures\TraktPersonShowCrew.cs" />
+    <Compile Include="DataStructures\TraktPersonShowJob.cs" />
+    <Compile Include="DataStructures\TraktPersonSummary.cs" />
+    <Compile Include="DataStructures\TraktRating.cs" />
+    <Compile Include="DataStructures\TraktRatingDistribution.cs" />
+    <Compile Include="DataStructures\TraktScrobble.cs" />
+    <Compile Include="DataStructures\TraktScrobbleEpisode.cs" />
+    <Compile Include="DataStructures\TraktScrobbleMovie.cs" />
+    <Compile Include="DataStructures\TraktScrobbleResponse.cs" />
+    <Compile Include="DataStructures\TraktSearchResult.cs" />
+    <Compile Include="DataStructures\TraktSeason.cs" />
+    <Compile Include="DataStructures\TraktSeasonId.cs" />
+    <Compile Include="DataStructures\TraktSeasonRated.cs" />
+    <Compile Include="DataStructures\TraktSeasonSummary.cs" />
+    <Compile Include="DataStructures\TraktSeasonWatchList.cs" />
+    <Compile Include="DataStructures\TraktShow.cs" />
+    <Compile Include="DataStructures\TraktShowAnticipated.cs" />
+    <Compile Include="DataStructures\TraktShowId.cs" />
+    <Compile Include="DataStructures\TraktShowRated.cs" />
+    <Compile Include="DataStructures\TraktShowsAnticipated.cs" />
+    <Compile Include="DataStructures\TraktShowsPopular.cs" />
+    <Compile Include="DataStructures\TraktShowsTrending.cs" />
+    <Compile Include="DataStructures\TraktShowSummary.cs" />
+    <Compile Include="DataStructures\TraktShowsUpdated.cs" />
+    <Compile Include="DataStructures\TraktShowTrending.cs" />
+    <Compile Include="DataStructures\TraktShowUpdate.cs" />
+    <Compile Include="DataStructures\TraktShowWatchlist.cs" />
+    <Compile Include="DataStructures\TraktStatus.cs" />
+    <Compile Include="DataStructures\TraktSyncAll.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodeCollected.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodeRated.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodes.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodesCollected.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodesRated.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodesWatched.cs" />
+    <Compile Include="DataStructures\TraktSyncEpisodeWatched.cs" />
+    <Compile Include="DataStructures\TraktSyncMovieCollected.cs" />
+    <Compile Include="DataStructures\TraktSyncMovieRated.cs" />
+    <Compile Include="DataStructures\TraktSyncMovies.cs" />
+    <Compile Include="DataStructures\TraktSyncMoviesCollected.cs" />
+    <Compile Include="DataStructures\TraktSyncMoviesRated.cs" />
+    <Compile Include="DataStructures\TraktSyncMoviesWatched.cs" />
+    <Compile Include="DataStructures\TraktSyncMovieWatched.cs" />
+    <Compile Include="DataStructures\TraktSyncPlayback.cs" />
+    <Compile Include="DataStructures\TraktSyncResponse.cs" />
+    <Compile Include="DataStructures\TraktSyncSeasonEx.cs" />
+    <Compile Include="DataStructures\TraktSyncSeasonRatedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncSeasonsEx.cs" />
+    <Compile Include="DataStructures\TraktSyncSeasonsRatedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowCollectedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowRated.cs" />
+    <Compile Include="DataStructures\TraktSyncShowRatedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShows.cs" />
+    <Compile Include="DataStructures\TraktSyncShowsCollectedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowsEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowsRated.cs" />
+    <Compile Include="DataStructures\TraktSyncShowsRatedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowsWatchedEx.cs" />
+    <Compile Include="DataStructures\TraktSyncShowWatchedEx.cs" />
+    <Compile Include="DataStructures\TraktUser.cs" />
+    <Compile Include="DataStructures\TraktUserImages.cs" />
+    <Compile Include="DataStructures\TraktUserStatistics.cs" />
+    <Compile Include="DataStructures\TraktUserSummary.cs" />
+    <Compile Include="DataStructures\TraktUserToken.cs" />
+    <Compile Include="Enums\TraktEnums.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TraktAPI.cs" />
+    <Compile Include="TraktURIs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

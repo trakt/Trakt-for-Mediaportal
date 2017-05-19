@@ -11,8 +11,8 @@ using MediaPortal.GUI.Library;
 using MediaPortal.GUI.Video;
 using MediaPortal.Util;
 using MediaPortal.Video.Database;
-using TraktPlugin.TraktAPI;
-using TraktPlugin.TraktAPI.DataStructures;
+using TraktAPI;
+using TraktAPI.DataStructures;
 using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
