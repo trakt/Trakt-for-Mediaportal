@@ -69,7 +69,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         static int PreviousSelectedIndex { get; set; }
-        static DateTime LastRequest = new DateTime();
+        //static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
@@ -79,25 +79,25 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!userRecentlyAddedMovies.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
-                {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
-                    (
-                        CurrentUser,
-                        new List<ActivityType>() { ActivityType.movie },
-                        new List<ActivityAction>() { ActivityAction.collection }
-                    );
+                //if (!userRecentlyAddedMovies.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                //{
+                //    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
+                //    (
+                //        CurrentUser,
+                //        new List<ActivityType>() { ActivityType.movie },
+                //        new List<ActivityAction>() { ActivityAction.collection }
+                //    );
 
-                    _RecentlyAddedMovies = activity.Activities;
-                    if (userRecentlyAddedMovies.Keys.Contains(CurrentUser)) userRecentlyAddedMovies.Remove(CurrentUser);
-                    userRecentlyAddedMovies.Add(CurrentUser, _RecentlyAddedMovies);
-                    LastRequest = DateTime.UtcNow;
-                    PreviousSelectedIndex = 0;
-                }
+                //    _RecentlyAddedMovies = activity.Activities;
+                //    if (userRecentlyAddedMovies.Keys.Contains(CurrentUser)) userRecentlyAddedMovies.Remove(CurrentUser);
+                //    userRecentlyAddedMovies.Add(CurrentUser, _RecentlyAddedMovies);
+                //    LastRequest = DateTime.UtcNow;
+                //    PreviousSelectedIndex = 0;
+                //}
                 return userRecentlyAddedMovies[CurrentUser];
             }
         }
-        private IEnumerable<TraktActivity.Activity> _RecentlyAddedMovies = null;
+        //private IEnumerable<TraktActivity.Activity> _RecentlyAddedMovies = null;
 
         #endregion
 

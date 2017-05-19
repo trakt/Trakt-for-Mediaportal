@@ -1878,27 +1878,27 @@ namespace TraktPlugin
                 switch (activityView)
                 {
                     case ActivityView.community:
-                        PreviousActivity = TraktAPI.TraktAPI.GetCommunityActivity();
+                        //PreviousActivity = TraktAPI.TraktAPI.GetCommunityActivity();
                         break;
 
                     case ActivityView.followers:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFollowersActivity();
+                        //PreviousActivity = TraktAPI.TraktAPI.GetFollowersActivity();
                         break;
 
                     case ActivityView.following:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFollowingActivity();
+                        //PreviousActivity = TraktAPI.TraktAPI.GetFollowingActivity();
                         break;
 
                     case ActivityView.friends:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(false);
+                        //PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(false);
                         break;
 
                     case ActivityView.friendsandme:
-                        PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(true);
+                        //PreviousActivity = TraktAPI.TraktAPI.GetFriendActivity(true);
                         break;
 
                     case ActivityView.me:
-                        PreviousActivity = GetMyActivityFromCache();
+                        //PreviousActivity = GetMyActivityFromCache();
                         break;
                 }
                 GetFullActivityLoad = false;
@@ -1911,27 +1911,27 @@ namespace TraktPlugin
                 switch (activityView)
                 {
                     case ActivityView.community:
-                        incrementalActivity = TraktAPI.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        //incrementalActivity = TraktAPI.TraktAPI.GetCommunityActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.followers:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFollowersActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        //incrementalActivity = TraktAPI.TraktAPI.GetFollowersActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.following:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFollowingActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
+                        //incrementalActivity = TraktAPI.TraktAPI.GetFollowingActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch());
                         break;
 
                     case ActivityView.friends:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), false);
+                        //incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), false);
                         break;
 
                     case ActivityView.friendsandme:
-                        incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
+                        //incrementalActivity = TraktAPI.TraktAPI.GetFriendActivity(null, null, ActivityStartTime, DateTime.UtcNow.ToEpoch(), true);
                         break;
 
                     case ActivityView.me:
-                        incrementalActivity = GetMyActivityFromCache();
+                        //incrementalActivity = GetMyActivityFromCache();
                         break;
                 }
                

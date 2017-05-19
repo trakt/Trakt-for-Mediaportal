@@ -70,7 +70,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         static int PreviousSelectedIndex { get; set; }
-        static DateTime LastRequest = new DateTime();
+        //static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
         Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
@@ -80,25 +80,25 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                if (!userRecentlyAddedEpisodes.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
-                {
-                    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
-                    (
-                        CurrentUser,
-                        new List<ActivityType>() { ActivityType.episode },
-                        new List<ActivityAction>() { ActivityAction.collection }
-                    );
+                //if (!userRecentlyAddedEpisodes.Keys.Contains(CurrentUser) || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+                //{
+                //    TraktActivity activity = TraktAPI.TraktAPI.GetUserActivity
+                //    (
+                //        CurrentUser,
+                //        new List<ActivityType>() { ActivityType.episode },
+                //        new List<ActivityAction>() { ActivityAction.collection }
+                //    );
 
-                    _RecentlyAddedEpisodes = activity.Activities;
-                    if (userRecentlyAddedEpisodes.Keys.Contains(CurrentUser)) userRecentlyAddedEpisodes.Remove(CurrentUser);
-                    userRecentlyAddedEpisodes.Add(CurrentUser, _RecentlyAddedEpisodes);
-                    LastRequest = DateTime.UtcNow;
-                    PreviousSelectedIndex = 0;
-                }
+                //    _RecentlyAddedEpisodes = activity.Activities;
+                //    if (userRecentlyAddedEpisodes.Keys.Contains(CurrentUser)) userRecentlyAddedEpisodes.Remove(CurrentUser);
+                //    userRecentlyAddedEpisodes.Add(CurrentUser, _RecentlyAddedEpisodes);
+                //    LastRequest = DateTime.UtcNow;
+                //    PreviousSelectedIndex = 0;
+                //}
                 return userRecentlyAddedEpisodes[CurrentUser];
             }
         }
-        private IEnumerable<TraktActivity.Activity> _RecentlyAddedEpisodes = null;
+        //private IEnumerable<TraktActivity.Activity> _RecentlyAddedEpisodes = null;
 
         #endregion
 
