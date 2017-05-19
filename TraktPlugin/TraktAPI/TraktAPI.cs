@@ -887,7 +887,6 @@ namespace TraktPlugin.TraktAPI
         static readonly Object searchLock = new Object();
 
         /// <summary>
-        /// //TODO switch over to comma-seperate types in a single search
         /// Search from one or more types, movies, episodes, shows etc...
         /// </summary>
         /// <param name="searchTerm">string to search for</param>
@@ -895,125 +894,11 @@ namespace TraktPlugin.TraktAPI
         /// <returns>returns results from multiple search types</returns>
         public static IEnumerable<TraktSearchResult> Search(string searchTerm, HashSet<SearchType> types, int maxResults)
         {
-            // collect all the results from each type in this list
-            List<TraktSearchResult> results = new List<TraktSearchResult>();
+            // get a comma seperated list of types to search on
+            string joinedTypes = string.Join(",", types);
 
-            // run all search types in parallel
-            List<Thread> threads = new List<Thread>();
-
-            foreach (var type in types)
-            {
-                switch (type)
-                {
-                    case SearchType.movies:
-                        var tMovieSearch = new Thread(obj => 
-                        { 
-                            var response = SearchMovies(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tMovieSearch.Start(searchTerm);
-                        tMovieSearch.Name = "Search";
-                        threads.Add(tMovieSearch);
-                        break;
-
-                    case SearchType.shows:
-                        var tShowSearch = new Thread(obj =>
-                        {
-                            var response = SearchShows(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tShowSearch.Start(searchTerm);
-                        tShowSearch.Name = "Search";
-                        threads.Add(tShowSearch);
-                        break;
-
-                    case SearchType.episodes:
-                        var tEpisodeSearch = new Thread(obj =>
-                        {
-                            var response = SearchEpisodes(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tEpisodeSearch.Start(searchTerm);
-                        tEpisodeSearch.Name = "Search";
-                        threads.Add(tEpisodeSearch);
-                        break;
-
-                    case SearchType.people:
-                        var tPeopleSearch = new Thread(obj =>
-                        {
-                            var response = SearchPeople(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tPeopleSearch.Start(searchTerm);
-                        tPeopleSearch.Name = "Search";
-                        threads.Add(tPeopleSearch);
-                        break;
-
-                    case SearchType.users:
-                        var tUserSearch = new Thread(obj =>
-                        {
-                            var response = SearchUsers(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tUserSearch.Start(searchTerm);
-                        tUserSearch.Name = "Search";
-                        threads.Add(tUserSearch);
-                        break;
-
-                    case SearchType.lists:
-                        var tListSearch = new Thread(obj =>
-                        {
-                            var response = SearchLists(obj as string, maxResults);
-                            if (response != null)
-                            {
-                                lock (searchLock)
-                                {
-                                    results.AddRange(response);
-                                }
-                            }
-                        });
-                        tListSearch.Start(searchTerm);
-                        tListSearch.Name = "Search";
-                        threads.Add(tListSearch);
-                        break;
-                }
-            }
-
-            // wait until all search results are back
-            threads.ForEach(t => t.Join());
-
-            // now we have everything we need
-            return results;
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchAll, joinedTypes, HttpUtility.UrlEncode(searchTerm), 1, maxResults));
+            return response.FromJSONArray<TraktSearchResult>();
         }
 
         /// <summary>
@@ -1097,11 +982,13 @@ namespace TraktPlugin.TraktAPI
         /// <summary>
         /// Returns a list of items found when searching by id
         /// </summary>
-        /// <param name="idType">trakt-movie, trakt-show, trakt-episode, imdb, tmdb, tvdb, tvrage</param>
-        /// <param name="id">the id to search by e.g. tt0848228</param>
-        public static IEnumerable<TraktSearchResult> SearchById(string idType, string id)
+        /// <param name="type">trakt, imdb, tmdb, tvdb, tvrage</param>
+        /// <param name="id">the id to search by e.g. tt0848228, may not be unique for some id types</param>
+        /// <param name="idType">the object type e.g. movie, show, episode, person, this will prevent duplicates of the same id</param>
+        /// <param name="maxResults">maximum number of results to return, defaults to 30</param>
+        public static IEnumerable<TraktSearchResult> SearchById(string type, string id, string idType, int maxResults = 30)
         {
-            string response = GetFromTrakt(string.Format(TraktURIs.SearchById, idType, id));
+            string response = GetFromTrakt(string.Format(TraktURIs.SearchById, type, id, idType, 1, maxResults));
             return response.FromJSONArray<TraktSearchResult>();
         }
 

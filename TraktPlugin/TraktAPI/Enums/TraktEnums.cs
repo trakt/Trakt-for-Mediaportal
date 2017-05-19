@@ -150,12 +150,12 @@ namespace TraktPlugin.TraktAPI.Enums
     public enum SearchType
     {
         none = 0,
-        movies = 1,
-        shows = 2,
-        episodes = 4,
-        people = 8,
-        users = 16,
-        lists = 32
+        movie = 1,
+        show = 2,
+        episode = 4,
+        person = 8,
+        user = 16,
+        list = 32
     }
 
     /// <summary>
