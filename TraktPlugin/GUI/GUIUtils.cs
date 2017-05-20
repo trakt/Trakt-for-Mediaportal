@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
-using TraktAPI;
+using TraktAPI.Enums;
 using TraktAPI.DataStructures;
 using System.IO;
 

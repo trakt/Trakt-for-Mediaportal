@@ -1,6 +1,6 @@
 ﻿using MediaPortal.Dialogs;
 using MediaPortal.GUI.Library;
-using TraktAPI;
+using TraktAPI.Enums;
 using Action = MediaPortal.GUI.Library.Action;
 using System;
 

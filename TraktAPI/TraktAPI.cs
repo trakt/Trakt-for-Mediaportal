@@ -11,24 +11,6 @@ using TraktAPI.Extensions;
 
 namespace TraktAPI
 {
-    /// <summary>
-    /// List of Rate Values - here for backwards compatability with WIFIREMOTE
-    /// </summary>
-    public enum TraktRateValue
-    {
-        unrate,
-        one,
-        two,
-        three,
-        four,
-        five,
-        six,
-        seven,
-        eight,
-        nine,
-        ten
-    }
-
     public static class TraktAPI
     {
         #region Web Events
