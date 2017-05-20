@@ -89,13 +89,13 @@ namespace TraktAPI
         public const string CommentLike = "https://api.trakt.tv/comments/{0}/like";
         public const string CommentReplies = "https://api.trakt.tv/comments/{0}/replies";
 
-        public const string SearchAll = "https://api.trakt.tv/search/{0}?query={1}&page={2}&limit={3}?extended=full";
-        public const string SearchMovies = "https://api.trakt.tv/search/movie?query={0}&page={1}&limit={2}?extended=full";
-        public const string SearchShows = "https://api.trakt.tv/search/show?query={0}&page={1}&limit={2}?extended=full";
-        public const string SearchEpisodes = "https://api.trakt.tv/search/episode?query={0}&page={1}&limit={2}?extended=full";
-        public const string SearchPeople = "https://api.trakt.tv/search/person?query={0}&page={1}&limit={2}?extended=full";
-        public const string SearchUsers = "https://api.trakt.tv/search/user?query={0}&page={1}&limit={2}?extended=full";
-        public const string SearchLists = "https://api.trakt.tv/search/list?query={0}&page={1}&limit={2}?extended=full";
+        public const string SearchAll = "https://api.trakt.tv/search/{0}?query={1}&page={2}&limit={3}&extended=full";
+        public const string SearchMovies = "https://api.trakt.tv/search/movie?query={0}&page={1}&limit={2}&extended=full";
+        public const string SearchShows = "https://api.trakt.tv/search/show?query={0}&page={1}&limit={2}&extended=full";
+        public const string SearchEpisodes = "https://api.trakt.tv/search/episode?query={0}&page={1}&limit={2}&extended=full";
+        public const string SearchPeople = "https://api.trakt.tv/search/person?query={0}&page={1}&limit={2}&extended=full";
+        public const string SearchUsers = "https://api.trakt.tv/search/user?query={0}&page={1}&limit={2}&extended=full";
+        public const string SearchLists = "https://api.trakt.tv/search/list?query={0}&page={1}&limit={2}&extended=full";
         public const string SearchById = "https://api.trakt.tv/search/{0}/{1}?type={2}&page={3}&limit={4}&extended=full";
 
         public const string NetworkFriends = "https://api.trakt.tv/users/{0}/friends?extended=full,images";
