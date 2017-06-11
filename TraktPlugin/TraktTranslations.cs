@@ -1016,6 +1016,7 @@ namespace TraktPlugin.GUI
         public static string Writer = "Writer";
         public static string Writers = "Writers";
         public static string Writing = "Writing";
+        public static string WifiRemotePluginInCompatible = "Your version of WifiRemote conflicts with\nthis version of Trakt.\nThe Rate dialog can not be shown.";
 
         // Y
         public static string Year = "Year";

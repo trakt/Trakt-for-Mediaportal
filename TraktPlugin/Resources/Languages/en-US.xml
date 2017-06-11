@@ -754,6 +754,7 @@
   <string name="Writer">Writer</string>
   <string name="Writers">Writers</string>
   <string name="Writing">Writing</string>
+  <string name="WifiRemotePluginInCompatible">Your version of WifiRemote conflicts with\nthis version of Trakt.\nThe Rate dialog can not be shown.</string>
   <!--Y-->
   <string name="Year">Year</string>
   <string name="Yes">Yes</string>

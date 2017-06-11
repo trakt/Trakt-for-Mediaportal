@@ -458,6 +458,14 @@ namespace TraktPlugin.GUI
                 return (int)GUIGraphicsContext.form.Invoke(d, rateObject);
             }
 
+            // The WiFi Remote is using an older version of the API which causes a conflict after recent refactoring
+            // This check is put in place so it does not cripple users experience when rate dialog is invoked
+            if (!TraktHelper.IsWifiRemotePluginCompatible)
+            {
+                GUIUtils.ShowOKDialog(Translation.Error, Translation.WifiRemotePluginInCompatible);
+                return -1;
+            }
+
             TraktRateValue currentRating = TraktRateValue.unrate;
 
             var ratingDlg = (GUIRateDialog)GUIWindowManager.GetWindow(GUIRateDialog.ID);

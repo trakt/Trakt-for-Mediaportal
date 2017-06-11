@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -134,6 +135,23 @@ namespace TraktPlugin
             get
             {
                 return File.Exists(Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "Windows"), "Trailers.dll")) && IsPluginEnabled("Trailers");
+            }
+        }
+
+        public static bool IsWifiRemotePluginCompatible
+        {
+            get
+            {
+                string wifiRemoteFile = Path.Combine(Config.GetSubFolder(Config.Dir.Plugins, "process"), "WifiRemote.dll");
+
+                if (File.Exists(wifiRemoteFile) && IsPluginEnabled("WifiRemote"))
+                {
+                    // check version is > 0.8.3.1
+                    if (new Version(FileVersionInfo.GetVersionInfo(wifiRemoteFile).FileVersion) <= new Version(0, 8, 3, 1))
+                        return false;
+                }
+
+                return true;
             }
         }
 
