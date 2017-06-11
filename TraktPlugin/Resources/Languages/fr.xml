@@ -156,6 +156,7 @@
   <string name="DialogueEditor">Dialoguiste</string>
   <string name="Died">Mort</string>
   <string name="DigitalEffectsSupervisor">Superviseur Effets Spéciaux</string>
+  <string name="DigitalProducer">Producteur numérique</string>
   <string name="Directing">Réalisation</string>
   <string name="Director">Réalisateur</string>
   <string name="Directors">Réalisateurs</string>
@@ -170,6 +171,7 @@
   <string name="Editor">Monteur</string>
   <string name="EditorialCoordinator">Coordinateur de la Rédaction</string>
   <string name="EditorialManager">Directeur de la Rédaction</string>
+  <string name="EditorialProductionAssistant">Assistant de production éditoriale</string>
   <string name="EditList">Editer la liste ....</string>
   <string name="EditingList">Edtion de la liste</string>
   <string name="Electrician">Électricien</string>
@@ -323,6 +325,7 @@
   <string name="Item">Elément</string>
   <string name="Items">Eléments</string>
   <!--J-->
+  <string name="Job">Emploi</string>
   <string name="JoinDate">Date d\'inscription</string>
   <string name="Joined">Inscrit</string>
   <!--K-->
@@ -370,6 +373,7 @@
   <string name="NextPage">Page suivante</string>
   <string name="NextWeek">Semaine prochaine</string>
   <string name="NoActivities">Aucune activité trouvée.</string>
+  <string name="NoCreditsFound">Aucun crédit trouvé</string>
   <string name="NoPersonBiography">Il n\'existe aucune bibliographie concernant cette personne</string>
   <string name="NoEpisodesInSeason">Aucun épisode disponible pour cette saison.</string>
   <string name="NoEpisodeSummary">Le résumé de l\'épisode n\'est pas disponible pour l\'instant.</string>
@@ -427,12 +431,14 @@
   <string name="Plugins">Plugins</string>
   <string name="PinCode">Code PIN</string>
   <string name="PinCodeDialog">Code PIN</string>
+  <string name="PinCodeDlgLabel1">Le contrôle parental est activé</string>
   <string name="PinCodeDlgLabel2">Entrer le code PIN pour déverrouiller:</string>
   <string name="PinCodeMessageIncorrect">Code PIN incorrect</string>
   <string name="Popular">Populaire</string>
   <string name="Popularity">Popularité</string>
   <string name="PopularShows">Spectacles populaires</string>
   <string name="PopularMovies">Films populaires</string>
+  <string name="PostProductionSupervisor">Directeur post-production</string>
   <string name="Public">Public</string>
   <string name="PreviousEpisode">Episode précédent</string>
   <string name="PreviousPage">Page Précédente</string>
@@ -448,6 +454,8 @@
   <string name="ProductionDesign">Création des décors</string>
   <string name="ProductionManager">Directeur de production</string>
   <string name="ProductionOfficeAssistant">Assistant de production</string>
+  <string name="ProductionOfficeCoordinator">Coordonnatrice de bureau de production</string>
+  <string name="ProductionSupervisor">Directeur de production</string>
   <!--R-->
   <string name="Rate">Note</string>
   <string name="Rated">Noté</string>
@@ -495,6 +503,7 @@
   <string name="Screenplay">Scénario</string>
   <string name="Score">Score</string>
   <string name="Scrobble">Scrobble</string>
+  <string name="Sculptor">Sculpteur</string>
   <string name="SearchWithMpNZB">Recherche de NZB</string>
   <string name="SearchTorrent">Recherche de Torrent</string>
   <string name="Season">Saison</string>
@@ -593,6 +602,7 @@
   <string name="SortSeasonsAscending">Trier les saisons par ordre croissant</string>
   <string name="SortSeasonsDescending">Trier les saisons par ordre décroissant</string>
   <string name="Sound">Son</string>
+  <string name="SoundDesigner">Sound designer</string>
   <string name="Specials">Spéciaux</string>
   <string name="SpecialEffects">Effets spéciaux</string>
   <string name="Status">Status</string>
@@ -647,6 +657,7 @@
   <string name="VisualEffects">Effets visuels</string>
   <string name="VisualEffectsProducer"> Producteur des Effets Visuels</string>
   <string name="VisualEffectsSupervisor">Superviseur des effets visuels</string>
+  <string name="VFXSupervisor">Directeur VFX</string>
   <string name="View">Vu</string>
   <string name="Votes">Votes</string>
   <string name="ValidUsername">Vous devez indiquer un nom d\'utilisateur valide</string>
