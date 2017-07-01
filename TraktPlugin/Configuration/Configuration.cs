@@ -481,6 +481,8 @@ namespace TraktPlugin
                 gbTraktAccount.Enabled = false;
                 gbPlugins.Enabled = false;
                 gbRestrictions.Enabled = false;
+                gbParentalControls.Enabled = false;
+                gbImages.Enabled = false;
                 gbSync.Enabled = false;
                 btnOK.Enabled = false;
             }
@@ -491,6 +493,8 @@ namespace TraktPlugin
                 gbTraktAccount.Enabled = true;
                 gbPlugins.Enabled = true;
                 gbRestrictions.Enabled = true;
+                gbParentalControls.Enabled = true;
+                gbImages.Enabled = true;
                 gbSync.Enabled = true;
                 btnOK.Enabled = true;
             }
