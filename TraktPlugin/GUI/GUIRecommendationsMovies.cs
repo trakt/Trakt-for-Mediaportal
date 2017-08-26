@@ -87,7 +87,7 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         string CurrentGenre { get; set; }
         bool HideCollected { get; set; }
         bool HideWatchlisted { get; set; }
@@ -728,7 +728,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= movies.Count())
@@ -752,7 +752,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;            
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.RecommendedMoviesDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.RecommendedMoviesDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
 

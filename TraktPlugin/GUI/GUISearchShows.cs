@@ -88,7 +88,7 @@ namespace TraktPlugin.GUI
 
         bool SearchTermChanged { get; set; }
         string PreviousSearchTerm { get; set; }
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         int PreviousSelectedIndex = 0;
 
@@ -484,7 +484,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (SearchTermChanged) PreviousSelectedIndex = 0;
@@ -521,7 +521,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.SearchShowsDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.SearchShowsDefaultLayout;
 
             // update button label
             if (layoutButton != null)

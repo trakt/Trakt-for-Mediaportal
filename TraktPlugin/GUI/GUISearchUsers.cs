@@ -61,7 +61,7 @@ namespace TraktPlugin.GUI
         bool StopDownload { get; set; }
         bool SearchTermChanged { get; set; }
         string PreviousSearchTerm { get; set; }
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex = 0;
 
         #endregion
@@ -324,7 +324,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (SearchTermChanged) PreviousSelectedIndex = 0;
@@ -356,7 +356,7 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Search.SearchTerm", SearchTerm);
             
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.SearchUsersDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.SearchUsersDefaultLayout;
 
             // update button label
             if (layoutButton != null)

@@ -73,7 +73,7 @@ namespace TraktPlugin.GUI
         static int PreviousSelectedIndex { get; set; }
         static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         Dictionary<string, IEnumerable<TraktEpisodeHistory>> userRecentlyWatchedEpisodes = new Dictionary<string, IEnumerable<TraktEpisodeHistory>>();
 
@@ -511,7 +511,7 @@ namespace TraktPlugin.GUI
             }
 
             // set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= recentlyWatched.Count())
@@ -539,7 +539,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.RecentWatched.CurrentUser", CurrentUser);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.RecentWatchedEpisodesDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.RecentWatchedEpisodesDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

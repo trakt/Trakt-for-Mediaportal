@@ -1,10 +1,9 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
+using MediaPortal.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MediaPortal.GUI.Library;
-using MediaPortal.Util;
 using TraktAPI.DataStructures;
-using TraktAPI.Enums;
 using TraktAPI.Extensions;
 using TraktPlugin.Cache;
 using TraktPlugin.TmdbAPI.DataStructures;
@@ -72,7 +71,7 @@ namespace TraktPlugin.GUI
         static int PreviousSelectedIndex { get; set; }
         //static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         Dictionary<string, IEnumerable<TraktActivity.Activity>> userRecentlyAddedEpisodes = new Dictionary<string, IEnumerable<TraktActivity.Activity>>();
 
@@ -527,7 +526,7 @@ namespace TraktPlugin.GUI
             }
 
             // set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= episodeCount)
@@ -555,7 +554,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.RecentAdded.CurrentUser", CurrentUser);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.RecentAddedEpisodesDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.RecentAddedEpisodesDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

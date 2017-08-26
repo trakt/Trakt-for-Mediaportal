@@ -58,7 +58,7 @@ namespace TraktPlugin.GUI
 
         #region Privates
 
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         int PreviousSelectedIndex = 0;
         DateTime LastRequest = new DateTime();
         Dictionary<string, TraktCredits> showCredits = new Dictionary<string, TraktCredits>();
@@ -484,7 +484,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             Facade.SelectIndex(PreviousSelectedIndex);
@@ -514,7 +514,7 @@ namespace TraktPlugin.GUI
                 GUICommon.SetShowProperties(Show);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.CreditsShowDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.CreditsShowDefaultLayout;
 
             // update button label
             if (layoutButton != null)

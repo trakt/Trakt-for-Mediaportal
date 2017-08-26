@@ -1,9 +1,7 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using MediaPortal.GUI.Library;
 
 namespace TraktPlugin.GUI
 {
@@ -73,7 +71,7 @@ namespace TraktPlugin.GUI
             }
             catch (XmlException e)
             {
-                TraktLogger.Error("Cannot Load skin settings xml file!: {0}", e.Message);                
+                TraktLogger.Error("Cannot Load skin settings xml file!: {0}", e.Message);
                 return;
             }
 
@@ -121,7 +119,7 @@ namespace TraktPlugin.GUI
                 node = rootNode.SelectSingleNode("facadetype");
                 if (node != null)
                 {
-                    DashboardActivityFacadeType = node.InnerText;
+                    DashboardActivityFacadeType = ValidateLayoutType(node.InnerText);
                 }
 
                 node = rootNode.SelectSingleNode("facademaxitems");
@@ -159,7 +157,7 @@ namespace TraktPlugin.GUI
                     node = trendingNode.SelectSingleNode("facadetype");
                     if (node != null)
                     {
-                        trendingItem.FacadeType = node.InnerText;
+                        trendingItem.FacadeType = ValidateLayoutType(node.InnerText);
                     }
 
                     node = trendingNode.SelectSingleNode("facademaxitems");
@@ -297,6 +295,24 @@ namespace TraktPlugin.GUI
             {
                 int.TryParse(node.InnerText, out posy);
                 AvatarRatingOverlayPosY = posy;
+            }
+        }
+
+        private static string ValidateLayoutType(string layout)
+        {
+            switch (layout.ToLowerInvariant())
+            {
+                case "list":
+                    return "List";
+                case "smallicons":
+                    return "SmallIcons";
+                case "largeicons":
+                    return "LargeIcons";
+                case "filmstrip":
+                    return "Filmstrip";
+                default:
+                    TraktLogger.Warning("Invalid MediaPortal layout '{0}' defined in the skin settings", layout);
+                    return "None";
             }
         }
 

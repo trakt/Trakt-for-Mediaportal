@@ -467,7 +467,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // set facade properties
@@ -712,7 +712,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // set facade properties
@@ -796,7 +796,7 @@ namespace TraktPlugin.GUI
             itemId++;
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
             
             // set facade properties

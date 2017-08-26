@@ -389,7 +389,7 @@ namespace TraktPlugin.GUI
             Facade.SelectedListItemIndex = PreviousActivityTypeSelectedIndex;
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             GUIUtils.SetProperty("#itemcount", Facade.Count.ToString());

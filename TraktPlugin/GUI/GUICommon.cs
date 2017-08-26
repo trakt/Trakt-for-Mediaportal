@@ -16,15 +16,7 @@ using TraktAPI.Extensions;
 namespace TraktPlugin.GUI
 {
     #region Enums
-
-    public enum Layout 
-    {
-        List = 0,
-        SmallIcons = 1,
-        LargeIcons = 2,
-        Filmstrip = 3,
-    }
-
+    
     enum ActivityContextMenuItem
     {
         FilterTypes,
@@ -1947,16 +1939,19 @@ namespace TraktPlugin.GUI
         #endregion
 
         #region Layout
-        internal static Layout ShowLayoutMenu(Layout currentLayout, int itemToSelect)
+        internal static GUIFacadeControl.Layout ShowLayoutMenu(GUIFacadeControl.Layout currentLayout, int itemToSelect)
         {
-            Layout newLayout = currentLayout;
+            GUIFacadeControl.Layout newLayout = currentLayout;
 
-            IDialogbox dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
+            var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
             dlg.Reset();
             dlg.SetHeading(GetLayoutTranslation(currentLayout));
 
-            foreach (Layout layout in Enum.GetValues(typeof(Layout)))
+            foreach (GUIFacadeControl.Layout layout in Enum.GetValues(typeof(GUIFacadeControl.Layout)))
             {
+                // we don't support all layouts so skip over those ones
+                if ((int)layout > 3) continue;
+
                 string menuItem = GetLayoutTranslation(layout);
                 GUIListItem pItem = new GUIListItem(menuItem);
                 if (layout == currentLayout) pItem.Selected = true;
@@ -1969,8 +1964,8 @@ namespace TraktPlugin.GUI
             {
                 var facade = GUIWindowManager.GetWindow(GUIWindowManager.ActiveWindow).GetControl((int)TraktGUIControls.Facade) as GUIFacadeControl;
 
-                newLayout = (Layout)dlg.SelectedLabel;
-                facade.SetCurrentLayout(Enum.GetName(typeof(Layout), newLayout));
+                newLayout = (GUIFacadeControl.Layout)dlg.SelectedLabel;
+                facade.CurrentLayout = newLayout;
                 GUIControl.SetControlLabel(GUIWindowManager.ActiveWindow, (int)TraktGUIControls.Layout, GetLayoutTranslation(newLayout));
                 // when loosing focus from the facade the current selected index is lost
                 // e.g. changing layout from skin side menu
@@ -1979,27 +1974,25 @@ namespace TraktPlugin.GUI
             return newLayout;
         }
 
-        internal static string GetLayoutTranslation(Layout layout)
+        internal static string GetLayoutTranslation(GUIFacadeControl.Layout layout)
         {
-            bool mp12 = TraktSettings.MPVersion <= new Version(1, 2, 0, 0);
-
             string strLine = string.Empty;
             switch (layout)
             {
-                case Layout.List:
+                case GUIFacadeControl.Layout.List:
                     strLine = GUILocalizeStrings.Get(101);
                     break;
-                case Layout.SmallIcons:
+                case GUIFacadeControl.Layout.SmallIcons:
                     strLine = GUILocalizeStrings.Get(100);
                     break;
-                case Layout.LargeIcons:
+                case GUIFacadeControl.Layout.LargeIcons:
                     strLine = GUILocalizeStrings.Get(417);
                     break;
-                case Layout.Filmstrip:
+                case GUIFacadeControl.Layout.Filmstrip:
                     strLine = GUILocalizeStrings.Get(733);
                     break;
             }
-            return mp12 ? strLine : GUILocalizeStrings.Get(95) + strLine;
+            return strLine;
         }
         #endregion
 
@@ -3175,7 +3168,7 @@ namespace TraktPlugin.GUI
         #endregion
 
         #endregion
-
+        
         #region Filters
 
         internal static List<MultiSelectionItem> GetFilterListItems(Dictionary<Filters, bool> filters)

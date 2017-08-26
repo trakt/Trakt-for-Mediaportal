@@ -64,7 +64,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         private Dictionary<int, TraktMoviesTrending> TrendingMoviePages = null;
-        private Layout CurrentLayout { get; set; }
+        private GUIFacadeControl.Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
@@ -509,7 +509,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             Facade.SelectIndex(PreviousSelectedIndex);
@@ -539,7 +539,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;            
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.TrendingMoviesDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.TrendingMoviesDefaultLayout;
             
             // Update Button States
             UpdateButtonState();

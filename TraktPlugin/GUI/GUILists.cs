@@ -549,7 +549,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= lists.Count())

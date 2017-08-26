@@ -110,7 +110,7 @@ namespace TraktPlugin.GUI
                 if (linesArray.Length > 3) dlgYesNo.SetLine(4, linesArray[3]);
                 dlgYesNo.SetDefaultToYes(defaultYes);
 
-                foreach (GUIControl item in dlgYesNo.GetControlList())
+                foreach (GUIControl item in dlgYesNo.Children)
                 {
                     if (item is GUIButtonControl)
                     {
@@ -218,14 +218,14 @@ namespace TraktPlugin.GUI
                 pDlgNotify.SetText(text);
                 if (timeout >= 0) pDlgNotify.TimeOut = timeout;
                     
-                foreach (GUIControl item in pDlgNotify.GetControlList())
+                foreach (GUIControl item in pDlgNotify.Children)
                 {
                     if (item is GUIButtonControl)
                     {
                         GUIButtonControl btn = (GUIButtonControl)item;
                         if (btn.GetID == 4 && !string.IsNullOrEmpty(buttonText) && !string.IsNullOrEmpty(btn.Label))
                         {
-                            // Only if ID is 4 and we have our custom text and if button already has label (in case the skin "hides" the button by emtying the label)
+                            // Only if ID is 4 and we have our custom text and if button already has label (in case the skin "hides" the button by emptying the label)
                             btn.Label = buttonText;
                         }
                     }

@@ -395,7 +395,7 @@ namespace TraktPlugin
 
                 var item = new GUIListItem(Translation.NoActivities);
                 facade.Add(item);
-                facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
+                facade.CurrentLayout = (GUIFacadeControl.Layout)Enum.Parse(typeof(GUIFacadeControl.Layout), TraktSkinSettings.DashboardActivityFacadeType);
                 ClearSelectedActivityProperties();
                 return;
             }
@@ -476,7 +476,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout(TraktSkinSettings.DashboardActivityFacadeType);
+            facade.CurrentLayout = (GUIFacadeControl.Layout)Enum.Parse(typeof(GUIFacadeControl.Layout), TraktSkinSettings.DashboardActivityFacadeType);
             facade.SetVisibleFromSkinCondition();
 
             // Select previously selected item
@@ -711,7 +711,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout(trendingSettings.FacadeType);
+            facade.CurrentLayout = (GUIFacadeControl.Layout)Enum.Parse(typeof(GUIFacadeControl.Layout), trendingSettings.FacadeType);
             facade.SetVisibleFromSkinCondition();
 
             // set facade properties
@@ -947,7 +947,7 @@ namespace TraktPlugin
             }
 
             // Set Facade Layout
-            facade.SetCurrentLayout(trendingSettings.FacadeType);
+            facade.CurrentLayout = (GUIFacadeControl.Layout)Enum.Parse(typeof(GUIFacadeControl.Layout), trendingSettings.FacadeType);
             facade.SetVisibleFromSkinCondition();
 
             // set facade properties

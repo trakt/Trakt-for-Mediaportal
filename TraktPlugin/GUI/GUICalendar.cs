@@ -893,7 +893,7 @@ namespace TraktPlugin.GUI
             Facade.Add(nextItem);
 
             // Set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             // Set the first episode on calendar on initial request (Index 0 is a day header), 

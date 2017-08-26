@@ -72,7 +72,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         bool StopDownload { get; set; }
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         TraktItemType SelectedType { get; set; }
         int PreviousSlug { get; set; }
@@ -893,7 +893,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             Facade.SelectIndex(PreviousSelectedIndex);
@@ -1017,7 +1017,7 @@ namespace TraktPlugin.GUI
             backdrop.LoadingImage = loadingImage;
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.ListItemsDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.ListItemsDefaultLayout;
             // update button label
             GUIControl.SetControlLabel(GetID, layoutButton.GetID, GUICommon.GetLayoutTranslation(CurrentLayout));
         }

@@ -55,7 +55,7 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        private Layout CurrentLayout { get; set; }
+        private GUIFacadeControl.Layout CurrentLayout { get; set; }
         DateTime LastRequest = new DateTime();
         int PreviousSelectedIndex = 0;
         TraktShowSummary Show = null;
@@ -453,7 +453,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= itemCount)
@@ -509,7 +509,7 @@ namespace TraktPlugin.GUI
                 GUIUtils.SetProperty("#Trakt.Show.Fanart", backdropFilename);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.SeasonEpisodesDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.SeasonEpisodesDefaultLayout;
             
             // update button label
             if (layoutButton != null)

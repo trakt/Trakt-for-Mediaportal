@@ -54,7 +54,7 @@ namespace TraktPlugin.GUI
         static int PreviousSelectedIndex { get; set; }
         static DateTime LastRequest = new DateTime();
         string PreviousUser = null;
-        Layout CurrentLayout { get; set; }
+        GUIFacadeControl.Layout CurrentLayout { get; set; }
         ImageSwapper backdrop;
         Dictionary<string, IEnumerable<TraktCommentItem>> userRecentComments = new Dictionary<string, IEnumerable<TraktCommentItem>>();
 
@@ -547,7 +547,7 @@ namespace TraktPlugin.GUI
             }
 
             // set Facade Layout
-            Facade.SetCurrentLayout("List");
+            Facade.CurrentLayout = GUIFacadeControl.Layout.List;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= comments.Count())

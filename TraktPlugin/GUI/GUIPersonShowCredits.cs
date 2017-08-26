@@ -71,7 +71,7 @@ namespace TraktPlugin.GUI
         #region Private Variables
 
         int PreviousSelectedIndex = 0;
-        private Layout CurrentLayout { get; set; }
+        private GUIFacadeControl.Layout CurrentLayout { get; set; }
         private ImageSwapper backdrop;
 
         #endregion
@@ -436,7 +436,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             Facade.SelectIndex(PreviousSelectedIndex);
@@ -493,7 +493,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             Facade.SelectIndex(PreviousSelectedIndex);
@@ -521,7 +521,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Person.CreditType", GUICommon.GetTranslatedCreditType(CurrentCreditType));
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.PersonShowCreditsDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.PersonShowCreditsDefaultLayout;
 
             // Update Button States
             UpdateButtonState();

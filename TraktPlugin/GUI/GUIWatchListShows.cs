@@ -69,7 +69,7 @@ namespace TraktPlugin.GUI
 
         #region Private Variables
 
-        private Layout CurrentLayout { get; set; }
+        private GUIFacadeControl.Layout CurrentLayout { get; set; }
         static int PreviousSelectedIndex { get; set; }
         private ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
@@ -492,7 +492,7 @@ namespace TraktPlugin.GUI
             }
 
             // Set Facade Layout
-            Facade.SetCurrentLayout(Enum.GetName(typeof(Layout), CurrentLayout));
+            Facade.CurrentLayout = CurrentLayout;
             GUIControl.FocusControl(GetID, Facade.GetID);
 
             if (PreviousSelectedIndex >= sortedList.Count())
@@ -520,7 +520,7 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.WatchList.CurrentUser", CurrentUser);
 
             // load last layout
-            CurrentLayout = (Layout)TraktSettings.WatchListShowsDefaultLayout;
+            CurrentLayout = (GUIFacadeControl.Layout)TraktSettings.WatchListShowsDefaultLayout;
 
             // Update Button States
             UpdateButtonState();
