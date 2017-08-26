@@ -440,6 +440,7 @@
   <string name="Plugins">Plugins</string>
   <string name="PinCode">PIN</string>
   <string name="PinCodeDialog">PIN-Dialog</string>
+  <string name="PinCodeDlgLabel1">Jugendfilter ist aktiviert</string>
   <string name="PinCodeDlgLabel2">4-stellige PIN eingeben:</string>
   <string name="PinCodeMessageIncorrect">PIN falsch</string>
   <string name="Popular">Beliebt</string>
@@ -644,6 +645,16 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="SettingMaxUserCommentsRequestDescription">Setze die Maximalzahl abzurufender kürzlicher Kommentare pro Seite</string>
   <string name="SettingSkipMoviesWithNoIdsOnSyncName">Überspringe Filme ohne online-ID beim Sync</string>
   <string name="SettingSkipMoviesWithNoIdsOnSyncDescription">Aktiviere dies um alle Filme ohne gültige ID von IMDb oder TMDb in deiner lokalen Datenbank vom online-Sync auszuschließen.</string>
+  <string name="SettingTmdbMovieImageMaxCacheAgeName">Alter der Filmbildanfragen</string>
+  <string name="SettingTmdbMovieImageMaxCacheAgeDescription">Tage, die Filmbildanfragen zwischengespeichert werden</string>
+  <string name="SettingTmdbShowImageMaxCacheAgeName">Alter der Serienbildanfragen</string>
+  <string name="SettingTmdbShowImageMaxCacheAgeDescription">Tage, die Serienbildanfragen zwischengespeichert werden</string>
+  <string name="SettingTmdbSeasonImageMaxCacheAgeName">Alter der Serienstaffelbildanfragen</string>
+  <string name="SettingTmdbSeasonImageMaxCacheAgeDescription">Tage, die Serienstaffelbildanfragen zwischengespeichert werden</string>
+  <string name="SettingTmdbEpisodeImageMaxCacheAgeName">Alter der Serienepisodenbildanfragen</string>
+  <string name="SettingTmdbEpisodeImageMaxCacheAgeDescription">Tage, die Serienepisodenbildanfragen zwischengespeichert werden</string>
+  <string name="SettingTmdbPersonImageMaxCacheAgeName">Alter der Personenbildanfragen</string>
+  <string name="SettingTmdbPersonImageMaxCacheAgeDescription">Tage, die Personenbildanfragen zwischengespeichert werden</string>
   <string name="StartYear">ab Jahr: {0}</string>
   <string name="StartLibrarySync">Starte Bibliotheks-Synchronisierung</string>
   <string name="StartLibraryAndPlaybackSync">Starte Bibliotheks- und Wiedergabe-Synchronisierung</string>
