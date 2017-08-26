@@ -9,6 +9,8 @@ namespace TraktAPI
     public static class TraktURIs
     {
         public const string Login = "https://api.trakt.tv/auth/login";
+        public const string DeviceCode = "https://api.trakt.tv/oauth/device/code";
+        public const string AccessToken = "https://api.trakt.tv/oauth/device/token";
 
         public const string SyncLastActivities = "https://api.trakt.tv/sync/last_activities";
 

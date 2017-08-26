@@ -49,13 +49,16 @@
   <ItemGroup>
     <Compile Include="DataStructures\TraktActivity.cs" />
     <Compile Include="DataStructures\TraktAuthentication.cs" />
+    <Compile Include="DataStructures\TraktAuthenticationToken.cs" />
     <Compile Include="DataStructures\TraktCalendar.cs" />
     <Compile Include="DataStructures\TraktCharacter.cs" />
+    <Compile Include="DataStructures\TraktClientCode.cs" />
     <Compile Include="DataStructures\TraktComment.cs" />
     <Compile Include="DataStructures\TraktCommentItem.cs" />
     <Compile Include="DataStructures\TraktComments.cs" />
     <Compile Include="DataStructures\TraktCredits.cs" />
     <Compile Include="DataStructures\TraktCrew.cs" />
+    <Compile Include="DataStructures\TraktDeviceCode.cs" />
     <Compile Include="DataStructures\TraktEpisode.cs" />
     <Compile Include="DataStructures\TraktEpisodeCollected.cs" />
     <Compile Include="DataStructures\TraktEpisodeHistory.cs" />

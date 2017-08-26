@@ -84,11 +84,19 @@ namespace TraktAPI.Extensions
         public static string ToJSON(this object obj)
         {
             if (obj == null) return string.Empty;
+
             using (var ms = new MemoryStream())
             {
-                var ser = new DataContractJsonSerializer(obj.GetType());
-                ser.WriteObject(ms, obj);
-                return Encoding.UTF8.GetString(ms.ToArray());
+                try
+                {
+                    var ser = new DataContractJsonSerializer(obj.GetType());
+                    ser.WriteObject(ms, obj);
+                    return Encoding.UTF8.GetString(ms.ToArray());
+                }
+                catch
+                {
+                    return string.Empty;
+                }
             }
         }
     }

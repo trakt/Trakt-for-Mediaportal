@@ -34,17 +34,20 @@ namespace TraktAPI
         // exception being the UserToken which is set after logon
 
         public static string ApplicationId { get; set; }
+        public static string ApplicationSecret { get; set; }
         public static string Username { get; set; }
         public static string Password { get; set; }
         public static string UserToken { get; set; }
         public static string UserAgent { get; set; }
         public static bool UseSSL { get; set; }
-        
+
         #endregion
 
         #region Trakt Methods
 
         #region Authentication
+
+        #region User/Pass Authention
 
         /// <summary>
         /// Login to trakt and to request a user token for all subsequent requests
@@ -67,6 +70,33 @@ namespace TraktAPI
         {
             return new TraktAuthentication { Username = TraktAPI.Username, Password = TraktAPI.Password }.ToJSON();
         }
+
+        #endregion
+
+        #region Device Authentication
+
+        public static TraktDeviceCode GetDeviceCode()
+        {
+            string client_id = ApplicationId;
+
+            var response = PostToTrakt(TraktURIs.DeviceCode, client_id.ToJSON());
+            return response.FromJSON<TraktDeviceCode>();
+        }
+
+        public static TraktAuthenticationToken GetAuthenticationToken(string code)
+        {
+            var clientCode = new TraktClientCode
+            {
+                Code = code,
+                ClientId = ApplicationId,
+                ClientSecret = ApplicationSecret
+            };
+            
+            var response = PostToTrakt(TraktURIs.AccessToken, clientCode.ToJSON());
+            return response.FromJSON<TraktAuthenticationToken>();
+        }
+
+        #endregion
 
         #endregion
 
