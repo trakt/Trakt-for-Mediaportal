@@ -210,6 +210,11 @@ namespace TraktPlugin.Cache
                 {
                     TraktLogger.Debug("Loading file from disk. Filename = '{0}'", filename);
                     returnValue = File.ReadAllText(filename, Encoding.UTF8);
+                    if (string.IsNullOrEmpty(returnValue))
+                    {
+                        TraktLogger.Warning("Unexpected contents in file '{0}', restoring default value", filename);
+                        returnValue = defaultValue;
+                    }
                 }
             }
             catch (Exception e)
