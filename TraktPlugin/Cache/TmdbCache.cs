@@ -13,6 +13,7 @@ namespace TraktPlugin.Cache
     public static class TmdbCache
     {
         // create locks for each media type, lists can have multiple types
+        // we add images and retrieve on different threads so try to be thread safe
         static Object lockShowObject = new object();
         static Object lockMovieObject = new object();
         static Object lockSeasonObject = new object();
@@ -310,8 +311,11 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                images.RequestAge = DateTime.Now.ToString();
-                Movies.Add(images);
+                lock (lockMovieObject)
+                {
+                    images.RequestAge = DateTime.Now.ToString();
+                    Movies.Add(images);
+                }
             }
         }
 
@@ -319,7 +323,10 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                Movies.RemoveAll(m => m.Id == images.Id);
+                lock (lockMovieObject)
+                {
+                    Movies.RemoveAll(m => m.Id == images.Id);
+                }
             }
         }
 
@@ -436,8 +443,11 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                images.RequestAge = DateTime.Now.ToString();
-                Shows.Add(images);
+                lock (lockShowObject)
+                {
+                    images.RequestAge = DateTime.Now.ToString();
+                    Shows.Add(images);
+                }
             }
         }
 
@@ -445,7 +455,10 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                Shows.RemoveAll(s => s.Id == images.Id);
+                lock (lockShowObject)
+                {
+                    Shows.RemoveAll(s => s.Id == images.Id);
+                }
             }
         }
 
@@ -512,11 +525,14 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                images.RequestAge = DateTime.Now.ToString();
-                images.Season = season;
-                images.Episode = episode;
-                images.Id = id;
-                Episodes.Add(images);
+                lock (lockEpisodeObject)
+                {
+                    images.RequestAge = DateTime.Now.ToString();
+                    images.Season = season;
+                    images.Episode = episode;
+                    images.Id = id;
+                    Episodes.Add(images);
+                }
             }
         }
 
@@ -524,7 +540,10 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                Episodes.RemoveAll(e => e.Id == images.Id && e.Season == season && e.Episode == episode);
+                lock (lockEpisodeObject)
+                {
+                    Episodes.RemoveAll(e => e.Id == images.Id && e.Season == season && e.Episode == episode);
+                }
             }
         }
 
@@ -591,11 +610,14 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                // the id on the request (show) is different on the response (season)
-                images.RequestAge = DateTime.Now.ToString();
-                images.Season = season;
-                images.Id = id;
-                Seasons.Add(images);
+                lock (lockSeasonObject)
+                {
+                    // the id on the request (show) is different on the response (season)
+                    images.RequestAge = DateTime.Now.ToString();
+                    images.Season = season;
+                    images.Id = id;
+                    Seasons.Add(images);
+                }
             }
         }
 
@@ -603,7 +625,10 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                Seasons.RemoveAll(s => s.Id == images.Id && s.Season == season);
+                lock (lockSeasonObject)
+                {
+                    Seasons.RemoveAll(s => s.Id == images.Id && s.Season == season);
+                }
             }
         }
 
@@ -670,8 +695,11 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                images.RequestAge = DateTime.Now.ToString();
-                People.Add(images);
+                lock (lockPersonObject)
+                {
+                    images.RequestAge = DateTime.Now.ToString();
+                    People.Add(images);
+                }
             }
         }
 
@@ -679,7 +707,10 @@ namespace TraktPlugin.Cache
         {
             if (images != null)
             {
-                People.RemoveAll(p => p.Id == images.Id);
+                lock (lockPersonObject)
+                {
+                    People.RemoveAll(p => p.Id == images.Id);
+                }
             }
         }
 
