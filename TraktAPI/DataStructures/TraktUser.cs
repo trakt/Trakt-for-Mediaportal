@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace TraktAPI.DataStructures
 {
@@ -21,7 +17,14 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "vip_ep")]
         public bool IsVipEP { get; set; }
 
+        [DataMember(Name = "vip_og")]
+        public bool IsVipOG { get; set; }
+
+        [DataMember(Name = "vip_years")]
+        public int VipYears { get; set; }
+
         [DataMember(Name = "private")]
         public bool IsPrivate { get; set; }
+        
     }
 }

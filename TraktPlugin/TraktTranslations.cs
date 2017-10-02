@@ -246,6 +246,7 @@ namespace TraktPlugin.GUI
         public static string Account = "Account";
         public static string AccountSetup = "Account Setup";
         public static string AccountDialog = "Account Dialog";
+        public static string ActivationUrl = "Activation URL";
         public static string Activity = "Activity";
         public static string Actor = "Actor";
         public static string Actors = "Actors";
@@ -298,6 +299,7 @@ namespace TraktPlugin.GUI
         public static string AirDate = "Air Date";
         public static string AirDay = "Air Day";
         public static string AirTime = "Air Time";
+        public static string ApplicationAuthWait = "Waiting for user to login or create account at trakt.tv and allow access...";
         public static string Approve = "Approve";
         public static string ApproveAndFollowBack = "Approve and Follow Back";
         public static string ApprovedDate = "Approved Date";
@@ -318,6 +320,8 @@ namespace TraktPlugin.GUI
         public static string AssistantArtDirector = "Assistant Art Director";
         public static string AssistantDirector = "Assistant Director";
         public static string AssociateProducer = "Associate Producer";
+        public static string AuthorizeApplication = "Authorize Application";
+        public static string AuthorizingApplication = "Authorizing Application";
 
         // B
         public static string BestBoyElectric = "Best Boy Electric";
@@ -439,6 +443,8 @@ namespace TraktPlugin.GUI
         public static string FailedCreateList = "Failed to create list from online";
         public static string FailedDeleteList = "Failed to delete list from online";
         public static string FailedLogin = "Failed to login to trakt.tv, check username and password in settings";
+        public static string FailedOnlineSettings = "Failed to get online settings from trakt";
+        public static string FailedApplicationAuthorization = "Failed to authorize user for application";
         public static string FailedUpdateList = "Failed to update list online";
         public static string FeatureNotAvailable = "Sorry, this feature is currently not available";
         public static string Filters = "Filters";
@@ -769,11 +775,13 @@ namespace TraktPlugin.GUI
         public static string Requests = "Requests";
         public static string ReturningSeries = "Returning Series";
         public static string Revenue = "Revenue";
+        public static string RevokeAccess = "Revoke Access: {0}";
         public static string RiggingGaffer = "Rigging Gaffer";
         public static string RiggingGrip = "Rigging Grip";
         public static string Runtime = "Runtime";
 
         // S
+        public static string ScanQRCode = "Scan QR Code or browse to {0} and enter in code {1} to authorize";
         public static string ScenicArtist = "Scenic Artist";
         public static string ScoreEngineer = "Score Engineer";
         public static string Screenplay = "Screenplay";
@@ -971,7 +979,7 @@ namespace TraktPlugin.GUI
         public static string User = "User";
         public static string Users = "Users";
         public static string Username = "Username";
-        public static string UnAuthorized = "Authentication failed, please check username and password in settings.";
+        public static string UnAuthorized = "Authentication failed, please authorize application again from settings";
         public static string UnFollow = "UnFollow";
         public static string UnFollowMessage = "Are you sure you no longer want\nto follow user {0}?";
         public static string UnRate = "UnRate";
@@ -982,9 +990,11 @@ namespace TraktPlugin.GUI
         public static string UpdatingFiltersMenuMovingPics = "Updating Filters Menu in MovingPictures.";
         public static string UpdatingFiltersMenuMovingPicsWarning = "You can't remove trakt from the filters menu whilst they're still being updated!";
         public static string UnableToPlayTrailer = "Unable to play trailer.";
+        public static string UserCode = "User Code";
         public static string UserIsProtected = "The current user is protected!\nProtected users can only be viewed\nfrom the 'Friends' view.";
         public static string UserProfile = "User Profile";
         public static string UserRatingsDistribution = "Ratings distribution 1 to 10 hearts";
+        public static string UserLoginSuccess = "User {0} successfully authorized to use trakt account";
 
         // V
         public static string VideoAssistOperator = "Video Assist Operator";

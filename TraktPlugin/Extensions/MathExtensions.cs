@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TraktAPI.Extensions
+namespace TraktPlugin.Extensions
 {
     public static class MathExtensions
     {

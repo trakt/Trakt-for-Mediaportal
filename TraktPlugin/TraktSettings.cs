@@ -1,19 +1,18 @@
-﻿using System;
+﻿using MediaPortal.Configuration;
+using MediaPortal.GUI.Library;
+using MediaPortal.Profile;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using MediaPortal.Configuration;
-using MediaPortal.GUI.Library;
-using MediaPortal.Profile;
-using TraktPlugin.Extensions;
-using TraktPlugin.GUI;
-using TraktPlugin.TmdbAPI.DataStructures;
 using TraktAPI.DataStructures;
 using TraktAPI.Enums;
 using TraktAPI.Extensions;
+using TraktPlugin.GUI;
+using TraktPlugin.TmdbAPI.DataStructures;
 
 namespace TraktPlugin
 {
@@ -22,9 +21,8 @@ namespace TraktPlugin
         private static Object lockObject = new object();
 
         #region Settings
-        static int SettingsVersion = 10;
-
-        public static List<TraktAuthentication> UserLogins { get; set; }
+        static int SettingsVersion = 11;
+        
         public static int MovingPictures { get; set; }
         public static int TVSeries { get; set; }
         public static int MyVideos { get; set; }
@@ -203,15 +201,18 @@ namespace TraktPlugin
         public static int TmdbEpisodeImageMaxCacheAge { get; set; }
         public static int TmdbPersonImageMaxCacheAge { get; set; }
         public static string TmdbPreferredImageLanguage { get; set; }
+        public static TraktAPI.DataStructures.TraktSettings OnlineSettings { get; set; }
+        public static string Username { get; set; }
+        public static string UserAccessTokenExpiry { get; set; }
+        public static string UserRefreshToken { get; set; }
         #endregion
 
         #region Constants
         // trakt has 2 servers, live and staging
-        private const string ApplicationId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
-        private const string ApplicationSecret = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
+        private const string ClientId = "49e6907e6221d3c7e866f9d4d890c6755590cf4aa92163e8490a17753b905e57";
+        private const string ClientSecret = "0547cb211deb6615e14e47901abf62c15002494ae691eeb1576dec2c2e629e10";
+        private const string RedirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
-        private const string ApplicationIdStaging = "d8aed1748b971261dadabba705d85348567579f44ffcec22f8eb8cb982964c78";
-        
         public const string cGuid = "a9c3845a-8718-4712-85cc-26f56520bb9a";
         
         private static string cLastActivityFileCache = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Dashboard\NetworkActivity.json");
@@ -223,7 +224,9 @@ namespace TraktPlugin
         private const string cTrakt = "Trakt";
         private const string cSettingsVersion = "SettingsVersion";
         private const string cUsername = "Username";
-        private const string cPassword = "Password";
+        private const string cUserAccessToken = "UserAccessToken";
+        private const string cUserRefreshToken = "UserRefreshToken";
+        private const string cUserAccessTokenExpiry = "UserAccessTokenExpiry";
         private const string cMovingPictures = "MovingPictures";
         private const string cTVSeries = "TVSeries";
         private const string cMyVideos = "MyVideos";
@@ -401,38 +404,25 @@ namespace TraktPlugin
         private const string cTmdbEpisodeImageMaxCacheAge = "TmdbEpisodeImageMaxCacheAge";
         private const string cTmdbPersonImageMaxCacheAge = "TmdbPersonImageMaxCacheAge";
         private const string cTmdbPreferredImageLanguage = "TmdbPreferredImageLanguage";
+        private const string cTraktOnlineSettings = "TraktOnlineSettings";
         #endregion
         
         #region Properties
-
-        public static string Username
+        
+        public static string UserAccessToken
         {
             get
             {
-                return _username;   
+                return _userAccessToken;
             }
             set
             {
-                _username = value;
-                TraktAPI.TraktAPI.Username = _username;
+                _userAccessToken = value;
+                TraktAPI.TraktAPI.UserAccessToken = _userAccessToken;
             }
         }
-        static string _username = null;
-
-        public static string Password
-        {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                _password = value;
-                TraktAPI.TraktAPI.Password = _password;
-            }
-        }
-        static string _password = null;
-
+        static string _userAccessToken = null;
+        
         /// <summary>
         /// Get Movie Plugin Count
         /// </summary>
@@ -559,37 +549,77 @@ namespace TraktPlugin
 
                         TraktLogger.Info("Logging into trakt.tv");
 
-                        if (string.IsNullOrEmpty(TraktSettings.Username) || string.IsNullOrEmpty(TraktSettings.Password))
+                        if (string.IsNullOrEmpty(TraktSettings.UserAccessToken))
                         {
-                            TraktLogger.Info("Unable to login to trakt.tv, username and/or password is empty");
+                            TraktLogger.Info("Unable to login to trakt.tv, access token is not set. Go to settings and authorise application to use your trakt.tv account");
                             return ConnectionState.Disconnected;
                         }
 
-                        var response = TraktAPI.TraktAPI.Login();
-                        if (response != null && !string.IsNullOrEmpty(response.Token))
+                        #region check if our access token has expired 
+                        DateTime expiryDate = new DateTime();
+                        if (DateTime.TryParse(UserAccessTokenExpiry, out expiryDate))
                         {
-                            // set the user token for all future requests
-                            TraktAPI.TraktAPI.UserToken = response.Token;
+                            if (expiryDate < DateTime.UtcNow)
+                            {
+                                TraktLogger.Info("The trakt access token has now expired as of {0}, requesting refresh token", UserAccessTokenExpiry);
+                                var refreshResponse = TraktAPI.TraktAPI.RefreshAccessToken(TraktSettings.UserRefreshToken);
+                                if (refreshResponse != null && !string.IsNullOrEmpty(refreshResponse.AccessToken))
+                                {
+                                    TraktSettings.UserAccessToken = refreshResponse.AccessToken;
+                                    TraktSettings.UserRefreshToken = refreshResponse.RefreshToken;
 
-                            TraktLogger.Info("User {0} successfully signed into trakt.tv", TraktSettings.Username);
+                                    // new access token expires in 90 days
+                                    TraktSettings.UserAccessTokenExpiry = DateTime.UtcNow.AddSeconds(refreshResponse.ExpiresIn).ToString();
+                                }
+                                else
+                                {
+                                    _AccountStatus = ConnectionState.UnAuthorised;
+
+                                    // force user to manually authorise again - this will only occur every 90 days as a worse case scenario
+                                    TraktSettings.UserAccessToken = string.Empty;
+                                    TraktSettings.UserRefreshToken = string.Empty;
+                                    TraktSettings.UserAccessTokenExpiry = string.Empty;
+
+                                    if (refreshResponse != null && refreshResponse.Description != null)
+                                    {
+                                        TraktLogger.Error("Failed to refresh access token from trakt.tv, you must go to settings and re-authorise application, Code = '{0}', Reason = '{1}'", refreshResponse.Code, refreshResponse.Description);
+                                    }
+                                    return _AccountStatus;
+                                }
+                            }
+                        }
+                        #endregion
+
+                        // make a request for the users settings to test the connection, 
+                        // there is no login method anymore.
+                        var response = TraktAPI.TraktAPI.GetUserSettings();
+                        if (response != null && response.User != null)
+                        {
+                            TraktLogger.Info("User {0} successfully signed in and retrieved online settings from trakt.tv", response.User.Username);
                             _AccountStatus = ConnectionState.Connected;
 
-                            if (!UserLogins.Exists(u => u.Username == Username))
-                            {
-                                UserLogins.Add(new TraktAuthentication { Username = Username, Password = Password });
-                            }
+                            // update username incase it has been updated online
+                            TraktSettings.Username = response.User.Username;
+                            TraktSettings.OnlineSettings = response;
                         }
                         else
                         {
-                            // check the error code for the type of error retured
+                            // check the error code for the type of error returned
                             if (response != null && response.Description != null)
                             {
-                                TraktLogger.Error("Login to trakt.tv failed, Code = '{0}', Reason = '{1}'", response.Code, response.Description);
+                                TraktLogger.Error("Failed to sign-in and get online settings from trakt.tv, Code = '{0}', Reason = '{1}'", response.Code, response.Description);
 
                                 switch (response.Code)
                                 {
                                     case 401:
+                                    case 403:
                                         _AccountStatus = ConnectionState.UnAuthorised;
+                                        // force user to manually authorise again
+                                        TraktSettings.UserAccessToken = string.Empty;
+                                        TraktSettings.UserRefreshToken = string.Empty;
+                                        TraktSettings.UserAccessTokenExpiry = string.Empty;
+
+                                        TraktLogger.Warning("The application must be re-authorised to use your account from trakt.tv from settings");
                                         break;
 
                                     default:
@@ -666,8 +696,9 @@ namespace TraktPlugin
             {
                 UseCompNameOnPassKey = xmlreader.GetValueAsBool(cTrakt, cUseCompNameOnPassKey, true);
                 Username = xmlreader.GetValueAsString(cTrakt, cUsername, "");
-                Password = xmlreader.GetValueAsString(cTrakt, cPassword, "").Decrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty));
-                UserLogins = xmlreader.GetValueAsString(cTrakt, cUserLogins, "[]").FromJSONArray<TraktAuthentication>().ToList().Decrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty));
+                UserAccessToken = xmlreader.GetValueAsString(cTrakt, cUserAccessToken, "");
+                UserAccessTokenExpiry = xmlreader.GetValueAsString(cTrakt, cUserAccessTokenExpiry, "");
+                UserRefreshToken = xmlreader.GetValueAsString(cTrakt, cUserRefreshToken, "");
                 MovingPictures = xmlreader.GetValueAsInt(cTrakt, cMovingPictures, -1);
                 TVSeries = xmlreader.GetValueAsInt(cTrakt, cTVSeries, -1);
                 MyVideos = xmlreader.GetValueAsInt(cTrakt, cMyVideos, -1);
@@ -840,11 +871,14 @@ namespace TraktPlugin
                 TmdbEpisodeImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbEpisodeImageMaxCacheAge, 30, 1, 365);
                 TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 30, 1, 365);
                 TmdbPreferredImageLanguage = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredImageLanguage, "en");
+                OnlineSettings = xmlreader.GetValueAsString(cTrakt, cTraktOnlineSettings, "{}").FromJSON<TraktAPI.DataStructures.TraktSettings>();
             }
 
             // initialise API settings
-            TraktAPI.TraktAPI.ApplicationId = ApplicationId;
-            TraktAPI.TraktAPI.ApplicationSecret = ApplicationSecret;
+            TraktAPI.TraktAPI.ClientId = ClientId;
+            TraktAPI.TraktAPI.ClientSecret = ClientSecret;
+            TraktAPI.TraktAPI.RedirectUri = RedirectUri;
+            
             TraktAPI.TraktAPI.UserAgent = UserAgent;
             TraktAPI.TraktAPI.UseSSL = UseSSL;
 
@@ -890,8 +924,9 @@ namespace TraktPlugin
             {
                 xmlwriter.SetValue(cTrakt, cSettingsVersion, SettingsVersion);
                 xmlwriter.SetValue(cTrakt, cUsername, Username);
-                xmlwriter.SetValue(cTrakt, cPassword, Password.Encrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty)));
-                xmlwriter.SetValue(cTrakt, cUserLogins, UserLogins.Encrypt(cGuid + (UseCompNameOnPassKey ? System.Environment.MachineName : string.Empty)).ToJSON());
+                xmlwriter.SetValue(cTrakt, cUserAccessToken, UserAccessToken);
+                xmlwriter.SetValue(cTrakt, cUserAccessTokenExpiry, UserAccessTokenExpiry);
+                xmlwriter.SetValue(cTrakt, cUserRefreshToken, UserRefreshToken);
                 xmlwriter.SetValue(cTrakt, cMovingPictures, MovingPictures);
                 xmlwriter.SetValue(cTrakt, cTVSeries, TVSeries);
                 xmlwriter.SetValue(cTrakt, cMyVideos, MyVideos);
@@ -1062,6 +1097,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cTmdbEpisodeImageMaxCacheAge, TmdbEpisodeImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPersonImageMaxCacheAge, TmdbPersonImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPreferredImageLanguage, TmdbPreferredImageLanguage);
+                xmlwriter.SetValue(cTrakt, cTraktOnlineSettings, OnlineSettings);
             }
 
             Settings.SaveCache();
@@ -1153,7 +1189,7 @@ namespace TraktPlugin
                             xmlreader.RemoveEntry(cTrakt, "MyAnime");
 
                             // Clear existing passwords as they're no longer hashed in new API v2
-                            xmlreader.RemoveEntry(cTrakt, cPassword);
+                            xmlreader.RemoveEntry(cTrakt, "Password");
                             xmlreader.RemoveEntry(cTrakt, cUserLogins);
 
                             // Remove Advanced Rating setting, there is only one now
@@ -1216,7 +1252,7 @@ namespace TraktPlugin
 
                         case 5:
                             // Clear existing passwords, change of encryption/decryption technique
-                            xmlreader.RemoveEntry(cTrakt, cPassword);
+                            xmlreader.RemoveEntry(cTrakt, "Password");
                             xmlreader.RemoveEntry(cTrakt, cUserLogins);
                             currentSettingsVersion++;
                             break;
@@ -1294,6 +1330,17 @@ namespace TraktPlugin
                             xmlreader.SetValue(cTrakt, cMaxUserWatchedEpisodesRequest, 40);
                             xmlreader.SetValue(cTrakt, cMaxUserWatchedMoviesRequest, 40);
                             xmlreader.SetValue(cTrakt, cMaxUserCommentsRequest, 40);
+
+                            currentSettingsVersion++;
+                            break;
+                        case 10:
+                            // remove old authentication info
+                            xmlreader.RemoveEntry(cTrakt, cUsername);
+                            xmlreader.RemoveEntry(cTrakt, cUserLogins);
+
+                            // keep password for mp-tvseries check when downloading community rating
+                            // future version will only check for user access token
+                            //xmlreader.RemoveEntry(cTrakt, "Password");
 
                             currentSettingsVersion++;
                             break;

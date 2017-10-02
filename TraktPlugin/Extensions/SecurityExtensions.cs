@@ -93,35 +93,6 @@ namespace TraktPlugin.Extensions
                 return null;
             }
         }
-
-        public static List<TraktAuthentication> Decrypt(this List<TraktAuthentication> logins, string key)
-        {
-            if (logins == null || logins.Count == 0)
-                return logins;
-
-            var result = new List<TraktAuthentication>();
-
-            foreach (var login in logins)
-            {
-                result.Add(new TraktAuthentication { Username = login.Username, Password = login.Password.Decrypt(key) });
-            }
-
-            return result;
-        }
-
-        public static List<TraktAuthentication> Encrypt(this List<TraktAuthentication> logins, string key)
-        {
-            if (logins == null || logins.Count == 0)
-                return logins;
-
-            var result = new List<TraktAuthentication>();
-
-            foreach (var login in logins)
-            {
-                result.Add(new TraktAuthentication { Username = login.Username, Password = login.Password.Encrypt(key) });
-            }
-
-            return result;
-        }
+        
     }
 }

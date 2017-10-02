@@ -197,7 +197,7 @@ namespace TraktPlugin.GUI
 
             // Follow User
             // Only show menu item if user has an account as this is an unprotected area.
-            if (!string.IsNullOrEmpty(TraktSettings.Username) && !string.IsNullOrEmpty(TraktSettings.Password) && !((selectedItem as GUIUserListItem).IsFollowed))
+            if (!string.IsNullOrEmpty(TraktSettings.UserAccessToken) && !((selectedItem as GUIUserListItem).IsFollowed))
             {
                 listItem = new GUIListItem(Translation.FollowUser);
                 dlg.Add(listItem);

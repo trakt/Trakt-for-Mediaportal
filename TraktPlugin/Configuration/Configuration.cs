@@ -36,8 +36,6 @@ namespace TraktPlugin
             TraktSettings.LoadSettings(false);
             
             #region Load Settings
-            tbUsername.Text = TraktSettings.Username;
-            tbPassword.Text = TraktSettings.Password;
 
             List<KeyValuePair<int, string>> items = new List<KeyValuePair<int, string>>();
             items.Add(new KeyValuePair<int, string>(TraktSettings.MovingPictures, "Moving Pictures"));
@@ -118,9 +116,15 @@ namespace TraktPlugin
 
             #endregion
 
+            // show revoke button if already authorised
+            if (!string.IsNullOrEmpty(TraktSettings.UserAccessToken))
+            {
+                btnAuthoriseApplication.Text = "Revoke Access";
+                lblAuthorizeApplication.Visible = false;
+            }
+
             // handle events now that we have populated default settings
             clbPlugins.ItemCheck += new ItemCheckEventHandler(this.clbPlugins_ItemCheck);
-            tbPassword.TextChanged += new EventHandler(this.tbPassword_TextChanged);
         }
 
         private void ParseCommandLine(string[] args)
@@ -153,31 +157,7 @@ namespace TraktPlugin
         {
             UpdateStatus(message, error);
         }
-
-        private void tbUsername_TextChanged(object sender, EventArgs e)
-        {
-            TraktSettings.Username = tbUsername.Text;
-            TraktSettings.AccountStatus = ConnectionState.Pending;
-        }
-
-        private void tbPassword_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(tbPassword.Text))
-            {
-                TraktSettings.Password = string.Empty;
-                return;
-            }
-            TraktSettings.Password = tbPassword.Text;
-            TraktSettings.AccountStatus = ConnectionState.Pending;
-        }
-
-        private void tbPassword_Enter(object sender, EventArgs e)
-        {
-            // clear password field so can be re-entered easily, when re-entering config
-            // it wont look like original because its hashed, so it's less confusing if cleared
-            tbPassword.Text = string.Empty;
-        }
-
+        
         private void cbKeepInSync_CheckedChanged(object sender, EventArgs e)
         {
             //IMPORTANT NOTE on support for more than one library backend for the same video type (i.e movies) we shouldn't keep in sync ever.
@@ -621,5 +601,45 @@ namespace TraktPlugin
             TraktSettings.TmdbPreferredImageLanguage = selectedLanguage.TwoLetterCode;
         }
 
+        private void btnAuthoriseApplication_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(TraktSettings.UserAccessToken))
+            {
+                var AuthDialog = new AuthorizationPopup();
+                
+                AuthDialog.ShowDialog(this);
+                if (AuthDialog.DialogResult == DialogResult.OK)
+                {
+                    lblAuthorizeApplication.Visible = false;
+                    btnAuthoriseApplication.Text = "Revoke Access";
+                    TraktSettings.SaveSettings(false);
+                }
+                else
+                {
+                    btnAuthoriseApplication.Text = "Authorize Application...";
+                    ClearAuthorisationProperties();
+                }
+            }
+            else
+            {
+                TraktLogger.Info("Revoking application access to trakt.tv account");
+                
+                TraktAPI.TraktAPI.RevokeToken();
+                ClearAuthorisationProperties();
+
+                TraktLogger.Info("Application access has now been revoked from using trakt.tv account");
+            }
+        }
+
+        private void ClearAuthorisationProperties()
+        {
+            lblAuthorizeApplication.Visible = true;
+            btnAuthoriseApplication.Text = "Authorize Application...";
+            TraktSettings.Username = string.Empty;
+            TraktSettings.UserAccessToken = string.Empty;
+            TraktSettings.UserAccessTokenExpiry = string.Empty;
+            TraktSettings.UserRefreshToken = string.Empty;
+            TraktSettings.SaveSettings(false);
+        }
     }
 }

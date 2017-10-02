@@ -89,7 +89,7 @@ namespace TraktPlugin.GUI
         WatchedListEpisodes = 87269,
         WatchedListMovies = 87270,
         Settings = 87271,
-        SettingsAccount = 87272,
+        SettingsAccount = 87279,
         SettingsPlugins = 87273,
         SettingsGeneral = 87274,
         CustomLists = 87275,

@@ -32,10 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
             this.gbTraktAccount = new System.Windows.Forms.GroupBox();
             this.linkTrakt = new System.Windows.Forms.LinkLabel();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.tbUsername = new System.Windows.Forms.TextBox();
-            this.lbPassword = new System.Windows.Forms.Label();
-            this.lbUsername = new System.Windows.Forms.Label();
             this.gbPlugins = new System.Windows.Forms.GroupBox();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
@@ -75,6 +71,8 @@
             this.gbImages = new System.Windows.Forms.GroupBox();
             this.cboPreferredImageLanguage = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnAuthoriseApplication = new System.Windows.Forms.Button();
+            this.lblAuthorizeApplication = new System.Windows.Forms.Label();
             this.gbTraktAccount.SuspendLayout();
             this.gbPlugins.SuspendLayout();
             this.gbSync.SuspendLayout();
@@ -88,10 +86,8 @@
             // gbTraktAccount
             // 
             this.gbTraktAccount.Controls.Add(this.linkTrakt);
-            this.gbTraktAccount.Controls.Add(this.tbPassword);
-            this.gbTraktAccount.Controls.Add(this.tbUsername);
-            this.gbTraktAccount.Controls.Add(this.lbPassword);
-            this.gbTraktAccount.Controls.Add(this.lbUsername);
+            this.gbTraktAccount.Controls.Add(this.lblAuthorizeApplication);
+            this.gbTraktAccount.Controls.Add(this.btnAuthoriseApplication);
             this.gbTraktAccount.Location = new System.Drawing.Point(18, 18);
             this.gbTraktAccount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbTraktAccount.Name = "gbTraktAccount";
@@ -104,54 +100,14 @@
             // linkTrakt
             // 
             this.linkTrakt.AutoSize = true;
-            this.linkTrakt.Location = new System.Drawing.Point(357, 109);
+            this.linkTrakt.Location = new System.Drawing.Point(402, 112);
             this.linkTrakt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkTrakt.Name = "linkTrakt";
-            this.linkTrakt.Size = new System.Drawing.Size(102, 20);
+            this.linkTrakt.Size = new System.Drawing.Size(57, 20);
             this.linkTrakt.TabIndex = 4;
             this.linkTrakt.TabStop = true;
-            this.linkTrakt.Text = "Signup/Login";
+            this.linkTrakt.Text = "trakt.tv";
             this.linkTrakt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTrakt_LinkClicked);
-            // 
-            // tbPassword
-            // 
-            this.tbPassword.Location = new System.Drawing.Point(100, 74);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(362, 26);
-            this.tbPassword.TabIndex = 3;
-            this.tbPassword.UseSystemPasswordChar = true;
-            this.tbPassword.Enter += new System.EventHandler(this.tbPassword_Enter);
-            // 
-            // tbUsername
-            // 
-            this.tbUsername.Location = new System.Drawing.Point(100, 34);
-            this.tbUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(362, 26);
-            this.tbUsername.TabIndex = 1;
-            this.tbUsername.TextChanged += new System.EventHandler(this.tbUsername_TextChanged);
-            // 
-            // lbPassword
-            // 
-            this.lbPassword.AutoSize = true;
-            this.lbPassword.Location = new System.Drawing.Point(9, 78);
-            this.lbPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbPassword.Name = "lbPassword";
-            this.lbPassword.Size = new System.Drawing.Size(78, 20);
-            this.lbPassword.TabIndex = 2;
-            this.lbPassword.Text = "&Password";
-            // 
-            // lbUsername
-            // 
-            this.lbUsername.AutoSize = true;
-            this.lbUsername.Location = new System.Drawing.Point(9, 38);
-            this.lbUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbUsername.Name = "lbUsername";
-            this.lbUsername.Size = new System.Drawing.Size(83, 20);
-            this.lbUsername.TabIndex = 0;
-            this.lbUsername.Text = "&Username";
             // 
             // gbPlugins
             // 
@@ -675,6 +631,24 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Preferred Language:";
             // 
+            // btnAuthoriseApplication
+            // 
+            this.btnAuthoriseApplication.Location = new System.Drawing.Point(14, 29);
+            this.btnAuthoriseApplication.Name = "btnAuthoriseApplication";
+            this.btnAuthoriseApplication.Size = new System.Drawing.Size(445, 44);
+            this.btnAuthoriseApplication.TabIndex = 5;
+            this.btnAuthoriseApplication.Text = "Authorize Application...";
+            this.btnAuthoriseApplication.UseVisualStyleBackColor = true;
+            this.btnAuthoriseApplication.Click += new System.EventHandler(this.btnAuthoriseApplication_Click);
+            // 
+            // lblAuthorizeApplication
+            // 
+            this.lblAuthorizeApplication.Location = new System.Drawing.Point(12, 80);
+            this.lblAuthorizeApplication.Name = "lblAuthorizeApplication";
+            this.lblAuthorizeApplication.Size = new System.Drawing.Size(445, 40);
+            this.lblAuthorizeApplication.TabIndex = 6;
+            this.lblAuthorizeApplication.Text = "You must authorize the application to use your account at trakt.tv.";
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -719,10 +693,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbTraktAccount;
-        private System.Windows.Forms.Label lbUsername;
-        private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.TextBox tbUsername;
-        private System.Windows.Forms.Label lbPassword;
         private System.Windows.Forms.GroupBox gbPlugins;
         private System.Windows.Forms.GroupBox gbSync;
         private System.Windows.Forms.CheckBox cbKeepInSync;
@@ -763,5 +733,7 @@
         private System.Windows.Forms.GroupBox gbImages;
         private System.Windows.Forms.ComboBox cboPreferredImageLanguage;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblAuthorizeApplication;
+        private System.Windows.Forms.Button btnAuthoriseApplication;
     }
 }

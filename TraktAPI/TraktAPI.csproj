@@ -47,12 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\TraktAccount.cs" />
     <Compile Include="DataStructures\TraktActivity.cs" />
-    <Compile Include="DataStructures\TraktAuthentication.cs" />
     <Compile Include="DataStructures\TraktAuthenticationToken.cs" />
     <Compile Include="DataStructures\TraktCalendar.cs" />
     <Compile Include="DataStructures\TraktCharacter.cs" />
     <Compile Include="DataStructures\TraktClientCode.cs" />
+    <Compile Include="DataStructures\TraktClientId.cs" />
     <Compile Include="DataStructures\TraktComment.cs" />
     <Compile Include="DataStructures\TraktCommentItem.cs" />
     <Compile Include="DataStructures\TraktComments.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="DataStructures\TraktPersonSummary.cs" />
     <Compile Include="DataStructures\TraktRating.cs" />
     <Compile Include="DataStructures\TraktRatingDistribution.cs" />
+    <Compile Include="DataStructures\TraktRefreshToken.cs" />
     <Compile Include="DataStructures\TraktScrobble.cs" />
     <Compile Include="DataStructures\TraktScrobbleEpisode.cs" />
     <Compile Include="DataStructures\TraktScrobbleMovie.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="DataStructures\TraktSeasonRated.cs" />
     <Compile Include="DataStructures\TraktSeasonSummary.cs" />
     <Compile Include="DataStructures\TraktSeasonWatchList.cs" />
+    <Compile Include="DataStructures\TraktSharingText.cs" />
     <Compile Include="DataStructures\TraktShow.cs" />
     <Compile Include="DataStructures\TraktShowAnticipated.cs" />
     <Compile Include="DataStructures\TraktShowId.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="DataStructures\TraktShowTrending.cs" />
     <Compile Include="DataStructures\TraktShowUpdate.cs" />
     <Compile Include="DataStructures\TraktShowWatchlist.cs" />
+    <Compile Include="DataStructures\TraktSocialConnection.cs" />
     <Compile Include="DataStructures\TraktStatus.cs" />
     <Compile Include="DataStructures\TraktSyncAll.cs" />
     <Compile Include="DataStructures\TraktSyncEpisodeCollected.cs" />
@@ -175,7 +179,6 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\JsonExtensions.cs" />
-    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -183,6 +186,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TraktAPI.cs" />
+    <Compile Include="DataStructures\TraktSettings.cs" />
     <Compile Include="TraktURIs.cs" />
   </ItemGroup>
   <ItemGroup>

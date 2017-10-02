@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Web;
 using TraktAPI.DataStructures;
 using TraktAPI.Enums;
@@ -30,16 +31,31 @@ namespace TraktAPI
 
         #region Settings
 
-        // these settings should be set before sending data to trakt
-        // exception being the UserToken which is set after logon
+        /// <summary>
+        /// ClientId should be set before using the API and is specific to the application
+        /// </summary>
+        public static string ClientId { get; set; }
+        /// <summary>
+        /// ClientSecret should be set before using the API and is specific to the application
+        /// </summary>        
+        public static string ClientSecret { get; set; }
+        /// <summary>
+        /// RedirectUri should be set before using the API and is specific to the application
+        /// </summary>
+        public static string RedirectUri { get; set; }
 
-        public static string ApplicationId { get; set; }
-        public static string ApplicationSecret { get; set; }
-        public static string Username { get; set; }
-        public static string Password { get; set; }
-        public static string UserToken { get; set; }
+        /// <summary>
+        /// UserAccessToken is set once we authorise the application
+        /// The application using the API should persist this as well as the refresh token
+        /// </summary>
+        public static string UserAccessToken { get; set; }
+        
         public static string UserAgent { get; set; }
         public static bool UseSSL { get; set; }
+        /// <summary>
+        /// Set this when acess token polling should halt
+        /// </summary>
+        public static bool AuthorisationCancelled { get; set; }
 
         #endregion
 
@@ -47,56 +63,102 @@ namespace TraktAPI
 
         #region Authentication
 
-        #region User/Pass Authention
-
         /// <summary>
-        /// Login to trakt and to request a user token for all subsequent requests
+        /// View Documentation to understand the the flow @
+        /// http://docs.trakt.apiary.io/#reference/authentication-devices/authorize-application
         /// </summary>
-        /// <returns></returns>
-        public static TraktUserToken Login(string loginData = null)
-        {
-            // clear User Token if set
-            UserToken = null;
-
-            var response = PostToTrakt(TraktURIs.Login, loginData ?? GetUserLogin(), false);
-            return response.FromJSON<TraktUserToken>();
-        }
-
-        /// <summary>
-        /// Gets a User Login object
-        /// </summary>       
-        /// <returns>The User Login json string</returns>
-        private static string GetUserLogin()
-        {
-            return new TraktAuthentication { Username = TraktAPI.Username, Password = TraktAPI.Password }.ToJSON();
-        }
-
-        #endregion
-
-        #region Device Authentication
-
+        
         public static TraktDeviceCode GetDeviceCode()
         {
-            string client_id = ApplicationId;
-
-            var response = PostToTrakt(TraktURIs.DeviceCode, client_id.ToJSON());
+            var response = PostToTrakt(TraktURIs.DeviceCode, new TraktClientId { ClientId = ClientId }.ToJSON());
             return response.FromJSON<TraktDeviceCode>();
         }
 
-        public static TraktAuthenticationToken GetAuthenticationToken(string code)
+        public static TraktAuthenticationToken GetAuthenticationToken(TraktDeviceCode code)
         {
+            if (code == null) return null;
+
             var clientCode = new TraktClientCode
             {
-                Code = code,
-                ClientId = ApplicationId,
-                ClientSecret = ApplicationSecret
+                Code = code.DeviceCode,
+                ClientId = ClientId,
+                ClientSecret = ClientSecret
             };
             
-            var response = PostToTrakt(TraktURIs.AccessToken, clientCode.ToJSON());
+            int pollCounter = 0;
+
+            do
+            {
+                if (AuthorisationCancelled) return null;
+
+                var response = PostToTrakt(TraktURIs.AccessToken, clientCode.ToJSON()).FromJSON<TraktAuthenticationToken>();
+
+                if (response == null || AuthorisationCancelled) return null;
+
+                // check the return code on the request to see if we should contine polling
+                // http://docs.trakt.apiary.io/#reference/authentication-devices/get-token/generate-new-device-codes                                
+                // 400 : Pending
+                // 404 : Not Found
+                // 409 : Already Used
+                // 410 : Expired
+                // 418 : Denied
+                // 429 : Slow Down
+                if (response.Code != 0 && response.Code != 200)
+                {
+                    switch (response.Code)
+                    {
+                        case 404:
+                        case 409:
+                        case 410:
+                        case 418:
+                            // fatal, we can't continue
+                            return null;
+                        default:
+                            break;
+                    }
+                }
+                else if (response.AccessToken != null)
+                {
+                    UserAccessToken = response.AccessToken;
+                    return response;
+                }
+
+                // sleep the required time (interval) before checking again
+                // otherwise will return a 429 (slow down) error
+                Thread.Sleep(1000 * code.Interval);
+            }
+            while ((++pollCounter * code.Interval) < code.ExpiresIn);
+
+            return null;
+        }
+        
+        /// <summary>
+        /// This should be called approx 3 months after successfully retrieving the access token
+        /// </summary> 
+        public static TraktAuthenticationToken RefreshAccessToken(string token)
+        {
+            var refreshToken = new TraktRefreshToken
+            {
+                RefreshToken = token,
+                ClientId = ClientId,
+                ClientSecret = ClientSecret,
+                RedirectUri = RedirectUri,
+                GrantType = "refresh_token"
+            };
+
+            var response = PostToTrakt(TraktURIs.RefreshToken, refreshToken.ToJSON());
             return response.FromJSON<TraktAuthenticationToken>();
         }
 
-        #endregion
+        public static void RevokeToken()
+        {
+            // note: this method does not use JSON!
+            PostToTrakt(TraktURIs.RevokeToken, 
+                        string.Format("token={0}", UserAccessToken), 
+                        true, 
+                        "POST", 
+                        "application/x-www-form-urlencoded");
+        }
 
         #endregion
 
@@ -188,6 +250,12 @@ namespace TraktAPI
 
         #region User
 
+        public static TraktSettings GetUserSettings()
+        {
+            var response = GetFromTrakt(TraktURIs.UserSettings);
+            return response.FromJSON<TraktSettings>();
+        }
+            
         public static TraktUserStatistics GetUserStatistics(string username = "me")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserStats, username));
@@ -1807,14 +1875,13 @@ namespace TraktAPI
 
             // add required headers for authorisation
             request.Headers.Add("trakt-api-version", "2");
-            request.Headers.Add("trakt-api-key", ApplicationId);
+            request.Headers.Add("trakt-api-key", ClientId);
 
             // some methods we may want to get all data and not filtered by user data
             // e.g. Calendar - All Shows
-            if (sendOAuth)
+            if (sendOAuth && !string.IsNullOrEmpty(UserAccessToken))
             {
-                request.Headers.Add("trakt-user-login", Username ?? string.Empty);
-                request.Headers.Add("trakt-user-token", UserToken ?? string.Empty);
+                request.Headers.Add("Authorization", string.Format("Bearer {0}", UserAccessToken));
             }
 
             // measure how long it took to get a response
@@ -1856,7 +1923,7 @@ namespace TraktAPI
             catch (WebException wex)
             {
                 watch.Stop();
-
+                
                 string errorMessage = wex.Message;
                 if (wex.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -1869,14 +1936,14 @@ namespace TraktAPI
                     }
                     errorMessage = string.Format("Protocol Error, Code = '{0}', Description = '{1}', Url = '{2}', Headers = '{3}'", (int)response.StatusCode, response.StatusDescription, address, headers.TrimEnd(new char[] { ',', ' ' }));
 
+                    strResponse = new TraktStatus { Code = (int)response.StatusCode, Description = response.StatusDescription }.ToJSON();
+
                     if (OnLatency != null)
                         OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, 0);
                 }
 
                 if (OnDataError != null)
                     OnDataError(errorMessage);
-
-                strResponse = null;
             }
             catch (IOException ioe)
             {
@@ -1891,7 +1958,7 @@ namespace TraktAPI
             return strResponse;
         }
 
-        static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST")
+        static string PostToTrakt(string address, string postData, bool logRequest = true, string method = "POST", string contentType = "application/json")
         {
             if (UseSSL)
             {
@@ -1919,18 +1986,16 @@ namespace TraktAPI
             request.Method = method;
             request.ContentLength = data.Length;
             request.Timeout = 120000;
-            request.ContentType = "application/json";
+            request.ContentType = contentType;
             request.UserAgent = UserAgent;
 
             // add required headers for authorisation
             request.Headers.Add("trakt-api-version", "2");
-            request.Headers.Add("trakt-api-key", ApplicationId);
-            
-            // if we're logging in, we don't need to add these headers
-            if (!string.IsNullOrEmpty(UserToken))
+            request.Headers.Add("trakt-api-key", ClientId);
+           
+            if (!string.IsNullOrEmpty(UserAccessToken))
             {
-                request.Headers.Add("trakt-user-login", Username);
-                request.Headers.Add("trakt-user-token", UserToken);
+                request.Headers.Add("Authorization", string.Format("Bearer {0}", UserAccessToken));
             }
 
             // measure how long it took to get a response
@@ -1995,8 +2060,12 @@ namespace TraktAPI
                         OnLatency(watch.Elapsed.TotalMilliseconds, response, postData.Length * sizeof(Char), 0);
                 }
 
-                if (OnDataError != null)
-                    OnDataError(errorMessage);
+                // don't log an error on the authentication process if polling (status code 400)
+                if (!address.Contains("oauth/device/token") || !result.Contains("400"))
+                {
+                    if (OnDataError != null)
+                        OnDataError(errorMessage);
+                }
 
                 return result;
             }

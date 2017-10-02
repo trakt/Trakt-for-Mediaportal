@@ -2174,7 +2174,7 @@ namespace TraktPlugin
                 return;
 
             // add username to filename
-            string filename = file.Replace("{username}", TraktSettings.Username);
+            string filename = file.Replace("{username}", TraktSettings.Username.ToSafeFilename());
 
             TraktLogger.Debug("Saving file to disk. Filename = '{0}'", filename);
 
@@ -2195,7 +2195,7 @@ namespace TraktPlugin
                 return null;
 
             // add username to filename
-            string filename = file.Replace("{username}", TraktSettings.Username);
+            string filename = file.Replace("{username}", TraktSettings.Username.ToSafeFilename());
 
             string returnValue = defaultValue;
 
@@ -2898,6 +2898,9 @@ namespace TraktPlugin
             _CommentedMovies = null;
             _CommentedSeasons = null;
             _CommentedShows = null;
+
+            _LikedComments = null;
+            _LikedLists = null;
         }
 
         #endregion

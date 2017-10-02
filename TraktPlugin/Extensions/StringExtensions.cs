@@ -39,6 +39,11 @@ namespace TraktPlugin.Extensions
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
+        public static string ToSafeFilename(this string filename)
+        {
+            return string.Join("_", filename.Split(System.IO.Path.GetInvalidFileNameChars()));
+        }
+
         public static bool IsNumber(this string number)
         {
             double retValue;

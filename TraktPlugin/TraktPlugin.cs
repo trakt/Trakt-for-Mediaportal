@@ -526,8 +526,6 @@ namespace TraktPlugin
         /// <summary>
         /// End Point for Syncing of Libraries
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void syncLibraryWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (string.IsNullOrEmpty(Thread.CurrentThread.Name))
@@ -544,8 +542,6 @@ namespace TraktPlugin
         /// <summary>
         /// Logic for the Sync background worker
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void syncLibraryWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             LibrarySyncRunning = true;
@@ -657,7 +653,7 @@ namespace TraktPlugin
         {
             #region Connection Check
             // we can Notify in GUI now that its initialized
-            // only need this if previous connection attempt was unauthorized on Init()
+            // only need this if previous connection attempt was invalid on Init()
             if (!ConnectionChecked)
             {
                 ConnectionChecked = true;
@@ -677,45 +673,6 @@ namespace TraktPlugin
                         {
                             Thread.Sleep(10000);
                             GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
-                        }
-                    }
-                    else
-                    {
-                        // check if login password is set - we cleared this on v2 API upgrade
-                        // but left the username in tact
-                        if (!string.IsNullOrEmpty(TraktSettings.Username) && string.IsNullOrEmpty(TraktSettings.Password))
-                        {
-                            Thread.Sleep(10000);
-                            if (GUIUtils.ShowYesNoDialog(GUIUtils.PluginName(), Translation.SetPassword, true))
-                            {
-                                string password = string.Empty;
-                                if (GUIUtils.GetStringFromKeyboard(ref password, true))
-                                {
-                                    // update password
-                                    TraktSettings.Password = password;
-                                    TraktSettings.AccountStatus = ConnectionState.Pending;
-
-                                    // try login
-                                    if (TraktSettings.AccountStatus == ConnectionState.UnAuthorised)
-                                    {
-                                        // incorrect login details provided, guide user to setting so it can be changed
-                                        GUIUtils.ShowNotifyDialog(Translation.Error, Translation.UnAuthorized);
-                                        GUIWindowManager.ActivateWindow((int)TraktGUIWindows.SettingsAccount);
-                                    }
-                                    else if (TraktSettings.AccountStatus == ConnectionState.Invalid)
-                                    {
-                                        GUIUtils.ShowNotifyDialog(Translation.Error, Translation.LoginFailedServerError);
-                                    }
-                                    else if (TraktSettings.AccountStatus == ConnectionState.Connected)
-                                    {
-                                        // save settings now so password persists incase of bad shutdown
-                                        TraktSettings.SaveSettings(false);
-
-                                        // success, start a sync such that user data can be cached
-                                        SyncLibrary();
-                                    }
-                                }
-                            }
                         }
                     }
                 })

@@ -4,6 +4,7 @@
   <string name="Account">Account</string>
   <string name="AccountSetup">Account Setup</string>
   <string name="AccountDialog">Account Dialog</string>
+  <string name="ActivationUrl">ActivationURL</string>
   <string name="Actor">Actor</string>
   <string name="Actors">Actors</string>
   <string name="ActorAndRole">{0} as {1}</string>
@@ -57,6 +58,7 @@
   <string name="AiredEpisodes">Aired Episodes</string>
   <string name="AirTime">Air Time</string>
   <string name="AppearsInList">{0} Lists</string>
+  <string name="ApplicationAuthWait">Waiting for user to login or create account at trakt.tv and allow access...</string>
   <string name="Approve">Approve</string>
   <string name="ApproveAndFollowBack">Approve and Follow Back</string>
   <string name="ApprovedDate">Approved Date</string>
@@ -76,6 +78,8 @@
   <string name="AssistantArtDirector">Assistant Art Director</string>
   <string name="AssistantDirector">Assistant Director</string>
   <string name="AssociateProducer">Associate Producer</string>
+  <string name="AuthorizeApplication">Authorize Application</string>
+  <string name="AuthorizingApplication">Authorizing Application</string>
   <!--B-->
   <string name="BestBoyElectric">Best Boy Electric</string>
   <string name="BufferingTrailer">Buffering Trailer</string>
@@ -193,7 +197,9 @@
   <string name="FailedCreateList">Failed to create list online</string>
   <string name="FailedDeleteList">Failed to delete list from online</string>
   <string name="FailedLogin">Failed to login to trakt.tv, check username and password in settings</string>
+  <string name="FailedOnlineSettings">Failed to get online settings from trakt</string>
   <string name="FailedUpdateList">Failed to update list online</string>
+  <string name="FailedApplicationAuthorization">Failed to authorize user for application</string>
   <string name="FeatureNotAvailable">Sorry, this feature is currently not available</string>
   <string name="Filters">Filters</string>
   <string name="FirstAired">First Aired</string>
@@ -511,10 +517,12 @@
   <string name="Requests">Requests</string>
   <string name="ReturningSeries">Returning Series</string>
   <string name="Revenue">Revenue</string>
+  <string name="RevokeAccess">Revoke Access: {0}</string>
   <string name="RiggingGaffer">Rigging Gaffer</string>
   <string name="RiggingGrip">Rigging Grip</string>
   <string name="Runtime">Runtime</string>
   <!--S-->
+  <string name="ScanQRCode">Scan QR Code or browse to {0} and enter in code {1} to authorize</string>
   <string name="ScenicArtist">Scenic Artist</string>
   <string name="ScoreEngineer">Score Engineer</string>
   <string name="Screenplay">Screenplay</string>
@@ -710,7 +718,7 @@
   <string name="User">User</string>
   <string name="Users">Users</string>
   <string name="Username">Username</string>
-  <string name="UnAuthorized">Authentication failed, please check username and password in settings.</string>
+  <string name="UnAuthorized">Authentication failed, please authorize application again from settings</string>
   <string name="UnFollow">UnFollow</string>
   <string name="UnFollowMessage">Are you sure you no longer want\nto follow user {0}?</string>
   <string name="UnRate">UnRate</string>
@@ -721,9 +729,11 @@
   <string name="UpdatingFiltersMenuMovingPics">Updating Filters Menu in MovingPictures.</string>
   <string name="UpdatingFiltersMenuMovingPicsWarning">You can\'t remove trakt from the filters menu whilst they\'re still being updated!</string>
   <string name="UnableToPlayTrailer">Unable to play trailer.</string>
+  <string name="UserCode">User Code</string>
   <string name="UserIsProtected">The current user is protected!\nProtected users can only be viewed\nfrom the \'Friends\' view.</string>
   <string name="UserProfile">User Profile</string>
   <string name="UserRatingsDistribution">Ratings distribution 1 to 10 hearts</string>
+  <string name="UserLoginSuccess">User {0} successfully authorized to use trakt account</string>
   <!--V-->
   <string name="VideoAssistOperator">Video Assist Operator</string>
   <string name="VisualDevelopment">Visual Development</string>
