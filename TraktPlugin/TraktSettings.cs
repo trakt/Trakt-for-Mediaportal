@@ -638,7 +638,7 @@ namespace TraktPlugin
                 }
                 return _AccountStatus;
             }
-            set
+            internal set
             {
                 lock (lockObject)
                 {
