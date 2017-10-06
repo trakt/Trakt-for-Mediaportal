@@ -41,7 +41,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(6,1,2,1469))
+                if (new Version(version) < new Version(6,1,3,1469))
                     throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
             }
 
@@ -665,7 +665,7 @@ namespace TraktPlugin.TraktHandlers
         public bool Scrobble(string filename)
         {
             // check movie is from my films
-            if (CurrentMovie == null)
+            if (CurrentMovie == null || !IsCurrentUser)
                 return false;
 
             var scrobbleData = CreateScrobbleData(CurrentMovie);
@@ -759,7 +759,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnStartedMovie(MFMovie movie)
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
@@ -771,7 +771,7 @@ namespace TraktPlugin.TraktHandlers
         private void OnStoppedMovie(MFMovie movie)
         {
             CurrentMovie = null;
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
@@ -805,7 +805,7 @@ namespace TraktPlugin.TraktHandlers
         private void OnWatchedMovie(MFMovie movie)
         {
             CurrentMovie = null;
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             if (!TraktSettings.BlockedFilenames.Contains(movie.File) && !TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
             {
@@ -855,7 +855,7 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("Received rating event from MyFilms. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             // don't do anything if movie is blocked
             if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
@@ -905,7 +905,7 @@ namespace TraktPlugin.TraktHandlers
         {
             TraktLogger.Info("Received togglewatched event from My Films. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'", movie.Title, movie.Year, movie.IMDBNumber ?? "<empty>", movie.TMDBNumber ?? "<empty>");
 
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             // don't do anything if movie is blocked
             if (TraktSettings.BlockedFilenames.Contains(movie.File) || TraktSettings.BlockedFolders.Any(f => movie.File.ToLowerInvariant().Contains(f.ToLowerInvariant())))
@@ -971,7 +971,7 @@ namespace TraktPlugin.TraktHandlers
 
         private void OnImportComplete()
         {
-            if (TraktSettings.AccountStatus != ConnectionState.Connected) return;
+            if (TraktSettings.AccountStatus != ConnectionState.Connected || !IsCurrentUser) return;
 
             TraktLogger.Debug("My Films import complete, initiating online sync");
 
@@ -1046,6 +1046,20 @@ namespace TraktPlugin.TraktHandlers
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Checks if the current MyFilms user is the current Trakt user
+        /// </summary>
+        private bool IsCurrentUser
+        {
+            get
+            {
+                if (MyFilms.conf == null)
+                    return false;
+
+                return MyFilms.conf.StrUserProfileName == TraktSettings.Username;
+            }
+        }
 
         private bool MovieMatch(MFMovie mfMovie, TraktMovie traktMovie)
         {
