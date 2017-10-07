@@ -252,7 +252,8 @@ namespace TraktAPI
 
         public static TraktSettings GetUserSettings()
         {
-            var response = GetFromTrakt(TraktURIs.UserSettings);
+            WebHeaderCollection headerCollection = null;
+            var response = GetFromTrakt(TraktURIs.UserSettings, out headerCollection, "GET", true, true);
             return response.FromJSON<TraktSettings>();
         }
             
@@ -1845,7 +1846,15 @@ namespace TraktAPI
             return GetFromTrakt(address, out headerCollection, method, sendOAuth);
         }
 
-        static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool sendOAuth = true)
+        /// <summary>
+        /// Requests data from trakt.tv 
+        /// </summary>
+        /// <param name="address">Address of the trakt resource</param>
+        /// <param name="headerCollection">returns the headers from the response</param>
+        /// <param name="method">overrides the request method: GET, DELETE, PUT</param>
+        /// <param name="sendOAuth">send user access token for methods that require oAuth</param>
+        /// <param name="serialiseError">return error code and description as JSON on the response when there is an error, otherwise return null (default)</param>
+        static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool sendOAuth = true, bool serialiseError = false)
         {
             headerCollection = new WebHeaderCollection();
 
@@ -1940,6 +1949,8 @@ namespace TraktAPI
 
                     if (OnLatency != null)
                         OnLatency(watch.Elapsed.TotalMilliseconds, response, 0, 0);
+
+                    if (!serialiseError) return null;
                 }
 
                 if (OnDataError != null)
