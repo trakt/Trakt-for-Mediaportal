@@ -19,7 +19,7 @@ namespace TraktPlugin
     public class TraktSettings
     {
         private static Object lockObject = new object();
-
+        
         #region Settings
         static int SettingsVersion = 11;
         
@@ -408,7 +408,7 @@ namespace TraktPlugin
         #endregion
         
         #region Properties
-        
+
         public static string UserAccessToken
         {
             get

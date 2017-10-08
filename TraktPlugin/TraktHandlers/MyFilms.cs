@@ -41,7 +41,7 @@ namespace TraktPlugin.TraktHandlers
             {
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(pluginFilename);
                 string version = fvi.ProductVersion;
-                if (new Version(version) < new Version(6,1,3,1469))
+                if (new Version(version) < new Version(6,1,3,1470))
                     throw new FileLoadException("Plugin does not meet the minimum requirements, check you have the latest version installed!");
             }
 
@@ -346,11 +346,11 @@ namespace TraktPlugin.TraktHandlers
                                                Title = movie.Title,
                                                Year = movie.Year,
                                                CollectedAt = movie.DateAdded.ToISO8601(),
-                                               MediaType = null,
-                                               Resolution = null,
-                                               AudioCodec = null,
-                                               AudioChannels = null,
-                                               Is3D = false
+                                               MediaType = GetMovieMediaType(movie),
+                                               Resolution = GetMovieResolution(movie),
+                                               AudioCodec = GetMovieAudioCodec(movie),
+                                               AudioChannels = GetMovieAudioChannels(movie),
+                                               Is3D = movie.Is3D
                                            }).ToList();
 
                     TraktLogger.Info("Adding {0} movies to trakt.tv collection", syncCollectedMovies.Count);
@@ -707,11 +707,134 @@ namespace TraktPlugin.TraktHandlers
         #region DataCreators
 
         /// <summary>
+        /// Gets the trakt compatible string for the movies Media Type
+        /// </summary>
+        private string GetMovieMediaType(MFMovie movie)
+        {
+            if (movie.MediaType == null) return null;
+
+            string mediaType = movie.MediaType.ToLowerInvariant();
+
+            if (mediaType.Contains("bluray"))
+                return TraktMediaType.bluray.ToString();
+            else if (mediaType.Contains("dvd"))
+                return TraktMediaType.dvd.ToString();
+            else if (mediaType.Contains("svcd"))
+                return TraktMediaType.vcd.ToString();
+            else if (mediaType.Contains("vcd"))
+                return TraktMediaType.vcd.ToString();
+            else if (mediaType.Contains("hddvd"))
+                return TraktMediaType.hddvd.ToString();
+            else if (mediaType.Contains("vhs"))
+                return TraktMediaType.vhs.ToString();
+            else if (mediaType.Contains("laserdisc"))
+                return TraktMediaType.laserdisc.ToString();
+            else if (mediaType.Contains("betamax"))
+                return TraktMediaType.betamax.ToString();
+            else
+                return TraktMediaType.digital.ToString();
+        }
+
+        /// <summary>
+        /// Gets the trakt compatible string for the movies Resolution
+        /// </summary>
+        private string GetMovieResolution(MFMovie movie)
+        {
+            if (movie.Resolution == null) return null;
+
+            if (movie.Resolution.Contains("3840"))
+                return TraktResolution.uhd_4k.ToString();
+            else if (movie.Resolution.Contains("1920"))
+                return TraktResolution.hd_1080p.ToString();
+            else if (movie.Resolution.Contains("1280"))
+                return TraktResolution.hd_720p.ToString();
+            else if (movie.Resolution.Contains("720"))
+                return TraktResolution.sd_576p.ToString();
+            else if (movie.Resolution.Contains("640"))
+                return TraktResolution.sd_480p.ToString();
+            
+            else 
+                return null;
+        }
+
+        /// <summary>
+        /// Gets the trakt compatible string for the movies Audio
+        /// </summary>
+        private string GetMovieAudioCodec(MFMovie movie)
+        {
+            if (movie.AudioCodec == null) return null;
+
+            string audioCodec = movie.AudioCodec.ToLowerInvariant();
+
+            
+            if (audioCodec.Contains("ac3"))
+                return TraktAudio.dolby_digital.ToString();
+            else if (audioCodec.Contains("dolby digital plus"))
+                return TraktAudio.dolby_digital_plus.ToString();
+            else if (audioCodec.Contains("dolby atmos"))
+                return TraktAudio.dolby_atmos.ToString();
+            else if (audioCodec.Contains("dolby prologic"))
+                return TraktAudio.dolby_prologic.ToString();
+            else if (audioCodec.Contains("dolby digital"))
+                return TraktAudio.dolby_digital.ToString();
+            else if (audioCodec.Contains("aac"))
+                return TraktAudio.aac.ToString();
+            else if (audioCodec.Contains("truehd"))
+                return TraktAudio.dolby_truehd.ToString();
+            else if (audioCodec.Contains("dts ma"))
+                return TraktAudio.dts_ma.ToString();
+            else if (audioCodec.Contains("dts x"))
+                return TraktAudio.dts_x.ToString();
+            else if (audioCodec.Contains("dts"))
+                return TraktAudio.dts.ToString();
+            else if (audioCodec.Contains("flac"))
+                return TraktAudio.flac.ToString();
+            else if (audioCodec.Contains("pcm"))
+                return TraktAudio.lpcm.ToString();
+            else if (audioCodec.Contains("vorbis"))
+                return TraktAudio.ogg.ToString();
+            else if (audioCodec.Contains("wma"))
+                return TraktAudio.wma.ToString();
+            else if (audioCodec.Contains("mp3"))
+                return TraktAudio.mp3.ToString();
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Gets the trakt compatible string for the movies Audio Channels
+        /// </summary>
+        private string GetMovieAudioChannels(MFMovie movie)
+        {
+            switch (movie.AudioChannels)
+            {
+                case "8":
+                    return "7.1";
+                case "7":
+                    return "6.1";
+                case "6":
+                    return "5.1";
+                case "5":
+                    return "5.0";
+                case "4":
+                    return "3.1";
+                case "3":
+                    return "2.1";
+                case "2":
+                    return "2.0";
+                case "1":
+                    return "1.0";
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
         /// Creates Scrobble data based on a MFMovie object
         /// </summary>
         /// <param name="movie">The movie to base the object on</param>
         /// <returns>The Trakt scrobble data to send</returns>
-        public static TraktScrobbleMovie CreateScrobbleData(MFMovie movie)
+        private static TraktScrobbleMovie CreateScrobbleData(MFMovie movie)
         {
             double duration = g_Player.Duration;
             double progress = 0.0;
