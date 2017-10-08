@@ -61,7 +61,8 @@ namespace TraktAPI.Enums
         dolby_prologic,
         dolby_digital,
         dolby_digital_plus,
-        dolby_truehd
+        dolby_truehd,
+        dolby_atmos
     }
 
     /// <summary>
