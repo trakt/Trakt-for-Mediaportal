@@ -55,6 +55,7 @@ namespace TraktAPI.Enums
         aac,
         dts,
         dts_ma,
+        dts_x,
         flac,
         ogg,
         wma,
