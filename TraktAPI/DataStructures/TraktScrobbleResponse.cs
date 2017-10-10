@@ -9,6 +9,9 @@ namespace TraktAPI.DataStructures
     [DataContract]
     public class TraktScrobbleResponse : TraktStatus
     {
+        [DataMember(Name = "id")]
+        public ulong Id { get; set; }
+
         [DataMember(Name = "action")]
         public string Action { get; set; }
 
