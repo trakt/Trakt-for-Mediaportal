@@ -1380,6 +1380,11 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Season.TvdbId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.TvRageId", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Number", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Overview", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Title", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.Network", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.FirstAired", string.Empty);
+            GUIUtils.SetProperty("#Trakt.Season.FirstAiredLocalized", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.EpisodeCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.EpisodeAiredCount", string.Empty);
             GUIUtils.SetProperty("#Trakt.Season.Watched", string.Empty);
@@ -1405,7 +1410,11 @@ namespace TraktPlugin.GUI
             //SetProperty("#Trakt.Season.PosterImageFilename", season.Images == null ? string.Empty : season.Images.Poster.LocalImageFilename(ArtworkType.SeasonPoster));
             SetProperty("#Trakt.Season.EpisodeCount", season.EpisodeCount);
             SetProperty("#Trakt.Season.EpisodeAiredCount", season.EpisodeAiredCount);
+            SetProperty("#Trakt.Season.Title", season.Title ?? string.Format("{0} {1}", Translation.Season, season.Number));
             SetProperty("#Trakt.Season.Overview", season.Overview ?? show.Overview);
+            SetProperty("#Trakt.Season.Network", season.Network);
+            SetProperty("#Trakt.Season.FirstAired", season.FirstAired.FromISO8601().ToShortDateString());
+            SetProperty("#Trakt.Season.FirstAiredLocalized", season.FirstAired.FromISO8601().ToLocalTime().ToShortDateString());
             SetProperty("#Trakt.Season.Watched", season.IsWatched(show));
             SetProperty("#Trakt.Season.Plays", season.Plays(show));
             SetProperty("#Trakt.Season.InCollection", season.IsCollected(show));

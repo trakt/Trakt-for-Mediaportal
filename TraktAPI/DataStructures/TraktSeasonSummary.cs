@@ -21,6 +21,15 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "overview")]
         public string Overview { get; set; }
 
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "network")]
+        public string Network { get; set; }
+
+        [DataMember(Name = "first_aired")]
+        public string FirstAired { get; set; }
+
         [DataMember(Name = "episodes")]
         public IEnumerable<TraktEpisodeSummary> Episodes { get; set; }
     }
