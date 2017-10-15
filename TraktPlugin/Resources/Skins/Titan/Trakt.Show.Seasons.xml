@@ -530,7 +530,7 @@
       <label>#Trakt.Translation.FirstAired.Label</label>
       <posX>565</posX>
       <posY>343</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.FirstAired,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Season.FirstAired,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -539,10 +539,10 @@
       <description>Released</description>
       <id>0</id>
       <type>label</type>
-      <label>#Trakt.Show.FirstAired</label>
+      <label>#Trakt.Season.FirstAired</label>
       <posX>798</posX>
       <posY>343</posY>
-      <visible>facadeview.list+!string.equals(#Trakt.Show.FirstAired,)</visible>
+      <visible>facadeview.list+!string.equals(#Trakt.Season.FirstAired,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
@@ -689,10 +689,10 @@
       <description>Release Date Value</description>
       <type>label</type>
       <id>0</id>
-      <label>#Trakt.Show.FirstAired</label>
+      <label>#Trakt.Season.FirstAired</label>
       <posX>1270</posX>
       <posY>399</posY>
-      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Show.Released,)</visible>
+      <visible>[facadeview.smallicons | facadeview.largeicons]+!string.equals(#Trakt.Season.Released,)</visible>
       <animation effect="fade" time="250">WindowOpen</animation>
       <animation effect="fade" time="250">WindowClose</animation>
     </control>

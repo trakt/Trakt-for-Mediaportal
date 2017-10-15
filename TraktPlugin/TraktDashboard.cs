@@ -1020,6 +1020,13 @@ namespace TraktPlugin
                 case ActivityAction.like:
                     imageFilename = "traktActivityLike.png";
                     break;
+
+                case ActivityAction.hide_calendar:
+                case ActivityAction.hide_recommendation:
+                case ActivityAction.hide_collected_progress:
+                case ActivityAction.hide_watched_progress:
+                    imageFilename = "traktHide.png";
+                    break;
             }
 
             return imageFilename;
@@ -1990,7 +1997,7 @@ namespace TraktPlugin
             #endregion
 
             #region hidden seasons watched progress
-            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress)
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress)
             {
                 var hiddenSeasons = TraktCache.GetHiddenSeasonsFromTrakt(true);
                 if (hiddenSeasons != null)
@@ -2040,7 +2047,7 @@ namespace TraktPlugin
             }
             #endregion
 
-            #region hidden movies calendar
+            #region hidden movies recommendations
             if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations)
             {
                 var hiddenMovies = TraktCache.GetHiddenMoviesFromTrakt(true);
@@ -2262,7 +2269,7 @@ namespace TraktPlugin
                 IsToggle = true,
                 ItemID = ActivityAction.hide_calendar.ToString(),
                 ItemTitle = Translation.HideHiddenCalendarItems,
-                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems ? Translation.Yes : Translation.No
             });
 
             items.Add(new MultiSelectionItem
@@ -2270,7 +2277,7 @@ namespace TraktPlugin
                 IsToggle = true,
                 ItemID = ActivityAction.hide_recommendation.ToString(),
                 ItemTitle = Translation.HideHiddenRecommendations,
-                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations ? Translation.Yes : Translation.No
             });
 
             items.Add(new MultiSelectionItem
@@ -2278,7 +2285,7 @@ namespace TraktPlugin
                 IsToggle = true,
                 ItemID = ActivityAction.hide_collected_progress.ToString(),
                 ItemTitle = Translation.HideHiddenCollectedProgress,
-                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress ? Translation.Yes : Translation.No
             });
 
             items.Add(new MultiSelectionItem
@@ -2286,7 +2293,7 @@ namespace TraktPlugin
                 IsToggle = true,
                 ItemID = ActivityAction.hide_watched_progress.ToString(),
                 ItemTitle = Translation.HideHiddenWatchedProgress,
-                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress ? Translation.Yes : Translation.No
             });
 
             List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, items);
