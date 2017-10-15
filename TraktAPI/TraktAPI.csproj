@@ -189,7 +189,7 @@
     </Compile>
     <Compile Include="TraktAPI.cs" />
     <Compile Include="DataStructures\TraktSettings.cs" />
-    <Compile Include="TraktHiddenItems.cs" />
+    <Compile Include="DataStructures\TraktHiddenItems.cs" />
     <Compile Include="TraktURIs.cs" />
   </ItemGroup>
   <ItemGroup>

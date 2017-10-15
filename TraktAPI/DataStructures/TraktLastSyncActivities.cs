@@ -31,6 +31,9 @@ namespace TraktAPI.DataStructures
 
             [DataMember(Name = "paused_at")]
             public string PausedAt { get; set; }
+
+            [DataMember(Name = "hidden_at")]
+            public string HiddenAt { get; set; }
         }
 
         [DataMember(Name = "episodes")]
@@ -72,6 +75,9 @@ namespace TraktAPI.DataStructures
 
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
+
+            [DataMember(Name = "hidden_at")]
+            public string HiddenAt { get; set; }
         }
 
         [DataMember(Name = "seasons")]
@@ -88,6 +94,9 @@ namespace TraktAPI.DataStructures
 
             [DataMember(Name = "commented_at")]
             public string Comment { get; set; }
+
+            [DataMember(Name = "hidden_at")]
+            public string HiddenAt { get; set; }
         }
 
         [DataMember(Name = "comments")]

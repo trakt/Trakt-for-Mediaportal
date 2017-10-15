@@ -5,6 +5,9 @@ namespace TraktAPI.DataStructures
     [DataContract]
     public class TraktSyncPaused
     {
+        [DataMember(Name = "id")]
+        public uint Id { get; set; }
+
         [DataMember(Name = "progress")]
         public float Progress { get; set; }
 
