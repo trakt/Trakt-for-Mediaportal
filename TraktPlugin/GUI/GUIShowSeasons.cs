@@ -432,8 +432,12 @@ namespace TraktPlugin.GUI
                 // add image for download
                 var images = new GUITmdbImage { SeasonImages = new TmdbSeasonImages { Id = Show.Ids.Tmdb, Season = season.Number } };
                 seasonImages.Add(images);
-
+                
+                // if a custom title is set for the season, use that, otherwise use a translated string
                 string itemLabel = season.Number == 0 ? Translation.Specials : string.Format("{0} {1}", Translation.Season, season.Number.ToString());
+                if (!string.IsNullOrEmpty(season.Title) && itemLabel != season.Title)
+                    itemLabel = string.Format("{0}. {1}", season.Number, season.Title);
+
                 var item = new GUISeasonListItem(itemLabel, (int)TraktGUIWindows.ShowSeasons);
 
                 item.Label2 = string.Format("{0} {1}", season.EpisodeCount, Translation.Episodes);

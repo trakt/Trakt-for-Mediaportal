@@ -1097,7 +1097,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cTmdbEpisodeImageMaxCacheAge, TmdbEpisodeImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPersonImageMaxCacheAge, TmdbPersonImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPreferredImageLanguage, TmdbPreferredImageLanguage);
-                xmlwriter.SetValue(cTrakt, cTraktOnlineSettings, OnlineSettings);
+                xmlwriter.SetValue(cTrakt, cTraktOnlineSettings, OnlineSettings.ToJSON());
             }
 
             Settings.SaveCache();
