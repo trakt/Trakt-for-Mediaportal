@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using TraktAPI.DataStructures;
-using TraktAPI.Enums;
 using TraktAPI.Extensions;
 using TraktPlugin.Cache;
 using TraktPlugin.Extensions;
@@ -84,6 +83,18 @@ namespace TraktPlugin
 
             [DataMember]
             public bool Liked = true;
+
+            [DataMember]
+            public bool HiddenCalendarItems = true;
+
+            [DataMember]
+            public bool HiddenRecommendations = true;
+
+            [DataMember]
+            public bool HiddedCollectedProgress = true;
+
+            [DataMember]
+            public bool HiddenWatchedProgress = true;
         }
 
         [DataMember]
@@ -1852,6 +1863,208 @@ namespace TraktPlugin
             }
             #endregion
 
+            #region hidden shows calender
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems)
+            {
+                var hiddenShows = TraktCache.GetHiddenShowsFromTrakt(true);
+                if (hiddenShows != null)
+                {
+                    foreach (var item in hiddenShows.Where(h => h.Section == "calendar").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenShowActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_calendar.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenShowActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden shows collected progress
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress)
+            {
+                var hiddenShows = TraktCache.GetHiddenShowsFromTrakt(true);
+                if (hiddenShows != null)
+                {
+                    foreach (var item in hiddenShows.Where(h => h.Section == "progress_collected").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenShowActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_collected_progress.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenShowActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden shows watched progress
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress)
+            {
+                var hiddenShows = TraktCache.GetHiddenShowsFromTrakt(true);
+                if (hiddenShows != null)
+                {
+                    foreach (var item in hiddenShows.Where(h => h.Section == "progress_watched").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenShowActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_watched_progress.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenShowActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden shows recommended
+            if (TraktSettings.DashboardActivityFilter.Types.Shows && TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations)
+            {
+                var hiddenShows = TraktCache.GetHiddenShowsFromTrakt(true);
+                if (hiddenShows != null)
+                {
+                    foreach (var item in hiddenShows.Where(h => h.Section == "recommendations").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenShowActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_recommendation.ToString(),
+                            Type = ActivityType.show.ToString(),
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenShowActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden seasons collected progress
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress)
+            {
+                var hiddenSeasons = TraktCache.GetHiddenSeasonsFromTrakt(true);
+                if (hiddenSeasons != null)
+                {
+                    foreach (var item in hiddenSeasons.Where(h => h.Section == "progress_collected").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenSeasonActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_collected_progress.ToString(),
+                            Type = ActivityType.season.ToString(),
+                            Season = item.Season,
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenSeasonActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden seasons watched progress
+            if (TraktSettings.DashboardActivityFilter.Types.Seasons && TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress)
+            {
+                var hiddenSeasons = TraktCache.GetHiddenSeasonsFromTrakt(true);
+                if (hiddenSeasons != null)
+                {
+                    foreach (var item in hiddenSeasons.Where(h => h.Section == "progress_watched").OrderByDescending(c => c.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenSeasonActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_watched_progress.ToString(),
+                            Type = ActivityType.season.ToString(),
+                            Season = item.Season,
+                            Show = item.Show,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenSeasonActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden movies calendar
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems)
+            {
+                var hiddenMovies = TraktCache.GetHiddenMoviesFromTrakt(true);
+                if (hiddenMovies != null)
+                {
+                    foreach (var item in hiddenMovies.Where(h => h.Section == "calendar").OrderByDescending(h => h.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenMovieActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_calendar.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = item.Movie,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenMovieActivity);
+                    }
+                }
+            }
+            #endregion
+
+            #region hidden movies calendar
+            if (TraktSettings.DashboardActivityFilter.Types.Movies && TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations)
+            {
+                var hiddenMovies = TraktCache.GetHiddenMoviesFromTrakt(true);
+                if (hiddenMovies != null)
+                {
+                    foreach (var item in hiddenMovies.Where(h => h.Section == "recommendations").OrderByDescending(h => h.HiddenAt).Take(maxActivityItems))
+                    {
+                        var hiddenMovieActivity = new TraktActivity.Activity
+                        {
+                            Id = i++,
+                            Action = ActivityAction.hide_recommendation.ToString(),
+                            Type = ActivityType.movie.ToString(),
+                            Movie = item.Movie,
+                            Timestamp = item.HiddenAt,
+                            User = GetUserProfile()
+                        };
+
+                        // add activity to the list
+                        activity.Activities.Add(hiddenMovieActivity);
+                    }
+                }
+            }
+            #endregion
+
             TraktLogger.Debug("Finished getting users cached activity");
 
             // sort by time inserted into library
@@ -2044,6 +2257,38 @@ namespace TraktPlugin
                 ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
             });
 
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.hide_calendar.ToString(),
+                ItemTitle = Translation.HideHiddenCalendarItems,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.hide_recommendation.ToString(),
+                ItemTitle = Translation.HideHiddenRecommendations,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.hide_collected_progress.ToString(),
+                ItemTitle = Translation.HideHiddenCollectedProgress,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+            });
+
+            items.Add(new MultiSelectionItem
+            {
+                IsToggle = true,
+                ItemID = ActivityAction.hide_watched_progress.ToString(),
+                ItemTitle = Translation.HideHiddenWatchedProgress,
+                ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.Updated ? Translation.Yes : Translation.No
+            });
+
             List<MultiSelectionItem> selectedItems = GUIUtils.ShowMultiSelectionDialog(Translation.Filters, items);
             if (selectedItems == null) return false;
 
@@ -2086,6 +2331,22 @@ namespace TraktPlugin
 
                     case ActivityAction.updated:
                         TraktSettings.DashboardActivityFilter.Actions.Updated = !TraktSettings.DashboardActivityFilter.Actions.Updated;
+                        break;
+
+                    case ActivityAction.hide_calendar:
+                        TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems = !TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems;
+                        break;
+
+                    case ActivityAction.hide_recommendation:
+                        TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations = !TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations;
+                        break;
+
+                    case ActivityAction.hide_collected_progress:
+                        TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress = !TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress;
+                        break;
+
+                    case ActivityAction.hide_watched_progress:
+                        TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress = !TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress;
                         break;
                 }
             }

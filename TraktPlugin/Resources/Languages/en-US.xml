@@ -37,6 +37,11 @@
   <string name="ActivityPaused">{0} paused {1} [{2}%]</string>
   <string name="ActivityLikedComment">{0} liked comment by {1} - {2}</string>
   <string name="ActivityLikedList">{0} liked list {1}</string>
+  <string name="ActivityHidCalendarItem">hid {0} from calendar</string>
+  <string name="ActivityHidRecommendation">hid {0} from recommedations</string>
+  <string name="ActivityHidProgressWatched">hid {0} from watched progress</string>
+  <string name="ActivityHidProgressCollection">hid {0} from collected progress</string>  
+ 
   <string name="Activities">Activities</string>
   <string name="ActivityFilterActions">Filter By Actions...</string>
   <string name="ActivityFilterTypes">Filter By Types...</string>
@@ -329,6 +334,10 @@
   <string name="HideUpdated">Hide Updated</string>
   <string name="HideWatched">Hide Watched</string>
   <string name="HideWatchlisted">Hide Watchlisted</string>
+  <string name="HideHiddenCalendarItems">Hide Hidden Calendar Items</string>
+  <string name="HideHiddenRecommendations">Hide Hidden Recommendations</string>
+  <string name="HideHiddenCollectedProgress">Hide Hidden Collected Progress</string>
+  <string name="HideHiddenWatchedProgress">Hide Hidden Watched Progress</string>
   <string name="HiddenToPreventSpoilers">This shout has been hidden to prevent spoilers, you can change this option from the menu.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Include Me in Friends Activity</string>

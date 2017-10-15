@@ -241,6 +241,49 @@ namespace TraktPlugin.GUI
         Movie
     }
 
+    /// <summary>
+    /// Defaults to all, but you can instead send a comma delimited list of actions. 
+    /// For example, /all or /watching,scrobble,seen or /rating.
+    /// </summary>
+    public enum ActivityAction
+    {
+        all,
+        watching,
+        scrobble,
+        checkin,
+        seen,
+        collection,
+        rating,
+        watchlist,
+        review,
+        shout,
+        pause,
+        created,
+        item_added,
+        updated,
+        like,
+        hide_recommendation,
+        hide_calendar,
+        hide_collected_progress,
+        hide_watched_progress
+    }
+
+    /// <summary>
+    /// Defaults to all, but you can instead send a comma delimited list of types.
+    /// For example, /all or /movie,show or /list.
+    /// </summary>
+    public enum ActivityType
+    {
+        all,
+        episode,
+        season,
+        show,
+        movie,
+        person,
+        list,
+        comment
+    }
+
     #endregion
 
     public class GUICommon
@@ -3427,6 +3470,18 @@ namespace TraktPlugin.GUI
                     {
                         title = string.Format(Translation.ActivityLikedList, userName, itemName);
                     }
+                    break;
+                case ActivityAction.hide_calendar:
+                    title = string.Format(Translation.ActivityHidCalendarItem, itemName);
+                    break;
+                case ActivityAction.hide_recommendation:
+                    title = string.Format(Translation.ActivityHidRecommendation, itemName);
+                    break;
+                case ActivityAction.hide_collected_progress:
+                    title = string.Format(Translation.ActivityHidProgressCollection, itemName);
+                    break;
+                case ActivityAction.hide_watched_progress:
+                    title = string.Format(Translation.ActivityHidProgressWatched, itemName);
                     break;
             }
 

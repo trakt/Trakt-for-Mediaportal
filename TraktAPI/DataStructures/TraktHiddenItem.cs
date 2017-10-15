@@ -11,6 +11,9 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "type")]
         public string Type { get; set; }
 
+        [DataMember(Name = "section")]
+        public string Section { get; set; }
+
         [DataMember(Name = "movie")]
         public TraktMovieSummary Movie { get; set; }
 

@@ -406,13 +406,17 @@ namespace TraktAPI
 
             try
             {
+                // add the section to the results
+                var hiddenItems = response.FromJSONArray<TraktHiddenItem>().ToNullableList();
+                hiddenItems.ForEach(h => h.Section = section);
+
                 return new TraktHiddenItems
                 {
                     CurrentPage = page,
                     TotalItemsPerPage = maxItems,
                     TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
                     TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
-                    HiddenItems = response.FromJSONArray<TraktHiddenItem>()
+                    HiddenItems = hiddenItems
                 };
             }
             catch

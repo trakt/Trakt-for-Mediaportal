@@ -27,6 +27,7 @@ namespace TraktPlugin
         private static string MoviesRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Rated.json");
         private static string MoviesCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Commented.json");
         private static string MoviesPausedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Paused.json");
+        private static string MoviesHiddenFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Movies\Hidden.json");
 
         private static string EpisodesWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Watchlisted.json");
         private static string EpisodesCollectedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Episodes\Collected.json");
@@ -38,10 +39,12 @@ namespace TraktPlugin
         private static string ShowsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Watchlisted.json");
         private static string ShowsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Rated.json");
         private static string ShowsCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Commented.json");
+        private static string ShowsHiddenFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Shows\Hidden.json");
 
         private static string SeasonsWatchlistedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Watchlisted.json");
         private static string SeasonsRatedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Rated.json");
         private static string SeasonsCommentedFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Commented.json");
+        private static string SeasonsHiddenFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Seasons\Hidden.json");
 
         private static string CustomListsFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\Menu.json");
         private static string CustomListFile = Path.Combine(Config.GetFolder(Config.Dir.Config), @"Trakt\{username}\Library\Lists\{listname}.json");
@@ -88,6 +91,8 @@ namespace TraktPlugin
                 GetCommentedEpisodesFromTrakt();
                 GetCommentedSeasonsFromTrakt();
                 GetCommentedShowsFromTrakt();
+                GetHiddenShowsFromTrakt();
+                GetHiddenSeasonsFromTrakt();
 
                 TraktLogger.Info("Finished refresh of tv show user data from trakt.tv");
                 TraktLogger.Info("Started refresh of movie user data from trakt.tv");
@@ -102,6 +107,7 @@ namespace TraktPlugin
                 GetRatedMoviesFromTrakt();
                 GetWatchlistedMoviesFromTrakt();
                 GetCommentedMoviesFromTrakt();
+                GetHiddenMoviesFromTrakt();
 
                 TraktLogger.Info("Finished refresh of movie user data from trakt.tv");
                 TraktLogger.Info("Started refresh of custom list user data from trakt.tv");
@@ -368,6 +374,99 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktMovieRated> _RatedMovies = null;
+
+        /// <summary>
+        /// Get the users hidden movies from Trakt (calendar and recommendations)
+        /// </summary>
+        public static IEnumerable<TraktHiddenItem> GetHiddenMoviesFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return HiddenMovies;
+
+            TraktLogger.Info("Getting current user hidden movies from trakt");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Movies == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Movies.HiddenAt == TraktSettings.LastSyncActivities.Movies.HiddenAt)
+            {
+                var cachedItems = HiddenMovies;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Movie hidden cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Movies.HiddenAt ?? "<empty>", lastSyncActivities.Movies.HiddenAt ?? "<empty>");
+
+            // There are two sections of movie hidden data: calendar and recommendations
+            // each section is paged. we need to get all this information and return a list
+            var hiddenMovies = new List<TraktHiddenItem>();
+            int pageCount = 0;
+            int currentPage = 0;
+
+            #region Calendar
+            do
+            {
+                TraktLogger.Info("Getting current user hidden calendar movies from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("calendar", "movie", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenMovies.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            #region Recommendations
+            currentPage = 0;
+            do
+            {
+                TraktLogger.Info("Getting current user hidden recommended movies from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("recommendations", "movie", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenMovies.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            _HiddenMovies = hiddenMovies;
+
+            // save to local file cache
+            SaveFileCache(MoviesHiddenFile, _HiddenMovies.ToJSON());
+
+            // save new activity time for next time
+            TraktSettings.LastSyncActivities.Movies.HiddenAt = lastSyncActivities.Movies.HiddenAt;
+
+            return _HiddenMovies;
+        }
+
+        /// <summary>
+        /// returns the cached users hidden movies on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktHiddenItem> HiddenMovies
+        {
+            get
+            {
+                if (_HiddenMovies == null)
+                {
+                    var persistedItems = LoadFileCache(MoviesHiddenFile, null);
+                    if (persistedItems != null)
+                        _HiddenMovies = persistedItems.FromJSONArray<TraktHiddenItem>();
+                }
+                return _HiddenMovies;
+            }
+        }
+        static IEnumerable<TraktHiddenItem> _HiddenMovies = null;
 
         #endregion
 
@@ -734,6 +833,99 @@ namespace TraktPlugin
         }
         static IEnumerable<TraktSeasonRated> _RatedSeasons = null;
 
+        /// <summary>
+        /// Get the users hidden seasons from Trakt (calendar, recommendations, watched progress and collected progress)
+        /// </summary>
+        public static IEnumerable<TraktHiddenItem> GetHiddenSeasonsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return HiddenSeasons;
+
+            TraktLogger.Info("Getting current user hidden seasons from trakt");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Seasons == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Seasons.HiddenAt == TraktSettings.LastSyncActivities.Seasons.HiddenAt)
+            {
+                var cachedItems = HiddenSeasons;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Season hidden cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Seasons.HiddenAt ?? "<empty>", lastSyncActivities.Seasons.HiddenAt ?? "<empty>");
+
+            // There are two sections of seasons hidden data: progress_watched and progress_collected 
+            // each section is paged. we need to get all this information and return a list
+            var hiddenSeasons = new List<TraktHiddenItem>();
+            int pageCount = 0;
+            int currentPage = 0;
+
+            #region Collected Progress
+            do
+            {
+                TraktLogger.Info("Getting current user hidden collected progress seasons from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("progress_collected", "season", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenSeasons.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            #region Watched Progress
+            currentPage = 0;
+            do
+            {
+                TraktLogger.Info("Getting current user hidden watched progress seasons from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("progress_watched", "season", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenSeasons.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            _HiddenSeasons = hiddenSeasons;
+
+            // save to local file cache
+            SaveFileCache(SeasonsHiddenFile, _HiddenSeasons.ToJSON());
+
+            // save new activity time for next time
+            TraktSettings.LastSyncActivities.Seasons.HiddenAt = lastSyncActivities.Seasons.HiddenAt;
+
+            return _HiddenSeasons;
+        }
+
+        /// <summary>
+        /// returns the cached users hidden seasons on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktHiddenItem> HiddenSeasons
+        {
+            get
+            {
+                if (_HiddenSeasons == null)
+                {
+                    var persistedItems = LoadFileCache(SeasonsHiddenFile, null);
+                    if (persistedItems != null)
+                        _HiddenSeasons = persistedItems.FromJSONArray<TraktHiddenItem>();
+                }
+                return _HiddenSeasons;
+            }
+        }
+        static IEnumerable<TraktHiddenItem> _HiddenSeasons = null;
+
         #endregion
 
         #region Shows
@@ -800,6 +992,129 @@ namespace TraktPlugin
             }
         }
         static IEnumerable<TraktShowRated> _RatedShows = null;
+
+        /// <summary>
+        /// Get the users hidden shows from Trakt (calendar, recommendations, watched progress and collected progress)
+        /// </summary>
+        public static IEnumerable<TraktHiddenItem> GetHiddenShowsFromTrakt(bool ignoreLastSyncTime = false)
+        {
+            // get from cache regardless of last sync time
+            if (ignoreLastSyncTime)
+                return HiddenShows;
+
+            TraktLogger.Info("Getting current user hidden shows from trakt");
+
+            // get the last time we did anything to our library online
+            var lastSyncActivities = LastSyncActivities;
+
+            // something bad happened e.g. site not available
+            if (lastSyncActivities == null || lastSyncActivities.Shows == null)
+                return null;
+
+            // check the last time we have against the online time
+            // if the times are the same try to load from cache
+            if (lastSyncActivities.Shows.HiddenAt == TraktSettings.LastSyncActivities.Shows.HiddenAt)
+            {
+                var cachedItems = HiddenShows;
+                if (cachedItems != null)
+                    return cachedItems;
+            }
+
+            TraktLogger.Info("Show hidden cache is out of date, requesting updated data. Local Date = '{0}', Online Date = '{1}'", TraktSettings.LastSyncActivities.Shows.HiddenAt ?? "<empty>", lastSyncActivities.Shows.HiddenAt ?? "<empty>");
+
+            // There are four sections of shows hidden data: calendar, recommendations, progress_watched and progress_collected 
+            // each section is paged. we need to get all this information and return a list
+            List<TraktHiddenItem> hiddenShows = new List<TraktHiddenItem>();
+            int pageCount = 0;
+            int currentPage = 0;
+
+            #region Calendar
+            do
+            {
+                TraktLogger.Info("Getting current user hidden calendar shows from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("calendar", "show", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenShows.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            #region Recommendations
+            currentPage = 0;
+            do
+            {
+                TraktLogger.Info("Getting current user hidden recommended shows from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("recommendations", "show", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenShows.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            #region Collected Progress
+            currentPage = 0;
+            do
+            {
+                TraktLogger.Info("Getting current user hidden collected progress shows from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("progress_collected", "show", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenShows.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            #region Watched Progress
+            currentPage = 0;
+            do
+            {
+                TraktLogger.Info("Getting current user hidden watched progress shows from trakt. Page = {0}", ++currentPage);
+                var onlineItems = TraktAPI.TraktAPI.GetHiddenItems("progress_watched", "show", "min", currentPage, 100);
+                if (onlineItems == null)
+                    return null;
+
+                pageCount = onlineItems.TotalPages;
+                hiddenShows.AddRange(onlineItems.HiddenItems);
+            }
+            while (currentPage < pageCount);
+            #endregion
+
+            _HiddenShows = hiddenShows;
+
+            // save to local file cache
+            SaveFileCache(ShowsHiddenFile, _HiddenShows.ToJSON());
+
+            // save new activity time for next time
+            TraktSettings.LastSyncActivities.Shows.HiddenAt = lastSyncActivities.Shows.HiddenAt;
+
+            return _HiddenShows;
+        }
+
+        /// <summary>
+        /// returns the cached users hidden shows on trakt.tv
+        /// </summary>
+        static IEnumerable<TraktHiddenItem> HiddenShows
+        {
+            get
+            {
+                if (_HiddenShows == null)
+                {
+                    var persistedItems = LoadFileCache(ShowsHiddenFile, null);
+                    if (persistedItems != null)
+                        _HiddenShows = persistedItems.FromJSONArray<TraktHiddenItem>();
+                }
+                return _HiddenShows;
+            }
+        }
+        static IEnumerable<TraktHiddenItem> _HiddenShows = null;
 
         #endregion
 
@@ -2901,6 +3216,10 @@ namespace TraktPlugin
 
             _LikedComments = null;
             _LikedLists = null;
+
+            _HiddenMovies = null;
+            _HiddenSeasons = null;
+            _HiddenShows = null;
         }
 
         #endregion
@@ -3936,6 +4255,7 @@ namespace TraktPlugin
             SaveFileCache(MoviesRatedFile, _RatedMovies.ToJSON());
             SaveFileCache(MoviesPausedFile, _PausedMovies.ToJSON());
             SaveFileCache(MoviesCommentedFile, _CommentedMovies.ToJSON());
+            SaveFileCache(MoviesHiddenFile, _HiddenMovies.ToJSON());
 
             SaveFileCache(EpisodesWatchlistedFile, _WatchListEpisodes.ToJSON());
             SaveFileCache(EpisodesCollectedFile, _CollectedEpisodes.ToJSON());
@@ -3947,10 +4267,12 @@ namespace TraktPlugin
             SaveFileCache(ShowsWatchlistedFile, _WatchListShows.ToJSON());
             SaveFileCache(ShowsRatedFile, _RatedShows.ToJSON());
             SaveFileCache(ShowsCommentedFile, _CommentedShows.ToJSON());
+            SaveFileCache(ShowsHiddenFile, _HiddenShows.ToJSON());
 
             SaveFileCache(SeasonsWatchlistedFile, _WatchListSeasons.ToJSON());
             SaveFileCache(SeasonsRatedFile, _RatedSeasons.ToJSON());
             SaveFileCache(SeasonsCommentedFile, _CommentedSeasons.ToJSON());
+            SaveFileCache(SeasonsHiddenFile, _HiddenSeasons.ToJSON());
 
             SaveFileCache(CustomListCommentedFile, _CommentedLists.ToJSON());
             SaveFileCache(CustomListLikedFile, _LikedLists.ToJSON());

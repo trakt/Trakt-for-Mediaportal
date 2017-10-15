@@ -279,6 +279,10 @@ namespace TraktPlugin.GUI
         public static string ActivityPaused = "{0} paused {1} [{2}%]";
         public static string ActivityLikedComment = "{0} liked comment by {1} - {2}";
         public static string ActivityLikedList = "{0} liked list {1}";
+        public static string ActivityHidCalendarItem = "hid {0} from calendar";
+        public static string ActivityHidRecommendation = "hid {0} from recommedations";
+        public static string ActivityHidProgressWatched = "hid {0} from watched progress";
+        public static string ActivityHidProgressCollection = "hid {0} from collected progress";
         public static string Activities = "Activities";
         public static string ActivityFilterActions = "Filter By Actions...";
         public static string ActivityFilterTypes = "Filter By Types...";
@@ -576,7 +580,11 @@ namespace TraktPlugin.GUI
         public static string HideSpoilers = "Hide Spoilers";
         public static string HideUpdated = "Hide Updated";
         public static string HideWatched = "Hide Watched";
-        public static string HideWatchlisted = "Hide Watchlisted";
+        public static string HideWatchlisted = "Hide Watchlisted";        
+        public static string HideHiddenCalendarItems = "Hide Hidden Calendar Items";
+        public static string HideHiddenRecommendations = "Hide Hidden Recommendations";
+        public static string HideHiddenCollectedProgress = "Hide Hidden Collected Progress";
+        public static string HideHiddenWatchedProgress = "Hide Hidden Watched Progress";
         public static string HiddenToPreventSpoilers = "This shout has been hidden to prevent spoilers, you can change this option from menu.";
 
         // I
