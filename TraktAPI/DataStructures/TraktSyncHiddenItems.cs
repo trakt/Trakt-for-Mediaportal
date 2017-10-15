@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktSyncAll
+    public class TraktSyncHiddenItems
     {
         [DataMember(Name = "movies", EmitDefaultValue = false)]
         public List<TraktMovie> Movies { get; set; }
@@ -14,11 +14,5 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "seasons", EmitDefaultValue = false)]
         public List<TraktSeason> Seasons { get; set; }
-
-        [DataMember(Name = "episodes", EmitDefaultValue = false)]
-        public List<TraktEpisode> Episodes { get; set; }
-
-        [DataMember(Name = "people", EmitDefaultValue = false)]
-        public List<TraktPerson> People { get; set; }
     }
 }

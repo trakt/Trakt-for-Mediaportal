@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\TraktHiddenItem.cs" />
     <Compile Include="DataStructures\TraktAccount.cs" />
     <Compile Include="DataStructures\TraktActivity.cs" />
     <Compile Include="DataStructures\TraktAuthenticationToken.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="DataStructures\TraktSyncEpisodesRated.cs" />
     <Compile Include="DataStructures\TraktSyncEpisodesWatched.cs" />
     <Compile Include="DataStructures\TraktSyncEpisodeWatched.cs" />
+    <Compile Include="DataStructures\TraktSyncHiddenItems.cs" />
     <Compile Include="DataStructures\TraktSyncMovieCollected.cs" />
     <Compile Include="DataStructures\TraktSyncMovieRated.cs" />
     <Compile Include="DataStructures\TraktSyncMovies.cs" />
@@ -187,6 +189,7 @@
     </Compile>
     <Compile Include="TraktAPI.cs" />
     <Compile Include="DataStructures\TraktSettings.cs" />
+    <Compile Include="TraktHiddenItems.cs" />
     <Compile Include="TraktURIs.cs" />
   </ItemGroup>
   <ItemGroup>

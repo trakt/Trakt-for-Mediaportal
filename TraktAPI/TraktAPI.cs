@@ -359,6 +359,7 @@ namespace TraktAPI
         /// <param name="username">Username of person that made comment</param>
         /// <param name="commentType">all, reviews, shouts</param>
         /// <param name="type"> all, movies, shows, seasons, episodes, lists</param>
+        /// <param name="extendedInfoParams">Extended Info: min, full, images (comma separated)</param>
         public static TraktComments GetUsersComments(string username = "me", string commentType = "all", string type = "all", string extendedInfoParams = "min", int page = 1, int maxItems = 10)
         {
             var headers = new WebHeaderCollection();
@@ -387,8 +388,130 @@ namespace TraktAPI
 
         #endregion
 
-        #region Lists
+        #region Hidden Items
+
+        /// <summary>
+        /// Get hidden items for a section
+        /// </summary>
+        /// <param name="section">Possible values: calendar, progress_watched, progress_collected, recommendations
+        /// <param name="type">Narrow down by element type: movie, show, season</param>
+        /// <param name="extendedInfoParams">Extended Info: min, full, images (comma separated)</param>
+        public static TraktHiddenItems GetHiddenItems(string section, string type, string extendedInfoParams = "min", int page = 1, int maxItems = 10)
+        {
+            var headers = new WebHeaderCollection();
+
+            var response = GetFromTrakt(string.Format(TraktURIs.UserHiddenItems, section, type, extendedInfoParams, page, maxItems), out headers);
+            if (response == null)
+                return null;
+
+            try
+            {
+                return new TraktHiddenItems
+                {
+                    CurrentPage = page,
+                    TotalItemsPerPage = maxItems,
+                    TotalPages = int.Parse(headers["X-Pagination-Page-Count"]),
+                    TotalItems = int.Parse(headers["X-Pagination-Item-Count"]),
+                    HiddenItems = response.FromJSONArray<TraktHiddenItem>()
+                };
+            }
+            catch
+            {
+                // most likely bad header response
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Hide items for a specific section
+        /// </summary>
+        /// <param name="section">Possible values: calendar, progress_watched, progress_collected, recommendations
+        /// <param name="hiddenItems">List of items to hide</param>
+        public static TraktSyncResponse AddHiddenItems(string section, TraktSyncHiddenItems hiddenItems)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserHiddenItemAdd, section), hiddenItems.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        /// <summary>
+        /// Unhide items for a specific section
+        /// </summary>
+        /// <param name="section">Possible values: calendar, progress_watched, progress_collected, recommendations
+        /// <param name="hiddenItems">List of items to unhide</param>
+        public static TraktSyncResponse RemoveHiddenItems(string section, TraktSyncHiddenItems hiddenItems)
+        {
+            var response = PostToTrakt(string.Format(TraktURIs.UserHiddenItemRemove, section), hiddenItems.ToJSON());
+            return response.FromJSON<TraktSyncResponse>();
+        }
+
+        #region Single Object Handlers
+
+        public static TraktSyncResponse AddMovieToHiddenItems(TraktMovie movie)
+        {
+            var movies = new TraktSyncHiddenItems
+            {
+                Movies = new List<TraktMovie>() { movie }
+            };
+
+            return AddHiddenItems("movie", movies);
+        }
+
+        public static TraktSyncResponse AddShowToHiddenItems(TraktShow show)
+        {
+            var shows = new TraktSyncHiddenItems
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return AddHiddenItems("show", shows);
+        }
+
+        public static TraktSyncResponse AddSeasonToHiddenItems(TraktSeason season)
+        {
+            var seasons = new TraktSyncHiddenItems
+            {
+                Seasons = new List<TraktSeason>() { season }
+            };
+
+            return AddHiddenItems("season", seasons);
+        }
+
+        public static TraktSyncResponse RemoveMovieFromHiddenItems(TraktMovie movie)
+        {
+            var movies = new TraktSyncHiddenItems
+            {
+                Movies = new List<TraktMovie>() { movie }
+            };
+
+            return RemoveHiddenItems("movie", movies);
+        }
+
+        public static TraktSyncResponse RemoveShowFromHiddenItems(TraktShow show)
+        {
+            var shows = new TraktSyncHiddenItems
+            {
+                Shows = new List<TraktShow>() { show }
+            };
+
+            return RemoveHiddenItems("show", shows);
+        }
+
+        public static TraktSyncResponse RemoveSeasonFromHiddenItems(TraktSeason season)
+        {
+            var seasons = new TraktSyncHiddenItems
+            {
+                Seasons = new List<TraktSeason>() { season }
+            };
+
+            return RemoveHiddenItems("season", seasons);
+        }
         
+        #endregion
+
+        #endregion
+
+        #region Lists
+
         public static IEnumerable<TraktListDetail> GetUserLists(string username = "me")
         {
             var response = GetFromTrakt(string.Format(TraktURIs.UserLists, username));

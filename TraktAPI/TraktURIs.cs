@@ -56,6 +56,9 @@ namespace TraktAPI
         public const string UserComments = "https://api.trakt.tv/users/{0}/comments/{1}/{2}?extended={3}&page={4}&limit={5}";
         public const string UserLikedItems = "https://api.trakt.tv/users/likes/{0}?extended={1}&page={2}&limit={3}";
         public const string UserSettings = "https://api.trakt.tv/users/settings";
+        public const string UserHiddenItems = "https://api.trakt.tv/users/hidden/{0}?type={1}";
+        public const string UserHiddenItemAdd = "https://api.trakt.tv/users/hidden/{0}";
+        public const string UserHiddenItemRemove = "https://api.trakt.tv/users/hidden/{0}/remove";
 
         public const string RecommendedMovies = "https://api.trakt.tv/recommendations/movies?extended={0}";
         public const string RecommendedShows = "https://api.trakt.tv/recommendations/shows?extended=full";
