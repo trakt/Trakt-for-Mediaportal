@@ -564,6 +564,10 @@ namespace TraktPlugin.GUI
         public static string Hated = "Hated";
         public static string HelicopterCamera = "Helicopter Camera";
         public static string HideTVShowsInWatchlist = "Hide TV Shows in Watchlist";
+        public static string Hide = "Hide";
+        public static string HideShow = "Hide Show";
+        public static string HideMovie = "Hide Movie";
+        public static string HideSeason = "Hide Season";
         public static string HideAdded = "Hide Added";
         public static string HideCommented = "Hide Commented";
         public static string HideComments = "Hide Comments";
@@ -976,8 +980,9 @@ namespace TraktPlugin.GUI
         public static string Title = "Title";
         public static string Trailer = "Trailer";
         public static string Trailers = "Trailers...";
-        
+
         // U
+        public static string UnHide = "UnHide";
         public static string UnLike = "UnLike";
         public static string UserHasNotWatchedEpisodes = "User has not watched any episodes!";
         public static string UserHasNotWatchedMovies = "User has not watched any movies!";

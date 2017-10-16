@@ -317,6 +317,10 @@
   <string name="Hated">Hated</string>
   <string name="HelicopterCamera">Helicopter Camera</string>
   <string name="HideTVShowsInWatchlist">Hide TV Shows in Watchlist</string>
+  <string name="Hide">Hide</string>
+  <string name="HideShow">Hide Show</string>
+  <string name="HideSeason">Hide Season</string>
+  <string name="HideMovie">Hide Movie</string>
   <string name="HideAdded">Hide Added</string>
   <string name="HideCommented">Hide Commented</string>
   <string name="HideComments">Hide Comments</string>
@@ -718,6 +722,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnHide">UnHide</string>
   <string name="UnLike">UnLike</string>
   <string name="UserHasNotWatchedEpisodes">User has not watched any episodes!</string>
   <string name="UserHasNotWatchedMovies">User has not watched any movies!</string>

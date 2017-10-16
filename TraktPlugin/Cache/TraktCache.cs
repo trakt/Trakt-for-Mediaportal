@@ -4240,6 +4240,59 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Hidden
+
+        internal static void RemoveMovieFromHiddenItems(TraktMovie movie, string section)
+        {
+            if (_HiddenMovies == null || movie.Ids == null)
+                return;
+
+            var hiddenMovies = _HiddenMovies.ToList();
+            hiddenMovies.RemoveAll(m => (((m.Movie.Ids.Trakt == movie.Ids.Trakt) && m.Movie.Ids.Trakt != null) ||
+                                         ((m.Movie.Ids.Imdb == movie.Ids.Imdb) && m.Movie.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                         ((m.Movie.Ids.Tmdb == movie.Ids.Tmdb) && m.Movie.Ids.Tmdb != null)) && m.Section == section);
+
+            // remove using Title + Year
+            if (movie.Ids.Trakt == null && movie.Ids.Imdb.ToNullIfEmpty() == null && movie.Ids.Tmdb == null)
+            {
+                hiddenMovies.RemoveAll(m => (m.Movie.Title.ToLowerInvariant() == movie.Title.ToLower() && m.Movie.Year == movie.Year) && m.Section == section);
+            }
+
+            _HiddenMovies = hiddenMovies;
+        }
+
+        internal static void RemoveShowFromHiddenItems(TraktShow show, string section)
+        {
+            if (_HiddenShows == null || show.Ids == null)
+                return;
+
+            var hiddenShows = _HiddenShows.ToList();
+            hiddenShows.RemoveAll(s => (((s.Show.Ids.Trakt == show.Ids.Trakt) && s.Show.Ids.Trakt != null) ||
+                                        ((s.Show.Ids.Imdb == show.Ids.Imdb) && s.Show.Ids.Imdb.ToNullIfEmpty() != null) ||
+                                        ((s.Show.Ids.Tmdb == show.Ids.Tmdb) && s.Show.Ids.Tmdb != null)) && s.Section == section);
+
+            // remove using Title + Year
+            if (show.Ids.Trakt == null && show.Ids.Imdb.ToNullIfEmpty() == null && show.Ids.Tmdb == null)
+            {
+                hiddenShows.RemoveAll(s => (s.Show.Title.ToLowerInvariant() == show.Title.ToLower() && s.Show.Year == show.Year) && s.Section == section);
+            }
+
+            _HiddenShows = hiddenShows;
+        }
+
+        internal static void RemoveSeasonFromHiddenItems(TraktSeason season, string section)
+        {
+            if (_HiddenSeasons == null || season.Ids == null)
+                return;
+
+            var hiddenSeasons = _HiddenSeasons.ToList();
+            hiddenSeasons.RemoveAll(s => (s.Season.Ids.Trakt == season.Ids.Trakt) && s.Section == section);
+
+            _HiddenSeasons = hiddenSeasons;
+        }
+
+        #endregion
+
         #endregion
 
         #region Save Cache

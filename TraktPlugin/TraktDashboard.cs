@@ -1022,9 +1022,9 @@ namespace TraktPlugin
                     break;
 
                 case ActivityAction.hide_calendar:
-                case ActivityAction.hide_recommendation:
-                case ActivityAction.hide_collected_progress:
-                case ActivityAction.hide_watched_progress:
+                case ActivityAction.hide_recommendations:
+                case ActivityAction.hide_progress_collected:
+                case ActivityAction.hide_progress_watched:
                     imageFilename = "traktHide.png";
                     break;
             }
@@ -1906,7 +1906,7 @@ namespace TraktPlugin
                         var hiddenShowActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_collected_progress.ToString(),
+                            Action = ActivityAction.hide_progress_collected.ToString(),
                             Type = ActivityType.show.ToString(),
                             Show = item.Show,
                             Timestamp = item.HiddenAt,
@@ -1931,7 +1931,7 @@ namespace TraktPlugin
                         var hiddenShowActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_watched_progress.ToString(),
+                            Action = ActivityAction.hide_progress_watched.ToString(),
                             Type = ActivityType.show.ToString(),
                             Show = item.Show,
                             Timestamp = item.HiddenAt,
@@ -1956,7 +1956,7 @@ namespace TraktPlugin
                         var hiddenShowActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_recommendation.ToString(),
+                            Action = ActivityAction.hide_recommendations.ToString(),
                             Type = ActivityType.show.ToString(),
                             Show = item.Show,
                             Timestamp = item.HiddenAt,
@@ -1981,7 +1981,7 @@ namespace TraktPlugin
                         var hiddenSeasonActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_collected_progress.ToString(),
+                            Action = ActivityAction.hide_progress_collected.ToString(),
                             Type = ActivityType.season.ToString(),
                             Season = item.Season,
                             Show = item.Show,
@@ -2007,7 +2007,7 @@ namespace TraktPlugin
                         var hiddenSeasonActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_watched_progress.ToString(),
+                            Action = ActivityAction.hide_progress_watched.ToString(),
                             Type = ActivityType.season.ToString(),
                             Season = item.Season,
                             Show = item.Show,
@@ -2058,7 +2058,7 @@ namespace TraktPlugin
                         var hiddenMovieActivity = new TraktActivity.Activity
                         {
                             Id = i++,
-                            Action = ActivityAction.hide_recommendation.ToString(),
+                            Action = ActivityAction.hide_recommendations.ToString(),
                             Type = ActivityType.movie.ToString(),
                             Movie = item.Movie,
                             Timestamp = item.HiddenAt,
@@ -2275,7 +2275,7 @@ namespace TraktPlugin
             items.Add(new MultiSelectionItem
             {
                 IsToggle = true,
-                ItemID = ActivityAction.hide_recommendation.ToString(),
+                ItemID = ActivityAction.hide_recommendations.ToString(),
                 ItemTitle = Translation.HideHiddenRecommendations,
                 ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations ? Translation.Yes : Translation.No
             });
@@ -2283,7 +2283,7 @@ namespace TraktPlugin
             items.Add(new MultiSelectionItem
             {
                 IsToggle = true,
-                ItemID = ActivityAction.hide_collected_progress.ToString(),
+                ItemID = ActivityAction.hide_progress_collected.ToString(),
                 ItemTitle = Translation.HideHiddenCollectedProgress,
                 ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress ? Translation.Yes : Translation.No
             });
@@ -2291,7 +2291,7 @@ namespace TraktPlugin
             items.Add(new MultiSelectionItem
             {
                 IsToggle = true,
-                ItemID = ActivityAction.hide_watched_progress.ToString(),
+                ItemID = ActivityAction.hide_progress_watched.ToString(),
                 ItemTitle = Translation.HideHiddenWatchedProgress,
                 ItemTitle2 = !TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress ? Translation.Yes : Translation.No
             });
@@ -2344,15 +2344,15 @@ namespace TraktPlugin
                         TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems = !TraktSettings.DashboardActivityFilter.Actions.HiddenCalendarItems;
                         break;
 
-                    case ActivityAction.hide_recommendation:
+                    case ActivityAction.hide_recommendations:
                         TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations = !TraktSettings.DashboardActivityFilter.Actions.HiddenRecommendations;
                         break;
 
-                    case ActivityAction.hide_collected_progress:
+                    case ActivityAction.hide_progress_collected:
                         TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress = !TraktSettings.DashboardActivityFilter.Actions.HiddedCollectedProgress;
                         break;
 
-                    case ActivityAction.hide_watched_progress:
+                    case ActivityAction.hide_progress_watched:
                         TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress = !TraktSettings.DashboardActivityFilter.Actions.HiddenWatchedProgress;
                         break;
                 }
@@ -2761,6 +2761,13 @@ namespace TraktPlugin
 
             if (activity != null && !string.IsNullOrEmpty(activity.Action) && !string.IsNullOrEmpty(activity.Type))
             {
+                if (TraktSettings.ActivityStreamView == (int)ActivityView.me && activity.Action.Contains("hide_"))
+                {
+                    listItem = new GUIListItem(Translation.UnHide);
+                    dlg.Add(listItem);
+                    listItem.ItemId = (int)ActivityContextMenuItem.UnHide;
+                }
+
                 // userprofile - only load for unprotected users
                 if (activity.User != null && !activity.User.IsPrivate && TraktSettings.ActivityStreamView != (int)ActivityView.me)
                 {
@@ -3013,6 +3020,23 @@ namespace TraktPlugin
                         GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(images);
                         GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
                     }
+                    break;
+                
+                case ((int)ActivityContextMenuItem.UnHide):
+                    if (activity.Movie != null)
+                    {
+                        TraktHelper.RemoveHiddenMovie(activity.Movie, activity.Action.Substring(5));
+                    }
+                    else if (activity.Season != null)
+                    {
+                        TraktHelper.RemoveHiddenSeason(activity.Season, activity.Action.Substring(5));
+                    }
+                    else if (activity.Show != null)
+                    {
+                        TraktHelper.RemoveHiddenShow(activity.Show, activity.Action.Substring(5));
+                    }
+                    ReloadActivityView = true;
+                    StartActivityPolling();
                     break;
 
                 case ((int)ActivityContextMenuItem.Trailers):

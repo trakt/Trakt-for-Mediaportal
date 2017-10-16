@@ -22,6 +22,8 @@ namespace TraktPlugin.GUI
         FilterTypes,
         FilterActions,
         ChangeView,
+        Hide,
+        UnHide,
         ShowSeasonInfo,
         MarkAsWatched,
         MarkAsUnwatched,
@@ -262,10 +264,10 @@ namespace TraktPlugin.GUI
         item_added,
         updated,
         like,
-        hide_recommendation,
+        hide_recommendations,
         hide_calendar,
-        hide_collected_progress,
-        hide_watched_progress
+        hide_progress_collected,
+        hide_progress_watched
     }
 
     /// <summary>
@@ -3474,13 +3476,13 @@ namespace TraktPlugin.GUI
                 case ActivityAction.hide_calendar:
                     title = string.Format(Translation.ActivityHidCalendarItem, itemName);
                     break;
-                case ActivityAction.hide_recommendation:
+                case ActivityAction.hide_recommendations:
                     title = string.Format(Translation.ActivityHidRecommendation, itemName);
                     break;
-                case ActivityAction.hide_collected_progress:
+                case ActivityAction.hide_progress_collected:
                     title = string.Format(Translation.ActivityHidProgressCollection, itemName);
                     break;
-                case ActivityAction.hide_watched_progress:
+                case ActivityAction.hide_progress_watched:
                     title = string.Format(Translation.ActivityHidProgressWatched, itemName);
                     break;
             }

@@ -480,34 +480,34 @@ namespace TraktAPI
             return AddHiddenItems("season", seasons);
         }
 
-        public static TraktSyncResponse RemoveMovieFromHiddenItems(TraktMovie movie)
+        public static TraktSyncResponse RemoveMovieFromHiddenItems(TraktMovie movie, string section)
         {
             var movies = new TraktSyncHiddenItems
             {
                 Movies = new List<TraktMovie>() { movie }
             };
 
-            return RemoveHiddenItems("movie", movies);
+            return RemoveHiddenItems(section, movies);
         }
 
-        public static TraktSyncResponse RemoveShowFromHiddenItems(TraktShow show)
+        public static TraktSyncResponse RemoveShowFromHiddenItems(TraktShow show, string section)
         {
             var shows = new TraktSyncHiddenItems
             {
                 Shows = new List<TraktShow>() { show }
             };
 
-            return RemoveHiddenItems("show", shows);
+            return RemoveHiddenItems(section, shows);
         }
 
-        public static TraktSyncResponse RemoveSeasonFromHiddenItems(TraktSeason season)
+        public static TraktSyncResponse RemoveSeasonFromHiddenItems(TraktSeason season, string section)
         {
             var seasons = new TraktSyncHiddenItems
             {
                 Seasons = new List<TraktSeason>() { season }
             };
 
-            return RemoveHiddenItems("season", seasons);
+            return RemoveHiddenItems(section, seasons);
         }
         
         #endregion

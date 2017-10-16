@@ -1563,6 +1563,75 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Remove Hidden 
+
+        public static void RemoveHiddenMovie(TraktMovieSummary movie, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktMovieSummary, string>;
+                var movieData = new TraktMovie
+                {
+                    Ids = data.Item1.Ids,
+                    Title = data.Item1.Title,
+                    Year = data.Item1.Year
+                };
+                var response = TraktAPI.TraktAPI.RemoveMovieFromHiddenItems(movieData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "UnHide"
+            };
+
+            syncThread.Start(Tuple.Create(movie, section));
+            TraktCache.RemoveMovieFromHiddenItems(movie, section);
+        }
+
+        public static void RemoveHiddenShow(TraktShowSummary show, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktShowSummary, string>;
+                var showData = new TraktShow
+                {
+                    Ids = data.Item1.Ids,
+                    Title = data.Item1.Title,
+                    Year = data.Item1.Year
+                };
+                var response = TraktAPI.TraktAPI.RemoveShowFromHiddenItems(showData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "UnHide"
+            };
+
+            syncThread.Start(Tuple.Create(show, section));
+            TraktCache.RemoveShowFromHiddenItems(show, section);
+        }
+
+        public static void RemoveHiddenSeason(TraktSeasonSummary season, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktSeasonSummary, string>;
+                var seasonData = new TraktSeason
+                {
+                    Ids = data.Item1.Ids,
+                    Number = data.Item1.Number
+                };
+                var response = TraktAPI.TraktAPI.RemoveSeasonFromHiddenItems(seasonData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "UnHide"
+            };
+
+            syncThread.Start(Tuple.Create(season, section));
+            TraktCache.RemoveSeasonFromHiddenItems(season, section);
+        }
+
+        #endregion
+
         #endregion
 
         #region Internal Helpers
