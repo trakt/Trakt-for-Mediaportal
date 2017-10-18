@@ -21,7 +21,7 @@ namespace TraktPlugin
         private static Object lockObject = new object();
         
         #region Settings
-        static int SettingsVersion = 11;
+        static int SettingsVersion = 12;
         
         public static int MovingPictures { get; set; }
         public static int TVSeries { get; set; }
@@ -1342,6 +1342,11 @@ namespace TraktPlugin
                             // future version will only check for user access token
                             //xmlreader.RemoveEntry(cTrakt, "Password");
 
+                            currentSettingsVersion++;
+                            break;
+                        case 11:
+                            // new settings for the dashboard activity filter
+                            xmlreader.RemoveEntry(cTrakt, cDashboardActivityFilter);
                             currentSettingsVersion++;
                             break;
                     }

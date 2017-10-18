@@ -1695,9 +1695,13 @@ namespace TraktPlugin.TraktHandlers
         /// </summary>
         private string GetEpisodeAudioCodec(DBEpisode episode)
         {
-            string audioCodec = episode[DBEpisode.cAudioFormat].ToString();
+            string audioCodec = episode[DBEpisode.cAudioFormat].ToString().ToLowerInvariant();
 
-            switch (audioCodec.ToLowerInvariant())
+            // check if stream contains atmos
+            if (audioCodec.Contains("atmos"))
+                return TraktAudio.dolby_atmos.ToString();
+
+            switch (audioCodec)
             {
                 case "truehd":
                     return TraktAudio.dolby_truehd.ToString();
@@ -1705,11 +1709,15 @@ namespace TraktPlugin.TraktHandlers
                     return TraktAudio.dts.ToString();
                 case "dtshd":
                     return TraktAudio.dts_ma.ToString();
+                case "dtsx":
+                    return TraktAudio.dts_x.ToString();
                 case "ac3":
                 case "ac-3":
                     return TraktAudio.dolby_digital.ToString();
                 case "aac":
                     return TraktAudio.aac.ToString();
+                case "e-ac-3":
+                    return TraktAudio.dolby_digital_plus.ToString();
                 case "mpeg audio":
                 case "mp3":
                     return TraktAudio.mp3.ToString();
