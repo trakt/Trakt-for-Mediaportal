@@ -107,9 +107,12 @@ namespace TraktAPI
         public const string ShowSeasons = "https://api.trakt.tv/shows/{0}/seasons?extended={1}";
         public const string SeasonEpisodes = "https://api.trakt.tv/shows/{0}/seasons/{1}?extended=full";
 
-        public const string CalendarShows = "https://api.trakt.tv/calendars/shows/{0}/{1}?extended=full";
-        public const string CalendarPremieres = "https://api.trakt.tv/calendars/shows/premieres/{0}/{1}?extended=full";
-        public const string CalendarNewPremieres = "https://api.trakt.tv/calendars/shows/new/{0}/{1}?extended=full";
+        public const string CalendarMyShows = "https://api.trakt.tv/calendars/my/shows/{0}/{1}?extended=full";
+        public const string CalendarMyNewShows = "https://api.trakt.tv/calendars/my/shows/new/{0}/{1}?extended=full";
+        public const string CalendarMySeasonPremieresShows = "https://api.trakt.tv/calendars/my/shows/premieres/{0}/{1}?extended=full";
+        public const string CalendarAllShows = "https://api.trakt.tv/calendars/all/shows/{0}/{1}?extended=full";
+        public const string CalendarAllNewShows = "https://api.trakt.tv/calendars/all/shows/new/{0}/{1}?extended=full";
+        public const string CalendarAllSeasonPremieresShows = "https://api.trakt.tv/calendars/all/shows/premieres/{0}/{1}?extended=full";
 
         public const string ScrobbleStart = "https://api.trakt.tv/scrobble/start";
         public const string ScrobblePause = "https://api.trakt.tv/scrobble/pause";

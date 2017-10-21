@@ -3,9 +3,9 @@
 namespace TraktAPI.DataStructures
 {
     [DataContract]
-    public class TraktCalendar : TraktEpisodeSummaryEx
+    public class TraktShowCalendar : TraktEpisodeSummaryEx
     {
-        [DataMember(Name = "airs_at")]
+        [DataMember(Name = "first_aired")]
         public string AirsAt { get; set; }
     }
 }

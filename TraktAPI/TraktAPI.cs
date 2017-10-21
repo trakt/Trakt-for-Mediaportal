@@ -253,7 +253,7 @@ namespace TraktAPI
         public static TraktSettings GetUserSettings()
         {
             WebHeaderCollection headerCollection = null;
-            var response = GetFromTrakt(TraktURIs.UserSettings, out headerCollection, "GET", true, true);
+            var response = GetFromTrakt(TraktURIs.UserSettings, out headerCollection, "GET", true);
             return response.FromJSON<TraktSettings>();
         }
             
@@ -1006,49 +1006,72 @@ namespace TraktAPI
 
         #endregion
 
-        #region Calendar
-
+        #region TV Calendar
+        
         /// <summary>
-        /// Returns list of episodes in the Calendar
+        /// Returns list of episodes in the users Calendar
         /// </summary>
-        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows()
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarUserShows(string startDate, int days = 7)
         {
-            // 7-Days from Today
-            DateTime dateNow = DateTime.UtcNow;
-            return GetCalendarShows(dateNow.ToString("yyyyMMdd"), "7", false);
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarMyShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
         }
 
         /// <summary>
-        /// Returns list of episodes in the Calendar
+        /// Returns list of new episodes in the users Calendar
         /// </summary>
-        /// <param name="startDate">Start Date of calendar in form yyyyMMdd</param>
-        /// <param name="days">Number of days to return in calendar</param>
-        /// <param name="userCalendar">Set to true to get the calendar filtered by users shows in library</param>
-        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarShows(string startDate, string days, bool userCalendar)
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarUserNewShows(string startDate, int days = 7)
         {
-            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarShows, startDate, days), "GET", userCalendar);
-            return calendar.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarMyNewShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
         }
 
         /// <summary>
-        /// Returns list of episodes in the Premieres Calendar
+        /// Returns list of season premiere episodes in the users Calendar
         /// </summary>
-        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarPremieres()
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarUserSeasonPremieresShows(string startDate, int days = 7)
         {
-            // 7-Days from Today
-            DateTime dateNow = DateTime.UtcNow;
-            return GetCalendarPremieres(dateNow.ToString("yyyyMMdd"), "7");
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarMySeasonPremieresShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
+        }
+        
+        /// <summary>
+        /// Returns list of all episodes in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarShows(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
         }
 
         /// <summary>
-        /// Returns list of episodes in the Premieres Calendar
-        /// </summary>        
-        /// <param name="startDate">Start Date of calendar in form yyyyMMdd</param>
-        /// <param name="days">Number of days to return in calendar</param>
-        public static Dictionary<string, IEnumerable<TraktCalendar>> GetCalendarPremieres(string startDate, string days)
+        /// Returns list of all new episodes in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarNewShows(string startDate, int days = 7)
         {
-            string premieres = GetFromTrakt(string.Format(TraktURIs.CalendarPremieres, startDate, days));
-            return premieres.FromJSONDictionary<Dictionary<string, IEnumerable<TraktCalendar>>>();
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllNewShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
+        }
+
+        /// <summary>
+        /// Returns list of all season premiere episodes in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktShowCalendar> GetCalendarSeasonPremieresShows(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllSeasonPremieresShows, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktShowCalendar>();
         }
 
         #endregion
@@ -1967,10 +1990,10 @@ namespace TraktAPI
             return response != null;
         }
 
-        static string GetFromTrakt(string address, string method = "GET", bool sendOAuth = true)
+        static string GetFromTrakt(string address, string method = "GET")
         {
             WebHeaderCollection headerCollection;
-            return GetFromTrakt(address, out headerCollection, method, sendOAuth);
+            return GetFromTrakt(address, out headerCollection, method);
         }
 
         /// <summary>
@@ -1981,7 +2004,7 @@ namespace TraktAPI
         /// <param name="method">overrides the request method: GET, DELETE, PUT</param>
         /// <param name="sendOAuth">send user access token for methods that require oAuth</param>
         /// <param name="serialiseError">return error code and description as JSON on the response when there is an error, otherwise return null (default)</param>
-        static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool sendOAuth = true, bool serialiseError = false)
+        static string GetFromTrakt(string address, out WebHeaderCollection headerCollection, string method = "GET", bool serialiseError = false)
         {
             headerCollection = new WebHeaderCollection();
 
@@ -2013,9 +2036,7 @@ namespace TraktAPI
             request.Headers.Add("trakt-api-version", "2");
             request.Headers.Add("trakt-api-key", ClientId);
 
-            // some methods we may want to get all data and not filtered by user data
-            // e.g. Calendar - All Shows
-            if (sendOAuth && !string.IsNullOrEmpty(UserAccessToken))
+            if (!string.IsNullOrEmpty(UserAccessToken))
             {
                 request.Headers.Add("Authorization", string.Format("Bearer {0}", UserAccessToken));
             }
