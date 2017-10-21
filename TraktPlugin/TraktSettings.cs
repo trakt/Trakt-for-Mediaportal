@@ -1348,6 +1348,10 @@ namespace TraktPlugin
                             // new settings for the dashboard activity filter
                             xmlreader.RemoveEntry(cTrakt, cDashboardActivityFilter);
                             currentSettingsVersion++;
+
+                            // new tv calendar views
+                            xmlreader.RemoveEntry(cTrakt, cDefaultCalendarStartDate);
+                            xmlreader.RemoveEntry(cTrakt, cDefaultCalendarView);
                             break;
                     }
                 }

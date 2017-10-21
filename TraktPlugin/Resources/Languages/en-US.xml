@@ -105,8 +105,14 @@
   <string name="Canceled">Cancelled</string>
   <string name="Calendar">Calendar</string>
   <string name="CalendarMyShows">My Shows</string>
+  <string name="CalendarMyNewShows">My New Shows</string>
+  <string name="CalendarMyPremieres">My Premieres</string>
+  <string name="CalendarMySeasonPremieres">My Season Premieres</string>  
   <string name="CalendarPremieres">Premieres</string>
+  <string name="CalendarAllPremieres">All Premieres</string>
   <string name="CalendarAllShows">All Shows</string>
+  <string name="CalendarAllNewShows">All New Shows</string>
+  <string name="CalendarAllSeasonPremieres">All Season Premieres</string>  
   <string name="Cast">Cast</string>
   <string name="CastAndCrew">Cast and Crew</string>
   <string name="Casting">Casting</string>

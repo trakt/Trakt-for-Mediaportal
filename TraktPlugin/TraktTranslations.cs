@@ -348,8 +348,14 @@ namespace TraktPlugin.GUI
         public static string Canceled = "Cancelled";
         public static string Calendar = "Calendar";
         public static string CalendarMyShows = "My Shows";
+        public static string CalendarMyNewShows = "My New Shows";
+        public static string CalendarMyPremieres = "My Premieres";
+        public static string CalendarMySeasonPremieres = "My Season Premieres";
         public static string CalendarPremieres = "Premieres";
+        public static string CalendarAllPremieres = "All Premieres";
         public static string CalendarAllShows = "All Shows";
+        public static string CalendarAllNewShows = "All New Shows";
+        public static string CalendarAllSeasonPremieres = "All Season Premieres";
         public static string Certification = "Certification";
         public static string Cast = "Cast";
         public static string CastAndCrew = "Cast and Crew";
