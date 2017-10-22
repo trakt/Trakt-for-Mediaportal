@@ -288,6 +288,21 @@
           <textYOff>16</textYOff>
           <label>-</label>
           <onup>2</onup>
+          <ondown>5</ondown>
+          <onright>50</onright>
+        </control>
+		<control>
+          <description>Max Days</description>
+          <type>button</type>
+          <id>5</id>
+          <textureFocus>hiddenmenu_item_selected.png</textureFocus>
+          <textureNoFocus>-</textureNoFocus>
+          <width>499</width>
+          <height>69</height>
+          <textXOff>62</textXOff>
+          <textYOff>16</textYOff>
+          <label>-</label>
+          <onup>3</onup>
           <ondown>4</ondown>
           <onright>50</onright>
         </control>
@@ -301,7 +316,7 @@
           <textureNoFocus>-</textureNoFocus>
           <textcolorNoFocus>ff393939</textcolorNoFocus>
           <label>-</label>
-          <onup>3</onup>
+          <onup>5</onup>
           <ondown>66610</ondown>
           <onright>50</onright>
           <onleft>50</onleft>

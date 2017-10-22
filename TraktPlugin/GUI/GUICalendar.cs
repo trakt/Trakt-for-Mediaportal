@@ -680,7 +680,7 @@ namespace TraktPlugin.GUI
             if (dlg.SelectedId <= 0) return;
 
             // Set new Selection            
-            TraktSettings.TvCalendarMaxDays = dlg.SelectedLabel;
+            TraktSettings.TvCalendarMaxDays = dlg.SelectedLabel + 1;
             SetMaxDays();
 
             // Reset Views and Apply
