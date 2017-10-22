@@ -403,6 +403,8 @@ namespace TraktPlugin.GUI
         public static string DateOneWeekAgo = "1 Week Ago";
         public static string DateTwoWeeksAgo = "2 Weeks Ago";
         public static string DateOneMonthAgo = "1 Month Ago";
+        public static string Day = "Day";
+        public static string Days = "Days";
         public static string DeleteList = "Delete List";
         public static string DeleteListItem = "Delete List Item";
         public static string DeletingList = "Deleting List";
@@ -639,6 +641,7 @@ namespace TraktPlugin.GUI
         public static string MakeupArtist = "Makeup Artist";
         public static string MarkAsWatched = "Mark as Watched";
         public static string MarkAsUnWatched = "Mark as UnWatched";
+        public static string MaxDays = "Max Days";
         public static string Me = "Me";
         public static string Menu = "Menu";
         public static string Minutes = "Minutes";
@@ -658,8 +661,10 @@ namespace TraktPlugin.GUI
         public static string NextEpisode = "Next Episode";
         public static string NextPage = "Next Page";
         public static string NextWeek = "Next Week";
+        public static string NextDays = "Next {0} Days";
         public static string NoActivities = "No activity Found.";
         public static string NoCreditsFound = "No credits Found.";
+        public static string NDays = "{0} Days";
         public static string NoPersonBiography = "There is no biography entered for this person.";
         public static string NoEpisodesInSeason = "No Episodes are available in Season.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
@@ -732,6 +737,7 @@ namespace TraktPlugin.GUI
         public static string Public = "Public";
         public static string PreviousEpisode = "Previous Episode";
         public static string PreviousPage = "Previous Page";
+        public static string PreviousDays = "Previous {0} Days";
         public static string Private = "Private";
         public static string Privacy = "Privacy";
         public static string PrivacyPublic = "Anyone can view this list";

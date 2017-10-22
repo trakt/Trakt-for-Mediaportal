@@ -205,6 +205,7 @@ namespace TraktPlugin
         public static string Username { get; set; }
         public static string UserAccessTokenExpiry { get; set; }
         public static string UserRefreshToken { get; set; }
+        public static int TvCalendarMaxDays { get; set; }
         #endregion
 
         #region Constants
@@ -405,6 +406,7 @@ namespace TraktPlugin
         private const string cTmdbPersonImageMaxCacheAge = "TmdbPersonImageMaxCacheAge";
         private const string cTmdbPreferredImageLanguage = "TmdbPreferredImageLanguage";
         private const string cTraktOnlineSettings = "TraktOnlineSettings";
+        private const string cTvCalendarMaxDays = "TvCalendarMaxDays";
         #endregion
         
         #region Properties
@@ -872,6 +874,7 @@ namespace TraktPlugin
                 TmdbPersonImageMaxCacheAge = GetValueAsIntAndValidate(cTrakt, cTmdbPersonImageMaxCacheAge, 30, 1, 365);
                 TmdbPreferredImageLanguage = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredImageLanguage, "en");
                 OnlineSettings = xmlreader.GetValueAsString(cTrakt, cTraktOnlineSettings, "{}").FromJSON<TraktAPI.DataStructures.TraktSettings>();
+                TvCalendarMaxDays = xmlreader.GetValueAsInt(cTrakt, cTvCalendarMaxDays, 7);
             }
 
             // initialise API settings
@@ -1098,6 +1101,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cTmdbPersonImageMaxCacheAge, TmdbPersonImageMaxCacheAge);
                 xmlwriter.SetValue(cTrakt, cTmdbPreferredImageLanguage, TmdbPreferredImageLanguage);
                 xmlwriter.SetValue(cTrakt, cTraktOnlineSettings, OnlineSettings.ToJSON());
+                xmlwriter.SetValue(cTrakt, cTvCalendarMaxDays, TvCalendarMaxDays);
             }
 
             Settings.SaveCache();

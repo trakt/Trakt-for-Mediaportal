@@ -159,6 +159,8 @@
   <string name="DateOneWeekAgo">1 Week Ago</string>
   <string name="DateTwoWeeksAgo">2 Weeks Ago</string>
   <string name="DateOneMonthAgo">1 Month Ago</string>
+  <string name="Day">Day</string>
+  <string name="Days">Days</string>
   <string name="Dead">Dead</string>
   <string name="Death">Death</string>
   <string name="Deny">Deny</string>
@@ -386,6 +388,7 @@
   <string name="MakeupArtist">Makeup Artist</string>
   <string name="MarkAsWatched">Mark as Watched</string>
   <string name="MarkAsUnWatched">Mark as UnWatched</string>
+  <string name="MaxDays">Max Days</string>
   <string name="Me">Me</string>
   <string name="Menu">Menu</string>
   <string name="Minutes">Minutes</string>
@@ -404,6 +407,8 @@
   <string name="NextEpisode">Next Episode</string>
   <string name="NextPage">Next Page</string>
   <string name="NextWeek">Next Week</string>
+  <string name="NextDays">Next {0} Days</string>
+  <string name="NDays">{0} Days</string>
   <string name="NoActivities">No activity found.</string>
   <string name="NoBoxOffice">No Box Office movies found!</string>
   <string name="NoCreditsFound">No credits found.</string>
@@ -476,6 +481,7 @@
   <string name="Public">Public</string>
   <string name="PreviousEpisode">Previous Episode</string>
   <string name="PreviousPage">Previous Page</string>
+  <string name="PreviousDays">Previous {0} Days</string>
   <string name="Private">Private</string>
   <string name="Privacy">Privacy</string>
   <string name="PrivacyPublic">Anyone can view this list</string>
