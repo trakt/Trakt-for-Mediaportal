@@ -133,7 +133,7 @@ namespace TraktPlugin.GUI
                     result = TraktAPI.TraktAPI.GetCalendarUserShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
                 case CalendarType.UserSeasonPremieres:
-                    result = TraktAPI.TraktAPI.GetCalendarUserSeasonPremieresShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    result = TraktAPI.TraktAPI.GetCalendarUserSeasonPremieresShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
                 case CalendarType.UserNewShows:
                     result = TraktAPI.TraktAPI.GetCalendarUserNewShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
@@ -142,7 +142,7 @@ namespace TraktPlugin.GUI
                     result = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
                 case CalendarType.AllSeasonPremieres:
-                    result = TraktAPI.TraktAPI.GetCalendarSeasonPremieresShows(GetStartDate().ToString("yyyyMMdd"), GetDaysForward());
+                    result = TraktAPI.TraktAPI.GetCalendarSeasonPremieresShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
                 case CalendarType.AllNewShows:
                     result = TraktAPI.TraktAPI.GetCalendarNewShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
@@ -180,7 +180,7 @@ namespace TraktPlugin.GUI
                 calendar = ConvertDaysInCalendarToLocalisedDays(result);
                 
                 // add page to cache
-                TVShowCalendar.Add(1, calendar);
+                TVShowCalendar.Add(CurrentPage, calendar);
             }
             else
             {
@@ -266,9 +266,15 @@ namespace TraktPlugin.GUI
                         if (item != null && item.IsFolder)
                         {
                             if (item.TVTag.ToString() == "next")
+                            {
                                 CurrentPage++;
+                                if (CurrentPage == 0) CurrentPage = 1;
+                            }
                             else
+                            {
                                 CurrentPage--;
+                                if (CurrentPage == 0) CurrentPage = -1;
+                            }
 
                             // load next 7 days in calendar
                             LoadCalendar();
@@ -851,19 +857,16 @@ namespace TraktPlugin.GUI
             var showImages = new List<GUITmdbImage>();
 
             // Add Previous Days Item so user can go back to previous calendar entries
-            if (CurrentPage != 1)
+            var prevItem = new GUIListItem(string.Format(Translation.PreviousDays, TraktSettings.TvCalendarMaxDays))
             {
-                var prevItem = new GUIListItem(string.Format(Translation.PreviousDays, TraktSettings.TvCalendarMaxDays))
-                {
-                    IconImage = "traktPrevWeek.png",
-                    IconImageBig = "traktPrevWeek.png",
-                    ThumbnailImage = "traktPrevWeek.png",
-                    TVTag = "previous",
-                    IsFolder = true
-                };
-                prevItem.OnItemSelected += OnPrevWeekSelected;
-                Facade.Add(prevItem);
-            }
+                IconImage = "traktPrevWeek.png",
+                IconImageBig = "traktPrevWeek.png",
+                ThumbnailImage = "traktPrevWeek.png",
+                TVTag = "previous",
+                IsFolder = true
+            };
+            prevItem.OnItemSelected += OnPrevWeekSelected;
+            Facade.Add(prevItem);
 
             // Add each days episodes to the list
             // Use Label3 of facade for Day/Group Idenitfier
@@ -962,13 +965,13 @@ namespace TraktPlugin.GUI
             // e.g. returning from another window and the cache has not expired
             if (PreviousSelectedIndex > 0)
             {
-                Facade.SelectIndex(PreviousSelectedIndex);
+                Facade.SelectedListItemIndex = PreviousSelectedIndex;
             }
             else
             {
-                // if its the first page then there is no previous button
-                // first item is a header or a folder
-                Facade.SelectIndex(CurrentPage == 1 ? 1 : 2);
+                // beginning of a page has a previous button 
+                // and a date header, so skip 2 items
+                Facade.SelectedListItemIndex = 2;
             }
 
             // set facade properties
@@ -1008,10 +1011,10 @@ namespace TraktPlugin.GUI
                 
                 // if the current item is now the first item which is a header, then skip to end
                 // we need to bypass the scroll delay so we are not stuck on the first item
-                if (Facade.SelectedListItemIndex == 0)
-                {
-                    Facade.SelectedListItemIndex = Facade.Count - 1;
-                }
+                //if (Facade.SelectedListItemIndex == 0)
+                //{
+                //    Facade.SelectedListItemIndex = Facade.Count - 1;
+                //}
             }
         }
 
@@ -1104,8 +1107,11 @@ namespace TraktPlugin.GUI
             if (CurrentPage == 1)
                 return startDate;
 
-            // else jump forward to start at current page
-            return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+            // else jump to start at current page
+            if (CurrentPage > 0)
+                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+            else
+                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * CurrentPage);
         }
 
         private DateTime GetCurrentLocalStartDate()
@@ -1133,8 +1139,11 @@ namespace TraktPlugin.GUI
 
             if (CurrentPage == 1)
                 return startDate;
-            
-            return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+
+            if (CurrentPage > 0)
+                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+            else
+                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * CurrentPage);
         }
 
         private DateTime GetCurrentLocalEndDate()
