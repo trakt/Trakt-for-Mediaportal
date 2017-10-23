@@ -63,7 +63,9 @@ namespace TraktPlugin.GUI
         {
             View,
             StartDate,
+            MaxDays,
             ShowSeasonInfo,
+            Hide,
             MarkAsWatched,
             MarkAsUnWatched,
             AddShowToList,
@@ -260,7 +262,7 @@ namespace TraktPlugin.GUI
                 case (50):
                     if (actionType == Action.ActionType.ACTION_SELECT_ITEM)
                     {
-                        GUIListItem item = Facade.SelectedListItem as GUIListItem;
+                        var item = Facade.SelectedListItem as GUIListItem;
 
                         // Is a group header
                         if (item != null && item.IsFolder)
@@ -364,10 +366,20 @@ namespace TraktPlugin.GUI
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.StartDate;
 
+            // Max Days
+            listItem = new GUIListItem(Translation.MaxDays + "...");
+            dlg.Add(listItem);
+            listItem.ItemId = (int)ContextMenuItem.MaxDays;
+
             // Show Season Information
             listItem = new GUIListItem(Translation.ShowSeasonInfo);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
+
+            // Hide
+            //listItem = new GUIListItem(Translation.Hide);
+            //dlg.Add(listItem);
+            //listItem.ItemId = (int)ContextMenuItem.MaxDays;
 
             // Related Shows
             listItem = new GUIListItem(Translation.RelatedShows);
@@ -492,6 +504,10 @@ namespace TraktPlugin.GUI
 
                 case ((int)ContextMenuItem.StartDate):
                     ShowStartDateMenu();
+                    break;
+
+                case ((int)ContextMenuItem.MaxDays):
+                    ShowMaxDaysMenu();
                     break;
 
                 case ((int)ContextMenuItem.ShowSeasonInfo):
