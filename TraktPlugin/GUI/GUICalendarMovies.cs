@@ -784,7 +784,7 @@ namespace TraktPlugin.GUI
             var movieImages = new List<GUITmdbImage>();
 
             // Add Previous Days Item so user can go back to previous calendar entries
-            var prevItem = new GUIListItem(string.Format(Translation.PreviousDays, TraktSettings.TvCalendarMaxDays))
+            var prevItem = new GUIListItem(string.Format(Translation.PreviousDays, TraktSettings.MovieCalendarMaxDays))
             {
                 IconImage = "traktPreviousPage.png",
                 IconImageBig = "traktPreviousPage.png",
@@ -869,7 +869,7 @@ namespace TraktPlugin.GUI
             }
 
             // Add Next Days Item so user can fetch next days calendar
-            var nextItem = new GUIListItem(string.Format(Translation.NextDays, TraktSettings.TvCalendarMaxDays))
+            var nextItem = new GUIListItem(string.Format(Translation.NextDays, TraktSettings.MovieCalendarMaxDays))
             {
                 IconImage = "traktNextPage.png",
                 IconImageBig = "traktNextPage.png",
