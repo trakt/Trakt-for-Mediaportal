@@ -225,6 +225,7 @@
     <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="GUI\GUIAnticipatedMovies.cs" />
     <Compile Include="GUI\GUIBoxOffice.cs" />
+    <Compile Include="GUI\GUICalendarMovies.cs" />
     <Compile Include="GUI\GUICreditsMovie.cs" />
     <Compile Include="GUI\GUICreditsShow.cs" />
     <Compile Include="GUI\GUIAnticipatedShows.cs" />
@@ -280,7 +281,7 @@
     <Compile Include="GUI\GUITrendingMovies.cs" />
     <Compile Include="GUI\GUIRecommendations.cs" />
     <Compile Include="GUI\GUIBackgroundTask.cs" />
-    <Compile Include="GUI\GUICalendar.cs" />
+    <Compile Include="GUI\GUICalendarTV.cs" />
     <Compile Include="GUI\GUIExtensions.cs" />
     <Compile Include="GUI\GUIImageHandler.cs" />
     <Compile Include="GUI\GUIWatchListMovies.cs" />

@@ -53,12 +53,21 @@
         <hyperlink>87266</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
         <onright>#defaultcontrol.onright</onright>
-        <onup>6</onup>
+        <onup>7</onup>
+      </control>
+	  <control Style="SettingsButtonLarge">
+        <type>button</type>
+        <description>Calendar Movies</description>
+        <id>3</id>
+        <label>#Trakt.Translation.Calendar.Label</label>
+        <hyperlink>87700</hyperlink>
+        <onleft>#defaultcontrol.onleft</onleft>
+        <onright>#defaultcontrol.onright</onright>
       </control>
       <control Style="SettingsButtonLarge">
         <description>Popular Movies</description>
         <type>button</type>
-        <id>3</id>
+        <id>4</id>
         <label>#Trakt.Translation.Popular.Label</label>
         <hyperlink>87101</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
@@ -67,7 +76,7 @@
       <control Style="SettingsButtonLarge">
         <description>Recommended Movies</description>
         <type>button</type>
-        <id>4</id>
+        <id>5</id>
         <label>#Trakt.Translation.Recommendations.Label</label>
         <hyperlink>87263</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
@@ -76,7 +85,7 @@
       <control Style="SettingsButtonLarge">
         <description>Anticipated Movies</description>
         <type>button</type>
-        <id>5</id>
+        <id>6</id>
         <label>#Trakt.Translation.Anticipated.Label</label>
         <hyperlink>87605</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>
@@ -85,7 +94,7 @@
       <control Style="SettingsButtonLarge">
         <description>Box Office</description>
         <type>button</type>
-        <id>6</id>
+        <id>7</id>
         <label>#Trakt.Translation.BoxOffice.Label</label>
         <hyperlink>87607</hyperlink>
         <onleft>#defaultcontrol.onleft</onleft>

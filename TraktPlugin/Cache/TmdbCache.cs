@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,11 @@ namespace TraktPlugin.Cache
     {
         // create locks for each media type, lists can have multiple types
         // we add images and retrieve on different threads so try to be thread safe
-        static Object lockShowObject = new object();
-        static Object lockMovieObject = new object();
-        static Object lockSeasonObject = new object();
-        static Object lockEpisodeObject = new object();
-        static Object lockPersonObject = new object();
+        static object lockShowObject = new object();
+        static object lockMovieObject = new object();
+        static object lockSeasonObject = new object();
+        static object lockEpisodeObject = new object();
+        static object lockPersonObject = new object();
 
         static string MovieCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Movies.json"));
         static string ShowCacheFile = Path.Combine(Config.GetFolder(Config.Dir.Config), string.Format(@"Trakt\TmdbCache\Shows.json"));

@@ -60,8 +60,10 @@ namespace TraktPlugin
         public static int SearchEpisodesDefaultLayout { get; set; }
         public static int SearchPeopleDefaultLayout { get; set; }
         public static int SearchUsersDefaultLayout { get; set; }
-        public static int DefaultCalendarView { get; set; }
-        public static int DefaultCalendarStartDate { get; set; }
+        public static int DefaultTVCalendarView { get; set; }
+        public static int DefaultTVCalendarStartDate { get; set; }
+        public static int DefaultMovieCalendarView { get; set; }
+        public static int DefaultMovieCalendarStartDate { get; set; }
         public static bool DownloadFullSizeFanart { get; set; }
         public static bool DownloadFanart { get; set; }
         public static int WebRequestCacheMinutes { get; set; }
@@ -206,6 +208,7 @@ namespace TraktPlugin
         public static string UserAccessTokenExpiry { get; set; }
         public static string UserRefreshToken { get; set; }
         public static int TvCalendarMaxDays { get; set; }
+        public static int MovieCalendarMaxDays { get; set; }
         #endregion
 
         #region Constants
@@ -264,8 +267,10 @@ namespace TraktPlugin
         private const string cSearchEpisodesDefaultLayout = "SearchEpisodesDefaultLayout";
         private const string cSearchPeopleDefaultLayout = "SearchPeopleDefaultLayout";
         private const string cSearchUsersDefaultLayout = "SearchUsersDefaultLayout";
-        private const string cDefaultCalendarView = "DefaultCalendarView";
-        private const string cDefaultCalendarStartDate = "DefaultCalendarStartDate";
+        private const string cDefaultTVCalendarView = "DefaultTVCalendarView";
+        private const string cDefaultTVCalendarStartDate = "DefaultTVCalendarStartDate";
+        private const string cDefaultMovieCalendarView = "DefaultMovieCalendarView";
+        private const string cDefaultMovieCalendarStartDate = "DefaultMovieCalendarStartDate";
         private const string cDownloadFullSizeFanart = "DownloadFullSizeFanart";
         private const string cDownloadFanart = "DownloadFanart";
         private const string cWebRequestCacheMinutes = "WebRequestCacheMinutes";
@@ -407,8 +412,9 @@ namespace TraktPlugin
         private const string cTmdbPreferredImageLanguage = "TmdbPreferredImageLanguage";
         private const string cTraktOnlineSettings = "TraktOnlineSettings";
         private const string cTvCalendarMaxDays = "TvCalendarMaxDays";
+        private const string cMovieCalendarMaxDays = "MovieCalendarMaxDays";
         #endregion
-        
+
         #region Properties
 
         public static string UserAccessToken
@@ -733,8 +739,10 @@ namespace TraktPlugin
                 RelatedShowsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cRelatedShowsDefaultLayout, 0);
                 ShowSeasonsDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cShowSeasonsDefaultLayout, 0);
                 SeasonEpisodesDefaultLayout = xmlreader.GetValueAsInt(cTrakt, cSeasonEpisodesDefaultLayout, 0);
-                DefaultCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarView, 0);
-                DefaultCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultCalendarStartDate, 0);
+                DefaultTVCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultTVCalendarView, 0);
+                DefaultTVCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultTVCalendarStartDate, 0);
+                DefaultMovieCalendarView = xmlreader.GetValueAsInt(cTrakt, cDefaultMovieCalendarView, 0);
+                DefaultMovieCalendarStartDate = xmlreader.GetValueAsInt(cTrakt, cDefaultMovieCalendarStartDate, 0);
                 DownloadFullSizeFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFullSizeFanart, false);
                 DownloadFanart = xmlreader.GetValueAsBool(cTrakt, cDownloadFanart, true);
                 WebRequestCacheMinutes = GetValueAsIntAndValidate(cTrakt, cWebRequestCacheMinutes, 15, 1, 1440);
@@ -875,6 +883,7 @@ namespace TraktPlugin
                 TmdbPreferredImageLanguage = xmlreader.GetValueAsString(cTrakt, cTmdbPreferredImageLanguage, "en");
                 OnlineSettings = xmlreader.GetValueAsString(cTrakt, cTraktOnlineSettings, "{}").FromJSON<TraktAPI.DataStructures.TraktSettings>();
                 TvCalendarMaxDays = xmlreader.GetValueAsInt(cTrakt, cTvCalendarMaxDays, 7);
+                MovieCalendarMaxDays = xmlreader.GetValueAsInt(cTrakt, cMovieCalendarMaxDays, 7);
             }
 
             // initialise API settings
@@ -961,8 +970,10 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cListItemsDefaultLayout, ListItemsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cShowSeasonsDefaultLayout, ShowSeasonsDefaultLayout);
                 xmlwriter.SetValue(cTrakt, cSeasonEpisodesDefaultLayout, SeasonEpisodesDefaultLayout);
-                xmlwriter.SetValue(cTrakt, cDefaultCalendarView, DefaultCalendarView);
-                xmlwriter.SetValue(cTrakt, cDefaultCalendarStartDate, DefaultCalendarStartDate);
+                xmlwriter.SetValue(cTrakt, cDefaultTVCalendarView, DefaultTVCalendarView);
+                xmlwriter.SetValue(cTrakt, cDefaultTVCalendarStartDate, DefaultTVCalendarStartDate);
+                xmlwriter.SetValue(cTrakt, cDefaultMovieCalendarView, DefaultMovieCalendarView);
+                xmlwriter.SetValue(cTrakt, cDefaultMovieCalendarStartDate, DefaultMovieCalendarStartDate);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFullSizeFanart, DownloadFullSizeFanart);
                 xmlwriter.SetValueAsBool(cTrakt, cDownloadFanart, DownloadFanart);
                 xmlwriter.SetValue(cTrakt, cWebRequestCacheMinutes, WebRequestCacheMinutes);
@@ -1102,6 +1113,7 @@ namespace TraktPlugin
                 xmlwriter.SetValue(cTrakt, cTmdbPreferredImageLanguage, TmdbPreferredImageLanguage);
                 xmlwriter.SetValue(cTrakt, cTraktOnlineSettings, OnlineSettings.ToJSON());
                 xmlwriter.SetValue(cTrakt, cTvCalendarMaxDays, TvCalendarMaxDays);
+                xmlwriter.SetValue(cTrakt, cMovieCalendarMaxDays, MovieCalendarMaxDays);
             }
 
             Settings.SaveCache();
@@ -1354,8 +1366,8 @@ namespace TraktPlugin
                             currentSettingsVersion++;
 
                             // new tv calendar views
-                            xmlreader.RemoveEntry(cTrakt, cDefaultCalendarStartDate);
-                            xmlreader.RemoveEntry(cTrakt, cDefaultCalendarView);
+                            xmlreader.RemoveEntry(cTrakt, cDefaultTVCalendarStartDate);
+                            xmlreader.RemoveEntry(cTrakt, cDefaultTVCalendarView);
                             break;
                     }
                 }

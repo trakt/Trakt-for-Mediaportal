@@ -351,9 +351,13 @@ namespace TraktPlugin.GUI
         public static string CalendarMyNewShows = "My New Shows";
         public static string CalendarMyPremieres = "My Premieres";
         public static string CalendarMySeasonPremieres = "My Season Premieres";
+        public static string CalendarMyMovies = "My Movies";
+        public static string CalendarMyDVDs = "My DVDs and Blurays";
         public static string CalendarPremieres = "Premieres";
         public static string CalendarAllPremieres = "All Premieres";
         public static string CalendarAllShows = "All Shows";
+        public static string CalendarAllMovies = "All Movies";
+        public static string CalendarAllDVDs = "All DVDs and Blurays";
         public static string CalendarAllNewShows = "All New Shows";
         public static string CalendarAllSeasonPremieres = "All Season Premieres";
         public static string Certification = "Certification";
@@ -669,6 +673,7 @@ namespace TraktPlugin.GUI
         public static string NoEpisodesInSeason = "No Episodes are available in Season.";
         public static string NoEpisodeSummary = "Episode summary is currently not available.";
         public static string NoEpisodesThisWeek = "No episodes on this week";
+        public static string NoMoviesThisWeek = "No movies on this week";
         public static string NoMovieSummary = "Movie summary is currently not available.";
         public static string NoShowSummary = "Show summary is currently not available.";
         public static string NoFriends = "No Friends!";

@@ -51,6 +51,7 @@
     <Compile Include="DataStructures\TraktAccount.cs" />
     <Compile Include="DataStructures\TraktActivity.cs" />
     <Compile Include="DataStructures\TraktAuthenticationToken.cs" />
+    <Compile Include="DataStructures\TraktMovieCalendar.cs" />
     <Compile Include="DataStructures\TraktShowCalendar.cs" />
     <Compile Include="DataStructures\TraktCharacter.cs" />
     <Compile Include="DataStructures\TraktClientCode.cs" />

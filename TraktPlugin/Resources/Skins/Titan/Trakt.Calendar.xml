@@ -95,7 +95,20 @@
       <animation effect="fade" time="250">WindowClose</animation>
     </control>
     <import>common.time.xml</import>
-   
+    <control>
+      <description>View</description>
+      <type>label</type>
+      <label>#Trakt.CurrentView</label>
+      <id>0</id>
+      <posX>144</posX>
+      <posY>94</posY>
+      <width>1100</width>
+      <align>left</align>
+      <textcolor>FFFFFFFF</textcolor>
+      <font>TitanLight12</font>
+      <animation effect="fade" time="250">WindowOpen</animation>
+      <animation effect="fade" time="250">WindowClose</animation>
+    </control>
     <control>
       <type>label</type>
       <id>1</id>

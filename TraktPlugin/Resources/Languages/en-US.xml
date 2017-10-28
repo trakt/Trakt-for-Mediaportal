@@ -105,11 +105,15 @@
   <string name="Canceled">Cancelled</string>
   <string name="Calendar">Calendar</string>
   <string name="CalendarMyShows">My Shows</string>
+  <string name="CalendarMyMovies">My Movies</string>
+  <string name="CalendarMyDVDs">My DVDs and Blurays</string>
   <string name="CalendarMyNewShows">My New Shows</string>
   <string name="CalendarMyPremieres">My Premieres</string>
   <string name="CalendarMySeasonPremieres">My Season Premieres</string>  
   <string name="CalendarPremieres">Premieres</string>
   <string name="CalendarAllPremieres">All Premieres</string>
+  <string name="CalendarAllMovies">All Movies</string>
+  <string name="CalendarAllDVDs">All DVDs and Blurays</string>
   <string name="CalendarAllShows">All Shows</string>
   <string name="CalendarAllNewShows">All New Shows</string>
   <string name="CalendarAllSeasonPremieres">All Season Premieres</string>  
@@ -416,6 +420,7 @@
   <string name="NoEpisodesInSeason">No Episodes are available in Season.</string>
   <string name="NoEpisodeSummary">Episode summary is currently not available.</string>
   <string name="NoEpisodesThisWeek">No episodes on this week</string>
+  <string name="NoMoviesThisWeek">No movies on this week</string>
   <string name="NoMovieSummary">Movie summary is currently not available.</string>
   <string name="NoShowSummary">Show summary is currently not available.</string>
   <string name="NoFriends">No Friends!</string>

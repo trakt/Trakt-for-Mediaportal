@@ -450,34 +450,34 @@ namespace TraktAPI
 
         #region Single Object Handlers
 
-        public static TraktSyncResponse AddMovieToHiddenItems(TraktMovie movie)
+        public static TraktSyncResponse AddMovieToHiddenItems(TraktMovie movie, string section)
         {
             var movies = new TraktSyncHiddenItems
             {
                 Movies = new List<TraktMovie>() { movie }
             };
 
-            return AddHiddenItems("movie", movies);
+            return AddHiddenItems(section, movies);
         }
 
-        public static TraktSyncResponse AddShowToHiddenItems(TraktShow show)
+        public static TraktSyncResponse AddShowToHiddenItems(TraktShow show, string section)
         {
             var shows = new TraktSyncHiddenItems
             {
                 Shows = new List<TraktShow>() { show }
             };
 
-            return AddHiddenItems("show", shows);
+            return AddHiddenItems(section, shows);
         }
 
-        public static TraktSyncResponse AddSeasonToHiddenItems(TraktSeason season)
+        public static TraktSyncResponse AddSeasonToHiddenItems(TraktSeason season, string section)
         {
             var seasons = new TraktSyncHiddenItems
             {
                 Seasons = new List<TraktSeason>() { season }
             };
 
-            return AddHiddenItems("season", seasons);
+            return AddHiddenItems(section, seasons);
         }
 
         public static TraktSyncResponse RemoveMovieFromHiddenItems(TraktMovie movie, string section)
@@ -1072,6 +1072,54 @@ namespace TraktAPI
         {
             string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllSeasonPremieresShows, startDate, days), "GET");
             return calendar.FromJSONArray<TraktShowCalendar>();
+        }
+
+        #endregion
+
+        #region Movie Calendar
+
+        /// <summary>
+        /// Returns list of movies in the users Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktMovieCalendar> GetCalendarUserMovies(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarMyMovies, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktMovieCalendar>();
+        }
+
+        /// <summary>
+        /// Returns list of DVDs/ Blurays in the users Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktMovieCalendar> GetCalendarUserDVDs(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarMyDVDs, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktMovieCalendar>();
+        }
+
+        /// <summary>
+        /// Returns list of all movies in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktMovieCalendar> GetCalendarMovies(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllMovies, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktMovieCalendar>();
+        }
+
+        /// <summary>
+        /// Returns list of all DVDs/ Blurays in the Calendar
+        /// </summary>
+        /// <param name="startDate">Start Date of calendar in the form yyyy-MM-dd</param>
+        /// <param name="days">Number of days to return in calendar, maximum days allowed is 31</param>
+        public static IEnumerable<TraktMovieCalendar> GetCalendarDVDs(string startDate, int days = 7)
+        {
+            string calendar = GetFromTrakt(string.Format(TraktURIs.CalendarAllDVDs, startDate, days), "GET");
+            return calendar.FromJSONArray<TraktMovieCalendar>();
         }
 
         #endregion

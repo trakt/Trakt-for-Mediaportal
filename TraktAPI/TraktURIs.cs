@@ -114,6 +114,11 @@ namespace TraktAPI
         public const string CalendarAllNewShows = "https://api.trakt.tv/calendars/all/shows/new/{0}/{1}?extended=full";
         public const string CalendarAllSeasonPremieresShows = "https://api.trakt.tv/calendars/all/shows/premieres/{0}/{1}?extended=full";
 
+        public const string CalendarMyMovies = "https://api.trakt.tv/calendars/my/movies/{0}/{1}?extended=full";
+        public const string CalendarMyDVDs = "https://api.trakt.tv/calendars/my/dvd/{0}/{1}?extended=full";
+        public const string CalendarAllMovies = "https://api.trakt.tv/calendars/all/movies/{0}/{1}?extended=full";
+        public const string CalendarAllDVDs = "https://api.trakt.tv/calendars/all/dvd/{0}/{1}?extended=full";
+
         public const string ScrobbleStart = "https://api.trakt.tv/scrobble/start";
         public const string ScrobblePause = "https://api.trakt.tv/scrobble/pause";
         public const string ScrobbleStop = "https://api.trakt.tv/scrobble/stop";

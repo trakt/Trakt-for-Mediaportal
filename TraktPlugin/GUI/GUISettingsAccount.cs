@@ -179,7 +179,7 @@ namespace TraktPlugin.GUI
                 // clear caches
                 // watchlists are stored by user so dont need clearing.
                 GUINetwork.ClearCache();
-                GUICalendar.ClearCache();
+                GUICalendarTV.ClearCache();
                 GUIRecommendationsMovies.ClearCache();
                 GUIRecommendationsShows.ClearCache();
 
@@ -218,7 +218,7 @@ namespace TraktPlugin.GUI
                     // clear caches
                     // watchlists are stored by user so dont need clearing.
                     GUINetwork.ClearCache();
-                    GUICalendar.ClearCache();
+                    GUICalendarTV.ClearCache();
                     GUIRecommendationsMovies.ClearCache();
                     GUIRecommendationsShows.ClearCache();
 

@@ -1632,6 +1632,75 @@ namespace TraktPlugin
 
         #endregion
 
+        #region Add Hidden
+
+        public static void AddHiddenMovie(TraktMovieSummary movie, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktMovieSummary, string>;
+                var movieData = new TraktMovie
+                {
+                    Ids = data.Item1.Ids,
+                    Title = data.Item1.Title,
+                    Year = data.Item1.Year
+                };
+                var response = TraktAPI.TraktAPI.AddMovieToHiddenItems(movieData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "Hide"
+            };
+
+            syncThread.Start(Tuple.Create(movie, section));
+            TraktCache.AddMovieToHiddenData(movie, section);
+        }
+
+        public static void AddHiddenShow(TraktShowSummary show, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktShowSummary, string>;
+                var showData = new TraktShow
+                {
+                    Ids = data.Item1.Ids,
+                    Title = data.Item1.Title,
+                    Year = data.Item1.Year
+                };
+                var response = TraktAPI.TraktAPI.AddShowToHiddenItems(showData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "Hide"
+            };
+
+            syncThread.Start(Tuple.Create(show, section));
+            TraktCache.AddShowToHiddenData(show, section);
+        }
+
+        public static void AddHiddenSeason(TraktSeasonSummary season, string section)
+        {
+            var syncThread = new Thread((objSyncData) =>
+            {
+                var data = objSyncData as Tuple<TraktSeasonSummary, string>;
+                var seasonData = new TraktSeason
+                {
+                    Ids = data.Item1.Ids,
+                    Number = data.Item1.Number
+                };
+                var response = TraktAPI.TraktAPI.AddSeasonToHiddenItems(seasonData, data.Item2);
+            })
+            {
+                IsBackground = true,
+                Name = "Hide"
+            };
+
+            syncThread.Start(Tuple.Create(season, section));
+            TraktCache.AddSeasonToHiddenData(season, section);
+        }
+
+        #endregion
+
         #endregion
 
         #region Internal Helpers

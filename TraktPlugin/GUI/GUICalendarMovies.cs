@@ -11,7 +11,7 @@ using Action = MediaPortal.GUI.Library.Action;
 
 namespace TraktPlugin.GUI
 {
-    public class GUICalendar : GUIWindow
+    public class GUICalendarMovies : GUIWindow
     {
         #region Skin Controls
 
@@ -23,10 +23,7 @@ namespace TraktPlugin.GUI
 
         [SkinControl(5)]
         protected GUIButtonControl maxDaysButton = null;
-
-        [SkinControl(4)]
-        protected GUICheckButton hideWatchlistedButton = null;
-
+        
         [SkinControl(50)]
         protected GUIFacadeControl Facade = null;
 
@@ -51,12 +48,10 @@ namespace TraktPlugin.GUI
 
         enum CalendarType
         {
-            UserShows,
-            UserSeasonPremieres,
-            UserNewShows,
-            AllShows,
-            AllNewShows,
-            AllSeasonPremieres
+            UserMovies,
+            UserDVDs,
+            AllMovies,
+            AllDVDs
         }
 
         enum ContextMenuItem
@@ -64,16 +59,12 @@ namespace TraktPlugin.GUI
             View,
             StartDate,
             MaxDays,
-            ShowSeasonInfo,
-            Hide,
+            HideMovie,
             MarkAsWatched,
             MarkAsUnWatched,
-            AddShowToList,
-            AddEpisodeToList,
-            AddShowToWatchList,
-            AddEpisodeToWatchList,
-            RemoveShowFromWatchList,
-            RemoveEpisodeFromWatchList,
+            AddMovieToList,
+            AddMovieToWatchlist,
+            RemoveMovieFromWatchlist,
             Related,
             AddToLibrary,
             RemoveFromLibrary,
@@ -98,11 +89,11 @@ namespace TraktPlugin.GUI
 
         #region Constructor
 
-        public GUICalendar()
+        public GUICalendarMovies()
         {
             backdrop = new ImageSwapper();
-            backdrop.PropertyOne = "#Trakt.Calendar.Fanart.1";
-            backdrop.PropertyTwo = "#Trakt.Calendar.Fanart.2";
+            backdrop.PropertyOne = "#Trakt.CalendarMovies.Fanart.1";
+            backdrop.PropertyTwo = "#Trakt.CalendarMovies.Fanart.2";
         }
 
         #endregion
@@ -113,7 +104,7 @@ namespace TraktPlugin.GUI
         CalendarType CurrentCalendar { get; set; }
         StartDates CurrentStartDate { get; set; }
 
-        Dictionary<int, Dictionary<string, List<TraktShowCalendar>>> TVShowCalendar = null;
+        Dictionary<int, Dictionary<string, List<TraktMovieCalendar>>> MovieCalendar = null;
 
         int CurrentPage;
         int PreviousSelectedIndex;
@@ -121,33 +112,28 @@ namespace TraktPlugin.GUI
         ImageSwapper backdrop;
         static DateTime LastRequest = new DateTime();
 
+        bool FilterHiddenMovies;
         #endregion
 
         #region Request Methods
 
-        private IEnumerable<TraktShowCalendar> GetCalendarShows()
+        private IEnumerable<TraktMovieCalendar> GetCalendarMovies()
         {
-            IEnumerable<TraktShowCalendar> result = null;
+            IEnumerable<TraktMovieCalendar> result = null;
 
             switch (CurrentCalendar)
             {
-                case CalendarType.UserShows:
-                    result = TraktAPI.TraktAPI.GetCalendarUserShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
+                case CalendarType.UserMovies:
+                    result = TraktAPI.TraktAPI.GetCalendarUserMovies(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
-                case CalendarType.UserSeasonPremieres:
-                    result = TraktAPI.TraktAPI.GetCalendarUserSeasonPremieresShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
+                case CalendarType.UserDVDs:
+                    result = TraktAPI.TraktAPI.GetCalendarUserDVDs(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
-                case CalendarType.UserNewShows:
-                    result = TraktAPI.TraktAPI.GetCalendarUserNewShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
+                case CalendarType.AllMovies:
+                    result = TraktAPI.TraktAPI.GetCalendarMovies(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
-                case CalendarType.AllShows:
-                    result = TraktAPI.TraktAPI.GetCalendarShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
-                    break;
-                case CalendarType.AllSeasonPremieres:
-                    result = TraktAPI.TraktAPI.GetCalendarSeasonPremieresShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
-                    break;
-                case CalendarType.AllNewShows:
-                    result = TraktAPI.TraktAPI.GetCalendarNewShows(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
+                case CalendarType.AllDVDs:
+                    result = TraktAPI.TraktAPI.GetCalendarDVDs(GetStartDate().ToString("yyyy-MM-dd"), GetDaysForward());
                     break;
             }
 
@@ -157,48 +143,50 @@ namespace TraktPlugin.GUI
         /// <summary>
         /// Returns the cached current page calendar results
         /// </summary>
-        private Dictionary<string, List<TraktShowCalendar>> GetCalendarShowsFromCache()
+        private Dictionary<string, List<TraktMovieCalendar>> GetCalendarMoviesFromCache()
         {
-            Dictionary<string, List<TraktShowCalendar>> calendar = null;
-            IEnumerable<TraktShowCalendar> result = null;
+            Dictionary<string, List<TraktMovieCalendar>> calendar = null;
+            IEnumerable<TraktMovieCalendar> result = null;
 
-            if (TVShowCalendar == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
+            if (MovieCalendar == null || LastRequest < DateTime.UtcNow.Subtract(new TimeSpan(0, TraktSettings.WebRequestCacheMinutes, 0)))
             {
                 CurrentPage = 1;
+                FilterHiddenMovies = false;
                 PreviousSelectedIndex = 0;
 
                 // request first page
-                result = GetCalendarShows();
-                
+                result = GetCalendarMovies();
+
                 LastRequest = DateTime.UtcNow;
 
                 // clear the cache
-                if (TVShowCalendar == null)
-                    TVShowCalendar = new Dictionary<int, Dictionary<string, List<TraktShowCalendar>>>();
+                if (MovieCalendar == null)
+                    MovieCalendar = new Dictionary<int, Dictionary<string, List<TraktMovieCalendar>>>();
                 else
-                    TVShowCalendar.Clear();
+                    MovieCalendar.Clear();
 
                 // create a dictionary with key being a localised day
                 calendar = ConvertDaysInCalendarToLocalisedDays(result);
-                
+
                 // add page to cache
-                TVShowCalendar.Add(CurrentPage, calendar);
+                MovieCalendar.Add(CurrentPage, calendar);
             }
             else
             {
                 // get page from cache if it exists
-                if (TVShowCalendar.TryGetValue(CurrentPage, out calendar))
+                if (MovieCalendar.TryGetValue(CurrentPage, out calendar))
                 {
                     return calendar;
                 }
 
                 // request next page
                 PreviousSelectedIndex = 0;
-                result = GetCalendarShows();
+                FilterHiddenMovies = false;
+                result = GetCalendarMovies();
                 calendar = ConvertDaysInCalendarToLocalisedDays(result);
 
                 // add to cache
-                TVShowCalendar.Add(CurrentPage, calendar);
+                MovieCalendar.Add(CurrentPage, calendar);
             }
             return calendar;
         }
@@ -211,13 +199,13 @@ namespace TraktPlugin.GUI
         {
             get
             {
-                return (int)TraktGUIWindows.Calendar;
+                return (int)TraktGUIWindows.CalendarMovies;
             }
         }
 
         public override bool Init()
         {
-            return Load(GUIGraphicsContext.Skin + @"\Trakt.Calendar.xml");
+            return Load(GUIGraphicsContext.Skin + @"\Trakt.Calendar.Movies.xml");
         }
 
         protected override void OnPageLoad()
@@ -241,12 +229,12 @@ namespace TraktPlugin.GUI
         {
             PreviousSelectedIndex = Facade.SelectedListItemIndex;
 
-            GUIEpisodeListItem.StopDownload = true;
+            GUIMovieListItem.StopDownload = true;
             ClearProperties();
 
             // save current view
-            TraktSettings.DefaultCalendarView = (int)CurrentCalendar;
-            TraktSettings.DefaultCalendarStartDate = (int)CurrentStartDate;
+            TraktSettings.DefaultMovieCalendarView = (int)CurrentCalendar;
+            TraktSettings.DefaultMovieCalendarStartDate = (int)CurrentStartDate;
 
             base.OnPageDestroy(new_windowId);
         }
@@ -282,10 +270,10 @@ namespace TraktPlugin.GUI
                             LoadCalendar();
                         }
 
-                        // Is an episode
+                        // Is a movie
                         if (item != null && !item.IsFolder)
                         {
-                            CheckAndPlayEpisode();
+                            CheckAndPlayMovie(true);
                         }
                     }
                     break;
@@ -299,13 +287,7 @@ namespace TraktPlugin.GUI
                 case (3):
                     ShowStartDateMenu();
                     break;
-
-                // Hide Watchlisted
-                case (4):
-                    TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
-                    LoadCalendar();
-                    break;
-
+                    
                 // Max Days
                 case (5):
                     ShowMaxDaysMenu();
@@ -323,7 +305,7 @@ namespace TraktPlugin.GUI
             {
                 case Action.ActionType.ACTION_PLAY:
                 case Action.ActionType.ACTION_MUSIC_PLAY:
-                    CheckAndPlayEpisode();
+                    CheckAndPlayMovie(false);
                     break;
 
                 case Action.ActionType.ACTION_PREVIOUS_MENU:
@@ -331,7 +313,7 @@ namespace TraktPlugin.GUI
 
                 case Action.ActionType.ACTION_MOVE_UP:
                 case Action.ActionType.ACTION_PAGE_UP:
-                    LastMoved = FacadeMovement.Up;                    
+                    LastMoved = FacadeMovement.Up;
                     break;
 
                 case Action.ActionType.ACTION_MOVE_DOWN:
@@ -350,10 +332,10 @@ namespace TraktPlugin.GUI
             dlg.Reset();
             dlg.SetHeading(GUIUtils.PluginName());
 
-            var selectedItem = Facade.SelectedListItem as GUIEpisodeListItem;
+            var selectedItem = Facade.SelectedListItem as GUIMovieListItem;
             if (selectedItem == null) return;
 
-            var calendarItem = selectedItem.TVTag as TraktShowCalendar;
+            var calendarItem = selectedItem.TVTag as TraktMovieCalendar;
             if (calendarItem == null) return;
 
             // Create Views Menu Item
@@ -370,19 +352,14 @@ namespace TraktPlugin.GUI
             listItem = new GUIListItem(Translation.MaxDays + "...");
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.MaxDays;
-
-            // Show Season Information
-            listItem = new GUIListItem(Translation.ShowSeasonInfo);
+            
+            // Hide Movie
+            listItem = new GUIListItem(Translation.HideMovie);
             dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.ShowSeasonInfo;
-
-            // Hide
-            //listItem = new GUIListItem(Translation.Hide);
-            //dlg.Add(listItem);
-            //listItem.ItemId = (int)ContextMenuItem.MaxDays;
-
-            // Related Shows
-            listItem = new GUIListItem(Translation.RelatedShows);
+            listItem.ItemId = (int)ContextMenuItem.HideMovie;
+            
+            // Related Movies
+            listItem = new GUIListItem(Translation.RelatedMovies);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Related;
 
@@ -392,66 +369,45 @@ namespace TraktPlugin.GUI
             listItem.ItemId = (int)ContextMenuItem.Rate;
 
             // Mark As Watched
-            if (!calendarItem.Episode.IsWatched(calendarItem.Show))
+            if (!calendarItem.Movie.IsWatched())
             {
                 listItem = new GUIListItem(Translation.MarkAsWatched);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.MarkAsWatched;
             }
-
-            // Mark As UnWatched
-            if (calendarItem.Episode.IsWatched(calendarItem.Show))
+            else
             {
                 listItem = new GUIListItem(Translation.MarkAsUnWatched);
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.MarkAsUnWatched;
             }
 
-            // Add/Remove Show Watchlist
-            if (!calendarItem.Show.IsWatchlisted())
+            // Add/Remove Movie Watchlist
+            if (!calendarItem.Movie.IsWatchlisted())
             {
-                listItem = new GUIListItem(Translation.AddShowToWatchList);
+                listItem = new GUIListItem(Translation.AddToWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.AddShowToWatchList;
+                listItem.ItemId = (int)ContextMenuItem.AddMovieToWatchlist;
             }
             else
             {
-                listItem = new GUIListItem(Translation.RemoveShowFromWatchList);
+                listItem = new GUIListItem(Translation.RemoveFromWatchList);
                 dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.RemoveShowFromWatchList;
+                listItem.ItemId = (int)ContextMenuItem.RemoveMovieFromWatchlist;
             }
 
-            // Add/Remove Episode Watchlist
-            if (!calendarItem.Episode.IsWatchlisted())
-            {
-                listItem = new GUIListItem(Translation.AddEpisodeToWatchList);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.AddEpisodeToWatchList;
-            }
-            else
-            {
-                listItem = new GUIListItem(Translation.RemoveEpisodeFromWatchList);
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.RemoveEpisodeFromWatchList;
-            }
-
-            // Add Show to Custom List
-            listItem = new GUIListItem(Translation.AddShowToList + "...");
+            // Add Movie to Custom List
+            listItem = new GUIListItem(Translation.AddToList);
             dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.AddShowToList;
-
-            // Add Episode to Custom List
-            listItem = new GUIListItem(Translation.AddEpisodeToList + "...");
-            dlg.Add(listItem);
-            listItem.ItemId = (int)ContextMenuItem.AddEpisodeToList;
-
+            listItem.ItemId = (int)ContextMenuItem.AddMovieToList;
+            
             // Shouts
             listItem = new GUIListItem(Translation.Comments);
             dlg.Add(listItem);
             listItem.ItemId = (int)ContextMenuItem.Shouts;
 
             // Add/Remove Libary
-            if (!calendarItem.Episode.IsCollected(calendarItem.Show))
+            if (!calendarItem.Movie.IsCollected())
             {
                 listItem = new GUIListItem(Translation.AddToLibrary);
                 dlg.Add(listItem);
@@ -479,19 +435,7 @@ namespace TraktPlugin.GUI
                 dlg.Add(listItem);
                 listItem.ItemId = (int)ContextMenuItem.Trailers;
             }
-
-            // Watchlist Filter
-            if (CurrentCalendar == CalendarType.UserShows)
-            {
-                if (TraktSettings.CalendarHideTVShowsInWatchList)
-                    listItem = new GUIListItem(Translation.ShowTVShowsInWatchlist);
-                else
-                    listItem = new GUIListItem(Translation.HideTVShowsInWatchlist);
-                
-                dlg.Add(listItem);
-                listItem.ItemId = (int)ContextMenuItem.WatchlistFilter;
-            }
-
+            
             // Show Context Menu
             dlg.DoModal(GUIWindowManager.ActiveWindow);
             if (dlg.SelectedId < 0) return;
@@ -510,113 +454,86 @@ namespace TraktPlugin.GUI
                     ShowMaxDaysMenu();
                     break;
 
-                case ((int)ContextMenuItem.ShowSeasonInfo):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.ShowSeasons, calendarItem.Show.ToJSON());
+                case ((int)ContextMenuItem.HideMovie):
+                    TraktHelper.AddHiddenMovie(calendarItem.Movie, "calendar");
+                    FilterHiddenMovies = true;
+                    LoadCalendar();
                     break;
-
+                    
                 case ((int)ContextMenuItem.Related):
-                    TraktHelper.ShowRelatedShows(calendarItem.Show);
+                    TraktHelper.ShowRelatedMovies(calendarItem.Movie);
                     break;
 
                 case ((int)ContextMenuItem.Shouts):
-                    TraktHelper.ShowEpisodeShouts(calendarItem.Show, calendarItem.Episode);
+                    TraktHelper.ShowMovieShouts(calendarItem.Movie);
                     break;
 
                 case ((int)ContextMenuItem.Rate):
-                    GUICommon.RateEpisode(calendarItem.Show, calendarItem.Episode);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    GUICommon.RateMovie(calendarItem.Movie);
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsWatched):
-                    TraktHelper.AddEpisodeToWatchHistory(calendarItem.Episode);
-                    TraktCache.AddEpisodeToWatchHistory(calendarItem.Show, calendarItem.Episode);
+                    TraktHelper.AddMovieToWatchHistory(calendarItem.Movie);
                     Facade.SelectedListItem.IsPlayed = true;
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.MarkAsUnWatched):
-                    TraktHelper.RemoveEpisodeFromWatchHistory(calendarItem.Episode);
-                    TraktCache.RemoveEpisodeFromWatchHistory(calendarItem.Show, calendarItem.Episode);
+                    TraktHelper.RemoveMovieFromWatchHistory(calendarItem.Movie);
                     Facade.SelectedListItem.IsPlayed = false;
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
-                case ((int)ContextMenuItem.AddShowToWatchList):
-                    TraktHelper.AddShowToWatchList(calendarItem.Show);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
+                case ((int)ContextMenuItem.AddMovieToWatchlist):
+                    TraktHelper.AddMovieToWatchList(calendarItem.Movie, true);
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
+                    break;
+                    
+                case ((int)ContextMenuItem.RemoveMovieFromWatchlist):
+                    TraktHelper.RemoveMovieFromWatchList(calendarItem.Movie, true);
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    GUIWatchListMovies.ClearCache(TraktSettings.Username);
                     break;
 
-                case ((int)ContextMenuItem.AddEpisodeToWatchList):
-                    TraktHelper.AddEpisodeToWatchList(calendarItem.Episode);
-                    TraktCache.AddEpisodeToWatchlist(calendarItem.Show, calendarItem.Episode);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
+                case ((int)ContextMenuItem.AddMovieToList):
+                    TraktHelper.AddRemoveMovieInUserList(calendarItem.Movie, false);
                     break;
-
-                case ((int)ContextMenuItem.RemoveShowFromWatchList):
-                    TraktHelper.RemoveShowFromWatchList(calendarItem.Show);                    
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
-                    break;
-
-                case ((int)ContextMenuItem.RemoveEpisodeFromWatchList):
-                    TraktHelper.RemoveEpisodeFromWatchList(calendarItem.Episode);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
-                    GUIWatchListShows.ClearCache(TraktSettings.Username);
-                    break;
-
-                case ((int)ContextMenuItem.AddEpisodeToList):
-                    TraktHelper.AddRemoveEpisodeInUserList(calendarItem.Episode, false);                    
-                    break;
-
-                case ((int)ContextMenuItem.AddShowToList):
-                    TraktHelper.AddRemoveShowInUserList(calendarItem.Show, false);
-                    break;
-
+                    
                 case ((int)ContextMenuItem.AddToLibrary):
-                    TraktHelper.AddEpisodeToCollection(calendarItem.Episode);
-                    TraktCache.AddEpisodeToCollection(calendarItem.Show, calendarItem.Episode);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    TraktHelper.AddMovieToCollection(calendarItem.Movie);
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.RemoveFromLibrary):
-                    TraktHelper.RemoveEpisodeFromCollection(calendarItem.Episode);
-                    TraktCache.RemoveEpisodeFromCollection(calendarItem.Show, calendarItem.Episode);
-                    OnEpisodeSelected(Facade.SelectedListItem, Facade);
-                    (Facade.SelectedListItem as GUIEpisodeListItem).Images.NotifyPropertyChanged("Screen");
+                    TraktHelper.RemoveMovieFromCollection(calendarItem.Movie);
+                    OnMovieSelected(Facade.SelectedListItem, Facade);
+                    (Facade.SelectedListItem as GUIMovieListItem).Images.NotifyPropertyChanged("Poster");
                     break;
 
                 case ((int)ContextMenuItem.Cast):
-                    GUICreditsShow.Show = calendarItem.Show;
-                    GUICreditsShow.Type = GUICreditsShow.CreditType.Cast;
-                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    GUICreditsMovie.Movie = calendarItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Cast;
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.Crew):
-                    GUICreditsShow.Show = calendarItem.Show;
-                    GUICreditsShow.Type = GUICreditsShow.CreditType.Crew;
-                    GUICreditsShow.Fanart = TmdbCache.GetShowBackdropFilename(selectedItem.Images.ShowImages);
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsShow);
+                    GUICreditsMovie.Movie = calendarItem.Movie;
+                    GUICreditsMovie.Type = GUICreditsMovie.CreditType.Crew;
+                    GUICreditsMovie.Fanart = TmdbCache.GetMovieBackdropFilename(selectedItem.Images.MovieImages);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CreditsMovie);
                     break;
 
                 case ((int)ContextMenuItem.Trailers):
-                    if (calendarItem != null) GUICommon.ShowTVShowTrailersMenu(calendarItem.Show, calendarItem.Episode);
+                    if (calendarItem != null) GUICommon.ShowMovieTrailersMenu(calendarItem.Movie);
                     break;
-
-                case ((int)ContextMenuItem.WatchlistFilter):
-                    TraktSettings.CalendarHideTVShowsInWatchList = !TraktSettings.CalendarHideTVShowsInWatchList;
-                    SetHideWatchlisted();
-                    LoadCalendar();
-                    break;
-
+                    
                 default:
                     break;
             }
@@ -628,15 +545,15 @@ namespace TraktPlugin.GUI
 
         #region Private Methods
 
-        private void CheckAndPlayEpisode()
+        private void CheckAndPlayMovie(bool jumpTo)
         {
             var selectedItem = Facade.SelectedListItem as GUIListItem;
             if (selectedItem == null) return;
 
-            var calendarItem = selectedItem.TVTag as TraktShowCalendar;
+            var calendarItem = selectedItem.TVTag as TraktMovieCalendar;
             if (calendarItem == null) return;
 
-            GUICommon.CheckAndPlayEpisode(calendarItem.Show, calendarItem.Episode);
+            GUICommon.CheckAndPlayMovie(jumpTo, calendarItem.Movie);
         }
 
         private void ShowStartDateMenu()
@@ -671,7 +588,7 @@ namespace TraktPlugin.GUI
             SetCurrentStartDate();
 
             // Reset Views and Apply
-            TVShowCalendar = null;
+            MovieCalendar = null;
             LoadCalendar();
         }
 
@@ -692,7 +609,7 @@ namespace TraktPlugin.GUI
                 listItem.ItemId = day;
 
                 // Set selected if current
-                if (day == TraktSettings.TvCalendarMaxDays) listItem.Selected = true;
+                if (day == TraktSettings.MovieCalendarMaxDays) listItem.Selected = true;
 
                 // Add new item to context menu
                 dlg.Add(listItem);
@@ -702,14 +619,14 @@ namespace TraktPlugin.GUI
             if (dlg.SelectedId <= 0) return;
 
             // Set new Selection            
-            TraktSettings.TvCalendarMaxDays = dlg.SelectedLabel + 1;
+            TraktSettings.MovieCalendarMaxDays = dlg.SelectedLabel + 1;
             SetMaxDays();
 
             // Reset Views and Apply
-            TVShowCalendar = null;
+            MovieCalendar = null;
             LoadCalendar();
         }
-        
+
         private void ShowViewMenu()
         {
             var dlg = (IDialogbox)GUIWindowManager.GetWindow((int)GUIWindow.Window.WINDOW_DIALOG_MENU);
@@ -724,7 +641,7 @@ namespace TraktPlugin.GUI
                 string label = GetCalendarTypeName(type);
 
                 // Create new item
-                GUIListItem listItem = new GUIListItem(label);
+                var listItem = new GUIListItem(label);
                 listItem.ItemId = value;
 
                 // Set selected if current
@@ -743,7 +660,7 @@ namespace TraktPlugin.GUI
 
             // Reset Views and Apply
             PreviousSelectedIndex = 0;
-            TVShowCalendar = null;
+            MovieCalendar = null;
 
             LoadCalendar();
         }
@@ -776,46 +693,40 @@ namespace TraktPlugin.GUI
         {
             switch (type)
             {
-                case CalendarType.UserShows:
-                    return Translation.CalendarMyShows;
+                case CalendarType.UserMovies:
+                    return Translation.CalendarMyMovies;
 
-                case CalendarType.UserNewShows:
-                    return Translation.CalendarMyNewShows;
+                case CalendarType.UserDVDs:
+                    return Translation.CalendarMyDVDs;
+                    
+                case CalendarType.AllMovies:
+                    return Translation.CalendarAllMovies;
 
-                case CalendarType.UserSeasonPremieres:
-                    return Translation.CalendarMyPremieres;
-
-                case CalendarType.AllShows:
-                    return Translation.CalendarAllShows;
-
-                case CalendarType.AllNewShows:
-                    return Translation.CalendarAllNewShows;
-
-                case CalendarType.AllSeasonPremieres:
-                    return Translation.CalendarAllPremieres;
-
+                case CalendarType.AllDVDs:
+                    return Translation.CalendarAllDVDs;
+                    
                 default:
-                    return Translation.CalendarMyShows;
+                    return Translation.CalendarMyMovies;
             }
         }
-        
+
         /// <summary>
         /// Converts each day in the calendar to a localised day
-        /// Some underlying episodes could be from multiple days as they span a UTC day not a local day
+        /// Some underlying movies could be from multiple days as they span a UTC day not a local day
         /// </summary>
-        private Dictionary<string, List<TraktShowCalendar>> ConvertDaysInCalendarToLocalisedDays(IEnumerable<TraktShowCalendar> calendar)
+        private Dictionary<string, List<TraktMovieCalendar>> ConvertDaysInCalendarToLocalisedDays(IEnumerable<TraktMovieCalendar> calendar)
         {
             if (calendar == null)
                 return null;
 
-            var result = new Dictionary<string, List<TraktShowCalendar>>();
+            var result = new Dictionary<string, List<TraktMovieCalendar>>();
 
             // go through underlying episodes
             // and convert to localised date
             foreach (var item in calendar)
             {
-                DateTime currentCalendarDate = item.AirsAt.FromISO8601().ToLocalTime().Date;
-                string localDate = item.AirsAt.FromISO8601().ToLocalTime().ToString("yyyy-MM-dd");
+                DateTime currentCalendarDate = item.Released.FromISO8601().ToLocalTime().Date;
+                string localDate = item.Released.FromISO8601().ToLocalTime().ToString("yyyy-MM-dd");
 
                 // remove calendar entries that are outside of scope
                 if (currentCalendarDate < GetCurrentLocalStartDate())
@@ -825,13 +736,13 @@ namespace TraktPlugin.GUI
 
                 // add new item and/or add to existing day in calendar
                 if (!result.ContainsKey(localDate))
-                    result.Add(localDate, new List<TraktShowCalendar>());
+                    result.Add(localDate, new List<TraktMovieCalendar>());
 
                 // get current episodes in day
                 var currentItemsInDay = result[localDate];
 
                 // add new item to day / sort by air time
-                currentItemsInDay.Add(new TraktShowCalendar { AirsAt = item.AirsAt, Episode = item.Episode, Show = item.Show });
+                currentItemsInDay.Add(new TraktMovieCalendar { Released = item.Released, Movie = item.Movie });
                 result[localDate] = currentItemsInDay;
             }
 
@@ -842,26 +753,26 @@ namespace TraktPlugin.GUI
         {
             GUIBackgroundTask.Instance.ExecuteInBackgroundAndCallback(() =>
             {
-                return GetCalendarShowsFromCache();
+                return GetCalendarMoviesFromCache();
             },
-            delegate(bool success, object result)
+            delegate (bool success, object result)
             {
                 if (success)
                 {
-                    var calendar = result as Dictionary<string, List<TraktShowCalendar>>;
+                    var calendar = result as Dictionary<string, List<TraktMovieCalendar>>;
                     SendCalendarToFacade(calendar);
                 }
             }, Translation.GettingCalendar, true);
         }
 
-        private void SendCalendarToFacade(Dictionary<string, List<TraktShowCalendar>> calendar)
+        private void SendCalendarToFacade(Dictionary<string, List<TraktMovieCalendar>> calendar)
         {
             // check if we got a bad response
             if (calendar == null)
             {
                 GUIUtils.ShowNotifyDialog(GUIUtils.PluginName(), Translation.ErrorCalendar);
                 // set defaults
-                TVShowCalendar = null;
+                MovieCalendar = null;
                 LastRequest = new DateTime();
                 return;
             }
@@ -870,14 +781,14 @@ namespace TraktPlugin.GUI
             GUIControl.ClearControl(GetID, Facade.GetID);
 
             int itemCount = 0;
-            var showImages = new List<GUITmdbImage>();
+            var movieImages = new List<GUITmdbImage>();
 
             // Add Previous Days Item so user can go back to previous calendar entries
             var prevItem = new GUIListItem(string.Format(Translation.PreviousDays, TraktSettings.TvCalendarMaxDays))
             {
-                IconImage = "traktPrevWeek.png",
-                IconImageBig = "traktPrevWeek.png",
-                ThumbnailImage = "traktPrevWeek.png",
+                IconImage = "traktPreviousPage.png",
+                IconImageBig = "traktPreviousPage.png",
+                ThumbnailImage = "traktPreviousPage.png",
                 TVTag = "previous",
                 IsFolder = true
             };
@@ -888,58 +799,54 @@ namespace TraktPlugin.GUI
             // Use Label3 of facade for Day/Group Idenitfier
             foreach (var day in calendar)
             {
-                // apply watchlist filter
-                var episodesInDay = day.Value;
-                if (TraktSettings.CalendarHideTVShowsInWatchList && !string.IsNullOrEmpty(TraktSettings.UserAccessToken))
+                var moviesInDay = day.Value;
+
+                // filter hidden shows
+                if (FilterHiddenMovies && !string.IsNullOrEmpty(TraktSettings.UserAccessToken))
                 {
-                    episodesInDay = day.Value.Where(e => !e.Show.IsWatchlisted()).ToList();
+                    // for each hidden trakt show in the calendar, remove from our request
+                    // this only needs to be done if we have manually hidden a movie whilst using a cached calendar
+                    moviesInDay.RemoveAll(m => m.Movie.IsHidden("calendar"));
                 }
 
-                if (episodesInDay.Count() > 0)
+                if (moviesInDay.Count() > 0)
                 {
                     // add day header
                     var item = new GUIListItem();
                     item.Label3 = GetDayHeader(day.Key.FromISO8601());
-                    item.IconImage = "defaultTraktCalendar.png";
-                    item.IconImageBig = "defaultTraktCalendarBig.png";
-                    item.ThumbnailImage = "defaultTraktCalendarBig.png";
+                    item.IconImage = "defaultTraktPoster.png";
+                    item.IconImageBig = "defaultTraktPosterBig.png";
+                    item.ThumbnailImage = "defaultTraktPosterBig.png";
                     item.OnItemSelected += OnCalendarDateSelected;
                     Utils.SetDefaultIcons(item);
                     Facade.Add(item);
 
-                    foreach (var calendarItem in episodesInDay)
+                    foreach (var calendarItem in moviesInDay)
                     {
-                        var episodeItem = new GUIEpisodeListItem(calendarItem.ToString(), (int)TraktGUIWindows.Calendar);
+                        var movieItem = new GUIMovieListItem(calendarItem.Movie.Title, (int)TraktGUIWindows.CalendarMovies);
 
                         // add image for download
                         var images = new GUITmdbImage
                         {
-                            EpisodeImages = new TmdbEpisodeImages
-                            {
-                                Id = calendarItem.Show.Ids.Tmdb,
-                                Season = calendarItem.Episode.Season,
-                                Episode = calendarItem.Episode.Number,
-                                AirDate = calendarItem.Episode.FirstAired == null ? null : calendarItem.Episode.FirstAired.FromISO8601().ToLocalTime().ToShortDateString()
-                            }
+                            MovieImages = new TmdbMovieImages { Id = calendarItem.Movie.Ids.Tmdb }
                         };
-                        showImages.Add(images);
+                        movieImages.Add(images);
 
                         // extended skin properties
-                        episodeItem.Date = DateTime.Parse(day.Key).ToLongDateString();
-                        episodeItem.SelectedIndex = (itemCount + 1).ToString();
+                        movieItem.Date = DateTime.Parse(day.Key).ToLongDateString();
+                        movieItem.SelectedIndex = (itemCount + 1).ToString();
 
-                        episodeItem.Images = images;
-                        episodeItem.TVTag = calendarItem;
-                        episodeItem.Episode = calendarItem.Episode;
-                        episodeItem.Show = calendarItem.Show;
-                        episodeItem.ItemId = Int32.MaxValue - itemCount;
-                        episodeItem.IsPlayed = calendarItem.Episode.IsWatched(calendarItem.Show);
-                        episodeItem.IconImage = "defaultTraktEpisode.png";
-                        episodeItem.IconImageBig = "defaultTraktEpisodeBig.png";
-                        episodeItem.ThumbnailImage = "defaultTraktEpisodeBig.png";
-                        episodeItem.OnItemSelected += OnEpisodeSelected;
-                        Utils.SetDefaultIcons(episodeItem);
-                        Facade.Add(episodeItem);
+                        movieItem.Images = images;
+                        movieItem.TVTag = calendarItem;
+                        movieItem.Movie = calendarItem.Movie;
+                        movieItem.ItemId = Int32.MaxValue - itemCount;
+                        movieItem.IsPlayed = calendarItem.Movie.IsWatched();
+                        movieItem.IconImage = "defaultTraktPoster.png";
+                        movieItem.IconImageBig = "defaultTraktPosterBig.png";
+                        movieItem.ThumbnailImage = "defaultTraktPosterBig.png";
+                        movieItem.OnItemSelected += OnMovieSelected;
+                        Utils.SetDefaultIcons(movieItem);
+                        Facade.Add(movieItem);
                         itemCount++;
                     }
                 }
@@ -950,10 +857,10 @@ namespace TraktPlugin.GUI
             {
                 var item = new GUIListItem()
                 {
-                    Label3 = Translation.NoEpisodesThisWeek,
-                    IconImage = "defaultTraktCalendar.png",
-                    IconImageBig = "defaultTraktCalendarBig.png",
-                    ThumbnailImage = "defaultTraktCalendarBig.png"
+                    Label3 = Translation.NoMoviesThisWeek,
+                    IconImage = "defaultTraktPoster.png",
+                    IconImageBig = "defaultTraktPosterBig.png",
+                    ThumbnailImage = "defaultTraktPosterBig.png"
                 };
 
                 item.OnItemSelected += OnCalendarDateSelected;
@@ -964,9 +871,9 @@ namespace TraktPlugin.GUI
             // Add Next Days Item so user can fetch next days calendar
             var nextItem = new GUIListItem(string.Format(Translation.NextDays, TraktSettings.TvCalendarMaxDays))
             {
-                IconImage = "traktNextWeek.png",
-                IconImageBig = "traktNextWeek.png",
-                ThumbnailImage = "traktNextWeek.png",
+                IconImage = "traktNextPage.png",
+                IconImageBig = "traktNextPage.png",
+                ThumbnailImage = "traktNextPage.png",
                 TVTag = "next",
                 IsFolder = true
             };
@@ -992,31 +899,27 @@ namespace TraktPlugin.GUI
 
             // set facade properties
             GUIUtils.SetProperty("#itemcount", itemCount.ToString());
-            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", itemCount.ToString(), itemCount > 1 ? Translation.Episodes : Translation.Episode));
+            GUIUtils.SetProperty("#Trakt.Items", string.Format("{0} {1}", itemCount.ToString(), itemCount > 1 ? Translation.Movies : Translation.Movie));
 
-            // Download episode images Async and set to facade
-            GUIEpisodeListItem.GetImages(showImages);
+            // Download movie images Async and set to facade
+            GUIMovieListItem.GetImages(movieImages);
         }
-        
+
         private string GetDayHeader(DateTime dateTime)
         {
-            // only set this for My Shows as the other types are not localized
-            // Today, Tomorrow and Yesterday will not make much sense in that case.
-            if (CurrentCalendar == CalendarType.UserShows)
-            {
-                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear))
-                    return Translation.Today;
-                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear + 1))
-                    return Translation.Tomorrow;
-                if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear - 1))
-                    return Translation.Yesterday;
-            }
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear))
+                return Translation.Today;
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear + 1))
+                return Translation.Tomorrow;
+            if (dateTime.Date.DayOfYear.Equals(DateTime.Now.DayOfYear - 1))
+                return Translation.Yesterday;
+         
             return dateTime.ToLongDateString();
         }
-
+        
         private void OnCalendarDateSelected(GUIListItem item, GUIControl parent)
         {
-            // Skip over date to next/prev episode if a header (Date)
+            // Skip over date to next/prev movie if a header (Date)
             if (LastMoved == FacadeMovement.Down)
             {
                 Facade.OnAction(new Action(Action.ActionType.ACTION_MOVE_DOWN, 0, 0));
@@ -1024,13 +927,6 @@ namespace TraktPlugin.GUI
             else
             {
                 Facade.OnAction(new Action(Action.ActionType.ACTION_MOVE_UP, 0, 0));
-                
-                // if the current item is now the first item which is a header, then skip to end
-                // we need to bypass the scroll delay so we are not stuck on the first item
-                //if (Facade.SelectedListItemIndex == 0)
-                //{
-                //    Facade.SelectedListItemIndex = Facade.Count - 1;
-                //}
             }
         }
 
@@ -1046,16 +942,16 @@ namespace TraktPlugin.GUI
             ClearProperties();
         }
 
-        private void OnEpisodeSelected(GUIListItem item, GUIControl parent)
+        private void OnMovieSelected(GUIListItem item, GUIControl parent)
         {
             // publish extended properties, selected index excludes date headers.
-            GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", (item as GUIEpisodeListItem).Date);
-            GUICommon.SetProperty("#selectedindex", (item as GUIEpisodeListItem).SelectedIndex);
+            GUICommon.SetProperty("#Trakt.Calendar.Selected.Date", (item as GUIMovieListItem).Date);
+            GUICommon.SetProperty("#selectedindex", (item as GUIMovieListItem).SelectedIndex);
 
-            var calendarItem = item.TVTag as TraktShowCalendar;
+            var calendarItem = item.TVTag as TraktMovieCalendar;
             PublishCalendarSkinProperties(calendarItem);
 
-            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetShowBackdropFilename((item as GUIEpisodeListItem).Images.ShowImages));
+            GUIImageHandler.LoadFanart(backdrop, TmdbCache.GetMovieBackdropFilename((item as GUIMovieListItem).Images.MovieImages));
         }
 
         private void InitProperties()
@@ -1065,14 +961,13 @@ namespace TraktPlugin.GUI
             backdrop.GUIImageTwo = FanartBackground2;
             backdrop.LoadingImage = loadingImage;
 
-            CurrentCalendar = (CalendarType)TraktSettings.DefaultCalendarView;
+            CurrentCalendar = (CalendarType)TraktSettings.DefaultMovieCalendarView;
             SetCurrentView();
 
-            CurrentStartDate = (StartDates)TraktSettings.DefaultCalendarStartDate;
+            CurrentStartDate = (StartDates)TraktSettings.DefaultMovieCalendarStartDate;
             SetCurrentStartDate();
 
             SetMaxDays();
-            SetHideWatchlisted();
         }
 
         /// <summary>
@@ -1085,10 +980,10 @@ namespace TraktPlugin.GUI
             // timezone shifts...
             // return max days + 2, the maximum allowed is 31;
 
-            if (TraktSettings.TvCalendarMaxDays >= 30)
+            if (TraktSettings.MovieCalendarMaxDays >= 30)
                 return 31;
 
-            return TraktSettings.TvCalendarMaxDays + 2;
+            return TraktSettings.MovieCalendarMaxDays + 2;
         }
 
         /// <summary>
@@ -1107,7 +1002,7 @@ namespace TraktPlugin.GUI
                     startDate = DateTime.UtcNow.Subtract(new TimeSpan(1, 0, 0, 0));
                     break;
                 case StartDates.Yesterday:
-                    startDate =  DateTime.UtcNow.Subtract(new TimeSpan(2, 0, 0, 0));
+                    startDate = DateTime.UtcNow.Subtract(new TimeSpan(2, 0, 0, 0));
                     break;
                 case StartDates.OneWeekAgo:
                     startDate = DateTime.UtcNow.Subtract(new TimeSpan(8, 0, 0, 0));
@@ -1125,9 +1020,9 @@ namespace TraktPlugin.GUI
 
             // else jump to start at current page
             if (CurrentPage > 0)
-                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+                return startDate.AddDays(TraktSettings.MovieCalendarMaxDays * (CurrentPage - 1));
             else
-                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * CurrentPage);
+                return startDate.AddDays(TraktSettings.MovieCalendarMaxDays * CurrentPage);
         }
 
         private DateTime GetCurrentLocalStartDate()
@@ -1157,14 +1052,14 @@ namespace TraktPlugin.GUI
                 return startDate;
 
             if (CurrentPage > 0)
-                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * (CurrentPage - 1));
+                return startDate.AddDays(TraktSettings.MovieCalendarMaxDays * (CurrentPage - 1));
             else
-                return startDate.AddDays(TraktSettings.TvCalendarMaxDays * CurrentPage);
+                return startDate.AddDays(TraktSettings.MovieCalendarMaxDays * CurrentPage);
         }
 
         private DateTime GetCurrentLocalEndDate()
         {
-            return GetCurrentLocalStartDate().AddDays(TraktSettings.TvCalendarMaxDays - 1);
+            return GetCurrentLocalStartDate().AddDays(TraktSettings.MovieCalendarMaxDays - 1);
         }
 
         private void SetCurrentStartDate()
@@ -1173,21 +1068,12 @@ namespace TraktPlugin.GUI
             if (startDateButton != null)
                 startDateButton.Label = Translation.StartDate + ": " + GetStartDateName(CurrentStartDate);
         }
-
-        private void SetHideWatchlisted()
-        {
-            if (hideWatchlistedButton != null)
-            {
-                hideWatchlistedButton.Selected = TraktSettings.CalendarHideTVShowsInWatchList;
-                GUIControl.SetControlLabel(GetID, hideWatchlistedButton.GetID, Translation.HideWatchlisted);
-            }
-        }
-
+        
         private void SetMaxDays()
         {
             if (maxDaysButton != null)
             {
-                GUIControl.SetControlLabel(GetID, maxDaysButton.GetID, Translation.MaxDays + ": " + TraktSettings.TvCalendarMaxDays);
+                GUIControl.SetControlLabel(GetID, maxDaysButton.GetID, Translation.MaxDays + ": " + TraktSettings.MovieCalendarMaxDays);
             }
         }
 
@@ -1200,25 +1086,19 @@ namespace TraktPlugin.GUI
             GUICommon.SetProperty("#Trakt.Calendar.Type", CurrentCalendar.ToString());
             switch (CurrentCalendar)
             {
-                case CalendarType.UserShows:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMyShows);
+                case CalendarType.UserMovies:
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMyMovies);
                     break;
-                case CalendarType.UserNewShows:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMyNewShows);
+                case CalendarType.UserDVDs:
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMyDVDs);
                     break;
-                case CalendarType.UserSeasonPremieres:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarMySeasonPremieres);
+                case CalendarType.AllMovies:
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllMovies);
                     break;
-                case CalendarType.AllShows:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllShows);
+                case CalendarType.AllDVDs:
+                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllDVDs);
                     break;
-                case CalendarType.AllNewShows:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllNewShows);
-                    break;
-                case CalendarType.AllSeasonPremieres:
-                    GUICommon.SetProperty("#Trakt.CurrentView", Translation.CalendarAllSeasonPremieres);
-                    break;
-            }            
+            }
         }
 
         private void ClearProperties()
@@ -1226,14 +1106,12 @@ namespace TraktPlugin.GUI
             GUIUtils.SetProperty("#Trakt.Calendar.Selected.Date", string.Empty);
             GUIUtils.SetProperty("#selectedindex", string.Empty);
 
-            GUICommon.ClearShowProperties();
-            GUICommon.ClearEpisodeProperties();
+            GUICommon.ClearMovieProperties();
         }
 
-        private void PublishCalendarSkinProperties(TraktShowCalendar calendarItem)
+        private void PublishCalendarSkinProperties(TraktMovieCalendar calendarItem)
         {
-            GUICommon.SetShowProperties(calendarItem.Show);
-            GUICommon.SetEpisodeProperties(calendarItem.Show, calendarItem.Episode);
+            GUICommon.SetMovieProperties(calendarItem.Movie);
         }
         #endregion
 

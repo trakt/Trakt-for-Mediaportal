@@ -79,7 +79,7 @@ namespace TraktPlugin.GUI
     enum TraktGUIWindows
     {
         Main = 87258,
-        Calendar = 87259,
+        CalendarTV = 87259,
         Recommendations = 87261,
         RecommendationsShows = 87262,
         RecommendationsMovies = 87263,
@@ -127,7 +127,8 @@ namespace TraktPlugin.GUI
         CreditsShow = 87604,
         AnticipatedMovies = 87605,
         AnticipatedShows = 87606,
-        BoxOffice = 87607
+        BoxOffice = 87607,
+        CalendarMovies = 87700
     }
 
     enum TraktDashboardControls
@@ -2888,7 +2889,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Calendar):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CalendarTV);
                     break;
 
                 case ((int)TraktMenuItems.Recommendations):
@@ -3031,7 +3032,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Calendar):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CalendarTV);
                     break;
 
                 case ((int)TraktMenuItems.Recommendations):
@@ -3200,7 +3201,7 @@ namespace TraktPlugin.GUI
                     break;
 
                 case ((int)TraktMenuItems.Calendar):
-                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.Calendar);
+                    GUIWindowManager.ActivateWindow((int)TraktGUIWindows.CalendarTV);
                     break;
 
                 case ((int)TraktMenuItems.Network):

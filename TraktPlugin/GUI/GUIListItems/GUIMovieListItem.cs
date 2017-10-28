@@ -1,14 +1,13 @@
-﻿using System;
+﻿using MediaPortal.GUI.Library;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading;
-using MediaPortal.GUI.Library;
-using TraktPlugin.Extensions;
 using TraktAPI.DataStructures;
 using TraktPlugin.Cache;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin.GUI
 {
@@ -26,6 +25,8 @@ namespace TraktPlugin.GUI
 
         public string Date { get; set; }
         public string Action { get; set; }
+
+        public string SelectedIndex { get; set; }
 
         public TraktMovieSummary Movie { get; set; }
 
