@@ -1366,8 +1366,8 @@ namespace TraktPlugin
                             currentSettingsVersion++;
 
                             // new tv calendar views
-                            xmlreader.RemoveEntry(cTrakt, cDefaultTVCalendarStartDate);
-                            xmlreader.RemoveEntry(cTrakt, cDefaultTVCalendarView);
+                            xmlreader.RemoveEntry(cTrakt, "DefaultCalendarStartDate");
+                            xmlreader.RemoveEntry(cTrakt, "DefaultCalendarView");
                             break;
                     }
                 }
