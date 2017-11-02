@@ -1,14 +1,12 @@
-﻿using System;
+﻿using MediaPortal.Configuration;
+using MediaPortal.GUI.Library;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Xml;
 using System.Text.RegularExpressions;
-using MediaPortal.Configuration;
-using MediaPortal.GUI.Library;
-using MediaPortal.Localisation;
+using System.Xml;
 
 namespace TraktPlugin.GUI
 {

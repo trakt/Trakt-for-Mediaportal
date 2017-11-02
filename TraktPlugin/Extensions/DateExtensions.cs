@@ -52,5 +52,15 @@ namespace TraktPlugin.Extensions
 
             return string.Empty;
         }
+
+        public static DateTime ToDateTime(this string date)
+        {
+            DateTime lDate = new DateTime();
+
+            if (DateTime.TryParse(date, out lDate))
+                return lDate;
+
+            return DateTime.MinValue;
+        }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MediaPortal.Configuration;
+using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using MediaPortal.Configuration;
+using TraktPlugin.Extensions;
 using TraktPlugin.TmdbAPI.DataStructures;
 using TraktPlugin.TmdbAPI.Extensions;
 
@@ -155,7 +155,7 @@ namespace TraktPlugin.Cache
                 // determine age of the last requested TMDb configuration
                 // if older than 2 weeks request again, should rarily change.
 
-                DateTime lastRequestedDate = Convert.ToDateTime(TraktSettings.TmdbConfigurationAge);
+                DateTime lastRequestedDate = TraktSettings.TmdbConfigurationAge.ToDateTime();
                 if (TraktSettings.TmdbConfiguration == null || TraktSettings.TmdbConfiguration.Images == null || DateTime.Now.Subtract(new TimeSpan(14, 0, 0, 0, 0)) > lastRequestedDate)
                 {
                     var latestConfig = TmdbAPI.TmdbAPI.GetConfiguration();
@@ -243,7 +243,7 @@ namespace TraktPlugin.Cache
                     return movieImages;
 
                 // but only if the request is not very old
-                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbMovieImageMaxCacheAge, 0, 0, 0, 0)) < Convert.ToDateTime(movieImages.RequestAge))
+                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbMovieImageMaxCacheAge, 0, 0, 0, 0)) < movieImages.RequestAge.ToDateTime())
                 {
                     return movieImages;
                 }
@@ -352,7 +352,7 @@ namespace TraktPlugin.Cache
                     return showImages;
 
                 // but only if the request is not very old
-                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbShowImageMaxCacheAge, 0, 0, 0, 0)) < Convert.ToDateTime(showImages.RequestAge))
+                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbShowImageMaxCacheAge, 0, 0, 0, 0)) < showImages.RequestAge.ToDateTime())
                 {
                     return showImages;
                 }
@@ -484,7 +484,7 @@ namespace TraktPlugin.Cache
                     return episodeImages;
 
                 // but only if the request is not very old
-                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbEpisodeImageMaxCacheAge, 0, 0, 0, 0)) < Convert.ToDateTime(episodeImages.RequestAge))
+                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbEpisodeImageMaxCacheAge, 0, 0, 0, 0)) < episodeImages.RequestAge.ToDateTime())
                 {
                     return episodeImages;
                 }
@@ -569,7 +569,7 @@ namespace TraktPlugin.Cache
                     return seasonImages;
 
                 // but only if the request is not very old
-                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbSeasonImageMaxCacheAge, 0, 0, 0, 0)) < Convert.ToDateTime(seasonImages.RequestAge))
+                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbSeasonImageMaxCacheAge, 0, 0, 0, 0)) < seasonImages.RequestAge.ToDateTime())
                 {
                     return seasonImages;
                 }
@@ -654,7 +654,7 @@ namespace TraktPlugin.Cache
                     return personImages;
 
                 // but only if the request is not very old
-                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbPersonImageMaxCacheAge, 0, 0, 0, 0)) < Convert.ToDateTime(personImages.RequestAge))
+                if (DateTime.Now.Subtract(new TimeSpan(TraktSettings.TmdbPersonImageMaxCacheAge, 0, 0, 0, 0)) < personImages.RequestAge.ToDateTime())
                 {
                     return personImages;
                 }

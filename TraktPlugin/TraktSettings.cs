@@ -11,6 +11,7 @@ using System.Threading;
 using TraktAPI.DataStructures;
 using TraktAPI.Enums;
 using TraktAPI.Extensions;
+using TraktPlugin.Extensions;
 using TraktPlugin.GUI;
 using TraktPlugin.TmdbAPI.DataStructures;
 
@@ -564,36 +565,32 @@ namespace TraktPlugin
                         }
 
                         #region check if our access token has expired 
-                        DateTime expiryDate = new DateTime();
-                        if (DateTime.TryParse(UserAccessTokenExpiry, out expiryDate))
+                        if (UserAccessTokenExpiry.ToDateTime() < DateTime.UtcNow)
                         {
-                            if (expiryDate < DateTime.UtcNow)
+                            TraktLogger.Info("The trakt access token has now expired as of {0}, requesting refresh token", UserAccessTokenExpiry);
+                            var refreshResponse = TraktAPI.TraktAPI.RefreshAccessToken(TraktSettings.UserRefreshToken);
+                            if (refreshResponse != null && !string.IsNullOrEmpty(refreshResponse.AccessToken))
                             {
-                                TraktLogger.Info("The trakt access token has now expired as of {0}, requesting refresh token", UserAccessTokenExpiry);
-                                var refreshResponse = TraktAPI.TraktAPI.RefreshAccessToken(TraktSettings.UserRefreshToken);
-                                if (refreshResponse != null && !string.IsNullOrEmpty(refreshResponse.AccessToken))
+                                TraktSettings.UserAccessToken = refreshResponse.AccessToken;
+                                TraktSettings.UserRefreshToken = refreshResponse.RefreshToken;
+
+                                // new access token expires in 90 days
+                                TraktSettings.UserAccessTokenExpiry = DateTime.UtcNow.AddSeconds(refreshResponse.ExpiresIn).ToString();
+                            }
+                            else
+                            {
+                                _AccountStatus = ConnectionState.UnAuthorised;
+
+                                // force user to manually authorise again - this will only occur every 90 days as a worse case scenario
+                                TraktSettings.UserAccessToken = string.Empty;
+                                TraktSettings.UserRefreshToken = string.Empty;
+                                TraktSettings.UserAccessTokenExpiry = string.Empty;
+
+                                if (refreshResponse != null && refreshResponse.Description != null)
                                 {
-                                    TraktSettings.UserAccessToken = refreshResponse.AccessToken;
-                                    TraktSettings.UserRefreshToken = refreshResponse.RefreshToken;
-
-                                    // new access token expires in 90 days
-                                    TraktSettings.UserAccessTokenExpiry = DateTime.UtcNow.AddSeconds(refreshResponse.ExpiresIn).ToString();
+                                    TraktLogger.Error("Failed to refresh access token from trakt.tv, you must go to settings and re-authorise application, Code = '{0}', Reason = '{1}'", refreshResponse.Code, refreshResponse.Description);
                                 }
-                                else
-                                {
-                                    _AccountStatus = ConnectionState.UnAuthorised;
-
-                                    // force user to manually authorise again - this will only occur every 90 days as a worse case scenario
-                                    TraktSettings.UserAccessToken = string.Empty;
-                                    TraktSettings.UserRefreshToken = string.Empty;
-                                    TraktSettings.UserAccessTokenExpiry = string.Empty;
-
-                                    if (refreshResponse != null && refreshResponse.Description != null)
-                                    {
-                                        TraktLogger.Error("Failed to refresh access token from trakt.tv, you must go to settings and re-authorise application, Code = '{0}', Reason = '{1}'", refreshResponse.Code, refreshResponse.Description);
-                                    }
-                                    return _AccountStatus;
-                                }
+                                return _AccountStatus;
                             }
                         }
                         #endregion

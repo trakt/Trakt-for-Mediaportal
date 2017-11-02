@@ -111,7 +111,7 @@ namespace TraktPlugin.GUI
                         TmdbShowImages showImages = null;
 
                         // Don't try to get episode images that air after today, they most likely do not exist and contain spoilers
-                        if (item.EpisodeImages.AirDate != null && Convert.ToDateTime(item.EpisodeImages.AirDate) <= Convert.ToDateTime(DateTime.Now.ToShortDateString()))
+                        if (item.EpisodeImages.AirDate != null && item.EpisodeImages.AirDate.ToDateTime() <= Convert.ToDateTime(DateTime.Now.ToShortDateString()))
                         {
                             episodeImages = TmdbCache.GetEpisodeImages(item.EpisodeImages.Id, item.EpisodeImages.Season, item.EpisodeImages.Episode);
                             if (episodeImages != null)

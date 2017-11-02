@@ -3624,7 +3624,7 @@ namespace TraktPlugin.GUI
                 if (TraktSettings.ParentalIgnoreAfterEnabled)
                 {
                     // check if the current time is > that allowed time
-                    if (Convert.ToDateTime(TraktSettings.ParentalIgnoreAfterTime) < DateTime.Now)
+                    if (TraktSettings.ParentalIgnoreAfterTime.ToDateTime() < DateTime.Now)
                         return false;
                 }
 
