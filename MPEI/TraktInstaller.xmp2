@@ -338,32 +338,6 @@
           </Items>
         </Files>
       </GroupItem>
-      <GroupItem Name="Settings">
-        <ParentGroup />
-        <DisplayName>Extension Settings</DisplayName>
-        <DefaulChecked>true</DefaulChecked>
-        <Description>Settings</Description>
-        <Files>
-          <Items>
-            <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
-              <Param1 />
-              <UpdateOption>AlwaysOverwrite</UpdateOption>
-              <LocalFileName>Settings\extension_settings.xml</LocalFileName>
-              <ZipFileName>Installer{CopyFile}\{c6b63df1-cc77-48fe-9df3-b88e3fd5eaa6}-extension_settings.xml</ZipFileName>
-              <DestinationFilename>%Config%\Trakt\extension_settings.xml</DestinationFilename>
-            </FileItem>
-          </Items>
-        </Files>
-      </GroupItem>
-      <GroupItem Name="ExtensionsPlugin">
-        <ParentGroup />
-        <DisplayName>Extensions Plugin</DisplayName>
-        <DefaulChecked>true</DefaulChecked>
-        <Description>Extensions plugin for MediaPortal allows the user to upgrade compatible plugin and skin extensions with-in the GUI. Trakt advanced settings can also be accessed via Extensions.</Description>
-        <Files>
-          <Items />
-        </Files>
-      </GroupItem>
       <GroupItem Name="TrailersPlugin">
         <ParentGroup />
         <DisplayName>Trailers Plugin</DisplayName>
@@ -1449,33 +1423,6 @@ Click Next to continue or Cancel to exit Setup.
               </Params>
               <ExecuteLocation>AfterPanelShow</ExecuteLocation>
             </ActionItem>
-            <ActionItem Name="Extension Installer" ActionType="Extension Installer" ConditionGroup="ExtensionsPlugin">
-              <Params>
-                <Items>
-                  <SectionParam Name="Extension package">
-                    <Value />
-                    <ValueType>File</ValueType>
-                    <Description>Location of the extension package</Description>
-                  </SectionParam>
-                  <SectionParam Name="Extension Id">
-                    <Value>a6afa4d6-4fd8-4607-8878-5911db044fd7</Value>
-                    <ValueType>String</ValueType>
-                    <Description>Global Id of the extension package - it will be downloaded when no file is set.</Description>
-                  </SectionParam>
-                  <SectionParam Name="Extension Version">
-                    <Value>1.2.1.195</Value>
-                    <ValueType>String</ValueType>
-                    <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
-                  </SectionParam>
-                  <SectionParam Name="Silent Install">
-                    <Value>YES</Value>
-                    <ValueType>Bool</ValueType>
-                    <Description>Silent install, No wizard screen will be displayed </Description>
-                  </SectionParam>
-                </Items>
-              </Params>
-              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
-            </ActionItem>
             <ActionItem Name="Extension Installer" ActionType="Extension Installer" ConditionGroup="TrailersPlugin">
               <Params>
                 <Items>
@@ -1490,7 +1437,7 @@ Click Next to continue or Cancel to exit Setup.
                     <Description>Global Id of the extension package - it will be downloaded when no file is set.</Description>
                   </SectionParam>
                   <SectionParam Name="Extension Version">
-                    <Value>1.1.5.0</Value>
+                    <Value>1.2.2.0</Value>
                     <ValueType>String</ValueType>
                     <Description>Minimum Version of the extension package - older versions will be updated (only used when downloading via Id).</Description>
                   </SectionParam>
@@ -1563,61 +1510,7 @@ Click Next to continue or Cancel to exit Setup.
           </Items>
         </Params>
         <Actions>
-          <Items>
-            <ActionItem Name="Script" ActionType="Script" ConditionGroup="Titan">
-              <Params>
-                <Items>
-                  <SectionParam Name="Script">
-                    <Value>
-                      //css_reference "MpeCore.dll";
-
-                      using MpeCore.Classes;
-                      using MpeCore;
-
-                      public class Script
-                      {
-                      public static void Main(PackageClass packageClass, ActionItem actionItem)
-                      {
-                      return;
-                      }
-                      }
-                    </Value>
-                    <ValueType>Script</ValueType>
-                    <Description />
-                  </SectionParam>
-                  <SectionParam Name="Uninstall Script">
-                    <Value>
-                      //css_reference "MpeCore.dll";
-
-                      using MpeCore.Classes;
-                      using MpeCore;
-                      using System.IO;
-
-                      public class Script
-                      {
-                      public static void Main(PackageClass packageClass, UnInstallItem item)
-                      {
-                      // Delete if still installed after uninstall (Bug in MPEI)
-                      string plugin = Path.Combine(MpeInstaller.TransformInRealPath("%Plugins%"), @"Windows\TraktPlugin.dll");
-                      try
-                      {
-                      if (File.Exists(plugin))
-                      File.Delete(plugin);
-                      }
-                      catch {}
-
-                      return;
-                      }
-                      }
-                    </Value>
-                    <ValueType>Script</ValueType>
-                    <Description />
-                  </SectionParam>
-                </Items>
-              </Params>
-              <ExecuteLocation>AfterPanelShow</ExecuteLocation>
-            </ActionItem>
-          </Items>
+          <Items />
         </Actions>
         <IncludedGroups />
         <PanelName>Setup Complete</PanelName>
@@ -1662,37 +1555,37 @@ Click Next to continue or Cancel to exit Setup.
       <Major>6</Major>
       <Minor>0</Minor>
       <Build>1</Build>
-      <Revision>2</Revision>
+      <Revision>3</Revision>
     </Version>
-    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
-
+    <ExtensionDescription>Trakt actively keeps a record of what TV shows and movies you are watching. Based on your favorites, your friends, and the community, trakt recommends other TV shows and movies.
+
 Trakt will also synchronize your watched flags across multiple installations.</ExtensionDescription>
-    <VersionDescription>* New authorisation process, existing and new users will need to authorise mediaportal to use your trakt.tv account. This can be done from the GUI in 'Settings/Account Setup' or from the Configuration tool. Skins will need to be updated to support this feature from the GUI, the included Titan skin file has been updated.
-
-* New TV Calendar views and proper paging support. Can now request as far into the future as you like or in the past.
-
-* New Movie Calendar GUI, support to view all or your watchlisted movie release dates for movies / dvds / blurays.
-
-* Added support to view Hidden activities on the dashboard, also added ability to hide shows from the TV calendar.
-
-* Added custom season titles to the facade of the TV seasons GUI if available (e.g. American Horror Story has custom titles per season).
-
-* Added first aired and TV network to the seasons GUI i.e. the air date the 1st episode of each season aired, and for Network this can change when one network cancels and another picks it up.
-
-* Support for setting collected item DTS-X and Dolby Atmos on sync methods. Fixed MP-TVSeries sync not picking up Dolby Digital Plus encoded audio.
-
-* Fixed some possible cases where a crash could occur, initial testing from community suggest this is now resolved.
-
-* The Trakt Rate dialog will no longer work after watching episode/movie if using the WiFi remote plugin, there has been some changes to the trakt plugin which breaks this feature. Disabling the WiFi remote plugin will re-instate the dialog until an update is provided.
-
-* Internal TraktAPI updates, the API is now packaged as a seperate library (DLL) and will be installed along side the plugin. This is so the API can be re-used between MediaPortal 1 and 2 plugins.
-
-* The old Default and DefaultWide skins have been removed from package, these are no longer packaged with MediaPortal.
-
+    <VersionDescription>* New authorisation process, existing and new users will need to authorise mediaportal to use your trakt.tv account. This can be done from the GUI in 'Settings/Account Setup' or from the Configuration tool. Skins will need to be updated to support this feature from the GUI, the included Titan skin file has been updated.
+
+* New TV Calendar views and proper paging support. Can now request as far into the future as you like or in the past.
+
+* New Movie Calendar GUI, support to view all or your watchlisted movie release dates for movies / dvds / blurays.
+
+* Added support to view Hidden activities on the dashboard, also added ability to hide shows from the TV calendar.
+
+* Added custom season titles to the facade of the TV seasons GUI if available (e.g. American Horror Story has custom titles per season).
+
+* Added first aired and TV network to the seasons GUI i.e. the air date the 1st episode of each season aired, and for Network this can change when one network cancels and another picks it up.
+
+* Support for setting collected item DTS-X and Dolby Atmos on sync methods. Fixed MP-TVSeries sync not picking up Dolby Digital Plus encoded audio.
+
+* Fixed some possible cases where a crash could occur, initial testing from community suggest this is now resolved.
+
+* The Trakt Rate dialog will no longer work after watching episode/movie if using the WiFi remote plugin, there has been some changes to the trakt plugin which breaks this feature. Disabling the WiFi remote plugin will re-instate the dialog until an update is provided.
+
+* Internal TraktAPI updates, the API is now packaged as a seperate library (DLL) and will be installed along side the plugin. This is so the API can be re-used between MediaPortal 1 and 2 plugins.
+
+* The old Default and DefaultWide skins have been removed from package, these are no longer packaged with MediaPortal.
+
 * Updated translations from Transifex.</VersionDescription>
     <DevelopmentStatus>Stable</DevelopmentStatus>
     <OnlineLocation>http://www.team-mediaportal.com/index.php?option=com_mtree&amp;task=att_download&amp;link_id=142&amp;cf_id=24</OnlineLocation>
-    <ReleaseDate>2017-10-28T10:00:00</ReleaseDate>
+    <ReleaseDate>2017-11-04T10:00:00</ReleaseDate>
     <Tags>trakt,tv shows,movies,mp-tvseries,movingpictures,my videos,my films</Tags>
     <Location>.\Release\TraktPlugin_v[Version].mpe1</Location>
     <Params>
@@ -2045,13 +1938,6 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <LocalFileName>..\TraktPlugin\Resources\Languages\sq.xml</LocalFileName>
         <ZipFileName>Installer{CopyFile}\{c1abd248-83dc-4354-84f0-ea6614746af6}-sq.xml</ZipFileName>
         <DestinationFilename>%Language%\Trakt\sq.xml</DestinationFilename>
-      </FileItem>
-      <FileItem InstallType="CopyFile" SystemFile="false" Modified="true">
-        <Param1 />
-        <UpdateOption>AlwaysOverwrite</UpdateOption>
-        <LocalFileName>Settings\extension_settings.xml</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{c6b63df1-cc77-48fe-9df3-b88e3fd5eaa6}-extension_settings.xml</ZipFileName>
-        <DestinationFilename>%Config%\Trakt\extension_settings.xml</DestinationFilename>
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="false" Modified="false">
         <Param1 />
@@ -3016,14 +2902,14 @@ Trakt will also synchronize your watched flags across multiple installations.</E
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{a427aa84-4057-4ea8-9ae7-87b2d18d85f6}-trakt.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{91f049e0-ff3e-40ef-b49a-c8445f419487}-trakt.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
       <FileItem InstallType="CopyFile" SystemFile="true" Modified="true">
         <Param1 />
         <UpdateOption>OverwriteIfOlder</UpdateOption>
         <LocalFileName>..\TraktPlugin\Resources\Images\trakt-1024.png</LocalFileName>
-        <ZipFileName>Installer{CopyFile}\{4b36921f-7c43-4498-9ece-d578c6670ce2}-trakt-1024.png</ZipFileName>
+        <ZipFileName>Installer{CopyFile}\{092576f7-fa9d-4420-8962-73c5d21e14c9}-trakt-1024.png</ZipFileName>
         <DestinationFilename />
       </FileItem>
     </Items>
