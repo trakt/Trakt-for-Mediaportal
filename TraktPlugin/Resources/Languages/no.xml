@@ -42,6 +42,7 @@
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mine Serier</string>
   <string name="CalendarPremieres">Premiere</string>
+  <string name="CalendarAllMovies">Alle filmer</string>
   <string name="CalendarAllShows">All Shows</string>
   <string name="Cast">Rolleinhavere</string>
   <string name="Certification">Aldersgrense</string>
@@ -158,6 +159,7 @@
   <!--H-->
   <string name="Hate">Hater</string>
   <string name="Hated">Hatet</string>
+  <string name="Hide">Skjul</string>
   <string name="HideCollected">Skjul samlet</string>
   <string name="HideSpoilers">Skjul avsløringer</string>
   <string name="HideWatched">Skjul sette</string>
@@ -272,12 +274,12 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnHide">Vis</string>
   <string name="UserHasNotWatchedEpisodes">Brukeren har ikke sett noen episoder!</string>
   <string name="UserHasNotWatchedMovies">Brukeren har ikke sett noen filmer!</string>
   <string name="User">Bruker</string>
   <string name="Users">Users</string>
   <string name="Username">Brukernavn</string>
-  <string name="UnAuthorized">Autentisering feilet, vennligst sjekk brukernavn og passord i innstillingene.</string>
   <!--V-->
   <string name="View">Visning</string>
   <string name="Votes">Stemmer</string>

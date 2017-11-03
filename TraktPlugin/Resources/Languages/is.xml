@@ -23,6 +23,7 @@
   <string name="Cancel">Hætta við</string>
   <string name="Calendar">Dagatal</string>
   <string name="CalendarMyShows">Mínir sjónvarpsþættir</string>
+  <string name="CalendarAllMovies">Allar kvikmyndir</string>
   <string name="CalendarAllShows">Allir sjónvarpsþættir</string>
   <string name="Cast">Leikhópur</string>
   <string name="CastAndCrew">Leikarar og starfsmenn</string>
@@ -95,6 +96,7 @@
   <string name="GuestStar">Gestaleikari</string>
   <string name="GuestStars">Gestaleikarar</string>
   <!--H-->
+  <string name="Hide">Fela</string>
   <!--I-->
   <!--J-->
   <!--K-->
@@ -195,6 +197,7 @@
   <string name="Today">Í dag</string>
   <string name="Trailer">Stikla</string>
   <!--U-->
+  <string name="UnHide">Birta</string>
   <string name="User">Notandi</string>
   <string name="Username">Notendanafn</string>
   <string name="UpdatingCategories">Uppfæri flokkanir</string>

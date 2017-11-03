@@ -48,6 +48,7 @@
   <string name="Calendar">Kalendár</string>
   <string name="CalendarMyShows">Moje relácie</string>
   <string name="CalendarPremieres">Premiéry</string>
+  <string name="CalendarAllMovies">Všetky filmy</string>
   <string name="CalendarAllShows">Všetky relácie</string>
   <string name="Cast">Obsadenie</string>
   <string name="CastAndCrew">Obsadenie</string>
@@ -147,6 +148,7 @@
   <string name="GuestStar">Guest Star</string>
   <string name="GuestStars">Guest Stars</string>
   <!--H-->
+  <string name="Hide">Skryť</string>
   <!--I-->
   <string name="Inserted">Vložené</string>
   <string name="Item">Položka</string>
@@ -252,12 +254,12 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailery...</string>
   <!--U-->
+  <string name="UnHide">Odkryť</string>
   <string name="UserHasNotWatchedEpisodes">Používateľ nevidel žiadnu epizódu!</string>
   <string name="UserHasNotWatchedMovies">Používateľ nevidel žiadny film!</string>
   <string name="User">Používateľ</string>
   <string name="Users">Používatelia</string>
   <string name="Username">Používateľské meno</string>
-  <string name="UnAuthorized">Autentifikácia zlyhala, prosím skontrolujte používateľské meno a heslo v nastaveniach.</string>
   <string name="UnRate">Zruš hodnotenie</string>
   <string name="UpdatingCategories">Aktualizujem Kategórie</string>
   <string name="UpdatingFilters">Aktualizujem FIltre</string>

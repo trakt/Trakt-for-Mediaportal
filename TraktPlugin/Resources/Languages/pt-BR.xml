@@ -13,6 +13,7 @@
   <!--B-->
   <!--C-->
   <string name="Cancel">Cancelar</string>
+  <string name="CalendarAllMovies">Tods os filmes</string>
   <string name="Cast">Elenco</string>
   <string name="Certification">Classificação indicativa</string>
   <!--D-->
@@ -32,6 +33,7 @@
   <string name="GuestStar">Artista comvidado</string>
   <string name="GuestStars">Artistas comvidados</string>
   <!--H-->
+  <string name="Hide">Ocultar</string>
   <!--I-->
   <!--J-->
   <!--K-->

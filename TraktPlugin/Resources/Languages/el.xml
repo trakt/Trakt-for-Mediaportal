@@ -6,6 +6,7 @@
   <!--B-->
   <!--C-->
   <string name="Cancel">Άκυρο</string>
+  <string name="CalendarAllMovies">Όλες οι ταινίες</string>
   <string name="Cast">Ηθοποιοί</string>
   <string name="Certification">Καταλληλότητα</string>
   <!--D-->
@@ -25,6 +26,7 @@
   <string name="GuestStar">Έκτακτη συμμετοχή</string>
   <string name="GuestStars">Έκτακτες συμμετοχές</string>
   <!--H-->
+  <string name="Hide">Απόκρυψη</string>
   <!--I-->
   <!--J-->
   <!--K-->
@@ -76,6 +78,7 @@
   <string name="Today">Σήμερα</string>
   <string name="Trailer">Trailer</string>
   <!--U-->
+  <string name="UnHide">Εμφάνιση</string>
   <!--V-->
   <!--W-->
   <string name="Watched">Προβληθέν</string>

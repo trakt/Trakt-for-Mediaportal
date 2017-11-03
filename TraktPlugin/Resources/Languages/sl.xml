@@ -45,6 +45,7 @@
   <string name="Calendar">Koledar</string>
   <string name="CalendarMyShows">Moje oddaje</string>
   <string name="CalendarPremieres">Premiere</string>
+  <string name="CalendarAllMovies">Vsi Filmi</string>
   <string name="CalendarAllShows">Vse oddaje</string>
   <string name="Cast">Igralci</string>
   <string name="CastAndCrew">Zasedba in osebje</string>
@@ -163,6 +164,7 @@
   <!--H-->
   <string name="Hate">Sovražim</string>
   <string name="Hated">Osovraženo</string>
+  <string name="Hide">Skrij</string>
   <string name="HideCollected">Skrij zbrane</string>
   <string name="HideRated">Skrij ocenjene</string>
   <string name="HideSpoilers">Skrij Spoilerje</string>
@@ -354,12 +356,12 @@
   <string name="Trailer">Reklamni film</string>
   <string name="Trailers">Reklamni filmi...</string>
   <!--U-->
+  <string name="UnHide">Prikaži</string>
   <string name="UserHasNotWatchedEpisodes">Uporabnik ni gledal nobenih epizod!</string>
   <string name="UserHasNotWatchedMovies">Uporabnik ni gledal nobenih filmov!</string>
   <string name="User">Uporabnik</string>
   <string name="Users">Uporabniki</string>
   <string name="Username">Uporabniško ime</string>
-  <string name="UnAuthorized">Preverjanje pristnosti je spodletelo, prosimo v nastavitvah preverite uporabniško ime in geslo.</string>
   <string name="UnRate">Prekliči oceno</string>
   <string name="UpdatingCategories">Posodabljanje kategorij</string>
   <string name="UpdatingFilters">Posodabljanje filtrov</string>

@@ -4,6 +4,7 @@
   <string name="Account">Konto</string>
   <string name="AccountSetup">Konto-Einstellungen</string>
   <string name="AccountDialog">Konto-Dialog</string>
+  <string name="ActivationUrl">Aktivierungs-URL</string>
   <string name="Actor">Schauspieler</string>
   <string name="Actors">Darsteller</string>
   <string name="ActorAndRole">{0} als {1}</string>
@@ -36,6 +37,10 @@
   <string name="ActivityPaused">{0} pausierte {1} [{2}%]</string>
   <string name="ActivityLikedComment">{0} mochte den Kommentar von {1} - {2}</string>
   <string name="ActivityLikedList">{0} mochte die Liste {1}</string>
+  <string name="ActivityHidCalendarItem">{0} vom Kalender versteckt</string>
+  <string name="ActivityHidRecommendation">{0} von Empfehlungen versteckt</string>
+  <string name="ActivityHidProgressWatched">{0} vom Anschauenfortschritt versteckt</string>
+  <string name="ActivityHidProgressCollection">{0} vom Sammlungsfortschritt versteckt</string>
   <string name="Activities">Aktivitäten</string>
   <string name="ActivityFilterActions">Filter nach Aktionen</string>
   <string name="ActivityFilterTypes">Filter nach Typ</string>
@@ -57,6 +62,7 @@
   <string name="AiredEpisodes">Ausgestrahlte Folgen</string>
   <string name="AirTime">Sendezeit</string>
   <string name="AppearsInList">{0} Listen</string>
+  <string name="ApplicationAuthWait">Warte darauf, dass sich der User anmeldet oder auf trakt.tv ein Konto erstellt und den Zugriff gewährt...</string>
   <string name="Approve">Bestätigung</string>
   <string name="ApproveAndFollowBack">Bestätigen und ebenfalls folgen</string>
   <string name="ApprovedDate">Bestätigtes Datum</string>
@@ -76,6 +82,8 @@
   <string name="AssistantArtDirector">Assistent Art Director</string>
   <string name="AssistantDirector">Regieassistenz</string>
   <string name="AssociateProducer">Beteiligter Produzent</string>
+  <string name="AuthorizeApplication">Autorisiere die Applikation</string>
+  <string name="AuthorizingApplication">Die Applikation wird autorisiert</string>
   <!--B-->
   <string name="BestBoyElectric">Handlanger Elektrik</string>
   <string name="BufferingTrailer">Trailer wird gepuffert</string>
@@ -96,8 +104,18 @@
   <string name="Canceled">Beendet</string>
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Meine Serien</string>
+  <string name="CalendarMyMovies">Meine Filme</string>
+  <string name="CalendarMyDVDs">Meine DVDs und Bluerays</string>
+  <string name="CalendarMyNewShows">Meine neuen Serien</string>
+  <string name="CalendarMyPremieres">Meine Premieren</string>
+  <string name="CalendarMySeasonPremieres">Meine Staffelpremieren</string>
   <string name="CalendarPremieres">Premieren</string>
+  <string name="CalendarAllPremieres">Alle Premieren</string>
+  <string name="CalendarAllMovies">Alle Filme</string>
+  <string name="CalendarAllDVDs">Alle DVDs und Bluerays</string>
   <string name="CalendarAllShows">Alle Serien</string>
+  <string name="CalendarAllNewShows">Alle neuen Shows</string>
+  <string name="CalendarAllSeasonPremieres">Alle Staffelpremieren</string>
   <string name="Cast">Besetzung</string>
   <string name="CastAndCrew">Cast und Crew</string>
   <string name="Casting">Besetzung</string>
@@ -144,6 +162,8 @@
   <string name="DateOneWeekAgo">Vor 1 Woche</string>
   <string name="DateTwoWeeksAgo">Vor 2 Wochen</string>
   <string name="DateOneMonthAgo">Vor 1 Monat</string>
+  <string name="Day">Tag</string>
+  <string name="Days">Tage</string>
   <string name="Dead">Tot</string>
   <string name="Death">Tod</string>
   <string name="Deny">Ablehnen</string>
@@ -193,7 +213,9 @@
   <string name="FailedCreateList">Konnte Liste online nicht erstellen</string>
   <string name="FailedDeleteList">Konnte Liste online nicht löschen</string>
   <string name="FailedLogin">Login auf trakt.tv fehlgeschlagen.\nPrüfe deine Zugangsdaten in den Einstellungen.</string>
+  <string name="FailedOnlineSettings">Der Abruf der Online-Einstellungen von trakt ist fehlgeschlagen</string>
   <string name="FailedUpdateList">Konnte die Liste online nicht aktualisieren.</string>
+  <string name="FailedApplicationAuthorization">Die Autorisierung des Benutzers für die Applikation ist fehlgeschlagen</string>
   <string name="FeatureNotAvailable">Sorry, diese Funktion ist zur Zeit deaktiviert.</string>
   <string name="Filters">Filter</string>
   <string name="FirstAired">Erstausstrahlung</string>
@@ -306,6 +328,10 @@
   <string name="Hated">Verhasst</string>
   <string name="HelicopterCamera">Helikopterkamera</string>
   <string name="HideTVShowsInWatchlist">Verstecke Serien in der Watchlist</string>
+  <string name="Hide">Verstecken</string>
+  <string name="HideShow">Verstecke Serie</string>
+  <string name="HideSeason">Verstecke Staffel</string>
+  <string name="HideMovie">Verstecke Filme</string>
   <string name="HideAdded">Verstecke Hinzugefügte</string>
   <string name="HideCommented">Verstecke Kommentierte</string>
   <string name="HideComments">Verstecke Kommentare</string>
@@ -323,6 +349,10 @@
   <string name="HideUpdated">Verstecke aktualisierte</string>
   <string name="HideWatched">Gesehene ausblenden</string>
   <string name="HideWatchlisted">Watchlist ausblenden</string>
+  <string name="HideHiddenCalendarItems">Verstecke versteckte Kalendereinträge</string>
+  <string name="HideHiddenRecommendations">Verstecke versteckte Empfehlungen</string>
+  <string name="HideHiddenCollectedProgress">Verstecke versteckten Sammlungsfortschritt</string>
+  <string name="HideHiddenWatchedProgress">Verstecke versteckten Anschaufortschritt</string>
   <string name="HiddenToPreventSpoilers">Dieser Kommentar wurde wegen möglicher Spoiler ausgeblendet.\nDu kannst dies im Menü ändern.</string>
   <!--I-->
   <string name="IncludeMeInFriendsActivity">Mich in Freund-Aktivitäten einbeziehen</string>
@@ -361,6 +391,7 @@
   <string name="MakeupArtist">Makeup</string>
   <string name="MarkAsWatched">Als gesehen markieren</string>
   <string name="MarkAsUnWatched">Als ungesehen markieren</string>
+  <string name="MaxDays">Max Tage</string>
   <string name="Me">Ich</string>
   <string name="Menu">Menü</string>
   <string name="Minutes">Minuten</string>
@@ -379,6 +410,8 @@
   <string name="NextEpisode">Nächste Folge</string>
   <string name="NextPage">Nächste Seite</string>
   <string name="NextWeek">Nächste Woche</string>
+  <string name="NextDays">Nächste {0} Tage</string>
+  <string name="NDays">{0}  Tage</string>
   <string name="NoActivities">Keine Aktivität gefunden.</string>
   <string name="NoBoxOffice">Keine Filme für Box Office gefunden!</string>
   <string name="NoCreditsFound">Keine Credits gefunden</string>
@@ -386,6 +419,7 @@
   <string name="NoEpisodesInSeason">Keine Folgen in dieser Staffel verfügbar.</string>
   <string name="NoEpisodeSummary">Die Zusammenfassung der Folge ist derzeit nicht verfügbar.</string>
   <string name="NoEpisodesThisWeek">Keine Folgen diese Woche</string>
+  <string name="NoMoviesThisWeek">Keine Filme in dieser Woche</string>
   <string name="NoMovieSummary">Die Zusammenfassung des Films ist derzeit nicht verfügbar.</string>
   <string name="NoShowSummary">Die Zusammenfassung der Serie ist derzeit nicht verfügbar.</string>
   <string name="NoFriends">Keine Freunde!</string>
@@ -451,6 +485,7 @@
   <string name="Public">Öffentlich</string>
   <string name="PreviousEpisode">Vorherige Folge</string>
   <string name="PreviousPage">Vorherige Seite</string>
+  <string name="PreviousDays">Vorhergehende {0} Tage</string>
   <string name="Private">Privat</string>
   <string name="Privacy">Privatsphäre</string>
   <string name="PrivacyPublic">Jeder kann diese Liste ansehen</string>
@@ -511,10 +546,12 @@
   <string name="Requests">Anfragen</string>
   <string name="ReturningSeries">Fortgesetzte Serie</string>
   <string name="Revenue">Einnahmen</string>
+  <string name="RevokeAccess">Zugriff widerrufen:  {0}</string>
   <string name="RiggingGaffer">Vorarbeiter Kameratechnik</string>
   <string name="RiggingGrip">Kameratechniker</string>
   <string name="Runtime">Laufzeit</string>
   <!--S-->
+  <string name="ScanQRCode">Scanne den QR Code oder browse zu {0} und geben den Code {1} zur Autorisierung ein</string>
   <string name="ScenicArtist">Szenenartist</string>
   <string name="ScoreEngineer">Toningenieur</string>
   <string name="Screenplay">Drehbuch</string>
@@ -704,6 +741,7 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailer ...</string>
   <!--U-->
+  <string name="UnHide">Nicht verstecken</string>
   <string name="UnLike">Gefällt mir nicht mehr</string>
   <string name="UserHasNotWatchedEpisodes">Der Benutzer hat noch keine Folgen angeschaut!</string>
   <string name="UserHasNotWatchedMovies">Der Benutzer hat noch keine Filme angeschaut!</string>
@@ -713,7 +751,7 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="User">Benutzer</string>
   <string name="Users">Benutzer</string>
   <string name="Username">Benutzername</string>
-  <string name="UnAuthorized">Anmeldung fehlgeschlagen - bitte Benutzernamen und Passwort in den Einstellungen überprüfen.</string>
+  <string name="UnAuthorized">Autorisierung fehlgeschlagen, bitte die Applikation erneut in den Einstellungen autorisieren.</string>
   <string name="UnFollow">Nicht mehr folgen</string>
   <string name="UnFollowMessage"> Willst du {0} wirklich nicht mehr folgen?</string>
   <string name="UnRate">Bewertung zurücknehmen</string>
@@ -724,9 +762,11 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="UpdatingFiltersMenuMovingPics">Aktualisiere das Filter-Menü in MovingPictures</string>
   <string name="UpdatingFiltersMenuMovingPicsWarning">Die Trakt-Filter lassen sich nicht aus dem Menü entfernen, solange sie noch aktualisiert werden!</string>
   <string name="UnableToPlayTrailer">Trailer kann nicht abgespielt werden.</string>
+  <string name="UserCode">Benutzercode</string>
   <string name="UserIsProtected">Dieser Benutzer ist geschützt!\nSolche Benutzer können nur in der\nFreundeliste betrachtet werden.</string>
   <string name="UserProfile">Benutzerprofil</string>
   <string name="UserRatingsDistribution">Bewertung von 1 bis 10 Herzen</string>
+  <string name="UserLoginSuccess">Benutzer {0} wurde erfolgreich für trakt autorisiert</string>
   <!--V-->
   <string name="VideoAssistOperator">Videoassistent</string>
   <string name="VisualDevelopment">Visuelle Entwicklung</string>
@@ -757,6 +797,7 @@ Setze sie auf 0, um dies zu deaktivieren. Der maximal erlaubte Wert ist 600 (10 
   <string name="Writer">Autor</string>
   <string name="Writers">Autoren</string>
   <string name="Writing">Drehbuch</string>
+  <string name="WifiRemotePluginInCompatible">Deine Version von WifiRemote passt nicht zu \ndieser Version von Trakt. Der Bewertungsdialog\n kann nicht angezeigt werden.</string>
   <!--Y-->
   <string name="Year">Jahr</string>
   <string name="Yes">Ja</string>

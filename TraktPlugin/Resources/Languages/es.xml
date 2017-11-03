@@ -97,6 +97,7 @@
   <string name="Calendar">Calendario</string>
   <string name="CalendarMyShows">Mis Shows</string>
   <string name="CalendarPremieres">Preestrenos</string>
+  <string name="CalendarAllMovies">Todas las Películas</string>
   <string name="CalendarAllShows">Todos los Shows</string>
   <string name="Cast">Reparto</string>
   <string name="CastAndCrew">Reparto y Equipo</string>
@@ -306,6 +307,7 @@
   <string name="Hated">Odiado</string>
   <string name="HelicopterCamera">Cámara de Helicóptero</string>
   <string name="HideTVShowsInWatchlist">Ocultar Programas TV en Lista de Seguimiento</string>
+  <string name="Hide">Ocultar</string>
   <string name="HideAdded">Ocultar Añadido</string>
   <string name="HideCommented">Ocultar Comentado</string>
   <string name="HideComments">Ocultar Comentarios</string>
@@ -690,6 +692,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnHide">Mostrar</string>
   <string name="UnLike">No Gusta</string>
   <string name="UserHasNotWatchedEpisodes">¡El usuario no ha visto ningún episodio!</string>
   <string name="UserHasNotWatchedMovies">¡El usuario no ha visto ninguna película!</string>
@@ -699,7 +702,6 @@
   <string name="User">Usuario</string>
   <string name="Users">Usuarios</string>
   <string name="Username">Nombre</string>
-  <string name="UnAuthorized">Error de Autenticación, por favor comprueba el usuario y la contraseña en Opciones.</string>
   <string name="UnFollow">DejarDeSeguir</string>
   <string name="UnFollowMessage">¿Está seguro de no querer\nseguir más al usuario {0}?</string>
   <string name="UnRate">NoEvaluado</string>

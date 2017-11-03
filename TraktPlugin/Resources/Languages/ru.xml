@@ -47,6 +47,7 @@
   <string name="Calendar">Календарь</string>
   <string name="CalendarMyShows">Мои сериалы</string>
   <string name="CalendarPremieres">Премьеры</string>
+  <string name="CalendarAllMovies">Все фильмы</string>
   <string name="CalendarAllShows">Все сериалы</string>
   <string name="Cast">Актеры</string>
   <string name="CastAndCrew">Актеры и съемочная группа</string>
@@ -159,6 +160,7 @@
   <string name="GuestStars">Приглашенные звезды</string>
   <!--H-->
   <string name="HideTVShowsInWatchlist">Скрыть сериалы в списке \"Буду смотреть\"</string>
+  <string name="Hide">Скрыть</string>
   <string name="HideAdded">Скрыть добавленные</string>
   <string name="HideCommented">Скрыть прокомментированные </string>
   <string name="HideComments">Скрыть комментарии</string>
@@ -324,6 +326,7 @@
   <string name="Trailer">Трейлер</string>
   <string name="Trailers">Трейлеры...</string>
   <!--U-->
+  <string name="UnHide">Сделать видимым</string>
   <string name="User">Пользователь</string>
   <string name="Users">Пользователи</string>
   <string name="Username">Имя пользователя</string>

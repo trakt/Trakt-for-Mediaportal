@@ -43,6 +43,7 @@
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mine serier</string>
   <string name="CalendarPremieres">Premiere</string>
+  <string name="CalendarAllMovies">Alle film</string>
   <string name="CalendarAllShows">Alle seier</string>
   <string name="Cast">Medvirkende</string>
   <string name="CastAndCrew">Skuespillere og filmhold</string>
@@ -161,6 +162,7 @@
   <!--H-->
   <string name="Hate">Had</string>
   <string name="Hated">Hadede</string>
+  <string name="Hide">Gem</string>
   <string name="HideCollected">Skjul indsamlede</string>
   <string name="HideRated">Skjul Rated</string>
   <string name="HideSpoilers">Skjul spoilers</string>
@@ -351,12 +353,12 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnHide">Vis</string>
   <string name="UserHasNotWatchedEpisodes">Brugeren har ikke set nogen afsnit!</string>
   <string name="UserHasNotWatchedMovies">Brugeren har ikke set nogen film!</string>
   <string name="User">Bruger</string>
   <string name="Users">Brugere</string>
   <string name="Username">Brugernavn</string>
-  <string name="UnAuthorized">Login mislykkedes, kontrollér venligst brugernavn og password i indstillingerne.</string>
   <string name="UnRate">UnRate</string>
   <string name="UpdatingCategories">Opdaterer kategorier</string>
   <string name="UpdatingFilters">Opdaterer filtre</string>

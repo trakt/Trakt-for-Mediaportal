@@ -78,6 +78,7 @@
   <string name="Calendar">Kalendář</string>
   <string name="CalendarMyShows">Mé seriály</string>
   <string name="CalendarPremieres">Premiéry</string>
+  <string name="CalendarAllMovies">Všechny filmy</string>
   <string name="CalendarAllShows">Všechny seriály</string>
   <string name="Cast">Obsazení</string>
   <string name="CastAndCrew">Osoby a obsazení</string>
@@ -263,6 +264,7 @@
   <string name="Hate">Nelíbí se mi</string>
   <string name="Hated">Označené jako nelíbí se mi</string>
   <string name="HideTVShowsInWatchlist">Skrýt seriály v seznamu ke zhlédnutí</string>
+  <string name="Hide">Skrýt</string>
   <string name="HideAdded">Skrýt přidané</string>
   <string name="HideCommented">Skrýt okomentované</string>
   <string name="HideComments">Skrýt komentáře</string>
@@ -596,6 +598,7 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="Trailer">Upoutávka</string>
   <string name="Trailers">Upoutávky...</string>
   <!--U-->
+  <string name="UnHide">Zrušit skrytí</string>
   <string name="UnLike">Už se mi to nelíbí</string>
   <string name="UserHasNotWatchedEpisodes">Uživatel neviděl žádné epizody!</string>
   <string name="UserHasNotWatchedMovies">Uživatel neviděl žádné filmy!</string>
@@ -605,7 +608,6 @@ Přejete si nyní synchronizovat Vaše knihovny?</string>
   <string name="User">Uživatel</string>
   <string name="Users">Uživatelé</string>
   <string name="Username">Jméno uživatele</string>
-  <string name="UnAuthorized">Přihlášení se nezdařilo, zkontrolujte prosím jméno a heslo v nastavení aplikace.</string>
   <string name="UnFollow">Přestat sledovat</string>
   <string name="UnFollowMessage">Opravdu chcete zrušit sledování\nuživatele {0}?</string>
   <string name="UnRate">Zrušit hodnocení</string>

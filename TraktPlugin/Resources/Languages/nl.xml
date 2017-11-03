@@ -73,6 +73,7 @@
   <string name="Calendar">Kalender</string>
   <string name="CalendarMyShows">Mijn series</string>
   <string name="CalendarPremieres">Premières</string>
+  <string name="CalendarAllMovies">Alle films</string>
   <string name="CalendarAllShows">Alle series</string>
   <string name="Cast">Rolverdeling:</string>
   <string name="CastAndCrew">Cast en Crew</string>
@@ -245,6 +246,7 @@
   <string name="Hate">Haat</string>
   <string name="Hated">Gehaat</string>
   <string name="HideTVShowsInWatchlist">Verberg TV serie in kijk lijst</string>
+  <string name="Hide">Verberg</string>
   <string name="HideAdded">Verberg Toegevoegd</string>
   <string name="HideCommented">Verberg Becommentarieerd</string>
   <string name="HideComments">Verberg Commentaren</string>
@@ -572,6 +574,7 @@
   <string name="Trailer">Trailer</string>
   <string name="Trailers">Trailers...</string>
   <!--U-->
+  <string name="UnHide">Zichtbaar maken</string>
   <string name="UnLike">Niet leuk</string>
   <string name="UserHasNotWatchedEpisodes">Gebruiker heeft geen enkele aflevering gezien!</string>
   <string name="UserHasNotWatchedMovies">Gebruiker heeft geen enkele films gezien!</string>
@@ -581,7 +584,6 @@
   <string name="User">Gebruiker</string>
   <string name="Users">Gebruikers</string>
   <string name="Username">Gebruikersnaam</string>
-  <string name="UnAuthorized">Authenticatie mislukt, controlleer gebruikersnaam en wachtwoord.</string>
   <string name="UnFollow">Niet meer volgen</string>
   <string name="UnFollowMessage">Are you sure you want to unfollow user {0}?</string>
   <string name="UnRate">Beoordeling intrekken</string>

@@ -52,6 +52,7 @@
   <string name="Calendar">Kalendorius</string>
   <string name="CalendarMyShows">Mano laidos</string>
   <string name="CalendarPremieres">Premjeros</string>
+  <string name="CalendarAllMovies">Visi filmai</string>
   <string name="CalendarAllShows">Visos laidos</string>
   <string name="Cast">Transliuojamas</string>
   <string name="CastAndCrew">Filmavimo grupė</string>
@@ -192,6 +193,7 @@
   <!--H-->
   <string name="Hate">Nekęsti</string>
   <string name="Hated">Nekenčiami</string>
+  <string name="Hide">Slėpti</string>
   <string name="HideCollected">Slėpti kolekcionuojamus</string>
   <string name="HideRated">Slėpti įvertintus</string>
   <string name="HideSpoilers">Slėpti išnašas</string>
@@ -419,6 +421,7 @@
   <string name="Trailer">Anonsas</string>
   <string name="Trailers">Anonsai...</string>
   <!--U-->
+  <string name="UnHide">Atšaukti slėpimą</string>
   <string name="UserHasNotWatchedEpisodes">Vartotojas nežiūrėjo jokiu epizodų!</string>
   <string name="UserHasNotWatchedMovies">Vartotojas nežiūrėjo jokiu filmų!</string>
   <string name="UserHasNoRecentAddedEpisodes">Vartotojas neturi pastaruoju metu pridėtų epizodų!</string>
@@ -427,7 +430,6 @@
   <string name="User">Vartotojas</string>
   <string name="Users">Vartotojai</string>
   <string name="Username">Vartotojo vardas</string>
-  <string name="UnAuthorized">Autentikacija nepavyko, prašome patikrinti vartotojo vardą ir slaptažodį nustatymuose.</string>
   <string name="UnFollow">Nestebėti</string>
   <string name="UnRate">Panaikinti vertinimą</string>
   <string name="UpdatingCategories">Atnaujinamos kategorijos</string>

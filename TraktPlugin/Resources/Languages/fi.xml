@@ -49,6 +49,7 @@
   <string name="Calendar">Kalenteri</string>
   <string name="CalendarMyShows">Sarjani</string>
   <string name="CalendarPremieres">Ennakot</string>
+  <string name="CalendarAllMovies">Kaikki elokuvat</string>
   <string name="CalendarAllShows">Kaikki jaksot</string>
   <string name="Cast">Näyttelijät</string>
   <string name="CastAndCrew">Näyttelijät ja Avustajat</string>
@@ -189,6 +190,7 @@
   <!--H-->
   <string name="Hate">Viha</string>
   <string name="Hated">Vihattu</string>
+  <string name="Hide">Piilota</string>
   <string name="HideCollected">Piilota kerätyt</string>
   <string name="HideRated">Piilota arvostellut</string>
   <string name="HideSpoilers">Piilota \'juonipaljastukset\'</string>
@@ -416,6 +418,7 @@
   <string name="Trailer">Traileri</string>
   <string name="Trailers">Trailerit...</string>
   <!--U-->
+  <string name="UnHide">Tuo näkyviin</string>
   <string name="UserHasNotWatchedEpisodes">Käyttäjä ei ole katsonut jaksoja!</string>
   <string name="UserHasNotWatchedMovies">Käyttäjä ei ole katsonut elokuvia!</string>
   <string name="UserHasNoRecentAddedEpisodes">Käyttäjä ei ole lähiaikoina lisännyt jaksoja!</string>
@@ -424,7 +427,6 @@
   <string name="User">Käyttäjä</string>
   <string name="Users">Käyttäjät</string>
   <string name="Username">Käyttäjänimi</string>
-  <string name="UnAuthorized">Todennus epäonnistui, tarkista käyttäjätunnus ja salasana asetuksista.</string>
   <string name="UnFollow">Lopeta seuraaminen</string>
   <string name="UnRate">Poista arvostelu</string>
   <string name="UpdatingCategories">Päivitetään kategorioita</string>

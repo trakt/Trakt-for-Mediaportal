@@ -8,6 +8,7 @@
   <!--C-->
   <string name="Cancel">Odustanite</string>
   <string name="Calendar">Kalendar</string>
+  <string name="CalendarAllMovies">Svi filmovi</string>
   <string name="Cast">Glumci</string>
   <string name="CastAndCrew">Uloge i ekipa</string>
   <string name="Certification">Potvrda</string>
@@ -42,6 +43,7 @@
   <string name="GuestStar">Gostujuća uloga</string>
   <string name="GuestStars">Gostujuće uloge</string>
   <!--H-->
+  <string name="Hide">Sakrijte</string>
   <!--I-->
   <!--J-->
   <!--K-->
@@ -103,6 +105,7 @@
   <string name="Today">Danas</string>
   <string name="Trailer">Foršpan</string>
   <!--U-->
+  <string name="UnHide">Razotkrijte</string>
   <!--V-->
   <string name="Votes">Glasova</string>
   <!--W-->
