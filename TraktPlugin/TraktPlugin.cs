@@ -495,7 +495,7 @@ namespace TraktPlugin
         /// <returns>true if sync started, false if already running</returns>
         internal static bool StartSync()
         {
-            if (syncLibraryWorker.IsBusy)
+            if (syncLibraryWorker != null && syncLibraryWorker.IsBusy)
                 return false;
 
             SyncPlayback();
@@ -510,9 +510,6 @@ namespace TraktPlugin
         /// </summary>
         private void SyncLibrary()
         {
-            // no plugins to sync, abort
-            if (TraktHandlers.Count == 0) return;
-
             if (syncLibraryWorker != null && syncLibraryWorker.IsBusy)
                 return;
 
@@ -533,6 +530,9 @@ namespace TraktPlugin
 
             LibrarySyncRunning = false;
 
+            if (TraktHandlers.Count == 0)
+                return;
+
             TraktLogger.Info("Finished 2-way sync of all enabled plugins, Time Taken = '{0}'", DateTime.UtcNow.Subtract(SyncStartTime).ToPrettyTime());
 
             //TODO: Callback to let caller know that we are done
@@ -552,12 +552,15 @@ namespace TraktPlugin
             if (TraktSettings.AccountStatus != ConnectionState.Connected)
                 return;
 
-            TraktLogger.Info("Started 2-way sync of all enabled plugins");
-
             // get data from online and store in cache so its readily available for plugin sync
             // data will also be used in user activity feed on the dashboard
             if (!TraktCache.RefreshData())
                 return;
+
+            if (TraktHandlers.Count == 0)
+                return;
+
+            TraktLogger.Info("Started 2-way sync of all enabled plugins");
 
             // user could change handlers during sync from Settings GUI so assign to a new list
             var traktHandlers = new List<ITraktHandler>(TraktHandlers);
@@ -574,7 +577,7 @@ namespace TraktPlugin
                 {
                     TraktLogger.Error("Error synchronising library. Plugin = '{0}', Error = '{1}'", traktHandler.Name, ex.Message);
                 }
-            }    
+            } 
         }
 
         #endregion
