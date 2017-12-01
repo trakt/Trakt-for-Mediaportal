@@ -45,3 +45,5 @@ _ReSharper*/
 # Office Temp Files
 ~$*
 .vs
+
+/[Pp]ackages

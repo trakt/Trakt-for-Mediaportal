@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Plugin
+  DescriptorVersion="1.0"
+  Name="Trakt"
+  PluginId="{9E87C525-D146-4CA1-991D-8EBEAADE3BB9}"
+  Author="aspik"
+  Copyright="GPL"
+  Description="Adds support for Trakt">
+
+  <Version
+    PluginVersion="1.0"
+    ReleaseDate="2017-11-11 01:00:00 GMT+01:00"
+    CurrentAPI="1"/>
+
+  <Runtime>
+    <Assembly FileName="TraktPluginMP2.dll"/>
+    <Assembly FileName="TraktAPI.dll"/>
+  </Runtime>
+
+  <DependsOn>
+    <PluginReference PluginId="{1AFF4467-64B0-4ca1-AF28-9AEDF3525BCE}" CompatibleAPI="1"/> <!-- ConfigurationManager -->
+    <PluginReference PluginId="{B765A4B6-F455-4941-BDAE-2CE45208BFEB}" CompatibleAPI="1"/> <!-- Configuration plugin -->
+  </DependsOn>
+  
+  <Register Location="/Models">
+    <Model Id="0A24888F-63C0-442A-9DF6-431869BDE803" Name="TraktSetupModel" ClassName="TraktPluginMP2.Models.TraktSetupModel"/>
+  </Register>
+  
+  <Register Location="/Services">
+    <Service Id="TraktHandler" RegistrationClassName="TraktPluginMP2.Handlers.TraktHandler" ServiceClassName="TraktPluginMP2.Handlers.TraktHandler"/>
+  </Register>
+
+  <Register Location="/Workflow/States">
+    <DialogState Id="3DB8C6DB-F4E4-4A87-80CE-53339AECF494" Name="TraktSetup" DialogScreen="dialogTraktSetup"
+                 DisplayLabel="[Settings.Plugins.Trakt.TraktSetup]" WorkflowModel="0A24888F-63C0-442A-9DF6-431869BDE803"/>
+  </Register>
+
+  <Register Location="/Resources/Language">
+    <Resource Id="TraktLanguage" Directory="Language" Type="Language"/>
+  </Register>
+
+  <Register Location = "/Resources/Skin">
+    <Resource Id="TraktSkin" Directory="Skin" Type="Skin"/>
+  </Register>
+
+  <!-- Root configuration sections -->
+  <Register Location="/Configuration/Settings">
+    <ConfigSection
+      Id="Plugins"
+      Redundant="true"
+      Text="[Settings.Plugins]"/>
+  </Register>
+
+  <!-- Contents of '/Plugins' section -->
+  <Register Location="/Configuration/Settings/Plugins">
+    <ConfigSection
+      Id="Trakt"
+      Redundant="true"
+      Text="[Settings.Plugins.Trakt]"/>
+  </Register>
+
+  <!-- Contents of '/Plugins/Trakt' section -->
+  <Register Location="/Configuration/Settings/Plugins/Trakt">
+    <CustomConfigSetting
+      Id="TraktSetup"
+      Text="[Settings.Plugins.Trakt.TraktSetup]"
+      HelpText="[Settings.Plugins.Trakt.TraktSetup.Help]"
+      ClassName="TraktPluginMP2.Settings.TraktSettingsConfiguration"
+      AdditionalData="WorkflowState=3DB8C6DB-F4E4-4A87-80CE-53339AECF494,ConfAppPanel=..."/>
+
+  </Register>
+  
+</Plugin>

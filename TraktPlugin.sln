@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktPlugin", "TraktPlugin\TraktPlugin.csproj", "{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigLauncher", "ConfigLau
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktAPI", "TraktAPI\TraktAPI.csproj", "{F9354E34-2955-4E54-AFB2-040236542D19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktPluginMP2", "TraktPluginMP2\TraktPluginMP2.csproj", "{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2AF29FA1-FFB3-449B-9DDF-8A85C5F6901A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,7 +40,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CC7924-F7B5-47C9-92A4-08428D9C5F9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D751473-DCC5-4044-A6E3-403D97C5B9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -47,11 +50,22 @@ Global
 		{F9354E34-2955-4E54-AFB2-040236542D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9354E34-2955-4E54-AFB2-040236542D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9354E34-2955-4E54-AFB2-040236542D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF29FA1-FFB3-449B-9DDF-8A85C5F6901A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF29FA1-FFB3-449B-9DDF-8A85C5F6901A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF29FA1-FFB3-449B-9DDF-8A85C5F6901A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF29FA1-FFB3-449B-9DDF-8A85C5F6901A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A5187FF9-35B1-4CDC-91A3-A6FAE372FD3C} = {CE1EB7DF-4B75-4BD0-B744-B8898FC75371}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93E8DDD0-0B9B-4E83-80FB-A1D01165C64C}
 	EndGlobalSection
 EndGlobal

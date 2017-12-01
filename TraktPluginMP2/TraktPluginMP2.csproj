@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A083EF8D-E3E3-41EE-811C-C9CBBDB17FA5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TraktPluginMP2</RootNamespace>
+    <AssemblyName>TraktPluginMP2</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MediaPortal.Common, Version=2.1.1710.10447, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Externals\MediaPortal.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaPortal.UI, Version=2.1.1710.10447, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Externals\MediaPortal.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\IAsynchronousMessageQueue.cs" />
+    <Compile Include="Services\IMediaPortalServices.cs" />
+    <Compile Include="Services\ITraktServices.cs" />
+    <Compile Include="Services\MediaPortalServices.cs" />
+    <Compile Include="Services\AsynchronousMessageQueueProxy.cs" />
+    <Compile Include="Models\TraktSetupModel.cs" />
+    <Compile Include="Services\ITraktAPI.cs" />
+    <Compile Include="Services\ITraktCache.cs" />
+    <Compile Include="Services\TraktAPIWrapper.cs" />
+    <Compile Include="Services\TraktCache.cs" />
+    <Compile Include="Handlers\TraktHandler.cs" />
+    <Compile Include="Settings\TraktPluginSettings.cs" />
+    <Compile Include="Settings\TraktSettingsConfiguration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Handlers\TraktHandlerContainer.cs" />
+    <Compile Include="Handlers\TraktHandlerManager.cs" />
+    <Compile Include="Services\TraktServices.cs" />
+    <Compile Include="Models\TraktSetupContainer.cs" />
+    <Compile Include="Models\TraktSetupManager.cs" />
+    <Compile Include="Web\ITraktAuth.cs" />
+    <Compile Include="Web\ITraktLogin.cs" />
+    <Compile Include="Web\ITraktWeb.cs" />
+    <Compile Include="Web\IWebRequestExt.cs" />
+    <Compile Include="Web\TraktAuth.cs" />
+    <Compile Include="Web\TraktLogin.cs" />
+    <Compile Include="Web\TraktWeb.cs" />
+    <Compile Include="Web\WebRequestExt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Language\strings_en.xml" />
+    <Content Include="plugin.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\BlueVision\themes\Titanium Extended\screens\dialogTraktSetup.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\Images\qr.png" />
+    <Content Include="Skin\default\screens\dialogTraktSetup.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Skin\default\themes\default\styles\TraktConsts.xaml">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TraktAPI\TraktAPI.csproj">
+      <Project>{f9354e34-2955-4e54-afb2-040236542d19}</Project>
+      <Name>TraktAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
