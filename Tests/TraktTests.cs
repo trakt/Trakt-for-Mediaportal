@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediaPortal.Common.Messaging;
+using MediaPortal.Common.Settings;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
 using TraktPluginMP2.Handlers;
 using TraktPluginMP2.Models;
 using TraktPluginMP2.Services;
+using TraktPluginMP2.Settings;
 using Xunit;
 
 namespace Tests
@@ -17,6 +19,10 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings();
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       ITraktServices traktServices = Substitute.For<ITraktServices>();
       traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(true);
       TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
@@ -30,6 +36,65 @@ namespace Tests
 
       // Assert
       Assert.Equal("[Trakt.LoggedIn]", traktSetup.TestStatus);
+    }
+
+    [Theory]
+    [InlineData("1234567")]
+    [InlineData("123456789")]
+    [InlineData("")]
+    public void UserNotAuthorizedWhenPinCodeInvalid(string invalidPinCode)
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      {
+        PinCode = invalidPinCode
+      };
+
+      // Act
+      traktSetup.AuthorizeUser();
+
+      // Assert
+      Assert.Equal("[Trakt.WrongToken]", traktSetup.TestStatus);
+    }
+
+    [Fact]
+    public void UserNotAuthorizedWhenLoginFailed()
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(false);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      {
+        PinCode = "12345678"
+      };
+
+      // Act
+      traktSetup.AuthorizeUser();
+
+      // Assert
+      Assert.Equal("[Trakt.UnableLogin]", traktSetup.TestStatus);
+    }
+
+    [Fact]
+    public void UserNotAuthorizedWhenUsernameInvalid()
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(true);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      {
+        PinCode = "12345678"
+      };
+
+      // Act
+      traktSetup.AuthorizeUser();
+
+      // Assert
+      Assert.Equal("[Trakt.EmptyUsername]", traktSetup.TestStatus);
     }
 
     [Fact]

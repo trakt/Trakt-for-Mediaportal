@@ -1,5 +1,7 @@
 ﻿using MediaPortal.Common.General;
+using MediaPortal.Common.Settings;
 using TraktPluginMP2.Services;
+using TraktPluginMP2.Settings;
 
 namespace TraktPluginMP2.Models
 {
@@ -87,6 +89,7 @@ namespace TraktPluginMP2.Models
 
       if (!_traktServices.GetTraktLogin().Login(PinCode))
       {
+        TestStatus = "[Trakt.UnableLogin]";
         return;
       }
         
@@ -97,14 +100,14 @@ namespace TraktPluginMP2.Models
         return;
       }
 
-      TestStatus = "[Trakt.LoggedIn]";
+      ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
+      TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
 
-      // TODO: save settings
-      //ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager().Get<ISettingsManager>();
-      //TraktSettings settings = settingsManager.Load<TraktSettings>();
-      //settings.EnableTrakt = IsEnabled;
-      //settings.Username = Username;
-      //settingsManager.Save(settings);
+      settings.EnableTrakt = IsEnabled;
+      settings.Username = Username;
+      settingsManager.Save(settings);
+
+      TestStatus = "[Trakt.LoggedIn]";
     }
 
     public void SyncMediaToTrakt()
