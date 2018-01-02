@@ -5,5 +5,7 @@ namespace TraktPluginMP2.Services
   public interface ITraktAPI
   {
     TraktSyncResponse AddMoviesToWatchedHistory(TraktSyncMoviesWatched movies);
+
+    TraktSyncResponse AddMoviesToCollecton(TraktSyncMoviesCollected movies);
   }
 }

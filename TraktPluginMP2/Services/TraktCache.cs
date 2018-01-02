@@ -71,7 +71,32 @@ namespace TraktPluginMP2.Services
       return UnWatchedMovies;
     }
 
-    private IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt()
+    public IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void AddMoviesToWatchHistory(List<TraktSyncMovieWatched> movies)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void RemoveMoviesFromWatchHistory(List<TraktMovie> movies)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void AddMoviesToCollection(List<TraktSyncMovieCollected> movies)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void RemoveMoviesFromCollection(List<TraktMovie> movies)
     {
       throw new System.NotImplementedException();
     }

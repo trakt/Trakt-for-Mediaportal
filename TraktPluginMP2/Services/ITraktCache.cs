@@ -10,5 +10,17 @@ namespace TraktPluginMP2.Services
     void Save();
 
     IEnumerable<TraktMovie> GetUnWatchedMoviesFromTrakt();
+
+    IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt();
+
+    IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt();
+
+    void AddMoviesToWatchHistory(List<TraktSyncMovieWatched> movies);
+
+    void RemoveMoviesFromWatchHistory(List<TraktMovie> movies);
+
+    void AddMoviesToCollection(List<TraktSyncMovieCollected> movies);
+
+    void RemoveMoviesFromCollection(List<TraktMovie> movies);
   }
 }

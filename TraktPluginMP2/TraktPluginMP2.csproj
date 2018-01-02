@@ -69,6 +69,7 @@
     <Compile Include="Services\TraktServices.cs" />
     <Compile Include="Models\TraktSetupContainer.cs" />
     <Compile Include="Models\TraktSetupManager.cs" />
+    <Compile Include="Utilities\MediaItemAspectsUtl.cs" />
     <Compile Include="Web\ITraktAuth.cs" />
     <Compile Include="Web\ITraktLogin.cs" />
     <Compile Include="Web\ITraktWeb.cs" />

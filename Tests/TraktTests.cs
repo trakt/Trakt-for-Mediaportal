@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using MediaPortal.Common.Messaging;
 using MediaPortal.Common.Settings;
+using MediaPortal.Common.Threading;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
 using TraktPluginMP2.Handlers;
@@ -95,6 +97,75 @@ namespace Tests
 
       // Assert
       Assert.Equal("[Trakt.EmptyUsername]", traktSetup.TestStatus);
+    }
+
+    [Fact]
+    public void StartSyncingMediaToTraktWhenUserAuthorized()
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      IThreadPool threadPool = Substitute.For<IThreadPool>();
+      threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings {IsAuthorized = true};
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      mediaPortalServices.GetThreadPool().Returns(threadPool);
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().RefreshData().Returns(true);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      traktSetup.SyncMediaToTrakt();
+
+      // Assert
+      Assert.True(traktSetup.IsSynchronizing);
+    }
+
+    [Fact]
+    public void DoNotSyncMediaToTraktWhenUserNotAuthorized()
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      IThreadPool threadPool = Substitute.For<IThreadPool>();
+      threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { IsAuthorized = false };
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      mediaPortalServices.GetThreadPool().Returns(threadPool);
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().RefreshData().Returns(true);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      traktSetup.SyncMediaToTrakt();
+
+      // Assert
+      Assert.False(traktSetup.IsSynchronizing);
+    }
+
+    [Fact]
+    public void DoNotSyncMediaToTraktWhenCacheRefreshFalse()
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      IThreadPool threadPool = Substitute.For<IThreadPool>();
+      threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { IsAuthorized = true };
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      mediaPortalServices.GetThreadPool().Returns(threadPool);
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().RefreshData().Returns(false);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      traktSetup.SyncMediaToTrakt();
+
+      // Assert
+      Assert.False(traktSetup.IsSynchronizing);
     }
 
     [Fact]

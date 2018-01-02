@@ -8,5 +8,10 @@ namespace TraktPluginMP2.Services
     {
       return TraktAPI.TraktAPI.AddMoviesToWatchedHistory(movies);
     }
+
+    public TraktSyncResponse AddMoviesToCollecton(TraktSyncMoviesCollected movies)
+    {
+      return TraktAPI.TraktAPI.AddMoviesToCollecton(movies);
+    }
   }
 }
