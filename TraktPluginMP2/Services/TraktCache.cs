@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using TraktAPI.DataStructures;
 using TraktAPI.Extensions;
+using TraktPluginMP2.Structures;
 
 namespace TraktPluginMP2.Services
 {
@@ -97,6 +99,31 @@ namespace TraktPluginMP2.Services
     }
 
     public void RemoveMoviesFromCollection(List<TraktMovie> movies)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<Episode> GetUnWatchedEpisodesFromTrakt()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<EpisodeWatched> GetWatchedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt(bool ignoreLastSyncTime = false)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void AddEpisodesToWatchHistory(TraktSyncShowWatchedEx show)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void AddEpisodesToCollection(TraktSyncShowCollectedEx show)
     {
       throw new System.NotImplementedException();
     }

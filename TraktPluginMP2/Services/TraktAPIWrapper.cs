@@ -13,5 +13,15 @@ namespace TraktPluginMP2.Services
     {
       return TraktAPI.TraktAPI.AddMoviesToCollecton(movies);
     }
+
+    public TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsWatchedEx shows)
+    {
+      return TraktAPI.TraktAPI.AddShowsToWatchedHistoryEx(shows);
+    }
+
+    public TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsCollectedEx shows)
+    {
+      return TraktAPI.TraktAPI.AddShowsToCollectonEx(shows);
+    }
   }
 }

@@ -115,5 +115,36 @@ namespace TraktPluginMP2.Utilities
       }
       return null;
     }
+
+    public static int GetTvdbId(MediaItem mediaItem)
+    {
+      string id;
+      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_TVDB, ExternalIdentifierAspect.TYPE_SERIES, out id) ? Convert.ToInt32(id) : 0;
+    }
+
+    public static int GetSeasonIndex(MediaItem mediaItem)
+    {
+      int value;
+      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, EpisodeAspect.ATTR_SEASON, out value) ? value : 0;
+    }
+
+    public static int GetEpisodeIndex(MediaItem currMediaItem)
+    {
+      // TODO: multi episode files?!
+      List<int> intList;
+      return MediaItemAspect.TryGetAttribute(currMediaItem.Aspects, EpisodeAspect.ATTR_EPISODE, out intList) && intList.Any() ? intList.First() : intList.FirstOrDefault();
+    }
+
+    public static string GetSeriesImdbId(MediaItem mediaItem)
+    {
+      string id;
+      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.TYPE_SERIES, out id) ? id : null;
+    }
+
+    public static string GetSeriesTitle(MediaItem mediaItem)
+    {
+      string value;
+      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, EpisodeAspect.ATTR_SERIES_NAME, out value) ? value : null;
+    }
   }
 }

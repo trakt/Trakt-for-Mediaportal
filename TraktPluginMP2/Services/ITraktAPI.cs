@@ -7,5 +7,9 @@ namespace TraktPluginMP2.Services
     TraktSyncResponse AddMoviesToWatchedHistory(TraktSyncMoviesWatched movies);
 
     TraktSyncResponse AddMoviesToCollecton(TraktSyncMoviesCollected movies);
+
+    TraktSyncResponse AddShowsToWatchedHistoryEx(TraktSyncShowsWatchedEx shows);
+
+    TraktSyncResponse AddShowsToCollectonEx(TraktSyncShowsCollectedEx shows);
   }
 }
