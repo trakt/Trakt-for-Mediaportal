@@ -32,6 +32,8 @@ namespace TraktPluginMP2.Models
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
 
+    private int _syncWatchedMovies;
+    private int _syncCollectedMovies;
 
     public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktServices traktServices)
     {
@@ -92,6 +94,16 @@ namespace TraktPluginMP2.Models
     {
       get { return (bool)_isSynchronizingProperty.GetValue(); }
       set { _isSynchronizingProperty.SetValue(value); }
+    }
+
+    public int SyncWatchedMovies
+    {
+      get { return _syncWatchedMovies; }
+    }
+
+    public int SyncCollectedMovies
+    {
+      get { return _syncCollectedMovies; }
     }
 
     public void AuthorizeUser()
@@ -288,8 +300,9 @@ namespace TraktPluginMP2.Models
                                }).ToList();
 
           _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv watched history", syncWatchedMovies.Count);
+          _syncWatchedMovies = syncWatchedMovies.Count;
 
-          if (syncWatchedMovies.Count > 0)
+          if (_syncWatchedMovies > 0)
           {
             // update internal cache
             _traktServices.GetTraktCache().AddMoviesToWatchHistory(syncWatchedMovies);
@@ -350,9 +363,9 @@ namespace TraktPluginMP2.Models
                                  }).ToList();
 
           _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv collection", syncCollectedMovies.Count);
+          _syncCollectedMovies = syncCollectedMovies.Count;
 
-
-          if (syncCollectedMovies.Count > 0)
+          if (_syncCollectedMovies > 0)
           {
             //update internal cache
             _traktServices.GetTraktCache().AddMoviesToCollection(syncCollectedMovies);
@@ -632,7 +645,7 @@ namespace TraktPluginMP2.Models
         }
         catch (Exception ex)
         {
-          ServiceRegistration.Get<ILogger>().Error("Trakt.tv: Exception while synchronizing media library.", ex);
+          _mediaPortalServices.GetLogger().Error("Trakt.tv: Exception while synchronizing media library.", ex);
         }
       }
       return false;
