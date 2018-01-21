@@ -306,8 +306,8 @@ namespace Tests
             new List<TraktMovieCollected>
             {
               new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = "2015.01.01"},
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 16729 }, Title = "Movie_2", Year = 2008}, CollectedAt = "2011.01.01"},
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 34251 }, Title = "Movie_3", Year = 2001}, CollectedAt = "2009.01.01"}
+              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt42690", Tmdb = 16729 }, Title = "Movie_2", Year = 2008}, CollectedAt = "2011.01.01"},
+              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt00754", Tmdb = 34251 }, Title = "Movie_3", Year = 2001}, CollectedAt = "2009.01.01"}
             },
             0
           }
@@ -327,6 +327,122 @@ namespace Tests
 
       // Assert
       int actualMoviesCount = traktSetup.SyncCollectedMovies;
+      Assert.True(isSynced);
+      Assert.Equal(expectedMoviesCount, actualMoviesCount);
+    }
+
+    public static IEnumerable<object[]> TraktUnwatchedMoviesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "11290", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+            },
+            new List<TraktMovie>
+            {
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt11390", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt99821", Tmdb = 31139 }, Title = "Movie_3", Year = 2010}
+            },
+            3
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(TraktUnwatchedMoviesTestData))]
+    public void MarkMovieAsUnwatchedIfMovieDbUnsynced(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
+    {
+      // Arrange
+      TraktSetupManager traktSetup = GetMockTraktSetup(databaseMovies, traktMovies);
+
+      // Act
+      bool isSynced = traktSetup.SyncMovies();
+
+      // Assert
+      int actualMoviesCount = traktSetup.MarkUnWatchedMovies;
+      Assert.True(isSynced);
+      Assert.Equal(expectedMoviesCount, actualMoviesCount);
+    }
+
+    [Theory]
+    [MemberData(nameof(SyncedWatchedMoviesTestData))]
+    public void DoNotMarkMovieAsUnwatchedIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    {
+      // Arrange
+      TraktSetupManager traktSetup = GetMockTraktSetup(databaseMovies, traktMovies);
+
+      // Act
+      bool isSynced = traktSetup.SyncMovies();
+
+      // Assert
+      int actualMoviesCount = traktSetup.MarkUnWatchedMovies;
+      Assert.True(isSynced);
+      Assert.Equal(expectedMoviesCount, actualMoviesCount);
+    }
+
+    public static IEnumerable<object[]> TraktWatchedMoviesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+            },
+            new List<TraktMovieWatched>
+            {
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+            },
+            3
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(TraktWatchedMoviesTestData))]
+    public void MarkMovieAsWatchedIfMovieDbUnsynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    {
+      // Arrange
+      TraktSetupManager traktSetup = GetMockTraktSetup(databaseMovies, traktMovies);
+
+      // Act
+      bool isSynced = traktSetup.SyncMovies();
+
+      // Assert
+      int actualMoviesCount = traktSetup.MarkWatchedMovies;
+      Assert.True(isSynced);
+      Assert.Equal(expectedMoviesCount, actualMoviesCount);
+    }
+
+    [Theory]
+    [MemberData(nameof(TraktWatchedMoviesTestData))]
+    public void DoNotMarkMovieAsWatchedIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    {
+      // Arrange
+      TraktSetupManager traktSetup = GetMockTraktSetup(databaseMovies, traktMovies);
+
+      // Act
+      bool isSynced = traktSetup.SyncMovies();
+
+      // Assert
+      int actualMoviesCount = traktSetup.MarkWatchedMovies;
       Assert.True(isSynced);
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
@@ -363,7 +479,23 @@ namespace Tests
       return new TraktSetupManager(mediaPortalServices, traktServices);
     }
 
-   // [Fact]
+    private TraktSetupManager GetMockTraktSetup(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies)
+    {
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { SyncBatchSize = 100 };
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();
+      contentDirectory.Search(Arg.Any<MediaItemQuery>(), true, null, false).Returns(databaseMovies);
+      mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetUnWatchedMoviesFromTrakt().Returns(traktMovies);
+
+      return new TraktSetupManager(mediaPortalServices, traktServices);
+    }
+
+    // [Fact]
     public void Test()
     {
       // Arrange

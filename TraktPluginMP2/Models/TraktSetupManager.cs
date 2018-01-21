@@ -34,6 +34,8 @@ namespace TraktPluginMP2.Models
 
     private int _syncWatchedMovies;
     private int _syncCollectedMovies;
+    private int _markWatchedMovies;
+    private int _markUnWatchedMovies;
 
     public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktServices traktServices)
     {
@@ -104,6 +106,16 @@ namespace TraktPluginMP2.Models
     public int SyncCollectedMovies
     {
       get { return _syncCollectedMovies; }
+    }
+
+    public int MarkWatchedMovies
+    {
+      get { return _markWatchedMovies; }
+    }
+
+    public int MarkUnWatchedMovies
+    {
+      get { return _markUnWatchedMovies; }
     }
 
     public void AuthorizeUser()
@@ -254,7 +266,10 @@ namespace TraktPluginMP2.Models
             _mediaPortalServices.GetLogger().Info("Marking movie as unwatched in local database, movie is not watched on trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
               movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.Imdb ?? "<empty>", movie.Ids.Tmdb.HasValue ? movie.Ids.Tmdb.ToString() : "<empty>");
 
-            MarkAsUnWatched(localMovie);
+            if (MarkAsUnWatched(localMovie))
+            {
+              _markUnWatchedMovies++;
+            }
           }
           // update watched set
           watchedMovies = collectedMovies.Where(IsWatched).ToList();
@@ -277,7 +292,10 @@ namespace TraktPluginMP2.Models
             _mediaPortalServices.GetLogger().Info("Updating local movie watched state / play count to match trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
                               twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>", twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
 
-            MarkAsWatched(localMovie);
+            if (MarkAsWatched(localMovie))
+            {
+              _markWatchedMovies++;
+            }
           }
         }
 
@@ -690,8 +708,9 @@ namespace TraktPluginMP2.Models
       }
     }
 
-    private void MarkAsUnWatched(MediaItem mediaItem)
+    private bool MarkAsUnWatched(MediaItem mediaItem)
     {
+      return true;
       //SetUnwatched setUnwatchedAction = new SetUnwatched();
       //if (setUnwatchedAction.IsAvailable(mediaItem))
       //{
@@ -711,8 +730,9 @@ namespace TraktPluginMP2.Models
       //}
     }
 
-    private void MarkAsWatched(MediaItem mediaItem)
+    private bool MarkAsWatched(MediaItem mediaItem)
     {
+      return true;
       //SetWatched setWatchedAction = new SetWatched();
       //if (setWatchedAction.IsAvailable(mediaItem))
       //{
