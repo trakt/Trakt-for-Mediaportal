@@ -128,11 +128,11 @@ namespace TraktPluginMP2.Utilities
       return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, EpisodeAspect.ATTR_SEASON, out value) ? value : 0;
     }
 
-    public static int GetEpisodeIndex(MediaItem currMediaItem)
+    public static int GetEpisodeIndex(MediaItem mediaItem)
     {
       // TODO: multi episode files?!
       List<int> intList;
-      return MediaItemAspect.TryGetAttribute(currMediaItem.Aspects, EpisodeAspect.ATTR_EPISODE, out intList) && intList.Any() ? intList.First() : intList.FirstOrDefault();
+      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, EpisodeAspect.ATTR_EPISODE, out intList) && intList.Any() ? intList.First() : intList.FirstOrDefault();
     }
 
     public static string GetSeriesImdbId(MediaItem mediaItem)

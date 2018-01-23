@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
@@ -15,6 +17,7 @@ using TraktPluginMP2.Handlers;
 using TraktPluginMP2.Models;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Settings;
+using TraktPluginMP2.Structures;
 using Xunit;
 
 namespace Tests
@@ -523,18 +526,129 @@ namespace Tests
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
 
-    private IMediaPortalServices GetMockMediaPortalServices(List<MediaItem> databaseMovies)
+    public static IEnumerable<object[]> UnsyncedCollectedEpisodesTestData
     {
-      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
-      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { SyncBatchSize = 100 };
-      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
-      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
-      IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();
-      contentDirectory.Search(Arg.Any<MediaItemQuery>(), true, null, false).Returns(databaseMovies);
-      mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<Episode>(),
+            3
+          }
+        };
+      }
+    }
 
-      return mediaPortalServices;
+    [Theory]
+    [MemberData(nameof(UnsyncedCollectedEpisodesTestData))]
+    public void AddCollectedEpisodeToTraktIfMovieDbUnsyced(IList<MediaItem> databaseEpisodes, IList<Episode> traktEpisodes, int expectedEpisodesCount)
+    {
+      // Arrange
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      bool isSynced = traktSetup.SyncSeries();
+
+      // Assert
+      int actualEpisodesCount = traktSetup.SyncCollectedEpisodes;
+      Assert.True(isSynced);
+      Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
+    }
+
+    public static IEnumerable<object[]> UnsyncedWatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<EpisodeWatched>(),
+            3
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(UnsyncedWatchedEpisodesTestData))]
+    public void AddWatchedEpisodeToTraktIfMovieDbUnsyced(IList<MediaItem> databaseEpisodes, IList<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
+    {
+      // Arrange
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      bool isSynced = traktSetup.SyncSeries();
+
+      // Assert
+      int actualEpisodesCount = traktSetup.SyncWatchedEpisodes;
+      Assert.True(isSynced);
+      Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
+    }
+
+    public static IEnumerable<object[]> SyncedWatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}}
+            },
+            3 // TODO: syncWatchedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count()));
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(SyncedWatchedEpisodesTestData))]
+    public void DoNotAddWatchedEpisodeToTraktIfMovieDbSynced(List<MediaItem> databaseEpisodes, List<EpisodeWatched> traktMovies, int expectedEpisodesCount)
+    {
+      // Arrange
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktMovies);
+      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      bool isSynced = traktSetup.SyncSeries();
+
+      // Assert
+      int actualMoviesCount = traktSetup.SyncWatchedEpisodes;
+      Assert.True(isSynced);
+      Assert.Equal(expectedEpisodesCount, actualMoviesCount);
     }
 
     // [Fact]
@@ -628,6 +742,20 @@ namespace Tests
       // Assert
       Assert.True(trakthandler.StartedScrobble);
     }
+
+    private IMediaPortalServices GetMockMediaPortalServices(IList<MediaItem> databaseMediaItems)
+    {
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { SyncBatchSize = 100 };
+      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();
+      contentDirectory.Search(Arg.Any<MediaItemQuery>(), true, null, false).Returns(databaseMediaItems);
+      mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
+
+      return mediaPortalServices;
+    }
   }
 
   class DatabaseMovie
@@ -645,7 +773,25 @@ namespace Tests
       smia.SetAttribute(MediaAspect.ATTR_RECORDINGTIME, new DateTime(year,1,1));
       MediaItemAspect.SetAspect(movieAspects, smia);
 
-      Movie = new MediaItem(new Guid(), movieAspects);
+      Movie = new MediaItem(Guid.Empty, movieAspects);
+    }
+  }
+
+  class DatabaseEpisode
+  {
+    public MediaItem Episode { get; }
+
+    public DatabaseEpisode(string sourceTvdb, string tvDbId, int seasonIndex, List<int> episodeIndex, int playCount)
+    {
+      IDictionary<Guid, IList<MediaItemAspect>> episodeAspects = new Dictionary<Guid, IList<MediaItemAspect>>();
+      MediaItemAspect.AddOrUpdateExternalIdentifier(episodeAspects, sourceTvdb, ExternalIdentifierAspect.TYPE_SERIES, tvDbId);
+      MediaItemAspect.SetAttribute(episodeAspects, EpisodeAspect.ATTR_SEASON, seasonIndex);
+      MediaItemAspect.SetCollectionAttribute(episodeAspects, EpisodeAspect.ATTR_EPISODE, episodeIndex);
+      SingleMediaItemAspect smia = new SingleMediaItemAspect(MediaAspect.Metadata);
+      smia.SetAttribute(MediaAspect.ATTR_PLAYCOUNT, playCount);
+      MediaItemAspect.SetAspect(episodeAspects, smia);
+
+      Episode = new MediaItem(Guid.Empty, episodeAspects);
     }
   }
 }

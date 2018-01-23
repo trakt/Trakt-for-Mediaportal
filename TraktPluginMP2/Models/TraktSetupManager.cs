@@ -37,6 +37,11 @@ namespace TraktPluginMP2.Models
     private int _markWatchedMovies;
     private int _markUnWatchedMovies;
 
+    private int _syncWatchedEpisodes;
+    private int _syncCollectedEpisodes;
+    private int _markWatchedEpisodes;
+    private int _markUnWatchedEpisodes;
+
     public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktServices traktServices)
     {
       _traktServices = traktServices;
@@ -116,6 +121,26 @@ namespace TraktPluginMP2.Models
     public int MarkUnWatchedMovies
     {
       get { return _markUnWatchedMovies; }
+    }
+
+    public int SyncWatchedEpisodes
+    {
+      get { return _syncWatchedEpisodes; }
+    }
+
+    public int SyncCollectedEpisodes
+    {
+      get { return _syncCollectedEpisodes; }
+    }
+
+    public int MarkWatchedEpisodes
+    {
+      get { return _markWatchedEpisodes; }
+    }
+
+    public int MarkUnWatchedEpisodes
+    {
+      get { return _markUnWatchedEpisodes; }
     }
 
     public void AuthorizeUser()
@@ -516,9 +541,19 @@ namespace TraktPluginMP2.Models
 
           _mediaPortalServices.GetLogger().Info("Found {0} total episodes in local database", episodeCount);
 
-          // get the episodes that we have watched
-          var localWatchedEpisodes = localEpisodes.Where(IsWatched).ToList();
-          var localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes).ToList();
+          IList<MediaItem> localWatchedEpisodes = new List<MediaItem>();
+          IList<MediaItem> localUnWatchedEpisodes = new List<MediaItem>();
+          foreach (var localEp in localEpisodes)
+          {
+            if (IsWatched(localEp))
+            {
+              localWatchedEpisodes.Add(localEp);
+            }
+            else
+            {
+              localUnWatchedEpisodes.Add(localEp);
+            }
+          }
 
           _mediaPortalServices.GetLogger().Info("Found {0} episodes watched in tvseries database", localWatchedEpisodes.Count);
 
@@ -542,7 +577,10 @@ namespace TraktPluginMP2.Models
                 _mediaPortalServices.GetLogger().Info("Marking episode as unwatched in local database, episode is not watched on trakt.tv. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
                   episode.ShowTitle, episode.ShowYear.HasValue ? episode.ShowYear.ToString() : "<empty>", episode.Season, episode.Number, episode.ShowTvdbId.HasValue ? episode.ShowTvdbId.ToString() : "<empty>", episode.ShowImdbId ?? "<empty>");
 
-                MarkAsUnWatched(watchedEpisode);
+                if (MarkAsUnWatched(watchedEpisode))
+                {
+                  _markUnWatchedEpisodes++;
+                }
 
                 // update watched episodes
                 localWatchedEpisodes.Remove(watchedEpisode);
@@ -570,7 +608,10 @@ namespace TraktPluginMP2.Models
                 _mediaPortalServices.GetLogger().Info("Marking episode as watched in local database, episode is watched on trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Last Watched = '{7}'",
                     traktEpisode.Plays, traktEpisode.ShowTitle, traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season, traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>", traktEpisode.ShowImdbId ?? "<empty>", traktEpisode.WatchedAt);
 
-                MarkAsWatched(episode);
+                if (MarkAsWatched(episode))
+                {
+                  _markWatchedEpisodes++;
+                }
               }
             }
           }
@@ -583,8 +624,8 @@ namespace TraktPluginMP2.Models
           if (traktWatchedEpisodes != null)
           {
             var syncWatchedShows = GetWatchedShowsForSyncEx(localWatchedEpisodes, traktWatchedEpisodes);
-
-            _mediaPortalServices.GetLogger().Info("Found {0} local tv show(s) with {1} watched episode(s) to add to trakt.tv watched history", syncWatchedShows.Shows.Count, syncWatchedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count())));
+            _syncWatchedEpisodes = syncWatchedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count()));
+            _mediaPortalServices.GetLogger().Info("Found {0} local tv show(s) with {1} watched episode(s) to add to trakt.tv watched history", syncWatchedShows.Shows.Count, _syncWatchedEpisodes);
 
             showCount = syncWatchedShows.Shows.Count;
             foreach (var show in syncWatchedShows.Shows)
@@ -624,8 +665,8 @@ namespace TraktPluginMP2.Models
           if (traktCollectedEpisodes != null)
           {
             var syncCollectedShows = GetCollectedShowsForSyncEx(localEpisodes, traktCollectedEpisodes);
-
-            _mediaPortalServices.GetLogger().Info("Found {0} local tv show(s) with {1} collected episode(s) to add to trakt.tv collection", syncCollectedShows.Shows.Count, syncCollectedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count())));
+            _syncCollectedEpisodes = syncCollectedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count()));
+            _mediaPortalServices.GetLogger().Info("Found {0} local tv show(s) with {1} collected episode(s) to add to trakt.tv collection", syncCollectedShows.Shows.Count, _syncCollectedEpisodes);
 
             iSyncCounter = 0;
             showCount = syncCollectedShows.Shows.Count;

@@ -10,5 +10,8 @@ namespace TraktPluginMP2.Structures
 
     [DataMember]
     public string WatchedAt { get; set; }
+
+    [DataMember]
+    public Episode Episode { get; set; }
   }
 }
