@@ -540,20 +540,10 @@ namespace TraktPluginMP2.Models
           int episodeCount = localEpisodes.Count;
 
           _mediaPortalServices.GetLogger().Info("Found {0} total episodes in local database", episodeCount);
-
-          IList<MediaItem> localWatchedEpisodes = new List<MediaItem>();
-          IList<MediaItem> localUnWatchedEpisodes = new List<MediaItem>();
-          foreach (var localEp in localEpisodes)
-          {
-            if (IsWatched(localEp))
-            {
-              localWatchedEpisodes.Add(localEp);
-            }
-            else
-            {
-              localUnWatchedEpisodes.Add(localEp);
-            }
-          }
+          
+          // get the episodes that we have watched
+          var localWatchedEpisodes = localEpisodes.Where(IsWatched).ToList();
+          var localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes).ToList();
 
           _mediaPortalServices.GetLogger().Info("Found {0} episodes watched in tvseries database", localWatchedEpisodes.Count);
 

@@ -197,25 +197,6 @@ namespace Tests
       }
     }
 
-    [Theory]
-    [MemberData(nameof(UnsyncedWatchedMoviesTestData))]
-    public void AddWatchedMovieToTraktIfMovieDbUnsyced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
-    {
-      // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedMoviesFromTrakt().Returns(traktMovies);
-      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncMovies();
-
-      // Assert
-      int actualMoviesCount = traktSetup.SyncWatchedMovies;
-      Assert.True(isSynced);
-      Assert.Equal(expectedMoviesCount, actualMoviesCount);
-    }
-
     public static IEnumerable<object[]> SyncedWatchedMoviesTestData
     {
       get
@@ -243,8 +224,9 @@ namespace Tests
     }
 
     [Theory]
+    [MemberData(nameof(UnsyncedWatchedMoviesTestData))]
     [MemberData(nameof(SyncedWatchedMoviesTestData))]
-    public void DoNotAddWatchedMovieToTraktIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    public void AddWatchedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
@@ -260,6 +242,7 @@ namespace Tests
       Assert.True(isSynced);
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
+
 
     public static IEnumerable<object[]> UnsyncedCollectedMoviesTestData
     {
@@ -282,24 +265,6 @@ namespace Tests
       }
     }
 
-    [Theory]
-    [MemberData(nameof(UnsyncedCollectedMoviesTestData))]
-    public void AddCollectedMovieToTraktIfMovieDbUnsynced(List<MediaItem> databaseMovies, List<TraktMovieCollected> traktMovies, int expectedMoviesCount)
-    {
-      // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetCollectedMoviesFromTrakt().Returns(traktMovies);
-      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncMovies();
-
-      // Assert
-      int actualMoviesCount = traktSetup.SyncCollectedMovies;
-      Assert.True(isSynced);
-      Assert.Equal(expectedMoviesCount, actualMoviesCount);
-    }
 
     public static IEnumerable<object[]> SyncedCollectedMoviesTestData
     {
@@ -328,8 +293,9 @@ namespace Tests
     }
 
     [Theory]
+    [MemberData(nameof(UnsyncedCollectedMoviesTestData))]
     [MemberData(nameof(SyncedCollectedMoviesTestData))]
-    public void DoNotAddCollectedMovieToTraktIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovieCollected> traktMovies, int expectedMoviesCount)
+    public void AddCollectedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieCollected> traktMovies, int expectedMoviesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
@@ -372,25 +338,6 @@ namespace Tests
       }
     }
 
-    [Theory]
-    [MemberData(nameof(UnsyncedTraktUnwatchedMoviesTestData))]
-    public void MarkMovieAsUnwatchedIfMovieDbUnsynced(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
-    {
-      // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetUnWatchedMoviesFromTrakt().Returns(traktMovies);
-      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncMovies();
-
-      // Assert
-      int actualMoviesCount = traktSetup.MarkUnWatchedMovies;
-      Assert.True(isSynced);
-      Assert.Equal(expectedMoviesCount, actualMoviesCount);
-    }
-
     public static IEnumerable<object[]> SyncedTraktUnWatchedMoviesTestData
     {
       get
@@ -407,9 +354,9 @@ namespace Tests
             },
             new List<TraktMovie>
             {
-               new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
-               new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
-               new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}
             },
             0
           }
@@ -418,8 +365,9 @@ namespace Tests
     }
 
     [Theory]
+    [MemberData(nameof(UnsyncedTraktUnwatchedMoviesTestData))]
     [MemberData(nameof(SyncedTraktUnWatchedMoviesTestData))]
-    public void DoNotMarkMovieAsUnwatchedIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
+    public void MarkMovieAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
@@ -462,25 +410,6 @@ namespace Tests
       }
     }
 
-    [Theory]
-    [MemberData(nameof(UnsyncedTraktWatchedMoviesTestData))]
-    public void MarkMovieAsWatchedIfMovieDbUnsynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
-    {
-      // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedMoviesFromTrakt().Returns(traktMovies);
-      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncMovies();
-
-      // Assert
-      int actualMoviesCount = traktSetup.MarkWatchedMovies;
-      Assert.True(isSynced);
-      Assert.Equal(expectedMoviesCount, actualMoviesCount);
-    }
-
     public static IEnumerable<object[]> SyncedTraktWatchedMoviesTestData
     {
       get
@@ -508,8 +437,9 @@ namespace Tests
     }
 
     [Theory]
+    [MemberData(nameof(UnsyncedTraktWatchedMoviesTestData))]
     [MemberData(nameof(SyncedTraktWatchedMoviesTestData))]
-    public void DoNotMarkMovieAsWatchedIfMovieDbSynced(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    public void MarkMovieAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
@@ -547,9 +477,36 @@ namespace Tests
       }
     }
 
+    public static IEnumerable<object[]> SyncedCollectedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int> {6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int> {2}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int> {1}, 1).Episode
+            },
+            new List<Episode>
+            {
+              new Episode {ShowTvdbId = 289590, Season = 2, Number = 6},
+              new Episode {ShowTvdbId = 318493, Season = 1, Number = 2},
+              new Episode {ShowTvdbId = 998201, Season = 4, Number = 1}
+            },
+            3
+          }
+        };
+      }
+    }
+
     [Theory]
     [MemberData(nameof(UnsyncedCollectedEpisodesTestData))]
-    public void AddCollectedEpisodeToTraktIfMovieDbUnsyced(IList<MediaItem> databaseEpisodes, IList<Episode> traktEpisodes, int expectedEpisodesCount)
+    [MemberData(nameof(SyncedCollectedEpisodesTestData))]
+    public void AddCollectedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<Episode> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
@@ -587,25 +544,6 @@ namespace Tests
       }
     }
 
-    [Theory]
-    [MemberData(nameof(UnsyncedWatchedEpisodesTestData))]
-    public void AddWatchedEpisodeToTraktIfMovieDbUnsyced(IList<MediaItem> databaseEpisodes, IList<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
-    {
-      // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
-      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncSeries();
-
-      // Assert
-      int actualEpisodesCount = traktSetup.SyncWatchedEpisodes;
-      Assert.True(isSynced);
-      Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
-    }
-
     public static IEnumerable<object[]> SyncedWatchedEpisodesTestData
     {
       get
@@ -633,12 +571,13 @@ namespace Tests
     }
 
     [Theory]
+    [MemberData(nameof(UnsyncedWatchedEpisodesTestData))]
     [MemberData(nameof(SyncedWatchedEpisodesTestData))]
-    public void DoNotAddWatchedEpisodeToTraktIfMovieDbSynced(List<MediaItem> databaseEpisodes, List<EpisodeWatched> traktMovies, int expectedEpisodesCount)
+    public void AddWatchedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
       ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktMovies);
+      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
       TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
 
@@ -646,9 +585,153 @@ namespace Tests
       bool isSynced = traktSetup.SyncSeries();
 
       // Assert
-      int actualMoviesCount = traktSetup.SyncWatchedEpisodes;
+      int actualEpisodesCount = traktSetup.SyncWatchedEpisodes;
       Assert.True(isSynced);
-      Assert.Equal(expectedEpisodesCount, actualMoviesCount);
+      Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
+    }
+
+    public static IEnumerable<object[]> UnsyncedTraktUnwatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<Episode>
+            {
+              new Episode {ShowTvdbId = 289590, Season = 2, Number = 6},
+              new Episode {ShowTvdbId = 318493, Season = 1, Number = 2},
+              new Episode {ShowTvdbId = 998201, Season = 4, Number = 1}
+            },
+            3
+          }
+        };
+      }
+    }
+
+    public static IEnumerable<object[]> SyncedTraktUnWatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<Episode>
+            {
+              new Episode {ShowTvdbId = 289123, Season = 1, Number = 2},
+              new Episode {ShowTvdbId = 234593, Season = 4, Number = 6},
+              new Episode {ShowTvdbId = 092101, Season = 3, Number = 8}
+            },
+            0
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(UnsyncedTraktUnwatchedEpisodesTestData))]
+    [MemberData(nameof(SyncedTraktUnWatchedEpisodesTestData))]
+    public void MarkEpisodeAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<Episode> traktEpisodes, int expectedEpisodessCount)
+    {
+      // Arrange
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      bool isSynced = traktSetup.SyncSeries();
+
+      // Assert
+      int actualEpisodesCount = traktSetup.MarkUnWatchedEpisodes;
+      Assert.True(isSynced);
+      Assert.Equal(expectedEpisodessCount, actualEpisodesCount);
+    }
+
+    public static IEnumerable<object[]> UnsyncedTraktWatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289123", 4, new List<int>{8}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "991493", 1, new List<int>{1}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "055201", 2, new List<int>{0}, 0).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289123, Season = 4, Number = 8, Plays = 1}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 991493, Season = 1, Number = 1, Plays = 3}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 055201, Season = 2, Number = 0, Plays = 1}}
+            },
+            3
+          }
+        };
+      }
+    }
+
+    public static IEnumerable<object[]> SyncedTraktWatchedEpisodesTestData
+    {
+      get
+      {
+        return new List<object[]>
+        {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3}},
+              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}}
+            },
+            0
+          }
+        };
+      }
+    }
+
+    [Theory]
+    [MemberData(nameof(UnsyncedTraktWatchedEpisodesTestData))]
+    [MemberData(nameof(SyncedTraktWatchedEpisodesTestData))]
+    public void MarkEpisodeAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
+    {
+      // Arrange
+      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+
+      // Act
+      bool isSynced = traktSetup.SyncSeries();
+
+      // Assert
+      int actualEpisodesCount = traktSetup.MarkWatchedEpisodes;
+      Assert.True(isSynced);
+      Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
     }
 
     // [Fact]
@@ -765,6 +848,9 @@ namespace Tests
     public DatabaseMovie(string sourceImdb, string sourceTmbd, string imdbId, string tmdbId, string title, int year, int playCount )
     {
       IDictionary<Guid, IList<MediaItemAspect>> movieAspects = new Dictionary<Guid, IList<MediaItemAspect>>();
+      MultipleMediaItemAspect resourceAspect = new MultipleMediaItemAspect(ProviderResourceAspect.Metadata);
+      resourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, "c:\\" + title + ".mkv");
+      MediaItemAspect.AddOrUpdateAspect(movieAspects, resourceAspect);
       MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, sourceImdb, ExternalIdentifierAspect.TYPE_MOVIE, imdbId);
       MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, sourceTmbd, ExternalIdentifierAspect.TYPE_MOVIE, tmdbId);
       MediaItemAspect.SetAttribute(movieAspects, MovieAspect.ATTR_MOVIE_NAME, title);
@@ -773,7 +859,7 @@ namespace Tests
       smia.SetAttribute(MediaAspect.ATTR_RECORDINGTIME, new DateTime(year,1,1));
       MediaItemAspect.SetAspect(movieAspects, smia);
 
-      Movie = new MediaItem(Guid.Empty, movieAspects);
+      Movie = new MediaItem(Guid.NewGuid(), movieAspects);
     }
   }
 
@@ -784,6 +870,9 @@ namespace Tests
     public DatabaseEpisode(string sourceTvdb, string tvDbId, int seasonIndex, List<int> episodeIndex, int playCount)
     {
       IDictionary<Guid, IList<MediaItemAspect>> episodeAspects = new Dictionary<Guid, IList<MediaItemAspect>>();
+      MultipleMediaItemAspect resourceAspect = new MultipleMediaItemAspect(ProviderResourceAspect.Metadata);
+      resourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, "c:\\" + tvDbId + ".mkv");
+      MediaItemAspect.AddOrUpdateAspect(episodeAspects, resourceAspect);
       MediaItemAspect.AddOrUpdateExternalIdentifier(episodeAspects, sourceTvdb, ExternalIdentifierAspect.TYPE_SERIES, tvDbId);
       MediaItemAspect.SetAttribute(episodeAspects, EpisodeAspect.ATTR_SEASON, seasonIndex);
       MediaItemAspect.SetCollectionAttribute(episodeAspects, EpisodeAspect.ATTR_EPISODE, episodeIndex);
@@ -791,7 +880,7 @@ namespace Tests
       smia.SetAttribute(MediaAspect.ATTR_PLAYCOUNT, playCount);
       MediaItemAspect.SetAspect(episodeAspects, smia);
 
-      Episode = new MediaItem(Guid.Empty, episodeAspects);
+      Episode = new MediaItem(Guid.NewGuid(), episodeAspects);
     }
   }
 }
