@@ -176,28 +176,7 @@ namespace Tests
       Assert.False(traktSetup.IsSynchronizing);
     }
 
-    public static IEnumerable<object[]> UnsyncedWatchedMoviesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 3).Movie
-            },
-            new List<TraktMovieWatched>(),
-            3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedWatchedMoviesTestData
+    public static IEnumerable<object[]> WatchedMoviesTestData
     {
       get
       {
@@ -218,14 +197,39 @@ namespace Tests
               new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2011}}
             },
             0
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2011, 3).Movie
+            },
+            new List<TraktMovieWatched>
+            {
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
+            },
+            1
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 3).Movie
+            },
+            new List<TraktMovieWatched>(),
+            3
           }
         };
       }
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedWatchedMoviesTestData))]
-    [MemberData(nameof(SyncedWatchedMoviesTestData))]
+    [MemberData(nameof(WatchedMoviesTestData))]
     public void AddWatchedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
     {
       // Arrange
@@ -243,8 +247,7 @@ namespace Tests
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
 
-
-    public static IEnumerable<object[]> UnsyncedCollectedMoviesTestData
+    public static IEnumerable<object[]> CollectedMoviesTestData
     {
       get
       {
@@ -260,18 +263,21 @@ namespace Tests
             },
             new List<TraktMovieCollected>(),
             3
-          }
-        };
-      }
-    }
-
-
-    public static IEnumerable<object[]> SyncedCollectedMoviesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 2).Movie
+            },
+            new List<TraktMovieCollected>
+            {
+              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = "2015.01.01"},
+            },
+            2
+          },
           new object[]
           {
             new List<MediaItem>
@@ -293,8 +299,7 @@ namespace Tests
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedCollectedMoviesTestData))]
-    [MemberData(nameof(SyncedCollectedMoviesTestData))]
+    [MemberData(nameof(CollectedMoviesTestData))]
     public void AddCollectedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieCollected> traktMovies, int expectedMoviesCount)
     {
       // Arrange
@@ -312,7 +317,7 @@ namespace Tests
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedTraktUnwatchedMoviesTestData
+    public static IEnumerable<object[]> TraktUnwatchedMoviesTestData
     {
       get
       {
@@ -333,17 +338,21 @@ namespace Tests
               new TraktMovie {Ids = new TraktMovieId {Imdb = "tt99821", Tmdb = 31139 }, Title = "Movie_3", Year = 2010}
             },
             3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedTraktUnWatchedMoviesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "11290", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 1).Movie
+            },
+            new List<TraktMovie>
+            {
+              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+            },
+            1
+          },
           new object[]
           {
             new List<MediaItem>
@@ -365,8 +374,7 @@ namespace Tests
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedTraktUnwatchedMoviesTestData))]
-    [MemberData(nameof(SyncedTraktUnWatchedMoviesTestData))]
+    [MemberData(nameof(TraktUnwatchedMoviesTestData))]
     public void MarkMovieAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
@@ -384,33 +392,7 @@ namespace Tests
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedTraktWatchedMoviesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
-            },
-            new List<TraktMovieWatched>
-            {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
-            },
-            3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedTraktWatchedMoviesTestData
+    public static IEnumerable<object[]> TraktWatchedMoviesTestData
     {
       get
       {
@@ -431,14 +413,43 @@ namespace Tests
               new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
             },
             0
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+            },
+            new List<TraktMovieWatched>
+            {
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+            },
+            3
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+            },
+            new List<TraktMovieWatched>
+            {
+              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+            },
+            1
           }
         };
       }
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedTraktWatchedMoviesTestData))]
-    [MemberData(nameof(SyncedTraktWatchedMoviesTestData))]
+    [MemberData(nameof(TraktWatchedMoviesTestData))]
     public void MarkMovieAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
     {
       // Arrange
@@ -456,28 +467,7 @@ namespace Tests
       Assert.Equal(expectedMoviesCount, actualMoviesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedCollectedEpisodesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
-            },
-            new List<Episode>(),
-            3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedCollectedEpisodesTestData
+    public static IEnumerable<object[]> CollectedEpisodesTestData
     {
       get
       {
@@ -497,6 +487,17 @@ namespace Tests
               new Episode {ShowTvdbId = 318493, Season = 1, Number = 2},
               new Episode {ShowTvdbId = 998201, Season = 4, Number = 1}
             },
+            3 // TODO: should be 0?! syncCollectedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count()));
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<Episode>(),
             3
           }
         };
@@ -504,8 +505,7 @@ namespace Tests
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedCollectedEpisodesTestData))]
-    [MemberData(nameof(SyncedCollectedEpisodesTestData))]
+    [MemberData(nameof(CollectedEpisodesTestData))]
     public void AddCollectedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<Episode> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
@@ -523,28 +523,7 @@ namespace Tests
       Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedWatchedEpisodesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
-            },
-            new List<EpisodeWatched>(),
-            3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedWatchedEpisodesTestData
+    public static IEnumerable<object[]> WatchedEpisodesTestData
     {
       get
       {
@@ -560,19 +539,43 @@ namespace Tests
             },
             new List<EpisodeWatched>
             {
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}}
+              new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1},
+              new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3},
+              new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}
             },
-            3 // TODO: syncWatchedShows.Shows.Sum(sh => sh.Seasons.Sum(se => se.Episodes.Count()));
+            0
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<EpisodeWatched>(),
+            3
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}
+            },
+            2
           }
         };
       }
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedWatchedEpisodesTestData))]
-    [MemberData(nameof(SyncedWatchedEpisodesTestData))]
+    [MemberData(nameof(WatchedEpisodesTestData))]
     public void AddWatchedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
@@ -590,12 +593,39 @@ namespace Tests
       Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedTraktUnwatchedEpisodesTestData
+    public static IEnumerable<object[]> TraktUnWatchedEpisodesTestData
     {
       get
       {
         return new List<object[]>
         {
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+            },
+            new List<Episode>
+            {
+              new Episode {ShowTvdbId = 234593, Season = 4, Number = 6},
+              new Episode {ShowTvdbId = 092101, Season = 3, Number = 8}
+            },
+            0
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+            },
+            new List<Episode>
+            {
+              new Episode {ShowTvdbId = 318493, Season = 1, Number = 2}
+            },
+            1
+          },
           new object[]
           {
             new List<MediaItem>
@@ -616,35 +646,8 @@ namespace Tests
       }
     }
 
-    public static IEnumerable<object[]> SyncedTraktUnWatchedEpisodesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
-            },
-            new List<Episode>
-            {
-              new Episode {ShowTvdbId = 289123, Season = 1, Number = 2},
-              new Episode {ShowTvdbId = 234593, Season = 4, Number = 6},
-              new Episode {ShowTvdbId = 092101, Season = 3, Number = 8}
-            },
-            0
-          }
-        };
-      }
-    }
-
     [Theory]
-    [MemberData(nameof(UnsyncedTraktUnwatchedEpisodesTestData))]
-    [MemberData(nameof(SyncedTraktUnWatchedEpisodesTestData))]
+    [MemberData(nameof(TraktUnWatchedEpisodesTestData))]
     public void MarkEpisodeAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<Episode> traktEpisodes, int expectedEpisodessCount)
     {
       // Arrange
@@ -662,33 +665,7 @@ namespace Tests
       Assert.Equal(expectedEpisodessCount, actualEpisodesCount);
     }
 
-    public static IEnumerable<object[]> UnsyncedTraktWatchedEpisodesTestData
-    {
-      get
-      {
-        return new List<object[]>
-        {
-          new object[]
-          {
-            new List<MediaItem>
-            {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289123", 4, new List<int>{8}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "991493", 1, new List<int>{1}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "055201", 2, new List<int>{0}, 0).Episode
-            },
-            new List<EpisodeWatched>
-            {
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289123, Season = 4, Number = 8, Plays = 1}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 991493, Season = 1, Number = 1, Plays = 3}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 055201, Season = 2, Number = 0, Plays = 1}}
-            },
-            3
-          }
-        };
-      }
-    }
-
-    public static IEnumerable<object[]> SyncedTraktWatchedEpisodesTestData
+    public static IEnumerable<object[]> TraktWatchedEpisodesTestData
     {
       get
       {
@@ -699,24 +676,53 @@ namespace Tests
             new List<MediaItem>
             {
               new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 2).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 2).Episode
             },
             new List<EpisodeWatched>
             {
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3}},
-              new EpisodeWatched {Episode = new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}}
+              new EpisodeWatched {ShowTvdbId = 289590, Season = 2, Number = 6, Plays = 1},
+              new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3},
+              new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}
             },
             0
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 0).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}
+            },
+            1
+          },
+          new object[]
+          {
+            new List<MediaItem>
+            {
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289123", 4, new List<int>{8}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "991493", 1, new List<int>{1}, 0).Episode,
+              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "055201", 2, new List<int>{0}, 0).Episode
+            },
+            new List<EpisodeWatched>
+            {
+              new EpisodeWatched {ShowTvdbId = 289123, Season = 4, Number = 8, Plays = 1},
+              new EpisodeWatched {ShowTvdbId = 991493, Season = 1, Number = 1, Plays = 3},
+              new EpisodeWatched {ShowTvdbId = 055201, Season = 2, Number = 0, Plays = 1}
+            },
+            3
           }
         };
       }
     }
 
     [Theory]
-    [MemberData(nameof(UnsyncedTraktWatchedEpisodesTestData))]
-    [MemberData(nameof(SyncedTraktWatchedEpisodesTestData))]
+    [MemberData(nameof(TraktWatchedEpisodesTestData))]
     public void MarkEpisodeAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
