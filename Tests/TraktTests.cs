@@ -186,9 +186,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2016, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2011, 3).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "16729", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2011, 3).Movie
             },
             new List<TraktMovieWatched>
             {
@@ -202,9 +202,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2016, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2011, 3).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "16729", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2011, 3).Movie
             },
             new List<TraktMovieWatched>
             {
@@ -217,9 +217,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 3).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 3).Movie
             },
             new List<TraktMovieWatched>(),
             3
@@ -257,9 +257,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 1).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 1).Movie
             },
             new List<TraktMovieCollected>(),
             3
@@ -268,9 +268,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2016, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 2).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie("", "16729", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 2).Movie
             },
             new List<TraktMovieCollected>
             {
@@ -282,9 +282,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "16729", "Movie_2", 2008, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2001, 3).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "16729", "Movie_2", 2008, 2).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2001, 3).Movie
             },
             new List<TraktMovieCollected>
             {
@@ -327,9 +327,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "11290", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 1).Movie
+              new DatabaseMovie("tt12345", "11290", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 1).Movie
             },
             new List<TraktMovie>
             {
@@ -343,9 +343,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "11290", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 1).Movie
+              new DatabaseMovie("tt12345", "11290", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 1).Movie
             },
             new List<TraktMovie>
             {
@@ -357,9 +357,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12128", "11290", "Movie_1", 2012, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "12390", "Movie_2", 2016, 2).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_4", 2011, 1).Movie
+              new DatabaseMovie("tt12128", "11290", "Movie_1", 2012, 2).Movie,
+              new DatabaseMovie("", "12390", "Movie_2", 2016, 2).Movie,
+              new DatabaseMovie("", "0", "Movie_4", 2011, 1).Movie
             },
             new List<TraktMovie>
             {
@@ -402,9 +402,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt1450", "67890", "Movie_1", 2012, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "50123", "Movie_2", 2016, 1).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_4", 2014, 1).Movie
+              new DatabaseMovie("tt1450", "67890", "Movie_1", 2012, 1).Movie,
+              new DatabaseMovie("", "50123", "Movie_2", 2016, 1).Movie,
+              new DatabaseMovie("", "0", "Movie_4", 2014, 1).Movie
             },
             new List<TraktMovieWatched>
             {
@@ -418,9 +418,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 0).Movie
             },
             new List<TraktMovieWatched>
             {
@@ -434,9 +434,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "tt12345", "67890", "Movie_1", 2012, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "67890", "Movie_2", 2016, 0).Movie,
-              new DatabaseMovie(ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.SOURCE_TMDB, "", "0", "Movie_3", 2010, 0).Movie
+              new DatabaseMovie("tt12345", "67890", "Movie_1", 2012, 0).Movie,
+              new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
+              new DatabaseMovie("", "0", "Movie_3", 2010, 0).Movie
             },
             new List<TraktMovieWatched>
             {
@@ -477,9 +477,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int> {6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int> {2}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int> {1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int> {6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int> {2}, 0).Episode,
+              new DatabaseEpisode("998201", 4, new List<int> {1}, 1).Episode
             },
             new List<Episode>
             {
@@ -493,9 +493,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 0).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<Episode>(),
             3
@@ -533,9 +533,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<EpisodeWatched>
             {
@@ -549,9 +549,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<EpisodeWatched>(),
             3
@@ -560,9 +560,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<EpisodeWatched>
             {
@@ -603,8 +603,8 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<Episode>
             {
@@ -617,8 +617,8 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
             },
             new List<Episode>
             {
@@ -630,9 +630,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 3).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 1).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
             },
             new List<Episode>
             {
@@ -675,9 +675,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 2).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 2).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 2).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 2).Episode
             },
             new List<EpisodeWatched>
             {
@@ -691,9 +691,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289590", 2, new List<int>{6}, 1).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "318493", 1, new List<int>{2}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "998201", 4, new List<int>{1}, 0).Episode
+              new DatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
+              new DatabaseEpisode("318493", 1, new List<int>{2}, 0).Episode,
+              new DatabaseEpisode("998201", 4, new List<int>{1}, 0).Episode
             },
             new List<EpisodeWatched>
             {
@@ -705,9 +705,9 @@ namespace Tests
           {
             new List<MediaItem>
             {
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "289123", 4, new List<int>{8}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "991493", 1, new List<int>{1}, 0).Episode,
-              new DatabaseEpisode(ExternalIdentifierAspect.SOURCE_TVDB, "055201", 2, new List<int>{0}, 0).Episode
+              new DatabaseEpisode("289123", 4, new List<int>{8}, 0).Episode,
+              new DatabaseEpisode("991493", 1, new List<int>{1}, 0).Episode,
+              new DatabaseEpisode("055201", 2, new List<int>{0}, 0).Episode
             },
             new List<EpisodeWatched>
             {
@@ -851,14 +851,14 @@ namespace Tests
   {
     public MediaItem Movie { get; }
 
-    public DatabaseMovie(string sourceImdb, string sourceTmbd, string imdbId, string tmdbId, string title, int year, int playCount )
+    public DatabaseMovie(string imdbId, string tmdbId, string title, int year, int playCount )
     {
       IDictionary<Guid, IList<MediaItemAspect>> movieAspects = new Dictionary<Guid, IList<MediaItemAspect>>();
       MultipleMediaItemAspect resourceAspect = new MultipleMediaItemAspect(ProviderResourceAspect.Metadata);
       resourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, "c:\\" + title + ".mkv");
       MediaItemAspect.AddOrUpdateAspect(movieAspects, resourceAspect);
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, sourceImdb, ExternalIdentifierAspect.TYPE_MOVIE, imdbId);
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, sourceTmbd, ExternalIdentifierAspect.TYPE_MOVIE, tmdbId);
+      MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.TYPE_MOVIE, imdbId);
+      MediaItemAspect.AddOrUpdateExternalIdentifier(movieAspects, ExternalIdentifierAspect.SOURCE_TMDB, ExternalIdentifierAspect.TYPE_MOVIE, tmdbId);
       MediaItemAspect.SetAttribute(movieAspects, MovieAspect.ATTR_MOVIE_NAME, title);
       SingleMediaItemAspect smia = new SingleMediaItemAspect(MediaAspect.Metadata);
       smia.SetAttribute(MediaAspect.ATTR_PLAYCOUNT, playCount);
@@ -873,13 +873,13 @@ namespace Tests
   {
     public MediaItem Episode { get; }
 
-    public DatabaseEpisode(string sourceTvdb, string tvDbId, int seasonIndex, List<int> episodeIndex, int playCount)
+    public DatabaseEpisode(string tvDbId, int seasonIndex, List<int> episodeIndex, int playCount)
     {
       IDictionary<Guid, IList<MediaItemAspect>> episodeAspects = new Dictionary<Guid, IList<MediaItemAspect>>();
       MultipleMediaItemAspect resourceAspect = new MultipleMediaItemAspect(ProviderResourceAspect.Metadata);
       resourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, "c:\\" + tvDbId + ".mkv");
       MediaItemAspect.AddOrUpdateAspect(episodeAspects, resourceAspect);
-      MediaItemAspect.AddOrUpdateExternalIdentifier(episodeAspects, sourceTvdb, ExternalIdentifierAspect.TYPE_SERIES, tvDbId);
+      MediaItemAspect.AddOrUpdateExternalIdentifier(episodeAspects, ExternalIdentifierAspect.SOURCE_TVDB, ExternalIdentifierAspect.TYPE_SERIES, tvDbId);
       MediaItemAspect.SetAttribute(episodeAspects, EpisodeAspect.ATTR_SEASON, seasonIndex);
       MediaItemAspect.SetCollectionAttribute(episodeAspects, EpisodeAspect.ATTR_EPISODE, episodeIndex);
       SingleMediaItemAspect smia = new SingleMediaItemAspect(MediaAspect.Metadata);
