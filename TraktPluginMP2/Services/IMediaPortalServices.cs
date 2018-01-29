@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediaPortal.Common.Logging;
+using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.PathManager;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.Threading;
@@ -25,5 +27,9 @@ namespace TraktPluginMP2.Services
     //SettingsChangeWatcher<TraktPluginSettings> Watcher();
 
     IAsynchronousMessageQueue GetMessageQueue(object owner, IEnumerable<string> messageChannel);
+
+    Task<bool> MarkAsWatched(MediaItem mediaItem);
+
+    Task<bool> MarkAsUnWatched(MediaItem mediaItem);
   }
 }

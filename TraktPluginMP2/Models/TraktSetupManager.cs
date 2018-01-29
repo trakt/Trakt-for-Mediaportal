@@ -266,7 +266,7 @@ namespace TraktPluginMP2.Models
           
         #region Get local database info
 
-        var collectedMovies = contentDirectory.Search(new MediaItemQuery(types, null, null), true, userProfile, false);
+        var collectedMovies = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
 
         _mediaPortalServices.GetLogger().Info("Found {0} movies available to sync in local database", collectedMovies.Count);
 
@@ -291,7 +291,7 @@ namespace TraktPluginMP2.Models
             _mediaPortalServices.GetLogger().Info("Marking movie as unwatched in local database, movie is not watched on trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
               movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.Imdb ?? "<empty>", movie.Ids.Tmdb.HasValue ? movie.Ids.Tmdb.ToString() : "<empty>");
 
-            if (MarkAsUnWatched(localMovie))
+            if (_mediaPortalServices.MarkAsUnWatched(localMovie).Result)
             {
               _markUnWatchedMovies++;
             }
@@ -317,7 +317,7 @@ namespace TraktPluginMP2.Models
             _mediaPortalServices.GetLogger().Info("Updating local movie watched state / play count to match trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
                               twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>", twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
 
-            if (MarkAsWatched(localMovie))
+            if (_mediaPortalServices.MarkAsWatched(localMovie).Result)
             {
               _markWatchedMovies++;
             }
@@ -536,7 +536,7 @@ namespace TraktPluginMP2.Models
 
           #region Get data from local database
 
-          var localEpisodes = contentDirectory.Search(new MediaItemQuery(types, null, null), true, userProfile, false);
+          var localEpisodes = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
           int episodeCount = localEpisodes.Count;
 
           _mediaPortalServices.GetLogger().Info("Found {0} total episodes in local database", episodeCount);
@@ -567,7 +567,7 @@ namespace TraktPluginMP2.Models
                 _mediaPortalServices.GetLogger().Info("Marking episode as unwatched in local database, episode is not watched on trakt.tv. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
                   episode.ShowTitle, episode.ShowYear.HasValue ? episode.ShowYear.ToString() : "<empty>", episode.Season, episode.Number, episode.ShowTvdbId.HasValue ? episode.ShowTvdbId.ToString() : "<empty>", episode.ShowImdbId ?? "<empty>");
 
-                if (MarkAsUnWatched(watchedEpisode))
+                if (_mediaPortalServices.MarkAsUnWatched(watchedEpisode).Result)
                 {
                   _markUnWatchedEpisodes++;
                 }
@@ -598,7 +598,7 @@ namespace TraktPluginMP2.Models
                 _mediaPortalServices.GetLogger().Info("Marking episode as watched in local database, episode is watched on trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Last Watched = '{7}'",
                     traktEpisode.Plays, traktEpisode.ShowTitle, traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season, traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>", traktEpisode.ShowImdbId ?? "<empty>", traktEpisode.WatchedAt);
 
-                if (MarkAsWatched(episode))
+                if (_mediaPortalServices.MarkAsWatched(episode).Result)
                 {
                   _markWatchedEpisodes++;
                 }
@@ -737,50 +737,6 @@ namespace TraktPluginMP2.Models
       {
         return string.Compare(MediaItemAspectsUtl.GetMovieTitle(localMovie), traktMovie.Title, true) == 0 && (MediaItemAspectsUtl.GetMovieYear(localMovie) == traktMovie.Year);
       }
-    }
-
-    private bool MarkAsUnWatched(MediaItem mediaItem)
-    {
-      return true;
-      //SetUnwatched setUnwatchedAction = new SetUnwatched();
-      //if (setUnwatchedAction.IsAvailable(mediaItem))
-      //{
-      //  try
-      //  {
-      //    ContentDirectoryMessaging.MediaItemChangeType changeType;
-      //    if (setUnwatchedAction.Process(mediaItem, out changeType) && changeType != ContentDirectoryMessaging.MediaItemChangeType.None)
-      //    {
-      //      ContentDirectoryMessaging.SendMediaItemChangedMessage(mediaItem, changeType);
-      //      _mediaPortalServices.GetLogger().Info("Marking media item '{0}' as unwatched", mediaItem.GetType());
-      //    }
-      //  }
-      //  catch (Exception ex)
-      //  {
-      //    _mediaPortalServices.GetLogger().Error("Marking media item '{0}' as unwatched failed:", mediaItem.GetType(), ex);
-      //  }
-      //}
-    }
-
-    private bool MarkAsWatched(MediaItem mediaItem)
-    {
-      return true;
-      //SetWatched setWatchedAction = new SetWatched();
-      //if (setWatchedAction.IsAvailable(mediaItem))
-      //{
-      //  try
-      //  {
-      //    ContentDirectoryMessaging.MediaItemChangeType changeType;
-      //    if (setWatchedAction.Process(mediaItem, out changeType) && changeType != ContentDirectoryMessaging.MediaItemChangeType.None)
-      //    {
-      //      ContentDirectoryMessaging.SendMediaItemChangedMessage(mediaItem, changeType);
-      //      TraktLogger.Info("Marking media item '{0}' as watched", mediaItem.GetType());
-      //    }
-      //  }
-      //  catch (Exception ex)
-      //  {
-      //    TraktLogger.Error("Marking media item '{0}' as watched failed:", mediaItem.GetType(), ex);
-      //  }
-      //}
     }
 
     private string CreateLookupKey(MediaItem episode)

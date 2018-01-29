@@ -770,7 +770,7 @@ namespace Tests
       items.Add(movie1);
       items.Add(movie2);
 
-      contentDirectory.Search(Arg.Any<MediaItemQuery>(), true, null, false).Returns(items);
+      contentDirectory.SearchAsync(Arg.Any<MediaItemQuery>(), true, null, false).Returns(items);
       mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
       ITraktServices traktServices = Substitute.For<ITraktServices>();
       
@@ -835,12 +835,14 @@ namespace Tests
     private IMediaPortalServices GetMockMediaPortalServices(IList<MediaItem> databaseMediaItems)
     {
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.MarkAsWatched(Arg.Any<MediaItem>()).Returns(true);
+      mediaPortalServices.MarkAsUnWatched(Arg.Any<MediaItem>()).Returns(true);
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
       TraktPluginSettings traktPluginSettings = new TraktPluginSettings { SyncBatchSize = 100 };
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();
-      contentDirectory.Search(Arg.Any<MediaItemQuery>(), true, null, false).Returns(databaseMediaItems);
+      contentDirectory.SearchAsync(Arg.Any<MediaItemQuery>(), true, null, false).Returns(databaseMediaItems);
       mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
 
       return mediaPortalServices;
