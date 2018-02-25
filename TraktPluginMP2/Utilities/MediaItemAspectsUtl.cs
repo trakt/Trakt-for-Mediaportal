@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
-using TraktAPI.Enums;
-using TraktAPI.Extensions;
+using TraktApiSharp.Enums;
 
 namespace TraktPluginMP2.Utilities
 {
@@ -16,11 +15,11 @@ namespace TraktPluginMP2.Utilities
       return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.TYPE_MOVIE, out id) ? id : null;
     }
 
-    public static int? GetMovieTmdbId(MediaItem mediaItem)
+    public static uint? GetMovieTmdbId(MediaItem mediaItem)
     {
       string id;
       int tmdbId;
-      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_TMDB, ExternalIdentifierAspect.TYPE_MOVIE, out id) && int.TryParse(id, out tmdbId) ? (int?)tmdbId : null;
+      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_TMDB, ExternalIdentifierAspect.TYPE_MOVIE, out id) && int.TryParse(id, out tmdbId) ? (uint?)tmdbId : null;
     }
 
     public static string GetMovieTitle(MediaItem currMediaItem)
@@ -35,26 +34,26 @@ namespace TraktPluginMP2.Utilities
       return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, MediaAspect.ATTR_RECORDINGTIME, out dtValue) ? dtValue.Year : 0;
     }
 
-    public static string GetLastPlayedDate(MediaItem mediaItem)
+    public static DateTime GetLastPlayedDate(MediaItem mediaItem)
     {
       DateTime lastplayed;
-      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, MediaAspect.ATTR_LASTPLAYED, out lastplayed) ? lastplayed.ToUniversalTime().ToISO8601() : string.Empty;
+      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, MediaAspect.ATTR_LASTPLAYED, out lastplayed) ? lastplayed.ToUniversalTime() : DateTime.Now;
     }
 
-    public static string GetDateAddedToDb(MediaItem mediaItem)
+    public static DateTime GetDateAddedToDb(MediaItem mediaItem)
     {
       DateTime addedToDb;
-      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, ImporterAspect.ATTR_DATEADDED, out addedToDb) ? addedToDb.ToUniversalTime().ToISO8601() : string.Empty;
+      return MediaItemAspect.TryGetAttribute(mediaItem.Aspects, ImporterAspect.ATTR_DATEADDED, out addedToDb) ? addedToDb.ToUniversalTime() : DateTime.Now;
     }
 
-    public static string GetVideoMediaType(MediaItem mediaItem)
+    public static TraktMediaType GetVideoMediaType(MediaItem mediaItem)
     {
       bool isDvd;
       MediaItemAspect.TryGetAttribute(mediaItem.Aspects, VideoAspect.ATTR_ISDVD, out isDvd);
-      return isDvd ? TraktMediaType.dvd.ToString() : TraktMediaType.digital.ToString();
+      return isDvd ? TraktMediaType.DVD : TraktMediaType.Digital;
     }
 
-    public static string GetVideoResolution(MediaItem mediaItem)
+    public static TraktMediaResolution GetVideoResolution(MediaItem mediaItem)
     {
       List<int> widths;
       int width;
@@ -64,23 +63,23 @@ namespace TraktPluginMP2.Utilities
         switch (width)
         {
           case 1920:
-            return TraktResolution.hd_1080p.ToString();
+            return TraktMediaResolution.HD_1080p;
           case 1280:
-            return TraktResolution.hd_720p.ToString();
+            return TraktMediaResolution.HD_720p;
           case 720:
-            return TraktResolution.sd_576p.ToString();
+            return TraktMediaResolution.SD_576p;
           case 640:
-            return TraktResolution.sd_480p.ToString();
+            return TraktMediaResolution.SD_480p;
           case 2160:
-            return TraktResolution.uhd_4k.ToString();
+            return TraktMediaResolution.UHD_4k;
           default:
-            return TraktResolution.hd_720p.ToString();
+            return TraktMediaResolution.Unspecified;
         }
 
       return null;
     }
 
-    public static string GetVideoAudioCodec(MediaItem mediaItem)
+    public static TraktMediaAudio GetVideoAudioCodec(MediaItem mediaItem)
     {
       List<string> audioCodecs;
       string audioCodec;
@@ -90,36 +89,64 @@ namespace TraktPluginMP2.Utilities
         switch (audioCodec.ToLowerInvariant())
         {
           case "truehd":
-            return TraktAudio.dolby_truehd.ToString();
+            return TraktMediaAudio.DolbyTrueHD;
           case "dts":
-            return TraktAudio.dts.ToString();
+            return TraktMediaAudio.DTS;
           case "dtshd":
-            return TraktAudio.dts_ma.ToString();
+            return TraktMediaAudio.DTS_MA;
           case "ac3":
-            return TraktAudio.dolby_digital.ToString();
+            return TraktMediaAudio.DolbyDigital;
           case "aac":
-            return TraktAudio.aac.ToString();
+            return TraktMediaAudio.AAC;
           case "mp2":
-            return TraktAudio.mp3.ToString();
+            return TraktMediaAudio.MP3;
           case "pcm":
-            return TraktAudio.lpcm.ToString();
+            return TraktMediaAudio.LPCM;
           case "ogg":
-            return TraktAudio.ogg.ToString();
+            return TraktMediaAudio.OGG;
           case "wma":
-            return TraktAudio.wma.ToString();
-          case "flac":
-            return TraktAudio.flac.ToString();
+            return TraktMediaAudio.WMA;
           default:
-            return null;
+            return TraktMediaAudio.Unspecified;
         }
       }
       return null;
     }
 
-    public static int GetTvdbId(MediaItem mediaItem)
+    public static TraktMediaAudioChannel GetVideoAudioChannel(MediaItem mediaItem)
+    {
+      List<int> audioChannels;
+      int audioChannel;
+      if (MediaItemAspect.TryGetAttribute(mediaItem.Aspects, VideoAudioStreamAspect.ATTR_AUDIOCHANNELS, out audioChannels) && (audioChannel = audioChannels.First()) > 0)
+      {
+        switch (audioChannel)
+        {
+          case 1:
+            return TraktMediaAudioChannel.Channels_1_0;
+          case 2:
+            return TraktMediaAudioChannel.Channels_2_0;
+          case 3:
+            return TraktMediaAudioChannel.Channels_2_1;
+          case 4:
+            return TraktMediaAudioChannel.Channels_4_0;
+          case 5:
+            return TraktMediaAudioChannel.Channels_5_0;
+          case 6:
+            return TraktMediaAudioChannel.Channels_5_1;
+          case 7:
+            return TraktMediaAudioChannel.Channels_6_1;
+          case 8:
+            return TraktMediaAudioChannel.Channels_7_1;
+        }
+      }
+
+      return null;
+    }
+
+    public static uint GetTvdbId(MediaItem mediaItem)
     {
       string id;
-      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_TVDB, ExternalIdentifierAspect.TYPE_SERIES, out id) ? Convert.ToInt32(id) : 0;
+      return MediaItemAspect.TryGetExternalAttribute(mediaItem.Aspects, ExternalIdentifierAspect.SOURCE_TVDB, ExternalIdentifierAspect.TYPE_SERIES, out id) ? Convert.ToUInt32(id) : 0;
     }
 
     public static int GetSeasonIndex(MediaItem mediaItem)

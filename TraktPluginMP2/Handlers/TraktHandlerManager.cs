@@ -2,6 +2,7 @@
 using MediaPortal.Common.Messaging;
 using MediaPortal.UI.Presentation.Players;
 using MediaPortal.UI.Presentation.Players.ResumeState;
+using TraktApiSharp;
 using TraktPluginMP2.Services;
 
 namespace TraktPluginMP2.Handlers
@@ -9,17 +10,16 @@ namespace TraktPluginMP2.Handlers
   public class TraktHandlerManager : IDisposable
   {
     private readonly IMediaPortalServices _mediaPortalServices;
-    private readonly ITraktServices _traktServices;
-
+    private readonly ITraktClient _traktClient;
     private IAsynchronousMessageQueue _messageQueue;
     private TimeSpan _duration;
     private double _progress;
 
 
-    public TraktHandlerManager(IMediaPortalServices mediaPortalServices, ITraktServices traktServices)
+    public TraktHandlerManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient)
     {
-      _traktServices = traktServices;
       _mediaPortalServices = mediaPortalServices;
+      _traktClient = traktClient;
       // TODO: subscribe to SettingsChanged 
       //  _mediaPortalServices.Watcher().SettingsChanged += ConfigureHandler;
       ConfigureHandler();

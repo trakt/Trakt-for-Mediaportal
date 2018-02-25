@@ -1,5 +1,10 @@
 ﻿using System.Collections.Generic;
-using TraktAPI.DataStructures;
+using TraktApiSharp.Objects.Get.Collection;
+using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Watched;
+using TraktApiSharp.Objects.Post.Syncs.Collection;
+using TraktApiSharp.Objects.Post.Syncs.History;
+using TraktApiSharp.Objects.Post.Syncs.Responses;
 using TraktPluginMP2.Structures;
 
 namespace TraktPluginMP2.Services
@@ -12,17 +17,17 @@ namespace TraktPluginMP2.Services
 
     IEnumerable<TraktMovie> GetUnWatchedMoviesFromTrakt();
 
-    IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt();
+    IEnumerable<TraktWatchedMovie> GetWatchedMoviesFromTrakt();
 
-    IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt();
+    IEnumerable<TraktCollectionMovie> GetCollectedMoviesFromTrakt();
 
-    void AddMoviesToWatchHistory(List<TraktSyncMovieWatched> movies);
+    void AddMoviesToWatchHistory(List<TraktSyncHistoryPostMovie> movies);
 
-    void RemoveMoviesFromWatchHistory(List<TraktMovie> movies);
+    void RemoveMoviesFromWatchHistory(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies);
 
-    void AddMoviesToCollection(List<TraktSyncMovieCollected> movies);
+    void AddMoviesToCollection(List<TraktSyncCollectionPostMovie> movies);
 
-    void RemoveMoviesFromCollection(List<TraktMovie> movies);
+    void RemoveMoviesFromCollection(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies);
 
     IEnumerable<Episode> GetUnWatchedEpisodesFromTrakt();
 
@@ -30,8 +35,8 @@ namespace TraktPluginMP2.Services
 
     IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt(bool ignoreLastSyncTime = false);
 
-    void AddEpisodesToWatchHistory(TraktSyncShowWatchedEx show);
+    void AddEpisodesToWatchHistory(TraktSyncHistoryPostShow show);
 
-    void AddEpisodesToCollection(TraktSyncShowCollectedEx show);
+    void AddEpisodesToCollection(TraktSyncCollectionPostShow show);
   }
 }

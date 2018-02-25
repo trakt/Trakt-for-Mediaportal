@@ -1,22 +1,19 @@
 ﻿using TraktPluginMP2.Services;
-using TraktPluginMP2.Web;
 
 namespace TraktPluginMP2.Models
 {
   internal static class TraktSetupContainer
   {
+    const string ApplicationId = "aea41e88de3cd0f8c8b2404d84d2e5d7317789e67fad223eba107aea2ef59068";
+    const string SecretId = "adafedb5cd065e6abeb9521b8b64bc66adb010a7c08128811bf32c989f35b77a";
+
     internal static TraktSetupManager ResolveManager()
     {
       IMediaPortalServices mediaPortalServices = new MediaPortalServices();
-      IWebRequestExt webRequestExt = new WebRequestExt();
-      ITraktWeb traktWeb = new TraktWeb(webRequestExt, mediaPortalServices.GetLogger());
-      ITraktAuth traktAuth = new TraktAuth(traktWeb);
-      ITraktLogin traktLogin = new TraktLogin(traktAuth, mediaPortalServices);
-      ITraktAPI traktApi = new TraktAPIWrapper();
-      ITraktCache traktCache = new TraktCache(mediaPortalServices, traktApi);
-      ITraktServices traktServices = new TraktServices(traktCache, traktLogin, traktApi);
+      ITraktClient traktClient = new TraktClientProxy(ApplicationId, SecretId);
+      ITraktCache traktCache = new TraktCache(mediaPortalServices, traktClient);
 
-      return new TraktSetupManager(mediaPortalServices, traktServices);
+      return new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
     }
   }
 }

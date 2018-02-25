@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
@@ -12,7 +10,9 @@ using MediaPortal.Common.SystemCommunication;
 using MediaPortal.Common.Threading;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
-using TraktAPI.DataStructures;
+using TraktApiSharp.Objects.Get.Collection;
+using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Watched;
 using TraktPluginMP2.Handlers;
 using TraktPluginMP2.Models;
 using TraktPluginMP2.Services;
@@ -30,12 +30,12 @@ namespace Tests
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
       TraktPluginSettings traktPluginSettings = new TraktPluginSettings();
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(true);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache)
       {
         PinCode = "12345678",
         Username = "User1"
@@ -56,8 +56,9 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache)
       {
         PinCode = invalidPinCode
       };
@@ -74,9 +75,9 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(false);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache)
       {
         PinCode = "12345678"
       };
@@ -93,9 +94,9 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktLogin().Login(Arg.Any<string>()).Returns(true);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices)
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache)
       {
         PinCode = "12345678"
       };
@@ -112,6 +113,8 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
       IThreadPool threadPool = Substitute.For<IThreadPool>();
       threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
@@ -119,9 +122,7 @@ namespace Tests
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       mediaPortalServices.GetThreadPool().Returns(threadPool);
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().RefreshData().Returns(true);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       traktSetup.SyncMediaToTrakt();
@@ -135,6 +136,8 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
       IThreadPool threadPool = Substitute.For<IThreadPool>();
       threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
@@ -142,9 +145,7 @@ namespace Tests
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       mediaPortalServices.GetThreadPool().Returns(threadPool);
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().RefreshData().Returns(true);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       traktSetup.SyncMediaToTrakt();
@@ -158,6 +159,8 @@ namespace Tests
     {
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
       IThreadPool threadPool = Substitute.For<IThreadPool>();
       threadPool.Add(Arg.Any<DoWorkHandler>(), ThreadPriority.BelowNormal);
@@ -165,9 +168,7 @@ namespace Tests
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       mediaPortalServices.GetThreadPool().Returns(threadPool);
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().RefreshData().Returns(false);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       traktSetup.SyncMediaToTrakt();
@@ -190,11 +191,11 @@ namespace Tests
               new DatabaseMovie("", "16729", "Movie_2", 2016, 2).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2011, 3).Movie
             },
-            new List<TraktMovieWatched>
+            new List<TraktWatchedMovie>
             {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2011}}
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2011}}
             },
             0
           },
@@ -206,10 +207,10 @@ namespace Tests
               new DatabaseMovie("", "16729", "Movie_2", 2016, 2).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2011, 3).Movie
             },
-            new List<TraktMovieWatched>
+            new List<TraktWatchedMovie>
             {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
             },
             1
           },
@@ -221,7 +222,7 @@ namespace Tests
               new DatabaseMovie("", "67890", "Movie_2", 2016, 2).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2010, 3).Movie
             },
-            new List<TraktMovieWatched>(),
+            new List<TraktWatchedMovie>(),
             3
           }
         };
@@ -230,13 +231,14 @@ namespace Tests
 
     [Theory]
     [MemberData(nameof(WatchedMoviesTestData))]
-    public void AddWatchedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    public void AddWatchedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktWatchedMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedMoviesFromTrakt().Returns(traktMovies);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetWatchedMoviesFromTrakt().Returns(traktMovies);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -261,7 +263,7 @@ namespace Tests
               new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2010, 1).Movie
             },
-            new List<TraktMovieCollected>(),
+            new List<TraktCollectionMovie>(),
             3
           },
           new object[]
@@ -272,9 +274,9 @@ namespace Tests
               new DatabaseMovie("", "16729", "Movie_2", 2016, 1).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2010, 2).Movie
             },
-            new List<TraktMovieCollected>
+            new List<TraktCollectionMovie>
             {
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = "2015.01.01"},
+              new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = DateTime.Now},
             },
             2
           },
@@ -286,11 +288,11 @@ namespace Tests
               new DatabaseMovie("", "16729", "Movie_2", 2008, 2).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2001, 3).Movie
             },
-            new List<TraktMovieCollected>
+            new List<TraktCollectionMovie>
             {
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = "2015.01.01"},
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt42690", Tmdb = 16729 }, Title = "Movie_2", Year = 2008}, CollectedAt = "2011.01.01"},
-              new TraktMovieCollected {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt00754", Tmdb = 34251 }, Title = "Movie_3", Year = 2001}, CollectedAt = "2009.01.01"}
+              new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}, CollectedAt = DateTime.Now},
+              new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt42690", Tmdb = 16729 }, Title = "Movie_2", Year = 2008}, CollectedAt = DateTime.Now},
+              new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt00754", Tmdb = 34251 }, Title = "Movie_3", Year = 2001}, CollectedAt = DateTime.Now}
             },
             0
           }
@@ -300,13 +302,14 @@ namespace Tests
 
     [Theory]
     [MemberData(nameof(CollectedMoviesTestData))]
-    public void AddCollectedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieCollected> traktMovies, int expectedMoviesCount)
+    public void AddCollectedMovieToTraktIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktCollectionMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetCollectedMoviesFromTrakt().Returns(traktMovies);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetCollectedMoviesFromTrakt().Returns(traktMovies);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -333,9 +336,9 @@ namespace Tests
             },
             new List<TraktMovie>
             {
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt11390", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt99821", Tmdb = 31139 }, Title = "Movie_3", Year = 2010}
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt11390", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt99821", Tmdb = 31139 }, Title = "Movie_3", Year = 2010}
             },
             3
           },
@@ -349,7 +352,7 @@ namespace Tests
             },
             new List<TraktMovie>
             {
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
             },
             1
           },
@@ -363,9 +366,9 @@ namespace Tests
             },
             new List<TraktMovie>
             {
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
-              new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 11290 }, Title = "Movie_1", Year = 2012},
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016},
+              new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}
             },
             0
           }
@@ -378,10 +381,11 @@ namespace Tests
     public void MarkMovieAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetUnWatchedMoviesFromTrakt().Returns(traktMovies);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetUnWatchedMoviesFromTrakt().Returns(traktMovies);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -406,11 +410,11 @@ namespace Tests
               new DatabaseMovie("", "50123", "Movie_2", 2016, 1).Movie,
               new DatabaseMovie("", "0", "Movie_4", 2014, 1).Movie
             },
-            new List<TraktMovieWatched>
+            new List<TraktWatchedMovie>
             {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
             },
             0
           },
@@ -422,11 +426,11 @@ namespace Tests
               new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2010, 0).Movie
             },
-            new List<TraktMovieWatched>
+            new List<TraktWatchedMovie>
             {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt12345", Tmdb = 67890 }, Title = "Movie_1", Year = 2012}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 67890 }, Title = "Movie_2", Year = 2016}},
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
             },
             3
           },
@@ -438,9 +442,9 @@ namespace Tests
               new DatabaseMovie("", "67890", "Movie_2", 2016, 0).Movie,
               new DatabaseMovie("", "0", "Movie_3", 2010, 0).Movie
             },
-            new List<TraktMovieWatched>
+            new List<TraktWatchedMovie>
             {
-              new TraktMovieWatched {Movie = new TraktMovie {Ids = new TraktMovieId {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
+              new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2010}}
             },
             1
           }
@@ -450,13 +454,14 @@ namespace Tests
 
     [Theory]
     [MemberData(nameof(TraktWatchedMoviesTestData))]
-    public void MarkMovieAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktMovieWatched> traktMovies, int expectedMoviesCount)
+    public void MarkMovieAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseMovies, List<TraktWatchedMovie> traktMovies, int expectedMoviesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedMoviesFromTrakt().Returns(traktMovies);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetWatchedMoviesFromTrakt().Returns(traktMovies);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -509,10 +514,11 @@ namespace Tests
     public void AddCollectedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<Episode> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -579,10 +585,11 @@ namespace Tests
     public void AddWatchedEpisodeToTraktIfMediaLibraryAndCacheAvailable(IList<MediaItem> databaseEpisodes, IList<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient ,traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -651,10 +658,11 @@ namespace Tests
     public void MarkEpisodeAsUnwatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<Episode> traktEpisodes, int expectedEpisodessCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetUnWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -726,10 +734,11 @@ namespace Tests
     public void MarkEpisodeAsWatchedIfMediaLibraryAndCacheAvailable(List<MediaItem> databaseEpisodes, List<EpisodeWatched> traktEpisodes, int expectedEpisodesCount)
     {
       // Arrange
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      traktServices.GetTraktCache().GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
       IMediaPortalServices mediaPortalServices = GetMockMediaPortalServices(databaseEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      traktCache.GetWatchedEpisodesFromTrakt().Returns(traktEpisodes);
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -740,79 +749,12 @@ namespace Tests
       Assert.Equal(expectedEpisodesCount, actualEpisodesCount);
     }
 
-    // [Fact]
-    public void Test()
-    {
-      // Arrange
-      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
-      TraktPluginSettings traktPluginSettings = new TraktPluginSettings {SyncBatchSize = 100};
-      settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
-      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
-      IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();
-
-      // watched movies in DB
-      IList<MediaItem> items = new List<MediaItem>();
-      IDictionary<Guid, IList<MediaItemAspect>> movie1Aspects = new Dictionary<Guid, IList<MediaItemAspect>>();
-      IDictionary<Guid, IList<MediaItemAspect>> movie2Aspects = new Dictionary<Guid, IList<MediaItemAspect>>();
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movie1Aspects, ExternalIdentifierAspect.SOURCE_TMDB, ExternalIdentifierAspect.TYPE_MOVIE, "123");
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movie1Aspects, ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.TYPE_MOVIE, "xtt01234");
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movie2Aspects, ExternalIdentifierAspect.SOURCE_TMDB, ExternalIdentifierAspect.TYPE_MOVIE, "456");
-      MediaItemAspect.AddOrUpdateExternalIdentifier(movie2Aspects, ExternalIdentifierAspect.SOURCE_IMDB, ExternalIdentifierAspect.TYPE_MOVIE, "tt98765");
-      SingleMediaItemAspect smia1 = new SingleMediaItemAspect(MediaAspect.Metadata);
-      SingleMediaItemAspect smia2 = new SingleMediaItemAspect(MediaAspect.Metadata);
-      smia1.SetAttribute(MediaAspect.ATTR_PLAYCOUNT, 1);
-      smia2.SetAttribute(MediaAspect.ATTR_PLAYCOUNT, 1);
-      MediaItemAspect.SetAspect(movie2Aspects, smia2);
-      MediaItemAspect.SetAspect(movie1Aspects, smia1);
-      MediaItem movie1 = new MediaItem(new Guid(), movie1Aspects);
-      MediaItem movie2 = new MediaItem(new Guid(), movie2Aspects);
-      items.Add(movie1);
-      items.Add(movie2);
-
-      contentDirectory.SearchAsync(Arg.Any<MediaItemQuery>(), true, null, false).Returns(items);
-      mediaPortalServices.GetServerConnectionManager().ContentDirectory.Returns(contentDirectory);
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
-      
-      // watched movies at trakt
-      IEnumerable<TraktMovieWatched> movies = new List<TraktMovieWatched>
-      {
-        new TraktMovieWatched
-        {
-          Movie = new TraktMovie
-          { 
-          Title = "Movie_1",
-          Year = 2017,
-          Ids = new TraktMovieId { Tmdb = 123, Imdb = "tt01234" }
-          }
-        },
-        new TraktMovieWatched
-        {
-          Movie =  new TraktMovie
-          {
-            Title = "Movie_2",
-            Year = 2018,
-            Ids = new TraktMovieId { Tmdb = 456, Imdb = "tt98765" }
-          }
-        }
-      };
-      traktServices.GetTraktCache().GetWatchedMoviesFromTrakt().Returns(movies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktServices);
-
-      // Act
-      bool isSynced = traktSetup.SyncMovies();
-
-      // Assert
-      Assert.True(isSynced);
-      Assert.Equal(0, traktSetup.SyncWatchedMovies);
-    }
-
     [Fact]
     public void StartScrobbleWhenPlayerStarted()
     { 
       // Arrange
       IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      ITraktServices traktServices = Substitute.For<ITraktServices>();
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
       IAsynchronousMessageQueue messageQueue = Substitute.For<IAsynchronousMessageQueue>();
       messageQueue.When(x => x.Start()).Do(x => { /*nothing*/});
       mediaPortalServices.GetMessageQueue(Arg.Any<object>(), Arg.Any<string[]>()).Returns(messageQueue);
@@ -823,7 +765,7 @@ namespace Tests
         MessageData = {["PlayerSlotController"] = psc}
       };
 
-      TraktHandlerManager trakthandler = new TraktHandlerManager(mediaPortalServices, traktServices);
+      TraktHandlerManager trakthandler = new TraktHandlerManager(mediaPortalServices, traktClient);
       
       // Act
       messageQueue.MessageReceived += Raise.Event<MessageReceivedHandler>(new AsynchronousMessageQueue(new object(), new[] { "PlayerManager" }), startedState);

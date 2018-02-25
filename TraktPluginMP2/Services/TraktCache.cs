@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using TraktAPI.DataStructures;
-using TraktAPI.Extensions;
+using TraktApiSharp.Objects.Get.Collection;
+using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Syncs.Activities;
+using TraktApiSharp.Objects.Get.Watched;
+using TraktApiSharp.Objects.Post.Syncs.Collection;
+using TraktApiSharp.Objects.Post.Syncs.History;
+using TraktApiSharp.Objects.Post.Syncs.Responses;
 using TraktPluginMP2.Structures;
 
 namespace TraktPluginMP2.Services
@@ -11,15 +15,15 @@ namespace TraktPluginMP2.Services
   public class TraktCache : ITraktCache
   {
     private IMediaPortalServices _mediaPortalServices;
-    private ITraktAPI _traktApi;
+    private ITraktClient _traktClient;
 
     private string _cachePath;
     private string _moviesWatchedFile;
 
-    public TraktCache(IMediaPortalServices mediaPortalServices, ITraktAPI traktApi)
+    public TraktCache(IMediaPortalServices mediaPortalServices, ITraktClient traktClient)
     {
       _mediaPortalServices = mediaPortalServices;
-      _traktApi = traktApi;
+      _traktClient = traktClient;
       _cachePath = _mediaPortalServices.GetPathManager().GetPath(@"<DATA>\Trakt\");
       _moviesWatchedFile = Path.Combine(_cachePath, @"{username}\Library\Movies\Watched.json");
     }
@@ -73,32 +77,32 @@ namespace TraktPluginMP2.Services
       return UnWatchedMovies;
     }
 
-    public IEnumerable<TraktMovieWatched> GetWatchedMoviesFromTrakt()
+    public IEnumerable<TraktWatchedMovie> GetWatchedMoviesFromTrakt()
     {
       throw new System.NotImplementedException();
     }
 
-    public IEnumerable<TraktMovieCollected> GetCollectedMoviesFromTrakt()
+    public IEnumerable<TraktCollectionMovie> GetCollectedMoviesFromTrakt()
     {
       throw new System.NotImplementedException();
     }
 
-    public void AddMoviesToWatchHistory(List<TraktSyncMovieWatched> movies)
+    public void AddMoviesToWatchHistory(List<TraktSyncHistoryPostMovie> movies)
     {
       throw new System.NotImplementedException();
     }
 
-    public void RemoveMoviesFromWatchHistory(List<TraktMovie> movies)
+    public void RemoveMoviesFromWatchHistory(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies)
     {
       throw new System.NotImplementedException();
     }
 
-    public void AddMoviesToCollection(List<TraktSyncMovieCollected> movies)
+    public void AddMoviesToCollection(List<TraktSyncCollectionPostMovie> movies)
     {
       throw new System.NotImplementedException();
     }
 
-    public void RemoveMoviesFromCollection(List<TraktMovie> movies)
+    public void RemoveMoviesFromCollection(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies)
     {
       throw new System.NotImplementedException();
     }
@@ -118,12 +122,12 @@ namespace TraktPluginMP2.Services
       throw new System.NotImplementedException();
     }
 
-    public void AddEpisodesToWatchHistory(TraktSyncShowWatchedEx show)
+    public void AddEpisodesToWatchHistory(TraktSyncHistoryPostShow show)
     {
       throw new System.NotImplementedException();
     }
 
-    public void AddEpisodesToCollection(TraktSyncShowCollectedEx show)
+    public void AddEpisodesToCollection(TraktSyncCollectionPostShow show)
     {
       throw new System.NotImplementedException();
     }
@@ -131,15 +135,15 @@ namespace TraktPluginMP2.Services
     /// <summary>
     /// returns the cached users watched movies on trakt.tv
     /// </summary>
-    private IEnumerable<TraktMovieWatched> WatchedMovies
+    private IEnumerable<TraktWatchedMovie> WatchedMovies
     {
       get
       {
         if (_WatchedMovies == null)
         {
           var persistedItems = LoadFileCache(_moviesWatchedFile, null);
-          if (persistedItems != null)
-            _WatchedMovies = persistedItems.FromJSONArray<TraktMovieWatched>();
+         // if (persistedItems != null)
+         //   _WatchedMovies = persistedItems.FromJSONArray<TraktMovieWatched>();
         }
         return _WatchedMovies;
       }
@@ -150,6 +154,6 @@ namespace TraktPluginMP2.Services
       return string.Empty;
     }
 
-    private IEnumerable<TraktMovieWatched> _WatchedMovies = null;
+    private IEnumerable<TraktWatchedMovie> _WatchedMovies = null;
   }
 }
