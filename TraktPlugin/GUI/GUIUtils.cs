@@ -6,6 +6,7 @@ using MediaPortal.GUI.Library;
 using TraktAPI.Enums;
 using TraktAPI.DataStructures;
 using System.IO;
+using MediaPortal.Player;
 
 namespace TraktPlugin.GUI
 {
@@ -449,6 +450,12 @@ namespace TraktPlugin.GUI
         /// <param name="rateObject">Type of object being rated</param>
         public static int ShowRateDialog<T>(T rateObject)
         {
+            // Wait playback is fully stopped to avoid loop on stop
+            while (g_Player.FullScreen || GUIGraphicsContext.Vmr9Active)
+            {
+                Thread.Sleep(10);
+            }
+
             if (!GUICommon.CheckLogin(false))
                 return -1;
 
