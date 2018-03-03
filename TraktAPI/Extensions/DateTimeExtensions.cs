@@ -80,7 +80,14 @@ namespace TraktAPI.Extensions
 
             if (_timezoneMappings == null)
             {
-                _timezoneMappings = Resources.OlsenToWindows.FromJSONDictionary<Dictionary<string, string>>();
+                try
+                {
+                    _timezoneMappings = Resources.OlsenToWindows.FromJSONDictionary<Dictionary<string, string>>();
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
             string windowsTimezone;
@@ -92,7 +99,9 @@ namespace TraktAPI.Extensions
 
         public static string ToLocalisedDayOfWeek(this DateTime date)
         {
-            return DateTimeFormatInfo.CurrentInfo.GetDayName(date.DayOfWeek);
+            if (date == null) return null;
+
+            return DateTimeFormatInfo.CurrentInfo?.GetDayName(date.DayOfWeek);
         }
     }
 }

@@ -3623,7 +3623,7 @@ namespace TraktPlugin.GUI
                 // check if we ignore parental controls after certain time
                 if (TraktSettings.ParentalIgnoreAfterEnabled)
                 {
-                    // check if the current time is > that allowed time
+                    // check if the current time is > than allowed time
                     if (TraktSettings.ParentalIgnoreAfterTime.ToDateTime() < DateTime.Now)
                         return false;
                 }
