@@ -10,10 +10,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using TraktPlugin.Extensions;
 using TraktAPI.DataStructures;
 using TraktAPI.Enums;
 using TraktAPI.Extensions;
+using TraktPlugin.Extensions;
 
 namespace TraktPlugin.TraktHandlers
 {
@@ -211,7 +211,7 @@ namespace TraktPlugin.TraktHandlers
 
                 // get the movies that we have rated
                 var ratedMovies = collectedMovies.Where(m => m.UserRating > 0).ToList();
-                TraktLogger.Info("Found {0} rated movies available to sync in My Films database", ratedMovies.Count);
+                TraktLogger.Info("Found {0} rated movies available to sync in My Videos database", ratedMovies.Count);
 
                 #region Mark movies as unwatched in local database
                 if (traktUnWatchedMovies != null && traktUnWatchedMovies.Count() > 0)
@@ -249,16 +249,12 @@ namespace TraktPlugin.TraktHandlers
 
                         if (!localIsWatched || iWatchedCount < twm.Plays)
                         {
-                            TraktLogger.Info("Updating local movie watched state / play count to match trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-                                              twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>", twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
-
-                            if (localMovie.DateWatched == "0001-01-01 00:00:00")
+                            TraktLogger.Info($"Updating local movie watched state / play count to match trakt.tv. Plays = '{twm.Plays}', Date Watched = '{twm.LastWatchedAt}', Title = '{twm.Movie.Title}', Year = '{twm.Movie.Year.ToLogString()}', IMDb ID = '{twm.Movie.Ids.Imdb.ToLogString()}', TMDb ID = '{twm.Movie.Ids.Tmdb.ToLogString()}'");
+                            
+                            DateTime dateWatched;
+                            if (DateTime.TryParse(twm.LastWatchedAt, out dateWatched))
                             {
-                                DateTime dateWatched;
-                                if (DateTime.TryParse(twm.LastWatchedAt, out dateWatched))
-                                {
-                                    localMovie.DateWatched = dateWatched.ToString("yyyy-MM-dd HH:mm:ss");
-                                }
+                                localMovie.DateWatched = dateWatched.ToString("yyyy-MM-dd HH:mm:ss");
                             }
 
                             localMovie.Watched = 1;
