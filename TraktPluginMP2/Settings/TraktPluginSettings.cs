@@ -1,4 +1,5 @@
 ﻿using MediaPortal.Common.Settings;
+using TraktApiSharp.Objects.Get.Syncs.Activities;
 
 namespace TraktPluginMP2.Settings
 {
@@ -34,8 +35,8 @@ namespace TraktPluginMP2.Settings
     [Setting(SettingScope.User, DefaultValue = 1)]
     public int LogLevel { get; set; }
 
-   // [Setting(SettingScope.User)]
-  //  public TraktLastSyncActivities LastSyncActivities { get; set; }
+   [Setting(SettingScope.User)]
+   public TraktSyncLastActivities LastSyncActivities { get; set; }
 
    // [Setting(SettingScope.User)]
   //  public IEnumerable<TraktCache.ListActivity> LastListActivities { get; set; }

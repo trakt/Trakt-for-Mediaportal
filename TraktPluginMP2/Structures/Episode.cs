@@ -6,10 +6,10 @@ namespace TraktPluginMP2.Structures
   public class Episode
   {
     [DataMember]
-    public int? ShowId { get; set; }
+    public uint? ShowId { get; set; }
 
     [DataMember]
-    public int? ShowTvdbId { get; set; }
+    public uint? ShowTvdbId { get; set; }
 
     [DataMember]
     public string ShowImdbId { get; set; }
@@ -21,9 +21,9 @@ namespace TraktPluginMP2.Structures
     public int? ShowYear { get; set; }
 
     [DataMember]
-    public int Season { get; set; }
+    public int? Season { get; set; }
 
     [DataMember]
-    public int Number { get; set; }
+    public int? Number { get; set; }
   }
 }

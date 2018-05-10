@@ -1,0 +1,46 @@
+﻿[
+  {
+    "Number": 1,
+    "Season": 9,
+    "ShowId": 1409,
+    "ShowImdbId": "tt0898266",
+    "ShowTitle": "The Big Bang Theory",
+    "ShowTvdbId": 80379,
+    "ShowYear": 2007,
+    "Plays": 2,
+    "WatchedAt": "2016-02-04T20:59:35.000Z"
+  },
+  {
+    "Number": 2,
+    "Season": 9,
+    "ShowId": 1409,
+    "ShowImdbId": "tt0898266",
+    "ShowTitle": "The Big Bang Theory",
+    "ShowTvdbId": 80379,
+    "ShowYear": 2007,
+    "Plays": 3,
+    "WatchedAt": "2016-02-06T23:51:15.000Z"
+  },
+  {
+    "Number": 1,
+    "Season": 1,
+    "ShowId": 100817,
+    "ShowImdbId": "tt4635276",
+    "ShowTitle": "Master of None",
+    "ShowTvdbId": 298901,
+    "ShowYear": 2015,
+    "Plays": 2,
+    "WatchedAt": "2016-02-03T22:53:15.000Z"
+  },
+  {
+    "Number": 1,
+    "Season": 1,
+    "ShowId": 1411,
+    "ShowImdbId": "tt1826940",
+    "ShowTitle": "New Girl",
+    "ShowTvdbId": 248682,
+    "ShowYear": 2011,
+    "Plays": 2,
+    "WatchedAt": "2016-02-07T23:51:55.000Z"
+  }
+]

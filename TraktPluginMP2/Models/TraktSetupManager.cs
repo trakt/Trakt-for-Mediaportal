@@ -9,10 +9,9 @@ using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
 using MediaPortal.Common.MediaManagement.MLQueries;
 using MediaPortal.UI.Services.UserManagement;
+using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Basic;
-using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
-using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Get.Watched;
 using TraktApiSharp.Objects.Post.Syncs.Collection;
@@ -37,16 +36,6 @@ namespace TraktPluginMP2.Models
     private readonly AbstractProperty _usermameProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
-
-    private int _syncWatchedMovies;
-    private int _syncCollectedMovies;
-    private int _markWatchedMovies;
-    private int _markUnWatchedMovies;
-
-    private int _syncWatchedEpisodes;
-    private int _syncCollectedEpisodes;
-    private int _markWatchedEpisodes;
-    private int _markUnWatchedEpisodes;
 
     public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient, ITraktCache traktCache)
     {
@@ -110,45 +99,21 @@ namespace TraktPluginMP2.Models
       set { _isSynchronizingProperty.SetValue(value); }
     }
 
-    public int SyncWatchedMovies
-    {
-      get { return _syncWatchedMovies; }
-    }
+    public int SyncWatchedMovies { get; private set; }
 
-    public int SyncCollectedMovies
-    {
-      get { return _syncCollectedMovies; }
-    }
+    public int SyncCollectedMovies { get; private set; }
 
-    public int MarkWatchedMovies
-    {
-      get { return _markWatchedMovies; }
-    }
+    public int MarkWatchedMovies { get; private set; }
 
-    public int MarkUnWatchedMovies
-    {
-      get { return _markUnWatchedMovies; }
-    }
+    public int MarkUnWatchedMovies { get; private set; }
 
-    public int SyncWatchedEpisodes
-    {
-      get { return _syncWatchedEpisodes; }
-    }
+    public int SyncWatchedEpisodes { get; private set; }
 
-    public int SyncCollectedEpisodes
-    {
-      get { return _syncCollectedEpisodes; }
-    }
+    public int SyncCollectedEpisodes { get; private set; }
 
-    public int MarkWatchedEpisodes
-    {
-      get { return _markWatchedEpisodes; }
-    }
+    public int MarkWatchedEpisodes { get; private set; }
 
-    public int MarkUnWatchedEpisodes
-    {
-      get { return _markUnWatchedEpisodes; }
-    }
+    public int MarkUnWatchedEpisodes { get; private set; }
 
     public void AuthorizeUser()
     {
@@ -159,12 +124,15 @@ namespace TraktPluginMP2.Models
         return;
       }
 
-      //if (!_traktServices.GetTraktLogin().Login(PinCode))
-      //{
-      //  TestStatus = "[Trakt.UnableLogin]";
-      //  return;
-      //}
+      TraktAuthorization traktAuthorization = _traktClient.OAuth.GetAuthorizationAsync(PinCode).Result;
 
+      if (!traktAuthorization.IsValid)
+      {
+        TestStatus = "[Trakt.UnableLogin]";
+        return;
+      }
+      
+      // only for cache needed
       if (string.IsNullOrEmpty(Username))
       {
         TestStatus = "[Trakt.EmptyUsername]";
@@ -174,6 +142,8 @@ namespace TraktPluginMP2.Models
 
       ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
       TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
+
+      settings.TraktOAuthToken = traktAuthorization.AccessToken;
 
       settings.EnableTrakt = IsEnabled;
       settings.Username = Username;
@@ -186,19 +156,10 @@ namespace TraktPluginMP2.Models
     {
       if (!IsSynchronizing)
       {
-        ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
-        TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
-
-        if (!settings.IsAuthorized)
+        if (!_traktClient.Authentication.IsAuthorized)
         {
           TestStatus = "[Trakt.NotAuthorized]";
           _mediaPortalServices.GetLogger().Error("User not authorized");
-          return;
-        }
-
-        if (!_traktCache.RefreshData())
-        {
-          _mediaPortalServices.GetLogger().Error("Failed to refresh data from cache");
           return;
         }
 
@@ -210,14 +171,12 @@ namespace TraktPluginMP2.Models
 
     public bool SyncMovies()
     {
-      ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
-
       #region Get online data from cache
 
       #region Get unwatched / watched movies from trakt.tv
       IEnumerable<TraktWatchedMovie> traktWatchedMovies = null;
 
-      var traktUnWatchedMovies = _traktCache.GetUnWatchedMoviesFromTrakt();
+      var traktUnWatchedMovies = _traktCache.GetUnWatchedMovies();
       if (traktUnWatchedMovies == null)
       {
         _mediaPortalServices.GetLogger().Error("Error getting unwatched movies from trakt server, unwatched and watched sync will be skipped");
@@ -226,7 +185,7 @@ namespace TraktPluginMP2.Models
       {
         _mediaPortalServices.GetLogger().Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
 
-        traktWatchedMovies = _traktCache.GetWatchedMoviesFromTrakt();
+        traktWatchedMovies = _traktCache.GetWatchedMovies();
         if (traktWatchedMovies == null)
         {
           _mediaPortalServices.GetLogger().Error("Error getting watched movies from trakt server, watched sync will be skipped");
@@ -239,7 +198,7 @@ namespace TraktPluginMP2.Models
       #endregion
 
       #region Get collected movies from trakt.tv
-      var traktCollectedMovies = _traktCache.GetCollectedMoviesFromTrakt();
+      var traktCollectedMovies = _traktCache.GetCollectedMovies();
       if (traktCollectedMovies == null)
       {
         _mediaPortalServices.GetLogger().Error("Error getting collected movies from trakt server");
@@ -299,7 +258,7 @@ namespace TraktPluginMP2.Models
 
             if (_mediaPortalServices.MarkAsUnWatched(localMovie).Result)
             {
-              _markUnWatchedMovies++;
+              MarkUnWatchedMovies++;
             }
           }
           // update watched set
@@ -325,7 +284,7 @@ namespace TraktPluginMP2.Models
 
             if (_mediaPortalServices.MarkAsWatched(localMovie).Result)
             {
-              _markWatchedMovies++;
+              MarkWatchedMovies++;
             }
           }
         }
@@ -348,23 +307,15 @@ namespace TraktPluginMP2.Models
                                }).ToList();
 
           _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv watched history", syncWatchedMovies.Count);
-          _syncWatchedMovies = syncWatchedMovies.Count;
+          SyncWatchedMovies = syncWatchedMovies.Count;
 
-          if (_syncWatchedMovies > 0)
+          if (SyncWatchedMovies > 0)
           {
-            // update internal cache
-            _traktCache.AddMoviesToWatchHistory(syncWatchedMovies);
             TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItemsAsync(new TraktSyncHistoryPost { Movies = syncWatchedMovies }).Result;
 
-            if (_syncWatchedMovies != watchedResponse?.Added?.Movies)
+            if (SyncWatchedMovies != watchedResponse?.Added?.Movies)
             {
               // log not found episodes
-            }
-
-            // remove movies from cache which didn't succeed
-            if (watchedResponse?.NotFound != null && watchedResponse.NotFound.Movies.Any())
-            {
-               _traktCache.RemoveMoviesFromWatchHistory(watchedResponse.NotFound.Movies);
             }
           }
         }
@@ -399,24 +350,15 @@ namespace TraktPluginMP2.Models
             }).ToList();
 
           _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv collection", syncCollectedMovies.Count);
-          _syncCollectedMovies = syncCollectedMovies.Count;
+          SyncCollectedMovies = syncCollectedMovies.Count;
 
-          if (_syncCollectedMovies > 0)
+          if (SyncCollectedMovies > 0)
           {
-            //update internal cache
-            _traktCache.AddMoviesToCollection(syncCollectedMovies);
-
             TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItemsAsync(new TraktSyncCollectionPost {Movies = syncCollectedMovies}).Result;
 
-            if (_syncCollectedMovies != collectionResponse?.Added?.Movies)
+            if (SyncCollectedMovies != collectionResponse?.Added?.Movies)
             {
               // log not found episodes
-            }
-
-            // remove movies from cache which didn't succeed
-            if (collectionResponse?.NotFound != null && collectionResponse.NotFound.Movies.Any())
-            {
-              _traktCache.RemoveMoviesFromCollection(collectionResponse.NotFound.Movies);
             }
           }
         }
@@ -442,7 +384,7 @@ namespace TraktPluginMP2.Models
       List<EpisodeWatched> traktWatchedEpisodes = null;
 
       // get all episodes on trakt that are marked as 'unseen'
-      var traktUnWatchedEpisodes = _traktCache.GetUnWatchedEpisodesFromTrakt().ToNullableList();
+      var traktUnWatchedEpisodes = _traktCache.GetUnWatchedEpisodes().ToNullableList();
       if (traktUnWatchedEpisodes == null)
       {
         _mediaPortalServices.GetLogger().Error("Error getting tv shows unwatched from trakt.tv server, unwatched and watched sync will be skipped");
@@ -452,7 +394,7 @@ namespace TraktPluginMP2.Models
         _mediaPortalServices.GetLogger().Info("Found {0} unwatched tv episodes in trakt.tv library", traktUnWatchedEpisodes.Count());
 
         // now get all episodes on trakt that are marked as 'seen' or 'watched' (this will be cached already when working out unwatched)
-        traktWatchedEpisodes = _traktCache.GetWatchedEpisodesFromTrakt().ToNullableList();
+        traktWatchedEpisodes = _traktCache.GetWatchedEpisodes().ToNullableList();
         if (traktWatchedEpisodes == null)
         {
           _mediaPortalServices.GetLogger().Error("Error getting tv shows watched from trakt.tv server, watched sync will be skipped");
@@ -468,7 +410,7 @@ namespace TraktPluginMP2.Models
       #region Collection
 
       // get all episodes on trakt that are marked as in 'collection'
-      var traktCollectedEpisodes = _traktCache.GetCollectedEpisodesFromTrakt().ToNullableList();
+      var traktCollectedEpisodes = _traktCache.GetCollectedEpisodes().ToNullableList();
       if (traktCollectedEpisodes == null)
       {
         _mediaPortalServices.GetLogger().Error("Error getting tv episode collection from trakt.tv server");
@@ -538,7 +480,7 @@ namespace TraktPluginMP2.Models
 
                 if (_mediaPortalServices.MarkAsUnWatched(watchedEpisode).Result)
                 {
-                  _markUnWatchedEpisodes++;
+                  MarkUnWatchedEpisodes++;
                 }
 
                 // update watched episodes
@@ -569,7 +511,7 @@ namespace TraktPluginMP2.Models
 
                 if (_mediaPortalServices.MarkAsWatched(episode).Result)
                 {
-                  _markWatchedEpisodes++;
+                  MarkWatchedEpisodes++;
                 }
               }
             }
@@ -583,19 +525,10 @@ namespace TraktPluginMP2.Models
           {
             TraktSyncHistoryPost watchedEpisodesForSync = GetWatchedShowsForSync(localWatchedEpisodes, traktWatchedEpisodes);
             TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItemsAsync(watchedEpisodesForSync).Result;
-            if (_syncWatchedEpisodes != watchedResponse?.Added?.Episodes)
+            if (SyncWatchedEpisodes != watchedResponse?.Added?.Episodes)
             {
               // log not found episodes
             }
-
-            // only add to cache if it was a success
-            if (watchedResponse?.Added?.Episodes == _syncWatchedEpisodes)
-            {
-              foreach (var show in watchedEpisodesForSync.Shows)
-              {
-                _traktCache.AddEpisodesToWatchHistory(show);
-              }
-            } 
           }
           #endregion
 
@@ -603,19 +536,9 @@ namespace TraktPluginMP2.Models
 
           TraktSyncCollectionPost collectedEpisodesForSync = GetCollectedEpisodesForSync(localEpisodes, traktCollectedEpisodes);
           TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItemsAsync(collectedEpisodesForSync).Result;
-          if (_syncCollectedEpisodes != collectionResponse?.Added?.Episodes)
+          if (SyncCollectedEpisodes != collectionResponse?.Added?.Episodes)
           {
             // log not found episodes
-          }
-
-          // only add to cache if it was a success
-          if (collectionResponse?.Added?.Episodes == _syncCollectedEpisodes)
-          {
-            // update local cache
-            foreach (var show in collectedEpisodesForSync.Shows)
-            {
-              _traktCache.AddEpisodesToCollection(show);
-            }
           }
 
           #endregion
@@ -637,7 +560,6 @@ namespace TraktPluginMP2.Models
         TestStatus = "[Trakt.SyncFinished]";
       }
       IsSynchronizing = false;
-      _traktCache.Save();
     }
 
     private static bool IsWatched(MediaItem mediaItem)
@@ -727,7 +649,7 @@ namespace TraktPluginMP2.Models
             },
             MediaItemAspectsUtl.GetLastPlayedDate(episode)
           );
-          _syncWatchedEpisodes++;
+          SyncWatchedEpisodes++;
         }
       }
       return builder.Build();
@@ -766,7 +688,7 @@ namespace TraktPluginMP2.Models
               ThreeDimensional = false
             },
             MediaItemAspectsUtl.GetDateAddedToDb(episode));
-          _syncCollectedEpisodes++;
+          SyncCollectedEpisodes++;
         }
       }
       return builder.Build();

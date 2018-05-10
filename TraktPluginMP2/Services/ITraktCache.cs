@@ -2,41 +2,22 @@
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Watched;
-using TraktApiSharp.Objects.Post.Syncs.Collection;
-using TraktApiSharp.Objects.Post.Syncs.History;
-using TraktApiSharp.Objects.Post.Syncs.Responses;
 using TraktPluginMP2.Structures;
 
 namespace TraktPluginMP2.Services
 {
   public interface ITraktCache
   {
-    bool RefreshData();
+    IEnumerable<TraktMovie> GetUnWatchedMovies();
 
-    void Save();
+    IEnumerable<TraktWatchedMovie> GetWatchedMovies();
 
-    IEnumerable<TraktMovie> GetUnWatchedMoviesFromTrakt();
+    IEnumerable<TraktCollectionMovie> GetCollectedMovies();
 
-    IEnumerable<TraktWatchedMovie> GetWatchedMoviesFromTrakt();
+    IEnumerable<Episode> GetUnWatchedEpisodes();
 
-    IEnumerable<TraktCollectionMovie> GetCollectedMoviesFromTrakt();
+    IEnumerable<EpisodeWatched> GetWatchedEpisodes();
 
-    void AddMoviesToWatchHistory(List<TraktSyncHistoryPostMovie> movies);
-
-    void RemoveMoviesFromWatchHistory(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies);
-
-    void AddMoviesToCollection(List<TraktSyncCollectionPostMovie> movies);
-
-    void RemoveMoviesFromCollection(IEnumerable<TraktSyncPostResponseNotFoundItem<TraktMovieIds>> movies);
-
-    IEnumerable<Episode> GetUnWatchedEpisodesFromTrakt();
-
-    IEnumerable<EpisodeWatched> GetWatchedEpisodesFromTrakt(bool ignoreLastSyncTime = false);
-
-    IEnumerable<EpisodeCollected> GetCollectedEpisodesFromTrakt(bool ignoreLastSyncTime = false);
-
-    void AddEpisodesToWatchHistory(TraktSyncHistoryPostShow show);
-
-    void AddEpisodesToCollection(TraktSyncCollectionPostShow show);
+    IEnumerable<EpisodeCollected> GetCollectedEpisodes();
   }
 }

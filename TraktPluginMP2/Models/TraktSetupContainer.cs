@@ -11,7 +11,8 @@ namespace TraktPluginMP2.Models
     {
       IMediaPortalServices mediaPortalServices = new MediaPortalServices();
       ITraktClient traktClient = new TraktClientProxy(ApplicationId, SecretId);
-      ITraktCache traktCache = new TraktCache(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = new FileOperations();
+      ITraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       return new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
     }

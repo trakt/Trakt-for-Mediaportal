@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TraktPluginMP2.Structures
 {
@@ -6,6 +7,6 @@ namespace TraktPluginMP2.Structures
   public class EpisodeCollected : Episode
   {
     [DataMember]
-    public string CollectedAt { get; set; }
+    public DateTime? CollectedAt { get; set; }
   }
 }

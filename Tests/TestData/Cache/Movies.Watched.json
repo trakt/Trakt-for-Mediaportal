@@ -1,0 +1,44 @@
+﻿[
+  {
+    "last_watched_at": "2017-03-22T21:45:26.000Z",
+    "movie": {
+      "ids": {
+        "slug": "ice-age-collision-course-2016",
+        "trakt": 175781,
+        "imdb": "tt3416828",
+        "tmdb": 278154
+      },
+      "title": "Ice Age: Collision Course",
+      "year": 2016
+    },
+    "plays": 1
+  },
+  {
+    "last_watched_at": "2017-03-22T00:44:01.000Z",
+    "movie": {
+      "ids": {
+        "slug": "american-sniper-2014",
+        "trakt": 119348,
+        "imdb": "tt2179136",
+        "tmdb": 190859
+      },
+      "title": "American Sniper",
+      "year": 2014
+    },
+    "plays": 1
+  },
+  {
+    "last_watched_at": "2017-03-22T21:38:29.000Z",
+    "movie": {
+      "ids": {
+        "slug": "12-angry-men-1957",
+        "trakt": 309,
+        "imdb": "tt0050083",
+        "tmdb": 389
+      },
+      "title": "12 Angry Men",
+      "year": 1957
+    },
+    "plays": 1
+  }
+]
