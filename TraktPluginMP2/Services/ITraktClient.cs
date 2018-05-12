@@ -14,19 +14,19 @@ namespace TraktPluginMP2.Services
 {
   public interface ITraktClient
   {
-    TraktAuthentication Authentication { get; }
+    TraktAuthorization GetAuthorization(string code);
 
-    TraktOAuth OAuth { get; }
-
-    TraktSyncModule Sync { get; }
+    bool IsAuthorized { get; }
 
     string GetUsername();
 
-    Task<TraktSyncHistoryPostResponse> AddWatchedHistoryItemsAsync(TraktSyncHistoryPost historyPost);
+    TraktAuthorization RefreshAuthorization(string refreshToken);
 
-    Task<TraktSyncCollectionPostResponse> AddCollectionItemsAsync(TraktSyncCollectionPost collectionPost);
+    TraktSyncHistoryPostResponse AddWatchedHistoryItems(TraktSyncHistoryPost historyPost);
 
-    TraktSyncLastActivities GetLastActivitiesAsync();
+    TraktSyncCollectionPostResponse AddCollectionItems(TraktSyncCollectionPost collectionPost);
+
+    TraktSyncLastActivities GetLastActivities();
 
     IEnumerable<TraktWatchedMovie> GetWatchedMovies();
 

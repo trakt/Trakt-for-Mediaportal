@@ -12,12 +12,15 @@
   <string name="Trakt.SyncSeries">Synchronizing series...</string>
   <string name="Trakt.SyncFinished">Synchronization complete!</string>
   <string name="Trakt.MediaLibraryNotConnected">Server is currently not connected, could not synchronize!</string>
-  <string name="Trakt.WrongToken">Token not available</string>
-  <string name="Trakt.EmptyUsername">Please enter your username</string>
-  <string name="Trakt.NotAuthorized">Authorize first!</string>
-  <string name="Trakt.CheckPin">Unable to login to trakt, wrong pin?</string>
-  <string name="Trakt.LoggedIn">Successfully logged in!</string>
-  <string name="Trakt.UnableLogin">Unable login to trakt</string>
+
+  <string name="Trakt.AuthorizationSucceed">Trakt authorization succeed</string>
+  <string name="Trakt.AuthorizationFailed">Trakt authorization failed</string>
+  <string name="Trakt.InvalidRefreshToken">Trakt refresh token is invalid</string>
+  <string name="Trakt.RefreshTokenIsEmptyOrContainsSpaces">Trakt refresh token is empty or contains spaces</string>
+  <string name="Trakt.InvalidAuthorizationCode">Trakt authorization code is invalid</string>
+  <string name="Trakt.AuthorizationCodeIsEmptyOrContainsSpaces">Trakt authorization code is empty or contains spaces</string>
+  <string name="Trakt.NotAuthorized">MediaPortal2 is not yet authorized to sync with Trakt</string>
+
   <string name="Settings.Plugins.Trakt">Trakt.tv</string>
   <string name="Settings.Plugins.Trakt.TraktSetup">Setup Trakt.tv</string>
   <string name="Settings.Plugins.Trakt.TraktSetup.Help">Configure account details for Trakt.tv service</string>

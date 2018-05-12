@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TraktApiSharp;
+using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Syncs.Activities;
 using TraktApiSharp.Objects.Get.Watched;
@@ -17,17 +18,32 @@ namespace TraktPluginMP2.Services
     {
     }
 
-    public Task<TraktSyncHistoryPostResponse> AddWatchedHistoryItemsAsync(TraktSyncHistoryPost historyPost)
+    public bool IsAuthorized
     {
-      return base.Sync.AddWatchedHistoryItemsAsync(historyPost);
+      get { return base.Authentication.IsAuthorized; }
     }
 
-    public Task<TraktSyncCollectionPostResponse> AddCollectionItemsAsync(TraktSyncCollectionPost collectionPost)
+    public TraktAuthorization GetAuthorization(string code)
     {
-      return base.Sync.AddCollectionItemsAsync(collectionPost);
+      return base.OAuth.GetAuthorizationAsync(code).Result;
     }
 
-    public TraktSyncLastActivities GetLastActivitiesAsync()
+    public TraktAuthorization RefreshAuthorization(string refreshToken)
+    {
+      return base.OAuth.RefreshAuthorizationAsync(refreshToken).Result;
+    }
+
+    public TraktSyncHistoryPostResponse AddWatchedHistoryItems(TraktSyncHistoryPost historyPost)
+    {
+      return base.Sync.AddWatchedHistoryItemsAsync(historyPost).Result;
+    }
+
+    public TraktSyncCollectionPostResponse AddCollectionItems(TraktSyncCollectionPost collectionPost)
+    {
+      return base.Sync.AddCollectionItemsAsync(collectionPost).Result;
+    }
+
+    public TraktSyncLastActivities GetLastActivities()
     {
       return base.Sync.GetLastActivitiesAsync().Result;
     }

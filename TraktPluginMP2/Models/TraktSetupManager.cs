@@ -10,6 +10,7 @@ using MediaPortal.Common.MediaManagement.DefaultItemAspects;
 using MediaPortal.Common.MediaManagement.MLQueries;
 using MediaPortal.UI.Services.UserManagement;
 using TraktApiSharp.Authentication;
+using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Basic;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
@@ -33,7 +34,6 @@ namespace TraktPluginMP2.Models
 
     private readonly AbstractProperty _isEnabledProperty = new WProperty(typeof(bool), false);
     private readonly AbstractProperty _testStatusProperty = new WProperty(typeof(string), string.Empty);
-    private readonly AbstractProperty _usermameProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
 
@@ -64,17 +64,6 @@ namespace TraktPluginMP2.Models
     {
       get { return (string)_testStatusProperty.GetValue(); }
       set { _testStatusProperty.SetValue(value); }
-    }
-
-    public AbstractProperty UsernameProperty
-    {
-      get { return _usermameProperty; }
-    }
-
-    public string Username
-    {
-      get { return (string)_usermameProperty.GetValue(); }
-      set { _usermameProperty.SetValue(value); }
     }
 
     public AbstractProperty PinCodeProperty
@@ -115,48 +104,99 @@ namespace TraktPluginMP2.Models
 
     public int MarkUnWatchedEpisodes { get; private set; }
 
-    public void AuthorizeUser()
+    public void Initialize()
     {
-      if (string.IsNullOrEmpty(PinCode) || PinCode.Length != 8)
-      {
-        TestStatus = "[Trakt.WrongToken]";
-        _mediaPortalServices.GetLogger().Error("Wrong pin entered");
-        return;
-      }
-
-      TraktAuthorization traktAuthorization = _traktClient.OAuth.GetAuthorizationAsync(PinCode).Result;
-
-      if (!traktAuthorization.IsValid)
-      {
-        TestStatus = "[Trakt.UnableLogin]";
-        return;
-      }
-      
-      // only for cache needed
-      if (string.IsNullOrEmpty(Username))
-      {
-        TestStatus = "[Trakt.EmptyUsername]";
-        _mediaPortalServices.GetLogger().Error("Username is missing");
-        return;
-      }
-
       ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
       TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
 
-      settings.TraktOAuthToken = traktAuthorization.AccessToken;
+      IsEnabled = settings.EnableTrakt;
 
+      // clear the PIN code textbox, necessary when entering the plugin
+      PinCode = string.Empty;
+
+      if (string.IsNullOrEmpty(settings.RefreshToken))
+      {
+        TestStatus = "[Trakt.NotAuthorized]";
+        _mediaPortalServices.GetLogger().Warn("Refresh token is empty.");
+      }
+      else
+      {
+        try
+        {
+          TraktAuthorization authorization = _traktClient.RefreshAuthorization(settings.RefreshToken);
+          TestStatus = "[Trakt.AuthorizationSucceed]";
+          settings.RefreshToken = authorization.RefreshToken;
+          settingsManager.Save(settings);
+        }
+        catch (TraktAuthorizationException ex)
+        {
+          TestStatus = "[Trakt.AuthorizationFailed]";
+          _mediaPortalServices.GetLogger().Error(ex);
+        }
+        catch (TraktAuthenticationException ex)
+        {
+          _mediaPortalServices.GetLogger().Error(ex);
+          TestStatus = "[Trakt.InvalidRefreshToken]";
+        }
+        catch (TraktException ex)
+        {
+          _mediaPortalServices.GetLogger().Error(ex);
+          TestStatus = "[Trakt.AuthorizationFailed]";
+        }
+        catch (ArgumentException ex)
+        {
+          _mediaPortalServices.GetLogger().Error(ex);
+          TestStatus = "[Trakt.RefreshTokenIsEmptyOrContainsSpaces]";
+        }
+      }
+    }
+
+    public void Close()
+    {
+      ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
+      TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
       settings.EnableTrakt = IsEnabled;
-      settings.Username = Username;
       settingsManager.Save(settings);
+    }
 
-      TestStatus = "[Trakt.LoggedIn]";
+    public void AuthorizeUser()
+    {
+      try
+      {
+        TraktAuthorization traktAuthorization = _traktClient.GetAuthorization(PinCode);
+
+        ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
+        TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
+
+        settings.RefreshToken = traktAuthorization.RefreshToken;
+        settings.AccessToken = traktAuthorization.AccessToken;
+        settings.EnableTrakt = IsEnabled;
+        settingsManager.Save(settings);
+
+        TestStatus = "[Trakt.AuthorizationSucceed]";
+      }
+      catch (TraktAuthenticationOAuthException ex)
+      {
+        TestStatus = "[Trakt.InvalidAuthorizationCode]";
+        _mediaPortalServices.GetLogger().Error(ex);
+      }
+      catch (TraktException ex)
+      {
+        _mediaPortalServices.GetLogger().Error(ex);
+        TestStatus = "[Trakt.AuthorizationFailed]";
+      }
+      catch (ArgumentException ex)
+      {
+        TestStatus = "[Trakt.AuthorizationCodeIsEmptyOrContainsSpaces]";
+        _mediaPortalServices.GetLogger().Error(ex);
+      }
     }
 
     public void SyncMediaToTrakt()
     {
       if (!IsSynchronizing)
       {
-        if (!_traktClient.Authentication.IsAuthorized)
+        if (!_traktClient.IsAuthorized)
         {
           TestStatus = "[Trakt.NotAuthorized]";
           _mediaPortalServices.GetLogger().Error("User not authorized");
@@ -311,7 +351,7 @@ namespace TraktPluginMP2.Models
 
           if (SyncWatchedMovies > 0)
           {
-            TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItemsAsync(new TraktSyncHistoryPost { Movies = syncWatchedMovies }).Result;
+            TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItems(new TraktSyncHistoryPost { Movies = syncWatchedMovies });
 
             if (SyncWatchedMovies != watchedResponse?.Added?.Movies)
             {
@@ -354,7 +394,7 @@ namespace TraktPluginMP2.Models
 
           if (SyncCollectedMovies > 0)
           {
-            TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItemsAsync(new TraktSyncCollectionPost {Movies = syncCollectedMovies}).Result;
+            TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItems(new TraktSyncCollectionPost {Movies = syncCollectedMovies});
 
             if (SyncCollectedMovies != collectionResponse?.Added?.Movies)
             {
@@ -524,7 +564,7 @@ namespace TraktPluginMP2.Models
           if (traktWatchedEpisodes != null)
           {
             TraktSyncHistoryPost watchedEpisodesForSync = GetWatchedShowsForSync(localWatchedEpisodes, traktWatchedEpisodes);
-            TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItemsAsync(watchedEpisodesForSync).Result;
+            TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItems(watchedEpisodesForSync);
             if (SyncWatchedEpisodes != watchedResponse?.Added?.Episodes)
             {
               // log not found episodes
@@ -535,7 +575,7 @@ namespace TraktPluginMP2.Models
           #region Add episodes to collection at trakt.tv
 
           TraktSyncCollectionPost collectedEpisodesForSync = GetCollectedEpisodesForSync(localEpisodes, traktCollectedEpisodes);
-          TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItemsAsync(collectedEpisodesForSync).Result;
+          TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItems(collectedEpisodesForSync);
           if (SyncCollectedEpisodes != collectionResponse?.Added?.Episodes)
           {
             // log not found episodes

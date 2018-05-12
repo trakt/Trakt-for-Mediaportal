@@ -47,7 +47,7 @@ namespace TraktPluginMP2.Services
     {
       IEnumerable <TraktWatchedMovie> watchedMovies;
       TraktPluginSettings settings = _mediaPortalServices.GetSettingsManager().Load<TraktPluginSettings>();
-      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivitiesAsync();
+      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivities();
       bool cacheIsUpToDate = traktSyncLastActivities?.Movies.WatchedAt == settings.LastSyncActivities.Movies.WatchedAt;
 
       if (cacheIsUpToDate)
@@ -72,7 +72,7 @@ namespace TraktPluginMP2.Services
     {
       IEnumerable<TraktCollectionMovie> collectedMovies;
       TraktPluginSettings settings = _mediaPortalServices.GetSettingsManager().Load<TraktPluginSettings>();
-      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivitiesAsync();
+      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivities();
       bool cacheIsUpToDate = traktSyncLastActivities?.Movies.CollectedAt == settings.LastSyncActivities.Movies.CollectedAt;
 
       if (cacheIsUpToDate)
@@ -144,7 +144,7 @@ namespace TraktPluginMP2.Services
     {
       IList<EpisodeWatched> episodesWatched = new List<EpisodeWatched>();
       TraktPluginSettings settings = _mediaPortalServices.GetSettingsManager().Load<TraktPluginSettings>();
-      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivitiesAsync();
+      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivities();
       bool cacheIsUpToDate = traktSyncLastActivities?.Episodes.WatchedAt == settings.LastSyncActivities.Episodes.WatchedAt;
 
       if (cacheIsUpToDate)
@@ -191,7 +191,7 @@ namespace TraktPluginMP2.Services
     {
       IList<EpisodeCollected> episodesCollected = new List<EpisodeCollected>();
       TraktPluginSettings settings = _mediaPortalServices.GetSettingsManager().Load<TraktPluginSettings>();
-      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivitiesAsync();
+      TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivities();
       bool cacheIsUpToDate = traktSyncLastActivities?.Episodes.CollectedAt == settings.LastSyncActivities.Episodes.CollectedAt;
 
       if (cacheIsUpToDate)

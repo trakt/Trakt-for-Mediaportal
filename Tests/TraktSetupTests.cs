@@ -7,7 +7,10 @@ using MediaPortal.Common.Messaging;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.SystemCommunication;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Tests.TestData.Setup;
+using TraktApiSharp.Authentication;
+using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Watched;
@@ -21,6 +24,97 @@ namespace Tests
 {
   public class TraktSetupTests
   {
+    [Theory]
+    [ClassData(typeof(InitializeThrowsExceptionTestData))]
+    public void InitializeThrowsException(TraktPluginSettings savedTraktSettings, Exception authorizationException, string expectedStatus)
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+
+      settingsManager.Load<TraktPluginSettings>().Returns(savedTraktSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+
+      traktClient.RefreshAuthorization(savedTraktSettings.RefreshToken).Throws(authorizationException);
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+
+      // Act
+      traktSetup.Initialize();
+
+      // Assert
+      Assert.Equal(expectedStatus, traktSetup.TestStatus);
+    }
+
+    [Theory]
+    [ClassData(typeof(InitializeDoNotThrowExceptionTestData))]
+    public void InitializeDoNotThrowException(TraktPluginSettings savedTraktSettings, TraktAuthorization traktAuthorization, string expectedStatus)
+    {
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+
+      settingsManager.Load<TraktPluginSettings>().Returns(savedTraktSettings);
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+
+      traktClient.RefreshAuthorization(savedTraktSettings.RefreshToken).Returns(traktAuthorization);
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+
+      // Act
+      traktSetup.Initialize();
+
+      // Assert
+      Assert.Equal(expectedStatus, traktSetup.TestStatus);
+    }
+
+    [Theory]
+    [ClassData(typeof(AuthorizeUserThrowsExceptionTestData))]
+    public void AuthorizeUserThrowsException(string pinCode, Exception authorizationException, string expectedStatus)
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+
+      settingsManager.Load<TraktPluginSettings>().Returns(new TraktPluginSettings());
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+
+      traktClient.GetAuthorization(pinCode).Throws(authorizationException);
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      traktSetup.PinCode = pinCode;
+      // Act
+      traktSetup.AuthorizeUser();
+
+      // Assert
+      Assert.Equal(expectedStatus, traktSetup.TestStatus);
+    }
+
+    [Theory]
+    [ClassData(typeof(AuthorizeUserDoNotThrowEceptionTestData))]
+    public void AuthorizeUserDoNotThrowException(string pinCode, TraktAuthorization traktAuthorization, string expectedStatus)
+    {
+      // Arrange
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
+
+      settingsManager.Load<TraktPluginSettings>().Returns(new TraktPluginSettings());
+      mediaPortalServices.GetSettingsManager().Returns(settingsManager);
+      ITraktClient traktClient = Substitute.For<ITraktClient>();
+
+      traktClient.GetAuthorization(pinCode).Returns(traktAuthorization);
+      ITraktCache traktCache = Substitute.For<ITraktCache>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      traktSetup.PinCode = pinCode;
+      // Act
+      traktSetup.AuthorizeUser();
+
+      // Assert
+      Assert.Equal(expectedStatus, traktSetup.TestStatus);
+    }
+
     [Theory]
     [ClassData(typeof(WatchedMoviesTestData))]
     public void AddWatchedMovieToTraktIfMediaLibraryAvailable(List<MediaItem> databaseMovies, List<TraktWatchedMovie> traktMovies, int expectedMoviesCount)
@@ -189,7 +283,7 @@ namespace Tests
       mediaPortalServices.MarkAsWatched(Arg.Any<MediaItem>()).Returns(true);
       mediaPortalServices.MarkAsUnWatched(Arg.Any<MediaItem>()).Returns(true);
       ISettingsManager settingsManager = Substitute.For<ISettingsManager>();
-      TraktPluginSettings traktPluginSettings = new TraktPluginSettings { SyncBatchSize = 100 };
+      TraktPluginSettings traktPluginSettings = new TraktPluginSettings();
       settingsManager.Load<TraktPluginSettings>().Returns(traktPluginSettings);
       mediaPortalServices.GetSettingsManager().Returns(settingsManager);
       IContentDirectory contentDirectory = Substitute.For<IContentDirectory>();

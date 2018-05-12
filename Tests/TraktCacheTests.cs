@@ -24,7 +24,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetWatchedMovies().Returns(onlineWatchedMovies);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
@@ -47,7 +47,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetWatchedMovies().Returns(onlineWatchedMovies);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
@@ -70,7 +70,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetCollectedMovies().Returns(onlineCollectedMovies);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Collected"));
@@ -93,7 +93,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetWatchedShows().Returns(onlineWatchedShows);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
@@ -116,7 +116,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetWatchedShows().Returns(onlineWatchedShows);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
@@ -139,7 +139,7 @@ namespace Tests
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       traktClient.GetCollectedShows().Returns(onlineCollectedShows);
-      traktClient.GetLastActivitiesAsync().Returns(onlineLastSyncActivities);
+      traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
       fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Collected"));

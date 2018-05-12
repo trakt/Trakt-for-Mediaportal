@@ -88,8 +88,12 @@
     <Compile Include="TestData\Cache\UnWatchedMoviesTestData.cs" />
     <Compile Include="TestData\Cache\WatchedEpisodesTestData.cs" />
     <Compile Include="TestData\Cache\WatchedMoviesTestData.cs" />
+    <Compile Include="TestData\Setup\AuthorizeUserDoNotThrowEceptionTestData.cs" />
+    <Compile Include="TestData\Setup\AuthorizeUserThrowsExceptionTestData.cs" />
     <Compile Include="TestData\Setup\CollectedEpisodesTestData.cs" />
     <Compile Include="TestData\Setup\CollectedMoviesTestData.cs" />
+    <Compile Include="TestData\Setup\InitializeThrowsExceptionTestData.cs" />
+    <Compile Include="TestData\Setup\InitializeDoNotThrowExceptionTestData.cs" />
     <Compile Include="TestData\Setup\MockedDatabaseEpisode.cs" />
     <Compile Include="TestData\Setup\MockedDatabaseMovie.cs" />
     <Compile Include="TestData\Setup\TraktUnWatchedEpisodesTestData.cs" />

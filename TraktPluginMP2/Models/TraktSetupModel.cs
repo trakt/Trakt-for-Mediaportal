@@ -41,17 +41,6 @@ namespace TraktPluginMP2.Models
       set { _manager.TestStatus = value; }
     }
 
-    public AbstractProperty UsernameProperty
-    {
-      get { return _manager.UsernameProperty; }
-    }
-
-    public string Username
-    {
-      get { return _manager.Username; }
-      set { _manager.Username = value; }
-    }
-
     public AbstractProperty PinCodeProperty
     {
       get { return _manager.PinCodeProperty; }
@@ -98,11 +87,12 @@ namespace TraktPluginMP2.Models
 
     public void EnterModelContext(NavigationContext oldContext, NavigationContext newContext)
     {
+      _manager.Initialize();
     }
 
     public void ExitModelContext(NavigationContext oldContext, NavigationContext newContext)
     {
-      // do save
+      _manager.Close();
     }
 
     public void ChangeModelContext(NavigationContext oldContext, NavigationContext newContext, bool push)
