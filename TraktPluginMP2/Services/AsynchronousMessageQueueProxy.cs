@@ -9,14 +9,20 @@ namespace TraktPluginMP2.Services
     {
     }
 
-    public new void DoWork()
+    public event MessageReceivedHandler MessageReceivedProxy
     {
-      base.DoWork();
+      add { MessageReceived += value; }
+      remove { MessageReceived -= value; }
     }
 
-    public new void HandleMessageAvailable(SystemMessage message)
+    public void StartProxy()
     {
-      base.HandleMessageAvailable(message);
+      base.Start();
+    }
+
+    public bool ShutdownProxy()
+    {
+      return base.Shutdown();
     }
   }
 }

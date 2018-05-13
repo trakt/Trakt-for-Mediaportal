@@ -5,24 +5,10 @@ namespace TraktPluginMP2.Services
 {
   public interface IAsynchronousMessageQueue
   {
-    void Dispose();
+    event MessageReceivedHandler MessageReceivedProxy;
 
-    void DoWork();
+    void StartProxy();
 
-    void HandleMessageAvailable(SystemMessage message);
-
-    event MessageReceivedHandler MessageReceived;
-
-    event MessageReceivedHandler PreviewMessage;
-
-    bool IsTerminated { get; }
-
-    ThreadPriority ThreadPriority { get; set; }
-
-    void Start();
-
-    bool Shutdown();
-
-    void Terminate();
+    bool ShutdownProxy();
   }
 }

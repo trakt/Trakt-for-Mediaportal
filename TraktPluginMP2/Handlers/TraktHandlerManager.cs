@@ -20,8 +20,8 @@ namespace TraktPluginMP2.Handlers
     {
       _mediaPortalServices = mediaPortalServices;
       _traktClient = traktClient;
-      // TODO: subscribe to SettingsChanged 
-      //  _mediaPortalServices.Watcher().SettingsChanged += ConfigureHandler;
+      _mediaPortalServices.GetTraktSettingsWatcher().TraktSettingsChanged += ConfigureHandler;
+      _mediaPortalServices.GetUserMessageHandler().UserChangedProxy += ConfigureHandler;
       ConfigureHandler();
     }
 
@@ -30,14 +30,15 @@ namespace TraktPluginMP2.Handlers
       ConfigureHandler();
     }
 
-    public bool StartedScrobble { get; set; }
+    public bool Active { get; private set; }
 
-    public bool? StoppedScrobble { get; set; }
+    public bool StartedScrobble { get; private set; }
+
+    public bool? StoppedScrobble { get; private set; }
 
     private void ConfigureHandler()
     {
-      // TODO: if Settings.EnableTrakt
-      if (true)
+      if (_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.EnableTrakt)
       {
         SubscribeToMessages();
       }
@@ -55,8 +56,9 @@ namespace TraktPluginMP2.Handlers
         {
           PlayerManagerMessaging.CHANNEL
         });
-        _messageQueue.MessageReceived += OnMessageReceived;
-        _messageQueue.Start();
+        _messageQueue.MessageReceivedProxy += OnMessageReceived;
+        _messageQueue.StartProxy();
+        Active = true;
       }
     }
 
@@ -105,8 +107,9 @@ namespace TraktPluginMP2.Handlers
     {
       if (_messageQueue != null)
       {
-        _messageQueue.Shutdown();
+        _messageQueue.ShutdownProxy();
         _messageQueue = null;
+        Active = false;
       }
     }
 
