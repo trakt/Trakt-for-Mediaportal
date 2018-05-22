@@ -1,9 +1,21 @@
 ﻿using System;
+using System.Linq;
+using MediaPortal.Common.MediaManagement;
+using MediaPortal.Common.MediaManagement.DefaultItemAspects;
+using MediaPortal.Common.MediaManagement.MLQueries;
 using MediaPortal.Common.Messaging;
+using MediaPortal.Common.Settings;
+using MediaPortal.Common.SystemCommunication;
 using MediaPortal.UI.Presentation.Players;
 using MediaPortal.UI.Presentation.Players.ResumeState;
-using TraktApiSharp;
+using MediaPortal.UI.ServerCommunication;
+using TraktApiSharp.Authentication;
+using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Shows.Episodes;
+using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktPluginMP2.Services;
+using TraktPluginMP2.Settings;
+using TraktPluginMP2.Utilities;
 
 namespace TraktPluginMP2.Handlers
 {
@@ -13,8 +25,9 @@ namespace TraktPluginMP2.Handlers
     private readonly ITraktClient _traktClient;
     private IAsynchronousMessageQueue _messageQueue;
     private TimeSpan _duration;
-    private double _progress;
-
+    private TimeSpan _resumePosition;
+    private TraktMovie _traktMovie;
+    private TraktEpisode _traktEpisode;
 
     public TraktHandlerManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient)
     {
@@ -30,22 +43,44 @@ namespace TraktPluginMP2.Handlers
       ConfigureHandler();
     }
 
-    public bool Active { get; private set; }
+    public bool IsActive { get; private set; }
 
-    public bool StartedScrobble { get; private set; }
+    public bool IsScrobbleStared { get; private set; }
 
-    public bool? StoppedScrobble { get; private set; }
+    public bool? IsScrobbleStopped { get; private set; }
+
+    public string ScrobbleTitle { get; private set; }
 
     private void ConfigureHandler()
     {
-      if (_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.EnableTrakt)
+      if (!_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.EnableTrakt)
       {
-        SubscribeToMessages();
+        UnsubscribeFromMessages();
+        IsActive = false;
       }
       else
       {
-        UnsubscribeFromMessages();
+        try
+        {
+          ExchangeRefreshToken();
+          SubscribeToMessages();
+          IsActive = true;
+        }
+        catch (Exception e)
+        {
+          _mediaPortalServices.GetLogger().Error(e);
+        }
       }
+    }
+
+    private void ExchangeRefreshToken()
+    {
+      ISettingsManager settingsManager = _mediaPortalServices.GetSettingsManager();
+      TraktPluginSettings settings = settingsManager.Load<TraktPluginSettings>();
+      string savedToken = settings.RefreshToken;
+      TraktAuthorization authorization = _traktClient.RefreshAuthorization(savedToken);
+      settings.RefreshToken = authorization.RefreshToken;
+      settingsManager.Save(settings);
     }
 
     private void SubscribeToMessages()
@@ -58,7 +93,6 @@ namespace TraktPluginMP2.Handlers
         });
         _messageQueue.MessageReceivedProxy += OnMessageReceived;
         _messageQueue.StartProxy();
-        Active = true;
       }
     }
 
@@ -66,41 +100,188 @@ namespace TraktPluginMP2.Handlers
     {
       if (message.ChannelName == PlayerManagerMessaging.CHANNEL)
       {
-        PlayerManagerMessaging.MessageType messageType = (PlayerManagerMessaging.MessageType) message.MessageType;
+        PlayerManagerMessaging.MessageType messageType = (PlayerManagerMessaging.MessageType)message.MessageType;
         switch (messageType)
         {
+          case PlayerManagerMessaging.MessageType.PlayerStarted:
+            StartScrobble(message);
+            break;
           case PlayerManagerMessaging.MessageType.PlayerResumeState:
-            IResumeState resumeState = (IResumeState)message.MessageData[PlayerManagerMessaging.KEY_RESUME_STATE];
-            PositionResumeState positionResume = resumeState as PositionResumeState;
-            if (positionResume != null)
-            {
-              TimeSpan resumePosition = positionResume.ResumePosition;
-              _progress = Math.Min((int)(resumePosition.TotalSeconds * 100 / _duration.TotalSeconds), 100);
-            }
+            SaveResumePosition(message);
             break;
           case PlayerManagerMessaging.MessageType.PlayerError:
           case PlayerManagerMessaging.MessageType.PlayerEnded:
           case PlayerManagerMessaging.MessageType.PlayerStopped:
             StopScrobble();
             break;
-          case PlayerManagerMessaging.MessageType.PlayerStarted:
-            var psc = (IPlayerSlotController)message.MessageData[PlayerManagerMessaging.PLAYER_SLOT_CONTROLLER];
-            StartScrobble(psc);
-            break;
         }
       }
     }
 
-    private void StartScrobble(IPlayerSlotController psc)
+    private void StartScrobble(SystemMessage message)
     {
-      // TODO: implement!
-      StartedScrobble = true;
+      IsScrobbleStopped = null;
+      try
+      {
+        IPlayerSlotController psc = (IPlayerSlotController)message.MessageData[PlayerManagerMessaging.PLAYER_SLOT_CONTROLLER];
+        IPlayerContext pc = _mediaPortalServices.GetPlayerContext(psc);
+        if (pc?.CurrentMediaItem == null)
+        {
+          throw new ArgumentNullException(nameof(pc.CurrentMediaItem));
+        }
+
+        IMediaPlaybackControl pmc = pc.CurrentPlayer as IMediaPlaybackControl;
+        if (pmc == null)
+        {
+          throw new ArgumentNullException(nameof(pmc));
+        }
+
+        if (IsSeries(pc.CurrentMediaItem))
+        {
+          HandleEpisodeScrobbleStart(pc, pmc);
+        }
+        else if (IsMovie(pc.CurrentMediaItem))
+        {
+          HandleMovieScrobbleStart(pc, pmc);
+        }
+      }
+      catch (ArgumentNullException ex)
+      {
+        _mediaPortalServices.GetLogger().Error(ex);
+      }
+      catch (Exception ex)
+      {
+        _mediaPortalServices.GetLogger().Error(ex);
+        _traktEpisode = null;
+        _traktMovie = null;
+        _duration = TimeSpan.Zero;
+        ScrobbleTitle = null;
+        IsScrobbleStared = false;
+      }
+    }
+
+    private bool IsSeries(MediaItem item)
+    {
+      return item.Aspects.ContainsKey(EpisodeAspect.ASPECT_ID);
+    }
+
+    private void HandleEpisodeScrobbleStart(IPlayerContext pc, IMediaPlaybackControl pmc)
+    {
+      MediaItem episodeMediaItem = GetMediaItem(pc.CurrentMediaItem.MediaItemId, new Guid[] { MediaAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID, EpisodeAspect.ASPECT_ID });
+      _traktEpisode = ConvertMediaItemToTraktEpisode(episodeMediaItem);
+
+      TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StartScrobbleEpisode(_traktEpisode, GetCurrentProgress(pmc));
+
+      ScrobbleTitle = postEpisodeResponse.Episode.Title;
+      _duration = pmc.Duration;
+      IsScrobbleStared = true;
+      _mediaPortalServices.GetLogger().Info("started to scrobble: {}", ScrobbleTitle);
+    }
+
+    private MediaItem GetMediaItem(Guid filter, Guid[] aspects)
+    {
+      IServerConnectionManager scm = _mediaPortalServices.GetServerConnectionManager();
+      IContentDirectory cd = scm.ContentDirectory;
+
+      return cd?.SearchAsync(new MediaItemQuery(aspects, new Guid[] { }, new MediaItemIdFilter(filter)), false, null, true).Result.First();
+    }
+
+    private TraktEpisode ConvertMediaItemToTraktEpisode(MediaItem episodeMediaItem)
+    {
+      TraktEpisode episode = new TraktEpisode
+      {
+        Ids = new TraktEpisodeIds
+        {
+          Imdb = MediaItemAspectsUtl.GetSeriesImdbId(episodeMediaItem),
+          Tvdb = MediaItemAspectsUtl.GetTvdbId(episodeMediaItem)
+        },
+        Number = MediaItemAspectsUtl.GetEpisodeIndex(episodeMediaItem),
+        Title = MediaItemAspectsUtl.GetSeriesTitle(episodeMediaItem),
+        SeasonNumber = MediaItemAspectsUtl.GetSeasonIndex(episodeMediaItem)
+      };
+      return episode;
+    }
+
+    private float GetCurrentProgress(IMediaPlaybackControl pmc)
+    {
+      return (float)(100 * pmc.CurrentTime.TotalMilliseconds / pmc.Duration.TotalMilliseconds);
+    }
+
+    private bool IsMovie(MediaItem item)
+    {
+      return item.Aspects.ContainsKey(MovieAspect.ASPECT_ID);
+    }
+
+    private void HandleMovieScrobbleStart(IPlayerContext pc, IMediaPlaybackControl pmc)
+    {
+      MediaItem movieMediaItem = GetMediaItem(pc.CurrentMediaItem.MediaItemId, new Guid[] { MediaAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID, MovieAspect.ASPECT_ID });
+      _traktMovie = ConvertMediaItemToTraktMovie(movieMediaItem);
+      float progress = GetCurrentProgress(pmc);
+
+      TraktMovieScrobblePostResponse postMovieResponse = _traktClient.StartScrobbleMovie(_traktMovie, progress);
+
+      ScrobbleTitle = postMovieResponse.Movie.Title;
+      _duration = pmc.Duration;
+      IsScrobbleStared = true;
+      _mediaPortalServices.GetLogger().Info("started to scrobble: {}", ScrobbleTitle);
+    }
+
+    private TraktMovie ConvertMediaItemToTraktMovie(MediaItem movieMediaItem)
+    {
+      TraktMovie movie = new TraktMovie
+      {
+        Ids = new TraktMovieIds
+        {
+          Imdb = MediaItemAspectsUtl.GetMovieImdbId(movieMediaItem),
+          Tmdb = MediaItemAspectsUtl.GetMovieTmdbId(movieMediaItem)
+        },
+        Title = MediaItemAspectsUtl.GetMovieTitle(movieMediaItem),
+        Year = MediaItemAspectsUtl.GetMovieYear(movieMediaItem)
+      };
+      return movie;
+    }
+
+    private void SaveResumePosition(SystemMessage message)
+    {
+      IResumeState resumeState = (IResumeState)message.MessageData[PlayerManagerMessaging.KEY_RESUME_STATE];
+      PositionResumeState positionResume = resumeState as PositionResumeState;
+      if (positionResume != null)
+      {
+        _resumePosition = positionResume.ResumePosition;
+      }
     }
 
     private void StopScrobble()
     {
-      // TODO: implement!
-      StoppedScrobble = true;
+      try
+      {
+        if (_traktEpisode != null)
+        {
+          TraktEpisodeScrobblePostResponse postEpisodeResponse = _traktClient.StopScrobbleEpisode(_traktEpisode, GetSavedProgress());
+          ScrobbleTitle = postEpisodeResponse.Episode.Title;
+          _mediaPortalServices.GetLogger().Info("stopped to scrobble: {}", postEpisodeResponse.Episode.Title);
+          IsScrobbleStared = false;
+          IsScrobbleStopped = true;
+        }
+        else if (_traktMovie != null)
+        {
+          TraktMovieScrobblePostResponse postMovieResponse = _traktClient.StopScrobbleMovie(_traktMovie, GetSavedProgress());
+          ScrobbleTitle = postMovieResponse.Movie.Title;
+          _mediaPortalServices.GetLogger().Info("stopped scrobble: {}", postMovieResponse.Movie.Title);
+          IsScrobbleStared = false;
+          IsScrobbleStopped = true;
+        }
+      }
+      catch (Exception ex)
+      {
+        _mediaPortalServices.GetLogger().Error(ex);
+        IsScrobbleStopped = false;
+      }
+    }
+
+    private float GetSavedProgress()
+    {
+      return Math.Min((float)(_resumePosition.TotalSeconds* 100 / _duration.TotalSeconds), 100);
     }
 
     private void UnsubscribeFromMessages()
@@ -109,7 +290,6 @@ namespace TraktPluginMP2.Handlers
       {
         _messageQueue.ShutdownProxy();
         _messageQueue = null;
-        Active = false;
       }
     }
 

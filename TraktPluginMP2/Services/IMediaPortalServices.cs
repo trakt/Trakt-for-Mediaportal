@@ -3,12 +3,11 @@ using System.Threading.Tasks;
 using MediaPortal.Common.Logging;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.PathManager;
-using MediaPortal.Common.Services.Settings;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.Threading;
 using MediaPortal.UI.ServerCommunication;
-using MediaPortal.UI.Services.UserManagement;
-using TraktPluginMP2.Settings;
+using MediaPortal.Common.UserManagement;
+using MediaPortal.UI.Presentation.Players;
 
 namespace TraktPluginMP2.Services
 {
@@ -20,6 +19,8 @@ namespace TraktPluginMP2.Services
 
     IServerConnectionManager GetServerConnectionManager();
 
+    IUserManagement GetUserManagement();
+
     IUserMessageHandler GetUserMessageHandler();
 
     ILogger GetLogger();
@@ -29,6 +30,8 @@ namespace TraktPluginMP2.Services
     ITraktSettingsChangeWatcher GetTraktSettingsWatcher();
 
     IAsynchronousMessageQueue GetMessageQueue(object owner, IEnumerable<string> messageChannel);
+
+    IPlayerContext GetPlayerContext(IPlayerSlotController psc);
 
     Task<bool> MarkAsWatched(MediaItem mediaItem);
 

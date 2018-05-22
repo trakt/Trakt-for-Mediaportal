@@ -32,10 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Media">
+    <Reference Include="Media, Version=2.1.1711.10774, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Externals\Media.dll</HintPath>
     </Reference>
-    <Reference Include="MediaPortal.Common, Version=2.1.1710.10447, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="MediaPortal.Common, Version=2.1.1711.10774, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Externals\MediaPortal.Common.dll</HintPath>
     </Reference>

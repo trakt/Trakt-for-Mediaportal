@@ -5,25 +5,19 @@ using MediaPortal.Common;
 using MediaPortal.Common.Logging;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.PathManager;
-using MediaPortal.Common.Services.Settings;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.Threading;
+using MediaPortal.Common.UserManagement;
+using MediaPortal.UiComponents.Media.MediaItemActions;
+using MediaPortal.UI.Presentation.Players;
 using MediaPortal.UI.ServerCommunication;
-using MediaPortal.UI.Services.UserManagement;
-using  MediaPortal.UiComponents.Media.MediaItemActions;
+using MediaPortal.UI.Services.Players;
 using TraktPluginMP2.Settings;
 
 namespace TraktPluginMP2.Services
 {
   public class MediaPortalServices : IMediaPortalServices
   {
-    private SettingsChangeWatcher<TraktPluginSettings> _settingsChangeWatcher;
-
-    public MediaPortalServices()
-    {
-      _settingsChangeWatcher = new SettingsChangeWatcher<TraktPluginSettings>();
-    }
-
     public ISettingsManager GetSettingsManager()
     {
       return ServiceRegistration.Get<ISettingsManager>();
@@ -37,6 +31,11 @@ namespace TraktPluginMP2.Services
     public IServerConnectionManager GetServerConnectionManager()
     {
       return ServiceRegistration.Get<IServerConnectionManager>();
+    }
+
+    public IUserManagement GetUserManagement()
+    {
+      return ServiceRegistration.Get<IUserManagement>();
     }
 
     public IUserMessageHandler GetUserMessageHandler()
@@ -62,6 +61,11 @@ namespace TraktPluginMP2.Services
     public IAsynchronousMessageQueue GetMessageQueue(object owner, IEnumerable<string> messageChannel)
     {
       return new AsynchronousMessageQueueProxy(owner, messageChannel);
+    }
+
+    public IPlayerContext GetPlayerContext(IPlayerSlotController psc)
+    {
+      return PlayerContext.GetPlayerContext(psc);
     }
 
     public async Task<bool> MarkAsWatched(MediaItem mediaItem)

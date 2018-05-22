@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Collection;
+using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Get.Syncs.Activities;
 using TraktApiSharp.Objects.Get.Watched;
+using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktApiSharp.Objects.Post.Syncs.Collection;
 using TraktApiSharp.Objects.Post.Syncs.Collection.Responses;
 using TraktApiSharp.Objects.Post.Syncs.History;
@@ -66,6 +70,30 @@ namespace TraktPluginMP2.Services
     public IEnumerable<TraktCollectionShow> GetCollectedShows()
     {
       return base.Sync.GetCollectionShowsAsync().Result;
+    }
+
+    public TraktMovieScrobblePostResponse StartScrobbleMovie(TraktMovie movie, float progress, string appVersion = null,
+      DateTime? appBuildDate = null)
+    {
+      return base.Scrobble.StartMovieAsync(movie, progress, appVersion, appBuildDate).Result;
+    }
+
+    public TraktMovieScrobblePostResponse StopScrobbleMovie(TraktMovie movie, float progress, string appVersion = null,
+      DateTime? appBuildDate = null)
+    {
+      return base.Scrobble.StopMovieAsync(movie, progress, appVersion, appBuildDate).Result;
+    }
+
+    public TraktEpisodeScrobblePostResponse StartScrobbleEpisode(TraktEpisode episode, float progress, string appVersion = null,
+      DateTime? appBuildDate = null)
+    {
+      return base.Scrobble.StartEpisodeAsync(episode, progress, appVersion, appBuildDate).Result;
+    }
+
+    public TraktEpisodeScrobblePostResponse StopScrobbleEpisode(TraktEpisode episode, float progress, string appVersion = null,
+      DateTime? appBuildDate = null)
+    {
+      return base.Scrobble.StopEpisodeAsync(episode, progress, appVersion, appBuildDate).Result;
     }
 
     public string GetUsername()

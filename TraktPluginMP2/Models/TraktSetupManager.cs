@@ -8,6 +8,7 @@ using MediaPortal.Common.Threading;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
 using MediaPortal.Common.MediaManagement.MLQueries;
+using MediaPortal.Common.UserManagement;
 using MediaPortal.UI.Services.UserManagement;
 using TraktApiSharp.Authentication;
 using TraktApiSharp.Exceptions;
