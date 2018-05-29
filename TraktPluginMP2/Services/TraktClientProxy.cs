@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TraktApiSharp;
 using TraktApiSharp.Authentication;
+using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Get.Syncs.Activities;
+using TraktApiSharp.Objects.Get.Users;
 using TraktApiSharp.Objects.Get.Watched;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktApiSharp.Objects.Post.Syncs.Collection;
@@ -22,83 +25,235 @@ namespace TraktPluginMP2.Services
     {
     }
 
-    public bool IsAuthorized
+    public TraktAuthorization TraktAuthorization
     {
-      get { return base.Authentication.IsAuthorized; }
+      get { return base.Authorization; }
     }
 
     public TraktAuthorization GetAuthorization(string code)
     {
-      return base.OAuth.GetAuthorizationAsync(code).Result;
+      TraktAuthorization result = null;
+      try
+      {
+        result = Task.Run(() => base.OAuth.GetAuthorizationAsync(code)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktAuthorization RefreshAuthorization(string refreshToken)
     {
-      return base.OAuth.RefreshAuthorizationAsync(refreshToken).Result;
+      TraktAuthorization result = null;
+      try
+      {
+        result = Task.Run(() => base.OAuth.RefreshAuthorizationAsync(refreshToken)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktSyncHistoryPostResponse AddWatchedHistoryItems(TraktSyncHistoryPost historyPost)
     {
-      return base.Sync.AddWatchedHistoryItemsAsync(historyPost).Result;
+      TraktSyncHistoryPostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.AddWatchedHistoryItemsAsync(historyPost)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktSyncCollectionPostResponse AddCollectionItems(TraktSyncCollectionPost collectionPost)
     {
-      return base.Sync.AddCollectionItemsAsync(collectionPost).Result;
+      TraktSyncCollectionPostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.AddCollectionItemsAsync(collectionPost)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktSyncLastActivities GetLastActivities()
     {
-      return base.Sync.GetLastActivitiesAsync().Result;
+      TraktSyncLastActivities result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.GetLastActivitiesAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public IEnumerable<TraktWatchedMovie> GetWatchedMovies()
     {
-      return base.Sync.GetWatchedMoviesAsync().Result;
+      IEnumerable<TraktWatchedMovie> result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.GetWatchedMoviesAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public IEnumerable<TraktCollectionMovie> GetCollectedMovies()
     {
-      return base.Sync.GetCollectionMoviesAsync().Result;
+      IEnumerable<TraktCollectionMovie> result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.GetCollectionMoviesAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public IEnumerable<TraktWatchedShow> GetWatchedShows()
     {
-      return base.Sync.GetWatchedShowsAsync().Result;
+      IEnumerable<TraktWatchedShow> result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.GetWatchedShowsAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public IEnumerable<TraktCollectionShow> GetCollectedShows()
     {
-      return base.Sync.GetCollectionShowsAsync().Result;
+      IEnumerable<TraktCollectionShow> result = null;
+      try
+      {
+        result = Task.Run(() => base.Sync.GetCollectionShowsAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktMovieScrobblePostResponse StartScrobbleMovie(TraktMovie movie, float progress, string appVersion = null,
       DateTime? appBuildDate = null)
     {
-      return base.Scrobble.StartMovieAsync(movie, progress, appVersion, appBuildDate).Result;
+      TraktMovieScrobblePostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Scrobble.StartMovieAsync(movie, progress, appVersion, appBuildDate)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
     public TraktMovieScrobblePostResponse StopScrobbleMovie(TraktMovie movie, float progress, string appVersion = null,
       DateTime? appBuildDate = null)
     {
-      return base.Scrobble.StopMovieAsync(movie, progress, appVersion, appBuildDate).Result;
+      TraktMovieScrobblePostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Scrobble.StartMovieAsync(movie, progress, appVersion, appBuildDate)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
-    public TraktEpisodeScrobblePostResponse StartScrobbleEpisode(TraktEpisode episode, float progress, string appVersion = null,
+    public TraktEpisodeScrobblePostResponse StartScrobbleEpisode(TraktEpisode episode, TraktShow traktShow, float progress, string appVersion = null,
       DateTime? appBuildDate = null)
     {
-      return base.Scrobble.StartEpisodeAsync(episode, progress, appVersion, appBuildDate).Result;
+      TraktEpisodeScrobblePostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Scrobble.StartEpisodeWithShowAsync(episode, traktShow, progress, appVersion, appBuildDate)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
-    public TraktEpisodeScrobblePostResponse StopScrobbleEpisode(TraktEpisode episode, float progress, string appVersion = null,
+    public TraktEpisodeScrobblePostResponse StopScrobbleEpisode(TraktEpisode episode, TraktShow traktShow, float progress, string appVersion = null,
       DateTime? appBuildDate = null)
     {
-      return base.Scrobble.StopEpisodeAsync(episode, progress, appVersion, appBuildDate).Result;
+      TraktEpisodeScrobblePostResponse result = null;
+      try
+      {
+        result = Task.Run(() => base.Scrobble.StopEpisodeWithShowAsync(episode, traktShow, progress, appVersion, appBuildDate)).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
     }
 
-    public string GetUsername()
+    public TraktUserSettings GetTraktUserSettings()
     {
-      return base.Users.GetSettingsAsync().Result.User.Username;
+      TraktUserSettings result = null;
+      try
+      {
+        result = Task.Run(() => base.Users.GetSettingsAsync()).Result;
+      }
+      catch (AggregateException aggregateException)
+      {
+        UnwrapAggregateException(aggregateException);
+      }
+
+      return result;
+    }
+
+    private void UnwrapAggregateException(AggregateException aggregateException)
+    {
+      aggregateException.Handle((x) =>
+      {
+        if (x is TraktException)
+        {
+          throw new TraktException(x.Message);
+        }
+        throw new TraktException("Unknown error in TraktApiSharp.");
+      });
     }
   }
 }

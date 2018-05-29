@@ -6,13 +6,11 @@ namespace TraktPluginMP2.Settings
   public class TraktPluginSettings
   {
     [Setting(SettingScope.User)]
-    public bool EnableTrakt { get; set; }
+    public bool EnableScrobble { get; set; }
 
     [Setting(SettingScope.User)]
-    public bool IsAuthorized { get; set; }
+    public bool UserAuthorized { get; set; }
 
-    [Setting(SettingScope.User, DefaultValue = "")]
-    public string AccessToken { get; set; }
 
     [Setting(SettingScope.User, DefaultValue = "")]
     public string RefreshToken { get; set; }

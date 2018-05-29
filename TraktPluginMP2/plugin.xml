@@ -14,7 +14,7 @@
 
   <Runtime>
     <Assembly FileName="TraktPluginMP2.dll"/>
-    <Assembly FileName="TraktAPI.dll"/>
+    <Assembly FileName="TraktApiSharp.dll"/>
   </Runtime>
 
   <DependsOn>
@@ -67,6 +67,16 @@
       HelpText="[Settings.Plugins.Trakt.TraktSetup.Help]"
       ClassName="TraktPluginMP2.Settings.TraktSettingsConfiguration"
       AdditionalData="WorkflowState=3DB8C6DB-F4E4-4A87-80CE-53339AECF494,ConfAppPanel=..."/>
+
+  </Register>
+  
+  <!-- Contents of '/Plugins/Trakt' section -->
+  <Register Location="/Configuration/Settings/Plugins/Trakt">
+    <CustomConfigSetting
+      Id="EnableScrobble"
+      Text="[Settings.Plugins.Trakt.EnableScrobble]"
+      HelpText="[Settings.Plugins.Trakt.TraktSetup.Help]"
+      ClassName="TraktPluginMP2.Settings.EnableScrobble"/>
 
   </Register>
   

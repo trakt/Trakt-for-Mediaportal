@@ -10,9 +10,10 @@ namespace TraktPluginMP2.Handlers
     internal static TraktHandlerManager ResolveManager()
     {
       IMediaPortalServices mediaPortalServices = new MediaPortalServices();
+      IFileOperations fileOperations = new FileOperations();
       ITraktClient traktClient = new TraktClientProxy(ApplicationId, SecretId);
 
-      return new TraktHandlerManager(mediaPortalServices, traktClient);
+      return new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
     }
   }
 }

@@ -1,15 +1,23 @@
-﻿namespace TraktPluginMP2.Services
+﻿using System.IO;
+using System.Text;
+
+namespace TraktPluginMP2.Services
 {
   public class FileOperations : IFileOperations
   {
-    public string LoadFileCache(string file)
+    public bool FileExists(string path)
     {
-      throw new System.NotImplementedException();
+      return File.Exists(path);
     }
 
-    public void SaveFileToCache(string file, string value)
+    public string FileReadAllText(string path)
     {
-      throw new System.NotImplementedException();
+      return File.ReadAllText(path);
+    }
+
+    public void FileWriteAllText(string path, string contents, Encoding encoding)
+    {
+      File.WriteAllText(path, contents, encoding);
     }
   }
 }

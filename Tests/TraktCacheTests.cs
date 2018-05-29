@@ -27,7 +27,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
@@ -50,7 +50,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
@@ -73,7 +73,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Movies.Collected"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Collected"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
@@ -96,7 +96,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
@@ -119,7 +119,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
@@ -142,7 +142,7 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.LoadFileCache(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Collected"));
+      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Collected"));
 
       IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);

@@ -67,6 +67,7 @@
     <Compile Include="Services\IUserMessageHandler.cs" />
     <Compile Include="Services\TraktSettingsChangeWatcher.cs" />
     <Compile Include="Services\UserMessageHandlerProxy.cs" />
+    <Compile Include="Settings\EnableScrobble.cs" />
     <Compile Include="Utilities\EnumerableExtensions.cs" />
     <Compile Include="Services\IAsynchronousMessageQueue.cs" />
     <Compile Include="Services\IMediaPortalServices.cs" />
@@ -92,7 +93,9 @@
     <Compile Include="Utilities\MediaItemAspectsUtl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Language\strings_en.xml" />
+    <Content Include="Language\strings_en.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="plugin.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -92,7 +92,7 @@ namespace TraktPluginMP2.Models
 
     public void ExitModelContext(NavigationContext oldContext, NavigationContext newContext)
     {
-      _manager.Close();
+
     }
 
     public void ChangeModelContext(NavigationContext oldContext, NavigationContext newContext, bool push)

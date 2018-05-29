@@ -8,11 +8,11 @@ using MediaPortal.Common.SystemCommunication;
 using MediaPortal.UI.Presentation.Players;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
-using Tests.TestData.Handler;
 using Tests.TestData.Setup;
 using TraktApiSharp.Authentication;
 using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktPluginMP2.Handlers;
@@ -33,7 +33,7 @@ namespace Tests
       // enabled trakt
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       }; 
 
@@ -53,7 +53,7 @@ namespace Tests
          {
            RefreshToken = "20f668873a00806dfc22136042f2eb81a44d98ab9b739acf68f2b46b784dcd0c"
          });
-         traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<float>()).Returns(
+         traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<TraktShow>(), Arg.Any<float>()).Returns(
            new TraktEpisodeScrobblePostResponse
            {
              Episode = new TraktEpisode
@@ -87,8 +87,8 @@ namespace Tests
       mediaPortalServices.GetMessageQueue(Arg.Any<object>(), Arg.Any<string[]>()).Returns(messageQueue);
 
       SystemMessage playerStarted = GetSystemMessageForMessageType(PlayerManagerMessaging.MessageType.PlayerStarted);
-
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       // raise start player event to start scrobble
@@ -123,7 +123,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -163,7 +163,8 @@ namespace Tests
         MessageData = { ["PlayerSlotController"] = psc }
       };
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       messageQueue.MessageReceivedProxy += Raise.Event<MessageReceivedHandler>(new AsynchronousMessageQueue(new object(), new[] { "PlayerManager" }), startedState);
@@ -198,7 +199,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true, RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
+        EnableScrobble = true, RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
       ITraktSettingsChangeWatcher settingsChangeWatcher = Substitute.For<ITraktSettingsChangeWatcher>();
@@ -237,7 +238,8 @@ namespace Tests
         MessageData = { ["PlayerSlotController"] = psc }
       };
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       messageQueue.MessageReceivedProxy += Raise.Event<MessageReceivedHandler>(new AsynchronousMessageQueue(new object(), new[] { "PlayerManager" }), startedState);
@@ -259,7 +261,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -298,8 +300,8 @@ namespace Tests
         ChannelName = "PlayerManager",
         MessageData = { ["PlayerSlotController"] = psc }
       };
-
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       messageQueue.MessageReceivedProxy += Raise.Event<MessageReceivedHandler>(new AsynchronousMessageQueue(new object(), new[] { "PlayerManager" }), startedState);
@@ -321,7 +323,7 @@ namespace Tests
       {
         RefreshToken = "20f668873a00806dfc22136042f2eb81a44d98ab9b739acf68f2b46b784dcd0c"
       });
-      traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<float>()).Returns(
+      traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<TraktShow>(), Arg.Any<float>()).Returns(
         new TraktEpisodeScrobblePostResponse
         {
           Episode = new TraktEpisode
@@ -333,7 +335,7 @@ namespace Tests
           }
         });
 
-      traktClient.StopScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<float>()).Returns(
+      traktClient.StopScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<TraktShow>(), Arg.Any<float>()).Returns(
         new TraktEpisodeScrobblePostResponse
         {
           Episode = new TraktEpisode
@@ -347,7 +349,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -392,8 +394,8 @@ namespace Tests
         ChannelName = "PlayerManager",
         MessageData = { ["PlayerSlotController"] = psc }
       };
-
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       // start player
@@ -418,7 +420,7 @@ namespace Tests
       {
         RefreshToken = "20f668873a00806dfc22136042f2eb81a44d98ab9b739acf68f2b46b784dcd0c"
       });
-      traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<float>()).Returns(
+      traktClient.StartScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<TraktShow>(), Arg.Any<float>()).Returns(
         new TraktEpisodeScrobblePostResponse
         {
           Episode = new TraktEpisode
@@ -430,11 +432,11 @@ namespace Tests
           }
         });
 
-      traktClient.StopScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<float>()).Throws(new TraktException("exception occurred"));
+      traktClient.StopScrobbleEpisode(Arg.Any<TraktEpisode>(), Arg.Any<TraktShow>(), Arg.Any<float>()).Throws(new TraktException("exception occurred"));
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -480,7 +482,8 @@ namespace Tests
         MessageData = { ["PlayerSlotController"] = psc }
       };
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       // start player
@@ -530,7 +533,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -575,8 +578,8 @@ namespace Tests
         ChannelName = "PlayerManager",
         MessageData = { ["PlayerSlotController"] = psc }
       };
-
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       // start player
@@ -617,7 +620,7 @@ namespace Tests
 
       TraktPluginSettings settings = new TraktPluginSettings
       {
-        EnableTrakt = true,
+        EnableScrobble = true,
         RefreshToken = "7e7605b9103c1c1f7afcf18dabc583499155ea6318a9d7e49f06568866bd4adb"
       };
 
@@ -663,7 +666,8 @@ namespace Tests
         MessageData = { ["PlayerSlotController"] = psc }
       };
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       // start player
@@ -683,7 +687,7 @@ namespace Tests
     {
       // Arrange
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(null, null);
+      TraktHandlerManager traktHandler = new TraktHandlerManager(null, null, null);
 
       // Act
 
@@ -699,7 +703,7 @@ namespace Tests
     {
       // Arrange
 
-      TraktHandlerManager traktHandler = new TraktHandlerManager(null, null);
+      TraktHandlerManager traktHandler = new TraktHandlerManager(null, null, null);
 
       // Act
 
@@ -720,15 +724,17 @@ namespace Tests
       TraktPluginSettings settings = new TraktPluginSettings();
       settingsChangeWatcher.TraktSettings.Returns(settings);
       mediaPortalServices.GetTraktSettingsWatcher().Returns(settingsChangeWatcher);
-      
-      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient);
+
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktHandlerManager traktHandler = new TraktHandlerManager(mediaPortalServices, traktClient, fileOperations);
 
       // Act
-      settings.EnableTrakt = true;
+      settings.EnableScrobble = true;
       settingsChangeWatcher.TraktSettingsChanged += Raise.Event();
       
       // Assert
       Assert.True(traktHandler.IsActive);
     }
+
   }
 }

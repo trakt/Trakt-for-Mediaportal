@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediaPortal.Common.MediaManagement;
-using MediaPortal.Common.MediaManagement.DefaultItemAspects;
 using MediaPortal.Common.MediaManagement.MLQueries;
-using MediaPortal.Common.Messaging;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.SystemCommunication;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Tests.TestData.Setup;
 using TraktApiSharp.Authentication;
-using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Watched;
@@ -38,7 +35,8 @@ namespace Tests
 
       traktClient.RefreshAuthorization(savedTraktSettings.RefreshToken).Throws(authorizationException);
       ITraktCache traktCache = Substitute.For<ITraktCache>();
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       traktSetup.Initialize();
@@ -60,7 +58,8 @@ namespace Tests
 
       traktClient.RefreshAuthorization(savedTraktSettings.RefreshToken).Returns(traktAuthorization);
       ITraktCache traktCache = Substitute.For<ITraktCache>();
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       traktSetup.Initialize();
@@ -83,7 +82,8 @@ namespace Tests
 
       traktClient.GetAuthorization(pinCode).Throws(authorizationException);
       ITraktCache traktCache = Substitute.For<ITraktCache>();
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
       traktSetup.PinCode = pinCode;
       // Act
       traktSetup.AuthorizeUser();
@@ -106,7 +106,8 @@ namespace Tests
 
       traktClient.GetAuthorization(pinCode).Returns(traktAuthorization);
       ITraktCache traktCache = Substitute.For<ITraktCache>();
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
       traktSetup.PinCode = pinCode;
       // Act
       traktSetup.AuthorizeUser();
@@ -124,7 +125,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetWatchedMovies().Returns(traktMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -144,7 +146,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetCollectedMovies().Returns(traktMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -164,7 +167,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetUnWatchedMovies().Returns(traktMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -184,7 +188,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetWatchedMovies().Returns(traktMovies);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncMovies();
@@ -204,7 +209,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetUnWatchedEpisodes().Returns(traktEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -224,7 +230,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetWatchedEpisodes().Returns(traktEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient ,traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -244,7 +251,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetUnWatchedEpisodes().Returns(traktEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();
@@ -264,7 +272,8 @@ namespace Tests
       ITraktClient traktClient = Substitute.For<ITraktClient>();
       ITraktCache traktCache = Substitute.For<ITraktCache>();
       traktCache.GetWatchedEpisodes().Returns(traktEpisodes);
-      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      IFileOperations fileOperations = Substitute.For<IFileOperations>();
+      TraktSetupManager traktSetup = new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
 
       // Act
       bool isSynced = traktSetup.SyncSeries();

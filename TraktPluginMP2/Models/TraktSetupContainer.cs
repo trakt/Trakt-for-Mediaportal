@@ -14,7 +14,7 @@ namespace TraktPluginMP2.Models
       IFileOperations fileOperations = new FileOperations();
       ITraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
-      return new TraktSetupManager(mediaPortalServices, traktClient, traktCache);
+      return new TraktSetupManager(mediaPortalServices, traktClient, traktCache, fileOperations);
     }
   }
 }
