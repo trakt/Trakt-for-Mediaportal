@@ -14,15 +14,13 @@ namespace Tests.TestData.Cache
       yield return new object[]
       {
         GetOnlineCollectedEpisodes_1(),
-        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018, 01, 01)}},
-        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018, 01, 01)}},
+        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018,04,20,17,00,00)}},
         3
       };
       yield return new object[]
       {
         GetOnlineCollectedEpisodes_2(),
-        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018, 02, 01)}},
-        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018, 01, 01)}},
+        new TraktSyncLastActivities {Episodes = new TraktSyncEpisodesLastActivities {CollectedAt = new DateTime(2018,04,21,17,00,00)}},
         6
       };
     }

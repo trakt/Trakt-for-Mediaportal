@@ -15,6 +15,8 @@ using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
+using TraktApiSharp.Objects.Get.Syncs.Activities;
+using TraktApiSharp.Objects.Get.Users;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Utilities;
@@ -32,8 +34,6 @@ namespace TraktPluginMP2.Handlers
     private TraktMovie _traktMovie;
     private TraktEpisode _traktEpisode;
     private TraktShow _traktShow;
-
-    private const string AuthorizationFilename = "authorization.json";
 
     public TraktHandlerManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient, IFileOperations fileOperations)
     {
@@ -60,7 +60,8 @@ namespace TraktPluginMP2.Handlers
 
     private void ConfigureHandler()
     {
-      bool isUserAuthorized = _fileOperations.FileExists(GetAuthorizationFilePath()); //_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.UserAuthorized;
+      string authorizationFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
+      bool isUserAuthorized = _fileOperations.FileExists(authorizationFilePath); //_mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.UserAuthorized;
       bool isScrobbleEnabled = _mediaPortalServices.GetTraktSettingsWatcher().TraktSettings.EnableScrobble;
 
       if (isUserAuthorized && isScrobbleEnabled)
@@ -75,13 +76,6 @@ namespace TraktPluginMP2.Handlers
         IsActive = false;
         _mediaPortalServices.GetLogger().Info("Disabled Trakt handler");
       }
-    }
-
-    private string GetAuthorizationFilePath()
-    {
-      string rootPath = _mediaPortalServices.GetPathManager().GetPath(@"<DATA>\Trakt\");
-      string userProfileId = _mediaPortalServices.GetUserManagement().CurrentUser.ProfileId.ToString();
-      return Path.Combine(rootPath, userProfileId, AuthorizationFilename);
     }
 
     private void SubscribeToMessages()
@@ -186,7 +180,7 @@ namespace TraktPluginMP2.Handlers
     {
       if (!_traktClient.TraktAuthorization.IsValid)
       {
-        string authFilePath = GetAuthorizationFilePath();
+        string authFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
         string savedAuthorization = _fileOperations.FileReadAllText(authFilePath);
         TraktAuthorization savedAuth = JsonConvert.DeserializeObject<TraktAuthorization>(savedAuthorization);
 

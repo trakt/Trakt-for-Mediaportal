@@ -1,0 +1,40 @@
+﻿{
+  "all": "2018-05-31T22:00:00Z",
+  "movies": {
+    "watched_at": "2018-05-20T20:00:00Z",
+    "collected_at": "2018-05-20T17:00:00Z",
+    "rated_at": "2018-05-20T20:00:00Z",
+    "watchlisted_at": "2018-05-19T18:00:00Z",
+    "commented_at": "2018-05-20T20:00:00Z",
+    "paused_at": "2018-05-20T20:00:00Z",
+    "hidden_at": "2018-05-20T20:00:00Z"
+  },
+  "episodes": {
+    "watched_at": "2018-04-20T20:00:00Z",
+    "collected_at": "2018-04-20T17:00:00Z",
+    "rated_at": "2018-04-20T20:00:00Z",
+    "watchlisted_at": "2018-04-19T18:00:00Z",
+    "commented_at": "2018-05-20T20:00:00Z",
+    "paused_at": "2018-05-20T20:00:00Z"
+  },
+  "shows": {
+    "rated_at": "2018-04-21T20:00:00Z",
+    "watchlisted_at": "2018-04-21T21:00:00Z",
+    "commented_at": "2018-04-20T22:00:00Z",
+    "hidden_at": "2018-04-20T23:00:00Z"
+  },
+  "seasons": {
+    "rated_at": "2018-04-22T20:00:00Z",
+    "watchlisted_at": "2018-04-22T21:00:00Z",
+    "commented_at": "2018-04-22T22:00:00Z",
+    "hidden_at": "2018-04-20T23:00:00Z"
+  },
+  "comments": {
+    "liked_at": "2018-04-22T22:00:00Z"
+  },
+  "lists": {
+    "liked_at": "2018-04-23T22:00:00Z",
+    "updated_at": "2018-03-22T22:00:00Z",
+    "commented_at": "2018-04-23T23:00:00Z"
+  }
+}

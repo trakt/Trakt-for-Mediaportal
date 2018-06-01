@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 using NSubstitute;
 using Tests.TestData.Cache;
 using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Syncs.Activities;
 using TraktApiSharp.Objects.Get.Watched;
+using TraktPluginMP2;
 using TraktPluginMP2.Services;
-using TraktPluginMP2.Settings;
 using Xunit;
 
 namespace Tests
 {
   public class TraktCacheTests
   {
+    private const string DataPath = @"C:\FakeTraktUserHomePath\";
+
     [Theory]
     [ClassData(typeof(UnWatchedMoviesTestData))]
-    public void GetUnWatchedMovies(List<TraktWatchedMovie> onlineWatchedMovies, TraktSyncLastActivities onlineLastSyncActivities, 
-      TraktSyncLastActivities savedLastSyncActivities, int expectedUnWatchedMoviesCount)
+    public void GetUnWatchedMovies(List<TraktWatchedMovie> onlineWatchedMovies, TraktSyncLastActivities onlineLastSyncActivities, int expectedUnWatchedMoviesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -27,9 +28,12 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.WatchedMovies.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       // Act
@@ -41,8 +45,7 @@ namespace Tests
 
     [Theory]
     [ClassData(typeof(WatchedMoviesTestData))]
-    public void GetWatchedMovies(List<TraktWatchedMovie> onlineWatchedMovies, TraktSyncLastActivities onlineLastSyncActivities,
-      TraktSyncLastActivities savedLastSyncActivities, int expectedWatchedMoviesCount)
+    public void GetWatchedMovies(List<TraktWatchedMovie> onlineWatchedMovies, TraktSyncLastActivities onlineLastSyncActivities, int expectedWatchedMoviesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -50,9 +53,12 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Watched"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.WatchedMovies.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       // Act
@@ -64,8 +70,7 @@ namespace Tests
 
     [Theory]
     [ClassData(typeof(CollectedMoviesTestData))]
-    public void GetCollectedMovies(List<TraktCollectionMovie> onlineCollectedMovies, TraktSyncLastActivities onlineLastSyncActivities, 
-      TraktSyncLastActivities savedLastSyncActivities, int expectedCollectedMoviesCount)
+    public void GetCollectedMovies(List<TraktCollectionMovie> onlineCollectedMovies, TraktSyncLastActivities onlineLastSyncActivities, int expectedCollectedMoviesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -73,9 +78,12 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Movies.Collected"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.CollectedMovies.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       // Act
@@ -87,8 +95,7 @@ namespace Tests
 
     [Theory]
     [ClassData(typeof(UnWatchedEpisodesTestData))]
-    public void GetUnWatchedEpisodes(List<TraktWatchedShow> onlineWatchedShows, TraktSyncLastActivities onlineLastSyncActivities,
-      TraktSyncLastActivities savedLastSyncActivities, int expectedUnWatchedEpisodesCount)
+    public void GetUnWatchedEpisodes(List<TraktWatchedShow> onlineWatchedShows, TraktSyncLastActivities onlineLastSyncActivities, int expectedUnWatchedEpisodesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -96,22 +103,24 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.WatchedEpisodes.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       // Act
       int actualUnWatchedEpisodesCount = traktCache.GetUnWatchedEpisodes().Count();
-
+ 
       // Assert
       Assert.Equal(expectedUnWatchedEpisodesCount, actualUnWatchedEpisodesCount);
     }
 
     [Theory]
     [ClassData(typeof(WatchedEpisodesTestData))]
-    public void GetWatchedEpisodes(List<TraktWatchedShow> onlineWatchedShows, TraktSyncLastActivities onlineLastSyncActivities,
-      TraktSyncLastActivities savedLastSyncActivities, int expectedWatchedEpisodesCount)
+    public void GetWatchedEpisodes(List<TraktWatchedShow> onlineWatchedShows, TraktSyncLastActivities onlineLastSyncActivities, int expectedWatchedEpisodesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -119,9 +128,12 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Watched"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.WatchedEpisodes.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
 
       // Act
@@ -133,8 +145,7 @@ namespace Tests
 
     [Theory]
     [ClassData(typeof(CollectedEpisodesTestData))]
-    public void GetCollectedEpisodes(List<TraktCollectionShow> onlineCollectedShows, TraktSyncLastActivities onlineLastSyncActivities,
-      TraktSyncLastActivities savedLastSyncActivities, int expectedCollectedEpisodesCount)
+    public void GetCollectedEpisodes(List<TraktCollectionShow> onlineCollectedShows, TraktSyncLastActivities onlineLastSyncActivities, int expectedCollectedEpisodesCount)
     {
       // Arrange
       ITraktClient traktClient = Substitute.For<ITraktClient>();
@@ -142,9 +153,12 @@ namespace Tests
       traktClient.GetLastActivities().Returns(onlineLastSyncActivities);
 
       IFileOperations fileOperations = Substitute.For<IFileOperations>();
-      fileOperations.FileReadAllText(Arg.Any<string>()).Returns(GetCacheJson("Episodes.Collected"));
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.LastActivity.Value);
+      SetFileOperationsForFile(fileOperations, DataPath, FileName.CollectedEpisodes.Value);
 
-      IMediaPortalServices mediaPortalServices = GetMockedMpServices(savedLastSyncActivities);
+      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
+      mediaPortalServices.GetTraktUserHomePath().Returns(DataPath);
+
       TraktCache traktCache = new TraktCache(mediaPortalServices, traktClient, fileOperations);
       
       // Act
@@ -154,29 +168,12 @@ namespace Tests
       Assert.Equal(expectedCollectedEpisodesCount, actualCollectedEpisodesCount);
     }
 
-    private IMediaPortalServices GetMockedMpServices(TraktSyncLastActivities lastSyncActivities)
+    private void SetFileOperationsForFile(IFileOperations fileOperations, string path, string fileName)
     {
-      IMediaPortalServices mediaPortalServices = Substitute.For<IMediaPortalServices>();
-      TraktPluginSettings settings = new TraktPluginSettings
-      {
-        LastSyncActivities = lastSyncActivities
-      };
-      mediaPortalServices.GetSettingsManager().Load<TraktPluginSettings>().Returns(settings);
-
-      return mediaPortalServices;
-    }
-
-    private static string GetCacheJson(string filename)
-    {
-      string result = String.Empty;
-      Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Tests.TestData.Cache." + filename + ".json");
-      if (stream != null)
-      {
-        StreamReader reader = new StreamReader(stream);
-        result = reader.ReadToEnd();
-      }
-
-      return result;
+      fileOperations.FileExists(Arg.Is<string>(x => x.Equals(Path.Combine(path, fileName))))
+        .Returns(true);
+      fileOperations.FileReadAllText(Arg.Is<string>(x => x.Equals(Path.Combine(path, fileName))))
+        .Returns(File.ReadAllText(TestUtility.GetTestDataPath(Path.Combine(@"Cache\", fileName)), Encoding.UTF8));
     }
   }
 }

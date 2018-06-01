@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using MediaPortal.Common;
 using MediaPortal.Common.Logging;
@@ -48,9 +49,12 @@ namespace TraktPluginMP2.Services
       return ServiceRegistration.Get<ILogger>();
     }
 
-    public IPathManager GetPathManager()
+    public string GetTraktUserHomePath()
     {
-      return ServiceRegistration.Get<IPathManager>();
+      string rootPath = ServiceRegistration.Get<IPathManager>().GetPath(@"<DATA>\Trakt\");
+      string userProfileId = GetUserManagement().CurrentUser.ProfileId.ToString();
+
+      return Path.Combine(rootPath, userProfileId);
     }
 
     public ITraktSettingsChangeWatcher GetTraktSettingsWatcher()

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MediaPortal.Common.Logging;
 using MediaPortal.Common.MediaManagement;
-using MediaPortal.Common.PathManager;
 using MediaPortal.Common.Settings;
 using MediaPortal.Common.Threading;
 using MediaPortal.UI.ServerCommunication;
@@ -25,7 +24,7 @@ namespace TraktPluginMP2.Services
 
     ILogger GetLogger();
 
-    IPathManager GetPathManager();
+    string GetTraktUserHomePath();
 
     ITraktSettingsChangeWatcher GetTraktSettingsWatcher();
 

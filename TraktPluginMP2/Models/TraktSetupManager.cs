@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using MediaPortal.Common;
 using MediaPortal.Common.General;
 using MediaPortal.Common.Threading;
 using MediaPortal.Common.MediaManagement;
@@ -13,7 +12,6 @@ using MediaPortal.Common.MediaManagement.MLQueries;
 using MediaPortal.Common.UserManagement;
 using Newtonsoft.Json;
 using TraktApiSharp.Authentication;
-using TraktApiSharp.Exceptions;
 using TraktApiSharp.Objects.Basic;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
@@ -41,10 +39,6 @@ namespace TraktPluginMP2.Models
     private readonly AbstractProperty _testStatusProperty = new WProperty(typeof(string), string.Empty);
     private readonly AbstractProperty _pinCodeProperty = new WProperty(typeof(string), null);
     private readonly AbstractProperty _isSynchronizingProperty = new WProperty(typeof(bool), false);
-
-    private const string AuthorizationFilename = "authorization.json";
-    private const string LastSyncActivitiesFilename = "last.sync.activities.json";
-    private const string UserSettingsFilename = "user.settings.json";
 
     public TraktSetupManager(IMediaPortalServices mediaPortalServices, ITraktClient traktClient, ITraktCache traktCache, IFileOperations fileOperations)
     {
@@ -119,7 +113,7 @@ namespace TraktPluginMP2.Models
       // clear the PIN code text box, necessary when entering the plugin
       PinCode = string.Empty;
 
-      string authFilePath = GetFilePathForFileName(AuthorizationFilename);
+      string authFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
       bool savedAuthFileExists = _fileOperations.FileExists(authFilePath);
       if (!savedAuthFileExists)
       {
@@ -153,17 +147,15 @@ namespace TraktPluginMP2.Models
         TraktUserSettings traktUserSettings = _traktClient.GetTraktUserSettings();
         TraktSyncLastActivities traktSyncLastActivities = _traktClient.GetLastActivities();
 
-        string rootPath = _mediaPortalServices.GetPathManager().GetPath(@"<DATA>\Trakt\");
-        string userProfileId = _mediaPortalServices.GetUserManagement().CurrentUser.ProfileId.ToString();
-        string homePath = Path.Combine(rootPath, userProfileId);
-        if (!Directory.Exists(homePath))
+        string traktUserHomePath = _mediaPortalServices.GetTraktUserHomePath();
+        if (!Directory.Exists(traktUserHomePath))
         {
-          Directory.CreateDirectory(Path.Combine(rootPath, userProfileId));
+          Directory.CreateDirectory(traktUserHomePath);
         }
 
-        SaveTraktAuthorization(authorization);
-        SaveTraktUserSettings(traktUserSettings);
-        SaveLastSyncActivities(traktSyncLastActivities);
+        SaveTraktAuthorization(authorization, traktUserHomePath);
+        SaveTraktUserSettings(traktUserSettings, traktUserHomePath);
+        SaveLastSyncActivities(traktSyncLastActivities, traktUserHomePath);
 
         TestStatus = "[Trakt.AuthorizationSucceed]";
       }
@@ -174,24 +166,24 @@ namespace TraktPluginMP2.Models
       }
     }
 
-    private void SaveTraktAuthorization(TraktAuthorization authorization)
+    private void SaveTraktAuthorization(TraktAuthorization authorization, string path)
     {
       string serializedAuthorization = JsonConvert.SerializeObject(authorization);
-      string authorizationFilePath = GetFilePathForFileName(AuthorizationFilename);
+      string authorizationFilePath = Path.Combine(path, FileName.Authorization.Value);
       _fileOperations.FileWriteAllText(authorizationFilePath, serializedAuthorization, Encoding.UTF8);
     }
 
-    private void SaveTraktUserSettings(TraktUserSettings traktUserSettings)
+    private void SaveTraktUserSettings(TraktUserSettings traktUserSettings, string path)
     {
       string serializedSettings = JsonConvert.SerializeObject(traktUserSettings);
-      string settingsFilePath = GetFilePathForFileName(UserSettingsFilename);
+      string settingsFilePath = Path.Combine(path, FileName.UserSettings.Value);
       _fileOperations.FileWriteAllText(settingsFilePath, serializedSettings, Encoding.UTF8);
     }
 
-    private void SaveLastSyncActivities(TraktSyncLastActivities traktSyncLastActivities)
+    private void SaveLastSyncActivities(TraktSyncLastActivities traktSyncLastActivities, string path)
     {
-      string serializedSyncActivities = JsonConvert.SerializeObject(traktSyncLastActivities);
-      string syncActivitiesFilePath = GetFilePathForFileName(LastSyncActivitiesFilename);
+      string serializedSyncActivities = JsonConvert.SerializeObject(traktSyncLastActivities,Formatting.Indented);
+      string syncActivitiesFilePath = Path.Combine(path, FileName.LastActivity.Value);
       _fileOperations.FileWriteAllText(syncActivitiesFilePath, serializedSyncActivities, Encoding.UTF8);
     }
 
@@ -199,7 +191,7 @@ namespace TraktPluginMP2.Models
     {
       if (!IsSynchronizing)
       {
-        string authFilePath = GetFilePathForFileName(AuthorizationFilename);
+        string authFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
         string savedAuthorization = _fileOperations.FileReadAllText(authFilePath);
         TraktAuthorization savedAuth = JsonConvert.DeserializeObject<TraktAuthorization>(savedAuthorization);
         try
@@ -221,13 +213,6 @@ namespace TraktPluginMP2.Models
           _mediaPortalServices.GetLogger().Error(ex.Message);
         }
       }
-    }
-
-    private string GetFilePathForFileName(string filename)
-    {
-      string rootPath = _mediaPortalServices.GetPathManager().GetPath(@"<DATA>\Trakt\");
-      string userProfileId = _mediaPortalServices.GetUserManagement().CurrentUser.ProfileId.ToString();
-      return Path.Combine(rootPath, userProfileId, filename);
     }
 
     public bool SyncMovies()
