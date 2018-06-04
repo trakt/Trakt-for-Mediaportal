@@ -9,15 +9,21 @@ using MediaPortal.Common.Threading;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
 using MediaPortal.Common.MediaManagement.MLQueries;
+using MediaPortal.Common.SystemCommunication;
 using MediaPortal.Common.UserManagement;
+using MediaPortal.UI.ServerCommunication;
 using Newtonsoft.Json;
 using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Basic;
+using TraktApiSharp.Objects.Get.Collection;
 using TraktApiSharp.Objects.Get.Movies;
+using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
+using TraktApiSharp.Objects.Get.Shows.Seasons;
 using TraktApiSharp.Objects.Get.Syncs.Activities;
 using TraktApiSharp.Objects.Get.Users;
 using TraktApiSharp.Objects.Get.Watched;
+using TraktApiSharp.Objects.Post;
 using TraktApiSharp.Objects.Post.Syncs.Collection;
 using TraktApiSharp.Objects.Post.Syncs.Collection.Responses;
 using TraktApiSharp.Objects.Post.Syncs.History;
@@ -92,22 +98,6 @@ namespace TraktPluginMP2.Models
       set { _isSynchronizingProperty.SetValue(value); }
     }
 
-    public int SyncWatchedMovies { get; private set; }
-
-    public int SyncCollectedMovies { get; private set; }
-
-    public int MarkWatchedMovies { get; private set; }
-
-    public int MarkUnWatchedMovies { get; private set; }
-
-    public int SyncWatchedEpisodes { get; private set; }
-
-    public int SyncCollectedEpisodes { get; private set; }
-
-    public int MarkWatchedEpisodes { get; private set; }
-
-    public int MarkUnWatchedEpisodes { get; private set; }
-
     public void Initialize()
     {
       // clear the PIN code text box, necessary when entering the plugin
@@ -166,6 +156,387 @@ namespace TraktPluginMP2.Models
       }
     }
 
+    public void SyncMediaToTrakt()
+    {
+      if (!IsSynchronizing)
+      {
+        try
+        {
+          IsSynchronizing = true;
+          IThreadPool threadPool = _mediaPortalServices.GetThreadPool();
+          threadPool.Add(() =>
+          {
+            SyncMovies();
+            SyncSeries();
+            IsSynchronizing = false;
+          },ThreadPriority.BelowNormal);
+        }
+        catch (Exception ex)
+        {
+          TestStatus = "[Trakt.SyncingFailed]";
+          _mediaPortalServices.GetLogger().Error(ex.Message);
+        }
+      }
+    }
+
+    public TraktSyncMoviesResult SyncMovies()
+    {
+      _mediaPortalServices.GetLogger().Info("Trakt: start sync movies");
+
+      ValidateAuthorization();
+
+      TraktSyncMoviesResult syncMoviesResult = new TraktSyncMoviesResult();
+      IList<TraktMovie> traktUnWatchedMovies = _traktCache.GetUnWatchedMovies().ToList();
+      IList<TraktWatchedMovie> traktWatchedMovies = _traktCache.GetWatchedMovies().ToList();
+      IList<TraktCollectionMovie> traktCollectedMovies = _traktCache.GetCollectedMovies().ToList();
+
+      TestStatus = "[Trakt.SyncMovies]";
+      Guid[] types =
+      {
+        MediaAspect.ASPECT_ID, MovieAspect.ASPECT_ID, VideoAspect.ASPECT_ID, ImporterAspect.ASPECT_ID,
+        ExternalIdentifierAspect.ASPECT_ID, ProviderResourceAspect.ASPECT_ID
+      };
+
+      IContentDirectory contentDirectory = _mediaPortalServices.GetServerConnectionManager().ContentDirectory;
+      if (contentDirectory == null)
+      {
+        TestStatus = "[Trakt.MediaLibraryNotConnected]";
+        throw new Exception("Media library not connected.");
+      }
+
+      Guid? userProfile = null;
+      IUserManagement userProfileDataManagement = _mediaPortalServices.GetUserManagement();
+      if (userProfileDataManagement != null && userProfileDataManagement.IsValidUser)
+      {
+        userProfile = userProfileDataManagement.CurrentUser.ProfileId;
+      }
+
+      #region Get local database info
+
+      IList<MediaItem> collectedMovies = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
+
+      if (collectedMovies.Any())
+      {
+        syncMoviesResult.CollectedInLibrary = collectedMovies.Count;
+        _mediaPortalServices.GetLogger().Info("Trakt: found {0} collected movies available to sync in media library", collectedMovies.Count);
+      }
+      
+      List<MediaItem> watchedMovies = collectedMovies.Where(MediaItemAspectsUtl.IsWatched).ToList();
+
+      if (watchedMovies.Any())
+      {
+        syncMoviesResult.WatchedInLibrary = watchedMovies.Count;
+        _mediaPortalServices.GetLogger().Info("Trakt: found {0} watched movies available to sync in media library", watchedMovies.Count);
+      }
+
+      #endregion
+
+      #region Mark movies as unwatched in local database
+
+      _mediaPortalServices.GetLogger().Info("Trakt: start marking movies as unwatched in media library");
+      if (traktUnWatchedMovies.Any())
+      {
+        foreach (var movie in traktUnWatchedMovies)
+        {
+          var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, movie));
+          if (localMovie == null)
+          {
+            continue;
+          }
+
+          _mediaPortalServices.GetLogger().Info(
+            "Marking movie as unwatched in library, movie is not watched on trakt. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
+            movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.Imdb ?? "<empty>",
+            movie.Ids.Tmdb.HasValue ? movie.Ids.Tmdb.ToString() : "<empty>");
+
+          if (_mediaPortalServices.MarkAsUnWatched(localMovie).Result)
+          {
+            syncMoviesResult.MarkedAsUnWatchedInLibrary++;
+          }
+        }
+
+        // update watched set
+        watchedMovies = collectedMovies.Where(MediaItemAspectsUtl.IsWatched).ToList();
+      }
+
+      #endregion
+
+      #region Mark movies as watched in local database
+
+      _mediaPortalServices.GetLogger().Info("Trakt: start marking movies as watched in media library");
+      if (traktWatchedMovies.Any())
+      {
+        foreach (var twm in traktWatchedMovies)
+        {
+          var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, twm.Movie));
+          if (localMovie == null)
+          {
+            continue;
+          }
+
+          _mediaPortalServices.GetLogger().Info(
+            "Marking movie as watched in library, movie is watched on trakt. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
+            twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>",
+            twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
+
+          if (_mediaPortalServices.MarkAsWatched(localMovie).Result)
+          {
+            syncMoviesResult.MarkedAsWatchedInLibrary++;
+          }
+        }
+      }
+
+      #endregion
+
+      #region Add movies to watched history at trakt.tv
+
+      _mediaPortalServices.GetLogger().Info("Trakt: finding movies to add to watched history");
+
+      List<TraktSyncHistoryPostMovie> syncWatchedMovies = (from movie in watchedMovies
+        where !traktWatchedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
+        select new TraktSyncHistoryPostMovie
+        {
+          Ids = new TraktMovieIds
+          {
+            Imdb = MediaItemAspectsUtl.GetMovieImdbId(movie),
+            Tmdb = MediaItemAspectsUtl.GetMovieTmdbId(movie)
+          },
+          Title = MediaItemAspectsUtl.GetMovieTitle(movie),
+          Year = MediaItemAspectsUtl.GetMovieYear(movie),
+          WatchedAt = MediaItemAspectsUtl.GetLastPlayedDate(movie),
+        }).ToList();
+
+      if (syncWatchedMovies.Any())
+      {
+        _mediaPortalServices.GetLogger().Info("Trakt: trying to add {0} watched movies to trakt watched history", syncWatchedMovies.Count);
+
+        TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItems(new TraktSyncHistoryPost { Movies = syncWatchedMovies });
+        syncMoviesResult.AddedToTraktWatchedHistory = watchedResponse.Added?.Movies;
+
+        if (watchedResponse.Added?.Movies != null)
+        {
+          _mediaPortalServices.GetLogger().Info("Trakt: successfully added {0} watched movies to trakt watched history", watchedResponse.Added.Movies.Value);
+        }
+      }
+
+      #endregion
+
+      #region Add movies to collection at trakt.tv
+
+      _mediaPortalServices.GetLogger().Info("Trakt: finding movies to add to collection");
+
+      List<TraktSyncCollectionPostMovie> syncCollectedMovies = (from movie in collectedMovies
+        where !traktCollectedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
+        select new TraktSyncCollectionPostMovie
+        {
+          Metadata = new TraktMetadata
+          {
+            MediaType = MediaItemAspectsUtl.GetVideoMediaType(movie),
+            MediaResolution = MediaItemAspectsUtl.GetVideoResolution(movie),
+            Audio = MediaItemAspectsUtl.GetVideoAudioCodec(movie),
+            AudioChannels = MediaItemAspectsUtl.GetVideoAudioChannel(movie),
+            ThreeDimensional = false
+          },
+          Ids = new TraktMovieIds
+          {
+            Imdb = MediaItemAspectsUtl.GetMovieImdbId(movie),
+            Tmdb = MediaItemAspectsUtl.GetMovieTmdbId(movie)
+          },
+          Title = MediaItemAspectsUtl.GetMovieTitle(movie),
+          Year = MediaItemAspectsUtl.GetMovieYear(movie),
+          CollectedAt = MediaItemAspectsUtl.GetDateAddedToDb(movie)
+        }).ToList();
+
+      if (syncCollectedMovies.Any())
+      {
+        _mediaPortalServices.GetLogger().Info("Trakt: trying to add {0} collected movies to trakt collection", syncCollectedMovies.Count);
+
+        TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItems(new TraktSyncCollectionPost { Movies = syncCollectedMovies });
+        syncMoviesResult.AddedToTraktCollection = collectionResponse.Added?.Movies;
+
+        if (collectionResponse.Added?.Movies != null)
+        {
+          _mediaPortalServices.GetLogger().Info("Trakt: successfully added {0} collected movies to trakt collection", collectionResponse.Added.Movies.Value);
+        }
+      }
+      #endregion
+
+      return syncMoviesResult;
+    }
+
+    public TraktSyncEpisodesResult SyncSeries()
+    {
+      _mediaPortalServices.GetLogger().Info("Trakt: start sync series");
+
+      ValidateAuthorization();
+
+      TraktSyncEpisodesResult syncEpisodesResult = new TraktSyncEpisodesResult();
+      IList<Episode> traktUnWatchedEpisodes = _traktCache.GetUnWatchedEpisodes().ToList();
+      IList<EpisodeWatched> traktWatchedEpisodes = _traktCache.GetWatchedEpisodes().ToList();
+      IList<EpisodeCollected> traktCollectedEpisodes = _traktCache.GetCollectedEpisodes().ToList();
+
+      TestStatus = "[Trakt.SyncSeries]";
+      Guid[] types =
+      {
+        MediaAspect.ASPECT_ID, EpisodeAspect.ASPECT_ID, VideoAspect.ASPECT_ID, ImporterAspect.ASPECT_ID,
+        ProviderResourceAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID
+      };
+      var contentDirectory = _mediaPortalServices.GetServerConnectionManager().ContentDirectory;
+      if (contentDirectory == null)
+      {
+        TestStatus = "[Trakt.MediaLibraryNotConnected]";
+        throw new Exception("Media library not connected.");
+      }
+
+      Guid? userProfile = null;
+      IUserManagement userProfileDataManagement = _mediaPortalServices.GetUserManagement();
+      if (userProfileDataManagement != null && userProfileDataManagement.IsValidUser)
+      {
+        userProfile = userProfileDataManagement.CurrentUser.ProfileId;
+      }
+
+      #region Get data from local database
+
+      IList<MediaItem> localEpisodes = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
+
+      if (localEpisodes.Any())
+      {
+        syncEpisodesResult.CollectedInLibrary = localEpisodes.Count;
+        _mediaPortalServices.GetLogger().Info("Trakt: found {0} total episodes in library", localEpisodes.Count);
+      }
+
+      List<MediaItem> localWatchedEpisodes = localEpisodes.Where(MediaItemAspectsUtl.IsWatched).ToList();
+
+      if (localWatchedEpisodes.Any())
+      {
+        _mediaPortalServices.GetLogger().Info("Trakt: found {0} episodes watched in library", localWatchedEpisodes.Count);
+      }
+
+
+      #endregion
+
+      #region Mark episodes as unwatched in local database
+
+      _mediaPortalServices.GetLogger().Info("Trakt: start marking series episodes as unwatched in media library");
+      if (traktUnWatchedEpisodes.Any())
+      {
+        // create a unique key to lookup and search for faster
+        ILookup<string, MediaItem> localLookupEpisodes = localWatchedEpisodes.ToLookup(twe => CreateLookupKey(twe), twe => twe);
+
+        foreach (var episode in traktUnWatchedEpisodes)
+        {
+          string tvdbKey = CreateLookupKey(episode);
+
+          var watchedEpisode = localLookupEpisodes[tvdbKey].FirstOrDefault();
+          if (watchedEpisode != null)
+          {
+            _mediaPortalServices.GetLogger().Info(
+              "Marking episode as unwatched in library, episode is not watched on trakt. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
+              episode.ShowTitle, episode.ShowYear.HasValue ? episode.ShowYear.ToString() : "<empty>", episode.Season,
+              episode.Number, episode.ShowTvdbId.HasValue ? episode.ShowTvdbId.ToString() : "<empty>",
+              episode.ShowImdbId ?? "<empty>");
+
+            if (_mediaPortalServices.MarkAsUnWatched(watchedEpisode).Result)
+            {
+              syncEpisodesResult.MarkedAsUnWatchedInLibrary++;
+            }
+
+            // update watched episodes
+            localWatchedEpisodes.Remove(watchedEpisode);
+          }
+        }
+      }
+
+      #endregion
+
+      #region Mark episodes as watched in local database
+
+      _mediaPortalServices.GetLogger().Info("Trakt: start marking series episodes as watched in media library");
+      if (traktWatchedEpisodes.Any())
+      {
+        // create a unique key to lookup and search for faster
+        ILookup<string, EpisodeWatched> onlineEpisodes = traktWatchedEpisodes.ToLookup(twe => CreateLookupKey(twe), twe => twe);
+        List<MediaItem> localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes).ToList();
+        foreach (var episode in localUnWatchedEpisodes)
+        {
+          string tvdbKey = CreateLookupKey(episode);
+
+          var traktEpisode = onlineEpisodes[tvdbKey].FirstOrDefault();
+          if (traktEpisode != null)
+          {
+            _mediaPortalServices.GetLogger().Info(
+              "Marking episode as watched in library, episode is watched on trakt. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Last Watched = '{7}'",
+              traktEpisode.Plays, traktEpisode.ShowTitle,
+              traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season,
+              traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>",
+              traktEpisode.ShowImdbId ?? "<empty>", traktEpisode.WatchedAt);
+
+            if (_mediaPortalServices.MarkAsWatched(episode).Result)
+            {
+              syncEpisodesResult.MarkedAsWatchedInLibrary++;
+            }
+          }
+        }
+      }
+
+      #endregion
+
+      #region Add episodes to watched history at trakt.tv
+
+      TraktSyncHistoryPost syncHistoryPost = GetWatchedShowsForSync(localWatchedEpisodes, traktWatchedEpisodes);
+      if (syncHistoryPost.Shows != null && syncHistoryPost.Shows.Any())
+      {
+        _mediaPortalServices.GetLogger().Info("Trakt: trying to add {0} watched episodes to trakt watched history", syncHistoryPost.Shows.Count());
+        TraktSyncHistoryPostResponse response = _traktClient.AddWatchedHistoryItems(syncHistoryPost);
+        syncEpisodesResult.AddedToTraktWatchedHistory = response.Added?.Episodes;
+
+        if (response.Added?.Episodes != null)
+        {
+          _mediaPortalServices.GetLogger().Info("Trakt: successfully added {0} watched episodes to trakt watched history", response.Added.Episodes.Value);
+        }
+      }
+     
+      #endregion
+
+      #region Add episodes to collection at trakt.tv
+
+      TraktSyncCollectionPost syncCollectionPost = GetCollectedShowsForSync(localEpisodes, traktCollectedEpisodes);
+      if (syncCollectionPost.Shows != null && syncCollectionPost.Shows.Any())
+      {
+        _mediaPortalServices.GetLogger().Info("Trakt: trying to add {0} collected episodes to trakt collection", syncCollectionPost.Shows.Count());
+        TraktSyncCollectionPostResponse response = _traktClient.AddCollectionItems(syncCollectionPost);
+        syncEpisodesResult.AddedToTraktCollection = response.Added?.Episodes;
+
+        if (response.Added?.Episodes != null)
+        {
+          _mediaPortalServices.GetLogger().Info("Trakt: successfully added {0} collected episodes to trakt collection", response.Added.Episodes.Value);
+        }
+      }
+
+      #endregion
+
+      return syncEpisodesResult;
+    }
+
+    private void ValidateAuthorization()
+    {
+      if (!_traktClient.TraktAuthorization.IsValid)
+      {
+        string authFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
+        string savedAuthorization = _fileOperations.FileReadAllText(authFilePath);
+        TraktAuthorization savedAuth = JsonConvert.DeserializeObject<TraktAuthorization>(savedAuthorization);
+
+        if (!savedAuth.IsRefreshPossible)
+        {
+          throw new Exception("Saved authorization is not valid.");
+        }
+
+        TraktAuthorization refreshedAuth = _traktClient.RefreshAuthorization(savedAuth.RefreshToken);
+        string serializedAuth = JsonConvert.SerializeObject(refreshedAuth);
+        _fileOperations.FileWriteAllText(authFilePath, serializedAuth, Encoding.UTF8);
+      }
+    }
+
     private void SaveTraktAuthorization(TraktAuthorization authorization, string path)
     {
       string serializedAuthorization = JsonConvert.SerializeObject(authorization);
@@ -182,455 +553,9 @@ namespace TraktPluginMP2.Models
 
     private void SaveLastSyncActivities(TraktSyncLastActivities traktSyncLastActivities, string path)
     {
-      string serializedSyncActivities = JsonConvert.SerializeObject(traktSyncLastActivities,Formatting.Indented);
+      string serializedSyncActivities = JsonConvert.SerializeObject(traktSyncLastActivities, Formatting.Indented);
       string syncActivitiesFilePath = Path.Combine(path, FileName.LastActivity.Value);
       _fileOperations.FileWriteAllText(syncActivitiesFilePath, serializedSyncActivities, Encoding.UTF8);
-    }
-
-    public void SyncMediaToTrakt()
-    {
-      if (!IsSynchronizing)
-      {
-        string authFilePath = Path.Combine(_mediaPortalServices.GetTraktUserHomePath(), FileName.Authorization.Value);
-        string savedAuthorization = _fileOperations.FileReadAllText(authFilePath);
-        TraktAuthorization savedAuth = JsonConvert.DeserializeObject<TraktAuthorization>(savedAuthorization);
-        try
-        {
-          if (!_traktClient.TraktAuthorization.IsValid)
-          {
-            TraktAuthorization refreshedAuth = _traktClient.RefreshAuthorization(savedAuth.RefreshToken);
-
-            string serializedAuth = JsonConvert.SerializeObject(refreshedAuth);
-            _fileOperations.FileWriteAllText(authFilePath, serializedAuth, Encoding.UTF8);
-          }
-          IsSynchronizing = true;
-          IThreadPool threadPool = _mediaPortalServices.GetThreadPool();
-          threadPool.Add(SyncMediaToTrakt_Async, ThreadPriority.BelowNormal);
-        }
-        catch (Exception ex)
-        {
-          TestStatus = "[Trakt.SyncingFailed]";
-          _mediaPortalServices.GetLogger().Error(ex.Message);
-        }
-      }
-    }
-
-    public bool SyncMovies()
-    {
-      #region Get online data from cache
-
-      #region Get unwatched / watched movies from trakt.tv
-      IEnumerable<TraktWatchedMovie> traktWatchedMovies = null;
-
-      var traktUnWatchedMovies = _traktCache.GetUnWatchedMovies();
-      if (traktUnWatchedMovies == null)
-      {
-        _mediaPortalServices.GetLogger().Error("Error getting unwatched movies from trakt server, unwatched and watched sync will be skipped");
-      }
-      else
-      {
-        _mediaPortalServices.GetLogger().Info("There are {0} unwatched movies since the last sync with trakt.tv", traktUnWatchedMovies.Count());
-
-        traktWatchedMovies = _traktCache.GetWatchedMovies();
-        if (traktWatchedMovies == null)
-        {
-          _mediaPortalServices.GetLogger().Error("Error getting watched movies from trakt server, watched sync will be skipped");
-        }
-        else
-        {
-          _mediaPortalServices.GetLogger().Info("There are {0} watched movies in trakt.tv library", traktWatchedMovies.Count().ToString());
-        }
-      }
-      #endregion
-
-      #region Get collected movies from trakt.tv
-      var traktCollectedMovies = _traktCache.GetCollectedMovies();
-      if (traktCollectedMovies == null)
-      {
-        _mediaPortalServices.GetLogger().Error("Error getting collected movies from trakt server");
-      }
-      else
-      {
-        _mediaPortalServices.GetLogger().Info("There are {0} collected movies in trakt.tv library", traktCollectedMovies.Count());
-      }
-      #endregion
-
-      #endregion
-
-      TestStatus = "[Trakt.SyncMovies]";
-      Guid[] types =
-      {
-        MediaAspect.ASPECT_ID, MovieAspect.ASPECT_ID, VideoAspect.ASPECT_ID, ImporterAspect.ASPECT_ID,
-        ExternalIdentifierAspect.ASPECT_ID, ProviderResourceAspect.ASPECT_ID
-      };
-      var contentDirectory = _mediaPortalServices.GetServerConnectionManager().ContentDirectory;
-      if (contentDirectory == null)
-      {
-        TestStatus = "[Trakt.MediaLibraryNotConnected]";
-        return false;
-      }
-
-      Guid? userProfile = null;
-      IUserManagement userProfileDataManagement = _mediaPortalServices.GetUserManagement();
-      if (userProfileDataManagement != null && userProfileDataManagement.IsValidUser)
-      {
-        userProfile = userProfileDataManagement.CurrentUser.ProfileId;
-      }
-
-      #region Get local database info
-
-      var collectedMovies = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
-
-      _mediaPortalServices.GetLogger().Info("Found {0} movies available to sync in local database", collectedMovies.Count);
-
-      // get the movies that we have watched
-      var watchedMovies = collectedMovies.Where(IsWatched).ToList();
-      _mediaPortalServices.GetLogger().Info("Found {0} watched movies available to sync in local database", watchedMovies.Count);
-
-      #endregion
-
-      #region Mark movies as unwatched in local database
-
-      if (traktUnWatchedMovies != null && traktUnWatchedMovies.Count() > 0)
-      {
-        foreach (var movie in traktUnWatchedMovies)
-        {
-          var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, movie));
-          if (localMovie == null)
-          {
-            continue;
-          }
-
-          _mediaPortalServices.GetLogger().Info(
-            "Marking movie as unwatched in local database, movie is not watched on trakt.tv. Title = '{0}', Year = '{1}', IMDb ID = '{2}', TMDb ID = '{3}'",
-            movie.Title, movie.Year.HasValue ? movie.Year.ToString() : "<empty>", movie.Ids.Imdb ?? "<empty>",
-            movie.Ids.Tmdb.HasValue ? movie.Ids.Tmdb.ToString() : "<empty>");
-
-          if (_mediaPortalServices.MarkAsUnWatched(localMovie).Result)
-          {
-            MarkUnWatchedMovies++;
-          }
-        }
-
-        // update watched set
-        watchedMovies = collectedMovies.Where(IsWatched).ToList();
-      }
-
-      #endregion
-
-      #region Mark movies as watched in local database
-
-      if (traktWatchedMovies != null && traktWatchedMovies.Count() > 0)
-      {
-        foreach (var twm in traktWatchedMovies)
-        {
-          var localMovie = collectedMovies.FirstOrDefault(m => MovieMatch(m, twm.Movie));
-          if (localMovie == null)
-          {
-            continue;
-          }
-
-          _mediaPortalServices.GetLogger().Info(
-            "Updating local movie watched state / play count to match trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', IMDb ID = '{3}', TMDb ID = '{4}'",
-            twm.Plays, twm.Movie.Title, twm.Movie.Year.HasValue ? twm.Movie.Year.ToString() : "<empty>",
-            twm.Movie.Ids.Imdb ?? "<empty>", twm.Movie.Ids.Tmdb.HasValue ? twm.Movie.Ids.Tmdb.ToString() : "<empty>");
-
-          if (_mediaPortalServices.MarkAsWatched(localMovie).Result)
-          {
-            MarkWatchedMovies++;
-          }
-        }
-      }
-
-      #endregion
-
-      #region Add movies to watched history at trakt.tv
-
-      if (traktWatchedMovies != null)
-      {
-        _mediaPortalServices.GetLogger().Info("Finding movies to add to trakt.tv watched history");
-
-        List<TraktSyncHistoryPostMovie> syncWatchedMovies = (from movie in watchedMovies
-          where !traktWatchedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
-          select new TraktSyncHistoryPostMovie
-          {
-            Ids = new TraktMovieIds
-            {
-              Imdb = MediaItemAspectsUtl.GetMovieImdbId(movie),
-              Tmdb = MediaItemAspectsUtl.GetMovieTmdbId(movie)
-            },
-            Title = MediaItemAspectsUtl.GetMovieTitle(movie),
-            Year = MediaItemAspectsUtl.GetMovieYear(movie),
-            WatchedAt = MediaItemAspectsUtl.GetLastPlayedDate(movie),
-          }).ToList();
-
-        _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv watched history", syncWatchedMovies.Count);
-        SyncWatchedMovies = syncWatchedMovies.Count;
-
-        if (SyncWatchedMovies > 0)
-        {
-          TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItems(new TraktSyncHistoryPost {Movies = syncWatchedMovies});
-
-          if (SyncWatchedMovies != watchedResponse?.Added?.Movies)
-          {
-            // log not found episodes
-          }
-        }
-      }
-
-      #endregion
-
-      #region Add movies to collection at trakt.tv
-
-      if (traktCollectedMovies != null)
-      {
-        _mediaPortalServices.GetLogger().Info("Finding movies to add to trakt.tv collection");
-
-        List<TraktSyncCollectionPostMovie> syncCollectedMovies = (from movie in collectedMovies
-          where !traktCollectedMovies.ToList().Exists(c => MovieMatch(movie, c.Movie))
-          select new TraktSyncCollectionPostMovie
-          {
-            Metadata = new TraktMetadata
-            {
-              MediaType = MediaItemAspectsUtl.GetVideoMediaType(movie),
-              MediaResolution = MediaItemAspectsUtl.GetVideoResolution(movie),
-              Audio = MediaItemAspectsUtl.GetVideoAudioCodec(movie),
-              AudioChannels = MediaItemAspectsUtl.GetVideoAudioChannel(movie),
-              ThreeDimensional = false
-            },
-            Ids = new TraktMovieIds
-            {
-              Imdb = MediaItemAspectsUtl.GetMovieImdbId(movie),
-              Tmdb = MediaItemAspectsUtl.GetMovieTmdbId(movie)
-            },
-            Title = MediaItemAspectsUtl.GetMovieTitle(movie),
-            Year = MediaItemAspectsUtl.GetMovieYear(movie),
-            CollectedAt = MediaItemAspectsUtl.GetDateAddedToDb(movie)
-          }).ToList();
-
-        _mediaPortalServices.GetLogger().Info("Adding {0} movies to trakt.tv collection", syncCollectedMovies.Count);
-        SyncCollectedMovies = syncCollectedMovies.Count;
-
-        if (SyncCollectedMovies > 0)
-        {
-          TraktSyncCollectionPostResponse collectionResponse =
-            _traktClient.AddCollectionItems(new TraktSyncCollectionPost {Movies = syncCollectedMovies});
-
-          if (SyncCollectedMovies != collectionResponse?.Added?.Movies)
-          {
-            // log not found episodes
-          }
-        }
-
-        return true;
-      }
-
-      #endregion
-
-      return false;
-
-    }
-
-    public bool SyncSeries()
-    {
-      _mediaPortalServices.GetLogger().Info("Series Library Starting Sync");
-
-      #region Get online data from cache
-
-      #region UnWatched / Watched
-      
-      List<EpisodeWatched> traktWatchedEpisodes = null;
-
-      // get all episodes on trakt that are marked as 'unseen'
-      var traktUnWatchedEpisodes = _traktCache.GetUnWatchedEpisodes().ToNullableList();
-      if (traktUnWatchedEpisodes == null)
-      {
-        _mediaPortalServices.GetLogger().Error("Error getting tv shows unwatched from trakt.tv server, unwatched and watched sync will be skipped");
-      }
-      else
-      {
-        _mediaPortalServices.GetLogger().Info("Found {0} unwatched tv episodes in trakt.tv library", traktUnWatchedEpisodes.Count());
-
-        // now get all episodes on trakt that are marked as 'seen' or 'watched' (this will be cached already when working out unwatched)
-        traktWatchedEpisodes = _traktCache.GetWatchedEpisodes().ToNullableList();
-        if (traktWatchedEpisodes == null)
-        {
-          _mediaPortalServices.GetLogger().Error("Error getting tv shows watched from trakt.tv server, watched sync will be skipped");
-        }
-        else
-        {
-          _mediaPortalServices.GetLogger().Info("Found {0} watched tv episodes in trakt.tv library", traktWatchedEpisodes.Count());
-        }
-      }
-
-      #endregion
-
-      #region Collection
-
-      // get all episodes on trakt that are marked as in 'collection'
-      var traktCollectedEpisodes = _traktCache.GetCollectedEpisodes().ToNullableList();
-      if (traktCollectedEpisodes == null)
-      {
-        _mediaPortalServices.GetLogger().Error("Error getting tv episode collection from trakt.tv server");
-      }
-      else
-      {
-        _mediaPortalServices.GetLogger().Info("Found {0} tv episodes in trakt.tv collection", traktCollectedEpisodes.Count());
-      }
-
-      #endregion
-
-
-      #endregion
-
-      if (traktCollectedEpisodes != null)
-      {
-        TestStatus = "[Trakt.SyncSeries]";
-        Guid[] types =
-        {
-          MediaAspect.ASPECT_ID, EpisodeAspect.ASPECT_ID, VideoAspect.ASPECT_ID, ImporterAspect.ASPECT_ID,
-          ProviderResourceAspect.ASPECT_ID, ExternalIdentifierAspect.ASPECT_ID
-        };
-        var contentDirectory = _mediaPortalServices.GetServerConnectionManager().ContentDirectory;
-        if (contentDirectory == null)
-        {
-          TestStatus = "[Trakt.MediaLibraryNotConnected]";
-          return false;
-        }
-
-        Guid? userProfile = null;
-        IUserManagement userProfileDataManagement = _mediaPortalServices.GetUserManagement();
-        if (userProfileDataManagement != null && userProfileDataManagement.IsValidUser)
-        {
-          userProfile = userProfileDataManagement.CurrentUser.ProfileId;
-        }
-
-        #region Get data from local database
-
-        var localEpisodes = contentDirectory.SearchAsync(new MediaItemQuery(types, null, null), true, userProfile, false).Result;
-        int episodeCount = localEpisodes.Count;
-
-        _mediaPortalServices.GetLogger().Info("Found {0} total episodes in local database", episodeCount);
-
-        // get the episodes that we have watched
-        var localWatchedEpisodes = localEpisodes.Where(IsWatched).ToList();
-        var localUnWatchedEpisodes = localEpisodes.Except(localWatchedEpisodes).ToList();
-
-        _mediaPortalServices.GetLogger().Info("Found {0} episodes watched in tvseries database", localWatchedEpisodes.Count);
-
-        #endregion
-
-        #region Mark episodes as unwatched in local database
-
-        _mediaPortalServices.GetLogger().Info("Start sync of tv episode unwatched state to local database");
-        if (traktUnWatchedEpisodes != null && traktUnWatchedEpisodes.Count() > 0)
-        {
-          // create a unique key to lookup and search for faster
-          var localLookupEpisodes = localWatchedEpisodes.ToLookup(twe => CreateLookupKey(twe), twe => twe);
-
-          foreach (var episode in traktUnWatchedEpisodes)
-          {
-            string tvdbKey = CreateLookupKey(episode);
-
-            var watchedEpisode = localLookupEpisodes[tvdbKey].FirstOrDefault();
-            if (watchedEpisode != null)
-            {
-              _mediaPortalServices.GetLogger().Info(
-                "Marking episode as unwatched in local database, episode is not watched on trakt.tv. Title = '{0}', Year = '{1}', Season = '{2}', Episode = '{3}', Show TVDb ID = '{4}', Show IMDb ID = '{5}'",
-                episode.ShowTitle, episode.ShowYear.HasValue ? episode.ShowYear.ToString() : "<empty>", episode.Season,
-                episode.Number, episode.ShowTvdbId.HasValue ? episode.ShowTvdbId.ToString() : "<empty>",
-                episode.ShowImdbId ?? "<empty>");
-
-              if (_mediaPortalServices.MarkAsUnWatched(watchedEpisode).Result)
-              {
-                MarkUnWatchedEpisodes++;
-              }
-
-              // update watched episodes
-              localWatchedEpisodes.Remove(watchedEpisode);
-            }
-          }
-        }
-
-        #endregion
-
-        #region Mark episodes as watched in local database
-
-        _mediaPortalServices.GetLogger().Info("Start sync of tv episode watched state to local database");
-        if (traktWatchedEpisodes != null && traktWatchedEpisodes.Count() > 0)
-        {
-          // create a unique key to lookup and search for faster
-          var onlineEpisodes = traktWatchedEpisodes.ToLookup(twe => CreateLookupKey(twe), twe => twe);
-
-          foreach (var episode in localUnWatchedEpisodes)
-          {
-            string tvdbKey = CreateLookupKey(episode);
-
-            var traktEpisode = onlineEpisodes[tvdbKey].FirstOrDefault();
-            if (traktEpisode != null)
-            {
-              _mediaPortalServices.GetLogger().Info(
-                "Marking episode as watched in local database, episode is watched on trakt.tv. Plays = '{0}', Title = '{1}', Year = '{2}', Season = '{3}', Episode = '{4}', Show TVDb ID = '{5}', Show IMDb ID = '{6}', Last Watched = '{7}'",
-                traktEpisode.Plays, traktEpisode.ShowTitle,
-                traktEpisode.ShowYear.HasValue ? traktEpisode.ShowYear.ToString() : "<empty>", traktEpisode.Season,
-                traktEpisode.Number, traktEpisode.ShowTvdbId.HasValue ? traktEpisode.ShowTvdbId.ToString() : "<empty>",
-                traktEpisode.ShowImdbId ?? "<empty>", traktEpisode.WatchedAt);
-
-              if (_mediaPortalServices.MarkAsWatched(episode).Result)
-              {
-                MarkWatchedEpisodes++;
-              }
-            }
-          }
-        }
-
-        #endregion
-
-        #region Add episodes to watched history at trakt.tv
-
-        if (traktWatchedEpisodes != null)
-        {
-          TraktSyncHistoryPost watchedEpisodesForSync =
-            GetWatchedShowsForSync(localWatchedEpisodes, traktWatchedEpisodes);
-          TraktSyncHistoryPostResponse watchedResponse = _traktClient.AddWatchedHistoryItems(watchedEpisodesForSync);
-          if (SyncWatchedEpisodes != watchedResponse?.Added?.Episodes)
-          {
-            // log not found episodes
-          }
-        }
-
-        #endregion
-
-        #region Add episodes to collection at trakt.tv
-
-        TraktSyncCollectionPost collectedEpisodesForSync =
-          GetCollectedEpisodesForSync(localEpisodes, traktCollectedEpisodes);
-        TraktSyncCollectionPostResponse collectionResponse = _traktClient.AddCollectionItems(collectedEpisodesForSync);
-        if (SyncCollectedEpisodes != collectionResponse?.Added?.Episodes)
-        {
-          // log not found episodes
-        }
-
-        #endregion
-
-        return true;
-      }
-      return false;
-    }
-
-    private void SyncMediaToTrakt_Async()
-    {
-      if (SyncMovies() && SyncSeries())
-      {
-        TestStatus = "[Trakt.SyncFinished]";
-      }
-      IsSynchronizing = false;
-    }
-
-    private static bool IsWatched(MediaItem mediaItem)
-    {
-      int playCount;
-      return (MediaItemAspect.TryGetAttribute(mediaItem.Aspects, MediaAspect.ATTR_PLAYCOUNT, 0, out playCount) && playCount > 0);
     }
 
     /// <summary>
@@ -651,9 +576,7 @@ namespace TraktPluginMP2.Models
       }
 
       // Title & Year comparison
-      {
-        return string.Compare(MediaItemAspectsUtl.GetMovieTitle(localMovie), traktMovie.Title, true) == 0 && (MediaItemAspectsUtl.GetMovieYear(localMovie) == traktMovie.Year);
-      }
+      return String.Compare(MediaItemAspectsUtl.GetMovieTitle(localMovie), traktMovie.Title, StringComparison.OrdinalIgnoreCase) == 0 && (MediaItemAspectsUtl.GetMovieYear(localMovie) == traktMovie.Year);
     }
 
     private string CreateLookupKey(MediaItem episode)
@@ -688,9 +611,9 @@ namespace TraktPluginMP2.Models
       return string.Format("{0}_{1}_{2}", show, episode.Season, episode.Number);
     }
 
-    private TraktSyncHistoryPost GetWatchedShowsForSync(IList<MediaItem> localWatchedEpisodes, List<EpisodeWatched> traktEpisodesWatched)
+    private TraktSyncHistoryPost GetWatchedShowsForSync(IList<MediaItem> localWatchedEpisodes, IEnumerable<EpisodeWatched> traktEpisodesWatched)
     {
-      _mediaPortalServices.GetLogger().Info("Finding local episodes to add to trakt watched history");
+      _mediaPortalServices.GetLogger().Info("Trakt: finding local shows to add to trakt watched history");
       TraktSyncHistoryPostBuilder builder = new TraktSyncHistoryPostBuilder();
       ILookup<string, EpisodeWatched> onlineEpisodes = traktEpisodesWatched.ToLookup(twe => CreateLookupKey(twe), twe => twe);
 
@@ -701,28 +624,33 @@ namespace TraktPluginMP2.Models
 
         if (traktEpisode == null)
         {
-          builder.AddEpisode(new TraktEpisode
+          TraktShow show = new TraktShow
+          {
+            Title = MediaItemAspectsUtl.GetSeriesTitle(episode),
+            Ids = new TraktShowIds
             {
-              Ids = new TraktEpisodeIds
-              {
-                Tvdb = MediaItemAspectsUtl.GetTvdbId(episode),
-                Imdb = MediaItemAspectsUtl.GetSeriesImdbId(episode)
-              },
-              Title = MediaItemAspectsUtl.GetSeriesTitle(episode),
-              SeasonNumber = MediaItemAspectsUtl.GetSeasonIndex(episode),
-              Number = MediaItemAspectsUtl.GetSeasonIndex(episode)
-            },
-            MediaItemAspectsUtl.GetLastPlayedDate(episode)
-          );
-          SyncWatchedEpisodes++;
+              Tvdb = MediaItemAspectsUtl.GetTvdbId(episode),
+              Imdb = MediaItemAspectsUtl.GetSeriesImdbId(episode)
+            }
+          };
+
+          DateTime watchedAt = MediaItemAspectsUtl.GetLastPlayedDate(episode);
+
+          builder.AddShow(show, watchedAt, new PostHistorySeasons
+          {
+            {
+              MediaItemAspectsUtl.GetSeasonIndex(episode),
+              new PostHistoryEpisodes {MediaItemAspectsUtl.GetEpisodeIndex(episode)}
+            }
+          });
         }
       }
       return builder.Build();
     }
 
-    private TraktSyncCollectionPost GetCollectedEpisodesForSync(IList<MediaItem> localCollectedEpisodes, List<EpisodeCollected> traktEpisodesCollected)
+    private TraktSyncCollectionPost GetCollectedShowsForSync(IList<MediaItem> localCollectedEpisodes, IEnumerable<EpisodeCollected> traktEpisodesCollected)
     {
-      _mediaPortalServices.GetLogger().Info("Finding local episodes to add to trakt.tv collection");
+      _mediaPortalServices.GetLogger().Info("Trakt: finding local episodes to add to trakt collection");
       TraktSyncCollectionPostBuilder builder = new TraktSyncCollectionPostBuilder();
       ILookup<string, EpisodeCollected> onlineEpisodes = traktEpisodesCollected.ToLookup(tce => CreateLookupKey(tce), tce => tce);
 
@@ -733,27 +661,35 @@ namespace TraktPluginMP2.Models
 
         if (traktEpisode == null)
         {
-          builder.AddEpisode(new TraktEpisode
+          TraktShow show = new TraktShow
+          {
+            Title = MediaItemAspectsUtl.GetSeriesTitle(episode),
+            Ids = new TraktShowIds
             {
-              Ids = new TraktEpisodeIds
+              Tvdb = MediaItemAspectsUtl.GetTvdbId(episode),
+              Imdb = MediaItemAspectsUtl.GetSeriesImdbId(episode)
+            }
+          };
+
+          TraktMetadata metadata = new TraktMetadata
+          {
+            Audio = MediaItemAspectsUtl.GetVideoAudioCodec(episode),
+            AudioChannels = MediaItemAspectsUtl.GetVideoAudioChannel(episode),
+            MediaResolution = MediaItemAspectsUtl.GetVideoResolution(episode),
+            MediaType = MediaItemAspectsUtl.GetVideoMediaType(episode),
+            ThreeDimensional = false
+          };
+
+          DateTime collectedAt = MediaItemAspectsUtl.GetDateAddedToDb(episode);
+
+          builder.AddShow(show, metadata, collectedAt,
+            new PostSeasons
+            {
               {
-                Tvdb = MediaItemAspectsUtl.GetTvdbId(episode),
-                Imdb = MediaItemAspectsUtl.GetSeriesImdbId(episode)
-              },
-              Title = MediaItemAspectsUtl.GetSeriesTitle(episode),
-              SeasonNumber = MediaItemAspectsUtl.GetSeasonIndex(episode),
-              Number = MediaItemAspectsUtl.GetSeasonIndex(episode),
-            },
-            new TraktMetadata
-            {
-              MediaType = MediaItemAspectsUtl.GetVideoMediaType(episode),
-              MediaResolution = MediaItemAspectsUtl.GetVideoResolution(episode),
-              Audio = MediaItemAspectsUtl.GetVideoAudioCodec(episode),
-              AudioChannels = MediaItemAspectsUtl.GetVideoAudioChannel(episode),
-              ThreeDimensional = false
-            },
-            MediaItemAspectsUtl.GetDateAddedToDb(episode));
-          SyncCollectedEpisodes++;
+                MediaItemAspectsUtl.GetSeasonIndex(episode),
+                new PostEpisodes {MediaItemAspectsUtl.GetEpisodeIndex(episode)}
+              }
+            });
         }
       }
       return builder.Build();

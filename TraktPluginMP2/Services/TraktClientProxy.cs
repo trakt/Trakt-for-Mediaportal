@@ -77,7 +77,7 @@ namespace TraktPluginMP2.Services
 
     public TraktSyncCollectionPostResponse AddCollectionItems(TraktSyncCollectionPost collectionPost)
     {
-      TraktSyncCollectionPostResponse result = null;
+      TraktSyncCollectionPostResponse result = new TraktSyncCollectionPostResponse();
       try
       {
         result = Task.Run(() => base.Sync.AddCollectionItemsAsync(collectionPost)).Result;
@@ -107,7 +107,7 @@ namespace TraktPluginMP2.Services
 
     public IEnumerable<TraktWatchedMovie> GetWatchedMovies()
     {
-      IEnumerable<TraktWatchedMovie> result = null;
+      IEnumerable<TraktWatchedMovie> result = new List<TraktWatchedMovie>();
       try
       {
         result = Task.Run(() => base.Sync.GetWatchedMoviesAsync()).Result;
@@ -122,7 +122,7 @@ namespace TraktPluginMP2.Services
 
     public IEnumerable<TraktCollectionMovie> GetCollectedMovies()
     {
-      IEnumerable<TraktCollectionMovie> result = null;
+      IEnumerable<TraktCollectionMovie> result = new List<TraktCollectionMovie>();
       try
       {
         result = Task.Run(() => base.Sync.GetCollectionMoviesAsync()).Result;

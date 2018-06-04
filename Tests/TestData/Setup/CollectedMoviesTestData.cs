@@ -50,7 +50,7 @@ namespace Tests.TestData.Setup
           new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt42690", Tmdb = 16729 }, Title = "Movie_2", Year = 2008}, CollectedAt = DateTime.Now},
           new TraktCollectionMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt00754", Tmdb = 34251 }, Title = "Movie_3", Year = 2001}, CollectedAt = DateTime.Now}
         },
-        0
+        null
       };
     }
 

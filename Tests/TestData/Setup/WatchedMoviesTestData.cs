@@ -24,7 +24,7 @@ namespace Tests.TestData.Setup
           new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt67804", Tmdb = 16729 }, Title = "Movie_2", Year = 2016}},
           new TraktWatchedMovie {Movie = new TraktMovie {Ids = new TraktMovieIds {Imdb = "tt03412", Tmdb = 34251 }, Title = "Movie_3", Year = 2011}}
         },
-        0
+        null
       };
       yield return new object[]
       {

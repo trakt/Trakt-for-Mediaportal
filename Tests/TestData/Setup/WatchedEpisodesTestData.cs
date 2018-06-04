@@ -23,7 +23,7 @@ namespace Tests.TestData.Setup
           new EpisodeWatched {ShowTvdbId = 318493, Season = 1, Number = 2, Plays = 3},
           new EpisodeWatched {ShowTvdbId = 998201, Season = 4, Number = 1, Plays = 1}
         },
-        0
+        null
       };
       yield return new object[]
       {
@@ -31,18 +31,19 @@ namespace Tests.TestData.Setup
         {
           new MockedDatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
           new MockedDatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
-          new MockedDatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
+          new MockedDatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode,
+          new MockedDatabaseEpisode("998201", 4, new List<int>{2}, 1).Episode
         },
         new List<EpisodeWatched>(),
-        3
+        4
       };
       yield return new object[]
       {
         new List<MediaItem>
         {
-          new MockedDatabaseEpisode("289590", 2, new List<int>{6}, 1).Episode,
-          new MockedDatabaseEpisode("318493", 1, new List<int>{2}, 3).Episode,
-          new MockedDatabaseEpisode("998201", 4, new List<int>{1}, 1).Episode
+          new MockedDatabaseEpisode("289590", 2, new List<int> {6}, 1).Episode,
+          new MockedDatabaseEpisode("318493", 1, new List<int> {2}, 3).Episode,
+          new MockedDatabaseEpisode("998201", 4, new List<int> {1}, 1).Episode
         },
         new List<EpisodeWatched>
         {
