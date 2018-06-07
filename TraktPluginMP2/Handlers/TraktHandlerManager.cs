@@ -15,8 +15,6 @@ using TraktApiSharp.Authentication;
 using TraktApiSharp.Objects.Get.Movies;
 using TraktApiSharp.Objects.Get.Shows;
 using TraktApiSharp.Objects.Get.Shows.Episodes;
-using TraktApiSharp.Objects.Get.Syncs.Activities;
-using TraktApiSharp.Objects.Get.Users;
 using TraktApiSharp.Objects.Post.Scrobbles.Responses;
 using TraktPluginMP2.Services;
 using TraktPluginMP2.Utilities;

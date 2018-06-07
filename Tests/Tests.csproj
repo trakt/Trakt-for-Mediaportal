@@ -88,6 +88,10 @@
     <Compile Include="TestData\Cache\UnWatchedMoviesTestData.cs" />
     <Compile Include="TestData\Cache\WatchedEpisodesTestData.cs" />
     <Compile Include="TestData\Cache\WatchedMoviesTestData.cs" />
+    <Compile Include="TestData\Handler\StartScrobbleMovieTestData.cs" />
+    <Compile Include="TestData\Handler\StartScrobbleSeriesTestData.cs" />
+    <Compile Include="TestData\Handler\StopScrobbleMovieTestData.cs" />
+    <Compile Include="TestData\Handler\StopScrobbleSeriesTestData.cs" />
     <Compile Include="TestData\Setup\AuthorizeUserDoNotThrowEceptionTestData.cs" />
     <Compile Include="TestData\Setup\AuthorizeUserThrowsExceptionTestData.cs" />
     <Compile Include="TestData\Setup\CollectedEpisodesTestData.cs" />
@@ -127,9 +131,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestData\Handler\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.9.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
