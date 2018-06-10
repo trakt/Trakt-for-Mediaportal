@@ -39,6 +39,9 @@ namespace TraktAPI.DataStructures
         [DataMember(Name = "language")]
         public string Language { get; set; }
 
+        [DataMember(Name = "comment_count")]
+        public int CommentCount { get; set; }
+
         [DataMember(Name = "available_translations")]
         public List<string> AvailableTranslations { get; set; }
 

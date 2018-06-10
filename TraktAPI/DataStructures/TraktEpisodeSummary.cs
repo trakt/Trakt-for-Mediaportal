@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace TraktAPI.DataStructures
@@ -26,6 +23,9 @@ namespace TraktAPI.DataStructures
 
         [DataMember(Name = "votes")]
         public int Votes { get; set; }
+
+        [DataMember(Name = "comment_count")]
+        public int CommentCount { get; set; }
 
         [DataMember(Name = "available_translations")]
         public List<string> AvailableTranslations { get; set; }
